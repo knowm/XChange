@@ -19,14 +19,15 @@ import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
+import si.mazi.rescu.ValueFactory;
 
 public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthenticated> {
 
   private static final BigDecimal LOT_MULTIPLIER = new BigDecimal("100");
 
-  public HitbtcTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public HitbtcTradeServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
-    super(HitbtcAuthenticated.class, exchangeSpecification);
+    super(HitbtcAuthenticated.class, exchangeSpecification, nonceFactory);
   }
 
   public HitbtcOrdersResponse getOpenOrdersRawBaseResponse() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {

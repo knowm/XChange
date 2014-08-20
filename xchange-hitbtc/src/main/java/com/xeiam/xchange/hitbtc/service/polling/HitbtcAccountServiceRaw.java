@@ -9,12 +9,13 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.hitbtc.HitbtcAuthenticated;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
+import si.mazi.rescu.ValueFactory;
 
 public class HitbtcAccountServiceRaw extends HitbtcBasePollingService<HitbtcAuthenticated> {
 
-  public HitbtcAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public HitbtcAccountServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
-    super(HitbtcAuthenticated.class, exchangeSpecification);
+    super(HitbtcAuthenticated.class, exchangeSpecification, nonceFactory);
   }
 
   public HitbtcBalance[] getAccountInfoRaw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {

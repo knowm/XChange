@@ -11,6 +11,7 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
+import si.mazi.rescu.ValueFactory;
 
 /**
  * Implementation of the market data service for BTCChina.
@@ -27,9 +28,9 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
    *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BTCChinaMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BTCChinaMarketDataServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> tonceFactory) {
 
-    super(BTCChina.class, exchangeSpecification);
+    super(BTCChina.class, exchangeSpecification, tonceFactory);
   }
 
   public Map<String, BTCChinaTickerObject> getBTCChinaTickers() throws IOException {

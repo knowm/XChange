@@ -12,12 +12,13 @@ import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import si.mazi.rescu.ValueFactory;
 
 public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implements PollingMarketDataService {
 
-  public KrakenMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public KrakenMarketDataService(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification);
+    super(exchangeSpecification, nonceFactory);
   }
 
   @Override

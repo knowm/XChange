@@ -6,6 +6,8 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitAccountService;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitMarketDataService;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitTradeService;
+import si.mazi.rescu.NonceFactory;
+import si.mazi.rescu.ValueFactory;
 
 /**
  * <p>
@@ -17,6 +19,8 @@ import com.xeiam.xchange.itbit.v1.service.polling.ItBitTradeService;
  */
 
 public class ItBitExchange extends BaseExchange implements Exchange {
+
+  private final ValueFactory<Long> nonceFactory = new NonceFactory();
 
   /**
    * Default constructor for ExchangeFactory
@@ -30,9 +34,9 @@ public class ItBitExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new ItBitMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new ItBitAccountService(exchangeSpecification);
-    this.pollingTradeService = new ItBitTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new ItBitMarketDataService(exchangeSpecification, nonceFactory);
+    this.pollingAccountService = new ItBitAccountService(exchangeSpecification, nonceFactory);
+    this.pollingTradeService = new ItBitTradeService(exchangeSpecification, nonceFactory);
   }
 
   @Override

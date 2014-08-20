@@ -19,6 +19,7 @@ import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetDepositsRespon
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaRequestWithdrawalResponse;
+import si.mazi.rescu.ValueFactory;
 
 /**
  * Implementation of the account data service for BTCChina.
@@ -35,9 +36,9 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BTCChinaAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BTCChinaAccountServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> tonceFactory) {
 
-    super(BTCChina.class, exchangeSpecification);
+    super(BTCChina.class, exchangeSpecification, tonceFactory);
   }
 
   public BTCChinaGetAccountInfoResponse getBTCChinaAccountInfo() throws IOException {

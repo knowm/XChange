@@ -3,7 +3,6 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 import java.util.Arrays;
 import java.util.List;
 
-import si.mazi.rescu.NonceFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.ValueFactory;
@@ -17,7 +16,7 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class ItBitBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  protected static final ValueFactory<Long> valueFactory = new NonceFactory();
+  protected final ValueFactory<Long> valueFactory;
 
   protected final String apiKey;
   protected final ItBitAuthenticated itBit;
@@ -30,11 +29,11 @@ public class ItBitBasePollingService extends BaseExchangeService implements Base
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public ItBitBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public ItBitBasePollingService(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
     super(exchangeSpecification);
+    this.valueFactory = nonceFactory;
     this.itBit = RestProxyFactory.createProxy(ItBitAuthenticated.class, (String) exchangeSpecification.getExchangeSpecificParametersItem("authHost"));
-
     this.apiKey = exchangeSpecification.getApiKey();
     this.signatureCreator = ItBitHmacPostBodyDigest.createInstance(apiKey, exchangeSpecification.getSecretKey());
   }

@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import si.mazi.rescu.NonceFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.ValueFactory;
@@ -36,18 +35,19 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
 
   protected T kraken;
   protected ParamsDigest signatureCreator;
-  protected ValueFactory<Long> nonce = new NonceFactory();
+  protected ValueFactory<Long> nonce;
 
   /**
    * Constructor
    * 
    * @param exchangeSpecification
    */
-  public KrakenBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
+  public KrakenBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
     super(exchangeSpecification);
     kraken = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
     signatureCreator = KrakenDigest.createInstance(exchangeSpecification.getSecretKey());
+    nonce = nonceFactory;
   }
 
   @Override

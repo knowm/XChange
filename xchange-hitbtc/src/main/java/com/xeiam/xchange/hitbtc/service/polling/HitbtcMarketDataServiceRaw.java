@@ -9,6 +9,7 @@ import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
+import si.mazi.rescu.ValueFactory;
 
 /**
  * @author kpysniak
@@ -20,9 +21,9 @@ public abstract class HitbtcMarketDataServiceRaw extends HitbtcBasePollingServic
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  protected HitbtcMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  protected HitbtcMarketDataServiceRaw(ExchangeSpecification exchangeSpecification, ValueFactory<Long> nonceFactory) {
 
-    super(Hitbtc.class, exchangeSpecification);
+    super(Hitbtc.class, exchangeSpecification, nonceFactory);
   }
 
   public HitbtcTicker getHitbtcTicker(CurrencyPair currencyPair) throws IOException {
