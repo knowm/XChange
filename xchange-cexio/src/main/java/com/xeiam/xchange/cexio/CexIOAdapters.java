@@ -142,6 +142,15 @@ public class CexIOAdapters {
       wallets.add(new Wallet(Currencies.GHs, balance.getBalanceGHS().getAvailable(), "available"));
       wallets.add(new Wallet(Currencies.GHs, balance.getBalanceGHS().getOrders(), "orders"));
     }
+    if (balance.getBalanceUSD() != null) {
+      wallets.add(new Wallet(Currencies.USD, balance.getBalanceUSD().getAvailable(), "available"));
+      wallets.add(new Wallet(Currencies.USD, balance.getBalanceUSD().getOrders(), "orders"));
+    }
+    if (balance.getBalanceDRK() != null) {
+      wallets.add(new Wallet(Currencies.DRK, balance.getBalanceDRK().getAvailable(), "available"));
+      wallets.add(new Wallet(Currencies.DRK, balance.getBalanceDRK().getOrders(), "orders"));
+    }
+
     return new AccountInfo(userName, null, wallets);
   }
 
