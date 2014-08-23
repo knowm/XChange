@@ -75,13 +75,7 @@ public final class BittrexAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
 
     for (BittrexLevel order : orders) {
-      // Bid orderbook is reversed order. Insert at index 0 instead of appending
-      if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(0, adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
-      }
-      else {
         limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
-      }
     }
 
     return limitOrders;
