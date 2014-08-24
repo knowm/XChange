@@ -15,6 +15,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
+import com.xeiam.xchange.btcchina.BTCChinaExchangeException;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.service.BTCChinaDigest;
@@ -66,7 +67,7 @@ public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchange
   public static <T extends BTCChinaResponse> T checkResult(T returnObject) {
 
     if (returnObject.getError() != null) {
-      throw new ExchangeException("Got error message: " + returnObject.getError().toString());
+      throw new BTCChinaExchangeException(returnObject.getError());
     }
     else if (returnObject.getResult() == null) {
       throw new ExchangeException("Null data returned");
