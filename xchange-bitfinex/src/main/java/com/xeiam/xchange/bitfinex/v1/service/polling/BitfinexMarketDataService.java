@@ -33,7 +33,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitfinexMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -53,9 +53,9 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    // According to API docs, default is 50
-    int limitBids = 50;
-    int limitAsks = 50;
+    // null will cause fetching of full order book, the default behavior in XChange
+    Integer limitBids = null;
+    Integer limitAsks = null;
 
     if (args.length == 2) {
       Object arg0 = args[0];
@@ -81,7 +81,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
 
     return new OrderBook(null, asks, bids);
   }
-  
+
   public LoanOrderBook getLendOrderBook(String currency, Object... args) throws IOException {
 
     // According to API docs, default is 50
@@ -106,12 +106,12 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
     }
 
     BitfinexLendDepth bfxDepth = getBitfinexLendBook(currency, limitBids, limitAsks);
-    
+
     List<FixedRateLoanOrder> fixedRateAsks = BitfinexAdapters.adaptFixedRateLoanOrders(bfxDepth.getAsks(), currency, "ask", "");
     List<FixedRateLoanOrder> fixedRateBids = BitfinexAdapters.adaptFixedRateLoanOrders(bfxDepth.getBids(), currency, "bid", "");
     List<FloatingRateLoanOrder> floatingRateAsks = BitfinexAdapters.adaptFloatingRateLoanOrders(bfxDepth.getAsks(), currency, "ask", "");
     List<FloatingRateLoanOrder> floatingRateBids = BitfinexAdapters.adaptFloatingRateLoanOrders(bfxDepth.getBids(), currency, "bid", "");
-    
+
     return new LoanOrderBook(null, fixedRateAsks, fixedRateBids, floatingRateAsks, floatingRateBids);
   }
 

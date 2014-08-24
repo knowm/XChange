@@ -23,7 +23,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService<Bit
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitfinexMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
@@ -38,18 +38,24 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService<Bit
     return bitfinexTicker;
   }
 
-  public BitfinexDepth getBitfinexOrderBook(String pair, int limitBids, int limitAsks) throws IOException {
+  public BitfinexDepth getBitfinexOrderBook(String pair, Integer limitBids, Integer limitAsks) throws IOException {
 
-    BitfinexDepth bitfinexDepth = bitfinex.getBook(pair, limitBids, limitAsks);
+    BitfinexDepth bitfinexDepth;
+    if (limitBids == null && limitAsks == null) {
+      bitfinexDepth = bitfinex.getBook(pair);
+    }
+    else {
+      bitfinexDepth = bitfinex.getBook(pair, limitBids, limitAsks);
+    }
 
     return bitfinexDepth;
   }
-  
+
   public BitfinexLendDepth getBitfinexLendBook(String currency, int limitBids, int limitAsks) throws IOException {
-	  
-	  BitfinexLendDepth bitfinexLendDepth = bitfinex.getLendBook(currency, limitBids, limitAsks);
-	  
-	  return bitfinexLendDepth;
+
+    BitfinexLendDepth bitfinexLendDepth = bitfinex.getLendBook(currency, limitBids, limitAsks);
+
+    return bitfinexLendDepth;
   }
 
   public BitfinexTrade[] getBitfinexTrades(String pair, long sinceTimestamp) throws IOException {
@@ -58,11 +64,12 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService<Bit
 
     return bitfinexTrades;
   }
-  
+
   public BitfinexLend[] getBitfinexLends(String currency, long sinceTimestamp, int limitTrades) throws IOException {
-	  BitfinexLend[] bitfinexLends = bitfinex.getLends(currency, sinceTimestamp, limitTrades);
-	  
-	  return bitfinexLends;
+
+    BitfinexLend[] bitfinexLends = bitfinex.getLends(currency, sinceTimestamp, limitTrades);
+
+    return bitfinexLends;
   }
 
   public Collection<String> getBitfinexSymbols() throws IOException {
