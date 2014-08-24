@@ -7,6 +7,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * <p>
@@ -134,14 +135,17 @@ public class ANXBasePollingService extends BaseExchangeService implements BasePo
 
   );
 
+  private final SynchronizedValueFactory<Long> nonceFactory;
+
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification
    */
-  public ANXBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public ANXBasePollingService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
     super(exchangeSpecification);
+    this.nonceFactory = nonceFactory;
   }
 
   @Override
@@ -149,4 +153,9 @@ public class ANXBasePollingService extends BaseExchangeService implements BasePo
 
     return CURRENCY_PAIRS;
   }
+
+  protected SynchronizedValueFactory<Long> getNonce(){
+    return nonceFactory;
+  }
+
 }
