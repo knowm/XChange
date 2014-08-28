@@ -28,14 +28,14 @@ import com.xeiam.xchart.XChartPanel;
 
 /**
  * Demonstrates plotting an OrderBook with XChart
- * 
+ *
  * @author timmolter
  */
 public class BitcoiniumRealtimeTickerDemo {
 
   BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService;
   List<Date> xAxisData;
-  List<Double> yAxisData;
+  List<Float> yAxisData;
   public static final String SERIES_NAME = "MtGox USD/BTC";
 
   public static void main(String[] args) throws Exception {
@@ -48,8 +48,10 @@ public class BitcoiniumRealtimeTickerDemo {
   private void go() throws IOException {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
-    exchangeSpecification.setApiKey("6seon0iepta86txluchde");
-    // Use the factory to get the Open Exchange Rates exchange API
+    // exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
+    exchangeSpecification.setApiKey("42djci5kmbtyzrvglfdw3e2dgmh5mr37");
+    exchangeSpecification.setPlainTextUri("http://173.10.241.154:9090");
+    System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     // Interested in the public polling market data feed (no authentication)
@@ -85,7 +87,7 @@ public class BitcoiniumRealtimeTickerDemo {
           BitcoiniumTicker bitcoiniumTicker = bitcoiniumMarketDataService.getBitcoiniumTicker(Currencies.BTC, "BITSTAMP_USD");
           System.out.println(bitcoiniumTicker.toString());
           Date timestamp = new Date(bitcoiniumTicker.getTimestamp());
-          double price = bitcoiniumTicker.getLast().doubleValue();
+          float price = bitcoiniumTicker.getLast().floatValue();
           if (xAxisData.get(xAxisData.size() - 1).getTime() != timestamp.getTime()) {
             xAxisData.add(timestamp);
             yAxisData.add(price);
@@ -112,25 +114,26 @@ public class BitcoiniumRealtimeTickerDemo {
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - BITSTAMP
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD", "3h");
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD", "THREE_HOURS");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 
     // build ticker history chart series data
     xAxisData = new ArrayList<Date>();
-    yAxisData = new ArrayList<Double>();
-    long runninTimestamp = bitcoiniumTickerHistory.getBaseTimestamp();
-    for (int i = 0; i < bitcoiniumTickerHistory.getPriceHistoryList().size(); i++) {
+    yAxisData = new ArrayList<Float>();
+    for (int i = 0; i < bitcoiniumTickerHistory.getCondensedTickers().length; i++) {
 
-      Date timestamp = new Date((runninTimestamp += bitcoiniumTickerHistory.getTimeStampOffsets().get(i)) * 1000);
-      double price = bitcoiniumTickerHistory.getPriceHistoryList().get(i).doubleValue();
+      BitcoiniumTicker bitcoiniumTicker = bitcoiniumTickerHistory.getCondensedTickers()[i];
+
+      Date timestamp = new Date(bitcoiniumTicker.getTimestamp());
+      float price = bitcoiniumTicker.getLast().floatValue();
       System.out.println(timestamp + ": " + price);
       xAxisData.add(timestamp);
       yAxisData.add(price);
     }
 
     // create chart
-    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time MtGox Price vs. Time").xAxisTitle("Time").yAxisTitle("Price").build();
+    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time Bitstamp Price vs. Time").xAxisTitle("Time").yAxisTitle("Price").build();
     chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
 
     // add series

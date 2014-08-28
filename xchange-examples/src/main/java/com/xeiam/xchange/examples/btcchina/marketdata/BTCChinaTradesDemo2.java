@@ -37,7 +37,7 @@ public class BTCChinaTradesDemo2 {
     System.out.println(trades);
     System.out.println("NumTrades=" + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(CurrencyPair.BTC_CNY, trades.getTrades().get(trades.getTrades().size() - 3).getTimestamp().getTime() / 1000, 100, "time");
+    trades = marketDataService.getTrades(CurrencyPair.BTC_CNY, trades.getTrades().get(trades.getTrades().size() - 3).getTimestamp().getTime() / 1000, 20, "time");
 
     System.out.println(trades);
     System.out.println("NumTrades=" + trades.getTrades().size());

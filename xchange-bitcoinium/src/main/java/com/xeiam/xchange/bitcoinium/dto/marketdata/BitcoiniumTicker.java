@@ -16,11 +16,11 @@ public final class BitcoiniumTicker {
   private final BigDecimal low;
   private final BigDecimal bid;
   private final BigDecimal ask;
-  private final boolean isAllTimeHigh;
+  private final BigDecimal trades;
 
   /**
    * Constructor
-   * 
+   *
    * @param last
    * @param timestamp
    * @param volume
@@ -31,7 +31,7 @@ public final class BitcoiniumTicker {
    * @param isAllTimeHigh
    */
   public BitcoiniumTicker(@JsonProperty("l") BigDecimal last, @JsonProperty("t") long timestamp, @JsonProperty("v") BigDecimal volume, @JsonProperty("h") BigDecimal high,
-      @JsonProperty("lo") BigDecimal low, @JsonProperty("b") BigDecimal bid, @JsonProperty("a") BigDecimal ask, @JsonProperty("ath") String isAllTimeHigh) {
+      @JsonProperty("lo") BigDecimal low, @JsonProperty("b") BigDecimal bid, @JsonProperty("a") BigDecimal ask, @JsonProperty("tr") BigDecimal trades) {
 
     this.last = last;
     this.timestamp = timestamp;
@@ -40,7 +40,7 @@ public final class BitcoiniumTicker {
     this.low = low;
     this.bid = bid;
     this.ask = ask;
-    this.isAllTimeHigh = isAllTimeHigh.equals("T");
+    this.trades = trades;
   }
 
   public BigDecimal getLast() {
@@ -78,15 +78,15 @@ public final class BitcoiniumTicker {
     return this.ask;
   }
 
-  public boolean isAllTimeHigh() {
+  public BigDecimal getTrades() {
 
-    return isAllTimeHigh;
+    return trades;
   }
 
   @Override
   public String toString() {
 
-    return "BitcoiniumTicker [last=" + last + ", timestamp=" + timestamp + ", volume=" + volume + ", high=" + high + ", low=" + low + ", bid=" + bid + ", ask=" + ask + "]";
+    return "BitcoiniumTicker [last=" + last + ", timestamp=" + timestamp + ", volume=" + volume + ", high=" + high + ", low=" + low + ", bid=" + bid + ", ask=" + ask + ", trades=" + trades + "]";
   }
 
 }

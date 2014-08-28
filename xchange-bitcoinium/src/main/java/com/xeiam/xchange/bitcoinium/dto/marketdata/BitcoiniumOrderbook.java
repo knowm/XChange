@@ -1,7 +1,6 @@
 package com.xeiam.xchange.bitcoinium.dto.marketdata;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,110 +9,67 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class BitcoiniumOrderbook {
 
-  private final List<BigDecimal> askPrices;
-  private final List<BigDecimal> askVolumes;
-  private final List<BigDecimal> bidPrices;
-  private final List<BigDecimal> bidVolumes;
-  private final BigDecimal high;
-  private final BigDecimal low;
-  private final BigDecimal bid;
-  private final BigDecimal ask;
-  private final BigDecimal last;
-  private final BigDecimal volume;
-  private final long timestamp;
+  private final BitcoiniumTicker bitcoiniumTicker;
+  private final CondensedOrder[] bids;
+  private final CondensedOrder[] asks;
 
   /**
    * Constructor
-   * 
-   * @param ap
-   * @param av
-   * @param bp
-   * @param bv
-   * @param last
-   * @param high
-   * @param low
-   * @param bid
-   * @param ask
-   * @param volume
-   * @param timestamp
+   *
+   * @param bitcoiniumTicker
+   * @param bids
+   * @param asks
    */
-  public BitcoiniumOrderbook(@JsonProperty("ap") List<BigDecimal> ap, @JsonProperty("av") List<BigDecimal> av, @JsonProperty("bp") List<BigDecimal> bp, @JsonProperty("bv") List<BigDecimal> bv,
-      @JsonProperty("l") BigDecimal last, @JsonProperty("h") BigDecimal high, @JsonProperty("lo") BigDecimal low, @JsonProperty("b") BigDecimal bid, @JsonProperty("a") BigDecimal ask,
-      @JsonProperty("v") BigDecimal volume, @JsonProperty("t") long timestamp) {
+  public BitcoiniumOrderbook(@JsonProperty("ticker") BitcoiniumTicker bitcoiniumTicker, @JsonProperty("bids") CondensedOrder[] bids, @JsonProperty("asks") CondensedOrder[] asks) {
 
-    this.askPrices = ap;
-    this.askVolumes = av;
-    this.bidPrices = bp;
-    this.bidVolumes = bv;
-    this.last = last;
-    this.volume = volume;
-    this.high = high;
-    this.low = low;
-    this.bid = bid;
-    this.ask = ask;
-    this.timestamp = timestamp;
+    this.bitcoiniumTicker = bitcoiniumTicker;
+    this.bids = bids;
+    this.asks = asks;
   }
 
-  public List<BigDecimal> getAskPriceList() {
+  public CondensedOrder[] getBids() {
 
-    return this.askPrices;
+    return bids;
   }
 
-  public List<BigDecimal> getAskVolumeList() {
+  public CondensedOrder[] getAsks() {
 
-    return this.askVolumes;
+    return asks;
   }
 
-  public List<BigDecimal> getBidPriceList() {
+  public BitcoiniumTicker getBitcoiniumTicker() {
 
-    return this.bidPrices;
+    return bitcoiniumTicker;
   }
 
-  public List<BigDecimal> getBidVolumeList() {
+  /**
+   * This class represents not just a single order in the orderbook, but a bunch of them condensed into one.
+   */
+  public static final class CondensedOrder {
 
-    return this.bidVolumes;
+    private final BigDecimal price;
+    private final BigDecimal volume;
+
+    /**
+     * Constructor
+     *
+     * @param price
+     * @param volume
+     */
+    public CondensedOrder(@JsonProperty("p") BigDecimal price, @JsonProperty("v") BigDecimal volume) {
+
+      this.price = price;
+      this.volume = volume;
+    }
+
+    public BigDecimal getPrice() {
+
+      return price;
+    }
+
+    public BigDecimal getVolume() {
+
+      return volume;
+    }
   }
-
-  public BigDecimal getLast() {
-
-    return this.last;
-  }
-
-  public long getTimestamp() {
-
-    return this.timestamp;
-  }
-
-  public BigDecimal getVolume() {
-
-    return this.volume;
-  }
-
-  public BigDecimal getHigh() {
-
-    return this.high;
-  }
-
-  public BigDecimal getLow() {
-
-    return this.low;
-  }
-
-  public BigDecimal getBid() {
-
-    return this.bid;
-  }
-
-  public BigDecimal getAsk() {
-
-    return this.ask;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BitcoiniumOrderbook [askPrice=" + askPrices + ", askVolume=" + askVolumes + ", buyPrice=" + bidPrices + ", buyVolume=" + bidVolumes + ", high=" + high + ", low=" + low + ", bid=" + bid
-        + ", ask=" + ask + ", last=" + last + ", volume=" + volume + ", timestamp=" + timestamp + "]";
-  }
-
 }

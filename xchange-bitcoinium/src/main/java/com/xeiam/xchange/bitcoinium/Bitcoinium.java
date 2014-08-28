@@ -1,6 +1,9 @@
 package com.xeiam.xchange.bitcoinium;
 
+import java.io.IOException;
+
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -13,20 +16,21 @@ import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
 /**
  * @author veken0m
  */
-@Path("service")
+@Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bitcoinium {
 
   @GET
-  @Path("tickerupdate")
-  public BitcoiniumTicker getTicker(@QueryParam("pair") String pair, @QueryParam("apikey") String apikey);
+  @Path("ticker")
+  public BitcoiniumTicker getTicker(@QueryParam("pair") String pair, @HeaderParam("X-BITCOINIUM-API-KEY") String apikey) throws IOException;
 
   @GET
   @Path("orderbook")
-  public BitcoiniumOrderbook getDepth(@QueryParam("pair") String pair, @QueryParam("pricewindow") String pricewindow, @QueryParam("apikey") String apikey);
+  public BitcoiniumOrderbook getDepth(@QueryParam("pair") String pair, @QueryParam("orderbookwindow") String orderbookwindow, @HeaderParam("X-BITCOINIUM-API-KEY") String apikey) throws IOException;
 
   @GET
   @Path("tickerhistory")
-  public BitcoiniumTickerHistory getTickerHistory(@QueryParam("pair") String pair, @QueryParam("timewindow") String timewindow, @QueryParam("apikey") String apikey);
+  public BitcoiniumTickerHistory getTickerHistory(@QueryParam("pair") String pair, @QueryParam("historytimewindow") String historytimewindow, @HeaderParam("X-BITCOINIUM-API-KEY") String apikey)
+      throws IOException;
 
 }

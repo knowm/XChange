@@ -24,9 +24,12 @@ public class BitcoiniumDepthJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitcoiniumOrderbook bitcoiniumDepth = mapper.readValue(is, BitcoiniumOrderbook.class);
+    // mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    BitcoiniumOrderbook bitcoiniumOrderbook = mapper.readValue(is, BitcoiniumOrderbook.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(bitcoiniumDepth.getAskPriceList().get(0)).isEqualTo(new BigDecimal("132.79"));
+    assertThat(bitcoiniumOrderbook.getBitcoiniumTicker().getVolume()).isEqualTo(new BigDecimal("5787"));
+    assertThat(bitcoiniumOrderbook.getBids()[0].getVolume()).isEqualTo(new BigDecimal("1.55"));
   }
 }

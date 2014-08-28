@@ -26,8 +26,10 @@ public class BitcoiniumMarketDataDemo {
     CertHelper.trustAllCerts();
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
-    exchangeSpecification.setApiKey("6seon0iepta86txluchde");
-    // Use the factory to get the Open Exchange Rates exchange API
+    // exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
+    exchangeSpecification.setApiKey("42djci5kmbtyzrvglfdw3e2dgmh5mr37");
+    exchangeSpecification.setPlainTextUri("http://173.10.241.154:9090");
+    System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     generic(bitcoiniumExchange);
@@ -48,7 +50,7 @@ public class BitcoiniumMarketDataDemo {
     System.out.println("Volume: " + ticker.getVolume());
 
     // Get the latest order book data for BTC/USD
-    OrderBook orderBook = bitcoiniumGenericMarketDataService.getOrderBook(new CurrencyPair("BTC", "BITSTAMP_USD"), "10p");
+    OrderBook orderBook = bitcoiniumGenericMarketDataService.getOrderBook(new CurrencyPair("BTC", "BITSTAMP_USD"), "TEN_PERCENT");
 
     System.out.println("Order book: " + orderBook);
   }
@@ -67,7 +69,7 @@ public class BitcoiniumMarketDataDemo {
     System.out.println("Volume: " + bitcoiniumTicker.getVolume());
 
     // Get the latest order book data for BTC/USD - MtGox
-    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumSpecificMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, "BITSTAMP_USD", "10p");
+    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumSpecificMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, "BITSTAMP_USD", "TEN_PERCENT");
 
     System.out.println("Order book: " + bitcoiniumOrderbook);
   }

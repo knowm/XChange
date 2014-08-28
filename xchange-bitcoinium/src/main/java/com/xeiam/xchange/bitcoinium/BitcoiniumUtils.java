@@ -17,19 +17,19 @@ public final class BitcoiniumUtils {
 
   public static final List<String> PRICE_WINDOW = Arrays.asList(
 
-  "2p", "5p", "10p", "20p", "50p", "100p"
+      "TWO_PERCENT", "FIVE_PERCENT", "TEN_PERCENT", "TWENTY_PERCENT", "FIFTY_PERCENT", "ONE_HUNDRED_PERCENT"
 
-  );
+      );
 
   public static final List<String> TIME_WINDOW = Arrays.asList(
 
-  "10m", "1h", "3h", "12h", "24h", "3d", "7d", "30d", "2M"
+      "ONE_HOUR", "THREE_HOURS", "TWELVE_HOURS", "TWENTY_FOUR_HOURS", "THREE_DAYS", "SEVEN_DAYS", "THIRTY_DAYS", "TWO_MONTHS"
 
-  );
+      );
 
   /**
    * Creates a valid currency pair for Bitcoinium.com
-   * 
+   *
    * @param tradableIdentifier
    * @param currency
    * @param exchange
@@ -43,7 +43,7 @@ public final class BitcoiniumUtils {
 
   /**
    * Checks if a given PriceWindow is covered by this exchange
-   * 
+   *
    * @param priceWindow
    * @return
    */
@@ -54,7 +54,7 @@ public final class BitcoiniumUtils {
 
   /**
    * Checks if a given TimeWindow is covered by this exchange
-   * 
+   *
    * @param timeWindow
    * @return
    */

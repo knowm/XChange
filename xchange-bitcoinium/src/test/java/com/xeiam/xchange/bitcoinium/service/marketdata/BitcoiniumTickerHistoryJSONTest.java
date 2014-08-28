@@ -20,13 +20,13 @@ public class BitcoiniumTickerHistoryJSONTest {
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitcoiniumTickerHistoryJSONTest.class.getResourceAsStream("/marketdata/example-trades-data.json");
+    InputStream is = BitcoiniumTickerHistoryJSONTest.class.getResourceAsStream("/marketdata/example-ticker-history-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitcoiniumTickerHistory BitcoiniumTrades = mapper.readValue(is, BitcoiniumTickerHistory.class);
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = mapper.readValue(is, BitcoiniumTickerHistory.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(BitcoiniumTrades.getPriceHistoryList().get(0)).isEqualTo(new BigDecimal("138.98"));
+    assertThat(bitcoiniumTickerHistory.getCondensedTickers()[0].getLast()).isEqualTo(new BigDecimal("514.9"));
   }
 }

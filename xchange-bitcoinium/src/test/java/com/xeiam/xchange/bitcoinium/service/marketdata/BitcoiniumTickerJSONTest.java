@@ -24,14 +24,13 @@ public class BitcoiniumTickerJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitcoiniumTicker BitcoiniumTicker = mapper.readValue(is, BitcoiniumTicker.class);
+    BitcoiniumTicker bitcoiniumTicker = mapper.readValue(is, BitcoiniumTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(BitcoiniumTicker.getLast()).isEqualTo(new BigDecimal("914.88696"));
-    assertThat(BitcoiniumTicker.getHigh()).isEqualTo(new BigDecimal("932.38"));
-    assertThat(BitcoiniumTicker.getLow()).isEqualTo(new BigDecimal("848.479"));
-    assertThat(BitcoiniumTicker.getVolume()).isEqualTo(new BigDecimal("13425"));
-    assertThat(BitcoiniumTicker.isAllTimeHigh()).isFalse();
+    assertThat(bitcoiniumTicker.getLast()).isEqualTo(new BigDecimal("516.8"));
+    assertThat(bitcoiniumTicker.getHigh()).isEqualTo(new BigDecimal("523.09"));
+    assertThat(bitcoiniumTicker.getLow()).isEqualTo(new BigDecimal("508.28"));
+    assertThat(bitcoiniumTicker.getVolume()).isEqualTo(new BigDecimal("3522"));
   }
 
 }

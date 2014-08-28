@@ -37,9 +37,9 @@ public class BitcoiniumAdapterTest {
     OrderBook orderBook = BitcoiniumAdapters.adaptOrderbook(bitcoiniumDepth, CurrencyPair.BTC_USD);
 
     // Verify all fields filled
-    assertThat(orderBook.getAsks().get(0).getLimitPrice().doubleValue()).isEqualTo(132.79);
+    assertThat(orderBook.getAsks().get(0).getLimitPrice()).isEqualTo(new BigDecimal("522.9"));
     assertThat(orderBook.getAsks().get(0).getType()).isEqualTo(OrderType.ASK);
-    assertThat(orderBook.getAsks().get(0).getTradableAmount().doubleValue()).isEqualTo(45.98);
+    assertThat(orderBook.getAsks().get(0).getTradableAmount()).isEqualTo(new BigDecimal("1.07"));
     assertThat(orderBook.getAsks().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 
@@ -56,10 +56,10 @@ public class BitcoiniumAdapterTest {
     Ticker ticker = BitcoiniumAdapters.adaptTicker(BitcoiniumTicker, CurrencyPair.BTC_USD);
     System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast().toString()).isEqualTo("914.88696");
-    assertThat(ticker.getLow().toString()).isEqualTo("848.479");
-    assertThat(ticker.getHigh().toString()).isEqualTo("932.38");
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("13425"));
+    assertThat(ticker.getLast()).isEqualTo(new BigDecimal("516.8"));
+    assertThat(ticker.getLow().toString()).isEqualTo("508.28");
+    assertThat(ticker.getHigh().toString()).isEqualTo("523.09");
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("3522"));
 
   }
 }

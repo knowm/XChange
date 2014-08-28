@@ -1,8 +1,5 @@
 package com.xeiam.xchange.bitcoinium.dto.marketdata;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -12,48 +9,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class BitcoiniumTickerHistory {
 
-  /** Price with 3 decimal places of precision */
-  private final ArrayList<BigDecimal> priceHistory;
-
-  /** the time stamp (in seconds from epoch) of the oldest data point */
-  private final long oldestTimestamp;
-
-  /** the time difference between the previous data point and the current one */
-  private final ArrayList<Integer> timestampOffset;
+  private final BitcoiniumTicker bitcoiniumTicker;
+  private final BitcoiniumTicker[] condensedTickers;
 
   /**
    * Constructor
-   * 
-   * @param pp
-   * @param t
-   * @param tt
+   *
+   * @param bitcoiniumTicker
+   * @param condensedTickers
    */
-  public BitcoiniumTickerHistory(@JsonProperty("pp") ArrayList<BigDecimal> pp, @JsonProperty("t") long t, @JsonProperty("tt") ArrayList<Integer> tt) {
+  public BitcoiniumTickerHistory(@JsonProperty("ticker") BitcoiniumTicker bitcoiniumTicker, @JsonProperty("condensedTickers") BitcoiniumTicker[] condensedTickers) {
 
-    this.priceHistory = pp;
-    this.oldestTimestamp = t;
-    this.timestampOffset = tt;
+    this.bitcoiniumTicker = bitcoiniumTicker;
+    this.condensedTickers = condensedTickers;
   }
 
-  public ArrayList<BigDecimal> getPriceHistoryList() {
+  public BitcoiniumTicker getBitcoiniumTicker() {
 
-    return this.priceHistory;
+    return bitcoiniumTicker;
   }
 
-  public long getBaseTimestamp() {
+  public BitcoiniumTicker[] getCondensedTickers() {
 
-    return this.oldestTimestamp;
+    return condensedTickers;
   }
-
-  public ArrayList<Integer> getTimeStampOffsets() {
-
-    return this.timestampOffset;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BitcoiniumTickerHistory [priceList=" + priceHistory + ", timestamp=" + oldestTimestamp + ", timeOffsets=" + timestampOffset + "]";
-  }
-
 }

@@ -26,13 +26,13 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBasePollingService
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitcoiniumMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    this.bitcoinium = RestProxyFactory.createProxy(Bitcoinium.class, exchangeSpecification.getSslUri());
+    this.bitcoinium = RestProxyFactory.createProxy(Bitcoinium.class, exchangeSpecification.getPlainTextUri());
   }
 
   /**
@@ -77,24 +77,24 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBasePollingService
    * @param tradableIdentifier
    * @param currency
    * @param exchange
-   * @param pricewindow - The width of the Orderbook as a percentage plus and minus the current price. Value can be from set: { 2p, 5p, 10p, 20p, 50p, 100p }
+   * @param orderbookwindow - The width of the Orderbook as a percentage plus and minus the current price. Value can be from set: { 2p, 5p, 10p, 20p, 50p, 100p }
    * @return
    */
-  public BitcoiniumOrderbook getBitcoiniumOrderbook(String tradableIdentifier, String currency, String pricewindow) throws IOException {
+  public BitcoiniumOrderbook getBitcoiniumOrderbook(String tradableIdentifier, String currency, String orderbookwindow) throws IOException {
 
     String pair = BitcoiniumUtils.createCurrencyPairString(tradableIdentifier, currency);
 
-    verifyPriceWindow(pricewindow);
+    verifyPriceWindow(orderbookwindow);
 
     // Request data
-    BitcoiniumOrderbook bitcoiniumDepth = bitcoinium.getDepth(pair, pricewindow, exchangeSpecification.getApiKey());
+    BitcoiniumOrderbook bitcoiniumDepth = bitcoinium.getDepth(pair, orderbookwindow, exchangeSpecification.getApiKey());
 
     return bitcoiniumDepth;
   }
 
   /**
    * verify
-   * 
+   *
    * @param pair
    */
   private void verifyPriceWindow(String priceWindow) {
@@ -104,7 +104,7 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBasePollingService
 
   /**
    * verify
-   * 
+   *
    * @param pair
    */
   private void verifyTimeWindow(String timeWindow) {
