@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
+import com.xeiam.xchange.btcchina.BTCChinaExchangeException;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaTransactionsRequest;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
@@ -22,6 +23,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
@@ -103,8 +105,22 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    BTCChinaBooleanResponse response = cancelBTCChinaOrder(Integer.parseInt(orderId));
-    return response.getResult();
+    boolean ret;
+
+    try {
+      BTCChinaBooleanResponse response = cancelBTCChinaOrder(Integer.parseInt(orderId));
+      ret = response.getResult();
+    } catch (BTCChinaExchangeException e) {
+      if (e.getErrorCode() == -32026) {
+        // Order already completed
+        ret = false;
+      }
+      else {
+        throw e;
+      }
+    }
+
+    return ret;
   }
 
   /**

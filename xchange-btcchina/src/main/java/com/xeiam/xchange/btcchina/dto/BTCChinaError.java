@@ -48,7 +48,7 @@ public class BTCChinaError {
   @Override
   public String toString() {
 
-    return String.format("BTCChinaError{code=%s, result=%s, id=%s}", code, message, id);
+    return String.format("BTCChinaError{code=%s, message=%s, id=%s}", code, message, id);
   }
 
 }
