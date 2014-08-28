@@ -102,7 +102,7 @@ public final class JustcoinAdapters {
 
   public static LimitOrder adaptLimitOrder(final JustcoinOrder justcoinOrder) {
 
-    return new LimitOrder(OrderType.valueOf(justcoinOrder.getType().toUpperCase()), justcoinOrder.getAmount(), adaptCurrencyPair(justcoinOrder.getMarket()), justcoinOrder.getId(), justcoinOrder
+    return new LimitOrder(OrderType.valueOf(justcoinOrder.getType().toUpperCase()), justcoinOrder.getRemaining(), adaptCurrencyPair(justcoinOrder.getMarket()), justcoinOrder.getId(), justcoinOrder
         .getCreatedAt(), justcoinOrder.getPrice());
   }
 
