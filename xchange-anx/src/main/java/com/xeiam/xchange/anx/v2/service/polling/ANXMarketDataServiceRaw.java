@@ -2,6 +2,7 @@ package com.xeiam.xchange.anx.v2.service.polling;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +67,12 @@ public class ANXMarketDataServiceRaw extends ANXBasePollingService {
       return null;
     }
     try {
+      if (i == 2) {
+        ANXTicker anxTicker = getANXTicker(pathCurrencyPair);
+        Map<String, ANXTicker> ticker = new HashMap<String, ANXTicker>();
+        ticker.put(pathCurrencyPair.baseSymbol + pathCurrencyPair.counterSymbol, anxTicker);
+        return ticker;
+      }
       ANXTickersWrapper anxTickerWrapper = anxV2.getTickers(pathCurrencyPair.baseSymbol, pathCurrencyPair.counterSymbol, extraCurrencyPairs.toString());
       return anxTickerWrapper.getAnxTickers();
     } catch (ANXException e) {
@@ -100,6 +107,12 @@ public class ANXMarketDataServiceRaw extends ANXBasePollingService {
       return null;
     }
     try {
+      if (i == 2) {
+        ANXDepthWrapper anxDepthWrapper = getANXFullOrderBook(pathCurrencyPair);
+        Map<String, ANXDepth> book = new HashMap<String, ANXDepth>();
+        book.put(pathCurrencyPair.baseSymbol + pathCurrencyPair.counterSymbol, anxDepthWrapper.getAnxDepth());
+        return book;
+      }
       ANXDepthsWrapper anxDepthWrapper = anxV2.getFullDepths(pathCurrencyPair.baseSymbol, pathCurrencyPair.counterSymbol, extraCurrencyPairs.toString());
       return anxDepthWrapper.getAnxDepths();
     } catch (ANXException e) {
