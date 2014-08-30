@@ -30,7 +30,13 @@ public class MintPalMarketDataService extends MintPalMarketDataServiceRaw implem
   @Override
   public OrderBook getOrderBook(final CurrencyPair currencyPair, final Object... args) throws ExchangeException, IOException {
 
-    return MintPalAdapters.adaptOrderBook(currencyPair, super.getMintPalOrders(currencyPair));
+    if (args.length > 0) {
+      Object arg0 = args[0];
+      if (arg0 instanceof Integer) {
+        return MintPalAdapters.adaptOrderBook(currencyPair, super.getMintPalOrders(currencyPair, (Integer)arg0));
+      }
+    }
+    return MintPalAdapters.adaptOrderBook(currencyPair, super.getMintPalFullOrders(currencyPair));
   }
 
   @Override
