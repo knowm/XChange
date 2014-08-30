@@ -40,7 +40,7 @@ public class BTCChinaGetTradeHistoryDemo {
 
   private static void raw() throws IOException {
 
-    BTCChinaTransactionsResponse response = tradeServiceRaw.getTransactions("all", 10, null);
+    BTCChinaTransactionsResponse response = tradeServiceRaw.getTransactions("all", 10, null, null, null);
     System.out.println("BTCChinaTransactionsResponse: " + response);
     for (BTCChinaTransaction transaction : response.getResult().getTransactions()) {
       System.out.println(ToStringBuilder.reflectionToString(transaction));

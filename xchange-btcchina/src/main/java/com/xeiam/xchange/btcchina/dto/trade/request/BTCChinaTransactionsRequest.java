@@ -16,6 +16,15 @@ public class BTCChinaTransactionsRequest extends BTCChinaRequest {
   }
 
   /**
+   * @deprecated Use {@link #BTCChinaTransactionsRequest(String, Integer, Integer, Integer, String)} instead.
+   */
+  @Deprecated
+  public BTCChinaTransactionsRequest(String type, Integer limit, Integer offset) {
+
+    this(type, limit, offset, null, null);
+  }
+
+  /**
    * Constructs a getting transactions log request.
    *
    * @param type Fetch transactions by type.
@@ -24,11 +33,14 @@ public class BTCChinaTransactionsRequest extends BTCChinaRequest {
    *          | refundmoney | buybtc | sellbtc | buyltc | sellltc | tradefee | rebate '
    * @param limit Limit the number of transactions, default value is 10.
    * @param offset Start index used for pagination, default value is 0.
+   * @param since To fetch the transactions from this point, which can either be an order id or a unix timestamp, default value is 0.
+   * @param sincetype Specify the type of 'since' parameter, can either be 'id' or 'time'. default value is 'time'.
    */
-  public BTCChinaTransactionsRequest(String type, Integer limit, Integer offset) {
+  public BTCChinaTransactionsRequest(String type, Integer limit, Integer offset, Integer since, String sincetype) {
 
     method = "getTransactions";
-    params = String.format("[\"%1$s\",%2$d,%3$d]", type == null ? TYPE_ALL : type, limit == null ? 10 : limit.intValue(), offset == null ? 0 : offset.intValue());
+    params = String.format("[\"%s\",%d,%d,%d,\"%s\"]", type == null ? TYPE_ALL : type, limit == null ? 10 : limit.intValue(), offset == null ? 0 : offset.intValue(),
+        since == null ? 0 : since.intValue(), sincetype == null ? "time" : sincetype);
   }
 
   @Override
