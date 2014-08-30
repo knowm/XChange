@@ -63,6 +63,9 @@ public class BTCChinaTickerDemo {
     System.out.println("High: " + ticker.getTicker().getHigh().toString());
     System.out.println("Low: " + ticker.getTicker().getLow().toString());
 
+    System.out.println("vwap: " + ticker.getTicker().getVwap());
+    System.out.println("prev_close: " + ticker.getTicker().getPrevClose());
+
     Map<String, BTCChinaTickerObject> tickers = marketDataServiceRaw.getBTCChinaTickers();
     System.out.println(tickers);
 
