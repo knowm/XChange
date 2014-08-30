@@ -261,11 +261,20 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   }
 
   /**
-   * @see BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String, Integer, Integer)
+   * @deprecated Use {@link #getTransactions(String, Integer, Integer, Integer, String)} instead.
    */
+  @Deprecated
   public BTCChinaTransactionsResponse getTransactions(String type, Integer limit, Integer offset) throws IOException {
 
-    BTCChinaTransactionsRequest request = new BTCChinaTransactionsRequest(type, limit, offset);
+    return getTransactions(type, limit, offset, null, null);
+  }
+
+  /**
+   * @see BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String, Integer, Integer, Integer, String)
+   */
+  public BTCChinaTransactionsResponse getTransactions(String type, Integer limit, Integer offset, Integer since, String sincetype) throws IOException {
+
+    BTCChinaTransactionsRequest request = new BTCChinaTransactionsRequest(type, limit, offset, since, sincetype);
     BTCChinaTransactionsResponse response = btcChina.getTransactions(signatureCreator, BTCChinaUtils.getNonce(), request);
     return checkResult(response);
   }
