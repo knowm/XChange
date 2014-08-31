@@ -8,6 +8,7 @@ import com.xeiam.xchange.bitfinex.v1.BitfinexAuthenticated;
 import com.xeiam.xchange.bitfinex.v1.BitfinexOrderType;
 import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
+import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCreditResponse;
@@ -47,12 +48,12 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
   }
 
   public BitfinexOfferStatusResponse[] getBitfinexOpenOffers() throws IOException {
-    
+
     BitfinexOfferStatusResponse[] activeOffers = bitfinex.activeOffers(apiKey, payloadCreator, signatureCreator, new BitfinexNonceOnlyRequest("/v1/offers", String.valueOf(nextNonce())));
-    
+
     return activeOffers;
   }
-  
+
   public BitfinexOrderStatusResponse placeBitfinexMarketOrder(MarketOrder marketOrder) throws IOException {
 
     String pair = BitfinexUtils.toPairString(marketOrder.getCurrencyPair());
@@ -78,24 +79,24 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
 
     return newOrder;
   }
-  
+
   public BitfinexOfferStatusResponse placeBitfinexFixedRateLoanOrder(FixedRateLoanOrder loanOrder, BitfinexOrderType orderType) throws IOException {
-    
+
     String direction = loanOrder.getType() == OrderType.BID ? "loan" : "lend";
-    
+
     BitfinexOfferStatusResponse newOrderResponse = bitfinex.newOffer(apiKey, payloadCreator, signatureCreator, 
         new BitfinexNewOfferRequest(String.valueOf(nextNonce()), loanOrder.getCurrency(), loanOrder.getTradableAmount(), loanOrder.getRate(), loanOrder.getDayPeriod(), direction));
-    
+
     return newOrderResponse;
   }
-  
-public BitfinexOfferStatusResponse placeBitfinexFloatingRateLoanOrder(FloatingRateLoanOrder loanOrder, BitfinexOrderType orderType) throws IOException {
-    
+
+  public BitfinexOfferStatusResponse placeBitfinexFloatingRateLoanOrder(FloatingRateLoanOrder loanOrder, BitfinexOrderType orderType) throws IOException {
+
     String direction = loanOrder.getType() == OrderType.BID ? "loan" : "lend";
-    
+
     BitfinexOfferStatusResponse newOrderResponse = bitfinex.newOffer(apiKey, payloadCreator, signatureCreator, 
         new BitfinexNewOfferRequest(String.valueOf(nextNonce()), loanOrder.getCurrency(), loanOrder.getTradableAmount(), new BigDecimal("0.0"), loanOrder.getDayPeriod(), direction));
-    
+
     return newOrderResponse;
   }
 
@@ -105,11 +106,11 @@ public BitfinexOfferStatusResponse placeBitfinexFloatingRateLoanOrder(FloatingRa
 
     return cancelResponse;
   }
-  
+
   public BitfinexOfferStatusResponse cancelBitfinexOffer(String offerId) throws IOException {
-    
+
     BitfinexOfferStatusResponse cancelResponse = bitfinex.cancelOffer(apiKey, payloadCreator, signatureCreator, new BitfinexCancelOfferRequest(String.valueOf(nextNonce()), Integer.valueOf(offerId)));
-    
+
     return cancelResponse;
   }
 
@@ -120,11 +121,11 @@ public BitfinexOfferStatusResponse placeBitfinexFloatingRateLoanOrder(FloatingRa
     return orderStatus;
 
   }
-  
+
   public BitfinexOfferStatusResponse getBitfinexOfferStatusResponse(String offerId) throws IOException {
-    
+
     BitfinexOfferStatusResponse offerStatus = bitfinex.offerStatus(apiKey, payloadCreator, signatureCreator, new BitfinexOfferStatusRequest(String.valueOf(nextNonce()), Integer.valueOf(offerId)));
-  
+
     return offerStatus;
   }
 
@@ -134,12 +135,18 @@ public BitfinexOfferStatusResponse placeBitfinexFloatingRateLoanOrder(FloatingRa
 
     return trades;
   }
-  
+
   public BitfinexCreditResponse[] getBitfinexActiveCredits() throws IOException {
-  
+
     BitfinexCreditResponse[] credits = bitfinex.activeCredits(apiKey, payloadCreator, signatureCreator, new BitfinexActiveCreditsRequest(String.valueOf(nextNonce())));
-    
+
     return credits;
   }
-  
+
+  public BitfinexActivePositionsResponse[] getBitfinexActivePositions() throws IOException {
+
+    BitfinexActivePositionsResponse[] activePositions = bitfinex.activePositions(apiKey, payloadCreator, signatureCreator, new BitfinexNonceOnlyRequest("/v1/positions", String.valueOf(nextNonce())));
+    return activePositions;
+  }
+
 }
