@@ -16,6 +16,7 @@ import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
+import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCreditResponse;
@@ -67,6 +68,11 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @POST
   @Path("offers")
   BitfinexOfferStatusResponse[] activeOffers(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
+      BitfinexNonceOnlyRequest nonceOnlyRequest) throws IOException;
+
+  @POST
+  @Path("positions")
+  BitfinexActivePositionsResponse[] activePositions(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
       BitfinexNonceOnlyRequest nonceOnlyRequest) throws IOException;
 
   @POST
