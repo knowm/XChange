@@ -55,8 +55,11 @@ public class MintPalMarketDataDemo {
     MintPalTicker ticker = mintPalSpecificMarketDataService.getMintPalTicker(CurrencyPair.LTC_BTC);
     System.out.println(ticker);
 
-    List<MintPalPublicOrders> orders = mintPalSpecificMarketDataService.getMintPalOrders(CurrencyPair.LTC_BTC);
-    System.out.println(orders);
+    List<MintPalPublicOrders> ordersFull = mintPalSpecificMarketDataService.getMintPalFullOrders(CurrencyPair.LTC_BTC);
+    System.out.println(ordersFull);
+
+    List<MintPalPublicOrders> ordersLimit = mintPalSpecificMarketDataService.getMintPalOrders(CurrencyPair.LTC_BTC, 10);
+    System.out.println(ordersLimit);
 
     List<MintPalPublicTrade> trades = mintPalSpecificMarketDataService.getMintPalTrades(CurrencyPair.LTC_BTC);
     System.out.println(trades);
