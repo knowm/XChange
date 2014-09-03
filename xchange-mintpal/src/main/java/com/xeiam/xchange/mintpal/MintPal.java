@@ -30,7 +30,19 @@ public interface MintPal {
 
   @GET
   @Path("market/orders/{coin}/{exchange}/ALL/200")
-  MintPalBaseResponse<List<MintPalPublicOrders>> getOrders(@PathParam("coin") final String coin, @PathParam("exchange") final String exchange);
+  MintPalBaseResponse<List<MintPalPublicOrders>> getFullOrders(@PathParam("coin") final String coin, @PathParam("exchange") final String exchange);
+
+  @GET
+  @Path("market/orders/{coin}/{exchange}/ALL/{limit}")
+  MintPalBaseResponse<List<MintPalPublicOrders>> getOrders(@PathParam("coin") final String coin, @PathParam("exchange") final String exchange, @PathParam("limit") final int count);
+
+  @GET
+  @Path("market/orders/{coin}/{exchange}/SELL/{limit}")
+  MintPalBaseResponse<List<MintPalPublicOrders>> getSellOrders(@PathParam("coin") final String coin, @PathParam("exchange") final String exchange, @PathParam("limit") final int limit);
+
+  @GET
+  @Path("market/orders/{coin}/{exchange}/BUY/{limit}")
+  MintPalBaseResponse<List<MintPalPublicOrders>> getBuyOrders(@PathParam("coin") final String coin, @PathParam("exchange") final String exchange, @PathParam("limit") final int limit);
 
   @GET
   @Path("market/trades/{coin}/{exchange}")
