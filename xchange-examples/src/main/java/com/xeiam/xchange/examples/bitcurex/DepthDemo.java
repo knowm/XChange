@@ -19,12 +19,9 @@ public class DepthDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get the Bitcurex exchange API using default settings
-    Exchange bitcurexEur = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
-    requestData(bitcurexEur, CurrencyPair.BTC_EUR);
-
-    Exchange bitcurexPln = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
-    bitcurexPln.applySpecification(((BitcurexExchange) bitcurexPln).getDefaultExchangePLNSpecification());
-    requestData(bitcurexPln, CurrencyPair.BTC_PLN);
+    Exchange bitcurex = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
+    requestData(bitcurex, CurrencyPair.BTC_EUR);
+    requestData(bitcurex, CurrencyPair.BTC_PLN);
   }
 
   private static void requestData(Exchange bitcurex, CurrencyPair pair) throws IOException {

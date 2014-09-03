@@ -117,9 +117,9 @@ public final class BitcurexAdapters {
     BigDecimal last = bitcurexTicker.getLast();
     BigDecimal high = bitcurexTicker.getHigh();
     BigDecimal low = bitcurexTicker.getLow();
-    BigDecimal buy = bitcurexTicker.getBuy();
-    BigDecimal sell = bitcurexTicker.getSell();
-    BigDecimal volume = bitcurexTicker.getVol();
+    BigDecimal buy = bitcurexTicker.getBid();
+    BigDecimal sell = bitcurexTicker.getAsk();
+    BigDecimal volume = bitcurexTicker.getVolume();
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).build();
   }

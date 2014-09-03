@@ -81,13 +81,13 @@ public class BitcurexAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcurexTicker BitcurexTicker = mapper.readValue(is, BitcurexTicker.class);
 
-    Ticker ticker = BitcurexAdapters.adaptTicker(BitcurexTicker, CurrencyPair.BTC_EUR);
+    Ticker ticker = BitcurexAdapters.adaptTicker(BitcurexTicker, CurrencyPair.BTC_PLN);
     System.out.println(ticker.toString());
 
-    assertThat(ticker.getLast().toString()).isEqualTo("70");
-    assertThat(ticker.getLow().toString()).isEqualTo("63.66");
-    assertThat(ticker.getHigh().toString()).isEqualTo("70");
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("103.23546591"));
+    assertThat(ticker.getLast().toString()).isEqualTo("1555");
+    assertThat(ticker.getLow().toString()).isEqualTo("1538");
+    assertThat(ticker.getHigh().toString()).isEqualTo("1555");
+    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("42.67895867"));
 
   }
 

@@ -27,10 +27,10 @@ public class BitcurexTickerJSONTest {
     BitcurexTicker BitcurexTicker = mapper.readValue(is, BitcurexTicker.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(BitcurexTicker.getLast()).isEqualTo(new BigDecimal("70"));
-    assertThat(BitcurexTicker.getHigh()).isEqualTo(new BigDecimal("70"));
-    assertThat(BitcurexTicker.getLow()).isEqualTo(new BigDecimal("63.66"));
-    assertThat(BitcurexTicker.getVol()).isEqualTo(new BigDecimal("103.23546591"));
+    assertThat(BitcurexTicker.getLast()).isEqualTo(new BigDecimal("1555"));
+    assertThat(BitcurexTicker.getHigh()).isEqualTo(new BigDecimal("1555"));
+    assertThat(BitcurexTicker.getLow()).isEqualTo(new BigDecimal("1538"));
+    assertThat(BitcurexTicker.getVolume()).isEqualTo(new BigDecimal("42.67895867"));
   }
 
 }

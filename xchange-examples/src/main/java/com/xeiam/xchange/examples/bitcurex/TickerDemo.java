@@ -19,12 +19,9 @@ public class TickerDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get the Bitcurex exchange API using default settings
-    Exchange bitcurexEur = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
-    requestData(bitcurexEur, CurrencyPair.BTC_EUR);
-
-    Exchange bitcurexPln = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
-    bitcurexPln.applySpecification(((BitcurexExchange) bitcurexPln).getDefaultExchangePLNSpecification());
-    requestData(bitcurexPln, CurrencyPair.BTC_PLN);
+    Exchange bitcurex = ExchangeFactory.INSTANCE.createExchange(BitcurexExchange.class.getName());
+    requestData(bitcurex, CurrencyPair.BTC_EUR);
+    requestData(bitcurex, CurrencyPair.BTC_PLN);
   }
 
   private static void requestData(Exchange bitcurex, CurrencyPair pair) throws IOException {
@@ -40,7 +37,6 @@ public class TickerDemo {
 
     // Get the latest ticker data showing BTC to EUR
     Ticker ticker = marketDataService.getTicker(pair);
-    double value = ticker.getLast().doubleValue();
 
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
@@ -56,7 +52,7 @@ public class TickerDemo {
     BitcurexTicker ticker = bitcurexMarketDataServiceRaw.getBitcurexTicker(currency);
 
     System.out.println("Last: " + ticker.getLast().toString());
-    System.out.println("Vol: " + ticker.getVol());
+    System.out.println("Vol: " + ticker.getVolume());
     System.out.println("High: " + ticker.getHigh().toString());
     System.out.println("Low: " + ticker.getLow().toString());
   }

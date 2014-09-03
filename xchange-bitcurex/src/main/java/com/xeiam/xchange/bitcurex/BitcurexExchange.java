@@ -4,7 +4,6 @@ import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcurex.service.polling.BitcurexMarketDataService;
-import com.xeiam.xchange.currency.Currencies;
 
 /**
  * <p>
@@ -15,8 +14,6 @@ import com.xeiam.xchange.currency.Currencies;
  * </ul>
  */
 public class BitcurexExchange extends BaseExchange implements Exchange {
-
-  public static final String KEY_CURRENCY = "CURRENCY";
 
   /**
    * Default constructor for ExchangeFactory
@@ -36,24 +33,13 @@ public class BitcurexExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://eur.bitcurex.com");
-    exchangeSpecification.setHost("eur.bitcurex.com");
-    exchangeSpecification.setExchangeName("Bitcurex EUR");
+    exchangeSpecification.setSslUri("https://bitcurex.com");
+    exchangeSpecification.setPort(8080);
+    exchangeSpecification.setHost("bitcurex.com");
+    exchangeSpecification.setExchangeName("Bitcurex");
     exchangeSpecification.setExchangeDescription("Bitcurex is a polish Bitcoin exchange");
-    exchangeSpecification.getExchangeSpecificParameters().put(KEY_CURRENCY, Currencies.EUR);
 
     return exchangeSpecification;
   }
 
-  public ExchangeSpecification getDefaultExchangePLNSpecification() {
-
-    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://pln.bitcurex.com");
-    exchangeSpecification.setHost("pln.bitcurex.com");
-    exchangeSpecification.setExchangeName("Bitcurex PLN");
-    exchangeSpecification.setExchangeDescription("Bitcurex is a polish Bitcoin exchange");
-    exchangeSpecification.getExchangeSpecificParameters().put(KEY_CURRENCY, Currencies.PLN);
-
-    return exchangeSpecification;
-  }
 }
