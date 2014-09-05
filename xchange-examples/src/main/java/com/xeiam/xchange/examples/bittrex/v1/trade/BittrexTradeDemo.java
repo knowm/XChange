@@ -22,10 +22,8 @@ public class BittrexTradeDemo {
 
     PollingTradeService tradeService = exchange.getPollingTradeService();
 
-    //generic(tradeService);
-    //raw((BittrexTradeServiceRaw) tradeService);
-    
-    System.out.println(tradeService.getTradeHistory());
+    generic(tradeService);
+    raw((BittrexTradeServiceRaw) tradeService);
 
   }
 

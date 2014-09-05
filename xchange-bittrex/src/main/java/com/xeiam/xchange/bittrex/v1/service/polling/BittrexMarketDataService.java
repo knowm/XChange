@@ -47,15 +47,7 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw implem
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    int depth = 50;
-
-    if (args.length > 0) {
-      if (args[0] instanceof Integer) {
-        depth = (Integer) args[0];
-      }
-    }
-
-    BittrexDepth bittrexDepth = getBittrexOrderBook(BittrexUtils.toPairString(currencyPair), depth);
+    BittrexDepth bittrexDepth = getBittrexOrderBook(BittrexUtils.toPairString(currencyPair));
 
     List<LimitOrder> asks = BittrexAdapters.adaptOrders(bittrexDepth.getAsks(), currencyPair, "ask", "");
     List<LimitOrder> bids = BittrexAdapters.adaptOrders(bittrexDepth.getBids(), currencyPair, "bid", "");
@@ -72,15 +64,7 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw implem
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    int count = 100;
-
-    if (args.length > 0) {
-      if (args[0] instanceof Integer) {
-        count = (Integer) args[0];
-      }
-    }
-
-    BittrexTrade[] trades = getBittrexTrades(BittrexUtils.toPairString(currencyPair), count);
+    BittrexTrade[] trades = getBittrexTrades(BittrexUtils.toPairString(currencyPair), 100);
 
     return BittrexAdapters.adaptTrades(trades, currencyPair);
   }
