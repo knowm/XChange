@@ -20,7 +20,7 @@ public final class OrderBook {
 
   /**
    * Constructor
-   * 
+   *
    * @param timeStamp The timeStamp of the OrderBook or of the latest Update
    * @param asks
    *          The ASK orders
@@ -49,14 +49,15 @@ public final class OrderBook {
     return bids;
   }
 
-  public List<LimitOrder> getOrders(OrderType type){
+  public List<LimitOrder> getOrders(OrderType type) {
+
     return type == OrderType.ASK ? asks : bids;
   }
 
   /**
    * Given a new LimitOrder, it will replace and old matching limit order in
    * the orderbook or simply get added. The timeStamp may be updated as well.
-   * 
+   *
    * @param limitOrder the new LimitOrder
    */
   public void update(LimitOrder limitOrder) {
@@ -66,11 +67,13 @@ public final class OrderBook {
   }
 
   private void update(List<LimitOrder> asks, LimitOrder limitOrder) {
+
     int idx = Collections.binarySearch(asks, limitOrder);
     if (idx >= 0) {
       asks.remove(idx);
       asks.add(idx, limitOrder);
-    } else {
+    }
+    else {
       asks.add(-idx - 1, limitOrder);
     }
   }
@@ -78,7 +81,7 @@ public final class OrderBook {
   /**
    * Given an OrderBookUpdate, it will replace and old matching limit order in
    * the orderbook or simply get added. The timeStamp may be updated as well.
-   * 
+   *
    * @param orderBookUpdate the new OrderBookUpdate
    */
   public void update(OrderBookUpdate orderBookUpdate) {
@@ -88,7 +91,8 @@ public final class OrderBook {
     int idx = Collections.binarySearch(limitOrders, limitOrder);
     if (idx >= 0) {
       limitOrders.remove(idx);
-    } else {
+    }
+    else {
       idx = -idx - 1;
     }
 
@@ -120,7 +124,7 @@ public final class OrderBook {
   @Override
   public String toString() {
 
-    return "Depth [timestamp: " + timeStamp + ", asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
+    return "OrderBook [timestamp: " + timeStamp + ", asks=" + asks.toString() + ", bids=" + bids.toString() + "]";
   }
 
 }
