@@ -1,6 +1,7 @@
 package com.xeiam.xchange.vaultofsatoshi.service.polling;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -67,7 +68,7 @@ public class VaultOfSatoshiMarketDataService extends VaultOfSatoshiMarketDataSer
     List<LimitOrder> asks = VaultOfSatoshiAdapters.adaptOrders(vaultOfSatoshiDepth.getAsks(), currencyPair, "ask", "");
     List<LimitOrder> bids = VaultOfSatoshiAdapters.adaptOrders(vaultOfSatoshiDepth.getBids(), currencyPair, "bid", "");
 
-    return new OrderBook(null, asks, bids);
+    return new OrderBook(new Date(vaultOfSatoshiDepth.getTimestamp() / 1000L), asks, bids);
   }
 
   @Override
