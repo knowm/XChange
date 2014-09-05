@@ -16,6 +16,7 @@ import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalancesResponse;
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexDepositAddressResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexCancelOrderResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrdersResponse;
+import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexTradeHistoryResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexTradeResponse;
 
 @Path("v1.1")
@@ -60,4 +61,8 @@ public interface BittrexAuthenticated extends Bittrex {
   @GET
   @Path("market/getopenorders")
   BittrexOpenOrdersResponse openorders(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature, @QueryParam("nonce") String nonce) throws IOException;
+  
+  @GET
+  @Path("account/getorderhistory")
+  BittrexTradeHistoryResponse getorderhistory(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature, @QueryParam("nonce") String nonce) throws IOException;
 }

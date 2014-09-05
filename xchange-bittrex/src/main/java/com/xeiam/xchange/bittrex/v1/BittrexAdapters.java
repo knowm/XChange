@@ -15,6 +15,7 @@ import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTicker;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTrade;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrder;
+import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexUserTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -75,7 +76,7 @@ public final class BittrexAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
 
     for (BittrexLevel order : orders) {
-        limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
+      limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
     }
 
     return limitOrders;
@@ -134,6 +135,30 @@ public final class BittrexAdapters {
     }
 
     return new AccountInfo(null, wallets);
+  }
+
+  public static List<Trade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {
+
+    List<Trade> trades = new ArrayList<Trade>();
+
+    for (BittrexUserTrade bittrexTrade : bittrexUserTrades) {
+      trades.add(adaptUserTrade(bittrexTrade));
+    }
+    return trades;
+  }
+
+  public static Trade adaptUserTrade(BittrexUserTrade trade) {
+
+    String[] currencies = trade.getExchange().split("-");
+    CurrencyPair currencyPair = new CurrencyPair(currencies[1], currencies[0]);
+
+    OrderType orderType = trade.getOrderType().equalsIgnoreCase("LIMIT_BUY") ? OrderType.BID : OrderType.ASK;
+    BigDecimal amount = trade.getQuantity().subtract(trade.getQuantityRemaining());
+    BigDecimal price = trade.getPrice();
+    Date date = BittrexUtils.toDate(trade.getTimeStamp());
+    String tradeId = String.valueOf(trade.getOrderUuid());
+
+    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
   }
 
 }
