@@ -79,7 +79,7 @@ public class BittrexMarketDataDemo {
     ArrayList<BittrexTicker> tickers = marketDataService.getBittrexTickers();
     System.out.println(tickers);
 
-    BittrexDepth orderBook = marketDataService.getBittrexOrderBook(pairString);
+    BittrexDepth orderBook = marketDataService.getBittrexOrderBook(pairString, 50);
     System.out.println(orderBook);
 
     BittrexTrade[] trades = marketDataService.getBittrexTrades(pairString, 100);
