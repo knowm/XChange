@@ -10,7 +10,9 @@ import com.xeiam.xchange.bittrex.v1.BittrexUtils;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexCancelOrderResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrder;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrdersResponse;
+import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexTradeHistoryResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexTradeResponse;
+import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexUserTrade;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -39,7 +41,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
         return response.getResult().getUuid();
       }
       else {
-        throw new ExchangeException(response.getMessage());
+        throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
       }
 
     }
@@ -51,7 +53,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
         return response.getResult().getUuid();
       }
       else {
-        throw new ExchangeException(response.getMessage());
+        throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
       }
 
     }
@@ -69,7 +71,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
         return response.getResult().getUuid();
       }
       else {
-        throw new ExchangeException(response.getMessage());
+        throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
       }
 
     }
@@ -81,7 +83,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
         return response.getResult().getUuid();
       }
       else {
-        throw new ExchangeException(response.getMessage());
+        throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
       }
     }
   }
@@ -94,7 +96,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
       return true;
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
 
   }
@@ -107,8 +109,20 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
       return response.getBittrexOpenOrders();
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
 
+  }
+
+  public List<BittrexUserTrade> getBittrexTradeHistory() throws IOException {
+
+    BittrexTradeHistoryResponse response = bittrex.getorderhistory(apiKey, signatureCreator, String.valueOf(nextNonce()));
+
+    if (response.getSuccess()) {
+      return response.getResult();
+    }
+    else {
+      throw new ExchangeException("Bittrex returned an error: " + "Bittrex returned an error: " + response.getMessage());
+    }
   }
 }
