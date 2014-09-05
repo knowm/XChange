@@ -46,7 +46,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return response.getCurrencies();
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
 
   }
@@ -59,7 +59,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return response.getSymbols();
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
 
   }
@@ -72,7 +72,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return response.getTicker();
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
 
   }
@@ -85,7 +85,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return response.getTickers();
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
 
   }
@@ -100,7 +100,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return bittrexDepth;
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
   }
 
@@ -118,7 +118,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return bittrexTrades;
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
   }
 }

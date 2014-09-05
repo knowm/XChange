@@ -29,7 +29,7 @@ public interface Bittrex {
 
   @GET
   @Path("public/getorderbook/")
-  BittrexDepthResponse getBook(@QueryParam("market") String market, @QueryParam("type") String type, @QueryParam("count") long count) throws IOException;
+  BittrexDepthResponse getBook(@QueryParam("market") String market, @QueryParam("type") String type, @QueryParam("depth") long depth) throws IOException;
 
   @GET
   @Path("public/getmarkethistory/")
