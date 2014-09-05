@@ -46,7 +46,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return response.getCurrencies();
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
 
   }
@@ -59,7 +59,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return response.getSymbols();
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
 
   }
@@ -72,7 +72,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return response.getTicker();
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
 
   }
@@ -85,14 +85,14 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return response.getTickers();
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
 
   }
 
-  public BittrexDepth getBittrexOrderBook(String pair) throws IOException {
+  public BittrexDepth getBittrexOrderBook(String pair, int depth) throws IOException {
 
-    BittrexDepthResponse response = bittrex.getBook(pair, "both", 50L);
+    BittrexDepthResponse response = bittrex.getBook(pair, "both", depth);
 
     if (response.getSuccess()) {
 
@@ -100,15 +100,11 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return bittrexDepth;
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
   }
 
-  public BittrexTrade[] getBittrexTrades(String pair, long count) throws IOException {
-
-    if (count > 100) {
-      count = 100;
-    }
+  public BittrexTrade[] getBittrexTrades(String pair, int count) throws IOException {
 
     BittrexTradesResponse response = bittrex.getTrades(pair, count);
 
@@ -118,7 +114,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return bittrexTrades;
     }
     else {
-      throw new ExchangeException(response.getMessage());
+      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
     }
   }
 }
