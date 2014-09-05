@@ -15,25 +15,25 @@ public class CexIOBasePollingService extends BaseExchangeService implements Base
 
   public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-  new CurrencyPair("GHS", "BTC"),
-
-  new CurrencyPair("LTC", "BTC"),
-
-  new CurrencyPair("NMC", "BTC"),
-
-  new CurrencyPair("GHS", "NMC"),
-
-  new CurrencyPair("IXC", "BTC"),
-  
   new CurrencyPair("BTC", "USD"),
-  
-  new CurrencyPair("LTC", "USD"),
-  
   new CurrencyPair("GHS", "USD"),
-  
+  new CurrencyPair("LTC", "USD"),
+  new CurrencyPair("GHS", "BTC"),
+  new CurrencyPair("LTC", "BTC"),
+  new CurrencyPair("DOGE", "BTC"),
   new CurrencyPair("DRK", "BTC"),
-  
-  new CurrencyPair("DOGE", "BTC"));
+  new CurrencyPair("NMC", "BTC"),
+  new CurrencyPair("IXC", "BTC"),
+  new CurrencyPair("POT", "BTC"),  
+  new CurrencyPair("ANC", "BTC"),  
+  new CurrencyPair("MEC", "BTC"),  
+  new CurrencyPair("WDC", "BTC"),  
+  new CurrencyPair("FTC", "BTC"),  
+  new CurrencyPair("GHS", "LTC"),  
+  new CurrencyPair("DOGE", "LTC"),  
+  new CurrencyPair("DRK", "LTC"),
+  new CurrencyPair("MEC", "LTC"),  
+  new CurrencyPair("WDC", "LTC") );  
 
   /**
    * Constructor
