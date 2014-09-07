@@ -63,7 +63,7 @@ public final class BitstampAdapters {
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrders(BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair, int timeScale) {
+  public static OrderBook adaptOrderBook(BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair, int timeScale) {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitstampOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitstampOrderBook.getBids());

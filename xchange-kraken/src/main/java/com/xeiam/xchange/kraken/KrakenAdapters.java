@@ -37,19 +37,53 @@ public class KrakenAdapters {
 
   public static OrderBook adaptOrderBook(KrakenDepth krakenDepth, CurrencyPair currencyPair) {
 
-    List<LimitOrder> bids = KrakenAdapters.adaptOrders(krakenDepth.getBids(), currencyPair, OrderType.BID);
-    List<LimitOrder> asks = KrakenAdapters.adaptOrders(krakenDepth.getAsks(), currencyPair, OrderType.ASK);
-    return new OrderBook(null, asks, bids);
+    OrdersContainer asksOrdersContainer = adaptOrders(krakenDepth.getAsks(), currencyPair, OrderType.ASK);
+    OrdersContainer bidsOrdersContainer = adaptOrders(krakenDepth.getBids(), currencyPair, OrderType.BID);
+
+    return new OrderBook(new Date(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())), asksOrdersContainer.getLimitOrders(), bidsOrdersContainer.getLimitOrders());
   }
 
-  public static List<LimitOrder> adaptOrders(List<KrakenPublicOrder> orders, CurrencyPair currencyPair, OrderType orderType) {
+  public static OrdersContainer adaptOrders(List<KrakenPublicOrder> orders, CurrencyPair currencyPair, OrderType orderType) {
 
+    long maxTimestamp = -1 * Long.MAX_VALUE;
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
+
     for (KrakenPublicOrder order : orders) {
+      if (order.getTimestamp() > maxTimestamp) {
+        maxTimestamp = order.getTimestamp();
+      }
       limitOrders.add(adaptOrder(order, orderType, currencyPair));
     }
+    return new OrdersContainer(maxTimestamp * 1000, limitOrders);
 
-    return limitOrders;
+  }
+
+  public static class OrdersContainer {
+
+    private final long timestamp;
+    private final List<LimitOrder> limitOrders;
+
+    /**
+     * Constructor
+     *
+     * @param timestamp
+     * @param limitOrders
+     */
+    public OrdersContainer(long timestamp, List<LimitOrder> limitOrders) {
+
+      this.timestamp = timestamp;
+      this.limitOrders = limitOrders;
+    }
+
+    public long getTimestamp() {
+
+      return timestamp;
+    }
+
+    public List<LimitOrder> getLimitOrders() {
+
+      return limitOrders;
+    }
   }
 
   public static LimitOrder adaptOrder(KrakenPublicOrder order, OrderType orderType, CurrencyPair currencyPair) {

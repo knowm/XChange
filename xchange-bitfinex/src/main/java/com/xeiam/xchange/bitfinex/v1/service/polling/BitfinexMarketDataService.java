@@ -18,7 +18,6 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.FixedRateLoanOrder;
 import com.xeiam.xchange.dto.trade.FloatingRateLoanOrder;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
@@ -74,12 +73,11 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
       }
     }
 
-    BitfinexDepth btceDepth = getBitfinexOrderBook(BitfinexUtils.toPairString(currencyPair), limitBids, limitAsks);
+    BitfinexDepth bitfinexDepth = getBitfinexOrderBook(BitfinexUtils.toPairString(currencyPair), limitBids, limitAsks);
 
-    List<LimitOrder> asks = BitfinexAdapters.adaptOrders(btceDepth.getAsks(), currencyPair, "ask", "");
-    List<LimitOrder> bids = BitfinexAdapters.adaptOrders(btceDepth.getBids(), currencyPair, "bid", "");
+    OrderBook orderBook = BitfinexAdapters.adaptOrderBook(bitfinexDepth, currencyPair);
 
-    return new OrderBook(null, asks, bids);
+    return orderBook;
   }
 
   public LoanOrderBook getLendOrderBook(String currency, Object... args) throws IOException {
@@ -105,12 +103,12 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
       }
     }
 
-    BitfinexLendDepth bfxDepth = getBitfinexLendBook(currency, limitBids, limitAsks);
+    BitfinexLendDepth bitfinexLendDepth = getBitfinexLendBook(currency, limitBids, limitAsks);
 
-    List<FixedRateLoanOrder> fixedRateAsks = BitfinexAdapters.adaptFixedRateLoanOrders(bfxDepth.getAsks(), currency, "ask", "");
-    List<FixedRateLoanOrder> fixedRateBids = BitfinexAdapters.adaptFixedRateLoanOrders(bfxDepth.getBids(), currency, "bid", "");
-    List<FloatingRateLoanOrder> floatingRateAsks = BitfinexAdapters.adaptFloatingRateLoanOrders(bfxDepth.getAsks(), currency, "ask", "");
-    List<FloatingRateLoanOrder> floatingRateBids = BitfinexAdapters.adaptFloatingRateLoanOrders(bfxDepth.getBids(), currency, "bid", "");
+    List<FixedRateLoanOrder> fixedRateAsks = BitfinexAdapters.adaptFixedRateLoanOrders(bitfinexLendDepth.getAsks(), currency, "ask", "");
+    List<FixedRateLoanOrder> fixedRateBids = BitfinexAdapters.adaptFixedRateLoanOrders(bitfinexLendDepth.getBids(), currency, "bid", "");
+    List<FloatingRateLoanOrder> floatingRateAsks = BitfinexAdapters.adaptFloatingRateLoanOrders(bitfinexLendDepth.getAsks(), currency, "ask", "");
+    List<FloatingRateLoanOrder> floatingRateBids = BitfinexAdapters.adaptFloatingRateLoanOrders(bitfinexLendDepth.getBids(), currency, "bid", "");
 
     return new LoanOrderBook(null, fixedRateAsks, fixedRateBids, floatingRateAsks, floatingRateBids);
   }

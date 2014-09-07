@@ -14,7 +14,7 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * Demonstrate requesting Order Book at Bitfinex
  */
-public class DepthDemo {
+public class BitfinexDepthDemo {
 
   public static void main(String[] args) throws Exception {
 

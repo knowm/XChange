@@ -176,7 +176,7 @@ public class BitstampPusherService extends BitstampBasePollingService implements
 
     BitstampStreamingOrderBook nativeBook = streamObjectMapper.readValue(rawJson, BitstampStreamingOrderBook.class);
     // BitstampOrderBook nativeBook = new BitstampOrderBook((new Date()).getTime(), json.get("bids"), json.get("asks"));
-    return BitstampAdapters.adaptOrders(nativeBook, CurrencyPair.BTC_USD, 1);
+    return BitstampAdapters.adaptOrderBook(nativeBook, CurrencyPair.BTC_USD, 1);
   }
 
   private void bindTradeData(Channel chan) {
