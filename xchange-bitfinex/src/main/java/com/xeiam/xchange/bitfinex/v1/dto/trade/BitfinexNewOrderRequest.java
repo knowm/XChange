@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public final class BitfinexNewOrderRequest {
+public class BitfinexNewOrderRequest {
 
   @JsonProperty("request")
   protected String request;
@@ -40,9 +40,8 @@ public final class BitfinexNewOrderRequest {
    * @param exchange
    * @param side
    * @param type
-   * @param is_hidden
    */
-  public BitfinexNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type, boolean is_hidden) {
+  public BitfinexNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type) {
 
     this.request = "/v1/order/new";
     this.nonce = nonce;
@@ -98,4 +97,5 @@ public final class BitfinexNewOrderRequest {
 
     return price.toPlainString();
   }
+
 }
