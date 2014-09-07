@@ -12,6 +12,7 @@ import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCreditResponse;
+import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewHiddenOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOfferRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
@@ -62,21 +63,26 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
 
     BitfinexOrderStatusResponse newOrder =
         bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, marketOrder.getTradableAmount(), BigDecimal.ONE, "bitfinex", type,
-            orderType, false));
+            orderType));
 
     return newOrder;
   }
 
-  public BitfinexOrderStatusResponse placeBitfinexLimitOrder(LimitOrder limitOrder, BitfinexOrderType bitfinexOrderType) throws IOException {
+  public BitfinexOrderStatusResponse placeBitfinexLimitOrder(LimitOrder limitOrder, BitfinexOrderType bitfinexOrderType, boolean hidden) throws IOException {
 
     String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
     String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
     String orderType = bitfinexOrderType.toString();
 
-    BitfinexOrderStatusResponse newOrder =
-        bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, limitOrder.getTradableAmount(), limitOrder.getLimitPrice(),
-            "bitfinex", type, orderType, false));
+    BitfinexNewOrderRequest request;
+    if (hidden) {
+      request = new BitfinexNewHiddenOrderRequest(String.valueOf(nextNonce()), pair, limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), "bitfinex", type, orderType);
+    }
+    else {
+      request = new BitfinexNewOrderRequest(String.valueOf(nextNonce()), pair, limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), "bitfinex", type, orderType);
+    }
 
+    BitfinexOrderStatusResponse newOrder = bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, request);
     return newOrder;
   }
 
@@ -84,8 +90,9 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
 
     String direction = loanOrder.getType() == OrderType.BID ? "loan" : "lend";
 
-    BitfinexOfferStatusResponse newOrderResponse = bitfinex.newOffer(apiKey, payloadCreator, signatureCreator, 
-        new BitfinexNewOfferRequest(String.valueOf(nextNonce()), loanOrder.getCurrency(), loanOrder.getTradableAmount(), loanOrder.getRate(), loanOrder.getDayPeriod(), direction));
+    BitfinexOfferStatusResponse newOrderResponse =
+        bitfinex.newOffer(apiKey, payloadCreator, signatureCreator, new BitfinexNewOfferRequest(String.valueOf(nextNonce()), loanOrder.getCurrency(), loanOrder.getTradableAmount(), loanOrder
+            .getRate(), loanOrder.getDayPeriod(), direction));
 
     return newOrderResponse;
   }
@@ -94,8 +101,9 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
 
     String direction = loanOrder.getType() == OrderType.BID ? "loan" : "lend";
 
-    BitfinexOfferStatusResponse newOrderResponse = bitfinex.newOffer(apiKey, payloadCreator, signatureCreator, 
-        new BitfinexNewOfferRequest(String.valueOf(nextNonce()), loanOrder.getCurrency(), loanOrder.getTradableAmount(), new BigDecimal("0.0"), loanOrder.getDayPeriod(), direction));
+    BitfinexOfferStatusResponse newOrderResponse =
+        bitfinex.newOffer(apiKey, payloadCreator, signatureCreator, new BitfinexNewOfferRequest(String.valueOf(nextNonce()), loanOrder.getCurrency(), loanOrder.getTradableAmount(), new BigDecimal(
+            "0.0"), loanOrder.getDayPeriod(), direction));
 
     return newOrderResponse;
   }
