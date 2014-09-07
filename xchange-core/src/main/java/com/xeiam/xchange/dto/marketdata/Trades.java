@@ -11,6 +11,8 @@ import java.util.List;
  * </p>
  */
 public final class Trades {
+  private static final TradeIDComparator TRADE_ID_COMPARATOR = new TradeIDComparator();
+  private static final TradeTimestampComparator TRADE_TIMESTAMP_COMPARATOR = new TradeTimestampComparator();
 
   private final List<Trade> trades;
   private final long lastID;
@@ -41,10 +43,10 @@ public final class Trades {
 
     switch (tradeSortType) {
     case SortByTimestamp:
-      Collections.sort(this.trades, new TradeTimestampComparator());
+      Collections.sort(this.trades, TRADE_TIMESTAMP_COMPARATOR);
       break;
     case SortByID:
-      Collections.sort(this.trades, new TradeIDComparator());
+      Collections.sort(this.trades, TRADE_ID_COMPARATOR);
       break;
 
     default:
@@ -89,7 +91,7 @@ public final class Trades {
     SortByTimestamp, SortByID
   }
 
-  public class TradeTimestampComparator implements Comparator<Trade> {
+  public static class TradeTimestampComparator implements Comparator<Trade> {
 
     @Override
     public int compare(Trade trade1, Trade trade2) {
@@ -98,7 +100,7 @@ public final class Trades {
     }
   }
 
-  public class TradeIDComparator implements Comparator<Trade> {
+  public static class TradeIDComparator implements Comparator<Trade> {
 
     @Override
     public int compare(Trade trade1, Trade trade2) {
