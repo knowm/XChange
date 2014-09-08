@@ -27,7 +27,23 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
     if (currencyPairString == null || currencyPairString.isEmpty())
       return null;
 
-    currencyPairString = currencyPairString.toUpperCase();
+    /*
+     * Preserve case if exchange is sending mixed-case, otherwise toUpperCase()
+     */
+    final boolean isMixedCase = currencyPairString.matches(".*[a-z]+.*") && currencyPairString.matches(".*[A-Z]+.*");
+    if (!isMixedCase) currencyPairString = currencyPairString.toUpperCase();
+
+    /*
+     * Assume all symbols are alphanumeric; anything else is a separator
+     */
+    final String symbols[] = currencyPairString.split("[^a-zA-Z0-9]");
+    if (symbols.length == 2)
+      return new CurrencyPair(symbols[0], symbols[1]);
+
+    /*
+     * Last-ditch effort to obtain the correct CurrencyPair (eg: "BTCUSD")
+     * XXX: What about a "DOGEBTC" or "BCBTC" string??
+     */
     final String tradeCurrency = currencyPairString.substring(0, 3);
     final String priceCurrency = currencyPairString.substring(currencyPairString.length() - 3);
     return new CurrencyPair(tradeCurrency, priceCurrency);

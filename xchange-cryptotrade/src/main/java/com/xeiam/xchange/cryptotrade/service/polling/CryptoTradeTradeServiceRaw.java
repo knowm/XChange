@@ -5,10 +5,12 @@ import java.io.IOException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
 import com.xeiam.xchange.cryptotrade.CryptoTradeUtils;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradeException;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTransactions;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeCancelOrderReturn;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeHistoryQueryParams;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrderInfoReturn;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradePlaceOrderReturn;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades;
@@ -27,7 +29,7 @@ public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService<Cr
     super(CryptoTradeAuthenticated.class, exchangeSpecification);
   }
 
-  public CryptoTradePlaceOrderReturn placeCryptoTradeLimitOrder(LimitOrder limitOrder) throws IOException {
+  public CryptoTradePlaceOrderReturn placeCryptoTradeLimitOrder(LimitOrder limitOrder) throws CryptoTradeException, IOException {
 
     String pair = CryptoTradeUtils.getCryptoTradeCurrencyPair(limitOrder.getCurrencyPair());
     CryptoTradeOrderType type = limitOrder.getType() == Order.OrderType.BID ? CryptoTradeOrderType.Buy : CryptoTradeOrderType.Sell;
@@ -36,7 +38,7 @@ public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService<Cr
     return handleResponse(cryptoTradePlaceOrderReturn);
   }
 
-  public CryptoTradeCancelOrderReturn cancelCryptoTradeOrder(long orderId) {
+  public CryptoTradeCancelOrderReturn cancelCryptoTradeOrder(long orderId) throws CryptoTradeException, IOException {
 
     CryptoTradeCancelOrderReturn cryptoTradeCancelOrderReturn = cryptoTradeProxy.cancelOrder(orderId, apiKey, signatureCreator, nextNonce());
 
@@ -45,12 +47,12 @@ public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService<Cr
 
   private static final CryptoTradeHistoryQueryParams NO_QUERY_PARAMS = CryptoTradeHistoryQueryParams.getQueryParamsBuilder().build();
 
-  public CryptoTradeTrades getCryptoTradeTradeHistory() {
+  public CryptoTradeTrades getCryptoTradeTradeHistory() throws CryptoTradeException, IOException {
 
     return getCryptoTradeTradeHistory(NO_QUERY_PARAMS);
   }
 
-  public CryptoTradeTrades getCryptoTradeTradeHistory(CryptoTradeHistoryQueryParams queryParams) {
+  public CryptoTradeTrades getCryptoTradeTradeHistory(CryptoTradeHistoryQueryParams queryParams) throws CryptoTradeException, IOException {
 
     CryptoTradeTrades trades =
         cryptoTradeProxy.getTradeHistory(queryParams.getStartId(), queryParams.getEndId(), queryParams.getStartDate(), queryParams.getEndDate(), queryParams.getCount(), queryParams.getOrdering(),
@@ -59,12 +61,20 @@ public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService<Cr
     return handleResponse(trades);
   }
 
-  public CryptoTradeOrders getCryptoTradeOrderHistory() {
+  public CryptoTradeOrderInfoReturn getCryptoTradeOrderInfo(long orderId) throws CryptoTradeException, IOException {
+
+    CryptoTradeOrderInfoReturn orderInfo =
+        cryptoTradeProxy.getOrderInfo(orderId, apiKey, signatureCreator, nextNonce());
+
+    return handleResponse(orderInfo);
+  }
+
+  public CryptoTradeOrders getCryptoTradeOrderHistory() throws CryptoTradeException, IOException {
 
     return getCryptoTradeOrderHistory(NO_QUERY_PARAMS);
   }
 
-  public CryptoTradeOrders getCryptoTradeOrderHistory(CryptoTradeHistoryQueryParams queryParams) {
+  public CryptoTradeOrders getCryptoTradeOrderHistory(CryptoTradeHistoryQueryParams queryParams) throws CryptoTradeException, IOException {
 
     CryptoTradeOrders orders =
         cryptoTradeProxy.getOrderHistory(queryParams.getStartId(), queryParams.getEndId(), queryParams.getStartDate(), queryParams.getEndDate(), queryParams.getCount(), queryParams.getOrdering(),
@@ -73,12 +83,12 @@ public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService<Cr
     return handleResponse(orders);
   }
 
-  public CryptoTradeTransactions getCryptoTradeTransactionHistory() {
+  public CryptoTradeTransactions getCryptoTradeTransactionHistory() throws CryptoTradeException, IOException {
 
     return getCryptoTradeTransactionHistory(NO_QUERY_PARAMS);
   }
 
-  public CryptoTradeTransactions getCryptoTradeTransactionHistory(CryptoTradeHistoryQueryParams queryParams) {
+  public CryptoTradeTransactions getCryptoTradeTransactionHistory(CryptoTradeHistoryQueryParams queryParams) throws CryptoTradeException, IOException {
 
     CryptoTradeTransactions transactions =
         cryptoTradeProxy.getTransactionHistory(queryParams.getStartId(), queryParams.getEndId(), queryParams.getStartDate(), queryParams.getEndDate(), queryParams.getCount(), queryParams

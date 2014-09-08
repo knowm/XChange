@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicTrades;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTickers;
 
 @Path("api/1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -21,6 +22,10 @@ public interface CryptoTrade {
   @GET
   @Path("ticker/{ident}_{currency}")
   CryptoTradeTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency);
+
+  @GET
+  @Path("tickers")
+  CryptoTradeTickers getTickers();
 
   @GET
   @Path("tradeshistory/{ident}_{currency}")

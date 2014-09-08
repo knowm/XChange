@@ -2,6 +2,7 @@ package com.xeiam.xchange.examples.cryptotrade.marketdata;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -9,6 +10,7 @@ import com.xeiam.xchange.cryptotrade.CryptoTradeExchange;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
+import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTickers;
 import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -49,6 +51,9 @@ public class CryptoTradeMarketDataDemo {
 
     CryptoTradeTicker ticker = marketDataService.getCryptoTradeTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);
+
+    Map<CurrencyPair, CryptoTradeTicker> tickers = marketDataService.getCryptoTradeTickers();
+    System.out.println(tickers);
 
     CryptoTradeDepth marketDepth = marketDataService.getCryptoTradeOrderBook(CurrencyPair.BTC_USD);
     System.out.println(marketDepth);

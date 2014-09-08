@@ -7,6 +7,8 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeTransactions;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeCancelOrderReturn;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeHistoryQueryParams;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrder;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrderInfoReturn;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradePlaceOrderReturn;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades;
@@ -93,6 +95,13 @@ public class CryptoTradeTradeDemo {
 
     orders = tradeService.getCryptoTradeOrderHistory(params);
     System.out.println(orders);
+
+    Thread.sleep(4000);
+
+    long orderId = Long.valueOf(limitOrder.getId());
+    CryptoTradeOrderInfoReturn orderInfo = tradeService.getCryptoTradeOrderInfo(orderId);
+    CryptoTradeOrder cryptoOrder = orderInfo.getOrder();
+    System.out.println(cryptoOrder);
 
     Thread.sleep(4000);
 
