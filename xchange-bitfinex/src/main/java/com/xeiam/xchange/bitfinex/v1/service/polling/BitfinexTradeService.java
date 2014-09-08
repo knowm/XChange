@@ -60,9 +60,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    BitfinexOrderStatusResponse cancelResponse = cancelBitfinexOrder(orderId);
-
-    return cancelResponse.isCancelled();
+    return cancelBitfinexOrder(orderId);
   }
 
   @Override
