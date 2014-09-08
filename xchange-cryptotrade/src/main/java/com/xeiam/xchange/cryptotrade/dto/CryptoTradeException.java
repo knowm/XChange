@@ -13,6 +13,9 @@ public class CryptoTradeException extends RuntimeException {
   @JsonProperty("message")
   private String message;
 
+  @JsonProperty("error")
+  private String error;
+
   /**
    * Constructor
    */
@@ -22,6 +25,7 @@ public class CryptoTradeException extends RuntimeException {
 
   public String getMessage() {
 
+    if (error != null) return error;
     return message;
   }
 
@@ -30,9 +34,14 @@ public class CryptoTradeException extends RuntimeException {
     return status;
   }
 
+  public String getError() {
+
+    return error;
+  }
+
   @Override
   public String toString() {
 
-    return String.format("CryptoTradeException [status='%s', message='%s']", status, message);
+    return String.format("CryptoTradeException [status='%s', message='%s', error='%s']", status, message, error);
   }
 }
