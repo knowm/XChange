@@ -3,8 +3,10 @@ package com.xeiam.xchange.bitfinex.v1.service.polling;
 import java.io.IOException;
 import java.util.Collection;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.Bitfinex;
+import com.xeiam.xchange.bitfinex.v1.dto.BitfinexException;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLend;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
@@ -33,47 +35,66 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService<Bit
 
   public BitfinexTicker getBitfinexTicker(String pair) throws IOException {
 
-    BitfinexTicker bitfinexTicker = bitfinex.getTicker(pair);
-
-    return bitfinexTicker;
+    try {
+      BitfinexTicker bitfinexTicker = bitfinex.getTicker(pair);
+      return bitfinexTicker;
+    } catch (BitfinexException e) {
+      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+    }
   }
 
   public BitfinexDepth getBitfinexOrderBook(String pair, Integer limitBids, Integer limitAsks) throws IOException {
 
-    BitfinexDepth bitfinexDepth;
-    if (limitBids == null && limitAsks == null) {
-      bitfinexDepth = bitfinex.getBook(pair);
+    try {
+      BitfinexDepth bitfinexDepth;
+      if (limitBids == null && limitAsks == null) {
+        bitfinexDepth = bitfinex.getBook(pair);
+      }
+      else {
+        bitfinexDepth = bitfinex.getBook(pair, limitBids, limitAsks);
+      }
+      return bitfinexDepth;
+    } catch (BitfinexException e) {
+      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
     }
-    else {
-      bitfinexDepth = bitfinex.getBook(pair, limitBids, limitAsks);
-    }
-
-    return bitfinexDepth;
   }
 
   public BitfinexLendDepth getBitfinexLendBook(String currency, int limitBids, int limitAsks) throws IOException {
 
-    BitfinexLendDepth bitfinexLendDepth = bitfinex.getLendBook(currency, limitBids, limitAsks);
-
-    return bitfinexLendDepth;
+    try {
+      BitfinexLendDepth bitfinexLendDepth = bitfinex.getLendBook(currency, limitBids, limitAsks);
+      return bitfinexLendDepth;
+    } catch (BitfinexException e) {
+      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+    }
   }
 
   public BitfinexTrade[] getBitfinexTrades(String pair, long sinceTimestamp) throws IOException {
 
-    BitfinexTrade[] bitfinexTrades = bitfinex.getTrades(pair, sinceTimestamp);
-
-    return bitfinexTrades;
+    try {
+      BitfinexTrade[] bitfinexTrades = bitfinex.getTrades(pair, sinceTimestamp);
+      return bitfinexTrades;
+    } catch (BitfinexException e) {
+      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+    }
   }
 
   public BitfinexLend[] getBitfinexLends(String currency, long sinceTimestamp, int limitTrades) throws IOException {
 
-    BitfinexLend[] bitfinexLends = bitfinex.getLends(currency, sinceTimestamp, limitTrades);
-
-    return bitfinexLends;
+    try {
+      BitfinexLend[] bitfinexLends = bitfinex.getLends(currency, sinceTimestamp, limitTrades);
+      return bitfinexLends;
+    } catch (BitfinexException e) {
+      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+    }
   }
 
   public Collection<String> getBitfinexSymbols() throws IOException {
 
-    return bitfinex.getSymbols();
+    try {
+      return bitfinex.getSymbols();
+    } catch (BitfinexException e) {
+      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+    }
   }
 }

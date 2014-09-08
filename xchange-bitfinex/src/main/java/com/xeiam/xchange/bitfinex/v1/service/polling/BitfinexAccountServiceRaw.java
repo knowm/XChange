@@ -2,8 +2,10 @@ package com.xeiam.xchange.bitfinex.v1.service.polling;
 
 import java.io.IOException;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAuthenticated;
+import com.xeiam.xchange.bitfinex.v1.dto.BitfinexException;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
@@ -23,16 +25,22 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService<Bitfin
 
   public BitfinexBalancesResponse[] getBitfinexAccountInfo() throws IOException {
 
-    BitfinexBalancesResponse[] balances = bitfinex.balances(apiKey, payloadCreator, signatureCreator, new BitfinexBalancesRequest(String.valueOf(nextNonce())));
-
-    return balances;
+    try {
+      BitfinexBalancesResponse[] balances = bitfinex.balances(apiKey, payloadCreator, signatureCreator, new BitfinexBalancesRequest(String.valueOf(nextNonce())));
+      return balances;
+    } catch (BitfinexException e) {
+      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+    }
   }
-  
+
   public BitfinexMarginInfosResponse[] getBitfinexMarginInfos() throws IOException {
-    
-    BitfinexMarginInfosResponse[] marginInfos = bitfinex.marginInfos(apiKey, payloadCreator, signatureCreator, new BitfinexMarginInfosRequest(String.valueOf(nextNonce())));
-    
-    return marginInfos;
+
+    try {
+      BitfinexMarginInfosResponse[] marginInfos = bitfinex.marginInfos(apiKey, payloadCreator, signatureCreator, new BitfinexMarginInfosRequest(String.valueOf(nextNonce())));
+      return marginInfos;
+    } catch (BitfinexException e) {
+      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+    }
   }
 
 }
