@@ -65,7 +65,7 @@ public class BitcoiniumTickerHistoryDemo {
     Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(600).title("Bitstamp Price vs. Date").xAxisTitle("Date").yAxisTitle("Price").build();
     chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
 
-    Series series = chart.addSeries("MtGox USD/BTC", xAxisData, yAxisData);
+    Series series = chart.addSeries("Bitcoinium USD/BTC", xAxisData, yAxisData);
     series.setMarker(SeriesMarker.NONE);
 
     new SwingWrapper(chart).displayChart();
