@@ -1,9 +1,9 @@
 {
     "status": "success",
     "data": {
-        "Bought": 0,
-        "remaining": "1",
-        "order_id": "13",
+        "Sold": 0,
+        "remaining": "3",
+        "order_id": "19",
         "funds": {
             "usd": "1535.78614365",
             "eur": "0",

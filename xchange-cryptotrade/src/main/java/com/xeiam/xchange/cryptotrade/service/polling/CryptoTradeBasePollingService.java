@@ -60,9 +60,19 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
     CURRENCY_PAIRS.add(new CurrencyPair("BC", "BTC"));
     CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.BTC_EUR);
+    CURRENCY_PAIRS.add(new CurrencyPair("BTCD", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("BTCD", "USD"));
+    CURRENCY_PAIRS.add(new CurrencyPair("BTSX", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("BTSX", "USD"));
+    CURRENCY_PAIRS.add(new CurrencyPair("CARBON", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("CARBON", "USD"));
+    CURRENCY_PAIRS.add(new CurrencyPair("CGB", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("CGB", "USD"));
     CURRENCY_PAIRS.add(new CurrencyPair("CINNI", "USD"));
     CURRENCY_PAIRS.add(new CurrencyPair("CINNI", "BTC"));
     CURRENCY_PAIRS.add(CurrencyPair.DGC_BTC);
+    CURRENCY_PAIRS.add(new CurrencyPair("DOGE", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("DOGE", "USD"));
     CURRENCY_PAIRS.add(new CurrencyPair("DRK", "BTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("DRK", "USD"));
     CURRENCY_PAIRS.add(CurrencyPair.DVC_BTC);
@@ -73,13 +83,25 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
     CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.NMC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.NMC_USD);
+    CURRENCY_PAIRS.add(new CurrencyPair("NXT", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("NXT", "USD"));
+    CURRENCY_PAIRS.add(new CurrencyPair("ORB", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("ORB", "USD"));
     CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.PPC_USD);
+    CURRENCY_PAIRS.add(new CurrencyPair("PXI", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("PXI", "USD"));
+    CURRENCY_PAIRS.add(new CurrencyPair("RBT", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("RBT", "USD"));
+    CURRENCY_PAIRS.add(new CurrencyPair("STR", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("STR", "USD"));
     CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_EUR);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.UTC_LTC);
+    CURRENCY_PAIRS.add(new CurrencyPair("VIA", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("VIA", "USD"));
     CURRENCY_PAIRS.add(CurrencyPair.WDC_USD);
     CURRENCY_PAIRS.add(CurrencyPair.WDC_BTC);
     CURRENCY_PAIRS.add(CurrencyPair.XPM_BTC);
@@ -88,6 +110,7 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
 
     // Securities
     CURRENCY_PAIRS.add(new CurrencyPair("AMC", "BTC"));
+    CURRENCY_PAIRS.add(new CurrencyPair("BMI", "BTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("CRM", "BTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("CTB", "BTC"));
     CURRENCY_PAIRS.add(new CurrencyPair("CTL", "LTC"));
