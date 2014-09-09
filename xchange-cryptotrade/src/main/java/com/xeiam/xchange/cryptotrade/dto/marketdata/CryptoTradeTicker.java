@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeBaseResponse;
-import com.xeiam.xchange.cryptotrade.dto.CryptoTradeTickersDeserializer;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradeTickerDeserializer;
 
-@JsonDeserialize(using = CryptoTradeTickersDeserializer.class)
+@JsonDeserialize(using = CryptoTradeTickerDeserializer.class)
 public class CryptoTradeTicker extends CryptoTradeBaseResponse {
 
   private final BigDecimal last;
