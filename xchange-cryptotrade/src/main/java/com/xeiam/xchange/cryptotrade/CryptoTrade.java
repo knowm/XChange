@@ -9,6 +9,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeException;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradePair;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradePairs;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicTrades;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
@@ -21,6 +23,14 @@ public interface CryptoTrade {
   @GET
   @Path("depth/{ident}_{currency}")
   CryptoTradeDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws CryptoTradeException, IOException;
+
+  @GET
+  @Path("getpair/{ident}_{currency}")
+  CryptoTradePair getPair(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws CryptoTradeException, IOException;
+
+  @GET
+  @Path("getpairs")
+  CryptoTradePairs getPairs() throws CryptoTradeException, IOException;
 
   @GET
   @Path("ticker/{ident}_{currency}")

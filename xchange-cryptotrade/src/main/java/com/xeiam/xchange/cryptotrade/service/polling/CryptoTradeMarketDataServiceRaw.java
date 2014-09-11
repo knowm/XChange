@@ -7,6 +7,8 @@ import java.util.Map;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTrade;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeException;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradePair;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradePairs;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicTrades;
@@ -69,4 +71,17 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
     return handleResponse(cryptoTradeDepth).getPublicTrades();
   }
 
+  public CryptoTradePair getCryptoTradePairInfo(CurrencyPair currencyPair) throws CryptoTradeException, IOException {
+
+    CryptoTradePair cryptoTradePair = cryptoTradeProxy.getPair(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
+
+    return handleResponse(cryptoTradePair);
+  }
+
+  public  Map<CurrencyPair, CryptoTradePair> getCryptoTradePairs() throws CryptoTradeException, IOException {
+
+    CryptoTradePairs cryptoPairs = cryptoTradeProxy.getPairs();
+
+    return handleResponse(cryptoPairs).getPairs();
+  }
 }
