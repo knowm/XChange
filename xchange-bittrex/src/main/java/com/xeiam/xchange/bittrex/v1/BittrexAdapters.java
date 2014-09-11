@@ -154,7 +154,7 @@ public final class BittrexAdapters {
 
     OrderType orderType = trade.getOrderType().equalsIgnoreCase("LIMIT_BUY") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getQuantity().subtract(trade.getQuantityRemaining());
-    BigDecimal price = trade.getPrice();
+    BigDecimal price = trade.getLimit();
     Date date = BittrexUtils.toDate(trade.getTimeStamp());
     String tradeId = String.valueOf(trade.getOrderUuid());
 
