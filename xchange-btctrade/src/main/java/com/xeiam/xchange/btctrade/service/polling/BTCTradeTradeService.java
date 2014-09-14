@@ -35,7 +35,7 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
   @Override
   public OpenOrders getOpenOrders() {
 
-    return BTCTradeAdapters.adaptOpenOrders(getBTCTradeOrders(0, "open"), CurrencyPair.BTC_CNY);
+    return BTCTradeAdapters.adaptOpenOrders(getBTCTradeOrders(0, "open"));
   }
 
   /**

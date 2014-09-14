@@ -9,6 +9,7 @@ public class BTCTradeOrder {
   private final String id;
   private final String datetime;
   private final String type;
+  private final String coin;
   private final BigDecimal price;
   private final BigDecimal amountOriginal;
   private final BigDecimal amountOutstanding;
@@ -16,13 +17,14 @@ public class BTCTradeOrder {
   private final String status;
   private final BTCTradeTrade[] trades;
 
-  public BTCTradeOrder(@JsonProperty("id") String id, @JsonProperty("datetime") String datetime, @JsonProperty("type") String type, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amount_original") BigDecimal amountOriginal, @JsonProperty("amount_outstanding") BigDecimal amountOutstanding, @JsonProperty("status") String status,
-      @JsonProperty("trades") BTCTradeTrade[] trades) {
+  public BTCTradeOrder(@JsonProperty("id") String id, @JsonProperty("datetime") String datetime, @JsonProperty("type") String type, @JsonProperty("coin") String coin,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("amount_original") BigDecimal amountOriginal, @JsonProperty("amount_outstanding") BigDecimal amountOutstanding,
+      @JsonProperty("status") String status, @JsonProperty("trades") BTCTradeTrade[] trades) {
 
     this.id = id;
     this.datetime = datetime;
     this.type = type;
+    this.coin = coin;
     this.price = price;
     this.amountOriginal = amountOriginal;
     this.amountOutstanding = amountOutstanding;
@@ -44,6 +46,11 @@ public class BTCTradeOrder {
   public String getType() {
 
     return type;
+  }
+
+  public String getCoin() {
+
+    return coin;
   }
 
   public BigDecimal getPrice() {

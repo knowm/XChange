@@ -18,6 +18,7 @@ import com.xeiam.xchange.btctrade.dto.account.BTCTradeWallet;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeDepth;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTicker;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTrade;
+import com.xeiam.xchange.btctrade.dto.trade.BTCTradeOrder;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -26,6 +27,8 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 
 public class BTCTradeAdaptersTest {
 
@@ -144,6 +147,34 @@ public class BTCTradeAdaptersTest {
 
     String depositAddress = BTCTradeAdapters.adaptDepositAddress(wallet);
     assertEquals("MASKED ADDRESS", depositAddress);
+  }
+
+  @Test
+  public void testAdaptOpenOrders() throws IOException {
+
+    BTCTradeOrder[] btcTradeOrders = mapper.readValue(getClass().getResource("dto/trade/orders-open.json"), BTCTradeOrder[].class);
+
+    OpenOrders openOrders = BTCTradeAdapters.adaptOpenOrders(btcTradeOrders);
+    List<LimitOrder> openOrderList = openOrders.getOpenOrders();
+    assertEquals(2, openOrderList.size());
+
+    LimitOrder order = openOrderList.get(0);
+    assertEquals(CurrencyPair.LTC_CNY, order.getCurrencyPair());
+    assertEquals("16636810", order.getId());
+    assertEquals(new BigDecimal("1.01"), order.getLimitPrice());
+    // 2014-09-14 12:48:53 Asia/Shanghai
+    assertEquals(1410670133000L, order.getTimestamp().getTime());
+    assertEquals(new BigDecimal("0.1"), order.getTradableAmount());
+    assertEquals(OrderType.BID, order.getType());
+
+    order = openOrderList.get(1);
+    assertEquals(CurrencyPair.BTC_CNY, order.getCurrencyPair());
+    assertEquals("16634460", order.getId());
+    assertEquals(new BigDecimal("10.01"), order.getLimitPrice());
+    // 2014-09-14 12:31:46 Asia/Shanghai
+    assertEquals(1410669106000L, order.getTimestamp().getTime());
+    assertEquals(new BigDecimal("0.01"), order.getTradableAmount());
+    assertEquals(OrderType.BID, order.getType());
   }
 
 }
