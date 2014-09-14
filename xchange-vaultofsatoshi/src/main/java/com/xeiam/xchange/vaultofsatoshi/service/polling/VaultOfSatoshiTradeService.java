@@ -41,7 +41,7 @@ public class VaultOfSatoshiTradeService extends VaultOfSatoshiTradeServiceRaw im
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (VosTradeOrder vosOrder : openOrders) {
-      OrderType orderType = vosOrder.getType() == "bid" ? OrderType.BID : OrderType.ASK;
+      OrderType orderType = vosOrder.getType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
       String id = Integer.toString(vosOrder.getOrder_id());
       BigDecimal price = vosOrder.getPrice().getValue();
       CurrencyPair currPair = new CurrencyPair(vosOrder.getOrder_currency(),vosOrder.getPayment_currency());
