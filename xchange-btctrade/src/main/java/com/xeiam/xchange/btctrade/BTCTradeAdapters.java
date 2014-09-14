@@ -193,12 +193,20 @@ public final class BTCTradeAdapters {
     return limitOrder;
   }
 
-  public static Trades adaptTrades(BTCTradeOrder[] btcTradeOrders, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(BTCTradeOrder[] btcTradeOrders, BTCTradeOrder[] btcTradeOrderDetails) {
 
     List<Trade> trades = new ArrayList<Trade>();
-    for (BTCTradeOrder order : btcTradeOrders) {
-      for (com.xeiam.xchange.btctrade.dto.trade.BTCTradeTrade trade : order.getTrades()) {
-        trades.add(adaptTrade(order, trade, currencyPair));
+    for (int i = 0; i < btcTradeOrders.length; i++) {
+      BTCTradeOrder order = btcTradeOrders[i];
+
+      CurrencyPair currencyPair = adaptCurrencyPair(order.getCoin());
+
+      if (currencyPair != null) {
+        BTCTradeOrder orderDetail = btcTradeOrderDetails[i];
+
+        for (com.xeiam.xchange.btctrade.dto.trade.BTCTradeTrade trade : orderDetail.getTrades()) {
+          trades.add(adaptTrade(order, trade, currencyPair));
+        }
       }
     }
     return new Trades(trades, TradeSortType.SortByTimestamp);
