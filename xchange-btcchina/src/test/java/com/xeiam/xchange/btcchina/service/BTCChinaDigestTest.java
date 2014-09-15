@@ -12,15 +12,15 @@ public class BTCChinaDigestTest {
   @Test
   public void testStripParams() {
 
-    String params = "\"BTC\",true";
+    String params = "[\"BTC\",true]";
     String stripped = (String) PA.invokeMethod(digest, "stripParams(java.lang.String)", params);
     assertEquals("BTC,1", stripped);
 
-    params = "\"BTC\",false";
+    params = "[\"BTC\",false]";
     stripped = (String) PA.invokeMethod(digest, "stripParams(java.lang.String)", params);
     assertEquals("BTC,", stripped);
 
-    params = "\"BTC\",false,1";
+    params = "[\"BTC\",false,1]";
     stripped = (String) PA.invokeMethod(digest, "stripParams(java.lang.String)", params);
     assertEquals("BTC,,1", stripped);
   }
