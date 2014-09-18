@@ -44,7 +44,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    BitfinexOrderStatusResponse newOrder = placeBitfinexMarketOrder(marketOrder);
+    BitfinexOrderStatusResponse newOrder = placeBitfinexMarketOrder(marketOrder, BitfinexOrderType.MARKET);
 
     return String.valueOf(newOrder.getId());
   }
