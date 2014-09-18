@@ -63,11 +63,11 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
     }
   }
 
-  public BitfinexOrderStatusResponse placeBitfinexMarketOrder(MarketOrder marketOrder) throws IOException {
+  public BitfinexOrderStatusResponse placeBitfinexMarketOrder(MarketOrder marketOrder, BitfinexOrderType bitfinexOrderType) throws IOException {
 
     String pair = BitfinexUtils.toPairString(marketOrder.getCurrencyPair());
     String type = marketOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
-    String orderType = BitfinexOrderType.MARKET.getValue();
+    String orderType = bitfinexOrderType.toString();
 
     try {
       BitfinexOrderStatusResponse newOrder =
