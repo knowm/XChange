@@ -25,4 +25,12 @@ public class BTCChinaDigestTest {
     assertEquals("BTC,,1", stripped);
   }
 
+  @Test
+  public void testStripParamsForMarketOrder() {
+
+    String params = "[null,0.2,\"ltccny\"]";
+    String stripped = (String) PA.invokeMethod(digest, "stripParams(java.lang.String)", params);
+    assertEquals(",0.2,ltccny", stripped);
+  }
+
 }
