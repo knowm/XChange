@@ -99,6 +99,9 @@ public class BTCChinaDigest extends BaseParamsDigest {
         // boolean: false
         stripped[i] = StringUtils.EMPTY;
       }
+      else if (param.equals("null")) {
+        stripped[i] = StringUtils.EMPTY;
+      }
       else {
         // number, etc.
         stripped[i] = param;
