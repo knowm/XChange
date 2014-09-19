@@ -41,7 +41,7 @@ public class PoloniexAdapters {
     BigDecimal ask = marketData.getLowestAsk();
     BigDecimal high = null;
     BigDecimal low = null;
-    BigDecimal volume = marketData.getBaseVolume();
+    BigDecimal volume = marketData.getQuoteVolume();
 
     Date timestamp = new Date();
 

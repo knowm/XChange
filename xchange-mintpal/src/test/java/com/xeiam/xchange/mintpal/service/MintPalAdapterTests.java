@@ -49,7 +49,7 @@ public class MintPalAdapterTests {
     assertThat(adaptedTicker.getLast()).isEqualTo("0.20000000");
     assertThat(adaptedTicker.getHigh()).isEqualTo("0.26500000");
     assertThat(adaptedTicker.getLow()).isEqualTo("0.20000000");
-    assertThat(adaptedTicker.getVolume()).isEqualTo("0.453");
+    assertThat(adaptedTicker.getVolume()).isEqualTo("2.265");
     assertThat(adaptedTicker.getBid()).isEqualTo("0.20000000");
     assertThat(adaptedTicker.getAsk()).isEqualTo("0.22900000");
   }

@@ -1,5 +1,8 @@
 package com.xeiam.xchange.mintpal;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -39,9 +42,12 @@ public class MintPalAdapters {
   }
 
   public static Ticker adaptTicker(final MintPalTicker mintPalTicker) {
+    
+    MathContext mc = new MathContext(8, RoundingMode.HALF_UP);
+    BigDecimal baseVolume = mintPalTicker.getVolume24Hour().divide(mintPalTicker.getLastPrice(), mc);
 
     return TickerBuilder.newInstance().withCurrencyPair(adaptCurrencyPair(mintPalTicker)).withAsk(mintPalTicker.getTopAsk()).withBid(mintPalTicker.getTopBid()).withHigh(mintPalTicker.getHigh24Hour())
-        .withLow(mintPalTicker.getLow24Hour()).withVolume(mintPalTicker.getVolume24Hour()).withLast(mintPalTicker.getLastPrice()).build();
+        .withLow(mintPalTicker.getLow24Hour()).withVolume(baseVolume).withLast(mintPalTicker.getLastPrice()).build();
   }
 
   public static OrderBook adaptOrderBook(final CurrencyPair currencyPair, final List<MintPalPublicOrders> mintPalOrderBook) {
