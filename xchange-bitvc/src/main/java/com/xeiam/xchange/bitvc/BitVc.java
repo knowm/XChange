@@ -27,86 +27,47 @@ public interface BitVc {
 
   @GET
   @Path("ticker_{symbol}_json.js")
-  public BitVcTicker getTicker(@PathParam("symbol") String symbol)
-      throws IOException;
+  public BitVcTicker getTicker(@PathParam("symbol") String symbol) throws IOException;
 
   @GET
   @Path("depth_{symbol}_json.js")
-  public BitVcDepth getDepth(@PathParam("symbol") String symbol)
-      throws IOException;
+  public BitVcDepth getDepth(@PathParam("symbol") String symbol) throws IOException;
 
   @GET
   @Path("{symbol}_kline_{period}_json.js")
-  public String[][] getKline(
-      @PathParam("symbol") String symbol,
-      @PathParam("period") String period) throws IOException;
+  public String[][] getKline(@PathParam("symbol") String symbol, @PathParam("period") String period) throws IOException;
 
   @GET
   @Path("detail_{symbol}_json.js")
-  public BitVcOrderBookTAS getDetail(@PathParam("symbol") String symbol)
-      throws IOException;
-  
-  
+  public BitVcOrderBookTAS getDetail(@PathParam("symbol") String symbol) throws IOException;
+
   /** Private **/
   @POST
   @Path("api/accountInfo/get")
-  public BitVcAccountInfo getAccountInfo(
-    @FormParam("access_key") String accessKey,
-    @FormParam("created") long created,
-    @FormParam("sign") ParamsDigest sign)
-        throws IOException;
-  
+  public BitVcAccountInfo getAccountInfo(@FormParam("access_key") String accessKey, @FormParam("created") long created, @FormParam("sign") ParamsDigest sign) throws IOException;
+
   @POST
   @Path("api/order/list")
-  public BitVcOrderResult getOrders(
-    @FormParam("access_key") String accessKey,
-    @FormParam("coin_type") int coinType,
-    @FormParam("created") long created,
-    @FormParam("sign") ParamsDigest sign)
-        throws IOException;
-  
+  public BitVcOrderResult getOrders(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("sign") ParamsDigest sign)
+      throws IOException;
+
   @POST
   @Path("api/order/{id}")
-  public BitVcOrder getOrder(
-    @FormParam("access_key") String accessKey,
-    @FormParam("coin_type") int coinType,
-    @FormParam("created") long created,
-    @FormParam("sign") ParamsDigest sign,
-    @PathParam("id") long id)
-        throws IOException;
-  
+  public BitVcOrder getOrder(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("sign") ParamsDigest sign,
+      @PathParam("id") long id) throws IOException;
+
   @POST
   @Path("api/order/{side}")
-  public BitVcPlaceOrderResult placeLimitOrder(
-    @FormParam("access_key") String accessKey,
-    @FormParam("amount") String amount,
-    @FormParam("coin_type") int coinType,
-    @FormParam("created") long created,
-    @FormParam("price") String price,
-    @FormParam("sign") ParamsDigest sign,
-    @PathParam("side") String side)
-        throws IOException;
-  
+  public BitVcPlaceOrderResult placeLimitOrder(@FormParam("access_key") String accessKey, @FormParam("amount") String amount, @FormParam("coin_type") int coinType, @FormParam("created") long created,
+      @FormParam("price") String price, @FormParam("sign") ParamsDigest sign, @PathParam("side") String side) throws IOException;
+
   @POST
   @Path("api/order/{side}")
-  public BitVcPlaceOrderResult placeMarketOrder(
-    @FormParam("access_key") String accessKey,
-    @FormParam("amount") String amount,
-    @FormParam("coin_type") int coinType,
-    @FormParam("created") long created,
-    @FormParam("sign") ParamsDigest sign,
-    @PathParam("side") String side)
-        throws IOException;
+  public BitVcPlaceOrderResult placeMarketOrder(@FormParam("access_key") String accessKey, @FormParam("amount") String amount, @FormParam("coin_type") int coinType,
+      @FormParam("created") long created, @FormParam("sign") ParamsDigest sign, @PathParam("side") String side) throws IOException;
 
   @POST
   @Path("api/order/cancel/{id2}")
-  public BitVcCancelOrderResult cancelOrder(
-    @FormParam("access_key") String accessKey,
-    @FormParam("coin_type") int coinType,
-    @FormParam("created") long created,
-    @FormParam("id") long id,
-    @FormParam("sign") ParamsDigest sign,
-    @PathParam("id2") long id2)
-        throws IOException;
+  public BitVcCancelOrderResult cancelOrder(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("id") long id,
+      @FormParam("sign") ParamsDigest sign, @PathParam("id2") long id2) throws IOException;
 }
-

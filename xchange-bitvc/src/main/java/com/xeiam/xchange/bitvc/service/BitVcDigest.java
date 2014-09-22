@@ -1,4 +1,5 @@
 package com.xeiam.xchange.bitvc.service;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -15,22 +16,23 @@ import si.mazi.rescu.Params;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
+public class BitVcDigest implements ParamsDigest {
 
-public class BitVcDigest implements ParamsDigest {  
-  private static final char[] DIGITS_LOWER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+  private static final char[] DIGITS_LOWER = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
   private final String secretKey;
   private final MessageDigest md;
   private final Comparator<Entry<String, String>> comparator = new Comparator<Map.Entry<String, String>>() {
+
     @Override
-    public int compare(
-        Entry<String, String> o1,
-        Entry<String, String> o2) {
+    public int compare(Entry<String, String> o1, Entry<String, String> o2) {
+
       return o1.getKey().compareTo(o2.getKey());
     }
   };
 
   public BitVcDigest(final String secretKey) {
+
     this.secretKey = secretKey;
 
     try {
@@ -41,6 +43,7 @@ public class BitVcDigest implements ParamsDigest {
   }
 
   private static char[] encodeHex(byte[] data, char[] toDigits) {
+
     int l = data.length;
     char[] out = new char[l << 1];
     // two characters form the hex value.
@@ -52,17 +55,18 @@ public class BitVcDigest implements ParamsDigest {
   }
 
   @Override
-  public String digestParams(RestInvocation restInvocation) {   
+  public String digestParams(RestInvocation restInvocation) {
+
     final Params params = restInvocation.getParamsMap().get(FormParam.class);
     final Map<String, String> nameValueMap = params.asHttpHeaders();
     nameValueMap.remove("sign");
     nameValueMap.put("secret_key", secretKey);
 
-    final List<Map.Entry<String, String>> nameValueList = new ArrayList<>(nameValueMap.entrySet());    
+    final List<Map.Entry<String, String>> nameValueList = new ArrayList<>(nameValueMap.entrySet());
     Collections.sort(nameValueList, comparator);
 
     final Params newParams = Params.of();
-    for(int i = 0; i < nameValueList.size(); i++) {
+    for (int i = 0; i < nameValueList.size(); i++) {
       Map.Entry<String, String> param = nameValueList.get(i);
       newParams.add(param.getKey(), param.getValue());
     }
@@ -71,9 +75,9 @@ public class BitVcDigest implements ParamsDigest {
 
     try {
       md.reset();
-      
+
       byte[] digest = md.digest(message.getBytes("UTF-8"));
-      
+
       return String.valueOf(encodeHex(digest, DIGITS_LOWER));
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException("Codec error", e);

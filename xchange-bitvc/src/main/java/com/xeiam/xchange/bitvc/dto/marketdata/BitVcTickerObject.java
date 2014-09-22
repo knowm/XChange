@@ -6,50 +6,52 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitVcTickerObject {
 
-	private final BigDecimal high;
-	private final BigDecimal low;
-	private final BigDecimal last;
-	private final BigDecimal vol;
-	private final BigDecimal buy;
-	private final BigDecimal sell;
+  private final BigDecimal high;
+  private final BigDecimal low;
+  private final BigDecimal last;
+  private final BigDecimal vol;
+  private final BigDecimal buy;
+  private final BigDecimal sell;
 
-	public BitVcTickerObject(
-			@JsonProperty("high") final BigDecimal high,
-			@JsonProperty("low") final BigDecimal low,
-			@JsonProperty("last") final BigDecimal last,
-			@JsonProperty("vol") final BigDecimal vol,
-			@JsonProperty("buy") final BigDecimal buy,
-			@JsonProperty("sell") final BigDecimal sell) {
-		this.high = high;
-		this.low = low;
-		this.last = last;
-		this.vol = vol;
-		this.buy = buy;
-		this.sell = sell;
-	}
+  public BitVcTickerObject(@JsonProperty("high") final BigDecimal high, @JsonProperty("low") final BigDecimal low, @JsonProperty("last") final BigDecimal last,
+      @JsonProperty("vol") final BigDecimal vol, @JsonProperty("buy") final BigDecimal buy, @JsonProperty("sell") final BigDecimal sell) {
 
-	public BigDecimal getHigh() {
-		return high;
-	}
+    this.high = high;
+    this.low = low;
+    this.last = last;
+    this.vol = vol;
+    this.buy = buy;
+    this.sell = sell;
+  }
 
-	public BigDecimal getLow() {
-		return low;
-	}
+  public BigDecimal getHigh() {
 
-	public BigDecimal getLast() {
-		return last;
-	}
+    return high;
+  }
 
-	public BigDecimal getVol() {
-		return vol;
-	}
+  public BigDecimal getLow() {
 
-	public BigDecimal getBuy() {
-		return buy;
-	}
+    return low;
+  }
 
-	public BigDecimal getSell() {
-		return sell;
-	}
+  public BigDecimal getLast() {
+
+    return last;
+  }
+
+  public BigDecimal getVol() {
+
+    return vol;
+  }
+
+  public BigDecimal getBuy() {
+
+    return buy;
+  }
+
+  public BigDecimal getSell() {
+
+    return sell;
+  }
 
 }

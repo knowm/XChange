@@ -6,22 +6,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitVcDepth {
 
-	private final BigDecimal[][] asks;
-	private final BigDecimal[][] bids;
+  private final BigDecimal[][] asks;
+  private final BigDecimal[][] bids;
 
-	public BitVcDepth(
-			@JsonProperty("asks") final BigDecimal[][] asks,
-			@JsonProperty("bids") final BigDecimal[][] bids) {
-		this.asks = asks;
-		this.bids = bids;
-	}
+  public BitVcDepth(@JsonProperty("asks") final BigDecimal[][] asks, @JsonProperty("bids") final BigDecimal[][] bids) {
 
-	public BigDecimal[][] getAsks() {
-		return asks;
-	}
+    this.asks = asks;
+    this.bids = bids;
+  }
 
-	public BigDecimal[][] getBids() {
-		return bids;
-	}
+  public BigDecimal[][] getAsks() {
+
+    return asks;
+  }
+
+  public BigDecimal[][] getBids() {
+
+    return bids;
+  }
 
 }

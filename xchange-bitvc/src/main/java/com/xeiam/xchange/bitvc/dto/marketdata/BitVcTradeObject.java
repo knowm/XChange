@@ -6,36 +6,38 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitVcTradeObject {
 
-	private final String time;
-	private final BigDecimal price;
-	private final BigDecimal amount;
-	private final String type;
+  private final String time;
+  private final BigDecimal price;
+  private final BigDecimal amount;
+  private final String type;
 
-	public BitVcTradeObject(
-			@JsonProperty("time") final String time,
-			@JsonProperty("price") final BigDecimal price,
-			@JsonProperty("amount") final BigDecimal amount,
-			@JsonProperty("type") final String type) {
-		this.time = time;
-		this.price = price;
-		this.amount = amount;
-		this.type = type;
-	}
+  public BitVcTradeObject(@JsonProperty("time") final String time, @JsonProperty("price") final BigDecimal price, @JsonProperty("amount") final BigDecimal amount,
+      @JsonProperty("type") final String type) {
 
-	public String getTime() {
-		return time;
-	}
+    this.time = time;
+    this.price = price;
+    this.amount = amount;
+    this.type = type;
+  }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+  public String getTime() {
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
+    return time;
+  }
 
-	public String getType() {
-		return type;
-	}
+  public BigDecimal getPrice() {
+
+    return price;
+  }
+
+  public BigDecimal getAmount() {
+
+    return amount;
+  }
+
+  public String getType() {
+
+    return type;
+  }
 
 }

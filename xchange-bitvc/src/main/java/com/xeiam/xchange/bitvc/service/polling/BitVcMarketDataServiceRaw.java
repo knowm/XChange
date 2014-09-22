@@ -14,29 +14,31 @@ public class BitVcMarketDataServiceRaw extends BitVcBasePollingService {
 
   private final BitVc bitvc;
 
-  protected BitVcMarketDataServiceRaw(
-      ExchangeSpecification exchangeSpecification) {
+  protected BitVcMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
-    
+
     final String baseUrl = exchangeSpecification.getPlainTextUri();
     bitvc = RestProxyFactory.createProxy(BitVc.class, baseUrl);
   }
 
   public BitVcTicker getBitVcTicker(String symbol) throws IOException {
+
     return bitvc.getTicker(symbol);
   }
 
   public BitVcDepth getBitVcDepth(String symbol) throws IOException {
+
     return bitvc.getDepth(symbol);
   }
 
-  public String[][] getBitVcKline(String symbol, String period)
-      throws IOException {
+  public String[][] getBitVcKline(String symbol, String period) throws IOException {
+
     return bitvc.getKline(symbol, period);
   }
 
-  public BitVcOrderBookTAS getBitVcDetail(String symbol)
-      throws IOException {
+  public BitVcOrderBookTAS getBitVcDetail(String symbol) throws IOException {
+
     return bitvc.getDetail(symbol);
   }
 

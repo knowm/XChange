@@ -4,14 +4,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitVcTicker {
 
-	private final BitVcTickerObject ticker;
+  private final BitVcTickerObject ticker;
 
-	public BitVcTicker(@JsonProperty("ticker") final BitVcTickerObject ticker) {
-		this.ticker = ticker;
-	}
+  public BitVcTicker(@JsonProperty("ticker") final BitVcTickerObject ticker) {
 
-	public BitVcTickerObject getTicker() {
-		return ticker;
-	}
+    this.ticker = ticker;
+  }
+
+  public BitVcTickerObject getTicker() {
+
+    return ticker;
+  }
 
 }

@@ -36,130 +36,108 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 
-
 public final class BitVcAdapters {
-	private static final SimpleDateFormat tradeDateFormat = new SimpleDateFormat("HH:mm:ss");
+
+  private static final SimpleDateFormat tradeDateFormat = new SimpleDateFormat("HH:mm:ss");
 
   private BitVcAdapters() {
-	}
 
-	public static Ticker adaptTicker(
-			BitVcTicker BitVcTicker,
-			CurrencyPair currencyPair) {
-		BitVcTickerObject ticker = BitVcTicker.getTicker();
-		return TickerBuilder
-			.newInstance()
-			.withCurrencyPair(currencyPair)
-			.withLast(ticker.getLast())
-			.withBid(ticker.getBuy())
-			.withAsk(ticker.getSell())
-			.withHigh(ticker.getHigh())
-			.withLow(ticker.getLow())
-			.withVolume(ticker.getVol())
-			.build();
-	}
+  }
 
-	public static OrderBook adaptOrderBook(
-			BitVcDepth BitVcDepth,
-			CurrencyPair currencyPair) {
-		List<LimitOrder> asks = adaptOrderBook(BitVcDepth.getAsks(), ASK, currencyPair);
-		Collections.reverse(asks);
+  public static Ticker adaptTicker(BitVcTicker BitVcTicker, CurrencyPair currencyPair) {
 
-		List<LimitOrder> bids = adaptOrderBook(BitVcDepth.getBids(), BID, currencyPair);
+    BitVcTickerObject ticker = BitVcTicker.getTicker();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(ticker.getLast()).withBid(ticker.getBuy()).withAsk(ticker.getSell()).withHigh(ticker.getHigh()).withLow(ticker.getLow())
+        .withVolume(ticker.getVol()).build();
+  }
 
-		return new OrderBook(null, asks, bids);
-	}
+  public static OrderBook adaptOrderBook(BitVcDepth BitVcDepth, CurrencyPair currencyPair) {
 
-	private static List<LimitOrder> adaptOrderBook(
-			BigDecimal[][] orders,
-			OrderType type,
-			CurrencyPair currencyPair) {
-		List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
-		for(int i = 0; i < orders.length; i++) {
-		  BigDecimal[] order = orders[i];
-		  
-			LimitOrder limitOrder = new LimitOrder(
-				type, order[1], currencyPair, null, null, order[0]);
-			limitOrders.add(limitOrder);
-		}
-		return limitOrders;
-	}
+    List<LimitOrder> asks = adaptOrderBook(BitVcDepth.getAsks(), ASK, currencyPair);
+    Collections.reverse(asks);
 
-	public static Trades adaptTrades(
-			BitVcOrderBookTAS BitVcDetail,
-			CurrencyPair currencyPair) {
-		List<Trade> trades = adaptTrades(BitVcDetail.getTrades(), currencyPair);
-		return new Trades(trades, SortByTimestamp);
-	}
+    List<LimitOrder> bids = adaptOrderBook(BitVcDepth.getBids(), BID, currencyPair);
 
-	private static List<Trade> adaptTrades(
-			BitVcTradeObject[] trades,
-			CurrencyPair currencyPair) {
-		List<Trade> tradeList = new ArrayList<Trade>(trades.length);
-		for(int i = 0; i < trades.length; i++) {
-			tradeList.add(adaptTrade(trades[i], currencyPair));
-		}
-		return tradeList;
-	}
+    return new OrderBook(null, asks, bids);
+  }
 
-	private static Trade adaptTrade(
-			BitVcTradeObject trade,
-			CurrencyPair currencyPair) {
-		OrderType type = trade.getType().equals("买入") ? BID : ASK;
-		final Date time;
-		try {	    
-	    time = tradeDateFormat.parse(trade.getTime());
-		} catch (ParseException e) {
-			throw new ExchangeException(e.getMessage(), e);
-		}
-		return new Trade(
-				type,
-				trade.getAmount(),
-				currencyPair,
-				trade.getPrice(),
-				time,
-				null);
-	}
+  private static List<LimitOrder> adaptOrderBook(BigDecimal[][] orders, OrderType type, CurrencyPair currencyPair) {
 
-	public static AccountInfo adaptAccountInfo(BitVcAccountInfo a) {
-		Wallet cny = new Wallet(CNY,
-				a.getAvailableCnyDisplay().add(a.getFrozenCnyDisplay()), "available");
-		Wallet btc = new Wallet(BTC,
-				a.getAvailableBtcDisplay().add(a.getFrozenBtcDisplay()), "available");
-		Wallet ltc = new Wallet(LTC,
-				a.getAvailableLtcDisplay().add(a.getFrozenLtcDisplay()), "available");
-		
-		List<Wallet> wallets = Arrays.asList(cny, btc, ltc);
-		return new AccountInfo(null, wallets);
-	}
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+    for (int i = 0; i < orders.length; i++) {
+      BigDecimal[] order = orders[i];
 
-	public static String adaptPlaceOrderResult(BitVcPlaceOrderResult result) {
-		if (result.getCode() == 0) {
-			return String.valueOf(result.getId());
-		} else {
-			throw new ExchangeException("Error code: " + result.getCode());
-		}
-	}
+      LimitOrder limitOrder = new LimitOrder(type, order[1], currencyPair, null, null, order[0]);
+      limitOrders.add(limitOrder);
+    }
+    return limitOrders;
+  }
 
-	public static List<LimitOrder> adaptOpenOrders(
-			BitVcOrder[] orders,
-			CurrencyPair currencyPair) {
-		List<LimitOrder> openOrders = new ArrayList<LimitOrder>(orders.length);
-		for (BitVcOrder order : orders) {
-			openOrders.add(adaptOpenOrder(order, currencyPair));
-		}
-		return openOrders;
-	}
+  public static Trades adaptTrades(BitVcOrderBookTAS BitVcDetail, CurrencyPair currencyPair) {
 
-	public static LimitOrder adaptOpenOrder(
-		BitVcOrder order, CurrencyPair currencyPair) {
-		return new LimitOrder(
-				order.getType() == 1 ? BID : ASK,
-						order.getOrderAmount().subtract(order.getProcessedAmount()),
-						currencyPair,
-						String.valueOf(order.getId()),
-						new Date(order.getOrderTime() * 1000),
-						order.getOrderPrice());
-	}
+    List<Trade> trades = adaptTrades(BitVcDetail.getTrades(), currencyPair);
+    return new Trades(trades, SortByTimestamp);
+  }
+
+  private static List<Trade> adaptTrades(BitVcTradeObject[] trades, CurrencyPair currencyPair) {
+
+    List<Trade> tradeList = new ArrayList<Trade>(trades.length);
+    for (int i = 0; i < trades.length; i++) {
+      tradeList.add(adaptTrade(trades[i], currencyPair));
+    }
+    return tradeList;
+  }
+
+  private static Trade adaptTrade(BitVcTradeObject trade, CurrencyPair currencyPair) {
+
+    OrderType type = trade.getType().equals("买入") ? BID : ASK;
+    final Date time;
+    try {
+      time = tradeDateFormat.parse(trade.getTime());
+    } catch (ParseException e) {
+      throw new ExchangeException(e.getMessage(), e);
+    }
+    return new Trade(type, trade.getAmount(), currencyPair, trade.getPrice(), time, null);
+  }
+
+  public static AccountInfo adaptAccountInfo(BitVcAccountInfo a) {
+
+    Wallet cny = new Wallet(CNY, a.getAvailableCnyDisplay().add(a.getFrozenCnyDisplay()), "available");
+    Wallet btc = new Wallet(BTC, a.getAvailableBtcDisplay().add(a.getFrozenBtcDisplay()), "available");
+    Wallet ltc = new Wallet(LTC, a.getAvailableLtcDisplay().add(a.getFrozenLtcDisplay()), "available");
+    
+    // loaned wallets
+    Wallet cnyLoan = new Wallet(CNY, a.getLoanCnyDisplay(), "loan");
+    Wallet btcLoan = new Wallet(BTC, a.getLoanBtcDisplay(), "loan");
+    Wallet ltcLoan = new Wallet(LTC, a.getLoanLtcDisplay(), "loan");
+    
+    List<Wallet> wallets = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan);
+    return new AccountInfo(null, wallets);
+  }
+
+  public static String adaptPlaceOrderResult(BitVcPlaceOrderResult result) {
+
+    if (result.getCode() == 0) {
+      return String.valueOf(result.getId());
+    }
+    else {
+      throw new ExchangeException("Error code: " + result.getCode());
+    }
+  }
+
+  public static List<LimitOrder> adaptOpenOrders(BitVcOrder[] orders, CurrencyPair currencyPair) {
+
+    List<LimitOrder> openOrders = new ArrayList<LimitOrder>(orders.length);
+    for (BitVcOrder order : orders) {
+      openOrders.add(adaptOpenOrder(order, currencyPair));
+    }
+    return openOrders;
+  }
+
+  public static LimitOrder adaptOpenOrder(BitVcOrder order, CurrencyPair currencyPair) {
+
+    return new LimitOrder(order.getType() == 1 ? BID : ASK, order.getOrderAmount().subtract(order.getProcessedAmount()), currencyPair, String.valueOf(order.getId()), new Date(
+        order.getOrderTime() * 1000), order.getOrderPrice());
+  }
 
 }

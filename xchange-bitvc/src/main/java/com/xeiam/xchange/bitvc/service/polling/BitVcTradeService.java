@@ -22,83 +22,78 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
-public class BitVcTradeService extends BitVcTradeServiceRaw implements
-		PollingTradeService {
-	private final Map<CurrencyPair, Integer> coinTypes;
-	private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
+public class BitVcTradeService extends BitVcTradeServiceRaw implements PollingTradeService {
 
-	public BitVcTradeService(ExchangeSpecification exchangeSpecification) {
-		super(exchangeSpecification);
-		coinTypes = new HashMap<>(2);
-		coinTypes.put(CurrencyPair.BTC_CNY, 1);
-		coinTypes.put(CurrencyPair.LTC_CNY, 2);
-	}
+  private final Map<CurrencyPair, Integer> coinTypes;
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
 
-	@Override
-	public OpenOrders getOpenOrders() throws ExchangeException,
-			NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		List<LimitOrder> openOrders = new ArrayList<>();
-		for (CurrencyPair currencyPair : getExchangeSymbols()) {
-			BitVcOrder[] orders = getBitVcOrders(coinTypes.get(currencyPair));
-			
-			for(int i = 0; i < orders.length; i++) {
-			  openOrders.add(BitVcAdapters.adaptOpenOrder(orders[i], currencyPair));
-			}
-		}
-		
-		if(openOrders.size() <= 0) {
-		  return noOpenOrders;
-		}
-		
-		return new OpenOrders(openOrders);
-	}
+  public BitVcTradeService(ExchangeSpecification exchangeSpecification) {
 
-	@Override
-	public String placeMarketOrder(MarketOrder marketOrder)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		BitVcPlaceOrderResult result = placeBitVcMarketOrder(
-				marketOrder.getType(),
-				coinTypes.get(marketOrder.getCurrencyPair()),
-				marketOrder.getTradableAmount());
-		return BitVcAdapters.adaptPlaceOrderResult(result);
-	}
+    super(exchangeSpecification);
+    coinTypes = new HashMap<>(2);
+    coinTypes.put(CurrencyPair.BTC_CNY, 1);
+    coinTypes.put(CurrencyPair.LTC_CNY, 2);
+  }
 
-	@Override
-	public String placeLimitOrder(LimitOrder limitOrder)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		BitVcPlaceOrderResult result = placeBitVcLimitOrder(
-			limitOrder.getType(),
-			coinTypes.get(limitOrder.getCurrencyPair()),
-			limitOrder.getLimitPrice(),
-			limitOrder.getTradableAmount());
-		return BitVcAdapters.adaptPlaceOrderResult(result);
-	}
+  @Override
+  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-	@Override
-	public boolean cancelOrder(String orderId) throws IOException {
-		final long id = Long.parseLong(orderId);
+    List<LimitOrder> openOrders = new ArrayList<>();
+    for (CurrencyPair currencyPair : getExchangeSymbols()) {
+      BitVcOrder[] orders = getBitVcOrders(coinTypes.get(currencyPair));
 
-		BitVcCancelOrderResult result = null;
-		for (CurrencyPair currencyPair : getExchangeSymbols()) {
-			result = cancelBitVcOrder(coinTypes.get(currencyPair), id);
+      for (int i = 0; i < orders.length; i++) {
+        openOrders.add(BitVcAdapters.adaptOpenOrder(orders[i], currencyPair));
+      }
+    }
 
-			if (result.getCode() == 0) {
-				break;
-			} else if (result.getCode() == 26) { // Order does not exist 
-				continue;
-			} else {
-				break;
-			}
-		}
-		return result != null && "success".equals(result.getResult());
-	}
+    if (openOrders.size() <= 0) {
+      return noOpenOrders;
+    }
 
-	@Override
-	public Trades getTradeHistory(Object... arguments) {
-		throw new NotAvailableFromExchangeException();
-	}
+    return new OpenOrders(openOrders);
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    BitVcPlaceOrderResult result = placeBitVcMarketOrder(marketOrder.getType(), coinTypes.get(marketOrder.getCurrencyPair()), marketOrder.getTradableAmount());
+    return BitVcAdapters.adaptPlaceOrderResult(result);
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    BitVcPlaceOrderResult result = placeBitVcLimitOrder(limitOrder.getType(), coinTypes.get(limitOrder.getCurrencyPair()), limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
+    return BitVcAdapters.adaptPlaceOrderResult(result);
+  }
+
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
+
+    final long id = Long.parseLong(orderId);
+
+    BitVcCancelOrderResult result = null;
+    for (CurrencyPair currencyPair : getExchangeSymbols()) {
+      result = cancelBitVcOrder(coinTypes.get(currencyPair), id);
+
+      if (result.getCode() == 0) {
+        break;
+      }
+      else if (result.getCode() == 26) { // Order does not exist
+        continue;
+      }
+      else {
+        break;
+      }
+    }
+    return result != null && "success".equals(result.getResult());
+  }
+
+  @Override
+  public Trades getTradeHistory(Object... arguments) {
+
+    throw new NotAvailableFromExchangeException();
+  }
 
 }

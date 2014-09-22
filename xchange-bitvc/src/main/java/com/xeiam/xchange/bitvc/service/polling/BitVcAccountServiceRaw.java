@@ -7,11 +7,13 @@ import com.xeiam.xchange.bitvc.dto.account.BitVcAccountInfo;
 
 public class BitVcAccountServiceRaw extends BitVcBaseTradeService {
 
-	protected BitVcAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
-		super(exchangeSpecification);
-	}
+  protected BitVcAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-	public BitVcAccountInfo getBitVcAccountInfo() throws IOException {
-		return bitvc.getAccountInfo(accessKey, nextCreated(), digest);
-	}
+    super(exchangeSpecification);
+  }
+
+  public BitVcAccountInfo getBitVcAccountInfo() throws IOException {
+
+    return bitvc.getAccountInfo(accessKey, nextCreated(), digest);
+  }
 }

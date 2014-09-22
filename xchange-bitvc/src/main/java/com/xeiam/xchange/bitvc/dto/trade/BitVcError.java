@@ -4,31 +4,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitVcError {
 
-	public static final int ORDER_NOT_EXIST = 26;
+  public static final int ORDER_NOT_EXIST = 26;
 
-	private final int code;
-	private final String msg;
-	private final long time;
+  private final int code;
+  private final String msg;
+  private final long time;
 
-	public BitVcError(
-			@JsonProperty("code") final int code,
-			@JsonProperty("msg") final String msg,
-			@JsonProperty("time") final long time) {
-		this.code = code;
-		this.msg = msg;
-		this.time = time;
-	}
+  public BitVcError(@JsonProperty("code") final int code, @JsonProperty("msg") final String msg, @JsonProperty("time") final long time) {
 
-	public int getCode() {
-		return code;
-	}
+    this.code = code;
+    this.msg = msg;
+    this.time = time;
+  }
 
-	public String getMsg() {
-		return msg;
-	}
+  public int getCode() {
 
-	public long getTime() {
-		return time;
-	}
+    return code;
+  }
+
+  public String getMsg() {
+
+    return msg;
+  }
+
+  public long getTime() {
+
+    return time;
+  }
 
 }

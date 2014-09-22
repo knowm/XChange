@@ -10,35 +10,29 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-public class BitVcMarketDataService extends BitVcMarketDataServiceRaw implements
-		PollingMarketDataService {
+public class BitVcMarketDataService extends BitVcMarketDataServiceRaw implements PollingMarketDataService {
 
-	public BitVcMarketDataService(ExchangeSpecification exchangeSpecification) {
-		super(exchangeSpecification);
-	}
+  public BitVcMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-	@Override
-	public Ticker getTicker(CurrencyPair currencyPair, Object... args)
-			throws IOException {
-		return BitVcAdapters.adaptTicker(
-			getBitVcTicker(currencyPair.baseSymbol.toLowerCase()),
-			currencyPair);
-	}
+    super(exchangeSpecification);
+  }
 
-	@Override
-	public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
-			throws IOException {
-		return BitVcAdapters.adaptOrderBook(
-			getBitVcDepth(currencyPair.baseSymbol.toLowerCase()),
-			currencyPair);
-	}
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-	@Override
-	public Trades getTrades(CurrencyPair currencyPair, Object... args)
-			throws IOException {
-		return BitVcAdapters.adaptTrades(
-				getBitVcDetail(currencyPair.baseSymbol.toLowerCase()),
-				currencyPair);
-	}
+    return BitVcAdapters.adaptTicker(getBitVcTicker(currencyPair.baseSymbol.toLowerCase()), currencyPair);
+  }
+
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+
+    return BitVcAdapters.adaptOrderBook(getBitVcDepth(currencyPair.baseSymbol.toLowerCase()), currencyPair);
+  }
+
+  @Override
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+
+    return BitVcAdapters.adaptTrades(getBitVcDetail(currencyPair.baseSymbol.toLowerCase()), currencyPair);
+  }
 
 }
