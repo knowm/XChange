@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.bitvc.dto.account.BitVcAccountInfo;
@@ -37,8 +38,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 public final class BitVcAdapters {
-
-  private static final SimpleDateFormat tradeDateFormat = new SimpleDateFormat("HH:mm:ss");
+  private static final SimpleDateFormat tradeDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 
   private BitVcAdapters() {
 
@@ -73,9 +73,9 @@ public final class BitVcAdapters {
     return limitOrders;
   }
 
-  public static Trades adaptTrades(BitVcOrderBookTAS BitVcDetail, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(BitVcOrderBookTAS bitvcDetail, CurrencyPair currencyPair) {
 
-    List<Trade> trades = adaptTrades(BitVcDetail.getTrades(), currencyPair);
+    List<Trade> trades = adaptTrades(bitvcDetail.getTrades(), currencyPair);
     return new Trades(trades, SortByTimestamp);
   }
 
@@ -93,7 +93,7 @@ public final class BitVcAdapters {
     OrderType type = trade.getType().equals("买入") ? BID : ASK;
     final Date time;
     try {
-      time = tradeDateFormat.parse(trade.getTime());
+      time = tradeDateFormat.parse(trade.getTime()); 
     } catch (ParseException e) {
       throw new ExchangeException(e.getMessage(), e);
     }
