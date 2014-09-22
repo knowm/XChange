@@ -62,7 +62,7 @@ public class BitVcDigest implements ParamsDigest {
     nameValueMap.remove("sign");
     nameValueMap.put("secret_key", secretKey);
 
-    final List<Map.Entry<String, String>> nameValueList = new ArrayList<>(nameValueMap.entrySet());
+    final List<Map.Entry<String, String>> nameValueList = new ArrayList<Map.Entry<String, String>>(nameValueMap.entrySet());
     Collections.sort(nameValueList, comparator);
 
     final Params newParams = Params.of();

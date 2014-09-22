@@ -30,7 +30,7 @@ public class BitVcTradeService extends BitVcTradeServiceRaw implements PollingTr
   public BitVcTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    coinTypes = new HashMap<>(2);
+    coinTypes = new HashMap<CurrencyPair, Integer>(2);
     coinTypes.put(CurrencyPair.BTC_CNY, 1);
     coinTypes.put(CurrencyPair.LTC_CNY, 2);
   }
@@ -38,7 +38,7 @@ public class BitVcTradeService extends BitVcTradeServiceRaw implements PollingTr
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    List<LimitOrder> openOrders = new ArrayList<>();
+    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
     for (CurrencyPair currencyPair : getExchangeSymbols()) {
       BitVcOrder[] orders = getBitVcOrders(coinTypes.get(currencyPair));
 
