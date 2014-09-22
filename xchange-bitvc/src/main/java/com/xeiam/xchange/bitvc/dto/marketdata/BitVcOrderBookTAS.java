@@ -10,16 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class BitVcOrderBookTAS {
 
   /**
-   * Sell 10.
-   */
-  private final BitVcOrderBookObject[] sells;
-
-  /**
-   * Buy 10.
-   */
-  private final BitVcOrderBookObject[] buys;
-
-  /**
    * Times and sales.
    */
   private final BitVcTradeObject[] trades;
@@ -66,23 +56,11 @@ public class BitVcOrderBookTAS {
    */
   private final BigDecimal pLast;
 
-  /**
-   * Sell 5.
-   */
-  private final BitVcTopObject[] topSell;
-
-  /**
-   * Buy 5.
-   */
-  private final BitVcTopObject[] topBuy;
-
-  public BitVcOrderBookTAS(@JsonProperty("sells") final BitVcOrderBookObject[] sells, @JsonProperty("buys") final BitVcOrderBookObject[] buys, @JsonProperty("trades") final BitVcTradeObject[] trades,
+  public BitVcOrderBookTAS(@JsonProperty("trades") final BitVcTradeObject[] trades,
       @JsonProperty("p_new") final BigDecimal pNew, @JsonProperty("level") final BigDecimal level, @JsonProperty("amount") final BigDecimal amount, @JsonProperty("total") final BigDecimal total,
       @JsonProperty("amp") final BigDecimal amp, @JsonProperty("p_open") final BigDecimal pOpen, @JsonProperty("p_high") final BigDecimal pHigh, @JsonProperty("p_low") final BigDecimal pLow,
-      @JsonProperty("p_last") final BigDecimal pLast, @JsonProperty("top_sell") final BitVcTopObject[] topSell, @JsonProperty("top_buy") final BitVcTopObject[] topBuy) {
+      @JsonProperty("p_last") final BigDecimal pLast) {
 
-    this.sells = sells;
-    this.buys = buys;
     this.trades = trades;
     this.pNew = pNew;
     this.level = level;
@@ -93,19 +71,8 @@ public class BitVcOrderBookTAS {
     this.pHigh = pHigh;
     this.pLow = pLow;
     this.pLast = pLast;
-    this.topSell = topSell;
-    this.topBuy = topBuy;
   }
 
-  public BitVcOrderBookObject[] getSells() {
-
-    return sells;
-  }
-
-  public BitVcOrderBookObject[] getBuys() {
-
-    return buys;
-  }
 
   public BitVcTradeObject[] getTrades() {
 
@@ -156,15 +123,4 @@ public class BitVcOrderBookTAS {
 
     return pLast;
   }
-
-  public BitVcTopObject[] getTopSell() {
-
-    return topSell;
-  }
-
-  public BitVcTopObject[] getTopBuy() {
-
-    return topBuy;
-  }
-
 }
