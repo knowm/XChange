@@ -38,6 +38,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 public final class BitVcAdapters {
+
   private static final SimpleDateFormat tradeDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 
   private BitVcAdapters() {
@@ -47,8 +48,8 @@ public final class BitVcAdapters {
   public static Ticker adaptTicker(BitVcTicker BitVcTicker, CurrencyPair currencyPair) {
 
     BitVcTickerObject ticker = BitVcTicker.getTicker();
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(ticker.getLast()).withBid(ticker.getBuy()).withAsk(ticker.getSell()).withHigh(ticker.getHigh()).withLow(ticker.getLow())
-        .withVolume(ticker.getVol()).build();
+    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(ticker.getLast()).withBid(ticker.getBuy()).withAsk(ticker.getSell())
+        .withHigh(ticker.getHigh()).withLow(ticker.getLow()).withVolume(ticker.getVol()).build();
   }
 
   public static OrderBook adaptOrderBook(BitVcDepth BitVcDepth, CurrencyPair currencyPair) {
@@ -93,7 +94,7 @@ public final class BitVcAdapters {
     OrderType type = trade.getType().equals("买入") ? BID : ASK;
     final Date time;
     try {
-      time = tradeDateFormat.parse(trade.getTime()); 
+      time = tradeDateFormat.parse(trade.getTime());
     } catch (ParseException e) {
       throw new ExchangeException(e.getMessage(), e);
     }
@@ -102,15 +103,43 @@ public final class BitVcAdapters {
 
   public static AccountInfo adaptAccountInfo(BitVcAccountInfo a) {
 
-    Wallet cny = new Wallet(CNY, a.getAvailableCnyDisplay().add(a.getFrozenCnyDisplay()).subtract(a.getLoanCnyDisplay()), "available");
-    Wallet btc = new Wallet(BTC, a.getAvailableBtcDisplay().add(a.getFrozenBtcDisplay()).subtract(a.getLoanBtcDisplay()), "available");
-    Wallet ltc = new Wallet(LTC, a.getAvailableLtcDisplay().add(a.getFrozenLtcDisplay()).subtract(a.getLoanLtcDisplay()), "available");
-    
+    if (a.getAvailableCny() == null) {
+      a.setAvailableCny(BigDecimal.ZERO);
+    }
+    if (a.getAvailableBtc() == null) {
+      a.setAvailableBtc(BigDecimal.ZERO);
+    }
+    if (a.getAvailableLtc() == null) {
+      a.setAvailableLtc(BigDecimal.ZERO);
+    }
+    if (a.getFrozenCny() == null) {
+      a.setFrozenCny(BigDecimal.ZERO);
+    }
+    if (a.getFrozenBtc() == null) {
+      a.setFrozenBtc(BigDecimal.ZERO);
+    }
+    if (a.getFrozenLtc() == null) {
+      a.setFrozenLtc(BigDecimal.ZERO);
+    }
+    if (a.getLoanCny() == null) {
+      a.setLoanCny(BigDecimal.ZERO);
+    }
+    if (a.getLoanBtc() == null) {
+      a.setLoanBtc(BigDecimal.ZERO);
+    }
+    if (a.getLoanLtc() == null) {
+      a.setLoanLtc(BigDecimal.ZERO);
+    }
+
+    Wallet cny = new Wallet(CNY, a.getAvailableCny().add(a.getFrozenCny()).subtract(a.getLoanCny()), "available");
+    Wallet btc = new Wallet(BTC, a.getAvailableBtc().add(a.getFrozenBtc()).subtract(a.getLoanBtc()), "available");
+    Wallet ltc = new Wallet(LTC, a.getAvailableLtc().add(a.getFrozenLtc()).subtract(a.getLoanLtc()), "available");
+
     // loaned wallets
-    Wallet cnyLoan = new Wallet(CNY, a.getLoanCnyDisplay(), "loan");
-    Wallet btcLoan = new Wallet(BTC, a.getLoanBtcDisplay(), "loan");
-    Wallet ltcLoan = new Wallet(LTC, a.getLoanLtcDisplay(), "loan");
-    
+    Wallet cnyLoan = new Wallet(CNY, a.getLoanCny(), "loan");
+    Wallet btcLoan = new Wallet(BTC, a.getLoanBtc(), "loan");
+    Wallet ltcLoan = new Wallet(LTC, a.getLoanLtc(), "loan");
+
     List<Wallet> wallets = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan);
     return new AccountInfo(null, wallets);
   }
@@ -136,8 +165,8 @@ public final class BitVcAdapters {
 
   public static LimitOrder adaptOpenOrder(BitVcOrder order, CurrencyPair currencyPair) {
 
-    return new LimitOrder(order.getType() == 1 ? BID : ASK, order.getOrderAmount().subtract(order.getProcessedAmount()), currencyPair, String.valueOf(order.getId()), new Date(
-        order.getOrderTime() * 1000), order.getOrderPrice());
+    return new LimitOrder(order.getType() == 1 ? BID : ASK, order.getOrderAmount().subtract(order.getProcessedAmount()), currencyPair, String
+        .valueOf(order.getId()), new Date(order.getOrderTime() * 1000), order.getOrderPrice());
   }
 
 }
