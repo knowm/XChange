@@ -18,6 +18,7 @@ public class BTCChinaTickerObject implements Serializable {
   private final long date;
   private final BigDecimal vwap;
   private final BigDecimal prevClose;
+  private final BigDecimal open;
 
   /**
    * Constructor
@@ -34,7 +35,7 @@ public class BTCChinaTickerObject implements Serializable {
    */
   public BTCChinaTickerObject(@JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
       @JsonProperty("vol") BigDecimal vol, @JsonProperty("last") BigDecimal last, @JsonProperty("date") long date,
-      @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("prev_close") BigDecimal prevClose) {
+      @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("prev_close") BigDecimal prevClose, @JsonProperty("open") BigDecimal open) {
 
     this.high = high;
     this.low = low;
@@ -45,6 +46,7 @@ public class BTCChinaTickerObject implements Serializable {
     this.date = date;
     this.vwap = vwap;
     this.prevClose = prevClose;
+    this.open = open;
   }
 
   public BigDecimal getBuy() {
@@ -104,10 +106,22 @@ public class BTCChinaTickerObject implements Serializable {
     return prevClose;
   }
 
+
+  /**
+   * Returns today's opening price.
+   *
+   * @return Today's opening price.
+   * @since <a href="http://btcchina.org/api-market-data-documentation-en#data_api_v132">Data API v1.3.2</a>
+   */
+  public BigDecimal getOpen() {
+
+    return open;
+  }
+
   @Override
   public String toString() {
 
-    return "BTCChinaTicker [last=" + last + ", high=" + high + ", low=" + low + ", buy=" + buy + ", sell=" + sell + ", vol=" + vol + ", date=" + date + ", vwap=" + vwap + ", preClose=" + prevClose + "]";
+    return "BTCChinaTicker [last=" + last + ", high=" + high + ", low=" + low + ", buy=" + buy + ", sell=" + sell + ", vol=" + vol + ", date=" + date + ", vwap=" + vwap + ", preClose=" + prevClose + ", open=" + open + "]";
 
   }
 }
