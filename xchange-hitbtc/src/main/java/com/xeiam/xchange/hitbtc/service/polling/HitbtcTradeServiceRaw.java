@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -15,13 +17,13 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.hitbtc.HitbtcAuthenticated;
+import com.xeiam.xchange.hitbtc.dto.HitbtcException;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthenticated> {
 
@@ -78,9 +80,13 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   }
 
   public HitbtcExecutionReport placeLimitOrderRaw(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
+    
+    try {
     HitbtcExecutionReportResponse postHitbtcNewOrder = fillHitbtcExecutionReportResponse(limitOrder);
     return postHitbtcNewOrder.getExecutionReport();
+    } catch (HitbtcException e) {
+      throw new ExchangeException(e.getMessage());
+    }
   }
 
   public HitbtcExecutionReportResponse placeLimitOrderRawReturningHitbtcExecutionReportResponse(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
