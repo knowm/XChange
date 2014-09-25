@@ -3,7 +3,7 @@ package com.xeiam.xchange.vircurex.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import javax.xml.bind.DatatypeConverter;
+import com.xeiam.xchange.utils.DigestUtils;
 
 /**
  * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to
@@ -40,7 +40,7 @@ public class VircurexSha2Digest {
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(e.getMessage(), e);
     }
-    secretWord = DatatypeConverter.printHexBinary(digest.digest());
+    secretWord = DigestUtils.bytesToHex(digest.digest());
   }
 
   public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, String aNonce, String aMethod) {
@@ -51,7 +51,7 @@ public class VircurexSha2Digest {
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(e.getMessage(), e);
     }
-    secretWord = DatatypeConverter.printHexBinary(digest.digest());
+    secretWord = DigestUtils.bytesToHex(digest.digest());
   }
 
   public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, String aNonce, String aMethod, String anOrderId) {
@@ -62,7 +62,7 @@ public class VircurexSha2Digest {
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(e.getMessage(), e);
     }
-    secretWord = DatatypeConverter.printHexBinary(digest.digest());
+    secretWord = DigestUtils.bytesToHex(digest.digest());
   }
 
   @Override

@@ -6,10 +6,11 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
+
+import com.xeiam.xchange.utils.DigestUtils;
 
 public class HitbtcHmacDigest implements ParamsDigest {
 
@@ -49,6 +50,7 @@ public class HitbtcHmacDigest implements ParamsDigest {
 
     mac.update(message.getBytes());
 
-    return DatatypeConverter.printHexBinary(mac.doFinal()).toLowerCase();
+    return DigestUtils.bytesToHex(mac.doFinal()).toLowerCase();
   }
+
 }
