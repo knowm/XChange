@@ -3,7 +3,7 @@ package com.xeiam.xchange.vircurex.service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import javax.xml.bind.DatatypeConverter;
+import com.xeiam.xchange.utils.DigestUtils;
 
 /**
  * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to
@@ -29,18 +29,17 @@ public class VircurexSha2Digest {
    *           if key is invalid (cannot be base-64-decoded or the decoded key
    *           is invalid).
    */
-  public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, String aNonce, String aMethod, String anOrderType, String anOrderAmount, String aTransactionCurrency,
-      String aLimitPrice, String aTradeableCurrency) throws IllegalArgumentException {
+  public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, String aNonce, String aMethod, String anOrderType,
+      String anOrderAmount, String aTransactionCurrency, String aLimitPrice, String aTradeableCurrency) throws IllegalArgumentException {
 
     try {
       digest = MessageDigest.getInstance(SHA_256);
-      digest
-          .update((aSecretWord + ";" + aUserName + ";" + aTimeStamp + ";" + aNonce + ";" + aMethod + ";" + anOrderType + ";" + anOrderAmount + ";" + aTransactionCurrency + ";" + aLimitPrice + ";" + aTradeableCurrency)
-              .getBytes());
+      digest.update((aSecretWord + ";" + aUserName + ";" + aTimeStamp + ";" + aNonce + ";" + aMethod + ";" + anOrderType + ";" + anOrderAmount + ";"
+          + aTransactionCurrency + ";" + aLimitPrice + ";" + aTradeableCurrency).getBytes());
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(e.getMessage(), e);
     }
-    secretWord = DatatypeConverter.printHexBinary(digest.digest());
+    secretWord = DigestUtils.bytesToHex(digest.digest());
   }
 
   public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, String aNonce, String aMethod) {
@@ -51,7 +50,7 @@ public class VircurexSha2Digest {
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(e.getMessage(), e);
     }
-    secretWord = DatatypeConverter.printHexBinary(digest.digest());
+    secretWord = DigestUtils.bytesToHex(digest.digest());
   }
 
   public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, String aNonce, String aMethod, String anOrderId) {
@@ -62,7 +61,7 @@ public class VircurexSha2Digest {
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(e.getMessage(), e);
     }
-    secretWord = DatatypeConverter.printHexBinary(digest.digest());
+    secretWord = DigestUtils.bytesToHex(digest.digest());
   }
 
   @Override
