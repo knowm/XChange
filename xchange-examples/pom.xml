@@ -210,6 +210,12 @@
             <artifactId>xchange-vaultofsatoshi</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- XChange BitVC exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-bitvc</artifactId>
+            <version>${project.version}</version>
+        </dependency>
                 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
