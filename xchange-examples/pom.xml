@@ -210,7 +210,7 @@
             <artifactId>xchange-vaultofsatoshi</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- XChange Vault of Satoshi exchange support -->
+        <!-- XChange BitVC exchange support -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>xchange-bitvc</artifactId>
