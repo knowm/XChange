@@ -121,7 +121,6 @@ The current snapshot version is:
 install in local Maven repo: `mvn clean install`  
 create project javadocs: `mvn javadoc:aggregate`  
 generate dependency tree: `mvn dependency:tree`  
-check/update all header files: `mvn license:check` and `mvn license:format`
 
 ## Bugs
 Please report any bugs or submit feature requests to [XChange's Github issue tracker](https://github.com/timmolter/XChange/issues).
