@@ -96,22 +96,11 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
     }
   }
 
-  public ANXTradeResultWrapper getExecutedANXTrades(long from, long to) throws IOException {
+  public ANXTradeResultWrapper getExecutedANXTrades(Long from, Long to) throws IOException {
 
     try {
 
       ANXTradeResultWrapper anxTradeResultWrapper = anxV2.getExecutedTrades(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), from, to);
-      return anxTradeResultWrapper;
-    } catch (ANXException e) {
-      throw new ExchangeException("Error calling getExecutedANXTrades(): " + e.getError(), e);
-    }
-  }
-
-  public ANXTradeResultWrapper getExecutedANXTrades() throws IOException {
-
-    try {
-
-      ANXTradeResultWrapper anxTradeResultWrapper = anxV2.getExecutedTrades(exchangeSpecification.getApiKey(), signatureCreator, getNonce());
       return anxTradeResultWrapper;
     } catch (ANXException e) {
       throw new ExchangeException("Error calling getExecutedANXTrades(): " + e.getError(), e);
