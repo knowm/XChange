@@ -19,6 +19,7 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaMarketDepth;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaMarketDepthOrder;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrderStatus;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -326,7 +327,7 @@ public final class BTCChinaAdapters {
     }
 
     final OrderType orderType = type.startsWith("buy") ? OrderType.BID : OrderType.ASK;
-    final CurrencyPair currencyPair = adaptCurrencyPair(transaction.getMarket().toUpperCase());
+    final CurrencyPair currencyPair = adaptCurrencyPair(transaction.getMarket());
 
     final BigDecimal amount;
     final BigDecimal money;
@@ -382,22 +383,32 @@ public final class BTCChinaAdapters {
 
   public static CurrencyPair adaptCurrencyPairFromTickerMarketKey(String market) {
 
-    return adaptCurrencyPair(market.substring(TICKER_MARKET_KEY_PREFIX_LENGTH).toUpperCase());
+    return adaptCurrencyPair(market.substring(TICKER_MARKET_KEY_PREFIX_LENGTH));
   }
 
   public static CurrencyPair adaptCurrencyPairFromOrdersMarketKey(String market) {
 
-    return adaptCurrencyPair(market.substring(ORDERS_MARKET_KEY_PREFIX_LENGTH).toUpperCase());
+    return adaptCurrencyPair(market.substring(ORDERS_MARKET_KEY_PREFIX_LENGTH));
   }
 
   public static CurrencyPair adaptCurrencyPair(String market) {
 
-    return new CurrencyPair(market.substring(0, 3), market.substring(3));
+    return new CurrencyPair(market.substring(0, 3).toUpperCase(), market.substring(3).toUpperCase());
   }
 
   public static Date adaptDate(long date) {
 
     return DateUtils.fromMillisUtc(date * 1000L);
+  }
+
+  public static OrderType adaptOrderType(String type) {
+
+    return type.equals("buy") ? OrderType.BID : OrderType.ASK;
+  }
+
+  public static BTCChinaOrderStatus adaptOrderStatus(String status) {
+
+    return BTCChinaOrderStatus.valueOf(status.toUpperCase());
   }
 
 }
