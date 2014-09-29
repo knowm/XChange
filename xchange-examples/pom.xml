@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -126,99 +127,100 @@
 			<artifactId>xchange-bitcoinaverage</artifactId>
 			<version>2.1.0-SNAPSHOT</version>
 		</dependency>
-        <!-- XChange Cex.io exchange support -->
-        <dependency>
-            <groupId>com.xeiam.xchange</groupId>
-            <artifactId>xchange-cexio</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
-        </dependency>
+		<!-- XChange Cex.io exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-cexio</artifactId>
+			<version>2.1.0-SNAPSHOT</version>
+		</dependency>
 		<!-- XChange CryptoTrade exchange support -->
-        <dependency>
-            <groupId>com.xeiam.xchange</groupId>
-            <artifactId>xchange-cryptotrade</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
-        </dependency>
-        <!-- XChange Bter exchange support -->
-        <dependency>
-            <groupId>com.xeiam.xchange</groupId>
-            <artifactId>xchange-bter</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
-        </dependency>
-        <!-- XChange Coinflor exchange support -->
-        <dependency>
-            <groupId>com.xeiam.xchange</groupId>
-            <artifactId>xchange-coinfloor</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
-        </dependency>
-        <!-- XChange ANX exchange support -->
-        <dependency>
-            <groupId>com.xeiam.xchange</groupId>
-            <artifactId>xchange-anx</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
-        </dependency>
-        <!-- XChange ItBit exchange support -->
-        <dependency>
-            <groupId>com.xeiam.xchange</groupId>
-            <artifactId>xchange-itbit</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
-        </dependency>
-        <!-- XChange Cryptsy exchange support -->
-        <dependency>
-            <groupId>com.xeiam.xchange</groupId>
-            <artifactId>xchange-cryptsy</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
-        </dependency>
-        <!-- XChange Hitbtc exchange support -->
-        <dependency>
-            <groupId>com.xeiam.xchange</groupId>
-            <artifactId>xchange-hitbtc</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
-        </dependency>
-        <!-- XChange BTCCentral exchange support -->
-        <dependency>
-            <groupId>com.xeiam.xchange</groupId>
-            <artifactId>xchange-btccentral</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
-        </dependency>
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-cryptotrade</artifactId>
+			<version>2.1.0-SNAPSHOT</version>
+		</dependency>
+		<!-- XChange Bter exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-bter</artifactId>
+			<version>2.1.0-SNAPSHOT</version>
+		</dependency>
+		<!-- XChange Coinflor exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-coinfloor</artifactId>
+			<version>2.1.0-SNAPSHOT</version>
+		</dependency>
+		<!-- XChange ANX exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-anx</artifactId>
+			<version>2.1.0-SNAPSHOT</version>
+		</dependency>
+		<!-- XChange ItBit exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-itbit</artifactId>
+			<version>2.1.0-SNAPSHOT</version>
+		</dependency>
+		<!-- XChange Cryptsy exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-cryptsy</artifactId>
+			<version>2.1.0-SNAPSHOT</version>
+		</dependency>
+		<!-- XChange Hitbtc exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-hitbtc</artifactId>
+			<version>2.1.0-SNAPSHOT</version>
+		</dependency>
+		<!-- XChange BTCCentral exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-btccentral</artifactId>
+			<version>2.1.0-SNAPSHOT</version>
+		</dependency>
 		<!-- XChange BTCTrade exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-btctrade</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-        <!-- XChange Cryptonit exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-cryptonit</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- XChange MintPal exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-mintpal</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- XChange Poloniex exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-poloniex</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!-- XChange Vault of Satoshi exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-vaultofsatoshi</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-                
+		<!-- XChange Cryptonit exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-cryptonit</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- XChange MintPal exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-mintpal</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- XChange Poloniex exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-poloniex</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- XChange Vault of Satoshi exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-vaultofsatoshi</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<scope>runtime</scope>
+			<version>1.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.xeiam.xchart</groupId>
 			<artifactId>xchart</artifactId>
+			<version>2.4.0</version>
 		</dependency>
 
 	</dependencies>
