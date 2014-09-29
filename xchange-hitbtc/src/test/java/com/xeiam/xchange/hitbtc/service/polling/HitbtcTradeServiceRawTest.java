@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
 
 public class HitbtcTradeServiceRawTest {
 
-
   @Test
   public void testReadSymbol() throws Exception {
 
@@ -32,6 +31,7 @@ public class HitbtcTradeServiceRawTest {
 class HitbtcTradeServiceRawPublic extends HitbtcTradeServiceRaw {
 
   private HitbtcTradeServiceRawPublic() {
+
     super(null, null);
   }
 
@@ -56,4 +56,3 @@ class HitbtcTradeServiceRawPublic extends HitbtcTradeServiceRaw {
   }
 
 }
-

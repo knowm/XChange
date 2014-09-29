@@ -65,6 +65,7 @@ public class BTCChinaTickerDemo {
 
     System.out.println("vwap: " + ticker.getTicker().getVwap());
     System.out.println("prev_close: " + ticker.getTicker().getPrevClose());
+    System.out.println("open: " + ticker.getTicker().getOpen());
 
     Map<String, BTCChinaTickerObject> tickers = marketDataServiceRaw.getBTCChinaTickers();
     System.out.println(tickers);

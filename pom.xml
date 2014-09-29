@@ -134,6 +134,23 @@
 				<version>1.7.7</version>
 			</dependency>
 
+			<!-- SLF4J implementation for use in testing -->
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.1.2</version>
+				<!-- Test scope prevents this implementation bleeding out to consuming 
+					applications -->
+				<scope>test</scope>
+			</dependency>
+
+			<!-- Charting -->
+			<dependency>
+				<groupId>com.xeiam.xchart</groupId>
+				<artifactId>xchart</artifactId>
+				<version>2.4.0</version>
+			</dependency>
+
 			<!-- Websocket library -->
 			<dependency>
 				<groupId>org.java-websocket</groupId>
