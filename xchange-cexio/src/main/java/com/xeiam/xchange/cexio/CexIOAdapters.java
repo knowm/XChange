@@ -150,6 +150,9 @@ public class CexIOAdapters {
       wallets.add(new Wallet(Currencies.DRK, balance.getBalanceDRK().getAvailable(), "available"));
       wallets.add(new Wallet(Currencies.DRK, balance.getBalanceDRK().getOrders(), "orders"));
     }
+    if (balance.getBalanceEUR() != null) {
+        wallets.add(new Wallet(Currencies.EUR, balance.getBalanceEUR().getAvailable(), "available"));
+      }
 
     return new AccountInfo(userName, null, wallets);
   }
