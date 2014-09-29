@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.PollingMarketMetadataService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
@@ -90,6 +91,11 @@ public abstract class BaseExchange implements Exchange {
   public PollingAccountService getPollingAccountService() {
 
     return pollingAccountService;
+  }
+
+  @Override
+  public PollingMarketMetadataService getPollingMarketMetadataService() {
+    return null;
   }
 
   @Override
