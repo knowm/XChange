@@ -14,11 +14,13 @@ import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTickerResponse;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTrade;
 
 public class OkCoinMarketDataServiceRaw extends OkCoinBasePollingService {
+
   private final OkCoin okCoin;
 
   protected OkCoinMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
-    
+
     Map<String, Object> specific = exchangeSpecification.getExchangeSpecificParameters();
     okCoin = RestProxyFactory.createProxy(OkCoin.class, useIntl ? (String) specific.get("Intl_SslUri") : exchangeSpecification.getSslUri());
   }

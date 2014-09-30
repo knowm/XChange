@@ -17,14 +17,17 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 
 public class OkCoinDigest implements ParamsDigest {
+
   private static final char[] DIGITS_UPPER = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
   private final String partner;
   private final String secretKey;
   private final MessageDigest md;
   private final Comparator<Entry<String, String>> comparator = new Comparator<Map.Entry<String, String>>() {
+
     @Override
     public int compare(Entry<String, String> o1, Entry<String, String> o2) {
+
       return o1.getKey().compareTo(o2.getKey());
     }
   };
@@ -42,6 +45,7 @@ public class OkCoinDigest implements ParamsDigest {
   }
 
   private static char[] encodeHex(byte[] data, char[] toDigits) {
+
     int l = data.length;
     char[] out = new char[l << 1];
     // two characters form the hex value.
@@ -54,17 +58,19 @@ public class OkCoinDigest implements ParamsDigest {
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
+
     final Params params = restInvocation.getParamsMap().get(FormParam.class);
     final Map<String, String> nameValueMap = params.asHttpHeaders();
 
     nameValueMap.remove("sign");
     nameValueMap.put("partner", partner);
-    
+
     // odd requirements for buy/sell market orders
-    if(nameValueMap.containsKey("type") && nameValueMap.get("type").contains("market")) {
-      if(nameValueMap.get("type").equals("buy_market")) {
+    if (nameValueMap.containsKey("type") && nameValueMap.get("type").contains("market")) {
+      if (nameValueMap.get("type").equals("buy_market")) {
         nameValueMap.remove("amount");
-      } else if(nameValueMap.get("type").equals("sell_market")) {
+      }
+      else if (nameValueMap.get("type").equals("sell_market")) {
         nameValueMap.remove("rate");
       }
     }

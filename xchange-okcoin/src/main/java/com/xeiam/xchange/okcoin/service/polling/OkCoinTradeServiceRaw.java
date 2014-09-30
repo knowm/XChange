@@ -14,21 +14,25 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradePollingService {
   }
 
   public OkCoinTradeResult trade(String symbol, String type, String rate, String amount) throws IOException {
+
     OkCoinTradeResult tradeResult = okCoin.trade(partner, symbol, type, rate, amount, signatureCreator);
     return returnOrThrow(tradeResult);
   }
 
   public OkCoinTradeResult cancelOrder(long orderId, String symbol) throws IOException {
+
     OkCoinTradeResult tradeResult = okCoin.cancelOrder(partner, orderId, symbol, signatureCreator);
     return returnOrThrow(tradeResult);
   }
 
   public OkCoinOrderResult getOrder(long orderId, String symbol) throws IOException {
+
     OkCoinOrderResult orderResult = okCoin.getOrder(partner, orderId, symbol, signatureCreator);
     return returnOrThrow(orderResult);
   }
 
   public OkCoinOrderResult getOrderHistory(String symbol, String status, String currentPage, String pageLength) throws IOException {
+
     OkCoinOrderResult orderResult = okCoin.getOrderHistory(partner, symbol, status, currentPage, pageLength, signatureCreator);
     return returnOrThrow(orderResult);
   }

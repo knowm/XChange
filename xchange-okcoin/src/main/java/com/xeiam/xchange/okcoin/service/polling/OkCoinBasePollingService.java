@@ -9,8 +9,9 @@ import com.xeiam.xchange.service.polling.BasePollingExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class OkCoinBasePollingService extends BasePollingExchangeService implements BasePollingService {
+
   private final Collection<CurrencyPair> symbols;
-  
+
   /** Set to true if international site should be used */
   protected final boolean useIntl;
 
@@ -30,6 +31,7 @@ public class OkCoinBasePollingService extends BasePollingExchangeService impleme
    */
   @Override
   public Collection<CurrencyPair> getExchangeSymbols() {
+
     return symbols;
   }
 

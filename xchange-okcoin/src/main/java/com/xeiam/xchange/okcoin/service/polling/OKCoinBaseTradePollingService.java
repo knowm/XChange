@@ -17,6 +17,7 @@ public class OKCoinBaseTradePollingService extends OkCoinBasePollingService {
   protected final long partner;
 
   protected OKCoinBaseTradePollingService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
 
     Map<String, Object> specific = exchangeSpecification.getExchangeSpecificParameters();

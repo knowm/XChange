@@ -24,6 +24,7 @@ import com.xeiam.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class OkCoinTradeService extends OkCoinTradeServiceRaw implements PollingTradeService {
+
   private final Logger log = LoggerFactory.getLogger(OkCoinTradeService.class);
   private final List<CurrencyPair> exchangeSymbols = (List<CurrencyPair>) getExchangeSymbols();
 
@@ -34,9 +35,10 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
 
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     List<OkCoinOrderResult> orderResults = new ArrayList<OkCoinOrderResult>(exchangeSymbols.size());
 
-    for(int i = 0; i < exchangeSymbols.size(); i++) {
+    for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
       log.debug("Getting order: {}", symbol);
       OkCoinOrderResult orderResult = getOrder(-1, OkCoinAdapters.adaptSymbol(symbol));
@@ -48,23 +50,24 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     String marketOrderType = null;
     String rate = null;
     String amount = null;
 
-    if(marketOrder.getType().equals(OrderType.BID)) {
+    if (marketOrder.getType().equals(OrderType.BID)) {
       marketOrderType = "buy_market";
       rate = marketOrder.getTradableAmount().toPlainString();
       amount = "1";
-    } else {
+    }
+    else {
       marketOrderType = "sell_market";
       rate = "1";
       amount = marketOrder.getTradableAmount().toPlainString();
     }
 
-    long orderId =
-        trade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()), marketOrderType, rate, amount).getOrderId();
-    return String.valueOf(orderId);  
+    long orderId = trade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()), marketOrderType, rate, amount).getOrderId();
+    return String.valueOf(orderId);
   }
 
   @Override
@@ -78,10 +81,11 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
 
   @Override
   public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     boolean ret = false;
     long id = Long.valueOf(orderId);
 
-    for(int i = 0; i < exchangeSymbols.size(); i++ ) {
+    for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
       try {
         OkCoinTradeResult cancelResult = cancelOrder(id, OkCoinAdapters.adaptSymbol(symbol));
@@ -102,9 +106,10 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
 
   @Override
   public Trades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     CurrencyPair currencyPair = arguments.length > 0 ? (CurrencyPair) arguments[0] : CurrencyPair.BTC_CNY;
     Long pageLength = arguments.length > 1 ? (Long) arguments[1] : 1000L;
-    
+
     OkCoinOrderResult orderHistory = getOrderHistory(OkCoinAdapters.adaptSymbol(currencyPair), "1", "0", pageLength.toString());
     return OkCoinAdapters.adaptTrades(orderHistory);
   }
