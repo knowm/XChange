@@ -83,7 +83,6 @@
 		<module>xchange-bitmarket</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-bittrex</module>
-		<module>xchange-bitvc</module>
 		<module>xchange-blockchain</module>
 		<module>xchange-btccentral</module>
 		<module>xchange-btcchina</module>

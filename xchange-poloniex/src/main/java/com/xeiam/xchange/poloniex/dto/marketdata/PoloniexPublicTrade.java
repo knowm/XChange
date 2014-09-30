@@ -117,4 +117,8 @@ public class PoloniexPublicTrade {
     this.additionalProperties.put(name, value);
   }
 
+  @Override
+  public String toString() {
+    return "PoloniexPublicTrade [tradeID=" + tradeID + ", date=" + date + ", type=" + type + ", amount=" + amount + ", rate=" + rate+ ", total=" + total + "" + ", additionalProperties=" + additionalProperties + "]";
+  }
 }

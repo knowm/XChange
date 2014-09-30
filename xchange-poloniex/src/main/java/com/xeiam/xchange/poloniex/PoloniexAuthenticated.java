@@ -41,7 +41,7 @@ public interface PoloniexAuthenticated extends Poloniex {
   @POST
   @FormParam("command")
   PoloniexUserTrade[] returnTradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce,
-      @FormParam("currencyPair") String currencyPair) throws IOException;
+      @FormParam("currencyPair") String currencyPair, @FormParam("start") Long startTime, @FormParam("end") Long endTime) throws IOException;
 
   @POST
   @FormParam("command")
