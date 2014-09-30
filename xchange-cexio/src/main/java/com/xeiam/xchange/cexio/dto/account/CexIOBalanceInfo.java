@@ -21,6 +21,7 @@ public class CexIOBalanceInfo {
   private final CexIOBalance balanceGHS;
   private final CexIOBalance balanceUSD;
   private final CexIOBalance balanceDRK;
+  private final CexIOBalance balanceEUR;  
 
   /**
    * Constructor
@@ -35,10 +36,11 @@ public class CexIOBalanceInfo {
    * @param balanceGHS
    * @param balanceUSD
    * @param balanceDRK
+   * @param balanceEUR 
    */
   public CexIOBalanceInfo(@JsonProperty("error") String error, @JsonProperty("timestamp") long timestamp, @JsonProperty("username") String username, @JsonProperty("BTC") CexIOBalance balanceBTC,
       @JsonProperty("LTC") CexIOBalance balanceLTC, @JsonProperty("NMC") CexIOBalance balanceNMC, @JsonProperty("IXC") CexIOBalance balanceIXC, @JsonProperty("DVC") CexIOBalance balanceDVC,
-      @JsonProperty("GHS") CexIOBalance balanceGHS, @JsonProperty("DRK") CexIOBalance balanceDRK, @JsonProperty("USD") CexIOBalance balanceUSD) {
+      @JsonProperty("GHS") CexIOBalance balanceGHS, @JsonProperty("DRK") CexIOBalance balanceDRK, @JsonProperty("USD") CexIOBalance balanceUSD, @JsonProperty("EUR") CexIOBalance balanceEUR) {
 
     this.error = error;
     this.timestamp = timestamp;
@@ -51,6 +53,7 @@ public class CexIOBalanceInfo {
     this.balanceGHS = balanceGHS;
     this.balanceUSD = balanceUSD;
     this.balanceDRK = balanceDRK;
+    this.balanceEUR = balanceEUR;    
   }
 
   public String getError() {
@@ -108,12 +111,17 @@ public class CexIOBalanceInfo {
 	    return balanceDRK;
   }
 
+  public CexIOBalance getBalanceEUR() {
+
+	    return balanceEUR;
+  }
+
   
   @Override
   public String toString() {
 
-    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, LTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}, USD={9}, DRK={10}]", error, timestamp, username, balanceBTC, balanceLTC,
-        balanceNMC, balanceIXC, balanceDVC, balanceGHS, balanceUSD, balanceDRK);
+    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, LTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}, USD={9}, DRK={10}, EUR={11}]", error, timestamp, username, balanceBTC, balanceLTC,
+        balanceNMC, balanceIXC, balanceDVC, balanceGHS, balanceUSD, balanceDRK, balanceEUR);
   }
 
 }
