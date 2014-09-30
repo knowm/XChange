@@ -129,7 +129,7 @@ public final class OkCoinAdapters {
 
   private static Trade adaptTrade(OkCoinTrade trade, CurrencyPair currencyPair) {
 
-    return new Trade(trade.getType() == "buy" ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), trade.getTid());
+    return new Trade(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), trade.getTid());
   }
 
   private static List<LimitOrder> adaptOpenOrders(OkCoinOrderResult orderResult) {
