@@ -72,9 +72,9 @@ public final class OkCoinAdapters {
   public static AccountInfo adaptAccountInfo(OkCoinUserInfo userInfo) {
     OkCoinFunds funds = userInfo.getInfo().getFunds();
 
-    Wallet cny = new Wallet(CNY, funds.getFree().get("cny"), "available");
-    Wallet btc = new Wallet(BTC, funds.getFree().get("btc"), "available");
-    Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc"), "available");
+    Wallet cny = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(funds.getBorrow().get("cny")), "available");
+    Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(funds.getBorrow().get("btc")), "available");
+    Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(funds.getBorrow().get("ltc")), "available");
 
     // loaned wallets
     Wallet cnyLoan = new Wallet(CNY, funds.getBorrow().get("cny"), "loan");
@@ -146,7 +146,8 @@ public final class OkCoinAdapters {
   }
 
   private static Trade adaptTrade(OkCoinOrder order) {
-    return new Trade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(), null, null, String.valueOf(order
-        .getOrderId()));
+    return new Trade(
+        adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(), order.getCreateDate(), null, String.valueOf(order
+            .getOrderId()));
   }
 }

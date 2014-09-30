@@ -27,4 +27,9 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradePollingService {
     OkCoinOrderResult orderResult = okCoin.getOrder(partner, orderId, symbol, signatureCreator);
     return returnOrThrow(orderResult);
   }
+
+  public OkCoinOrderResult getOrderHistory(String symbol, String status, String currentPage, String pageLength) throws IOException {
+    OkCoinOrderResult orderResult = okCoin.getOrderHistory(partner, symbol, status, currentPage, pageLength, signatureCreator);
+    return returnOrThrow(orderResult);
+  }
 }

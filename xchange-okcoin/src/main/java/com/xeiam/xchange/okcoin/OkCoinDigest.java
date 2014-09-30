@@ -56,19 +56,18 @@ public class OkCoinDigest implements ParamsDigest {
   public String digestParams(RestInvocation restInvocation) {
     final Params params = restInvocation.getParamsMap().get(FormParam.class);
     final Map<String, String> nameValueMap = params.asHttpHeaders();
-    
+
     nameValueMap.remove("sign");
     nameValueMap.put("partner", partner);
     
     // odd requirements for buy/sell market orders
-    if(nameValueMap.containsKey("type") && nameValueMap.containsKey("rate") && nameValueMap.containsKey("amount")) {
+    if(nameValueMap.containsKey("type") && nameValueMap.get("type").contains("market")) {
       if(nameValueMap.get("type").equals("buy_market")) {
         nameValueMap.remove("amount");
-      } else {
+      } else if(nameValueMap.get("type").equals("sell_market")) {
         nameValueMap.remove("rate");
       }
     }
-
     final List<Map.Entry<String, String>> nameValueList = new ArrayList<Map.Entry<String, String>>(nameValueMap.entrySet());
     Collections.sort(nameValueList, comparator);
 

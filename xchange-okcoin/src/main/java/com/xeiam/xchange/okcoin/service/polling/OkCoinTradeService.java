@@ -48,10 +48,24 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    String marketOrderType = null;
+    String rate = null;
+    String amount = null;
+
+    if(marketOrder.getType().equals(OrderType.BID)) {
+      marketOrderType = "buy_market";
+      rate = marketOrder.getTradableAmount().toPlainString();
+      amount = "1";
+    } else {
+      marketOrderType = "sell_market";
+      rate = "1";
+      amount = marketOrder.getTradableAmount().toPlainString();
+    }
+
     long orderId =
-        trade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()), marketOrder.getType() == OrderType.BID ? "buy_market" : "sell_market", "1",
-            marketOrder.getTradableAmount().toPlainString()).getOrderId();
-    return String.valueOf(orderId);  }
+        trade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()), marketOrderType, rate, amount).getOrderId();
+    return String.valueOf(orderId);  
+  }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
@@ -88,15 +102,10 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
 
   @Override
   public Trades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    int argc = arguments.length;
-    CurrencyPair currencyPair = argc > 0 ? (CurrencyPair) arguments[0] : null;
-    Long orderId = argc > 0 ? (Long) arguments[1] : null;
-
-    if (currencyPair != null && orderId != null) {
-      return OkCoinAdapters.adaptTrades(getOrder(orderId, OkCoinAdapters.adaptSymbol(currencyPair)));
-    }
-    else {
-      throw new IllegalArgumentException();
-    }
+    CurrencyPair currencyPair = arguments.length > 0 ? (CurrencyPair) arguments[0] : CurrencyPair.BTC_CNY;
+    Long pageLength = arguments.length > 1 ? (Long) arguments[1] : 1000L;
+    
+    OkCoinOrderResult orderHistory = getOrderHistory(OkCoinAdapters.adaptSymbol(currencyPair), "1", "0", pageLength.toString());
+    return OkCoinAdapters.adaptTrades(orderHistory);
   }
 }

@@ -1,5 +1,7 @@
 package com.xeiam.xchange.okcoin.service.polling;
 
+import java.util.Map;
+
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -15,10 +17,10 @@ public class OKCoinBaseTradePollingService extends OkCoinBasePollingService {
   protected final long partner;
 
   protected OKCoinBaseTradePollingService(ExchangeSpecification exchangeSpecification) {
-
     super(exchangeSpecification);
 
-    okCoin = RestProxyFactory.createProxy(OkCoin.class, exchangeSpecification.getSslUri());
+    Map<String, Object> specific = exchangeSpecification.getExchangeSpecificParameters();
+    okCoin = RestProxyFactory.createProxy(OkCoin.class, useIntl ? (String) specific.get("Intl_SslUri") : exchangeSpecification.getSslUri());
     final String apiKey = exchangeSpecification.getApiKey();
 
     signatureCreator = new OkCoinDigest(apiKey, exchangeSpecification.getSecretKey());

@@ -55,4 +55,14 @@ public interface OkCoin {
   @POST
   @Path("getorder.do")
   OkCoinOrderResult getOrder(@FormParam("partner") long partner, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol, @FormParam("sign") ParamsDigest sign) throws IOException;
+
+
+  @POST
+  @Path("getOrderHistory.do")
+  OkCoinOrderResult getOrderHistory(@FormParam("partner") long partner, @FormParam("symbol") String symbol, 
+      @FormParam("status") String status,
+      @FormParam("currentPage") String currentPage,
+      @FormParam("pageLength") String pageLength,
+      @FormParam("sign") ParamsDigest sign) throws IOException;
+
 }
