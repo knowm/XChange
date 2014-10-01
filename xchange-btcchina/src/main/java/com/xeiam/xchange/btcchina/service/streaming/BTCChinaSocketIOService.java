@@ -126,7 +126,7 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
         putEvent(ExchangeEventType.CONNECT);
       }
     }).on(EVENT_TRADE, new Emitter.Listener() {
-  
+
       @Override
       public void call(Object... args) {
 
@@ -136,7 +136,7 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
         putEvent(ExchangeEventType.TRADE, json, BTCChinaJSONObjectAdapters.adaptTrade(json));
       }
     }).on(EVENT_TICKER, new Emitter.Listener() {
-  
+
       @Override
       public void call(Object... args) {
 
@@ -146,7 +146,7 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
         putEvent(ExchangeEventType.TICKER, json, BTCChinaJSONObjectAdapters.adaptTicker(json));
       }
     }).on(EVENT_ORDER, new Emitter.Listener() {
-  
+
       @Override
       public void call(Object... args) {
 
@@ -156,7 +156,7 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
         putEvent(ExchangeEventType.USER_ORDER, json, BTCChinaJSONObjectAdapters.adaptOrder(json));
       }
     }).on(Socket.EVENT_RECONNECTING, new Emitter.Listener() {
-      
+
       @Override
       public void call(Object... args) {
 
@@ -164,7 +164,7 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
         webSocketStatus = READYSTATE.CONNECTING;
       }
     }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
-  
+
       @Override
       public void call(Object... args) {
 
