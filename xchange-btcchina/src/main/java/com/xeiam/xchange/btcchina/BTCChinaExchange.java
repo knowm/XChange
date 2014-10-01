@@ -72,11 +72,19 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
   @Override
   public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 
-    if (configuration instanceof BTCChinaStreamingConfiguration) {
-      return new BTCChinaSocketIOService(getExchangeSpecification(), (BTCChinaStreamingConfiguration) configuration);
+    final BTCChinaStreamingConfiguration btcchinaStreamingConfiguration;
+
+    if (configuration == null) {
+      btcchinaStreamingConfiguration = new BTCChinaStreamingConfiguration();
+    }
+    else if (configuration instanceof BTCChinaStreamingConfiguration) {
+      btcchinaStreamingConfiguration = (BTCChinaStreamingConfiguration) configuration;
+    }
+    else {
+      throw new IllegalArgumentException("BTCChina only supports BTCChinaStreamingConfiguration");
     }
 
-    throw new IllegalArgumentException("BTCChina only supports BTCChinaStreamingConfiguration");
+    return new BTCChinaSocketIOService(getExchangeSpecification(), btcchinaStreamingConfiguration);
   }
 
 }

@@ -12,9 +12,9 @@ import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
-public class Main {
+public class BTCChinaSocketIOServiceDemo {
 
-  private static final Logger log = LoggerFactory.getLogger(Main.class);
+  private static final Logger log = LoggerFactory.getLogger(BTCChinaSocketIOServiceDemo.class);
 
   public static void main(String[] args) throws InterruptedException {
 
@@ -30,7 +30,7 @@ public class Main {
         while (!isInterrupted()) {
           try {
             ExchangeEvent event = service.getNextEvent();
-            log.info("type: {}, data: {}, payload: {}", event.getEventType(), event.getData(), event.getPayload());
+            log.info("status: {}, type: {}, data: {}, payload: {}", service.getWebSocketStatus(), event.getEventType(), event.getData(), event.getPayload());
           } catch (InterruptedException e) {
             this.interrupt();
           }
