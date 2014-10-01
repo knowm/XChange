@@ -5,9 +5,8 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 
 public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfiguration {
 
-  private final boolean subscribeMarketData;
-  private final boolean subscribeOrderFeed;
-  private final CurrencyPair[] currencyPairs;
+  private final CurrencyPair[] marketDataCurrencyPairs;
+  private final CurrencyPair[] orderFeedCurrencyPairs;
 
   public BTCChinaStreamingConfiguration() {
 
@@ -19,13 +18,17 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
    * @param subscribeOrderFeed Subscribe with 'private' method and listen on "order" method to receive and process your own order data. Whenever the status of your own orders change, the server will
    *          push corresponding orders to your client side.
    *          This requires authentication with your access key and secret key, which is used the same way as our trade API.
-   * @param currencyPair could be one or more of {@link CurrencyPair#BTC_CNY}, {@link CurrencyPair#LTC_CNY}, {@link CurrencyPair#LTC_BTC}.
+   * @param currencyPairs could be one or more of {@link CurrencyPair#BTC_CNY}, {@link CurrencyPair#LTC_CNY}, {@link CurrencyPair#LTC_BTC}.
    */
-  public BTCChinaStreamingConfiguration(boolean subscribeMarktData, boolean subscribeOrderFeed, CurrencyPair... currencyPair) {
+  public BTCChinaStreamingConfiguration(boolean subscribeMarktData, boolean subscribeOrderFeed, CurrencyPair... currencyPairs) {
 
-    this.subscribeMarketData = subscribeMarktData;
-    this.subscribeOrderFeed = subscribeOrderFeed;
-    this.currencyPairs = currencyPair;
+    this(subscribeMarktData ? currencyPairs : null, subscribeOrderFeed ? currencyPairs : null);
+  }
+
+  public BTCChinaStreamingConfiguration(CurrencyPair[] marketDataCurrencyPairs, CurrencyPair[] orderFeedCurrencyPairs) {
+
+    this.marketDataCurrencyPairs = marketDataCurrencyPairs == null ? new CurrencyPair[0] : marketDataCurrencyPairs;
+    this.orderFeedCurrencyPairs = orderFeedCurrencyPairs == null ? new CurrencyPair[0] : orderFeedCurrencyPairs;
   }
 
   /**
@@ -73,19 +76,32 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
     return false;
   }
 
+  @Deprecated
   public boolean isSubscribeMarketData() {
 
-    return subscribeMarketData;
+    return marketDataCurrencyPairs.length > 0;
   }
 
+  @Deprecated
   public boolean isSubscribeOrderFeed() {
 
-    return subscribeOrderFeed;
+    return orderFeedCurrencyPairs.length > 0;
   }
 
+  @Deprecated
   public CurrencyPair[] getCurrencyPairs() {
 
-    return currencyPairs;
+    return marketDataCurrencyPairs;
+  }
+
+  public CurrencyPair[] getMarketDataCurrencyPairs() {
+
+    return marketDataCurrencyPairs;
+  }
+
+  public CurrencyPair[] getOrderFeedCurrencyPairs() {
+
+    return orderFeedCurrencyPairs;
   }
 
 }
