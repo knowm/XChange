@@ -29,8 +29,9 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   private final List<CurrencyPair> exchangeSymbols = (List<CurrencyPair>) getExchangeSymbols();
 
   public OkCoinTradeService(ExchangeSpecification exchangeSpecification) {
-
     super(exchangeSpecification);
+    
+    
   }
 
   @Override
@@ -107,7 +108,9 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   @Override
   public Trades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    CurrencyPair currencyPair = arguments.length > 0 ? (CurrencyPair) arguments[0] : CurrencyPair.BTC_CNY;
+    CurrencyPair currencyPair = arguments.length > 0 ? (CurrencyPair) arguments[0] : 
+      (useIntl ? CurrencyPair.BTC_USD : CurrencyPair.BTC_CNY);
+    
     Long pageLength = arguments.length > 1 ? (Long) arguments[1] : 1000L;
 
     OkCoinOrderResult orderHistory = getOrderHistory(OkCoinAdapters.adaptSymbol(currencyPair), "1", "0", pageLength.toString());
