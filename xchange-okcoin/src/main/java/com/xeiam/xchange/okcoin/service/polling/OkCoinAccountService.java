@@ -27,7 +27,7 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Pol
   @Override
   public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    return OkCoinAdapters.adaptAccountInfo(getUserInfo());
+    return OkCoinAdapters.adaptAccountInfo(getUserInfo(), useIntl);
   }
 
   /**

@@ -18,4 +18,10 @@ public class OkCoinUserInfo extends OkCoinErrorResult {
     return info;
   }
 
+  @Override
+  public String toString() {
+
+    return "OkCoinUserInfo [info=" + info + "]";
+  }
+
 }
