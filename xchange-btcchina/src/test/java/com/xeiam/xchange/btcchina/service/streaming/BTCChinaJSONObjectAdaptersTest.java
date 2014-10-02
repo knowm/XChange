@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +24,7 @@ public class BTCChinaJSONObjectAdaptersTest {
   @Test
   public void testAdaptTicker() throws JSONException, IOException {
 
-    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("ticker.json")));
+    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("ticker.json"), Charsets.UTF_8));
     Ticker ticker = BTCChinaJSONObjectAdapters.adaptTicker(jsonObject);
     assertEquals(new BigDecimal("90604.96"), ticker.getVolume());
     assertEquals(new BigDecimal("25.96"), ticker.getLast());
@@ -38,7 +39,7 @@ public class BTCChinaJSONObjectAdaptersTest {
   @Test
   public void testAdaptTrade() throws JSONException, IOException {
 
-    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("trade.json")));
+    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("trade.json"), Charsets.UTF_8));
     Trade trade = BTCChinaJSONObjectAdapters.adaptTrade(jsonObject);
     assertEquals(new BigDecimal("0.79000000"), trade.getTradableAmount());
     assertEquals(CurrencyPair.BTC_CNY, trade.getCurrencyPair());
@@ -51,7 +52,7 @@ public class BTCChinaJSONObjectAdaptersTest {
   @Test
   public void testAdaptOrder() throws JSONException, IOException {
 
-    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("order.json")));
+    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("order.json"), Charsets.UTF_8));
     BTCChinaOrder order = BTCChinaJSONObjectAdapters.adaptOrder(jsonObject);
     assertEquals(new BigDecimal("0.01"), order.getTradableAmount());
     assertEquals("26821399", order.getId());
@@ -66,7 +67,7 @@ public class BTCChinaJSONObjectAdaptersTest {
   @Test
   public void testAdaptBalanceBTC() throws JSONException, IOException {
 
-    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("account_info-balance-BTC.json")));
+    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("account_info-balance-BTC.json"), Charsets.UTF_8));
     BTCChinaBalance balance = BTCChinaJSONObjectAdapters.adaptBalance(jsonObject);
     assertEquals(new BigDecimal("196441900"), balance.getAmountInteger());
     assertEquals(new BigDecimal("1.964419"), balance.getAmount());
@@ -78,7 +79,7 @@ public class BTCChinaJSONObjectAdaptersTest {
   @Test
   public void testAdaptBalanceCNY() throws JSONException, IOException {
 
-    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("account_info-balance-CNY.json")));
+    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("account_info-balance-CNY.json"), Charsets.UTF_8));
     BTCChinaBalance balance = BTCChinaJSONObjectAdapters.adaptBalance(jsonObject);
     assertEquals(new BigDecimal("4.2609492000000005E9"), balance.getAmountInteger());
     assertEquals(new BigDecimal("42.609492"), balance.getAmount());
