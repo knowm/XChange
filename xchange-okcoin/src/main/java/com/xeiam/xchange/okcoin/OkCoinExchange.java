@@ -16,8 +16,10 @@ public class OkCoinExchange extends BaseExchange {
    * The parameter name of the symbols that will focus on.
    */
   public static final String SYMBOLS_PARAMETER = "symbols";
+  public static final String INTL_SYMBOLS_PARAMETER = "intl_symbols";
 
   private static final List<CurrencyPair> SYMBOLS = Arrays.asList(CurrencyPair.BTC_CNY, CurrencyPair.LTC_CNY);
+  private static final List<CurrencyPair> INTL_SYMBOLS = Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.LTC_USD);
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -42,6 +44,7 @@ public class OkCoinExchange extends BaseExchange {
     exchangeSpecification.setExchangeName("OKCoin");
     exchangeSpecification.setExchangeDescription("OKCoin is a globally oriented crypto-currency trading platform.");
     exchangeSpecification.setExchangeSpecificParametersItem(SYMBOLS_PARAMETER, SYMBOLS);
+    exchangeSpecification.setExchangeSpecificParametersItem(INTL_SYMBOLS_PARAMETER, INTL_SYMBOLS);
 
     exchangeSpecification.setExchangeSpecificParametersItem("Intl_SslUri", "https://www.okcoin.com/api");
     exchangeSpecification.setExchangeSpecificParametersItem("Intl_Host", "www.okcoin.com");

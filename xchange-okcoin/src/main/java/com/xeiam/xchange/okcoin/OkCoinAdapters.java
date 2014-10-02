@@ -3,6 +3,7 @@ package com.xeiam.xchange.okcoin;
 import static com.xeiam.xchange.currency.Currencies.BTC;
 import static com.xeiam.xchange.currency.Currencies.CNY;
 import static com.xeiam.xchange.currency.Currencies.LTC;
+import static com.xeiam.xchange.currency.Currencies.USD;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -35,6 +37,14 @@ public final class OkCoinAdapters {
 
   private OkCoinAdapters() {
 
+  }
+  
+  private static BigDecimal getOrZero(String key, Map<String, BigDecimal> map) {
+    if(map != null && map.containsKey(key)) {
+      return map.get(key);
+    } else {
+      return BigDecimal.ZERO;
+    }
   }
 
   public static String adaptSymbol(CurrencyPair currencyPair) {
@@ -73,21 +83,33 @@ public final class OkCoinAdapters {
     long lastTid = trades.length > 0 ? Long.valueOf((trades[trades.length - 1].getTid())) : 0L;
     return new Trades(tradeList, lastTid, TradeSortType.SortByTimestamp);
   }
+  
+  
 
   public static AccountInfo adaptAccountInfo(OkCoinUserInfo userInfo) {
-
     OkCoinFunds funds = userInfo.getInfo().getFunds();
-
-    Wallet cny = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(funds.getBorrow().get("cny")), "available");
-    Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(funds.getBorrow().get("btc")), "available");
-    Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(funds.getBorrow().get("ltc")), "available");
+    
+    // depending on china or international version
+    boolean is_cny = funds.getFree().containsKey("cny");
+    
+    Wallet base = null;
+    Wallet baseLoan = null;
+    
+    if(is_cny) {
+      base = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(getOrZero("cny", funds.getBorrow())), "available");
+      baseLoan = new Wallet(CNY, getOrZero("cny", funds.getBorrow()), "loan");
+    } else {
+      base = new Wallet(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())), "available");
+      baseLoan = new Wallet(USD, getOrZero("usd", funds.getBorrow()), "loan");
+    }
+    Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(getOrZero("btc", funds.getBorrow())), "available");
+    Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(getOrZero("ltc", funds.getBorrow())), "available");
 
     // loaned wallets
-    Wallet cnyLoan = new Wallet(CNY, funds.getBorrow().get("cny"), "loan");
-    Wallet btcLoan = new Wallet(BTC, funds.getBorrow().get("btc"), "loan");
-    Wallet ltcLoan = new Wallet(LTC, funds.getBorrow().get("ltc"), "loan");
+    Wallet btcLoan = new Wallet(BTC, getOrZero("btc", funds.getBorrow()), "loan");
+    Wallet ltcLoan = new Wallet(LTC, getOrZero("ltc", funds.getBorrow()), "loan");
 
-    List<Wallet> wallets = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan);
+    List<Wallet> wallets = Arrays.asList(base, btc, ltc, baseLoan, btcLoan, ltcLoan);
 
     return new AccountInfo(null, wallets);
   }
@@ -107,6 +129,11 @@ public final class OkCoinAdapters {
     List<Trade> trades = new ArrayList<Trade>(orderResult.getOrders().length);
     for (int i = 0; i < orderResult.getOrders().length; i++) {
       OkCoinOrder order = orderResult.getOrders()[i];
+      
+      // skip cancels that have not yet been filtered out
+      if(order.getDealAmount().equals(BigDecimal.ZERO)) {
+        continue;
+      }
       trades.add(adaptTrade(order));
     }
     return new Trades(trades, TradeSortType.SortByTimestamp);
