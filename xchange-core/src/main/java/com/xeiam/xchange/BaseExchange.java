@@ -51,10 +51,14 @@ public abstract class BaseExchange implements Exchange {
       if (exchangeSpecification.getPlainTextUri() == null) {
         exchangeSpecification.setPlainTextUri(defaultSpecification.getPlainTextUri());
       }
-      // add default value unless it is overriden by current spec
-      for(Map.Entry<String, Object> entry : defaultSpecification.getExchangeSpecificParameters().entrySet()) {
-        if(exchangeSpecification.getExchangeSpecificParametersItem(entry.getKey()) == null) {
-          exchangeSpecification.setExchangeSpecificParametersItem(entry.getKey(), entry.getValue());
+      if (exchangeSpecification.getExchangeSpecificParameters() == null) {
+        exchangeSpecification.setExchangeSpecificParameters(defaultSpecification.getExchangeSpecificParameters());
+      } else {
+        // add default value unless it is overriden by current spec
+        for(Map.Entry<String, Object> entry : defaultSpecification.getExchangeSpecificParameters().entrySet()) {
+          if(exchangeSpecification.getExchangeSpecificParametersItem(entry.getKey()) == null) {
+            exchangeSpecification.setExchangeSpecificParametersItem(entry.getKey(), entry.getValue());
+          }
         }
       }
 
