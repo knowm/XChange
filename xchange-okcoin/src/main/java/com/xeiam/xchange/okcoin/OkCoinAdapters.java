@@ -3,6 +3,7 @@ package com.xeiam.xchange.okcoin;
 import static com.xeiam.xchange.currency.Currencies.BTC;
 import static com.xeiam.xchange.currency.Currencies.CNY;
 import static com.xeiam.xchange.currency.Currencies.LTC;
+import static com.xeiam.xchange.currency.Currencies.USD;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -74,20 +75,27 @@ public final class OkCoinAdapters {
     return new Trades(tradeList, lastTid, TradeSortType.SortByTimestamp);
   }
 
-  public static AccountInfo adaptAccountInfo(OkCoinUserInfo userInfo) {
+  public static AccountInfo adaptAccountInfo(OkCoinUserInfo userInfo, boolean useIntl) {
 
     OkCoinFunds funds = userInfo.getInfo().getFunds();
+    Wallet fiat;
+    Wallet fiatLoan;
 
-    Wallet cny = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(funds.getBorrow().get("cny")), "available");
+    if (useIntl) {
+      fiat = new Wallet(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(funds.getBorrow().get("usd")), "available");
+      fiatLoan = new Wallet(USD, funds.getBorrow().get("usd"), "loan");
+    }
+    else {
+      fiat = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(funds.getBorrow().get("cny")), "available");
+      fiatLoan = new Wallet(CNY, funds.getBorrow().get("cny"), "loan");
+    }
+
     Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(funds.getBorrow().get("btc")), "available");
     Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(funds.getBorrow().get("ltc")), "available");
-
-    // loaned wallets
-    Wallet cnyLoan = new Wallet(CNY, funds.getBorrow().get("cny"), "loan");
     Wallet btcLoan = new Wallet(BTC, funds.getBorrow().get("btc"), "loan");
     Wallet ltcLoan = new Wallet(LTC, funds.getBorrow().get("ltc"), "loan");
 
-    List<Wallet> wallets = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan);
+    List<Wallet> wallets = Arrays.asList(fiat, btc, ltc, fiatLoan, btcLoan, ltcLoan);
 
     return new AccountInfo(null, wallets);
   }

@@ -1,6 +1,8 @@
 package com.xeiam.xchange.okcoin.service.polling;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -31,6 +33,17 @@ public class OkCoinBasePollingService extends BasePollingExchangeService impleme
    */
   @Override
   public Collection<CurrencyPair> getExchangeSymbols() {
+
+    List<CurrencyPair> symbols = new ArrayList<CurrencyPair>();
+
+    if (useIntl) {
+      symbols.add(CurrencyPair.BTC_USD);
+      symbols.add(CurrencyPair.LTC_USD);
+    }
+    else {
+      symbols.add(CurrencyPair.BTC_CNY);
+      symbols.add(CurrencyPair.LTC_CNY);
+    }
 
     return symbols;
   }

@@ -15,4 +15,11 @@ public class OkCoinInfo {
 
     return funds;
   }
+
+  @Override
+  public String toString() {
+
+    return "OkCoinInfo [funds=" + funds + "]";
+  }
+
 }
