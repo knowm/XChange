@@ -8,9 +8,14 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
   private final CurrencyPair[] marketDataCurrencyPairs;
   private final CurrencyPair[] orderFeedCurrencyPairs;
 
+  /**
+   * Indicates to subscribe account balance changes.
+   */
+  private final boolean subscribeAccountInfo;
+
   public BTCChinaStreamingConfiguration() {
 
-    this(true, true, CurrencyPair.BTC_CNY, CurrencyPair.LTC_CNY, CurrencyPair.LTC_BTC);
+    this(true, true, true, CurrencyPair.BTC_CNY, CurrencyPair.LTC_CNY, CurrencyPair.LTC_BTC);
   }
 
   /**
@@ -22,13 +27,24 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
    */
   public BTCChinaStreamingConfiguration(boolean subscribeMarktData, boolean subscribeOrderFeed, CurrencyPair... currencyPairs) {
 
-    this(subscribeMarktData ? currencyPairs : null, subscribeOrderFeed ? currencyPairs : null);
+    this(subscribeMarktData, subscribeOrderFeed, true, currencyPairs);
+  }
+
+  public BTCChinaStreamingConfiguration(boolean subscribeMarktData, boolean subscribeOrderFeed, boolean subscribeAccountInfo, CurrencyPair... currencyPairs) {
+
+    this(subscribeMarktData ? currencyPairs : null, subscribeOrderFeed ? currencyPairs : null, subscribeAccountInfo);
   }
 
   public BTCChinaStreamingConfiguration(CurrencyPair[] marketDataCurrencyPairs, CurrencyPair[] orderFeedCurrencyPairs) {
 
+    this(marketDataCurrencyPairs, orderFeedCurrencyPairs, true);
+  }
+
+  public BTCChinaStreamingConfiguration(CurrencyPair[] marketDataCurrencyPairs, CurrencyPair[] orderFeedCurrencyPairs, boolean subscribeAccountInfo) {
+
     this.marketDataCurrencyPairs = marketDataCurrencyPairs == null ? new CurrencyPair[0] : marketDataCurrencyPairs;
     this.orderFeedCurrencyPairs = orderFeedCurrencyPairs == null ? new CurrencyPair[0] : orderFeedCurrencyPairs;
+    this.subscribeAccountInfo = subscribeAccountInfo;
   }
 
   /**
@@ -92,6 +108,11 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
   public CurrencyPair[] getCurrencyPairs() {
 
     return marketDataCurrencyPairs;
+  }
+
+  public boolean isSubscribeAccountInfo() {
+
+    return subscribeAccountInfo;
   }
 
   public CurrencyPair[] getMarketDataCurrencyPairs() {

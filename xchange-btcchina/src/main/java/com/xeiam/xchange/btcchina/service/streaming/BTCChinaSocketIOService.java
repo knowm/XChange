@@ -1,5 +1,6 @@
 package com.xeiam.xchange.btcchina.service.streaming;
 
+import static com.xeiam.xchange.btcchina.service.streaming.BTCChinaSocketIOClientBuilder.EVENT_ACCOUNT_INFO;
 import static com.xeiam.xchange.btcchina.service.streaming.BTCChinaSocketIOClientBuilder.EVENT_ORDER;
 import static com.xeiam.xchange.btcchina.service.streaming.BTCChinaSocketIOClientBuilder.EVENT_TICKER;
 import static com.xeiam.xchange.btcchina.service.streaming.BTCChinaSocketIOClientBuilder.EVENT_TRADE;
@@ -18,7 +19,6 @@ import com.github.nkzawa.socketio.client.Socket;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
@@ -43,6 +43,7 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
         .setUri(URI.create(uri))
         .setAccessKey(exchangeSpecification.getApiKey())
         .setSecretKey(exchangeSpecification.getSecretKey())
+        .subscribeAccountInfo(exchangeStreamingConfiguration.isSubscribeAccountInfo())
         .subscribeMarketData(exchangeStreamingConfiguration.getMarketDataCurrencyPairs())
         .subscribeOrderFeed(exchangeStreamingConfiguration.getOrderFeedCurrencyPairs())
         .build();
@@ -106,12 +107,12 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
 
   private void putEvent(ExchangeEventType exchangeEventType) {
 
-    putEvent(new DefaultExchangeEvent(exchangeEventType, null));
+    putEvent(new BTCChinaExchangeEvent(exchangeEventType));
   }
 
   private void putEvent(ExchangeEventType exchangeEventType, JSONObject data, Object payload) {
 
-    putEvent(new DefaultExchangeEvent(exchangeEventType, data.toString(), payload));
+    putEvent(new BTCChinaExchangeEvent(exchangeEventType, data, payload));
   }
 
   private void listen() {
@@ -132,7 +133,7 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
 
         // receive the trade message
         JSONObject json = (JSONObject) args[0];
-        log.debug("{}", json);
+        log.debug("{}: {}", EVENT_TRADE, json);
         putEvent(ExchangeEventType.TRADE, json, BTCChinaJSONObjectAdapters.adaptTrade(json));
       }
     }).on(EVENT_TICKER, new Emitter.Listener() {
@@ -142,7 +143,7 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
 
         // receive the ticker message
         JSONObject json = (JSONObject) args[0];
-        log.debug("{}", json);
+        log.debug("{}: {}", EVENT_TICKER, json);
         putEvent(ExchangeEventType.TICKER, json, BTCChinaJSONObjectAdapters.adaptTicker(json));
       }
     }).on(EVENT_ORDER, new Emitter.Listener() {
@@ -152,8 +153,18 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
 
         // receive your order feed
         JSONObject json = (JSONObject) args[0];
-        log.debug("{}", json);
+        log.debug("{}: {}", EVENT_ORDER, json);
         putEvent(ExchangeEventType.USER_ORDER, json, BTCChinaJSONObjectAdapters.adaptOrder(json));
+      }
+    }).on(EVENT_ACCOUNT_INFO, new Emitter.Listener() {
+
+      @Override
+      public void call(Object... args) {
+
+        // receive account balance changes
+        JSONObject json = (JSONObject) args[0];
+        log.debug("{}: {}", EVENT_ACCOUNT_INFO, json);
+        putEvent(ExchangeEventType.USER_WALLET, json, BTCChinaJSONObjectAdapters.adaptBalance(json));
       }
     }).on(Socket.EVENT_RECONNECTING, new Emitter.Listener() {
 
