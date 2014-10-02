@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
+import com.xeiam.xchange.btcchina.dto.trade.streaming.BTCChinaBalance;
 import com.xeiam.xchange.btcchina.dto.trade.streaming.BTCChinaOrder;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
@@ -70,6 +71,22 @@ public class BTCChinaJSONObjectAdapters {
     return new BTCChinaOrder(BTCChinaAdapters.adaptOrderType(orderJsonObject.getString("type")), new BigDecimal(orderJsonObject.getString("amount")),
         BTCChinaAdapters.adaptCurrencyPair(orderJsonObject.getString("market")), String.valueOf(orderJsonObject.getLong("id")), BTCChinaAdapters.adaptDate(orderJsonObject.getLong("date")),
         new BigDecimal(orderJsonObject.getString("price")), new BigDecimal(orderJsonObject.getString("amount_original")), BTCChinaAdapters.adaptOrderStatus(orderJsonObject.getString("status")));
+  }
+
+  public static BTCChinaBalance adaptBalance(JSONObject jsonObject) {
+
+    try {
+      return internalAdaptBalance(jsonObject);
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("data: " + jsonObject, e);
+    }
+  }
+
+  private static BTCChinaBalance internalAdaptBalance(JSONObject jsonObject) throws JSONException {
+
+    JSONObject balanceJsonObject = jsonObject.getJSONObject("balance");
+    return new BTCChinaBalance(new BigDecimal(balanceJsonObject.getString("amount_integer")), new BigDecimal(balanceJsonObject.getString("amount")), balanceJsonObject.getString("symbol"),
+        balanceJsonObject.getInt("amount_decimal"), balanceJsonObject.getString("currency"));
   }
 
 }

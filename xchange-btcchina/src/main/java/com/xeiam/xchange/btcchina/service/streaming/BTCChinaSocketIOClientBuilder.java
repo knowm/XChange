@@ -14,13 +14,17 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
+import com.xeiam.xchange.btcchina.dto.trade.streaming.request.BTCChinaPayload;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseParamsDigest;
 
@@ -29,8 +33,10 @@ public class BTCChinaSocketIOClientBuilder {
   public static final String EVENT_TRADE = "trade";
   public static final String EVENT_TICKER = "ticker";
   public static final String EVENT_ORDER = "order";
+  public static final String EVENT_ACCOUNT_INFO = "account_info";
 
-  private static String HMAC_SHA1_ALGORITHM = BaseParamsDigest.HMAC_SHA_1;
+  private static final String HMAC_SHA1_ALGORITHM = BaseParamsDigest.HMAC_SHA_1;
+  private static final ObjectMapper mapper = new ObjectMapper();
 
   private final Logger log = LoggerFactory.getLogger(BTCChinaSocketIOClientBuilder.class);
 
@@ -38,6 +44,8 @@ public class BTCChinaSocketIOClientBuilder {
 
   private final Set<CurrencyPair> marketData = new HashSet<CurrencyPair>(3);
   private final Set<CurrencyPair> orderFeed = new HashSet<CurrencyPair>(3);
+
+  private boolean subscribeAccountInfo;
 
   private String accessKey;
   private String secretKey;
@@ -71,6 +79,12 @@ public class BTCChinaSocketIOClientBuilder {
     return this;
   }
 
+  public BTCChinaSocketIOClientBuilder subscribeAccountInfo(boolean subscribeAccountInfo) {
+
+    this.subscribeAccountInfo = subscribeAccountInfo;
+    return this;
+  }
+
   public BTCChinaSocketIOClientBuilder subscribeMarketData(CurrencyPair... currencyPairs) {
 
     this.marketData.addAll(Arrays.asList(currencyPairs));
@@ -97,8 +111,8 @@ public class BTCChinaSocketIOClientBuilder {
 
   public Socket build() {
 
-    if (!this.orderFeed.isEmpty() && (this.accessKey == null || this.secretKey == null)) {
-      throw new IllegalArgumentException("Access key and secret key are required to subscribe order feed.");
+    if ((!this.orderFeed.isEmpty() || this.subscribeAccountInfo) && (this.accessKey == null || this.secretKey == null)) {
+      throw new IllegalArgumentException("Access key and secret key are required to subscribe order feed and account info.");
     }
 
     final Socket socket;
@@ -114,7 +128,7 @@ public class BTCChinaSocketIOClientBuilder {
       public void call(Object... args) {
 
         subscribeMarketData();
-        subscribeOrderFeed();
+        subscribePrivateData();
       }
 
       private void subscribeMarketData() {
@@ -126,20 +140,28 @@ public class BTCChinaSocketIOClientBuilder {
         }
       }
 
-      private void subscribeOrderFeed() {
+      private void subscribePrivateData() {
+        // 3 markets(BTCChina has only 3 markets) + 1 account info = 4
+        final List<String> params = new ArrayList<String>(4);
         for (CurrencyPair currencyPair : orderFeed) {
           final String market = toMarket(currencyPair);
-          final String tonce = String.valueOf(BTCChinaUtils.getNonce());
-
-          final List<String> arg = new ArrayList<String>(2);
-          arg.add(getPayload(tonce, market));
-          arg.add(getSign(tonce, market));
-
-          log.debug("subscribing order feed {}", market);
-
-          // Use 'private' method to subscribe the order feed
-          socket.emit("private", arg);
+          params.add("order_" + market);
+          log.debug("subscribing order feed {}.", market);
         }
+
+        if (subscribeAccountInfo) {
+          params.add("account_info");
+          log.debug("subscribing account info.");
+        }
+
+        BTCChinaPayload payload = getPayload(params.toArray(new String[0]));
+
+        final List<String> arg = new ArrayList<String>(2);
+        arg.add(toPostData(payload));
+        arg.add(getSign(payload));
+
+        // Use 'private' method to subscribe the order feed
+        socket.emit("private", arg);
       }
 
     });
@@ -147,18 +169,29 @@ public class BTCChinaSocketIOClientBuilder {
     return socket;
   }
 
-  private String getPayload(String tonce, String market) {
+  private BTCChinaPayload getPayload(String[] params) {
 
-    String postdata = String.format("{\"tonce\":\"%1$s\",\"accesskey\":\"%2$s\",\"requestmethod\": \"post\",\"id\":\"%1$s\",\"method\": \"subscribe\", \"params\": [\"order_%3$s\"]}",
-        tonce, accessKey, market);
+    final long tonce = BTCChinaUtils.getNonce();
+    final BTCChinaPayload payload = new BTCChinaPayload(tonce, accessKey, "post", "subscribe", params);
+    return payload;
+  }
 
+  private String toPostData(BTCChinaPayload payload) {
+    String postdata;
+    try {
+      postdata = mapper.writeValueAsString(payload);
+    } catch (JsonProcessingException e) {
+      throw new IllegalArgumentException(e);
+    }
     log.debug("postdata is: {}", postdata);
     return postdata;
   }
 
-  private String getSign(String tonce, String market) {
+  private String getSign(BTCChinaPayload payload) {
 
-    String params = String.format("tonce=%1$s&accesskey=%2$s&requestmethod=post&id=%1$s&method=subscribe&params=order_%3$s", tonce, accessKey, market);
+    final String payloadParamsString = StringUtils.join(payload.getParams(), ",");
+    final String params = String.format("tonce=%1$d&accesskey=%2$s&requestmethod=post&id=%1$s&method=subscribe&params=%3$s", payload.getTonce(), payload.getAccessKey(), payloadParamsString);
+    log.debug("signature message: {}", params);
     String hash;
     try {
       hash = getSignature(params, secretKey);

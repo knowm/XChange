@@ -1,6 +1,6 @@
 package com.xeiam.xchange.btcchina.service.streaming;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrderStatus;
+import com.xeiam.xchange.btcchina.dto.trade.streaming.BTCChinaBalance;
 import com.xeiam.xchange.btcchina.dto.trade.streaming.BTCChinaOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -60,6 +61,30 @@ public class BTCChinaJSONObjectAdaptersTest {
     assertEquals(1411924393000L, order.getTimestamp().getTime());
     assertEquals(OrderType.ASK, order.getType());
     assertEquals(new BigDecimal("0.01"), order.getAmountOriginal());
+  }
+
+  @Test
+  public void testAdaptBalanceBTC() throws JSONException, IOException {
+
+    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("account_info-balance-BTC.json")));
+    BTCChinaBalance balance = BTCChinaJSONObjectAdapters.adaptBalance(jsonObject);
+    assertEquals(new BigDecimal("196441900"), balance.getAmountInteger());
+    assertEquals(new BigDecimal("1.964419"), balance.getAmount());
+    assertEquals("฿", balance.getSymbol());
+    assertEquals(8, balance.getAmountDecimal());
+    assertEquals("BTC", balance.getCurrency());
+  }
+
+  @Test
+  public void testAdaptBalanceCNY() throws JSONException, IOException {
+
+    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("account_info-balance-CNY.json")));
+    BTCChinaBalance balance = BTCChinaJSONObjectAdapters.adaptBalance(jsonObject);
+    assertEquals(new BigDecimal("4.2609492000000005E9"), balance.getAmountInteger());
+    assertEquals(new BigDecimal("42.609492"), balance.getAmount());
+    assertEquals("¥", balance.getSymbol());
+    assertEquals(8, balance.getAmountDecimal());
+    assertEquals("CNY", balance.getCurrency());
   }
 
 }
