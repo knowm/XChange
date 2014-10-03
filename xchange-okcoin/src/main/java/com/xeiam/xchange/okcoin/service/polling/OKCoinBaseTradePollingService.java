@@ -4,10 +4,11 @@ import java.util.Map;
 
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.okcoin.OkCoin;
-import com.xeiam.xchange.okcoin.OkCoinException;
 import com.xeiam.xchange.okcoin.OkCoinDigest;
+import com.xeiam.xchange.okcoin.OkCoinUtils;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinErrorResult;
 
 public class OKCoinBaseTradePollingService extends OkCoinBasePollingService {
@@ -34,14 +35,7 @@ public class OKCoinBaseTradePollingService extends OkCoinBasePollingService {
       return t;
     }
     else {
-      throw createException(t.getErrorCode());
+      throw new ExchangeException(OkCoinUtils.getErrorMessage(t.getErrorCode()));
     }
-  }
-
-  private static OkCoinException createException(int errorCode) {
-
-    String message = String.valueOf(errorCode);
-
-    return new OkCoinException(errorCode, message);
   }
 }
