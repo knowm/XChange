@@ -81,7 +81,7 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
       return false;
     }
     final LimitOrder other = (LimitOrder) obj;
-    if (this.limitPrice != other.limitPrice && (this.limitPrice == null || !this.limitPrice.equals(other.limitPrice))) {
+    if (this.limitPrice == null ? (other.limitPrice != null) : this.limitPrice.compareTo(other.limitPrice) != 0) {
       return false;
     }
     return super.equals(obj);
