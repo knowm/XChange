@@ -7,6 +7,10 @@ import com.xeiam.xchange.btcchina.service.BTCChinaTonceFactory;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaAccountService;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataService;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeService;
+import com.xeiam.xchange.btcchina.service.streaming.BTCChinaStreamingConfiguration;
+import com.xeiam.xchange.btcchina.service.streaming.BTCChinaSocketIOService;
+import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
+import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
  * <p>
@@ -17,6 +21,8 @@ import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeService;
  * </ul>
  */
 public class BTCChinaExchange extends BaseExchange implements Exchange {
+
+  public static final String WEBSOCKET_URI_KEY = "websocket.uri";
 
   public static final String ALL_MARKET = "ALL";
   public static final String DEFAULT_MARKET = "BTCCNY";
@@ -59,6 +65,26 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BTCChina");
     exchangeSpecification.setExchangeDescription("BTCChina is a Bitcoin exchange located in China.");
+    exchangeSpecification.setExchangeSpecificParametersItem(WEBSOCKET_URI_KEY, "https://websocket.btcchina.com");
     return exchangeSpecification;
   }
+
+  @Override
+  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
+
+    final BTCChinaStreamingConfiguration btcchinaStreamingConfiguration;
+
+    if (configuration == null) {
+      btcchinaStreamingConfiguration = new BTCChinaStreamingConfiguration();
+    }
+    else if (configuration instanceof BTCChinaStreamingConfiguration) {
+      btcchinaStreamingConfiguration = (BTCChinaStreamingConfiguration) configuration;
+    }
+    else {
+      throw new IllegalArgumentException("BTCChina only supports BTCChinaStreamingConfiguration");
+    }
+
+    return new BTCChinaSocketIOService(getExchangeSpecification(), btcchinaStreamingConfiguration);
+  }
+
 }

@@ -3,6 +3,7 @@ package com.xeiam.xchange.examples.poloniex.trade;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
@@ -49,6 +50,10 @@ public class PoloniexTradeDemo {
     System.out.println("----------GENERIC----------");
 
     System.out.println(tradeService.getTradeHistory(currencyPair));
+    long startTime = (new Date().getTime() / 1000) - 8*60*60;
+    System.out.println(tradeService.getTradeHistory(currencyPair, startTime));
+    long endTime = startTime + 4*60*60;
+    System.out.println(tradeService.getTradeHistory(currencyPair, startTime, endTime));
 
     LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).setTradableAmount(new BigDecimal(".01")).setLimitPrice(xmrBuyRate).build();
     String orderId = tradeService.placeLimitOrder(order);
@@ -75,6 +80,10 @@ public class PoloniexTradeDemo {
 
     System.out.println("------------RAW------------");
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair)));
+    long startTime = (new Date().getTime() / 1000) - 8*60*60;
+    System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, null)));
+    long endTime = new Date().getTime() / 1000;
+    System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, endTime)));
 
     LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).setTradableAmount(new BigDecimal("1")).setLimitPrice(xmrBuyRate).build();
     String orderId = tradeService.buy(order);

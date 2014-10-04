@@ -1,5 +1,7 @@
 package com.xeiam.xchange;
 
+import java.util.Map;
+
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
@@ -46,9 +48,20 @@ public abstract class BaseExchange implements Exchange {
       if (exchangeSpecification.getHost() == null) {
         exchangeSpecification.setHost(defaultSpecification.getHost());
       }
-      if (exchangeSpecification.getExchangeSpecificParameters() == null || exchangeSpecification.getExchangeSpecificParameters().size() <= 0) {
-        exchangeSpecification.setExchangeSpecificParameters(defaultSpecification.getExchangeSpecificParameters());
+      if (exchangeSpecification.getPlainTextUri() == null) {
+        exchangeSpecification.setPlainTextUri(defaultSpecification.getPlainTextUri());
       }
+      if (exchangeSpecification.getExchangeSpecificParameters() == null) {
+        exchangeSpecification.setExchangeSpecificParameters(defaultSpecification.getExchangeSpecificParameters());
+      } else {
+        // add default value unless it is overriden by current spec
+        for(Map.Entry<String, Object> entry : defaultSpecification.getExchangeSpecificParameters().entrySet()) {
+          if(exchangeSpecification.getExchangeSpecificParametersItem(entry.getKey()) == null) {
+            exchangeSpecification.setExchangeSpecificParametersItem(entry.getKey(), entry.getValue());
+          }
+        }
+      }
+
       this.exchangeSpecification = exchangeSpecification;
     }
 

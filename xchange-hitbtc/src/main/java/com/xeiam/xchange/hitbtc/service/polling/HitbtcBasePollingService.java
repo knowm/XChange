@@ -46,7 +46,6 @@ public abstract class HitbtcBasePollingService<T extends Hitbtc> extends BaseExc
     this.currencyPairs = new HashSet<CurrencyPair>();
   }
 
-
   @Override
   public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
 

@@ -101,7 +101,7 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
       this.orderType = orderType;
       this.tradableAmount = null;
       this.currencyPair = currencyPair;
-      this.id = "";
+      this.id = null;
       this.timestamp = new Date(System.currentTimeMillis());
       this.limitPrice = null;
     }
