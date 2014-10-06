@@ -80,6 +80,7 @@
 		<module>xchange-bitcoinium</module>
 		<module>xchange-bitcurex</module>
 		<module>xchange-bitfinex</module>
+        <module>xchange-bitkonan</module>
 		<module>xchange-bitmarket</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-bittrex</module>
