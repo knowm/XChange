@@ -1,17 +1,17 @@
 package com.xeiam.xchange.dto.marketdata;
 
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.MarketOrder;
+
 import java.math.BigDecimal;
 
 public interface OrderRequirements {
-  /**
-   * @return The smallest tradable amount accepted by the market
-   */
-  BigDecimal getAmountMinimum();
 
   /**
-   * @return Number of digits after the decimal point in the amount accepted by the market.
+   * The smallest tradable amount accepted by the market.
+   * The scale of this number is the number of decimal digits accepted by the exchange
    */
-  int getAmountScale();
+  BigDecimal getAmountMinimum();
 
   /**
    * The smallest number that can be added to or removed from amount and not be discarded by the exchange.
@@ -32,4 +32,8 @@ public interface OrderRequirements {
    * Usually 10^(-priceScale)
    */
   BigDecimal getPriceStep();
+
+  void verifyOrder(LimitOrder order);
+
+  void verifyOrder(MarketOrder order);
 }
