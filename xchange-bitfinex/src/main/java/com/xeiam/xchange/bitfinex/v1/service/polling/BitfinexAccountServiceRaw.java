@@ -29,7 +29,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService<Bitfin
       BitfinexBalancesResponse[] balances = bitfinex.balances(apiKey, payloadCreator, signatureCreator, new BitfinexBalancesRequest(String.valueOf(nextNonce())));
       return balances;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -39,7 +39,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService<Bitfin
       BitfinexMarginInfosResponse[] marginInfos = bitfinex.marginInfos(apiKey, payloadCreator, signatureCreator, new BitfinexMarginInfosRequest(String.valueOf(nextNonce())));
       return marginInfos;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 

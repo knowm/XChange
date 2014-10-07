@@ -547,7 +547,7 @@ public class VaultOfSatoshiBasePollingService extends BaseExchangeService
 	protected boolean checkResult(VosResponse<?> response) {
 
 		if (!response.getStatus().equals("success"))
-			throw new ExchangeException("VoS returned an error: " + response.getMessage());
+			throw new ExchangeException(response.getMessage());
 		else
 			return true;
 	}
