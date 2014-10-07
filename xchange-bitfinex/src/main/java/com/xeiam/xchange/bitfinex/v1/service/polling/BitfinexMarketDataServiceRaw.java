@@ -39,7 +39,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService<Bit
       BitfinexTicker bitfinexTicker = bitfinex.getTicker(pair);
       return bitfinexTicker;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -55,7 +55,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService<Bit
       }
       return bitfinexDepth;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
