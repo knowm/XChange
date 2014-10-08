@@ -4,34 +4,36 @@ import java.io.Serializable;
 
 public class AtlasOrderId implements Serializable {
 
-	/**
+  /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private String value;
+  private String value;
 
-	public AtlasOrderId(String value) {
-		setValue(value);
-	}
+  public AtlasOrderId(String value) {
 
-	public String getValue() {
-		return value;
-	}
+    setValue(value);
+  }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+  public String getValue() {
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("AtlasOrderId [value=");
-		builder.append(value);
-		builder.append("]");
-		return builder.toString();
-	}
-	
-	
+    return value;
+  }
+
+  public void setValue(String value) {
+
+    this.value = value;
+  }
+
+  @Override
+  public String toString() {
+
+    StringBuilder builder = new StringBuilder();
+    builder.append("AtlasOrderId [value=");
+    builder.append(value);
+    builder.append("]");
+    return builder.toString();
+  }
 
 }
