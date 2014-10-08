@@ -22,7 +22,7 @@ public final class BitstampTransaction {
    * @param price BTC price
    * @param amount BTC amount
    */
-  public BitstampTransaction(@JsonProperty("date") long date, @JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
+  public BitstampTransaction(@JsonProperty("date") long date, @JsonProperty("id") int tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
 
     this.date = date;
     this.tid = tid;
