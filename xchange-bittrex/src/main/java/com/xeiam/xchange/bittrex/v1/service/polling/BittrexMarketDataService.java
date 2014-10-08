@@ -42,7 +42,7 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw implem
   }
 
   /**
-   * @param args If two integers are provided, then those count as limit bid and limit ask count
+   * @param args If an integer is provided, then it used as depth of order book
    */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
@@ -50,7 +50,7 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw implem
     int depth = 50;
 
     if (args.length > 0) {
-      if (args[0] instanceof Integer) {
+      if (args[0] instanceof Integer && (Integer) args[0] > 0 && (Integer) args[0] <= 50) {
         depth = (Integer) args[0];
       }
     }
