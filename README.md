@@ -45,42 +45,46 @@ Design Notes: https://github.com/timmolter/XChange/wiki/Design-Notes
 Milestones: https://github.com/timmolter/XChange/wiki/Milestones  
 Exchange Support: https://github.com/timmolter/XChange/wiki/Exchange-support  
 New Implementation Best Practices: https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices
+Installing SSL Certificates into TrustStore: https://github.com/timmolter/XChange/wiki/Installing-SSL-Certificates-into-TrustStore
+Getting Started with XChange for Noobies: https://github.com/timmolter/XChange/wiki/Getting-Started-with-XChange-for-Noobies
 
 ## Continuous Integration
 [![Build Status](https://travis-ci.org/timmolter/XChange.png?branch=develop)](https://travis-ci.org/timmolter/XChange.png)  
 [Build History](https://travis-ci.org/timmolter/XChange/builds)  
 
 ## Getting Started
-XChange is semantically versioned: http://semver.org  
 
 ### Non-Maven
 Download XChange Release Jars: http://xeiam.com/xchange
 Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/
 
 #### Compile Dependencies
-    +- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
-    +- org.slf4j:slf4j-api:jar:1.7.5:compile
-    +- com.github.mmazi:rescu:jar:1.6.0:compile
-    |  +- com.fasterxml.jackson.core:jackson-core:jar:2.1.1:compile
-    |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.1.1:compile
-    |  +- com.fasterxml.jackson.core:jackson-databind:jar:2.1.1:compile
-    |  +- javax.ws.rs:jsr311-api:jar:1.1.1:compile
-    |  \- com.google.code.findbugs:jsr305:jar:2.0.1:compile
+    |  +- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
+    |  +- org.slf4j:slf4j-api:jar:1.7.7:compile
+    |  \- com.github.mmazi:rescu:jar:1.7.1:compile
+    |     +- com.fasterxml.jackson.core:jackson-databind:jar:2.3.2:compile
+    |     |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.3.0:compile
+    |     |  \- com.fasterxml.jackson.core:jackson-core:jar:2.3.2:compile
+    |     +- javax.ws.rs:jsr311-api:jar:1.1.1:compile
+    |     \- com.google.code.findbugs:jsr305:jar:2.0.3:compile
 
 #### Test Dependencies
     +- junit:junit:jar:4.11:test
     |  \- org.hamcrest:hamcrest-core:jar:1.3:test
-    +- org.easytesting:fest-assert-core:jar:2.0M10:test
-        \- org.easytesting:fest-util:jar:1.2.5:test
+    \- org.easytesting:fest-assert-core:jar:2.0M10:test
+       \- org.easytesting:fest-util:jar:1.2.5:test
    
 #### Other Dependencies for Some Examples
-    +- ch.qos.logback:logback-classic:jar:1.0.13:runtime
-    |  \- ch.qos.logback:logback-core:jar:1.0.13:runtime
-    +- org.java-websocket:Java-WebSocket:jar:1.3.0:compile
-    +- com.pusher:pusher-java-client:jar:0.3.1:compile
-    |   \- com.google.code.gson:gson:jar:2.2.2:compile
-    +- org.bouncycastle:bcprov-jdk15on:jar:1.50:compile
-    +- com.xeiam.xchart:xchart:jar:2.3.2:compile   
+    +- ch.qos.logback:logback-classic:jar:1.1.2:runtime
+    |  \- ch.qos.logback:logback-core:jar:1.1.2:runtime
+    +- com.xeiam.xchart:xchart:jar:2.4.0:compile  
+    |  \- org.bouncycastle:bcprov-jdk15on:jar:1.50:compile
+    |  +- org.apache.commons:commons-lang3:jar:3.3.2:compile
+    \- com.github.nkzawa:socket.io-client:jar:0.2.0:compile
+       +- com.github.nkzawa:engine.io-client:jar:0.3.0:compile
+       \- org.json:json:jar:20090211:compile
+    \- com.pusher:pusher-java-client:jar:0.3.1:compile
+       \- com.google.code.gson:gson:jar:2.2.2:compile
 
 ### Maven
 The XChange release artifacts are hosted on Maven Central. 
@@ -90,17 +94,17 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>2.0.0</version>
+      <version>2.1.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>2.0.0</version>
+      <version>2.1.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-XYZ</artifactId>
-      <version>2.0.0</version>
+      <version>2.1.0</version>
     </dependency>
  
     
@@ -114,7 +118,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    2.1.0-SNAPSHOT
+    2.2.0-SNAPSHOT
     
 ## Building with Maven
 
