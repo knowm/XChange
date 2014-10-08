@@ -2,11 +2,12 @@ package com.xeiam.xchange.bitkonan.service.polling;
 
 import java.io.IOException;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitkonan.BitKonan;
 import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanOrderBook;
 import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanTicker;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Piotr Ładyżyński

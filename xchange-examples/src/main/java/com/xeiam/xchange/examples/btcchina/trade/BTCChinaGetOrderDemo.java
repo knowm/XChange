@@ -28,7 +28,7 @@ public class BTCChinaGetOrderDemo {
     if (market == null) {
       response = tradeServiceRaw.getBTCChinaOrder(orderId);
     }
-    else if (withdetail == null){
+    else if (withdetail == null) {
       response = tradeServiceRaw.getBTCChinaOrder(orderId, market);
     }
     else {

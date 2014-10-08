@@ -1,6 +1,5 @@
 package com.xeiam.xchange.bitkonan.dto.marketdata;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -43,7 +42,7 @@ public class BitKonanOrderBook {
       asksBuilder.append(ask.toString() + ";");
     }
 
-    for (BitKonanOrderBookElement  bid : getBids()) {
+    for (BitKonanOrderBookElement bid : getBids()) {
       bidsBuilder.append(bid.toString() + ";");
     }
 

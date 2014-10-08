@@ -132,6 +132,7 @@ public class BTCChinaSocketIOClientBuilder {
       }
 
       private void subscribeMarketData() {
+
         for (CurrencyPair currencyPair : marketData) {
           final String market = toMarket(currencyPair);
           final String marketData = String.format("marketdata_%s", market);
@@ -141,6 +142,7 @@ public class BTCChinaSocketIOClientBuilder {
       }
 
       private void subscribePrivateData() {
+
         // 3 markets(BTCChina has only 3 markets) + 1 account info = 4
         final List<String> params = new ArrayList<String>(4);
         for (CurrencyPair currencyPair : orderFeed) {
@@ -177,6 +179,7 @@ public class BTCChinaSocketIOClientBuilder {
   }
 
   private String toPostData(BTCChinaPayload payload) {
+
     String postdata;
     try {
       postdata = mapper.writeValueAsString(payload);

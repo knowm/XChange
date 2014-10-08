@@ -93,6 +93,7 @@ public class BTCChinaStopOrder {
 
   /**
    * Returns the price for 1 BTC/LTC for the order to be placed.
+   * 
    * @return the price for 1 BTC/LTC for the order to be placed.
    */
   public BigDecimal getPrice() {

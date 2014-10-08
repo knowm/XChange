@@ -50,7 +50,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
     }
 
   }
-  
+
   public ArrayList<BittrexSymbol> getBittrexSymbols() throws IOException {
 
     BittrexSymbolsResponse response = bittrex.getSymbols();
@@ -63,7 +63,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
     }
 
   }
-  
+
   public BittrexTicker getBittrexTicker(String pair) throws IOException {
 
     BittrexTickerResponse response = bittrex.getTicker(pair);
@@ -76,7 +76,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
     }
 
   }
-  
+
   public ArrayList<BittrexTicker> getBittrexTickers() throws IOException {
 
     BittrexTickersResponse response = bittrex.getTickers();

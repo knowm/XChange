@@ -3,12 +3,13 @@ package com.xeiam.xchange.kraken.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.service.polling.PollingAccountService;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class KrakenAccountService extends KrakenAccountServiceRaw implements PollingAccountService {
 

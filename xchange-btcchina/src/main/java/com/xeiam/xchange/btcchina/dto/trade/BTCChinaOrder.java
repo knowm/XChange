@@ -94,7 +94,8 @@ public class BTCChinaOrder {
   @Override
   public String toString() {
 
-    return String.format("BTCChinaOrder{id=%d, type=%s, price=%s, currency=%s, amount=%s, amountOriginal=%s, date=%d, status=%s, details=%s}", id, type, price, currency, amount, amountOriginal, date, status, details);
+    return String.format("BTCChinaOrder{id=%d, type=%s, price=%s, currency=%s, amount=%s, amountOriginal=%s, date=%d, status=%s, details=%s}", id, type, price, currency, amount, amountOriginal, date,
+        status, details);
   }
 
 }

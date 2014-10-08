@@ -43,7 +43,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
     return currencyInfo;
 
   }
-  
+
   public Map<String, PoloniexMarketData> getAllPoloniexTickers() throws IOException {
 
     String command = "returnTicker";
@@ -96,11 +96,11 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
 
   public Map<String, PoloniexDepth> getAllPoloniexDepths(int depth) throws IOException {
 
-   String command = "returnOrderBook";
+    String command = "returnOrderBook";
 
-   Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all", depth);
+    Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all", depth);
 
-   return depths;
+    return depths;
   }
 
   public PoloniexPublicTrade[] getPoloniexPublicTrades(CurrencyPair currencyPair) throws IOException {

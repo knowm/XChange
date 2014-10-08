@@ -42,7 +42,7 @@ public class PoloniexMarketDataDemo {
     System.out.println(dataService.getOrderBook(currencyPair, 3));
     System.out.println(dataService.getTrades(currencyPair));
     long now = new Date().getTime() / 1000;
-    System.out.println(dataService.getTrades(currencyPair, now - 8*60*60, now));
+    System.out.println(dataService.getTrades(currencyPair, now - 8 * 60 * 60, now));
   }
 
   private static void raw(PoloniexMarketDataServiceRaw dataService) throws IOException {
@@ -58,7 +58,7 @@ public class PoloniexMarketDataDemo {
     System.out.println(dataService.getPoloniexDepth(currencyPair, 3));
     System.out.println(Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair)));
     long now = new Date().getTime() / 1000;
-    System.out.println(Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair, now - 8*60*60, null)));
+    System.out.println(Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair, now - 8 * 60 * 60, null)));
   }
 
 }

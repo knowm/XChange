@@ -3,6 +3,8 @@ package com.xeiam.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
@@ -19,7 +21,6 @@ import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetDepositsRespon
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaRequestWithdrawalResponse;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Implementation of the account data service for BTCChina.

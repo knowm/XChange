@@ -9,9 +9,9 @@ public class BitfinexActiveCreditsRequest {
 
   @JsonProperty("nonce")
   protected String nonce;
-  
+
   public BitfinexActiveCreditsRequest(String nonce) {
-    
+
     this.request = "/v1/credits";
     this.nonce = nonce;
   }

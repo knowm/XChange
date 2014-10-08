@@ -1,6 +1,5 @@
 package com.xeiam.xchange.dto.trade;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 

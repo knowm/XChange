@@ -43,9 +43,9 @@ public class CryptsyPublicMarketDataServiceRaw extends CryptsyBasePollingService
 
     return CryptsyAdapters.adaptPublicOrderBookMap(checkResult(cryptsy.getOrderbookData(marketId)).getReturnValue());
   }
-  
+
   public CryptsyCurrencyPairsReturn getCryptsyCurrencyPairs() throws IOException {
-    
+
     return checkResult(cryptsy.getCryptsyCurrencyPairs());
   }
 }

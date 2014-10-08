@@ -2,7 +2,6 @@ package com.xeiam.xchange.bitkonan;
 
 import java.io.IOException;
 
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -10,7 +9,6 @@ import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanOrderBook;
 import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanTicker;
-
 
 /**
  * @author Piotr Ładyżyński
@@ -30,6 +28,5 @@ public interface BitKonan {
   @GET
   @Path("btc_orderbook")
   public BitKonanOrderBook getBitKonanOrderBookBTC() throws IOException;
-
 
 }

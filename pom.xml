@@ -10,7 +10,7 @@
 	<packaging>pom</packaging>
 
 	<name>XChange Parent</name>
-	<description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of financial security exchanges including Bitcoin.</description>
+	<description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of cryptocurrency exchanges.</description>
 
 	<url>http://xeiam.com</url>
 	<inceptionYear>2012</inceptionYear>
@@ -19,19 +19,6 @@
 		<name>Xeiam, LLC</name>
 		<url>http://xeiam.com</url>
 	</organization>
-
-	<developers>
-		<developer>
-			<name>Tim Molter</name>
-		</developer>
-		<developer>
-			<name>Gary Rowe</name>
-			<email>g.rowe@froot.co.uk</email>
-		</developer>
-		<developer>
-			<name>Matija Mazi</name>
-		</developer>
-	</developers>
 
 	<licenses>
 		<license>
@@ -80,7 +67,7 @@
 		<module>xchange-bitcoinium</module>
 		<module>xchange-bitcurex</module>
 		<module>xchange-bitfinex</module>
-        <module>xchange-bitkonan</module>
+		<module>xchange-bitkonan</module>
 		<module>xchange-bitmarket</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-bittrex</module>

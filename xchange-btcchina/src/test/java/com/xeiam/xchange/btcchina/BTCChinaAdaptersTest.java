@@ -32,7 +32,7 @@ public class BTCChinaAdaptersTest {
   @Test
   public void testAdaptTickers() throws IOException {
 
-    BTCChinaTicker btcChinaTicker = mapper.readValue(getClass().getResource("dto/marketdata/ticker-all-market.json"),BTCChinaTicker.class);
+    BTCChinaTicker btcChinaTicker = mapper.readValue(getClass().getResource("dto/marketdata/ticker-all-market.json"), BTCChinaTicker.class);
     Map<CurrencyPair, Ticker> tickers = BTCChinaAdapters.adaptTickers(btcChinaTicker);
     assertEquals(3, tickers.size());
 
@@ -134,6 +134,7 @@ public class BTCChinaAdaptersTest {
 
   @Test
   public void testAdaptOrders() throws IOException {
+
     BTCChinaGetOrdersResponse response = mapper.readValue(getClass().getResource("dto/trade/response/getOrders-single-market-2-orders.json"), BTCChinaGetOrdersResponse.class);
     List<LimitOrder> limitOrders = BTCChinaAdapters.adaptOrders(response.getResult(), null);
     assertEquals(2, limitOrders.size());

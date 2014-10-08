@@ -26,7 +26,6 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
-import com.xeiam.xchange.service.streaming.ReconnectService;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
@@ -49,7 +48,8 @@ public class BitstampPusherService extends BitstampBasePollingService implements
 
   private Pusher client;
   private Map<String, Channel> channels;
-  //private ReconnectService reconnectService;
+
+  // private ReconnectService reconnectService;
 
   /**
    * Constructor
@@ -62,7 +62,7 @@ public class BitstampPusherService extends BitstampBasePollingService implements
 
     this.configuration = configuration;
     client = new Pusher(configuration.getPusherKey(), configuration.pusherOptions());
-    //reconnectService = new ReconnectService(this, configuration);
+    // reconnectService = new ReconnectService(this, configuration);
     channels = new HashMap<String, Channel>();
 
     streamObjectMapper = new ObjectMapper();

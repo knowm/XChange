@@ -63,8 +63,7 @@ public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService<Cr
 
   public CryptoTradeOrderInfoReturn getCryptoTradeOrderInfo(long orderId) throws CryptoTradeException, IOException {
 
-    CryptoTradeOrderInfoReturn orderInfo =
-        cryptoTradeProxy.getOrderInfo(orderId, apiKey, signatureCreator, nextNonce());
+    CryptoTradeOrderInfoReturn orderInfo = cryptoTradeProxy.getOrderInfo(orderId, apiKey, signatureCreator, nextNonce());
 
     return handleResponse(orderInfo);
   }

@@ -1,11 +1,12 @@
 package com.xeiam.xchange.bitkonan;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitkonan.service.polling.BitKonanMarketDataService;
 import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Piotr Ładyżyński

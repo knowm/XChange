@@ -53,10 +53,11 @@ public abstract class BaseExchange implements Exchange {
       }
       if (exchangeSpecification.getExchangeSpecificParameters() == null) {
         exchangeSpecification.setExchangeSpecificParameters(defaultSpecification.getExchangeSpecificParameters());
-      } else {
+      }
+      else {
         // add default value unless it is overriden by current spec
-        for(Map.Entry<String, Object> entry : defaultSpecification.getExchangeSpecificParameters().entrySet()) {
-          if(exchangeSpecification.getExchangeSpecificParametersItem(entry.getKey()) == null) {
+        for (Map.Entry<String, Object> entry : defaultSpecification.getExchangeSpecificParameters().entrySet()) {
+          if (exchangeSpecification.getExchangeSpecificParametersItem(entry.getKey()) == null) {
             exchangeSpecification.setExchangeSpecificParametersItem(entry.getKey(), entry.getValue());
           }
         }

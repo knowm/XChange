@@ -46,6 +46,7 @@ public interface CryptoTrade {
 
   @GET
   @Path("tradeshistory/{ident}_{currency}/{since}")
-  CryptoTradePublicTrades getTradeHistory(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @PathParam("since") long sinceTimestamp)  throws CryptoTradeException, IOException;
+  CryptoTradePublicTrades getTradeHistory(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @PathParam("since") long sinceTimestamp) throws CryptoTradeException,
+      IOException;
 
 }

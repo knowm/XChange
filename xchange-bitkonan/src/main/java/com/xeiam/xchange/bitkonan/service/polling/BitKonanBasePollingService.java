@@ -1,15 +1,13 @@
 package com.xeiam.xchange.bitkonan.service.polling;
 
-import java.io.IOException;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.xeiam.xchange.bitkonan.BitKonan;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitkonan.BitKonan;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
@@ -37,6 +35,5 @@ public abstract class BitKonanBasePollingService<T extends BitKonan> extends Bas
     this.bitKonan = RestProxyFactory.createProxy(bitkonanType, exchangeSpecification.getSslUri());
     this.currencyPairs = new HashSet<CurrencyPair>();
   }
-
 
 }

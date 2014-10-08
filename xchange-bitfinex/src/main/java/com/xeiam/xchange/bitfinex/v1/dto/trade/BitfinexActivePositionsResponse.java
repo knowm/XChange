@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.dto.Order.OrderType;
 
 public class BitfinexActivePositionsResponse {
+
   private final int id;
   private final String symbol;
   private final String status;
@@ -16,8 +17,8 @@ public class BitfinexActivePositionsResponse {
   private final BigDecimal pnl;
   private final OrderType orderType;
 
-  public BitfinexActivePositionsResponse( @JsonProperty("id") int id, @JsonProperty("symbol")String symbol,  @JsonProperty("status")String status, @JsonProperty("base") BigDecimal base, 
-      @JsonProperty("amount")BigDecimal amount, @JsonProperty("timestamp")float timestamp,  @JsonProperty("swap")BigDecimal swap,  @JsonProperty("pl")BigDecimal pnl) {
+  public BitfinexActivePositionsResponse(@JsonProperty("id") int id, @JsonProperty("symbol") String symbol, @JsonProperty("status") String status, @JsonProperty("base") BigDecimal base,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") float timestamp, @JsonProperty("swap") BigDecimal swap, @JsonProperty("pl") BigDecimal pnl) {
 
     this.id = id;
     this.symbol = symbol;
@@ -31,48 +32,48 @@ public class BitfinexActivePositionsResponse {
     this.orderType = amount.signum() < 0 ? OrderType.ASK : OrderType.BID;
   }
 
-  
   public int getId() {
+
     return id;
   }
 
-  
   public String getSymbol() {
+
     return symbol;
   }
 
-  
   public String getStatus() {
+
     return status;
   }
 
-  
   public BigDecimal getBase() {
+
     return base;
   }
 
-  
   public BigDecimal getAmount() {
+
     return amount;
   }
 
-  
   public float getTimestamp() {
+
     return timestamp;
   }
 
-  
   public BigDecimal getSwap() {
+
     return swap;
   }
 
-  
   public BigDecimal getPnl() {
+
     return pnl;
   }
 
-  
   public OrderType getOrderType() {
+
     return orderType;
   }
 
@@ -100,5 +101,5 @@ public class BitfinexActivePositionsResponse {
     builder.append(orderType);
     builder.append("]");
     return builder.toString();
-  }  
+  }
 }

@@ -27,7 +27,7 @@ public class PoloniexMarketDataTest {
     final Map<String, PoloniexCurrencyInfo> currencyInfo = mapper.readValue(is, currencyInfoType);
 
     assertThat(currencyInfo).hasSize(2);
-    
+
     PoloniexCurrencyInfo abyCurrencyInfo = currencyInfo.get("ABY");
     assertThat(abyCurrencyInfo.getMaxDailyWithdrawal()).isEqualTo("10000000");
     assertThat(abyCurrencyInfo.getTxFee()).isEqualTo("0.01");

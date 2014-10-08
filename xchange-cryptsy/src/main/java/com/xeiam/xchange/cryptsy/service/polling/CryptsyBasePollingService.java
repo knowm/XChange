@@ -62,7 +62,7 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends BaseExchangeSe
 
     CryptsyCurrencyPairsReturn response = new CryptsyPublicMarketDataServiceRaw().getCryptsyCurrencyPairs();
     HashMap<String, CryptsyMarketId> map = response.getReturnValue();
-    
+
     currencyPairs.clear();
     CryptsyCurrencyUtils.marketIds_CurrencyPairs.clear();
     CryptsyCurrencyUtils.currencyPairs_MarketIds.clear();

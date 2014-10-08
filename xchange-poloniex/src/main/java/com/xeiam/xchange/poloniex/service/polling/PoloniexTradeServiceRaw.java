@@ -37,8 +37,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
 
   public PoloniexUserTrade[] returnTradeHistory(CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
 
-    return poloniex.returnTradeHistory(apiKey, signatureCreator, String.valueOf(nextNonce()), PoloniexUtils.toPairString(currencyPair),
-        startTime, endTime);
+    return poloniex.returnTradeHistory(apiKey, signatureCreator, String.valueOf(nextNonce()), PoloniexUtils.toPairString(currencyPair), startTime, endTime);
   }
 
   public String buy(LimitOrder limitOrder) throws IOException {

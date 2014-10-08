@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinAccountService;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinMarketDataService;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinTradeService;
-import com.xeiam.xchange.currency.CurrencyPair;
 
 public class OkCoinExchange extends BaseExchange {
 

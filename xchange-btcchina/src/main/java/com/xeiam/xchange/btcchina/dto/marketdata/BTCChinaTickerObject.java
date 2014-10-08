@@ -34,8 +34,8 @@ public class BTCChinaTickerObject implements Serializable {
    * @param prevClose Yesterday's closed price.
    */
   public BTCChinaTickerObject(@JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("vol") BigDecimal vol, @JsonProperty("last") BigDecimal last, @JsonProperty("date") long date,
-      @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("prev_close") BigDecimal prevClose, @JsonProperty("open") BigDecimal open) {
+      @JsonProperty("vol") BigDecimal vol, @JsonProperty("last") BigDecimal last, @JsonProperty("date") long date, @JsonProperty("vwap") BigDecimal vwap,
+      @JsonProperty("prev_close") BigDecimal prevClose, @JsonProperty("open") BigDecimal open) {
 
     this.high = high;
     this.low = low;
@@ -106,7 +106,6 @@ public class BTCChinaTickerObject implements Serializable {
     return prevClose;
   }
 
-
   /**
    * Returns today's opening price.
    *
@@ -121,7 +120,8 @@ public class BTCChinaTickerObject implements Serializable {
   @Override
   public String toString() {
 
-    return "BTCChinaTicker [last=" + last + ", high=" + high + ", low=" + low + ", buy=" + buy + ", sell=" + sell + ", vol=" + vol + ", date=" + date + ", vwap=" + vwap + ", preClose=" + prevClose + ", open=" + open + "]";
+    return "BTCChinaTicker [last=" + last + ", high=" + high + ", low=" + low + ", buy=" + buy + ", sell=" + sell + ", vol=" + vol + ", date=" + date + ", vwap=" + vwap + ", preClose=" + prevClose
+        + ", open=" + open + "]";
 
   }
 }

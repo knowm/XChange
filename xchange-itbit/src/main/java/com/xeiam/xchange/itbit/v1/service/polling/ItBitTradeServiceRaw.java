@@ -3,13 +3,14 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 import java.io.IOException;
 import java.util.Date;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
