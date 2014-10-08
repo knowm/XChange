@@ -50,6 +50,7 @@ public class BitstampPusherService extends BitstampBasePollingService implements
 
   private Pusher client;
   private Map<String, Channel> channels;
+  
 //  private ReconnectService reconnectService;
 
   /**
