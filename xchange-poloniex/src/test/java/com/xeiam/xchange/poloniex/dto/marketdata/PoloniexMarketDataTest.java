@@ -14,12 +14,12 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class PoloniexMarketDataTests {
+public class PoloniexMarketDataTest {
 
   @Test
   public void testUnmarshallAllTickers() throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = PoloniexMarketDataTests.class.getResourceAsStream("/marketdata/currency-info.json");
+    final InputStream is = PoloniexMarketDataTest.class.getResourceAsStream("/marketdata/currency-info.json");
 
     final ObjectMapper mapper = new ObjectMapper();
 
