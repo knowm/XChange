@@ -8,12 +8,12 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepth;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEUtils;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepth;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradesWrapper;
@@ -52,7 +52,7 @@ public class BTCEAdapterTest {
     assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
     assertThat(asks.get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     assertThat(asks.get(0).getTimestamp()).isNull();
-    assertEquals(new BigDecimal("760.98"),asks.get(0).getLimitPrice());
+    assertEquals(new BigDecimal("760.98"), asks.get(0).getLimitPrice());
 
     List<LimitOrder> bids = BTCEAdapters.adaptOrders(depthRaw.getBids(), CurrencyPair.BTC_USD, "bid", "");
 
@@ -61,7 +61,7 @@ public class BTCEAdapterTest {
     assertThat(bid1.getType()).isEqualTo(OrderType.BID);
     assertThat(bid1.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     assertThat(bid1.getTimestamp()).isNull();
-    assertEquals(new BigDecimal("758.99"),bid1.getLimitPrice());
+    assertEquals(new BigDecimal("758.99"), bid1.getLimitPrice());
 
   }
 

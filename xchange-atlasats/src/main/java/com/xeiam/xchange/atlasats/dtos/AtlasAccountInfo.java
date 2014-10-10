@@ -11,238 +11,272 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AtlasAccountInfo implements Serializable {
 
-	/**
+  /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	@JsonProperty(value = "account")
-	private String accountNumber;
+  @JsonProperty(value = "account")
+  private String accountNumber;
 
-	@JsonProperty(value = "exposure")
-	private BigDecimal exposure;
+  @JsonProperty(value = "exposure")
+  private BigDecimal exposure;
 
-	@JsonProperty(value = "unrealizedpl")
-	private BigDecimal unrealizedProfit;
+  @JsonProperty(value = "unrealizedpl")
+  private BigDecimal unrealizedProfit;
 
-	@JsonProperty(value = "margindebit")
-	private BigDecimal marginDebit;
+  @JsonProperty(value = "margindebit")
+  private BigDecimal marginDebit;
 
-	@JsonProperty(value = "netvalue")
-	private BigDecimal netValue;
+  @JsonProperty(value = "netvalue")
+  private BigDecimal netValue;
 
-	@JsonProperty(value = "marginused")
-	private BigDecimal marginUsed;
+  @JsonProperty(value = "marginused")
+  private BigDecimal marginUsed;
 
-	@JsonProperty(value = "withdrawcash")
-	private BigDecimal withdrawableCash;
+  @JsonProperty(value = "withdrawcash")
+  private BigDecimal withdrawableCash;
 
-	@JsonProperty(value = "leverage")
-	private BigDecimal leverage;
+  @JsonProperty(value = "leverage")
+  private BigDecimal leverage;
 
-	@JsonProperty(value = "totalpl")
-	private BigDecimal totalProfit;
+  @JsonProperty(value = "totalpl")
+  private BigDecimal totalProfit;
 
-	@JsonProperty(value = "currency")
-	private Currency currency;
+  @JsonProperty(value = "currency")
+  private Currency currency;
 
-	@JsonProperty(value = "positions")
-	private List<AtlasPosition> positions;
+  @JsonProperty(value = "positions")
+  private List<AtlasPosition> positions;
 
-	@JsonProperty(value = "balance")
-	private BigDecimal balance;
+  @JsonProperty(value = "balance")
+  private BigDecimal balance;
 
-	@JsonProperty(value = "realizedpl")
-	private BigDecimal realizedProfit;
+  @JsonProperty(value = "realizedpl")
+  private BigDecimal realizedProfit;
 
-	@JsonProperty(value = "buyingpower")
-	private BigDecimal buyingPower;
+  @JsonProperty(value = "buyingpower")
+  private BigDecimal buyingPower;
 
-	@JsonProperty(value = "orders")
-	private List<AtlasOrderId> orderIds;
+  @JsonProperty(value = "orders")
+  private List<AtlasOrderId> orderIds;
 
-	@JsonProperty(value = "commission")
-	private BigDecimal commission;
+  @JsonProperty(value = "commission")
+  private BigDecimal commission;
 
-	@JsonProperty(value = "marginavail")
-	private BigDecimal marginAvailable;
+  @JsonProperty(value = "marginavail")
+  private BigDecimal marginAvailable;
 
-	public String getAccountNumber() {
-		return accountNumber;
-	}
+  public String getAccountNumber() {
 
-	public BigDecimal getExposure() {
-		return exposure;
-	}
+    return accountNumber;
+  }
 
-	public BigDecimal getUnrealizedProfit() {
-		return unrealizedProfit;
-	}
+  public BigDecimal getExposure() {
 
-	public BigDecimal getMarginDebit() {
-		return marginDebit;
-	}
+    return exposure;
+  }
 
-	public BigDecimal getNetValue() {
-		return netValue;
-	}
+  public BigDecimal getUnrealizedProfit() {
 
-	public BigDecimal getMarginUsed() {
-		return marginUsed;
-	}
+    return unrealizedProfit;
+  }
 
-	public BigDecimal getWithdrawableCash() {
-		return withdrawableCash;
-	}
+  public BigDecimal getMarginDebit() {
 
-	public BigDecimal getLeverage() {
-		return leverage;
-	}
+    return marginDebit;
+  }
 
-	public BigDecimal getTotalProfit() {
-		return totalProfit;
-	}
+  public BigDecimal getNetValue() {
 
-	public Currency getCurrency() {
-		return currency;
-	}
+    return netValue;
+  }
 
-	public List<AtlasPosition> getPositions() {
-		return positions;
-	}
+  public BigDecimal getMarginUsed() {
 
-	public BigDecimal getBalance() {
-		return balance;
-	}
+    return marginUsed;
+  }
 
-	public BigDecimal getRealizedProfit() {
-		return realizedProfit;
-	}
+  public BigDecimal getWithdrawableCash() {
 
-	public BigDecimal getBuyingPower() {
-		return buyingPower;
-	}
+    return withdrawableCash;
+  }
 
-	public List<AtlasOrderId> getOrderIds() {
-		return orderIds;
-	}
+  public BigDecimal getLeverage() {
 
-	public BigDecimal getCommission() {
-		return commission;
-	}
+    return leverage;
+  }
 
-	public BigDecimal getMarginAvailable() {
-		return marginAvailable;
-	}
+  public BigDecimal getTotalProfit() {
 
-	protected void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
+    return totalProfit;
+  }
 
-	protected void setExposure(BigDecimal exposure) {
-		this.exposure = exposure;
-	}
+  public Currency getCurrency() {
 
-	protected void setUnrealizedProfit(BigDecimal unrealizedProfit) {
-		this.unrealizedProfit = unrealizedProfit;
-	}
+    return currency;
+  }
 
-	protected void setMarginDebit(BigDecimal marginDebit) {
-		this.marginDebit = marginDebit;
-	}
+  public List<AtlasPosition> getPositions() {
 
-	protected void setNetValue(BigDecimal netValue) {
-		this.netValue = netValue;
-	}
+    return positions;
+  }
 
-	protected void setMarginUsed(BigDecimal marginUsed) {
-		this.marginUsed = marginUsed;
-	}
+  public BigDecimal getBalance() {
 
-	protected void setWithdrawableCash(BigDecimal withdrawableCash) {
-		this.withdrawableCash = withdrawableCash;
-	}
+    return balance;
+  }
 
-	protected void setLeverage(BigDecimal leverage) {
-		this.leverage = leverage;
-	}
+  public BigDecimal getRealizedProfit() {
 
-	protected void setTotalProfit(BigDecimal totalProfit) {
-		this.totalProfit = totalProfit;
-	}
+    return realizedProfit;
+  }
 
-	protected void setCurrency(Currency currency) {
-		this.currency = currency;
-	}
+  public BigDecimal getBuyingPower() {
 
-	protected void setPositions(List<AtlasPosition> positions) {
-		this.positions = positions;
-	}
+    return buyingPower;
+  }
 
-	protected void setBalance(BigDecimal balance) {
-		this.balance = balance;
-	}
+  public List<AtlasOrderId> getOrderIds() {
 
-	protected void setRealizedProfit(BigDecimal realizedProfit) {
-		this.realizedProfit = realizedProfit;
-	}
+    return orderIds;
+  }
 
-	protected void setBuyingPower(BigDecimal buyingPower) {
-		this.buyingPower = buyingPower;
-	}
+  public BigDecimal getCommission() {
 
-	protected void setOrderIds(List<AtlasOrderId> orderIds) {
-		this.orderIds = orderIds;
-	}
+    return commission;
+  }
 
-	protected void setCommission(BigDecimal commission) {
-		this.commission = commission;
-	}
+  public BigDecimal getMarginAvailable() {
 
-	protected void setMarginAvailable(BigDecimal marginAvailable) {
-		this.marginAvailable = marginAvailable;
-	}
+    return marginAvailable;
+  }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("AtlasAccountInfo [accountNumber=");
-		builder.append(accountNumber);
-		builder.append(", exposure=");
-		builder.append(exposure);
-		builder.append(", unrealizedProfit=");
-		builder.append(unrealizedProfit);
-		builder.append(", marginDebit=");
-		builder.append(marginDebit);
-		builder.append(", netValue=");
-		builder.append(netValue);
-		builder.append(", marginUsed=");
-		builder.append(marginUsed);
-		builder.append(", withdrawableCash=");
-		builder.append(withdrawableCash);
-		builder.append(", leverage=");
-		builder.append(leverage);
-		builder.append(", totalProfit=");
-		builder.append(totalProfit);
-		builder.append(", currency=");
-		builder.append(currency);
-		builder.append(", positions=");
-		builder.append(positions);
-		builder.append(", balance=");
-		builder.append(balance);
-		builder.append(", realizedProfit=");
-		builder.append(realizedProfit);
-		builder.append(", buyingPower=");
-		builder.append(buyingPower);
-		builder.append(", orderIds=");
-		builder.append(orderIds);
-		builder.append(", commission=");
-		builder.append(commission);
-		builder.append(", marginAvailable=");
-		builder.append(marginAvailable);
-		builder.append("]");
-		return builder.toString();
-	}
+  protected void setAccountNumber(String accountNumber) {
 
-	
+    this.accountNumber = accountNumber;
+  }
+
+  protected void setExposure(BigDecimal exposure) {
+
+    this.exposure = exposure;
+  }
+
+  protected void setUnrealizedProfit(BigDecimal unrealizedProfit) {
+
+    this.unrealizedProfit = unrealizedProfit;
+  }
+
+  protected void setMarginDebit(BigDecimal marginDebit) {
+
+    this.marginDebit = marginDebit;
+  }
+
+  protected void setNetValue(BigDecimal netValue) {
+
+    this.netValue = netValue;
+  }
+
+  protected void setMarginUsed(BigDecimal marginUsed) {
+
+    this.marginUsed = marginUsed;
+  }
+
+  protected void setWithdrawableCash(BigDecimal withdrawableCash) {
+
+    this.withdrawableCash = withdrawableCash;
+  }
+
+  protected void setLeverage(BigDecimal leverage) {
+
+    this.leverage = leverage;
+  }
+
+  protected void setTotalProfit(BigDecimal totalProfit) {
+
+    this.totalProfit = totalProfit;
+  }
+
+  protected void setCurrency(Currency currency) {
+
+    this.currency = currency;
+  }
+
+  protected void setPositions(List<AtlasPosition> positions) {
+
+    this.positions = positions;
+  }
+
+  protected void setBalance(BigDecimal balance) {
+
+    this.balance = balance;
+  }
+
+  protected void setRealizedProfit(BigDecimal realizedProfit) {
+
+    this.realizedProfit = realizedProfit;
+  }
+
+  protected void setBuyingPower(BigDecimal buyingPower) {
+
+    this.buyingPower = buyingPower;
+  }
+
+  protected void setOrderIds(List<AtlasOrderId> orderIds) {
+
+    this.orderIds = orderIds;
+  }
+
+  protected void setCommission(BigDecimal commission) {
+
+    this.commission = commission;
+  }
+
+  protected void setMarginAvailable(BigDecimal marginAvailable) {
+
+    this.marginAvailable = marginAvailable;
+  }
+
+  @Override
+  public String toString() {
+
+    StringBuilder builder = new StringBuilder();
+    builder.append("AtlasAccountInfo [accountNumber=");
+    builder.append(accountNumber);
+    builder.append(", exposure=");
+    builder.append(exposure);
+    builder.append(", unrealizedProfit=");
+    builder.append(unrealizedProfit);
+    builder.append(", marginDebit=");
+    builder.append(marginDebit);
+    builder.append(", netValue=");
+    builder.append(netValue);
+    builder.append(", marginUsed=");
+    builder.append(marginUsed);
+    builder.append(", withdrawableCash=");
+    builder.append(withdrawableCash);
+    builder.append(", leverage=");
+    builder.append(leverage);
+    builder.append(", totalProfit=");
+    builder.append(totalProfit);
+    builder.append(", currency=");
+    builder.append(currency);
+    builder.append(", positions=");
+    builder.append(positions);
+    builder.append(", balance=");
+    builder.append(balance);
+    builder.append(", realizedProfit=");
+    builder.append(realizedProfit);
+    builder.append(", buyingPower=");
+    builder.append(buyingPower);
+    builder.append(", orderIds=");
+    builder.append(orderIds);
+    builder.append(", commission=");
+    builder.append(commission);
+    builder.append(", marginAvailable=");
+    builder.append(marginAvailable);
+    builder.append("]");
+    return builder.toString();
+  }
+
 }

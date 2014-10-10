@@ -50,9 +50,9 @@ public class PoloniexTradeDemo {
     System.out.println("----------GENERIC----------");
 
     System.out.println(tradeService.getTradeHistory(currencyPair));
-    long startTime = (new Date().getTime() / 1000) - 8*60*60;
+    long startTime = (new Date().getTime() / 1000) - 8 * 60 * 60;
     System.out.println(tradeService.getTradeHistory(currencyPair, startTime));
-    long endTime = startTime + 4*60*60;
+    long endTime = startTime + 4 * 60 * 60;
     System.out.println(tradeService.getTradeHistory(currencyPair, startTime, endTime));
 
     LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).setTradableAmount(new BigDecimal(".01")).setLimitPrice(xmrBuyRate).build();
@@ -80,7 +80,7 @@ public class PoloniexTradeDemo {
 
     System.out.println("------------RAW------------");
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair)));
-    long startTime = (new Date().getTime() / 1000) - 8*60*60;
+    long startTime = (new Date().getTime() / 1000) - 8 * 60 * 60;
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, null)));
     long endTime = new Date().getTime() / 1000;
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, endTime)));

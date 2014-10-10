@@ -1,12 +1,12 @@
 package com.xeiam.xchange.vaultofsatoshi.service.account;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +34,7 @@ public class AccountInfoJSONTest {
     assertThat(vosAccount.getData().getWallets().getVosMap().get("BTC").getBalance().getValue()).isEqualTo(new BigDecimal("0.61305182"));
     assertThat(vosAccount.getData().getTrade_fee().getVosMap().get("DOGE").getValue()).isEqualTo(new BigDecimal("0.00400"));
     assertThat(vosAccount.getData().getRights()[0]).isEqualTo("getinfo");
-    
+
     // Read in the JSON from the example resources
     is = AccountInfoJSONTest.class.getResourceAsStream("/account/balance_btc.json");
 

@@ -8,6 +8,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.BTCChinaExchangeException;
@@ -23,8 +25,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Implementation of the trade service for BTCChina.
@@ -140,8 +140,8 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     final String type = BTCChinaTransactionsRequest.TYPE_ALL;
     final Integer limit = args.length > 0 ? ((Number) args[0]).intValue() : null;
     final Integer offset = args.length > 1 ? ((Number) args[1]).intValue() : null;
-    final Integer since = args.length > 2 ?  ((Number) args[2]).intValue() : null;
-    final String sincetype = args.length > 3 ?  ((String) args[3]) : null;
+    final Integer since = args.length > 2 ? ((Number) args[2]).intValue() : null;
+    final String sincetype = args.length > 3 ? ((String) args[3]) : null;
 
     log.debug("type: {}, limit: {}, offset: {}, since: {}, sincetype: {}", type, limit, offset, since, sincetype);
 

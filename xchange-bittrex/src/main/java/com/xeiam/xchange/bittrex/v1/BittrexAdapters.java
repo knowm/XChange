@@ -76,7 +76,7 @@ public final class BittrexAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
 
     for (BittrexLevel order : orders) {
-        limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
+      limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
     }
 
     return limitOrders;
@@ -136,7 +136,7 @@ public final class BittrexAdapters {
 
     return new AccountInfo(null, wallets);
   }
-  
+
   public static List<Trade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {
 
     List<Trade> trades = new ArrayList<Trade>();

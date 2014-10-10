@@ -39,7 +39,7 @@ public class BittrexMarketDataDemo {
   private static void generic(PollingMarketDataService marketDataService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     System.out.println("----------GENERIC---------");
-    
+
     ArrayList<CurrencyPair> pairs = new ArrayList<CurrencyPair>(marketDataService.getExchangeSymbols());
     System.out.println(pairs);
 
@@ -62,10 +62,10 @@ public class BittrexMarketDataDemo {
 
     BittrexCurrency[] currencies = marketDataService.getBittrexCurrencies();
     System.out.println(Arrays.toString(currencies));
-    
+
     ArrayList<BittrexSymbol> symbols = marketDataService.getBittrexSymbols();
     System.out.println(symbols);
-    
+
     ArrayList<CurrencyPair> pairs = new ArrayList<CurrencyPair>(marketDataService.getExchangeSymbols());
     System.out.println(pairs);
 
@@ -75,7 +75,7 @@ public class BittrexMarketDataDemo {
 
     BittrexTicker ticker = marketDataService.getBittrexTicker(pairString);
     System.out.println(ticker);
-    
+
     ArrayList<BittrexTicker> tickers = marketDataService.getBittrexTickers();
     System.out.println(tickers);
 

@@ -67,10 +67,12 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a List of btcchinaOrders to a List of LimitOrders
+   * 
    * @deprecated Use {@link #adaptOrders(BigDecimal[][], CurrencyPair, OrderType)} instead.
    */
   @Deprecated
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
+
     return adaptOrders(btcchinaOrders.toArray(new BigDecimal[0][0]), currencyPair, orderType);
   }
 
@@ -112,6 +114,7 @@ public final class BTCChinaAdapters {
    * @return The trades
    */
   public static Trades adaptTrades(BTCChinaTrade[] btcchinaTrades, CurrencyPair currencyPair) {
+
     List<Trade> tradesList = new ArrayList<Trade>(btcchinaTrades.length);
     long latestTradeId = 0;
     for (BTCChinaTrade btcchinaTrade : btcchinaTrades) {
@@ -132,6 +135,7 @@ public final class BTCChinaAdapters {
   }
 
   public static Ticker adaptTicker(BTCChinaTickerObject ticker, CurrencyPair currencyPair) {
+
     BigDecimal last = ticker.getLast();
     BigDecimal high = ticker.getHigh();
     BigDecimal low = ticker.getLow();
@@ -204,6 +208,7 @@ public final class BTCChinaAdapters {
    * @return {@link OrderBook}
    */
   public static OrderBook adaptOrderBook(BTCChinaDepth btcChinaDepth, CurrencyPair currencyPair) {
+
     List<LimitOrder> asks = BTCChinaAdapters.adaptOrders(btcChinaDepth.getAsksArray(), currencyPair, OrderType.ASK);
     Collections.reverse(asks);
     List<LimitOrder> bids = BTCChinaAdapters.adaptOrders(btcChinaDepth.getBidsArray(), currencyPair, OrderType.BID);
@@ -273,10 +278,12 @@ public final class BTCChinaAdapters {
    */
   @Deprecated
   public static List<LimitOrder> adaptOrders(List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
+
     return adaptOrders(orders.toArray(new BTCChinaOrder[0]), currencyPair);
   }
 
   public static List<LimitOrder> adaptOrders(BTCChinaOrders orders, CurrencyPair specifiedCurrencyPair) {
+
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     BTCChinaOrder[] certainCurrencyPairOrders = orders.getOrdersArray();

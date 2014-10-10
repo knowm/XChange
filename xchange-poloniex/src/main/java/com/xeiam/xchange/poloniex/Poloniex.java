@@ -25,7 +25,7 @@ public interface Poloniex {
 
   @GET
   HashMap<String, PoloniexCurrencyInfo> getCurrencyInfo(@QueryParam("command") String command) throws IOException;
-  
+
   @GET
   HashMap<String, PoloniexMarketData> getTicker(@QueryParam("command") String command) throws IOException;
 
@@ -36,7 +36,8 @@ public interface Poloniex {
   PoloniexDepth getOrderBook(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair, @QueryParam("depth") Integer depth) throws IOException;
 
   @GET
-  PoloniexPublicTrade[] getTrades(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair, @QueryParam("start") Long startTime, @QueryParam("end") Long endTime) throws IOException;
+  PoloniexPublicTrade[] getTrades(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair, @QueryParam("start") Long startTime, @QueryParam("end") Long endTime)
+      throws IOException;
 
   @GET
   Map<String, PoloniexDepth> getAllOrderBooks(@QueryParam("command") String command, @QueryParam("currencyPair") String pair, @QueryParam("depth") Integer depth) throws IOException;

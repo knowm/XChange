@@ -21,8 +21,8 @@ import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
  */
 public class BitcurexMarketDataServiceRaw extends BitcurexBasePollingService {
 
-	private final Bitcurex bitcurex;
-	
+  private final Bitcurex bitcurex;
+
   /**
    * Constructor
    * 

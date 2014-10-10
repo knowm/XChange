@@ -24,9 +24,10 @@ public class OkCoinBasePollingService extends BasePollingExchangeService impleme
     super(exchangeSpecification);
     useIntl = (Boolean) exchangeSpecification.getExchangeSpecificParameters().get("Use_Intl");
 
-    if(useIntl) {
+    if (useIntl) {
       symbols = (Collection<CurrencyPair>) exchangeSpecification.getExchangeSpecificParametersItem(OkCoinExchange.INTL_SYMBOLS_PARAMETER);
-    } else {
+    }
+    else {
       symbols = (Collection<CurrencyPair>) exchangeSpecification.getExchangeSpecificParametersItem(OkCoinExchange.SYMBOLS_PARAMETER);
     }
   }

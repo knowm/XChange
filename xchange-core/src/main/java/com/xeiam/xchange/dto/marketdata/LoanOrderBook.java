@@ -18,9 +18,10 @@ public final class LoanOrderBook {
   private final List<FixedRateLoanOrder> fixedRateBids;
   private final List<FloatingRateLoanOrder> floatingRateAsks;
   private final List<FloatingRateLoanOrder> floatingRateBids;
-  
-  public LoanOrderBook(Date timestamp, List<FixedRateLoanOrder> fixedRateAsks, List<FixedRateLoanOrder> fixedRateBids, List<FloatingRateLoanOrder> floatingRateAsks, List<FloatingRateLoanOrder> floatingRateBids) {
-    
+
+  public LoanOrderBook(Date timestamp, List<FixedRateLoanOrder> fixedRateAsks, List<FixedRateLoanOrder> fixedRateBids, List<FloatingRateLoanOrder> floatingRateAsks,
+      List<FloatingRateLoanOrder> floatingRateBids) {
+
     this.timestamp = timestamp;
     this.fixedRateAsks = fixedRateAsks;
     this.fixedRateBids = fixedRateBids;
@@ -29,31 +30,37 @@ public final class LoanOrderBook {
   }
 
   public Date getTimestamp() {
+
     return timestamp;
   }
 
   public List<FixedRateLoanOrder> getFixedRateAsks() {
+
     return fixedRateAsks;
   }
 
   public List<FixedRateLoanOrder> getFixedRateBids() {
+
     return fixedRateBids;
   }
 
   public List<FloatingRateLoanOrder> getFloatingRateAsks() {
+
     return floatingRateAsks;
   }
 
   public List<FloatingRateLoanOrder> getFloatingRateBids() {
+
     return floatingRateBids;
   }
-  
+
   public void update(FixedRateLoanOrder updatedLoanOrder) {
+
     Iterator<FixedRateLoanOrder> it;
-    
+
     switch (updatedLoanOrder.getType()) {
     case ASK:
-      
+
       it = fixedRateAsks.iterator();
       while (it.hasNext()) {
         FixedRateLoanOrder order = it.next();
@@ -66,7 +73,7 @@ public final class LoanOrderBook {
       Collections.sort(fixedRateAsks);
       break;
     case BID:
-      
+
       it = fixedRateBids.iterator();
       while (it.hasNext()) {
         FixedRateLoanOrder order = it.next();
@@ -81,17 +88,18 @@ public final class LoanOrderBook {
     default:
       break;
     }
-    
+
     updateTimestamp(updatedLoanOrder.getTimestamp());
   }
-  
+
   public void update(FloatingRateLoanOrder updatedLoanOrder) {
+
     Iterator<FloatingRateLoanOrder> it;
     boolean rateChanged = false;
-    
+
     switch (updatedLoanOrder.getType()) {
     case ASK:
-      
+
       it = floatingRateAsks.iterator();
       while (it.hasNext()) {
         FloatingRateLoanOrder order = it.next();
@@ -104,12 +112,12 @@ public final class LoanOrderBook {
         }
         break;
       }
-      
+
       floatingRateAsks.add(updatedLoanOrder);
       Collections.sort(floatingRateAsks);
       break;
     case BID:
-      
+
       it = floatingRateBids.iterator();
       while (it.hasNext()) {
         FloatingRateLoanOrder order = it.next();
@@ -122,14 +130,14 @@ public final class LoanOrderBook {
         }
         break;
       }
-      
+
       floatingRateBids.add(updatedLoanOrder);
       Collections.sort(fixedRateBids);
       break;
     default:
       break;
     }
-    
+
     if (rateChanged) {
       for (FloatingRateLoanOrder order : floatingRateAsks) {
         order.setRate(updatedLoanOrder.getRate());
@@ -138,11 +146,12 @@ public final class LoanOrderBook {
         order.setRate(updatedLoanOrder.getRate());
       }
     }
-    
+
     updateTimestamp(updatedLoanOrder.getTimestamp());
   }
-  
+
   private void updateTimestamp(Date timestamp) {
+
     this.timestamp = timestamp;
   }
 }

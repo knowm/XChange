@@ -60,9 +60,9 @@ public class CryptsyPublicTrade {
 
     return total;
   }
-  
+
   public String getType() {
-    
+
     return type;
   }
 

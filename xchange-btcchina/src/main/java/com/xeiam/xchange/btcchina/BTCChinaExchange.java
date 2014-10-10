@@ -7,8 +7,8 @@ import com.xeiam.xchange.btcchina.service.BTCChinaTonceFactory;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaAccountService;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataService;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeService;
-import com.xeiam.xchange.btcchina.service.streaming.BTCChinaStreamingConfiguration;
 import com.xeiam.xchange.btcchina.service.streaming.BTCChinaSocketIOService;
+import com.xeiam.xchange.btcchina.service.streaming.BTCChinaStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 

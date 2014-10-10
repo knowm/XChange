@@ -11,8 +11,8 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTrade;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosResponse;
+import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosTrade;
 
 /**
  * Test VaultOfSatoshiTrades JSON parsing

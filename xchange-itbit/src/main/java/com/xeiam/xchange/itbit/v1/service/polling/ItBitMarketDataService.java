@@ -3,6 +3,8 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -14,7 +16,6 @@ import com.xeiam.xchange.itbit.v1.ItBitAdapters;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitDepth;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ItBitMarketDataService extends ItBitMarketDataServiceRaw implements PollingMarketDataService {
 
@@ -28,8 +29,9 @@ public class ItBitMarketDataService extends ItBitMarketDataServiceRaw implements
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+
     ItBitTicker itBitTicker = getItBitTicker(currencyPair);
-    
+
     return ItBitAdapters.adaptTicker(currencyPair, itBitTicker);
   }
 

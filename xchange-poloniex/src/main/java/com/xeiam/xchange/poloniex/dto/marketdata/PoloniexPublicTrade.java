@@ -119,6 +119,8 @@ public class PoloniexPublicTrade {
 
   @Override
   public String toString() {
-    return "PoloniexPublicTrade [tradeID=" + tradeID + ", date=" + date + ", type=" + type + ", amount=" + amount + ", rate=" + rate+ ", total=" + total + "" + ", additionalProperties=" + additionalProperties + "]";
+
+    return "PoloniexPublicTrade [tradeID=" + tradeID + ", date=" + date + ", type=" + type + ", amount=" + amount + ", rate=" + rate + ", total=" + total + "" + ", additionalProperties="
+        + additionalProperties + "]";
   }
 }

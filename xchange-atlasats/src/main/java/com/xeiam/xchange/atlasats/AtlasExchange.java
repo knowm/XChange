@@ -10,24 +10,20 @@ import com.xeiam.xchange.atlasats.services.AtlasStreamingExchangeService;
 
 public class AtlasExchange extends BaseExchange implements Exchange {
 
-	@Override
-	public ExchangeSpecification getDefaultExchangeSpecification() {
-		ExchangeSpecification specification = new AtlasExchangeSpecification();
-		return specification;
-	}
+  @Override
+  public ExchangeSpecification getDefaultExchangeSpecification() {
 
-	public void applySpecification(
-			AtlasExchangeSpecification exchangeSpecification) {
-		super.applySpecification(exchangeSpecification);
-		this.pollingAccountService = new AtlasPollingAccountService(
-				exchangeSpecification);
-		this.pollingTradeService = new AtlasPollingTradeService(
-				exchangeSpecification);
-		this.pollingMarketDataService = new AtlasPollingMarketDataService(
-				exchangeSpecification);
-		this.streamingExchangeService = new AtlasStreamingExchangeService(
-				exchangeSpecification,
-				exchangeSpecification.getStreamingConfiguration());
-	}
+    ExchangeSpecification specification = new AtlasExchangeSpecification();
+    return specification;
+  }
+
+  public void applySpecification(AtlasExchangeSpecification exchangeSpecification) {
+
+    super.applySpecification(exchangeSpecification);
+    this.pollingAccountService = new AtlasPollingAccountService(exchangeSpecification);
+    this.pollingTradeService = new AtlasPollingTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new AtlasPollingMarketDataService(exchangeSpecification);
+    this.streamingExchangeService = new AtlasStreamingExchangeService(exchangeSpecification, exchangeSpecification.getStreamingConfiguration());
+  }
 
 }

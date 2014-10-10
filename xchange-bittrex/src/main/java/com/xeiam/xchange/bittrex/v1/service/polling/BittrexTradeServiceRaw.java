@@ -41,7 +41,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
         return response.getResult().getUuid();
       }
       else {
-        throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+        throw new ExchangeException(response.getMessage());
       }
 
     }
@@ -53,7 +53,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
         return response.getResult().getUuid();
       }
       else {
-        throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+        throw new ExchangeException(response.getMessage());
       }
 
     }
@@ -71,7 +71,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
         return response.getResult().getUuid();
       }
       else {
-        throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+        throw new ExchangeException(response.getMessage());
       }
 
     }
@@ -83,7 +83,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
         return response.getResult().getUuid();
       }
       else {
-        throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+        throw new ExchangeException(response.getMessage());
       }
     }
   }
@@ -96,7 +96,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
       return true;
     }
     else {
-      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+      throw new ExchangeException(response.getMessage());
     }
 
   }
@@ -109,7 +109,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
       return response.getBittrexOpenOrders();
     }
     else {
-      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+      throw new ExchangeException(response.getMessage());
     }
 
   }
@@ -122,7 +122,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
       return response.getResult();
     }
     else {
-      throw new ExchangeException("Bittrex returned an error: " + "Bittrex returned an error: " + response.getMessage());
+      throw new ExchangeException(response.getMessage());
     }
   }
 }

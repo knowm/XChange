@@ -56,10 +56,9 @@ public class BitVcOrderBookTAS {
    */
   private final BigDecimal pLast;
 
-  public BitVcOrderBookTAS(@JsonProperty("trades") final BitVcTradeObject[] trades,
-      @JsonProperty("p_new") final BigDecimal pNew, @JsonProperty("level") final BigDecimal level, @JsonProperty("amount") final BigDecimal amount, @JsonProperty("total") final BigDecimal total,
-      @JsonProperty("amp") final BigDecimal amp, @JsonProperty("p_open") final BigDecimal pOpen, @JsonProperty("p_high") final BigDecimal pHigh, @JsonProperty("p_low") final BigDecimal pLow,
-      @JsonProperty("p_last") final BigDecimal pLast) {
+  public BitVcOrderBookTAS(@JsonProperty("trades") final BitVcTradeObject[] trades, @JsonProperty("p_new") final BigDecimal pNew, @JsonProperty("level") final BigDecimal level,
+      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("total") final BigDecimal total, @JsonProperty("amp") final BigDecimal amp, @JsonProperty("p_open") final BigDecimal pOpen,
+      @JsonProperty("p_high") final BigDecimal pHigh, @JsonProperty("p_low") final BigDecimal pLow, @JsonProperty("p_last") final BigDecimal pLast) {
 
     this.trades = trades;
     this.pNew = pNew;
@@ -72,7 +71,6 @@ public class BitVcOrderBookTAS {
     this.pLow = pLow;
     this.pLast = pLast;
   }
-
 
   public BitVcTradeObject[] getTrades() {
 

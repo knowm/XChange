@@ -1,4 +1,3 @@
-
 package com.xeiam.xchange.vaultofsatoshi.service.polling;
 
 import java.io.IOException;
@@ -35,7 +34,7 @@ public class VaultOfSatoshiAccountService extends VaultOfSatoshiAccountServiceRa
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-	// TODO: implement withdraw
+    // TODO: implement withdraw
     throw new NotAvailableFromExchangeException();
   }
 
@@ -45,7 +44,7 @@ public class VaultOfSatoshiAccountService extends VaultOfSatoshiAccountServiceRa
    */
   @Override
   public String requestDepositAddress(String currency, String... arguments) throws IOException {
-	  
+
     return getWalletAddress(currency).getWallet_address();
 
   }

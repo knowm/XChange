@@ -21,12 +21,12 @@ import com.xeiam.xchange.mintpal.dto.marketdata.MintPalTicker;
 /**
  * @author jamespedwards42
  */
-public class MintPalMarketDataTests {
+public class MintPalMarketDataTest {
 
   @Test
   public void testUnmarshallAllTickers() throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = MintPalMarketDataTests.class.getResourceAsStream("/marketdata/tickers.json");
+    final InputStream is = MintPalMarketDataTest.class.getResourceAsStream("/marketdata/tickers.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final JavaType tickersType = mapper.getTypeFactory().constructParametricType(MintPalBaseResponse.class, mapper.getTypeFactory().constructCollectionType(List.class, MintPalTicker.class));
@@ -53,7 +53,7 @@ public class MintPalMarketDataTests {
   @Test
   public void testUnmarshallOrders() throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = MintPalMarketDataTests.class.getResourceAsStream("/marketdata/orders.json");
+    final InputStream is = MintPalMarketDataTest.class.getResourceAsStream("/marketdata/orders.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final JavaType tickersType = mapper.getTypeFactory().constructParametricType(MintPalBaseResponse.class, mapper.getTypeFactory().constructCollectionType(List.class, MintPalPublicOrders.class));
@@ -76,7 +76,7 @@ public class MintPalMarketDataTests {
   @Test
   public void testUnmarshallPublicTrades() throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = MintPalMarketDataTests.class.getResourceAsStream("/marketdata/trades.json");
+    final InputStream is = MintPalMarketDataTest.class.getResourceAsStream("/marketdata/trades.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final JavaType tickersType = mapper.getTypeFactory().constructParametricType(MintPalBaseResponse.class, mapper.getTypeFactory().constructCollectionType(List.class, MintPalPublicTrade.class));

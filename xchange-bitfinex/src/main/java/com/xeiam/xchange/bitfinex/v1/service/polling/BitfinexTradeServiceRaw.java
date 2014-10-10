@@ -49,7 +49,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
       BitfinexOrderStatusResponse[] activeOrders = bitfinex.activeOrders(apiKey, payloadCreator, signatureCreator, new BitfinexNonceOnlyRequest("/v1/orders", String.valueOf(nextNonce())));
       return activeOrders;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -59,7 +59,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
       BitfinexOfferStatusResponse[] activeOffers = bitfinex.activeOffers(apiKey, payloadCreator, signatureCreator, new BitfinexNonceOnlyRequest("/v1/offers", String.valueOf(nextNonce())));
       return activeOffers;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -75,7 +75,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
               orderType));
       return newOrder;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -97,7 +97,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
       BitfinexOrderStatusResponse newOrder = bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, request);
       return newOrder;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -111,7 +111,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
               .getRate(), loanOrder.getDayPeriod(), direction));
       return newOrderResponse;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -125,7 +125,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
               "0.0"), loanOrder.getDayPeriod(), direction));
       return newOrderResponse;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -139,7 +139,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
         return false;
       }
       else {
-        throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+        throw new ExchangeException(e.getMessage());
       }
     }
   }
@@ -151,7 +151,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
           bitfinex.cancelOffer(apiKey, payloadCreator, signatureCreator, new BitfinexCancelOfferRequest(String.valueOf(nextNonce()), Integer.valueOf(offerId)));
       return cancelResponse;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -161,7 +161,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
       BitfinexOrderStatusResponse orderStatus = bitfinex.orderStatus(apiKey, payloadCreator, signatureCreator, new BitfinexOrderStatusRequest(String.valueOf(nextNonce()), Integer.valueOf(orderId)));
       return orderStatus;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
 
   }
@@ -172,7 +172,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
       BitfinexOfferStatusResponse offerStatus = bitfinex.offerStatus(apiKey, payloadCreator, signatureCreator, new BitfinexOfferStatusRequest(String.valueOf(nextNonce()), Integer.valueOf(offerId)));
       return offerStatus;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -182,7 +182,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
       BitfinexTradeResponse[] trades = bitfinex.pastTrades(apiKey, payloadCreator, signatureCreator, new BitfinexPastTradesRequest(String.valueOf(nextNonce()), symbol, timestamp, limit));
       return trades;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -192,7 +192,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
       BitfinexCreditResponse[] credits = bitfinex.activeCredits(apiKey, payloadCreator, signatureCreator, new BitfinexActiveCreditsRequest(String.valueOf(nextNonce())));
       return credits;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -203,7 +203,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
           bitfinex.activePositions(apiKey, payloadCreator, signatureCreator, new BitfinexNonceOnlyRequest("/v1/positions", String.valueOf(nextNonce())));
       return activePositions;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 

@@ -93,7 +93,8 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
     PoloniexUserTrade[] poloniexUserTrades = null;
     if (startTime == null && endTime == null) {
       poloniexUserTrades = returnTradeHistory(currencyPair);
-    } else {
+    }
+    else {
       poloniexUserTrades = returnTradeHistory(currencyPair, startTime, endTime);
     }
 

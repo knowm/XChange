@@ -18,7 +18,7 @@ public class BitVcAccountServiceRaw extends BitVcBaseTradeService {
     BitVcAccountInfo rawAccountInfo = bitvc.getAccountInfo(accessKey, nextCreated(), digest);
 
     if (rawAccountInfo.getMessage() != null) {
-      throw new ExchangeException("BitVC returned an error: " + rawAccountInfo.getMessage());
+      throw new ExchangeException(rawAccountInfo.getMessage());
     }
     else {
       return rawAccountInfo;
