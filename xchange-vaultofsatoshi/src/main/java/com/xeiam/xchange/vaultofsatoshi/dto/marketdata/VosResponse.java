@@ -9,38 +9,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class VosResponse<T> {
 
-	private final String status;
-	private final String message;
-	private final T data;
+  private final String status;
+  private final String message;
+  private final T data;
 
-	@JsonCreator
-	public VosResponse(@JsonProperty("data") T data,
-			@JsonProperty("status") String status,
-			@JsonProperty("message") String message) {
+  @JsonCreator
+  public VosResponse(@JsonProperty("data") T data, @JsonProperty("status") String status, @JsonProperty("message") String message) {
 
-		this.status = status;
-		this.data = data;
-		this.message = message;
-	}
+    this.status = status;
+    this.data = data;
+    this.message = message;
+  }
 
-	public String getStatus() {
+  public String getStatus() {
 
-		return status;
-	}
+    return status;
+  }
 
-	public String getMessage() {
+  public String getMessage() {
 
-		return message;
-	}
+    return message;
+  }
 
-	public T getData() {
+  public T getData() {
 
-		return data;
-	}
+    return data;
+  }
 
-	@Override
-	public String toString() {
-		return "VosWrapper [status=" + status + ", message=" + message + ", data=" + data + "]";
-	}
+  @Override
+  public String toString() {
+
+    return "VosWrapper [status=" + status + ", message=" + message + ", data=" + data + "]";
+  }
 
 }

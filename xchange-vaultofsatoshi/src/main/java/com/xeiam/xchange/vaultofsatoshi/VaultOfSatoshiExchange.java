@@ -29,7 +29,7 @@ public class VaultOfSatoshiExchange extends BaseExchange implements Exchange {
 
     return exchangeSpecification;
   }
-  
+
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
@@ -38,5 +38,5 @@ public class VaultOfSatoshiExchange extends BaseExchange implements Exchange {
     this.pollingTradeService = new VaultOfSatoshiTradeService(exchangeSpecification);
     this.pollingAccountService = new VaultOfSatoshiAccountService(exchangeSpecification);
   }
-  
+
 }

@@ -46,7 +46,7 @@ public class CryptoTradeMarketDataJsonTest {
     InputStream is = CryptoTradeMarketDataJsonTest.class.getResourceAsStream("/marketdata/example-tickers-data.json");
 
     ObjectMapper mapper = new ObjectMapper();
-    CryptoTradeTickers tickers = mapper.readValue(is,  CryptoTradeTickers.class);
+    CryptoTradeTickers tickers = mapper.readValue(is, CryptoTradeTickers.class);
 
     Map<CurrencyPair, CryptoTradeTicker> tickerMap = tickers.getTickers();
     assertThat(tickerMap).hasSize(3);

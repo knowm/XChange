@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -20,7 +21,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.utils.Assert;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ANXTradeServiceRaw extends ANXBasePollingService {
 

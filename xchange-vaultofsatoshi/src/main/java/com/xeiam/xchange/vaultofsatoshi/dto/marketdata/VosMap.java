@@ -12,22 +12,23 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  */
 public final class VosMap<T> {
 
-	private Map<String, T> currencies = new HashMap<String, T>();
+  private Map<String, T> currencies = new HashMap<String, T>();
 
-	@JsonAnySetter
-	public void putValue(String name, T vosValue) {
+  @JsonAnySetter
+  public void putValue(String name, T vosValue) {
 
-		this.currencies.put(name, vosValue);
-	}
+    this.currencies.put(name, vosValue);
+  }
 
-	public Map<String, T> getVosMap() {
+  public Map<String, T> getVosMap() {
 
-		return currencies;
-	}
+    return currencies;
+  }
 
-	@Override
-	public String toString() {
-		return "VosMap [currencies=" + currencies + "]";
-	}
+  @Override
+  public String toString() {
+
+    return "VosMap [currencies=" + currencies + "]";
+  }
 
 }

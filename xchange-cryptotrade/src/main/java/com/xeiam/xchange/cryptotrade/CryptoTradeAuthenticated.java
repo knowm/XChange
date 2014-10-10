@@ -40,11 +40,13 @@ public interface CryptoTradeAuthenticated extends CryptoTrade {
 
   @POST
   @Path("private/cancelorder")
-  CryptoTradeCancelOrderReturn cancelOrder(@FormParam("orderid") long orderId, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce) throws CryptoTradeException, IOException;
+  CryptoTradeCancelOrderReturn cancelOrder(@FormParam("orderid") long orderId, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce)
+      throws CryptoTradeException, IOException;
 
   @POST
   @Path("private/orderinfo")
-  CryptoTradeOrderInfoReturn getOrderInfo(@FormParam("orderid") long orderId, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce) throws CryptoTradeException, IOException;
+  CryptoTradeOrderInfoReturn getOrderInfo(@FormParam("orderid") long orderId, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") int nonce)
+      throws CryptoTradeException, IOException;
 
   @POST
   @Path("private/tradeshistory")

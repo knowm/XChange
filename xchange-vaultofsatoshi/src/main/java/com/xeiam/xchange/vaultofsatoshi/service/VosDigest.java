@@ -14,7 +14,6 @@ import com.xeiam.xchange.utils.Base64;
  */
 public class VosDigest extends BaseParamsDigest {
 
-	
   /**
    * Constructor
    * 
@@ -34,13 +33,13 @@ public class VosDigest extends BaseParamsDigest {
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
-	  
-  	// VoS message is url path + 'null character' + request.  Ex: "/info/account\000nonce=1234567890"
-	String message = "/" + restInvocation.getPath() + "\000" + restInvocation.getRequestBody();
+
+    // VoS message is url path + 'null character' + request. Ex: "/info/account\000nonce=1234567890"
+    String message = "/" + restInvocation.getPath() + "\000" + restInvocation.getRequestBody();
 
     Mac mac = getMac();
     mac.update(message.getBytes());
-   
+
     return Base64.encodeBytes((String.format("%064x", new BigInteger(1, mac.doFinal())).getBytes()));
   }
 }

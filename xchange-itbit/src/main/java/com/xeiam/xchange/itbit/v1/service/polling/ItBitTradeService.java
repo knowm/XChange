@@ -2,6 +2,8 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -12,7 +14,6 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.itbit.v1.ItBitAdapters;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTradeService {
 

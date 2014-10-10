@@ -23,9 +23,7 @@ public class CryptoTradePairDeserializer extends JsonDeserializer<CryptoTradePai
      * Only 'getpair' method
      */
     final String label = pairDataNode.has("label") ? pairDataNode.get("label").asText() : null;
-    final CryptoTradePairType type = pairDataNode.has("type")
-        ? CryptoTradePairType.valueOf(pairDataNode.get("type").asText())
-        : null;
+    final CryptoTradePairType type = pairDataNode.has("type") ? CryptoTradePairType.valueOf(pairDataNode.get("type").asText()) : null;
 
     final String status = statusNode != null ? statusNode.path("status").asText() : null;
     final String error = statusNode != null ? statusNode.path("error").asText() : null;

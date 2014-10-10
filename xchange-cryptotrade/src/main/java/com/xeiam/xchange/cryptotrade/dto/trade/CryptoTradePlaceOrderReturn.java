@@ -55,8 +55,8 @@ public class CryptoTradePlaceOrderReturn extends CryptoTradeBaseResponse {
     private final int orderId;
     private final Map<String, BigDecimal> funds;
 
-    private CryptoTradePlacedOrderData(@JsonProperty("Bought") BigDecimal bought, @JsonProperty("Sold") BigDecimal sold, @JsonProperty("remaining") BigDecimal remaining, @JsonProperty("order_id") int orderId,
-        @JsonProperty("funds") Map<String, BigDecimal> funds) {
+    private CryptoTradePlacedOrderData(@JsonProperty("Bought") BigDecimal bought, @JsonProperty("Sold") BigDecimal sold, @JsonProperty("remaining") BigDecimal remaining,
+        @JsonProperty("order_id") int orderId, @JsonProperty("funds") Map<String, BigDecimal> funds) {
 
       this.bought = bought;
       this.sold = sold;

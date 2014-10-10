@@ -1,4 +1,3 @@
-
 package com.xeiam.xchange.vaultofsatoshi.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,27 +7,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class VosDeposit {
 
-	  private String wallet_address;
-	  private String currency;
+  private String wallet_address;
+  private String currency;
 
-	  public VosDeposit(@JsonProperty("wallet_address") String wallet_address, 
-			  @JsonProperty("currency") String currency) {
+  public VosDeposit(@JsonProperty("wallet_address") String wallet_address, @JsonProperty("currency") String currency) {
 
-	    this.wallet_address = wallet_address;
-	    this.currency = currency;
-	  }
+    this.wallet_address = wallet_address;
+    this.currency = currency;
+  }
 
-	public String getWallet_address() {
-		return wallet_address;
-	}
+  public String getWallet_address() {
 
-	public String getCurrency() {
-		return currency;
-	}
+    return wallet_address;
+  }
 
-	@Override
-	public String toString() {
-		return "VosDeposit [wallet_address=" + wallet_address + ", currency=" + currency + "]";
-	}
+  public String getCurrency() {
+
+    return currency;
+  }
+
+  @Override
+  public String toString() {
+
+    return "VosDeposit [wallet_address=" + wallet_address + ", currency=" + currency + "]";
+  }
 
 }

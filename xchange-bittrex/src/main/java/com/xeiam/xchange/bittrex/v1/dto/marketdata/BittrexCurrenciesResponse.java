@@ -29,7 +29,7 @@ public class BittrexCurrenciesResponse {
   }
 
   public BittrexCurrency[] getCurrencies() {
-  
+
     return currencies;
   }
 

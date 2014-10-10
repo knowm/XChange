@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -18,7 +19,6 @@ import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWithdrawalResponse;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWithdrawalResponseWrapper;
 import com.xeiam.xchange.anx.v2.service.ANXV2Digest;
 import com.xeiam.xchange.utils.Assert;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ANXAccountServiceRaw extends ANXBasePollingService {
 
@@ -53,8 +53,8 @@ public class ANXAccountServiceRaw extends ANXBasePollingService {
 
     try {
       ANXWithdrawalResponseWrapper anxWithdrawalResponseWrapper =
-          anxV2.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), currency, address, amount.multiply(
-              new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2)).intValue(), 1, false, false);
+          anxV2.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), currency, address, amount.multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2))
+              .intValue(), 1, false, false);
       return anxWithdrawalResponseWrapper.getAnxWithdrawalResponse();
     } catch (ANXException e) {
       throw new ExchangeException("Error calling withdrawFunds(): " + e.getError(), e);

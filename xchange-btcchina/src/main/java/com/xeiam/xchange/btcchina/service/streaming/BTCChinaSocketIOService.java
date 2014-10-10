@@ -39,14 +39,10 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
 
     final String uri = (String) exchangeSpecification.getExchangeSpecificParametersItem(BTCChinaExchange.WEBSOCKET_URI_KEY);
 
-    socket = BTCChinaSocketIOClientBuilder.create()
-        .setUri(URI.create(uri))
-        .setAccessKey(exchangeSpecification.getApiKey())
-        .setSecretKey(exchangeSpecification.getSecretKey())
-        .subscribeAccountInfo(exchangeStreamingConfiguration.isSubscribeAccountInfo())
-        .subscribeMarketData(exchangeStreamingConfiguration.getMarketDataCurrencyPairs())
-        .subscribeOrderFeed(exchangeStreamingConfiguration.getOrderFeedCurrencyPairs())
-        .build();
+    socket =
+        BTCChinaSocketIOClientBuilder.create().setUri(URI.create(uri)).setAccessKey(exchangeSpecification.getApiKey()).setSecretKey(exchangeSpecification.getSecretKey()).subscribeAccountInfo(
+            exchangeStreamingConfiguration.isSubscribeAccountInfo()).subscribeMarketData(exchangeStreamingConfiguration.getMarketDataCurrencyPairs()).subscribeOrderFeed(
+            exchangeStreamingConfiguration.getOrderFeedCurrencyPairs()).build();
 
     listen();
   }

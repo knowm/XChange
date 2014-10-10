@@ -42,6 +42,7 @@ public final class BTCTradeAdapters {
   private static final Map<String, CurrencyPair> currencyPairs = getCurrencyPairs();
 
   private static final Map<String, CurrencyPair> getCurrencyPairs() {
+
     Map<String, CurrencyPair> currencyPairs = new HashMap<String, CurrencyPair>(4);
     currencyPairs.put("1", CurrencyPair.BTC_CNY);
     // Seems they only provides API methods for the BTC_CNY.
@@ -72,6 +73,7 @@ public final class BTCTradeAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(String coin) {
+
     return currencyPairs.get(coin);
   }
 
@@ -184,9 +186,10 @@ public final class BTCTradeAdapters {
 
     final LimitOrder limitOrder;
     if (currencyPair == null) {
-      // Unknown currency pair 
+      // Unknown currency pair
       limitOrder = null;
-    } else {
+    }
+    else {
       limitOrder = new LimitOrder(adaptOrderType(order.getType()), order.getAmountOutstanding(), currencyPair, order.getId(), adaptDatetime(order.getDatetime()), order.getPrice());
     }
 

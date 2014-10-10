@@ -151,22 +151,22 @@ public class CexIOAdapters {
       wallets.add(new Wallet(Currencies.DRK, balance.getBalanceDRK().getOrders(), "orders"));
     }
     if (balance.getBalanceEUR() != null) {
-        wallets.add(new Wallet(Currencies.EUR, balance.getBalanceEUR().getAvailable(), "available"));
+      wallets.add(new Wallet(Currencies.EUR, balance.getBalanceEUR().getAvailable(), "available"));
     }
     if (balance.getBalanceDOGE() != null) {
-        wallets.add(new Wallet(Currencies.DOGE, balance.getBalanceDOGE().getAvailable(), "available"));
+      wallets.add(new Wallet(Currencies.DOGE, balance.getBalanceDOGE().getAvailable(), "available"));
     }
     if (balance.getBalanceFTC() != null) {
-        wallets.add(new Wallet(Currencies.FTC, balance.getBalanceFTC().getAvailable(), "available"));
+      wallets.add(new Wallet(Currencies.FTC, balance.getBalanceFTC().getAvailable(), "available"));
     }
     if (balance.getBalanceMEC() != null) {
-        wallets.add(new Wallet(Currencies.MEC, balance.getBalanceMEC().getAvailable(), "available"));
+      wallets.add(new Wallet(Currencies.MEC, balance.getBalanceMEC().getAvailable(), "available"));
     }
     if (balance.getBalanceWDC() != null) {
-        wallets.add(new Wallet(Currencies.WDC, balance.getBalanceWDC().getAvailable(), "available"));
+      wallets.add(new Wallet(Currencies.WDC, balance.getBalanceWDC().getAvailable(), "available"));
     }
     if (balance.getBalanceMYR() != null) {
-        wallets.add(new Wallet(Currencies.MYR, balance.getBalanceMYR().getAvailable(), "available"));
+      wallets.add(new Wallet(Currencies.MYR, balance.getBalanceMYR().getAvailable(), "available"));
     }
     return new AccountInfo(userName, null, wallets);
   }

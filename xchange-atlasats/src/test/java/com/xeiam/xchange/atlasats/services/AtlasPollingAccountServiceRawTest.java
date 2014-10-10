@@ -1,7 +1,10 @@
 package com.xeiam.xchange.atlasats.services;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,50 +23,51 @@ import com.xeiam.xchange.atlasats.dtos.AtlasOptionContract;
 
 public class AtlasPollingAccountServiceRawTest {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AtlasPollingAccountServiceRawTest.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AtlasPollingAccountServiceRawTest.class);
 
-	private AtlasPollingAccountServiceRaw accountServiceRaw;
-	private AtlasTestExchangeSpecification exchangeSpecification;
+  private AtlasPollingAccountServiceRaw accountServiceRaw;
+  private AtlasTestExchangeSpecification exchangeSpecification;
 
-	@Before
-	public void setUp() throws Exception {
-		exchangeSpecification = new AtlasTestExchangeSpecification();
-		exchangeSpecification.setSslUri(AtlasExchangeSpecification.TEST_SSL_URL);
-		accountServiceRaw = new AtlasPollingAccountServiceRaw(
-				exchangeSpecification);
-	}
+  @Before
+  public void setUp() throws Exception {
 
-	@After
-	public void tearDown() throws Exception {
-		accountServiceRaw = null;
-		exchangeSpecification = null;
-	}
+    exchangeSpecification = new AtlasTestExchangeSpecification();
+    exchangeSpecification.setSslUri(AtlasExchangeSpecification.TEST_SSL_URL);
+    accountServiceRaw = new AtlasPollingAccountServiceRaw(exchangeSpecification);
+  }
 
-	@Test
-	public void testGetAccountInfo() {
-		AtlasAccountInfo accountInfo = accountServiceRaw.getAccountInfo();
-		assertNotNull(accountInfo);
-		assertThat(accountInfo.getExposure(), is(equalTo(BigDecimal.ZERO)));
-		LOGGER.info("Account Info: " + accountInfo);
-	}
+  @After
+  public void tearDown() throws Exception {
 
-	@Test
-	public void testGetExchangeSymbols() throws Exception {
-		List<AtlasCurrencyPair> exchangeSymbols = accountServiceRaw
-				.getExchangeSymbols();
-		assertNotNull(exchangeSymbols);
-		assertThat(exchangeSymbols.isEmpty(), is(not(true)));
-		LOGGER.info("Exchange Symbols: " + exchangeSymbols);
-	}
+    accountServiceRaw = null;
+    exchangeSpecification = null;
+  }
 
-	@Test
-	public void testGetOptionContracts() throws Exception {
-		List<AtlasOptionContract> optionContracts = accountServiceRaw
-				.getOptionContracts();
-		assertNotNull(optionContracts);
-		assertThat(optionContracts.isEmpty(), is(not(true)));
-		LOGGER.info("Option Contracts: " + optionContracts);
-	}
+  @Test
+  public void testGetAccountInfo() {
+
+    AtlasAccountInfo accountInfo = accountServiceRaw.getAccountInfo();
+    assertNotNull(accountInfo);
+    assertThat(accountInfo.getExposure(), is(equalTo(BigDecimal.ZERO)));
+    LOGGER.info("Account Info: " + accountInfo);
+  }
+
+  @Test
+  public void testGetExchangeSymbols() throws Exception {
+
+    List<AtlasCurrencyPair> exchangeSymbols = accountServiceRaw.getExchangeSymbols();
+    assertNotNull(exchangeSymbols);
+    assertThat(exchangeSymbols.isEmpty(), is(not(true)));
+    LOGGER.info("Exchange Symbols: " + exchangeSymbols);
+  }
+
+  @Test
+  public void testGetOptionContracts() throws Exception {
+
+    List<AtlasOptionContract> optionContracts = accountServiceRaw.getOptionContracts();
+    assertNotNull(optionContracts);
+    assertThat(optionContracts.isEmpty(), is(not(true)));
+    LOGGER.info("Option Contracts: " + optionContracts);
+  }
 
 }

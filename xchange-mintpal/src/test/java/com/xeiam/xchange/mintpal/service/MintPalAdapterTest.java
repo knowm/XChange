@@ -25,17 +25,17 @@ import com.xeiam.xchange.mintpal.dto.MintPalBaseResponse;
 import com.xeiam.xchange.mintpal.dto.marketdata.MintPalPublicOrders;
 import com.xeiam.xchange.mintpal.dto.marketdata.MintPalPublicTrade;
 import com.xeiam.xchange.mintpal.dto.marketdata.MintPalTicker;
-import com.xeiam.xchange.mintpal.service.marketdata.MintPalMarketDataTests;
+import com.xeiam.xchange.mintpal.service.marketdata.MintPalMarketDataTest;
 
 /**
  * @author jamespedwards42
  */
-public class MintPalAdapterTests {
+public class MintPalAdapterTest {
 
   @Test
   public void testAdaptTicker() throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = MintPalMarketDataTests.class.getResourceAsStream("/marketdata/tickers.json");
+    final InputStream is = MintPalMarketDataTest.class.getResourceAsStream("/marketdata/tickers.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final JavaType tickersType = mapper.getTypeFactory().constructParametricType(MintPalBaseResponse.class, mapper.getTypeFactory().constructCollectionType(List.class, MintPalTicker.class));
@@ -57,7 +57,7 @@ public class MintPalAdapterTests {
   @Test
   public void testAdaptOrders() throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = MintPalAdapterTests.class.getResourceAsStream("/marketdata/orders.json");
+    final InputStream is = MintPalAdapterTest.class.getResourceAsStream("/marketdata/orders.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final JavaType tickersType = mapper.getTypeFactory().constructParametricType(MintPalBaseResponse.class, mapper.getTypeFactory().constructCollectionType(List.class, MintPalPublicOrders.class));
@@ -78,7 +78,7 @@ public class MintPalAdapterTests {
   @Test
   public void testAdaptPublicTrades() throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = MintPalAdapterTests.class.getResourceAsStream("/marketdata/trades.json");
+    final InputStream is = MintPalAdapterTest.class.getResourceAsStream("/marketdata/trades.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final JavaType tickersType = mapper.getTypeFactory().constructParametricType(MintPalBaseResponse.class, mapper.getTypeFactory().constructCollectionType(List.class, MintPalPublicTrade.class));

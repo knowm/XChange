@@ -1,4 +1,3 @@
-
 package com.xeiam.xchange.vaultofsatoshi;
 
 /**
@@ -16,7 +15,7 @@ public final class VaultOfSatoshiUtils {
   // VoS uses microseconds since epoch as a nonce. Needs to be with 10 seconds of server time
   public static long getNonce() {
 
-	  return System.currentTimeMillis() * 1000;
+    return System.currentTimeMillis() * 1000;
   }
 
 }

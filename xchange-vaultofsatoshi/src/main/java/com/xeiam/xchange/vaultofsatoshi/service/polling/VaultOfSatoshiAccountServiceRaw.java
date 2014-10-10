@@ -1,4 +1,3 @@
-
 package com.xeiam.xchange.vaultofsatoshi.service.polling;
 
 import java.io.IOException;
@@ -38,33 +37,33 @@ public class VaultOfSatoshiAccountServiceRaw extends VaultOfSatoshiBasePollingSe
 
   public VosCurrency getBalance(String currency) throws IOException {
 
-	  final VosResponse<VosCurrency> response = vaultOfSatoshiAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), currency);
-	  
-	  checkResult(response);
-	  return response.getData();
+    final VosResponse<VosCurrency> response = vaultOfSatoshiAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), currency);
+
+    checkResult(response);
+    return response.getData();
   }
 
   public VosAccount getAccount() throws IOException {
-	
-	  final VosResponse<VosAccount> response = vaultOfSatoshiAuthenticated.getAccount(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce());
-		  
-	  checkResult(response);
-	  return response.getData();
+
+    final VosResponse<VosAccount> response = vaultOfSatoshiAuthenticated.getAccount(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce());
+
+    checkResult(response);
+    return response.getData();
   }
 
   public VosWalletAddress getWalletAddress(String currency) throws IOException {
 
-	  final VosResponse<VosWalletAddress> response = vaultOfSatoshiAuthenticated.getWalletAddress(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), currency);
-	  
-	  checkResult(response);
-	  return response.getData();
+    final VosResponse<VosWalletAddress> response = vaultOfSatoshiAuthenticated.getWalletAddress(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), currency);
+
+    checkResult(response);
+    return response.getData();
   }
-  
+
   public VosWalletHistory getWalletHistory(String currency) throws IOException {
 
-	  final VosResponse<VosWalletHistory> response = vaultOfSatoshiAuthenticated.getWalletHistory(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), currency, 0, 0);
-		  
-	  checkResult(response);
-	  return response.getData();
+    final VosResponse<VosWalletHistory> response = vaultOfSatoshiAuthenticated.getWalletHistory(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), currency, 0, 0);
+
+    checkResult(response);
+    return response.getData();
   }
 }

@@ -1,4 +1,3 @@
-
 package com.xeiam.xchange.vaultofsatoshi.service.polling;
 
 import static com.xeiam.xchange.dto.Order.OrderType.BID;
@@ -44,11 +43,11 @@ public class VaultOfSatoshiTradeService extends VaultOfSatoshiTradeServiceRaw im
       OrderType orderType = vosOrder.getType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
       String id = Integer.toString(vosOrder.getOrder_id());
       BigDecimal price = vosOrder.getPrice().getValue();
-      CurrencyPair currPair = new CurrencyPair(vosOrder.getOrder_currency(),vosOrder.getPayment_currency());
-      
-      limitOrders.add(new LimitOrder(orderType, vosOrder.getUnits().getValue(), currPair, id, DateUtils.fromMillisUtc(vosOrder.getOrder_date()/1000L), price));
+      CurrencyPair currPair = new CurrencyPair(vosOrder.getOrder_currency(), vosOrder.getPayment_currency());
+
+      limitOrders.add(new LimitOrder(orderType, vosOrder.getUnits().getValue(), currPair, id, DateUtils.fromMillisUtc(vosOrder.getOrder_date() / 1000L), price));
     }
-    
+
     return new OpenOrders(limitOrders);
   }
 
@@ -61,11 +60,12 @@ public class VaultOfSatoshiTradeService extends VaultOfSatoshiTradeServiceRaw im
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-	  int vosOrderId;
+    int vosOrderId;
     if (limitOrder.getType() == BID) {
-    	vosOrderId = buyVaultOfSatoshiOrder(limitOrder.getCurrencyPair(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-    } else {
-    	vosOrderId = sellVaultOfSatoshiOrder(limitOrder.getCurrencyPair(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+      vosOrderId = buyVaultOfSatoshiOrder(limitOrder.getCurrencyPair(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    }
+    else {
+      vosOrderId = sellVaultOfSatoshiOrder(limitOrder.getCurrencyPair(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
     }
 
     return Integer.toString(vosOrderId);

@@ -31,28 +31,29 @@ import java.util.List;
  */
 public final class OpenLoanOrders {
 
-	private final List<FixedRateLoanOrder> openFixedRateLoanOrders;
-	private final List<FloatingRateLoanOrder> openFloatingRateLoanOrders;
-	
-	public OpenLoanOrders(List<FixedRateLoanOrder> openFixedRateLoanOrders, List<FloatingRateLoanOrder> openFloatingRateLoanOrders) {
-		
-		this.openFixedRateLoanOrders = openFixedRateLoanOrders;
-		this.openFloatingRateLoanOrders = openFloatingRateLoanOrders;
-	}
+  private final List<FixedRateLoanOrder> openFixedRateLoanOrders;
+  private final List<FloatingRateLoanOrder> openFloatingRateLoanOrders;
 
-	public List<FixedRateLoanOrder> getOpenFixedRateLoanOrders() {
-		return openFixedRateLoanOrders;
-	}
+  public OpenLoanOrders(List<FixedRateLoanOrder> openFixedRateLoanOrders, List<FloatingRateLoanOrder> openFloatingRateLoanOrders) {
 
-	public List<FloatingRateLoanOrder> getOpenFloatingRateLoanOrders() {
-		return openFloatingRateLoanOrders;
-	}
+    this.openFixedRateLoanOrders = openFixedRateLoanOrders;
+    this.openFloatingRateLoanOrders = openFloatingRateLoanOrders;
+  }
 
-	@Override
-	public String toString() {
-		return "OpenLoanOrders [openFixedRateLoanOrders="
-				+ openFixedRateLoanOrders + ", openFloatingRateLoanOrders="
-				+ openFloatingRateLoanOrders + "]";
-	}
-	
+  public List<FixedRateLoanOrder> getOpenFixedRateLoanOrders() {
+
+    return openFixedRateLoanOrders;
+  }
+
+  public List<FloatingRateLoanOrder> getOpenFloatingRateLoanOrders() {
+
+    return openFloatingRateLoanOrders;
+  }
+
+  @Override
+  public String toString() {
+
+    return "OpenLoanOrders [openFixedRateLoanOrders=" + openFixedRateLoanOrders + ", openFloatingRateLoanOrders=" + openFloatingRateLoanOrders + "]";
+  }
+
 }

@@ -12,14 +12,14 @@ import com.xeiam.xchange.service.polling.BasePollingService;
  * @author timmolter
  */
 public class BitcurexBasePollingService extends BaseExchangeService implements BasePollingService {
-	
-	public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-			  CurrencyPair.BTC_EUR,
-			  
-			  CurrencyPair.BTC_PLN
+  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-	);
+  CurrencyPair.BTC_EUR,
+
+  CurrencyPair.BTC_PLN
+
+  );
 
   /**
    * Constructor
@@ -29,7 +29,7 @@ public class BitcurexBasePollingService extends BaseExchangeService implements B
   public BitcurexBasePollingService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
-    
+
   }
 
   @Override

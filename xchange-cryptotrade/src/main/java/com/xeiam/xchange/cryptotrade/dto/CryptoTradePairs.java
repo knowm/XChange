@@ -18,11 +18,13 @@ public class CryptoTradePairs extends CryptoTradeBaseResponse {
   }
 
   public Map<CurrencyPair, CryptoTradePair> getPairs() {
+
     return pairs;
   }
 
   @Override
   public String toString() {
+
     return "CryptoTradePairs [pairs=" + getPairs() + "]";
   }
 

@@ -1,13 +1,14 @@
 package com.xeiam.xchange.hitbtc.service.polling;
 
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 
 public class HitbtcTradeServiceRawTest {
 

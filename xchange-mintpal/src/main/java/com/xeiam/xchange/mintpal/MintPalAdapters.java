@@ -42,7 +42,7 @@ public class MintPalAdapters {
   }
 
   public static Ticker adaptTicker(final MintPalTicker mintPalTicker) {
-    
+
     MathContext mc = new MathContext(8, RoundingMode.HALF_UP);
     BigDecimal baseVolume = mintPalTicker.getVolume24Hour().divide(mintPalTicker.getLastPrice(), mc);
 

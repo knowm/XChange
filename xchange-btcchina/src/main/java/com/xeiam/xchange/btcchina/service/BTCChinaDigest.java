@@ -81,7 +81,7 @@ public class BTCChinaDigest extends BaseParamsDigest {
    */
   private String stripParams(final String params) {
 
-    final String[] original = params.substring(1, params.length() -1).split(",");
+    final String[] original = params.substring(1, params.length() - 1).split(",");
     final String[] stripped = new String[original.length];
 
     for (int i = 0; i < original.length; i++) {

@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
@@ -15,7 +17,6 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Implementation of the market data service for BTCChina.
@@ -58,7 +59,8 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
     if (args.length == 0) {
       btcChinaDepth = getBTCChinaOrderBook(market);
-    } else {
+    }
+    else {
       int limit = ((Number) args[0]).intValue();
       btcChinaDepth = getBTCChinaOrderBook(market, limit);
     }

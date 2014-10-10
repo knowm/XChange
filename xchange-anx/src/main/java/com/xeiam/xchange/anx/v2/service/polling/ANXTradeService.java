@@ -3,6 +3,8 @@ package com.xeiam.xchange.anx.v2.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
@@ -14,7 +16,6 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.utils.Assert;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author timmolter

@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ItBitAccountServiceRaw extends ItBitBasePollingService {
 

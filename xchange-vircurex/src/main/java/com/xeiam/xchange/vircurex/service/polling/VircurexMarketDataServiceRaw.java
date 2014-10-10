@@ -31,10 +31,10 @@ public class VircurexMarketDataServiceRaw extends VircurexBasePollingService {
     super(exchangeSpecification);
     vircurex = RestProxyFactory.createProxy(Vircurex.class, exchangeSpecification.getSslUri());
   }
-  
-  //TODO: implement Ticker by combining get_last_trade, get_volume, get_highest_bid and get_lowest_ask APIs: https://vircurex.com/welcome/api?locale=en
-  
-  //TODO: implement Trades using trades API: https://vircurex.com/welcome/api?locale=en
+
+  // TODO: implement Ticker by combining get_last_trade, get_volume, get_highest_bid and get_lowest_ask APIs: https://vircurex.com/welcome/api?locale=en
+
+  // TODO: implement Trades using trades API: https://vircurex.com/welcome/api?locale=en
 
   public VircurexDepth getVircurexOrderBook(CurrencyPair currencyPair) throws IOException {
 

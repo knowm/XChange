@@ -29,16 +29,10 @@ public class BTCChinaJSONObjectAdapters {
   private static Ticker internalAdaptTicker(JSONObject jsonObject) throws JSONException {
 
     JSONObject tickerJsonObject = jsonObject.getJSONObject("ticker");
-    return TickerBuilder.newInstance()
-        .withHigh(new BigDecimal(tickerJsonObject.getString("high")))
-        .withLow(new BigDecimal(tickerJsonObject.getString("low")))
-        .withBid(new BigDecimal(tickerJsonObject.getString("buy")))
-        .withAsk(new BigDecimal(tickerJsonObject.getString("sell")))
-        .withLast(new BigDecimal(tickerJsonObject.getString("last")))
-        .withVolume(new BigDecimal(tickerJsonObject.getString("vol")))
-        .withTimestamp(BTCChinaAdapters.adaptDate(tickerJsonObject.getLong("date")))
-        .withCurrencyPair(BTCChinaAdapters.adaptCurrencyPair(tickerJsonObject.getString("market")))
-        .build();
+    return TickerBuilder.newInstance().withHigh(new BigDecimal(tickerJsonObject.getString("high"))).withLow(new BigDecimal(tickerJsonObject.getString("low"))).withBid(
+        new BigDecimal(tickerJsonObject.getString("buy"))).withAsk(new BigDecimal(tickerJsonObject.getString("sell"))).withLast(new BigDecimal(tickerJsonObject.getString("last"))).withVolume(
+        new BigDecimal(tickerJsonObject.getString("vol"))).withTimestamp(BTCChinaAdapters.adaptDate(tickerJsonObject.getLong("date"))).withCurrencyPair(
+        BTCChinaAdapters.adaptCurrencyPair(tickerJsonObject.getString("market"))).build();
   }
 
   public static Trade adaptTrade(JSONObject jsonObject) {
@@ -68,9 +62,9 @@ public class BTCChinaJSONObjectAdapters {
   private static BTCChinaOrder internalAdaptOrder(JSONObject jsonObject) throws JSONException {
 
     JSONObject orderJsonObject = jsonObject.getJSONObject("order");
-    return new BTCChinaOrder(BTCChinaAdapters.adaptOrderType(orderJsonObject.getString("type")), new BigDecimal(orderJsonObject.getString("amount")),
-        BTCChinaAdapters.adaptCurrencyPair(orderJsonObject.getString("market")), String.valueOf(orderJsonObject.getLong("id")), BTCChinaAdapters.adaptDate(orderJsonObject.getLong("date")),
-        new BigDecimal(orderJsonObject.getString("price")), new BigDecimal(orderJsonObject.getString("amount_original")), BTCChinaAdapters.adaptOrderStatus(orderJsonObject.getString("status")));
+    return new BTCChinaOrder(BTCChinaAdapters.adaptOrderType(orderJsonObject.getString("type")), new BigDecimal(orderJsonObject.getString("amount")), BTCChinaAdapters
+        .adaptCurrencyPair(orderJsonObject.getString("market")), String.valueOf(orderJsonObject.getLong("id")), BTCChinaAdapters.adaptDate(orderJsonObject.getLong("date")), new BigDecimal(
+        orderJsonObject.getString("price")), new BigDecimal(orderJsonObject.getString("amount_original")), BTCChinaAdapters.adaptOrderStatus(orderJsonObject.getString("status")));
   }
 
   public static BTCChinaBalance adaptBalance(JSONObject jsonObject) {

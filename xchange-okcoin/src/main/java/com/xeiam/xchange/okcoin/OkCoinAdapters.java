@@ -38,11 +38,13 @@ public final class OkCoinAdapters {
   private OkCoinAdapters() {
 
   }
-  
+
   private static BigDecimal getOrZero(String key, Map<String, BigDecimal> map) {
-    if(map != null && map.containsKey(key)) {
+
+    if (map != null && map.containsKey(key)) {
       return map.get(key);
-    } else {
+    }
+    else {
       return BigDecimal.ZERO;
     }
   }
@@ -83,22 +85,22 @@ public final class OkCoinAdapters {
     long lastTid = trades.length > 0 ? Long.valueOf((trades[trades.length - 1].getTid())) : 0L;
     return new Trades(tradeList, lastTid, TradeSortType.SortByTimestamp);
   }
-  
-  
 
   public static AccountInfo adaptAccountInfo(OkCoinUserInfo userInfo) {
+
     OkCoinFunds funds = userInfo.getInfo().getFunds();
-    
+
     // depending on china or international version
     boolean is_cny = funds.getFree().containsKey("cny");
-    
+
     Wallet base = null;
     Wallet baseLoan = null;
-    
-    if(is_cny) {
+
+    if (is_cny) {
       base = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(getOrZero("cny", funds.getBorrow())), "available");
       baseLoan = new Wallet(CNY, getOrZero("cny", funds.getBorrow()), "loan");
-    } else {
+    }
+    else {
       base = new Wallet(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())), "available");
       baseLoan = new Wallet(USD, getOrZero("usd", funds.getBorrow()), "loan");
     }
@@ -129,9 +131,9 @@ public final class OkCoinAdapters {
     List<Trade> trades = new ArrayList<Trade>(orderResult.getOrders().length);
     for (int i = 0; i < orderResult.getOrders().length; i++) {
       OkCoinOrder order = orderResult.getOrders()[i];
-      
+
       // skip cancels that have not yet been filtered out
-      if(order.getDealAmount().equals(BigDecimal.ZERO)) {
+      if (order.getDealAmount().equals(BigDecimal.ZERO)) {
         continue;
       }
       trades.add(adaptTrade(order));

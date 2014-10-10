@@ -37,8 +37,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
 
   public PoloniexUserTrade[] returnTradeHistory(CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
 
-    return poloniex.returnTradeHistory(apiKey, signatureCreator, String.valueOf(nextNonce()), PoloniexUtils.toPairString(currencyPair),
-        startTime, endTime);
+    return poloniex.returnTradeHistory(apiKey, signatureCreator, String.valueOf(nextNonce()), PoloniexUtils.toPairString(currencyPair), startTime, endTime);
   }
 
   public String buy(LimitOrder limitOrder) throws IOException {
@@ -47,7 +46,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
         poloniex.buy(apiKey, signatureCreator, String.valueOf(nextNonce()), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils
             .toPairString(limitOrder.getCurrencyPair()));
     if (response.containsKey("error")) {
-      throw new ExchangeException("Poloniex returned an error: " + response.get("error"));
+      throw new ExchangeException(response.get("error"));
     }
     else {
       return response.get("orderNumber").toString();
@@ -60,7 +59,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
         poloniex.sell(apiKey, signatureCreator, String.valueOf(nextNonce()), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils
             .toPairString(limitOrder.getCurrencyPair()));
     if (response.containsKey("error")) {
-      throw new ExchangeException("Poloniex returned an error: " + response.get("error"));
+      throw new ExchangeException(response.get("error"));
     }
     else {
       return response.get("orderNumber").toString();
@@ -78,7 +77,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
       if (order.getId().equals(orderId)) {
         HashMap<String, String> response = poloniex.cancelOrder(apiKey, signatureCreator, String.valueOf(nextNonce()), orderId, PoloniexUtils.toPairString(order.getCurrencyPair()));
         if (response.containsKey("error")) {
-          throw new ExchangeException("Poloniex returned an error: " + response.get("error"));
+          throw new ExchangeException(response.get("error"));
         }
         else {
           return response.get("success").toString().equals(new Integer(1).toString()) ? true : false;

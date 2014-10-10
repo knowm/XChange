@@ -3,11 +3,12 @@ package com.xeiam.xchange.anx.v2.service.polling;
 import java.util.Arrays;
 import java.util.List;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * <p>
@@ -154,7 +155,8 @@ public class ANXBasePollingService extends BaseExchangeService implements BasePo
     return CURRENCY_PAIRS;
   }
 
-  protected SynchronizedValueFactory<Long> getNonce(){
+  protected SynchronizedValueFactory<Long> getNonce() {
+
     return nonceFactory;
   }
 

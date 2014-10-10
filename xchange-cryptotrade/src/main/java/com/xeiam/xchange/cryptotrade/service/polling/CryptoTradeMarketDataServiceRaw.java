@@ -78,7 +78,7 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
     return handleResponse(cryptoTradePair);
   }
 
-  public  Map<CurrencyPair, CryptoTradePair> getCryptoTradePairs() throws CryptoTradeException, IOException {
+  public Map<CurrencyPair, CryptoTradePair> getCryptoTradePairs() throws CryptoTradeException, IOException {
 
     CryptoTradePairs cryptoPairs = cryptoTradeProxy.getPairs();
 

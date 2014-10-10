@@ -43,6 +43,7 @@ public final class ItBitAdapters {
   }
 
   private static Date parseDate(String date) {
+
     Date parse;
     try {
       /**
@@ -159,13 +160,14 @@ public final class ItBitAdapters {
   }
 
   public static Ticker adaptTicker(CurrencyPair currencyPair, ItBitTicker itBitTicker) {
+
     BigDecimal bid = itBitTicker.getBid();
     BigDecimal ask = itBitTicker.getAsk();
     BigDecimal high = itBitTicker.getHighToday();
     BigDecimal low = itBitTicker.getLowToday();
     BigDecimal last = itBitTicker.getLastPrice();
     BigDecimal volume = itBitTicker.getVolume24h();
-    Date timestamp = parseDate(itBitTicker.getTimestamp());    
+    Date timestamp = parseDate(itBitTicker.getTimestamp());
 
     return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
   }

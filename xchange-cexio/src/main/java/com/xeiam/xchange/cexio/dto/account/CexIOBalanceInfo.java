@@ -21,8 +21,8 @@ public class CexIOBalanceInfo {
   private final CexIOBalance balanceGHS;
   private final CexIOBalance balanceUSD;
   private final CexIOBalance balanceDRK;
-  private final CexIOBalance balanceEUR;  
-  
+  private final CexIOBalance balanceEUR;
+
   private final CexIOBalance balanceDOGE;
   private final CexIOBalance balanceFTC;
   private final CexIOBalance balanceAUR;
@@ -33,7 +33,6 @@ public class CexIOBalanceInfo {
   private final CexIOBalance balanceDGB;
   private final CexIOBalance balanceUSDE;
   private final CexIOBalance balanceMYR;
-  
 
   /**
    * Constructor
@@ -48,14 +47,14 @@ public class CexIOBalanceInfo {
    * @param balanceGHS
    * @param balanceUSD
    * @param balanceDRK
-   * @param balanceEUR 
+   * @param balanceEUR
    */
   public CexIOBalanceInfo(@JsonProperty("error") String error, @JsonProperty("timestamp") long timestamp, @JsonProperty("username") String username, @JsonProperty("BTC") CexIOBalance balanceBTC,
-	      @JsonProperty("LTC") CexIOBalance balanceLTC, @JsonProperty("NMC") CexIOBalance balanceNMC, @JsonProperty("IXC") CexIOBalance balanceIXC, @JsonProperty("DVC") CexIOBalance balanceDVC,
-	      @JsonProperty("GHS") CexIOBalance balanceGHS, @JsonProperty("DRK") CexIOBalance balanceDRK, @JsonProperty("USD") CexIOBalance balanceUSD, @JsonProperty("EUR") CexIOBalance balanceEUR,
-	      @JsonProperty("DOGE") CexIOBalance balanceDOGE, @JsonProperty("FTC") CexIOBalance balanceFTC, @JsonProperty("AUR") CexIOBalance balanceAUR, @JsonProperty("POT") CexIOBalance balancePOT,      
-	      @JsonProperty("ANC") CexIOBalance balanceANC, @JsonProperty("MEC") CexIOBalance balanceMEC, @JsonProperty("WDC") CexIOBalance balanceWDC, @JsonProperty("DGB") CexIOBalance balanceDGB,
-	      @JsonProperty("USDE") CexIOBalance balanceUSDE, @JsonProperty("MYR") CexIOBalance balanceMYR  ) {
+      @JsonProperty("LTC") CexIOBalance balanceLTC, @JsonProperty("NMC") CexIOBalance balanceNMC, @JsonProperty("IXC") CexIOBalance balanceIXC, @JsonProperty("DVC") CexIOBalance balanceDVC,
+      @JsonProperty("GHS") CexIOBalance balanceGHS, @JsonProperty("DRK") CexIOBalance balanceDRK, @JsonProperty("USD") CexIOBalance balanceUSD, @JsonProperty("EUR") CexIOBalance balanceEUR,
+      @JsonProperty("DOGE") CexIOBalance balanceDOGE, @JsonProperty("FTC") CexIOBalance balanceFTC, @JsonProperty("AUR") CexIOBalance balanceAUR, @JsonProperty("POT") CexIOBalance balancePOT,
+      @JsonProperty("ANC") CexIOBalance balanceANC, @JsonProperty("MEC") CexIOBalance balanceMEC, @JsonProperty("WDC") CexIOBalance balanceWDC, @JsonProperty("DGB") CexIOBalance balanceDGB,
+      @JsonProperty("USDE") CexIOBalance balanceUSDE, @JsonProperty("MYR") CexIOBalance balanceMYR) {
 
     this.error = error;
     this.timestamp = timestamp;
@@ -68,7 +67,7 @@ public class CexIOBalanceInfo {
     this.balanceGHS = balanceGHS;
     this.balanceUSD = balanceUSD;
     this.balanceDRK = balanceDRK;
-    this.balanceEUR = balanceEUR;    
+    this.balanceEUR = balanceEUR;
     this.balanceDOGE = balanceDOGE;
     this.balanceFTC = balanceFTC;
     this.balanceAUR = balanceAUR;
@@ -128,76 +127,74 @@ public class CexIOBalanceInfo {
 
   public CexIOBalance getBalanceUSD() {
 
-	    return balanceUSD;
+    return balanceUSD;
   }
 
   public CexIOBalance getBalanceDRK() {
 
-	    return balanceDRK;
+    return balanceDRK;
   }
 
   public CexIOBalance getBalanceEUR() {
 
-	    return balanceEUR;
+    return balanceEUR;
   }
-  
+
   public CexIOBalance getBalanceDOGE() {
 
-	    return balanceDOGE;
+    return balanceDOGE;
   }
-  
+
   public CexIOBalance getBalanceFTC() {
 
-	    return balanceFTC;
+    return balanceFTC;
   }
-  
+
   public CexIOBalance getBalanceAUR() {
 
-	    return balanceAUR;
+    return balanceAUR;
   }
 
   public CexIOBalance getBalancePOT() {
 
-	    return balancePOT;
+    return balancePOT;
   }
 
   public CexIOBalance getBalanceANC() {
 
-	    return balanceANC;
+    return balanceANC;
   }
 
   public CexIOBalance getBalanceMEC() {
 
-	    return balanceMEC;
+    return balanceMEC;
   }
-  
+
   public CexIOBalance getBalanceWDC() {
 
-	    return balanceWDC;
+    return balanceWDC;
   }
-  
+
   public CexIOBalance getBalanceDGB() {
 
-	    return balanceDGB;
+    return balanceDGB;
   }
-  
+
   public CexIOBalance getBalanceUSDE() {
 
-	    return balanceUSDE;
+    return balanceUSDE;
   }
-  
+
   public CexIOBalance getBalanceMYR() {
 
-	    return balanceMYR;
+    return balanceMYR;
   }
 
-
-  
   @Override
   public String toString() {
 
-    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, LTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}, USD={9}, DRK={10}, EUR={11}]", error, timestamp, username, balanceBTC, balanceLTC,
-        balanceNMC, balanceIXC, balanceDVC, balanceGHS, balanceUSD, balanceDRK, balanceEUR);
+    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, LTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}, USD={9}, DRK={10}, EUR={11}]", error, timestamp,
+        username, balanceBTC, balanceLTC, balanceNMC, balanceIXC, balanceDVC, balanceGHS, balanceUSD, balanceDRK, balanceEUR);
   }
 
 }

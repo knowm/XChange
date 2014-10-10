@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>2.1.0-SNAPSHOT</version>
+		<version>2.2.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
@@ -28,157 +28,163 @@
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange VirtEx exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-cavirtex</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Open Exchange Rates exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-openexchangerates</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange BTC-E exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-btce</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Bitstamp exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-bitcurex</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
+        <!-- XChange BitKonan exchange support -->
+        <dependency>
+            <groupId>com.xeiam.xchange</groupId>
+            <artifactId>xchange-bitkonan</artifactId>
+            <version>2.2.0-SNAPSHOT</version>
+        </dependency>
 		<!-- XChange Bitstamp exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-bitstamp</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Bittrex exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-bittrex</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange CampBX exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-campbx</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange BitcoinCharts support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-bitcoincharts</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange BTC China support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-btcchina</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Blockchain support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-blockchain</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Kraken support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-kraken</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Bitfinex support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-bitfinex</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Bitcoinium support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-bitcoinium</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Justcoin support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-justcoin</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange Coinbase support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-coinbase</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
 		<!-- XChange BitcoinAverage support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
 			<artifactId>xchange-bitcoinaverage</artifactId>
-			<version>2.1.0-SNAPSHOT</version>
+			<version>2.2.0-SNAPSHOT</version>
 		</dependency>
         <!-- XChange Cex.io exchange support -->
         <dependency>
             <groupId>com.xeiam.xchange</groupId>
             <artifactId>xchange-cexio</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <version>2.2.0-SNAPSHOT</version>
         </dependency>
 		<!-- XChange CryptoTrade exchange support -->
         <dependency>
             <groupId>com.xeiam.xchange</groupId>
             <artifactId>xchange-cryptotrade</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <version>2.2.0-SNAPSHOT</version>
         </dependency>
         <!-- XChange Bter exchange support -->
         <dependency>
             <groupId>com.xeiam.xchange</groupId>
             <artifactId>xchange-bter</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <version>2.2.0-SNAPSHOT</version>
         </dependency>
         <!-- XChange Coinflor exchange support -->
         <dependency>
             <groupId>com.xeiam.xchange</groupId>
             <artifactId>xchange-coinfloor</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <version>2.2.0-SNAPSHOT</version>
         </dependency>
         <!-- XChange ANX exchange support -->
         <dependency>
             <groupId>com.xeiam.xchange</groupId>
             <artifactId>xchange-anx</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <version>2.2.0-SNAPSHOT</version>
         </dependency>
         <!-- XChange ItBit exchange support -->
         <dependency>
             <groupId>com.xeiam.xchange</groupId>
             <artifactId>xchange-itbit</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <version>2.2.0-SNAPSHOT</version>
         </dependency>
         <!-- XChange Cryptsy exchange support -->
         <dependency>
             <groupId>com.xeiam.xchange</groupId>
             <artifactId>xchange-cryptsy</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <version>2.2.0-SNAPSHOT</version>
         </dependency>
         <!-- XChange Hitbtc exchange support -->
         <dependency>
             <groupId>com.xeiam.xchange</groupId>
             <artifactId>xchange-hitbtc</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <version>2.2.0-SNAPSHOT</version>
         </dependency>
         <!-- XChange BTCCentral exchange support -->
         <dependency>
             <groupId>com.xeiam.xchange</groupId>
             <artifactId>xchange-btccentral</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
+            <version>2.2.0-SNAPSHOT</version>
         </dependency>
 		<!-- XChange BTCTrade exchange support -->
 		<dependency>

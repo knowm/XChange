@@ -7,33 +7,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public abstract class ItBitBaseResponse {
 
-   @JsonProperty("code")
-   private String code;
+  @JsonProperty("code")
+  private String code;
 
-   @JsonProperty("message")
-   private String errorMessage;
+  @JsonProperty("message")
+  private String errorMessage;
 
-   @JsonProperty("description")
-   private String description;
+  @JsonProperty("description")
+  private String description;
 
-   public String getCode() {
-     return code;
-   }
+  public String getCode() {
 
-   public String getErrorMessage() {
-     return errorMessage;
-   }
+    return code;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getErrorMessage() {
 
-   @Override
-   public String toString() {
-       return "HitbtcBaseResponse{" +
-          "code='" + code + '\'' +
-          ", message='" + errorMessage + '\'' +
-          ", description='" + description + '\'' +
-          '}';
-   }
+    return errorMessage;
+  }
+
+  public String getDescription() {
+
+    return description;
+  }
+
+  @Override
+  public String toString() {
+
+    return "HitbtcBaseResponse{" + "code='" + code + '\'' + ", message='" + errorMessage + '\'' + ", description='" + description + '\'' + '}';
+  }
 }
