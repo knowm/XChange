@@ -66,7 +66,7 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
   @Override
   public int hashCode() {
 
-    int hash = 7;
+    int hash = super.hashCode();
     hash = 59 * hash + (this.limitPrice != null ? this.limitPrice.hashCode() : 0);
     return hash;
   }
