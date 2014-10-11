@@ -2,12 +2,17 @@ package com.xeiam.xchange.poloniex.service.polling;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.Candlestick;
+import com.xeiam.xchange.dto.marketdata.CandlestickPeriod;
 import com.xeiam.xchange.poloniex.Poloniex;
+import com.xeiam.xchange.poloniex.PoloniexAdapters;
 import com.xeiam.xchange.poloniex.PoloniexUtils;
+import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexCandlestick;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexDepth;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
@@ -43,7 +48,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
     return currencyInfo;
 
   }
-  
+
   public Map<String, PoloniexMarketData> getAllPoloniexTickers() throws IOException {
 
     String command = "returnTicker";
@@ -96,11 +101,11 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
 
   public Map<String, PoloniexDepth> getAllPoloniexDepths(int depth) throws IOException {
 
-   String command = "returnOrderBook";
+    String command = "returnOrderBook";
 
-   Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all", depth);
+    Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all", depth);
 
-   return depths;
+    return depths;
   }
 
   public PoloniexPublicTrade[] getPoloniexPublicTrades(CurrencyPair currencyPair) throws IOException {
@@ -119,6 +124,23 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
 
     PoloniexPublicTrade[] trades = poloniex.getTrades(command, pairString, startTime, endTime);
     return trades;
+  }
+
+  public List<Candlestick> getPoloniexChart(CurrencyPair currencyPair, int bars, CandlestickPeriod period) throws IOException {
+
+    String command = "returnChartData";
+    String pairString = PoloniexUtils.toPairString(currencyPair);
+    long currentTimeSeconds = System.currentTimeMillis() / 1000L;
+    long startTime = currentTimeSeconds - ((bars + 2) * period.getSeconds());
+
+    List<PoloniexCandlestick> poloniexCandlesticks = poloniex.getChartData(command, pairString, startTime, 9999999999L, period.getSeconds());
+
+    while (poloniexCandlesticks.size() > bars) {
+
+      poloniexCandlesticks.remove(0);
+    }
+
+    return PoloniexAdapters.adaptPoloniexCandlesticks(poloniexCandlesticks);
   }
 
 }

@@ -3,11 +3,14 @@ package com.xeiam.xchange.examples.poloniex.marketdata;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.Candlestick;
+import com.xeiam.xchange.dto.marketdata.CandlestickPeriod;
 import com.xeiam.xchange.poloniex.PoloniexExchange;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
@@ -42,7 +45,7 @@ public class PoloniexMarketDataDemo {
     System.out.println(dataService.getOrderBook(currencyPair, 3));
     System.out.println(dataService.getTrades(currencyPair));
     long now = new Date().getTime() / 1000;
-    System.out.println(dataService.getTrades(currencyPair, now - 8*60*60, now));
+    System.out.println(dataService.getTrades(currencyPair, now - 8 * 60 * 60, now));
   }
 
   private static void raw(PoloniexMarketDataServiceRaw dataService) throws IOException {
@@ -58,7 +61,8 @@ public class PoloniexMarketDataDemo {
     System.out.println(dataService.getPoloniexDepth(currencyPair, 3));
     System.out.println(Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair)));
     long now = new Date().getTime() / 1000;
-    System.out.println(Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair, now - 8*60*60, null)));
+    System.out.println(Arrays.asList(dataService.getPoloniexPublicTrades(currencyPair, now - 8 * 60 * 60, null)));
+    System.out.println(dataService.getPoloniexChart(currencyPair, 50, CandlestickPeriod.M15));
   }
 
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.Candlestick;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
@@ -17,6 +18,7 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexCandlestick;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexDepth;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexLevel;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
@@ -98,6 +100,30 @@ public class PoloniexAdapters {
 
     Trade trade = new Trade(type, poloniexTrade.getAmount(), currencyPair, poloniexTrade.getRate(), timestamp, poloniexTrade.getTradeID(), poloniexTrade.getTradeID());
     return trade;
+  }
+
+  public static Candlestick adaptPoloniexCandlestick(PoloniexCandlestick poloniexCandlestick) {
+
+    Date date = new Date(poloniexCandlestick.getDate() * 1000L);
+    BigDecimal high = poloniexCandlestick.getHigh();
+    BigDecimal low = poloniexCandlestick.getLow();
+    BigDecimal open = poloniexCandlestick.getOpen();
+    BigDecimal close = poloniexCandlestick.getClose();
+    BigDecimal volume = poloniexCandlestick.getQuoteVolume();
+
+    return new Candlestick.Builder().setDate(date).setHigh(high).setLow(low).setOpen(open).setClose(close).setVolume(volume).build();
+  }
+
+  public static List<Candlestick> adaptPoloniexCandlesticks(List<PoloniexCandlestick> poloniexCandlesticks) {
+
+    List<Candlestick> candlesticks = new ArrayList<Candlestick>();
+
+    for (PoloniexCandlestick poloniexCandlestick : poloniexCandlesticks) {
+
+      candlesticks.add(adaptPoloniexCandlestick(poloniexCandlestick));
+    }
+
+    return candlesticks;
   }
 
   public static List<Wallet> adaptPoloniexBalances(HashMap<String, String> poloniexBalances) {
