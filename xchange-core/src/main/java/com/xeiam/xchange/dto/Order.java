@@ -128,7 +128,7 @@ public class Order {
     if (this.type != other.type) {
       return false;
     }
-    if (this.tradableAmount != other.tradableAmount && (this.tradableAmount == null || !this.tradableAmount.equals(other.tradableAmount))) {
+    if ((this.tradableAmount == null) ? (other.tradableAmount != null) : this.tradableAmount.compareTo(other.tradableAmount) != 0) {
       return false;
     }
     if ((this.currencyPair == null) ? (other.currencyPair != null) : !this.currencyPair.equals(other.currencyPair)) {
