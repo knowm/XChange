@@ -212,7 +212,9 @@ public final class BitfinexAdapters {
     List<Wallet> wallets = new ArrayList<Wallet>(response.length);
 
     for (BitfinexBalancesResponse balance : response) {
-      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getType()));
+      if ("exchange".equals(balance.getType())) {
+        wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount()));
+      }
     }
 
     return new AccountInfo(null, wallets);
