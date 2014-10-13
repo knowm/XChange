@@ -49,7 +49,7 @@ public final class BitVcAdapters {
 
     BitVcTickerObject ticker = BitVcTicker.getTicker();
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(ticker.getLast()).withBid(ticker.getBuy()).withAsk(ticker.getSell()).withHigh(ticker.getHigh()).withLow(ticker.getLow())
-        .withVolume(ticker.getVol()).build();
+        .withVolume(ticker.getVol()).withTimestamp(new Date()).build();
   }
 
   public static OrderBook adaptOrderBook(BitVcDepth BitVcDepth, CurrencyPair currencyPair) {
@@ -59,7 +59,7 @@ public final class BitVcAdapters {
 
     List<LimitOrder> bids = adaptOrderBook(BitVcDepth.getBids(), BID, currencyPair);
 
-    return new OrderBook(null, asks, bids);
+    return new OrderBook(new Date(), asks, bids);
   }
 
   private static List<LimitOrder> adaptOrderBook(BigDecimal[][] orders, OrderType type, CurrencyPair currencyPair) {
