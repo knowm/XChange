@@ -63,7 +63,7 @@ public final class OkCoinAdapters {
   public static Ticker adaptTicker(OkCoinTickerResponse tickerResponse, CurrencyPair currencyPair) {
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withHigh(tickerResponse.getTicker().getHigh()).withLow(tickerResponse.getTicker().getLow()).withBid(
-        tickerResponse.getTicker().getBuy()).withAsk(tickerResponse.getTicker().getSell()).withLast(tickerResponse.getTicker().getLast()).withVolume(tickerResponse.getTicker().getVol()).build();
+        tickerResponse.getTicker().getBuy()).withAsk(tickerResponse.getTicker().getSell()).withLast(tickerResponse.getTicker().getLast()).withVolume(tickerResponse.getTicker().getVol()).withTimestamp(new Date()).build();
   }
 
   public static OrderBook adaptOrderBook(OkCoinDepth depth, CurrencyPair currencyPair) {
@@ -72,7 +72,7 @@ public final class OkCoinAdapters {
     Collections.reverse(asks);
 
     List<LimitOrder> bids = adaptLimitOrders(OrderType.BID, depth.getBids(), currencyPair);
-    return new OrderBook(null, asks, bids);
+    return new OrderBook(new Date(), asks, bids);
   }
 
   public static Trades adaptTrades(OkCoinTrade[] trades, CurrencyPair currencyPair) {
