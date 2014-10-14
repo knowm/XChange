@@ -1,5 +1,5 @@
 ## [![XChange](http://xeiam.com/wp-content/uploads/xchangelogo.png)](http://xeiam.com/xchange) XChange
-XChange is a Java library providing a simple and consistent API for interacting with over a dozen Bitcoin exchanges providing a consistent interface for trading and accessing market data.
+XChange is a Java library providing a simple and consistent API for interacting with 30+ Bitcoin exchanges providing a consistent interface for trading and accessing market data.
 
 ## Important!
 The world of Bitcoin changes quickly and XChange is no exception. The best way to stay updated on important announcements is to follow tweets on [Xeiam's Twitter page](https://twitter.com/Xeiam). For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/timmolter/XChange/issues). There are also most likely some open [bounties](http://xeiam.com/bounties) to be had as well.
