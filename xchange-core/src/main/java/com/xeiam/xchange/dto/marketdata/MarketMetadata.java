@@ -5,7 +5,7 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 
 import java.math.BigDecimal;
 
-public interface OrderRequirements {
+public interface MarketMetadata {
 
   /**
    * The smallest tradable amount accepted by the market.
@@ -36,4 +36,8 @@ public interface OrderRequirements {
   void verifyOrder(LimitOrder order);
 
   void verifyOrder(MarketOrder order);
+
+  BigDecimal getMarketOrderFeeFactor();
+
+  BigDecimal getLimitOrderFeeFactor();
 }

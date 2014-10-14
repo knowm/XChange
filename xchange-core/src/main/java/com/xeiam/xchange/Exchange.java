@@ -1,8 +1,8 @@
 package com.xeiam.xchange;
 
+import com.xeiam.xchange.service.polling.MarketMetadataService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.polling.PollingMarketMetadataService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
@@ -87,5 +87,5 @@ public interface Exchange {
    */
   PollingAccountService getPollingAccountService();
 
-  PollingMarketMetadataService getPollingMarketMetadataService();
+  MarketMetadataService getMarketMetadataService();
 }

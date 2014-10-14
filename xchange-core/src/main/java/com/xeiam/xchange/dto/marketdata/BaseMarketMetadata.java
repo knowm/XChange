@@ -6,16 +6,20 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 
 import java.math.BigDecimal;
 
-public class BaseOrderRequirements implements OrderRequirements {
-  public final int amountScale;
-  public final BigDecimal amountMinimum;
-  public final int priceScale;
+public class BaseMarketMetadata implements MarketMetadata {
+  private final int amountScale;
+  private final BigDecimal amountMinimum;
+  private final int priceScale;
+  private final BigDecimal limitOrderFeeFactor;
+  private final BigDecimal marketOrderFeeFactor;
 
-  private BaseOrderRequirements(int amountScale, BigDecimal amountMinimum, int priceScale) {
+  public BaseMarketMetadata(int amountScale, BigDecimal amountMinimum, int priceScale, BigDecimal limitOrderFeeFactor, BigDecimal marketOrderFeeFactor) {
+
     this.amountScale = amountScale;
-    this.amountMinimum = amountMinimum;
-    amountMinimum.setScale(amountScale);
+    this.amountMinimum = amountMinimum.setScale(amountScale);
     this.priceScale = priceScale;
+    this.limitOrderFeeFactor = limitOrderFeeFactor;
+    this.marketOrderFeeFactor = marketOrderFeeFactor;
   }
 
   @Override
@@ -37,6 +41,17 @@ public class BaseOrderRequirements implements OrderRequirements {
   public BigDecimal getPriceStep() {
     return BigDecimal.ONE.movePointLeft(priceScale);
   }
+
+  @Override
+  public BigDecimal getMarketOrderFeeFactor() {
+    return marketOrderFeeFactor;
+  }
+
+  @Override
+  public BigDecimal getLimitOrderFeeFactor() {
+    return limitOrderFeeFactor;
+  }
+
 
 
   @Override
@@ -66,5 +81,16 @@ public class BaseOrderRequirements implements OrderRequirements {
     } else if (amount.compareTo(amountMinimum) < 0) {
       throw new IllegalArgumentException("Order amount less than minimum");
     }
+  }
+
+  @Override
+  public String toString() {
+    return "BaseMarketMetadata{" +
+        "amountScale=" + amountScale +
+        ", amountMinimum=" + amountMinimum +
+        ", priceScale=" + priceScale +
+        ", limitOrderFeeFactor=" + limitOrderFeeFactor +
+        ", marketOrderFeeFactor=" + marketOrderFeeFactor +
+        '}';
   }
 }
