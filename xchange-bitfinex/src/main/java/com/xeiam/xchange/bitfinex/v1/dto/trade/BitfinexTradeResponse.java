@@ -11,24 +11,30 @@ public class BitfinexTradeResponse {
   private final float timestamp;
   private final String exchange;
   private final String type;
+  private final String tradeId;
+  private final String orderId;
 
   /**
    * Constructor
-   * 
+   *
    * @param price
    * @param amount
    * @param timestamp
    * @param exchange
    * @param type
+   * @param tradeId
+   * @param orderId
    */
-  public BitfinexTradeResponse(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") float timestamp,
-      @JsonProperty("exchange") String exchange, @JsonProperty("type") String type) {
+  public BitfinexTradeResponse(@JsonProperty("price") final BigDecimal price, @JsonProperty("amount") final BigDecimal amount, @JsonProperty("timestamp") final float timestamp,
+      @JsonProperty("exchange") final String exchange, @JsonProperty("type") final String type, @JsonProperty("tid") final String tradeId, @JsonProperty("order_id") final String orderId) {
 
     this.price = price;
     this.amount = amount;
     this.timestamp = timestamp;
     this.exchange = exchange;
     this.type = type;
+    this.tradeId = tradeId;
+    this.orderId = orderId;
   }
 
   public BigDecimal getPrice() {
@@ -51,10 +57,20 @@ public class BitfinexTradeResponse {
     return type;
   }
 
+  public String getOrderId() {
+
+    return orderId;
+  }
+
+  public String getTradeId() {
+
+    return tradeId;
+  }
+
   @Override
   public String toString() {
 
-    StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder();
     builder.append("BitfinexTradeResponse [price=");
     builder.append(price);
     builder.append(", amount=");
@@ -65,6 +81,12 @@ public class BitfinexTradeResponse {
     builder.append(exchange);
     builder.append(", type=");
     builder.append(type);
+    builder.append("]");
+    builder.append(", tradeId=");
+    builder.append(tradeId);
+    builder.append("]");
+    builder.append(", orderId=");
+    builder.append(orderId);
     builder.append("]");
     return builder.toString();
   }
