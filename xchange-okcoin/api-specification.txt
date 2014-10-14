@@ -1,0 +1,10 @@
+OKCoin Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://www.okcoin.com/about/publicApi.do
+
+https://www.okcoin.com/about/tradeApi.do

@@ -10,10 +10,19 @@ public class OkCoinTrade {
   private final Date date;
   private final BigDecimal price;
   private final BigDecimal amount;
-  private final String tid;
+  private final long tid;
   private final String type;
 
-  public OkCoinTrade(@JsonProperty("date") final long date, @JsonProperty("price") final BigDecimal price, @JsonProperty("amount") final BigDecimal amount, @JsonProperty("tid") final String tid,
+  /**
+   * Constructor
+   *
+   * @param date
+   * @param price
+   * @param amount
+   * @param tid
+   * @param type
+   */
+  public OkCoinTrade(@JsonProperty("date") final long date, @JsonProperty("price") final BigDecimal price, @JsonProperty("amount") final BigDecimal amount, @JsonProperty("tid") final long tid,
       @JsonProperty("type") final String type) {
 
     this.date = new Date(date * 1000);
@@ -38,7 +47,7 @@ public class OkCoinTrade {
     return amount;
   }
 
-  public String getTid() {
+  public long getTid() {
 
     return tid;
   }
@@ -46,6 +55,12 @@ public class OkCoinTrade {
   public String getType() {
 
     return type;
+  }
+
+  @Override
+  public String toString() {
+
+    return "OkCoinTrade [date=" + date + ", price=" + price + ", amount=" + amount + ", tid=" + tid + ", type=" + type + "]";
   }
 
 }

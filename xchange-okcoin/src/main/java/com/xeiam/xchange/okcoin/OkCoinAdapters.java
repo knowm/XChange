@@ -82,7 +82,7 @@ public final class OkCoinAdapters {
       OkCoinTrade trade = trades[i];
       tradeList.add(adaptTrade(trade, currencyPair));
     }
-    long lastTid = trades.length > 0 ? Long.valueOf((trades[trades.length - 1].getTid())) : 0L;
+    long lastTid = trades.length > 0 ? (trades[trades.length - 1].getTid()) : 0L;
     return new Trades(tradeList, lastTid, TradeSortType.SortByTimestamp);
   }
 
@@ -158,7 +158,7 @@ public final class OkCoinAdapters {
 
   private static Trade adaptTrade(OkCoinTrade trade, CurrencyPair currencyPair) {
 
-    return new Trade(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), trade.getTid());
+    return new Trade(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), "" + trade.getTid());
   }
 
   private static List<LimitOrder> adaptOpenOrders(OkCoinOrderResult orderResult) {
