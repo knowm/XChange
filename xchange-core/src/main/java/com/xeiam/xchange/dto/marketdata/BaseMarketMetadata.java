@@ -7,16 +7,14 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import java.math.BigDecimal;
 
 public class BaseMarketMetadata implements MarketMetadata {
-  private final int amountScale;
   private final BigDecimal amountMinimum;
   private final int priceScale;
   private final BigDecimal limitOrderFeeFactor;
   private final BigDecimal marketOrderFeeFactor;
 
-  public BaseMarketMetadata(int amountScale, BigDecimal amountMinimum, int priceScale, BigDecimal limitOrderFeeFactor, BigDecimal marketOrderFeeFactor) {
+  public BaseMarketMetadata(BigDecimal amountMinimum, int priceScale, BigDecimal limitOrderFeeFactor, BigDecimal marketOrderFeeFactor) {
 
-    this.amountScale = amountScale;
-    this.amountMinimum = amountMinimum.setScale(amountScale);
+    this.amountMinimum = amountMinimum;
     this.priceScale = priceScale;
     this.limitOrderFeeFactor = limitOrderFeeFactor;
     this.marketOrderFeeFactor = marketOrderFeeFactor;
@@ -34,7 +32,7 @@ public class BaseMarketMetadata implements MarketMetadata {
 
   @Override
   public BigDecimal getAmountStep() {
-    return BigDecimal.ONE.movePointLeft(amountScale);
+    return BigDecimal.ONE.movePointLeft(amountMinimum.scale());
   }
 
   @Override
@@ -86,8 +84,7 @@ public class BaseMarketMetadata implements MarketMetadata {
   @Override
   public String toString() {
     return "BaseMarketMetadata{" +
-        "amountScale=" + amountScale +
-        ", amountMinimum=" + amountMinimum +
+        "amountMinimum=" + amountMinimum +
         ", priceScale=" + priceScale +
         ", limitOrderFeeFactor=" + limitOrderFeeFactor +
         ", marketOrderFeeFactor=" + marketOrderFeeFactor +
