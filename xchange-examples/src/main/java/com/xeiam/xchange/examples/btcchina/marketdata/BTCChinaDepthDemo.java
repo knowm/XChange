@@ -57,7 +57,7 @@ public class BTCChinaDepthDemo {
     }
     if (bids.size() >= 2) {
       boolean higher = bids.get(0).getLimitPrice().compareTo(bids.get(1).getLimitPrice()) > 0;
-      assert higher : "bids should be sorted deascending";
+      assert higher : "bids should be sorted descending";
     }
   }
 
