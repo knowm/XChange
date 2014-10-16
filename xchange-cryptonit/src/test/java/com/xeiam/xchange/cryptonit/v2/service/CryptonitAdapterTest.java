@@ -39,7 +39,7 @@ public class CryptonitAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CryptonitOrders cryptonitTrades = mapper.readValue(is, CryptonitOrders.class);
 
-    List<LimitOrder> asks = CryptonitAdapters.adaptOrders(cryptonitTrades, CurrencyPair.BTC_USD, "ask", "");
+    List<LimitOrder> asks = CryptonitAdapters.adaptDepths(cryptonitTrades, CurrencyPair.BTC_USD, "ask", "");
 
     // Verify all fields filled
     assertEquals(new BigDecimal("604.449"), asks.get(0).getLimitPrice().stripTrailingZeros());

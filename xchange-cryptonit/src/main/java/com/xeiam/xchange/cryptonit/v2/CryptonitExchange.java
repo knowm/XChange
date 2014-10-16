@@ -3,7 +3,9 @@ package com.xeiam.xchange.cryptonit.v2;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.cryptonit.v2.service.polling.CryptonitAccountService;
 import com.xeiam.xchange.cryptonit.v2.service.polling.CryptonitMarketDataService;
+import com.xeiam.xchange.cryptonit.v2.service.polling.CryptonitTradeService;
 
 /**
  * <p>
@@ -28,6 +30,8 @@ public class CryptonitExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
     this.pollingMarketDataService = new CryptonitMarketDataService(exchangeSpecification);
+    this.pollingAccountService = new CryptonitAccountService(exchangeSpecification);
+    this.pollingTradeService = new CryptonitTradeService(exchangeSpecification);
   }
 
   @Override

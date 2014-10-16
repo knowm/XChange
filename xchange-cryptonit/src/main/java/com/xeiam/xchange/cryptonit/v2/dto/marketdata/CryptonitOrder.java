@@ -101,4 +101,8 @@ public final class CryptonitOrder {
 
   }
 
+  public enum OrderType {
+    placed,
+    filled
+  }
 }

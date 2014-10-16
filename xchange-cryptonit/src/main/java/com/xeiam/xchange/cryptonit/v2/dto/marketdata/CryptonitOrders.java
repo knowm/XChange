@@ -31,4 +31,15 @@ public final class CryptonitOrders {
     this.orders.put(tid, order);
   }
 
+    @Override
+    public String toString() {
+
+        StringBuilder builder = new StringBuilder("CryptonitOrders{ \n");
+
+        for (Map.Entry<String, CryptonitOrder> entry : orders.entrySet()) {
+            builder.append("   " + entry.getKey() + ": " + entry.getValue().toString() + "\n");
+        }
+        builder.append('}');
+        return builder.toString();
+    }
 }

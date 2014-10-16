@@ -45,8 +45,8 @@ public class CryptonitMarketDataService extends CryptonitMarketDataServiceRaw im
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = CryptonitAdapters.adaptOrders(getCryptonitAsks(currencyPair, 1000), currencyPair, "ask", "");
-    List<LimitOrder> bids = CryptonitAdapters.adaptOrders(getCryptonitBids(currencyPair, 1000), currencyPair, "bid", "");
+    List<LimitOrder> asks = CryptonitAdapters.adaptDepths(getCryptonitAsks(currencyPair, 1000), currencyPair, "ask", "");
+    List<LimitOrder> bids = CryptonitAdapters.adaptDepths(getCryptonitBids(currencyPair, 1000), currencyPair, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }

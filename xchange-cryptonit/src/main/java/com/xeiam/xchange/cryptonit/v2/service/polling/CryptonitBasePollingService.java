@@ -16,8 +16,9 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class CryptonitBasePollingService<T extends Cryptonit> extends BaseExchangeService implements BasePollingService {
 
-  protected final Cryptonit cryptonit;
+  protected final T cryptonit;
   private final Set<CurrencyPair> currencyPairs;
+  protected final String apiKey;
 
   /**
    * Constructor
@@ -29,6 +30,7 @@ public class CryptonitBasePollingService<T extends Cryptonit> extends BaseExchan
     super(exchangeSpecification);
     this.cryptonit = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
     this.currencyPairs = new HashSet<CurrencyPair>();
+    this.apiKey = exchangeSpecification.getApiKey();
   }
 
   @Override
