@@ -16,6 +16,7 @@ public class BTCChinaExchangeException extends ExchangeException {
   }
 
   public int getErrorCode() {
+
     return error.getCode();
   }
 

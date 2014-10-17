@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.currency.CurrencyPair;
 
-
 public class ItBitTicker {
 
   private final CurrencyPair currencyPair;
@@ -22,10 +21,11 @@ public class ItBitTicker {
   private final double vwapToday;
   private final double vwap24h;
   private final String timestamp;
-  
-  public ItBitTicker(@JsonProperty("pair")CurrencyPair currencyPair, @JsonProperty("bid")BigDecimal bid, @JsonProperty("ask")BigDecimal ask, @JsonProperty("bidAmt")double bidAmt, @JsonProperty("askAmt")double askAmt, @JsonProperty("lastPrice")BigDecimal lastPrice, @JsonProperty("lastAmt")double lastAmt, 
-      @JsonProperty("volume24h")BigDecimal volume24h, @JsonProperty("highToday")BigDecimal highToday,
-      @JsonProperty("lowToday")BigDecimal lowToday, @JsonProperty("openToday")double openToday, @JsonProperty("vwapToday")double vwapToday, @JsonProperty("vwap24h")double vwap24h, @JsonProperty("servertimeUTC")String timestamp) {
+
+  public ItBitTicker(@JsonProperty("pair") CurrencyPair currencyPair, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("bidAmt") double bidAmt,
+      @JsonProperty("askAmt") double askAmt, @JsonProperty("lastPrice") BigDecimal lastPrice, @JsonProperty("lastAmt") double lastAmt, @JsonProperty("volume24h") BigDecimal volume24h,
+      @JsonProperty("highToday") BigDecimal highToday, @JsonProperty("lowToday") BigDecimal lowToday, @JsonProperty("openToday") double openToday, @JsonProperty("vwapToday") double vwapToday,
+      @JsonProperty("vwap24h") double vwap24h, @JsonProperty("servertimeUTC") String timestamp) {
 
     super();
     this.currencyPair = currencyPair;
@@ -45,72 +45,72 @@ public class ItBitTicker {
   }
 
   public CurrencyPair getCurrencyPair() {
-  
+
     return currencyPair;
   }
-  
+
   public BigDecimal getBid() {
-  
+
     return bid;
   }
-  
+
   public BigDecimal getAsk() {
-  
+
     return ask;
   }
-  
+
   public double getBidAmt() {
-  
+
     return bidAmt;
   }
-  
+
   public double getAskAmt() {
-  
+
     return askAmt;
   }
-  
+
   public BigDecimal getLastPrice() {
-  
+
     return lastPrice;
   }
-  
+
   public double getLastAmt() {
-  
+
     return lastAmt;
   }
-  
+
   public BigDecimal getVolume24h() {
-  
+
     return volume24h;
   }
-  
+
   public BigDecimal getHighToday() {
-  
+
     return highToday;
   }
-  
+
   public BigDecimal getLowToday() {
-  
+
     return lowToday;
   }
-  
+
   public double getOpenToday() {
-  
+
     return openToday;
   }
-  
+
   public double getVwapToday() {
-  
+
     return vwapToday;
   }
-  
+
   public double getVwap24h() {
-  
+
     return vwap24h;
   }
-  
+
   public String getTimestamp() {
-  
+
     return timestamp;
   }
 

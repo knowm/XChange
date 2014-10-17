@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -20,7 +21,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.utils.Assert;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class ANXTradeServiceRaw extends ANXBasePollingService {
 
@@ -96,22 +96,11 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
     }
   }
 
-  public ANXTradeResultWrapper getExecutedANXTrades(long from, long to) throws IOException {
+  public ANXTradeResultWrapper getExecutedANXTrades(Long from, Long to) throws IOException {
 
     try {
 
       ANXTradeResultWrapper anxTradeResultWrapper = anxV2.getExecutedTrades(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), from, to);
-      return anxTradeResultWrapper;
-    } catch (ANXException e) {
-      throw new ExchangeException("Error calling getExecutedANXTrades(): " + e.getError(), e);
-    }
-  }
-
-  public ANXTradeResultWrapper getExecutedANXTrades() throws IOException {
-
-    try {
-
-      ANXTradeResultWrapper anxTradeResultWrapper = anxV2.getExecutedTrades(exchangeSpecification.getApiKey(), signatureCreator, getNonce());
       return anxTradeResultWrapper;
     } catch (ANXException e) {
       throw new ExchangeException("Error calling getExecutedANXTrades(): " + e.getError(), e);

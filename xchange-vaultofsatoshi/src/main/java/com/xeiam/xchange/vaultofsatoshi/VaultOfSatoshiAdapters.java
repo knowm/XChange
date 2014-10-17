@@ -147,7 +147,7 @@ public final class VaultOfSatoshiAdapters {
     List<Trade> trades = new ArrayList<Trade>();
     for (VosTradeOrder order : vosUserTransactions) {
 
-      OrderType orderType = order.getType() == "bid" ? OrderType.BID : OrderType.ASK;
+      OrderType orderType = order.getType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
       CurrencyPair currPair = new CurrencyPair(order.getOrder_currency(), order.getPayment_currency());
 
       trades.add(new Trade(orderType, order.getUnits().getValue(), currPair, order.getPrice().getValue(), DateUtils.fromMillisUtc(order.getDate_completed() / 1000L), String.valueOf(order

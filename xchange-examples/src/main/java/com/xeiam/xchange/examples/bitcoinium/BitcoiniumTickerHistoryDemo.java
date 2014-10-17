@@ -12,7 +12,6 @@ import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
 import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.utils.CertHelper;
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.ChartBuilder;
 import com.xeiam.xchart.Series;
@@ -29,8 +28,6 @@ import com.xeiam.xchart.SwingWrapper;
 public class BitcoiniumTickerHistoryDemo {
 
   public static void main(String[] args) throws Exception {
-
-    CertHelper.trustAllCerts();
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
     // exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
@@ -65,7 +62,7 @@ public class BitcoiniumTickerHistoryDemo {
     Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(600).title("Bitstamp Price vs. Date").xAxisTitle("Date").yAxisTitle("Price").build();
     chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
 
-    Series series = chart.addSeries("MtGox USD/BTC", xAxisData, yAxisData);
+    Series series = chart.addSeries("Bitcoinium USD/BTC", xAxisData, yAxisData);
     series.setMarker(SeriesMarker.NONE);
 
     new SwingWrapper(chart).displayChart();

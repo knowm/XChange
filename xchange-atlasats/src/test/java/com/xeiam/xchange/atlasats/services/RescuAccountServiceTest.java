@@ -16,80 +16,78 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.atlasats.AtlasExchangeSpecification;
 import si.mazi.rescu.RestProxyFactory;
+
+import com.xeiam.xchange.atlasats.AtlasExchangeSpecification;
 
 public class RescuAccountServiceTest {
 
-	@Path("/api/v1")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public interface AccountSevice {
+  @Path("/api/v1")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public interface AccountSevice {
 
-		@GET
-		@Path("account")
-		public String getAccountInfo(@HeaderParam("Authorization") String apiKey);
+    @GET
+    @Path("account")
+    public String getAccountInfo(@HeaderParam("Authorization") String apiKey);
 
-		@GET
-		@Path("market/symbols")
-		public List<Map<String, Object>> getExchangeSymbols(
-				@HeaderParam("Authorization") String apiKey);
+    @GET
+    @Path("market/symbols")
+    public List<Map<String, Object>> getExchangeSymbols(@HeaderParam("Authorization") String apiKey);
 
-		@GET
-		@Path("market/symbols")
-		public String getOptionContracts(
-				@HeaderParam("Authorization") String apiKey);
-	}
+    @GET
+    @Path("market/symbols")
+    public String getOptionContracts(@HeaderParam("Authorization") String apiKey);
+  }
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(RescuAccountServiceTest.class);
-	private AccountSevice accountSevice;
+  private static final Logger LOGGER = LoggerFactory.getLogger(RescuAccountServiceTest.class);
+  private AccountSevice accountSevice;
 
-	@Before
-	public void setUp() throws Exception {
-		accountSevice = RestProxyFactory.createProxy(AccountSevice.class,
-				AtlasExchangeSpecification.TEST_SSL_URL);
-	}
+  @Before
+  public void setUp() throws Exception {
 
-	@After
-	public void tearDown() throws Exception {
-		accountSevice = null;
-	}
+    accountSevice = RestProxyFactory.createProxy(AccountSevice.class, AtlasExchangeSpecification.TEST_SSL_URL);
+  }
 
-	@Test
-	public void testAccountInfo() {
-		try {
-			String response = accountSevice.getAccountInfo("Token token=\""
-					+ AtlasExchangeSpecification.TEST_API_KEY + "\"");
-			LOGGER.info(response);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-		}
-	}
+  @After
+  public void tearDown() throws Exception {
 
-	@Test
-	public void testExchangeSymbols() {
-		try {
-			List<Map<String, Object>> response = accountSevice
-					.getExchangeSymbols("Token token=\""
-							+ AtlasExchangeSpecification.TEST_API_KEY + "\"");
-			for (Map<String, Object> map : response) {
-				LOGGER.info(map.toString());
-			}
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-		}
-	}
+    accountSevice = null;
+  }
 
-	@Test
-	public void testOptionContracts() {
-		try {
-			String response = accountSevice.getOptionContracts("Token token=\""
-					+ AtlasExchangeSpecification.TEST_API_KEY + "\"");
-			LOGGER.info(response);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage());
-		}
-	}
+  @Test
+  public void testAccountInfo() {
+
+    try {
+      String response = accountSevice.getAccountInfo("Token token=\"" + AtlasExchangeSpecification.TEST_API_KEY + "\"");
+      LOGGER.info(response);
+    } catch (Exception e) {
+      LOGGER.error(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testExchangeSymbols() {
+
+    try {
+      List<Map<String, Object>> response = accountSevice.getExchangeSymbols("Token token=\"" + AtlasExchangeSpecification.TEST_API_KEY + "\"");
+      for (Map<String, Object> map : response) {
+        LOGGER.info(map.toString());
+      }
+    } catch (Exception e) {
+      LOGGER.error(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testOptionContracts() {
+
+    try {
+      String response = accountSevice.getOptionContracts("Token token=\"" + AtlasExchangeSpecification.TEST_API_KEY + "\"");
+      LOGGER.info(response);
+    } catch (Exception e) {
+      LOGGER.error(e.getMessage());
+    }
+  }
 
 }

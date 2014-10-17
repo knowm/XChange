@@ -1,6 +1,5 @@
 package com.xeiam.xchange.poloniex;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,7 +40,7 @@ public class PoloniexAdapters {
     BigDecimal ask = marketData.getLowestAsk();
     BigDecimal high = null;
     BigDecimal low = null;
-    BigDecimal volume = marketData.getBaseVolume();
+    BigDecimal volume = marketData.getQuoteVolume();
 
     Date timestamp = new Date();
 
@@ -49,7 +48,7 @@ public class PoloniexAdapters {
 
   }
 
-  public static OrderBook adaptPoloniexDepth(PoloniexDepth depth, CurrencyPair currencyPair) throws IOException {
+  public static OrderBook adaptPoloniexDepth(PoloniexDepth depth, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = adaptPoloniexPublicOrders(depth.getAsks(), OrderType.ASK, currencyPair);
     List<LimitOrder> bids = adaptPoloniexPublicOrders(depth.getBids(), OrderType.BID, currencyPair);
@@ -57,7 +56,7 @@ public class PoloniexAdapters {
     return new OrderBook(new Date(), asks, bids);
   }
 
-  public static List<LimitOrder> adaptPoloniexPublicOrders(List<List<BigDecimal>> rawLevels, OrderType orderType, CurrencyPair currencyPair) throws IOException {
+  public static List<LimitOrder> adaptPoloniexPublicOrders(List<List<BigDecimal>> rawLevels, OrderType orderType, CurrencyPair currencyPair) {
 
     List<PoloniexLevel> levels = new ArrayList<PoloniexLevel>();
 

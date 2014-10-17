@@ -12,8 +12,8 @@ import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicOrder;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
+import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrder;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
-import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders.CryptoTradeOrder;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades.CryptoTradeTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -89,7 +89,7 @@ public final class CryptoTradeAdapters {
 
   public static LimitOrder adaptOrder(CryptoTradeOrder order) {
 
-    Date timestamp = new Date(order.getTimestamp());
+    Date timestamp = new Date(order.getOrderDate());
     OrderType orderType = adaptOrderType(order.getType());
 
     return new LimitOrder(orderType, order.getRemainingAmount(), order.getCurrencyPair(), String.valueOf(order.getId()), timestamp, order.getRate());

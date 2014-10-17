@@ -7,6 +7,7 @@ import com.xeiam.xchange.cryptsy.service.polling.CryptsyAccountService;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyMarketDataService;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyPublicMarketDataService;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyTradeService;
+import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 /**
  * @author ObsessiveOrange
@@ -62,6 +63,19 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription("Cryptsy is an altcoin exchange");
 
     return exchangeSpecification;
+  }
+
+  @Override
+  public PollingMarketDataService getPollingMarketDataService() {
+
+    String apiKey = exchangeSpecification.getApiKey();
+
+    if (apiKey == null || apiKey.equals("")) {
+      return pollingPublicMarketDataService;
+    }
+    else {
+      return pollingMarketDataService;
+    }
   }
 
   public CryptsyPublicMarketDataService getPublicPollingMarketDataService() {

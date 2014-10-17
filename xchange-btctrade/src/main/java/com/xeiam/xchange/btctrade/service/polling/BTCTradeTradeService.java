@@ -4,8 +4,8 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btctrade.BTCTradeAdapters;
 import com.xeiam.xchange.btctrade.dto.BTCTradeResult;
+import com.xeiam.xchange.btctrade.dto.trade.BTCTradeOrder;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradePlaceOrderResult;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -29,7 +29,7 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
   @Override
   public OpenOrders getOpenOrders() {
 
-    return BTCTradeAdapters.adaptOpenOrders(getBTCTradeOrders(0, "open"), CurrencyPair.BTC_CNY);
+    return BTCTradeAdapters.adaptOpenOrders(getBTCTradeOrders(0, "open"));
   }
 
   /**
@@ -74,7 +74,15 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
   public Trades getTradeHistory(Object... arguments) {
 
     long since = arguments.length > 0 ? toLong(arguments[0]) : 0L;
-    return BTCTradeAdapters.adaptTrades(getBTCTradeOrders(since, "all"), CurrencyPair.BTC_CNY);
+
+    BTCTradeOrder[] orders = getBTCTradeOrders(since, "all");
+    BTCTradeOrder[] orderDetails = new BTCTradeOrder[orders.length];
+
+    for (int i = 0; i < orders.length; i++) {
+      orderDetails[i] = getBTCTradeOrder(orders[i].getId());
+    }
+
+    return BTCTradeAdapters.adaptTrades(orders, orderDetails);
   }
 
 }

@@ -1,7 +1,7 @@
 {
     "status": "success",
     "data": {
-        "bought": 0,
+        "Bought": 0,
         "remaining": "1",
         "order_id": "13",
         "funds": {

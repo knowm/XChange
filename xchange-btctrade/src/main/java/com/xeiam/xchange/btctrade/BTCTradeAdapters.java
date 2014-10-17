@@ -6,7 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.btctrade.dto.BTCTradeResult;
@@ -36,6 +39,21 @@ import com.xeiam.xchange.dto.trade.Wallet;
  */
 public final class BTCTradeAdapters {
 
+  private static final Map<String, CurrencyPair> currencyPairs = getCurrencyPairs();
+
+  private static final Map<String, CurrencyPair> getCurrencyPairs() {
+
+    Map<String, CurrencyPair> currencyPairs = new HashMap<String, CurrencyPair>(4);
+    currencyPairs.put("1", CurrencyPair.BTC_CNY);
+    // Seems they only provides API methods for the BTC_CNY.
+    // But, anyway, we can place LTC_CNY orders from the website,
+    // and then we may got the open orders by API method.
+    currencyPairs.put("2", CurrencyPair.LTC_CNY);
+    // 3 -> CurrencyPair.DOGE_CNY?
+    // 4 -> CurrencyPair.YBC_CNY?
+    return currencyPairs;
+  }
+
   /**
    * private Constructor
    */
@@ -46,10 +64,17 @@ public final class BTCTradeAdapters {
   public static Date adaptDatetime(String datetime) {
 
     try {
-      return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(datetime);
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+      sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+      return sdf.parse(datetime);
     } catch (ParseException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public static CurrencyPair adaptCurrencyPair(String coin) {
+
+    return currencyPairs.get(coin);
   }
 
   public static Ticker adaptTicker(BTCTradeTicker btcTradeTicker, CurrencyPair currencyPair) {
@@ -143,26 +168,48 @@ public final class BTCTradeAdapters {
     return result.getId();
   }
 
-  public static OpenOrders adaptOpenOrders(BTCTradeOrder[] btcTradeOrders, CurrencyPair currencyPair) {
+  public static OpenOrders adaptOpenOrders(BTCTradeOrder[] btcTradeOrders) {
 
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>(btcTradeOrders.length);
     for (BTCTradeOrder order : btcTradeOrders) {
-      openOrders.add(adaptLimitOrder(order, currencyPair));
+      LimitOrder limitOrder = adaptLimitOrder(order);
+      if (limitOrder != null) {
+        openOrders.add(limitOrder);
+      }
     }
     return new OpenOrders(openOrders);
   }
 
-  private static LimitOrder adaptLimitOrder(BTCTradeOrder order, CurrencyPair currencyPair) {
+  private static LimitOrder adaptLimitOrder(BTCTradeOrder order) {
 
-    return new LimitOrder(adaptOrderType(order.getType()), order.getAmountOutstanding(), currencyPair, order.getId(), adaptDatetime(order.getDatetime()), order.getPrice());
+    CurrencyPair currencyPair = adaptCurrencyPair(order.getCoin());
+
+    final LimitOrder limitOrder;
+    if (currencyPair == null) {
+      // Unknown currency pair
+      limitOrder = null;
+    }
+    else {
+      limitOrder = new LimitOrder(adaptOrderType(order.getType()), order.getAmountOutstanding(), currencyPair, order.getId(), adaptDatetime(order.getDatetime()), order.getPrice());
+    }
+
+    return limitOrder;
   }
 
-  public static Trades adaptTrades(BTCTradeOrder[] btcTradeOrders, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(BTCTradeOrder[] btcTradeOrders, BTCTradeOrder[] btcTradeOrderDetails) {
 
     List<Trade> trades = new ArrayList<Trade>();
-    for (BTCTradeOrder order : btcTradeOrders) {
-      for (com.xeiam.xchange.btctrade.dto.trade.BTCTradeTrade trade : order.getTrades()) {
-        trades.add(adaptTrade(order, trade, currencyPair));
+    for (int i = 0; i < btcTradeOrders.length; i++) {
+      BTCTradeOrder order = btcTradeOrders[i];
+
+      CurrencyPair currencyPair = adaptCurrencyPair(order.getCoin());
+
+      if (currencyPair != null) {
+        BTCTradeOrder orderDetail = btcTradeOrderDetails[i];
+
+        for (com.xeiam.xchange.btctrade.dto.trade.BTCTradeTrade trade : orderDetail.getTrades()) {
+          trades.add(adaptTrade(order, trade, currencyPair));
+        }
       }
     }
     return new Trades(trades, TradeSortType.SortByTimestamp);

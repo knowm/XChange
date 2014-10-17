@@ -43,6 +43,6 @@
 
 	<!-- Define logging for organization applications only -->
 	<logger name="com.xeiam.xchange" level="DEBUG" />
-	<logger name="si.mazi.rescu" level="TRACE" />
+<!-- 	<logger name="si.mazi.rescu" level="TRACE" /> -->
 
 </configuration>

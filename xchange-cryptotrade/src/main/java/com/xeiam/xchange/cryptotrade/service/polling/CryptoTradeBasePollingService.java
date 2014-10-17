@@ -1,5 +1,6 @@
 package com.xeiam.xchange.cryptotrade.service.polling;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTrade;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeBaseResponse;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradeException;
 import com.xeiam.xchange.cryptotrade.service.CryptoTradeHmacPostBodyDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -18,6 +20,8 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseExchangeService implements BasePollingService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
+
+  public final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
 
   protected final String apiKey;
   protected final T cryptoTradeProxy;
@@ -53,52 +57,13 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
     return response;
   }
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
-
-  static {
-    CURRENCY_PAIRS.add(new CurrencyPair("BC", "USD"));
-    CURRENCY_PAIRS.add(new CurrencyPair("BC", "BTC"));
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_EUR);
-    CURRENCY_PAIRS.add(new CurrencyPair("CINNI", "USD"));
-    CURRENCY_PAIRS.add(new CurrencyPair("CINNI", "BTC"));
-    CURRENCY_PAIRS.add(CurrencyPair.DGC_BTC);
-    CURRENCY_PAIRS.add(new CurrencyPair("DRK", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("DRK", "USD"));
-    CURRENCY_PAIRS.add(CurrencyPair.DVC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.FTC_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.FTC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.LTC_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.LTC_EUR);
-    CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.NMC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.NMC_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.PPC_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.UTC_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.UTC_EUR);
-    CURRENCY_PAIRS.add(CurrencyPair.UTC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.UTC_LTC);
-    CURRENCY_PAIRS.add(CurrencyPair.WDC_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.WDC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.XPM_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.XPM_USD);
-    CURRENCY_PAIRS.add(CurrencyPair.XPM_PPC);
-
-    // Securities
-    CURRENCY_PAIRS.add(new CurrencyPair("AMC", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("CRM", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("CTB", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("CTL", "LTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("CVF", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("ESB", "BTC"));
-    CURRENCY_PAIRS.add(new CurrencyPair("ESL", "LTC"));
-  }
-
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public List<CurrencyPair> getExchangeSymbols() throws CryptoTradeException, IOException {
 
+    if (CURRENCY_PAIRS.isEmpty()) {
+      CURRENCY_PAIRS.addAll(cryptoTradeProxy.getPairs().getPairs().keySet());
+    }
     return CURRENCY_PAIRS;
   }
+
 }

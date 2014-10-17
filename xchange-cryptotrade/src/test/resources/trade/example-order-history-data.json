@@ -3,7 +3,7 @@
     "data": [
         {
             "id": 7,
-            "timestamp": 1370952372,
+            "orderdate": 1370952372,
             "pair": "btc_usd",
             "type": "Sell",
             "initial_amount": "1",
@@ -13,7 +13,7 @@
         },
         {
             "id": 6,
-            "timestamp": 1370944501,
+            "orderdate": 1370944501,
             "pair": "btc_usd",
             "type": "Buy",
             "initial_amount": "2",
@@ -23,7 +23,7 @@
         },
         {
             "id": 5,
-            "timestamp": 1370944500,
+            "orderdate": 1370944500,
             "pair": "btc_usd",
             "type": "Buy",
             "initial_amount": "2",

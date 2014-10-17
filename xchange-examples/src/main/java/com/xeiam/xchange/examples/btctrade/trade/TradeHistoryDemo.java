@@ -47,7 +47,8 @@ public class TradeHistoryDemo {
     BTCTradeOrder[] orders = tradeService.getBTCTradeOrders(0, "open");
     System.out.println("Open orders: " + orders.length);
 
-    BTCTradeOrder order = tradeService.getBTCTradeOrder("1");
+    String orderId = orders.length > 0 ? orders[0].getId() : "1";
+    BTCTradeOrder order = tradeService.getBTCTradeOrder(orderId);
     System.out.println("Order status: " + order.getStatus());
   }
 

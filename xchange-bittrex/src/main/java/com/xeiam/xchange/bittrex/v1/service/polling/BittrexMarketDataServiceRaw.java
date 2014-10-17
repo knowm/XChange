@@ -46,11 +46,11 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return response.getCurrencies();
     }
     else {
-      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+      throw new ExchangeException(response.getMessage());
     }
 
   }
-  
+
   public ArrayList<BittrexSymbol> getBittrexSymbols() throws IOException {
 
     BittrexSymbolsResponse response = bittrex.getSymbols();
@@ -59,11 +59,11 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return response.getSymbols();
     }
     else {
-      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+      throw new ExchangeException(response.getMessage());
     }
 
   }
-  
+
   public BittrexTicker getBittrexTicker(String pair) throws IOException {
 
     BittrexTickerResponse response = bittrex.getTicker(pair);
@@ -72,11 +72,11 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return response.getTicker();
     }
     else {
-      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+      throw new ExchangeException(response.getMessage());
     }
 
   }
-  
+
   public ArrayList<BittrexTicker> getBittrexTickers() throws IOException {
 
     BittrexTickersResponse response = bittrex.getTickers();
@@ -85,7 +85,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return response.getTickers();
     }
     else {
-      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+      throw new ExchangeException(response.getMessage());
     }
 
   }
@@ -100,7 +100,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return bittrexDepth;
     }
     else {
-      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+      throw new ExchangeException(response.getMessage());
     }
   }
 
@@ -114,7 +114,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
       return bittrexTrades;
     }
     else {
-      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+      throw new ExchangeException(response.getMessage());
     }
   }
 }

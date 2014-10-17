@@ -3,6 +3,8 @@ package com.xeiam.xchange.kraken.service.polling;
 import java.io.IOException;
 import java.util.Map;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.kraken.Kraken;
@@ -14,7 +16,6 @@ import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken> {
 

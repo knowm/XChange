@@ -17,7 +17,6 @@ import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
 import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.utils.CertHelper;
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.ChartBuilder;
 import com.xeiam.xchart.Series;
@@ -36,11 +35,10 @@ public class BitcoiniumRealtimeTickerDemo {
   BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService;
   List<Date> xAxisData;
   List<Float> yAxisData;
-  public static final String SERIES_NAME = "MtGox USD/BTC";
+  public static final String SERIES_NAME = "Bitcoinium USD/BTC";
 
   public static void main(String[] args) throws Exception {
 
-    CertHelper.trustAllCerts();
     final BitcoiniumRealtimeTickerDemo bitcoiniumRealtimeTickerDemo = new BitcoiniumRealtimeTickerDemo();
     bitcoiniumRealtimeTickerDemo.go();
   }

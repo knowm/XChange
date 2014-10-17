@@ -21,6 +21,11 @@ public class CryptoTradePlaceOrderReturn extends CryptoTradeBaseResponse {
     return placedOrderData.getBought();
   }
 
+  public BigDecimal getSold() {
+
+    return placedOrderData.getSold();
+  }
+
   public BigDecimal getRemaining() {
 
     return placedOrderData.getRemaining();
@@ -45,14 +50,16 @@ public class CryptoTradePlaceOrderReturn extends CryptoTradeBaseResponse {
   private static class CryptoTradePlacedOrderData {
 
     private final BigDecimal bought;
+    private final BigDecimal sold;
     private final BigDecimal remaining;
     private final int orderId;
     private final Map<String, BigDecimal> funds;
 
-    private CryptoTradePlacedOrderData(@JsonProperty("bought") BigDecimal bought, @JsonProperty("remaining") BigDecimal remaining, @JsonProperty("order_id") int orderId,
-        @JsonProperty("funds") Map<String, BigDecimal> funds) {
+    private CryptoTradePlacedOrderData(@JsonProperty("Bought") BigDecimal bought, @JsonProperty("Sold") BigDecimal sold, @JsonProperty("remaining") BigDecimal remaining,
+        @JsonProperty("order_id") int orderId, @JsonProperty("funds") Map<String, BigDecimal> funds) {
 
       this.bought = bought;
+      this.sold = sold;
       this.remaining = remaining;
       this.orderId = orderId;
       this.funds = funds;
@@ -61,6 +68,11 @@ public class CryptoTradePlaceOrderReturn extends CryptoTradeBaseResponse {
     public BigDecimal getBought() {
 
       return bought;
+    }
+
+    public BigDecimal getSold() {
+
+      return sold;
     }
 
     public BigDecimal getRemaining() {
@@ -81,7 +93,7 @@ public class CryptoTradePlaceOrderReturn extends CryptoTradeBaseResponse {
     @Override
     public String toString() {
 
-      return "CryptoTradePlacedOrderData [bought=" + bought + ", remaining=" + remaining + ", orderId=" + orderId + ", funds=" + funds + "]";
+      return "CryptoTradePlacedOrderData [bought=" + bought + ", sold=" + sold + ", remaining=" + remaining + ", orderId=" + orderId + ", funds=" + funds + "]";
     }
 
   }

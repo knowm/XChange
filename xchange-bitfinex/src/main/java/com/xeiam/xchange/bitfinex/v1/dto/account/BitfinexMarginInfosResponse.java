@@ -1,7 +1,9 @@
 package com.xeiam.xchange.bitfinex.v1.dto.account;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Generated;
@@ -15,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "margin_balance", "tradable_balance", "unrealized_pl", "unrealized_swap", "net_value", "required_margin", "leverage", "margin_requirement" })
+@JsonPropertyOrder({ "margin_balance", "tradable_balance", "unrealized_pl", "unrealized_swap", "net_value", "required_margin", "leverage", "margin_requirement", "margin_limits", "message" })
 public class BitfinexMarginInfosResponse {
 
   @JsonProperty("margin_balance")
@@ -34,6 +36,10 @@ public class BitfinexMarginInfosResponse {
   private BigDecimal leverage;
   @JsonProperty("margin_requirement")
   private BigDecimal marginRequirement;
+  @JsonProperty("margin_limits")
+  private List<BitfinexMarginLimit> marginLimits = new ArrayList<BitfinexMarginLimit>();
+  @JsonProperty("message")
+  private String message;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -133,6 +139,30 @@ public class BitfinexMarginInfosResponse {
     this.marginRequirement = marginRequirement;
   }
 
+  @JsonProperty("margin_limits")
+  public List<BitfinexMarginLimit> getMarginLimits() {
+
+    return marginLimits;
+  }
+
+  @JsonProperty("margin_limits")
+  public void setMarginLimits(List<BitfinexMarginLimit> marginLimits) {
+
+    this.marginLimits = marginLimits;
+  }
+
+  @JsonProperty("message")
+  public String getMessage() {
+
+    return message;
+  }
+
+  @JsonProperty("message")
+  public void setMessage(String message) {
+
+    this.message = message;
+  }
+
   @JsonAnyGetter
   public Map<String, Object> getAdditionalProperties() {
 
@@ -143,14 +173,6 @@ public class BitfinexMarginInfosResponse {
   public void setAdditionalProperty(String name, Object value) {
 
     this.additionalProperties.put(name, value);
-  }
-
-  @Override
-  public String toString() {
-
-    return "BitfinexMarginInfosResponse [marginBalance=" + marginBalance + ", tradableBalance=" + tradableBalance + ", unrealizedPl=" + unrealizedPl + ", unrealizedSwap=" + unrealizedSwap
-        + ", netValue=" + netValue + ", requiredMargin=" + requiredMargin + ", leverage=" + leverage + ", marginRequirement=" + marginRequirement + ", additionalProperties=" + additionalProperties
-        + "]";
   }
 
 }

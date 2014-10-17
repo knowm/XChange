@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.xeiam.xchange</groupId>
 	<artifactId>xchange-parent</artifactId>
-	<version>2.1.0-SNAPSHOT</version>
+	<version>2.2.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>XChange Parent</name>
-	<description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of financial security exchanges including Bitcoin.</description>
+	<description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of cryptocurrency exchanges.</description>
 
 	<url>http://xeiam.com</url>
 	<inceptionYear>2012</inceptionYear>
@@ -19,17 +18,10 @@
 		<name>Xeiam, LLC</name>
 		<url>http://xeiam.com</url>
 	</organization>
-
+	
 	<developers>
 		<developer>
 			<name>Tim Molter</name>
-		</developer>
-		<developer>
-			<name>Gary Rowe</name>
-			<email>g.rowe@froot.co.uk</email>
-		</developer>
-		<developer>
-			<name>Matija Mazi</name>
 		</developer>
 	</developers>
 
@@ -73,16 +65,18 @@
 	</ciManagement>
 
 	<modules>
-		<module>xchange-anx</module>
+        <module>xchange-anx</module>
 		<module>xchange-bitbay</module>
 		<module>xchange-bitcoinaverage</module>
 		<module>xchange-bitcoincharts</module>
 		<module>xchange-bitcoinium</module>
 		<module>xchange-bitcurex</module>
 		<module>xchange-bitfinex</module>
+		<module>xchange-bitkonan</module>
 		<module>xchange-bitmarket</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-bittrex</module>
+		<module>xchange-bitvc</module>
 		<module>xchange-blockchain</module>
 		<module>xchange-btccentral</module>
 		<module>xchange-btcchina</module>
@@ -105,6 +99,7 @@
 		<module>xchange-kraken</module>
 		<module>xchange-lakebtc</module>
 		<module>xchange-mintpal</module>
+		<module>xchange-okcoin</module>
 		<module>xchange-openexchangerates</module>
 		<module>xchange-poloniex</module>
 		<module>xchange-vaultofsatoshi</module>
@@ -148,7 +143,7 @@
 			<dependency>
 				<groupId>com.xeiam.xchart</groupId>
 				<artifactId>xchart</artifactId>
-				<version>2.4.0</version>
+				<version>2.4.1</version>
 			</dependency>
 
 			<!-- Websocket library -->
@@ -175,7 +170,7 @@
 			<dependency>
 				<groupId>com.github.mmazi</groupId>
 				<artifactId>rescu</artifactId>
-				<version>1.7.0</version>
+				<version>1.7.1</version>
 			</dependency>
 
 		</dependencies>

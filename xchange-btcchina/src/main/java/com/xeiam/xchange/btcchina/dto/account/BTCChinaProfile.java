@@ -116,8 +116,7 @@ public class BTCChinaProfile extends LinkedHashMap<String, String> {
   @Override
   public String toString() {
 
-    return String.format("Profile{username=%s, tradePasswordEnabled=%s, otpEnabled=%s, tradeFee=%s, apiKeyPermission=%d}", username, tradePasswordEnabled,
-        otpEnabled, tradeFee, apiKeyPermission);
+    return String.format("Profile{username=%s, tradePasswordEnabled=%s, otpEnabled=%s, tradeFee=%s, apiKeyPermission=%d}", username, tradePasswordEnabled, otpEnabled, tradeFee, apiKeyPermission);
   }
 
 }

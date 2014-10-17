@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.kraken.KrakenAuthenticated;
@@ -16,7 +18,6 @@ import com.xeiam.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author jamespedwards42

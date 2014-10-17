@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradeException;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
 
 public class CryptoTradeAccountServiceRaw extends CryptoTradeBasePollingService<CryptoTradeAuthenticated> {
@@ -18,7 +19,7 @@ public class CryptoTradeAccountServiceRaw extends CryptoTradeBasePollingService<
     super(CryptoTradeAuthenticated.class, exchangeSpecification);
   }
 
-  public CryptoTradeAccountInfo getCryptoTradeAccountInfo() throws IOException {
+  public CryptoTradeAccountInfo getCryptoTradeAccountInfo() throws CryptoTradeException, IOException {
 
     CryptoTradeAccountInfo info = cryptoTradeProxy.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     return handleResponse(info);

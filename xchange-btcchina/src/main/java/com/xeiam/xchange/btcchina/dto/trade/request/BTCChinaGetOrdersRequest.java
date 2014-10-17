@@ -78,7 +78,7 @@ public final class BTCChinaGetOrdersRequest extends BTCChinaRequest {
         String.format("[%b,\"%s\",%d,%d,%d,%b]", openOnly == null ? true : openOnly.booleanValue(), market == null ? BTCChinaExchange.DEFAULT_MARKET : market, limit == null ? DEFAULT_LIMIT : limit
             .intValue(), offset == null ? 0 : offset.intValue(), since == null ? 0 : since.intValue(), withdetail);
   }
-  
+
   @Override
   public String toString() {
 

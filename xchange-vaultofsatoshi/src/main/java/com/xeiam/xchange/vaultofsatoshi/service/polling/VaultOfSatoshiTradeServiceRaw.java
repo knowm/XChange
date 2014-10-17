@@ -33,8 +33,8 @@ import com.xeiam.xchange.vaultofsatoshi.VaultOfSatoshiTrading;
 import com.xeiam.xchange.vaultofsatoshi.VaultOfSatoshiUtils;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosCurrency;
 import com.xeiam.xchange.vaultofsatoshi.dto.marketdata.VosResponse;
-import com.xeiam.xchange.vaultofsatoshi.dto.trade.VosTradeOrder;
 import com.xeiam.xchange.vaultofsatoshi.dto.trade.VosOrderId;
+import com.xeiam.xchange.vaultofsatoshi.dto.trade.VosTradeOrder;
 import com.xeiam.xchange.vaultofsatoshi.service.VosDigest;
 
 /**
@@ -61,47 +61,51 @@ public class VaultOfSatoshiTradeServiceRaw extends VaultOfSatoshiBasePollingServ
 
   public VosTradeOrder[] getVaultOfSatoshiOpenOrders(int numberOfTransactions) throws IOException {
 
-	  VosResponse<VosTradeOrder[]> response = vosAuthenticated.getOpenOrders(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), numberOfTransactions, "open_only");
-    
-	  checkResult(response);
-	  return response.getData();
+    VosResponse<VosTradeOrder[]> response = vosAuthenticated.getOpenOrders(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), numberOfTransactions, "open_only");
+
+    checkResult(response);
+    return response.getData();
   }
 
   public int sellVaultOfSatoshiOrder(CurrencyPair currPair, BigDecimal tradableAmount, BigDecimal price) throws IOException {
-	  
-	  VosCurrency vosUnits = new VosCurrency(tradableAmount);
-	  VosCurrency vosPrice = new VosCurrency(price);
 
-	  VosResponse<VosOrderId> response = vosTrade.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), "ask", currPair.baseSymbol, vosUnits.getPrecision(), vosUnits.getValue(), vosUnits.getValueInt(), currPair.counterSymbol, vosPrice.getPrecision(), vosPrice.getValue(), vosPrice.getValueInt());
-	    
-	  checkResult(response);
-	  return response.getData().getOrder_id();
+    VosCurrency vosUnits = new VosCurrency(tradableAmount);
+    VosCurrency vosPrice = new VosCurrency(price);
+
+    VosResponse<VosOrderId> response =
+        vosTrade.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), "ask", currPair.baseSymbol, vosUnits.getPrecision(), vosUnits.getValue(), vosUnits
+            .getValueInt(), currPair.counterSymbol, vosPrice.getPrecision(), vosPrice.getValue(), vosPrice.getValueInt());
+
+    checkResult(response);
+    return response.getData().getOrder_id();
   }
-  
+
   public int buyVaultOfSatoshiOrder(CurrencyPair currPair, BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
-	  VosCurrency vosUnits = new VosCurrency(tradableAmount);
-	  VosCurrency vosPrice = new VosCurrency(price);
+    VosCurrency vosUnits = new VosCurrency(tradableAmount);
+    VosCurrency vosPrice = new VosCurrency(price);
 
-	  VosResponse<VosOrderId> response =  vosTrade.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), "bid", currPair.baseSymbol, vosUnits.getPrecision(), vosUnits.getValue(), vosUnits.getValueInt(), currPair.counterSymbol, vosPrice.getPrecision(), vosPrice.getValue(), vosPrice.getValueInt());
+    VosResponse<VosOrderId> response =
+        vosTrade.placeOrder(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), "bid", currPair.baseSymbol, vosUnits.getPrecision(), vosUnits.getValue(), vosUnits
+            .getValueInt(), currPair.counterSymbol, vosPrice.getPrecision(), vosPrice.getValue(), vosPrice.getValueInt());
 
-	  checkResult(response);
-	  return response.getData().getOrder_id();
+    checkResult(response);
+    return response.getData().getOrder_id();
   }
 
   public boolean cancelVaultOfSatoshiOrder(int orderId) throws IOException {
 
-	  VosResponse<Void> response = vosTrade.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), orderId);
-	
-	  return checkResult(response);
+    VosResponse<Void> response = vosTrade.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), orderId);
+
+    return checkResult(response);
   }
 
   public VosTradeOrder[] getVaultOfSatoshiUserTransactions(int numberOfTransactions) throws IOException {
 
-	  VosResponse<VosTradeOrder[]> response = vosAuthenticated.getOrders(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), numberOfTransactions);
-	    
-	  checkResult(response);
-	  return response.getData();
+    VosResponse<VosTradeOrder[]> response = vosAuthenticated.getOrders(exchangeSpecification.getApiKey(), signatureCreator, VaultOfSatoshiUtils.getNonce(), numberOfTransactions);
+
+    checkResult(response);
+    return response.getData();
   }
-  
+
 }

@@ -1,11 +1,14 @@
 package com.xeiam.xchange.examples.cryptotrade.marketdata;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.cryptotrade.CryptoTradeExchange;
+import com.xeiam.xchange.cryptotrade.dto.CryptoTradePair;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeDepth;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradePublicTrade;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
@@ -32,6 +35,9 @@ public class CryptoTradeMarketDataDemo {
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
+    Collection<CurrencyPair> currencyPairs = marketDataService.getExchangeSymbols();
+    System.out.println(currencyPairs);
+
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);
 
@@ -44,11 +50,17 @@ public class CryptoTradeMarketDataDemo {
 
   private static void raw(CryptoTradeMarketDataServiceRaw marketDataService) throws IOException {
 
-    List<CurrencyPair> currencyPairs = marketDataService.getExchangeSymbols();
+    Map<CurrencyPair, CryptoTradePair> currencyPairs = marketDataService.getCryptoTradePairs();
     System.out.println(currencyPairs);
+
+    CryptoTradePair currencyPair = marketDataService.getCryptoTradePairInfo(CurrencyPair.BTC_USD);
+    System.out.println(currencyPair);
 
     CryptoTradeTicker ticker = marketDataService.getCryptoTradeTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);
+
+    Map<CurrencyPair, CryptoTradeTicker> tickers = marketDataService.getCryptoTradeTickers();
+    System.out.println(tickers);
 
     CryptoTradeDepth marketDepth = marketDataService.getCryptoTradeOrderBook(CurrencyPair.BTC_USD);
     System.out.println(marketDepth);

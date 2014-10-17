@@ -62,7 +62,7 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends BaseExchangeSe
 
     CryptsyCurrencyPairsReturn response = new CryptsyPublicMarketDataServiceRaw().getCryptsyCurrencyPairs();
     HashMap<String, CryptsyMarketId> map = response.getReturnValue();
-    
+
     currencyPairs.clear();
     CryptsyCurrencyUtils.marketIds_CurrencyPairs.clear();
     CryptsyCurrencyUtils.currencyPairs_MarketIds.clear();
@@ -95,10 +95,10 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends BaseExchangeSe
       throw new ExchangeException("Cryptsy returned nothing");
     }
     else if (!info.isSuccess()) {
-      throw new ExchangeException("Cryptsy returned an error: " + info.getError());
+      throw new ExchangeException(info.getError());
     }
     else if (info.getError() != null) {
-      throw new ExchangeException("Got error message: " + info.getError());
+      throw new ExchangeException(info.getError());
     }
     else if (info.getReturnValue() == null) {
       throw new ExchangeException("Null data returned");

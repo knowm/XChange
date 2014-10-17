@@ -27,11 +27,11 @@ public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
     super(exchangeSpecification, nonceFactory);
     itBitPublic = RestProxyFactory.createProxy(ItBit.class, exchangeSpecification.getSslUri());
   }
-  
-  public ItBitTicker getItBitTicker(CurrencyPair currencyPair) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException { 
-    
+
+  public ItBitTicker getItBitTicker(CurrencyPair currencyPair) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     ItBitTicker ticker = itBit.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
-    
+
     return ticker;
   }
 

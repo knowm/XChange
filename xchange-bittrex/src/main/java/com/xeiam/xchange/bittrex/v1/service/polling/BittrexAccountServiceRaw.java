@@ -30,7 +30,7 @@ public class BittrexAccountServiceRaw extends BittrexBasePollingService<BittrexA
       return response.getResult();
     }
     else {
-      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+      throw new ExchangeException(response.getMessage());
     }
   }
 
@@ -41,7 +41,7 @@ public class BittrexAccountServiceRaw extends BittrexBasePollingService<BittrexA
       return response.getResult().getAddress();
     }
     else {
-      throw new ExchangeException("Bittrex returned an error: " + response.getMessage());
+      throw new ExchangeException(response.getMessage());
     }
   }
 

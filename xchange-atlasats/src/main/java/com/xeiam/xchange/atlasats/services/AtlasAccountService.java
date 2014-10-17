@@ -17,14 +17,12 @@ import com.xeiam.xchange.atlasats.dtos.AtlasAccountInfo;
 @Produces(MediaType.APPLICATION_JSON)
 public interface AtlasAccountService {
 
-	@GET
-	@Path("account")
-	public AtlasAccountInfo getAccountInfo(
-			@HeaderParam("Authorization") String apiKey);
+  @GET
+  @Path("account")
+  public AtlasAccountInfo getAccountInfo(@HeaderParam("Authorization") String apiKey);
 
-	@GET
-	@Path("market/symbols")
-	public List<Map<String, Object>> getMarketSymbols(
-			@HeaderParam("Authorization") String apiKey);
+  @GET
+  @Path("market/symbols")
+  public List<Map<String, Object>> getMarketSymbols(@HeaderParam("Authorization") String apiKey);
 
 }

@@ -12,6 +12,7 @@ import com.xeiam.xchange.anx.v2.dto.marketdata.ANXOrder;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTicker;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
+import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResult;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -28,6 +29,9 @@ import com.xeiam.xchange.utils.DateUtils;
  * Various adapters for converting from anx DTOs to XChange DTOs
  */
 public final class ANXAdapters {
+
+  private static final String SIDE_BID = "bid";
+  private static final int PRICE_SCALE = 8;
 
   /**
    * private Constructor
@@ -60,7 +64,7 @@ public final class ANXAdapters {
   public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradedCurrency, String transactionCurrency, String orderTypeString, String id, Date timestamp) {
 
     // place a limit order
-    OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
+    OrderType orderType = SIDE_BID.equalsIgnoreCase(orderTypeString) ? OrderType.BID : OrderType.ASK;
     CurrencyPair currencyPair = adaptCurrencyPair(tradedCurrency, transactionCurrency);
 
     LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, id, timestamp, price);
@@ -183,7 +187,7 @@ public final class ANXAdapters {
    */
   public static Trade adaptTrade(ANXTrade anxTrade) {
 
-    OrderType orderType = anxTrade.getTradeType().equals("bid") ? OrderType.BID : OrderType.ASK;
+    OrderType orderType = adaptSide(anxTrade.getTradeType());
     BigDecimal amount = anxTrade.getAmount();
     BigDecimal price = anxTrade.getPrice();
     CurrencyPair currencyPair = adaptCurrencyPair(anxTrade.getItem(), anxTrade.getPriceCurrency());
@@ -212,5 +216,40 @@ public final class ANXAdapters {
   public static CurrencyPair adaptCurrencyPair(String tradeCurrency, String priceCurrency) {
 
     return new CurrencyPair(tradeCurrency, priceCurrency);
+  }
+
+  public static Trades adaptUserTrades(ANXTradeResult[] anxTradeResults) {
+
+    List<Trade> trades = new ArrayList<Trade>(anxTradeResults.length);
+    for (ANXTradeResult tradeResult : anxTradeResults) {
+      trades.add(adaptUserTrade(tradeResult));
+    }
+
+    long lastId = trades.size() > 0 ? anxTradeResults[0].getTimestamp().getTime() : 0L;
+    return new Trades(trades, lastId, TradeSortType.SortByTimestamp);
+  }
+
+  private static Trade adaptUserTrade(ANXTradeResult t) {
+
+    BigDecimal tradedCurrencyFillAmount = t.getTradedCurrencyFillAmount();
+    CurrencyPair currencyPair = adaptCurrencyPair(t.getCurrencyPair());
+    BigDecimal price = t.getSettlementCurrencyFillAmount().divide(tradedCurrencyFillAmount, PRICE_SCALE, BigDecimal.ROUND_HALF_EVEN);
+    OrderType type = adaptSide(t.getSide());
+    return new Trade(type, tradedCurrencyFillAmount, currencyPair, price, t.getTimestamp(), t.getTradeId(), t.getOrderId());
+  }
+
+  private static CurrencyPair adaptCurrencyPair(String currencyPairRaw) {
+
+    if ("DOGEBTC".equalsIgnoreCase(currencyPairRaw))
+      return CurrencyPair.DOGE_BTC;
+    else if (currencyPairRaw.length() != 6)
+      throw new IllegalArgumentException("Unrecognized currency pair " + currencyPairRaw);
+    else
+      return new CurrencyPair(currencyPairRaw.substring(0, 3), currencyPairRaw.substring(3));
+  }
+
+  private static OrderType adaptSide(String side) {
+
+    return SIDE_BID.equals(side) ? OrderType.BID : OrderType.ASK;
   }
 }

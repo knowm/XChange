@@ -14,18 +14,18 @@ public abstract class HitbtcBaseResponse {
   private String message;
 
   public String getCode() {
+
     return code;
   }
 
   public String getMessage() {
+
     return message;
   }
 
   @Override
   public String toString() {
-    return "HitbtcBaseResponse{" +
-      "code='" + code + '\'' +
-      ", message='" + message + '\'' +
-      '}';
+
+    return "HitbtcBaseResponse{" + "code='" + code + '\'' + ", message='" + message + '\'' + '}';
   }
 }

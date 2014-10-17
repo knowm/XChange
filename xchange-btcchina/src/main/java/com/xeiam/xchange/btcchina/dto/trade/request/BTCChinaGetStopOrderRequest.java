@@ -1,6 +1,5 @@
 package com.xeiam.xchange.btcchina.dto.trade.request;
 
-
 /**
  * Request for {@code getStopOrder}.
  * 

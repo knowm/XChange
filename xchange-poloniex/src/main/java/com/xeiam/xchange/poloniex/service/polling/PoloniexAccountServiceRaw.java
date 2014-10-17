@@ -1,5 +1,6 @@
 package com.xeiam.xchange.poloniex.service.polling;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,17 +21,27 @@ public class PoloniexAccountServiceRaw extends PoloniexBasePollingService<Poloni
     super(PoloniexAuthenticated.class, exchangeSpecification);
   }
 
-  public List<Wallet> getWallets() {
+  public List<Wallet> getWallets() throws IOException {
 
-    List<Wallet> wallets = PoloniexAdapters.adaptPoloniexBalances(poloniex.returnBalances(apiKey, signatureCreator, String.valueOf(nextNonce())));
-    return wallets;
+    HashMap<String, String> response = poloniex.returnBalances(apiKey, signatureCreator, String.valueOf(nextNonce()));
+
+    if (response.containsKey("error")) {
+      throw new ExchangeException(response.get("error"));
+    }
+    else {
+      return PoloniexAdapters.adaptPoloniexBalances(response);
+    }
   }
 
-  public String getDepositAddress(String currency) throws ExchangeException {
+  public String getDepositAddress(String currency) throws IOException {
 
-    HashMap<String, String> depositAddresses = poloniex.returnDepositAddresses(apiKey, signatureCreator, String.valueOf(nextNonce()));
-    if (depositAddresses.containsKey(currency)) {
-      return depositAddresses.get(currency);
+    HashMap<String, String> response = poloniex.returnDepositAddresses(apiKey, signatureCreator, String.valueOf(nextNonce()));
+
+    if (response.containsKey("error")) {
+      throw new ExchangeException(response.get("error"));
+    }
+    if (response.containsKey(currency)) {
+      return response.get(currency);
     }
     else {
       throw new ExchangeException("Poloniex did not return a deposit address for " + currency);

@@ -120,7 +120,7 @@ public class HitbtcAdapters {
       BigDecimal price = hitbtcTrade.getPrice();
       BigDecimal amount = hitbtcTrade.getAmount();
       String tid = hitbtcTrade.getTid();
-      long longTradeId = Long.valueOf(tid);
+      long longTradeId = tid == null ? 0 : Long.parseLong(tid);
       if (longTradeId > lastTradeId)
         lastTradeId = longTradeId;
       Trade trade = new Trade(null, amount, currencyPair, price, timestamp, tid, tid);

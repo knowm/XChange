@@ -1,6 +1,5 @@
 package com.xeiam.xchange.btcchina.dto.trade.request;
 
-
 public class BTCChinaGetIcebergOrderRequest extends BTCChinaGetOrderRequest {
 
   private static final String METHOD_NAME = "getIcebergOrder";
