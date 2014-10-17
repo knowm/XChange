@@ -1,6 +1,7 @@
 package com.xeiam.xchange.btcchina.service.streaming;
 
 import static com.xeiam.xchange.btcchina.service.streaming.BTCChinaSocketIOClientBuilder.EVENT_ACCOUNT_INFO;
+import static com.xeiam.xchange.btcchina.service.streaming.BTCChinaSocketIOClientBuilder.EVENT_GROUPORDER;
 import static com.xeiam.xchange.btcchina.service.streaming.BTCChinaSocketIOClientBuilder.EVENT_ORDER;
 import static com.xeiam.xchange.btcchina.service.streaming.BTCChinaSocketIOClientBuilder.EVENT_TICKER;
 import static com.xeiam.xchange.btcchina.service.streaming.BTCChinaSocketIOClientBuilder.EVENT_TRADE;
@@ -41,8 +42,8 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
 
     socket =
         BTCChinaSocketIOClientBuilder.create().setUri(URI.create(uri)).setAccessKey(exchangeSpecification.getApiKey()).setSecretKey(exchangeSpecification.getSecretKey()).subscribeAccountInfo(
-            exchangeStreamingConfiguration.isSubscribeAccountInfo()).subscribeMarketData(exchangeStreamingConfiguration.getMarketDataCurrencyPairs()).subscribeOrderFeed(
-            exchangeStreamingConfiguration.getOrderFeedCurrencyPairs()).build();
+            exchangeStreamingConfiguration.isSubscribeAccountInfo()).subscribeMarketData(exchangeStreamingConfiguration.getMarketDataCurrencyPairs()).subscribeGrouporder(
+            exchangeStreamingConfiguration.getGrouporderCurrencyPairs()).subscribeOrderFeed(exchangeStreamingConfiguration.getOrderFeedCurrencyPairs()).build();
 
     listen();
   }
@@ -141,6 +142,16 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
         JSONObject json = (JSONObject) args[0];
         log.debug("{}: {}", EVENT_TICKER, json);
         putEvent(ExchangeEventType.TICKER, json, BTCChinaJSONObjectAdapters.adaptTicker(json));
+      }
+    }).on(EVENT_GROUPORDER, new Emitter.Listener() {
+
+      @Override
+      public void call(Object... args) {
+
+        // receive the market depth feed
+        JSONObject json = (JSONObject) args[0];
+        log.debug("{}: {}", EVENT_GROUPORDER, json);
+        putEvent(ExchangeEventType.DEPTH, json, BTCChinaJSONObjectAdapters.adaptDepth(json));
       }
     }).on(EVENT_ORDER, new Emitter.Listener() {
 

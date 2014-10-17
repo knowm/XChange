@@ -30,8 +30,14 @@ import com.xeiam.xchange.service.BaseParamsDigest;
 
 public class BTCChinaSocketIOClientBuilder {
 
-  public static final String EVENT_TRADE = "trade";
   public static final String EVENT_TICKER = "ticker";
+  public static final String EVENT_TRADE = "trade";
+
+  /**
+   * @since <a href="http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122">WebSocket API v1.2.2</a>
+   */
+  public static final String EVENT_GROUPORDER = "grouporder";
+
   public static final String EVENT_ORDER = "order";
   public static final String EVENT_ACCOUNT_INFO = "account_info";
 
@@ -43,6 +49,7 @@ public class BTCChinaSocketIOClientBuilder {
   private URI uri;
 
   private final Set<CurrencyPair> marketData = new HashSet<CurrencyPair>(3);
+  private final Set<CurrencyPair> grouporder = new HashSet<CurrencyPair>(3);
   private final Set<CurrencyPair> orderFeed = new HashSet<CurrencyPair>(3);
 
   private boolean subscribeAccountInfo;
@@ -91,6 +98,15 @@ public class BTCChinaSocketIOClientBuilder {
     return this;
   }
 
+  /**
+   * @since <a href="http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122">WebSocket API v1.2.2</a>
+   */
+  public BTCChinaSocketIOClientBuilder subscribeGrouporder(CurrencyPair... currencyPairs) {
+
+    this.grouporder.addAll(Arrays.asList(currencyPairs));
+    return this;
+  }
+
   public BTCChinaSocketIOClientBuilder subscribeOrderFeed(CurrencyPair... currencyPairs) {
 
     this.orderFeed.addAll(Arrays.asList(currencyPairs));
@@ -128,16 +144,27 @@ public class BTCChinaSocketIOClientBuilder {
       public void call(Object... args) {
 
         subscribeMarketData();
+        subscribeGrouporder();
         subscribePrivateData();
       }
 
       private void subscribeMarketData() {
 
-        for (CurrencyPair currencyPair : marketData) {
-          final String market = toMarket(currencyPair);
-          final String marketData = String.format("marketdata_%s", market);
-          log.debug("subscribing {}", marketData);
-          socket.emit("subscribe", marketData);
+        subscribe("marketdata", marketData);
+      }
+
+      private void subscribeGrouporder() {
+
+        subscribe("grouporder", grouporder);
+      }
+
+      private void subscribe(String name, Iterable<CurrencyPair> currencyPairs) {
+
+        for (CurrencyPair currencyPair : currencyPairs) {
+          String market = toMarket(currencyPair);
+          String subscribeData = String.format("%s_%s", name, market);
+          log.debug("subscribing {}", subscribeData);
+          socket.emit("subscribe", subscribeData);
         }
       }
 
