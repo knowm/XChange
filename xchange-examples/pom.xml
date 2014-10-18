@@ -157,6 +157,12 @@
 			<artifactId>xchange-coinfloor</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Coinsetter exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-coinsetter</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange ANX exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
