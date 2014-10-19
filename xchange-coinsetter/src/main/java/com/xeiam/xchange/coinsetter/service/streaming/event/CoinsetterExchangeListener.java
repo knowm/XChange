@@ -47,7 +47,7 @@ public interface CoinsetterExchangeListener {
   /**
    * Invoked when got the cumulative available quantity in real time based on price level.
    *
-   * @param levels the cumulative available quantity in real time based on price level.
+   * @param level the cumulative available quantity in real time based on price level.
    * @see <a href="https://www.coinsetter.com/api/websockets/levels">Market Data: Levels</a>
    */
   void onLevel(CoinsetterLevel level);
@@ -55,7 +55,7 @@ public interface CoinsetterExchangeListener {
   /**
    * Invoked when got the real time updates on the status of your orders.
    *
-   * @param o
+   * @param orderStatus the real time updates on the status of your orders.
    * @see <a href="https://www.coinsetter.com/api/websockets/orders">Order Status</a>
    */
   void onOrderStatus(CoinsetterOrderStatus orderStatus);

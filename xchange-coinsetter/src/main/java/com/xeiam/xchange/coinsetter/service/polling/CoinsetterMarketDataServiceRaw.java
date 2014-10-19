@@ -73,7 +73,7 @@ public class CoinsetterMarketDataServiceRaw extends CoinsetterBasePollingService
    * @param exchange "SMART" (Default) or "COINSETTER" for Coinsetter-only data (Optional). Filter for given exchange or SMART for aggregated data.
    * @return the latest Level 2 market data for the top n price levels of the book.
    * @throws IOException indicates I/O exception.
-   * @see Use #getCoinsetterFullDepth(String) for retrieving the whole book (all price levels).
+   * @see #getCoinsetterFullDepth(String)
    * @see <a href="https://www.coinsetter.com/api/marketdata/depth">Market Data: Depth</a>
    */
   public CoinsetterPairedDepth getCoinsetterPairedDepth(int depth, String exchange) throws IOException {
