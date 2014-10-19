@@ -157,6 +157,12 @@
 			<artifactId>xchange-coinfloor</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Coinsetter exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-coinsetter</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange ANX exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
@@ -228,6 +234,11 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<version>1.7.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.xeiam.xchart</groupId>

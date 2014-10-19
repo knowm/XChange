@@ -88,6 +88,7 @@
 		<module>xchange-cexio</module>
 		<module>xchange-coinbase</module>
 		<module>xchange-coinfloor</module>
+		<module>xchange-coinsetter</module>
 		<module>xchange-core</module>
 		<module>xchange-cryptotrade</module>
 		<module>xchange-cryptonit</module>
