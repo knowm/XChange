@@ -16,5 +16,19 @@
 			<artifactId>xchange-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+		<!-- For CoinsetterSocketIOService -->
+		<dependency>
+			<groupId>io.socket</groupId>
+			<artifactId>socket.io-client</artifactId>
+			<version>0.2.1</version>
+		</dependency>
 	</dependencies>
+	<repositories>
+		<repository>
+			<id>keytwo.net</id>
+			<name>Keytwo.net Repository</name>
+			<url>http://audiobox.keytwo.net</url>
+		</repository>
+	</repositories>
 </project>

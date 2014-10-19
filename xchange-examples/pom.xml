@@ -236,6 +236,11 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<version>1.7.7</version>
+		</dependency>
+		<dependency>
 			<groupId>com.xeiam.xchart</groupId>
 			<artifactId>xchart</artifactId>
 		</dependency>

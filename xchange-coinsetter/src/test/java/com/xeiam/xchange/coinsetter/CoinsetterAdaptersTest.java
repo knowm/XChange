@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterListDepth;
+import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPair;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -33,6 +34,31 @@ public class CoinsetterAdaptersTest {
     assertEquals(new BigDecimal("12.0"), ticker.getAsk());
     assertEquals(new BigDecimal("10.0"), ticker.getLast());
     assertEquals(new BigDecimal("35.5"), ticker.getVolume());
+  }
+
+  @Test
+  public void testAdaptOrderBook() throws JsonParseException, JsonMappingException, IOException {
+
+    CoinsetterPair[] coinsetterPairs = mapper.readValue(getClass().getResource("dto/marketdata/depth-websockets.json"), CoinsetterPair[].class);
+    OrderBook orderBook = CoinsetterAdapters.adaptOrderBook(coinsetterPairs);
+
+    // asks should be sorted ascending
+    List<LimitOrder> asks = orderBook.getAsks();
+
+    assertEquals(new BigDecimal("514.49"), asks.get(0).getLimitPrice());
+    assertEquals(new BigDecimal("0.51"), asks.get(0).getTradableAmount());
+
+    assertEquals(new BigDecimal("514.5"), asks.get(1).getLimitPrice());
+    assertEquals(new BigDecimal("0.49"), asks.get(1).getTradableAmount());
+
+    // bids should be sorted descending
+    List<LimitOrder> bids = orderBook.getBids();
+
+    assertEquals(new BigDecimal("512.51"), bids.get(0).getLimitPrice());
+    assertEquals(new BigDecimal("0.03"), bids.get(0).getTradableAmount());
+
+    assertEquals(new BigDecimal("512.5"), bids.get(1).getLimitPrice());
+    assertEquals(new BigDecimal("1.3"), bids.get(1).getTradableAmount());
   }
 
   @Test
