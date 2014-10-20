@@ -45,10 +45,17 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    long from = (Long) args[0];
-    HitbtcTradesSortOrder sortBy = (HitbtcTradesSortOrder) args[1];
-    long startIndex = (Long) args[2];
-    long max_results = (Long) args[3];
+      Long from = null;
+      HitbtcTradesSortOrder sortBy = HitbtcTradesSortOrder.SORT_BY_TIMESTAMP;
+      Long startIndex = null;
+      Long max_results = null;
+
+    if (args.length >= 4) {
+        from = (Long) args[0];
+        sortBy = (HitbtcTradesSortOrder) args[1];
+        startIndex = (Long) args[2];
+        max_results = (Long) args[3];
+    }
 
     return HitbtcAdapters.adaptTrades(getHitbtcTrades(currencyPair, from, sortBy, startIndex, max_results), currencyPair);
   }

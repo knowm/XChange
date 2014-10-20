@@ -36,8 +36,8 @@ public interface Hitbtc {
 
   @GET
   @Path("public/{currencyPair}/trades")
-  public HitbtcTrades getTrades(@PathParam("currencyPair") String currencyPair, @QueryParam("from") String from, @QueryParam("by") String sortBy, @QueryParam("sort") String sort,
-      @QueryParam("start_index") String startIndex, @QueryParam("max_results") String max_results, @DefaultValue("object") @QueryParam("format_item") String format_item) throws IOException;
+  public HitbtcTrades getTrades(@PathParam("currencyPair") String currencyPair, @QueryParam("from") Long from, @QueryParam("by") String sortBy, @QueryParam("sort") String sort,
+      @QueryParam("start_index") Long startIndex, @QueryParam("max_results") Long max_results, @DefaultValue("object") @QueryParam("format_item") String format_item) throws IOException;
 
   @GET
   @Path("public/symbols")

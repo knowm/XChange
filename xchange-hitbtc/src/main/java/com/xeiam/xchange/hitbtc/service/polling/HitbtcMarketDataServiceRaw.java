@@ -36,10 +36,9 @@ public abstract class HitbtcMarketDataServiceRaw extends HitbtcBasePollingServic
     return hitbtc.getOrderBook(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString());
   }
 
-  public HitbtcTrades getHitbtcTrades(CurrencyPair currencyPair, long from, HitbtcTrades.HitbtcTradesSortOrder sortBy, long startIndex, long maxResults) throws IOException {
+  public HitbtcTrades getHitbtcTrades(CurrencyPair currencyPair, Long from, HitbtcTrades.HitbtcTradesSortOrder sortBy, Long startIndex, Long maxResults) throws IOException {
 
-    return hitbtc.getTrades(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString(), String.valueOf(from), sortBy.toString(), "desc", String.valueOf(startIndex), String
-        .valueOf(maxResults), "object");
+    return hitbtc.getTrades(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString(), from, sortBy.toString(), "desc", startIndex, maxResults, "object");
   }
 
   public HitbtcSymbols getHitbtcSymbols() throws IOException {
