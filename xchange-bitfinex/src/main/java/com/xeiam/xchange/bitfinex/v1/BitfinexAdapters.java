@@ -212,7 +212,9 @@ public final class BitfinexAdapters {
     List<Wallet> wallets = new ArrayList<Wallet>(response.length);
 
     for (BitfinexBalancesResponse balance : response) {
-      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getType()));
+      if ("exchange".equals(balance.getType())) {
+        wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount()));
+      }
     }
 
     return new AccountInfo(null, wallets);
@@ -239,11 +241,10 @@ public final class BitfinexAdapters {
     for (BitfinexTradeResponse trade : trades) {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
-      String id = String.valueOf(trade.hashCode());
-
-      pastTrades.add(new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), new Date((long) (trade.getTimestamp() * 1000L)), id));
+      pastTrades.add(new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), new Date((long) (trade.getTimestamp() * 1000L)), trade.getTradeId(), trade.getOrderId()));
     }
 
     return new Trades(pastTrades, TradeSortType.SortByTimestamp);
   }
 }
+

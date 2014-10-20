@@ -2,6 +2,8 @@ package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
@@ -13,7 +15,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades.HitbtcTradesSortOrder;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author kpysniak

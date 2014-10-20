@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
@@ -11,7 +13,6 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Implementation of the market data service for BTCChina.
@@ -49,6 +50,7 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
   }
 
   public BTCChinaDepth getBTCChinaOrderBook(String market, int limit) throws IOException {
+
     return btcChina.getOrderBook(market, limit);
   }
 

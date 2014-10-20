@@ -8,6 +8,7 @@ import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
 import com.xeiam.xchange.bitfinex.v1.BitfinexOrderType;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -70,13 +71,23 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     long timestamp = 0;
     int limit = 50;
 
-    if (arguments.length == 3) {
-      symbol = (String) arguments[0];
+    if (arguments.length >= 1) {
+      if (arguments[0] instanceof CurrencyPair) {
+        final CurrencyPair pair = (CurrencyPair) arguments[0];
+        symbol = pair.baseSymbol + pair.counterSymbol;
+      }
+      else {
+        symbol = (String) arguments[0];
+      }
+    }
+    if (arguments.length >= 2) {
       timestamp = (Long) arguments[1];
+    }
+    if (arguments.length >= 3) {
       limit = (Integer) arguments[2];
     }
 
-    BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, timestamp, limit);
+    final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, timestamp, limit);
 
     return BitfinexAdapters.adaptTradeHistory(trades, symbol);
   }

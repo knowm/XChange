@@ -31,7 +31,8 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
      * Preserve case if exchange is sending mixed-case, otherwise toUpperCase()
      */
     final boolean isMixedCase = currencyPairString.matches(".*[a-z]+.*") && currencyPairString.matches(".*[A-Z]+.*");
-    if (!isMixedCase) currencyPairString = currencyPairString.toUpperCase();
+    if (!isMixedCase)
+      currencyPairString = currencyPairString.toUpperCase();
 
     /*
      * Assume all symbols are alphanumeric; anything else is a separator

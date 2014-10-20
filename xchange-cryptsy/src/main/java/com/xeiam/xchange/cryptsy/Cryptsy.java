@@ -31,7 +31,7 @@ public interface Cryptsy {
   @GET
   @Path("api.php?method=singleorderdata&marketid={marketid}")
   CryptsyPublicOrderbookReturn getOrderbookData(@PathParam("marketid") int marketId) throws IOException;
-  
+
   @GET
   @Path("api.php?method=orderdatav2")
   CryptsyCurrencyPairsReturn getCryptsyCurrencyPairs() throws IOException;

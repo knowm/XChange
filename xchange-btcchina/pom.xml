@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>2.1.0-SNAPSHOT</version>
+		<version>2.2.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-btcchina</artifactId>
@@ -21,6 +21,11 @@
 		<url>http://xeiam.com</url>
 	</organization>
 
+	<properties>
+		<quickfixj.version>1.5.3-bd</quickfixj.version>
+		<mina.version>1.1.7</mina.version>
+	</properties>
+
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>
 
@@ -30,10 +35,45 @@
 			<version>3.3.2</version>
 		</dependency>
 		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.e-movimento.tinytools</groupId>
 			<artifactId>privilegedaccessor</artifactId>
 			<version>1.2.2</version>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- For BTCChinaSocketIOService -->
+		<dependency>
+			<groupId>com.github.nkzawa</groupId>
+			<artifactId>socket.io-client</artifactId>
+			<version>0.2.0</version>
+		</dependency>
+
+		<!-- For FIX API -->
+		<dependency>
+			<groupId>quickfixj</groupId>
+			<artifactId>quickfixj-core</artifactId>
+			<version>${quickfixj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>quickfixj</groupId>
+			<artifactId>quickfixj-msg-fix44</artifactId>
+			<version>${quickfixj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.mina</groupId>
+			<artifactId>mina-core</artifactId>
+			<version>${mina.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.mina</groupId>
+			<artifactId>mina-filter-ssl</artifactId>
+			<version>${mina.version}</version>
 		</dependency>
 
 		<dependency>
@@ -43,5 +83,15 @@
 		</dependency>
 
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>MarketceteraRepo</id>
+			<url>http://repo.marketcetera.org/maven</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
 
 </project>

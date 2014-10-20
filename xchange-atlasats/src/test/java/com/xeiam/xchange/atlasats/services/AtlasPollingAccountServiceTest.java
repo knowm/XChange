@@ -1,6 +1,7 @@
 package com.xeiam.xchange.atlasats.services;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -21,40 +22,40 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 
 public class AtlasPollingAccountServiceTest {
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AtlasPollingAccountServiceTest.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AtlasPollingAccountServiceTest.class);
 
-	private AtlasPollingAccountService accountService;
-	private ExchangeSpecification exchangeSpecification;
+  private AtlasPollingAccountService accountService;
+  private ExchangeSpecification exchangeSpecification;
 
-	@Before
-	public void setUp() throws Exception {
-		exchangeSpecification = new AtlasTestExchangeSpecification();
-		accountService = new AtlasPollingAccountService(exchangeSpecification);
-	}
+  @Before
+  public void setUp() throws Exception {
 
-	@After
-	public void tearDown() throws Exception {
-		accountService = null;
-		exchangeSpecification = null;
-	}
+    exchangeSpecification = new AtlasTestExchangeSpecification();
+    accountService = new AtlasPollingAccountService(exchangeSpecification);
+  }
 
-	@Test
-	public void testGetAccountInfo() throws ExchangeException,
-			NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		AccountInfo accountInfo = accountService.getAccountInfo();
-		assertNotNull(accountInfo);
-		LOGGER.info("Account Info: " + accountInfo);
-	}
+  @After
+  public void tearDown() throws Exception {
 
-	@Test
-	public void testGetExchangeSymbols() throws IOException {
-		Collection<CurrencyPair> currencyPairs = accountService
-				.getExchangeSymbols();
-		assertNotNull(currencyPairs);
-		assertFalse(currencyPairs.isEmpty());
-		LOGGER.info("Currency Pairs: " + currencyPairs);
-	}
+    accountService = null;
+    exchangeSpecification = null;
+  }
+
+  @Test
+  public void testGetAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    AccountInfo accountInfo = accountService.getAccountInfo();
+    assertNotNull(accountInfo);
+    LOGGER.info("Account Info: " + accountInfo);
+  }
+
+  @Test
+  public void testGetExchangeSymbols() throws IOException {
+
+    Collection<CurrencyPair> currencyPairs = accountService.getExchangeSymbols();
+    assertNotNull(currencyPairs);
+    assertFalse(currencyPairs.isEmpty());
+    LOGGER.info("Currency Pairs: " + currencyPairs);
+  }
 
 }

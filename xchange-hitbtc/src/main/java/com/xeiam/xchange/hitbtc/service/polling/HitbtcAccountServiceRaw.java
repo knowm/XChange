@@ -26,7 +26,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService<HitbtcAuth
       HitbtcBalanceResponse hitbtcBalance = hitbtc.getHitbtcBalance(signatureCreator, valueFactory, apiKey);
       return hitbtcBalance.getBalances();
     } catch (HitbtcException e) {
-      throw new ExchangeException("HitBTC returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 
@@ -36,7 +36,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService<HitbtcAuth
       HitbtcBalanceResponse hitbtcBalanceResponse = hitbtc.getHitbtcBalance(signatureCreator, valueFactory, apiKey);
       return hitbtcBalanceResponse;
     } catch (HitbtcException e) {
-      throw new ExchangeException("HitBTC returned an error: " + e.getMessage());
+      throw new ExchangeException(e.getMessage());
     }
   }
 }

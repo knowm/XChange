@@ -5,50 +5,57 @@ import java.math.BigDecimal;
 
 public class AtlasPosition implements Serializable {
 
-	/**
+  /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	private BigDecimal realizedProfit;
-	private BigDecimal unrealizedProfit;
-	private BigDecimal size;
+  private BigDecimal realizedProfit;
+  private BigDecimal unrealizedProfit;
+  private BigDecimal size;
 
-	public BigDecimal getRealizedProfit() {
-		return realizedProfit;
-	}
+  public BigDecimal getRealizedProfit() {
 
-	public void setRealizedProfit(BigDecimal realizedProfit) {
-		this.realizedProfit = realizedProfit;
-	}
+    return realizedProfit;
+  }
 
-	public BigDecimal getUnrealizedProfit() {
-		return unrealizedProfit;
-	}
+  public void setRealizedProfit(BigDecimal realizedProfit) {
 
-	public void setUnrealizedProfit(BigDecimal unrealizedProfit) {
-		this.unrealizedProfit = unrealizedProfit;
-	}
+    this.realizedProfit = realizedProfit;
+  }
 
-	public BigDecimal getSize() {
-		return size;
-	}
+  public BigDecimal getUnrealizedProfit() {
 
-	public void setSize(BigDecimal size) {
-		this.size = size;
-	}
+    return unrealizedProfit;
+  }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("AtlasPosition [realizedProfit=");
-		builder.append(realizedProfit);
-		builder.append(", unrealizedProfit=");
-		builder.append(unrealizedProfit);
-		builder.append(", size=");
-		builder.append(size);
-		builder.append("]");
-		return builder.toString();
-	}
+  public void setUnrealizedProfit(BigDecimal unrealizedProfit) {
+
+    this.unrealizedProfit = unrealizedProfit;
+  }
+
+  public BigDecimal getSize() {
+
+    return size;
+  }
+
+  public void setSize(BigDecimal size) {
+
+    this.size = size;
+  }
+
+  @Override
+  public String toString() {
+
+    StringBuilder builder = new StringBuilder();
+    builder.append("AtlasPosition [realizedProfit=");
+    builder.append(realizedProfit);
+    builder.append(", unrealizedProfit=");
+    builder.append(unrealizedProfit);
+    builder.append(", size=");
+    builder.append(size);
+    builder.append("]");
+    return builder.toString();
+  }
 
 }

@@ -18,6 +18,7 @@ import com.pusher.client.channel.SubscriptionEventListener;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampStreamingOrderBook;
+import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampStreamingTransaction;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampBasePollingService;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -49,7 +50,8 @@ public class BitstampPusherService extends BitstampBasePollingService implements
 
   private Pusher client;
   private Map<String, Channel> channels;
-  private ReconnectService reconnectService;
+  
+//  private ReconnectService reconnectService;
 
   /**
    * Constructor
@@ -62,7 +64,7 @@ public class BitstampPusherService extends BitstampBasePollingService implements
 
     this.configuration = configuration;
     client = new Pusher(configuration.getPusherKey(), configuration.pusherOptions());
-    reconnectService = new ReconnectService(this, configuration);
+//    reconnectService = new ReconnectService(this, configuration);
     channels = new HashMap<String, Channel>();
 
     streamObjectMapper = new ObjectMapper();
@@ -203,7 +205,7 @@ public class BitstampPusherService extends BitstampBasePollingService implements
 
   private Trade parseTrade(String rawJson) throws IOException {
 
-    BitstampTransaction transaction = streamObjectMapper.readValue(rawJson, BitstampTransaction.class);
+    BitstampTransaction transaction = streamObjectMapper.readValue(rawJson, BitstampStreamingTransaction.class);
     return BitstampAdapters.adaptTrade(transaction, CurrencyPair.BTC_USD, 1);
   }
 

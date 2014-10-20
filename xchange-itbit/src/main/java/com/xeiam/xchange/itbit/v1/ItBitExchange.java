@@ -1,5 +1,7 @@
 package com.xeiam.xchange.itbit.v1;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -7,7 +9,6 @@ import com.xeiam.xchange.itbit.v1.service.polling.ItBitAccountService;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitMarketDataService;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitTradeService;
 import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * <p>

@@ -43,7 +43,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
     return currencyInfo;
 
   }
-  
+
   public Map<String, PoloniexMarketData> getAllPoloniexTickers() throws IOException {
 
     String command = "returnTicker";
@@ -76,11 +76,29 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
     return depth;
   }
 
+  public PoloniexDepth getPoloniexDepth(CurrencyPair currencyPair, int depth) throws IOException {
+
+    String command = "returnOrderBook";
+    String pairString = PoloniexUtils.toPairString(currencyPair);
+
+    PoloniexDepth limitDepth = poloniex.getOrderBook(command, pairString, depth);
+    return limitDepth;
+  }
+
   public Map<String, PoloniexDepth> getAllPoloniexDepths() throws IOException {
 
     String command = "returnOrderBook";
-    
-    Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all");
+
+    Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all", null);
+
+    return depths;
+  }
+
+  public Map<String, PoloniexDepth> getAllPoloniexDepths(int depth) throws IOException {
+
+    String command = "returnOrderBook";
+
+    Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all", depth);
 
     return depths;
   }
@@ -90,7 +108,16 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
     String command = "returnTradeHistory";
     String pairString = PoloniexUtils.toPairString(currencyPair);
 
-    PoloniexPublicTrade[] trades = poloniex.getTrades(command, pairString);
+    PoloniexPublicTrade[] trades = poloniex.getTrades(command, pairString, null, null);
+    return trades;
+  }
+
+  public PoloniexPublicTrade[] getPoloniexPublicTrades(CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
+
+    String command = "returnTradeHistory";
+    String pairString = PoloniexUtils.toPairString(currencyPair);
+
+    PoloniexPublicTrade[] trades = poloniex.getTrades(command, pairString, startTime, endTime);
     return trades;
   }
 

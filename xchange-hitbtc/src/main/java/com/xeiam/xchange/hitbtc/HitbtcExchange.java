@@ -1,5 +1,7 @@
 package com.xeiam.xchange.hitbtc;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -7,7 +9,6 @@ import com.xeiam.xchange.hitbtc.service.polling.HitbtcAccountService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcTradeService;
 import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author kpysniak

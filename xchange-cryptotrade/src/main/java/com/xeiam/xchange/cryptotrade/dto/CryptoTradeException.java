@@ -25,7 +25,8 @@ public class CryptoTradeException extends RuntimeException {
 
   public String getMessage() {
 
-    if (error != null) return error;
+    if (error != null)
+      return error;
     return message;
   }
 

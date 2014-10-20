@@ -328,7 +328,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    * @see BTCChinaSellStopOrderRequest
    */
   public BTCChinaIntegerResponse sellStopOrder(BigDecimal stopPrice, BigDecimal price, BigDecimal amount, BigDecimal trailingAmount, BigDecimal trailingPercentage, String market) throws IOException {
-    
+
     BTCChinaSellStopOrderRequest request = new BTCChinaSellStopOrderRequest(stopPrice, price, amount, trailingAmount, trailingPercentage, market);
     BTCChinaIntegerResponse response = btcChina.sellStopOrder(signatureCreator, tonce, request);
     return checkResult(response);

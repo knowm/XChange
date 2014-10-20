@@ -1,0 +1,122 @@
+package com.xeiam.xchange.coinsetter.service.streaming;
+
+import io.socket.SocketIOException;
+
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import org.java_websocket.WebSocket.READYSTATE;
+
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.coinsetter.CoinsetterAdapters;
+import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPair;
+import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
+import com.xeiam.xchange.coinsetter.service.streaming.event.CoinsetterExchangeAdapter;
+import com.xeiam.xchange.coinsetter.service.streaming.event.CoinsetterSocketAdapter;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
+import com.xeiam.xchange.service.streaming.ExchangeEvent;
+import com.xeiam.xchange.service.streaming.ExchangeEventType;
+import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+
+/**
+ * Coinsetter streaming service implementation over Websockets API.
+ */
+public class CoinsetterSocketIOService extends CoinsetterSocketIOServiceRaw implements StreamingExchangeService {
+
+  private final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>();
+
+  private volatile READYSTATE webSocketStatus = READYSTATE.NOT_YET_CONNECTED;
+
+  /**
+   * @param exchangeSpecification
+   */
+  public CoinsetterSocketIOService(ExchangeSpecification exchangeSpecification, CoinsetterStreamingConfiguration coinsetterStreamingConfiguration) {
+
+    super(exchangeSpecification, coinsetterStreamingConfiguration);
+
+    super.addListener(new CoinsetterSocketAdapter() {
+
+      @Override
+      public void onConnect() {
+
+        webSocketStatus = READYSTATE.OPEN;
+        putEvent(ExchangeEventType.CONNECT);
+      }
+
+      @Override
+      public void onDisconnect() {
+
+        webSocketStatus = READYSTATE.CLOSED;
+        putEvent(ExchangeEventType.DISCONNECT);
+      }
+
+      @Override
+      public void onError(SocketIOException socketIOException) {
+
+        putEvent(new DefaultExchangeEvent(ExchangeEventType.ERROR, socketIOException.getMessage(), socketIOException));
+      }
+
+    });
+
+    super.addListener(new CoinsetterExchangeAdapter() {
+
+      @Override
+      public void onTicker(CoinsetterTicker coinsetterTicker) {
+
+        Ticker ticker = CoinsetterAdapters.adaptTicker(coinsetterTicker);
+        putEvent(new DefaultExchangeEvent(ExchangeEventType.TICKER, null, ticker));
+      }
+
+      @Override
+      public void onDepth(CoinsetterPair[] depth) {
+
+        OrderBook orderBook = CoinsetterAdapters.adaptOrderBook(depth);
+        putEvent(new DefaultExchangeEvent(ExchangeEventType.DEPTH, null, orderBook));
+      }
+    });
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ExchangeEvent getNextEvent() throws InterruptedException {
+
+    return consumerEventQueue.take();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void send(String msg) {
+
+    // There's nothing to send for the current API!
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public READYSTATE getWebSocketStatus() {
+
+    return webSocketStatus;
+  }
+
+  private void putEvent(ExchangeEvent event) {
+
+    try {
+      consumerEventQueue.put(event);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void putEvent(ExchangeEventType exchangeEventType) {
+
+    putEvent(new DefaultExchangeEvent(exchangeEventType, null));
+  }
+
+}

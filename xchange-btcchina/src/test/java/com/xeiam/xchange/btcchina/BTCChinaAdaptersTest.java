@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
+import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrderStatus;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
@@ -31,7 +32,7 @@ public class BTCChinaAdaptersTest {
   @Test
   public void testAdaptTickers() throws IOException {
 
-    BTCChinaTicker btcChinaTicker = mapper.readValue(getClass().getResource("dto/marketdata/ticker-all-market.json"),BTCChinaTicker.class);
+    BTCChinaTicker btcChinaTicker = mapper.readValue(getClass().getResource("dto/marketdata/ticker-all-market.json"), BTCChinaTicker.class);
     Map<CurrencyPair, Ticker> tickers = BTCChinaAdapters.adaptTickers(btcChinaTicker);
     assertEquals(3, tickers.size());
 
@@ -133,6 +134,7 @@ public class BTCChinaAdaptersTest {
 
   @Test
   public void testAdaptOrders() throws IOException {
+
     BTCChinaGetOrdersResponse response = mapper.readValue(getClass().getResource("dto/trade/response/getOrders-single-market-2-orders.json"), BTCChinaGetOrdersResponse.class);
     List<LimitOrder> limitOrders = BTCChinaAdapters.adaptOrders(response.getResult(), null);
     assertEquals(2, limitOrders.size());
@@ -143,6 +145,17 @@ public class BTCChinaAdaptersTest {
     assertEquals(CurrencyPair.BTC_CNY, order.getCurrencyPair());
     assertEquals(new BigDecimal("0.00100000"), order.getTradableAmount());
     assertEquals(1396255376000L, order.getTimestamp().getTime());
+  }
+
+  @Test
+  public void testAdaptOrderStatus() {
+
+    assertEquals(BTCChinaOrderStatus.OPEN, BTCChinaAdapters.adaptOrderStatus("open"));
+    assertEquals(BTCChinaOrderStatus.CLOSED, BTCChinaAdapters.adaptOrderStatus("closed"));
+    assertEquals(BTCChinaOrderStatus.CANCELLED, BTCChinaAdapters.adaptOrderStatus("cancelled"));
+    assertEquals(BTCChinaOrderStatus.PENDING, BTCChinaAdapters.adaptOrderStatus("pending"));
+    assertEquals(BTCChinaOrderStatus.ERROR, BTCChinaAdapters.adaptOrderStatus("error"));
+    assertEquals(BTCChinaOrderStatus.INSUFFICIENT_BALANCE, BTCChinaAdapters.adaptOrderStatus("insufficient_balance"));
   }
 
 }

@@ -12,8 +12,7 @@ public class CryptoTradePair extends CryptoTradeBaseResponse {
   private final BigDecimal minOrderAmount;
   private final int decimals;
 
-  public CryptoTradePair(String label, CryptoTradePairType type, BigDecimal minOrderAmount, int decimals,
-     String status, String error) {
+  public CryptoTradePair(String label, CryptoTradePairType type, BigDecimal minOrderAmount, int decimals, String status, String error) {
 
     super(status, error);
     this.label = label;
@@ -54,9 +53,7 @@ public class CryptoTradePair extends CryptoTradeBaseResponse {
   @Override
   public String toString() {
 
-    return String.format("CryptoTradePair [label='%s', type='%s', minOrderAmount='%s', decimals='%s']",
-        getLabel(), getType(), getMinOrderAmount(), getDecimals());
+    return String.format("CryptoTradePair [label='%s', type='%s', minOrderAmount='%s', decimals='%s']", getLabel(), getType(), getMinOrderAmount(), getDecimals());
   }
 
 }
-

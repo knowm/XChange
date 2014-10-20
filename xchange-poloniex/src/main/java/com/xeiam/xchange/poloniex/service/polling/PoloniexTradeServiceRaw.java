@@ -14,8 +14,10 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.poloniex.PoloniexAdapters;
 import com.xeiam.xchange.poloniex.PoloniexAuthenticated;
+import com.xeiam.xchange.poloniex.PoloniexException;
 import com.xeiam.xchange.poloniex.PoloniexUtils;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
+import com.xeiam.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
 
 public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<PoloniexAuthenticated> {
@@ -32,32 +34,35 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
 
   public PoloniexUserTrade[] returnTradeHistory(CurrencyPair currencyPair) throws IOException {
 
-    return poloniex.returnTradeHistory(apiKey, signatureCreator, String.valueOf(nextNonce()), PoloniexUtils.toPairString(currencyPair));
+    return poloniex.returnTradeHistory(apiKey, signatureCreator, String.valueOf(nextNonce()), PoloniexUtils.toPairString(currencyPair), null, null);
+  }
+
+  public PoloniexUserTrade[] returnTradeHistory(CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
+
+    return poloniex.returnTradeHistory(apiKey, signatureCreator, String.valueOf(nextNonce()), PoloniexUtils.toPairString(currencyPair), startTime, endTime);
   }
 
   public String buy(LimitOrder limitOrder) throws IOException {
 
-    HashMap<String, String> response =
-        poloniex.buy(apiKey, signatureCreator, String.valueOf(nextNonce()), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils
-            .toPairString(limitOrder.getCurrencyPair()));
-    if (response.containsKey("error")) {
-      throw new ExchangeException("Poloniex returned an error: " + response.get("error"));
-    }
-    else {
-      return response.get("orderNumber").toString();
+    try {
+      PoloniexTradeResponse response =
+          poloniex.buy(apiKey, signatureCreator, String.valueOf(nextNonce()), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils
+              .toPairString(limitOrder.getCurrencyPair()));
+      return String.valueOf(response.getOrderNumber());
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
     }
   }
 
   public String sell(LimitOrder limitOrder) throws IOException {
 
-    HashMap<String, String> response =
-        poloniex.sell(apiKey, signatureCreator, String.valueOf(nextNonce()), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils
-            .toPairString(limitOrder.getCurrencyPair()));
-    if (response.containsKey("error")) {
-      throw new ExchangeException("Poloniex returned an error: " + response.get("error"));
-    }
-    else {
-      return response.get("orderNumber").toString();
+    try {
+      PoloniexTradeResponse response =
+          poloniex.sell(apiKey, signatureCreator, String.valueOf(nextNonce()), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils
+              .toPairString(limitOrder.getCurrencyPair()));
+      return String.valueOf(response.getOrderNumber());
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
     }
   }
 
@@ -72,7 +77,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
       if (order.getId().equals(orderId)) {
         HashMap<String, String> response = poloniex.cancelOrder(apiKey, signatureCreator, String.valueOf(nextNonce()), orderId, PoloniexUtils.toPairString(order.getCurrencyPair()));
         if (response.containsKey("error")) {
-          throw new ExchangeException("Poloniex returned an error: " + response.get("error"));
+          throw new ExchangeException(response.get("error"));
         }
         else {
           return response.get("success").toString().equals(new Integer(1).toString()) ? true : false;

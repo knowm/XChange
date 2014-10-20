@@ -38,6 +38,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 public final class BitVcAdapters {
+
   private static final SimpleDateFormat tradeDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 
   private BitVcAdapters() {
@@ -48,7 +49,7 @@ public final class BitVcAdapters {
 
     BitVcTickerObject ticker = BitVcTicker.getTicker();
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(ticker.getLast()).withBid(ticker.getBuy()).withAsk(ticker.getSell()).withHigh(ticker.getHigh()).withLow(ticker.getLow())
-        .withVolume(ticker.getVol()).build();
+        .withVolume(ticker.getVol()).withTimestamp(new Date()).build();
   }
 
   public static OrderBook adaptOrderBook(BitVcDepth BitVcDepth, CurrencyPair currencyPair) {
@@ -58,7 +59,7 @@ public final class BitVcAdapters {
 
     List<LimitOrder> bids = adaptOrderBook(BitVcDepth.getBids(), BID, currencyPair);
 
-    return new OrderBook(null, asks, bids);
+    return new OrderBook(new Date(), asks, bids);
   }
 
   private static List<LimitOrder> adaptOrderBook(BigDecimal[][] orders, OrderType type, CurrencyPair currencyPair) {
@@ -93,7 +94,7 @@ public final class BitVcAdapters {
     OrderType type = trade.getType().equals("买入") ? BID : ASK;
     final Date time;
     try {
-      time = tradeDateFormat.parse(trade.getTime()); 
+      time = tradeDateFormat.parse(trade.getTime());
     } catch (ParseException e) {
       throw new ExchangeException(e.getMessage(), e);
     }
@@ -105,12 +106,12 @@ public final class BitVcAdapters {
     Wallet cny = new Wallet(CNY, a.getAvailableCnyDisplay().add(a.getFrozenCnyDisplay()).subtract(a.getLoanCnyDisplay()), "available");
     Wallet btc = new Wallet(BTC, a.getAvailableBtcDisplay().add(a.getFrozenBtcDisplay()).subtract(a.getLoanBtcDisplay()), "available");
     Wallet ltc = new Wallet(LTC, a.getAvailableLtcDisplay().add(a.getFrozenLtcDisplay()).subtract(a.getLoanLtcDisplay()), "available");
-    
+
     // loaned wallets
     Wallet cnyLoan = new Wallet(CNY, a.getLoanCnyDisplay(), "loan");
     Wallet btcLoan = new Wallet(BTC, a.getLoanBtcDisplay(), "loan");
     Wallet ltcLoan = new Wallet(LTC, a.getLoanLtcDisplay(), "loan");
-    
+
     List<Wallet> wallets = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan);
     return new AccountInfo(null, wallets);
   }

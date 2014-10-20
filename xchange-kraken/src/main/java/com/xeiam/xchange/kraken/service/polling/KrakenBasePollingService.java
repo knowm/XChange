@@ -104,6 +104,9 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
       if (currency.equals(Currencies.BTC)) {
         return "XXBT";
       }
+      if (currency.equals(Currencies.DOGE)) {
+        return "XXDG";
+      }
 
       return "X" + currency;
     }

@@ -14,7 +14,8 @@ public class BittrexCurrency {
   private final String coinType;
   private final String baseAddress;
 
-  public BittrexCurrency(@JsonProperty("Currency") String currency, @JsonProperty("CurrencyLong") String currencyLong, @JsonProperty("MinConfirmation") int minConfirmations, @JsonProperty("TxFee") BigDecimal txFee, @JsonProperty("IsActive") boolean isActive, @JsonProperty("CoinType") String coinType, @JsonProperty("BaseAddress") String baseAddress) {
+  public BittrexCurrency(@JsonProperty("Currency") String currency, @JsonProperty("CurrencyLong") String currencyLong, @JsonProperty("MinConfirmation") int minConfirmations,
+      @JsonProperty("TxFee") BigDecimal txFee, @JsonProperty("IsActive") boolean isActive, @JsonProperty("CoinType") String coinType, @JsonProperty("BaseAddress") String baseAddress) {
 
     this.currency = currency;
     this.currencyLong = currencyLong;
@@ -26,43 +27,37 @@ public class BittrexCurrency {
   }
 
   public String getCurrency() {
-  
+
     return currency;
   }
 
-  
   public String getCurrencyLong() {
-  
+
     return currencyLong;
   }
 
-  
   public int getMinConfirmations() {
-  
+
     return minConfirmations;
   }
 
-  
   public BigDecimal getTxFee() {
-  
+
     return txFee;
   }
 
-  
   public boolean isActive() {
-  
+
     return isActive;
   }
 
-  
   public String getCoinType() {
-  
+
     return coinType;
   }
 
-  
   public String getBaseAddress() {
-  
+
     return baseAddress;
   }
 

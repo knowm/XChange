@@ -82,13 +82,13 @@ public class BTCEBasePollingService<T extends BTCE> extends BaseExchangeService 
   protected void checkResult(BTCEReturn<?> info) {
 
     if (!info.isSuccess()) {
-      throw new ExchangeException("BTCE returned an error: " + info.getError());
+      throw new ExchangeException(info.getError());
     }
     else if (info.getReturnValue() == null) {
       throw new ExchangeException("Didn't recieve any return value. Message: " + info.getError());
     }
     else if (info.getError() != null) {
-      throw new ExchangeException("Got error message: " + info.getError());
+      throw new ExchangeException(info.getError());
     }
   }
 

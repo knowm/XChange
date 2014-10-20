@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Matija Mazi
  */
-public final class BitstampTransaction {
+public class BitstampTransaction {
 
   private final long date;
   private final int tid;

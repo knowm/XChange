@@ -1,5 +1,7 @@
 package com.xeiam.xchange.anx.v2;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -9,7 +11,6 @@ import com.xeiam.xchange.anx.v2.service.polling.ANXTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * <p>
@@ -21,7 +22,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
  */
 public class ANXExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long>nonceFactory = new LongTimeNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new LongTimeNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
