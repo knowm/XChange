@@ -14,9 +14,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 /**
  * @author kpysniak
  */
-public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
+public class BitbayMarketDataServiceRaw extends BitbayBasePollingService<Bitbay> {
 
-  private final Bitbay bitbay;
 
   /**
    * Constructor Initialize common properties from the exchange specification
@@ -25,8 +24,7 @@ public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
    */
   protected BitbayMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(exchangeSpecification);
-    this.bitbay = RestProxyFactory.createProxy(Bitbay.class, exchangeSpecification.getSslUri());
+    super(Bitbay.class, exchangeSpecification);
   }
 
   public BitbayTicker getBitbayTicker(CurrencyPair currencyPair) throws IOException {
@@ -39,9 +37,9 @@ public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
     return bitbay.getBitbayOrderBook(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString());
   }
 
-  public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair) throws IOException {
+  public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair, Long since) throws IOException {
 
-    return bitbay.getBitbayTrades(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString());
+    return bitbay.getBitbayTrades(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString(), since);
   }
 
 }

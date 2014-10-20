@@ -43,6 +43,13 @@ public class BitbayMarketDataService extends BitbayMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    return BitbayAdapters.adaptTrades(getBitbayTrades(currencyPair), currencyPair);
+      Long sinceTid = null;
+      if (args != null && args.length > 0) {
+          if (args[0] instanceof Long) {
+              sinceTid = (Long)args[0];
+          }
+      }
+
+    return BitbayAdapters.adaptTrades(getBitbayTrades(currencyPair, sinceTid), currencyPair);
   }
 }

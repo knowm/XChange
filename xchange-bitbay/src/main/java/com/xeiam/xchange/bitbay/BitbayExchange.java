@@ -3,7 +3,9 @@ package com.xeiam.xchange.bitbay;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitbay.service.polling.BitbayAccountService;
 import com.xeiam.xchange.bitbay.service.polling.BitbayMarketDataService;
+import com.xeiam.xchange.bitbay.service.polling.BitbayTradeService;
 
 /**
  * @author kpysniak
@@ -14,7 +16,7 @@ public class BitbayExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://market.bitbay.pl/API/Public");
+    exchangeSpecification.setSslUri("https://market.bitbay.pl");
     exchangeSpecification.setHost("bitbay.pl");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitbay");
@@ -28,8 +30,8 @@ public class BitbayExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
     this.pollingMarketDataService = new BitbayMarketDataService(exchangeSpecification);
-    this.pollingTradeService = null;
-    this.pollingAccountService = null;
+    this.pollingTradeService = new BitbayTradeService(exchangeSpecification);
+    this.pollingAccountService = new BitbayAccountService(exchangeSpecification);
   }
 
 }

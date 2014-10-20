@@ -2,10 +2,7 @@ package com.xeiam.xchange.bitbay;
 
 import java.io.IOException;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayOrderBook;
@@ -15,7 +12,7 @@ import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTrade;
 /**
  * @author kpysniak
  */
-@Path("/")
+@Path("/API/Public/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Bitbay {
 
@@ -33,5 +30,5 @@ public interface Bitbay {
 
   @GET
   @Path("{currencyPair}/trades.json")
-  public BitbayTrade[] getBitbayTrades(@PathParam("currencyPair") String currencyPair) throws IOException;
+  public BitbayTrade[] getBitbayTrades(@PathParam("currencyPair") String currencyPair, @QueryParam("since") Long since) throws IOException;
 }

@@ -1,19 +1,31 @@
 package com.xeiam.xchange.bitbay.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author kpysniak
  */
-public abstract class BitbayBaseResponse {
+public class BitbayBaseResponse {
 
-  private final String error;
+  private final String code;
+  private final String message;
+  private final String success;
 
-  protected BitbayBaseResponse(String error) {
+    public BitbayBaseResponse(@JsonProperty("code") String code, @JsonProperty("message")  String message, @JsonProperty("success") String success) {
+        this.code = code;
+        this.message = message;
+        this.success = success;
+    }
 
-    this.error = error;
-  }
+    public String getCode() {
+        return code;
+    }
 
-  public String getError() {
+    public String getMessage() {
+        return message;
+    }
 
-    return error;
-  }
+    public String getSuccess() {
+        return success;
+    }
 }
