@@ -55,7 +55,7 @@ Getting Started with XChange for Noobies: https://github.com/timmolter/XChange/w
 ## Getting Started
 
 ### Non-Maven
-Download XChange Release Jars: http://xeiam.com/xchange
+Download XChange Release Jars: http://search.maven.org/#search%7Cga%7C1%7Cxeiam%20xchange
 Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/
 
 #### Compile Dependencies
