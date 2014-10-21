@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
+import com.xeiam.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
 
 /**
@@ -45,13 +46,13 @@ public interface PoloniexAuthenticated extends Poloniex {
 
   @POST
   @FormParam("command")
-  HashMap<String, String> buy(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("amount") String amount,
-      @FormParam("rate") String rate, @FormParam("currencyPair") String currencyPair) throws IOException;
+  PoloniexTradeResponse buy(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("amount") String amount,
+      @FormParam("rate") String rate, @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")
-  HashMap<String, String> sell(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("amount") String amount,
-      @FormParam("rate") String rate, @FormParam("currencyPair") String currencyPair) throws IOException;
+  PoloniexTradeResponse sell(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature, @FormParam("nonce") String nonce, @FormParam("amount") String amount,
+      @FormParam("rate") String rate, @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")

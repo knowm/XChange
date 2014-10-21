@@ -21,6 +21,11 @@
 		<url>http://xeiam.com</url>
 	</organization>
 
+	<properties>
+		<quickfixj.version>1.5.3-bd</quickfixj.version>
+		<mina.version>1.1.7</mina.version>
+	</properties>
+
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>
 
@@ -49,6 +54,28 @@
 			<version>0.2.0</version>
 		</dependency>
 
+		<!-- For FIX API -->
+		<dependency>
+			<groupId>quickfixj</groupId>
+			<artifactId>quickfixj-core</artifactId>
+			<version>${quickfixj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>quickfixj</groupId>
+			<artifactId>quickfixj-msg-fix44</artifactId>
+			<version>${quickfixj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.mina</groupId>
+			<artifactId>mina-core</artifactId>
+			<version>${mina.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.mina</groupId>
+			<artifactId>mina-filter-ssl</artifactId>
+			<version>${mina.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-core</artifactId>
@@ -56,5 +83,15 @@
 		</dependency>
 
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>MarketceteraRepo</id>
+			<url>http://repo.marketcetera.org/maven</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
 
 </project>

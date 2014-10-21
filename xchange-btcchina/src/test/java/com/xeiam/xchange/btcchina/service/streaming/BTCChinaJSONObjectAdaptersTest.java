@@ -16,6 +16,7 @@ import com.xeiam.xchange.btcchina.dto.trade.streaming.BTCChinaBalance;
 import com.xeiam.xchange.btcchina.dto.trade.streaming.BTCChinaOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 
@@ -86,6 +87,31 @@ public class BTCChinaJSONObjectAdaptersTest {
     assertEquals("¥", balance.getSymbol());
     assertEquals(8, balance.getAmountDecimal());
     assertEquals("CNY", balance.getCurrency());
+  }
+
+  @Test
+  public void testAdaptDepth() throws JSONException, IOException {
+
+    JSONObject jsonObject = new JSONObject(IOUtils.toString(getClass().getResource("grouporder.json"), Charsets.UTF_8));
+    OrderBook depth = BTCChinaJSONObjectAdapters.adaptDepth(jsonObject);
+
+    // asks should be sorted ascending
+    assertEquals(OrderType.ASK, depth.getAsks().get(0).getType());
+    assertEquals(new BigDecimal("2403.37"), depth.getAsks().get(0).getLimitPrice());
+    assertEquals(new BigDecimal("0.113"), depth.getAsks().get(0).getTradableAmount());
+
+    assertEquals(OrderType.ASK, depth.getAsks().get(1).getType());
+    assertEquals(new BigDecimal("2403.39"), depth.getAsks().get(1).getLimitPrice());
+    assertEquals(new BigDecimal("4.9328"), depth.getAsks().get(1).getTradableAmount());
+
+    // bids should be sorted descending
+    assertEquals(OrderType.BID, depth.getBids().get(0).getType());
+    assertEquals(new BigDecimal("2401.8"), depth.getBids().get(0).getLimitPrice());
+    assertEquals(new BigDecimal("3.2666"), depth.getBids().get(0).getTradableAmount());
+
+    assertEquals(OrderType.BID, depth.getBids().get(1).getType());
+    assertEquals(new BigDecimal("2401.73"), depth.getBids().get(1).getLimitPrice());
+    assertEquals(new BigDecimal("0.6024"), depth.getBids().get(1).getTradableAmount());
   }
 
 }

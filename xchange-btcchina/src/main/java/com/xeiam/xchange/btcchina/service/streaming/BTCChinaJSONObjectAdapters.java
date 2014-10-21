@@ -1,16 +1,24 @@
 package com.xeiam.xchange.btcchina.service.streaming;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.trade.streaming.BTCChinaBalance;
 import com.xeiam.xchange.btcchina.dto.trade.streaming.BTCChinaOrder;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 
 /**
  * Various adapters for converting from JSONObject to XChange DTOs.
@@ -81,6 +89,58 @@ public class BTCChinaJSONObjectAdapters {
     JSONObject balanceJsonObject = jsonObject.getJSONObject("balance");
     return new BTCChinaBalance(new BigDecimal(balanceJsonObject.getString("amount_integer")), new BigDecimal(balanceJsonObject.getString("amount")), balanceJsonObject.getString("symbol"),
         balanceJsonObject.getInt("amount_decimal"), balanceJsonObject.getString("currency"));
+  }
+
+  /**
+   * Adapts the {@link JSONObject} to {@link OrderBook}.
+   *
+   * @param json the {@link JSONObject}.
+   * @return the {@link OrderBook}.
+   * @throws JSONException indicates read JSONObject failure.
+   * @since <a href="http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122">WebSocket API v1.2.2</a>
+   */
+  public static OrderBook adaptDepth(JSONObject jsonObject) {
+
+    try {
+      return internalAdaptDepth(jsonObject);
+    } catch (JSONException e) {
+      throw new IllegalArgumentException("data: " + jsonObject, e);
+    }
+  }
+
+  private static OrderBook internalAdaptDepth(JSONObject jsonObject) throws JSONException {
+
+    JSONObject grouporder = jsonObject.getJSONObject("grouporder");
+
+    String market = grouporder.getString("market");
+    CurrencyPair currencyPair = BTCChinaAdapters.adaptCurrencyPair(market);
+
+    JSONArray askArray = grouporder.getJSONArray("ask");
+    JSONArray bidArray = grouporder.getJSONArray("bid");
+
+    int askLength = askArray.length();
+    int bidLength = bidArray.length();
+
+    List<LimitOrder> asks = new ArrayList<LimitOrder>(askLength);
+    List<LimitOrder> bids = new ArrayList<LimitOrder>(bidLength);
+
+    for (int i = askLength - 1; i >= 0; i--) {
+      JSONObject groupedOrder = askArray.getJSONObject(i);
+      String price = groupedOrder.getString("price");
+      // String type = groupedOrder.getString("type");
+      String totalamount = groupedOrder.getString("totalamount");
+      asks.add(new LimitOrder.Builder(OrderType.ASK, currencyPair).setLimitPrice(new BigDecimal(price)).setTradableAmount(new BigDecimal(totalamount)).build());
+    }
+
+    for (int i = 0; i < bidLength; i++) {
+      JSONObject groupedOrder = bidArray.getJSONObject(i);
+      String price = groupedOrder.getString("price");
+      // String type = groupedOrder.getString("type");
+      String totalamount = groupedOrder.getString("totalamount");
+      bids.add(new LimitOrder.Builder(OrderType.BID, currencyPair).setLimitPrice(new BigDecimal(price)).setTradableAmount(new BigDecimal(totalamount)).build());
+    }
+
+    return new OrderBook(new Date(), asks, bids);
   }
 
 }
