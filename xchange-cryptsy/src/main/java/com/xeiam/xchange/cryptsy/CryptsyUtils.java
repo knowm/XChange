@@ -10,8 +10,6 @@ import java.util.TimeZone;
  */
 public final class CryptsyUtils {
 
-  private static SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
   /**
    * private Constructor
    */
@@ -21,9 +19,9 @@ public final class CryptsyUtils {
 
   public static Date convertDateTime(String dateTime) throws ParseException {
 
-    dateFormatter.setTimeZone(TimeZone.getTimeZone("EST"));
-
-    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTime);
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    dateFormatter.setTimeZone(TimeZone.getTimeZone("US/Eastern"));
+    return dateFormatter.parse(dateTime);
   }
 
 }
