@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 
 import si.mazi.rescu.ParamsDigest;
@@ -36,15 +37,23 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
   protected T kraken;
   protected ParamsDigest signatureCreator;
   protected SynchronizedValueFactory<Long> nonce;
+  protected final Properties properties = new Properties();
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification
    */
   public KrakenBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
     super(exchangeSpecification);
+
+    try {
+      properties.load(Kraken.class.getResourceAsStream("Kraken.properties"));
+    } catch (IOException e) {
+      throw new IllegalStateException(e);
+    }
+
     kraken = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
     signatureCreator = KrakenDigest.createInstance(exchangeSpecification.getSecretKey());
     nonce = nonceFactory;

@@ -9,15 +9,13 @@ import java.math.BigDecimal;
 public class BaseMarketMetadata implements MarketMetadata {
   private final BigDecimal amountMinimum;
   private final int priceScale;
-  private final BigDecimal limitOrderFeeFactor;
-  private final BigDecimal marketOrderFeeFactor;
+  private final BigDecimal orderFeeFactor;
 
-  public BaseMarketMetadata(BigDecimal amountMinimum, int priceScale, BigDecimal limitOrderFeeFactor, BigDecimal marketOrderFeeFactor) {
+  public BaseMarketMetadata(BigDecimal amountMinimum, int priceScale, BigDecimal orderFeeFactor) {
 
     this.amountMinimum = amountMinimum;
     this.priceScale = priceScale;
-    this.limitOrderFeeFactor = limitOrderFeeFactor;
-    this.marketOrderFeeFactor = marketOrderFeeFactor;
+    this.orderFeeFactor = orderFeeFactor;
   }
 
   @Override
@@ -41,13 +39,8 @@ public class BaseMarketMetadata implements MarketMetadata {
   }
 
   @Override
-  public BigDecimal getMarketOrderFeeFactor() {
-    return marketOrderFeeFactor;
-  }
-
-  @Override
-  public BigDecimal getLimitOrderFeeFactor() {
-    return limitOrderFeeFactor;
+  public BigDecimal getOrderFeeFactor() {
+    return orderFeeFactor;
   }
 
 
@@ -86,8 +79,7 @@ public class BaseMarketMetadata implements MarketMetadata {
     return "BaseMarketMetadata{" +
         "amountMinimum=" + amountMinimum +
         ", priceScale=" + priceScale +
-        ", limitOrderFeeFactor=" + limitOrderFeeFactor +
-        ", marketOrderFeeFactor=" + marketOrderFeeFactor +
+        ", orderFeeFactor=" + orderFeeFactor +
         '}';
   }
 }

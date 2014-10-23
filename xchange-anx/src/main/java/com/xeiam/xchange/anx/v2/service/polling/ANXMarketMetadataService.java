@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 public class ANXMarketMetadataService extends ANXBasePollingService implements MarketMetadataService {
   private final ANXV2 anxV2;
   private final ANXV2Digest signatureCreator;
+  private static final BigDecimal MAKER_DISCOUNT = new BigDecimal(".5");
 
 
   public ANXMarketMetadataService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
@@ -40,23 +41,31 @@ public class ANXMarketMetadataService extends ANXBasePollingService implements M
   @Override
   public MarketMetadata getMarketMetadata(CurrencyPair pair) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    int amountScale = getIntProperty("order.size.scale.default");
-    String amountMinimumStr = properties.getProperty("order.size.min." + pair.baseSymbol);
+    int amountScale = getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
+    String amountMinimumStr = properties.getProperty(PREKEY_ORDER_SIZE_MIN + pair.baseSymbol);
     if (amountMinimumStr == null)
-      properties.getProperty("order.size.min.default");
+      properties.getProperty(KEY_ORDER_SIZE_MIN_DEFAULT);
     BigDecimal amountMinimum = new BigDecimal(amountMinimumStr).setScale(amountScale);
 
-    int priceScale = getIntProperty("order.price.scale.default");
+    int priceScale = getIntProperty(KEY_ORDER_PRICE_SCALE_DEFAULT);
 
-    BigDecimal marketOrderFee = getANXAccountInfo().getTradeFee().movePointLeft(2);
-    BigDecimal limitOrderFee = marketOrderFee.divide(new BigDecimal(2));
+    BigDecimal orderFee = getANXAccountInfo().getTradeFee().movePointLeft(2);
+    if(!getBoolProperty(KEY_ORDER_FEE_POLICY_MAKER)) {
+      orderFee = orderFee.multiply(MAKER_DISCOUNT);
+    }
 
-    return new BaseMarketMetadata(amountMinimum, priceScale, limitOrderFee, marketOrderFee);
+    return new BaseMarketMetadata(amountMinimum, priceScale, orderFee);
   }
 
   protected int getIntProperty(String key) {
 
     return Integer.parseInt(properties.getProperty(key));
+  }
+
+  protected boolean getBoolProperty(String key){
+
+    String str = properties.getProperty(key);
+    return str != null && Boolean.parseBoolean(str);
   }
 
   protected ANXAccountInfo getANXAccountInfo() throws IOException {
