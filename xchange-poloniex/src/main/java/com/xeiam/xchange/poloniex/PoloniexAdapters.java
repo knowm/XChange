@@ -140,8 +140,9 @@ public class PoloniexAdapters {
     BigDecimal amount = userTrade.getAmount();
     BigDecimal price = userTrade.getRate();
     Date date = PoloniexUtils.stringToDate(userTrade.getDate());
-    String tradeId = String.valueOf(userTrade.getOrderNumber());
+    String tradeId = String.valueOf(userTrade.getTradeID());
+    String orderId = String.valueOf(userTrade.getOrderNumber());
 
-    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
+    return new Trade(orderType, amount, currencyPair, price, date, tradeId, orderId);
   }
 }
