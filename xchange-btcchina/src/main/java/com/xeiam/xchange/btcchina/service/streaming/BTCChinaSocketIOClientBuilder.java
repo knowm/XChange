@@ -170,8 +170,27 @@ public class BTCChinaSocketIOClientBuilder {
 
       private void subscribePrivateData() {
 
-        // 3 markets(BTCChina has only 3 markets) + 1 account info = 4
-        final List<String> params = new ArrayList<String>(4);
+        final List<String> params = buildPrivateDataParams();
+
+        if (!params.isEmpty()) {
+          BTCChinaPayload payload = getPayload(params.toArray(new String[0]));
+
+          final List<String> arg = new ArrayList<String>(2);
+          arg.add(toPostData(payload));
+          arg.add(getSign(payload));
+
+          // Use 'private' method to subscribe the order feed
+          socket.emit("private", arg);
+        } else {
+          log.debug("No private data specified to subscribe.");
+        }
+      }
+
+      private List<String> buildPrivateDataParams() {
+
+        int capacity = orderFeed.size() + (subscribeAccountInfo ? 1 : 0);
+        final List<String> params = new ArrayList<String>(capacity);
+
         for (CurrencyPair currencyPair : orderFeed) {
           final String market = toMarket(currencyPair);
           params.add("order_" + market);
@@ -183,14 +202,7 @@ public class BTCChinaSocketIOClientBuilder {
           log.debug("subscribing account info.");
         }
 
-        BTCChinaPayload payload = getPayload(params.toArray(new String[0]));
-
-        final List<String> arg = new ArrayList<String>(2);
-        arg.add(toPostData(payload));
-        arg.add(getSign(payload));
-
-        // Use 'private' method to subscribe the order feed
-        socket.emit("private", arg);
+        return params;
       }
 
     });
