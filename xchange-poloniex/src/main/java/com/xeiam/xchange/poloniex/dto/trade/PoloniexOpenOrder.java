@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "orderNumber", "type", "rate", "amount", "total" })
+@JsonPropertyOrder({ "orderNumber", "type", "rate", "amount", "total", "date" })
 public class PoloniexOpenOrder {
 
   @JsonProperty("orderNumber")
@@ -32,6 +32,8 @@ public class PoloniexOpenOrder {
   private BigDecimal amount;
   @JsonProperty("total")
   private BigDecimal total;
+  @JsonProperty("date")
+  private String date;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -93,6 +95,18 @@ public class PoloniexOpenOrder {
   public void setTotal(BigDecimal total) {
 
     this.total = total;
+  }
+
+  @JsonProperty("date")
+  public String getDate() {
+
+    return date;
+  }
+
+  @JsonProperty("date")
+  public void setDate(String date) {
+
+    this.date = date;
   }
 
   @JsonAnyGetter
