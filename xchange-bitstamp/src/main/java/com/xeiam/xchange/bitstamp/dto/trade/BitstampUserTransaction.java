@@ -110,6 +110,6 @@ public final class BitstampUserTransaction {
   }
 
   public enum TransactionType {
-    deposit, withdrawal, trade
+    deposit, withdrawal, trade, rippleWithdrawal, rippleDeposit, type5_reseverd, type6_reseved, type7_reserved /* reseved so parsing won't break in case Bitstamp adds new types */
   }
 }
