@@ -8,12 +8,12 @@ import java.math.BigDecimal;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.coinsetter.CoinsetterMarketData;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterLast;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterListDepth;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPairedDepth;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterQuote;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
+import com.xeiam.xchange.coinsetter.rs.CoinsetterMarketData;
 
 /**
  * Market data raw service.

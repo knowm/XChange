@@ -71,6 +71,8 @@ public class CoinsetterOrderDemo {
     log.info("Cancelling order...");
     orderResponse = orderService.cancel(clientSession.getUuid(), orderResponse.getUuid());
     log.info("cancel order response: {}", orderResponse);
+
+    clientSessionService.logout(clientSession.getUuid());
   }
 
 }

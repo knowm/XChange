@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinsetter;
+package com.xeiam.xchange.coinsetter.rs;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -14,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.order.request.CoinsetterOrderRequest;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderResponse;
@@ -23,11 +24,11 @@ import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderResponse;
  */
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public interface CoinsetterOrder {
 
   @POST
   @Path("order")
-  @Consumes(MediaType.APPLICATION_JSON)
   CoinsetterOrderResponse add(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, CoinsetterOrderRequest request) throws CoinsetterException, IOException;
 
   @GET

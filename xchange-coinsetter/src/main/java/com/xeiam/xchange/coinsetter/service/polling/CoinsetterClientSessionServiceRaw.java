@@ -16,7 +16,7 @@ import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientS
  */
 public class CoinsetterClientSessionServiceRaw extends CoinsetterBasePollingService {
 
-  protected com.xeiam.xchange.coinsetter.CoinsetterClientSession clientSession;
+  protected com.xeiam.xchange.coinsetter.rs.CoinsetterClientSession clientSession;
 
   /**
    * @param exchangeSpecification
@@ -25,7 +25,7 @@ public class CoinsetterClientSessionServiceRaw extends CoinsetterBasePollingServ
 
     super(exchangeSpecification);
     String baseUrl = exchangeSpecification.getSslUri();
-    clientSession = RestProxyFactory.createProxy(com.xeiam.xchange.coinsetter.CoinsetterClientSession.class, baseUrl);
+    clientSession = RestProxyFactory.createProxy(com.xeiam.xchange.coinsetter.rs.CoinsetterClientSession.class, baseUrl);
   }
 
   public CoinsetterClientSession login(String username, String password, String ipAddress) throws IOException {

@@ -1,0 +1,19 @@
+package com.xeiam.xchange.coinsetter.dto.newsalert.response;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class CoinsetterNewsAlertList {
+
+  private final CoinsetterNewsAlert[] messageList;
+
+  public CoinsetterNewsAlertList(@JsonProperty("MessageList") CoinsetterNewsAlert[] messageList) {
+
+    this.messageList = messageList;
+  }
+
+  public CoinsetterNewsAlert[] getMessageList() {
+
+    return messageList;
+  }
+
+}

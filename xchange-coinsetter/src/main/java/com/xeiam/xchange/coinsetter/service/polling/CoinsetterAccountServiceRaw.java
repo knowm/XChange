@@ -12,7 +12,7 @@ import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccountList;
 
 public class CoinsetterAccountServiceRaw extends CoinsetterBasePollingService {
 
-  private final com.xeiam.xchange.coinsetter.CoinsetterAccount account;
+  private final com.xeiam.xchange.coinsetter.rs.CoinsetterAccount account;
 
   /**
    * @param exchangeSpecification
@@ -21,7 +21,7 @@ public class CoinsetterAccountServiceRaw extends CoinsetterBasePollingService {
 
     super(exchangeSpecification);
     String baseUrl = exchangeSpecification.getSslUri();
-    account = RestProxyFactory.createProxy(com.xeiam.xchange.coinsetter.CoinsetterAccount.class, baseUrl);
+    account = RestProxyFactory.createProxy(com.xeiam.xchange.coinsetter.rs.CoinsetterAccount.class, baseUrl);
   }
 
   public CoinsetterAccount get(UUID clientSessionId, UUID accountUuid) throws CoinsetterException, IOException {

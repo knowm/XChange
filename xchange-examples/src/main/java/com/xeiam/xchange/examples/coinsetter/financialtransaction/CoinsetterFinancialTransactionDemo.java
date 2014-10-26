@@ -47,6 +47,8 @@ public class CoinsetterFinancialTransactionDemo {
         log.info("Transaction: {}", t);
       }
     }
+
+    clientSessionService.logout(clientSession.getUuid());
   }
 
 }

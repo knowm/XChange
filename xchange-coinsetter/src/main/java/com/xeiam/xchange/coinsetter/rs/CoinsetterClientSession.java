@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinsetter;
+package com.xeiam.xchange.coinsetter.rs;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.CoinsetterResponse;
 import com.xeiam.xchange.coinsetter.dto.clientsession.request.CoinsetterLoginRequest;
 

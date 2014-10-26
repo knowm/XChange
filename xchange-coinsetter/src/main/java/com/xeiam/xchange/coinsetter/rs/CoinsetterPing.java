@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinsetter;
+package com.xeiam.xchange.coinsetter.rs;
 
 import java.io.IOException;
 
@@ -7,6 +7,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import com.xeiam.xchange.coinsetter.CoinsetterException;
 
 /**
  * RESTful/JSON API: Ping.

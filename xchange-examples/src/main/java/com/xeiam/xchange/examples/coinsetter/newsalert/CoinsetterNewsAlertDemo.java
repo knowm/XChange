@@ -1,4 +1,4 @@
-package com.xeiam.xchange.examples.coinsetter.account;
+package com.xeiam.xchange.examples.coinsetter.newsalert;
 
 import java.io.IOException;
 
@@ -6,16 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccount;
-import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccountList;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
-import com.xeiam.xchange.coinsetter.service.polling.CoinsetterAccountServiceRaw;
+import com.xeiam.xchange.coinsetter.dto.newsalert.response.CoinsetterNewsAlert;
+import com.xeiam.xchange.coinsetter.dto.newsalert.response.CoinsetterNewsAlertList;
 import com.xeiam.xchange.coinsetter.service.polling.CoinsetterClientSessionServiceRaw;
+import com.xeiam.xchange.coinsetter.service.polling.CoinsetterNewsAlertServiceRaw;
 import com.xeiam.xchange.examples.coinsetter.CoinsetterExamplesUtils;
 
-public class CoinsetterAccountDemo {
+public class CoinsetterNewsAlertDemo {
 
-  private static final Logger log = LoggerFactory.getLogger(CoinsetterAccountDemo.class);
+  private static final Logger log = LoggerFactory.getLogger(CoinsetterNewsAlertDemo.class);
 
   public static void main(String[] args) throws IOException {
 
@@ -25,17 +25,15 @@ public class CoinsetterAccountDemo {
 
     Exchange coinsetter = CoinsetterExamplesUtils.getExchange();
     CoinsetterClientSessionServiceRaw clientSessionService = new CoinsetterClientSessionServiceRaw(coinsetter.getExchangeSpecification());
-    CoinsetterAccountServiceRaw accountService = new CoinsetterAccountServiceRaw(coinsetter.getExchangeSpecification());
+    CoinsetterNewsAlertServiceRaw newsAlertService = new CoinsetterNewsAlertServiceRaw(coinsetter.getExchangeSpecification());
 
     CoinsetterClientSession clientSession = clientSessionService.login(username, password, ipAddress);
     log.info("Client session: {}", clientSession);
 
-    CoinsetterAccountList coinsetterAccounts = accountService.list(clientSession.getUuid());
-    for (CoinsetterAccount account : coinsetterAccounts.getAccountList()) {
-      log.info("account: {}", account.getAccountUuid());
+    CoinsetterNewsAlertList newsAlerts = newsAlertService.list(clientSession.getUuid());
 
-      CoinsetterAccount a = accountService.get(clientSession.getUuid(), account.getAccountUuid());
-      log.info("account: {}", a);
+    for (CoinsetterNewsAlert alert : newsAlerts.getMessageList()) {
+      log.info("{}", alert);
     }
 
     clientSessionService.logout(clientSession.getUuid());

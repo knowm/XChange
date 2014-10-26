@@ -5,7 +5,7 @@ import java.io.IOException;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.coinsetter.CoinsetterPing;
+import com.xeiam.xchange.coinsetter.rs.CoinsetterPing;
 
 /**
  * Ping service.

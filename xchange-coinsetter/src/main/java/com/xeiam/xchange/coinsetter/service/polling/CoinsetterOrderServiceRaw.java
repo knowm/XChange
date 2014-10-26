@@ -14,7 +14,7 @@ import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderResponse;
 
 public class CoinsetterOrderServiceRaw extends CoinsetterBasePollingService {
 
-  private final com.xeiam.xchange.coinsetter.CoinsetterOrder order;
+  private final com.xeiam.xchange.coinsetter.rs.CoinsetterOrder order;
 
   /**
    * @param exchangeSpecification
@@ -23,7 +23,7 @@ public class CoinsetterOrderServiceRaw extends CoinsetterBasePollingService {
 
     super(exchangeSpecification);
     String baseUrl = exchangeSpecification.getSslUri();
-    order = RestProxyFactory.createProxy(com.xeiam.xchange.coinsetter.CoinsetterOrder.class, baseUrl);
+    order = RestProxyFactory.createProxy(com.xeiam.xchange.coinsetter.rs.CoinsetterOrder.class, baseUrl);
   }
 
   public CoinsetterOrderResponse add(UUID clientSessionId, CoinsetterOrderRequest request) throws CoinsetterException, IOException {
