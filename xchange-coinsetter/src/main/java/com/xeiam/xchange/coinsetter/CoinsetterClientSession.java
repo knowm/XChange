@@ -28,7 +28,7 @@ public interface CoinsetterClientSession {
   public com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession login(CoinsetterLoginRequest request) throws CoinsetterException, IOException;
 
   @PUT
-  @Path("/{client-session-id}")
+  @Path("{client-session-id}")
   public CoinsetterClientSessionResponse action(@HeaderParam("coinsetter-client-session-id") @PathParam("client-session-id") UUID clientSessionId, @QueryParam("action") String action)
       throws CoinsetterException, IOException;
 

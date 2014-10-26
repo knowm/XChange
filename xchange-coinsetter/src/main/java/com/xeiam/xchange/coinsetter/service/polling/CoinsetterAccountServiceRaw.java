@@ -9,7 +9,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccount;
 import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccountList;
-import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
 
 public class CoinsetterAccountServiceRaw extends CoinsetterBasePollingService {
 
@@ -25,14 +24,14 @@ public class CoinsetterAccountServiceRaw extends CoinsetterBasePollingService {
     account = RestProxyFactory.createProxy(com.xeiam.xchange.coinsetter.CoinsetterAccount.class, baseUrl);
   }
 
-  public CoinsetterAccount get(CoinsetterClientSession session, UUID accountUuid) throws CoinsetterException, IOException {
+  public CoinsetterAccount get(UUID clientSessionId, UUID accountUuid) throws CoinsetterException, IOException {
 
-    return account.get(session.getUuid(), accountUuid);
+    return account.get(clientSessionId, accountUuid);
   }
 
-  public CoinsetterAccountList list(CoinsetterClientSession session) throws CoinsetterException, IOException {
+  public CoinsetterAccountList list(UUID clientSessionId) throws CoinsetterException, IOException {
 
-    return account.list(session.getUuid());
+    return account.list(clientSessionId);
   }
 
 }

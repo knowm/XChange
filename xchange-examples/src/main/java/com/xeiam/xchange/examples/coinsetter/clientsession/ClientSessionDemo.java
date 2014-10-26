@@ -30,15 +30,15 @@ public class ClientSessionDemo {
 
     for (int i = 0; i < 2; i++) {
       TimeUnit.SECONDS.sleep(30);
-      CoinsetterClientSessionResponse heartbeatResponse = clientSessionService.heartbeat(clientSession);
+      CoinsetterClientSessionResponse heartbeatResponse = clientSessionService.heartbeat(clientSession.getUuid());
       log.info("hearbeat: {}", heartbeatResponse);
     }
 
-    CoinsetterClientSessionResponse logoutResponse = clientSessionService.logout(clientSession);
+    CoinsetterClientSessionResponse logoutResponse = clientSessionService.logout(clientSession.getUuid());
     log.info("logout: {}", logoutResponse);
 
     try {
-      CoinsetterClientSessionResponse heartbeatResponse = clientSessionService.heartbeat(clientSession);
+      CoinsetterClientSessionResponse heartbeatResponse = clientSessionService.heartbeat(clientSession.getUuid());
       log.info("hearbeat: {}", heartbeatResponse);
     } catch (CoinsetterException e) {
       log.info("{}", e.getMessage());

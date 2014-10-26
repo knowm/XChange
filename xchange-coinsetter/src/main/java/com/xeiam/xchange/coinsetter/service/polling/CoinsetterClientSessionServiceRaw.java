@@ -1,6 +1,7 @@
 package com.xeiam.xchange.coinsetter.service.polling;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -32,14 +33,14 @@ public class CoinsetterClientSessionServiceRaw extends CoinsetterBasePollingServ
     return clientSession.login(new CoinsetterLoginRequest(username, password, ipAddress));
   }
 
-  public CoinsetterClientSessionResponse logout(CoinsetterClientSession session) throws CoinsetterException, IOException {
+  public CoinsetterClientSessionResponse logout(UUID clientSessionId) throws CoinsetterException, IOException {
 
-    return clientSession.action(session.getUuid(), "LOGOUT");
+    return clientSession.action(clientSessionId, "LOGOUT");
   }
 
-  public CoinsetterClientSessionResponse heartbeat(CoinsetterClientSession session) throws CoinsetterException, IOException {
+  public CoinsetterClientSessionResponse heartbeat(UUID clientSessionId) throws CoinsetterException, IOException {
 
-    return clientSession.action(session.getUuid(), "HEARTBEAT");
+    return clientSession.action(clientSessionId, "HEARTBEAT");
   }
 
 }

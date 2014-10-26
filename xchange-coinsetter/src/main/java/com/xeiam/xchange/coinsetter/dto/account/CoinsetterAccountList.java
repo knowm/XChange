@@ -1,5 +1,7 @@
 package com.xeiam.xchange.coinsetter.dto.account;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CoinsetterAccountList {
@@ -17,6 +19,12 @@ public class CoinsetterAccountList {
   public CoinsetterAccount[] getAccountList() {
 
     return accountList;
+  }
+
+  @Override
+  public String toString() {
+
+    return "CoinsetterAccountList [accountList=" + Arrays.toString(accountList) + "]";
   }
 
 }
