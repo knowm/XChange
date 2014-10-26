@@ -15,11 +15,10 @@ import com.xeiam.xchange.coinsetter.service.polling.CoinsetterAccountServiceRaw;
 import com.xeiam.xchange.coinsetter.service.polling.CoinsetterClientSessionServiceRaw;
 import com.xeiam.xchange.coinsetter.service.polling.CoinsetterFinancialTransactionServiceRaw;
 import com.xeiam.xchange.examples.coinsetter.CoinsetterExamplesUtils;
-import com.xeiam.xchange.examples.coinsetter.clientsession.ClientSessionDemo;
 
 public class CoinsetterFinancialTransactionDemo {
 
-  private static final Logger log = LoggerFactory.getLogger(ClientSessionDemo.class);
+  private static final Logger log = LoggerFactory.getLogger(CoinsetterFinancialTransactionDemo.class);
 
   public static void main(String[] args) throws IOException {
 

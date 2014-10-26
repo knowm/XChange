@@ -3,8 +3,9 @@ package com.xeiam.xchange.coinsetter.dto.clientsession.response;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.coinsetter.dto.CoinsetterResponse;
 
-public class CoinsetterClientSession extends CoinsetterClientSessionResponse {
+public class CoinsetterClientSession extends CoinsetterResponse {
 
   private final UUID uuid;
   private final UUID customerUuid;

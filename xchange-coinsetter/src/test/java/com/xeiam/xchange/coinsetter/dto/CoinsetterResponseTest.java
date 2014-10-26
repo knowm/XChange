@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinsetter.dto.clientsession.response;
+package com.xeiam.xchange.coinsetter.dto;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,14 +8,14 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class CoinsetterClientSessionResponseTest {
+public class CoinsetterResponseTest {
 
   private ObjectMapper mapper = new ObjectMapper();
 
   @Test
   public void test() throws IOException {
 
-    CoinsetterClientSessionResponse response = mapper.readValue(getClass().getResource("heartbeat.json"), CoinsetterClientSessionResponse.class);
+    CoinsetterResponse response = mapper.readValue(getClass().getResource("response.json"), CoinsetterResponse.class);
     assertEquals("OK", response.getMessage());
     assertEquals("SUCCESS", response.getRequestStatus());
   }

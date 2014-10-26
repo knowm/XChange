@@ -7,9 +7,9 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
+import com.xeiam.xchange.coinsetter.dto.CoinsetterResponse;
 import com.xeiam.xchange.coinsetter.dto.clientsession.request.CoinsetterLoginRequest;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
-import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSessionResponse;
 
 /**
  * Client session raw service.
@@ -33,12 +33,12 @@ public class CoinsetterClientSessionServiceRaw extends CoinsetterBasePollingServ
     return clientSession.login(new CoinsetterLoginRequest(username, password, ipAddress));
   }
 
-  public CoinsetterClientSessionResponse logout(UUID clientSessionId) throws CoinsetterException, IOException {
+  public CoinsetterResponse logout(UUID clientSessionId) throws CoinsetterException, IOException {
 
     return clientSession.action(clientSessionId, "LOGOUT");
   }
 
-  public CoinsetterClientSessionResponse heartbeat(UUID clientSessionId) throws CoinsetterException, IOException {
+  public CoinsetterResponse heartbeat(UUID clientSessionId) throws CoinsetterException, IOException {
 
     return clientSession.action(clientSessionId, "HEARTBEAT");
   }

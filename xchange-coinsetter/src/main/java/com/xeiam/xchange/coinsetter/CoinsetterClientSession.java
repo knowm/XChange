@@ -13,8 +13,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.coinsetter.dto.CoinsetterResponse;
 import com.xeiam.xchange.coinsetter.dto.clientsession.request.CoinsetterLoginRequest;
-import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSessionResponse;
 
 /**
  * RESTful/JSON API: ClientSession.
@@ -29,7 +29,7 @@ public interface CoinsetterClientSession {
 
   @PUT
   @Path("{client-session-id}")
-  public CoinsetterClientSessionResponse action(@HeaderParam("coinsetter-client-session-id") @PathParam("client-session-id") UUID clientSessionId, @QueryParam("action") String action)
+  public CoinsetterResponse action(@HeaderParam("coinsetter-client-session-id") @PathParam("client-session-id") UUID clientSessionId, @QueryParam("action") String action)
       throws CoinsetterException, IOException;
 
 }

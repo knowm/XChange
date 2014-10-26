@@ -8,14 +8,14 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
+import com.xeiam.xchange.coinsetter.dto.CoinsetterResponse;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
-import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSessionResponse;
 import com.xeiam.xchange.coinsetter.service.polling.CoinsetterClientSessionServiceRaw;
 import com.xeiam.xchange.examples.coinsetter.CoinsetterExamplesUtils;
 
-public class ClientSessionDemo {
+public class CoinsetterClientSessionDemo {
 
-  private static final Logger log = LoggerFactory.getLogger(ClientSessionDemo.class);
+  private static final Logger log = LoggerFactory.getLogger(CoinsetterClientSessionDemo.class);
 
   public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -30,15 +30,15 @@ public class ClientSessionDemo {
 
     for (int i = 0; i < 2; i++) {
       TimeUnit.SECONDS.sleep(30);
-      CoinsetterClientSessionResponse heartbeatResponse = clientSessionService.heartbeat(clientSession.getUuid());
+      CoinsetterResponse heartbeatResponse = clientSessionService.heartbeat(clientSession.getUuid());
       log.info("hearbeat: {}", heartbeatResponse);
     }
 
-    CoinsetterClientSessionResponse logoutResponse = clientSessionService.logout(clientSession.getUuid());
+    CoinsetterResponse logoutResponse = clientSessionService.logout(clientSession.getUuid());
     log.info("logout: {}", logoutResponse);
 
     try {
-      CoinsetterClientSessionResponse heartbeatResponse = clientSessionService.heartbeat(clientSession.getUuid());
+      CoinsetterResponse heartbeatResponse = clientSessionService.heartbeat(clientSession.getUuid());
       log.info("hearbeat: {}", heartbeatResponse);
     } catch (CoinsetterException e) {
       log.info("{}", e.getMessage());

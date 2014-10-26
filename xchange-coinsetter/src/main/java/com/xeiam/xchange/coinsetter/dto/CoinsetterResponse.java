@@ -1,8 +1,8 @@
-package com.xeiam.xchange.coinsetter.dto.clientsession.response;
+package com.xeiam.xchange.coinsetter.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CoinsetterClientSessionResponse {
+public class CoinsetterResponse {
 
   private final String message;
   private final String requestStatus;
@@ -11,7 +11,7 @@ public class CoinsetterClientSessionResponse {
    * @param message If success, message will be "OK". Otherwise, it will be a description of the issue.
    * @param requestStatus Either "SUCCESS" or "FAILURE"
    */
-  public CoinsetterClientSessionResponse(@JsonProperty("message") String message, @JsonProperty("requestStatus") String requestStatus) {
+  public CoinsetterResponse(@JsonProperty("message") String message, @JsonProperty("requestStatus") String requestStatus) {
 
     this.message = message;
     this.requestStatus = requestStatus;
@@ -30,7 +30,7 @@ public class CoinsetterClientSessionResponse {
   @Override
   public String toString() {
 
-    return "CoinsetterClientSessionResponse [message=" + message + ", requestStatus=" + requestStatus + "]";
+    return "CoinsetterResponse [message=" + message + ", requestStatus=" + requestStatus + "]";
   }
 
 }

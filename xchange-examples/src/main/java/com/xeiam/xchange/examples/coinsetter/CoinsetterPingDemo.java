@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.service.polling.CoinsetterPingServiceRaw;
 
-public class PingDemo {
+public class CoinsetterPingDemo {
 
-  private static final Logger log = LoggerFactory.getLogger(PingDemo.class);
+  private static final Logger log = LoggerFactory.getLogger(CoinsetterPingDemo.class);
 
   public static void main(String[] args) throws IOException {
 
