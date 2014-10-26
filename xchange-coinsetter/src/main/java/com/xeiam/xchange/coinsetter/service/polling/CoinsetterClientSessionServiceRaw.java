@@ -10,11 +10,12 @@ import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.CoinsetterResponse;
 import com.xeiam.xchange.coinsetter.dto.clientsession.request.CoinsetterLoginRequest;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
+import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
  * Client session raw service.
  */
-public class CoinsetterClientSessionServiceRaw extends CoinsetterBasePollingService {
+public class CoinsetterClientSessionServiceRaw extends BaseExchangeService {
 
   protected com.xeiam.xchange.coinsetter.rs.CoinsetterClientSession clientSession;
 

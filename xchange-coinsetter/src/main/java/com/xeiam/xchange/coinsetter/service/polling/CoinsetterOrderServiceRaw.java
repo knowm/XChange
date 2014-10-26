@@ -11,8 +11,9 @@ import com.xeiam.xchange.coinsetter.dto.order.request.CoinsetterOrderRequest;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrder;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderResponse;
+import com.xeiam.xchange.service.BaseExchangeService;
 
-public class CoinsetterOrderServiceRaw extends CoinsetterBasePollingService {
+public class CoinsetterOrderServiceRaw extends BaseExchangeService {
 
   private final com.xeiam.xchange.coinsetter.rs.CoinsetterOrder order;
 

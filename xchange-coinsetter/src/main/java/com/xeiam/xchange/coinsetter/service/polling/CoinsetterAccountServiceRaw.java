@@ -9,8 +9,9 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccount;
 import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccountList;
+import com.xeiam.xchange.service.BaseExchangeService;
 
-public class CoinsetterAccountServiceRaw extends CoinsetterBasePollingService {
+public class CoinsetterAccountServiceRaw extends BaseExchangeService {
 
   private final com.xeiam.xchange.coinsetter.rs.CoinsetterAccount account;
 

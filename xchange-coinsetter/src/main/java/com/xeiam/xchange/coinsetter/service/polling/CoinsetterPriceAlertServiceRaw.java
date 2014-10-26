@@ -11,8 +11,9 @@ import com.xeiam.xchange.coinsetter.dto.pricealert.request.CoinsetterPriceAlertR
 import com.xeiam.xchange.coinsetter.dto.pricealert.response.CoinsetterPriceAlertList;
 import com.xeiam.xchange.coinsetter.dto.pricealert.response.CoinsetterPriceAlertResponse;
 import com.xeiam.xchange.coinsetter.dto.pricealert.response.CoinsetterRemovePriceAlertResponse;
+import com.xeiam.xchange.service.BaseExchangeService;
 
-public class CoinsetterPriceAlertServiceRaw extends CoinsetterBasePollingService {
+public class CoinsetterPriceAlertServiceRaw extends BaseExchangeService {
 
   private final com.xeiam.xchange.coinsetter.rs.CoinsetterPriceAlert priceAlert;
 

@@ -9,8 +9,9 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.financialtransaction.CoinsetterFinancialTransaction;
 import com.xeiam.xchange.coinsetter.dto.financialtransaction.CoinsetterFinancialTransactionList;
+import com.xeiam.xchange.service.BaseExchangeService;
 
-public class CoinsetterFinancialTransactionServiceRaw extends CoinsetterBasePollingService {
+public class CoinsetterFinancialTransactionServiceRaw extends BaseExchangeService {
 
   private final com.xeiam.xchange.coinsetter.rs.CoinsetterFinancialTransaction financialTransaction;
 

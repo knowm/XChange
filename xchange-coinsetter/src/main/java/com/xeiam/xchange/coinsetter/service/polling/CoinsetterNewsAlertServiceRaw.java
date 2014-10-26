@@ -8,8 +8,9 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.newsalert.response.CoinsetterNewsAlertList;
+import com.xeiam.xchange.service.BaseExchangeService;
 
-public class CoinsetterNewsAlertServiceRaw extends CoinsetterBasePollingService {
+public class CoinsetterNewsAlertServiceRaw extends BaseExchangeService {
 
   private final com.xeiam.xchange.coinsetter.rs.CoinsetterNewsAlert newsAlert;
 

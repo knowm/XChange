@@ -1,9 +1,13 @@
 package com.xeiam.xchange.coinsetter;
 
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.coinsetter.service.polling.CoinsetterAccountService;
 import com.xeiam.xchange.coinsetter.service.polling.CoinsetterMarketDataService;
+import com.xeiam.xchange.coinsetter.service.polling.CoinsetterTradeService;
 import com.xeiam.xchange.coinsetter.service.streaming.CoinsetterSocketIOService;
 import com.xeiam.xchange.coinsetter.service.streaming.CoinsetterStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
@@ -26,11 +30,25 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
 
   public static final String WEBSOCKET_URI_KEY = "websocket.uri";
 
+  public static final String SESSION_HEARTBEAT_INTERVAL_KEY = "session.heartbeat.interval";
+  public static final String SESSION_HEARTBEAT_MAX_FAILURE_TIMES_KEY = "session.failure";
+  public static final String SESSION_IP_ADDRESS_KEY = "session.ipAddress";
+  public static final String SESSION_LOCK_KEY = "session.lock";
+  public static final String SESSION_KEY = "session";
+
+  /**
+   * XChange do not support multiple sub account, so specify one account using to trade.
+   * If does not specified, the first one in from the account list will be used.
+   */
+  public static final String ACCOUNT_UUID_KEY = "account";
+
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
     this.pollingMarketDataService = new CoinsetterMarketDataService(exchangeSpecification);
+    this.pollingAccountService = new CoinsetterAccountService(exchangeSpecification);
+    this.pollingTradeService = new CoinsetterTradeService(exchangeSpecification);
   }
 
   /**
@@ -45,6 +63,13 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeName("Coinsetter");
     exchangeSpecification.setExchangeDescription("Coinsetter is a New York City based, venture capital funded bitcoin exchange that is dedicated to making bitcoin safe and reliable for active users.");
     exchangeSpecification.setExchangeSpecificParametersItem(WEBSOCKET_URI_KEY, "https://plug.coinsetter.com:3000");
+
+    // default heartbeat interval is 30 seconds.
+    exchangeSpecification.setExchangeSpecificParametersItem(SESSION_HEARTBEAT_INTERVAL_KEY, new Long(30000L));
+
+    exchangeSpecification.setExchangeSpecificParametersItem(SESSION_HEARTBEAT_MAX_FAILURE_TIMES_KEY, new Integer(3));
+    exchangeSpecification.setExchangeSpecificParametersItem(SESSION_IP_ADDRESS_KEY, "0.0.0.0");
+    exchangeSpecification.setExchangeSpecificParametersItem(SESSION_LOCK_KEY, new ReentrantReadWriteLock());
     return exchangeSpecification;
   }
 

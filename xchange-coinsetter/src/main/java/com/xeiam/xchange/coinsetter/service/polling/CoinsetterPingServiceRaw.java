@@ -6,11 +6,12 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinsetter.rs.CoinsetterPing;
+import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
  * Ping service.
  */
-public class CoinsetterPingServiceRaw extends CoinsetterBasePollingService {
+public class CoinsetterPingServiceRaw extends BaseExchangeService {
 
   protected final CoinsetterPing ping;
 
