@@ -2,6 +2,9 @@ package com.xeiam.xchange.coinsetter.dto.pricealert.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * A list of price alerts.
+ */
 public class CoinsetterPriceAlertList {
 
   private CoinsetterPriceAlert[] priceAlerts;

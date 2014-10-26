@@ -7,6 +7,9 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Information about a specified account.
+ */
 public class CoinsetterAccount {
 
   private final UUID accountUuid;

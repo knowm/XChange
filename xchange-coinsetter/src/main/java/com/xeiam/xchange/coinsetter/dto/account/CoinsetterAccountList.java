@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * A list of accounts for a specified customer.
+ */
 public class CoinsetterAccountList {
 
   private final CoinsetterAccount[] accountList;

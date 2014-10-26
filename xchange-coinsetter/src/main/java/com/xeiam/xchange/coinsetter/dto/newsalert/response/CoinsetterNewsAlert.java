@@ -6,6 +6,9 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * A new alert.
+ */
 public class CoinsetterNewsAlert {
 
   private final String message;

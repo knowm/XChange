@@ -2,6 +2,9 @@ package com.xeiam.xchange.coinsetter.dto.order.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * A list of orders.
+ */
 public class CoinsetterOrderList {
 
   private final CoinsetterOrder[] orderList;

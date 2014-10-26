@@ -2,6 +2,9 @@ package com.xeiam.xchange.coinsetter.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Coinsetter generic response.
+ */
 public class CoinsetterResponse {
 
   private final String message;

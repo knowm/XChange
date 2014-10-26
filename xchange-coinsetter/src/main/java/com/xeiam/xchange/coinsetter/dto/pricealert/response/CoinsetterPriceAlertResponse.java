@@ -5,6 +5,9 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.coinsetter.dto.CoinsetterResponse;
 
+/**
+ * Response of adding price alert.
+ */
 public class CoinsetterPriceAlertResponse extends CoinsetterResponse {
 
   private final UUID uuid;

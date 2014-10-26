@@ -22,7 +22,7 @@ import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientS
 import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
- * Coinsetter client session manager.
+ * Client session manager.
  */
 public class CoinsetterClientSessionService extends BaseExchangeService {
 

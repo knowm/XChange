@@ -2,6 +2,9 @@ package com.xeiam.xchange.coinsetter.dto.pricealert.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Response of remove a price alert.
+ */
 public class CoinsetterRemovePriceAlertResponse {
 
   private final String status;

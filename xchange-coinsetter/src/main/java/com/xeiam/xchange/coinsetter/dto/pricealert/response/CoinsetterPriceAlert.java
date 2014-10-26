@@ -7,6 +7,9 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * A price alert.
+ */
 public class CoinsetterPriceAlert {
 
   private final UUID uuid;

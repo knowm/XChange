@@ -13,6 +13,9 @@ import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderResponse;
 import com.xeiam.xchange.service.BaseExchangeService;
 
+/**
+ * Order raw service.
+ */
 public class CoinsetterOrderServiceRaw extends BaseExchangeService {
 
   private final com.xeiam.xchange.coinsetter.rs.CoinsetterOrder order;

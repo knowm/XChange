@@ -11,6 +11,9 @@ import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientS
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 
+/**
+ * Account service.
+ */
 public class CoinsetterAccountService extends CoinsetterBasePollingService implements PollingAccountService {
 
   private final CoinsetterAccountServiceRaw accountServiceRaw;

@@ -10,6 +10,9 @@ import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.newsalert.response.CoinsetterNewsAlertList;
 import com.xeiam.xchange.service.BaseExchangeService;
 
+/**
+ * News alert raw service.
+ */
 public class CoinsetterNewsAlertServiceRaw extends BaseExchangeService {
 
   private final com.xeiam.xchange.coinsetter.rs.CoinsetterNewsAlert newsAlert;

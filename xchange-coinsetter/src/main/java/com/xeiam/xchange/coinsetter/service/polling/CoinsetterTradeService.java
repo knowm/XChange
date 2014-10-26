@@ -19,6 +19,9 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
+/**
+ * Trade service.
+ */
 public class CoinsetterTradeService extends CoinsetterBasePollingService implements PollingTradeService {
 
   private final CoinsetterOrderServiceRaw orderServiceRaw;

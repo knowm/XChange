@@ -11,6 +11,9 @@ import com.xeiam.xchange.coinsetter.dto.financialtransaction.CoinsetterFinancial
 import com.xeiam.xchange.coinsetter.dto.financialtransaction.CoinsetterFinancialTransactionList;
 import com.xeiam.xchange.service.BaseExchangeService;
 
+/**
+ * Financial transaction raw service.
+ */
 public class CoinsetterFinancialTransactionServiceRaw extends BaseExchangeService {
 
   private final com.xeiam.xchange.coinsetter.rs.CoinsetterFinancialTransaction financialTransaction;

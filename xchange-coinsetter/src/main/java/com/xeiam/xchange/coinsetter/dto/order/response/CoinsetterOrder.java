@@ -6,6 +6,9 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * An order.
+ */
 public class CoinsetterOrder {
 
   private final UUID uuid;

@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * A list of financial transactions for a specified account ID
+ */
 public class CoinsetterFinancialTransactionList {
 
   private final CoinsetterFinancialTransaction[] financialTransactionList;

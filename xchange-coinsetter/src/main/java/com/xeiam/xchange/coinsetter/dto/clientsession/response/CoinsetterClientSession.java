@@ -5,6 +5,9 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.coinsetter.dto.CoinsetterResponse;
 
+/**
+ * Response for login as a customer and create a session.
+ */
 public class CoinsetterClientSession extends CoinsetterResponse {
 
   private final UUID uuid;

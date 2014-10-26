@@ -2,6 +2,9 @@ package com.xeiam.xchange.coinsetter.dto.pricealert.request;
 
 import java.math.BigDecimal;
 
+/**
+ * Request for adding a price alert.
+ */
 public class CoinsetterPriceAlertRequest {
 
   private final String type;

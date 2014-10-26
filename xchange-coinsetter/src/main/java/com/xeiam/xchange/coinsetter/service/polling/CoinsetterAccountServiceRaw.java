@@ -11,6 +11,9 @@ import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccount;
 import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccountList;
 import com.xeiam.xchange.service.BaseExchangeService;
 
+/**
+ * Account raw service.
+ */
 public class CoinsetterAccountServiceRaw extends BaseExchangeService {
 
   private final com.xeiam.xchange.coinsetter.rs.CoinsetterAccount account;
