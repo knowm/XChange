@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinsetter;
+package com.xeiam.xchange.coinsetter.rs;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterLast;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterListDepth;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPairedDepth;
@@ -18,11 +19,9 @@ import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
 
 /**
  * RESTful/JSON API: Market Data.
- * @deprecated Use {@link com.xeiam.xchange.coinsetter.rs.CoinsetterMarketData} instead.
  */
 @Path("/marketdata")
 @Produces(MediaType.APPLICATION_JSON)
-@Deprecated
 public interface CoinsetterMarketData {
 
   @GET

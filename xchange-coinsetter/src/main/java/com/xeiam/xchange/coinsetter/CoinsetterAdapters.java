@@ -2,21 +2,29 @@ package com.xeiam.xchange.coinsetter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccount;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterListDepth;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPair;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPairedDepth;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTrade;
+import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrder;
+import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
  * Various adapters for converting from Coinsetter DTOs to XChange DTOs.
@@ -25,6 +33,26 @@ public final class CoinsetterAdapters {
 
   private CoinsetterAdapters() {
 
+  }
+
+  public static CurrencyPair adaptCurrencyPair(String symbol) {
+
+    return new CurrencyPair(symbol.substring(0, 3), symbol.substring(3, 6));
+  }
+
+  public static String adaptSymbol(CurrencyPair currencyPair) {
+
+    return currencyPair.baseSymbol + currencyPair.counterSymbol;
+  }
+
+  public static OrderType adaptSide(String side) {
+
+    return "BUY".equals(side) ? OrderType.BID : OrderType.ASK;
+  }
+
+  public static String adaptSide(OrderType orderType) {
+
+    return orderType == OrderType.BID ? "BUY" : "SELL";
   }
 
   /**
@@ -102,4 +130,25 @@ public final class CoinsetterAdapters {
 
     return new OrderBook(timeStamp, askOrders, bidOrders);
   }
+
+  public static AccountInfo adaptAccountInfo(String username, CoinsetterAccount account) {
+
+    return new AccountInfo(username, Arrays.asList(new Wallet(Currencies.BTC, account.getBtcBalance()), new Wallet(Currencies.USD, account.getUsdBalance())));
+  }
+
+  public static OpenOrders adaptOpenOrders(CoinsetterOrderList orderList) {
+
+    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    for (CoinsetterOrder order : orderList.getOrderList()) {
+      openOrders.add(adaptLimitOrder(order));
+    }
+    return new OpenOrders(openOrders);
+  }
+
+  public static LimitOrder adaptLimitOrder(CoinsetterOrder order) {
+
+    return new LimitOrder.Builder(adaptSide(order.getSide()), adaptCurrencyPair(order.getSymbol())).setId(order.getUuid().toString()).setTimestamp(order.getCreateDate()).setLimitPrice(
+        order.getRequestedPrice()).setTradableAmount(order.getOpenQuantity()).build();
+  }
+
 }

@@ -24,9 +24,9 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-public class MarketDataDemo {
+public class CoinsetterMarketDataDemo {
 
-  private static final Logger log = LoggerFactory.getLogger(MarketDataDemo.class);
+  private static final Logger log = LoggerFactory.getLogger(CoinsetterMarketDataDemo.class);
 
   public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 

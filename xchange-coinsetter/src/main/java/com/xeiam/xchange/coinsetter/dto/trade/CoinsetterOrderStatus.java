@@ -3,6 +3,11 @@ package com.xeiam.xchange.coinsetter.dto.trade;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import com.xeiam.xchange.coinsetter.service.streaming.CoinsetterSocketIOServiceRaw;
+
+/**
+ * Order status pushed from {@link CoinsetterSocketIOServiceRaw}.
+ */
 public class CoinsetterOrderStatus {
 
   private final UUID uuid;
