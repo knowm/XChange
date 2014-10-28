@@ -40,7 +40,7 @@ public final class OkCoinAdapters {
   }
 
   private static BigDecimal getOrZero(String key, Map<String, BigDecimal> map) {
-
+    
     if (map != null && map.containsKey(key)) {
       return map.get(key);
     }
@@ -50,7 +50,7 @@ public final class OkCoinAdapters {
   }
 
   public static String adaptSymbol(CurrencyPair currencyPair) {
-
+    
     return currencyPair.baseSymbol.toLowerCase() + "_" + currencyPair.counterSymbol.toLowerCase();
   }
 
@@ -117,11 +117,15 @@ public final class OkCoinAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {
-
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    
     for (int i = 0; i < orderResults.size(); i++) {
       OkCoinOrderResult orderResult = orderResults.get(i);
-      openOrders.addAll(adaptOpenOrders(orderResult));
+      OkCoinOrder[] orders = orderResult.getOrders();
+      for( int j = 0; j < orders.length; j++) {
+        OkCoinOrder singleOrder = orders[j];
+        openOrders.add(adaptOpenOrder(singleOrder));
+      }
     }
     return new OpenOrders(openOrders);
   }
@@ -161,18 +165,18 @@ public final class OkCoinAdapters {
     return new Trade(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), trade.getTid());
   }
 
-  private static List<LimitOrder> adaptOpenOrders(OkCoinOrderResult orderResult) {
-
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>(orderResult.getOrders().length);
-    for (int i = 0; i < orderResult.getOrders().length; i++) {
-      OkCoinOrder order = orderResult.getOrders()[i];
-      LimitOrder openOrder = adaptOpenOrder(order);
-      if (openOrder != null) {
-        openOrders.add(openOrder);
-      }
-    }
-    return openOrders;
-  }
+//  private static List<LimitOrder> adaptOpenOrders(OkCoinOrderResult orderResult) {
+//
+//    List<LimitOrder> openOrders = new ArrayList<LimitOrder>(orderResult.getOrders().length);
+//    for (int i = 0; i < orderResult.getOrders().length; i++) {
+//      OkCoinOrder order = orderResult.getOrders()[i];
+//      LimitOrder openOrder = adaptOpenOrder(order);
+//      if (openOrder != null) {
+//        openOrders.add(openOrder);
+//      }
+//    }
+//    return openOrders;
+//  }
 
   private static LimitOrder adaptOpenOrder(OkCoinOrder order) {
 
