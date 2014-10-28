@@ -19,6 +19,9 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Properties;
+
+import static com.xeiam.xchange.utils.ConfigurationManager.CFG_MGR;
 
 /**
  * @author Rafał Krupiński
@@ -26,8 +29,6 @@ import java.math.BigDecimal;
 public class ANXMarketMetadataService extends ANXBasePollingService implements MarketMetadataService {
   private final ANXV2 anxV2;
   private final ANXV2Digest signatureCreator;
-  private static final BigDecimal MAKER_DISCOUNT = new BigDecimal(".5");
-
 
   public ANXMarketMetadataService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
@@ -41,28 +42,30 @@ public class ANXMarketMetadataService extends ANXBasePollingService implements M
   @Override
   public MarketMetadata getMarketMetadata(CurrencyPair pair) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    int amountScale = getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
+    Properties properties = CFG_MGR.getProperties();
+    int amountScale = getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT, properties);
     String amountMinimumStr = properties.getProperty(PREKEY_ORDER_SIZE_MIN + pair.baseSymbol);
     if (amountMinimumStr == null)
       properties.getProperty(KEY_ORDER_SIZE_MIN_DEFAULT);
     BigDecimal amountMinimum = new BigDecimal(amountMinimumStr).setScale(amountScale);
 
-    int priceScale = getIntProperty(KEY_ORDER_PRICE_SCALE_DEFAULT);
+    int priceScale = getIntProperty(KEY_ORDER_PRICE_SCALE_DEFAULT, properties);
 
     BigDecimal orderFee = getANXAccountInfo().getTradeFee().movePointLeft(2);
-    if(!getBoolProperty(KEY_ORDER_FEE_POLICY_MAKER)) {
-      orderFee = orderFee.multiply(MAKER_DISCOUNT);
+    if(!getBoolProperty(KEY_ORDER_FEE_POLICY_MAKER, properties)) {
+
+      orderFee = orderFee.multiply(new BigDecimal(properties.getProperty(KEY_ORDER_FEE_DISCOUNT)));
     }
 
     return new BaseMarketMetadata(amountMinimum, priceScale, orderFee);
   }
 
-  protected int getIntProperty(String key) {
+  protected int getIntProperty(String key, Properties properties) {
 
     return Integer.parseInt(properties.getProperty(key));
   }
 
-  protected boolean getBoolProperty(String key){
+  protected boolean getBoolProperty(String key, Properties properties){
 
     String str = properties.getProperty(key);
     return str != null && Boolean.parseBoolean(str);

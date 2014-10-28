@@ -15,9 +15,8 @@ import si.mazi.rescu.SynchronizedValueFactory;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-/**
- * @author Rafał Krupiński
- */
+import static com.xeiam.xchange.utils.ConfigurationManager.CFG_MGR;
+
 public class KrakenMarketMetadataService extends KrakenBasePollingService<KrakenAuthenticated> implements MarketMetadataService {
 
   public KrakenMarketMetadataService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
@@ -35,7 +34,7 @@ public class KrakenMarketMetadataService extends KrakenBasePollingService<Kraken
     // we could either make anther call to KrakenAuthenticated.tradeVolume() or just return the highest fee
     BigDecimal fee = getTradeVolume(pair).getFees().get(krakenPair).getFee().movePointLeft(2);
 
-    BigDecimal amountMinimum = new BigDecimal(properties.getProperty(KEY_ORDER_SIZE_MIN_DEFAULT)).setScale(assetPair.getVolumeLotScale());
+    BigDecimal amountMinimum = new BigDecimal(CFG_MGR.getProperties().getProperty(KEY_ORDER_SIZE_MIN_DEFAULT)).setScale(assetPair.getVolumeLotScale());
     return new BaseMarketMetadata(amountMinimum, assetPair.getPairScale(), fee);
   }
 

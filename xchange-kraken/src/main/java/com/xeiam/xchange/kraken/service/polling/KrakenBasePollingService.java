@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.Set;
 
 import si.mazi.rescu.ParamsDigest;
@@ -30,6 +29,9 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeService implements BasePollingService {
 
+  protected static final String PREFIX = "kraken";
+  protected static final String KEY_ORDER_SIZE_MIN_DEFAULT = PREFIX + SUF_ORDER_SIZE_MIN_DEFAULT;
+
   private final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
   private final Set<String> FIAT_CURRENCIES = new HashSet<String>();
   private final Set<String> DIGITAL_CURRENCIES = new HashSet<String>();
@@ -37,7 +39,6 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
   protected T kraken;
   protected ParamsDigest signatureCreator;
   protected SynchronizedValueFactory<Long> nonce;
-  protected final Properties properties = new Properties();
 
   /**
    * Constructor
@@ -47,12 +48,6 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
   public KrakenBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
     super(exchangeSpecification);
-
-    try {
-      properties.load(Kraken.class.getResourceAsStream("Kraken.properties"));
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    }
 
     kraken = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
     signatureCreator = KrakenDigest.createInstance(exchangeSpecification.getSecretKey());

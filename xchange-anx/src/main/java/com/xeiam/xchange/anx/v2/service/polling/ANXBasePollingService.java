@@ -1,14 +1,11 @@
 package com.xeiam.xchange.anx.v2.service.polling;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.anx.v2.ANXV2;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
@@ -22,6 +19,14 @@ import com.xeiam.xchange.service.polling.BasePollingService;
  * </ul>
  */
 public class ANXBasePollingService extends BaseExchangeService implements BasePollingService {
+
+  protected static final String PREFIX = "anx";
+  protected static final String KEY_ORDER_SIZE_MIN_DEFAULT = PREFIX + SUF_ORDER_SIZE_MIN_DEFAULT;
+  protected static final String KEY_ORDER_SIZE_SCALE_DEFAULT = PREFIX + SUF_ORDER_SIZE_SCALE_DEFAULT ;
+  protected static final String PREKEY_ORDER_SIZE_MIN = PREFIX + IN_ORDER_SIZE_MIN;
+  protected static final String KEY_ORDER_PRICE_SCALE_DEFAULT = PREFIX + SUF_ORDER_PRICE_SCALE_DEFAULT;
+  protected static final String KEY_ORDER_FEE_POLICY_MAKER = PREFIX + ".order.feePolicy.maker";
+  protected static final String KEY_ORDER_FEE_DISCOUNT = PREFIX + ".order.fee.makerDiscount";
 
   static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
@@ -141,8 +146,6 @@ public class ANXBasePollingService extends BaseExchangeService implements BasePo
 
   private final SynchronizedValueFactory<Long> nonceFactory;
 
-  protected final Properties properties = new Properties();
-
   /**
    * Constructor
    *
@@ -152,11 +155,6 @@ public class ANXBasePollingService extends BaseExchangeService implements BasePo
 
     super(exchangeSpecification);
     this.nonceFactory = nonceFactory;
-    try {
-      properties.load(ANXV2.class.getResourceAsStream("ANXV2.properties"));
-    } catch (IOException e) {
-      throw new IllegalStateException(e);
-    }
   }
 
   @Override

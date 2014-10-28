@@ -8,44 +8,112 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
 
+import static org.apache.commons.io.IOUtils.closeQuietly;
+import static org.apache.commons.io.IOUtils.copy;
+
 public class ConfigurationManager {
   final public static ConfigurationManager CFG_MGR = new ConfigurationManager();
 
   final private static Logger log = LoggerFactory.getLogger(ConfigurationManager.class);
 
+  final private static String CFG_FILE_NAME = "xchange.properties";
+
   final private static URL DEFAULT_REMOTE;
 
   static {
+
     try {
-      DEFAULT_REMOTE = new URL("https://github.com/timmolter/XChange/raw/develop/xchange-core/src/main/resources/configuration.properties");
+      DEFAULT_REMOTE = new URL("https://github.com/timmolter/XChange/raw/develop/xchange-core/src/main/resources/" + CFG_FILE_NAME);
     } catch (MalformedURLException e) {
       throw new ExceptionInInitializerError(e);
     }
   }
 
+  /**
+   * System property containing local override path for the configuration
+   */
+  public static final String KEY_OVERRIDE_PATH = "xchange.config.override";
+
+  /**
+   * System property containing local storage path for the configuration update file
+   */
+  public static final String KEY_LOCAL_PATH = "xchange.config.local";
+
+  /**
+   * System property containing URL for the remote configuration
+   */
+  public static final String KEY_REMOTE_URL = "xchange.config.remote";
+
   private File override;
+
   private File local;
 
   private URL remote;
 
   private Properties properties;
 
-  public void init() {
-    override = getFile("xchange.configuration.override", override, true);
+  /**
+   * If the override file is configured, either by a system property or programmatically, the properties
+   * are loaded from the file and exposed to the exchange clients.
+   *
+   * If not, but the remote update was configured, either by a system property or programmatically,
+   * remote configuration is downloaded, stored locally and used to load the configuration.
+   *
+   * If not, the internal configuration file, kept in xchange-core, is used.
+   *
+   * Exchange client implementation should never call this method directly.
+   *
+   * Note: downloading a file over the Internet may take significant amount of time.
+   *
+   * @return false if update was not configured
+   */
+  public boolean update() throws IOException {
+    override = getFile(KEY_OVERRIDE_PATH, override, true);
 
     if (override != null) {
       log.debug("Override file: {}; updating disabled");
       init(override);
-      return;
+      return false;
     }
 
-    local = getFile("xchange.configuration.local", local, false);
+    local = getFile(KEY_LOCAL_PATH, local, false);
     if (local != null) {
-      remote = getRemote("xchange.configuration.remote", remote);
-      update();
+      remote = getRemote(KEY_REMOTE_URL, remote);
+      updateRemote();
       init(local);
+      return true;
     } else {
       initInternal();
+      return false;
+    }
+  }
+
+  /**
+   * Returns the current configuration properties. May never return null.
+   *
+   * @return the current configuration properties. Never a null.
+   */
+  public Properties getProperties() {
+    if (properties == null) {
+      try {
+        update();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return properties;
+  }
+
+  private void updateRemote() throws IOException {
+    InputStream input = null;
+    OutputStream output = null;
+    try {
+      input = remote.openStream();
+      output = new FileOutputStream(local);
+      copy(input, output);
+    } finally {
+      closeQuietly(input);
+      closeQuietly(output);
     }
   }
 
@@ -75,28 +143,25 @@ public class ConfigurationManager {
     }
   }
 
-  public void update() {
-  }
-
   private void initInternal() throws IOException {
-
-    InputStream input = getClass().getClassLoader().getResourceAsStream("configuration.properties");
-    if (input == null)
-      throw new IllegalStateException("Configuration resource not found");
-
+    InputStream input = null;
     try {
+      input = getClass().getClassLoader().getResourceAsStream(CFG_FILE_NAME);
+      if (input == null)
+        throw new IllegalStateException("Configuration resource not found");
       init(input);
     } finally {
-      input.close();
+      closeQuietly(input);
     }
   }
 
   private void init(File file) throws IOException {
-    InputStream input = new FileInputStream(file);
+    InputStream input = null;
     try {
+      input = new FileInputStream(file);
       init(input);
     } finally {
-      input.close();
+      closeQuietly(input);
     }
   }
 
@@ -116,17 +181,5 @@ public class ConfigurationManager {
 
   public void setRemote(URL remote) {
     this.remote = remote;
-  }
-
-  /**
-   * Returns the current configuration properties. May never return null.
-   *
-   * @return the current configuration properties. Never a null.
-   */
-  public Properties getProperties() {
-    if (properties == null) {
-      init();
-    }
-    return properties;
   }
 }
