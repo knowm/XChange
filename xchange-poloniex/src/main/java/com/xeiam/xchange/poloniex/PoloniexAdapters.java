@@ -10,7 +10,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -44,7 +43,7 @@ public class PoloniexAdapters {
 
     Date timestamp = new Date();
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
 
   }
 
@@ -68,7 +67,7 @@ public class PoloniexAdapters {
 
     for (PoloniexLevel level : levels) {
 
-      LimitOrder limitOrder = new LimitOrder.Builder(orderType, currencyPair).setTradableAmount(level.getAmount()).setLimitPrice(level.getLimit()).build();
+      LimitOrder limitOrder = new LimitOrder.Builder(orderType, currencyPair).tradableAmount(level.getAmount()).limitPrice(level.getLimit()).build();
       orders.add(limitOrder);
     }
     return orders;
@@ -131,7 +130,7 @@ public class PoloniexAdapters {
     OrderType type = openOrder.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
     Date timestamp = PoloniexUtils.stringToDate(openOrder.getDate());
     LimitOrder limitOrder =
-        new LimitOrder.Builder(type, currencyPair).setLimitPrice(openOrder.getRate()).setTradableAmount(openOrder.getAmount()).setId(openOrder.getOrderNumber()).setTimestamp(timestamp).build();
+        new LimitOrder.Builder(type, currencyPair).limitPrice(openOrder.getRate()).tradableAmount(openOrder.getAmount()).id(openOrder.getOrderNumber()).timestamp(timestamp).build();
 
     return limitOrder;
   }

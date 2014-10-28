@@ -10,7 +10,6 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -52,8 +51,8 @@ public final class JustcoinAdapters {
 
     for (final JustcoinTicker justcointTicker : justcoinTickers) {
       if (justcointTicker.getId().equals(JustcoinUtils.getApiMarket(currencyPair.baseSymbol, currencyPair.counterSymbol))) {
-        return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(justcointTicker.getLast()).withBid(justcointTicker.getBid()).withAsk(justcointTicker.getAsk()).withHigh(
-            justcointTicker.getHigh()).withLow(justcointTicker.getLow()).withVolume(justcointTicker.getVolume()).build();
+        return new Ticker.Builder().currencyPair(currencyPair).last(justcointTicker.getLast()).bid(justcointTicker.getBid()).ask(justcointTicker.getAsk()).high(
+                justcointTicker.getHigh()).low(justcointTicker.getLow()).volume(justcointTicker.getVolume()).build();
       }
     }
 

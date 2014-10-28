@@ -18,7 +18,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -87,8 +86,8 @@ public final class CoinbaseAdapters {
   public static Ticker adaptTicker(final CurrencyPair currencyPair, final CoinbasePrice buyPrice, final CoinbasePrice sellPrice, final CoinbaseMoney spotRate,
       final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory) {
 
-    final TickerBuilder tickerBuilder =
-        TickerBuilder.newInstance().withCurrencyPair(currencyPair).withAsk(buyPrice.getSubTotal().getAmount()).withBid(sellPrice.getSubTotal().getAmount()).withLast(spotRate.getAmount());
+    final Ticker.Builder tickerBuilder =
+        new Ticker.Builder().currencyPair(currencyPair).ask(buyPrice.getSubTotal().getAmount()).bid(sellPrice.getSubTotal().getAmount()).last(spotRate.getAmount());
 
     // Get the 24 hour high and low spot price if the history is provided.
     if (coinbaseSpotPriceHistory != null) {
@@ -109,7 +108,7 @@ public final class CoinbaseAdapters {
         else if (spotPriceAmount.compareTo(observedHigh) > 0)
           observedHigh = spotPriceAmount;
       }
-      tickerBuilder.withHigh(observedHigh).withLow(observedLow);
+      tickerBuilder.high(observedHigh).low(observedLow);
     }
 
     return tickerBuilder.build();

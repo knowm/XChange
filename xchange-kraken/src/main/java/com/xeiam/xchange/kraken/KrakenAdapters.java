@@ -16,7 +16,6 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -96,14 +95,14 @@ public class KrakenAdapters {
 
   public static Ticker adaptTicker(KrakenTicker krakenTicker, CurrencyPair currencyPair) {
 
-    TickerBuilder builder = new TickerBuilder();
-    builder.withAsk(krakenTicker.getAsk().getPrice());
-    builder.withBid(krakenTicker.getBid().getPrice());
-    builder.withLast(krakenTicker.getClose().getPrice());
-    builder.withHigh(krakenTicker.get24HourHigh());
-    builder.withLow(krakenTicker.get24HourLow());
-    builder.withVolume(krakenTicker.get24HourVolume());
-    builder.withCurrencyPair(currencyPair);
+    Ticker.Builder builder = new Ticker.Builder();
+    builder.ask(krakenTicker.getAsk().getPrice());
+    builder.bid(krakenTicker.getBid().getPrice());
+    builder.last(krakenTicker.getClose().getPrice());
+    builder.high(krakenTicker.get24HourHigh());
+    builder.low(krakenTicker.get24HourLow());
+    builder.volume(krakenTicker.get24HourVolume());
+    builder.currencyPair(currencyPair);
     return builder.build();
   }
 

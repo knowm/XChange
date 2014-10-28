@@ -55,7 +55,7 @@ public class PoloniexTradeDemo {
     long endTime = startTime + 4 * 60 * 60;
     System.out.println(tradeService.getTradeHistory(currencyPair, startTime, endTime));
 
-    LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).setTradableAmount(new BigDecimal(".01")).setLimitPrice(xmrBuyRate).build();
+    LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).tradableAmount(new BigDecimal(".01")).limitPrice(xmrBuyRate).build();
     String orderId = tradeService.placeLimitOrder(order);
     System.out.println("Placed order #" + orderId);
 
@@ -85,7 +85,7 @@ public class PoloniexTradeDemo {
     long endTime = new Date().getTime() / 1000;
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, endTime)));
 
-    LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).setTradableAmount(new BigDecimal("1")).setLimitPrice(xmrBuyRate).build();
+    LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).tradableAmount(new BigDecimal("1")).limitPrice(xmrBuyRate).build();
     String orderId = tradeService.buy(order);
     System.out.println("Placed order #" + orderId);
 

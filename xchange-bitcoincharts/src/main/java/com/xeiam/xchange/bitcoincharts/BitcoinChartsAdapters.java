@@ -6,7 +6,6 @@ import java.util.Date;
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 
 /**
  * Various adapters for converting from BitcoinCharts DTOs to XChange DTOs
@@ -40,7 +39,7 @@ public final class BitcoinChartsAdapters {
         BigDecimal volume = bitcoinChartsTickers[i].getVolume();
         Date timeStamp = new Date(bitcoinChartsTickers[i].getLatestTrade() * 1000L);
 
-        return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timeStamp).build();
+        return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timeStamp).build();
 
       }
     }

@@ -17,7 +17,6 @@ import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -138,7 +137,7 @@ public final class CryptonitAdapters {
     BigDecimal ask = rate.getAsk();
     BigDecimal volume = cryptonitTicker.getVolume().getVolume(currencyPair.baseSymbol);
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withBid(bid).withAsk(ask).withVolume(volume).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(bid).ask(ask).volume(volume).build();
   }
 
   public static Collection<CurrencyPair> adaptCurrencyPairs(List<List<String>> tradingPairs) {

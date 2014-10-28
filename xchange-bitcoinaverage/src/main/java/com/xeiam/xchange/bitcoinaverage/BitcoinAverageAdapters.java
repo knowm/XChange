@@ -6,7 +6,6 @@ import java.util.Date;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 
 /**
  * Various adapters for converting from BitcoinAverage DTOs to XChange DTOs
@@ -36,7 +35,7 @@ public final class BitcoinAverageAdapters {
     Date timestamp = bitcoinAverageTicker.getTimestamp();
     BigDecimal volume = bitcoinAverageTicker.getVolume();
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withVolume(volume).withTimestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume).timestamp(timestamp).build();
   }
 
 }

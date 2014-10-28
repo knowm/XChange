@@ -103,7 +103,7 @@ public final class Ticker {
    * </ul>
    *  
    */
-  public static class TickerBuilder {
+  public static class Builder {
 
     private CurrencyPair currencyPair;
     private BigDecimal last;
@@ -113,14 +113,6 @@ public final class Ticker {
     private BigDecimal low;
     private BigDecimal volume;
     private Date timestamp;
-
-    /**
-     * @return A new instance of the builder
-     */
-    public static TickerBuilder newInstance() {
-
-      return new TickerBuilder();
-    }
 
     // Prevent repeat builds
     private boolean isBuilt = false;
@@ -143,49 +135,49 @@ public final class Ticker {
       }
     }
 
-    public TickerBuilder withCurrencyPair(CurrencyPair currencyPair) {
+    public Builder currencyPair(CurrencyPair currencyPair) {
 
       this.currencyPair = currencyPair;
       return this;
     }
 
-    public TickerBuilder withLast(BigDecimal last) {
+    public Builder last(BigDecimal last) {
 
       this.last = last;
       return this;
     }
 
-    public TickerBuilder withBid(BigDecimal bid) {
+    public Builder bid(BigDecimal bid) {
 
       this.bid = bid;
       return this;
     }
 
-    public TickerBuilder withAsk(BigDecimal ask) {
+    public Builder ask(BigDecimal ask) {
 
       this.ask = ask;
       return this;
     }
 
-    public TickerBuilder withHigh(BigDecimal high) {
+    public Builder high(BigDecimal high) {
 
       this.high = high;
       return this;
     }
 
-    public TickerBuilder withLow(BigDecimal low) {
+    public Builder low(BigDecimal low) {
 
       this.low = low;
       return this;
     }
 
-    public TickerBuilder withVolume(BigDecimal volume) {
+    public Builder volume(BigDecimal volume) {
 
       this.volume = volume;
       return this;
     }
 
-    public TickerBuilder withTimestamp(Date timestamp) {
+    public Builder timestamp(Date timestamp) {
 
       this.timestamp = timestamp;
       return this;

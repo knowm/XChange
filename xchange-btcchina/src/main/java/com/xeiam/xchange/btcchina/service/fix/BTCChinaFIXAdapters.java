@@ -24,7 +24,6 @@ import quickfix.fix44.MarketDataSnapshotFullRefresh;
 
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 
 /**
  * Various adapters for converting from {@link Message} to XChange DTOs.
@@ -36,10 +35,10 @@ public final class BTCChinaFIXAdapters {
 
   public static Ticker adaptTicker(MarketDataSnapshotFullRefresh message) throws FieldNotFound {
 
-    TickerBuilder tickerBuilder = TickerBuilder.newInstance();
+    Ticker.Builder tickerBuilder = new Ticker.Builder();
 
     String symbol = message.getSymbol().getValue();
-    tickerBuilder.withCurrencyPair(BTCChinaAdapters.adaptCurrencyPair(symbol));
+    tickerBuilder.currencyPair(BTCChinaAdapters.adaptCurrencyPair(symbol));
 
     int noMDEntries = message.getNoMDEntries().getValue();
     for (int i = 1; i <= noMDEntries; i++) {
@@ -53,9 +52,9 @@ public final class BTCChinaFIXAdapters {
 
   public static Ticker adaptUpdate(Ticker ticker, MarketDataIncrementalRefresh message) throws FieldNotFound {
 
-    TickerBuilder tickerBuilder =
-        TickerBuilder.newInstance().withCurrencyPair(ticker.getCurrencyPair()).withTimestamp(ticker.getTimestamp()).withBid(ticker.getBid()).withAsk(ticker.getAsk()).withLast(ticker.getLast())
-            .withHigh(ticker.getHigh()).withLow(ticker.getLow()).withVolume(ticker.getVolume());
+    Ticker.Builder tickerBuilder =
+        new Ticker.Builder().currencyPair(ticker.getCurrencyPair()).timestamp(ticker.getTimestamp()).bid(ticker.getBid()).ask(ticker.getAsk()).last(ticker.getLast())
+            .high(ticker.getHigh()).low(ticker.getLow()).volume(ticker.getVolume());
 
     int noMDEntries = message.getNoMDEntries().getValue();
     for (int i = 1; i <= noMDEntries; i++) {
@@ -66,7 +65,7 @@ public final class BTCChinaFIXAdapters {
     return tickerBuilder.build();
   }
 
-  private static void adapt(TickerBuilder tickerBuilder, Group group) throws FieldNotFound {
+  private static void adapt(Ticker.Builder tickerBuilder, Group group) throws FieldNotFound {
 
     char type = group.getChar(MDEntryType.FIELD);
 
@@ -75,33 +74,33 @@ public final class BTCChinaFIXAdapters {
     switch (type) {
     case MDEntryType.BID:
       px = group.getDecimal(MDEntryPx.FIELD);
-      tickerBuilder.withBid(px);
+      tickerBuilder.bid(px);
       break;
     case MDEntryType.OFFER:
       px = group.getDecimal(MDEntryPx.FIELD);
-      tickerBuilder.withAsk(px);
+      tickerBuilder.ask(px);
       break;
     case MDEntryType.TRADE:
       px = group.getDecimal(MDEntryPx.FIELD);
-      tickerBuilder.withLast(px);
+      tickerBuilder.last(px);
       break;
     case MDEntryType.CLOSING_PRICE:
       // no closing price in XChange's ticker
       break;
     case MDEntryType.TRADING_SESSION_HIGH_PRICE:
       px = group.getDecimal(MDEntryPx.FIELD);
-      tickerBuilder.withHigh(px);
+      tickerBuilder.high(px);
       break;
     case MDEntryType.TRADING_SESSION_LOW_PRICE:
       px = group.getDecimal(MDEntryPx.FIELD);
-      tickerBuilder.withLow(px);
+      tickerBuilder.low(px);
       break;
     case MDEntryType.TRADING_SESSION_VWAP_PRICE:
       // no vwap price in XChange's ticker
       break;
     case MDEntryType.TRADE_VOLUME:
       size = group.getDecimal(MDEntrySize.FIELD);
-      tickerBuilder.withVolume(size);
+      tickerBuilder.volume(size);
 
       break;
     }
@@ -118,7 +117,7 @@ public final class BTCChinaFIXAdapters {
     dateCal.set(SECOND, timeCal.get(SECOND));
     dateCal.set(MILLISECOND, timeCal.get(MILLISECOND));
 
-    tickerBuilder.withTimestamp(dateCal.getTime());
+    tickerBuilder.timestamp(dateCal.getTime());
   }
 
 }
