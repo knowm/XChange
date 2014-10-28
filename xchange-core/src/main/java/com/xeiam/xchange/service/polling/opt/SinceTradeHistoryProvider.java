@@ -6,7 +6,7 @@ import com.xeiam.xchange.dto.trade.UserTrades;
 import java.io.IOException;
 
 /**
- * Optional interface implemented by clients that support getting trade history limited to some number of entries
+ * Optional interface implemented by exchange clients that support getting trade history starting with the timestamp or the ID of the previous trade.
  */
 public interface SinceTradeHistoryProvider {
 
