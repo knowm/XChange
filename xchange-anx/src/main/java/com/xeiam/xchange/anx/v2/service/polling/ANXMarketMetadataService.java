@@ -4,14 +4,14 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.anx.v2.ANXAdapters;
 import com.xeiam.xchange.anx.v2.ANXV2;
 import com.xeiam.xchange.anx.v2.dto.ANXException;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXAccountInfoWrapper;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXMarketMetadata;
 import com.xeiam.xchange.anx.v2.service.ANXV2Digest;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.BaseMarketMetadata;
-import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.service.polling.MarketMetadataService;
 import com.xeiam.xchange.utils.Assert;
 import si.mazi.rescu.RestProxyFactory;
@@ -40,24 +40,30 @@ public class ANXMarketMetadataService extends ANXBasePollingService implements M
   }
 
   @Override
-  public MarketMetadata getMarketMetadata(CurrencyPair pair) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public ANXMarketMetadata getMarketMetadata(CurrencyPair pair) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     Properties properties = CFG_MGR.getProperties();
     int amountScale = getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT, properties);
+
     String amountMinimumStr = properties.getProperty(PREKEY_ORDER_SIZE_MIN + pair.baseSymbol);
     if (amountMinimumStr == null)
-      properties.getProperty(KEY_ORDER_SIZE_MIN_DEFAULT);
+      amountMinimumStr = properties.getProperty(KEY_ORDER_SIZE_MIN_DEFAULT);
     BigDecimal amountMinimum = new BigDecimal(amountMinimumStr).setScale(amountScale);
+
+    String amountMaximumStr = properties.getProperty(PREKEY_ORDER_SIZE_MAX + pair.baseSymbol);
+    if (amountMaximumStr == null)
+      amountMaximumStr = properties.getProperty(KEY_ORDER_SIZE_MAX_DEFAULT);
+    BigDecimal amountMaximum = new BigDecimal(amountMaximumStr).setScale(amountScale);
 
     int priceScale = getIntProperty(KEY_ORDER_PRICE_SCALE_DEFAULT, properties);
 
-    BigDecimal orderFee = getANXAccountInfo().getTradeFee().movePointLeft(2);
-    if(!getBoolProperty(KEY_ORDER_FEE_POLICY_MAKER, properties)) {
+    BigDecimal orderFee = ANXAdapters.percentToFactor(getANXAccountInfo().getTradeFee());
 
+    if(!getBoolProperty(KEY_ORDER_FEE_POLICY_MAKER, properties)) {
       orderFee = orderFee.multiply(new BigDecimal(properties.getProperty(KEY_ORDER_FEE_DISCOUNT)));
     }
 
-    return new BaseMarketMetadata(amountMinimum, priceScale, orderFee);
+    return new ANXMarketMetadata(amountMinimum, amountMaximum, priceScale, orderFee);
   }
 
   protected int getIntProperty(String key, Properties properties) {

@@ -22,8 +22,10 @@ public class ANXBasePollingService extends BaseExchangeService implements BasePo
 
   protected static final String PREFIX = "anx";
   protected static final String KEY_ORDER_SIZE_MIN_DEFAULT = PREFIX + SUF_ORDER_SIZE_MIN_DEFAULT;
-  protected static final String KEY_ORDER_SIZE_SCALE_DEFAULT = PREFIX + SUF_ORDER_SIZE_SCALE_DEFAULT ;
+  protected static final String KEY_ORDER_SIZE_SCALE_DEFAULT = PREFIX + SUF_ORDER_SIZE_SCALE_DEFAULT;
   protected static final String PREKEY_ORDER_SIZE_MIN = PREFIX + IN_ORDER_SIZE_MIN;
+  protected static final String PREKEY_ORDER_SIZE_MAX = PREFIX + ".order.size.max.";
+  protected static final String KEY_ORDER_SIZE_MAX_DEFAULT = PREKEY_ORDER_SIZE_MAX + SUF_DEFAULT;
   protected static final String KEY_ORDER_PRICE_SCALE_DEFAULT = PREFIX + SUF_ORDER_PRICE_SCALE_DEFAULT;
   protected static final String KEY_ORDER_FEE_POLICY_MAKER = PREFIX + ".order.feePolicy.maker";
   protected static final String KEY_ORDER_FEE_DISCOUNT = PREFIX + ".order.fee.makerDiscount";

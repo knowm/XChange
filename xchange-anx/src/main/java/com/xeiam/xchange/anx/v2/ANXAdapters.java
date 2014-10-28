@@ -33,6 +33,7 @@ public final class ANXAdapters {
 
   private static final String SIDE_BID = "bid";
   private static final int PRICE_SCALE = 8;
+  private static final int PERCENT_DECIMAL_SHIFT = 2;
 
   /**
    * private Constructor
@@ -253,5 +254,9 @@ public final class ANXAdapters {
   private static OrderType adaptSide(String side) {
 
     return SIDE_BID.equals(side) ? OrderType.BID : OrderType.ASK;
+  }
+
+  public static BigDecimal percentToFactor(BigDecimal percent){
+    return percent.movePointLeft(PERCENT_DECIMAL_SHIFT);
   }
 }
