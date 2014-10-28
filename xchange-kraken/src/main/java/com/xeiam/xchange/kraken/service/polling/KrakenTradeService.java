@@ -51,6 +51,9 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
     return KrakenAdapters.adaptTradesHistory(super.getKrakenTradeHistory());
   }
 
+  /**
+   * Get user trade history since the timestamp of passed UserTrade
+   */
   @Override
   public UserTrades getTradeHistory(UserTrade last) throws IOException {
     return KrakenAdapters.adaptTradesHistory(super.getKrakenTradeHistory(null, false, last.getTimestamp().getTime(), null, null));
