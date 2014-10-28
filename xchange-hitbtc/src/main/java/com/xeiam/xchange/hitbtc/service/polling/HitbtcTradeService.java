@@ -67,8 +67,8 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
 
     if (arguments.length == 1 && arguments[0] instanceof TradeHistoryParams) {
       TradeHistoryParams p = (TradeHistoryParams) arguments[0];
-      startIndex = (int) p.from;
-      maxResults = (int) p.count;
+      if (p.from != null) startIndex = (int) (long) p.from;
+      if (p.count != null) maxResults = (int) (long) p.count;
     } else
 
     if (arguments.length == 3) {
@@ -86,10 +86,18 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     return new TradeHistoryParams();
   }
 
-  private static class TradeHistoryParams implements TradeHistoryCount, TradeHistorySinceIndex {
+  public static class TradeHistoryParams implements TradeHistoryCount, TradeHistorySinceIndex {
 
     public Long count;
     public Long from;
+
+    public TradeHistoryParams() {
+    }
+
+    public TradeHistoryParams(Long from, Long count) {
+      this.count = count;
+      this.from = from;
+    }
 
     @Override
     public void setCount(long count) {

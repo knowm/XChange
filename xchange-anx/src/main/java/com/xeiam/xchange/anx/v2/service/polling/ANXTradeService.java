@@ -88,7 +88,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
 
     if (args.length == 1 && args[0] instanceof TradeHistoryParams) {
       TradeHistoryParams p = (TradeHistoryParams) args[0];
-      from = p.from.getTime();
+      from = p.from != null ? p.from.getTime() : null;
       to = p.to != null ? p.to.getTime() : null;
 
     } else {
@@ -112,9 +112,17 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
     return new TradeHistoryParams();
   }
 
-  private static class TradeHistoryParams implements TradeHistoryTimeSpan {
+  public static class TradeHistoryParams implements TradeHistoryTimeSpan {
     public Date to;
     public Date from;
+
+    public TradeHistoryParams() {
+    }
+
+    public TradeHistoryParams(Date from, Date to) {
+      this.to = to;
+      this.from = from;
+    }
 
     @Override
     public void setToTime(Date time) {
