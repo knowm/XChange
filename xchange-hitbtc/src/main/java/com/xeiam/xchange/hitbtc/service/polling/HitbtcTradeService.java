@@ -88,8 +88,8 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
 
   private static class TradeHistoryParams implements TradeHistoryCount, TradeHistorySinceIndex {
 
-    public long count;
-    public long from;
+    public Long count;
+    public Long from;
 
     @Override
     public void setCount(long count) {
