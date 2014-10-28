@@ -2,6 +2,8 @@ package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 
+import com.xeiam.xchange.service.polling.opt.TradeHistoryCount;
+import com.xeiam.xchange.service.polling.opt.TradeHistorySinceIndex;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -63,6 +65,12 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     int maxResults = 1000;
     String symbols = "BTCUSD";
 
+    if (arguments.length == 1 && arguments[0] instanceof TradeHistoryParams) {
+      TradeHistoryParams p = (TradeHistoryParams) arguments[0];
+      startIndex = (int) p.from;
+      maxResults = (int) p.count;
+    } else
+
     if (arguments.length == 3) {
       startIndex = (Integer) arguments[0];
       maxResults = (Integer) arguments[1];
@@ -71,6 +79,28 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
 
     HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(startIndex, maxResults, symbols);
     return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw);
+  }
+
+  @Override
+  public Object createTradeHistoryParams() {
+    return new TradeHistoryParams();
+  }
+
+  private static class TradeHistoryParams implements TradeHistoryCount, TradeHistorySinceIndex {
+
+    public long count;
+    public long from;
+
+    @Override
+    public void setCount(long count) {
+      this.count = count;
+    }
+
+    @Override
+    public void setStartIndex(long from) {
+      this.from = from;
+    }
+
   }
 
   private void checkRejected(HitbtcExecutionReport executionReport) {

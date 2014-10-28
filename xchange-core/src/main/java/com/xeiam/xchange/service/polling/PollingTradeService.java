@@ -85,4 +85,5 @@ public interface PollingTradeService extends BasePollingService {
    */
   public UserTrades getTradeHistory(final Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
+  public Object createTradeHistoryParams();
 }

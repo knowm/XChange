@@ -2,7 +2,9 @@ package com.xeiam.xchange.anx.v2.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 
+import com.xeiam.xchange.service.polling.opt.TradeHistoryTimeSpan;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -76,17 +78,25 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   }
 
   /**
-   * @param args Accept zero or 2 parameters, both are unix time: Long from, Long to
+   * @param args Accept zero or TradeHistoryTimeSpan or 2 parameters, both are unix time: Long from, Long to
    */
   @Override
   public UserTrades getTradeHistory(Object... args) throws IOException {
 
     Long from = null;
     Long to = null;
-    if (args.length > 0)
-      from = (Long) args[0];
-    if (args.length > 1)
-      to = (Long) args[1];
+
+    if (args.length == 1 && args[0] instanceof TradeHistoryParams) {
+      TradeHistoryParams p = (TradeHistoryParams) args[0];
+      from = p.from.getTime();
+      to = p.to != null ? p.to.getTime() : null;
+
+    } else {
+      if (args.length > 0)
+        from = (Long) args[0];
+      if (args.length > 1)
+        to = (Long) args[1];
+    }
 
     ANXTradeResultWrapper rawTrades = getExecutedANXTrades(from, to);
     String error = rawTrades.getError();
@@ -95,5 +105,25 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
       throw new IllegalStateException(error);
 
     return ANXAdapters.adaptUserTrades(rawTrades.getAnxTradeResults());
+  }
+
+  @Override
+  public Object createTradeHistoryParams() {
+    return new TradeHistoryParams();
+  }
+
+  private static class TradeHistoryParams implements TradeHistoryTimeSpan {
+    public Date to;
+    public Date from;
+
+    @Override
+    public void setToTime(Date time) {
+      to = time;
+    }
+
+    @Override
+    public void setFromTime(Date time) {
+      from = time;
+    }
   }
 }

@@ -92,4 +92,8 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
 }
