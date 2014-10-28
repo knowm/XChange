@@ -19,9 +19,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "date", "rate", "amount", "total", "orderNumber", "type" })
+@JsonPropertyOrder({ "tradeId", "date", "rate", "amount", "total", "fee", "orderNumber", "type" })
 public class PoloniexUserTrade {
 
+  @JsonProperty("tradeID")
+  private String tradeID;
   @JsonProperty("date")
   private String date;
   @JsonProperty("rate")
@@ -30,12 +32,26 @@ public class PoloniexUserTrade {
   private BigDecimal amount;
   @JsonProperty("total")
   private BigDecimal total;
+  @JsonProperty("fee")
+  private BigDecimal fee;
   @JsonProperty("orderNumber")
   private String orderNumber;
   @JsonProperty("type")
   private String type;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  @JsonProperty("tradeID")
+  public String getTradeID() {
+
+    return tradeID;
+  }
+
+  @JsonProperty("tradeID")
+  public void setTradeID(String tradeID) {
+
+    this.tradeID = tradeID;
+  }
 
   @JsonProperty("date")
   public String getDate() {
@@ -85,6 +101,18 @@ public class PoloniexUserTrade {
     this.total = total;
   }
 
+  @JsonProperty("fee")
+  public BigDecimal getFee() {
+
+    return fee;
+  }
+
+  @JsonProperty("fee")
+  public void setFee(BigDecimal fee) {
+
+    this.fee = fee;
+  }
+
   @JsonProperty("orderNumber")
   public String getOrderNumber() {
 
@@ -124,8 +152,8 @@ public class PoloniexUserTrade {
   @Override
   public String toString() {
 
-    return "PoloniexUserTrade [date=" + date + ", rate=" + rate + ", amount=" + amount + ", total=" + total + ", orderNumber=" + orderNumber + ", type=" + type + ", additionalProperties="
-        + additionalProperties + "]";
+    return "PoloniexUserTrade [tradeID= " + tradeID + ", date=" + date + ", rate=" + rate + ", amount=" + amount + ", total=" + total + ", fee=" + fee + ", orderNumber=" + orderNumber + ", type="
+        + type + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

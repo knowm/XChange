@@ -18,7 +18,7 @@ public class BTCChinaSocketIOServiceDemo {
 
   public static void main(String[] args) throws InterruptedException {
 
-    final BTCChinaStreamingConfiguration configuration = new BTCChinaStreamingConfiguration(true, true, CurrencyPair.BTC_CNY, CurrencyPair.LTC_CNY, CurrencyPair.LTC_BTC);
+    final BTCChinaStreamingConfiguration configuration = new BTCChinaStreamingConfiguration(true, true, true, true, CurrencyPair.BTC_CNY, CurrencyPair.LTC_CNY, CurrencyPair.LTC_BTC);
     final Exchange exchange = BTCChinaExamplesUtils.getExchange();
     final StreamingExchangeService service = exchange.getStreamingExchangeService(configuration);
 

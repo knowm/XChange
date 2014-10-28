@@ -63,7 +63,7 @@ public final class OkCoinAdapters {
   public static Ticker adaptTicker(OkCoinTickerResponse tickerResponse, CurrencyPair currencyPair) {
 
     return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withHigh(tickerResponse.getTicker().getHigh()).withLow(tickerResponse.getTicker().getLow()).withBid(
-        tickerResponse.getTicker().getBuy()).withAsk(tickerResponse.getTicker().getSell()).withLast(tickerResponse.getTicker().getLast()).withVolume(tickerResponse.getTicker().getVol()).build();
+        tickerResponse.getTicker().getBuy()).withAsk(tickerResponse.getTicker().getSell()).withLast(tickerResponse.getTicker().getLast()).withVolume(tickerResponse.getTicker().getVol()).withTimestamp(new Date()).build();
   }
 
   public static OrderBook adaptOrderBook(OkCoinDepth depth, CurrencyPair currencyPair) {
@@ -72,7 +72,7 @@ public final class OkCoinAdapters {
     Collections.reverse(asks);
 
     List<LimitOrder> bids = adaptLimitOrders(OrderType.BID, depth.getBids(), currencyPair);
-    return new OrderBook(null, asks, bids);
+    return new OrderBook(new Date(), asks, bids);
   }
 
   public static Trades adaptTrades(OkCoinTrade[] trades, CurrencyPair currencyPair) {
@@ -82,7 +82,7 @@ public final class OkCoinAdapters {
       OkCoinTrade trade = trades[i];
       tradeList.add(adaptTrade(trade, currencyPair));
     }
-    long lastTid = trades.length > 0 ? Long.valueOf((trades[trades.length - 1].getTid())) : 0L;
+    long lastTid = trades.length > 0 ? (trades[trades.length - 1].getTid()) : 0L;
     return new Trades(tradeList, lastTid, TradeSortType.SortByTimestamp);
   }
 
@@ -162,7 +162,7 @@ public final class OkCoinAdapters {
 
   private static Trade adaptTrade(OkCoinTrade trade, CurrencyPair currencyPair) {
 
-    return new Trade(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), trade.getTid());
+    return new Trade(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), "" + trade.getTid());
   }
 
 //  private static List<LimitOrder> adaptOpenOrders(OkCoinOrderResult orderResult) {

@@ -9,6 +9,7 @@ public class BitfinexBalancesResponse {
   private final String type;
   private final String currency;
   private final BigDecimal amount;
+  private final BigDecimal available;
 
   /**
    * Constructor
@@ -24,11 +25,17 @@ public class BitfinexBalancesResponse {
     this.type = type;
     this.currency = currency;
     this.amount = amount;
+    this.available = available;
   }
 
   public BigDecimal getAmount() {
 
     return amount;
+  }
+
+  public BigDecimal getAvailable() {
+
+    return available;
   }
 
   public String getCurrency() {
@@ -51,6 +58,8 @@ public class BitfinexBalancesResponse {
     builder.append(currency);
     builder.append(", amount=");
     builder.append(amount);
+    builder.append(", available=");
+    builder.append(available);
     builder.append("]");
     return builder.toString();
   }

@@ -85,11 +85,11 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
     Long numberOfTransactions = Long.MAX_VALUE;
     if (args.length > 0) {
       Object arg0 = args[0];
-      if (!(arg0 instanceof Long)) {
-        throw new ExchangeException("Argument must be of type Long!");
+      if (!(arg0 instanceof Number)) {
+        throw new ExchangeException("Argument must be a Number!");
       }
       else {
-        numberOfTransactions = (Long) args[0];
+        numberOfTransactions = ((Number) args[0]).longValue();
       }
     }
 

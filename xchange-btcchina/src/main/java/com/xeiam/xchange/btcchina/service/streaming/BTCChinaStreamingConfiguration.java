@@ -6,6 +6,7 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfiguration {
 
   private final CurrencyPair[] marketDataCurrencyPairs;
+  private final CurrencyPair[] grouporderCurrencyPairs;
   private final CurrencyPair[] orderFeedCurrencyPairs;
 
   /**
@@ -32,7 +33,15 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
 
   public BTCChinaStreamingConfiguration(boolean subscribeMarktData, boolean subscribeOrderFeed, boolean subscribeAccountInfo, CurrencyPair... currencyPairs) {
 
-    this(subscribeMarktData ? currencyPairs : null, subscribeOrderFeed ? currencyPairs : null, subscribeAccountInfo);
+    this(subscribeMarktData, true, subscribeOrderFeed, subscribeAccountInfo);
+  }
+
+  /**
+   * @since <a href="http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122">WebSocket API v1.2.2</a>
+   */
+  public BTCChinaStreamingConfiguration(boolean subscribeMarktData, boolean subscribeGrouporder, boolean subscribeOrderFeed, boolean subscribeAccountInfo, CurrencyPair... currencyPairs) {
+
+    this(subscribeMarktData ? currencyPairs : null, subscribeGrouporder ? currencyPairs : null, subscribeOrderFeed ? currencyPairs : null, subscribeAccountInfo);
   }
 
   public BTCChinaStreamingConfiguration(CurrencyPair[] marketDataCurrencyPairs, CurrencyPair[] orderFeedCurrencyPairs) {
@@ -42,7 +51,16 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
 
   public BTCChinaStreamingConfiguration(CurrencyPair[] marketDataCurrencyPairs, CurrencyPair[] orderFeedCurrencyPairs, boolean subscribeAccountInfo) {
 
+    this(marketDataCurrencyPairs, null, orderFeedCurrencyPairs, subscribeAccountInfo);
+  }
+
+  /**
+   * @since <a href="http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122">WebSocket API v1.2.2</a>
+   */
+  public BTCChinaStreamingConfiguration(CurrencyPair[] marketDataCurrencyPairs, CurrencyPair[] grouporderCurrencyPairs, CurrencyPair[] orderFeedCurrencyPairs, boolean subscribeAccountInfo) {
+
     this.marketDataCurrencyPairs = marketDataCurrencyPairs == null ? new CurrencyPair[0] : marketDataCurrencyPairs;
+    this.grouporderCurrencyPairs = grouporderCurrencyPairs == null ? new CurrencyPair[0] : grouporderCurrencyPairs;
     this.orderFeedCurrencyPairs = orderFeedCurrencyPairs == null ? new CurrencyPair[0] : orderFeedCurrencyPairs;
     this.subscribeAccountInfo = subscribeAccountInfo;
   }
@@ -118,6 +136,14 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
   public CurrencyPair[] getMarketDataCurrencyPairs() {
 
     return marketDataCurrencyPairs;
+  }
+
+  /**
+   * @since <a href="http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122">WebSocket API v1.2.2</a>
+   */
+  public CurrencyPair[] getGrouporderCurrencyPairs() {
+
+    return grouporderCurrencyPairs;
   }
 
   public CurrencyPair[] getOrderFeedCurrencyPairs() {

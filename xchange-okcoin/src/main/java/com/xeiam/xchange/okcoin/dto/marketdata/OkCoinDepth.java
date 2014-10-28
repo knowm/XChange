@@ -1,6 +1,7 @@
 package com.xeiam.xchange.okcoin.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -23,6 +24,12 @@ public class OkCoinDepth {
   public BigDecimal[][] getBids() {
 
     return bids;
+  }
+
+  @Override
+  public String toString() {
+
+    return "OkCoinDepth [asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + "]";
   }
 
 }

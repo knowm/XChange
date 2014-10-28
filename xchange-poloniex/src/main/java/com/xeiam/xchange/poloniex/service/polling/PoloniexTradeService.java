@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -22,6 +23,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.poloniex.PoloniexAdapters;
+import com.xeiam.xchange.poloniex.PoloniexUtils;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
 import com.xeiam.xchange.service.polling.PollingTradeService;
@@ -86,21 +88,22 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
         }
       }
     }
-    if (currencyPair == null) {
-      throw new ExchangeException("Poloniex requires a CurrencyPair for trade history");
-    }
-
-    PoloniexUserTrade[] poloniexUserTrades = null;
-    if (startTime == null && endTime == null) {
-      poloniexUserTrades = returnTradeHistory(currencyPair);
-    }
-    else {
-      poloniexUserTrades = returnTradeHistory(currencyPair, startTime, endTime);
-    }
 
     List<Trade> trades = new ArrayList<Trade>();
-    for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
-      trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+    if (currencyPair == null) {
+      HashMap<String, PoloniexUserTrade[]> poloniexUserTrades = returnTradeHistory(startTime, endTime);
+      for (Map.Entry<String, PoloniexUserTrade[]> mapEntry : poloniexUserTrades.entrySet()) {
+        currencyPair = PoloniexUtils.toCurrencyPair(mapEntry.getKey());
+        for (PoloniexUserTrade poloniexUserTrade : mapEntry.getValue()) {
+          trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+        }
+      }
+    }
+    else {
+      PoloniexUserTrade[] poloniexUserTrades = returnTradeHistory(currencyPair, startTime, endTime);
+      for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
+        trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+      }
     }
 
     return new Trades(trades, TradeSortType.SortByTimestamp);
