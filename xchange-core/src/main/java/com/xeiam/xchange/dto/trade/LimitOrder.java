@@ -99,6 +99,16 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
       this.limitPrice = null;
     }
 
+    public static Builder from(LimitOrder order){
+
+      return from((Order)order).limitPrice(order.getLimitPrice());
+    }
+
+    public static Builder from(Order o){
+      return new Builder(o.getType(),o.getCurrencyPair()).tradableAmount(o.getTradableAmount()).timestamp(o.getTimestamp())
+              .id(o.getId());
+    }
+
     public Builder orderType(OrderType orderType) {
 
       this.orderType = orderType;
