@@ -9,16 +9,14 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.coinsetter.ObjectMapperHelper;
 
 public class CoinsetterLastTest {
-
-  private final ObjectMapper mapper = new ObjectMapper();
 
   @Test
   public void testLast() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterLast last = mapper.readValue(getClass().getResource("last.json"), CoinsetterLast.class);
+    CoinsetterLast last = ObjectMapperHelper.readValue(getClass().getResource("last.json"), CoinsetterLast.class);
 
     assertEquals(1, last.getLast().length);
 
@@ -35,7 +33,7 @@ public class CoinsetterLastTest {
   @Test
   public void testLast5() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterLast last = mapper.readValue(getClass().getResource("last5.json"), CoinsetterLast.class);
+    CoinsetterLast last = ObjectMapperHelper.readValue(getClass().getResource("last5.json"), CoinsetterLast.class);
 
     assertEquals(5, last.getLast().length);
 

@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterListDepth;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPair;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
@@ -21,12 +20,10 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 
 public class CoinsetterAdaptersTest {
 
-  private final ObjectMapper mapper = new ObjectMapper();
-
   @Test
   public void testAdaptTicker() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterTicker coinsetterTicker = mapper.readValue(getClass().getResource("dto/marketdata/ticker.json"), CoinsetterTicker.class);
+    CoinsetterTicker coinsetterTicker = ObjectMapperHelper.readValue(getClass().getResource("dto/marketdata/ticker.json"), CoinsetterTicker.class);
     Ticker ticker = CoinsetterAdapters.adaptTicker(coinsetterTicker);
     assertEquals(CurrencyPair.BTC_USD, ticker.getCurrencyPair());
     assertEquals(1392947181242L, ticker.getTimestamp().getTime());
@@ -39,7 +36,7 @@ public class CoinsetterAdaptersTest {
   @Test
   public void testAdaptOrderBook() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterPair[] coinsetterPairs = mapper.readValue(getClass().getResource("dto/marketdata/depth-websockets.json"), CoinsetterPair[].class);
+    CoinsetterPair[] coinsetterPairs = ObjectMapperHelper.readValue(getClass().getResource("dto/marketdata/depth-websockets.json"), CoinsetterPair[].class);
     OrderBook orderBook = CoinsetterAdapters.adaptOrderBook(coinsetterPairs);
 
     // asks should be sorted ascending
@@ -64,7 +61,7 @@ public class CoinsetterAdaptersTest {
   @Test
   public void testAdaptOrderBookForDepth() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterListDepth coinsetterListDepth = mapper.readValue(getClass().getResource("dto/marketdata/depth-list.json"), CoinsetterListDepth.class);
+    CoinsetterListDepth coinsetterListDepth = ObjectMapperHelper.readValue(getClass().getResource("dto/marketdata/depth-list.json"), CoinsetterListDepth.class);
     OrderBook orderBook = CoinsetterAdapters.adaptOrderBook(coinsetterListDepth);
 
     // asks should be sorted ascending
@@ -89,7 +86,7 @@ public class CoinsetterAdaptersTest {
   @Test
   public void testAdaptOrderBookForFullDepth() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterListDepth coinsetterListDepth = mapper.readValue(getClass().getResource("dto/marketdata/full_depth.json"), CoinsetterListDepth.class);
+    CoinsetterListDepth coinsetterListDepth = ObjectMapperHelper.readValue(getClass().getResource("dto/marketdata/full_depth.json"), CoinsetterListDepth.class);
     OrderBook orderBook = CoinsetterAdapters.adaptOrderBook(coinsetterListDepth);
 
     assertEquals(1323424234L, orderBook.getTimeStamp().getTime());

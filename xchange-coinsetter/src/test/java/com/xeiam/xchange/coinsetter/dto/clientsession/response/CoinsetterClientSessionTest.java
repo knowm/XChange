@@ -9,17 +9,14 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
+import com.xeiam.xchange.coinsetter.ObjectMapperHelper;
 
 public class CoinsetterClientSessionTest {
-
-  private final ObjectMapper mapper = new ObjectMapper();
 
   @Test
   public void test() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterClientSession coinsetterClientSession = mapper.readValue(getClass().getResource("login.json"), CoinsetterClientSession.class);
+    CoinsetterClientSession coinsetterClientSession = ObjectMapperHelper.readValue(getClass().getResource("login.json"), CoinsetterClientSession.class);
     assertEquals(UUID.fromString("f7a5a8c3-23f9-4ca5-96bf-6f756c0d2155"), coinsetterClientSession.getUuid());
     assertEquals("ACTIVE", coinsetterClientSession.getCustomerStatus());
     assertEquals("ACTIVE", coinsetterClientSession.getCustomerPasswordStatus());

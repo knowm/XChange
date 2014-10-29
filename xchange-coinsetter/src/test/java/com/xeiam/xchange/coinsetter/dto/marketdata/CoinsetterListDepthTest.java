@@ -9,16 +9,14 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.coinsetter.ObjectMapperHelper;
 
 public class CoinsetterListDepthTest {
-
-  private final ObjectMapper mapper = new ObjectMapper();
 
   @Test
   public void test() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterListDepth depth = mapper.readValue(getClass().getResource("depth-list.json"), CoinsetterListDepth.class);
+    CoinsetterListDepth depth = ObjectMapperHelper.readValue(getClass().getResource("depth-list.json"), CoinsetterListDepth.class);
 
     assertEquals(0, depth.getSequenceNumber());
 
@@ -38,7 +36,7 @@ public class CoinsetterListDepthTest {
   @Test
   public void testFullDepth() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterListDepth depth = mapper.readValue(getClass().getResource("full_depth.json"), CoinsetterListDepth.class);
+    CoinsetterListDepth depth = ObjectMapperHelper.readValue(getClass().getResource("full_depth.json"), CoinsetterListDepth.class);
 
     assertEquals("SMART", depth.getExchangeId());
     assertEquals(0, depth.getSequenceNumber());

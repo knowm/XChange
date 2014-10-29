@@ -9,16 +9,14 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.coinsetter.ObjectMapperHelper;
 
 public class CoinsetterTickerTest {
-
-  private final ObjectMapper mapper = new ObjectMapper();
 
   @Test
   public void testCoinsetterTicker() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterTicker ticker = mapper.readValue(getClass().getResource("ticker.json"), CoinsetterTicker.class);
+    CoinsetterTicker ticker = ObjectMapperHelper.readValue(getClass().getResource("ticker.json"), CoinsetterTicker.class);
 
     CoinsetterTrade bid = ticker.getBid();
     CoinsetterTrade ask = ticker.getAsk();
