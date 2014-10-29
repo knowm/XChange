@@ -5,7 +5,6 @@ import java.util.Date;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 
 /**
  * Various adapters for converting from OER DTOs to XChange DTOs
@@ -23,7 +22,7 @@ public final class OERAdapters {
 
     BigDecimal last = BigDecimal.valueOf(exchangeRate);
     Date timestampDate = new Date(timestamp);
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withTimestamp(timestampDate).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).timestamp(timestampDate).build();
   }
 
 }

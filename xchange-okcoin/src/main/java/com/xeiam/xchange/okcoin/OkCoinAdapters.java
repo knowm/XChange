@@ -18,7 +18,6 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -62,8 +61,8 @@ public final class OkCoinAdapters {
 
   public static Ticker adaptTicker(OkCoinTickerResponse tickerResponse, CurrencyPair currencyPair) {
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withHigh(tickerResponse.getTicker().getHigh()).withLow(tickerResponse.getTicker().getLow()).withBid(
-        tickerResponse.getTicker().getBuy()).withAsk(tickerResponse.getTicker().getSell()).withLast(tickerResponse.getTicker().getLast()).withVolume(tickerResponse.getTicker().getVol()).withTimestamp(new Date()).build();
+    return new Ticker.Builder().currencyPair(currencyPair).high(tickerResponse.getTicker().getHigh()).low(tickerResponse.getTicker().getLow()).bid(
+            tickerResponse.getTicker().getBuy()).ask(tickerResponse.getTicker().getSell()).last(tickerResponse.getTicker().getLast()).volume(tickerResponse.getTicker().getVol()).timestamp(new Date()).build();
   }
 
   public static OrderBook adaptOrderBook(OkCoinDepth depth, CurrencyPair currencyPair) {

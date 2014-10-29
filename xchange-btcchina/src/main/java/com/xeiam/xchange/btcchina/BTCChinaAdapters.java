@@ -27,7 +27,6 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -144,7 +143,7 @@ public final class BTCChinaAdapters {
     BigDecimal volume = ticker.getVol();
     Date date = adaptDate(ticker.getDate());
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).withTimestamp(date).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(buy).ask(sell).volume(volume).timestamp(date).build();
   }
 
   public static Map<CurrencyPair, Ticker> adaptTickers(BTCChinaTicker btcChinaTicker) {
@@ -234,7 +233,7 @@ public final class BTCChinaAdapters {
 
   public static LimitOrder adaptLimitOrder(BTCChinaMarketDepthOrder order, OrderType orderType, CurrencyPair currencyPair) {
 
-    return new LimitOrder.Builder(orderType, currencyPair).setLimitPrice(order.getPrice()).setTradableAmount(order.getAmount()).build();
+    return new LimitOrder.Builder(orderType, currencyPair).limitPrice(order.getPrice()).tradableAmount(order.getAmount()).build();
   }
 
   /**

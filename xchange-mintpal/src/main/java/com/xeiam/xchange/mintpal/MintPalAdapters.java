@@ -13,7 +13,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -46,8 +45,8 @@ public class MintPalAdapters {
     MathContext mc = new MathContext(8, RoundingMode.HALF_UP);
     BigDecimal baseVolume = mintPalTicker.getVolume24Hour().divide(mintPalTicker.getLastPrice(), mc);
 
-    return TickerBuilder.newInstance().withCurrencyPair(adaptCurrencyPair(mintPalTicker)).withAsk(mintPalTicker.getTopAsk()).withBid(mintPalTicker.getTopBid()).withHigh(mintPalTicker.getHigh24Hour())
-        .withLow(mintPalTicker.getLow24Hour()).withVolume(baseVolume).withLast(mintPalTicker.getLastPrice()).build();
+    return new Ticker.Builder().currencyPair(adaptCurrencyPair(mintPalTicker)).ask(mintPalTicker.getTopAsk()).bid(mintPalTicker.getTopBid()).high(mintPalTicker.getHigh24Hour())
+        .low(mintPalTicker.getLow24Hour()).volume(baseVolume).last(mintPalTicker.getLastPrice()).build();
   }
 
   public static OrderBook adaptOrderBook(final CurrencyPair currencyPair, final List<MintPalPublicOrders> mintPalOrderBook) {

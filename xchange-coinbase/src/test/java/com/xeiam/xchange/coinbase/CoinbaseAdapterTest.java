@@ -24,7 +24,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -84,8 +83,8 @@ public class CoinbaseAdapterTest {
   public void testAdaptTicker() throws IOException {
 
     Ticker expectedTicker =
-        TickerBuilder.newInstance().withCurrencyPair(CurrencyPair.BTC_USD).withAsk(new BigDecimal("723.09")).withBid(new BigDecimal("723.09")).withLast(new BigDecimal("719.79")).withLow(
-            new BigDecimal("718.2")).withHigh(new BigDecimal("723.11")).build();
+        new Ticker.Builder().currencyPair(CurrencyPair.BTC_USD).ask(new BigDecimal("723.09")).bid(new BigDecimal("723.09")).last(new BigDecimal("719.79")).low(
+                new BigDecimal("718.2")).high(new BigDecimal("723.11")).build();
 
     InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-price-data.json");
     ObjectMapper mapper = new ObjectMapper();
