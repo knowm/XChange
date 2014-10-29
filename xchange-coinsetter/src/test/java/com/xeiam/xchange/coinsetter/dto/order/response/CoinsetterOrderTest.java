@@ -8,16 +8,14 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.coinsetter.ObjectMapperHelper;
 
 public class CoinsetterOrderTest {
-
-  private final ObjectMapper mapper = new ObjectMapper();
 
   @Test
   public void test() throws IOException {
 
-    CoinsetterOrder coinsetterOrder = mapper.readValue(getClass().getResource("order.json"), CoinsetterOrder.class);
+    CoinsetterOrder coinsetterOrder = ObjectMapperHelper.readValue(getClass().getResource("order.json"), CoinsetterOrder.class);
     assertEquals(UUID.fromString("5ab97b65-ab90-49f6-b7bc-007ddb27c870"), coinsetterOrder.getUuid());
     assertEquals(UUID.fromString("d0966294-279b-4a08-bc1c-b1d53d97a7a4"), coinsetterOrder.getAccountUuid());
     assertEquals(new BigDecimal("0.000000"), coinsetterOrder.getCostBasis());

@@ -6,16 +6,14 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.coinsetter.ObjectMapperHelper;
 
 public class CoinsetterResponseTest {
-
-  private ObjectMapper mapper = new ObjectMapper();
 
   @Test
   public void test() throws IOException {
 
-    CoinsetterResponse response = mapper.readValue(getClass().getResource("response.json"), CoinsetterResponse.class);
+    CoinsetterResponse response = ObjectMapperHelper.readValue(getClass().getResource("response.json"), CoinsetterResponse.class);
     assertEquals("OK", response.getMessage());
     assertEquals("SUCCESS", response.getRequestStatus());
   }

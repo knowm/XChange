@@ -9,16 +9,14 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.coinsetter.ObjectMapperHelper;
 
 public class CoinsetterPairTest {
-
-  private ObjectMapper mapper = new ObjectMapper();
 
   @Test
   public void testCoinsetterPair() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterPair[] pairs = mapper.readValue(getClass().getResource("depth-websockets.json"), CoinsetterPair[].class);
+    CoinsetterPair[] pairs = ObjectMapperHelper.readValue(getClass().getResource("depth-websockets.json"), CoinsetterPair[].class);
     assertEquals(10, pairs.length);
 
     assertEquals(new BigDecimal("512.51"), pairs[0].getBid().getPrice());

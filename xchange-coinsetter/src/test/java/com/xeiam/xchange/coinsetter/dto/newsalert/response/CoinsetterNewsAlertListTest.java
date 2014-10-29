@@ -9,16 +9,14 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.coinsetter.ObjectMapperHelper;
 
 public class CoinsetterNewsAlertListTest {
-
-  private final ObjectMapper mapper = new ObjectMapper();
 
   @Test
   public void test() throws IOException {
 
-    CoinsetterNewsAlertList newsAlertList = mapper.readValue(getClass().getResource("list.json"), CoinsetterNewsAlertList.class);
+    CoinsetterNewsAlertList newsAlertList = ObjectMapperHelper.readValue(getClass().getResource("list.json"), CoinsetterNewsAlertList.class);
     assertEquals(3, newsAlertList.getMessageList().length);
 
     CoinsetterNewsAlert alert = newsAlertList.getMessageList()[0];
