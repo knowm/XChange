@@ -11,6 +11,7 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
+import com.xeiam.xchange.bitstamp.dto.BitstampException;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -36,7 +37,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws IOException {
+  public OpenOrders getOpenOrders() throws IOException, BitstampException {
 
     BitstampOrder[] openOrders = getBitstampOpenOrders();
 
@@ -51,13 +52,13 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException, BitstampException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException, BitstampException {
 
     BitstampOrder bitstampOrder;
     if (limitOrder.getType() == BID) {
@@ -74,13 +75,13 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws IOException {
+  public boolean cancelOrder(String orderId) throws IOException, BitstampException {
 
     return cancelBitstampOrder(Integer.parseInt(orderId));
   }
 
   @Override
-  public Trades getTradeHistory(Object... args) throws IOException {
+  public Trades getTradeHistory(Object... args) throws IOException, BitstampException {
 
     Long numberOfTransactions = Long.MAX_VALUE;
     if (args.length > 0) {
