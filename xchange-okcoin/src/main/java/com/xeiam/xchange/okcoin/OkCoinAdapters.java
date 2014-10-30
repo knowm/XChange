@@ -165,19 +165,6 @@ public final class OkCoinAdapters {
     return new Trade(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), "" + trade.getTid());
   }
 
-//  private static List<LimitOrder> adaptOpenOrders(OkCoinOrderResult orderResult) {
-//
-//    List<LimitOrder> openOrders = new ArrayList<LimitOrder>(orderResult.getOrders().length);
-//    for (int i = 0; i < orderResult.getOrders().length; i++) {
-//      OkCoinOrder order = orderResult.getOrders()[i];
-//      LimitOrder openOrder = adaptOpenOrder(order);
-//      if (openOrder != null) {
-//        openOrders.add(openOrder);
-//      }
-//    }
-//    return openOrders;
-//  }
-
   private static LimitOrder adaptOpenOrder(OkCoinOrder order) {
 
     return new LimitOrder(adaptOrderType(order.getType()), order.getAmount().subtract(order.getDealAmount()), adaptSymbol(order.getSymbol()), String.valueOf(order.getOrderId()),
