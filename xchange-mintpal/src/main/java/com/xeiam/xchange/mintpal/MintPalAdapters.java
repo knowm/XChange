@@ -83,7 +83,6 @@ public class MintPalAdapters {
 
   public static Trade adaptPublicTrade(final CurrencyPair currencyPair, final MintPalPublicTrade mintPalTrade) {
 
-    return new Trade(mintPalTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK, mintPalTrade.getAmount(), currencyPair, mintPalTrade.getPrice(), mintPalTrade.getTime(), null,
-        null);
+    return new Trade(mintPalTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK, mintPalTrade.getAmount(), currencyPair, mintPalTrade.getPrice(), mintPalTrade.getTime(), null);
   }
 }

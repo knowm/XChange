@@ -65,8 +65,10 @@ public final class CoinbaseAdapters {
     final BigDecimal price = subTotal.getAmount().divide(tradableAmount, RoundingMode.HALF_EVEN);
     final Date timestamp = transfer.getCreatedAt();
     final String id = transfer.getTransactionId();
+    final BigDecimal feeAmount = transfer.getCoinbaseFee().getAmount();
+    final String feeCurrency = transfer.getCoinbaseFee().getCurrency();
 
-    final Trade adaptedTrade = new Trade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, id, id);
+    final Trade adaptedTrade = new Trade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, id, id, feeAmount, feeCurrency);
     return adaptedTrade;
   }
 

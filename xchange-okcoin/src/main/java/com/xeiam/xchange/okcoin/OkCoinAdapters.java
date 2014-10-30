@@ -186,6 +186,6 @@ public final class OkCoinAdapters {
 
   private static Trade adaptTrade(OkCoinOrder order) {
 
-    return new Trade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(), order.getCreateDate(), null, String.valueOf(order.getOrderId()));
+    return new Trade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(), order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, null);
   }
 }

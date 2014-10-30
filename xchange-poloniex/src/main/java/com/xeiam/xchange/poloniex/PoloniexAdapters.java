@@ -95,7 +95,7 @@ public class PoloniexAdapters {
     OrderType type = poloniexTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
     Date timestamp = PoloniexUtils.stringToDate(poloniexTrade.getDate());
 
-    Trade trade = new Trade(type, poloniexTrade.getAmount(), currencyPair, poloniexTrade.getRate(), timestamp, poloniexTrade.getTradeID(), poloniexTrade.getTradeID());
+    Trade trade = new Trade(type, poloniexTrade.getAmount(), currencyPair, poloniexTrade.getRate(), timestamp, poloniexTrade.getTradeID());
     return trade;
   }
 
@@ -144,6 +144,6 @@ public class PoloniexAdapters {
     String tradeId = String.valueOf(userTrade.getTradeID());
     String orderId = String.valueOf(userTrade.getOrderNumber());
 
-    return new Trade(orderType, amount, currencyPair, price, date, tradeId, orderId);
+    return new Trade(orderType, amount, currencyPair, price, date, tradeId, orderId, userTrade.getFee(), currencyPair.counterSymbol);
   }
 }

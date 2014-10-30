@@ -123,7 +123,7 @@ public class HitbtcAdapters {
       long longTradeId = tid == null ? 0 : Long.parseLong(tid);
       if (longTradeId > lastTradeId)
         lastTradeId = longTradeId;
-      Trade trade = new Trade(null, amount, currencyPair, price, timestamp, tid, tid);
+      Trade trade = new Trade(null, amount, currencyPair, price, timestamp, tid);
       trades.add(trade);
     }
 

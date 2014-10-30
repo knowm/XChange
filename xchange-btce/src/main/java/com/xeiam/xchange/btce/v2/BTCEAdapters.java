@@ -186,7 +186,7 @@ public final class BTCEAdapters {
       String orderId = String.valueOf(result.getOrderId());
       CurrencyPair currencyPair = new CurrencyPair(pair[0].toUpperCase(), pair[1].toUpperCase());
 
-      trades.add(new Trade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId));
+      trades.add(new Trade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId, null, null));
     }
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }

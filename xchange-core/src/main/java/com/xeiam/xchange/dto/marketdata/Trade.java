@@ -47,6 +47,19 @@ public final class Trade {
   private final String orderId;
 
   /**
+   * The fee that was charged by the exchange for this trade.
+   */
+  private final BigDecimal feeAmount;
+
+  /**
+   * The symbol of the currency in which the fee was charged.
+   */
+  private final String feeCurrency;
+
+  /**
+   * This constructor is typically called to construct user's trade objects
+   * (in {@link com.xeiam.xchange.service.polling.PollingTradeService#getTradeHistory(Object...)} implementations).
+   *
    * @param type
    *          The trade type (BID side or ASK side)
    * @param tradableAmount
@@ -63,9 +76,13 @@ public final class Trade {
    * @param id
    *          The id of the trade
    * @param orderId
-   *          The id of the corresponding order responsible for execution of this trade
+   *          The id of the order responsible for execution of this trade
+   * @param feeAmount
+   *          The fee that was charged by the exchange for this trade
+   * @param feeCurrency
+   *          The symbol of the currency in which the fee was charged
    */
-  public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId) {
+  public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId, BigDecimal feeAmount, String feeCurrency) {
 
     this.type = type;
     this.tradableAmount = tradableAmount;
@@ -74,9 +91,15 @@ public final class Trade {
     this.timestamp = timestamp;
     this.id = id;
     this.orderId = orderId;
+    this.feeAmount = feeAmount;
+    this.feeCurrency = feeCurrency;
   }
 
   /**
+   * This constructor is typically called to create a public Trade object
+   * in {@link com.xeiam.xchange.service.polling.PollingMarketDataService#getTrades(com.xeiam.xchange.currency.CurrencyPair, Object...)} implementations)
+   * since it's missing the orderId and fee parameters.
+   *
    * @param type
    *          The trade type (BID side or ASK side)
    * @param tradableAmount
@@ -95,7 +118,7 @@ public final class Trade {
    */
   public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
 
-    this(type, tradableAmount, currencyPair, price, timestamp, id, null);
+    this(type, tradableAmount, currencyPair, price, timestamp, id, null, null, null);
 
   }
 
@@ -134,10 +157,20 @@ public final class Trade {
     return orderId;
   }
 
+  public BigDecimal getFeeAmount() {
+
+    return feeAmount;
+  }
+
+  public String getFeeCurrency() {
+
+    return feeCurrency;
+  }
+
   @Override
   public String toString() {
 
-    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp=" + timestamp + ", id=" + id + ", orderId=" + orderId
+    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp=" + timestamp + ", id=" + id + ", orderId=" + orderId + ", fee=" + feeAmount + " " + feeCurrency
         + "]";
   }
 

@@ -240,7 +240,7 @@ public final class BitfinexAdapters {
     for (BitfinexTradeResponse trade : trades) {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
-      pastTrades.add(new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), new Date((long) (trade.getTimestamp() * 1000L)), trade.getTradeId(), trade.getOrderId()));
+      pastTrades.add(new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), new Date((long) (trade.getTimestamp() * 1000L)), trade.getTradeId(), trade.getOrderId(), trade.getFeeAmount(), trade.getFeeCurrency()));
     }
 
     return new Trades(pastTrades, TradeSortType.SortByTimestamp);

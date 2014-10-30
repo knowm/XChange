@@ -170,8 +170,10 @@ public final class BitstampAdapters {
           lastTradeId = transactionId;
         final String tradeId = String.valueOf(transactionId);
         final String orderId = String.valueOf(bitstampUserTransaction.getOrderId());
+        final BigDecimal feeAmount = bitstampUserTransaction.getFee();
+        final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
-        Trade trade = new Trade(orderType, tradableAmount, CurrencyPair.BTC_USD, price, timestamp, tradeId, orderId);
+        Trade trade = new Trade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount, currencyPair.counterSymbol);
         trades.add(trade);
       }
     }

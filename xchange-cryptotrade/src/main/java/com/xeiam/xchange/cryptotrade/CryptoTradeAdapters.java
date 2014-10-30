@@ -113,7 +113,7 @@ public final class CryptoTradeAdapters {
     OrderType orderType = adaptOrderType(trade.getType());
     Date timestamp = new Date(trade.getTimestamp());
 
-    return new Trade(orderType, trade.getAmount(), trade.getCurrencyPair(), trade.getRate(), timestamp, String.valueOf(trade.getId()), String.valueOf(trade.getMyOrder()));
+    return new Trade(orderType, trade.getAmount(), trade.getCurrencyPair(), trade.getRate(), timestamp, String.valueOf(trade.getId()), String.valueOf(trade.getMyOrder()), null, null);
   }
 
   public static Trades adaptTrades(CryptoTradeTrades cryptoTradeTrades) {

@@ -62,7 +62,7 @@ public class CoinbaseAdapterTest {
     BigDecimal tradableAmount = new BigDecimal("1.20000000");
     BigDecimal price = new BigDecimal("905.10").divide(tradableAmount, RoundingMode.HALF_EVEN);
     Trade expectedTrade =
-        new Trade(OrderType.BID, tradableAmount, CurrencyPair.BTC_USD, price, DateUtils.fromISO8601DateString("2014-02-06T18:12:38-08:00"), "52f4411767c71baf9000003f", "52f4411767c71baf9000003f");
+        new Trade(OrderType.BID, tradableAmount, CurrencyPair.BTC_USD, price, DateUtils.fromISO8601DateString("2014-02-06T18:12:38-08:00"), "52f4411767c71baf9000003f", "52f4411767c71baf9000003f", new BigDecimal("9.05"), "USD");
 
     // Read in the JSON from the example resources
     InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/trade/example-transfers-data.json");

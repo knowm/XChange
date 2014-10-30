@@ -120,7 +120,7 @@ public final class BTERAdapters {
     OrderType orderType = adaptOrderType(trade.getType());
     Date timestamp = DateUtils.fromMillisUtc(trade.getDate() * 1000);
 
-    return new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), null);
+    return new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId());
   }
 
   public static Trades adaptTrades(BTERTradeHistory tradeHistory, CurrencyPair currencyPair) {
@@ -169,7 +169,7 @@ public final class BTERAdapters {
     Date timestamp = DateUtils.fromMillisUtc(bterTrade.getTimeUnix() * 1000);
     CurrencyPair currencyPair = adaptCurrencyPair(bterTrade.getPair());
 
-    return new Trade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null);
+    return new Trade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null, null, null);
   }
 
 }

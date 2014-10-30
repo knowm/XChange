@@ -193,7 +193,7 @@ public final class ANXAdapters {
     Date dateTime = DateUtils.fromMillisUtc(anxTrade.getTid());
     final String tradeId = String.valueOf(anxTrade.getTid());
 
-    return new Trade(orderType, amount, currencyPair, price, dateTime, tradeId, null);
+    return new Trade(orderType, amount, currencyPair, price, dateTime, tradeId);
   }
 
   public static Ticker adaptTicker(ANXTicker anxTicker) {
@@ -234,7 +234,8 @@ public final class ANXAdapters {
     CurrencyPair currencyPair = adaptCurrencyPair(t.getCurrencyPair());
     BigDecimal price = t.getSettlementCurrencyFillAmount().divide(tradedCurrencyFillAmount, PRICE_SCALE, BigDecimal.ROUND_HALF_EVEN);
     OrderType type = adaptSide(t.getSide());
-    return new Trade(type, tradedCurrencyFillAmount, currencyPair, price, t.getTimestamp(), t.getTradeId(), t.getOrderId());
+    // for fees, getWalletHistory should be used.
+    return new Trade(type, tradedCurrencyFillAmount, currencyPair, price, t.getTimestamp(), t.getTradeId(), t.getOrderId(), null, null);
   }
 
   private static CurrencyPair adaptCurrencyPair(String currencyPairRaw) {
