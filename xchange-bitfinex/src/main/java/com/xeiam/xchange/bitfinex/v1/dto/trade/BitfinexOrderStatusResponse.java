@@ -38,12 +38,11 @@ public class BitfinexOrderStatusResponse {
    * @param originalAmount
    * @param remainingAmount
    * @param executedAmount
-   * @param orderId
    */
   public BitfinexOrderStatusResponse(@JsonProperty("id") int id, @JsonProperty("symbol") String symbol, @JsonProperty("exchange") String exchange, @JsonProperty("price") BigDecimal price,
       @JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice, @JsonProperty("side") String side, @JsonProperty("type") String type, @JsonProperty("timestamp") BigDecimal timestamp,
       @JsonProperty("is_live") boolean isLive, @JsonProperty("is_cancelled") boolean isCancelled, @JsonProperty("was_forced") boolean wasForced,
-      @JsonProperty("original_amount") BigDecimal originalAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount, @JsonProperty("executed_amount") BigDecimal executedAmount, @JsonProperty("order_id") int orderId) {
+      @JsonProperty("original_amount") BigDecimal originalAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount, @JsonProperty("executed_amount") BigDecimal executedAmount) {
 
     this.id = id;
     this.symbol = symbol;
