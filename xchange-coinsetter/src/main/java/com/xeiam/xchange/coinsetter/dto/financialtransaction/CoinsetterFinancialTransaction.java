@@ -50,7 +50,7 @@ public class CoinsetterFinancialTransaction {
       @JsonProperty("originalAmountdenomination") String originalAmountDenomination, @JsonProperty("orderId") UUID orderId, @JsonProperty("orderNumber") String orderNumber,
       @JsonProperty("referenceNumber") String referenceNumber, @JsonProperty("transactionCategoryDescription") String transactionCategoryDescription,
       @JsonProperty("transactionCategoryName") String transactionCategoryName, @JsonProperty("transferTypeDescription") String transferTypeDescription,
-      @JsonProperty("transferTypeName") String transferTypeName, @JsonProperty("createDate") @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss.SSS", timezone = "EST") Date createDate) {
+      @JsonProperty("transferTypeName") String transferTypeName, @JsonProperty("createDate") @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss.SSS", timezone = "EST", locale = "us") Date createDate) {
 
     super();
     this.uuid = uuid;
