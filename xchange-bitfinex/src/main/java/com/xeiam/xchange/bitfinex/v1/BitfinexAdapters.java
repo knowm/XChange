@@ -66,17 +66,20 @@ public final class BitfinexAdapters {
 
   public static OrdersContainer adaptOrders(BitfinexLevel[] bitfinexLevels, CurrencyPair currencyPair, OrderType orderType) {
 
-    float maxTimestamp = -1 * Float.MAX_VALUE;
+    BigDecimal maxTimestamp = new BigDecimal(Long.MIN_VALUE);
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(bitfinexLevels.length);
 
     for (BitfinexLevel bitfinexLevel : bitfinexLevels) {
-      if (bitfinexLevel.getTimestamp() > maxTimestamp) {
+      if (bitfinexLevel.getTimestamp().compareTo(maxTimestamp) > 0) {
         maxTimestamp = bitfinexLevel.getTimestamp();
       }
-      limitOrders.add(adaptOrder(bitfinexLevel.getAmount(), bitfinexLevel.getPrice(), currencyPair, orderType, new Date((long) (bitfinexLevel.getTimestamp() * 1000))));
+      
+      Date timestamp = convertBigDecimalTimestampToDate(bitfinexLevel.getTimestamp());
+      limitOrders.add(adaptOrder(bitfinexLevel.getAmount(), bitfinexLevel.getPrice(), currencyPair, orderType, timestamp));
     }
 
-    return new OrdersContainer((long) maxTimestamp * 1000, limitOrders);
+    long maxTimestampInMillis = maxTimestamp.multiply(new BigDecimal(1000l)).longValue();
+    return new OrdersContainer(maxTimestampInMillis, limitOrders);
   }
 
   public static class OrdersContainer {
@@ -226,7 +229,8 @@ public final class BitfinexAdapters {
     for (BitfinexOrderStatusResponse order : activeOrders) {
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
-      limitOrders.add(new LimitOrder(orderType, order.getRemainingAmount(), currencyPair, String.valueOf(order.getId()), new Date((long) order.getTimestamp()), order.getPrice()));
+      Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
+      limitOrders.add(new LimitOrder(orderType, order.getRemainingAmount(), currencyPair, String.valueOf(order.getId()), timestamp, order.getPrice()));
     }
 
     return new OpenOrders(limitOrders);
@@ -239,11 +243,17 @@ public final class BitfinexAdapters {
 
     for (BitfinexTradeResponse trade : trades) {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
-
-      pastTrades.add(new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), new Date((long) (trade.getTimestamp() * 1000L)), trade.getTradeId(), trade.getOrderId()));
+      Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
+      pastTrades.add(new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), trade.getOrderId()));
     }
 
     return new Trades(pastTrades, TradeSortType.SortByTimestamp);
+  }
+  
+  private static Date convertBigDecimalTimestampToDate(BigDecimal timestamp) {
+      
+      BigDecimal timestampInMillis = timestamp.multiply(new BigDecimal("1000"));
+      return new Date(timestampInMillis.longValue());
   }
 }
 
