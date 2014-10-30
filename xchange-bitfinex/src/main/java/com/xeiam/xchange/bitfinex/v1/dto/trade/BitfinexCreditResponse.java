@@ -12,10 +12,10 @@ public class BitfinexCreditResponse {
   private final BigDecimal rate;
   private final int period;
   private final BigDecimal amount;
-  private final float timestamp;
+  private final BigDecimal timestamp;
 
   public BitfinexCreditResponse(@JsonProperty("id") int id, @JsonProperty("currency") String currency, @JsonProperty("status") String status, @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("period") int period, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") float timestamp) {
+      @JsonProperty("period") int period, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") BigDecimal timestamp) {
 
     this.id = id;
     this.currency = currency;
@@ -56,7 +56,7 @@ public class BitfinexCreditResponse {
     return amount;
   }
 
-  public float getTimestamp() {
+  public BigDecimal getTimestamp() {
 
     return timestamp;
   }
