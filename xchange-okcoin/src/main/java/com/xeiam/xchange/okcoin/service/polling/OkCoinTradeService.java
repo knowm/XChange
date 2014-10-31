@@ -2,6 +2,7 @@ package com.xeiam.xchange.okcoin.service.polling;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -24,10 +25,12 @@ import com.xeiam.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class OkCoinTradeService extends OkCoinTradeServiceRaw implements PollingTradeService {
-
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
+  
   private final Logger log = LoggerFactory.getLogger(OkCoinTradeService.class);
   private final List<CurrencyPair> exchangeSymbols = (List<CurrencyPair>) getExchangeSymbols();
 
+  
   public OkCoinTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
@@ -43,7 +46,13 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
       CurrencyPair symbol = exchangeSymbols.get(i);
       log.debug("Getting order: {}", symbol);
       OkCoinOrderResult orderResult = getOrder(-1, OkCoinAdapters.adaptSymbol(symbol));
-      orderResults.add(orderResult);
+      if(orderResult.getOrders().length > 0) {
+        orderResults.add(orderResult);
+      }
+    }
+    
+    if(orderResults.size() <= 0) {
+      return noOpenOrders;
     }
 
     return OkCoinAdapters.adaptOpenOrders(orderResults);
@@ -109,10 +118,9 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   public Trades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     CurrencyPair currencyPair = arguments.length > 0 ? (CurrencyPair) arguments[0] : (useIntl ? CurrencyPair.BTC_USD : CurrencyPair.BTC_CNY);
+    Integer page = arguments.length > 1 ? (Integer) arguments[1] : 0;
 
-    Long pageLength = arguments.length > 1 ? (Long) arguments[1] : 1000L;
-
-    OkCoinOrderResult orderHistory = getOrderHistory(OkCoinAdapters.adaptSymbol(currencyPair), "1", "0", pageLength.toString());
+    OkCoinOrderResult orderHistory = getOrderHistory(OkCoinAdapters.adaptSymbol(currencyPair), "1", page.toString(), "1000");
     return OkCoinAdapters.adaptTrades(orderHistory);
   }
 }
