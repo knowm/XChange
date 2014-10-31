@@ -36,9 +36,10 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 public class CryptsyAdapterTest {
@@ -290,9 +291,9 @@ public class CryptsyAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CryptsyTradeHistoryReturn cryptsyTradeHistory = mapper.readValue(is, CryptsyTradeHistoryReturn.class);
 
-    Trades adaptedTrades = CryptsyAdapters.adaptTradeHistory(cryptsyTradeHistory);
+    UserTrades adaptedTrades = CryptsyAdapters.adaptTradeHistory(cryptsyTradeHistory);
 
-    UserTrade trade = (UserTrade) adaptedTrades.getTrades().get(0);
+    UserTrade trade = adaptedTrades.getUserTrades().get(0);
     assertEquals(trade.getCurrencyPair(), CurrencyPair.LTC_BTC);
     assertEquals(trade.getId(), "9982231");
     assertEquals(trade.getOrderId(), "23569349");

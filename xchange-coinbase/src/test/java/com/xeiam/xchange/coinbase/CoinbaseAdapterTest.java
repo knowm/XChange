@@ -24,9 +24,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trade;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -63,7 +62,7 @@ public class CoinbaseAdapterTest {
     BigDecimal tradableAmount = new BigDecimal("1.20000000");
     BigDecimal price = new BigDecimal("905.10").divide(tradableAmount, RoundingMode.HALF_EVEN);
 
-    Trade expectedTrade =
+    UserTrade expectedTrade =
             new UserTrade(OrderType.BID, tradableAmount, CurrencyPair.BTC_USD, price, DateUtils.fromISO8601DateString("2014-02-06T18:12:38-08:00"), "52f4411767c71baf9000003f", "52f4411767c71baf9000003f", new BigDecimal("9.05"), "USD");
 
     // Read in the JSON from the example resources
@@ -73,11 +72,11 @@ public class CoinbaseAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CoinbaseTransfers transfers = mapper.readValue(is, CoinbaseTransfers.class);
 
-    Trades trades = CoinbaseAdapters.adaptTrades(transfers);
-    List<Trade> tradeList = trades.getTrades();
+    UserTrades trades = CoinbaseAdapters.adaptTrades(transfers);
+    List<UserTrade> tradeList = trades.getUserTrades();
     assertThat(tradeList.size()).isEqualTo(1);
 
-    Trade trade = tradeList.get(0);
+    UserTrade trade = tradeList.get(0);
     assertThat(trade).isEqualsToByComparingFields(expectedTrade);
   }
 

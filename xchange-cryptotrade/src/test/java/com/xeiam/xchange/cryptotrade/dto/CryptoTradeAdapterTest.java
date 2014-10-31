@@ -28,9 +28,10 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 public class CryptoTradeAdapterTest {
@@ -140,18 +141,19 @@ public class CryptoTradeAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CryptoTradeTrades tradeHistory = mapper.readValue(is, CryptoTradeTrades.class);
 
-    Trades trades = CryptoTradeAdapters.adaptTrades(tradeHistory);
+    UserTrades trades = CryptoTradeAdapters.adaptTrades(tradeHistory);
 
     assertThat(trades.getlastID()).isEqualTo(17);
     assertThat(trades.getTrades()).hasSize(2);
 
-    UserTrade trade = (UserTrade) trades.getTrades().get(1);
+    UserTrade trade = trades.getUserTrades().get(1);
     assertThat(trade.getPrice()).isEqualTo("128");
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
     assertThat(trade.getTimestamp()).isEqualTo(new Date(1370965122));
     assertThat(trade.getTradableAmount()).isEqualTo("0.1");
     assertThat(trade.getId()).isEqualTo("17");
     assertThat(trade.getOrderId()).isEqualTo("1");
+    assertThat(trade.getFeeAmount()).isNull();
   }
 
   @Test

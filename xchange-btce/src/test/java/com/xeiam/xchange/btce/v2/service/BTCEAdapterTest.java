@@ -23,9 +23,10 @@ import com.xeiam.xchange.btce.v2.service.trade.BTCETradeHistoryJSONTest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -107,14 +108,15 @@ public class BTCEAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCETradeHistoryReturn btceTradeHistory = mapper.readValue(is, BTCETradeHistoryReturn.class);
 
-    Trades trades = BTCEAdapters.adaptTradeHistory(btceTradeHistory.getReturnValue());
-    List<Trade> tradeList = trades.getTrades();
-    Trade lastTrade = tradeList.get(tradeList.size() - 1);
+    UserTrades trades = BTCEAdapters.adaptTradeHistory(btceTradeHistory.getReturnValue());
+    List<UserTrade> tradeList = trades.getUserTrades();
+    UserTrade lastTrade = tradeList.get(tradeList.size() - 1);
     assertThat(lastTrade.getId()).isEqualTo("7258275");
     assertThat(lastTrade.getType()).isEqualTo(OrderType.ASK);
     assertThat(lastTrade.getPrice().toString()).isEqualTo("125.75");
     assertThat(lastTrade.getTimestamp().getTime()).isEqualTo(1378194574000L);
     assertThat(DateUtils.toUTCString(lastTrade.getTimestamp())).isEqualTo("2013-09-03 07:49:34 GMT");
+    assertThat(lastTrade.getFeeAmount()).isNull();
 
   }
 }
