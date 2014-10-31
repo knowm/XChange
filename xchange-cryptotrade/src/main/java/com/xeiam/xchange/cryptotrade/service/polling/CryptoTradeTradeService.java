@@ -12,10 +12,10 @@ import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrdering;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeOrders;
 import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class CryptoTradeTradeService extends CryptoTradeTradeServiceRaw implements PollingTradeService {
@@ -59,7 +59,7 @@ public class CryptoTradeTradeService extends CryptoTradeTradeServiceRaw implemen
   }
 
   @Override
-  public Trades getTradeHistory(Object... args) throws IOException {
+  public UserTrades getTradeHistory(Object... args) throws IOException {
 
     CryptoTradeQueryParamsBuilder paramsBuilder = CryptoTradeHistoryQueryParams.getQueryParamsBuilder();
     if (args != null) {

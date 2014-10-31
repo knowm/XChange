@@ -20,8 +20,9 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -218,18 +219,18 @@ public final class ANXAdapters {
     return new CurrencyPair(tradeCurrency, priceCurrency);
   }
 
-  public static Trades adaptUserTrades(ANXTradeResult[] anxTradeResults) {
+  public static UserTrades adaptUserTrades(ANXTradeResult[] anxTradeResults) {
 
-    List<Trade> trades = new ArrayList<Trade>(anxTradeResults.length);
+    List<UserTrade> trades = new ArrayList<UserTrade>(anxTradeResults.length);
     for (ANXTradeResult tradeResult : anxTradeResults) {
       trades.add(adaptUserTrade(tradeResult));
     }
 
     long lastId = trades.size() > 0 ? anxTradeResults[0].getTimestamp().getTime() : 0L;
-    return new Trades(trades, lastId, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, lastId, TradeSortType.SortByTimestamp);
   }
 
-  private static Trade adaptUserTrade(ANXTradeResult t) {
+  private static UserTrade adaptUserTrade(ANXTradeResult t) {
 
     BigDecimal tradedCurrencyFillAmount = t.getTradedCurrencyFillAmount();
     CurrencyPair currencyPair = adaptCurrencyPair(t.getCurrencyPair());

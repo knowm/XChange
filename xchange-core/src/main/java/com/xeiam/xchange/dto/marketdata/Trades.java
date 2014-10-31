@@ -10,7 +10,7 @@ import java.util.List;
  * DTO representing a collection of trades
  * </p>
  */
-public final class Trades {
+public class Trades {
 
   private static final TradeIDComparator TRADE_ID_COMPARATOR = new TradeIDComparator();
   private static final TradeTimestampComparator TRADE_TIMESTAMP_COMPARATOR = new TradeTimestampComparator();

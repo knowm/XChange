@@ -20,10 +20,10 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
@@ -135,7 +135,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
    *          </ol>
    */
   @Override
-  public Trades getTradeHistory(Object... args) throws IOException {
+  public UserTrades getTradeHistory(Object... args) throws IOException {
 
     final String type = BTCChinaTransactionsRequest.TYPE_ALL;
     final Integer limit = args.length > 0 ? ((Number) args[0]).intValue() : null;

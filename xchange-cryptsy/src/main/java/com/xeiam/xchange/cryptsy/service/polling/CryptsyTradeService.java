@@ -14,10 +14,10 @@ import com.xeiam.xchange.cryptsy.dto.trade.CryptsyOpenOrdersReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyPlaceOrderReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
@@ -76,7 +76,7 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
    * @throws IOException
    */
   @Override
-  public Trades getTradeHistory(final Object... arguments) throws IOException, ExchangeException {
+  public UserTrades getTradeHistory(final Object... arguments) throws IOException, ExchangeException {
 
     Date startDate = new Date(0); // default value
     Date endDate = new Date(); // default value

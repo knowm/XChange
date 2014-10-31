@@ -16,6 +16,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.vaultofsatoshi.dto.account.VosAccount;
@@ -142,9 +143,9 @@ public final class VaultOfSatoshiAdapters {
     return new AccountInfo("" + account.getAccount_id(), account.getTrade_fee().getVosMap().get("BTC").getValue(), wallets);
   }
 
-  public static Trades adaptTradeHistory(VosTradeOrder[] vosUserTransactions) {
+  public static UserTrades adaptTradeHistory(VosTradeOrder[] vosUserTransactions) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<UserTrade> trades = new ArrayList<UserTrade>();
     for (VosTradeOrder order : vosUserTransactions) {
 
       OrderType orderType = order.getType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
@@ -159,7 +160,7 @@ public final class VaultOfSatoshiAdapters {
       trades.add(new UserTrade(orderType, amount, currPair, price, timestamp, orderId, orderId, feeAmount, currPair.counterSymbol));
     }
 
-    return new Trades(trades, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
 }
