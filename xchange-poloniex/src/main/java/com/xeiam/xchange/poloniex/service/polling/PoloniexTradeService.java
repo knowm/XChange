@@ -52,10 +52,10 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     if (limitOrder.getType() == OrderType.BID) {
-      return buy(limitOrder);
+      return buy(limitOrder).getOrderNumber().toString();
     }
     else {
-      return sell(limitOrder);
+      return sell(limitOrder).getOrderNumber().toString();
     }
   }
 

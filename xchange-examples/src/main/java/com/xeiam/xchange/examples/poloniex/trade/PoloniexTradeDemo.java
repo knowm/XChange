@@ -86,7 +86,7 @@ public class PoloniexTradeDemo {
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, startTime, endTime)));
 
     LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).tradableAmount(new BigDecimal("1")).limitPrice(xmrBuyRate).build();
-    String orderId = tradeService.buy(order);
+    String orderId = tradeService.buy(order).getOrderNumber().toString();
     System.out.println("Placed order #" + orderId);
 
     Thread.sleep(3000); // wait for order to propagate
