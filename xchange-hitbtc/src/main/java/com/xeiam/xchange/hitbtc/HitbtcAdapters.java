@@ -15,6 +15,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
@@ -160,7 +161,8 @@ public class HitbtcAdapters {
       String base = t.getSymbol().substring(0, 3);
       String counter = t.getSymbol().substring(3, 6);
 
-      Trade trade = new Trade(type, t.getExecQuantity().divide(LOT_MULTIPLIER), new CurrencyPair(base, counter), t.getExecPrice(), new Date(t.getTimestamp()), t.getClientOrderId());
+      UserTrade trade = new UserTrade(type, t.getExecQuantity().divide(LOT_MULTIPLIER), new CurrencyPair(base, counter), t.getExecPrice(), new Date(t.getTimestamp()), t.getClientOrderId(),
+          Long.toString(t.getOriginalOrderId()), t.getFee(), counter);
 
       trades.add(trade);
     }

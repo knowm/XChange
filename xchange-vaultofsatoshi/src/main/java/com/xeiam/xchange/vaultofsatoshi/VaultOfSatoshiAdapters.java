@@ -15,6 +15,7 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.vaultofsatoshi.dto.account.VosAccount;
@@ -149,8 +150,13 @@ public final class VaultOfSatoshiAdapters {
       OrderType orderType = order.getType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
       CurrencyPair currPair = new CurrencyPair(order.getOrder_currency(), order.getPayment_currency());
 
-      trades.add(new Trade(orderType, order.getUnits().getValue(), currPair, order.getPrice().getValue(), DateUtils.fromMillisUtc(order.getDate_completed() / 1000L), String.valueOf(order
-          .getOrder_id())));
+      final String orderId = String.valueOf(order
+          .getOrder_id());
+      final Date timestamp = DateUtils.fromMillisUtc(order.getDate_completed() / 1000L);
+      final BigDecimal price = order.getPrice().getValue();
+      final BigDecimal amount = order.getUnits().getValue();
+      final BigDecimal feeAmount = order.getFee().getValue();
+      trades.add(new UserTrade(orderType, amount, currPair, price, timestamp, orderId, orderId, feeAmount, currPair.counterSymbol));
     }
 
     return new Trades(trades, TradeSortType.SortByTimestamp);
