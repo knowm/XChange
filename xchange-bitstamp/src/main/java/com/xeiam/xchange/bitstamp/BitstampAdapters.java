@@ -22,6 +22,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
@@ -173,7 +174,7 @@ public final class BitstampAdapters {
         final BigDecimal feeAmount = bitstampUserTransaction.getFee();
         final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
-        Trade trade = new Trade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount, currencyPair.counterSymbol);
+        Trade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount, currencyPair.counterSymbol);
         trades.add(trade);
       }
     }

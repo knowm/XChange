@@ -20,6 +20,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
@@ -235,7 +236,7 @@ public final class ANXAdapters {
     BigDecimal price = t.getSettlementCurrencyFillAmount().divide(tradedCurrencyFillAmount, PRICE_SCALE, BigDecimal.ROUND_HALF_EVEN);
     OrderType type = adaptSide(t.getSide());
     // for fees, getWalletHistory should be used.
-    return new Trade(type, tradedCurrencyFillAmount, currencyPair, price, t.getTimestamp(), t.getTradeId(), t.getOrderId(), null, null);
+    return new UserTrade(type, tradedCurrencyFillAmount, currencyPair, price, t.getTimestamp(), t.getTradeId(), t.getOrderId(), null, null);
   }
 
   private static CurrencyPair adaptCurrencyPair(String currencyPairRaw) {

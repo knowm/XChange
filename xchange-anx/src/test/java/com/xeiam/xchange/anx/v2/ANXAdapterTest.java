@@ -125,7 +125,6 @@ public class ANXAdapterTest {
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
     assertThat(trade.getPrice()).isEqualTo("655");
     assertThat(trade.getId()).isEqualTo("1402189342525");
-    assertThat(trade.getOrderId()).isNull();
     assertThat(trade.getType()).isEqualTo(OrderType.BID);
     assertThat(trade.getTimestamp().getTime()).isEqualTo(1402189342525L);
   }

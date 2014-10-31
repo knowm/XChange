@@ -21,6 +21,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -177,6 +178,6 @@ public final class OkCoinAdapters {
 
   private static Trade adaptTrade(OkCoinOrder order) {
 
-    return new Trade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(), order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, null);
+    return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(), order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, null);
   }
 }

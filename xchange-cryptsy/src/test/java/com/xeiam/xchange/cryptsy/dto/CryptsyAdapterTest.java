@@ -28,6 +28,7 @@ import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicOrderbook;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicOrderbookReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyOpenOrdersReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -35,6 +36,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -132,7 +134,6 @@ public class CryptsyAdapterTest {
     Trade adaptedTrade = adaptedTradesList.get(1);
     assertThat(adaptedTrade.getCurrencyPair()).isEqualTo(CurrencyPair.DOGE_LTC);
     assertThat(adaptedTrade.getId()).isEqualTo("47692497");
-    assertThat(adaptedTrade.getOrderId()).isNull();
     assertThat(adaptedTrade.getPrice()).isEqualTo("0.00003495");
     assertThat(adaptedTrade.getTradableAmount()).isEqualTo("2961.55892792");
     assertThat(adaptedTrade.getTimestamp()).isEqualTo(CryptsyUtils.convertDateTime("2014-05-29 21:49:34"));
@@ -291,13 +292,15 @@ public class CryptsyAdapterTest {
 
     Trades adaptedTrades = CryptsyAdapters.adaptTradeHistory(cryptsyTradeHistory);
 
-    Trade trade = adaptedTrades.getTrades().get(0);
+    UserTrade trade = (UserTrade) adaptedTrades.getTrades().get(0);
     assertEquals(trade.getCurrencyPair(), CurrencyPair.LTC_BTC);
     assertEquals(trade.getId(), "9982231");
     assertEquals(trade.getOrderId(), "23569349");
     assertEquals(trade.getType(), OrderType.BID);
     assertEquals(trade.getTradableAmount(), new BigDecimal("0.15949550"));
     assertEquals(trade.getPrice(), new BigDecimal("0.03128615"));
+    assertEquals(trade.getFeeAmount(), new BigDecimal("0.000009980"));
+    assertEquals(trade.getFeeCurrency(), Currencies.BTC);
   }
 
   @Test

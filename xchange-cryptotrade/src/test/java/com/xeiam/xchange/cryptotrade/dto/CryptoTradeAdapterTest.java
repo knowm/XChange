@@ -28,6 +28,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -144,7 +145,7 @@ public class CryptoTradeAdapterTest {
     assertThat(trades.getlastID()).isEqualTo(17);
     assertThat(trades.getTrades()).hasSize(2);
 
-    Trade trade = trades.getTrades().get(1);
+    UserTrade trade = (UserTrade) trades.getTrades().get(1);
     assertThat(trade.getPrice()).isEqualTo("128");
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
     assertThat(trade.getTimestamp()).isEqualTo(new Date(1370965122));
