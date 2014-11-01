@@ -409,7 +409,7 @@ public final class BTCChinaAdapters {
 
   public static OrderType adaptOrderType(String type) {
 
-    return type.equals("buy") ? OrderType.BID : OrderType.ASK;
+    return type.equals("bid") ? OrderType.BID : OrderType.ASK;
   }
 
   public static BTCChinaOrderStatus adaptOrderStatus(String status) {
