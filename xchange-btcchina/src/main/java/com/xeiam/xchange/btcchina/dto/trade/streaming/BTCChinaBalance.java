@@ -51,8 +51,9 @@ public class BTCChinaBalance {
    */
   @Override
   public String toString() {
-
-    return ToStringBuilder.reflectionToString(this);
+	  return "BTCChinaBalance [amountInteger=" + amountInteger + ", amount=" + amount + ", symbol=" + symbol 
+			  + ", amountDecimal=" + amountDecimal + ", currency=" + currency + "]";  
+//    return ToStringBuilder.reflectionToString(this);
   }
 
 }
