@@ -25,7 +25,7 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param tradableAmount The amount to trade
-   * @param CurrencyPair currencyPair The identifier (e.g. BTC/USD)
+   * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
@@ -92,11 +92,7 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
     public Builder(OrderType orderType, CurrencyPair currencyPair) {
 
       this.orderType = orderType;
-      this.tradableAmount = null;
       this.currencyPair = currencyPair;
-      this.id = null;
-      this.timestamp = new Date(System.currentTimeMillis());
-      this.limitPrice = null;
     }
 
     public static Builder from(LimitOrder order){
