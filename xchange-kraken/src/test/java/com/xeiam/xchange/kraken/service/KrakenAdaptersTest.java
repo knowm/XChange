@@ -22,10 +22,11 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
@@ -196,16 +197,18 @@ public class KrakenAdaptersTest {
     KrakenTradeHistory krakenTradeHistory = krakenResult.getResult();
     Map<String, KrakenTrade> krakenTradeHistoryMap = krakenTradeHistory.getTrades();
 
-    Trades trades = KrakenAdapters.adaptTradesHistory(krakenTradeHistoryMap);
-    List<Trade> tradeList = trades.getTrades();
+    UserTrades trades = KrakenAdapters.adaptTradesHistory(krakenTradeHistoryMap);
+    List<UserTrade> tradeList = trades.getUserTrades();
 
     assertThat(tradeList.size()).isEqualTo(1);
-    Trade trade = tradeList.get(0);
+    UserTrade trade = tradeList.get(0);
     assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD");
     assertThat(trade.getPrice()).isEqualTo(new BigDecimal("32.07562"));
     assertThat(trade.getTradableAmount()).isEqualTo("0.50000000");
     assertThat(trade.getCurrencyPair().baseSymbol).isEqualTo(Currencies.BTC);
     assertThat(trade.getCurrencyPair().counterSymbol).isEqualTo(Currencies.LTC);
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
+    assertThat(trade.getFeeAmount()).isEqualTo(new BigDecimal("0.03208"));
+    assertThat(trade.getFeeCurrency()).isEqualTo(Currencies.LTC);
   }
 }

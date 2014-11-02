@@ -15,6 +15,8 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
@@ -150,9 +152,9 @@ public class HitbtcAdapters {
     return new OpenOrders(openOrders);
   }
 
-  public static Trades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw) {
+  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw) {
 
-    List<Trade> trades = new ArrayList<Trade>(tradeHistoryRaw.length);
+    List<UserTrade> trades = new ArrayList<UserTrade>(tradeHistoryRaw.length);
     for (int i = 0; i < tradeHistoryRaw.length; i++) {
       HitbtcOwnTrade t = tradeHistoryRaw[i];
       OrderType type = t.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
@@ -160,12 +162,13 @@ public class HitbtcAdapters {
       String base = t.getSymbol().substring(0, 3);
       String counter = t.getSymbol().substring(3, 6);
 
-      Trade trade = new Trade(type, t.getExecQuantity().divide(LOT_MULTIPLIER), new CurrencyPair(base, counter), t.getExecPrice(), new Date(t.getTimestamp()), t.getClientOrderId());
+      UserTrade trade = new UserTrade(type, t.getExecQuantity().divide(LOT_MULTIPLIER), new CurrencyPair(base, counter), t.getExecPrice(), new Date(t.getTimestamp()), t.getClientOrderId(),
+          Long.toString(t.getOriginalOrderId()), t.getFee(), counter);
 
       trades.add(trade);
     }
 
-    return new Trades(trades, TradeSortType.SortByID);
+    return new UserTrades(trades, TradeSortType.SortByID);
   }
 
   public static AccountInfo adaptAccountInfo(HitbtcBalance[] accountInfoRaw) {

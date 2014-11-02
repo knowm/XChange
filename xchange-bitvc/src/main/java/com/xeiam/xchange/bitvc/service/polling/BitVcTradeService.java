@@ -16,10 +16,10 @@ import com.xeiam.xchange.bitvc.dto.trade.BitVcCancelOrderResult;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcOrder;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcPlaceOrderResult;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class BitVcTradeService extends BitVcTradeServiceRaw implements PollingTradeService {
@@ -91,7 +91,7 @@ public class BitVcTradeService extends BitVcTradeServiceRaw implements PollingTr
   }
 
   @Override
-  public Trades getTradeHistory(Object... arguments) {
+  public UserTrades getTradeHistory(Object... arguments) {
 
     throw new NotAvailableFromExchangeException();
   }

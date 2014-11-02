@@ -18,6 +18,8 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountBalance;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
@@ -141,9 +143,9 @@ public final class ItBitAdapters {
     return new OpenOrders(limitOrders);
   }
 
-  public static Trades adaptTradeHistory(ItBitOrder[] orders) {
+  public static UserTrades adaptTradeHistory(ItBitOrder[] orders) {
 
-    List<Trade> trades = new ArrayList<Trade>(orders.length);
+    List<UserTrade> trades = new ArrayList<UserTrade>(orders.length);
 
     for (int i = 0; i < orders.length; i++) {
       ItBitOrder itBitOrder = orders[i];
@@ -153,10 +155,10 @@ public final class ItBitAdapters {
       CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
       Date timestamp = parseDate(itBitOrder.getCreatedTime());
 
-      trades.add(new Trade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), timestamp, itBitOrder.getId()));
+      trades.add(new UserTrade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), timestamp, itBitOrder.getId(), itBitOrder.getId(), null, null));
     }
 
-    return new Trades(trades, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
   public static Ticker adaptTicker(CurrencyPair currencyPair, ItBitTicker itBitTicker) {

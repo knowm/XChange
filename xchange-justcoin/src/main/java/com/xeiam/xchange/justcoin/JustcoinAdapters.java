@@ -15,6 +15,8 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.justcoin.dto.account.JustcoinBalance;
 import com.xeiam.xchange.justcoin.dto.marketdata.JustcoinDepth;
@@ -105,20 +107,20 @@ public final class JustcoinAdapters {
         .getCreatedAt(), justcoinOrder.getPrice());
   }
 
-  public static Trades adaptTrades(final JustcoinTrade[] justoinOrders) {
+  public static UserTrades adaptTrades(final JustcoinTrade[] justoinOrders) {
 
-    final List<Trade> openOrders = new ArrayList<Trade>();
+    final List<UserTrade> openOrders = new ArrayList<UserTrade>();
     for (final JustcoinTrade justcoinOrder : justoinOrders) {
       openOrders.add(adaptTrade(justcoinOrder));
     }
 
-    return new Trades(openOrders, TradeSortType.SortByID);
+    return new UserTrades(openOrders, TradeSortType.SortByID);
   }
 
-  public static Trade adaptTrade(final JustcoinTrade justcoinTrade) {
+  public static UserTrade adaptTrade(final JustcoinTrade justcoinTrade) {
 
-    return new Trade(OrderType.valueOf(justcoinTrade.getType().toUpperCase()), justcoinTrade.getAmount(), adaptCurrencyPair(justcoinTrade.getMarket()), justcoinTrade.getAveragePrice(), justcoinTrade
-        .getCreatedAt(), justcoinTrade.getId());
+    return new UserTrade(OrderType.valueOf(justcoinTrade.getType().toUpperCase()), justcoinTrade.getAmount(), adaptCurrencyPair(justcoinTrade.getMarket()), justcoinTrade.getAveragePrice(), justcoinTrade
+        .getCreatedAt(), justcoinTrade.getId(), null, null, null);
   }
 
   public static Trades adaptPublicTrades(final CurrencyPair currencyPair, final List<JustcoinPublicTrade> justcoinTrades) {

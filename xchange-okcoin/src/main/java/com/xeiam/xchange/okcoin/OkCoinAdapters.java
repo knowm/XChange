@@ -23,6 +23,8 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFunds;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinUserInfo;
@@ -129,9 +131,9 @@ public final class OkCoinAdapters {
     return new OpenOrders(openOrders);
   }
 
-  public static Trades adaptTrades(OkCoinOrderResult orderResult) {
+  public static UserTrades adaptTrades(OkCoinOrderResult orderResult) {
 
-    List<Trade> trades = new ArrayList<Trade>(orderResult.getOrders().length);
+    List<UserTrade> trades = new ArrayList<UserTrade>(orderResult.getOrders().length);
     for (int i = 0; i < orderResult.getOrders().length; i++) {
       OkCoinOrder order = orderResult.getOrders()[i];
 
@@ -141,7 +143,7 @@ public final class OkCoinAdapters {
       }
       trades.add(adaptTrade(order));
     }
-    return new Trades(trades, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
   private static List<LimitOrder> adaptLimitOrders(OrderType type, BigDecimal[][] list, CurrencyPair currencyPair) {
@@ -175,8 +177,8 @@ public final class OkCoinAdapters {
     return type.equals("buy") || type.equals("buy_market") ? OrderType.BID : OrderType.ASK;
   }
 
-  private static Trade adaptTrade(OkCoinOrder order) {
+  private static UserTrade adaptTrade(OkCoinOrder order) {
 
-    return new Trade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(), order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, null);
+    return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(), order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, null);
   }
 }
