@@ -39,8 +39,8 @@ public class BitfinexMarketDataJSONTest {
     assertEquals(new BigDecimal("851.87"), asksOrdersContainer.getLimitOrders().get(0).getLimitPrice());
     assertEquals(new BigDecimal("849.59"), bidsOrdersContainer.getLimitOrders().get(0).getLimitPrice());
 
-    assertThat(asksOrdersContainer.getTimestamp()).isEqualTo(1387060992000L);
-    assertThat(bidsOrdersContainer.getTimestamp()).isEqualTo(1387060480000L);
+    assertThat(asksOrdersContainer.getTimestamp()).isEqualTo(1387060950000L);
+    assertThat(bidsOrdersContainer.getTimestamp()).isEqualTo(1387060435000L);
 
   }
 }

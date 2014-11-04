@@ -8,7 +8,7 @@ public class BitfinexTradeResponse {
 
   private final BigDecimal price;
   private final BigDecimal amount;
-  private final float timestamp;
+  private final BigDecimal timestamp;
   private final String exchange;
   private final String type;
   private final String tradeId;
@@ -29,7 +29,7 @@ public class BitfinexTradeResponse {
    * @param feeAmount
    * @param feeCurrency
    */
-  public BitfinexTradeResponse(@JsonProperty("price") final BigDecimal price, @JsonProperty("amount") final BigDecimal amount, @JsonProperty("timestamp") final float timestamp,
+  public BitfinexTradeResponse(@JsonProperty("price") final BigDecimal price, @JsonProperty("amount") final BigDecimal amount, @JsonProperty("timestamp") final BigDecimal timestamp,
                                @JsonProperty("exchange") final String exchange, @JsonProperty("type") final String type, @JsonProperty("tid") final String tradeId, @JsonProperty("order_id") final String orderId,
                                @JsonProperty("fee_amount") final BigDecimal feeAmount, @JsonProperty("fee_currency") String feeCurrency) {
 
@@ -54,7 +54,7 @@ public class BitfinexTradeResponse {
     return amount;
   }
 
-  public float getTimestamp() {
+  public BigDecimal getTimestamp() {
 
     return timestamp;
   }
