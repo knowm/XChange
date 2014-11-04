@@ -1,5 +1,7 @@
 package com.xeiam.xchange.btctrade;
 
+import java.io.IOException;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -31,7 +33,7 @@ public interface BTCTrade {
    */
   @GET
   @Path("ticker")
-  public BTCTradeTicker getTicker();
+  public BTCTradeTicker getTicker() throws IOException;
 
   /**
    * Returns the depth of the market.
@@ -40,7 +42,7 @@ public interface BTCTrade {
    */
   @GET
   @Path("depth")
-  public BTCTradeDepth getDepth();
+  public BTCTradeDepth getDepth() throws IOException;
 
   /**
    * Returns 500 recent market transactions, in reverse chronological order.
@@ -49,7 +51,7 @@ public interface BTCTrade {
    */
   @GET
   @Path("trades")
-  public BTCTradeTrade[] getTrades();
+  public BTCTradeTrade[] getTrades() throws IOException;
 
   /**
    * Returns 500 market transactions which trade ID is greater than {@code since}, in reverse chronological order.
@@ -59,7 +61,7 @@ public interface BTCTrade {
    */
   @GET
   @Path("trades")
-  public BTCTradeTrade[] getTrades(@QueryParam("since") long since);
+  public BTCTradeTrade[] getTrades(@QueryParam("since") long since) throws IOException;
 
   /**
    * Returns the secret for signing.
@@ -70,7 +72,7 @@ public interface BTCTrade {
    */
   @POST
   @Path("getsecret")
-  public BTCTradeSecretResponse getSecret(@FormParam("api_passphrase") String passphrase, @FormParam("key") String key);
+  public BTCTradeSecretResponse getSecret(@FormParam("api_passphrase") String passphrase, @FormParam("key") String key) throws IOException;
 
   /**
    * Returns the account balance.
@@ -82,11 +84,11 @@ public interface BTCTrade {
    */
   @POST
   @Path("balance")
-  public BTCTradeBalance getBalance(@FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature);
+  public BTCTradeBalance getBalance(@FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Returns the deposit address.
-   * 
+   *
    * @param nonce the nonce.
    * @param key the API public key.
    * @param signature the signature.
@@ -94,7 +96,7 @@ public interface BTCTrade {
    */
   @POST
   @Path("wallet")
-  public BTCTradeWallet getWallet(@FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature);
+  public BTCTradeWallet getWallet(@FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Return orders.
@@ -108,7 +110,7 @@ public interface BTCTrade {
   @POST
   @Path("orders")
   public BTCTradeOrder[] getOrders(@FormParam("since") long since, @FormParam("type") String type, @FormParam("nonce") long nonce, @FormParam("key") String key,
-      @FormParam("signature") ParamsDigest signature);
+      @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Returns order information.
@@ -120,7 +122,7 @@ public interface BTCTrade {
    */
   @POST
   @Path("fetch_order")
-  public BTCTradeOrder getOrder(@FormParam("id") String id, @FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature);
+  public BTCTradeOrder getOrder(@FormParam("id") String id, @FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Cancels order.
@@ -132,7 +134,7 @@ public interface BTCTrade {
    */
   @POST
   @Path("cancel_order")
-  public BTCTradeResult cancelOrder(@FormParam("id") String id, @FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature);
+  public BTCTradeResult cancelOrder(@FormParam("id") String id, @FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Places a buy order.
@@ -146,7 +148,7 @@ public interface BTCTrade {
   @POST
   @Path("buy")
   public BTCTradePlaceOrderResult buy(@FormParam("amount") String amount, @FormParam("price") String price, @FormParam("nonce") long nonce, @FormParam("key") String key,
-      @FormParam("signature") ParamsDigest signature);
+      @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Places a sell order.
@@ -160,6 +162,6 @@ public interface BTCTrade {
   @POST
   @Path("sell")
   public BTCTradePlaceOrderResult sell(@FormParam("amount") String amount, @FormParam("price") String price, @FormParam("nonce") long nonce, @FormParam("key") String key,
-      @FormParam("signature") ParamsDigest signature);
+      @FormParam("signature") ParamsDigest signature) throws IOException;
 
 }

@@ -1,5 +1,7 @@
 package com.xeiam.xchange.btctrade.service.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btctrade.BTCTradeAdapters;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTrade;
@@ -23,7 +25,7 @@ public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw impl
    * {@inheritDoc}
    */
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     return BTCTradeAdapters.adaptTicker(getBTCTradeTicker(), currencyPair);
   }
@@ -32,7 +34,7 @@ public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw impl
    * {@inheritDoc}
    */
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     return BTCTradeAdapters.adaptOrderBook(getBTCTradeDepth(), currencyPair);
   }
@@ -41,7 +43,7 @@ public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw impl
    * {@inheritDoc}
    */
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     final BTCTradeTrade[] trades;
     if (args.length == 0) {
