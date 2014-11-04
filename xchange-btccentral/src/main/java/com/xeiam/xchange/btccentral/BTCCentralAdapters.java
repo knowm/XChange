@@ -89,8 +89,7 @@ public class BTCCentralAdapters {
 
     for (BTCCentralTrade btcCentralTrade : btcCentralTrades) {
       Trade trade =
-          new Trade(null, btcCentralTrade.getTraded_btc(), currencyPair, btcCentralTrade.getPrice(), new Date(btcCentralTrade.getCreated_at_int()), btcCentralTrade.getUuid().toString(),
-              btcCentralTrade.getUuid().toString());
+          new Trade(null, btcCentralTrade.getTraded_btc(), currencyPair, btcCentralTrade.getPrice(), new Date(btcCentralTrade.getCreated_at_int()), btcCentralTrade.getUuid().toString());
 
       trades.add(trade);
     }

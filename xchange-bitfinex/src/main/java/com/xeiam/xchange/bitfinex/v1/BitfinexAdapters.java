@@ -29,6 +29,8 @@ import com.xeiam.xchange.dto.trade.FixedRateLoanOrder;
 import com.xeiam.xchange.dto.trade.FloatingRateLoanOrder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -236,18 +238,18 @@ public final class BitfinexAdapters {
     return new OpenOrders(limitOrders);
   }
 
-  public static Trades adaptTradeHistory(BitfinexTradeResponse[] trades, String symbol) {
+  public static UserTrades adaptTradeHistory(BitfinexTradeResponse[] trades, String symbol) {
 
-    List<Trade> pastTrades = new ArrayList<Trade>(trades.length);
+    List<UserTrade> pastTrades = new ArrayList<UserTrade>(trades.length);
     CurrencyPair currencyPair = adaptCurrencyPair(symbol);
 
     for (BitfinexTradeResponse trade : trades) {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
-      pastTrades.add(new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), trade.getOrderId()));
+      pastTrades.add(new UserTrade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), trade.getOrderId(), trade.getFeeAmount(), trade.getFeeCurrency()));
     }
 
-    return new Trades(pastTrades, TradeSortType.SortByTimestamp);
+    return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
   }
   
   private static Date convertBigDecimalTimestampToDate(BigDecimal timestamp) {

@@ -7,10 +7,10 @@ import com.xeiam.xchange.btctrade.dto.BTCTradeResult;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradeOrder;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradePlaceOrderResult;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements PollingTradeService {
@@ -71,7 +71,7 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
    * {@inheritDoc}
    */
   @Override
-  public Trades getTradeHistory(Object... arguments) {
+  public UserTrades getTradeHistory(Object... arguments) {
 
     long since = arguments.length > 0 ? toLong(arguments[0]) : 0L;
 

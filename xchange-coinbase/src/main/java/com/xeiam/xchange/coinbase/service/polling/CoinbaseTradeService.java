@@ -9,10 +9,10 @@ import com.xeiam.xchange.coinbase.CoinbaseAdapters;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
@@ -58,7 +58,7 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
    *          be returned and the results are limited to 25 per page by coinbase by default.
    */
   @Override
-  public Trades getTradeHistory(Object... arguments) throws ExchangeException, IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, IOException {
 
     Integer page = null;
     Integer limit = null;

@@ -7,10 +7,10 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.cexio.CexIOAdapters;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
@@ -59,7 +59,7 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
   }
 
   @Override
-  public Trades getTradeHistory(Object... args) throws IOException {
+  public UserTrades getTradeHistory(Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

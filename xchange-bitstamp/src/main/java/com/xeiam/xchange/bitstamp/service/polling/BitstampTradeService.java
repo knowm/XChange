@@ -15,10 +15,10 @@ import com.xeiam.xchange.bitstamp.dto.BitstampException;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
@@ -81,7 +81,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   }
 
   @Override
-  public Trades getTradeHistory(Object... args) throws IOException, BitstampException {
+  public UserTrades getTradeHistory(Object... args) throws IOException, BitstampException {
 
     Long numberOfTransactions = Long.MAX_VALUE;
     if (args.length > 0) {

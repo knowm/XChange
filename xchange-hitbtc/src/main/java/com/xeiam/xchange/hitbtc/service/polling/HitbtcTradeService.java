@@ -8,10 +8,10 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
@@ -57,7 +57,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   }
 
   @Override
-  public Trades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     int startIndex = 0;
     int maxResults = 1000;

@@ -23,6 +23,8 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFunds;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinUserInfo;
@@ -39,7 +41,7 @@ public final class OkCoinAdapters {
   }
 
   private static BigDecimal getOrZero(String key, Map<String, BigDecimal> map) {
-
+    
     if (map != null && map.containsKey(key)) {
       return map.get(key);
     }
@@ -49,7 +51,7 @@ public final class OkCoinAdapters {
   }
 
   public static String adaptSymbol(CurrencyPair currencyPair) {
-
+    
     return currencyPair.baseSymbol.toLowerCase() + "_" + currencyPair.counterSymbol.toLowerCase();
   }
 
@@ -116,18 +118,22 @@ public final class OkCoinAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {
-
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    
     for (int i = 0; i < orderResults.size(); i++) {
       OkCoinOrderResult orderResult = orderResults.get(i);
-      openOrders.addAll(adaptOpenOrders(orderResult));
+      OkCoinOrder[] orders = orderResult.getOrders();
+      for( int j = 0; j < orders.length; j++) {
+        OkCoinOrder singleOrder = orders[j];
+        openOrders.add(adaptOpenOrder(singleOrder));
+      }
     }
     return new OpenOrders(openOrders);
   }
 
-  public static Trades adaptTrades(OkCoinOrderResult orderResult) {
+  public static UserTrades adaptTrades(OkCoinOrderResult orderResult) {
 
-    List<Trade> trades = new ArrayList<Trade>(orderResult.getOrders().length);
+    List<UserTrade> trades = new ArrayList<UserTrade>(orderResult.getOrders().length);
     for (int i = 0; i < orderResult.getOrders().length; i++) {
       OkCoinOrder order = orderResult.getOrders()[i];
 
@@ -137,7 +143,7 @@ public final class OkCoinAdapters {
       }
       trades.add(adaptTrade(order));
     }
-    return new Trades(trades, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
   private static List<LimitOrder> adaptLimitOrders(OrderType type, BigDecimal[][] list, CurrencyPair currencyPair) {
@@ -160,19 +166,6 @@ public final class OkCoinAdapters {
     return new Trade(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), "" + trade.getTid());
   }
 
-  private static List<LimitOrder> adaptOpenOrders(OkCoinOrderResult orderResult) {
-
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>(orderResult.getOrders().length);
-    for (int i = 0; i < orderResult.getOrders().length; i++) {
-      OkCoinOrder order = orderResult.getOrders()[i];
-      LimitOrder openOrder = adaptOpenOrder(order);
-      if (openOrder != null) {
-        openOrders.add(openOrder);
-      }
-    }
-    return openOrders;
-  }
-
   private static LimitOrder adaptOpenOrder(OkCoinOrder order) {
 
     return new LimitOrder(adaptOrderType(order.getType()), order.getAmount().subtract(order.getDealAmount()), adaptSymbol(order.getSymbol()), String.valueOf(order.getOrderId()),
@@ -184,8 +177,8 @@ public final class OkCoinAdapters {
     return type.equals("buy") || type.equals("buy_market") ? OrderType.BID : OrderType.ASK;
   }
 
-  private static Trade adaptTrade(OkCoinOrder order) {
+  private static UserTrade adaptTrade(OkCoinOrder order) {
 
-    return new Trade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(), order.getCreateDate(), null, String.valueOf(order.getOrderId()));
+    return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(), order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, null);
   }
 }

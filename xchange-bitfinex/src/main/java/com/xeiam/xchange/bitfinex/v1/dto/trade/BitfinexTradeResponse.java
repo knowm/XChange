@@ -13,6 +13,8 @@ public class BitfinexTradeResponse {
   private final String type;
   private final String tradeId;
   private final String orderId;
+  private final BigDecimal feeAmount;
+  private final String feeCurrency;
 
   /**
    * Constructor
@@ -24,9 +26,12 @@ public class BitfinexTradeResponse {
    * @param type
    * @param tradeId
    * @param orderId
+   * @param feeAmount
+   * @param feeCurrency
    */
   public BitfinexTradeResponse(@JsonProperty("price") final BigDecimal price, @JsonProperty("amount") final BigDecimal amount, @JsonProperty("timestamp") final BigDecimal timestamp,
-      @JsonProperty("exchange") final String exchange, @JsonProperty("type") final String type, @JsonProperty("tid") final String tradeId, @JsonProperty("order_id") final String orderId) {
+                               @JsonProperty("exchange") final String exchange, @JsonProperty("type") final String type, @JsonProperty("tid") final String tradeId, @JsonProperty("order_id") final String orderId,
+                               @JsonProperty("fee_amount") final BigDecimal feeAmount, @JsonProperty("fee_currency") String feeCurrency) {
 
     this.price = price;
     this.amount = amount;
@@ -35,6 +40,8 @@ public class BitfinexTradeResponse {
     this.type = type;
     this.tradeId = tradeId;
     this.orderId = orderId;
+    this.feeAmount = feeAmount;
+    this.feeCurrency = feeCurrency;
   }
 
   public BigDecimal getPrice() {
@@ -67,6 +74,16 @@ public class BitfinexTradeResponse {
     return tradeId;
   }
 
+  public BigDecimal getFeeAmount() {
+
+    return feeAmount;
+  }
+
+  public String getFeeCurrency() {
+
+    return feeCurrency;
+  }
+
   @Override
   public String toString() {
 
@@ -87,6 +104,10 @@ public class BitfinexTradeResponse {
     builder.append("]");
     builder.append(", orderId=");
     builder.append(orderId);
+    builder.append(", fee=");
+    builder.append(feeAmount);
+    builder.append(" ");
+    builder.append(feeCurrency);
     builder.append("]");
     return builder.toString();
   }

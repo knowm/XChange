@@ -18,10 +18,10 @@ import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.trade.MyOpenOrders;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /**
@@ -135,7 +135,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
   }
 
   @Override
-  public Trades getTradeHistory(Object... args) {
+  public UserTrades getTradeHistory(Object... args) {
 
     throw new NotYetImplementedForExchangeException();
   }

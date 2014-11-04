@@ -15,7 +15,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.justcoin.JustcoinAdapters;
 import com.xeiam.xchange.justcoin.JustcoinUtils;
 import com.xeiam.xchange.justcoin.dto.trade.out.JustcoinTrade;
@@ -69,7 +69,7 @@ public class JustcoinTradesTest {
   @Test
   public void testAdapter() {
 
-    final Trade trade = JustcoinAdapters.adaptTrade(justcoinTrade);
+    final UserTrade trade = JustcoinAdapters.adaptTrade(justcoinTrade);
 
     assertThat(trade.getId()).isEqualTo(id);
     assertThat(trade.getPrice()).isEqualTo(averagePrice);

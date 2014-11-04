@@ -15,6 +15,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexDepth;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexLevel;
@@ -95,7 +96,7 @@ public class PoloniexAdapters {
     OrderType type = poloniexTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
     Date timestamp = PoloniexUtils.stringToDate(poloniexTrade.getDate());
 
-    Trade trade = new Trade(type, poloniexTrade.getAmount(), currencyPair, poloniexTrade.getRate(), timestamp, poloniexTrade.getTradeID(), poloniexTrade.getTradeID());
+    Trade trade = new Trade(type, poloniexTrade.getAmount(), currencyPair, poloniexTrade.getRate(), timestamp, poloniexTrade.getTradeID());
     return trade;
   }
 
@@ -135,7 +136,7 @@ public class PoloniexAdapters {
     return limitOrder;
   }
 
-  public static Trade adaptPoloniexUserTrade(PoloniexUserTrade userTrade, CurrencyPair currencyPair) {
+  public static UserTrade adaptPoloniexUserTrade(PoloniexUserTrade userTrade, CurrencyPair currencyPair) {
 
     OrderType orderType = userTrade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = userTrade.getAmount();
@@ -144,6 +145,6 @@ public class PoloniexAdapters {
     String tradeId = String.valueOf(userTrade.getTradeID());
     String orderId = String.valueOf(userTrade.getOrderNumber());
 
-    return new Trade(orderType, amount, currencyPair, price, date, tradeId, orderId);
+    return new UserTrade(orderType, amount, currencyPair, price, date, tradeId, orderId, userTrade.getFee(), currencyPair.counterSymbol);
   }
 }

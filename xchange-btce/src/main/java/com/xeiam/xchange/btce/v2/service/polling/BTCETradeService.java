@@ -13,10 +13,10 @@ import com.xeiam.xchange.btce.v2.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCEPlaceOrderReturn;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryReturn;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 /** @author Matija Mazi */
@@ -70,7 +70,7 @@ public class BTCETradeService extends BTCEBasePollingService implements PollingT
   }
 
   @Override
-  public Trades getTradeHistory(final Object... arguments) throws IOException {
+  public UserTrades getTradeHistory(final Object... arguments) throws IOException {
 
     Long numberOfTransactions = Long.MAX_VALUE;
     String tradableIdentifier = "";

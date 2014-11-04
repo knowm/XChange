@@ -399,7 +399,7 @@ public class CoinfloorAdapters {
       BigDecimal limitPrice = rawRetObj.getPrice();
 
       trade =
-          new Trade(type, rawRetObj.getBaseQty(), new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString()), limitPrice, new Date(), String.valueOf(rawRetObj.getId()), null);
+          new Trade(type, rawRetObj.getBaseQty(), new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString()), limitPrice, new Date(), String.valueOf(rawRetObj.getId()));
 
       List<Trade> newTradesList = (cachedTrades == null ? new ArrayList<Trade>() : cachedTrades.getTrades());
       newTradesList.add(trade);

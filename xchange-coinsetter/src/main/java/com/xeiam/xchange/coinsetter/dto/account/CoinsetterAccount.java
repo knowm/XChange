@@ -40,7 +40,7 @@ public class CoinsetterAccount {
   public CoinsetterAccount(@JsonProperty("uuid") UUID accountUuid, @JsonProperty("customerUuid") UUID customerUuid, @JsonProperty("accountNumber") String accountNumber,
       @JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("btcBalance") BigDecimal btcBalance, @JsonProperty("usdBalance") BigDecimal usdBalance,
       @JsonProperty("accountClass") String accountClass, @JsonProperty("activeStatus") String activeStatus, @JsonProperty("approvedMarginRatio") BigDecimal approvedMarginRatio,
-      @JsonProperty("createDate") @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss.SSS", timezone = "EST") Date createDate) {
+      @JsonProperty("createDate") @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss.SSS", timezone = "EST", locale = "us") Date createDate) {
 
     this.accountUuid = accountUuid;
     this.customerUuid = customerUuid;

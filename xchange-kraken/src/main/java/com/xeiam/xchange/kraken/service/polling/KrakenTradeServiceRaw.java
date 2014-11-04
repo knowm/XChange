@@ -86,7 +86,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
     return getKrakenTradeHistory(null, false, null, null, null);
   }
 
-  public Map<String, KrakenTrade> getKrakenTradeHistory(String type, boolean includeTrades, String start, String end, String offset) throws IOException {
+  public Map<String, KrakenTrade> getKrakenTradeHistory(String type, boolean includeTrades, Long start, Long end, Long offset) throws IOException {
 
     KrakenTradeHistoryResult result = kraken.tradeHistory(type, includeTrades, start, end, offset, exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
 

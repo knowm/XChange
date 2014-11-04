@@ -65,7 +65,6 @@ public class JustcoinTradesTest {
     assertThat(adaptedTrade.getTimestamp().getTime()).isEqualTo(1403353443000L);
     assertThat(adaptedTrade.getId()).isEqualTo("92595");
     assertThat(adaptedTrade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
-    assertThat(adaptedTrade.getOrderId()).isNull();
     assertThat(adaptedTrade.getType()).isNull();
   }
 }

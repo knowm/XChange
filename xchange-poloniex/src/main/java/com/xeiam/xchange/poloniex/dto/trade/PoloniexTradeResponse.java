@@ -1,66 +1,41 @@
 package com.xeiam.xchange.poloniex.dto.trade;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.annotation.Generated;
+import si.mazi.rescu.ExceptionalReturnContentException;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "orderNumber", "resultingTrades" })
 public class PoloniexTradeResponse {
 
-  @JsonProperty("orderNumber")
-  private Integer orderNumber;
-  @JsonProperty("resultingTrades")
-  private List<PoloniexPublicTrade> resultingTrades = new ArrayList<PoloniexPublicTrade>();
-  @JsonIgnore
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  private final Integer orderNumber;
+  private final List<PoloniexPublicTrade> resultingTrades = new ArrayList<PoloniexPublicTrade>();
 
-  @JsonProperty("orderNumber")
+  @JsonCreator
+  public PoloniexTradeResponse(
+      @JsonProperty("orderNumber") Integer orderNumber,
+      @JsonProperty("resultingTrades") List<PoloniexPublicTrade> resultingTrades) {
+
+    if (orderNumber == null) {
+      throw new ExceptionalReturnContentException("No trade data in response");
+    }
+    this.orderNumber = orderNumber;
+    if (resultingTrades != null) {
+      this.resultingTrades.addAll(resultingTrades);
+    }
+  }
+
   public Integer getOrderNumber() {
 
     return orderNumber;
   }
 
-  @JsonProperty("orderNumber")
-  public void setOrderNumber(Integer orderNumber) {
-
-    this.orderNumber = orderNumber;
-  }
-
-  @JsonProperty("resultingTrades")
   public List<PoloniexPublicTrade> getPoloniexPublicTrades() {
 
     return resultingTrades;
-  }
-
-  @JsonProperty("resultingTrades")
-  public void setPoloniexPublicTrades(List<PoloniexPublicTrade> resultingTrades) {
-
-    this.resultingTrades = resultingTrades;
-  }
-
-  @JsonAnyGetter
-  public Map<String, Object> getAdditionalProperties() {
-
-    return this.additionalProperties;
-  }
-
-  @JsonAnySetter
-  public void setAdditionalProperty(String name, Object value) {
-
-    this.additionalProperties.put(name, value);
   }
 
 }
