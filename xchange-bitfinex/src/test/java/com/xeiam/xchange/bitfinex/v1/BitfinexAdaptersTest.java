@@ -156,7 +156,9 @@ public class BitfinexAdaptersTest {
       String type = i % 2 == 0 ? "buy" : "sell";
       String tradeIdString = String.valueOf(tradeId++);
       String orderIdString = String.valueOf(orderId++);
-      responses[i] = new BitfinexTradeResponse(price, amount, timestamp, MARKET, type, tradeIdString, orderIdString);
+      BigDecimal feeAmount = new BigDecimal(0l);
+      String feeCurrency = "USD";
+      responses[i] = new BitfinexTradeResponse(price, amount, timestamp, MARKET, type, tradeIdString, orderIdString, feeAmount, feeCurrency);
     }
 
     return responses;
