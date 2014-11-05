@@ -40,7 +40,7 @@ public class AccountInfoDemo {
     System.out.println("Deposit address: " + depositAddress);
   }
 
-  private static void raw(Exchange exchange) {
+  private static void raw(Exchange exchange) throws IOException {
 
     BTCTradeAccountServiceRaw accountService = (BTCTradeAccountServiceRaw) exchange.getPollingAccountService();
     BTCTradeBalance balance = accountService.getBTCTradeBalance();

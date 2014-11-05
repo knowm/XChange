@@ -41,7 +41,7 @@ public class TradesDemo {
     System.out.println("Trades count: " + trades.getTrades().size() + ", LastID: " + trades.getlastID());
   }
 
-  private static void raw(Exchange exchange) {
+  private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication).
     BTCTradeMarketDataServiceRaw marketDataService = (BTCTradeMarketDataServiceRaw) exchange.getPollingMarketDataService();
