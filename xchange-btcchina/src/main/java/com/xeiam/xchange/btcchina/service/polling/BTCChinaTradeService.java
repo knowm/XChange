@@ -149,4 +149,9 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     return BTCChinaAdapters.adaptTransactions(response.getResult().getTransactions());
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

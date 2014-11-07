@@ -99,4 +99,9 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     return BTCEAdapters.adaptTradeHistory(resultMap);
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

@@ -85,4 +85,9 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
     return BTCTradeAdapters.adaptTrades(orders, orderDetails);
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

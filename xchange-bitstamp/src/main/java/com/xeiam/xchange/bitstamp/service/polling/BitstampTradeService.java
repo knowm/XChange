@@ -97,4 +97,9 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
     return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(numberOfTransactions));
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

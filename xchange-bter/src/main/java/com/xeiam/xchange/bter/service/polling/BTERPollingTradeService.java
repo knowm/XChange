@@ -92,4 +92,9 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
     }
 
   }
+
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
 }

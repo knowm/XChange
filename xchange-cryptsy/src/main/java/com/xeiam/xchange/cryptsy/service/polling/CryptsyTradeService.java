@@ -90,4 +90,9 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
     return CryptsyAdapters.adaptTradeHistory(tradeHistoryReturnData);
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

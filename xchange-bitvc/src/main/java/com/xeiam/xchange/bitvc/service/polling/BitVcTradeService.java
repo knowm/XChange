@@ -96,4 +96,9 @@ public class BitVcTradeService extends BitVcTradeServiceRaw implements PollingTr
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

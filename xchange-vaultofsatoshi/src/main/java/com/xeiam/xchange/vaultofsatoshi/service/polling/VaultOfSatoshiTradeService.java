@@ -94,4 +94,9 @@ public class VaultOfSatoshiTradeService extends VaultOfSatoshiTradeServiceRaw im
     return VaultOfSatoshiAdapters.adaptTradeHistory(getVaultOfSatoshiUserTransactions(numberOfTransactions));
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

@@ -64,4 +64,9 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

@@ -51,4 +51,9 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Pol
 
     throw new NotYetImplementedForExchangeException();
   }
+
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
 }

@@ -89,4 +89,9 @@ public class BTCETradeService extends BTCEBasePollingService implements PollingT
     return BTCEAdapters.adaptTradeHistory(btceTradeHistory.getReturnValue());
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

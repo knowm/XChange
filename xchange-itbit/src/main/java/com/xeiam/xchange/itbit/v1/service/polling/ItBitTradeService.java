@@ -58,4 +58,9 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
 
     return ItBitAdapters.adaptTradeHistory(getItBitTradeHistory(arguments));
   }
+
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
 }

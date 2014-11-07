@@ -140,4 +140,9 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
     throw new NotYetImplementedForExchangeException();
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

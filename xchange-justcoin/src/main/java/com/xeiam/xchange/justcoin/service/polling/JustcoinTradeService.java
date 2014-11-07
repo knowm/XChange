@@ -49,4 +49,9 @@ public class JustcoinTradeService extends JustcoinTradeServiceRaw implements Pol
 
     return JustcoinAdapters.adaptTrades(super.getOrderHistory());
   }
+
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
 }

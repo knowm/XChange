@@ -60,4 +60,9 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Polli
     return new UserTrades(BittrexAdapters.adaptUserTrades(getBittrexTradeHistory()), TradeSortType.SortByTimestamp);
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

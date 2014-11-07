@@ -123,4 +123,9 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
     OkCoinOrderResult orderHistory = getOrderHistory(OkCoinAdapters.adaptSymbol(currencyPair), "1", page.toString(), "1000");
     return OkCoinAdapters.adaptTrades(orderHistory);
   }
+
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
 }

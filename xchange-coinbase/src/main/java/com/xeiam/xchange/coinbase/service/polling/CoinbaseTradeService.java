@@ -78,4 +78,9 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
     return CoinbaseAdapters.adaptTrades(transfers);
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

@@ -98,4 +98,9 @@ public class CryptoTradeTradeService extends CryptoTradeTradeServiceRaw implemen
 
     return CryptoTradeAdapters.adaptTrades(tradeHistory);
   }
+
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
 }

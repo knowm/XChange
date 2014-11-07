@@ -109,4 +109,9 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

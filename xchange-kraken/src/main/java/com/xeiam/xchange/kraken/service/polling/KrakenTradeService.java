@@ -49,4 +49,9 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
     return KrakenAdapters.adaptTradesHistory(super.getKrakenTradeHistory());
   }
 
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }

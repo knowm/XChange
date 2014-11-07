@@ -91,4 +91,10 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
 
     return BitfinexAdapters.adaptTradeHistory(trades, symbol);
   }
+
+  @Override
+  public Object createTradeHistoryParams() {
+    return null;
+  }
+
 }
