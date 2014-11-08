@@ -40,7 +40,7 @@ public class TradeHistoryDemo {
     System.out.println("Trades: " + trades);
   }
 
-  private static void raw(Exchange exchange) {
+  private static void raw(Exchange exchange) throws IOException {
 
     BTCTradeTradeServiceRaw tradeService = (BTCTradeTradeServiceRaw) exchange.getPollingTradeService();
 

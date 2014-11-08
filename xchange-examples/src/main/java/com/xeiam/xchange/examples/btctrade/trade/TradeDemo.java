@@ -50,7 +50,7 @@ public class TradeDemo {
     tradeService.cancelOrder(orderId);
   }
 
-  private static void raw(Exchange exchange) {
+  private static void raw(Exchange exchange) throws IOException {
 
     BTCTradeTradeServiceRaw tradeService = (BTCTradeTradeServiceRaw) exchange.getPollingTradeService();
 

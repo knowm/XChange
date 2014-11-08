@@ -1,5 +1,7 @@
 package com.xeiam.xchange.btctrade.service.polling;
 
+import java.io.IOException;
+
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -36,8 +38,9 @@ public class BTCTradeBaseTradePollingService extends BTCTradeBasePollingService 
    * Returns the {@link BTCTradeDigest}.
    *
    * @return the {@link BTCTradeDigest}.
+   * @throws IOException indicates I/O exception in refreshing session from server.
    */
-  public ParamsDigest getSignatureCreator() {
+  public ParamsDigest getSignatureCreator() throws IOException {
 
     return session.getSignatureCreator();
   }

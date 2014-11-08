@@ -1,5 +1,7 @@
 package com.xeiam.xchange.btctrade.service;
 
+import java.io.IOException;
+
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -31,7 +33,7 @@ public class BTCTradeSession {
 
   /**
    * Constructor in package access level for {@link BTCTradeSessionFactory}.
-   * 
+   *
    * @param exchangeSpecification the {@link ExchangeSpecification}.
    */
   BTCTradeSession(ExchangeSpecification exchangeSpecification) {
@@ -70,7 +72,7 @@ public class BTCTradeSession {
     return newNonce;
   }
 
-  public synchronized ParamsDigest getSignatureCreator() {
+  public synchronized ParamsDigest getSignatureCreator() throws IOException {
 
     if (secretData == null || secretExpiresTime - System.currentTimeMillis() < 60 * 1000) {
       refresh();
@@ -79,7 +81,7 @@ public class BTCTradeSession {
     return signatureCreator;
   }
 
-  private void refresh() {
+  private void refresh() throws IOException {
 
     secretData = secretDataService.getSecretData();
     secretExpiresTime = BTCTradeAdapters.adaptDatetime(secretData.getExpires()).getTime();
