@@ -7,6 +7,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.currency.FuturesPrompt;
 import com.xeiam.xchange.okcoin.OkCoin;
 import com.xeiam.xchange.okcoin.OkCoinAdapters;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinDepth;
@@ -34,15 +35,21 @@ public class OkCoinMarketDataServiceRaw extends OkCoinBasePollingService {
 
 		return okCoin.getTicker("1", OkCoinAdapters.adaptSymbol(currencyPair));
 	}
+	
+	 public OkCoinTickerResponse getFuturesTicker(CurrencyPair currencyPair, FuturesPrompt prompt) throws IOException {
+
+	    return okCoin.getFuturesTicker(OkCoinAdapters.adaptSymbol(currencyPair), prompt.getName());
+	  }
+
 
 	public OkCoinDepth getDepth(CurrencyPair currencyPair) throws IOException {
 
 		return okCoin.getDepth("1", OkCoinAdapters.adaptSymbol(currencyPair));
 	}
 
-	public OkCoinDepth getDepth(CurrencyPair currencyPair, String prompt) throws IOException {
+	public OkCoinDepth getFuturesDepth(CurrencyPair currencyPair, FuturesPrompt prompt) throws IOException {
 
-		return okCoin.getDepth("1", OkCoinAdapters.adaptSymbol(currencyPair), prompt.toLowerCase());
+		return okCoin.getFuturesDepth("1", OkCoinAdapters.adaptSymbol(currencyPair), prompt.getName().toLowerCase());
 	}
 
 	public OkCoinTrade[] getTrades(CurrencyPair currencyPair) throws IOException {
@@ -55,9 +62,9 @@ public class OkCoinMarketDataServiceRaw extends OkCoinBasePollingService {
 		return okCoin.getTrades("1", OkCoinAdapters.adaptSymbol(currencyPair), since);
 	}
 
-	public OkCoinTrade[] getTrades(CurrencyPair currencyPair, String prompt) throws IOException {
+	public OkCoinTrade[] getFuturesTrades(CurrencyPair currencyPair, FuturesPrompt prompt) throws IOException {
 
-		return okCoin.getTrades("1", OkCoinAdapters.adaptSymbol(currencyPair), prompt.toLowerCase());
+		return okCoin.getFuturesTrades("1", OkCoinAdapters.adaptSymbol(currencyPair), prompt.getName().toLowerCase());
 	}
 
 }

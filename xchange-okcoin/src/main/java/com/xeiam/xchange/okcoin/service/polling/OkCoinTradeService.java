@@ -32,7 +32,6 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
 
   
   public OkCoinTradeService(ExchangeSpecification exchangeSpecification) {
-
     super(exchangeSpecification);
 
   }

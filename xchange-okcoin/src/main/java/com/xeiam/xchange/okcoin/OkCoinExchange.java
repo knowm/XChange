@@ -7,6 +7,9 @@ import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinAccountService;
+import com.xeiam.xchange.okcoin.service.polling.OkCoinFuturesAccountService;
+import com.xeiam.xchange.okcoin.service.polling.OkCoinFuturesMarketDataService;
+import com.xeiam.xchange.okcoin.service.polling.OkCoinFuturesTradeService;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinMarketDataService;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinTradeService;
 
@@ -25,10 +28,20 @@ public class OkCoinExchange extends BaseExchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new OkCoinMarketDataService(exchangeSpecification);
-    if (exchangeSpecification.getApiKey() != null) {
-      this.pollingAccountService = new OkCoinAccountService(exchangeSpecification);
-      this.pollingTradeService = new OkCoinTradeService(exchangeSpecification);
+
+    if(exchangeSpecification.getExchangeSpecificParameters() != null && 
+        exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+      this.pollingMarketDataService = new OkCoinFuturesMarketDataService(exchangeSpecification);
+      if (exchangeSpecification.getApiKey() != null) {
+        this.pollingAccountService = new OkCoinFuturesAccountService(exchangeSpecification);
+        this.pollingTradeService = new OkCoinFuturesTradeService(exchangeSpecification);
+      }      
+    } else {
+      this.pollingMarketDataService = new OkCoinMarketDataService(exchangeSpecification);
+      if (exchangeSpecification.getApiKey() != null) {
+        this.pollingAccountService = new OkCoinAccountService(exchangeSpecification);
+        this.pollingTradeService = new OkCoinTradeService(exchangeSpecification);
+      }
     }
   }
 
@@ -51,6 +64,7 @@ public class OkCoinExchange extends BaseExchange {
 
     // set to true to automatically use the Intl_ parameters for ssluri and host
     exchangeSpecification.setExchangeSpecificParametersItem("Use_Intl", false);
+    exchangeSpecification.setExchangeSpecificParametersItem("Use_Futures", false);
     return exchangeSpecification;
   }
 
