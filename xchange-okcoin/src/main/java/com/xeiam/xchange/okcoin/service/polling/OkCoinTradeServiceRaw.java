@@ -3,7 +3,7 @@ package com.xeiam.xchange.okcoin.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.FuturesPrompt;
+import com.xeiam.xchange.okcoin.FuturesContract;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinTradeResult;
 
@@ -41,19 +41,19 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradePollingService {
   
   /** OkCoin.com Futures API **/
 
-  public OkCoinTradeResult futuresTrade(String symbol, String type, String price, String amount, FuturesPrompt prompt, int matchPrice) throws IOException {
+  public OkCoinTradeResult futuresTrade(String symbol, String type, String price, String amount, FuturesContract prompt, int matchPrice) throws IOException {
     
     OkCoinTradeResult tradeResult = okCoin.futuresTrade(partner, symbol, prompt.getName(), type, price, amount, matchPrice, signatureCreator);
     return returnOrThrow(tradeResult);
   }
   
-  public OkCoinTradeResult futuresCancelOrder(long orderId, String symbol, FuturesPrompt prompt) throws IOException {
+  public OkCoinTradeResult futuresCancelOrder(long orderId, String symbol, FuturesContract prompt) throws IOException {
    
     OkCoinTradeResult tradeResult = okCoin.futuresCancelOrder(partner, orderId, symbol, prompt.getName(), signatureCreator);
     return returnOrThrow(tradeResult);
   }
   
-  public OkCoinOrderResult getFuturesOrder(long orderId, String symbol, String currentPage, String pageLength, FuturesPrompt prompt) throws IOException {
+  public OkCoinOrderResult getFuturesOrder(long orderId, String symbol, String currentPage, String pageLength, FuturesContract prompt) throws IOException {
 
     OkCoinOrderResult orderResult = okCoin.getFuturesOrder(partner, orderId, symbol, "0", currentPage, pageLength, prompt.getName(), signatureCreator);
     return returnOrThrow(orderResult);

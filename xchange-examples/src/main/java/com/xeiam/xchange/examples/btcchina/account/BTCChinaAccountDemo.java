@@ -39,7 +39,7 @@ public class BTCChinaAccountDemo {
     CertHelper.trustAllCerts();
 
     generic();
-    raw();
+//    raw();
   }
 
   public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
@@ -48,8 +48,8 @@ public class BTCChinaAccountDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
 
-    String depositAddress = accountService.requestDepositAddress("BTC");
-    System.out.println("Deposit address: " + depositAddress);
+    //String depositAddress = accountService.requestDepositAddress("BTC");
+    //System.out.println("Deposit address: " + depositAddress);
 
     // API key has no withdraw rights - returns 401 unauthorized
     // String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");

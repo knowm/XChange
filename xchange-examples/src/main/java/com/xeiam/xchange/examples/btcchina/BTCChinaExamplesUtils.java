@@ -13,9 +13,9 @@ public class BTCChinaExamplesUtils {
   public static Exchange getExchange() {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(BTCChinaExchange.class);
-    exSpec.setSecretKey("dea20500-3a2f-4038-ace1-8e9bd244e56c");
-    exSpec.setApiKey("9dfa65ee-e023-48fb-a8c1-cba6ea4b01ff");
-
+    exSpec.setSecretKey("c46f7d46-d16a-470a-8bfc-0898493dc118");
+    exSpec.setApiKey("1c5f7bf9-1857-4bb6-a24d-75ea92bfff86");
+    
     return ExchangeFactory.INSTANCE.createExchange(exSpec);
   }
 

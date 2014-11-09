@@ -27,7 +27,7 @@ public class OkCoinFuturesAccountService extends OkCoinAccountServiceRaw impleme
   @Override
   public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    return OkCoinAdapters.adaptAccountInfo(getUserInfo());
+    return OkCoinAdapters.adaptAccountInfo(getFutureUserInfo());
   }
 
   /**

@@ -93,7 +93,7 @@ public interface OkCoin {
 			@FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
-	@Path("future_order_info.do")
+	@Path("future_order_info.do") /** TODO 2006 error ... */
 	OkCoinOrderResult getFuturesOrder(@FormParam("partner") long partner, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
 	    @FormParam("status") String status, @FormParam("current_page") String currentPage, @FormParam("page_length") String pageLength, @FormParam("contract_type") String prompt, @FormParam("sign") ParamsDigest sign) throws IOException;
 
