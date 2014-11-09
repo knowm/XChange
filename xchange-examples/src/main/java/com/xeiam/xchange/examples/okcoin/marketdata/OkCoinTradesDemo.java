@@ -13,7 +13,7 @@ import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTrade;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-public class OKCoinTradesDemo {
+public class OkCoinTradesDemo {
 
 	public static void main(String[] args) throws IOException {
 
