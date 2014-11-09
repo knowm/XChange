@@ -83,7 +83,7 @@ public class OkCoinDigest implements ParamsDigest {
       newParams.add(param.getKey(), param.getValue());
     }
 
-    final String message = newParams.asQueryString() + secretKey;
+    final String message = newParams.asQueryString() + "&secret_key=" + secretKey;
 
     try {
       md.reset();

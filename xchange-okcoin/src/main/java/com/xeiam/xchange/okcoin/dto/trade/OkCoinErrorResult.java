@@ -7,7 +7,7 @@ public class OkCoinErrorResult {
   private final boolean result;
   private final int errorCode;
 
-  public OkCoinErrorResult(@JsonProperty("result") final boolean result, @JsonProperty("errorCode") final int errorCode) {
+  public OkCoinErrorResult(@JsonProperty("result") final boolean result, @JsonProperty("error_code") final int errorCode) {
 
     this.result = result;
     this.errorCode = errorCode;
