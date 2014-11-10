@@ -20,11 +20,12 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.opt.LimitedTradeHistoryProvider;
 
 /**
  * @author Matija Mazi
  */
-public class BitstampTradeService extends BitstampTradeServiceRaw implements PollingTradeService {
+public class BitstampTradeService extends BitstampTradeServiceRaw implements PollingTradeService, LimitedTradeHistoryProvider {
 
   /**
    * Constructor
@@ -94,7 +95,11 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
       }
     }
 
-    return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(numberOfTransactions));
+    return getTradeHistory(numberOfTransactions);
   }
 
+  @Override
+  public UserTrades getTradeHistory(long limit) throws ExchangeException, IOException {
+    return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(limit));
+  }
 }

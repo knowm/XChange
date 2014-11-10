@@ -8,11 +8,13 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.opt.SinceTradeHistoryProvider;
 
-public class KrakenTradeService extends KrakenTradeServiceRaw implements PollingTradeService {
+public class KrakenTradeService extends KrakenTradeServiceRaw implements PollingTradeService, SinceTradeHistoryProvider {
 
   public KrakenTradeService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
@@ -49,4 +51,11 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
     return KrakenAdapters.adaptTradesHistory(super.getKrakenTradeHistory());
   }
 
+  /**
+   * Get user trade history since the timestamp of passed UserTrade
+   */
+  @Override
+  public UserTrades getTradeHistory(UserTrade last) throws IOException {
+    return KrakenAdapters.adaptTradesHistory(super.getKrakenTradeHistory(null, false, last.getTimestamp().getTime(), null, null));
+  }
 }

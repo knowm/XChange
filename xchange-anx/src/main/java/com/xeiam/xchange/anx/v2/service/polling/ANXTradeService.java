@@ -1,26 +1,24 @@
 package com.xeiam.xchange.anx.v2.service.polling;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResultWrapper;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.MarketOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrades;
+import com.xeiam.xchange.dto.trade.*;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.opt.SinceTradeHistoryProvider;
 import com.xeiam.xchange.utils.Assert;
+import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * @author timmolter
  */
-public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeService {
+public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeService, SinceTradeHistoryProvider {
 
   /**
    * Constructor
@@ -88,7 +86,16 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
     if (args.length > 1)
       to = (Long) args[1];
 
-    ANXTradeResultWrapper rawTrades = getExecutedANXTrades(from, to);
+    return getTradeHistory(from, to);
+  }
+
+  @Override
+  public UserTrades getTradeHistory(UserTrade last) throws ExchangeException, IOException {
+    return getTradeHistory(last.getTimestamp().getTime(), null);
+  }
+
+  public UserTrades getTradeHistory(Long fromTime, Long toTime) throws ExchangeException, IOException {
+    ANXTradeResultWrapper rawTrades = getExecutedANXTrades(fromTime, toTime);
     String error = rawTrades.getError();
 
     if (error != null)
