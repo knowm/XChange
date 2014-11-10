@@ -2,11 +2,10 @@ package com.xeiam.xchange.anx.v2.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
 
-import com.xeiam.xchange.service.polling.opt.TradeHistoryTimeSpan;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
@@ -17,6 +16,9 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpanImpl;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -86,18 +88,15 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
     Long from = null;
     Long to = null;
 
-    if (args.length == 1 && args[0] instanceof TradeHistoryParams) {
-      TradeHistoryParams p = (TradeHistoryParams) args[0];
-      from = p.from != null ? p.from.getTime() : null;
-      to = p.to != null ? p.to.getTime() : null;
+    if (args.length > 0)
+      from = (Long) args[0];
+    if (args.length > 1)
+      to = (Long) args[1];
 
-    } else {
-      if (args.length > 0)
-        from = (Long) args[0];
-      if (args.length > 1)
-        to = (Long) args[1];
-    }
+    return getTradeHistory(from, to);
+  }
 
+  public UserTrades getTradeHistory(Long from, Long to) throws IOException {
     ANXTradeResultWrapper rawTrades = getExecutedANXTrades(from, to);
     String error = rawTrades.getError();
 
@@ -108,30 +107,17 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   }
 
   @Override
-  public Object createTradeHistoryParams() {
-    return new TradeHistoryParams();
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
+
+    TradeHistoryParamsTimeSpan p = (TradeHistoryParamsTimeSpan) params;
+    Long from = p.getStartTime() != null ? p.getStartTime().getTime() : null;
+    Long to = p.getEndTime() != null ? p.getEndTime().getTime() : null;
+    return getTradeHistory(from, to);
   }
 
-  public static class TradeHistoryParams implements TradeHistoryTimeSpan {
-    public Date to;
-    public Date from;
-
-    public TradeHistoryParams() {
-    }
-
-    public TradeHistoryParams(Date from, Date to) {
-      this.to = to;
-      this.from = from;
-    }
-
-    @Override
-    public void setToTime(Date time) {
-      to = time;
-    }
-
-    @Override
-    public void setFromTime(Date time) {
-      from = time;
-    }
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+    return new TradeHistoryParamsTimeSpanImpl();
   }
+
 }

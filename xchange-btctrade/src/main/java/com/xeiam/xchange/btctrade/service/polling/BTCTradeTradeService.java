@@ -1,7 +1,9 @@
 package com.xeiam.xchange.btctrade.service.polling;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btctrade.BTCTradeAdapters;
 import com.xeiam.xchange.btctrade.dto.BTCTradeResult;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradeOrder;
@@ -12,6 +14,9 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+
+import java.io.IOException;
 
 public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements PollingTradeService {
 
@@ -86,7 +91,13 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
   }
 
   @Override
-  public Object createTradeHistoryParams() {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
     return null;
   }
 

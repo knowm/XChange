@@ -2,8 +2,8 @@ package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.service.polling.opt.TradeHistoryCount;
-import com.xeiam.xchange.service.polling.opt.TradeHistorySinceIndex;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCount;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamSinceIndex;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -82,11 +82,17 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   }
 
   @Override
-  public Object createTradeHistoryParams() {
+  public UserTrades getTradeHistory(com.xeiam.xchange.service.polling.trade.TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
     return new TradeHistoryParams();
   }
 
-  public static class TradeHistoryParams implements TradeHistoryCount, TradeHistorySinceIndex {
+  public static class TradeHistoryParams implements TradeHistoryParamCount, TradeHistoryParamSinceIndex {
 
     public Long count;
     public Long from;
@@ -100,15 +106,24 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     }
 
     @Override
-    public void setCount(long count) {
+    public void setCount(Long count) {
       this.count = count;
     }
 
     @Override
-    public void setStartIndex(long from) {
+    public Long getCount() {
+      return count;
+    }
+
+    @Override
+    public void setStartIndex(Long from) {
       this.from = from;
     }
 
+    @Override
+    public Long getStartIndex() {
+      return from;
+    }
   }
 
   private void checkRejected(HitbtcExecutionReport executionReport) {

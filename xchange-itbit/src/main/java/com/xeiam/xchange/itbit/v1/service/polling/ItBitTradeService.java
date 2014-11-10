@@ -2,6 +2,7 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
 
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -60,7 +61,13 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
   }
 
   @Override
-  public Object createTradeHistoryParams() {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
     return null;
   }
 }

@@ -1,11 +1,6 @@
 package com.xeiam.xchange.kraken.service.polling;
 
-import java.io.IOException;
-import java.util.Date;
-
-import com.xeiam.xchange.service.polling.opt.TradeHistoryTimeSpan;
-import si.mazi.rescu.SynchronizedValueFactory;
-
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -13,8 +8,12 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpanImpl;
+import si.mazi.rescu.SynchronizedValueFactory;
 
-import javax.annotation.Nullable;
+import java.io.IOException;
 
 public class KrakenTradeService extends KrakenTradeServiceRaw implements PollingTradeService {
 
@@ -50,54 +49,28 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   @Override
   public UserTrades getTradeHistory(Object... args) throws IOException {
 
+    return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory());
+  }
+
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
+
+    TradeHistoryParamsTimeSpan p = (TradeHistoryParamsTimeSpan) params;
+
     Long start = null;
     Long end = null;
 
-    if (args.length == 1) {
-      Object arg0 = args[0];
-      if (arg0 instanceof TradeHistoryParam) {
-        TradeHistoryParam param = (TradeHistoryParam) arg0;
-        if (param.from != null)
-          start = param.from.getTime();
-        if (param.to != null)
-          end = param.to.getTime();
-      }
-    }
+    if (p.getStartTime() != null)
+      start = p.getStartTime().getTime();
+    if (p.getEndTime() != null)
+      end = p.getEndTime().getTime();
 
     return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory(null, false, start, end, null));
   }
 
   @Override
-  public Object createTradeHistoryParams() {
-    return new TradeHistoryParam();
+  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+    return new TradeHistoryParamsTimeSpanImpl();
   }
 
-  public static class TradeHistoryParam implements TradeHistoryTimeSpan{
-    @Nullable
-    private Date from;
-    @Nullable
-    private Date to;
-
-    public TradeHistoryParam() {
-    }
-
-    public TradeHistoryParam(Date from) {
-      this.from = from;
-    }
-
-    public TradeHistoryParam(Date from, Date to) {
-      this.from = from;
-      this.to = to;
-    }
-
-    @Override
-    public void setToTime(Date to) {
-      this.to = to;
-    }
-
-    @Override
-    public void setFromTime(Date from) {
-      this.from = from;
-    }
-  }
 }

@@ -9,6 +9,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 /**
  * <p>
@@ -85,5 +86,7 @@ public interface PollingTradeService extends BasePollingService {
    */
   public UserTrades getTradeHistory(final Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
-  public Object createTradeHistoryParams() ;
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+
+  public TradeHistoryParams createTradeHistoryParams();
 }
