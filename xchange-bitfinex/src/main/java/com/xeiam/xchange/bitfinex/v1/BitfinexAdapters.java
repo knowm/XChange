@@ -58,6 +58,11 @@ public final class BitfinexAdapters {
     return new CurrencyPair(tradableIdentifier, transactionCurrency);
   }
 
+  public static String adaptCurrencyPair(CurrencyPair pair) {
+
+    return (pair.baseSymbol + pair.counterSymbol).toLowerCase();
+  }
+
   public static OrderBook adaptOrderBook(BitfinexDepth btceDepth, CurrencyPair currencyPair) {
 
     OrdersContainer asksOrdersContainer = adaptOrders(btceDepth.getAsks(), currencyPair, OrderType.ASK);

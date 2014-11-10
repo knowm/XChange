@@ -2,8 +2,11 @@ package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCount;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamSinceIndex;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamOffset;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -65,12 +68,6 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     int maxResults = 1000;
     String symbols = "BTCUSD";
 
-    if (arguments.length == 1 && arguments[0] instanceof TradeHistoryParams) {
-      TradeHistoryParams p = (TradeHistoryParams) arguments[0];
-      if (p.from != null) startIndex = (int) (long) p.from;
-      if (p.count != null) maxResults = (int) (long) p.count;
-    } else
-
     if (arguments.length == 3) {
       startIndex = (Integer) arguments[0];
       maxResults = (Integer) arguments[1];
@@ -82,47 +79,75 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   }
 
   @Override
-  public UserTrades getTradeHistory(com.xeiam.xchange.service.polling.trade.TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    Long _offset = ((TradeHistoryParamOffset) params).getOffset();
+    int offset = _offset != null ? (int) (long) _offset : 0;
+
+    Integer count = ((TradeHistoryParamCount) params).getCount();
+    if (count == null)
+      count = 1000;
+
+    CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (pair == null)
+      pair = CurrencyPair.BTC_USD;
+
+    HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(offset, count, HitbtcAdapters.adaptCurrencyPair(pair));
+    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw);
   }
 
   @Override
-  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
-    return new TradeHistoryParams();
+  public TradeHistoryParams createTradeHistoryParams() {
+    return new HitbtcTradeHistoryParams();
   }
 
-  public static class TradeHistoryParams implements TradeHistoryParamCount, TradeHistoryParamSinceIndex {
+  public static class HitbtcTradeHistoryParams implements TradeHistoryParamCount, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
 
-    public Long count;
-    public Long from;
+    private Integer count;
+    private Long offset;
+    private CurrencyPair pair;
 
-    public TradeHistoryParams() {
+    public HitbtcTradeHistoryParams() {
     }
 
-    public TradeHistoryParams(Long from, Long count) {
-      this.count = count;
-      this.from = from;
-    }
-
-    @Override
-    public void setCount(Long count) {
+    public HitbtcTradeHistoryParams(Integer count) {
       this.count = count;
     }
 
+    public HitbtcTradeHistoryParams(Long offset, Integer count) {
+      this.count = count;
+      this.offset = offset;
+    }
+
     @Override
-    public Long getCount() {
+    public void setCount(Integer count) {
+      this.count = count;
+    }
+
+    @Override
+    public Integer getCount() {
       return count;
     }
 
     @Override
-    public void setStartIndex(Long from) {
-      this.from = from;
+    public void setOffset(Long offset) {
+      this.offset = offset;
     }
 
     @Override
-    public Long getStartIndex() {
-      return from;
+    public Long getOffset() {
+      return offset;
+    }
+
+    @Override
+    public void setCurrencyPair(CurrencyPair pair) {
+
+      this.pair = pair;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return pair;
     }
   }
 

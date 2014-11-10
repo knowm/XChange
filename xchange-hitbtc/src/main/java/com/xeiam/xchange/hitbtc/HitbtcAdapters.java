@@ -185,4 +185,7 @@ public class HitbtcAdapters {
     return new AccountInfo(null, wallets);
   }
 
+  public static String adaptCurrencyPair(CurrencyPair pair) {
+    return pair.baseSymbol + pair.counterSymbol;
+  }
 }

@@ -110,9 +110,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
 
     TradeHistoryParamsTimeSpan p = (TradeHistoryParamsTimeSpan) params;
-    Long from = p.getStartTime() != null ? p.getStartTime().getTime() : null;
-    Long to = p.getEndTime() != null ? p.getEndTime().getTime() : null;
-    return getTradeHistory(from, to);
+    return getTradeHistory(p.getStartTime(), p.getEndTime());
   }
 
   @Override

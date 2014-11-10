@@ -17,7 +17,7 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.*;
 
 public class BitfinexTradeService extends BitfinexTradeServiceRaw implements PollingTradeService {
 
@@ -25,7 +25,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification
    */
   public BitfinexTradeService(ExchangeSpecification exchangeSpecification) {
@@ -96,15 +96,62 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     return BitfinexAdapters.adaptTradeHistory(trades, symbol);
   }
 
+  /**
+   * Required parameters:
+   * {@link TradeHistoryParamCount#getCount()}
+   * {@link TradeHistoryParamsTimeSpan#getStartTime()}
+   * {@link TradeHistoryParamCurrencyPair#getCurrencyPair()}
+   */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    String symbol = BitfinexAdapters.adaptCurrencyPair(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+    Long timestamp = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+    Integer limit = ((TradeHistoryParamCount) params).getCount();
+
+    final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, timestamp, limit);
+    return BitfinexAdapters.adaptTradeHistory(trades, symbol);
   }
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
-    return null;
+
+    return new BitfinexTradeHistoryParams(0L, 50, CurrencyPair.BTC_USD);
   }
 
+  public static class BitfinexTradeHistoryParams extends TradeHistoryParamsTimeSpanImpl implements TradeHistoryParamCurrencyPair, TradeHistoryParamCount {
+
+    private int count;
+    private CurrencyPair pair;
+
+    public BitfinexTradeHistoryParams(long startTime, int count, CurrencyPair pair) {
+      super(startTime);
+      this.count = count;
+      this.pair = pair;
+    }
+
+    @Override
+    public void setCount(Integer count) {
+
+      this.count = count;
+    }
+
+    @Override
+    public Integer getCount() {
+
+      return count;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+
+      return pair;
+    }
+
+    @Override
+    public void setCurrencyPair(CurrencyPair pair) {
+
+      this.pair = pair;
+    }
+  }
 }

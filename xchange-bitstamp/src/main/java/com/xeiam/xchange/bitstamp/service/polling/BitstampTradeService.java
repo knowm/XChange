@@ -10,7 +10,6 @@ import java.util.List;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.BitstampException;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
@@ -21,6 +20,8 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCount;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCountImpl;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 /**
@@ -100,14 +101,14 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   }
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(Long.valueOf(((TradeHistoryParamCount)params).getCount())));
   }
 
   @Override
-  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
-    return null;
+  public TradeHistoryParams createTradeHistoryParams() {
+    return new TradeHistoryParamCountImpl(Integer.MAX_VALUE);
   }
 
 }
