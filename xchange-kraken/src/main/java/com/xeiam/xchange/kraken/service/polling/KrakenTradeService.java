@@ -8,6 +8,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamOffset;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpanImpl;
@@ -55,22 +56,29 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
 
-    TradeHistoryParamsTimeSpan p = (TradeHistoryParamsTimeSpan) params;
+    TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
+    TradeHistoryParamOffset offset = (TradeHistoryParamOffset) params;
 
-    Long start = null;
-    Long end = null;
-
-    if (p.getStartTime() != null)
-      start = p.getStartTime().getTime();
-    if (p.getEndTime() != null)
-      end = p.getEndTime().getTime();
-
-    return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory(null, false, start, end, null));
+    return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory(null, false, timeSpan.getStartTime(), timeSpan.getEndTime(), offset.getOffset()));
   }
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
-    return new TradeHistoryParamsTimeSpanImpl();
+    return new KrakenTradeHistoryParams();
+  }
+
+  public static class KrakenTradeHistoryParams extends TradeHistoryParamsTimeSpanImpl implements TradeHistoryParamOffset {
+    private Long offset;
+
+    @Override
+    public void setOffset(Long offset) {
+      this.offset = offset;
+    }
+
+    @Override
+    public Long getOffset() {
+      return offset;
+    }
   }
 
 }
