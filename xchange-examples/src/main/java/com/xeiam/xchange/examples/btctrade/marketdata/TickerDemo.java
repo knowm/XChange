@@ -34,7 +34,7 @@ public class TickerDemo {
     System.out.println(ticker);
   }
 
-  private static void raw(Exchange exchange) {
+  private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication).
     BTCTradeMarketDataServiceRaw marketDataService = (BTCTradeMarketDataServiceRaw) exchange.getPollingMarketDataService();

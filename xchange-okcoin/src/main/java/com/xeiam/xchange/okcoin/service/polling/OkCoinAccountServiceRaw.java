@@ -19,4 +19,12 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradePollingService {
     return returnOrThrow(userInfo);
   }
 
+  /** Unfinished **/
+  public OkCoinUserInfo getFutureUserInfo() throws IOException {
+
+    OkCoinUserInfo userInfo = okCoin.getFuturesUserInfo(partner, signatureCreator);
+
+    return returnOrThrow(userInfo);
+  }
+
 }

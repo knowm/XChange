@@ -1,5 +1,6 @@
 package com.xeiam.xchange.btctrade.service.polling;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -22,7 +23,7 @@ public class BTCTradeAccountService extends BTCTradeAccountServiceRaw implements
    * {@inheritDoc}
    */
   @Override
-  public AccountInfo getAccountInfo() {
+  public AccountInfo getAccountInfo() throws IOException {
 
     return BTCTradeAdapters.adaptAccountInfo(getBTCTradeBalance());
   }
@@ -40,7 +41,7 @@ public class BTCTradeAccountService extends BTCTradeAccountServiceRaw implements
    * {@inheritDoc}
    */
   @Override
-  public String requestDepositAddress(String currency, String... args) {
+  public String requestDepositAddress(String currency, String... args) throws IOException {
 
     return BTCTradeAdapters.adaptDepositAddress(getBTCTradeWallet());
   }

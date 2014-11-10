@@ -13,48 +13,35 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 public class OkCoinMarketDataService extends OkCoinMarketDataServiceRaw implements PollingMarketDataService {
 
-	/**
-	 * Constructor
-	 *
-	 * @param exchangeSpecification
-	 */
-	public OkCoinMarketDataService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   *
+   * @param exchangeSpecification
+   */
+  public OkCoinMarketDataService(ExchangeSpecification exchangeSpecification) {
 
-		super(exchangeSpecification);
-	}
+    super(exchangeSpecification);
+  }
 
-	@Override
-	public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+    return OkCoinAdapters.adaptTicker(getTicker(currencyPair), currencyPair);
+  }
 
-		return OkCoinAdapters.adaptTicker(getTicker(currencyPair), currencyPair);
-	}
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    return OkCoinAdapters.adaptOrderBook(getDepth(currencyPair), currencyPair);
+  }
 
-	@Override
-	public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-		if (args.length == 0)
-			return OkCoinAdapters.adaptOrderBook(getDepth(currencyPair), currencyPair);
+  @Override
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    final OkCoinTrade[] trades;
 
-		else if (args[0] instanceof String)
-
-			return OkCoinAdapters.adaptOrderBook(getDepth(currencyPair, (String) args[0]), currencyPair);
-
-		return OkCoinAdapters.adaptOrderBook(getDepth(currencyPair), currencyPair);
-
-	}
-
-	@Override
-	public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-		final OkCoinTrade[] trades;
-
-		if (args.length == 0) {
-			trades = getTrades(currencyPair);
-
-		} else if (args[0] instanceof String) {
-
-			trades = getTrades(currencyPair, (String) args[0]);
-		} else {
-			trades = getTrades(currencyPair, (Long) args[0]);
-		}
-		return OkCoinAdapters.adaptTrades(trades, currencyPair);
-	}
+    if (args.length == 0) {
+      trades = getTrades(currencyPair);
+    } else {
+      trades = getTrades(currencyPair, (Long) args[0]);
+    }
+    return OkCoinAdapters.adaptTrades(trades, currencyPair);
+  }
 }

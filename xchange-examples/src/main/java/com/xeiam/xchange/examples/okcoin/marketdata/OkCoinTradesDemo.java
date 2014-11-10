@@ -6,14 +6,14 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.currency.Prompts;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.okcoin.FuturesContract;
 import com.xeiam.xchange.okcoin.OkCoinExchange;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTrade;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
-public class OKCoinTradesDemo {
+public class OkCoinTradesDemo {
 
 	public static void main(String[] args) throws IOException {
 
@@ -33,7 +33,7 @@ public class OKCoinTradesDemo {
 		PollingMarketDataService marketDataService = okcoinExchange.getPollingMarketDataService();
 
 		// Get the latest trade data for BTC_CNY
-		Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD, Prompts.this_week);
+		Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD, FuturesContract.ThisWeek);
 		System.out.println(trades);
 		System.out.println("Trades(0): " + trades.getTrades().get(0).toString());
 		System.out.println("Trades size: " + trades.getTrades().size());
