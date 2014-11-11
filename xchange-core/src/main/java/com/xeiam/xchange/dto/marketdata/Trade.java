@@ -11,6 +11,7 @@ import static com.xeiam.xchange.dto.Order.OrderType;
  * Data object representing a Trade
  */
 public class Trade {
+
   /**
    * Did this trade result from the execution of a bid or a ask?
    */
@@ -123,7 +124,61 @@ public class Trade {
   @Override
   public String toString() {
 
-    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp=" + timestamp + ", id=" + id
-            + "]";
+    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp=" + timestamp + ", id=" + id + "]";
+  }
+
+  public static class Builder {
+
+    private OrderType type;
+    private BigDecimal tradableAmount;
+    private CurrencyPair currencyPair;
+    private BigDecimal price;
+    private Date timestamp;
+    private String id;
+
+    public Builder() {
+
+    }
+
+    public Builder type(OrderType type) {
+
+      this.type = type;
+      return this;
+    }
+
+    public Builder tradableAmount(BigDecimal tradableAmount) {
+
+      this.tradableAmount = tradableAmount;
+      return this;
+    }
+
+    public Builder currencyPair(CurrencyPair currencyPair) {
+
+      this.currencyPair = currencyPair;
+      return this;
+    }
+
+    public Builder price(BigDecimal price) {
+
+      this.price = price;
+      return this;
+    }
+
+    public Builder timestamp(Date timestamp) {
+
+      this.timestamp = timestamp;
+      return this;
+    }
+
+    public Builder id(String id) {
+
+      this.id = id;
+      return this;
+    }
+
+    public Trade build() {
+
+      return new Trade(type, tradableAmount, currencyPair, price, timestamp, id);
+    }
   }
 }
