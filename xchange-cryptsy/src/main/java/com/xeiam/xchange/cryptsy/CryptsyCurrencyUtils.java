@@ -531,6 +531,6 @@ public final class CryptsyCurrencyUtils {
 
     CurrencyPair currencyPairs = marketIds_CurrencyPairs.get(marketId);
 
-    return (currencyPairs == null ? new CurrencyPair("UNKNOWN_UNKNOWN") : currencyPairs);
+    return (currencyPairs == null ? new CurrencyPair("null", "null") : currencyPairs);
   }
 }
