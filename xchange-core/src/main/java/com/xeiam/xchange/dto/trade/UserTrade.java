@@ -6,6 +6,7 @@ import java.util.Date;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trade.Builder;
 
 /**
  * Data object representing a user trade
@@ -77,4 +78,79 @@ public final class UserTrade extends Trade {
     return feeCurrency;
   }
 
+  public static class Builder {
+
+    private OrderType type;
+    private BigDecimal tradableAmount;
+    private CurrencyPair currencyPair;
+    private BigDecimal price;
+    private Date timestamp;
+    private String id;
+    private String orderId;
+    private BigDecimal feeAmount;
+    private String feeCurrency;
+
+    public Builder() {
+
+    }
+
+    public Builder type(OrderType type) {
+
+      this.type = type;
+      return this;
+    }
+
+    public Builder tradableAmount(BigDecimal tradableAmount) {
+
+      this.tradableAmount = tradableAmount;
+      return this;
+    }
+
+    public Builder currencyPair(CurrencyPair currencyPair) {
+
+      this.currencyPair = currencyPair;
+      return this;
+    }
+
+    public Builder price(BigDecimal price) {
+
+      this.price = price;
+      return this;
+    }
+
+    public Builder timestamp(Date timestamp) {
+
+      this.timestamp = timestamp;
+      return this;
+    }
+
+    public Builder id(String id) {
+
+      this.id = id;
+      return this;
+    }
+
+    public Builder orderId(String orderId) {
+
+      this.orderId = orderId;
+      return this;
+    }
+
+    public Builder feeAmount(BigDecimal feeAmount) {
+
+      this.feeAmount = feeAmount;
+      return this;
+    }
+
+    public Builder feeCurrency(String feeCurrency) {
+
+      this.feeCurrency = feeCurrency;
+      return this;
+    }
+
+    public UserTrade build() {
+
+      return new UserTrade(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
+    }
+  }
 }
