@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.*;
+import com.xeiam.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,8 +43,6 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
    */
   public BTCChinaTradeService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
 
@@ -147,21 +144,123 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     final Integer since = args.length > 2 ? ((Number) args[2]).intValue() : null;
     final String sincetype = args.length > 3 ? ((String) args[3]) : null;
 
+    return getUserTrades(type, limit, offset, since, sincetype);
+  }
+
+  private UserTrades getUserTrades(String type, Integer limit, Integer offset, Integer since, String sincetype) throws IOException {
     log.debug("type: {}, limit: {}, offset: {}, since: {}, sincetype: {}", type, limit, offset, since, sincetype);
 
     final BTCChinaTransactionsResponse response = getTransactions(type, limit, offset, since, sincetype);
     return BTCChinaAdapters.adaptTransactions(response.getResult().getTransactions());
   }
 
+  /**
+   * Supported parameters:
+   * {@link TradeHistoryParamPaging}
+   * {@link TradeHistoryParamsTimeSpan#getStartTime()}
+   * {@link TradeHistoryParamsIdSpan#getStartId()} used only if startTime is not set
+   */
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    String type = BTCChinaTransactionsRequest.TYPE_ALL;
+    if (params instanceof BTCChinaTradeHistoryParams)
+      type = ((BTCChinaTradeHistoryParams) params).type;
+
+    Integer limit = null;
+    Integer offset = null;
+    if (params instanceof TradeHistoryParamPaging) {
+      Integer pageNumber = ((TradeHistoryParamPaging) params).getPageNumber();
+      limit = ((TradeHistoryParamPaging) params).getPageLength();
+      offset = (limit == null || pageNumber == null) ? null : limit * pageNumber;
+    }
+
+    String sincetype = null;
+    Integer since = null;
+
+    if (params instanceof TradeHistoryParamsIdSpan) {
+      String startId = ((TradeHistoryParamsIdSpan) params).getStartId();
+      if (startId != null) {
+        since = Integer.valueOf(startId);
+        sincetype = BTCChinaTransactionsRequest.SINCE_ID;
+      }
+    }
+
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      Long startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+      if (startTime != null) {
+        since = DateUtils.toUnixTime(startTime);
+        sincetype = BTCChinaTransactionsRequest.SINCE_TIME;
+      }
+    }
+
+    return getUserTrades(type, limit, offset, since, sincetype);
   }
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
-    return null;
+    return new BTCChinaTradeHistoryParams();
   }
 
+  public static class BTCChinaTradeHistoryParams extends TradeHistoryParamPagingImpl implements TradeHistoryParamsTimeSpan, TradeHistoryParamsIdSpan {
+
+    private String type = BTCChinaTransactionsRequest.TYPE_ALL;
+    private Long startTime;
+    private String startId;
+
+    public BTCChinaTradeHistoryParams() {
+    }
+
+    public BTCChinaTradeHistoryParams(Integer pageLength, Integer pageNumber, String type, Long startTime, Integer startId ) {
+
+      super(pageLength, pageNumber);
+      this.type = type;
+      this.startTime = startTime;
+
+      if (startId != null)
+        setStartId(startId.toString());
+    }
+
+    @Override
+    public void setStartTime(Long startTime) {
+
+      this.startTime = startTime;
+    }
+
+    @Override
+    public Long getStartTime() {
+      return startTime;
+    }
+
+    @Override
+    public void setEndTime(Long endTime) {
+
+    }
+
+    @Override
+    public Long getEndTime() {
+      return null;
+    }
+
+    @Override
+    public void setStartId(String startId) {
+
+      this.startId = startId;
+    }
+
+    @Override
+    public String getStartId() {
+      return startId;
+    }
+
+    @Override
+    public void setEndId(String endId) {
+
+    }
+
+    @Override
+    public String getEndId() {
+      return null;
+    }
+  }
 }
