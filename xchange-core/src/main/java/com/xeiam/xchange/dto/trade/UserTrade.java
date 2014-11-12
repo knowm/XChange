@@ -6,7 +6,6 @@ import java.util.Date;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trade;
-import com.xeiam.xchange.dto.marketdata.Trade.Builder;
 
 /**
  * Data object representing a user trade
