@@ -106,7 +106,7 @@ public class DateUtils {
   /**
    * Convert java time long to unix time int, simply by dividing by 1000
    */
-  public static int toUnixTime(long javaTime) {
+  public static long toUnixTime(long javaTime) {
     return (int) (javaTime / 1000);
   }
 

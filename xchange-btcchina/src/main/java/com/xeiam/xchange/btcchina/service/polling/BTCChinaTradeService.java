@@ -189,7 +189,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     if (params instanceof TradeHistoryParamsTimeSpan) {
       Long startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
       if (startTime != null) {
-        since = DateUtils.toUnixTime(startTime);
+        since = (int) DateUtils.toUnixTime(startTime);
         sincetype = BTCChinaTransactionsRequest.SINCE_TIME;
       }
     }

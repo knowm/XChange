@@ -6,20 +6,21 @@ import java.util.Map;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.*;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * @author Matija Mazi
@@ -102,15 +103,146 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     return BTCEAdapters.adaptTradeHistory(resultMap);
   }
 
+  /**
+   * Supported parameters:
+   * {@link TradeHistoryParamPaging}
+   * {@link TradeHistoryParamsIdSpan}
+   * {@link TradeHistoryParamsTimeSpan}
+   * {@link TradeHistoryParamCurrencyPair}
+   *
+   * You can also override sorting order (default is descending) by using {@link BTCETradeHistoryParams}
+   */
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    Long offset = null;
+    Long count = null;
+    Long startId = null;
+    Long endId = null;
+    BTCEAuthenticated.SortOrder sort = BTCEAuthenticated.SortOrder.DESC;
+    Long startTime = null;
+    Long endTime = null;
+    String btcrPair = null;
+
+    if (params instanceof TradeHistoryParamPaging) {
+      TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
+      Integer pageLength = pagingParams.getPageLength();
+      Integer pageNumber = pagingParams.getPageNumber();
+      if (pageNumber == null)
+        pageNumber = 0;
+
+      if (pageLength != null) {
+        count = pageLength.longValue();
+        offset = (long) (pageLength * pageNumber);
+      } else
+        offset = pageNumber.longValue();
+    }
+
+    if (params instanceof TradeHistoryParamsIdSpan) {
+      TradeHistoryParamsIdSpan idParams = (TradeHistoryParamsIdSpan) params;
+      startId = nullSafeToLong(idParams.getStartId());
+      endId = nullSafeToLong(idParams.getEndId());
+    }
+
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan timeParams = (TradeHistoryParamsTimeSpan) params;
+      startTime = nullSafeUnixTime(timeParams.getStartTime());
+      endTime = nullSafeUnixTime(timeParams.getEndTime());
+    }
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      if (pair != null)
+        btcrPair = BTCEAdapters.adaptCurrencyPair(pair);
+    }
+
+    if (params instanceof BTCETradeHistoryParams)
+      sort = ((BTCETradeHistoryParams) params).sortOrder;
+
+    Map<Long, BTCETradeHistoryResult> resultMap = getBTCETradeHistory(offset, count, startId, endId, sort, startTime, endTime, btcrPair);
+    return BTCEAdapters.adaptTradeHistory(resultMap);
+  }
+
+  private static Long nullSafeToLong(String str) {
+    try {
+      return (str == null || str.isEmpty()) ? null : Long.valueOf(str);
+    } catch (NumberFormatException e) {
+      return null;
+    }
+  }
+
+  private static Long nullSafeUnixTime(Long time) {
+    return time != null ? DateUtils.toUnixTime(time) : null;
   }
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
-    return null;
+    return new BTCETradeHistoryParams();
+  }
+
+  public static class BTCETradeHistoryParams extends TradeHistoryParamPagingImpl implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrencyPair {
+
+    private CurrencyPair pair;
+    private BTCEAuthenticated.SortOrder sortOrder;
+    private String startId;
+    private String endId;
+    private Long startTime;
+    private Long endTime;
+
+    @Override
+    public void setCurrencyPair(CurrencyPair pair) {
+
+      this.pair = pair;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return pair;
+    }
+
+    @Override
+    public void setStartId(String startId) {
+
+      this.startId = startId;
+    }
+
+    @Override
+    public String getStartId() {
+      return startId;
+    }
+
+    @Override
+    public void setEndId(String endId) {
+
+      this.endId = endId;
+    }
+
+    @Override
+    public String getEndId() {
+      return endId;
+    }
+
+    @Override
+    public void setStartTime(Long startTime) {
+
+      this.startTime = startTime;
+    }
+
+    @Override
+    public Long getStartTime() {
+      return startTime;
+    }
+
+    @Override
+    public void setEndTime(Long endTime) {
+
+      this.endTime = endTime;
+    }
+
+    @Override
+    public Long getEndTime() {
+      return endTime;
+    }
   }
 
 }
