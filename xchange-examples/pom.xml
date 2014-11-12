@@ -223,7 +223,7 @@
 			<artifactId>xchange-vaultofsatoshi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange Vault of Satoshi exchange support -->
+		<!-- XChange OkCoin exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-okcoin</artifactId>
