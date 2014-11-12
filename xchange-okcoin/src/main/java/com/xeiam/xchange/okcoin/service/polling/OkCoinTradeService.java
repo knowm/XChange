@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPagingImpl;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -124,14 +127,60 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
     return OkCoinAdapters.adaptTrades(orderHistory);
   }
 
+  /**
+   * Required parameters
+   * {@link TradeHistoryParamPaging}
+   *
+   * Supported parameters
+   * {@link TradeHistoryParamCurrencyPair}
+   */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    TradeHistoryParamPaging paging = (TradeHistoryParamPaging) params;
+    Integer pageLength = paging.getPageLength();
+    Integer pageNumber = paging.getPageNumber();
+
+    // pages supposedly start from 1
+    ++pageNumber;
+
+    CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    if (pair == null)
+      pair = useIntl ? CurrencyPair.BTC_USD : CurrencyPair.BTC_CNY;
+
+    OkCoinOrderResult orderHistory = getOrderHistory(OkCoinAdapters.adaptSymbol(pair), "1", toString(pageNumber), toString(pageLength));
+    return OkCoinAdapters.adaptTrades(orderHistory);
+  }
+
+  private static String toString(Object o) {
+    return o == null ? null : o.toString();
   }
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
-    return null;
+    return new OkCoinTradeHistoryParams();
+  }
+
+  public static class OkCoinTradeHistoryParams extends TradeHistoryParamPagingImpl implements TradeHistoryParamCurrencyPair {
+    private CurrencyPair pair;
+
+    public OkCoinTradeHistoryParams() {
+    }
+
+    public OkCoinTradeHistoryParams(Integer pageLength, Integer pageNumber, CurrencyPair pair) {
+      super(pageLength, pageNumber);
+      this.pair = pair;
+    }
+
+    @Override
+    public void setCurrencyPair(CurrencyPair pair) {
+
+      this.pair = pair;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return pair;
+    }
   }
 }
