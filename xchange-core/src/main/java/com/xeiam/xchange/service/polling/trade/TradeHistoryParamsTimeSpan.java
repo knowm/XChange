@@ -1,16 +1,18 @@
 package com.xeiam.xchange.service.polling.trade;
 
+import java.util.Date;
+
 /**
  * Parameters type for {@link com.xeiam.xchange.service.polling.PollingTradeService#getTradeHistory(TradeHistoryParams)} with start and end timestamps.
  */
 public interface TradeHistoryParamsTimeSpan extends TradeHistoryParams {
 
-  void setStartTime(Long startTime);
+  void setStartTime(Date startTime);
 
-  Long getStartTime();
+  Date getStartTime();
 
-  void setEndTime(Long endTime);
+  void setEndTime(Date endTime);
 
-  Long getEndTime();
+  Date getEndTime();
 
 }

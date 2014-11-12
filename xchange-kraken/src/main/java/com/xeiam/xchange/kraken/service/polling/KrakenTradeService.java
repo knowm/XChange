@@ -15,6 +15,7 @@ import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpanImpl;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class KrakenTradeService extends KrakenTradeServiceRaw implements PollingTradeService {
 
@@ -59,12 +60,16 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
     TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
     TradeHistoryParamOffset offset = (TradeHistoryParamOffset) params;
 
-    return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory(null, false, timeSpan.getStartTime(), timeSpan.getEndTime(), offset.getOffset()));
+    return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory(null, false, getTime(timeSpan.getStartTime()), getTime(timeSpan.getEndTime()), offset.getOffset()));
   }
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
     return new KrakenTradeHistoryParams();
+  }
+
+  private static Long getTime(Date date) {
+    return date == null ? null : date.getTime();
   }
 
   public static class KrakenTradeHistoryParams extends TradeHistoryParamsTimeSpanImpl implements TradeHistoryParamOffset {

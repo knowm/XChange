@@ -1,6 +1,7 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 
 import com.xeiam.xchange.ExchangeException;
@@ -171,7 +172,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     }
   }
 
-  private static Long nullSafeUnixTime(Long time) {
+  private static Long nullSafeUnixTime(Date time) {
     return time != null ? DateUtils.toUnixTime(time) : null;
   }
 
@@ -186,8 +187,8 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     private BTCEAuthenticated.SortOrder sortOrder;
     private String startId;
     private String endId;
-    private Long startTime;
-    private Long endTime;
+    private Date startTime;
+    private Date endTime;
 
     @Override
     public void setCurrencyPair(CurrencyPair pair) {
@@ -223,25 +224,29 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     }
 
     @Override
-    public void setStartTime(Long startTime) {
+    public void setStartTime(Date startTime) {
 
       this.startTime = startTime;
     }
 
     @Override
-    public Long getStartTime() {
+    public Date getStartTime() {
       return startTime;
     }
 
     @Override
-    public void setEndTime(Long endTime) {
+    public void setEndTime(Date endTime) {
 
       this.endTime = endTime;
     }
 
     @Override
-    public Long getEndTime() {
+    public Date getEndTime() {
       return endTime;
+    }
+
+    public void setSortOrder(BTCEAuthenticated.SortOrder sortOrder) {
+      this.sortOrder = sortOrder;
     }
   }
 

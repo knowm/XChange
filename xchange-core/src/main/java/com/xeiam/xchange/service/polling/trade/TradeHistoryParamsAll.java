@@ -2,6 +2,8 @@ package com.xeiam.xchange.service.polling.trade;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 
+import java.util.Date;
+
 /**
  * Generic {@link TradeHistoryParams} implementation that implements all the interfaces in the hierarchy and can be safely (without getting exceptions, if that all the required fields are non-null) passed to any implementation of {@link com.xeiam.xchange.service.polling.PollingTradeService#getTradeHistory(TradeHistoryParams)}.
  */
@@ -11,8 +13,8 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
   private Integer pageNumber;
   private String startId;
   private String endId;
-  private Long endTime;
-  private Long startTime;
+  private Date startTime;
+  private Date endTime;
   private Long offset;
   private CurrencyPair pair;
 
@@ -53,25 +55,25 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
   }
 
   @Override
-  public void setEndTime(Long to) {
+  public void setEndTime(Date to) {
 
     endTime = to;
   }
 
   @Override
-  public Long getEndTime() {
+  public Date getEndTime() {
 
     return endTime;
   }
 
   @Override
-  public void setStartTime(Long startTime) {
+  public void setStartTime(Date startTime) {
 
     this.startTime = startTime;
   }
 
   @Override
-  public Long getStartTime() {
+  public Date getStartTime() {
 
     return startTime;
   }

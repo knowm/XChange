@@ -3,6 +3,7 @@ package com.xeiam.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeException;
@@ -187,7 +188,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     }
 
     if (params instanceof TradeHistoryParamsTimeSpan) {
-      Long startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+      Date startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
       if (startTime != null) {
         since = (int) DateUtils.toUnixTime(startTime);
         sincetype = BTCChinaTransactionsRequest.SINCE_TIME;
@@ -205,13 +206,13 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   public static class BTCChinaTradeHistoryParams extends TradeHistoryParamPagingImpl implements TradeHistoryParamsTimeSpan, TradeHistoryParamsIdSpan {
 
     private String type = BTCChinaTransactionsRequest.TYPE_ALL;
-    private Long startTime;
+    private Date startTime;
     private String startId;
 
     public BTCChinaTradeHistoryParams() {
     }
 
-    public BTCChinaTradeHistoryParams(Integer pageLength, Integer pageNumber, String type, Long startTime, Integer startId ) {
+    public BTCChinaTradeHistoryParams(Integer pageLength, Integer pageNumber, String type, Date startTime, Integer startId ) {
 
       super(pageLength, pageNumber);
       this.type = type;
@@ -222,23 +223,23 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     }
 
     @Override
-    public void setStartTime(Long startTime) {
+    public void setStartTime(Date startTime) {
 
       this.startTime = startTime;
     }
 
     @Override
-    public Long getStartTime() {
+    public Date getStartTime() {
       return startTime;
     }
 
     @Override
-    public void setEndTime(Long endTime) {
+    public void setEndTime(Date endTime) {
 
     }
 
     @Override
-    public Long getEndTime() {
+    public Date getEndTime() {
       return null;
     }
 

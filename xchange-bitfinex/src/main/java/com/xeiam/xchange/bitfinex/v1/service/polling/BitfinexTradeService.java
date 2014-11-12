@@ -2,6 +2,7 @@ package com.xeiam.xchange.bitfinex.v1.service.polling;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -18,6 +19,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.*;
+import com.xeiam.xchange.utils.DateUtils;
 
 public class BitfinexTradeService extends BitfinexTradeServiceRaw implements PollingTradeService {
 
@@ -26,7 +28,6 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   /**
    * Constructor
    *
-   * @param exchangeSpecification
    */
   public BitfinexTradeService(ExchangeSpecification exchangeSpecification) {
 
@@ -98,16 +99,16 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
 
   /**
    * Required parameters:
-   * {@link com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging#getPageLength()}
-   * {@link com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging#getPageNumber()}
+   * {@link TradeHistoryParamPaging}
    * {@link TradeHistoryParamsTimeSpan#getStartTime()}
-   * {@link TradeHistoryParamCurrencyPair#getCurrencyPair()}
+   * {@link TradeHistoryParamCurrencyPair}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     String symbol = BitfinexAdapters.adaptCurrencyPair(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
-    Long timestamp = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+    Date startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+    long timestamp = DateUtils.toUnixTime(startTime);
 
     TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
     Integer pageLength = pagingParams.getPageLength();
@@ -121,7 +122,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
 
-    return new BitfinexTradeHistoryParams(0L, 50, CurrencyPair.BTC_USD);
+    return new BitfinexTradeHistoryParams(new Date(0), 50, CurrencyPair.BTC_USD);
   }
 
   public static class BitfinexTradeHistoryParams extends TradeHistoryParamsTimeSpanImpl implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
@@ -130,7 +131,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     private CurrencyPair pair;
     private Integer pageNumber;
 
-    public BitfinexTradeHistoryParams(long startTime, int count, CurrencyPair pair) {
+    public BitfinexTradeHistoryParams(Date startTime, int count, CurrencyPair pair) {
       super(startTime);
       this.count = count;
       this.pair = pair;

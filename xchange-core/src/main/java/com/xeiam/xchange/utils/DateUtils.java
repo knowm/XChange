@@ -104,10 +104,17 @@ public class DateUtils {
   }
 
   /**
-   * Convert java time long to unix time int, simply by dividing by 1000
+   * Convert java time long to unix time long, simply by dividing by 1000
    */
   public static long toUnixTime(long javaTime) {
-    return (int) (javaTime / 1000);
+    return javaTime / 1000;
+  }
+
+  /**
+   * Convert java time to unix time long, simply by dividing by the time 1000
+   */
+  public static long toUnixTime(Date time) {
+    return time.getTime() / 1000;
   }
 
 }

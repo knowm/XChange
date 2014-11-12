@@ -1,41 +1,43 @@
 package com.xeiam.xchange.service.polling.trade;
 
+import java.util.Date;
+
 /**
  * Common implementation of {@link TradeHistoryParamsTimeSpan}.
  */
 public class TradeHistoryParamsTimeSpanImpl implements TradeHistoryParamsTimeSpan {
-  private Long endTime;
-  private Long startTime;
+  private Date endTime;
+  private Date startTime;
 
   public TradeHistoryParamsTimeSpanImpl() {
   }
 
-  public TradeHistoryParamsTimeSpanImpl(Long startTime, Long endTime) {
+  public TradeHistoryParamsTimeSpanImpl(Date startTime, Date endTime) {
     this.endTime = endTime;
     this.startTime = startTime;
   }
 
-  public TradeHistoryParamsTimeSpanImpl(Long startTime) {
+  public TradeHistoryParamsTimeSpanImpl(Date startTime) {
     this.startTime = startTime;
   }
 
   @Override
-  public void setEndTime(Long endTime) {
+  public void setEndTime(Date endTime) {
     this.endTime = endTime;
   }
 
   @Override
-  public Long getEndTime() {
+  public Date getEndTime() {
     return endTime;
   }
 
   @Override
-  public void setStartTime(Long time) {
+  public void setStartTime(Date time) {
     startTime = time;
   }
 
   @Override
-  public Long getStartTime() {
+  public Date getStartTime() {
     return startTime;
   }
 }
