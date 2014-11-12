@@ -7,7 +7,6 @@ import java.util.List;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
 import com.xeiam.xchange.bter.dto.trade.BTERTrade;
@@ -17,13 +16,15 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPairImpl;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implements PollingTradeService {
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification
    */
   public BTERPollingTradeService(ExchangeSpecification exchangeSpecification) {
@@ -57,7 +58,7 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
    * the order is created and executed before it is caught in its open state
    * from calling {@link #getOpenOrders} then the only way to confirm would be
    * confirm the expected difference in funds available for your account.
-   * 
+   *
    * @return String "true"/"false" Used to determine if the order request was
    *         submitted successfully.
    */
@@ -96,14 +97,22 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
 
   }
 
+  /**
+   * Required parameter:
+   * {@link TradeHistoryParamCurrencyPair}
+   */
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    List<BTERTrade> userTrades = getBTERTradeHistory(pair).getTrades();
+
+    return BTERAdapters.adaptUserTrades(userTrades);
   }
 
   @Override
-  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
-    return null;
+  public TradeHistoryParams createTradeHistoryParams() {
+
+    return new TradeHistoryParamCurrencyPairImpl();
   }
 }
