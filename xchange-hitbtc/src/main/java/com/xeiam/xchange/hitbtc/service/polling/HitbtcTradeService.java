@@ -3,10 +3,7 @@ package com.xeiam.xchange.hitbtc.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCount;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamOffset;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.*;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -81,12 +78,13 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    Long _offset = ((TradeHistoryParamOffset) params).getOffset();
-    int offset = _offset != null ? (int) (long) _offset : 0;
-
-    Integer count = ((TradeHistoryParamCount) params).getCount();
+    TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
+    Integer count = pagingParams.getPageLength();
     if (count == null)
       count = 1000;
+
+    Integer pageNumber = pagingParams.getPageNumber();
+    int offset = count * (pageNumber != null ? pageNumber : 0);
 
     CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
     if (pair == null)
@@ -101,42 +99,19 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     return new HitbtcTradeHistoryParams();
   }
 
-  public static class HitbtcTradeHistoryParams implements TradeHistoryParamCount, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
+  public static class HitbtcTradeHistoryParams extends TradeHistoryParamPagingImpl implements TradeHistoryParamCurrencyPair {
 
-    private Integer count;
-    private Long offset;
     private CurrencyPair pair;
 
     public HitbtcTradeHistoryParams() {
     }
 
-    public HitbtcTradeHistoryParams(Integer count) {
-      this.count = count;
+    public HitbtcTradeHistoryParams(Integer pageLength) {
+      super(pageLength);
     }
 
-    public HitbtcTradeHistoryParams(Long offset, Integer count) {
-      this.count = count;
-      this.offset = offset;
-    }
-
-    @Override
-    public void setCount(Integer count) {
-      this.count = count;
-    }
-
-    @Override
-    public Integer getCount() {
-      return count;
-    }
-
-    @Override
-    public void setOffset(Long offset) {
-      this.offset = offset;
-    }
-
-    @Override
-    public Long getOffset() {
-      return offset;
+    public HitbtcTradeHistoryParams(Integer pageNumber, Integer pageLength) {
+      super(pageLength, pageNumber);
     }
 
     @Override

@@ -5,8 +5,10 @@ import com.xeiam.xchange.currency.CurrencyPair;
 /**
  * Generic {@link TradeHistoryParams} implementation that implements all the interfaces in the hierarchy and can be safely (without getting exceptions, if that all the required fields are non-null) passed to any implementation of {@link com.xeiam.xchange.service.polling.PollingTradeService#getTradeHistory(TradeHistoryParams)}.
  */
-public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeHistoryParamCount, TradeHistoryParamsIdSpan, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
-  private Integer count;
+public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeHistoryParamPaging, TradeHistoryParamsIdSpan, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
+
+  private Integer pageLength;
+  private Integer pageNumber;
   private String startId;
   private String endId;
   private Long endTime;
@@ -15,15 +17,15 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
   private CurrencyPair pair;
 
   @Override
-  public void setCount(Integer count) {
+  public void setPageLength(Integer count) {
 
-    this.count = count;
+    this.pageLength = count;
   }
 
   @Override
-  public Integer getCount() {
+  public Integer getPageLength() {
 
-    return count;
+    return pageLength;
   }
 
   @Override
@@ -83,7 +85,21 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
   @Override
   public Long getOffset() {
 
-    return offset;
+    if (offset != null || pageLength == null || pageNumber == null)
+      return offset;
+    else
+      return (long) pageLength * pageNumber;
+  }
+
+  @Override
+  public Integer getPageNumber() {
+    return pageNumber;
+  }
+
+  @Override
+  public void setPageNumber(Integer pageNumber) {
+
+    this.pageNumber = pageNumber;
   }
 
   @Override

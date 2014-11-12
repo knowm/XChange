@@ -20,8 +20,8 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCount;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCountImpl;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPagingImpl;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 /**
@@ -103,12 +103,12 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(Long.valueOf(((TradeHistoryParamCount)params).getCount())));
+    return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(Long.valueOf(((TradeHistoryParamPaging)params).getPageLength())));
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new TradeHistoryParamCountImpl(Integer.MAX_VALUE);
+    return new TradeHistoryParamPagingImpl(Integer.MAX_VALUE);
   }
 
 }

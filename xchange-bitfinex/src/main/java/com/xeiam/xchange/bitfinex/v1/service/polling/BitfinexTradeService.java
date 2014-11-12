@@ -98,7 +98,8 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
 
   /**
    * Required parameters:
-   * {@link TradeHistoryParamCount#getCount()}
+   * {@link com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging#getPageLength()}
+   * {@link com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging#getPageNumber()}
    * {@link TradeHistoryParamsTimeSpan#getStartTime()}
    * {@link TradeHistoryParamCurrencyPair#getCurrencyPair()}
    */
@@ -107,7 +108,11 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
 
     String symbol = BitfinexAdapters.adaptCurrencyPair(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
     Long timestamp = ((TradeHistoryParamsTimeSpan) params).getStartTime();
-    Integer limit = ((TradeHistoryParamCount) params).getCount();
+
+    TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
+    Integer pageLength = pagingParams.getPageLength();
+    Integer pageNum = pagingParams.getPageNumber();
+    int limit = (pageLength != null && pageNum != null) ? pageLength * (pageNum + 1) : 50;
 
     final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, timestamp, limit);
     return BitfinexAdapters.adaptTradeHistory(trades, symbol);
@@ -119,10 +124,11 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     return new BitfinexTradeHistoryParams(0L, 50, CurrencyPair.BTC_USD);
   }
 
-  public static class BitfinexTradeHistoryParams extends TradeHistoryParamsTimeSpanImpl implements TradeHistoryParamCurrencyPair, TradeHistoryParamCount {
+  public static class BitfinexTradeHistoryParams extends TradeHistoryParamsTimeSpanImpl implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
 
     private int count;
     private CurrencyPair pair;
+    private Integer pageNumber;
 
     public BitfinexTradeHistoryParams(long startTime, int count, CurrencyPair pair) {
       super(startTime);
@@ -131,15 +137,26 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     }
 
     @Override
-    public void setCount(Integer count) {
+    public void setPageLength(Integer count) {
 
       this.count = count;
     }
 
     @Override
-    public Integer getCount() {
+    public Integer getPageLength() {
 
       return count;
+    }
+
+    @Override
+    public void setPageNumber(Integer pageNumber) {
+
+      this.pageNumber = pageNumber;
+    }
+
+    @Override
+    public Integer getPageNumber() {
+      return pageNumber;
     }
 
     @Override
