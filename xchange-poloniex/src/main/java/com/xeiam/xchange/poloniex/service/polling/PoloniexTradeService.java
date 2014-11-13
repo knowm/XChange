@@ -27,6 +27,7 @@ import com.xeiam.xchange.poloniex.PoloniexUtils;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 public class PoloniexTradeService extends PoloniexTradeServiceRaw implements PollingTradeService {
 
@@ -107,6 +108,18 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
     }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
+  }
+
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
+    return null;
   }
 
 }

@@ -2,6 +2,11 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
 
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -19,7 +24,7 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification
    *          The {@link ExchangeSpecification}
    */
@@ -56,6 +61,73 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
   @Override
   public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    return ItBitAdapters.adaptTradeHistory(getItBitTradeHistory(arguments));
+    String currency;
+    if (arguments.length == 1) {
+      CurrencyPair currencyPair = ((CurrencyPair) arguments[0]);
+      currency = currencyPair.baseSymbol + currencyPair.counterSymbol;
+    }
+    else {
+      currency = "XBTUSD";
+    }
+
+    return ItBitAdapters.adaptTradeHistory(getItBitTradeHistory(currency, "1", "1000"));
+  }
+
+  /**
+   * Required parameters:
+   * {@link TradeHistoryParamPaging}
+   * {@link TradeHistoryParamCurrencyPair}
+   */
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    TradeHistoryParamPaging paging = (TradeHistoryParamPaging) params;
+    Integer pageLength = paging.getPageLength();
+    Integer pageNumber = paging.getPageNumber();
+
+    // pages supposedly start from 1
+    ++pageNumber;
+
+    CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    String currency = pair.baseSymbol + pair.counterSymbol;
+
+    return ItBitAdapters.adaptTradeHistory(getItBitTradeHistory(currency, toString(pageNumber), toString(pageLength)));
+  }
+
+  private String toString(Object o) {
+
+    return o == null ? null : o.toString();
+  }
+
+  @Override
+  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
+    return new ItBitTradeHistoryParams();
+  }
+
+  public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair{
+
+    private CurrencyPair pair;
+
+    public ItBitTradeHistoryParams() {
+    }
+
+    public ItBitTradeHistoryParams(Integer pageLength, Integer pageNumber, CurrencyPair pair) {
+
+      super(pageLength, pageNumber);
+      this.pair = pair;
+    }
+
+    @Override
+    public void setCurrencyPair(CurrencyPair pair) {
+
+      this.pair = pair;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+
+      return pair;
+    }
   }
 }

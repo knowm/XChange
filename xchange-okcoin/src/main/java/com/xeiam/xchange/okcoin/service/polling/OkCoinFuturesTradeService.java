@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,5 +117,17 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
     OkCoinOrderResult orderHistory = getFuturesOrder(1, OkCoinAdapters.adaptSymbol(currencyPair), page.toString(), "50", futuresContract);
     return OkCoinAdapters.adaptTrades(orderHistory);
+  }
+
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+
+    return null;
   }
 }

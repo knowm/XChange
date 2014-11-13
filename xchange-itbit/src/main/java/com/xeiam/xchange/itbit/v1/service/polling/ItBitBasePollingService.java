@@ -16,7 +16,7 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class ItBitBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  protected final SynchronizedValueFactory<Long> valueFactory;
+  protected final SynchronizedValueFactory<Long> nonceFactory;
 
   protected final String apiKey;
   protected final ItBitAuthenticated itBit;
@@ -32,7 +32,7 @@ public class ItBitBasePollingService extends BaseExchangeService implements Base
   public ItBitBasePollingService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
     super(exchangeSpecification);
-    this.valueFactory = nonceFactory;
+    this.nonceFactory = nonceFactory;
     this.itBit = RestProxyFactory.createProxy(ItBitAuthenticated.class, (String) exchangeSpecification.getExchangeSpecificParametersItem("authHost"));
     this.apiKey = exchangeSpecification.getApiKey();
     this.signatureCreator = ItBitHmacPostBodyDigest.createInstance(apiKey, exchangeSpecification.getSecretKey());

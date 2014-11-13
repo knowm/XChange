@@ -102,4 +102,19 @@ public class DateUtils {
       throw new InvalidFormatException("Error parsing as date", rfc1123FormattedDate, Date.class);
     }
   }
+
+  /**
+   * Convert java time long to unix time long, simply by dividing by 1000
+   */
+  public static long toUnixTime(long javaTime) {
+    return javaTime / 1000;
+  }
+
+  /**
+   * Convert java time to unix time long, simply by dividing by the time 1000
+   */
+  public static long toUnixTime(Date time) {
+    return time.getTime() / 1000;
+  }
+
 }

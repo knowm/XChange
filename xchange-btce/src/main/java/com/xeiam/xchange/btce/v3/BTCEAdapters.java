@@ -174,13 +174,12 @@ public final class BTCEAdapters {
     for (Entry<Long, BTCETradeHistoryResult> entry : tradeHistory.entrySet()) {
       BTCETradeHistoryResult result = entry.getValue();
       OrderType type = result.getType() == BTCETradeHistoryResult.Type.buy ? OrderType.BID : OrderType.ASK;
-      String[] pair = result.getPair().split("_");
       BigDecimal price = result.getRate();
       BigDecimal tradableAmount = result.getAmount();
       Date timeStamp = DateUtils.fromMillisUtc(result.getTimestamp() * 1000L);
       String orderId = String.valueOf(result.getOrderId());
       String tradeId = String.valueOf(entry.getKey());
-      CurrencyPair currencyPair = new CurrencyPair(pair[0].toUpperCase(), pair[1].toUpperCase());
+      CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
       trades.add(new UserTrade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId, null, null));
     }
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
@@ -190,6 +189,10 @@ public final class BTCEAdapters {
 
     String[] currencies = btceCurrencyPair.split("_");
     return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
+  }
+
+  public static String adaptCurrencyPair(CurrencyPair currencyPair) {
+    return (currencyPair.baseSymbol + "_" + currencyPair.counterSymbol).toLowerCase();
   }
 
   public static List<CurrencyPair> adaptCurrencyPairs(Iterable<String> btcePairs) {

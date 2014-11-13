@@ -6,7 +6,6 @@ import java.util.Date;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
@@ -33,7 +32,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   public ItBitOrder[] getItBitOpenOrders() throws IOException {
 
-    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), valueFactory, "XBTUSD", "1", "1000", "open", walletId);
+    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), nonceFactory, "XBTUSD", "1", "1000", "open", walletId);
 
     return orders;
   }
@@ -47,14 +46,14 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
    */
   public ItBitOrder[] getItBitOrders(String status) throws IOException {
 
-    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), valueFactory, "XBTUSD", "1", "1000", status, walletId);
+    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), nonceFactory, "XBTUSD", "1", "1000", status, walletId);
 
     return orders;
   }
 
   public ItBitOrder getItBitOrder(String orderId) throws IOException {
 
-    ItBitOrder order = itBit.getOrder(signatureCreator, new Date().getTime(), valueFactory, walletId, orderId);
+    ItBitOrder order = itBit.getOrder(signatureCreator, new Date().getTime(), nonceFactory, walletId, orderId);
 
     return order;
   }
@@ -64,7 +63,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
 
     ItBitOrder postOrder =
-        itBit.postOrder(signatureCreator, new Date().getTime(), valueFactory, walletId, new ItBitPlaceOrderRequest(side, "limit", limitOrder.getCurrencyPair().baseSymbol, limitOrder
+        itBit.postOrder(signatureCreator, new Date().getTime(), nonceFactory, walletId, new ItBitPlaceOrderRequest(side, "limit", limitOrder.getCurrencyPair().baseSymbol, limitOrder
             .getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), limitOrder.getCurrencyPair().baseSymbol + limitOrder.getCurrencyPair().counterSymbol));
 
     return postOrder;
@@ -72,22 +71,12 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   public void cancelItBitOrder(String orderId) throws IOException {
 
-    itBit.cancelOrder(signatureCreator, new Date().getTime(), valueFactory, walletId, orderId);
+    itBit.cancelOrder(signatureCreator, new Date().getTime(), nonceFactory, walletId, orderId);
   }
 
-  public ItBitOrder[] getItBitTradeHistory(Object... arguments) throws IOException {
+  public ItBitOrder[] getItBitTradeHistory(String currency, String pageNum, String pageLen) throws IOException {
 
-    String currency = null;
-
-    if (arguments.length == 1) {
-      CurrencyPair currencyPair = ((CurrencyPair) arguments[0]);
-      currency = currencyPair.baseSymbol + currencyPair.counterSymbol;
-    }
-    else {
-      currency = "XBTUSD";
-    }
-
-    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), valueFactory, currency, "1", "1000", "filled", walletId);
+    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), nonceFactory, currency, pageNum, pageLen, "filled", walletId);
     return orders;
   }
 }
