@@ -2,7 +2,8 @@ package com.xeiam.xchange.service.polling.trade;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 
-public class TradeHistoryParamCurrencyPairImpl implements TradeHistoryParamCurrencyPair {
+public class DefaultTradeHistoryParamCurrencyPair implements TradeHistoryParamCurrencyPair {
+
   private CurrencyPair pair;
 
   @Override
@@ -13,6 +14,7 @@ public class TradeHistoryParamCurrencyPairImpl implements TradeHistoryParamCurre
 
   @Override
   public CurrencyPair getCurrencyPair() {
+
     return pair;
   }
 }

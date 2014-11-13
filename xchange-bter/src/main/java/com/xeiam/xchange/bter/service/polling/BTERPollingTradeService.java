@@ -17,7 +17,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPairImpl;
+import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implements PollingTradeService {
@@ -113,6 +113,6 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    return new TradeHistoryParamCurrencyPairImpl();
+    return new DefaultTradeHistoryParamCurrencyPair();
   }
 }

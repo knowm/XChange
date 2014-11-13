@@ -69,6 +69,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Polli
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return null;
   }
 

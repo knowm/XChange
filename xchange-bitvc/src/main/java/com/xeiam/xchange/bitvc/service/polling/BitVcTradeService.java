@@ -105,6 +105,7 @@ public class BitVcTradeService extends BitVcTradeServiceRaw implements PollingTr
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return null;
   }
 

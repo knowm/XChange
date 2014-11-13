@@ -118,6 +118,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return null;
   }
 

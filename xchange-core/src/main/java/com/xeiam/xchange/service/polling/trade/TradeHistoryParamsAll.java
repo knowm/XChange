@@ -95,6 +95,7 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
 
   @Override
   public Integer getPageNumber() {
+
     return pageNumber;
   }
 
@@ -106,6 +107,7 @@ public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeH
 
   @Override
   public CurrencyPair getCurrencyPair() {
+
     return pair;
   }
 

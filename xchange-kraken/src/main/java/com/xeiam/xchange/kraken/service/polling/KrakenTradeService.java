@@ -11,7 +11,7 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamOffset;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpan;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpanImpl;
+import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamsTimeSpan;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
@@ -54,6 +54,11 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
     return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory());
   }
 
+  /**
+   * Required parameters
+   * {@link TradeHistoryParamsTimeSpan}
+   * {@link TradeHistoryParamOffset}
+   */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
 
@@ -65,14 +70,17 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return new KrakenTradeHistoryParams();
   }
 
   private static Long getTime(Date date) {
+
     return date == null ? null : date.getTime();
   }
 
-  public static class KrakenTradeHistoryParams extends TradeHistoryParamsTimeSpanImpl implements TradeHistoryParamOffset {
+  public static class KrakenTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamOffset {
+
     private Long offset;
 
     @Override

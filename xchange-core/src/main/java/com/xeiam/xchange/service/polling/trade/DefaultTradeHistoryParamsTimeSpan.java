@@ -5,39 +5,46 @@ import java.util.Date;
 /**
  * Common implementation of {@link TradeHistoryParamsTimeSpan}.
  */
-public class TradeHistoryParamsTimeSpanImpl implements TradeHistoryParamsTimeSpan {
+public class DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamsTimeSpan {
+
   private Date endTime;
   private Date startTime;
 
-  public TradeHistoryParamsTimeSpanImpl() {
+  public DefaultTradeHistoryParamsTimeSpan() {
   }
 
-  public TradeHistoryParamsTimeSpanImpl(Date startTime, Date endTime) {
+  public DefaultTradeHistoryParamsTimeSpan(Date startTime, Date endTime) {
+
     this.endTime = endTime;
     this.startTime = startTime;
   }
 
-  public TradeHistoryParamsTimeSpanImpl(Date startTime) {
+  public DefaultTradeHistoryParamsTimeSpan(Date startTime) {
+
     this.startTime = startTime;
   }
 
   @Override
   public void setEndTime(Date endTime) {
+
     this.endTime = endTime;
   }
 
   @Override
   public Date getEndTime() {
+
     return endTime;
   }
 
   @Override
   public void setStartTime(Date time) {
+
     startTime = time;
   }
 
   @Override
   public Date getStartTime() {
+
     return startTime;
   }
 }

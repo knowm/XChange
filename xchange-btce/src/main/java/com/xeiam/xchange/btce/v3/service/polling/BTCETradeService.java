@@ -165,6 +165,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   }
 
   private static Long nullSafeToLong(String str) {
+
     try {
       return (str == null || str.isEmpty()) ? null : Long.valueOf(str);
     } catch (NumberFormatException e) {
@@ -178,10 +179,11 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return new BTCETradeHistoryParams();
   }
 
-  public static class BTCETradeHistoryParams extends TradeHistoryParamPagingImpl implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrencyPair {
+  public static class BTCETradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrencyPair {
 
     private CurrencyPair pair;
     private BTCEAuthenticated.SortOrder sortOrder;
@@ -198,6 +200,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
     @Override
     public CurrencyPair getCurrencyPair() {
+
       return pair;
     }
 
@@ -209,6 +212,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
     @Override
     public String getStartId() {
+
       return startId;
     }
 
@@ -246,6 +250,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     }
 
     public void setSortOrder(BTCEAuthenticated.SortOrder sortOrder) {
+
       this.sortOrder = sortOrder;
     }
   }

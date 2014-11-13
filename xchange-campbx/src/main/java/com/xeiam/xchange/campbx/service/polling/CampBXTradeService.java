@@ -150,6 +150,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return null;
   }
 

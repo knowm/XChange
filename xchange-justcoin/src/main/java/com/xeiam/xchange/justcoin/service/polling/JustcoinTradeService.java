@@ -62,6 +62,7 @@ public class JustcoinTradeService extends JustcoinTradeServiceRaw implements Pol
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return null;
   }
 }

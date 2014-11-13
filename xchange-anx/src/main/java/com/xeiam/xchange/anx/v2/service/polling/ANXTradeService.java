@@ -18,7 +18,7 @@ import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpan;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpanImpl;
+import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.utils.Assert;
 
 /**
@@ -80,7 +80,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   }
 
   /**
-   * @param args Accept zero or TradeHistoryTimeSpan or 2 parameters, both are unix time: Long from, Long to
+   * @param args Accept zero or 2 parameters, both are unix time: Long from, Long to
    */
   @Override
   public UserTrades getTradeHistory(Object... args) throws IOException {
@@ -106,6 +106,10 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
     return ANXAdapters.adaptUserTrades(rawTrades.getAnxTradeResults());
   }
 
+  /**
+   * Suported parameter types:
+   * {@link TradeHistoryParamsTimeSpan}
+   */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
 
@@ -115,7 +119,8 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new TradeHistoryParamsTimeSpanImpl();
+
+    return new DefaultTradeHistoryParamsTimeSpan();
   }
 
 }

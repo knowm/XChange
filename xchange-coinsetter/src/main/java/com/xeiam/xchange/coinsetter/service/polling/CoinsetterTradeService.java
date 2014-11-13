@@ -103,6 +103,7 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return null;
   }
 }

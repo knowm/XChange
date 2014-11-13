@@ -63,6 +63,7 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Pol
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return null;
   }
 }

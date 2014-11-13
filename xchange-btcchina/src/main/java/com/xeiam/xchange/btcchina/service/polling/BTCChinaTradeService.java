@@ -200,10 +200,11 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return new BTCChinaTradeHistoryParams();
   }
 
-  public static class BTCChinaTradeHistoryParams extends TradeHistoryParamPagingImpl implements TradeHistoryParamsTimeSpan, TradeHistoryParamsIdSpan {
+  public static class BTCChinaTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsTimeSpan, TradeHistoryParamsIdSpan {
 
     private String type = BTCChinaTransactionsRequest.TYPE_ALL;
     private Date startTime;
@@ -230,6 +231,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
     @Override
     public Date getStartTime() {
+
       return startTime;
     }
 
@@ -240,6 +242,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
     @Override
     public Date getEndTime() {
+
       return null;
     }
 
@@ -251,6 +254,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
     @Override
     public String getStartId() {
+
       return startId;
     }
 
@@ -261,6 +265,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
     @Override
     public String getEndId() {
+
       return null;
     }
   }

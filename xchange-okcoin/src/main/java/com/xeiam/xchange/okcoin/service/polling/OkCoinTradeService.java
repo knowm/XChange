@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPagingImpl;
+import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -153,21 +153,25 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   }
 
   private static String toString(Object o) {
+
     return o == null ? null : o.toString();
   }
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return new OkCoinTradeHistoryParams();
   }
 
-  public static class OkCoinTradeHistoryParams extends TradeHistoryParamPagingImpl implements TradeHistoryParamCurrencyPair {
+  public static class OkCoinTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {
+
     private CurrencyPair pair;
 
     public OkCoinTradeHistoryParams() {
     }
 
     public OkCoinTradeHistoryParams(Integer pageLength, Integer pageNumber, CurrencyPair pair) {
+
       super(pageLength, pageNumber);
       this.pair = pair;
     }
@@ -180,6 +184,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
 
     @Override
     public CurrencyPair getCurrencyPair() {
+
       return pair;
     }
   }

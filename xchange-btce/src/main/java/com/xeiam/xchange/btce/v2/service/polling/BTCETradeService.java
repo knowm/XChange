@@ -100,6 +100,7 @@ public class BTCETradeService extends BTCEBasePollingService implements PollingT
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return null;
   }
 

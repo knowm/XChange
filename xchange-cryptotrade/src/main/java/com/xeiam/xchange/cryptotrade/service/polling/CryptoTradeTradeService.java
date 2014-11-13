@@ -110,6 +110,7 @@ public class CryptoTradeTradeService extends CryptoTradeTradeServiceRaw implemen
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return null;
   }
 }

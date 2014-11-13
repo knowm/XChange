@@ -100,6 +100,7 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return null;
   }
 

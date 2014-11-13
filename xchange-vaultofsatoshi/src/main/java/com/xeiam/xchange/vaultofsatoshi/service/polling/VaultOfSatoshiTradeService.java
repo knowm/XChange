@@ -104,6 +104,7 @@ public class VaultOfSatoshiTradeService extends VaultOfSatoshiTradeServiceRaw im
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return null;
   }
 

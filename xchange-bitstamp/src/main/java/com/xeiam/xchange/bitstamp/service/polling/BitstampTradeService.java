@@ -21,7 +21,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPagingImpl;
+import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 /**
@@ -100,6 +100,10 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
     return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(numberOfTransactions));
   }
 
+  /**
+   * Required parameter types:
+   * {@link TradeHistoryParamPaging#getPageLength()}
+   */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
@@ -108,7 +112,8 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new TradeHistoryParamPagingImpl(Integer.MAX_VALUE);
+
+    return new DefaultTradeHistoryParamPaging(Integer.MAX_VALUE);
   }
 
 }

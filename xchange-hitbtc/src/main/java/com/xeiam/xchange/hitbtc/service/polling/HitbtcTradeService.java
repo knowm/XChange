@@ -75,6 +75,11 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw);
   }
 
+  /**
+   * Required parameters:
+   * {@link TradeHistoryParamPaging}
+   * {@link TradeHistoryParamCurrencyPair}
+   */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
@@ -96,10 +101,11 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
+
     return new HitbtcTradeHistoryParams();
   }
 
-  public static class HitbtcTradeHistoryParams extends TradeHistoryParamPagingImpl implements TradeHistoryParamCurrencyPair {
+  public static class HitbtcTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {
 
     private CurrencyPair pair;
 
@@ -107,10 +113,12 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     }
 
     public HitbtcTradeHistoryParams(Integer pageLength) {
+
       super(pageLength);
     }
 
     public HitbtcTradeHistoryParams(Integer pageNumber, Integer pageLength) {
+
       super(pageLength, pageNumber);
     }
 

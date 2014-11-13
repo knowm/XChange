@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPagingImpl;
+import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -95,21 +95,25 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
   }
 
   private String toString(Object o) {
+
     return o == null ? null : o.toString();
   }
 
   @Override
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
     return new ItBitTradeHistoryParams();
   }
 
-  public static class ItBitTradeHistoryParams extends TradeHistoryParamPagingImpl implements TradeHistoryParamCurrencyPair{
+  public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair{
+
     private CurrencyPair pair;
 
     public ItBitTradeHistoryParams() {
     }
 
     public ItBitTradeHistoryParams(Integer pageLength, Integer pageNumber, CurrencyPair pair) {
+
       super(pageLength, pageNumber);
       this.pair = pair;
     }
@@ -122,6 +126,7 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
 
     @Override
     public CurrencyPair getCurrencyPair() {
+
       return pair;
     }
   }
