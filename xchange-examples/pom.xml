@@ -115,12 +115,6 @@
 			<artifactId>xchange-bitcoinium</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange Justcoin support -->
-		<dependency>
-			<groupId>com.xeiam.xchange</groupId>
-			<artifactId>xchange-justcoin</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange Coinbase support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
