@@ -13,6 +13,12 @@ import com.xeiam.xchange.utils.Assert;
  */
 public abstract class BaseExchangeService {
 
+  protected static final String SUF_DEFAULT = "default";
+  protected static final String IN_ORDER_SIZE_MIN = ".order.size.min.";
+  protected static final String SUF_ORDER_SIZE_MIN_DEFAULT = IN_ORDER_SIZE_MIN + SUF_DEFAULT;
+  protected static final String SUF_ORDER_SIZE_SCALE_DEFAULT = ".order.size.scale." + SUF_DEFAULT;
+  protected static final String SUF_ORDER_PRICE_SCALE_DEFAULT = ".order.price.scale." + SUF_DEFAULT;
+
   /**
    * The exchange specification containing session-specific information
    */
@@ -20,7 +26,7 @@ public abstract class BaseExchangeService {
 
   /**
    * Constructor Initialize common properties from the exchange specification
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   protected BaseExchangeService(ExchangeSpecification exchangeSpecification) {

@@ -7,6 +7,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.anx.v2.service.polling.ANXAccountService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXMarketDataService;
+import com.xeiam.xchange.anx.v2.service.polling.ANXMarketMetadataService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
@@ -33,6 +34,7 @@ public class ANXExchange extends BaseExchange implements Exchange {
     this.pollingMarketDataService = new ANXMarketDataService(exchangeSpecification);
     this.pollingTradeService = new ANXTradeService(exchangeSpecification, nonceFactory);
     this.pollingAccountService = new ANXAccountService(exchangeSpecification, nonceFactory);
+    this.marketMetadataService = new ANXMarketMetadataService(exchangeSpecification, nonceFactory);
   }
 
   @Override

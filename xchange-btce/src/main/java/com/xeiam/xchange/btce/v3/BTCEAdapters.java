@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEMarketMetadata;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEPairInfo;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -205,4 +208,13 @@ public final class BTCEAdapters {
     return pairs;
   }
 
+  public static MarketMetadata createMarketMetadata(BTCEPairInfo pairInfo, int amountScale) {
+
+    BigDecimal minAmount = pairInfo.getMinAmount().setScale(amountScale);
+
+    // convert percent to factor
+    BigDecimal orderFeeFactor = pairInfo.getFee().movePointLeft(2);
+
+    return new BTCEMarketMetadata(minAmount, pairInfo.getDecimals(), orderFeeFactor, pairInfo.getMinPrice(), pairInfo.getMaxPrice());
+  }
 }
