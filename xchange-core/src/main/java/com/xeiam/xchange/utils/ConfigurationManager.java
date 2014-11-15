@@ -171,6 +171,11 @@ public class ConfigurationManager {
     properties = result;
   }
 
+  public int getIntProperty(String key) {
+
+    return Integer.parseInt(getProperties().getProperty(key));
+  }
+
   public void setOverride(File override) {
     this.override = override;
   }

@@ -5,6 +5,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEAccountService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataService;
+import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketMetadataService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
 
 /**
@@ -32,6 +33,7 @@ public class BTCEExchange extends BaseExchange implements Exchange {
     this.pollingMarketDataService = new BTCEMarketDataService(exchangeSpecification);
     this.pollingAccountService = new BTCEAccountService(exchangeSpecification);
     this.pollingTradeService = new BTCETradeService(exchangeSpecification);
+    this.marketMetadataService = new BTCEMarketMetadataService(exchangeSpecification);
   }
 
   @Override
