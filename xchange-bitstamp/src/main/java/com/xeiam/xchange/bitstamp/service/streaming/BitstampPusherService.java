@@ -79,10 +79,10 @@ public class BitstampPusherService extends BitstampBasePollingService implements
     channels.clear();
     for (String name : configuration.getChannels()) {
       Channel instance = client.subscribe(name);
-      if (name == "order_book") {
+      if (name.equals("order_book")) {
         bindOrderData(instance);
       }
-      else if (name == "live_trades") {
+      else if (name.equals("live_trades")) {
         bindTradeData(instance);
       }
       else {
