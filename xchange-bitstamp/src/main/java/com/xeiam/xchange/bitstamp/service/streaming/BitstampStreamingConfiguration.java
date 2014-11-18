@@ -55,6 +55,7 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
     channels = new HashSet<String>();
     channels.add("live_trades");
     channels.add("order_book");
+    channels.add("diff_order_book");
     pusherOpts = new PusherOptions();
     pusherOpts.setEncrypted(isEncryptedChannel);
     pusherOpts.setActivityTimeout(4 * timeoutInMs); // Keep-alive interval

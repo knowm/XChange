@@ -82,6 +82,9 @@ public class BitstampPusherService extends BitstampBasePollingService implements
       if (name.equals("order_book")) {
         bindOrderData(instance);
       }
+      else if (name.equals("diff_order_book")) {
+    	bindDiffOrderData(instance);
+      }
       else if (name.equals("live_trades")) {
         bindTradeData(instance);
       }
@@ -173,6 +176,28 @@ public class BitstampPusherService extends BitstampBasePollingService implements
     };
     chan.bind("data", listener);
   }
+  
+  private void bindDiffOrderData(Channel chan) {
+
+	    SubscriptionEventListener listener = new SubscriptionEventListener() {
+
+	      @Override
+	      public void onEvent(String channelName, String eventName, String data) {
+
+	        ExchangeEvent xevt = null;
+	        try {
+	          OrderBook delta = parseOrderBook(data);
+	          xevt = new DefaultExchangeEvent(ExchangeEventType.DEPTH, data, delta);
+	        } catch (IOException e) {
+	          log.error("JSON stream error", e);
+	        }
+	        if (xevt != null) {
+	          addToEventQueue(xevt);
+	        }
+	      }
+	    };
+	    chan.bind("data", listener);
+	  }
 
   private OrderBook parseOrderBook(String rawJson) throws IOException {
 
