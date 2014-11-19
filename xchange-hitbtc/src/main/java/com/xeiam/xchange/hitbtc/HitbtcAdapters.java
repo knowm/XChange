@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -33,6 +34,7 @@ import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
  */
 public class HitbtcAdapters {
 
+  public static final char DELIM = '_';
   private static final BigDecimal LOT_MULTIPLIER = new BigDecimal("100");
 
   /**
@@ -187,5 +189,36 @@ public class HitbtcAdapters {
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
     return pair.baseSymbol + pair.counterSymbol;
+  }
+
+  public static String createSymbol(CurrencyPair pair) {
+
+    return pair.baseSymbol + pair.counterSymbol;
+  }
+
+  public static String createOrderId(Order order, long nonce) {
+
+    if (order.getId() == null)
+      // encoding side in client order id
+      return order.getType().name().substring(0, 1) + DELIM + createSymbol(order.getCurrencyPair()) + DELIM + nonce;
+    else
+      return order.getId();
+  }
+
+  public static OrderType readOrderType(String orderId) {
+
+    return orderId.charAt(0) == 'A' ? OrderType.ASK : OrderType.BID;
+  }
+
+  public static String readSymbol(String orderId) {
+
+    int start = orderId.indexOf(DELIM);
+    int end = orderId.indexOf(DELIM, start + 1);
+    return orderId.substring(start + 1, end);
+  }
+
+  public static String getSide(OrderType type) {
+
+    return type == OrderType.BID ? "buy" : "sell";
   }
 }
