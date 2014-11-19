@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -13,7 +14,6 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.hitbtc.HitbtcAuthenticated;
@@ -26,8 +26,6 @@ import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 
 public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthenticated> {
-
-  protected static final char DELIM = '_';
 
   public HitbtcTradeServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
@@ -64,8 +62,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
     String symbol = marketOrder.getCurrencyPair().baseSymbol + marketOrder.getCurrencyPair().counterSymbol;
 
     long nonce = valueFactory.createValue();
-    String side = getSide(marketOrder.getType());
-    String orderId = createId(marketOrder, nonce);
+    String side = HitbtcAdapters.getSide(marketOrder.getType());
+    String orderId = HitbtcAdapters.createOrderId(marketOrder, nonce);
 
     HitbtcExecutionReportResponse response = hitbtc.postHitbtcNewOrder(signatureCreator, valueFactory, apiKey, orderId, symbol, side, null, getLots(marketOrder), "market", "GTC");
 
@@ -97,10 +95,10 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
 
   private HitbtcExecutionReportResponse fillHitbtcExecutionReportResponse(LimitOrder limitOrder) throws IOException {
 
-    String symbol = createSymbol(limitOrder.getCurrencyPair());
+    String symbol = HitbtcAdapters.createSymbol(limitOrder.getCurrencyPair());
     long nonce = valueFactory.createValue();
-    String side = getSide(limitOrder.getType());
-    String orderId = createId(limitOrder, nonce);
+    String side = HitbtcAdapters.getSide(limitOrder.getType());
+    String orderId = HitbtcAdapters.createOrderId(limitOrder, nonce);
 
     return hitbtc.postHitbtcNewOrder(signatureCreator, valueFactory, apiKey, orderId, symbol, side, limitOrder.getLimitPrice(), getLots(limitOrder), "limit", "GTC");
   }
@@ -108,8 +106,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   public HitbtcExecutionReportResponse cancelOrderRaw(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // extract symbol and side from original order id: buy/sell
-    String originalSide = getSide(readOrderType(orderId));
-    String symbol = readSymbol(orderId);
+    String originalSide = HitbtcAdapters.getSide(HitbtcAdapters.readOrderType(orderId));
+    String symbol = HitbtcAdapters.readSymbol(orderId);
 
     return hitbtc.postHitbtcCancelOrder(signatureCreator, valueFactory, apiKey, orderId, orderId, symbol, originalSide);
   }
@@ -132,37 +130,6 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
 
     HitbtcTradeResponse hitbtcTrades = getTradeHistoryRawBaseResponse(startIndex, maxResults, symbols);
     return hitbtcTrades.getTrades();
-  }
-
-  private static String getSide(OrderType type) {
-
-    return type == OrderType.BID ? "buy" : "sell";
-  }
-
-  protected static String createSymbol(CurrencyPair pair) {
-
-    return pair.baseSymbol + pair.counterSymbol;
-  }
-
-  protected static String createId(Order order, long nonce) {
-
-    if (order.getId() == null)
-      // encoding side in client order id
-      return order.getType().name().substring(0, 1) + DELIM + createSymbol(order.getCurrencyPair()) + DELIM + nonce;
-    else
-      return order.getId();
-  }
-
-  protected static OrderType readOrderType(String orderId) {
-
-    return orderId.charAt(0) == 'A' ? OrderType.ASK : OrderType.BID;
-  }
-
-  protected static String readSymbol(String orderId) {
-
-    int start = orderId.indexOf(DELIM);
-    int end = orderId.indexOf(DELIM, start + 1);
-    return orderId.substring(start + 1, end);
   }
 
   /**
