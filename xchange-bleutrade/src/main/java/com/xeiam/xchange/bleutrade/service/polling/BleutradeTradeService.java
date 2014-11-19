@@ -61,4 +61,16 @@ public class BleutradeTradeService extends BleutradeTradeServiceRaw implements P
     throw new NotAvailableFromExchangeException();
   }
 
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
+    return null;
+  }
+
 }
