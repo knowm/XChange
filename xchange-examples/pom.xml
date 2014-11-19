@@ -229,6 +229,12 @@
 			<artifactId>xchange-okcoin</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Bleutrade exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-bleutrade</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
