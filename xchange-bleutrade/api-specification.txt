@@ -1,0 +1,6 @@
+Bleutrade Exchange API specification
+================================
+
+Documentation
+-------------
+https://bleutrade.com/help/API
