@@ -256,6 +256,7 @@ public final class CryptsyCurrencyUtils {
       put(213, new CurrencyPair("DRK", "USD"));
       put(6, new CurrencyPair("FTC", "USD"));
       put(1, new CurrencyPair("LTC", "USD"));
+      put(294, new CurrencyPair("LTCD", "BTC"));
       put(262, new CurrencyPair("RDD", "USD"));
     }
   };
@@ -351,6 +352,7 @@ public final class CryptsyCurrencyUtils {
       put(new CurrencyPair("LKY", "BTC"), 34);
       put(new CurrencyPair("LTB", "BTC"), 202);
       put(new CurrencyPair("LTC", "BTC"), 3);
+      put(new CurrencyPair("LTCD", "BTC"), 294);
       put(new CurrencyPair("LTCX", "BTC"), 233);
       put(new CurrencyPair("LYC", "BTC"), 177);
       put(new CurrencyPair("MAX", "BTC"), 152);
@@ -512,7 +514,7 @@ public final class CryptsyCurrencyUtils {
 
   /**
    * Converts a CurrencyPair (in form Base_Counter) to the appropriate marketId
-   * 
+   *
    * @param currencyPair String CurrencyPair in form (Base_Counter)
    * @return int representation of marketId
    */
