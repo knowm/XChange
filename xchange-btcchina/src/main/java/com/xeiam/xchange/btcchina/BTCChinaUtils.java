@@ -1,8 +1,15 @@
 package com.xeiam.xchange.btcchina;
 
+import static com.xeiam.xchange.service.BaseParamsDigest.HMAC_SHA_1;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 import com.xeiam.xchange.btcchina.dto.BTCChinaValue;
 
@@ -38,6 +45,21 @@ public final class BTCChinaUtils {
   public static long getGeneratedId() {
 
     return generatedId++;
+  }
+
+  public static String getSignature(String data, String key) throws NoSuchAlgorithmException, InvalidKeyException {
+
+    // get an hmac_sha1 key from the raw key bytes
+    SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), HMAC_SHA_1);
+
+    // get an hmac_sha1 Mac instance and initialize with the signing key
+    Mac mac = Mac.getInstance(HMAC_SHA_1);
+    mac.init(signingKey);
+
+    // compute the hmac on input data bytes
+    byte[] rawHmac = mac.doFinal(data.getBytes());
+
+    return bytesToHex(rawHmac);
   }
 
   public static String bytesToHex(byte[] bytes) {
