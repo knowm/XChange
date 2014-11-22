@@ -6,13 +6,16 @@ import static java.util.Calendar.MINUTE;
 import static java.util.Calendar.SECOND;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import quickfix.FieldNotFound;
 import quickfix.Group;
 import quickfix.Message;
+import quickfix.field.Currency;
 import quickfix.field.MDEntryDate;
 import quickfix.field.MDEntryPx;
 import quickfix.field.MDEntrySize;
@@ -23,7 +26,12 @@ import quickfix.fix44.MarketDataIncrementalRefresh;
 import quickfix.fix44.MarketDataSnapshotFullRefresh;
 
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
+import com.xeiam.xchange.btcchina.service.fix.field.Amount;
+import com.xeiam.xchange.btcchina.service.fix.field.Balance;
+import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
  * Various adapters for converting from {@link Message} to XChange DTOs.
@@ -118,6 +126,17 @@ public final class BTCChinaFIXAdapters {
     dateCal.set(MILLISECOND, timeCal.get(MILLISECOND));
 
     tickerBuilder.timestamp(dateCal.getTime());
+  }
+
+  public static AccountInfo adaptAccountInfo(AccountInfoResponse message) throws FieldNotFound {
+
+    List<Group> groups = message.getGroups(Balance.FIELD);
+    List<Wallet> wallets = new ArrayList<Wallet>(groups.size());
+    for (Group group : groups) {
+      Wallet wallet = new Wallet(group.getField(new Currency()).getValue(), group.getField(new Amount()).getValue());
+      wallets.add(wallet);
+    }
+    return new AccountInfo(null, wallets);
   }
 
 }
