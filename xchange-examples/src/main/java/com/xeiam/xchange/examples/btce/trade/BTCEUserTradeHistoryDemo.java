@@ -6,9 +6,10 @@ import java.util.Map;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
+import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
@@ -25,9 +26,11 @@ public class BTCEUserTradeHistoryDemo {
   private static void generic(Exchange exchange) throws IOException {
 
     PollingTradeService tradeService = exchange.getPollingTradeService();
-    Trades trades = null;
     try {
-      trades = tradeService.getTradeHistory(null, Currencies.BTC, Currencies.USD);
+      BTCETradeService.BTCETradeHistoryParams params = new BTCETradeService.BTCETradeHistoryParams();
+      params.setCurrencyPair(CurrencyPair.BTC_USD);
+      UserTrades trades = tradeService.getTradeHistory(params);
+
       System.out.println(trades.toString());
     } catch (ExchangeException e) {
       System.out.println(e.getMessage());
