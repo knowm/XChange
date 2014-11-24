@@ -1,9 +1,11 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
@@ -83,7 +85,16 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
   public Map<Long, BTCETradeHistoryResult> getBTCETradeHistory(Long from, Long count, Long fromId, Long endId, BTCEAuthenticated.SortOrder order, Long since, Long end, String pair) throws IOException {
 
     BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, nextNonce(), from, count, fromId, endId, order, since, end, pair);
-    checkResult(btceTradeHistory);
+    try {
+      checkResult(btceTradeHistory);
+    } catch (ExchangeException x) {
+      // BTC-e returns this error if it finds no trades matching the criteria
+      if ("no trades".equals(x.getMessage())) {
+        return Collections.emptyMap();
+      } else {
+        throw x;
+      }
+    }
     return btceTradeHistory.getReturnValue();
   }
 
