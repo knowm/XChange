@@ -117,4 +117,13 @@ public class DateUtils {
     return time.getTime() / 1000;
   }
 
+  /**
+   * Convert java time to unix time long, simply by dividing by the time 1000. Null safe
+   * @return
+   */
+  public static Long toUnixTimeNullSafe(Date time) {
+
+    return time == null ? null : time.getTime() / 1000;
+  }
+
 }

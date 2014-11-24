@@ -3,6 +3,7 @@ package com.xeiam.xchange.anx.v2.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import com.xeiam.xchange.utils.DateUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -113,8 +114,14 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
 
-    TradeHistoryParamsTimeSpan p = (TradeHistoryParamsTimeSpan) params;
-    return getTradeHistory(p.getStartTime(), p.getEndTime());
+    Long from = null;
+    Long to = null;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan p = (TradeHistoryParamsTimeSpan) params;
+      from = DateUtils.toUnixTimeNullSafe(p.getStartTime());
+      to = DateUtils.toUnixTimeNullSafe(p.getEndTime());
+    }
+    return getTradeHistory(from, to);
   }
 
   @Override
