@@ -16,6 +16,7 @@ import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderReturn;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Author: brox
@@ -29,9 +30,9 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  public BTCETradeServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BTCETradeServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Integer> nonceFactory) {
 
-    super(BTCEAuthenticated.class, exchangeSpecification);
+    super(BTCEAuthenticated.class, exchangeSpecification, nonceFactory);
   }
 
   /**

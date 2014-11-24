@@ -24,7 +24,7 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService<BTCE> {
    */
   public BTCEMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
 
-    super(BTCE.class, exchangeSpecification);
+    super(BTCE.class, exchangeSpecification, null);
   }
 
   /**
