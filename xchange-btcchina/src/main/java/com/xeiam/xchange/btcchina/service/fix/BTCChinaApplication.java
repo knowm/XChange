@@ -1,5 +1,7 @@
 package com.xeiam.xchange.btcchina.service.fix;
 
+import java.math.BigDecimal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,9 +18,16 @@ import quickfix.UnsupportedMessageType;
 import quickfix.fix44.MarketDataIncrementalRefresh;
 import quickfix.fix44.MarketDataSnapshotFullRefresh;
 import quickfix.fix44.MessageCracker;
+import quickfix.fix44.NewOrderSingle;
+import quickfix.fix44.OrderCancelRequest;
+import quickfix.fix44.OrderMassStatusRequest;
+import quickfix.fix44.OrderStatusRequest;
 
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
+import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoRequest;
+import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 
 /**
@@ -91,12 +100,28 @@ public class BTCChinaApplication extends MessageCracker implements Application {
     onTicker(ticker);
   }
 
+  public void onMessage(AccountInfoResponse message, SessionID sessionId) throws FieldNotFound {
+
+    log.debug("{}", message);
+
+    onAccountInfo(message.getAccReqID().getValue(), BTCChinaFIXAdapters.adaptAccountInfo(message));
+  }
+
   /**
    * Callback of ticker refreshed.
    *
    * @param ticker the refreshed ticker.
    */
   protected void onTicker(Ticker ticker) {
+  }
+
+  /**
+   * Callback of account info got from server.
+   *
+   * @param accReqId the account request ID as assigned in the request.
+   * @param accountInfo the account info.
+   */
+  protected void onAccountInfo(String accReqId, AccountInfo accountInfo) {
   }
 
   public Ticker getTicker() {
@@ -144,6 +169,36 @@ public class BTCChinaApplication extends MessageCracker implements Application {
     sendMessage(message, sessionId);
   }
 
+  public void requestAccountInfo(String accessKey, String secretKey, String accReqId, SessionID sessionId) {
+
+    AccountInfoRequest message = BTCChinaTradeRequest.createAccountInfoRequest(accessKey, secretKey, accReqId);
+    sendMessage(message, sessionId);
+  }
+
+  public void placeOrder(String accessKey, String secretKey, String clOrdId, char side, char ordType, BigDecimal orderQty, BigDecimal price, String symbol, SessionID sessionId) {
+
+    NewOrderSingle message = BTCChinaTradeRequest.createNewOrderSingle(accessKey, secretKey, clOrdId, side, ordType, orderQty, price, symbol);
+    sendMessage(message, sessionId);
+  }
+
+  public void cancelOrder(String accessKey, String secretKey, String clOrdId, String orderId, String symbol, SessionID sessionId) {
+
+    OrderCancelRequest message = BTCChinaTradeRequest.createOrderCancelRequest(accessKey, secretKey, clOrdId, orderId, symbol);
+    sendMessage(message, sessionId);
+  }
+
+  public void requestOrderMassStatus(String accessKey, String secretKey, String massStatusReqId, int massStatusReqType, String symbol, SessionID sessionId) {
+
+    OrderMassStatusRequest message = BTCChinaTradeRequest.createOrderMassStatusRequest(accessKey, secretKey, massStatusReqId, massStatusReqType, symbol);
+    sendMessage(message, sessionId);
+  }
+
+  public void requestOrderStatus(String accessKey, String secretKey, String clOrdId, String orderId, String symbol, SessionID sessionId) {
+
+    OrderStatusRequest message = BTCChinaTradeRequest.createOrderStatusRequest(accessKey, secretKey, clOrdId, orderId, symbol);
+    sendMessage(message, sessionId);
+  }
+
   private void sendMessage(Message message, SessionID sessionId) {
 
     Session.lookupSession(sessionId).send(message);
@@ -152,6 +207,16 @@ public class BTCChinaApplication extends MessageCracker implements Application {
   private String adaptSymbol(CurrencyPair currencyPair) {
 
     return BTCChinaAdapters.adaptMarket(currencyPair).toUpperCase();
+  }
+
+  @Override
+  public void crack(Message message, SessionID sessionId) throws UnsupportedMessageType, FieldNotFound, IncorrectTagValue {
+
+    if (message instanceof AccountInfoResponse) {
+      onMessage((AccountInfoResponse) message, sessionId);
+    } else {
+      super.crack(message, sessionId);
+    }
   }
 
 }

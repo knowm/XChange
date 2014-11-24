@@ -2,9 +2,13 @@ package com.xeiam.xchange.examples.btcchina.fix;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import quickfix.ConfigError;
-import quickfix.DefaultMessageFactory;
 import quickfix.DoNotSend;
 import quickfix.FileLogFactory;
 import quickfix.FileStoreFactory;
@@ -12,17 +16,25 @@ import quickfix.Initiator;
 import quickfix.LogFactory;
 import quickfix.MessageFactory;
 import quickfix.MessageStoreFactory;
+import quickfix.SessionID;
 import quickfix.SessionNotFound;
 import quickfix.SessionSettings;
 import quickfix.SocketInitiator;
 
 import com.xeiam.xchange.btcchina.service.fix.BTCChinaApplication;
+import com.xeiam.xchange.btcchina.service.fix.fix44.BTCChinaMessageFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 
 public class BTCChinaClient {
 
+  private static final Logger log = LoggerFactory.getLogger(BTCChinaClient.class);
+
   public static void main(String args[]) throws ConfigError, DoNotSend, IOException, SessionNotFound, InterruptedException {
+
+    final String accessKey = args[0];
+    final String secretKey = args[1];
 
     BTCChinaApplication app = new BTCChinaApplication() {
       @Override
@@ -35,7 +47,13 @@ public class BTCChinaClient {
       @Override
       protected void onTicker(Ticker ticker) {
 
-        System.out.println(ticker);
+        log.info("ticker: {}", ticker);
+      }
+
+      @Override
+      protected void onAccountInfo(String accReqId, AccountInfo accountInfo) {
+
+        log.info("accReqId: {}, accountInfo: {}", accReqId, accountInfo);
       };
 
     };
@@ -44,9 +62,23 @@ public class BTCChinaClient {
     SessionSettings settings = new SessionSettings(inputStream);
     MessageStoreFactory storeFactory = new FileStoreFactory(settings);
     LogFactory logFactory = new FileLogFactory(settings);
-    MessageFactory messageFactory = new DefaultMessageFactory();
+    MessageFactory messageFactory = new BTCChinaMessageFactory();
     Initiator initiator = new SocketInitiator(app, storeFactory, settings, logFactory, messageFactory);
-    initiator.block();
+    initiator.start();
+
+    while (!initiator.isLoggedOn()) {
+      TimeUnit.SECONDS.sleep(1);
+    }
+
+    log.info("logged on.");
+    SessionID sessionId = initiator.getSessions().get(0);
+
+    // account info request: U1000
+    app.requestAccountInfo(accessKey, secretKey, UUID.randomUUID().toString(), sessionId);
+    log.info("account info request sent.");
+
+    TimeUnit.SECONDS.sleep(30);
+    log.info("exiting...");
   }
 
 }
