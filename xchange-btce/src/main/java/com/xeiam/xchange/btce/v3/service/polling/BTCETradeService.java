@@ -22,6 +22,7 @@ import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.*;
 import com.xeiam.xchange.utils.DateUtils;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Matija Mazi
@@ -34,9 +35,9 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
    * @param exchangeSpecification
    *          The {@link ExchangeSpecification}
    */
-  public BTCETradeService(ExchangeSpecification exchangeSpecification) {
+  public BTCETradeService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Integer> nonceFactory) {
 
-    super(exchangeSpecification);
+    super(exchangeSpecification, nonceFactory);
   }
 
   @Override

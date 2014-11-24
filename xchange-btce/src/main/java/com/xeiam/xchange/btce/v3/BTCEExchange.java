@@ -7,6 +7,8 @@ import com.xeiam.xchange.btce.v3.service.polling.BTCEAccountService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketMetadataService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
+import com.xeiam.xchange.utils.nonce.IntTimeNonceFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * <p>
@@ -17,6 +19,8 @@ import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
  * </ul>
  */
 public class BTCEExchange extends BaseExchange implements Exchange {
+
+  private final SynchronizedValueFactory<Integer> nonceFactory = new IntTimeNonceFactory();
 
   /**
    * Default constructor for ExchangeFactory
@@ -31,8 +35,8 @@ public class BTCEExchange extends BaseExchange implements Exchange {
     super.applySpecification(exchangeSpecification);
 
     this.pollingMarketDataService = new BTCEMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new BTCEAccountService(exchangeSpecification);
-    this.pollingTradeService = new BTCETradeService(exchangeSpecification);
+    this.pollingAccountService = new BTCEAccountService(exchangeSpecification, nonceFactory);
+    this.pollingTradeService = new BTCETradeService(exchangeSpecification, nonceFactory);
     this.marketMetadataService = new BTCEMarketMetadataService(exchangeSpecification);
   }
 
