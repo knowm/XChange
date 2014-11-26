@@ -31,7 +31,9 @@ import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
  */
 public class CoinsetterTradeService extends CoinsetterBasePollingService implements PollingTradeService {
 
-  private final CoinsetterOrderServiceRaw orderServiceRaw;
+
+
+    private final CoinsetterOrderServiceRaw orderServiceRaw;
 
   /**
    * @param exchangeSpecification
@@ -122,4 +124,9 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
 
     return null;
   }
+
+  public CoinsetterOrderServiceRaw getOrderServiceRaw() {
+    return orderServiceRaw;
+  }
+
 }
