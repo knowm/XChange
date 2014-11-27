@@ -6,6 +6,7 @@ package com.xeiam.xchange.poloniex.service.polling;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,11 @@ import com.xeiam.xchange.poloniex.PoloniexUtils;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsAll;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.utils.DateUtils;
 
 public class PoloniexTradeService extends PoloniexTradeServiceRaw implements PollingTradeService {
 
@@ -89,6 +94,32 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
         }
       }
     }
+    return getTradeHistory(currencyPair, startTime, endTime);
+  }
+
+  /**
+   * @param params
+   *          Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
+   */
+
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    CurrencyPair currencyPair = null;
+    Date startTime = null;
+    Date endTime = null;
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    }
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+      endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
+    }
+    return getTradeHistory(currencyPair, DateUtils.toUnixTimeNullSafe(startTime), DateUtils.toUnixTimeNullSafe(endTime));
+  }
+
+  private UserTrades getTradeHistory(CurrencyPair currencyPair, final Long startTime, final Long endTime) throws IOException {
 
     List<UserTrade> trades = new ArrayList<UserTrade>();
     if (currencyPair == null) {
@@ -110,16 +141,55 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  /**
+   * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan} and {@link TradeHistoryParamCurrencyPair}.
+   */
 
-    throw new NotYetImplementedForExchangeException();
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+
+    return new PoloniexTradeHistoryParams();
   }
 
-  @Override
-  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+  public static class PoloniexTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan {
 
-    return null;
+    private final TradeHistoryParamsAll all = new TradeHistoryParamsAll();
+
+    @Override
+    public void setCurrencyPair(CurrencyPair value) {
+
+      all.setCurrencyPair(value);
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+
+      return all.getCurrencyPair();
+    }
+
+    @Override
+    public void setStartTime(Date value) {
+
+      all.setStartTime(value);
+    }
+
+    @Override
+    public Date getStartTime() {
+
+      return all.getStartTime();
+    }
+
+    @Override
+    public void setEndTime(Date value) {
+
+      all.setEndTime(value);
+    }
+
+    @Override
+    public Date getEndTime() {
+
+      return all.getEndTime();
+    }
   }
 
 }
