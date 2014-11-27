@@ -18,17 +18,17 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.*;
+import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.utils.DateUtils;
 
 public class BitfinexTradeService extends BitfinexTradeServiceRaw implements PollingTradeService {
 
   private static final OpenOrders noOpenOrders = new OpenOrders(new ArrayList<LimitOrder>());
 
-  /**
-   * Constructor
-   *
-   */
   public BitfinexTradeService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
@@ -98,22 +98,43 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   }
 
   /**
-   * Required parameters:
-   * {@link TradeHistoryParamPaging}
-   * {@link TradeHistoryParamsTimeSpan#getStartTime()}
-   * {@link TradeHistoryParamCurrencyPair}
+   * @param params
+   *          Implementation of {@link TradeHistoryParamCurrencyPair} is mandatory. Can optionally implement {@link TradeHistoryParamPaging} and {@link TradeHistoryParamsTimeSpan#getStartTime()}. All
+   *          other TradeHistoryParams types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    String symbol = BitfinexAdapters.adaptCurrencyPair(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
-    Date startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
-    long timestamp = DateUtils.toUnixTime(startTime);
+    final String symbol;
+    if (params instanceof TradeHistoryParamCurrencyPair && ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
+      symbol = BitfinexAdapters.adaptCurrencyPair(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
+    }
+    else {
+      // Exchange will return the errors below if CurrencyPair is not provided.
+      // field not on request: "Key symbol was not present."
+      // field supplied but blank: "Key symbol may not be the empty string"
+      throw new ExchangeException("CurrencyPair must be supplied");
+    }
 
-    TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
-    Integer pageLength = pagingParams.getPageLength();
-    Integer pageNum = pagingParams.getPageNumber();
-    int limit = (pageLength != null && pageNum != null) ? pageLength * (pageNum + 1) : 50;
+    final long timestamp;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      Date startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+      timestamp = DateUtils.toUnixTime(startTime);
+    }
+    else {
+      timestamp = 0;
+    }
+
+    final int limit;
+    if (params instanceof TradeHistoryParamPaging) {
+      TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
+      Integer pageLength = pagingParams.getPageLength();
+      Integer pageNum = pagingParams.getPageNumber();
+      limit = (pageLength != null && pageNum != null) ? pageLength * (pageNum + 1) : 50;
+    }
+    else {
+      limit = 50;
+    }
 
     final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, timestamp, limit);
     return BitfinexAdapters.adaptTradeHistory(trades, symbol);
@@ -159,6 +180,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
 
     @Override
     public Integer getPageNumber() {
+
       return pageNumber;
     }
 
