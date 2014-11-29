@@ -100,6 +100,7 @@
 		<module>xchange-itbit</module>
 		<module>xchange-kraken</module>
 		<module>xchange-lakebtc</module>
+                <module>xchange-mercadobitcoin</module>
 		<module>xchange-mintpal</module>
 		<module>xchange-okcoin</module>
 		<module>xchange-openexchangerates</module>
