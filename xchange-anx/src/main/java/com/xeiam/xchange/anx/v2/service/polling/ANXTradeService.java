@@ -118,8 +118,8 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
     Long to = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan p = (TradeHistoryParamsTimeSpan) params;
-      from = DateUtils.toUnixTimeNullSafe(p.getStartTime());
-      to = DateUtils.toUnixTimeNullSafe(p.getEndTime());
+      from = DateUtils.toMillisNullSafe(p.getStartTime());
+      to = DateUtils.toMillisNullSafe(p.getEndTime());
     }
     return getTradeHistory(from, to);
   }

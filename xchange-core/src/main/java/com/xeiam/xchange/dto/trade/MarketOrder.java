@@ -42,11 +42,66 @@ public final class MarketOrder extends Order {
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param tradableAmount The amount to trade
-   * @param CurrencyPair currencyPair The identifier (e.g. BTC/USD)
+   * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
    */
   public MarketOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair) {
 
     super(type, tradableAmount, currencyPair, "", null);
+  }
+
+  public static class Builder {
+
+    OrderType orderType;
+    BigDecimal tradableAmount;
+    CurrencyPair currencyPair;
+    String id;
+    Date timestamp;
+
+    public Builder(OrderType orderType, CurrencyPair currencyPair) {
+
+      this.orderType = orderType;
+      this.currencyPair = currencyPair;
+    }
+
+    public static Builder from(Order o){
+      return new Builder(o.getType(),o.getCurrencyPair()).tradableAmount(o.getTradableAmount()).timestamp(o.getTimestamp())
+              .id(o.getId());
+    }
+
+    public Builder orderType(OrderType orderType) {
+
+      this.orderType = orderType;
+      return this;
+    }
+
+    public Builder tradableAmount(BigDecimal tradableAmount) {
+
+      this.tradableAmount = tradableAmount;
+      return this;
+    }
+
+    public Builder currencyPair(CurrencyPair currencyPair) {
+
+      this.currencyPair = currencyPair;
+      return this;
+    }
+
+    public Builder id(String id) {
+
+      this.id = id;
+      return this;
+    }
+
+    public Builder timestamp(Date timestamp) {
+
+      this.timestamp = timestamp;
+      return this;
+    }
+
+    public MarketOrder build() {
+
+      return new MarketOrder(orderType, tradableAmount, currencyPair, id, timestamp);
+    }
   }
 
 }

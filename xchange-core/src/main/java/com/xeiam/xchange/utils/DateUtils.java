@@ -119,11 +119,15 @@ public class DateUtils {
 
   /**
    * Convert java time to unix time long, simply by dividing by the time 1000. Null safe
-   * @return
    */
   public static Long toUnixTimeNullSafe(Date time) {
 
     return time == null ? null : time.getTime() / 1000;
+  }
+
+  public static Long toMillisNullSafe(Date time) {
+
+    return time == null ? null : time.getTime();
   }
 
 }
