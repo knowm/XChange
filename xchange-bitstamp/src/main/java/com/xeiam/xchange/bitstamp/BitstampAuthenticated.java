@@ -14,7 +14,6 @@ import com.xeiam.xchange.bitstamp.dto.BitstampException;
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
@@ -48,7 +47,7 @@ public interface BitstampAuthenticated {
   /** @return true if order has been canceled. */
   @POST
   @Path("cancel_order/")
-  public BitstampBooleanResponse cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("id") int orderId)
+  public boolean cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("id") int orderId)
           throws BitstampException, IOException;
 
   @POST

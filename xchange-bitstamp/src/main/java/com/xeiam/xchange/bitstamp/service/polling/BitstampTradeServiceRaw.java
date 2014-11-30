@@ -9,7 +9,7 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
 import com.xeiam.xchange.bitstamp.BitstampUtils;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
+import com.xeiam.xchange.bitstamp.dto.BitstampException;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
@@ -51,13 +51,7 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
 
   public boolean cancelBitstampOrder(int orderId) throws IOException {
 
-    final BitstampBooleanResponse response = bitstampAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), orderId);
-
-    if (response.getError() != null) {
-      throw new ExchangeException("Failed to cancel order " + orderId + " because " + response.getError());
-    }
-
-    return response.getResponse();
+    return bitstampAuthenticated.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), orderId);
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions) throws IOException {
