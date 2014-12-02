@@ -144,7 +144,10 @@ public class PoloniexAdapters {
     Date date = PoloniexUtils.stringToDate(userTrade.getDate());
     String tradeId = String.valueOf(userTrade.getTradeID());
     String orderId = String.valueOf(userTrade.getOrderNumber());
+    
+    // Poloniex returns fee as a multiplier, e.g. a 0.2% fee is 0.002
+    BigDecimal feeAmount = amount.multiply(price).multiply(userTrade.getFee());
 
-    return new UserTrade(orderType, amount, currencyPair, price, date, tradeId, orderId, userTrade.getFee(), currencyPair.counterSymbol);
+    return new UserTrade(orderType, amount, currencyPair, price, date, tradeId, orderId, feeAmount, currencyPair.counterSymbol);
   }
 }
