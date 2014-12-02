@@ -1,0 +1,17 @@
+Mercado Bitcoin Exchange API specification
+================================
+
+Documentation
+-------------
+- [Mercado Bitcoin API](https://www.mercadobitcoin.net/api/)
+- [Mercado Bitcoin Trade API](https://www.mercadobitcoin.net/trade-api/)
+
+Support
+-------
+- suporteapi@mercadobitcoin.net
+
+Limitations
+--------------
+- Minimum interval for each call for info API: 60 secs or IP can be blocked.
+- Minimum interval for each call for trade API: 1 sec (due to a tonce implementation limitation)
+- Maximum json vector size: 1000
