@@ -229,6 +229,12 @@
 			<artifactId>xchange-bleutrade</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Mercado Bitcoin exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-mercadobitcoin</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
