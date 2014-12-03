@@ -1,6 +1,5 @@
 package com.xeiam.xchange.mercadobitcoin.service.polling.trade;
 
-import com.sun.istack.internal.NotNull;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinAuthenticated;
@@ -13,6 +12,7 @@ import com.xeiam.xchange.mercadobitcoin.service.MercadoBitcoinDigest;
 import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinBasePollingService;
 import si.mazi.rescu.RestProxyFactory;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -39,7 +39,7 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBasePollingServ
     this.mercadoBitcoinAuthenticated = RestProxyFactory.createProxy(MercadoBitcoinAuthenticated.class, exchangeSpecification.getSslUri());
   }
 
-  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> getMercadoBitcoinUserOrders(@NotNull String pair, @Nullable String type, @Nullable String status, @Nullable String fromId,
+  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> getMercadoBitcoinUserOrders(@Nonnull String pair, @Nullable String type, @Nullable String status, @Nullable String fromId,
       @Nullable String endId, @Nullable Long since, @Nullable Long end) throws IOException {
 
     String method = GET_ORDER_LIST;
@@ -57,8 +57,8 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBasePollingServ
     return userOrders;
   }
 
-  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> mercadoBitcoinPlaceLimitOrder(@NotNull String pair, @NotNull String type, @NotNull BigDecimal volume,
-      @NotNull BigDecimal price) throws IOException {
+  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> mercadoBitcoinPlaceLimitOrder(@Nonnull String pair, @Nonnull String type, @Nonnull BigDecimal volume,
+      @Nonnull BigDecimal price) throws IOException {
 
     String method = TRADE;
     String tonce = MercadoBitcoinUtils.getTonce();
@@ -81,7 +81,7 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBasePollingServ
    * @return See {@link com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinCancelOrderResult}.
    * @throws IOException
    */
-  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> mercadoBitcoinCancelOrder(@NotNull String pair, @NotNull String orderId) throws IOException {
+  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> mercadoBitcoinCancelOrder(@Nonnull String pair, @Nonnull String orderId) throws IOException {
 
     String method = CANCEL_ORDER;
     String tonce = MercadoBitcoinUtils.getTonce();
