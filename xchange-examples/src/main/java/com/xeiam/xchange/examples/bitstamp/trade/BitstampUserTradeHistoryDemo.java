@@ -45,7 +45,7 @@ public class BitstampUserTradeHistoryDemo {
 
   private static void raw(BitstampTradeServiceRaw tradeService) throws IOException {
 
-    BitstampUserTransaction[] trades = tradeService.getBitstampUserTransactions(Long.MAX_VALUE);
+    BitstampUserTransaction[] trades = tradeService.getBitstampUserTransactions(1000L);
     for (BitstampUserTransaction trade : trades) {
       System.out.println(trade);
     }

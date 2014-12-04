@@ -86,7 +86,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   @Override
   public UserTrades getTradeHistory(Object... args) throws IOException, BitstampException {
 
-    Long numberOfTransactions = Long.MAX_VALUE;
+    Long numberOfTransactions = 1000L;
     if (args.length > 0) {
       Object arg0 = args[0];
       if (!(arg0 instanceof Number)) {
@@ -113,7 +113,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    return new DefaultTradeHistoryParamPaging(Integer.MAX_VALUE);
+    return new DefaultTradeHistoryParamPaging(1000);
   }
 
 }
