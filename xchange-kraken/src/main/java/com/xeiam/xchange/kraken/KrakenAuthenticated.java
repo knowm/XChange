@@ -99,11 +99,25 @@ public interface KrakenAuthenticated extends Kraken {
   public KrakenQueryOrderResult queryOrders(@FormParam("trades") boolean includeTrades, @FormParam("userref") String userReferenceId, @FormParam("txid") String transactionIds,
       @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
+  /**
+   * Get trades history
+   *
+   * @param type          ype = type of trade (optional)
+   *                      all = all types (default)
+   *                      any position = any position (open or closed)
+   *                      closed position = positions that have been closed
+   *                      closing position = any trade closing all or part of a position
+   *                      no position = non-positional trades
+   * @param includeTrades whether or not to include trades related to position in output (optional.  default = false)
+   * @param start         starting unix timestamp or trade tx id of results (optional.  exclusive)
+   * @param end           ending unix timestamp or trade tx id of results (optional.  inclusive)
+   * @param offset        result offset
+   */
   @POST
   @Path("private/TradesHistory")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public KrakenTradeHistoryResult tradeHistory(@FormParam("type") String type, @FormParam("trades") boolean includeTrades, @FormParam("start") String start, @FormParam("end") String end,
-      @FormParam("ofs") String offset, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+  public KrakenTradeHistoryResult tradeHistory(@FormParam("type") String type, @FormParam("trades") boolean includeTrades, @FormParam("start") Long start, @FormParam("end") Long end,
+      @FormParam("ofs") Long offset, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
       throws IOException;
 
   @POST

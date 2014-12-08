@@ -23,6 +23,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.UserTrades;
 
 /**
  * Tests the BitstampAdapter class
@@ -144,14 +145,16 @@ public class BitstampAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitstampUserTransaction[] bitstampUserTransactions = mapper.readValue(is, BitstampUserTransaction[].class);
 
-    Trades userTradeHistory = BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
+    UserTrades userTradeHistory = BitstampAdapters.adaptTradeHistory(bitstampUserTransactions);
 
-    assertThat(userTradeHistory.getTrades().get(0).getId()).isEqualTo("1296712");
-    assertThat(userTradeHistory.getTrades().get(0).getType()).isEqualTo(OrderType.BID);
-    assertThat(userTradeHistory.getTrades().get(0).getPrice().toString()).isEqualTo("131.50");
+    assertThat(userTradeHistory.getUserTrades().get(0).getId()).isEqualTo("1296712");
+    assertThat(userTradeHistory.getUserTrades().get(0).getType()).isEqualTo(OrderType.BID);
+    assertThat(userTradeHistory.getUserTrades().get(0).getPrice().toString()).isEqualTo("131.50");
+    assertThat(userTradeHistory.getUserTrades().get(0).getFeeAmount().toString()).isEqualTo("0.06");
 
-    assertThat(userTradeHistory.getTrades().get(1).getPrice().toString()).isEqualTo("131.50");
-    assertThat(userTradeHistory.getTrades().get(1).getType()).isEqualTo(OrderType.ASK);
+    assertThat(userTradeHistory.getUserTrades().get(1).getPrice().toString()).isEqualTo("131.50");
+    assertThat(userTradeHistory.getUserTrades().get(1).getType()).isEqualTo(OrderType.ASK);
+    assertThat(userTradeHistory.getUserTrades().get(1).getFeeAmount().toString()).isEqualTo("0.06");
 
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String dateString = f.format(userTradeHistory.getTrades().get(0).getTimestamp());

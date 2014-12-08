@@ -18,10 +18,9 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
-import com.xeiam.xchange.dto.marketdata.Trade;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
@@ -45,17 +44,16 @@ public final class CoinbaseAdapters {
     return accountInfo;
   }
 
-  public static Trades adaptTrades(final CoinbaseTransfers transfers) {
+  public static UserTrades adaptTrades(final CoinbaseTransfers transfers) {
 
-    final List<Trade> trades = new ArrayList<Trade>();
+    final List<UserTrade> trades = new ArrayList<UserTrade>();
     for (final CoinbaseTransfer transfer : transfers.getTransfers())
       trades.add(adaptTrade(transfer));
 
-    final Trades adaptedTrades = new Trades(trades, TradeSortType.SortByTimestamp);
-    return adaptedTrades;
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static Trade adaptTrade(final CoinbaseTransfer transfer) {
+  public static UserTrade adaptTrade(final CoinbaseTransfer transfer) {
 
     final OrderType orderType = adaptOrderType(transfer.getType());
     final CoinbaseMoney btcAmount = transfer.getBtcAmount();
@@ -66,9 +64,10 @@ public final class CoinbaseAdapters {
     final BigDecimal price = subTotal.getAmount().divide(tradableAmount, RoundingMode.HALF_EVEN);
     final Date timestamp = transfer.getCreatedAt();
     final String id = transfer.getTransactionId();
+    final BigDecimal feeAmount = transfer.getCoinbaseFee().getAmount();
+    final String feeCurrency = transfer.getCoinbaseFee().getCurrency();
 
-    final Trade adaptedTrade = new Trade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, id, id);
-    return adaptedTrade;
+    return new UserTrade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, id, id, feeAmount, feeCurrency);
   }
 
   public static OrderType adaptOrderType(final CoinbaseTransferType transferType) {
@@ -87,8 +86,8 @@ public final class CoinbaseAdapters {
   public static Ticker adaptTicker(final CurrencyPair currencyPair, final CoinbasePrice buyPrice, final CoinbasePrice sellPrice, final CoinbaseMoney spotRate,
       final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory) {
 
-    final TickerBuilder tickerBuilder =
-        TickerBuilder.newInstance().withCurrencyPair(currencyPair).withAsk(buyPrice.getSubTotal().getAmount()).withBid(sellPrice.getSubTotal().getAmount()).withLast(spotRate.getAmount());
+    final Ticker.Builder tickerBuilder =
+        new Ticker.Builder().currencyPair(currencyPair).ask(buyPrice.getSubTotal().getAmount()).bid(sellPrice.getSubTotal().getAmount()).last(spotRate.getAmount());
 
     // Get the 24 hour high and low spot price if the history is provided.
     if (coinbaseSpotPriceHistory != null) {
@@ -109,7 +108,7 @@ public final class CoinbaseAdapters {
         else if (spotPriceAmount.compareTo(observedHigh) > 0)
           observedHigh = spotPriceAmount;
       }
-      tickerBuilder.withHigh(observedHigh).withLow(observedLow);
+      tickerBuilder.high(observedHigh).low(observedLow);
     }
 
     return tickerBuilder.build();

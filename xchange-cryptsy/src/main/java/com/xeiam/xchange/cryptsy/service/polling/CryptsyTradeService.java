@@ -6,6 +6,7 @@ import java.util.Date;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
 import com.xeiam.xchange.cryptsy.CryptsyCurrencyUtils;
 import com.xeiam.xchange.cryptsy.dto.CryptsyOrder.CryptsyOrderType;
@@ -14,11 +15,12 @@ import com.xeiam.xchange.cryptsy.dto.trade.CryptsyOpenOrdersReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyPlaceOrderReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 /**
  * @author ObsessiveOrange
@@ -76,7 +78,7 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
    * @throws IOException
    */
   @Override
-  public Trades getTradeHistory(final Object... arguments) throws IOException, ExchangeException {
+  public UserTrades getTradeHistory(final Object... arguments) throws IOException, ExchangeException {
 
     Date startDate = new Date(0); // default value
     Date endDate = new Date(); // default value
@@ -88,6 +90,18 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
     CryptsyTradeHistoryReturn tradeHistoryReturnData = super.getCryptsyTradeHistory(startDate, endDate);
 
     return CryptsyAdapters.adaptTradeHistory(tradeHistoryReturnData);
+  }
+
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
+    return null;
   }
 
 }

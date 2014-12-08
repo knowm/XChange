@@ -5,6 +5,8 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 public class BTCChinaTransactionsRequest extends BTCChinaRequest {
 
   public static final String TYPE_ALL = "all";
+  public static final String SINCE_TIME = "time";
+  public static final String SINCE_ID = "id";
 
   /**
    * Constructor

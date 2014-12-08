@@ -32,35 +32,36 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
     return poloniex.returnOpenOrders(apiKey, signatureCreator, String.valueOf(nextNonce()), "all");
   }
 
-  public PoloniexUserTrade[] returnTradeHistory(CurrencyPair currencyPair) throws IOException {
-
-    return poloniex.returnTradeHistory(apiKey, signatureCreator, String.valueOf(nextNonce()), PoloniexUtils.toPairString(currencyPair), null, null);
-  }
-
   public PoloniexUserTrade[] returnTradeHistory(CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
 
     return poloniex.returnTradeHistory(apiKey, signatureCreator, String.valueOf(nextNonce()), PoloniexUtils.toPairString(currencyPair), startTime, endTime);
   }
 
-  public String buy(LimitOrder limitOrder) throws IOException {
+  public HashMap<String, PoloniexUserTrade[]> returnTradeHistory(Long startTime, Long endTime) throws IOException {
+
+    String ignore = null; // only used so PoloniexAuthenticated.returnTradeHistory can be overloaded
+    return poloniex.returnTradeHistory(apiKey, signatureCreator, String.valueOf(nextNonce()), "all", startTime, endTime, ignore);
+  }
+
+  public PoloniexTradeResponse buy(LimitOrder limitOrder) throws IOException {
 
     try {
       PoloniexTradeResponse response =
           poloniex.buy(apiKey, signatureCreator, String.valueOf(nextNonce()), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils
               .toPairString(limitOrder.getCurrencyPair()));
-      return String.valueOf(response.getOrderNumber());
+      return response;
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError());
     }
   }
 
-  public String sell(LimitOrder limitOrder) throws IOException {
+  public PoloniexTradeResponse sell(LimitOrder limitOrder) throws IOException {
 
     try {
       PoloniexTradeResponse response =
           poloniex.sell(apiKey, signatureCreator, String.valueOf(nextNonce()), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils
               .toPairString(limitOrder.getCurrencyPair()));
-      return String.valueOf(response.getOrderNumber());
+      return response;
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError());
     }

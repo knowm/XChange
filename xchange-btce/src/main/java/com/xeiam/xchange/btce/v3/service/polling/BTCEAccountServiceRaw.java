@@ -6,6 +6,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfoReturn;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Author: brox
@@ -17,9 +18,9 @@ public class BTCEAccountServiceRaw extends BTCEBasePollingService<BTCEAuthentica
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  public BTCEAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BTCEAccountServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Integer> nonceFactory) {
 
-    super(BTCEAuthenticated.class, exchangeSpecification);
+    super(BTCEAuthenticated.class, exchangeSpecification, nonceFactory);
   }
 
   /**

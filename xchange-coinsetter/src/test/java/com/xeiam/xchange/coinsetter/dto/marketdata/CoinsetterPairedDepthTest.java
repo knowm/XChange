@@ -9,16 +9,14 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.coinsetter.ObjectMapperHelper;
 
 public class CoinsetterPairedDepthTest {
-
-  private final ObjectMapper mapper = new ObjectMapper();
 
   @Test
   public void test() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterPairedDepth depth = mapper.readValue(getClass().getResource("depth-paired.json"), CoinsetterPairedDepth.class);
+    CoinsetterPairedDepth depth = ObjectMapperHelper.readValue(getClass().getResource("depth-paired.json"), CoinsetterPairedDepth.class);
 
     assertEquals(10, depth.getDepth());
     assertEquals("SMART", depth.getExchangeId());

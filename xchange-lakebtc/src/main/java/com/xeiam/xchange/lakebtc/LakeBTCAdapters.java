@@ -35,7 +35,7 @@ public class LakeBTCAdapters {
     BigDecimal volume = lakeBTCTicker.getVolume();
     Date timestamp = new Date();
 
-    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withLast(last).withTimestamp(timestamp).withVolume(volume).build();
+    return new Ticker.Builder().currencyPair(currencyPair).bid(bid).ask(ask).high(high).low(low).last(last).timestamp(timestamp).volume(volume).build();
   }
 
   private static List<LimitOrder> transformArrayToLimitOrders(BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {

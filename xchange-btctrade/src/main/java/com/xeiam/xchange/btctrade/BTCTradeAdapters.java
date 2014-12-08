@@ -26,12 +26,13 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
@@ -79,8 +80,9 @@ public final class BTCTradeAdapters {
 
   public static Ticker adaptTicker(BTCTradeTicker btcTradeTicker, CurrencyPair currencyPair) {
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withHigh(btcTradeTicker.getHigh()).withLow(btcTradeTicker.getLow()).withBid(btcTradeTicker.getBuy()).withAsk(
-        btcTradeTicker.getSell()).withLast(btcTradeTicker.getLast()).withVolume(btcTradeTicker.getVol()).build();
+    return new Ticker.Builder().currencyPair(currencyPair).high(btcTradeTicker.getHigh()).low(btcTradeTicker.getLow())
+            .bid(btcTradeTicker.getBuy()).ask(btcTradeTicker.getSell()).last(btcTradeTicker.getLast())
+            .volume(btcTradeTicker.getVol()).build();
   }
 
   public static OrderBook adaptOrderBook(BTCTradeDepth btcTradeDepth, CurrencyPair currencyPair) {
@@ -196,9 +198,9 @@ public final class BTCTradeAdapters {
     return limitOrder;
   }
 
-  public static Trades adaptTrades(BTCTradeOrder[] btcTradeOrders, BTCTradeOrder[] btcTradeOrderDetails) {
+  public static UserTrades adaptTrades(BTCTradeOrder[] btcTradeOrders, BTCTradeOrder[] btcTradeOrderDetails) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<UserTrade> trades = new ArrayList<UserTrade>();
     for (int i = 0; i < btcTradeOrders.length; i++) {
       BTCTradeOrder order = btcTradeOrders[i];
 
@@ -212,12 +214,12 @@ public final class BTCTradeAdapters {
         }
       }
     }
-    return new Trades(trades, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  private static Trade adaptTrade(BTCTradeOrder order, com.xeiam.xchange.btctrade.dto.trade.BTCTradeTrade trade, CurrencyPair currencyPair) {
+  private static UserTrade adaptTrade(BTCTradeOrder order, com.xeiam.xchange.btctrade.dto.trade.BTCTradeTrade trade, CurrencyPair currencyPair) {
 
-    return new Trade(adaptOrderType(order.getType()), trade.getAmount(), currencyPair, trade.getPrice(), adaptDatetime(trade.getDatetime()), trade.getTradeId(), order.getId());
+    return new UserTrade(adaptOrderType(order.getType()), trade.getAmount(), currencyPair, trade.getPrice(), adaptDatetime(trade.getDatetime()), trade.getTradeId(), order.getId(), null, null);
   }
 
 }

@@ -13,7 +13,7 @@ public class BitfinexOrderStatusResponse {
   private final BigDecimal avgExecutionPrice;
   private final String side;
   private final String type;
-  private final float timestamp;
+  private final BigDecimal timestamp;
   private final boolean isLive;
   private final boolean isCancelled;
   private final boolean wasForced;
@@ -40,7 +40,7 @@ public class BitfinexOrderStatusResponse {
    * @param executedAmount
    */
   public BitfinexOrderStatusResponse(@JsonProperty("id") int id, @JsonProperty("symbol") String symbol, @JsonProperty("exchange") String exchange, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice, @JsonProperty("side") String side, @JsonProperty("type") String type, @JsonProperty("timestamp") float timestamp,
+      @JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice, @JsonProperty("side") String side, @JsonProperty("type") String type, @JsonProperty("timestamp") BigDecimal timestamp,
       @JsonProperty("is_live") boolean isLive, @JsonProperty("is_cancelled") boolean isCancelled, @JsonProperty("was_forced") boolean wasForced,
       @JsonProperty("original_amount") BigDecimal originalAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount, @JsonProperty("executed_amount") BigDecimal executedAmount) {
 
@@ -110,7 +110,7 @@ public class BitfinexOrderStatusResponse {
     return side;
   }
 
-  public float getTimestamp() {
+  public BigDecimal getTimestamp() {
 
     return timestamp;
   }

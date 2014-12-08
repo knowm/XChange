@@ -19,11 +19,12 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -146,7 +147,7 @@ public final class BitstampAdapters {
     BigDecimal volume = bitstampTicker.getVolume();
     Date timestamp = new Date(bitstampTicker.getTimestamp() * 1000L);
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
 
   }
 
@@ -156,9 +157,9 @@ public final class BitstampAdapters {
    * @param bitstampUserTransactions
    * @return
    */
-  public static Trades adaptTradeHistory(BitstampUserTransaction[] bitstampUserTransactions) {
+  public static UserTrades adaptTradeHistory(BitstampUserTransaction[] bitstampUserTransactions) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<UserTrade> trades = new ArrayList<UserTrade>();
     long lastTradeId = 0;
     for (BitstampUserTransaction bitstampUserTransaction : bitstampUserTransactions) {
       if (bitstampUserTransaction.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
@@ -171,12 +172,14 @@ public final class BitstampAdapters {
           lastTradeId = transactionId;
         final String tradeId = String.valueOf(transactionId);
         final String orderId = String.valueOf(bitstampUserTransaction.getOrderId());
+        final BigDecimal feeAmount = bitstampUserTransaction.getFee();
+        final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
-        Trade trade = new Trade(orderType, tradableAmount, CurrencyPair.BTC_USD, price, timestamp, tradeId, orderId);
+        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount, currencyPair.counterSymbol);
         trades.add(trade);
       }
     }
 
-    return new Trades(trades, lastTradeId, TradeSortType.SortByID);
+    return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
   }
 }

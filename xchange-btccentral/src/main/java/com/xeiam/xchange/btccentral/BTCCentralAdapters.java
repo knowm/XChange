@@ -47,7 +47,7 @@ public class BTCCentralAdapters {
     BigDecimal volume = btcCentralTicker.getVolume();
     Date timestamp = new Date(btcCentralTicker.getAt() * 1000L);
 
-    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withLast(last).withVolume(volume).withTimestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).bid(bid).ask(ask).high(high).low(low).last(last).volume(volume).timestamp(timestamp).build();
   }
 
   /**
@@ -89,8 +89,7 @@ public class BTCCentralAdapters {
 
     for (BTCCentralTrade btcCentralTrade : btcCentralTrades) {
       Trade trade =
-          new Trade(null, btcCentralTrade.getTraded_btc(), currencyPair, btcCentralTrade.getPrice(), new Date(btcCentralTrade.getCreated_at_int()), btcCentralTrade.getUuid().toString(),
-              btcCentralTrade.getUuid().toString());
+          new Trade(null, btcCentralTrade.getTraded_btc(), currencyPair, btcCentralTrade.getPrice(), new Date(btcCentralTrade.getCreated_at_int()), btcCentralTrade.getUuid().toString());
 
       trades.add(trade);
     }

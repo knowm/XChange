@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -15,6 +16,8 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
@@ -31,6 +34,7 @@ import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
  */
 public class HitbtcAdapters {
 
+  public static final char DELIM = '_';
   private static final BigDecimal LOT_MULTIPLIER = new BigDecimal("100");
 
   /**
@@ -80,7 +84,7 @@ public class HitbtcAdapters {
     BigDecimal volume = hitbtcTicker.getVolume();
     Date timestamp = new Date(hitbtcTicker.getTimetamp());
 
-    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
   }
 
   public static OrderBook adaptOrderBook(HitbtcOrderBook hitbtcOrderBook, CurrencyPair currencyPair) {
@@ -123,7 +127,7 @@ public class HitbtcAdapters {
       long longTradeId = tid == null ? 0 : Long.parseLong(tid);
       if (longTradeId > lastTradeId)
         lastTradeId = longTradeId;
-      Trade trade = new Trade(null, amount, currencyPair, price, timestamp, tid, tid);
+      Trade trade = new Trade(null, amount, currencyPair, price, timestamp, tid);
       trades.add(trade);
     }
 
@@ -150,9 +154,9 @@ public class HitbtcAdapters {
     return new OpenOrders(openOrders);
   }
 
-  public static Trades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw) {
+  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw) {
 
-    List<Trade> trades = new ArrayList<Trade>(tradeHistoryRaw.length);
+    List<UserTrade> trades = new ArrayList<UserTrade>(tradeHistoryRaw.length);
     for (int i = 0; i < tradeHistoryRaw.length; i++) {
       HitbtcOwnTrade t = tradeHistoryRaw[i];
       OrderType type = t.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
@@ -160,12 +164,13 @@ public class HitbtcAdapters {
       String base = t.getSymbol().substring(0, 3);
       String counter = t.getSymbol().substring(3, 6);
 
-      Trade trade = new Trade(type, t.getExecQuantity().divide(LOT_MULTIPLIER), new CurrencyPair(base, counter), t.getExecPrice(), new Date(t.getTimestamp()), t.getClientOrderId());
+      UserTrade trade = new UserTrade(type, t.getExecQuantity().divide(LOT_MULTIPLIER), new CurrencyPair(base, counter), t.getExecPrice(), new Date(t.getTimestamp()), t.getClientOrderId(),
+          Long.toString(t.getOriginalOrderId()), t.getFee(), counter);
 
       trades.add(trade);
     }
 
-    return new Trades(trades, TradeSortType.SortByID);
+    return new UserTrades(trades, TradeSortType.SortByID);
   }
 
   public static AccountInfo adaptAccountInfo(HitbtcBalance[] accountInfoRaw) {
@@ -182,4 +187,38 @@ public class HitbtcAdapters {
     return new AccountInfo(null, wallets);
   }
 
+  public static String adaptCurrencyPair(CurrencyPair pair) {
+    return pair.baseSymbol + pair.counterSymbol;
+  }
+
+  public static String createSymbol(CurrencyPair pair) {
+
+    return pair.baseSymbol + pair.counterSymbol;
+  }
+
+  public static String createOrderId(Order order, long nonce) {
+
+    if (order.getId() == null)
+      // encoding side in client order id
+      return order.getType().name().substring(0, 1) + DELIM + createSymbol(order.getCurrencyPair()) + DELIM + nonce;
+    else
+      return order.getId();
+  }
+
+  public static OrderType readOrderType(String orderId) {
+
+    return orderId.charAt(0) == 'A' ? OrderType.ASK : OrderType.BID;
+  }
+
+  public static String readSymbol(String orderId) {
+
+    int start = orderId.indexOf(DELIM);
+    int end = orderId.indexOf(DELIM, start + 1);
+    return orderId.substring(start + 1, end);
+  }
+
+  public static String getSide(OrderType type) {
+
+    return type == OrderType.BID ? "buy" : "sell";
+  }
 }

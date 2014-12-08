@@ -89,7 +89,7 @@ public class CexIOAdapters {
     BigDecimal volume = ticker.getVolume();
     Date timestamp = new Date(ticker.getTimestamp() * 1000L);
 
-    return Ticker.TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
   }
 
   /**
@@ -168,6 +168,22 @@ public class CexIOAdapters {
     if (balance.getBalanceMYR() != null) {
       wallets.add(new Wallet(Currencies.MYR, balance.getBalanceMYR().getAvailable(), "available"));
     }
+    if (balance.getBalanceAUR() != null) {
+        wallets.add(new Wallet("AUR", balance.getBalanceAUR().getAvailable(), "available"));
+    }
+    if (balance.getBalancePOT() != null) {
+        wallets.add(new Wallet("POT", balance.getBalancePOT().getAvailable(), "available"));
+    }
+    if (balance.getBalanceANC() != null) {
+        wallets.add(new Wallet("ANC", balance.getBalanceANC().getAvailable(), "available"));
+    }
+    if (balance.getBalanceDGB() != null) {
+        wallets.add(new Wallet("DGB", balance.getBalanceDGB().getAvailable(), "available"));
+    }
+    if (balance.getBalanceUSDE() != null) {
+        wallets.add(new Wallet("USDE", balance.getBalanceUSDE().getAvailable(), "available"));
+    }
+    
     return new AccountInfo(userName, null, wallets);
   }
 

@@ -16,7 +16,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
@@ -37,10 +36,10 @@ public class BTCChinaJSONObjectAdapters {
   private static Ticker internalAdaptTicker(JSONObject jsonObject) throws JSONException {
 
     JSONObject tickerJsonObject = jsonObject.getJSONObject("ticker");
-    return TickerBuilder.newInstance().withHigh(new BigDecimal(tickerJsonObject.getString("high"))).withLow(new BigDecimal(tickerJsonObject.getString("low"))).withBid(
-        new BigDecimal(tickerJsonObject.getString("buy"))).withAsk(new BigDecimal(tickerJsonObject.getString("sell"))).withLast(new BigDecimal(tickerJsonObject.getString("last"))).withVolume(
-        new BigDecimal(tickerJsonObject.getString("vol"))).withTimestamp(BTCChinaAdapters.adaptDate(tickerJsonObject.getLong("date"))).withCurrencyPair(
-        BTCChinaAdapters.adaptCurrencyPair(tickerJsonObject.getString("market"))).build();
+    return new Ticker.Builder().high(new BigDecimal(tickerJsonObject.getString("high"))).low(new BigDecimal(tickerJsonObject.getString("low"))).bid(
+            new BigDecimal(tickerJsonObject.getString("buy"))).ask(new BigDecimal(tickerJsonObject.getString("sell"))).last(new BigDecimal(tickerJsonObject.getString("last"))).volume(
+            new BigDecimal(tickerJsonObject.getString("vol"))).timestamp(BTCChinaAdapters.adaptDate(tickerJsonObject.getLong("date"))).currencyPair(
+            BTCChinaAdapters.adaptCurrencyPair(tickerJsonObject.getString("market"))).build();
   }
 
   public static Trade adaptTrade(JSONObject jsonObject) {
@@ -129,7 +128,7 @@ public class BTCChinaJSONObjectAdapters {
       String price = groupedOrder.getString("price");
       // String type = groupedOrder.getString("type");
       String totalamount = groupedOrder.getString("totalamount");
-      asks.add(new LimitOrder.Builder(OrderType.ASK, currencyPair).setLimitPrice(new BigDecimal(price)).setTradableAmount(new BigDecimal(totalamount)).build());
+      asks.add(new LimitOrder.Builder(OrderType.ASK, currencyPair).limitPrice(new BigDecimal(price)).tradableAmount(new BigDecimal(totalamount)).build());
     }
 
     for (int i = 0; i < bidLength; i++) {
@@ -137,7 +136,7 @@ public class BTCChinaJSONObjectAdapters {
       String price = groupedOrder.getString("price");
       // String type = groupedOrder.getString("type");
       String totalamount = groupedOrder.getString("totalamount");
-      bids.add(new LimitOrder.Builder(OrderType.BID, currencyPair).setLimitPrice(new BigDecimal(price)).setTradableAmount(new BigDecimal(totalamount)).build());
+      bids.add(new LimitOrder.Builder(OrderType.BID, currencyPair).limitPrice(new BigDecimal(price)).tradableAmount(new BigDecimal(totalamount)).build());
     }
 
     return new OrderBook(new Date(), asks, bids);

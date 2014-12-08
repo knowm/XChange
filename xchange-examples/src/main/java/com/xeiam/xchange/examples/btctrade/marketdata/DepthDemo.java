@@ -37,7 +37,7 @@ public class DepthDemo {
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
   }
 
-  private static void raw(Exchange exchange) {
+  private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication).
     BTCTradeMarketDataServiceRaw marketDataService = (BTCTradeMarketDataServiceRaw) exchange.getPollingMarketDataService();

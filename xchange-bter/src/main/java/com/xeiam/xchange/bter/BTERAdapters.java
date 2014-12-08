@@ -24,12 +24,13 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -60,7 +61,7 @@ public final class BTERAdapters {
     BigDecimal high = bterTicker.getHigh();
     BigDecimal volume = bterTicker.getVolume(currencyPair.baseSymbol);
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withAsk(ask).withBid(bid).withLast(last).withLow(low).withHigh(high).withVolume(volume).build();
+    return new Ticker.Builder().currencyPair(currencyPair).ask(ask).bid(bid).last(last).low(low).high(high).volume(volume).build();
   }
 
   public static LimitOrder adaptOrder(BTERPublicOrder order, CurrencyPair currencyPair, OrderType orderType) {
@@ -121,7 +122,7 @@ public final class BTERAdapters {
     OrderType orderType = adaptOrderType(trade.getType());
     Date timestamp = DateUtils.fromMillisUtc(trade.getDate() * 1000);
 
-    return new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), null);
+    return new Trade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId());
   }
 
   public static Trades adaptTrades(BTERTradeHistory tradeHistory, CurrencyPair currencyPair) {
@@ -154,23 +155,23 @@ public final class BTERAdapters {
     return new AccountInfo("", wallets);
   }
 
-  public static Trades adaptUserTrades(List<BTERTrade> userTrades) {
+  public static UserTrades adaptUserTrades(List<BTERTrade> userTrades) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<UserTrade> trades = new ArrayList<UserTrade>();
     for (BTERTrade userTrade : userTrades) {
       trades.add(adaptUserTrade(userTrade));
     }
 
-    return new Trades(trades, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static Trade adaptUserTrade(BTERTrade bterTrade) {
+  public static UserTrade adaptUserTrade(BTERTrade bterTrade) {
 
     OrderType orderType = adaptOrderType(bterTrade.getType());
     Date timestamp = DateUtils.fromMillisUtc(bterTrade.getTimeUnix() * 1000);
     CurrencyPair currencyPair = adaptCurrencyPair(bterTrade.getPair());
 
-    return new Trade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null);
+    return new UserTrade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null, null, null);
   }
 
 }

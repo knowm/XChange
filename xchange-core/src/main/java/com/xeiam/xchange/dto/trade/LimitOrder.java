@@ -25,7 +25,7 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param tradableAmount The amount to trade
-   * @param CurrencyPair currencyPair The identifier (e.g. BTC/USD)
+   * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp a Date object representing the order's timestamp
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
@@ -34,12 +34,6 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     super(type, tradableAmount, currencyPair, id, timestamp);
     this.limitPrice = limitPrice;
-  }
-
-  public LimitOrder(Builder builder) {
-
-    super(builder.getOrderType(), builder.getTradableAmount(), builder.getCurrencyPair(), builder.getId(), builder.getTimestamp());
-    this.limitPrice = builder.getLimitPrice();
   }
 
   /**
@@ -98,74 +92,50 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
     public Builder(OrderType orderType, CurrencyPair currencyPair) {
 
       this.orderType = orderType;
-      this.tradableAmount = null;
       this.currencyPair = currencyPair;
-      this.id = null;
-      this.timestamp = new Date(System.currentTimeMillis());
-      this.limitPrice = null;
     }
 
-    public OrderType getOrderType() {
+    public static Builder from(LimitOrder order){
 
-      return orderType;
+      return from((Order)order).limitPrice(order.getLimitPrice());
     }
 
-    public Builder setOrderType(OrderType orderType) {
+    public static Builder from(Order o){
+      return new Builder(o.getType(),o.getCurrencyPair()).tradableAmount(o.getTradableAmount()).timestamp(o.getTimestamp())
+              .id(o.getId());
+    }
+
+    public Builder orderType(OrderType orderType) {
 
       this.orderType = orderType;
       return this;
     }
 
-    public BigDecimal getTradableAmount() {
-
-      return tradableAmount;
-    }
-
-    public Builder setTradableAmount(BigDecimal tradableAmount) {
+    public Builder tradableAmount(BigDecimal tradableAmount) {
 
       this.tradableAmount = tradableAmount;
       return this;
     }
 
-    public CurrencyPair getCurrencyPair() {
-
-      return currencyPair;
-    }
-
-    public Builder setCurrencyPair(CurrencyPair currencyPair) {
+    public Builder currencyPair(CurrencyPair currencyPair) {
 
       this.currencyPair = currencyPair;
       return this;
     }
 
-    public String getId() {
-
-      return id;
-    }
-
-    public Builder setId(String id) {
+    public Builder id(String id) {
 
       this.id = id;
       return this;
     }
 
-    public Date getTimestamp() {
-
-      return timestamp;
-    }
-
-    public Builder setTimestamp(Date timestamp) {
+    public Builder timestamp(Date timestamp) {
 
       this.timestamp = timestamp;
       return this;
     }
 
-    public BigDecimal getLimitPrice() {
-
-      return limitPrice;
-    }
-
-    public Builder setLimitPrice(BigDecimal limitPrice) {
+    public Builder limitPrice(BigDecimal limitPrice) {
 
       this.limitPrice = limitPrice;
       return this;
@@ -173,7 +143,7 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     public LimitOrder build() {
 
-      return new LimitOrder(this);
+      return new LimitOrder(orderType, tradableAmount, currencyPair, id, timestamp, limitPrice);
     }
 
   }

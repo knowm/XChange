@@ -17,11 +17,12 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -32,6 +33,7 @@ public final class ANXAdapters {
 
   private static final String SIDE_BID = "bid";
   private static final int PRICE_SCALE = 8;
+  private static final int PERCENT_DECIMAL_SHIFT = 2;
 
   /**
    * private Constructor
@@ -194,7 +196,7 @@ public final class ANXAdapters {
     Date dateTime = DateUtils.fromMillisUtc(anxTrade.getTid());
     final String tradeId = String.valueOf(anxTrade.getTid());
 
-    return new Trade(orderType, amount, currencyPair, price, dateTime, tradeId, null);
+    return new Trade(orderType, amount, currencyPair, price, dateTime, tradeId);
   }
 
   public static Ticker adaptTicker(ANXTicker anxTicker) {
@@ -209,7 +211,7 @@ public final class ANXAdapters {
 
     CurrencyPair currencyPair = adaptCurrencyPair(anxTicker.getVol().getCurrency(), anxTicker.getAvg().getCurrency());
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
 
   }
 
@@ -218,24 +220,25 @@ public final class ANXAdapters {
     return new CurrencyPair(tradeCurrency, priceCurrency);
   }
 
-  public static Trades adaptUserTrades(ANXTradeResult[] anxTradeResults) {
+  public static UserTrades adaptUserTrades(ANXTradeResult[] anxTradeResults) {
 
-    List<Trade> trades = new ArrayList<Trade>(anxTradeResults.length);
+    List<UserTrade> trades = new ArrayList<UserTrade>(anxTradeResults.length);
     for (ANXTradeResult tradeResult : anxTradeResults) {
       trades.add(adaptUserTrade(tradeResult));
     }
 
     long lastId = trades.size() > 0 ? anxTradeResults[0].getTimestamp().getTime() : 0L;
-    return new Trades(trades, lastId, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, lastId, TradeSortType.SortByTimestamp);
   }
 
-  private static Trade adaptUserTrade(ANXTradeResult t) {
+  private static UserTrade adaptUserTrade(ANXTradeResult t) {
 
     BigDecimal tradedCurrencyFillAmount = t.getTradedCurrencyFillAmount();
     CurrencyPair currencyPair = adaptCurrencyPair(t.getCurrencyPair());
     BigDecimal price = t.getSettlementCurrencyFillAmount().divide(tradedCurrencyFillAmount, PRICE_SCALE, BigDecimal.ROUND_HALF_EVEN);
     OrderType type = adaptSide(t.getSide());
-    return new Trade(type, tradedCurrencyFillAmount, currencyPair, price, t.getTimestamp(), t.getTradeId(), t.getOrderId());
+    // for fees, getWalletHistory should be used.
+    return new UserTrade(type, tradedCurrencyFillAmount, currencyPair, price, t.getTimestamp(), t.getTradeId(), t.getOrderId(), null, null);
   }
 
   private static CurrencyPair adaptCurrencyPair(String currencyPairRaw) {
@@ -251,5 +254,9 @@ public final class ANXAdapters {
   private static OrderType adaptSide(String side) {
 
     return SIDE_BID.equals(side) ? OrderType.BID : OrderType.ASK;
+  }
+
+  public static BigDecimal percentToFactor(BigDecimal percent){
+    return percent.movePointLeft(PERCENT_DECIMAL_SHIFT);
   }
 }

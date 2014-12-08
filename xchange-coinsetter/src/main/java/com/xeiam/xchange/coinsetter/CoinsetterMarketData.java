@@ -18,42 +18,44 @@ import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
 
 /**
  * RESTful/JSON API: Market Data.
+ * @deprecated Use {@link com.xeiam.xchange.coinsetter.rs.CoinsetterMarketData} instead.
  */
 @Path("/marketdata")
 @Produces(MediaType.APPLICATION_JSON)
+@Deprecated
 public interface CoinsetterMarketData {
 
   @GET
-  @Path("/last")
+  @Path("last")
   public CoinsetterLast getLast() throws CoinsetterException, IOException;
 
   @GET
-  @Path("/last")
+  @Path("last")
   public CoinsetterLast getLast(@QueryParam("since") int lookback) throws CoinsetterException, IOException;
 
   @GET
-  @Path("/ticker")
+  @Path("ticker")
   public CoinsetterTicker getTicker() throws CoinsetterException, IOException;
 
   @GET
-  @Path("/depth")
+  @Path("depth")
   public CoinsetterPairedDepth getPairedDepth(@QueryParam("depth") @DefaultValue("10") int depth, @QueryParam("exchange") @DefaultValue("SMART") String exchange) throws CoinsetterException, IOException;
 
   @GET
-  @Path("/depth")
+  @Path("depth")
   public CoinsetterListDepth getListDepth(@QueryParam("depth") @DefaultValue("10") int depth, @QueryParam("format") String format, @QueryParam("exchange") @DefaultValue("SMART") String exchange)
       throws CoinsetterException, IOException;
 
   @GET
-  @Path("/full_depth")
+  @Path("full_depth")
   public CoinsetterListDepth getFullDepth() throws CoinsetterException, IOException;
 
   @GET
-  @Path("/full_depth")
+  @Path("full_depth")
   public CoinsetterListDepth getFullDepth(@QueryParam("exchange") String exchange) throws CoinsetterException, IOException;
 
   @GET
-  @Path("/quote")
+  @Path("quote")
   public CoinsetterQuote getQuote(@QueryParam("quantity") BigDecimal quantity, @QueryParam("symbol") String symbol) throws CoinsetterException, IOException;
 
 }

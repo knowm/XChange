@@ -5,10 +5,8 @@ import static com.xeiam.xchange.coinsetter.CoinsetterExchange.DEFAULT_EXCHANGE;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.coinsetter.CoinsetterAdapters;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterListDepth;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -20,7 +18,9 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 /**
  * Market data service.
  */
-public class CoinsetterMarketDataService extends CoinsetterMarketDataServiceRaw implements PollingMarketDataService {
+public class CoinsetterMarketDataService extends CoinsetterBasePollingService implements PollingMarketDataService {
+
+  private final CoinsetterMarketDataServiceRaw marketDataServiceRaw;
 
   /**
    * @param exchangeSpecification
@@ -28,15 +28,16 @@ public class CoinsetterMarketDataService extends CoinsetterMarketDataServiceRaw 
   public CoinsetterMarketDataService(ExchangeSpecification exchangeSpecification) {
 
     super(exchangeSpecification);
+    marketDataServiceRaw = new CoinsetterMarketDataServiceRaw(exchangeSpecification);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return CoinsetterAdapters.adaptTicker(getCoinsetterTicker());
+    return CoinsetterAdapters.adaptTicker(marketDataServiceRaw.getCoinsetterTicker());
   }
 
   /**
@@ -45,22 +46,22 @@ public class CoinsetterMarketDataService extends CoinsetterMarketDataServiceRaw 
    * @param args [exchange, depth]
    */
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     final CoinsetterListDepth coinsetterListDepth;
     final int argsLength = args.length;
 
     if (argsLength == 0) {
-      coinsetterListDepth = getCoinsetterFullDepth();
+      coinsetterListDepth = marketDataServiceRaw.getCoinsetterFullDepth();
     }
     else if (argsLength == 1) {
       String exchange = (String) args[0];
-      coinsetterListDepth = getCoinsetterFullDepth(exchange == null ? DEFAULT_EXCHANGE : exchange);
+      coinsetterListDepth = marketDataServiceRaw.getCoinsetterFullDepth(exchange == null ? DEFAULT_EXCHANGE : exchange);
     }
     else {
       String exchange = (String) args[0];
       Number depth = (Number) args[1];
-      coinsetterListDepth = getCoinsetterListDepth(depth == null ? DEFAULT_DEPTH : depth.intValue(), exchange == null ? DEFAULT_EXCHANGE : exchange);
+      coinsetterListDepth = marketDataServiceRaw.getCoinsetterListDepth(depth == null ? DEFAULT_DEPTH : depth.intValue(), exchange == null ? DEFAULT_EXCHANGE : exchange);
     }
 
     return CoinsetterAdapters.adaptOrderBook(coinsetterListDepth);
@@ -70,7 +71,7 @@ public class CoinsetterMarketDataService extends CoinsetterMarketDataServiceRaw 
    * {@inheritDoc}
    */
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

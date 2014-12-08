@@ -27,7 +27,7 @@ import com.xeiam.xchange.ExchangeException;
 public class CoinfloorUtils {
 
   public enum CoinfloorCurrency {
-    BTC, GBP
+    BTC, GBP, EUR, USD, PLN
   }
 
   private static final ECNamedCurveParameterSpec spec = ECNamedCurveTable.getParameterSpec("secp224k1");
@@ -119,8 +119,14 @@ public class CoinfloorUtils {
       return null;
     case 63488:
       return CoinfloorCurrency.BTC;
+    case 64000:
+      return CoinfloorCurrency.EUR;
     case 64032:
       return CoinfloorCurrency.GBP;
+    case 64128:
+      return CoinfloorCurrency.USD;
+    case 64936:
+      return CoinfloorCurrency.PLN;
     }
 
     throw new ExchangeException("Currency Code " + currencyCode + " not supported by coinfloor!");
@@ -136,8 +142,14 @@ public class CoinfloorUtils {
     switch (currency) {
     case BTC:
       return 63488;
+    case EUR:
+      return 64000;
     case GBP:
       return 64032;
+    case USD:
+      return 64128;
+    case PLN:
+      return 64936;
     }
 
     throw new ExchangeException("Currency " + currency + " not supported by coinfloor!");
@@ -149,6 +161,9 @@ public class CoinfloorUtils {
     case BTC:
       return 4;
     case GBP:
+    case EUR:
+    case USD:
+    case PLN:
       return 2;
     }
 

@@ -11,7 +11,7 @@
       "is_live":true,
       "is_cancelled":false,
       "was_forced":false,
-      "original_amount":"0.01",
-      "remaining_amount":"0.01",
-      "executed_amount":"0.0"
+      "original_amount":"0.08",
+      "remaining_amount":"0.06",
+      "executed_amount":"0.02"
    }

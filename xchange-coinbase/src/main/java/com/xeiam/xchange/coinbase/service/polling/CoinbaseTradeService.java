@@ -5,15 +5,17 @@ import java.io.IOException;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.coinbase.CoinbaseAdapters;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 /**
  * @author jamespedwards42
@@ -58,7 +60,7 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
    *          be returned and the results are limited to 25 per page by coinbase by default.
    */
   @Override
-  public Trades getTradeHistory(Object... arguments) throws ExchangeException, IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, IOException {
 
     Integer page = null;
     Integer limit = null;
@@ -76,6 +78,18 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
 
     final CoinbaseTransfers transfers = super.getCoinbaseTransfers(page, limit);
     return CoinbaseAdapters.adaptTrades(transfers);
+  }
+
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+
+    return null;
   }
 
 }

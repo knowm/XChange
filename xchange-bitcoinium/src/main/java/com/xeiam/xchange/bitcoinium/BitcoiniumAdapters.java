@@ -12,7 +12,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
 /**
@@ -42,7 +41,7 @@ public final class BitcoiniumAdapters {
     BigDecimal bid = bitcoiniumTicker.getBid();
     BigDecimal volume = bitcoiniumTicker.getVolume();
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withVolume(volume).withAsk(ask).withBid(bid).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).volume(volume).ask(ask).bid(bid).build();
   }
 
   /**

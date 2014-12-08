@@ -27,12 +27,13 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -144,7 +145,7 @@ public final class BTCChinaAdapters {
     BigDecimal volume = ticker.getVol();
     Date date = adaptDate(ticker.getDate());
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withBid(buy).withAsk(sell).withVolume(volume).withTimestamp(date).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(buy).ask(sell).volume(volume).timestamp(date).build();
   }
 
   public static Map<CurrencyPair, Ticker> adaptTickers(BTCChinaTicker btcChinaTicker) {
@@ -234,7 +235,7 @@ public final class BTCChinaAdapters {
 
   public static LimitOrder adaptLimitOrder(BTCChinaMarketDepthOrder order, OrderType orderType, CurrencyPair currencyPair) {
 
-    return new LimitOrder.Builder(orderType, currencyPair).setLimitPrice(order.getPrice()).setTradableAmount(order.getAmount()).build();
+    return new LimitOrder.Builder(orderType, currencyPair).limitPrice(order.getPrice()).tradableAmount(order.getAmount()).build();
   }
 
   /**
@@ -324,7 +325,7 @@ public final class BTCChinaAdapters {
     return new LimitOrder(orderType, amount, currencyPair, id, date, price);
   }
 
-  public static Trade adaptTransaction(final BTCChinaTransaction transaction) {
+  public static UserTrade adaptTransaction(final BTCChinaTransaction transaction) {
 
     final String type = transaction.getType();
 
@@ -363,24 +364,24 @@ public final class BTCChinaAdapters {
     final Date date = adaptDate(transaction.getDate());
     final String tradeId = String.valueOf(transaction.getId());
 
-    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
+    return new UserTrade(orderType, amount, currencyPair, price, date, tradeId, null, null, null);
   }
 
   /**
    * Adapt BTCChinaTransactions to Trades.
    */
-  public static Trades adaptTransactions(List<BTCChinaTransaction> transactions) {
+  public static UserTrades adaptTransactions(List<BTCChinaTransaction> transactions) {
 
-    List<Trade> tradeHistory = new ArrayList<Trade>(transactions.size());
+    List<UserTrade> tradeHistory = new ArrayList<UserTrade>(transactions.size());
 
     for (BTCChinaTransaction transaction : transactions) {
-      Trade adaptTransaction = adaptTransaction(transaction);
+      UserTrade adaptTransaction = adaptTransaction(transaction);
       if (adaptTransaction != null) {
         tradeHistory.add(adaptTransaction);
       }
     }
 
-    return new Trades(tradeHistory, TradeSortType.SortByID);
+    return new UserTrades(tradeHistory, TradeSortType.SortByID);
   }
 
   public static String adaptMarket(CurrencyPair currencyPair) {
@@ -410,7 +411,7 @@ public final class BTCChinaAdapters {
 
   public static OrderType adaptOrderType(String type) {
 
-    return type.equals("buy") ? OrderType.BID : OrderType.ASK;
+    return type.equals("bid") ? OrderType.BID : OrderType.ASK;
   }
 
   public static BTCChinaOrderStatus adaptOrderStatus(String status) {

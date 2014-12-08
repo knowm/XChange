@@ -9,6 +9,7 @@ import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.PollingAccountService;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Matija Mazi
@@ -20,9 +21,9 @@ public class BTCEAccountService extends BTCEAccountServiceRaw implements Polling
    * 
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BTCEAccountService(ExchangeSpecification exchangeSpecification) {
+  public BTCEAccountService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Integer> nonceFactory) {
 
-    super(exchangeSpecification);
+    super(exchangeSpecification, nonceFactory);
   }
 
   @Override

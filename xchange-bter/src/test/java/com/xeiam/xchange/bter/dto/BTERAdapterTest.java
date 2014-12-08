@@ -98,7 +98,6 @@ public class BTERAdapterTest {
     assertThat(trade.getPrice()).isEqualTo("3942");
     assertThat(trade.getTimestamp()).isEqualTo(new Date(1393908191000L));
     assertThat(trade.getId()).isEqualTo("5600118");
-    assertThat(trade.getOrderId()).isNull();
   }
 
   @Test

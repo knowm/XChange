@@ -19,12 +19,13 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -142,7 +143,7 @@ public final class BTCEAdapters {
     BigDecimal volume = bTCETicker.getTicker().getVolCur();
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getTicker().getServerTime() * 1000L);
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
   }
 
   public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {
@@ -173,9 +174,9 @@ public final class BTCEAdapters {
     return new OpenOrders(limitOrders);
   }
 
-  public static Trades adaptTradeHistory(Map<Long, BTCETradeHistoryResult> tradeHistory) {
+  public static UserTrades adaptTradeHistory(Map<Long, BTCETradeHistoryResult> tradeHistory) {
 
-    List<Trade> trades = new ArrayList<Trade>(tradeHistory.size());
+    List<UserTrade> trades = new ArrayList<UserTrade>(tradeHistory.size());
     for (Entry<Long, BTCETradeHistoryResult> entry : tradeHistory.entrySet()) {
       BTCETradeHistoryResult result = entry.getValue();
       OrderType type = result.getType() == BTCETradeHistoryResult.Type.buy ? OrderType.BID : OrderType.ASK;
@@ -187,9 +188,9 @@ public final class BTCEAdapters {
       String orderId = String.valueOf(result.getOrderId());
       CurrencyPair currencyPair = new CurrencyPair(pair[0].toUpperCase(), pair[1].toUpperCase());
 
-      trades.add(new Trade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId));
+      trades.add(new UserTrade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId, null, null));
     }
-    return new Trades(trades, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
 }

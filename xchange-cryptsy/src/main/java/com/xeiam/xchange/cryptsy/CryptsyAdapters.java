@@ -37,12 +37,13 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
@@ -237,7 +238,7 @@ public final class CryptsyAdapters {
     BigDecimal volume = targetMarket.get24hVolume();
     Date timestamp = new Date();
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
   }
 
   public static List<Ticker> adaptPublicTickers(Map<Integer, CryptsyPublicMarketData> marketsReturnData) {
@@ -270,8 +271,8 @@ public final class CryptsyAdapters {
     BigDecimal volume = publicMarketData.getVolume();
     Date timestamp = new Date();
 
-    return TickerBuilder.newInstance().withCurrencyPair(adaptCurrencyPair(publicMarketData)).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(
-        timestamp).build();
+    return new Ticker.Builder().currencyPair(adaptCurrencyPair(publicMarketData)).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(
+            timestamp).build();
   }
 
   /**
@@ -325,20 +326,20 @@ public final class CryptsyAdapters {
    * @param tradeHistoryReturnData Raw returned data from Cryptsy, CryptsyTradeHistoryReturn DTO
    * @return Standard XChange Trades DTO
    */
-  public static Trades adaptTradeHistory(CryptsyTradeHistoryReturn tradeHistoryReturnData) {
+  public static UserTrades adaptTradeHistory(CryptsyTradeHistoryReturn tradeHistoryReturnData) {
 
     List<CryptsyTradeHistory> cryptsyTradeHistory = tradeHistoryReturnData.getReturnValue();
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<UserTrade> trades = new ArrayList<UserTrade>();
     if (cryptsyTradeHistory != null) {
       for (CryptsyTradeHistory trade : cryptsyTradeHistory) {
         OrderType tradeType = trade.getTradeType() == CryptsyOrderType.Buy ? OrderType.BID : OrderType.ASK;
         CurrencyPair currencyPair = CryptsyCurrencyUtils.convertToCurrencyPair(trade.getMarketId());
 
-        trades.add(new Trade(tradeType, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTimestamp(), String.valueOf(trade.getTradeId()), String.valueOf(trade.getOrderId())));
+        trades.add(new UserTrade(tradeType, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTimestamp(), String.valueOf(trade.getTradeId()), String.valueOf(trade.getOrderId()), trade.getFee(), currencyPair.counterSymbol));
       }
     }
-    return new Trades(trades, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
   /**

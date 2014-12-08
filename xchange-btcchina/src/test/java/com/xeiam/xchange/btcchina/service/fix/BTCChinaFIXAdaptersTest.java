@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
@@ -17,11 +18,17 @@ import org.slf4j.LoggerFactory;
 import quickfix.ConfigError;
 import quickfix.DataDictionary;
 import quickfix.FieldNotFound;
+import quickfix.Group;
 import quickfix.InvalidMessage;
+import quickfix.field.Currency;
 import quickfix.fix44.MarketDataIncrementalRefresh;
 import quickfix.fix44.MarketDataSnapshotFullRefresh;
 
+import com.xeiam.xchange.btcchina.service.fix.field.Amount;
+import com.xeiam.xchange.btcchina.service.fix.field.Balance;
+import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 
 public class BTCChinaFIXAdaptersTest {
@@ -76,6 +83,38 @@ public class BTCChinaFIXAdaptersTest {
 
   }
 
+  @Test
+  public void testAdaptAccountInfo() throws IOException, InvalidMessage, FieldNotFound {
+
+    String messageData = getMessageData("U1001.txt");
+
+    AccountInfoResponse message = new AccountInfoResponse();
+    message.fromString(messageData, dataDictionary, true);
+
+    log.debug(message.toXML(dataDictionary));
+
+    assertEquals("dd6a228e-c2a5-4915-bfa3-78ba1fac91c3", message.getAccReqID().getValue());
+    Balance balance = message.getBalance();
+    assertEquals(3, balance.getValue());
+
+    List<Group> groups = message.getGroups(Balance.FIELD);
+    assertEquals(3, groups.size());
+
+    assertEquals("BTC", groups.get(0).getField(new Currency()).getValue());
+    assertEquals(new BigDecimal("0.001"), groups.get(0).getField(new Amount()).getValue());
+
+    assertEquals("LTC", groups.get(1).getField(new Currency()).getValue());
+    assertEquals(new BigDecimal("0"), groups.get(1).getField(new Amount()).getValue());
+
+    assertEquals("CNY", groups.get(2).getField(new Currency()).getValue());
+    assertEquals(new BigDecimal("0"), groups.get(2).getField(new Amount()).getValue());
+
+    AccountInfo accountInfo = BTCChinaFIXAdapters.adaptAccountInfo(message);
+    assertEquals(new BigDecimal("0.001"), accountInfo.getBalance("BTC"));
+    assertEquals(new BigDecimal("0"), accountInfo.getBalance("LTC"));
+    assertEquals(new BigDecimal("0"), accountInfo.getBalance("CNY"));
+  }
+
   private Ticker getTicker() throws IOException, InvalidMessage, FieldNotFound {
 
     String messageData = getMessageData("W.txt");
@@ -91,7 +130,7 @@ public class BTCChinaFIXAdaptersTest {
 
   private static DataDictionary getDataDictionary() throws IOException, ConfigError {
 
-    InputStream inputStream = BTCChinaFIXAdaptersTest.class.getResourceAsStream("/FIX44.xml");
+    InputStream inputStream = BTCChinaFIXAdaptersTest.class.getResourceAsStream("/com/xeiam/xchange/btcchina/service/fix/fix44/FIX44.xml");
     DataDictionary dataDictionary = new DataDictionary(inputStream);
     inputStream.close();
     return dataDictionary;

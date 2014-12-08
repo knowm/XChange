@@ -12,13 +12,13 @@ public class BitfinexActivePositionsResponse {
   private final String status;
   private final BigDecimal base;
   private final BigDecimal amount;
-  private final float timestamp;
+  private final BigDecimal timestamp;
   private final BigDecimal swap;
   private final BigDecimal pnl;
   private final OrderType orderType;
 
   public BitfinexActivePositionsResponse(@JsonProperty("id") int id, @JsonProperty("symbol") String symbol, @JsonProperty("status") String status, @JsonProperty("base") BigDecimal base,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") float timestamp, @JsonProperty("swap") BigDecimal swap, @JsonProperty("pl") BigDecimal pnl) {
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") BigDecimal timestamp, @JsonProperty("swap") BigDecimal swap, @JsonProperty("pl") BigDecimal pnl) {
 
     this.id = id;
     this.symbol = symbol;
@@ -57,7 +57,7 @@ public class BitfinexActivePositionsResponse {
     return amount;
   }
 
-  public float getTimestamp() {
+  public BigDecimal getTimestamp() {
 
     return timestamp;
   }

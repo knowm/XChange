@@ -115,12 +115,6 @@
 			<artifactId>xchange-bitcoinium</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange Justcoin support -->
-		<dependency>
-			<groupId>com.xeiam.xchange</groupId>
-			<artifactId>xchange-justcoin</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange Coinbase support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
@@ -223,10 +217,16 @@
 			<artifactId>xchange-vaultofsatoshi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange Vault of Satoshi exchange support -->
+		<!-- XChange OkCoin exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-okcoin</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- XChange Bleutrade exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-bleutrade</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

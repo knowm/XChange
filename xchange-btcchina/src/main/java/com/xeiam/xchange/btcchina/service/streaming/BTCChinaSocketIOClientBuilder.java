@@ -10,8 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +24,6 @@ import com.github.nkzawa.socketio.client.Socket;
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.trade.streaming.request.BTCChinaPayload;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.BaseParamsDigest;
 
 public class BTCChinaSocketIOClientBuilder {
 
@@ -41,7 +38,6 @@ public class BTCChinaSocketIOClientBuilder {
   public static final String EVENT_ORDER = "order";
   public static final String EVENT_ACCOUNT_INFO = "account_info";
 
-  private static final String HMAC_SHA1_ALGORITHM = BaseParamsDigest.HMAC_SHA_1;
   private static final ObjectMapper mapper = new ObjectMapper();
 
   private final Logger log = LoggerFactory.getLogger(BTCChinaSocketIOClientBuilder.class);
@@ -170,8 +166,27 @@ public class BTCChinaSocketIOClientBuilder {
 
       private void subscribePrivateData() {
 
-        // 3 markets(BTCChina has only 3 markets) + 1 account info = 4
-        final List<String> params = new ArrayList<String>(4);
+        final List<String> params = buildPrivateDataParams();
+
+        if (!params.isEmpty()) {
+          BTCChinaPayload payload = getPayload(params.toArray(new String[0]));
+
+          final List<String> arg = new ArrayList<String>(2);
+          arg.add(toPostData(payload));
+          arg.add(getSign(payload));
+
+          // Use 'private' method to subscribe the order feed
+          socket.emit("private", arg);
+        } else {
+          log.debug("No private data specified to subscribe.");
+        }
+      }
+
+      private List<String> buildPrivateDataParams() {
+
+        int capacity = orderFeed.size() + (subscribeAccountInfo ? 1 : 0);
+        final List<String> params = new ArrayList<String>(capacity);
+
         for (CurrencyPair currencyPair : orderFeed) {
           final String market = toMarket(currencyPair);
           params.add("order_" + market);
@@ -183,14 +198,7 @@ public class BTCChinaSocketIOClientBuilder {
           log.debug("subscribing account info.");
         }
 
-        BTCChinaPayload payload = getPayload(params.toArray(new String[0]));
-
-        final List<String> arg = new ArrayList<String>(2);
-        arg.add(toPostData(payload));
-        arg.add(getSign(payload));
-
-        // Use 'private' method to subscribe the order feed
-        socket.emit("private", arg);
+        return params;
       }
 
     });
@@ -224,7 +232,7 @@ public class BTCChinaSocketIOClientBuilder {
     log.debug("signature message: {}", params);
     String hash;
     try {
-      hash = getSignature(params, secretKey);
+      hash = BTCChinaUtils.getSignature(params, secretKey);
     } catch (InvalidKeyException e) {
       throw new IllegalArgumentException(e);
     } catch (NoSuchAlgorithmException e) {
@@ -233,27 +241,6 @@ public class BTCChinaSocketIOClientBuilder {
     String userpass = accessKey + ":" + hash;
     String basicAuth = DatatypeConverter.printBase64Binary(userpass.getBytes());
     return basicAuth;
-  }
-
-  private String getSignature(String data, String key) throws NoSuchAlgorithmException, InvalidKeyException {
-
-    // get an hmac_sha1 key from the raw key bytes
-    SecretKeySpec signingKey = new SecretKeySpec(key.getBytes(), HMAC_SHA1_ALGORITHM);
-    // get an hmac_sha1 Mac instance and initialize with the signing key
-    Mac mac = Mac.getInstance(HMAC_SHA1_ALGORITHM);
-    mac.init(signingKey);
-    // compute the hmac on input data bytes
-    byte[] rawHmac = mac.doFinal(data.getBytes());
-    return byteArrayToHex(rawHmac);
-  }
-
-  private String byteArrayToHex(byte[] a) {
-
-    StringBuilder sb = new StringBuilder();
-    for (byte b : a) {
-      sb.append(String.format("%02x", b & 0xff));
-    }
-    return sb.toString();
   }
 
   private String toMarket(CurrencyPair currencyPair) {

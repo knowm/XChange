@@ -20,11 +20,11 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 public final class BittrexAdapters {
@@ -123,7 +123,7 @@ public final class BittrexAdapters {
 
     Date timestamp = BittrexUtils.toDate(bittrexTicker.getTimeStamp());
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
   }
 
   public static AccountInfo adaptAccountInfo(List<BittrexBalance> balances) {
@@ -137,9 +137,9 @@ public final class BittrexAdapters {
     return new AccountInfo(null, wallets);
   }
 
-  public static List<Trade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {
+  public static List<UserTrade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<UserTrade> trades = new ArrayList<UserTrade>();
 
     for (BittrexUserTrade bittrexTrade : bittrexUserTrades) {
       trades.add(adaptUserTrade(bittrexTrade));
@@ -147,7 +147,7 @@ public final class BittrexAdapters {
     return trades;
   }
 
-  public static Trade adaptUserTrade(BittrexUserTrade trade) {
+  public static UserTrade adaptUserTrade(BittrexUserTrade trade) {
 
     String[] currencies = trade.getExchange().split("-");
     CurrencyPair currencyPair = new CurrencyPair(currencies[1], currencies[0]);
@@ -156,9 +156,9 @@ public final class BittrexAdapters {
     BigDecimal amount = trade.getQuantity().subtract(trade.getQuantityRemaining());
     BigDecimal price = trade.getLimit();
     Date date = BittrexUtils.toDate(trade.getTimeStamp());
-    String tradeId = String.valueOf(trade.getOrderUuid());
+    String orderId = String.valueOf(trade.getOrderUuid());
 
-    return new Trade(orderType, amount, currencyPair, price, date, tradeId);
+    return new UserTrade(orderType, amount, currencyPair, price, date, orderId, orderId, null, null);
   }
 
 }

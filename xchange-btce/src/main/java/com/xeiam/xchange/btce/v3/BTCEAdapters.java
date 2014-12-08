@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEMarketMetadata;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEPairInfo;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,12 +22,13 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -135,7 +139,7 @@ public final class BTCEAdapters {
     BigDecimal volume = bTCETicker.getVolCur();
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getUpdated() * 1000L);
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withBid(bid).withAsk(ask).withHigh(high).withLow(low).withVolume(volume).withTimestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
   }
 
   public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {
@@ -167,28 +171,31 @@ public final class BTCEAdapters {
     return new OpenOrders(limitOrders);
   }
 
-  public static Trades adaptTradeHistory(Map<Long, BTCETradeHistoryResult> tradeHistory) {
+  public static UserTrades adaptTradeHistory(Map<Long, BTCETradeHistoryResult> tradeHistory) {
 
-    List<Trade> trades = new ArrayList<Trade>(tradeHistory.size());
+    List<UserTrade> trades = new ArrayList<UserTrade>(tradeHistory.size());
     for (Entry<Long, BTCETradeHistoryResult> entry : tradeHistory.entrySet()) {
       BTCETradeHistoryResult result = entry.getValue();
       OrderType type = result.getType() == BTCETradeHistoryResult.Type.buy ? OrderType.BID : OrderType.ASK;
-      String[] pair = result.getPair().split("_");
       BigDecimal price = result.getRate();
       BigDecimal tradableAmount = result.getAmount();
       Date timeStamp = DateUtils.fromMillisUtc(result.getTimestamp() * 1000L);
       String orderId = String.valueOf(result.getOrderId());
       String tradeId = String.valueOf(entry.getKey());
-      CurrencyPair currencyPair = new CurrencyPair(pair[0].toUpperCase(), pair[1].toUpperCase());
-      trades.add(new Trade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId));
+      CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
+      trades.add(new UserTrade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId, null, null));
     }
-    return new Trades(trades, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
   public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
 
     String[] currencies = btceCurrencyPair.split("_");
     return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
+  }
+
+  public static String adaptCurrencyPair(CurrencyPair currencyPair) {
+    return (currencyPair.baseSymbol + "_" + currencyPair.counterSymbol).toLowerCase();
   }
 
   public static List<CurrencyPair> adaptCurrencyPairs(Iterable<String> btcePairs) {
@@ -201,4 +208,13 @@ public final class BTCEAdapters {
     return pairs;
   }
 
+  public static MarketMetadata createMarketMetadata(BTCEPairInfo pairInfo, int amountScale) {
+
+    BigDecimal minAmount = pairInfo.getMinAmount().setScale(amountScale);
+
+    // convert percent to factor
+    BigDecimal orderFeeFactor = pairInfo.getFee().movePointLeft(2);
+
+    return new BTCEMarketMetadata(minAmount, pairInfo.getDecimals(), orderFeeFactor, pairInfo.getMinPrice(), pairInfo.getMaxPrice());
+  }
 }

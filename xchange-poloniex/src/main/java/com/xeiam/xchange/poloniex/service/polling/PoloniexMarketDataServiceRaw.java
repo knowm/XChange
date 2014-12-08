@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.poloniex.Poloniex;
+import com.xeiam.xchange.poloniex.PoloniexException;
 import com.xeiam.xchange.poloniex.PoloniexUtils;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexDepth;
@@ -38,19 +40,24 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
 
     String command = "returnCurrencies";
 
-    Map<String, PoloniexCurrencyInfo> currencyInfo = poloniex.getCurrencyInfo(command);
-
-    return currencyInfo;
-
+    try {
+      Map<String, PoloniexCurrencyInfo> currencyInfo = poloniex.getCurrencyInfo(command);
+      return currencyInfo;
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
+    }
   }
 
   public Map<String, PoloniexMarketData> getAllPoloniexTickers() throws IOException {
 
     String command = "returnTicker";
 
-    Map<String, PoloniexMarketData> marketData = poloniex.getTicker(command);
-
-    return marketData;
+    try {
+      Map<String, PoloniexMarketData> marketData = poloniex.getTicker(command);
+      return marketData;
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
+    }
 
   }
 
@@ -59,7 +66,12 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
     String command = "returnTicker";
     String pairString = PoloniexUtils.toPairString(currencyPair);
 
-    HashMap<String, PoloniexMarketData> marketData = poloniex.getTicker(command);
+    HashMap<String, PoloniexMarketData> marketData;
+    try {
+      marketData = poloniex.getTicker(command);
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
+    }
 
     PoloniexMarketData data = marketData.get(pairString);
 
@@ -72,8 +84,12 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
     String command = "returnOrderBook";
     String pairString = PoloniexUtils.toPairString(currencyPair);
 
-    PoloniexDepth depth = poloniex.getOrderBook(command, pairString);
-    return depth;
+    try {
+      PoloniexDepth depth = poloniex.getOrderBook(command, pairString);
+      return depth;
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
+    }
   }
 
   public PoloniexDepth getPoloniexDepth(CurrencyPair currencyPair, int depth) throws IOException {
@@ -81,26 +97,36 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
     String command = "returnOrderBook";
     String pairString = PoloniexUtils.toPairString(currencyPair);
 
-    PoloniexDepth limitDepth = poloniex.getOrderBook(command, pairString, depth);
-    return limitDepth;
+    try {
+      PoloniexDepth limitDepth = poloniex.getOrderBook(command, pairString, depth);
+      return limitDepth;
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
+    }
   }
 
   public Map<String, PoloniexDepth> getAllPoloniexDepths() throws IOException {
 
     String command = "returnOrderBook";
 
-    Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all", null);
-
-    return depths;
+    try {
+      Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all", null);
+      return depths;
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
+    }
   }
 
   public Map<String, PoloniexDepth> getAllPoloniexDepths(int depth) throws IOException {
 
     String command = "returnOrderBook";
 
-    Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all", depth);
-
-    return depths;
+    try {
+      Map<String, PoloniexDepth> depths = poloniex.getAllOrderBooks(command, "all", depth);
+      return depths;
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
+    }
   }
 
   public PoloniexPublicTrade[] getPoloniexPublicTrades(CurrencyPair currencyPair) throws IOException {
@@ -108,8 +134,12 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
     String command = "returnTradeHistory";
     String pairString = PoloniexUtils.toPairString(currencyPair);
 
-    PoloniexPublicTrade[] trades = poloniex.getTrades(command, pairString, null, null);
-    return trades;
+    try {
+      PoloniexPublicTrade[] trades = poloniex.getTrades(command, pairString, null, null);
+      return trades;
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
+    }
   }
 
   public PoloniexPublicTrade[] getPoloniexPublicTrades(CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
@@ -117,8 +147,12 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
     String command = "returnTradeHistory";
     String pairString = PoloniexUtils.toPairString(currencyPair);
 
-    PoloniexPublicTrade[] trades = poloniex.getTrades(command, pairString, startTime, endTime);
-    return trades;
+    try {
+      PoloniexPublicTrade[] trades = poloniex.getTrades(command, pairString, startTime, endTime);
+      return trades;
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
+    }
   }
 
 }

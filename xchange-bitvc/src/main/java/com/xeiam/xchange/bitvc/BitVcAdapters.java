@@ -31,7 +31,6 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -48,8 +47,9 @@ public final class BitVcAdapters {
   public static Ticker adaptTicker(BitVcTicker BitVcTicker, CurrencyPair currencyPair) {
 
     BitVcTickerObject ticker = BitVcTicker.getTicker();
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(ticker.getLast()).withBid(ticker.getBuy()).withAsk(ticker.getSell()).withHigh(ticker.getHigh()).withLow(ticker.getLow())
-        .withVolume(ticker.getVol()).withTimestamp(new Date()).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(ticker.getLast()).bid(ticker.getBuy())
+        .ask(ticker.getSell()).high(ticker.getHigh()).low(ticker.getLow())
+        .volume(ticker.getVol()).timestamp(new Date()).build();
   }
 
   public static OrderBook adaptOrderBook(BitVcDepth BitVcDepth, CurrencyPair currencyPair) {

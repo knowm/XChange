@@ -9,7 +9,6 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -114,7 +113,7 @@ public final class VirtExAdapters {
     BigDecimal low = virtExTicker.getLow();
     BigDecimal volume = virtExTicker.getVolume();
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withVolume(volume).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).volume(volume).build();
   }
 
 }

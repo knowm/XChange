@@ -11,11 +11,12 @@ import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 import com.xeiam.xchange.vaultofsatoshi.dto.account.VosAccount;
@@ -123,7 +124,7 @@ public final class VaultOfSatoshiAdapters {
     BigDecimal low = vosTicker.getLow();
     BigDecimal volume = vosTicker.getVolume();
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair).withLast(last).withHigh(high).withLow(low).withVolume(volume).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).volume(volume).build();
   }
 
   public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
@@ -142,19 +143,24 @@ public final class VaultOfSatoshiAdapters {
     return new AccountInfo("" + account.getAccount_id(), account.getTrade_fee().getVosMap().get("BTC").getValue(), wallets);
   }
 
-  public static Trades adaptTradeHistory(VosTradeOrder[] vosUserTransactions) {
+  public static UserTrades adaptTradeHistory(VosTradeOrder[] vosUserTransactions) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<UserTrade> trades = new ArrayList<UserTrade>();
     for (VosTradeOrder order : vosUserTransactions) {
 
       OrderType orderType = order.getType().equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
       CurrencyPair currPair = new CurrencyPair(order.getOrder_currency(), order.getPayment_currency());
 
-      trades.add(new Trade(orderType, order.getUnits().getValue(), currPair, order.getPrice().getValue(), DateUtils.fromMillisUtc(order.getDate_completed() / 1000L), String.valueOf(order
-          .getOrder_id())));
+      final String orderId = String.valueOf(order
+          .getOrder_id());
+      final Date timestamp = DateUtils.fromMillisUtc(order.getDate_completed() / 1000L);
+      final BigDecimal price = order.getPrice().getValue();
+      final BigDecimal amount = order.getUnits().getValue();
+      final BigDecimal feeAmount = order.getFee().getValue();
+      trades.add(new UserTrade(orderType, amount, currPair, price, timestamp, orderId, orderId, feeAmount, currPair.counterSymbol));
     }
 
-    return new Trades(trades, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
 }

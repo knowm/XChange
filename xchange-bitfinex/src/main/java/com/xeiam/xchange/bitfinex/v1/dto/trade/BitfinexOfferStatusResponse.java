@@ -12,7 +12,7 @@ public class BitfinexOfferStatusResponse {
   private final int period;
   private final String direction;
   private final String type;
-  private final float timestamp;
+  private final BigDecimal timestamp;
   private final boolean isLive;
   private final boolean isCancelled;
   private final BigDecimal originalAmount;
@@ -20,7 +20,7 @@ public class BitfinexOfferStatusResponse {
   private final BigDecimal executedAmount;
 
   public BitfinexOfferStatusResponse(@JsonProperty("id") int id, @JsonProperty("currency") String currency, @JsonProperty("rate") BigDecimal rate, @JsonProperty("period") int period,
-      @JsonProperty("direction") String direction, @JsonProperty("type") String type, @JsonProperty("timestamp") float timestamp, @JsonProperty("is_live") boolean isLive,
+      @JsonProperty("direction") String direction, @JsonProperty("type") String type, @JsonProperty("timestamp") BigDecimal timestamp, @JsonProperty("is_live") boolean isLive,
       @JsonProperty("is_cancelled") boolean isCancelled, @JsonProperty("original_amount") BigDecimal originalAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount,
       @JsonProperty("executed_amount") BigDecimal executedAmount) {
 
@@ -68,7 +68,7 @@ public class BitfinexOfferStatusResponse {
     return type;
   }
 
-  public float getTimestamp() {
+  public BigDecimal getTimestamp() {
 
     return timestamp;
   }

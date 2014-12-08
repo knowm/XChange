@@ -211,7 +211,7 @@ public class CoinfloorAdapters {
     BigDecimal low = rawRetObj.getLow();
     BigDecimal high = rawRetObj.getHigh();
     Ticker genericTicker =
-        new Ticker.TickerBuilder().withVolume(rawRetObj.getVolume()).withAsk(ask).withCurrencyPair(new CurrencyPair("BTC", "GBP")).withBid(bid).withHigh(high).withLow(low).withLast(last).build();
+        new Ticker.Builder().volume(rawRetObj.getVolume()).ask(ask).currencyPair(new CurrencyPair("BTC", "GBP")).bid(bid).high(high).low(low).last(last).build();
 
     synchronized (cachedDataSynchronizationObject) {
       cachedTicker = genericTicker;
@@ -245,8 +245,8 @@ public class CoinfloorAdapters {
       BigDecimal volume = (rawRetObj.getVolume().doubleValue() == 0 ? cachedTicker.getVolume() : rawRetObj.getVolume());
 
       genericTicker =
-          new Ticker.TickerBuilder().withCurrencyPair(new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString())).withLast(last).withBid(bid).withAsk(ask).withLow(low)
-              .withHigh(high).withVolume(volume).build();
+          new Ticker.Builder().currencyPair(new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString())).last(last).bid(bid).ask(ask).low(low)
+              .high(high).volume(volume).build();
       cachedTicker = genericTicker;
     }
 
@@ -399,7 +399,7 @@ public class CoinfloorAdapters {
       BigDecimal limitPrice = rawRetObj.getPrice();
 
       trade =
-          new Trade(type, rawRetObj.getBaseQty(), new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString()), limitPrice, new Date(), String.valueOf(rawRetObj.getId()), null);
+          new Trade(type, rawRetObj.getBaseQty(), new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString()), limitPrice, new Date(), String.valueOf(rawRetObj.getId()));
 
       List<Trade> newTradesList = (cachedTrades == null ? new ArrayList<Trade>() : cachedTrades.getTrades());
       newTradesList.add(trade);

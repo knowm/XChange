@@ -71,7 +71,7 @@ public class OkCoinDigest implements ParamsDigest {
         nameValueMap.remove("amount");
       }
       else if (nameValueMap.get("type").equals("sell_market")) {
-        nameValueMap.remove("rate");
+        nameValueMap.remove("price");
       }
     }
     final List<Map.Entry<String, String>> nameValueList = new ArrayList<Map.Entry<String, String>>(nameValueMap.entrySet());
@@ -83,7 +83,7 @@ public class OkCoinDigest implements ParamsDigest {
       newParams.add(param.getKey(), param.getValue());
     }
 
-    final String message = newParams.asQueryString() + secretKey;
+    final String message = newParams.asQueryString() + "&secret_key=" + secretKey;
 
     try {
       md.reset();
