@@ -2,6 +2,7 @@ package com.xeiam.xchange.bitstamp;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -14,9 +15,10 @@ import com.xeiam.xchange.bitstamp.dto.BitstampException;
 import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampBooleanResponse;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
+import com.xeiam.xchange.bitstamp.dto.account.DepositTransaction;
+import com.xeiam.xchange.bitstamp.dto.account.WithdrawalRequest;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 
@@ -48,7 +50,7 @@ public interface BitstampAuthenticated {
   /** @return true if order has been canceled. */
   @POST
   @Path("cancel_order/")
-  public BitstampBooleanResponse cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("id") int orderId)
+  public boolean cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("id") int orderId)
           throws BitstampException, IOException;
 
   @POST
@@ -73,5 +75,15 @@ public interface BitstampAuthenticated {
   @Path("bitcoin_withdrawal/")
   public BitstampWithdrawal withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address) throws BitstampException, IOException;
+
+  @POST
+  @Path("unconfirmed_btc/")
+  public DepositTransaction[] getUnconfirmedDeposits(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce)
+      throws BitstampException, IOException;
+
+  @POST
+  @Path("withdrawal_requests/")
+  public WithdrawalRequest[] getWithdrawalRequests(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce)
+      throws BitstampException, IOException;
 
 }

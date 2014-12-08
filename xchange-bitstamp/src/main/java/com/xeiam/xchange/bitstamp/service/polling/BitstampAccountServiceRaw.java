@@ -2,6 +2,8 @@ package com.xeiam.xchange.bitstamp.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -12,6 +14,8 @@ import com.xeiam.xchange.bitstamp.BitstampUtils;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
+import com.xeiam.xchange.bitstamp.dto.account.DepositTransaction;
+import com.xeiam.xchange.bitstamp.dto.account.WithdrawalRequest;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
 
 /**
@@ -62,4 +66,23 @@ public class BitstampAccountServiceRaw extends BitstampBasePollingService {
     }
     return response;
   }
+
+  public List<DepositTransaction> getUnconfirmedDeposits() throws IOException {
+
+    final List<DepositTransaction> response = Arrays.asList(
+        bitstampAuthenticated.getUnconfirmedDeposits(
+            exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce())
+    );
+    return response;
+  }
+
+  public List<WithdrawalRequest> getWithdrawalRequests() throws IOException {
+
+    final List<WithdrawalRequest> response = Arrays.asList(
+        bitstampAuthenticated.getWithdrawalRequests(
+            exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce())
+    );
+    return response;
+  }
+
 }

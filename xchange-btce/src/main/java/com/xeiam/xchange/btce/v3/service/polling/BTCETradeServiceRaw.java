@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
@@ -24,6 +23,9 @@ import si.mazi.rescu.SynchronizedValueFactory;
  */
 
 public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticated> {
+
+  private static final String MSG_NO_TRADES = "no trades";
+  private static final String MSG_BAD_STATUS = "bad status";
 
   /**
    * Constructor
@@ -66,6 +68,10 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
   public BTCECancelOrderResult cancelBTCEOrder(long orderId) throws IOException {
 
     BTCECancelOrderReturn ret = btce.CancelOrder(apiKey, signatureCreator, nextNonce(), orderId);
+    if (MSG_BAD_STATUS.equals(ret.getError())) {
+      return null;
+    }
+
     checkResult(ret);
     return ret.getReturnValue();
   }
@@ -86,16 +92,13 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
   public Map<Long, BTCETradeHistoryResult> getBTCETradeHistory(Long from, Long count, Long fromId, Long endId, BTCEAuthenticated.SortOrder order, Long since, Long end, String pair) throws IOException {
 
     BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, nextNonce(), from, count, fromId, endId, order, since, end, pair);
-    try {
-      checkResult(btceTradeHistory);
-    } catch (ExchangeException x) {
+    String error = btceTradeHistory.getError();
       // BTC-e returns this error if it finds no trades matching the criteria
-      if ("no trades".equals(x.getMessage())) {
-        return Collections.emptyMap();
-      } else {
-        throw x;
-      }
+    if (MSG_NO_TRADES.equals(error)) {
+      return Collections.emptyMap();
     }
+
+    checkResult(btceTradeHistory);
     return btceTradeHistory.getReturnValue();
   }
 

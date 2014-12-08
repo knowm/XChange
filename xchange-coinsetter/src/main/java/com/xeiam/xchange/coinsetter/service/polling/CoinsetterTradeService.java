@@ -2,6 +2,9 @@ package com.xeiam.xchange.coinsetter.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import com.xeiam.xchange.ExchangeException;
@@ -11,6 +14,7 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.coinsetter.CoinsetterAdapters;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
 import com.xeiam.xchange.coinsetter.dto.order.request.CoinsetterOrderRequest;
+import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrder;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -27,7 +31,9 @@ import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
  */
 public class CoinsetterTradeService extends CoinsetterBasePollingService implements PollingTradeService {
 
-  private final CoinsetterOrderServiceRaw orderServiceRaw;
+
+
+    private final CoinsetterOrderServiceRaw orderServiceRaw;
 
   /**
    * @param exchangeSpecification
@@ -47,6 +53,18 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
     CoinsetterClientSession session = getSession();
     CoinsetterOrderList orderList = orderServiceRaw.list(session.getUuid(), getAccountUuid(), "OPEN");
     return CoinsetterAdapters.adaptOpenOrders(orderList);
+  }
+
+  /**
+  * Method returns CoinsetterOrder type giving full order execution state details. Method getOpenOrders() do not provide information of
+  * filledQuantity, average execution price etc.
+  * @return
+  * @throws IOException
+  */
+  public List<CoinsetterOrder> getCoinsetterOpenOrders () throws IOException {
+      CoinsetterClientSession session = getSession();
+      CoinsetterOrderList orderList = orderServiceRaw.list(session.getUuid(), getAccountUuid(), "OPEN");
+      return new ArrayList<CoinsetterOrder>(Arrays.asList(orderList.getOrderList()));
   }
 
   /**
@@ -106,4 +124,9 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
 
     return null;
   }
+
+  public CoinsetterOrderServiceRaw getOrderServiceRaw() {
+    return orderServiceRaw;
+  }
+
 }

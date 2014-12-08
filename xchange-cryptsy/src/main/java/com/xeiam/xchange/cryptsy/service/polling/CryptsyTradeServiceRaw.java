@@ -63,7 +63,9 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
 
     SimpleDateFormat outputFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    return checkResult(cryptsy.allmytrades(apiKey, signatureCreator, nextNonce(), outputFormatter.format(startDate), outputFormatter.format(endDate)));
+    return checkResult(cryptsy.allmytrades(apiKey, signatureCreator, nextNonce(),
+        (startDate == null ? null : outputFormatter.format(startDate)),
+        (endDate == null ? null : outputFormatter.format(endDate))));
   }
 
   /**

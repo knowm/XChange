@@ -88,16 +88,16 @@ public final class ItBitAdapters {
     for (int i = 0; i < orders.size(); i++) {
       BigDecimal[] level = orders.get(i);
 
-      limitOrders.add(adaptOrder(level[1], level[0], currencyPair, null, orderType));
+      limitOrders.add(adaptOrder(level[1], level[0], currencyPair, null, orderType, null));
     }
 
     return limitOrders;
 
   }
 
-  private static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderId, OrderType orderType) {
+  private static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderId, OrderType orderType, Date timestamp) {
 
-    return new LimitOrder(orderType, amount, currencyPair, orderId, null, price);
+    return new LimitOrder(orderType, amount, currencyPair, orderId, timestamp, price);
   }
 
   public static AccountInfo adaptAccountInfo(ItBitAccountInfoReturn[] info) {
@@ -114,7 +114,7 @@ public final class ItBitAdapters {
       for (int j = 0; j < balances.length; j++) {
         ItBitAccountBalance itBitAccountBalance = balances[j];
 
-        Wallet wallet = new Wallet(itBitAccountBalance.getCurrency(), itBitAccountBalance.getAvailableBalance(), itBitAccountInfoReturn.getName());
+        Wallet wallet = new Wallet(itBitAccountBalance.getCurrency(), itBitAccountBalance.getTotalBalance(), itBitAccountInfoReturn.getName());
         wallets.add(wallet);
       }
     }
@@ -136,8 +136,8 @@ public final class ItBitAdapters {
 
       CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
       OrderType orderType = itBitOrder.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
-
-      limitOrders.add(adaptOrder(itBitOrder.getAmount(), itBitOrder.getPrice(), currencyPair, itBitOrder.getId(), orderType));
+      Date timestamp = parseDate(itBitOrder.getCreatedTime());
+      limitOrders.add(adaptOrder(itBitOrder.getAmount(), itBitOrder.getPrice(), currencyPair, itBitOrder.getId(), orderType, timestamp));
     }
 
     return new OpenOrders(limitOrders);
