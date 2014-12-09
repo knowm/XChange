@@ -35,7 +35,6 @@ import com.xeiam.xchange.huobi.dto.trade.polling.HuobiOrder;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Ticker.TickerBuilder;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -131,10 +130,10 @@ public final class HuobiAdapters {
 
     HuobiTicker huobiTicker = huobiTickerWrapper.getHuobiTicker();
 
-    return TickerBuilder.newInstance().withCurrencyPair(currencyPair)
-            .withLast(huobiTicker.getLast()).withBid(huobiTicker.getBuy()).withAsk(huobiTicker.getSell())
-            .withHigh(huobiTicker.getHigh()).withLow(huobiTicker.getLow()).withVolume(huobiTicker.getVol())
-            .withTimestamp(new Date(huobiTickerWrapper.getTime() * 1000)).build();
+    return new Ticker.Builder().currencyPair(currencyPair)
+            .last(huobiTicker.getLast()).bid(huobiTicker.getBuy()).ask(huobiTicker.getSell())
+            .high(huobiTicker.getHigh()).low(huobiTicker.getLow()).volume(huobiTicker.getVol())
+            .timestamp(new Date(huobiTickerWrapper.getTime() * 1000)).build();
 
   }
 }

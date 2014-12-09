@@ -26,6 +26,8 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -98,9 +100,9 @@ public final class CryptonitAdapters {
     }
 
 
-    public static List<Trade> adaptFilledOrders(CryptonitOrders cryptonitOrders) {
+    public static List<UserTrade> adaptFilledOrders(CryptonitOrders cryptonitOrders) {
 
-        List<Trade> trades = new ArrayList<Trade>();
+        List<UserTrade> trades = new ArrayList<UserTrade>();
         if (cryptonitOrders == null) {
             return trades;
         }
@@ -147,7 +149,7 @@ public final class CryptonitAdapters {
         return new LimitOrder(orderType, amount, currencyPair, id, date, price);
     }
 
-    private static Trade adaptFilledOrder(String id, CryptonitOrder cryptonitOrder) {
+    private static UserTrade adaptFilledOrder(String id, CryptonitOrder cryptonitOrder) {
         OrderType orderType = null;
         CurrencyPair currencyPair = null;
         BigDecimal price = null;
@@ -179,7 +181,8 @@ public final class CryptonitAdapters {
         }
 
         Date date = new Date(cryptonitOrder.getFilled() * 1000);
-        return new Trade(orderType, amount, currencyPair, price, date, id);
+
+        return new UserTrade(orderType, amount, currencyPair, price, date, id, null, null, null);
     }
 
     /**

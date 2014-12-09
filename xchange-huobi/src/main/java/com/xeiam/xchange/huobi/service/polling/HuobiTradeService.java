@@ -34,10 +34,12 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.huobi.HuobiAdapters;
 import com.xeiam.xchange.huobi.dto.trade.polling.HuobiExecutionReport;
 import com.xeiam.xchange.huobi.dto.trade.polling.HuobiOrder;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 /**
  * @author timmolter
@@ -104,9 +106,18 @@ public class HuobiTradeService extends HuobiTradeServiceRaw implements PollingTr
         }
     }
 
-  @Override
-  public Trades getTradeHistory(Object... args) throws IOException {
+    @Override
+    public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+        throw new NotYetImplementedForExchangeException();
+    }
 
-      throw new NotYetImplementedForExchangeException();
-  }
+    @Override
+    public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+        throw new NotYetImplementedForExchangeException();
+    }
+
+    @Override
+    public TradeHistoryParams createTradeHistoryParams() {
+        return null;
+    }
 }

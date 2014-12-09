@@ -6,19 +6,16 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitbay.BitbayAdapters;
 import com.xeiam.xchange.bitbay.dto.BitbayBaseResponse;
-import com.xeiam.xchange.bitbay.dto.account.BitbayAccount;
 import com.xeiam.xchange.bitbay.dto.trade.BitbayOrder;
 import com.xeiam.xchange.bitbay.dto.trade.BitbayTradeResponse;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -66,7 +63,17 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements Polling
     }
 
     @Override
-    public Trades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+        return null;
+    }
+
+    @Override
+    public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+        return null;
+    }
+
+    @Override
+    public TradeHistoryParams createTradeHistoryParams() {
         return null;
     }
 }
