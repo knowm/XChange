@@ -7,7 +7,9 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bleutrade.Bleutrade;
 import com.xeiam.xchange.bleutrade.BleutradeUtils;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarket;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketHistoryReturn;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeOrderBook;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeOrderBookReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTicker;
@@ -63,6 +65,18 @@ public class BleutradeMarketDataServiceRaw extends BleutradeBasePollingService<B
     String pairString = BleutradeUtils.toPairString(currencyPair);
 
     BleutradeOrderBookReturn response = bleutrade.getBleutradeOrderBook(pairString, "ALL", depth);
+
+    if (!response.getSuccess()) {
+      throw new ExchangeException(response.getMessage());
+    }
+
+    return response.getResult();
+
+  }
+
+  public List<BleutradeMarket> getBleutradeMarkets() throws IOException {
+
+    BleutradeMarketsReturn response = bleutrade.getBleutradeMarkets();
 
     if (!response.getSuccess()) {
       throw new ExchangeException(response.getMessage());
