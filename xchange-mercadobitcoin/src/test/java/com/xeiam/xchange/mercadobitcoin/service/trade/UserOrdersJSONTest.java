@@ -3,7 +3,7 @@ package com.xeiam.xchange.mercadobitcoin.service.trade;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
-import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinCancelOrderResult;
+import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,6 +14,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Test MercadoBitcoinUserOrders JSON parsing
+ * 
  * @author Felipe Micaroni Lalli
  */
 public class UserOrdersJSONTest {
@@ -26,10 +27,10 @@ public class UserOrdersJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> apiResult = mapper.readValue(is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult>>() {
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> apiResult = mapper.readValue(is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders>>() {
     });
 
-    MercadoBitcoinCancelOrderResult userOrders = apiResult.getTheReturn();
+    MercadoBitcoinUserOrders userOrders = apiResult.getTheReturn();
 
     // Verify that the example data was unmarshalled correctly
     assertThat(userOrders.get("1212").getStatus()).isEqualTo("completed");
