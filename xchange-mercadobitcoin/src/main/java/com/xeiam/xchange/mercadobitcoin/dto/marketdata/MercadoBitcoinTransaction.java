@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 public class MercadoBitcoinTransaction {
 
   private final long date;
-  private final int tid;
+  private final long tid;
   private final BigDecimal price;
   private final BigDecimal amount;
   private final String type;
@@ -25,7 +25,7 @@ public class MercadoBitcoinTransaction {
    * @param amount BTC amount
    * @param type buy or sell
    */
-  public MercadoBitcoinTransaction(@JsonProperty("date") long date, @JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+  public MercadoBitcoinTransaction(@JsonProperty("date") long date, @JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("type") String type) {
 
     this.date = date;
@@ -41,7 +41,7 @@ public class MercadoBitcoinTransaction {
     return "MercadoBitcoinTransaction [" + "date=" + date + ", tid=" + tid + ", price=" + price + ", amount=" + amount + ", type='" + type + '\'' + ']';
   }
 
-  public int getTid() {
+  public long getTid() {
 
     return tid;
   }
