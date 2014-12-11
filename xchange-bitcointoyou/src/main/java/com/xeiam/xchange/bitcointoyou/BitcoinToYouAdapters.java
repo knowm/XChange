@@ -1,14 +1,5 @@
 package com.xeiam.xchange.bitcointoyou;
 
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.MessageFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.bitcointoyou.dto.BitcoinToYouBaseTradeApiResult;
 import com.xeiam.xchange.bitcointoyou.dto.account.BitcoinToYouBalance;
@@ -26,6 +17,16 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Various adapters for converting from BitcoinToYou DTOs to XChange DTOs
@@ -147,6 +148,7 @@ public final class BitcoinToYouAdapters {
     BitcoinToYouOrder[] orders = input.getTheReturn();
     for (BitcoinToYouOrder order : orders) {
       DateFormat time = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
+      time.setTimeZone(TimeZone.getTimeZone("Brazil/East"));
 
       try {
         limitOrders.add(new LimitOrder(order.getAction().equals("buy") ? OrderType.BID : OrderType.ASK, order.getAmount(), new CurrencyPair(order.getAsset(), order.getCurrency()), order.getId() + "",
