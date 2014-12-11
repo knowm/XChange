@@ -22,7 +22,7 @@ public class TradesDemo {
 
   public static void main(String[] args) throws IOException {
 
-    // Use the factory to get Mercado Bitcoin exchange API using default settings
+    // Use the factory to get BitcoinToYou exchange API using default settings
     Exchange bitcoinToYou = ExchangeFactory.INSTANCE.createExchange(BitcoinToYouExchange.class.getName());
 
     // Interested in the public polling market data feed (no authentication)
