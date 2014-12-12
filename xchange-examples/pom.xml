@@ -235,6 +235,12 @@
 			<artifactId>xchange-mercadobitcoin</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange BitcoinToYou exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-bitcointoyou</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>

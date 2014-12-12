@@ -18,5 +18,8 @@ javadoc/
 bin/
 log/
 
+xchange-bitcointoyou/classes/
+xchange-bitcointoyou/src/main/java/META-INF/
+
 # Misc.
 .DS_Store
