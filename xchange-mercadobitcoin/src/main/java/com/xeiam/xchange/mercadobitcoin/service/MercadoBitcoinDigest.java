@@ -44,6 +44,6 @@ public class MercadoBitcoinDigest extends BaseParamsDigest {
 
     hmac512.update(message.getBytes());
 
-    return String.format("%x", new BigInteger(1, hmac512.doFinal())).toLowerCase();
+    return String.format("%0128x", new BigInteger(1, hmac512.doFinal())).toLowerCase();
   }
 }

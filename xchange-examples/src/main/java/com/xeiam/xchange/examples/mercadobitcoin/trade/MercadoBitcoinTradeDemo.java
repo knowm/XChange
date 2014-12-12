@@ -19,10 +19,6 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 /**
- * IMPORTANT NOTE: the sleep of 1 sec between each call is necessary
- * due to a API limitation (at least until Dec 2014) because the "tonce"
- * of API is calculated based on Unix time, which is second-based.
- *
  * <p>
  * Example showing the following:
  * </p>
@@ -48,16 +44,12 @@ public class MercadoBitcoinTradeDemo {
 
     printOpenOrders(tradeService);
 
-    Thread.sleep(1000);
-
     // place a limit buy order
     LimitOrder limitOrder = new LimitOrder((Order.OrderType.ASK), new BigDecimal("0.01"), CurrencyPair.BTC_BRL, "", null, new BigDecimal("9000.00"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);
 
     printOpenOrders(tradeService);
-
-    Thread.sleep(1000);
 
     // Cancel the added order
     boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
@@ -68,7 +60,6 @@ public class MercadoBitcoinTradeDemo {
 
   private static void printOpenOrders(PollingTradeService tradeService) throws IOException, InterruptedException {
 
-    Thread.sleep(1000);
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());
   }
@@ -77,15 +68,11 @@ public class MercadoBitcoinTradeDemo {
 
     printRawOpenOrders(tradeService);
 
-    Thread.sleep(1000);
-
     // place a limit buy order
     MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> order = tradeService.mercadoBitcoinPlaceLimitOrder("ltc_brl", "buy", new BigDecimal("0.01"), new BigDecimal("1"));
     System.out.println("MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> return value: " + order);
 
     printRawOpenOrders(tradeService);
-
-    Thread.sleep(1000);
 
     // Cancel the added order
     MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> cancelResult = tradeService.mercadoBitcoinCancelOrder("ltc_brl", order.getTheReturn().keySet().iterator().next());
@@ -95,8 +82,6 @@ public class MercadoBitcoinTradeDemo {
   }
 
   private static void printRawOpenOrders(MercadoBitcoinTradeServiceRaw tradeService) throws IOException, InterruptedException {
-
-    Thread.sleep(1000);
 
     MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersResult = tradeService.getMercadoBitcoinUserOrders("btc_brl", null, "active", null, null, null, null);
 

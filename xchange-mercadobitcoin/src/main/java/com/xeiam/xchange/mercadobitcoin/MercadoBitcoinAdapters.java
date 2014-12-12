@@ -29,6 +29,7 @@ import java.util.Map;
 
 /**
  * Various adapters for converting from Mercado Bitcoin DTOs to XChange DTOs
+ * 
  * @author Felipe Micaroni Lalli
  */
 public final class MercadoBitcoinAdapters {
