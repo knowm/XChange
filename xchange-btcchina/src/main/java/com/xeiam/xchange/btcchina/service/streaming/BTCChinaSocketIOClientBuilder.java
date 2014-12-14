@@ -63,6 +63,10 @@ public class BTCChinaSocketIOClientBuilder {
   protected BTCChinaSocketIOClientBuilder() {
 
     opt.reconnection = true;
+    /*
+     * Prevents all sockets reporting the events of other socket's subscriptions.
+     */
+    opt.multiplex = false;
   }
 
   public IO.Options getIOOptions() {
