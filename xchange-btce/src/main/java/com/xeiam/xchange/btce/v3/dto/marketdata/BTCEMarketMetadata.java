@@ -11,7 +11,7 @@ public class BTCEMarketMetadata extends BaseMarketMetadata {
 
   public BTCEMarketMetadata(BigDecimal amountMinimum, int priceScale, BigDecimal orderFeeFactor, BigDecimal minPrice, BigDecimal maxPrice) {
 
-    super(amountMinimum, priceScale, orderFeeFactor);
+    super(amountMinimum, priceScale);
     assert minPrice != null;
     assert maxPrice != null;
     this.minPrice = minPrice;

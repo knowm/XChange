@@ -9,13 +9,11 @@ import java.math.BigDecimal;
 public class BaseMarketMetadata implements MarketMetadata {
   private final BigDecimal amountMinimum;
   private final int priceScale;
-  private final BigDecimal orderFeeFactor;
 
-  public BaseMarketMetadata(BigDecimal amountMinimum, int priceScale, BigDecimal orderFeeFactor) {
+  public BaseMarketMetadata(BigDecimal amountMinimum, int priceScale) {
 
     this.amountMinimum = amountMinimum;
     this.priceScale = priceScale;
-    this.orderFeeFactor = orderFeeFactor;
   }
 
   @Override
@@ -72,7 +70,6 @@ public class BaseMarketMetadata implements MarketMetadata {
     return "BaseMarketMetadata{" +
         "amountMinimum=" + amountMinimum +
         ", priceScale=" + priceScale +
-        ", orderFeeFactor=" + orderFeeFactor +
         '}';
   }
 }

@@ -2,12 +2,11 @@ package com.xeiam.xchange.anx.v2.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXMarketMetadata;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.utils.DateUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -26,6 +25,8 @@ import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.utils.Assert;
+
+import static com.xeiam.xchange.utils.ConfigurationManager.CFG_MGR;
 
 /**
  * @author timmolter
@@ -141,8 +142,29 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
    * @return Map of currency pairs to their corresponding metadata.
    * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
    */
-  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotAvailableFromExchangeException();
+  @Override public Map<CurrencyPair, ANXMarketMetadata> getMarketMetadata() throws IOException {
+    Map<CurrencyPair, ANXMarketMetadata> meta = new HashMap<CurrencyPair, ANXMarketMetadata>();
+    int amountScale = CFG_MGR.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
+    int priceScale = CFG_MGR.getIntProperty(KEY_ORDER_PRICE_SCALE_DEFAULT);
+    BigDecimal defAmountMin = CFG_MGR.getBigDecimalProperty(KEY_ORDER_SIZE_MIN_DEFAULT).setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
+    BigDecimal defAmountMax = CFG_MGR.getBigDecimalProperty(KEY_ORDER_SIZE_MAX_DEFAULT).setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
+
+    for (CurrencyPair pair : CURRENCY_PAIRS) {
+      BigDecimal amountMinimum = CFG_MGR.getBigDecimalProperty(PREKEY_ORDER_SIZE_MIN + pair.baseSymbol);
+      if (amountMinimum == null)
+        amountMinimum = defAmountMin;
+      else
+        amountMinimum = amountMinimum.setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
+
+      BigDecimal amountMaximum = CFG_MGR.getBigDecimalProperty(PREKEY_ORDER_SIZE_MAX + pair.baseSymbol);
+      if (amountMaximum == null)
+        amountMaximum = defAmountMax;
+      else
+        amountMaximum = amountMaximum.setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
+
+      meta.put(pair, new ANXMarketMetadata(amountMinimum, amountMaximum, priceScale));
+    }
+    return meta;
   }
 
 }
