@@ -27,7 +27,7 @@ public class BTCEMarketMetadata extends BaseMarketMetadata {
       throw new IllegalArgumentException("Price too low: minimum = " + minPrice + "; actual = " + limitPrice);
     }
     if (limitPrice.compareTo(maxPrice) > 0) {
-      throw new IllegalArgumentException("Price too low: minimum = " + minPrice + "; actual = " + limitPrice);
+      throw new IllegalArgumentException("Price too high: maximum = " + maxPrice + "; actual = " + limitPrice);
     }
   }
 

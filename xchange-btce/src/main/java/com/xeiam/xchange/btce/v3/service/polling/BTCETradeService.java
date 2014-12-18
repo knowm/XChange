@@ -2,21 +2,22 @@ package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEMarketMetadata;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEPairInfo;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -25,6 +26,8 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.*;
 import com.xeiam.xchange.utils.DateUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import static com.xeiam.xchange.utils.ConfigurationManager.CFG_MGR;
 
 /**
  * @author Matija Mazi
@@ -192,8 +195,20 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
    * @return Map of currency pairs to their corresponding metadata.
    * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
    */
-  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotAvailableFromExchangeException();
+  @Override
+  public Map<CurrencyPair, BTCEMarketMetadata> getMarketMetadata() throws IOException {
+
+    Map<CurrencyPair, BTCEMarketMetadata>result = new HashMap<CurrencyPair, BTCEMarketMetadata>();
+    int amountScale = CFG_MGR.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
+
+    Map<String, BTCEPairInfo> pairInfos = btce.getInfo().getPairs();
+    for (Map.Entry<String, BTCEPairInfo> e : pairInfos.entrySet()) {
+      CurrencyPair pair = BTCEAdapters.adaptCurrencyPair(e.getKey());
+      BTCEMarketMetadata meta = BTCEAdapters.createMarketMetadata(e.getValue(), amountScale);
+
+      result.put(pair, meta);
+    }
+    return result;
   }
 
   public static class BTCETradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrencyPair {
