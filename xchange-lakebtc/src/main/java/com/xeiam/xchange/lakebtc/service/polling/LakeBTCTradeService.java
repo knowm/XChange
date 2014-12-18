@@ -4,7 +4,8 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -18,6 +19,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * Created by cristian.lucaci on 12/19/2014.
@@ -69,5 +71,9 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Polli
     @Override
     public TradeHistoryParams createTradeHistoryParams() {
         return new DefaultTradeHistoryParamsTimeSpan();
+    }
+
+    @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws NotAvailableFromExchangeException{
+        throw new NotAvailableFromExchangeException();
     }
 }

@@ -2,10 +2,7 @@ package com.xeiam.xchange.coinsetter.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -19,6 +16,7 @@ import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -123,6 +121,16 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
 
     return null;
+  }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   */
+  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
   public CoinsetterOrderServiceRaw getOrderServiceRaw() {

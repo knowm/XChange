@@ -6,15 +6,18 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.BitstampException;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -114,6 +117,16 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new DefaultTradeHistoryParamPaging(1000);
+  }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   */
+  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
 }

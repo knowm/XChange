@@ -2,7 +2,6 @@ package com.xeiam.xchange;
 
 import java.util.Map;
 
-import com.xeiam.xchange.service.polling.MarketMetadataService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
@@ -25,7 +24,6 @@ public abstract class BaseExchange implements Exchange {
   protected PollingTradeService pollingTradeService;
   protected PollingAccountService pollingAccountService;
   protected StreamingExchangeService streamingExchangeService;
-  protected MarketMetadataService marketMetadataService;
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -92,12 +90,6 @@ public abstract class BaseExchange implements Exchange {
   public PollingAccountService getPollingAccountService() {
 
     return pollingAccountService;
-  }
-
-  @Override
-  public MarketMetadataService getMarketMetadataService() {
-
-    return marketMetadataService;
   }
 
   @Override

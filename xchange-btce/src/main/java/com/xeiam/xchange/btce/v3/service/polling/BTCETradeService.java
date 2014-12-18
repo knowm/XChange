@@ -7,6 +7,7 @@ import java.util.Map;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
@@ -15,6 +16,7 @@ import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -182,6 +184,16 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
 
     return new BTCETradeHistoryParams();
+  }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   */
+  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
   public static class BTCETradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrencyPair {

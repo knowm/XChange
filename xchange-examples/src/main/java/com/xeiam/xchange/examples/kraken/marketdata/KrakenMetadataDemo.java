@@ -6,6 +6,7 @@ import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class KrakenMetadataDemo {
 
@@ -18,7 +19,7 @@ public class KrakenMetadataDemo {
   }
 
   private static void metadata(Exchange krakenExchange) throws IOException {
-    MarketMetadata mm = krakenExchange.getMarketMetadataService().getMarketMetadata(CurrencyPair.BTC_EUR);
+    Map<CurrencyPair, ? extends MarketMetadata> mm = krakenExchange.getPollingTradeService().getMarketMetadata();
     System.out.println(mm);
   }
 

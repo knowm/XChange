@@ -39,13 +39,6 @@ public class BaseMarketMetadata implements MarketMetadata {
   }
 
   @Override
-  public BigDecimal getOrderFeeFactor() {
-    return orderFeeFactor;
-  }
-
-
-
-  @Override
   public void verifyOrder(LimitOrder order) {
 
     verifyOrder((Order)order);

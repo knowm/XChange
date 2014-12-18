@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamPaging;
@@ -161,6 +163,16 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
 
     return new OkCoinTradeHistoryParams();
+  }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   */
+  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
   public static class OkCoinTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {

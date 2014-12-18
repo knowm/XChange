@@ -37,6 +37,4 @@ public interface MarketMetadata {
 
   void verifyOrder(MarketOrder order);
 
-  BigDecimal getOrderFeeFactor();
-
 }

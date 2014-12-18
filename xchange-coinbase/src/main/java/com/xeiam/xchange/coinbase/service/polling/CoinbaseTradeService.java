@@ -1,6 +1,7 @@
 package com.xeiam.xchange.coinbase.service.polling;
 
 import java.io.IOException;
+import java.util.Map;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -9,7 +10,9 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.coinbase.CoinbaseAdapters;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -90,6 +93,16 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
 
     return null;
+  }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   */
+  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
 }

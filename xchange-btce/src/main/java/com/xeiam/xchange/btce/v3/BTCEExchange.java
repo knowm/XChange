@@ -37,7 +37,6 @@ public class BTCEExchange extends BaseExchange implements Exchange {
     this.pollingMarketDataService = new BTCEMarketDataService(exchangeSpecification);
     this.pollingAccountService = new BTCEAccountService(exchangeSpecification, nonceFactory);
     this.pollingTradeService = new BTCETradeService(exchangeSpecification, nonceFactory);
-    this.marketMetadataService = new BTCEMarketMetadataService(exchangeSpecification);
   }
 
   @Override

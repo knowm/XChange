@@ -2,6 +2,7 @@ package com.xeiam.xchange.btce.v2.service.polling;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -14,7 +15,9 @@ import com.xeiam.xchange.btce.v2.dto.trade.BTCEOpenOrdersReturn;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCEPlaceOrderReturn;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryReturn;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -102,6 +105,16 @@ public class BTCETradeService extends BTCEBasePollingService implements PollingT
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
 
     return null;
+  }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   */
+  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
 }

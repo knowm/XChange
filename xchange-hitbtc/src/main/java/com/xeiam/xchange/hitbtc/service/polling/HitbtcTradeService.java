@@ -1,8 +1,10 @@
 package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
+import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.service.polling.trade.*;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -103,6 +105,16 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new HitbtcTradeHistoryParams();
+  }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   */
+  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
   public static class HitbtcTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {

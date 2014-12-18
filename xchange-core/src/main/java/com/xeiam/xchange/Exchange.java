@@ -1,6 +1,5 @@
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.service.polling.MarketMetadataService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
@@ -86,6 +85,4 @@ public interface Exchange {
    * @return The exchange's polling account service
    */
   PollingAccountService getPollingAccountService();
-
-  MarketMetadataService getMarketMetadataService();
 }
