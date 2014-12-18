@@ -4,32 +4,42 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author kpysniak
- */
 public class HitbtcSymbol {
 
-  private final String symbol;
+  private final String commodity;
+  private final String currency;
   private final BigDecimal step;
   private final BigDecimal lot;
+  private final BigDecimal takeLiquidityRate;
+  private final BigDecimal provideLiquidityRate;
 
   /**
    * Constructor
-   * 
-   * @param symbol
-   * @param step
-   * @param lot
+   *
+   * @param commodity base currency
+   * @param currency  counter currency
+   * @param step      granularity of price
+   * @param lot       lot
    */
-  public HitbtcSymbol(@JsonProperty("symbol") String symbol, @JsonProperty("step") BigDecimal step, @JsonProperty("lot") BigDecimal lot) {
+  public HitbtcSymbol(@JsonProperty("commodity") String commodity, @JsonProperty("currency") String currency, @JsonProperty("step") BigDecimal step, @JsonProperty("lot") BigDecimal lot,
+                      @JsonProperty("takeLiquidityRate") BigDecimal takeLiquidityRate, @JsonProperty("provideLiquidityRate") BigDecimal provideLiquidityRate) {
 
-    this.symbol = symbol;
+    this.commodity = commodity;
+    this.currency = currency;
     this.step = step;
     this.lot = lot;
+    this.takeLiquidityRate = takeLiquidityRate;
+    this.provideLiquidityRate = provideLiquidityRate;
   }
 
-  public String getSymbol() {
+  public String getCommodity() {
 
-    return symbol;
+    return commodity;
+  }
+
+  public String getCurrency() {
+
+    return currency;
   }
 
   public BigDecimal getStep() {
@@ -42,9 +52,26 @@ public class HitbtcSymbol {
     return lot;
   }
 
+  public BigDecimal getTakeLiquidityRate() {
+
+    return takeLiquidityRate;
+  }
+
+  public BigDecimal getProvideLiquidityRate() {
+
+    return provideLiquidityRate;
+  }
+
   @Override
   public String toString() {
 
-    return "HitbtcSymbol{" + "symbol='" + symbol + '\'' + ", step=" + step + ", lot=" + lot + '}';
+    return "HitbtcSymbol{" +
+            "symbol='" + commodity + '/' + currency + '\''
+            + ", step=" + step
+            + ", lot=" + lot
+            + ", takeRate=" + takeLiquidityRate
+            + ", lot=" + lot
+
+            + '}';
   }
 }

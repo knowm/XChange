@@ -74,7 +74,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     }
 
     HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(startIndex, maxResults, symbols);
-    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw);
+    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, metadata);
   }
 
   /**
@@ -98,7 +98,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
       pair = CurrencyPair.BTC_USD;
 
     HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(offset, count, HitbtcAdapters.adaptCurrencyPair(pair));
-    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw);
+    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, metadata);
   }
 
   @Override
@@ -114,7 +114,8 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
    * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
    */
   @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotAvailableFromExchangeException();
+    metadata = HitbtcAdapters.adaptSymbolsToMetadata(hitbtc.getSymbols());
+    return metadata;
   }
 
   public static class HitbtcTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {
