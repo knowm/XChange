@@ -1,10 +1,7 @@
 package com.xeiam.xchange.atlasats.services;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -47,8 +44,8 @@ public class AtlasPollingAccountServiceRawTest {
   public void testGetAccountInfo() {
 
     AtlasAccountInfo accountInfo = accountServiceRaw.getAccountInfo();
-    assertNotNull(accountInfo);
-    assertThat(accountInfo.getExposure(), is(equalTo(BigDecimal.ZERO)));
+    assertThat(accountInfo).isNotNull();
+    assertThat(accountInfo.getExposure().equals(BigDecimal.ZERO));
     LOGGER.info("Account Info: " + accountInfo);
   }
 
@@ -57,7 +54,7 @@ public class AtlasPollingAccountServiceRawTest {
 
     List<AtlasCurrencyPair> exchangeSymbols = accountServiceRaw.getExchangeSymbols();
     assertNotNull(exchangeSymbols);
-    assertThat(exchangeSymbols.isEmpty(), is(not(true)));
+    assertThat(exchangeSymbols).isNotEmpty();
     LOGGER.info("Exchange Symbols: " + exchangeSymbols);
   }
 
@@ -65,8 +62,8 @@ public class AtlasPollingAccountServiceRawTest {
   public void testGetOptionContracts() throws Exception {
 
     List<AtlasOptionContract> optionContracts = accountServiceRaw.getOptionContracts();
-    assertNotNull(optionContracts);
-    assertThat(optionContracts.isEmpty(), is(not(true)));
+    assertThat(optionContracts).isNotNull();
+    assertThat(optionContracts).isNotEmpty();
     LOGGER.info("Option Contracts: " + optionContracts);
   }
 
