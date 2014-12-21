@@ -2,8 +2,6 @@ package com.xeiam.xchange.btcchina.dto.trade;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCChinaMarketDepthOrder {
@@ -27,13 +25,10 @@ public class BTCChinaMarketDepthOrder {
     return amount;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
 
-    return ToStringBuilder.reflectionToString(this);
+    return "BTCChinaMarketDepthOrder [price=" + price + ", amount=" + amount + "]";
   }
 
 }

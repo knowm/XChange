@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -76,7 +74,7 @@ public class BTCChinaOrders extends LinkedHashMap<String, BTCChinaOrder[]> {
   @Override
   public String toString() {
 
-    return ToStringBuilder.reflectionToString(this);
+    return "BTCChinaOrders [orders=" + Arrays.toString(orders) + ", date=" + date + "]";
   }
 
 }

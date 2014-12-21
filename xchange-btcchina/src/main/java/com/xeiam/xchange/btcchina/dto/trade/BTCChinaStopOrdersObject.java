@@ -1,6 +1,6 @@
 package com.xeiam.xchange.btcchina.dto.trade;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,7 +21,7 @@ public class BTCChinaStopOrdersObject {
   @Override
   public String toString() {
 
-    return ToStringBuilder.reflectionToString(this);
+    return "BTCChinaStopOrdersObject [stopOrders=" + Arrays.toString(stopOrders) + "]";
   }
 
 }

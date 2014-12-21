@@ -24,12 +24,6 @@
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>
 		<dependency>
-			<groupId>com.e-movimento.tinytools</groupId>
-			<artifactId>privilegedaccessor</artifactId>
-			<version>1.2.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-core</artifactId>
 			<version>${project.version}</version>
