@@ -1,5 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
@@ -7,10 +9,13 @@
 	</parent>
 	<artifactId>xchange-coinsetter</artifactId>
 	<name>XChange Coinsetter</name>
+	
 	<description>
 		XChange implementation for the Coinsetter exchange.
 	</description>
+	
 	<dependencies>
+	
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-core</artifactId>
@@ -21,14 +26,9 @@
 		<dependency>
 			<groupId>io.socket</groupId>
 			<artifactId>socket.io-client</artifactId>
-			<version>0.2.1</version>
 		</dependency>
+		
 	</dependencies>
-	<repositories>
-		<repository>
-			<id>keytwo.net</id>
-			<name>Keytwo.net Repository</name>
-			<url>http://audiobox.keytwo.net</url>
-		</repository>
-	</repositories>
+	
+	
 </project>

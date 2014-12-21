@@ -130,7 +130,12 @@
 				<enabled>true</enabled>
 			</releases>
 		</repository>
-
+		<!-- https://github.com/fatshotty/socket.io-java-client -->
+		<repository>
+			<id>keytwo.net</id>
+			<name>Keytwo.net Repository</name>
+			<url>http://audiobox.keytwo.net</url>
+		</repository>
 	</repositories>
 
 	<dependencyManagement>
@@ -218,6 +223,13 @@
 				<groupId>com.github.nkzawa</groupId>
 				<artifactId>socket.io-client</artifactId>
 				<version>0.2.0</version>
+			</dependency>
+
+			<!-- For CoinsetterSocketIOService -->
+			<dependency>
+				<groupId>io.socket</groupId>
+				<artifactId>socket.io-client</artifactId>
+				<version>0.2.1</version>
 			</dependency>
 
 			<dependency>
