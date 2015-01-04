@@ -27,7 +27,8 @@ import com.xeiam.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements PollingTradeService {
-  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
+
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
 
   private final Logger log = LoggerFactory.getLogger(OkCoinFuturesTradeService.class);
   private final List<CurrencyPair> exchangeSymbols = (List<CurrencyPair>) getExchangeSymbols();
@@ -35,9 +36,10 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   private FuturesContract futuresContract = FuturesContract.NextWeek;
 
   public OkCoinFuturesTradeService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
 
-    if(exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
+    if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
       futuresContract = (FuturesContract) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract");
       log.info("Using futures contract " + futuresContract);
     } else {
@@ -52,14 +54,14 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
     for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
-      log.debug("Getting order: {}", symbol);  
+      log.debug("Getting order: {}", symbol);
       OkCoinOrderResult orderResult = getFuturesOrder(-1, OkCoinAdapters.adaptSymbol(symbol), "1", "50", futuresContract);
-      if(orderResult.getOrders().length > 0) {
+      if (orderResult.getOrders().length > 0) {
         orderResults.add(orderResult);
       }
     }
 
-    if(orderResults.size() <= 0) {
+    if (orderResults.size() <= 0) {
       return noOpenOrders;
     }
 
@@ -69,18 +71,16 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    long orderId =
-        futuresTrade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()), marketOrder.getType() == OrderType.BID ? "1" : "2", "0",
-            marketOrder.getTradableAmount().toPlainString(), futuresContract, 1).getOrderId();
+    long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()), marketOrder.getType() == OrderType.BID ? "1" : "2", "0", marketOrder.getTradableAmount().toPlainString(),
+        futuresContract, 1).getOrderId();
     return String.valueOf(orderId);
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    long orderId =
-        futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "1" : "2", limitOrder.getLimitPrice().toPlainString(),
-            limitOrder.getTradableAmount().toPlainString(), futuresContract, 0).getOrderId();
+    long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "1" : "2", limitOrder.getLimitPrice().toPlainString(),
+        limitOrder.getTradableAmount().toPlainString(), futuresContract, 0).getOrderId();
     return String.valueOf(orderId);
   }
 

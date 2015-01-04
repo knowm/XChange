@@ -28,19 +28,17 @@ public class OkCoinExchange extends BaseExchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    
-    if(exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false) &&
-        exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
-     throw new RuntimeException("Futures only available on international version. Set `Use_Intl` to true."); 
+
+    if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false) && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+      throw new RuntimeException("Futures only available on international version. Set `Use_Intl` to true.");
     }
 
-    if(exchangeSpecification.getExchangeSpecificParameters() != null && 
-        exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+    if (exchangeSpecification.getExchangeSpecificParameters() != null && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
       this.pollingMarketDataService = new OkCoinFuturesMarketDataService(exchangeSpecification);
       if (exchangeSpecification.getApiKey() != null) {
         this.pollingAccountService = new OkCoinFuturesAccountService(exchangeSpecification);
         this.pollingTradeService = new OkCoinFuturesTradeService(exchangeSpecification);
-      }      
+      }
     } else {
       this.pollingMarketDataService = new OkCoinMarketDataService(exchangeSpecification);
       if (exchangeSpecification.getApiKey() != null) {

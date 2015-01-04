@@ -12,9 +12,10 @@ import com.xeiam.xchange.okcoin.OkCoinAdapters;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 public class OkCoinFuturesMarketDataService extends OkCoinMarketDataServiceRaw implements PollingMarketDataService {
+
   /** Default contract to use */
   private final FuturesContract futuresContract;
-  
+
   /**
    * Constructor
    *
@@ -24,7 +25,7 @@ public class OkCoinFuturesMarketDataService extends OkCoinMarketDataServiceRaw i
 
     super(exchangeSpecification);
 
-    if(exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
+    if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
       futuresContract = (FuturesContract) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract");
     } else {
       futuresContract = null;
@@ -33,7 +34,8 @@ public class OkCoinFuturesMarketDataService extends OkCoinMarketDataServiceRaw i
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-    if(args.length > 0) {
+
+    if (args.length > 0) {
       return OkCoinAdapters.adaptTicker(getFuturesTicker(currencyPair, (FuturesContract) args[0]), currencyPair);
     } else {
       return OkCoinAdapters.adaptTicker(getFuturesTicker(currencyPair, futuresContract), currencyPair);
@@ -42,7 +44,8 @@ public class OkCoinFuturesMarketDataService extends OkCoinMarketDataServiceRaw i
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    if(args.length > 0) {
+
+    if (args.length > 0) {
       return OkCoinAdapters.adaptOrderBook(getFuturesDepth(currencyPair, (FuturesContract) args[0]), currencyPair);
     } else {
       return OkCoinAdapters.adaptOrderBook(getFuturesDepth(currencyPair, futuresContract), currencyPair);
@@ -50,8 +53,9 @@ public class OkCoinFuturesMarketDataService extends OkCoinMarketDataServiceRaw i
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {    
-    if(args.length > 0) {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+
+    if (args.length > 0) {
       return OkCoinAdapters.adaptTrades(getFuturesTrades(currencyPair, (FuturesContract) args[0]), currencyPair);
     } else {
       return OkCoinAdapters.adaptTrades(getFuturesTrades(currencyPair, futuresContract), currencyPair);

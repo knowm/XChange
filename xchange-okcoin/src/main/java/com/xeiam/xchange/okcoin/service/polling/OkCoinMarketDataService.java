@@ -25,16 +25,19 @@ public class OkCoinMarketDataService extends OkCoinMarketDataServiceRaw implemen
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+
     return OkCoinAdapters.adaptTicker(getTicker(currencyPair), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+
     return OkCoinAdapters.adaptOrderBook(getDepth(currencyPair), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+
     final OkCoinTrade[] trades;
 
     if (args.length == 0) {

@@ -29,13 +29,14 @@ import com.xeiam.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class OkCoinTradeService extends OkCoinTradeServiceRaw implements PollingTradeService {
-  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
-  
+
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
+
   private final Logger log = LoggerFactory.getLogger(OkCoinTradeService.class);
   private final List<CurrencyPair> exchangeSymbols = (List<CurrencyPair>) getExchangeSymbols();
 
-  
   public OkCoinTradeService(ExchangeSpecification exchangeSpecification) {
+
     super(exchangeSpecification);
 
   }
@@ -49,12 +50,12 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
       CurrencyPair symbol = exchangeSymbols.get(i);
       log.debug("Getting order: {}", symbol);
       OkCoinOrderResult orderResult = getOrder(-1, OkCoinAdapters.adaptSymbol(symbol));
-      if(orderResult.getOrders().length > 0) {
+      if (orderResult.getOrders().length > 0) {
         orderResults.add(orderResult);
       }
     }
-    
-    if(orderResults.size() <= 0) {
+
+    if (orderResults.size() <= 0) {
       return noOpenOrders;
     }
 
@@ -72,8 +73,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
       marketOrderType = "buy_market";
       rate = marketOrder.getTradableAmount().toPlainString();
       amount = "1";
-    }
-    else {
+    } else {
       marketOrderType = "sell_market";
       rate = "1";
       amount = marketOrder.getTradableAmount().toPlainString();
@@ -86,9 +86,8 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    long orderId =
-        trade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "buy" : "sell", limitOrder.getLimitPrice().toPlainString(),
-            limitOrder.getTradableAmount().toPlainString()).getOrderId();
+    long orderId = trade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "buy" : "sell", limitOrder.getLimitPrice().toPlainString(),
+        limitOrder.getTradableAmount().toPlainString()).getOrderId();
     return String.valueOf(orderId);
   }
 
@@ -128,10 +127,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   }
 
   /**
-   * Required parameters
-   * {@link TradeHistoryParamPaging}
-   *
-   * Supported parameters
+   * Required parameters {@link TradeHistoryParamPaging} Supported parameters
    * {@link TradeHistoryParamCurrencyPair}
    */
   @Override
@@ -168,6 +164,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
     private CurrencyPair pair;
 
     public OkCoinTradeHistoryParams() {
+
     }
 
     public OkCoinTradeHistoryParams(Integer pageLength, Integer pageNumber, CurrencyPair pair) {
