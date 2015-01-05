@@ -4,11 +4,11 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.lakebtc.LakeBTCExamplesUtils;
-import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTrades;
 import com.xeiam.xchange.lakebtc.service.polling.LakeBTCMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * Created by Cristi on 12/22/2014.
@@ -38,10 +38,10 @@ public class LakeBTCTradesDemo {
 
     private static void raw(Exchange lakeBtcExchange) throws IOException {
         LakeBTCMarketDataServiceRaw marketDataService = (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getPollingMarketDataService();
-        LakeBTCTrades[] trades = marketDataService.getLakeBTCTrades(0L);
+        BigDecimal[][] trades = marketDataService.getLakeBTCOrderBookCNY().getAsks();
 
-        System.out.println("Trades size: " + trades.length);
-        System.out.println("Trades(0): " + trades[0].toString());
+        System.out.println("Ask size: " + trades.length);
+        System.out.println("Ask(0): " + trades[0].toString());
         System.out.println("Last: " + trades[trades.length - 1]);
 
     }

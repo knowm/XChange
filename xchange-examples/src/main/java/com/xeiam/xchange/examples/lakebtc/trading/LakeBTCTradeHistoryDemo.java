@@ -3,7 +3,7 @@ package com.xeiam.xchange.examples.lakebtc.trading;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.lakebtc.LakeBTCExamplesUtils;
-import com.xeiam.xchange.lakebtc.dto.trade.result.LakeBTCTradeResponse;
+import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCTradeResponse;
 import com.xeiam.xchange.lakebtc.service.polling.LakeBTCTradeServiceRaw;
 import com.xeiam.xchange.service.polling.PollingTradeService;
 
