@@ -22,7 +22,7 @@ public class LakeBTCExamplesUtils {
         lakeBtcExchange.getExchangeSpecification().setPort(80);
         lakeBtcExchange.getExchangeSpecification().setApiKey("API Key");
         lakeBtcExchange.getExchangeSpecification().setSecretKey("Secret==");
-        lakeBtcExchange.getExchangeSpecification().setUserName("cristian.lucaci85@gmail.com");
+        lakeBtcExchange.getExchangeSpecification().setUserName("email");
         lakeBtcExchange.applySpecification(lakeBtcExchange.getExchangeSpecification());
         return lakeBtcExchange;
     }
