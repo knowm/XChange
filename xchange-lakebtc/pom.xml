@@ -10,7 +10,7 @@
 
 	<artifactId>xchange-lakebtc</artifactId>
 
-	<name>XChange Bitbay</name>
+	<name>XChange LakeBTC</name>
 	<description>XChange implementation for Lakebtc exchange</description>
 
 	<url>http://xeiam.com</url>
@@ -23,6 +23,11 @@
 
 	<!-- Parent provides default configuration for dependencies -->
 	<dependencies>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>

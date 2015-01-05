@@ -169,6 +169,12 @@
 			<artifactId>xchange-itbit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange LakeBTC exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-lakebtc</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange Cryptsy exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
