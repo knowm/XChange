@@ -90,4 +90,18 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
 
   }
 
+  public boolean cancel(String orderId, CurrencyPair currencyPair) throws IOException {
+
+    /*
+     * No need to look up CurrencyPair associated with orderId,
+     * as the caller will provide it.
+     */
+    HashMap<String, String> response = poloniex.cancelOrder(apiKey, signatureCreator, String.valueOf(nextNonce()),
+        orderId, PoloniexUtils.toPairString(currencyPair));
+    if (response.containsKey("error")) {
+      throw new ExchangeException(response.get("error"));
+    }
+    return response.get("success").toString().equals(new Integer(1).toString()) ? true : false;
+  }
+
 }
