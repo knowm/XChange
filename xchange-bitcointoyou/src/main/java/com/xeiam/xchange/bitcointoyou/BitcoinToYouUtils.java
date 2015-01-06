@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public final class BitcoinToYouUtils {
 
-  private static final AtomicLong incremental = new AtomicLong(System.currentTimeMillis() / 1000L);
+  private static final AtomicLong incremental = new AtomicLong(System.currentTimeMillis());
 
   private BitcoinToYouUtils() {
 

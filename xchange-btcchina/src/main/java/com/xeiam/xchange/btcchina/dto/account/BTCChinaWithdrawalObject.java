@@ -1,7 +1,5 @@
 package com.xeiam.xchange.btcchina.dto.account;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCChinaWithdrawalObject {
@@ -21,7 +19,7 @@ public class BTCChinaWithdrawalObject {
   @Override
   public String toString() {
 
-    return ToStringBuilder.reflectionToString(this);
+    return "BTCChinaWithdrawalObject [withdrawal=" + withdrawal + "]";
   }
 
 }

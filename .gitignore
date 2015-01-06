@@ -17,11 +17,8 @@ target/
 javadoc/
 bin/
 log/
-xchange-mercadobitcoin/classes/
-xchange-mercadobitcoin/src/main/java/META-INF/
-
-xchange-bitcointoyou/classes/
-xchange-bitcointoyou/src/main/java/META-INF/
+classes/
+META-INF/
 
 # Misc.
 .DS_Store

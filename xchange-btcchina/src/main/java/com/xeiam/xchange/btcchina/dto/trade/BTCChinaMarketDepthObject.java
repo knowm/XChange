@@ -1,7 +1,5 @@
 package com.xeiam.xchange.btcchina.dto.trade;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCChinaMarketDepthObject {
@@ -23,13 +21,10 @@ public class BTCChinaMarketDepthObject {
     this.marketDepth = marketDepth;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
 
-    return ToStringBuilder.reflectionToString(this);
+    return "BTCChinaMarketDepthObject [marketDepth=" + marketDepth + "]";
   }
 
 }
