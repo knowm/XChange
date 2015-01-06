@@ -158,6 +158,13 @@
 				<scope>test</scope>
 			</dependency>
 
+			<!-- Rest client -->
+			<dependency>
+				<groupId>com.github.mmazi</groupId>
+				<artifactId>rescu</artifactId>
+				<version>1.7.2</version>
+			</dependency>
+
 			<!-- Charting -->
 			<dependency>
 				<groupId>com.xeiam.xchart</groupId>
@@ -197,13 +204,6 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>jul-to-slf4j</artifactId>
 				<version>1.7.7</version>
-			</dependency>
-
-			<!-- Rest client -->
-			<dependency>
-				<groupId>com.github.mmazi</groupId>
-				<artifactId>rescu</artifactId>
-				<version>1.7.2-SNAPSHOT</version>
 			</dependency>
 
 			<!-- For FIX API -->
