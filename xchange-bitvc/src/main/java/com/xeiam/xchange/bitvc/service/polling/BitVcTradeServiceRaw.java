@@ -11,11 +11,11 @@ import com.xeiam.xchange.bitvc.dto.trade.BitVcOrder;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcOrderResult;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcPlaceOrderResult;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.huobi.service.polling.TradeServiceRaw;
 
-public class BitVcTradeServiceRaw extends BitVcBaseTradeService {
+public class BitVcTradeServiceRaw extends BitVcBaseTradeService implements TradeServiceRaw {
 
-  protected BitVcTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
-
+  public BitVcTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
   }
 
