@@ -6,6 +6,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitvc.BitVc;
+import com.xeiam.xchange.bitvc.BitVcExchange;
 import com.xeiam.xchange.bitvc.dto.marketdata.BitVcDepth;
 import com.xeiam.xchange.bitvc.dto.marketdata.BitVcOrderBookTAS;
 import com.xeiam.xchange.bitvc.dto.marketdata.BitVcTicker;
@@ -18,7 +19,7 @@ public class BitVcMarketDataServiceRaw extends BitVcBasePollingService {
 
     super(exchangeSpecification);
 
-    final String baseUrl = exchangeSpecification.getPlainTextUri();
+    final String baseUrl = (String) exchangeSpecification.getExchangeSpecificParametersItem(BitVcExchange.URI_HUOBI_MARKETDATA);
     bitvc = RestProxyFactory.createProxy(BitVc.class, baseUrl);
   }
 

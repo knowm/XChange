@@ -19,6 +19,7 @@ import java.util.Locale;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.bitvc.dto.account.BitVcAccountInfo;
+import com.xeiam.xchange.bitvc.dto.account.HuobiAccountInfo;
 import com.xeiam.xchange.bitvc.dto.marketdata.BitVcDepth;
 import com.xeiam.xchange.bitvc.dto.marketdata.BitVcOrderBookTAS;
 import com.xeiam.xchange.bitvc.dto.marketdata.BitVcTicker;
@@ -115,6 +116,21 @@ public final class BitVcAdapters {
     List<Wallet> wallets = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan);
     return new AccountInfo(null, wallets);
   }
+  
+  public static AccountInfo adaptHuobiAccountInfo(HuobiAccountInfo a) {
+
+    Wallet cny = new Wallet(CNY, a.getAvailableCnyDisplay().add(a.getFrozenCnyDisplay()).subtract(a.getLoanCnyDisplay()), "available");
+    Wallet btc = new Wallet(BTC, a.getAvailableBtcDisplay().add(a.getFrozenBtcDisplay()).subtract(a.getLoanBtcDisplay()), "available");
+    Wallet ltc = new Wallet(LTC, a.getAvailableLtcDisplay().add(a.getFrozenLtcDisplay()).subtract(a.getLoanLtcDisplay()), "available");
+
+    // loaned wallets
+    Wallet cnyLoan = new Wallet(CNY, a.getLoanCnyDisplay(), "loan");
+    Wallet btcLoan = new Wallet(BTC, a.getLoanBtcDisplay(), "loan");
+    Wallet ltcLoan = new Wallet(LTC, a.getLoanLtcDisplay(), "loan");
+
+    List<Wallet> wallets = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan);
+    return new AccountInfo(null, wallets);
+  }
 
   public static String adaptPlaceOrderResult(BitVcPlaceOrderResult result) {
 
@@ -129,8 +145,8 @@ public final class BitVcAdapters {
   public static List<LimitOrder> adaptOpenOrders(BitVcOrder[] orders, CurrencyPair currencyPair) {
 
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>(orders.length);
-    for (BitVcOrder order : orders) {
-      openOrders.add(adaptOpenOrder(order, currencyPair));
+    for (int i = 0; i < orders.length; i++) {
+      openOrders.add(adaptOpenOrder(orders[i], currencyPair));
     }
     return openOrders;
   }
