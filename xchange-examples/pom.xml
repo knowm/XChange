@@ -241,6 +241,12 @@
 			<artifactId>xchange-bitcointoyou</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange EmpoEx exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-empoex</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
