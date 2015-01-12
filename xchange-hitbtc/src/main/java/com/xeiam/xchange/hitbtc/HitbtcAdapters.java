@@ -92,7 +92,7 @@ public class HitbtcAdapters {
     List<LimitOrder> asks = adaptMarketOrderToLimitOrder(hitbtcOrderBook.getAsks(), OrderType.ASK, currencyPair);
     List<LimitOrder> bids = adaptMarketOrderToLimitOrder(hitbtcOrderBook.getBids(), OrderType.BID, currencyPair);
 
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   private static List<LimitOrder> adaptMarketOrderToLimitOrder(BigDecimal[][] hitbtcOrders, OrderType orderType, CurrencyPair currencyPair) {
@@ -105,7 +105,7 @@ public class HitbtcAdapters {
       BigDecimal price = hitbtcOrder[0];
       BigDecimal amount = hitbtcOrder[1];
 
-      LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, null, new Date(), price);
+      LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, null, null, price);
       orders.add(limitOrder);
     }
 
