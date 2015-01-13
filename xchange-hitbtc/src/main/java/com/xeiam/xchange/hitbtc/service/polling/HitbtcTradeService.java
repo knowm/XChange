@@ -118,6 +118,10 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     return metadata;
   }
 
+  public void init() throws IOException {
+    getMarketMetadata();
+  }
+
   public static class HitbtcTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {
 
     private CurrencyPair pair;

@@ -1,5 +1,6 @@
 package com.xeiam.xchange;
 
+import java.io.IOException;
 import java.util.Map;
 
 import com.xeiam.xchange.service.polling.PollingAccountService;
@@ -96,6 +97,17 @@ public abstract class BaseExchange implements Exchange {
   public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 
     return streamingExchangeService;
+  }
+
+  /**
+   * Initialize the services if necessary. Implementations may call the remote service.
+   *
+   * @throws java.io.IOException                 - Indication that a networking error occurred while fetching JSON data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   */
+  @Override
+  public void init() throws IOException, ExchangeException {
+    // do nothing
   }
 
   @Override

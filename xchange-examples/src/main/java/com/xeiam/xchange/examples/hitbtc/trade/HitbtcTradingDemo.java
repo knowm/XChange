@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.examples.hitbtc.HitbtcExampleUtils;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
@@ -17,6 +16,7 @@ public class HitbtcTradingDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange exchange = HitbtcExampleUtils.createExchange();
+    exchange.init();
     PollingTradeService tradeService = exchange.getPollingTradeService();
 
     generic(tradeService);

@@ -2,12 +2,15 @@ package com.xeiam.xchange.hitbtc;
 
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcAccountService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcTradeService;
 import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
 
 public class HitbtcExchange extends BaseExchange implements Exchange {
 
@@ -38,4 +41,10 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
     this.pollingAccountService = hitbtcAccountService;
   }
 
+  @Override
+  public void init() throws IOException, ExchangeException {
+    super.init();
+
+    ((HitbtcTradeService) pollingTradeService).init();
+  }
 }

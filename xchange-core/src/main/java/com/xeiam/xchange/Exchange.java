@@ -6,6 +6,8 @@ import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
+import java.io.IOException;
+
 /**
  * <p>
  * Interface to provide the following to applications:
@@ -85,4 +87,12 @@ public interface Exchange {
    * @return The exchange's polling account service
    */
   PollingAccountService getPollingAccountService();
+
+  /**
+   * Initialize the services if necessary. Implementations may call the remote service.
+   *
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   */
+  void init() throws IOException, ExchangeException;
 }
