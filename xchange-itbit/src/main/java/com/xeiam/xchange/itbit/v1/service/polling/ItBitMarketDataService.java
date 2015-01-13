@@ -1,6 +1,7 @@
 package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -43,7 +44,7 @@ public class ItBitMarketDataService extends ItBitMarketDataServiceRaw implements
     List<LimitOrder> asks = ItBitAdapters.adaptOrders(depth.getAsks(), currencyPair, OrderType.ASK);
     List<LimitOrder> bids = ItBitAdapters.adaptOrders(depth.getBids(), currencyPair, OrderType.BID);
 
-    return new OrderBook(null, asks, bids);
+    return new OrderBook(new Date(), asks, bids);
   }
 
   @Override
