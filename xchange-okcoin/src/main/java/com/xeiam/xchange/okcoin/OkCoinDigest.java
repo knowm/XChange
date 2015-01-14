@@ -20,7 +20,7 @@ public class OkCoinDigest implements ParamsDigest {
 
   private static final char[] DIGITS_UPPER = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
-  private final String partner;
+  private final String apikey;
   private final String secretKey;
   private final MessageDigest md;
   private final Comparator<Entry<String, String>> comparator = new Comparator<Map.Entry<String, String>>() {
@@ -32,9 +32,9 @@ public class OkCoinDigest implements ParamsDigest {
     }
   };
 
-  public OkCoinDigest(String partner, String secretKey) {
+  public OkCoinDigest(String apikey, String secretKey) {
 
-    this.partner = partner;
+    this.apikey = apikey;
     this.secretKey = secretKey;
 
     try {
@@ -63,7 +63,7 @@ public class OkCoinDigest implements ParamsDigest {
     final Map<String, String> nameValueMap = params.asHttpHeaders();
 
     nameValueMap.remove("sign");
-    nameValueMap.put("partner", partner);
+    nameValueMap.put("api_key", apikey);
 
     // odd requirements for buy/sell market orders
     if (nameValueMap.containsKey("type") && nameValueMap.get("type").contains("market")) {
