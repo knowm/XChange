@@ -64,7 +64,7 @@ public interface OkCoin {
 
 	@POST
 	@Path("future_userinfo_4fix.do")
-	OkCoinUserInfo getFuturesUserInfo(@FormParam("partner") String partner, @FormParam("sign") ParamsDigest sign) throws IOException;
+	OkCoinUserInfo getFuturesUserInfo(@FormParam("api_key") String api_key, @FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("trade.do")
@@ -73,7 +73,7 @@ public interface OkCoin {
 
 	@POST
 	@Path("future_trade.do")
-	OkCoinTradeResult futuresTrade(@FormParam("partner") String partner, @FormParam("symbol") String symbol, @FormParam("contract_type") String prompt,
+	OkCoinTradeResult futuresTrade(@FormParam("api_key") String api_key, @FormParam("symbol") String symbol, @FormParam("contract_type") String prompt,
 			@FormParam("type") String type, @FormParam("price") String price, @FormParam("amount") String amount, @FormParam("match_price") int matchPrice, 
 			@FormParam("sign") ParamsDigest sign) throws IOException;
 
@@ -84,22 +84,22 @@ public interface OkCoin {
 
 	@POST
 	@Path("future_cancel.do")
-	OkCoinTradeResult futuresCancelOrder(@FormParam("partner") String partner, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
+	OkCoinTradeResult futuresCancelOrder(@FormParam("api_key") String api_key, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
 			@FormParam("contract_type") String prompt, @FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("order_info.do")
-	OkCoinOrderResult getOrder(@FormParam("partner") String partner, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
+	OkCoinOrderResult getOrder(@FormParam("api_key") String api_key, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
 			@FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("future_order_info.do") /** TODO 2006 error ... */
-	OkCoinOrderResult getFuturesOrder(@FormParam("partner") String partner, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
+	OkCoinOrderResult getFuturesOrder(@FormParam("api_key") String api_key, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
 	    @FormParam("status") String status, @FormParam("current_page") String currentPage, @FormParam("page_length") String pageLength, @FormParam("contract_type") String prompt, @FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("future_position_4fix.do")
-	OkCoinPositionResult getFuturesPositions(@FormParam("partner") String partner, @FormParam("symbol") String symbol, @FormParam("contract_type") String prompt,
+	OkCoinPositionResult getFuturesPositions(@FormParam("api_key") String api_key, @FormParam("symbol") String symbol, @FormParam("contract_type") String prompt,
 			@FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
