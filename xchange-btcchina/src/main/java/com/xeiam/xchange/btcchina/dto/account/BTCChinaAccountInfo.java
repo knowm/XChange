@@ -13,6 +13,7 @@ public class BTCChinaAccountInfo {
   private final BTCChinaProfile profile;
   private final Map<String, BTCChinaValue> balances;
   private final Map<String, BTCChinaValue> frozens;
+  private final Map<String, BTCChinaValue> loans;
 
   /**
    * Constructor
@@ -21,11 +22,12 @@ public class BTCChinaAccountInfo {
    * @param balances balances for the various currencies
    * @param frozens balances for the various frozen currencies
    */
-  public BTCChinaAccountInfo(@JsonProperty("profile") BTCChinaProfile profile, @JsonProperty("balance") Map<String, BTCChinaValue> balances, @JsonProperty("frozen") Map<String, BTCChinaValue> frozens) {
+  public BTCChinaAccountInfo(@JsonProperty("profile") BTCChinaProfile profile, @JsonProperty("balance") Map<String, BTCChinaValue> balances, @JsonProperty("frozen") Map<String, BTCChinaValue> frozens, @JsonProperty("loan") Map<String, BTCChinaValue> loans) {
 
     this.profile = profile;
     this.balances = balances;
     this.frozens = frozens;
+    this.loans = loans;
   }
 
   /**
@@ -57,6 +59,16 @@ public class BTCChinaAccountInfo {
   public Map<String, BTCChinaValue> getFrozens() {
 
     return frozens;
+  }
+  
+  /**
+   * Get the loaned balances.
+   * 
+   * @return the frozen balances
+   */  
+  public Map<String, BTCChinaValue> getLoans() {
+
+    return loans;
   }
 
   @Override
