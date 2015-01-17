@@ -13,6 +13,7 @@ import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
 import com.xeiam.xchange.bitstamp.BitstampUtils;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampRippleDepositAddress;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import com.xeiam.xchange.bitstamp.dto.account.DepositTransaction;
 import com.xeiam.xchange.bitstamp.dto.account.WithdrawalRequest;
@@ -65,6 +66,23 @@ public class BitstampAccountServiceRaw extends BitstampBasePollingService {
       throw new ExchangeException("Requesting Bitcoin deposit address failed: " + response.getError());
     }
     return response;
+  }
+
+  public BitstampRippleDepositAddress getRippleDepositAddress() throws IOException {
+
+    return bitstampAuthenticated.getRippleDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce());
+  }
+
+  /**
+   * @return true if withdrawal was successfull.
+   *
+   * Note that due to a bug on Bitstamp's side, withdrawal always fails if two-factor authentication
+   * is enabled for the account.
+   */
+  public boolean withdrawToRipple(BigDecimal amount, String currency, String rippleAddress) throws IOException {
+
+    return bitstampAuthenticated.withdrawToRipple(
+        exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), amount, currency, rippleAddress);
   }
 
   public List<DepositTransaction> getUnconfirmedDeposits() throws IOException {

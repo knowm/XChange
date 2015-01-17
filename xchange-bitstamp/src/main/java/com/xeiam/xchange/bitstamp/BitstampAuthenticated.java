@@ -2,7 +2,6 @@ package com.xeiam.xchange.bitstamp;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -16,6 +15,7 @@ import si.mazi.rescu.ParamsDigest;
 
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampRippleDepositAddress;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import com.xeiam.xchange.bitstamp.dto.account.DepositTransaction;
 import com.xeiam.xchange.bitstamp.dto.account.WithdrawalRequest;
@@ -84,6 +84,21 @@ public interface BitstampAuthenticated {
   @POST
   @Path("withdrawal_requests/")
   public WithdrawalRequest[] getWithdrawalRequests(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce)
+      throws BitstampException, IOException;
+
+  /**
+   * Note that due to a bug on Bitstamp's side, withdrawal always fails if two-factor authentication
+   * is enabled for the account.
+   */
+  @POST
+  @Path("ripple_withdrawal/")
+  public boolean withdrawToRipple(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce, @FormParam("amount") BigDecimal amount,
+                                  @FormParam("currency") String currency, @FormParam("address") String rippleAddress)
+      throws BitstampException, IOException;
+
+  @POST
+  @Path("ripple_address/")
+  public BitstampRippleDepositAddress getRippleDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") long nonce)
       throws BitstampException, IOException;
 
 }
