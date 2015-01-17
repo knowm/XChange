@@ -164,42 +164,29 @@ public final class BTCChinaAdapters {
   public static AccountInfo adaptAccountInfo(BTCChinaResponse<BTCChinaAccountInfo> response) {
 
     BTCChinaAccountInfo result = response.getResult();
-    return new AccountInfo(result.getProfile().getUsername(), result.getProfile().getTradeFee(), BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens()));
+    return new AccountInfo(result.getProfile().getUsername(), result.getProfile().getTradeFee(), BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens(), result.getLoans()));
   }
 
-  public static List<Wallet> adaptWallets(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens) {
+  public static List<Wallet> adaptWallets(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens, Map<String, BTCChinaValue> loans) {
 
     List<Wallet> wallets = new ArrayList<Wallet>(balances.size());
 
     for (Map.Entry<String, BTCChinaValue> entry : balances.entrySet()) {
-      Wallet wallet;
       BTCChinaValue frozen = frozens.get(entry.getKey());
-      if (frozen != null) {
-        wallet = adaptWallet(entry.getValue(), frozen);
-        if (wallet != null) {
-          wallets.add(wallet);
-        }
-      }
+      BTCChinaValue loan = loans.get(entry.getKey());
+      
+      BigDecimal balanceAmount = BTCChinaUtils.valueToBigDecimal(entry.getValue());
+      BigDecimal frozenAmount = frozen == null ? BigDecimal.ZERO : BTCChinaUtils.valueToBigDecimal(frozen);
+      BigDecimal loanAmount = loan == null ? BigDecimal.ZERO : BTCChinaUtils.valueToBigDecimal(loan);
+      
+      // add frozen amount, subtract loaned amount
+      BigDecimal cash = balanceAmount.add(frozenAmount).subtract(loanAmount);
+      wallets.add(new Wallet(entry.getValue().getCurrency(), cash));
     }
     return wallets;
 
   }
 
-  /**
-   * Adapts BTCChinaValue balance, BTCChinaValue frozen to wallet
-   */
-  public static Wallet adaptWallet(BTCChinaValue balance, BTCChinaValue frozen) {
-
-    if (balance != null && frozen != null) {
-      BigDecimal balanceAmount = BTCChinaUtils.valueToBigDecimal(balance);
-      BigDecimal frozenAmount = BTCChinaUtils.valueToBigDecimal(frozen);
-      BigDecimal cash = balanceAmount.add(frozenAmount);
-      return new Wallet(balance.getCurrency(), cash);
-    }
-    else {
-      return null;
-    }
-  }
 
   /**
    * Adapts {@link BTCChinaDepth} to {@link OrderBook}.
