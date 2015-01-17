@@ -1,8 +1,8 @@
 package com.xeiam.xchange;
 
+import java.io.IOException;
 import java.util.Map;
 
-import com.xeiam.xchange.service.polling.MarketMetadataService;
 import com.xeiam.xchange.service.polling.PollingAccountService;
 import com.xeiam.xchange.service.polling.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.PollingTradeService;
@@ -25,7 +25,6 @@ public abstract class BaseExchange implements Exchange {
   protected PollingTradeService pollingTradeService;
   protected PollingAccountService pollingAccountService;
   protected StreamingExchangeService streamingExchangeService;
-  protected MarketMetadataService marketMetadataService;
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -95,15 +94,20 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public MarketMetadataService getMarketMetadataService() {
-
-    return marketMetadataService;
-  }
-
-  @Override
   public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 
     return streamingExchangeService;
+  }
+
+  /**
+   * Initialize the services if necessary. Implementations may call the remote service.
+   *
+   * @throws java.io.IOException                 - Indication that a networking error occurred while fetching JSON data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   */
+  @Override
+  public void init() throws IOException, ExchangeException {
+    // do nothing
   }
 
   @Override

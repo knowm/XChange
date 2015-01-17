@@ -3,6 +3,7 @@ package com.xeiam.xchange.bitfinex.v1.service.polling;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -13,6 +14,7 @@ import com.xeiam.xchange.bitfinex.v1.BitfinexOrderType;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -144,6 +146,16 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
 
     return new BitfinexTradeHistoryParams(new Date(0), 50, CurrencyPair.BTC_USD);
+  }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   */
+  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
   public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {

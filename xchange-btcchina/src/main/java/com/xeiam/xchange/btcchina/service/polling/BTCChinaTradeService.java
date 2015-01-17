@@ -5,8 +5,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.service.polling.trade.*;
 import com.xeiam.xchange.utils.DateUtils;
 import org.slf4j.Logger;
@@ -202,6 +207,16 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
 
     return new BTCChinaTradeHistoryParams();
+  }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   */
+  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
   public static class BTCChinaTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsTimeSpan, TradeHistoryParamsIdSpan {

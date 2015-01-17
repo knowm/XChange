@@ -1,12 +1,17 @@
 package com.xeiam.xchange.bitcointoyou.service.polling.trade;
 
 import java.io.IOException;
+import java.util.Map;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitcointoyou.BitcoinToYouAdapters;
 import com.xeiam.xchange.bitcointoyou.dto.BitcoinToYouBaseTradeApiResult;
 import com.xeiam.xchange.bitcointoyou.dto.trade.BitcoinToYouOrder;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -80,6 +85,16 @@ public class BitcoinToYouTradeService extends BitcoinToYouTradeServiceRaw implem
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new DefaultTradeHistoryParamPaging(Integer.MAX_VALUE);
+  }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   */
+  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
 }

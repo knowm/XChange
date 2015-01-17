@@ -7,7 +7,6 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.kraken.service.polling.KrakenAccountService;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataService;
-import com.xeiam.xchange.kraken.service.polling.KrakenMarketMetadataService;
 import com.xeiam.xchange.kraken.service.polling.KrakenTradeService;
 import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
 
@@ -26,7 +25,6 @@ public class KrakenExchange extends BaseExchange implements Exchange {
     this.pollingMarketDataService = new KrakenMarketDataService(exchangeSpecification, nonceFactory);
     this.pollingTradeService = new KrakenTradeService(exchangeSpecification, nonceFactory);
     this.pollingAccountService = new KrakenAccountService(exchangeSpecification, nonceFactory);
-    this.marketMetadataService = new KrakenMarketMetadataService(exchangeSpecification, nonceFactory);
   }
 
   @Override

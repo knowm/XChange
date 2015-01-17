@@ -11,7 +11,7 @@ public class BTCEMarketMetadata extends BaseMarketMetadata {
 
   public BTCEMarketMetadata(BigDecimal amountMinimum, int priceScale, BigDecimal orderFeeFactor, BigDecimal minPrice, BigDecimal maxPrice) {
 
-    super(amountMinimum, priceScale, orderFeeFactor);
+    super(amountMinimum, priceScale);
     assert minPrice != null;
     assert maxPrice != null;
     this.minPrice = minPrice;
@@ -27,7 +27,7 @@ public class BTCEMarketMetadata extends BaseMarketMetadata {
       throw new IllegalArgumentException("Price too low: minimum = " + minPrice + "; actual = " + limitPrice);
     }
     if (limitPrice.compareTo(maxPrice) > 0) {
-      throw new IllegalArgumentException("Price too low: minimum = " + minPrice + "; actual = " + limitPrice);
+      throw new IllegalArgumentException("Price too high: maximum = " + maxPrice + "; actual = " + limitPrice);
     }
   }
 

@@ -1,10 +1,13 @@
 package com.xeiam.xchange.service.polling;
 
 import java.io.IOException;
+import java.util.Map;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -125,4 +128,13 @@ public interface PollingTradeService extends BasePollingService {
    * and should be passed only to the method in the same class as the createTradeHistoryParams that created the object.
    */
   public TradeHistoryParams createTradeHistoryParams();
+
+  /**
+   * Fetch the {@link MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see MarketMetadata
+   */
+  Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+
 }

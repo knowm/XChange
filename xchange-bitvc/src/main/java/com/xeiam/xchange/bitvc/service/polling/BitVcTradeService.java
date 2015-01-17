@@ -16,6 +16,7 @@ import com.xeiam.xchange.bitvc.dto.trade.BitVcCancelOrderResult;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcOrder;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcPlaceOrderResult;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -112,4 +113,15 @@ public class BitVcTradeService implements PollingTradeService {
   public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
     return tradeServiceRaw.getExchangeSymbols();
   }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   */
+  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
+  }
+
 }

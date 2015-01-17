@@ -35,7 +35,7 @@ public class KrakenMarketMetadataService extends KrakenBasePollingService<Kraken
     BigDecimal fee = getTradeVolume(pair).getFees().get(krakenPair).getFee().movePointLeft(2);
 
     BigDecimal amountMinimum = new BigDecimal(CFG_MGR.getProperties().getProperty(KEY_ORDER_SIZE_MIN_DEFAULT)).setScale(assetPair.getVolumeLotScale());
-    return new BaseMarketMetadata(amountMinimum, assetPair.getPairScale(), fee);
+    return new BaseMarketMetadata(amountMinimum, assetPair.getPairScale());
   }
 
   protected KrakenTradeVolume getTradeVolume(CurrencyPair... currencyPairs) throws IOException {

@@ -1,8 +1,10 @@
 package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
+import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamPaging;
@@ -103,6 +105,16 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
   public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
 
     return new ItBitTradeHistoryParams();
+  }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   */
+  @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
   public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair{

@@ -6,6 +6,7 @@ import com.xeiam.xchange.dto.marketdata.MarketMetadata;
 import com.xeiam.xchange.examples.anx.v2.ANXExamplesUtils;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class MarketMetadataDemo {
 
@@ -18,7 +19,7 @@ public class MarketMetadataDemo {
   }
 
   private static void metadata(Exchange exchange) throws IOException {
-    MarketMetadata mm = exchange.getMarketMetadataService().getMarketMetadata(CurrencyPair.BTC_EUR);
+    Map<CurrencyPair, ? extends MarketMetadata> mm = exchange.getPollingTradeService().getMarketMetadata();
     System.out.println(mm);
   }
 

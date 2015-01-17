@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 public class ANXMarketMetadata extends BaseMarketMetadata {
   private final BigDecimal amountMaximum;
 
-  public ANXMarketMetadata(BigDecimal amountMinimum, BigDecimal amountMaximum, int priceScale, BigDecimal orderFeeFactor) {
-    super(amountMinimum, priceScale, orderFeeFactor);
+  public ANXMarketMetadata(BigDecimal amountMinimum, BigDecimal amountMaximum, int priceScale) {
+    super(amountMinimum, priceScale);
     this.amountMaximum = amountMaximum;
   }
 
