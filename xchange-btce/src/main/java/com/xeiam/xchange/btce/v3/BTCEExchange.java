@@ -1,14 +1,14 @@
 package com.xeiam.xchange.btce.v3;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEAccountService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataService;
-import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketMetadataService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
 import com.xeiam.xchange.utils.nonce.IntTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * <p>
