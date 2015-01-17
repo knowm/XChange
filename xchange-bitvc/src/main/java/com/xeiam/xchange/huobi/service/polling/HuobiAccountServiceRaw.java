@@ -16,8 +16,8 @@ public class HuobiAccountServiceRaw extends HuobiBaseTradeService {
   public HuobiAccountInfo getHuobiAccountInfo() throws IOException {
     HuobiAccountInfo accountInfo = huobi.getAccountInfo(accessKey, nextCreated(), "get_account_info", digest);
 
-    if (accountInfo.getMessage() != null) {
-      throw new ExchangeException(accountInfo.getMessage());
+    if (accountInfo.getResult().equals("fail")) {
+      throw new ExchangeException(accountInfo.getMsg());
     }
     else {
       return accountInfo;

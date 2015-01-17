@@ -16,12 +16,13 @@ public class HuobiAccountInfo {
   private final BigDecimal loanBtc;
   private final BigDecimal loanLtc;
   
-  private final String message;
+  private final String msg;
+  private final String result;
   
   public HuobiAccountInfo(@JsonProperty("available_cny_display") final BigDecimal availableCnyDisplay, @JsonProperty("available_btc_display") final BigDecimal availableBtcDisplay,
       @JsonProperty("available_ltc_display") final BigDecimal availableLtcDisplay, @JsonProperty("frozen_cny_display") final BigDecimal frozenCnyDisplay,
       @JsonProperty("frozen_btc_display") final BigDecimal frozenBtcDisplay, @JsonProperty("frozen_ltc_display") final BigDecimal frozenLtcDisplay, @JsonProperty("loan_cny_display") final BigDecimal loanCnyDisplay,
-      @JsonProperty("loan_btc_display") final BigDecimal loanBtcDisplay, @JsonProperty("loan_ltc_display") final BigDecimal loanLtcDisplay, @JsonProperty("message") String message) {
+      @JsonProperty("loan_btc_display") final BigDecimal loanBtcDisplay, @JsonProperty("loan_ltc_display") final BigDecimal loanLtcDisplay, @JsonProperty("msg") String msg, @JsonProperty("result") String result) {
 
     this.availableCny = availableCnyDisplay;
     this.availableBtc = availableBtcDisplay;
@@ -33,7 +34,8 @@ public class HuobiAccountInfo {
     this.loanBtc = loanBtcDisplay;
     this.loanLtc = loanLtcDisplay;
     
-    this.message = message;
+    this.msg = msg;
+    this.result = result;
   }
 
   public BigDecimal getAvailableCnyDisplay() {
@@ -81,7 +83,11 @@ public class HuobiAccountInfo {
     return loanLtc == null ? BigDecimal.ZERO : loanLtc;
   }
   
-  public String getMessage() {
-    return message;
+  public String getMsg() {
+    return msg;
+  }
+  
+  public String getResult() {
+    return result;
   }
 }
