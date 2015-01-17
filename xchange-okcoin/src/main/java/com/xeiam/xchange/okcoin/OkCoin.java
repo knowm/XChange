@@ -60,51 +60,51 @@ public interface OkCoin {
 
 	@POST
 	@Path("userinfo.do")
-	OkCoinUserInfo getUserInfo(@FormParam("partner") long partner, @FormParam("sign") ParamsDigest sign) throws IOException;
+	OkCoinUserInfo getUserInfo(@FormParam("api_key") String apikey, @FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("future_userinfo_4fix.do")
-	OkCoinUserInfo getFuturesUserInfo(@FormParam("partner") long partner, @FormParam("sign") ParamsDigest sign) throws IOException;
+	OkCoinUserInfo getFuturesUserInfo(@FormParam("api_key") String api_key, @FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("trade.do")
-	OkCoinTradeResult trade(@FormParam("partner") long partner, @FormParam("symbol") String symbol, @FormParam("type") String type,
+	OkCoinTradeResult trade(@FormParam("api_key") String apikey, @FormParam("symbol") String symbol, @FormParam("type") String type,
 			@FormParam("price") String price, @FormParam("amount") String amount, @FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("future_trade.do")
-	OkCoinTradeResult futuresTrade(@FormParam("partner") long partner, @FormParam("symbol") String symbol, @FormParam("contract_type") String prompt,
+	OkCoinTradeResult futuresTrade(@FormParam("api_key") String api_key, @FormParam("symbol") String symbol, @FormParam("contract_type") String prompt,
 			@FormParam("type") String type, @FormParam("price") String price, @FormParam("amount") String amount, @FormParam("match_price") int matchPrice, 
 			@FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("cancel_order.do")
-	OkCoinTradeResult cancelOrder(@FormParam("partner") long partner, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
+	OkCoinTradeResult cancelOrder(@FormParam("api_key") String api_key, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
 			@FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("future_cancel.do")
-	OkCoinTradeResult futuresCancelOrder(@FormParam("partner") long partner, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
+	OkCoinTradeResult futuresCancelOrder(@FormParam("api_key") String api_key, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
 			@FormParam("contract_type") String prompt, @FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("order_info.do")
-	OkCoinOrderResult getOrder(@FormParam("partner") long partner, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
+	OkCoinOrderResult getOrder(@FormParam("api_key") String api_key, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
 			@FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("future_order_info.do") /** TODO 2006 error ... */
-	OkCoinOrderResult getFuturesOrder(@FormParam("partner") long partner, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
+	OkCoinOrderResult getFuturesOrder(@FormParam("api_key") String api_key, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
 	    @FormParam("status") String status, @FormParam("current_page") String currentPage, @FormParam("page_length") String pageLength, @FormParam("contract_type") String prompt, @FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("future_position_4fix.do")
-	OkCoinPositionResult getFuturesPositions(@FormParam("partner") long partner, @FormParam("symbol") String symbol, @FormParam("contract_type") String prompt,
+	OkCoinPositionResult getFuturesPositions(@FormParam("api_key") String api_key, @FormParam("symbol") String symbol, @FormParam("contract_type") String prompt,
 			@FormParam("sign") ParamsDigest sign) throws IOException;
 
 	@POST
 	@Path("order_history.do")
-	OkCoinOrderResult getOrderHistory(@FormParam("partner") long partner, @FormParam("symbol") String symbol, @FormParam("status") String status,
+	OkCoinOrderResult getOrderHistory(@FormParam("api_key") String apikey, @FormParam("symbol") String symbol, @FormParam("status") String status,
 			@FormParam("current_page") String currentPage, @FormParam("page_length") String pageLength, @FormParam("sign") ParamsDigest sign) throws IOException;
 
 }

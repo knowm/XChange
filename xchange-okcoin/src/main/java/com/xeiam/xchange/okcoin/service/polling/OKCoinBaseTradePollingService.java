@@ -15,7 +15,8 @@ public class OKCoinBaseTradePollingService extends OkCoinBasePollingService {
 
   protected final OkCoin okCoin;
   protected final OkCoinDigest signatureCreator;
-  protected final long partner;
+  protected final String apikey;
+  protected final String secretKey;
 
   protected OKCoinBaseTradePollingService(ExchangeSpecification exchangeSpecification) {
 
@@ -23,10 +24,10 @@ public class OKCoinBaseTradePollingService extends OkCoinBasePollingService {
 
     Map<String, Object> specific = exchangeSpecification.getExchangeSpecificParameters();
     okCoin = RestProxyFactory.createProxy(OkCoin.class, useIntl ? (String) specific.get("Intl_SslUri") : exchangeSpecification.getSslUri());
-    final String apiKey = exchangeSpecification.getApiKey();
-
-    signatureCreator = new OkCoinDigest(apiKey, exchangeSpecification.getSecretKey());
-    partner = Long.parseLong(apiKey);
+    apikey = exchangeSpecification.getApiKey();
+    secretKey = exchangeSpecification.getSecretKey();
+    
+    signatureCreator = new OkCoinDigest(apikey, secretKey); 
   }
 
   protected static <T extends OkCoinErrorResult> T returnOrThrow(T t) {
