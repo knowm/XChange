@@ -12,10 +12,10 @@ import java.util.Properties;
 import static org.apache.commons.io.IOUtils.closeQuietly;
 import static org.apache.commons.io.IOUtils.copy;
 
-public class ConfigurationManager {
-  final public static ConfigurationManager CFG_MGR = new ConfigurationManager();
+public class TradeServiceHelperConfigurer {
+  final public static TradeServiceHelperConfigurer CFG = new TradeServiceHelperConfigurer();
 
-  final private static Logger log = LoggerFactory.getLogger(ConfigurationManager.class);
+  final private static Logger log = LoggerFactory.getLogger(TradeServiceHelperConfigurer.class);
 
   final private static String CFG_FILE_NAME = "xchange.properties";
 

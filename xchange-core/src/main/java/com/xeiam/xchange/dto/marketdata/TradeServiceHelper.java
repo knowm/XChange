@@ -1,11 +1,11 @@
 package com.xeiam.xchange.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 
-import java.math.BigDecimal;
-
-public interface MarketMetadata {
+public interface TradeServiceHelper {
 
   /**
    * The smallest tradable amount accepted by the market.
@@ -25,7 +25,6 @@ public interface MarketMetadata {
    */
   int getPriceScale();
 
-
   /**
    * The smallest number that can be added to or removed from price and not be discarded by the exchange.
    * <p/>
@@ -33,8 +32,18 @@ public interface MarketMetadata {
    */
   BigDecimal getPriceStep();
 
-  void verifyOrder(LimitOrder order);
+  /**
+   * Verify a Limit Order
+   *
+   * @param limitOrder
+   */
+  void verifyOrder(LimitOrder limitOrder);
 
-  void verifyOrder(MarketOrder order);
+  /**
+   * Verify a Market Order
+   *
+   * @param limitOrder
+   */
+  void verifyOrder(MarketOrder marketOrder);
 
 }

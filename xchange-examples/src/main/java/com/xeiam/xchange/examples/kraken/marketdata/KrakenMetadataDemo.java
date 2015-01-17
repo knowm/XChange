@@ -2,7 +2,7 @@ package com.xeiam.xchange.examples.kraken.marketdata;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.MarketMetadata;
+import com.xeiam.xchange.dto.marketdata.TradeServiceHelper;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class KrakenMetadataDemo {
   }
 
   private static void metadata(Exchange krakenExchange) throws IOException {
-    Map<CurrencyPair, ? extends MarketMetadata> mm = krakenExchange.getPollingTradeService().getMarketMetadata();
+    Map<CurrencyPair, ? extends TradeServiceHelper> mm = krakenExchange.getPollingTradeService().getTradeServiceHelperMap();
     System.out.println(mm);
   }
 

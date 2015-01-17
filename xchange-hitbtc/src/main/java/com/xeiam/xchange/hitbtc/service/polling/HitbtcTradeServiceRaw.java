@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Map;
 
-import com.xeiam.xchange.dto.marketdata.MarketMetadata;
+import com.xeiam.xchange.dto.marketdata.TradeServiceHelper;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -28,7 +28,7 @@ import com.xeiam.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 
 public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthenticated> {
 
-  protected Map<CurrencyPair, MarketMetadata> metadata;
+  protected Map<CurrencyPair, TradeServiceHelper> metadata;
 
   public HitbtcTradeServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 

@@ -1,15 +1,15 @@
 package com.xeiam.xchange.btce.v3.dto.marketdata;
 
-import com.xeiam.xchange.dto.marketdata.BaseMarketMetadata;
+import com.xeiam.xchange.dto.marketdata.BaseTradeServiceHelper;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
 import java.math.BigDecimal;
 
-public class BTCEMarketMetadata extends BaseMarketMetadata {
+public class BTCETradeServiceHelper extends BaseTradeServiceHelper {
   final private BigDecimal minPrice;
   final private BigDecimal maxPrice;
 
-  public BTCEMarketMetadata(BigDecimal amountMinimum, int priceScale, BigDecimal orderFeeFactor, BigDecimal minPrice, BigDecimal maxPrice) {
+  public BTCETradeServiceHelper(BigDecimal amountMinimum, int priceScale, BigDecimal orderFeeFactor, BigDecimal minPrice, BigDecimal maxPrice) {
 
     super(amountMinimum, priceScale);
     assert minPrice != null;

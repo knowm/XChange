@@ -1,14 +1,14 @@
 package com.xeiam.xchange.anx.v2.dto.marketdata;
 
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.marketdata.BaseMarketMetadata;
+import com.xeiam.xchange.dto.marketdata.BaseTradeServiceHelper;
 
 import java.math.BigDecimal;
 
-public class ANXMarketMetadata extends BaseMarketMetadata {
+public class ANXTradeServiceHelper extends BaseTradeServiceHelper {
   private final BigDecimal amountMaximum;
 
-  public ANXMarketMetadata(BigDecimal amountMinimum, BigDecimal amountMaximum, int priceScale) {
+  public ANXTradeServiceHelper(BigDecimal amountMinimum, BigDecimal amountMaximum, int priceScale) {
     super(amountMinimum, priceScale);
     this.amountMaximum = amountMaximum;
   }

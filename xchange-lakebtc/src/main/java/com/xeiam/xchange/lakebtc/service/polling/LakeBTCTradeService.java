@@ -5,7 +5,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.MarketMetadata;
+import com.xeiam.xchange.dto.marketdata.TradeServiceHelper;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -73,7 +73,7 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Polli
         return new DefaultTradeHistoryParamsTimeSpan();
     }
 
-    @Override public Map<CurrencyPair, ? extends MarketMetadata> getMarketMetadata() throws NotAvailableFromExchangeException{
+    @Override public Map<CurrencyPair, ? extends TradeServiceHelper> getTradeServiceHelperMap() throws NotAvailableFromExchangeException{
         throw new NotAvailableFromExchangeException();
     }
 }

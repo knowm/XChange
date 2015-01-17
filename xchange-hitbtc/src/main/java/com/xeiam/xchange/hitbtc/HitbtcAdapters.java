@@ -152,7 +152,7 @@ public class HitbtcAdapters {
     return side.equals("buy") ? OrderType.BID : OrderType.ASK;
   }
 
-  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw, Map<CurrencyPair, MarketMetadata> metadata) {
+  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw, Map<CurrencyPair, TradeServiceHelper> metadata) {
 
     List<UserTrade> trades = new ArrayList<UserTrade>(tradeHistoryRaw.length);
     for (int i = 0; i < tradeHistoryRaw.length; i++) {
@@ -216,16 +216,16 @@ public class HitbtcAdapters {
     return type == OrderType.BID ? "buy" : "sell";
   }
 
-  public static Map<CurrencyPair, MarketMetadata> adaptSymbolsToMetadata(HitbtcSymbols symbols) {
+  public static Map<CurrencyPair, TradeServiceHelper> adaptSymbolsToMetadata(HitbtcSymbols symbols) {
 
-    Map<CurrencyPair, MarketMetadata> result = new HashMap<CurrencyPair, MarketMetadata>();
+    Map<CurrencyPair, TradeServiceHelper> result = new HashMap<CurrencyPair, TradeServiceHelper>();
     for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
       CurrencyPair pair = adaptSymbol(symbol);
 
       BigDecimal lot = symbol.getLot();
-      BaseMarketMetadata meta = new BaseMarketMetadata(lot, symbol.getStep().scale());
+      BaseTradeServiceHelper tradeServiceHelper = new BaseTradeServiceHelper(lot, symbol.getStep().scale());
 
-      result.put(pair, meta);
+      result.put(pair, tradeServiceHelper);
     }
 
     return result;

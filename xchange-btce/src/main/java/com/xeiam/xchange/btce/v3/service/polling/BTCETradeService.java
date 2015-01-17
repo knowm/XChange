@@ -10,7 +10,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEMarketMetadata;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradeServiceHelper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEPairInfo;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
@@ -27,7 +27,7 @@ import com.xeiam.xchange.service.polling.trade.*;
 import com.xeiam.xchange.utils.DateUtils;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import static com.xeiam.xchange.utils.ConfigurationManager.CFG_MGR;
+import static com.xeiam.xchange.utils.TradeServiceHelperConfigurer.CFG;
 
 /**
  * @author Matija Mazi
@@ -190,21 +190,21 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.dto.marketdata.MarketMetadata} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.dto.marketdata.TradeServiceHelper} from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.dto.marketdata.MarketMetadata
+   * @see com.xeiam.xchange.dto.marketdata.TradeServiceHelper
    */
   @Override
-  public Map<CurrencyPair, BTCEMarketMetadata> getMarketMetadata() throws IOException {
+  public Map<CurrencyPair, BTCETradeServiceHelper> getTradeServiceHelperMap() throws IOException {
 
-    Map<CurrencyPair, BTCEMarketMetadata>result = new HashMap<CurrencyPair, BTCEMarketMetadata>();
-    int amountScale = CFG_MGR.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
+    Map<CurrencyPair, BTCETradeServiceHelper>result = new HashMap<CurrencyPair, BTCETradeServiceHelper>();
+    int amountScale = CFG.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
 
     Map<String, BTCEPairInfo> pairInfos = btce.getInfo().getPairs();
     for (Map.Entry<String, BTCEPairInfo> e : pairInfos.entrySet()) {
       CurrencyPair pair = BTCEAdapters.adaptCurrencyPair(e.getKey());
-      BTCEMarketMetadata meta = BTCEAdapters.createMarketMetadata(e.getValue(), amountScale);
+      BTCETradeServiceHelper meta = BTCEAdapters.createMarketMetadata(e.getValue(), amountScale);
 
       result.put(pair, meta);
     }

@@ -1,16 +1,17 @@
 package com.xeiam.xchange.dto.marketdata;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 
-import java.math.BigDecimal;
+public class BaseTradeServiceHelper implements TradeServiceHelper {
 
-public class BaseMarketMetadata implements MarketMetadata {
   private final BigDecimal amountMinimum;
   private final int priceScale;
 
-  public BaseMarketMetadata(BigDecimal amountMinimum, int priceScale) {
+  public BaseTradeServiceHelper(BigDecimal amountMinimum, int priceScale) {
 
     this.amountMinimum = amountMinimum;
     this.priceScale = priceScale;
@@ -18,32 +19,36 @@ public class BaseMarketMetadata implements MarketMetadata {
 
   @Override
   public BigDecimal getAmountMinimum() {
+
     return amountMinimum;
   }
 
   @Override
   public int getPriceScale() {
+
     return priceScale;
   }
 
   @Override
   public BigDecimal getAmountStep() {
+
     return BigDecimal.ONE.movePointLeft(amountMinimum.scale());
   }
 
   @Override
   public BigDecimal getPriceStep() {
+
     return BigDecimal.ONE.movePointLeft(priceScale);
   }
 
   @Override
   public void verifyOrder(LimitOrder order) {
 
-    verifyOrder((Order)order);
+    verifyOrder((Order) order);
 
     BigDecimal price = order.getLimitPrice().stripTrailingZeros();
 
-    if (price.scale() > price.scale()) {
+    if (price.scale() > priceScale) {
       throw new IllegalArgumentException("Unsupported price scale " + price.scale());
     }
   }
@@ -60,16 +65,15 @@ public class BaseMarketMetadata implements MarketMetadata {
 
     if (amount.scale() > amountMinimum.scale()) {
       throw new IllegalArgumentException("Unsupported amount scale " + amount.scale());
-    } else if (amount.compareTo(amountMinimum) < 0) {
+    }
+    else if (amount.compareTo(amountMinimum) < 0) {
       throw new IllegalArgumentException("Order amount less than minimum");
     }
   }
 
   @Override
   public String toString() {
-    return "BaseMarketMetadata{" +
-        "amountMinimum=" + amountMinimum +
-        ", priceScale=" + priceScale +
-        '}';
+
+    return "BaseMarketMetadata{" + "amountMinimum=" + amountMinimum + ", priceScale=" + priceScale + '}';
   }
 }
