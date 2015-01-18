@@ -9,7 +9,7 @@ public class BTCETradeServiceHelper extends BaseTradeServiceHelper {
   final private BigDecimal minPrice;
   final private BigDecimal maxPrice;
 
-  public BTCETradeServiceHelper(BigDecimal amountMinimum, int priceScale, BigDecimal orderFeeFactor, BigDecimal minPrice, BigDecimal maxPrice) {
+  public BTCETradeServiceHelper(BigDecimal amountMinimum, int priceScale, BigDecimal minPrice, BigDecimal maxPrice) {
 
     super(amountMinimum, priceScale);
     assert minPrice != null;

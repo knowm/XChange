@@ -142,7 +142,7 @@ public final class BTCEAdapters {
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
   }
 
-  public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {
+  public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo, BigDecimal tradingFee) {
 
     List<Wallet> wallets = new ArrayList<Wallet>();
     Map<String, BigDecimal> funds = btceAccountInfo.getFunds();
@@ -152,7 +152,7 @@ public final class BTCEAdapters {
 
       wallets.add(new Wallet(currency, funds.get(lcCurrency)));
     }
-    return new AccountInfo(null, wallets);
+    return new AccountInfo(null, tradingFee, wallets);
   }
 
   public static OpenOrders adaptOrders(Map<Long, BTCEOrder> btceOrderMap) {
@@ -215,6 +215,6 @@ public final class BTCEAdapters {
     // convert percent to factor
     BigDecimal orderFeeFactor = pairInfo.getFee().movePointLeft(2);
 
-    return new BTCETradeServiceHelper(minAmount, pairInfo.getDecimals(), orderFeeFactor, pairInfo.getMinPrice(), pairInfo.getMaxPrice());
+    return new BTCETradeServiceHelper(minAmount, pairInfo.getDecimals(), pairInfo.getMinPrice(), pairInfo.getMaxPrice());
   }
 }

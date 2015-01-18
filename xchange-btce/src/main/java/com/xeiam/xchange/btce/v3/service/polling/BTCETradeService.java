@@ -201,7 +201,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     Map<CurrencyPair, BTCETradeServiceHelper>result = new HashMap<CurrencyPair, BTCETradeServiceHelper>();
     int amountScale = CFG.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
 
-    Map<String, BTCEPairInfo> pairInfos = btce.getInfo().getPairs();
+    Map<String, BTCEPairInfo> pairInfos = getExchangeInfo().getPairs();
     for (Map.Entry<String, BTCEPairInfo> e : pairInfos.entrySet()) {
       CurrencyPair pair = BTCEAdapters.adaptCurrencyPair(e.getKey());
       BTCETradeServiceHelper meta = BTCEAdapters.createMarketMetadata(e.getValue(), amountScale);
