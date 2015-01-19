@@ -1,16 +1,19 @@
 package com.xeiam.xchange.hitbtc;
 
+import java.io.IOException;
+import java.util.Map;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeServiceHelper;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcAccountService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcTradeService;
 import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
 
 public class HitbtcExchange extends BaseExchange implements Exchange {
 
@@ -45,6 +48,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
   public void init() throws IOException, ExchangeException {
     super.init();
 
-    ((HitbtcTradeService) pollingTradeService).init();
+    Map<CurrencyPair, HitbtcTradeServiceHelper> map = ((HitbtcTradeService) pollingTradeService).getTradeServiceHelperMap();
+    ((HitbtcAccountService)pollingAccountService).setTradingFeeFromTradeHelpers(map);
   }
 }

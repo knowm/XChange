@@ -182,6 +182,18 @@ public class CurrencyPair {
     this.counterSymbol = counterSymbol;
   }
 
+  /**
+   * Parse currency pair from a string in the same format as returned by toString() method - XXX/YYY
+   */
+  public static CurrencyPair fromString(String currencyPair) {
+    int split = currencyPair.indexOf("/");
+    if (split < 1)
+      throw new IllegalArgumentException("Could not parse currency pair from '" + currencyPair + "'");
+    String base = currencyPair.substring(0, split);
+    String counter = currencyPair.substring(split + 1);
+    return new CurrencyPair(base, counter);
+  }
+
   @Override
   public String toString() {
 
@@ -229,5 +241,4 @@ public class CurrencyPair {
     }
     return true;
   }
-
 }

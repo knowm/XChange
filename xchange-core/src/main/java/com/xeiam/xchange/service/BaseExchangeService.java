@@ -18,6 +18,8 @@ public abstract class BaseExchangeService {
   protected static final String SUF_ORDER_SIZE_MIN_DEFAULT = IN_ORDER_SIZE_MIN + SUF_DEFAULT;
   protected static final String SUF_ORDER_SIZE_SCALE_DEFAULT = ".order.size.scale." + SUF_DEFAULT;
   protected static final String SUF_ORDER_PRICE_SCALE_DEFAULT = ".order.price.scale." + SUF_DEFAULT;
+  protected static final String ORDER_FEE_LISTING = ".order.fee.listing.";
+  protected static final String XCHANGE_ORDER_FEE_LISTING_DEFAULT = "xchange" + ORDER_FEE_LISTING + SUF_DEFAULT;
 
   /**
    * The exchange specification containing session-specific information
