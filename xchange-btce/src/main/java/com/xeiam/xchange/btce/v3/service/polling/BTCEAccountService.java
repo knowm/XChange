@@ -54,7 +54,7 @@ public class BTCEAccountService extends BTCEAccountServiceRaw implements Polling
   public void setTradingFeeFromExchangeInfo(BTCEExchangeInfo info) {
     Map<String, BTCEPairInfo> pairs = info.getPairs();
     Iterator<BTCEPairInfo> iter = pairs.values().iterator();
-    if(iter.hasNext())
-      tradingFee = iter.next().getFee();
+    if (iter.hasNext())
+      tradingFee = iter.next().getFee().movePointLeft(2);
   }
 }
