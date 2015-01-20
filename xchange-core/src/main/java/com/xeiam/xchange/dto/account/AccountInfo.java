@@ -73,7 +73,7 @@ public final class AccountInfo {
   /**
    * Utility method to locate an exchange balance in the given currency
    * 
-   * @param currencyUnit A valid currency unit (e.g. CurrencyUnit.USD or CurrencyUnit.of("BTC"))
+   * @param currency A valid currency unit (e.g. CurrencyUnit.USD or CurrencyUnit.of("BTC"))
    * @return The balance, or zero if not found
    */
   public BigDecimal getBalance(String currency) {
@@ -91,7 +91,7 @@ public final class AccountInfo {
   @Override
   public String toString() {
 
-    return "AccountInfo [username=" + username + ", wallets=" + wallets + "]";
+    return "AccountInfo [username=" + username + ", fee=" + tradingFee + ", wallets=" + wallets + "]";
   }
 
 }

@@ -51,7 +51,7 @@ public final class ANXAdapters {
   public static AccountInfo adaptAccountInfo(ANXAccountInfo anxAccountInfo) {
 
     // Adapt to XChange DTOs
-    AccountInfo accountInfo = new AccountInfo(anxAccountInfo.getLogin(), anxAccountInfo.getTradeFee(), ANXAdapters.adaptWallets(anxAccountInfo.getWallets()));
+    AccountInfo accountInfo = new AccountInfo(anxAccountInfo.getLogin(), percentToFactor(anxAccountInfo.getTradeFee()), ANXAdapters.adaptWallets(anxAccountInfo.getWallets()));
     return accountInfo;
   }
 

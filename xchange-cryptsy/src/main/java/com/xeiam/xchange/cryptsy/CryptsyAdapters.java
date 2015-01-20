@@ -366,8 +366,7 @@ public final class CryptsyAdapters {
 
   public static CurrencyPair adaptCurrencyPair(String cryptsyLabel) {
 
-    String[] marketCurrencies = cryptsyLabel.split("/");
-    return new CurrencyPair(marketCurrencies[0], marketCurrencies[1]);
+    return CurrencyPair.fromString(cryptsyLabel);
   }
 
   /**

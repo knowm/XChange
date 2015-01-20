@@ -15,12 +15,7 @@ import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrade;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
+import com.xeiam.xchange.hitbtc.dto.marketdata.*;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 
@@ -152,7 +147,7 @@ public class HitbtcAdapters {
     return side.equals("buy") ? OrderType.BID : OrderType.ASK;
   }
 
-  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw, Map<CurrencyPair, TradeServiceHelper> metadata) {
+  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw, Map<CurrencyPair, ? extends TradeServiceHelper> metadata) {
 
     List<UserTrade> trades = new ArrayList<UserTrade>(tradeHistoryRaw.length);
     for (int i = 0; i < tradeHistoryRaw.length; i++) {
@@ -171,7 +166,7 @@ public class HitbtcAdapters {
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static AccountInfo adaptAccountInfo(HitbtcBalance[] accountInfoRaw) {
+  public static AccountInfo adaptAccountInfo(HitbtcBalance[] accountInfoRaw, BigDecimal tradingFee) {
 
     List<Wallet> wallets = new ArrayList<Wallet>(accountInfoRaw.length);
 
@@ -182,7 +177,7 @@ public class HitbtcAdapters {
       wallets.add(wallet);
 
     }
-    return new AccountInfo(null, wallets);
+    return new AccountInfo(null, tradingFee, wallets);
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
@@ -216,14 +211,14 @@ public class HitbtcAdapters {
     return type == OrderType.BID ? "buy" : "sell";
   }
 
-  public static Map<CurrencyPair, TradeServiceHelper> adaptSymbolsToMetadata(HitbtcSymbols symbols) {
+  public static Map<CurrencyPair, HitbtcTradeServiceHelper> adaptSymbolsToMetadata(HitbtcSymbols symbols) {
 
-    Map<CurrencyPair, TradeServiceHelper> result = new HashMap<CurrencyPair, TradeServiceHelper>();
+    Map<CurrencyPair, HitbtcTradeServiceHelper> result = new HashMap<CurrencyPair, HitbtcTradeServiceHelper>();
     for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
       CurrencyPair pair = adaptSymbol(symbol);
 
       BigDecimal lot = symbol.getLot();
-      BaseTradeServiceHelper tradeServiceHelper = new BaseTradeServiceHelper(lot, symbol.getStep().scale());
+      HitbtcTradeServiceHelper tradeServiceHelper = new HitbtcTradeServiceHelper(lot, symbol.getStep().scale(), symbol.getTakeLiquidityRate(), symbol.getProvideLiquidityRate());
 
       result.put(pair, tradeServiceHelper);
     }

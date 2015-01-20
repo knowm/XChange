@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderReturn;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOpenOrdersReturn;
@@ -102,4 +103,7 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
     return btceTradeHistory.getReturnValue();
   }
 
+  public BTCEExchangeInfo getExchangeInfo() throws IOException {
+    return btce.getInfo();
+  }
 }

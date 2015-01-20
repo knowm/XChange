@@ -24,7 +24,7 @@ public class HitbtcAccountServiceTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     HitbtcSymbols hitBtcSymbols = mapper.readValue(is, HitbtcSymbols.class);
-    Map<CurrencyPair, TradeServiceHelper> metaMap = HitbtcAdapters.adaptSymbolsToMetadata(hitBtcSymbols);
+    Map<CurrencyPair, ? extends TradeServiceHelper> metaMap = HitbtcAdapters.adaptSymbolsToMetadata(hitBtcSymbols);
 
     TradeServiceHelper eur = metaMap.get(CurrencyPair.BTC_EUR);
 

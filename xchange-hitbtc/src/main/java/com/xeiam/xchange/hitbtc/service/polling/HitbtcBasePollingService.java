@@ -17,10 +17,11 @@ import com.xeiam.xchange.hitbtc.service.HitbtcHmacDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-/**
- * @author kpysniak, piotr.ladyzynski
- */
 public abstract class HitbtcBasePollingService<T extends Hitbtc> extends BaseExchangeService implements BasePollingService {
+
+  protected static final String HITBTC = "hitbtc";
+  protected static final String HITBTC_ORDER_FEE_POLICY_MAKER = HITBTC + ".order.feePolicy.maker";
+  protected static final String HITBTC_ORDER_FEE_LISTING_DEFAULT = HITBTC + ORDER_FEE_LISTING + "default";
 
   protected final SynchronizedValueFactory<Long> valueFactory;
 
