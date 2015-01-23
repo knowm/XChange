@@ -3,44 +3,38 @@ package com.xeiam.xchange.dto.trade;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 
-public class BaseTradeMetaData implements TradeMetaData {
+public class TradeMetaData {
 
   private final BigDecimal amountMinimum;
   private final int priceScale;
 
-  public BaseTradeMetaData(BigDecimal amountMinimum, int priceScale) {
+  public TradeMetaData(BigDecimal amountMinimum, int priceScale) {
 
     this.amountMinimum = amountMinimum;
     this.priceScale = priceScale;
   }
 
-  @Override
   public BigDecimal getAmountMinimum() {
 
     return amountMinimum;
   }
 
-  @Override
   public int getPriceScale() {
 
     return priceScale;
   }
 
-  @Override
   public BigDecimal getAmountStep() {
 
     return BigDecimal.ONE.movePointLeft(amountMinimum.scale());
   }
 
-  @Override
   public BigDecimal getPriceStep() {
 
     return BigDecimal.ONE.movePointLeft(priceScale);
   }
 
-  @Override
   public void verifyOrder(LimitOrder order) {
 
     verifyOrder((Order) order);
@@ -52,7 +46,6 @@ public class BaseTradeMetaData implements TradeMetaData {
     }
   }
 
-  @Override
   public void verifyOrder(MarketOrder order) {
 
     verifyOrder((Order) order);

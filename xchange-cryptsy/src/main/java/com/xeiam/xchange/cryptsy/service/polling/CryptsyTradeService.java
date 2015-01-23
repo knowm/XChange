@@ -17,12 +17,12 @@ import com.xeiam.xchange.cryptsy.dto.trade.CryptsyPlaceOrderReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
@@ -34,9 +34,8 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
-   *          The {@link ExchangeSpecification}
+   *
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public CryptsyTradeService(ExchangeSpecification exchangeSpecification) {
 
@@ -59,9 +58,8 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, ExchangeException {
 
-    CryptsyPlaceOrderReturn result =
-        super.placeCryptsyLimitOrder(CryptsyCurrencyUtils.convertToMarketId(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.ASK ? CryptsyOrderType.Sell : CryptsyOrderType.Buy,
-            limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    CryptsyPlaceOrderReturn result = super.placeCryptsyLimitOrder(CryptsyCurrencyUtils.convertToMarketId(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.ASK ? CryptsyOrderType.Sell
+        : CryptsyOrderType.Buy, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
 
     return Integer.toString(result.getReturnValue());
   }
@@ -74,11 +72,10 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   }
 
   /**
-   * @param arguments Vararg list of optional (nullable) arguments:
-   *          (Long) arguments[0] Number of transactions to return
-   *          (String) arguments[1] TradableIdentifier
-   *          (String) arguments[2] TransactionCurrency
-   *          (Long) arguments[3] Starting ID
+   * @param arguments Vararg list of optional (nullable) arguments: (Long)
+   *          arguments[0] Number of transactions to return (String)
+   *          arguments[1] TradableIdentifier (String) arguments[2]
+   *          TransactionCurrency (Long) arguments[3] Starting ID
    * @return Trades object
    * @throws IOException
    */
@@ -98,9 +95,8 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   }
 
   /**
-   * @param params
-   *          Can optionally implement {@link TradeHistoryParamsTimeSpan}. All other
-   *          TradeHistoryParams types will be ignored.
+   * @param params Can optionally implement {@link TradeHistoryParamsTimeSpan}.
+   *          All other TradeHistoryParams types will be ignored.
    */
 
   @Override
@@ -110,15 +106,15 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
     if (params instanceof TradeHistoryParamsTimeSpan) {
       TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
       tradeHistoryReturnData = super.getCryptsyTradeHistory(timeSpan.getStartTime(), timeSpan.getEndTime());
-    }
-    else {
+    } else {
       tradeHistoryReturnData = super.getCryptsyTradeHistory(null, null);
     }
     return CryptsyAdapters.adaptTradeHistory(tradeHistoryReturnData);
   }
 
   /**
-   * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan}.
+   * Create {@link TradeHistoryParams} that supports
+   * {@link TradeHistoryParamsTimeSpan}.
    */
 
   @Override
@@ -128,12 +124,14 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
+   * from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
    * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
-  @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  @Override
+  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 

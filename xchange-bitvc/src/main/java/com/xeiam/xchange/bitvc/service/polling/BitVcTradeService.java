@@ -16,13 +16,13 @@ import com.xeiam.xchange.bitvc.dto.trade.BitVcCancelOrderResult;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcOrder;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcPlaceOrderResult;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.huobi.service.polling.TradeServiceRaw;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class BitVcTradeService implements PollingTradeService {
@@ -32,7 +32,7 @@ public class BitVcTradeService implements PollingTradeService {
 
   public BitVcTradeService(TradeServiceRaw tradeServiceRaw) {
 
-    this.tradeServiceRaw = tradeServiceRaw; 
+    this.tradeServiceRaw = tradeServiceRaw;
     coinTypes = new HashMap<CurrencyPair, Integer>(2);
     coinTypes.put(CurrencyPair.BTC_CNY, 1);
     coinTypes.put(CurrencyPair.LTC_CNY, 2);
@@ -82,11 +82,9 @@ public class BitVcTradeService implements PollingTradeService {
 
       if (result.getCode() == 0) {
         break;
-      }
-      else if (result.getCode() == 26) { // Order does not exist
+      } else if (result.getCode() == 26) { // Order does not exist
         continue;
-      }
-      else {
+      } else {
         break;
       }
     }
@@ -115,12 +113,14 @@ public class BitVcTradeService implements PollingTradeService {
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
+   * from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
    * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
-  @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  @Override
+  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 

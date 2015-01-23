@@ -1,22 +1,23 @@
 package com.xeiam.xchange.hitbtc.service.polling;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import java.io.InputStream;
 import java.util.Map;
+
+import org.junit.Test;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
-import com.xeiam.xchange.service.polling.trade.TradeMetaData;
-
-import org.junit.Test;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 public class HitbtcAccountServiceTest {
 
-  @Test public void testGetMetadata() throws Exception {
+  @Test
+  public void testGetMetadata() throws Exception {
     // Read in the JSON from the example resources
     InputStream is = getClass().getClassLoader().getResourceAsStream("marketdata/example-symbols-data.json");
 

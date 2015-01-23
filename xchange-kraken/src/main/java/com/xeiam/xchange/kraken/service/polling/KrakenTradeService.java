@@ -15,7 +15,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.trade.BaseTradeMetaData;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -23,7 +23,6 @@ import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamOffset;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
@@ -95,7 +94,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   @Override
   public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    Map<CurrencyPair, BaseTradeMetaData> result = new HashMap<CurrencyPair, BaseTradeMetaData>();
+    Map<CurrencyPair, TradeMetaData> result = new HashMap<CurrencyPair, TradeMetaData>();
 
     Map<String, KrakenAssetPair> assetPairs = getKrakenAssetPairs().getAssetPairMap();
     for (Map.Entry<String, KrakenAssetPair> e : assetPairs.entrySet()) {
@@ -104,7 +103,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
 
       KrakenAssetPair assetPair = e.getValue();
       BigDecimal amountMinimum = CFG.getBigDecimalProperty(KEY_ORDER_SIZE_MIN_DEFAULT).setScale(assetPair.getVolumeLotScale(), BigDecimal.ROUND_UNNECESSARY);
-      BaseTradeMetaData baseTradeMetaData = new BaseTradeMetaData(amountMinimum, assetPair.getPairScale());
+      TradeMetaData baseTradeMetaData = new TradeMetaData(amountMinimum, assetPair.getPairScale());
 
       result.put(pair, baseTradeMetaData);
     }

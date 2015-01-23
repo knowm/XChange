@@ -17,12 +17,12 @@ import com.xeiam.xchange.bitstamp.dto.BitstampException;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
@@ -34,7 +34,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BitstampTradeService(ExchangeSpecification exchangeSpecification) {
@@ -69,8 +69,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
     BitstampOrder bitstampOrder;
     if (limitOrder.getType() == BID) {
       bitstampOrder = buyBitStampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-    }
-    else {
+    } else {
       bitstampOrder = sellBitstampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
     }
     if (bitstampOrder.getErrorMessage() != null) {
@@ -94,8 +93,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
       Object arg0 = args[0];
       if (!(arg0 instanceof Number)) {
         throw new ExchangeException("Argument must be a Number!");
-      }
-      else {
+      } else {
         numberOfTransactions = ((Number) args[0]).longValue();
       }
     }
@@ -104,13 +102,12 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   }
 
   /**
-   * Required parameter types:
-   * {@link TradeHistoryParamPaging#getPageLength()}
+   * Required parameter types: {@link TradeHistoryParamPaging#getPageLength()}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(Long.valueOf(((TradeHistoryParamPaging)params).getPageLength())));
+    return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(Long.valueOf(((TradeHistoryParamPaging) params).getPageLength())));
   }
 
   @Override
@@ -120,12 +117,14 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
+   * from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
    * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
-  @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  @Override
+  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 

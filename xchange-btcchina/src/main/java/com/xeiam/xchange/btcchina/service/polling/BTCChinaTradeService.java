@@ -7,24 +7,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.polling.trade.*;
-import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsIdSpan;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
-import com.xeiam.xchange.utils.DateUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.BTCChinaExchangeException;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
@@ -33,11 +24,20 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaBooleanResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsIdSpan;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Implementation of the trade service for BTCChina.
@@ -87,8 +87,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
     if (marketOrder.getType() == OrderType.BID) {
       response = buy(null, amount, market);
-    }
-    else {
+    } else {
       response = sell(null, amount, market);
     }
 
@@ -105,8 +104,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
     if (limitOrder.getType() == OrderType.BID) {
       response = buy(price, amount, market);
-    }
-    else {
+    } else {
       response = sell(price, amount, market);
     }
 
@@ -125,8 +123,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
       if (e.getErrorCode() == -32026) {
         // Order already completed
         ret = false;
-      }
-      else {
+      } else {
         throw e;
       }
     }
@@ -139,10 +136,14 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
    *
    * @param args 2 optional arguments:
    *          <ol>
-   *          <li>limit: limit the number of transactions, default value is 10 if null.</li>
-   *          <li>offset: start index used for pagination, default value is 0 if null.</li>
-   *          <li>since: to fetch the transactions from this point, which can either be an order id or a unix timestamp, default value is 0.</li>
-   *          <li>sincetype: specify the type of 'since' parameter, can either be 'id' or 'time'. default value is 'time'.</li>
+   *          <li>limit: limit the number of transactions, default value is 10
+   *          if null.</li>
+   *          <li>offset: start index used for pagination, default value is 0 if
+   *          null.</li>
+   *          <li>since: to fetch the transactions from this point, which can
+   *          either be an order id or a unix timestamp, default value is 0.</li>
+   *          <li>sincetype: specify the type of 'since' parameter, can either
+   *          be 'id' or 'time'. default value is 'time'.</li>
    *          </ol>
    */
   @Override
@@ -165,17 +166,18 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   }
 
   /**
-   * Supported parameters:
-   * {@link TradeHistoryParamPaging}
+   * Supported parameters: {@link TradeHistoryParamPaging}
    * {@link TradeHistoryParamsTimeSpan#getStartTime()}
-   * {@link TradeHistoryParamsIdSpan#getStartId()} used only if startTime is not set
+   * {@link TradeHistoryParamsIdSpan#getStartId()} used only if startTime is not
+   * set
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
 
     String type = BTCChinaTransactionsRequest.TYPE_ALL;
-    if (params instanceof BTCChinaTradeHistoryParams)
+    if (params instanceof BTCChinaTradeHistoryParams) {
       type = ((BTCChinaTradeHistoryParams) params).type;
+    }
 
     Integer limit = null;
     Integer offset = null;
@@ -214,12 +216,14 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
+   * from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
    * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
-  @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  @Override
+  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 
@@ -232,14 +236,15 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     public BTCChinaTradeHistoryParams() {
     }
 
-    public BTCChinaTradeHistoryParams(Integer pageLength, Integer pageNumber, String type, Date startTime, Integer startId ) {
+    public BTCChinaTradeHistoryParams(Integer pageLength, Integer pageNumber, String type, Date startTime, Integer startId) {
 
       super(pageLength, pageNumber);
       this.type = type;
       this.startTime = startTime;
 
-      if (startId != null)
+      if (startId != null) {
         setStartId(startId.toString());
+      }
     }
 
     @Override

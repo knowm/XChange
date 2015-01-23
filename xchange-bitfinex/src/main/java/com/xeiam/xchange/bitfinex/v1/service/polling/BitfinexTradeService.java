@@ -14,12 +14,12 @@ import com.xeiam.xchange.bitfinex.v1.BitfinexOrderType;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
@@ -43,8 +43,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
 
     if (activeOrders.length <= 0) {
       return noOpenOrders;
-    }
-    else {
+    } else {
       return BitfinexAdapters.adaptOrders(activeOrders);
     }
   }
@@ -82,8 +81,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
       if (arguments[0] instanceof CurrencyPair) {
         final CurrencyPair pair = (CurrencyPair) arguments[0];
         symbol = pair.baseSymbol + pair.counterSymbol;
-      }
-      else {
+      } else {
         symbol = (String) arguments[0];
       }
     }
@@ -100,9 +98,11 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   }
 
   /**
-   * @param params
-   *          Implementation of {@link TradeHistoryParamCurrencyPair} is mandatory. Can optionally implement {@link TradeHistoryParamPaging} and {@link TradeHistoryParamsTimeSpan#getStartTime()}. All
-   *          other TradeHistoryParams types will be ignored.
+   * @param params Implementation of {@link TradeHistoryParamCurrencyPair} is
+   *          mandatory. Can optionally implement
+   *          {@link TradeHistoryParamPaging} and
+   *          {@link TradeHistoryParamsTimeSpan#getStartTime()}. All other
+   *          TradeHistoryParams types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
@@ -110,8 +110,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     final String symbol;
     if (params instanceof TradeHistoryParamCurrencyPair && ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
       symbol = BitfinexAdapters.adaptCurrencyPair(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
-    }
-    else {
+    } else {
       // Exchange will return the errors below if CurrencyPair is not provided.
       // field not on request: "Key symbol was not present."
       // field supplied but blank: "Key symbol may not be the empty string"
@@ -122,8 +121,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     if (params instanceof TradeHistoryParamsTimeSpan) {
       Date startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
       timestamp = DateUtils.toUnixTime(startTime);
-    }
-    else {
+    } else {
       timestamp = 0;
     }
 
@@ -133,8 +131,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
       Integer pageLength = pagingParams.getPageLength();
       Integer pageNum = pagingParams.getPageNumber();
       limit = (pageLength != null && pageNum != null) ? pageLength * (pageNum + 1) : 50;
-    }
-    else {
+    } else {
       limit = 50;
     }
 
@@ -149,12 +146,14 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
+   * from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
    * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
-  @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  @Override
+  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 

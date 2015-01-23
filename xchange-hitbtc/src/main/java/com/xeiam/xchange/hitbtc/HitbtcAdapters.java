@@ -1,24 +1,37 @@
 package com.xeiam.xchange.hitbtc;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.marketdata.*;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
-import com.xeiam.xchange.hitbtc.dto.marketdata.*;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrade;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeMetaData;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
-import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 
 public class HitbtcAdapters {
 
@@ -117,8 +130,9 @@ public class HitbtcAdapters {
       BigDecimal amount = hitbtcTrade.getAmount();
       String tid = hitbtcTrade.getTid();
       long longTradeId = tid == null ? 0 : Long.parseLong(tid);
-      if (longTradeId > lastTradeId)
+      if (longTradeId > lastTradeId) {
         lastTradeId = longTradeId;
+      }
       Trade trade = new Trade(null, amount, currencyPair, price, timestamp, tid);
       trades.add(trade);
     }
@@ -159,7 +173,7 @@ public class HitbtcAdapters {
 
       BigDecimal lotMultiplier = metadata.get(pair).getAmountMinimum();
       UserTrade trade = new UserTrade(type, t.getExecQuantity().multiply(lotMultiplier), pair, t.getExecPrice(), new Date(t.getTimestamp()), t.getClientOrderId(),
-              Long.toString(t.getOriginalOrderId()), t.getFee(), pair.counterSymbol);
+          Long.toString(t.getOriginalOrderId()), t.getFee(), pair.counterSymbol);
 
       trades.add(trade);
     }
@@ -188,11 +202,12 @@ public class HitbtcAdapters {
 
   public static String createOrderId(Order order, long nonce) {
 
-    if (order.getId() == null || "".equals(order.getId()))
+    if (order.getId() == null || "".equals(order.getId())) {
       // encoding side in client order id
       return order.getType().name().substring(0, 1) + DELIM + adaptCurrencyPair(order.getCurrencyPair()) + DELIM + nonce;
-    else
+    } else {
       return order.getId();
+    }
   }
 
   public static OrderType readOrderType(String orderId) {

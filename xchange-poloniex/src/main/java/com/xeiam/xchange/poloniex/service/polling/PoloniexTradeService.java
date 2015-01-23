@@ -18,6 +18,7 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -28,7 +29,6 @@ import com.xeiam.xchange.poloniex.PoloniexUtils;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsAll;
@@ -60,8 +60,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
 
     if (limitOrder.getType() == OrderType.BID) {
       return buy(limitOrder).getOrderNumber().toString();
-    }
-    else {
+    } else {
       return sell(limitOrder).getOrderNumber().toString();
     }
   }
@@ -99,8 +98,10 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   }
 
   /**
-   * @param params
-   *          Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
+   * @param params Can optionally implement
+   *          {@link TradeHistoryParamCurrencyPair} and
+   *          {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams
+   *          types will be ignored.
    */
 
   @Override
@@ -131,8 +132,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
           trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
         }
       }
-    }
-    else {
+    } else {
       PoloniexUserTrade[] poloniexUserTrades = returnTradeHistory(currencyPair, startTime, endTime);
       for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
         trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
@@ -143,7 +143,9 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   }
 
   /**
-   * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan} and {@link TradeHistoryParamCurrencyPair}.
+   * Create {@link TradeHistoryParams} that supports
+   * {@link TradeHistoryParamsTimeSpan} and
+   * {@link TradeHistoryParamCurrencyPair}.
    */
 
   @Override
@@ -153,12 +155,14 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
+   * from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
    * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
-  @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  @Override
+  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 

@@ -3,9 +3,9 @@ package com.xeiam.xchange.anx.v2.dto.marketdata;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.trade.BaseTradeMetaData;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 
-public class ANXTradeMetaData extends BaseTradeMetaData {
+public class ANXTradeMetaData extends TradeMetaData {
 
   private final BigDecimal amountMaximum;
 

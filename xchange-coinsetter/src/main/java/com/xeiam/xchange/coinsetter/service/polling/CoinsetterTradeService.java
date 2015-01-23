@@ -2,7 +2,11 @@ package com.xeiam.xchange.coinsetter.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -16,12 +20,12 @@ import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 /**
@@ -29,9 +33,7 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
  */
 public class CoinsetterTradeService extends CoinsetterBasePollingService implements PollingTradeService {
 
-
-
-    private final CoinsetterOrderServiceRaw orderServiceRaw;
+  private final CoinsetterOrderServiceRaw orderServiceRaw;
 
   /**
    * @param exchangeSpecification
@@ -54,15 +56,17 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
   }
 
   /**
-  * Method returns CoinsetterOrder type giving full order execution state details. Method getOpenOrders() do not provide information of
-  * filledQuantity, average execution price etc.
-  * @return
-  * @throws IOException
-  */
-  public List<CoinsetterOrder> getCoinsetterOpenOrders () throws IOException {
-      CoinsetterClientSession session = getSession();
-      CoinsetterOrderList orderList = orderServiceRaw.list(session.getUuid(), getAccountUuid(), "OPEN");
-      return new ArrayList<CoinsetterOrder>(Arrays.asList(orderList.getOrderList()));
+   * Method returns CoinsetterOrder type giving full order execution state
+   * details. Method getOpenOrders() do not provide information of
+   * filledQuantity, average execution price etc.
+   * 
+   * @return
+   * @throws IOException
+   */
+  public List<CoinsetterOrder> getCoinsetterOpenOrders() throws IOException {
+    CoinsetterClientSession session = getSession();
+    CoinsetterOrderList orderList = orderServiceRaw.list(session.getUuid(), getAccountUuid(), "OPEN");
+    return new ArrayList<CoinsetterOrder>(Arrays.asList(orderList.getOrderList()));
   }
 
   /**
@@ -86,9 +90,8 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
   private String add(CurrencyPair currencyPair, OrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException {
 
     CoinsetterClientSession session = getSession();
-    CoinsetterOrderRequest request =
-        new CoinsetterOrderRequest(session.getCustomerUuid(), getAccountUuid(), CoinsetterAdapters.adaptSymbol(currencyPair), CoinsetterAdapters.adaptSide(orderType), price == null ? "MARKET"
-            : "LIMIT", quantity, 2, price);
+    CoinsetterOrderRequest request = new CoinsetterOrderRequest(session.getCustomerUuid(), getAccountUuid(), CoinsetterAdapters.adaptSymbol(currencyPair), CoinsetterAdapters.adaptSide(orderType),
+        price == null ? "MARKET" : "LIMIT", quantity, 2, price);
     return orderServiceRaw.add(getSession().getUuid(), request).getUuid().toString();
   }
 
@@ -124,12 +127,14 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
+   * from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
    * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
-  @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  @Override
+  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 

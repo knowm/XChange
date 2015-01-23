@@ -11,25 +11,25 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.cexio.CexIOAdapters;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 /**
- * Author: brox
- * Since: 2/6/14
+ * Author: brox Since: 2/6/14
  */
 
 public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTradeService {
 
   /**
    * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   *
+   * @param exchangeSpecification The
+   *          {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public CexIOTradeService(ExchangeSpecification exchangeSpecification) {
 
@@ -83,12 +83,14 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
+   * from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
    * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
-  @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  @Override
+  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 

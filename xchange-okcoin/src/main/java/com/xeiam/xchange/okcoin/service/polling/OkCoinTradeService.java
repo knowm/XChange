@@ -15,6 +15,7 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -24,19 +25,17 @@ import com.xeiam.xchange.okcoin.OkCoinUtils;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class OkCoinTradeService extends OkCoinTradeServiceRaw implements PollingTradeService {
-  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
-  
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
+
   private final Logger log = LoggerFactory.getLogger(OkCoinTradeService.class);
   private final List<CurrencyPair> exchangeSymbols = (List<CurrencyPair>) getExchangeSymbols();
 
-  
   public OkCoinTradeService(ExchangeSpecification exchangeSpecification) {
     super(exchangeSpecification);
 
@@ -51,12 +50,12 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
       CurrencyPair symbol = exchangeSymbols.get(i);
       log.debug("Getting order: {}", symbol);
       OkCoinOrderResult orderResult = getOrder(-1, OkCoinAdapters.adaptSymbol(symbol));
-      if(orderResult.getOrders().length > 0) {
+      if (orderResult.getOrders().length > 0) {
         orderResults.add(orderResult);
       }
     }
-    
-    if(orderResults.size() <= 0) {
+
+    if (orderResults.size() <= 0) {
       return noOpenOrders;
     }
 
@@ -74,8 +73,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
       marketOrderType = "buy_market";
       rate = marketOrder.getTradableAmount().toPlainString();
       amount = "1";
-    }
-    else {
+    } else {
       marketOrderType = "sell_market";
       rate = "1";
       amount = marketOrder.getTradableAmount().toPlainString();
@@ -88,9 +86,8 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    long orderId =
-        trade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "buy" : "sell", limitOrder.getLimitPrice().toPlainString(),
-            limitOrder.getTradableAmount().toPlainString()).getOrderId();
+    long orderId = trade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "buy" : "sell", limitOrder.getLimitPrice().toPlainString(),
+        limitOrder.getTradableAmount().toPlainString()).getOrderId();
     return String.valueOf(orderId);
   }
 
@@ -109,7 +106,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
           ret = true;
         }
         break;
-      } catch (ExchangeException e) { 
+      } catch (ExchangeException e) {
         if (e.getMessage().equals(OkCoinUtils.getErrorMessage(1009))) {
           // order not found.
           continue;
@@ -130,11 +127,9 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   }
 
   /**
-   * Required parameters
-   * {@link TradeHistoryParamPaging}
+   * Required parameters {@link TradeHistoryParamPaging}
    *
-   * Supported parameters
-   * {@link TradeHistoryParamCurrencyPair}
+   * Supported parameters {@link TradeHistoryParamCurrencyPair}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
@@ -147,8 +142,9 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
     ++pageNumber;
 
     CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-    if (pair == null)
+    if (pair == null) {
       pair = useIntl ? CurrencyPair.BTC_USD : CurrencyPair.BTC_CNY;
+    }
 
     OkCoinOrderResult orderHistory = getOrderHistory(OkCoinAdapters.adaptSymbol(pair), "1", toString(pageNumber), toString(pageLength));
     return OkCoinAdapters.adaptTrades(orderHistory);
@@ -166,12 +162,14 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
+   * from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
    * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
-  @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  @Override
+  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 

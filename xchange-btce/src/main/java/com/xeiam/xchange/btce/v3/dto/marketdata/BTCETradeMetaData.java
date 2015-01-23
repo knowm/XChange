@@ -2,10 +2,10 @@ package com.xeiam.xchange.btce.v3.dto.marketdata;
 
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.dto.trade.BaseTradeMetaData;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
-public class BTCETradeMetaData extends BaseTradeMetaData {
+public class BTCETradeMetaData extends TradeMetaData {
 
   final private BigDecimal minPrice;
   final private BigDecimal maxPrice;
