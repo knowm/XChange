@@ -19,7 +19,7 @@ public class KrakenMetadataDemo {
   }
 
   private static void metadata(Exchange krakenExchange) throws IOException {
-    Map<CurrencyPair, ? extends TradeMetaData> mm = krakenExchange.getPollingTradeService().getTradeServiceHelperMap();
+    Map<CurrencyPair, ? extends TradeMetaData> mm = krakenExchange.getPollingTradeService().getTradeMetaDataMap();
     System.out.println(mm);
   }
 

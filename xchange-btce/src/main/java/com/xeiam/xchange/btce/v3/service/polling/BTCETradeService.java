@@ -201,7 +201,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
    * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
   @Override
-  public Map<CurrencyPair, BTCETradeMetaData> getTradeServiceHelperMap() throws IOException {
+  public Map<CurrencyPair, BTCETradeMetaData> getTradeMetaDataMap() throws IOException {
 
     Map<CurrencyPair, BTCETradeMetaData>result = new HashMap<CurrencyPair, BTCETradeMetaData>();
     int amountScale = CFG.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);

@@ -131,6 +131,6 @@ public interface PollingTradeService extends BasePollingService {
    * @return Map of currency pairs to their corresponding TradeMetaData.
    * @see TradeMetaData
    */
-  Map<CurrencyPair, ? extends TradeMetaData> getTradeServiceHelperMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
 }

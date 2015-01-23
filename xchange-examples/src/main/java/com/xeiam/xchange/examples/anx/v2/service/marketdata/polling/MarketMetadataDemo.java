@@ -19,7 +19,7 @@ public class MarketMetadataDemo {
   }
 
   private static void metadata(Exchange exchange) throws IOException {
-    Map<CurrencyPair, ? extends TradeMetaData> mm = exchange.getPollingTradeService().getTradeServiceHelperMap();
+    Map<CurrencyPair, ? extends TradeMetaData> mm = exchange.getPollingTradeService().getTradeMetaDataMap();
     System.out.println(mm);
   }
 

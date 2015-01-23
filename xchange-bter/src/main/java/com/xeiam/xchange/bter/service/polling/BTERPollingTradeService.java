@@ -119,7 +119,7 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
     return new DefaultTradeHistoryParamCurrencyPair();
   }
 
-  @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeServiceHelperMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 }

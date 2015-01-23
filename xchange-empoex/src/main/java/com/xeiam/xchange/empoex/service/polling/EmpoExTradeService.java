@@ -78,7 +78,7 @@ public class EmpoExTradeService extends EmpoExTradeServiceRaw implements Polling
    * @return Map of currency pairs to their corresponding TradeMetaData.
    */
   @Override
-  public Map<CurrencyPair, ? extends TradeMetaData> getTradeServiceHelperMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 }

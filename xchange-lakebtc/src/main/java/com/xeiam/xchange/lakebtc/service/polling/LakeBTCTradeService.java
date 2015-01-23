@@ -74,7 +74,7 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Polli
         return new DefaultTradeHistoryParamsTimeSpan();
     }
 
-    @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeServiceHelperMap() throws NotAvailableFromExchangeException{
+    @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws NotAvailableFromExchangeException{
         throw new NotAvailableFromExchangeException();
     }
 }

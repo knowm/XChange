@@ -93,7 +93,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
    * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
   @Override
-  public Map<CurrencyPair, ? extends TradeMetaData> getTradeServiceHelperMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     Map<CurrencyPair, BaseTradeMetaData> result = new HashMap<CurrencyPair, BaseTradeMetaData>();
 

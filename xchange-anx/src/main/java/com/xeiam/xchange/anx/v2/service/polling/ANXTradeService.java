@@ -143,7 +143,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
    * @return Map of currency pairs to their corresponding metadata.
    * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
-  @Override public Map<CurrencyPair, ANXTradeMetaData> getTradeServiceHelperMap() throws IOException {
+  @Override public Map<CurrencyPair, ANXTradeMetaData> getTradeMetaDataMap() throws IOException {
     Map<CurrencyPair, ANXTradeMetaData> meta = new HashMap<CurrencyPair, ANXTradeMetaData>();
     int amountScale = CFG.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
     int priceScale = CFG.getIntProperty(KEY_ORDER_PRICE_SCALE_DEFAULT);

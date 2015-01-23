@@ -48,7 +48,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
   public void init() throws IOException, ExchangeException {
     super.init();
 
-    Map<CurrencyPair, HitbtcTradeMetaData> map = ((HitbtcTradeService) pollingTradeService).getTradeServiceHelperMap();
+    Map<CurrencyPair, HitbtcTradeMetaData> map = ((HitbtcTradeService) pollingTradeService).getTradeMetaDataMap();
     ((HitbtcAccountService)pollingAccountService).setTradingFeeFromTradeHelpers(map);
   }
 }
