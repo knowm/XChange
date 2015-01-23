@@ -1,10 +1,7 @@
 package com.xeiam.xchange;
 
-public class FrequencyLimitExceededException extends IllegalStateException {
+public class FrequencyLimitExceededException extends ExchangeException {
   private static final long serialVersionUID = 2058332277163798808L;
-
-  public FrequencyLimitExceededException() {
-  }
 
   public FrequencyLimitExceededException(String s) {
     super(s);
@@ -14,7 +11,4 @@ public class FrequencyLimitExceededException extends IllegalStateException {
     super(message, cause);
   }
 
-  public FrequencyLimitExceededException(Throwable cause) {
-    super(cause);
-  }
 }

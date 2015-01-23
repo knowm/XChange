@@ -185,7 +185,7 @@ public class ANXBasePollingService extends BaseExchangeService implements BasePo
 
   protected RuntimeException handleError(ANXException exception) {
     if ("Insufficient Funds".equals(exception.getError()))
-      return new FundsExceededException();
+      return new FundsExceededException(exception.getError());
     else
       return new ExchangeException(exception.getError(), exception);
   }

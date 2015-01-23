@@ -1,10 +1,7 @@
 package com.xeiam.xchange;
 
-public class NonceException extends IllegalArgumentException {
+public class NonceException extends ExchangeException {
   private static final long serialVersionUID = 565212065616860570L;
-
-  public NonceException() {
-  }
 
   public NonceException(String s) {
     super(s);
@@ -14,7 +11,4 @@ public class NonceException extends IllegalArgumentException {
     super(message, cause);
   }
 
-  public NonceException(Throwable cause) {
-    super(cause);
-  }
 }
