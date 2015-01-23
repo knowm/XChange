@@ -1,4 +1,4 @@
-package com.xeiam.xchange.service.polling;
+package com.xeiam.xchange.service.polling.trade;
 
 import java.io.IOException;
 import java.util.Map;
@@ -7,12 +7,12 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.TradeServiceHelper;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.BasePollingService;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 /**
  * <p>
@@ -98,8 +98,8 @@ public interface PollingTradeService extends BasePollingService {
    * which parameters are required or supported using instanceof operator. See subinterfaces of {@link TradeHistoryParams}. Note that whether an interface is required or supported will vary from
    * exchange to exchange and it's described only through the javadoc.
    * <p/>
-   * There is also implementation of all the common interfaces, {@link com.xeiam.xchange.service.polling.trade.TradeHistoryParamsAll}, that, with all properties set non-null, should work with any
-   * exchange.
+   * There is also implementation of all the common interfaces, {@link com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsAll}, that, with all properties set non-null, should work with
+   * any exchange.
    * <p/>
    * Some exchanges allow extra parameters, not covered by any common interface. To access them, you will have to use the object returned by {@link #createTradeHistoryParams()} and cast it to the
    * exchange-specific type.
@@ -114,7 +114,7 @@ public interface PollingTradeService extends BasePollingService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    * @see #getTradeHistory(Object...)
    * @see #createTradeHistoryParams()
-   * @see com.xeiam.xchange.service.polling.trade.TradeHistoryParamsAll
+   * @see com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsAll
    */
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
@@ -126,11 +126,11 @@ public interface PollingTradeService extends BasePollingService {
   public TradeHistoryParams createTradeHistoryParams();
 
   /**
-   * Fetch the {@link TradeServiceHelper} for each CuurencyPair from the exchange.
+   * Fetch the {@link TradeMetaData} for each CurrencyPair from the exchange.
    *
-   * @return Map of currency pairs to their corresponding TradeServiceHelper.
-   * @see TradeServiceHelper
+   * @return Map of currency pairs to their corresponding TradeMetaData.
+   * @see TradeMetaData
    */
-  Map<CurrencyPair, ? extends TradeServiceHelper> getTradeServiceHelperMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  Map<CurrencyPair, ? extends TradeMetaData> getTradeServiceHelperMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
 }

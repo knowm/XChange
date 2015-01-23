@@ -10,7 +10,7 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.examples.kraken.KrakenExampleUtils;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrderResponse;
 import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 public class KrakenMarketOrderDemo {
 

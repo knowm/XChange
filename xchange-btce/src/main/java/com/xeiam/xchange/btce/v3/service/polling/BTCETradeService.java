@@ -10,7 +10,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradeServiceHelper;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradeMetaData;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEPairInfo;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
@@ -22,11 +22,16 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.service.polling.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.*;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsIdSpan;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.utils.DateUtils;
-import si.mazi.rescu.SynchronizedValueFactory;
 
+import si.mazi.rescu.SynchronizedValueFactory;
 import static com.xeiam.xchange.utils.TradeServiceHelperConfigurer.CFG;
 
 /**
@@ -184,27 +189,27 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   }
 
   @Override
-  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new BTCETradeHistoryParams();
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.dto.marketdata.TradeServiceHelper} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.dto.marketdata.TradeServiceHelper
+   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
   @Override
-  public Map<CurrencyPair, BTCETradeServiceHelper> getTradeServiceHelperMap() throws IOException {
+  public Map<CurrencyPair, BTCETradeMetaData> getTradeServiceHelperMap() throws IOException {
 
-    Map<CurrencyPair, BTCETradeServiceHelper>result = new HashMap<CurrencyPair, BTCETradeServiceHelper>();
+    Map<CurrencyPair, BTCETradeMetaData>result = new HashMap<CurrencyPair, BTCETradeMetaData>();
     int amountScale = CFG.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
 
     Map<String, BTCEPairInfo> pairInfos = getExchangeInfo().getPairs();
     for (Map.Entry<String, BTCEPairInfo> e : pairInfos.entrySet()) {
       CurrencyPair pair = BTCEAdapters.adaptCurrencyPair(e.getKey());
-      BTCETradeServiceHelper meta = BTCEAdapters.createMarketMetadata(e.getValue(), amountScale);
+      BTCETradeMetaData meta = BTCEAdapters.createMarketMetadata(e.getValue(), amountScale);
 
       result.put(pair, meta);
     }

@@ -9,7 +9,7 @@ import com.xeiam.xchange.coinsetter.CoinsetterAdapters;
 import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccount;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * Account service.

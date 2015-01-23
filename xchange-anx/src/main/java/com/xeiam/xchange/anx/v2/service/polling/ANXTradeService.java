@@ -5,9 +5,10 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradeServiceHelper;
+import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradeMetaData;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.DateUtils;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -20,10 +21,10 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpan;
-import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.utils.Assert;
 
 import static com.xeiam.xchange.utils.TradeServiceHelperConfigurer.CFG;
@@ -137,13 +138,13 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.dto.marketdata.TradeServiceHelper} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.dto.marketdata.TradeServiceHelper
+   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
-  @Override public Map<CurrencyPair, ANXTradeServiceHelper> getTradeServiceHelperMap() throws IOException {
-    Map<CurrencyPair, ANXTradeServiceHelper> meta = new HashMap<CurrencyPair, ANXTradeServiceHelper>();
+  @Override public Map<CurrencyPair, ANXTradeMetaData> getTradeServiceHelperMap() throws IOException {
+    Map<CurrencyPair, ANXTradeMetaData> meta = new HashMap<CurrencyPair, ANXTradeMetaData>();
     int amountScale = CFG.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
     int priceScale = CFG.getIntProperty(KEY_ORDER_PRICE_SCALE_DEFAULT);
     BigDecimal defAmountMin = CFG.getBigDecimalProperty(KEY_ORDER_SIZE_MIN_DEFAULT).setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
@@ -162,7 +163,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
       else
         amountMaximum = amountMaximum.setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
 
-      meta.put(pair, new ANXTradeServiceHelper(amountMinimum, amountMaximum, priceScale));
+      meta.put(pair, new ANXTradeMetaData(amountMinimum, amountMaximum, priceScale));
     }
     return meta;
   }

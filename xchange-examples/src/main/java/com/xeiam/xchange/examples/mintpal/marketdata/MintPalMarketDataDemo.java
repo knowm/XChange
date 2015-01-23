@@ -14,7 +14,7 @@ import com.xeiam.xchange.mintpal.dto.marketdata.MintPalPublicOrders;
 import com.xeiam.xchange.mintpal.dto.marketdata.MintPalPublicTrade;
 import com.xeiam.xchange.mintpal.dto.marketdata.MintPalTicker;
 import com.xeiam.xchange.mintpal.service.polling.MintPalMarketDataServiceRaw;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * @author jamespedwards42

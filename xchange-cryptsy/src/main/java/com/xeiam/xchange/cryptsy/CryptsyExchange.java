@@ -7,7 +7,7 @@ import com.xeiam.xchange.cryptsy.service.polling.CryptsyAccountService;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyMarketDataService;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyPublicMarketDataService;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyTradeService;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * @author ObsessiveOrange

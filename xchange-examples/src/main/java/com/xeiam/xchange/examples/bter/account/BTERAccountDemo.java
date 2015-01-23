@@ -7,7 +7,7 @@ import com.xeiam.xchange.bter.dto.account.BTERFunds;
 import com.xeiam.xchange.bter.service.polling.BTERPollingAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bter.BTERDemoUtils;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class BTERAccountDemo {
 

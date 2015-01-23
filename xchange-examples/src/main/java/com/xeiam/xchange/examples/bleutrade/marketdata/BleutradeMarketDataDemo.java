@@ -6,7 +6,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bleutrade.service.polling.BleutradeMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.examples.bleutrade.BleutradeDemoUtils;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class BleutradeMarketDataDemo {
 

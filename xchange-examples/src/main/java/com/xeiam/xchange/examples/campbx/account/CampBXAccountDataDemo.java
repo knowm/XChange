@@ -8,7 +8,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.campbx.CampBXExchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * Demonstrate requesting Market Data from CampBX

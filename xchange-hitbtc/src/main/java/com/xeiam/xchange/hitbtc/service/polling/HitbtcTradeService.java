@@ -4,8 +4,13 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeServiceHelper;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeMetaData;
 import com.xeiam.xchange.service.polling.trade.*;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -21,7 +26,6 @@ import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
-import com.xeiam.xchange.service.polling.PollingTradeService;
 
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements PollingTradeService {
 
@@ -108,13 +112,13 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.dto.marketdata.TradeServiceHelper} from the exchange.
+   * Fetch the {@link com.com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.dto.marketdata.TradeServiceHelper
+   * @see com.com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
   @Override
-  public Map<CurrencyPair, HitbtcTradeServiceHelper> getTradeServiceHelperMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Map<CurrencyPair, HitbtcTradeMetaData> getTradeServiceHelperMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     metadata = HitbtcAdapters.adaptSymbolsToMetadata(hitbtc.getSymbols());
     return metadata;
   }

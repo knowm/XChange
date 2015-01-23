@@ -10,7 +10,7 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.poloniex.PoloniexExchange;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexMarketDataServiceRaw;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.utils.CertHelper;
 
 /**

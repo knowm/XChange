@@ -8,7 +8,7 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.hitbtc.HitbtcExampleUtils;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcAccountServiceRaw;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class HitbtcAccountDemo {
 

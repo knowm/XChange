@@ -18,6 +18,7 @@ import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.dto.marketdata.*;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
+import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 
 public class HitbtcAdapters {
 
@@ -147,7 +148,7 @@ public class HitbtcAdapters {
     return side.equals("buy") ? OrderType.BID : OrderType.ASK;
   }
 
-  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw, Map<CurrencyPair, ? extends TradeServiceHelper> metadata) {
+  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw, Map<CurrencyPair, ? extends TradeMetaData> metadata) {
 
     List<UserTrade> trades = new ArrayList<UserTrade>(tradeHistoryRaw.length);
     for (int i = 0; i < tradeHistoryRaw.length; i++) {
@@ -211,14 +212,14 @@ public class HitbtcAdapters {
     return type == OrderType.BID ? "buy" : "sell";
   }
 
-  public static Map<CurrencyPair, HitbtcTradeServiceHelper> adaptSymbolsToMetadata(HitbtcSymbols symbols) {
+  public static Map<CurrencyPair, HitbtcTradeMetaData> adaptSymbolsToMetadata(HitbtcSymbols symbols) {
 
-    Map<CurrencyPair, HitbtcTradeServiceHelper> result = new HashMap<CurrencyPair, HitbtcTradeServiceHelper>();
+    Map<CurrencyPair, HitbtcTradeMetaData> result = new HashMap<CurrencyPair, HitbtcTradeMetaData>();
     for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
       CurrencyPair pair = adaptSymbol(symbol);
 
       BigDecimal lot = symbol.getLot();
-      HitbtcTradeServiceHelper tradeServiceHelper = new HitbtcTradeServiceHelper(lot, symbol.getStep().scale(), symbol.getTakeLiquidityRate(), symbol.getProvideLiquidityRate());
+      HitbtcTradeMetaData tradeServiceHelper = new HitbtcTradeMetaData(lot, symbol.getStep().scale(), symbol.getTakeLiquidityRate(), symbol.getProvideLiquidityRate());
 
       result.put(pair, tradeServiceHelper);
     }

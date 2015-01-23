@@ -11,7 +11,7 @@ import com.xeiam.xchange.okcoin.FuturesContract;
 import com.xeiam.xchange.okcoin.OkCoinExchange;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTrade;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinMarketDataServiceRaw;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class OkCoinTradesDemo {
 

@@ -9,7 +9,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.service.polling.CoinsetterAccountService;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.coinsetter.CoinsetterExamplesUtils;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * Generic account service demonstration.

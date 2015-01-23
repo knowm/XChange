@@ -12,7 +12,7 @@ import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderR
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrdersEntry;
 import com.xeiam.xchange.mercadobitcoin.service.polling.trade.MercadoBitcoinTradeServiceRaw;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 import java.io.IOException;
 import java.math.BigDecimal;

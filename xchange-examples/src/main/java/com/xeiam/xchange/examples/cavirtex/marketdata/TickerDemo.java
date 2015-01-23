@@ -7,7 +7,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.virtex.v2.VirtExExchange;
 import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExTicker;
 import com.xeiam.xchange.virtex.v2.service.polling.VirtExMarketDataServiceRaw;

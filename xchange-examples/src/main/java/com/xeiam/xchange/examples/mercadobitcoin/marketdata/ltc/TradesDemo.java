@@ -8,7 +8,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinExchange;
 import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
 import com.xeiam.xchange.mercadobitcoin.service.polling.marketdata.MercadoBitcoinMarketDataServiceRaw;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 import java.io.IOException;
 import java.util.Arrays;

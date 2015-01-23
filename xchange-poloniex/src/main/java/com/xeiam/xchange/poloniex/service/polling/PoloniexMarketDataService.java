@@ -14,7 +14,7 @@ import com.xeiam.xchange.poloniex.PoloniexAdapters;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexDepth;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexTicker;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * @author Zach Holmes

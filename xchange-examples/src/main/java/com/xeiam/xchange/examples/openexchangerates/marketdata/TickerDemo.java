@@ -10,7 +10,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.oer.OERExchange;
 import com.xeiam.xchange.oer.dto.marketdata.OERRates;
 import com.xeiam.xchange.oer.service.polling.OERMarketDataServiceRaw;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * Demonstrate requesting Ticker at Open Exchange Rates

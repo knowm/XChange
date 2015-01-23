@@ -14,7 +14,7 @@ import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrderResponse;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenCancelOrderResult.KrakenCancelOrderResponse;
 import com.xeiam.xchange.kraken.service.polling.KrakenTradeServiceRaw;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 public class KrakenCancelOrderDemo {
 

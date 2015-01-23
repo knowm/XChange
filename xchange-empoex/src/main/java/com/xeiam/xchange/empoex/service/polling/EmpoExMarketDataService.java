@@ -17,7 +17,7 @@ import com.xeiam.xchange.empoex.EmpoExUtils;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExLevel;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExTicker;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExTrade;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * <p>

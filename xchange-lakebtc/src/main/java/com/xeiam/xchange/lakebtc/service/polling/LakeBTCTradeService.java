@@ -5,16 +5,17 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.TradeServiceHelper;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCCancelResponse;
 import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCOrderResponse;
-import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamsTimeSpan;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeMetaData;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
@@ -73,7 +74,7 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Polli
         return new DefaultTradeHistoryParamsTimeSpan();
     }
 
-    @Override public Map<CurrencyPair, ? extends TradeServiceHelper> getTradeServiceHelperMap() throws NotAvailableFromExchangeException{
+    @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeServiceHelperMap() throws NotAvailableFromExchangeException{
         throw new NotAvailableFromExchangeException();
     }
 }

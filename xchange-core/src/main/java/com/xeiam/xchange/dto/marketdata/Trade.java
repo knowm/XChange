@@ -44,7 +44,7 @@ public class Trade {
 
   /**
    * This constructor is called to create a public Trade object
-   * in {@link com.xeiam.xchange.service.polling.PollingMarketDataService#getTrades(com.xeiam.xchange.currency.CurrencyPair, Object...)} implementations)
+   * in {@link com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService#getTrades(com.xeiam.xchange.currency.CurrencyPair, Object...)} implementations)
    * since it's missing the orderId and fee parameters.
    *
    * @param type

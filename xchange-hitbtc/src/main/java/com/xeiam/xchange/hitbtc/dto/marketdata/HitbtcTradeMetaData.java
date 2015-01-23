@@ -1,14 +1,14 @@
 package com.xeiam.xchange.hitbtc.dto.marketdata;
 
-import com.xeiam.xchange.dto.marketdata.BaseTradeServiceHelper;
+import com.xeiam.xchange.dto.trade.BaseTradeMetaData;
 
 import java.math.BigDecimal;
 
-public class HitbtcTradeServiceHelper extends BaseTradeServiceHelper {
+public class HitbtcTradeMetaData extends BaseTradeMetaData {
   private final BigDecimal takeLiquidityRate;
   private final BigDecimal provideLiquidityRate;
 
-  public HitbtcTradeServiceHelper(BigDecimal amountMinimum, int priceScale, BigDecimal takeLiquidityRate, BigDecimal provideLiquidityRate) {
+  public HitbtcTradeMetaData(BigDecimal amountMinimum, int priceScale, BigDecimal takeLiquidityRate, BigDecimal provideLiquidityRate) {
     super(amountMinimum, priceScale);
     this.takeLiquidityRate = takeLiquidityRate;
     this.provideLiquidityRate = provideLiquidityRate;

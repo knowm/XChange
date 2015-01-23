@@ -1,20 +1,23 @@
 package com.xeiam.xchange.anx.v2.dto.marketdata;
 
-import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.marketdata.BaseTradeServiceHelper;
-
 import java.math.BigDecimal;
 
-public class ANXTradeServiceHelper extends BaseTradeServiceHelper {
+import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.trade.BaseTradeMetaData;
+
+public class ANXTradeMetaData extends BaseTradeMetaData {
+
   private final BigDecimal amountMaximum;
 
-  public ANXTradeServiceHelper(BigDecimal amountMinimum, BigDecimal amountMaximum, int priceScale) {
+  public ANXTradeMetaData(BigDecimal amountMinimum, BigDecimal amountMaximum, int priceScale) {
+
     super(amountMinimum, priceScale);
     this.amountMaximum = amountMaximum;
   }
 
   @Override
   protected void verifyOrder(Order order) {
+
     super.verifyOrder(order);
 
     if (order.getTradableAmount().compareTo(amountMaximum) > 0) {
@@ -23,6 +26,7 @@ public class ANXTradeServiceHelper extends BaseTradeServiceHelper {
   }
 
   public BigDecimal getAmountMaximum() {
+
     return amountMaximum;
   }
 }

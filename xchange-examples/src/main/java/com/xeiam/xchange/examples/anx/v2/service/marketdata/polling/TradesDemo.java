@@ -12,7 +12,7 @@ import com.xeiam.xchange.anx.v2.service.polling.ANXMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.anx.v2.ANXExamplesUtils;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class TradesDemo {
 

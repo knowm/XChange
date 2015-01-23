@@ -10,7 +10,7 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseSendMoneyRequest;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * @author jamespedwards42

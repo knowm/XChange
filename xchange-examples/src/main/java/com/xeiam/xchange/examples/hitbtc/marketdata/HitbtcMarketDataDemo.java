@@ -11,7 +11,7 @@ import com.xeiam.xchange.examples.hitbtc.HitbtcExampleUtils;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataServiceRaw;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class HitbtcMarketDataDemo {
 

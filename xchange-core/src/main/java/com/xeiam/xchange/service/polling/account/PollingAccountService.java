@@ -1,4 +1,4 @@
-package com.xeiam.xchange.service.polling;
+package com.xeiam.xchange.service.polling.account;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -8,6 +8,7 @@ import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
  * <p>

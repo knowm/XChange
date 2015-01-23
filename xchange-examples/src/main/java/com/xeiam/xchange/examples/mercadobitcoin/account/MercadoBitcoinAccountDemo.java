@@ -6,7 +6,7 @@ import com.xeiam.xchange.examples.mercadobitcoin.InteractiveAuthenticatedExchang
 import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import com.xeiam.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
 import com.xeiam.xchange.mercadobitcoin.service.polling.account.MercadoBitcoinAccountServiceRaw;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 import java.io.IOException;
 

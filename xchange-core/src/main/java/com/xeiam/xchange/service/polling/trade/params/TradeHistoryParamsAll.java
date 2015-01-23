@@ -1,11 +1,12 @@
-package com.xeiam.xchange.service.polling.trade;
+package com.xeiam.xchange.service.polling.trade.params;
 
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 import java.util.Date;
 
 /**
- * Generic {@link TradeHistoryParams} implementation that implements all the interfaces in the hierarchy and can be safely (without getting exceptions, if that all the required fields are non-null) passed to any implementation of {@link com.xeiam.xchange.service.polling.PollingTradeService#getTradeHistory(TradeHistoryParams)}.
+ * Generic {@link TradeHistoryParams} implementation that implements all the interfaces in the hierarchy and can be safely (without getting exceptions, if that all the required fields are non-null) passed to any implementation of {@link com.xeiam.xchange.service.polling.trade.PollingTradeService#getTradeHistory(TradeHistoryParams)}.
  */
 public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeHistoryParamPaging, TradeHistoryParamsIdSpan, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
 

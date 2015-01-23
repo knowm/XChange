@@ -1,24 +1,6 @@
 package com.xeiam.xchange.kraken.service.polling;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.BaseTradeServiceHelper;
-import com.xeiam.xchange.dto.marketdata.TradeServiceHelper;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.MarketOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.kraken.KrakenAdapters;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
-import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamOffset;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpan;
-import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamsTimeSpan;
-import si.mazi.rescu.SynchronizedValueFactory;
+import static com.xeiam.xchange.utils.TradeServiceHelperConfigurer.CFG;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -26,7 +8,26 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.xeiam.xchange.utils.TradeServiceHelperConfigurer.CFG;
+import si.mazi.rescu.SynchronizedValueFactory;
+
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.trade.BaseTradeMetaData;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
+import com.xeiam.xchange.kraken.KrakenAdapters;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeMetaData;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamOffset;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
 
 public class KrakenTradeService extends KrakenTradeServiceRaw implements PollingTradeService {
 
@@ -66,8 +67,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   }
 
   /**
-   * Required parameters
-   * {@link TradeHistoryParamsTimeSpan}
+   * Required parameters {@link TradeHistoryParamsTimeSpan}
    * {@link TradeHistoryParamOffset}
    */
   @Override
@@ -80,19 +80,22 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   }
 
   @Override
-  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new KrakenTradeHistoryParams();
   }
 
   /**
-   * Fetch the {@link com.xeiam.xchange.dto.marketdata.TradeServiceHelper} from the exchange.
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
+   * from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.dto.marketdata.TradeServiceHelper
+   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
-  @Override public Map<CurrencyPair, ? extends TradeServiceHelper> getTradeServiceHelperMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    Map<CurrencyPair, BaseTradeServiceHelper> result = new HashMap<CurrencyPair, BaseTradeServiceHelper>();
+  @Override
+  public Map<CurrencyPair, ? extends TradeMetaData> getTradeServiceHelperMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    Map<CurrencyPair, BaseTradeMetaData> result = new HashMap<CurrencyPair, BaseTradeMetaData>();
 
     Map<String, KrakenAssetPair> assetPairs = getKrakenAssetPairs().getAssetPairMap();
     for (Map.Entry<String, KrakenAssetPair> e : assetPairs.entrySet()) {
@@ -101,9 +104,9 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
 
       KrakenAssetPair assetPair = e.getValue();
       BigDecimal amountMinimum = CFG.getBigDecimalProperty(KEY_ORDER_SIZE_MIN_DEFAULT).setScale(assetPair.getVolumeLotScale(), BigDecimal.ROUND_UNNECESSARY);
-      BaseTradeServiceHelper tradeServiceHelper = new BaseTradeServiceHelper(amountMinimum, assetPair.getPairScale());
+      BaseTradeMetaData baseTradeMetaData = new BaseTradeMetaData(amountMinimum, assetPair.getPairScale());
 
-      result.put(pair, tradeServiceHelper);
+      result.put(pair, baseTradeMetaData);
     }
 
     return result;

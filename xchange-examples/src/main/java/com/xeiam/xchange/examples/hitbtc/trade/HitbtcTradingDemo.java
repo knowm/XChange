@@ -9,7 +9,7 @@ import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.examples.hitbtc.HitbtcExampleUtils;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcTradeServiceRaw;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 public class HitbtcTradingDemo {
 

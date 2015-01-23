@@ -7,7 +7,7 @@ import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampTradeServiceRaw;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 /**
  * <p>

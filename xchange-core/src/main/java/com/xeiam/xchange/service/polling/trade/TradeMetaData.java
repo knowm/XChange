@@ -1,11 +1,11 @@
-package com.xeiam.xchange.dto.marketdata;
+package com.xeiam.xchange.service.polling.trade;
 
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 
-public interface TradeServiceHelper {
+public interface TradeMetaData {
 
   /**
    * The smallest tradable amount accepted by the market.

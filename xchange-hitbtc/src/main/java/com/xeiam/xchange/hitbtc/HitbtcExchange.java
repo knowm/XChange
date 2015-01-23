@@ -8,7 +8,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeServiceHelper;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeMetaData;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcAccountService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcTradeService;
@@ -48,7 +48,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
   public void init() throws IOException, ExchangeException {
     super.init();
 
-    Map<CurrencyPair, HitbtcTradeServiceHelper> map = ((HitbtcTradeService) pollingTradeService).getTradeServiceHelperMap();
+    Map<CurrencyPair, HitbtcTradeMetaData> map = ((HitbtcTradeService) pollingTradeService).getTradeServiceHelperMap();
     ((HitbtcAccountService)pollingAccountService).setTradingFeeFromTradeHelpers(map);
   }
 }

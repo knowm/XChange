@@ -10,7 +10,7 @@ import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeService;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeServiceRaw;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 /**
  * Demo for {@link BTCChinaTradeServiceRaw#getBTCChinaOrders(Boolean, String, Integer, Integer)}.

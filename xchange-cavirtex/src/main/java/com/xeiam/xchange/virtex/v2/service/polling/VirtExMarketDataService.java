@@ -10,7 +10,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.virtex.v2.VirtExAdapters;
 import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExDepth;
 import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExTrade;

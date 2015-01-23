@@ -13,15 +13,15 @@ import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
 import com.xeiam.xchange.bter.dto.trade.BTERTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.TradeServiceHelper;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
-import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamCurrencyPair;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.TradeMetaData;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamCurrencyPair;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implements PollingTradeService {
 
@@ -119,7 +119,7 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
     return new DefaultTradeHistoryParamCurrencyPair();
   }
 
-  @Override public Map<CurrencyPair, ? extends TradeServiceHelper> getTradeServiceHelperMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  @Override public Map<CurrencyPair, ? extends TradeMetaData> getTradeServiceHelperMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 }

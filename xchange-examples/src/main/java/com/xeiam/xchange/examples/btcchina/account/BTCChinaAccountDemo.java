@@ -15,7 +15,7 @@ import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsRes
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.utils.CertHelper;
 
 /**

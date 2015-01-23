@@ -1,4 +1,5 @@
-package com.xeiam.xchange.service.polling.trade;
+package com.xeiam.xchange.service.polling.trade.params;
+
 
 public interface TradeHistoryParamOffset extends TradeHistoryParams {
 

@@ -11,7 +11,7 @@ import com.xeiam.xchange.btce.v3.service.polling.BTCETradeServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 public class BTCEUserTradeHistoryDemo {
 

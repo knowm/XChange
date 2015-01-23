@@ -22,17 +22,17 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class BittrexMarketDataDemo {
 
   public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class.getName());
-    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    PollingMarketDataService pollingMarketDataService = exchange.getPollingMarketDataService();
 
-    generic(marketDataService);
-    raw((BittrexMarketDataServiceRaw) marketDataService);
+    generic(pollingMarketDataService);
+    raw((BittrexMarketDataServiceRaw) pollingMarketDataService);
 
   }
 

@@ -22,9 +22,9 @@ import com.xeiam.xchange.cryptsy.service.polling.CryptsyTradeServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.PollingAccountService;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 /**
  * This demo shows ALL the functions currently implemented in the Cryptsy Exchange.

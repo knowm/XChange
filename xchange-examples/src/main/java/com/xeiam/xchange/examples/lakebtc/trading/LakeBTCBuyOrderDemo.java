@@ -8,7 +8,7 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.examples.lakebtc.LakeBTCExamplesUtils;
 import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCOrderResponse;
 import com.xeiam.xchange.lakebtc.service.polling.LakeBTCTradeServiceRaw;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 import java.io.IOException;
 import java.math.BigDecimal;

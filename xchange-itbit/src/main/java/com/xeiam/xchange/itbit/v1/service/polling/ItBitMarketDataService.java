@@ -15,7 +15,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.itbit.v1.ItBitAdapters;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitDepth;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class ItBitMarketDataService extends ItBitMarketDataServiceRaw implements PollingMarketDataService {
 

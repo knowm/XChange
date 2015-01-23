@@ -1,17 +1,16 @@
-package com.xeiam.xchange.dto.marketdata;
+package com.xeiam.xchange.dto.trade;
 
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.service.polling.trade.TradeMetaData;
 
-public class BaseTradeServiceHelper implements TradeServiceHelper {
+public class BaseTradeMetaData implements TradeMetaData {
 
   private final BigDecimal amountMinimum;
   private final int priceScale;
 
-  public BaseTradeServiceHelper(BigDecimal amountMinimum, int priceScale) {
+  public BaseTradeMetaData(BigDecimal amountMinimum, int priceScale) {
 
     this.amountMinimum = amountMinimum;
     this.priceScale = priceScale;
@@ -65,8 +64,7 @@ public class BaseTradeServiceHelper implements TradeServiceHelper {
 
     if (amount.scale() > amountMinimum.scale()) {
       throw new IllegalArgumentException("Unsupported amount scale " + amount.scale());
-    }
-    else if (amount.compareTo(amountMinimum) < 0) {
+    } else if (amount.compareTo(amountMinimum) < 0) {
       throw new IllegalArgumentException("Order amount less than minimum");
     }
   }

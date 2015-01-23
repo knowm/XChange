@@ -6,7 +6,7 @@ import com.xeiam.xchange.bitcointoyou.dto.account.BitcoinToYouBalance;
 import com.xeiam.xchange.bitcointoyou.service.polling.account.BitcoinToYouAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitcointoyou.InteractiveAuthenticatedExchange;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 import java.io.IOException;
 import java.util.Arrays;

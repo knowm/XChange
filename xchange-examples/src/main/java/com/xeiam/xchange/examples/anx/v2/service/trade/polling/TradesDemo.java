@@ -6,7 +6,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.anx.v2.ANXExamplesUtils;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 /**
  * Test requesting all open orders at MtGox

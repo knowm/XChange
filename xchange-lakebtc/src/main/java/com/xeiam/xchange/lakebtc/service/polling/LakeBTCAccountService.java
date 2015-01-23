@@ -7,7 +7,8 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.lakebtc.LakeBTCAdapters;
 import com.xeiam.xchange.lakebtc.dto.account.LakeBTCAccountInfoResponse;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;

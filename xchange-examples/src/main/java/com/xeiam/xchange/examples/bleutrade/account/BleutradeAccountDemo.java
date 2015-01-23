@@ -8,7 +8,7 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bleutrade.service.polling.BleutradeAccountServiceRaw;
 import com.xeiam.xchange.examples.bleutrade.BleutradeDemoUtils;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class BleutradeAccountDemo {
 

@@ -29,7 +29,7 @@ public final class UserTrade extends Trade {
 
   /**
    * This constructor is called to construct user's trade objects
-   * (in {@link com.xeiam.xchange.service.polling.PollingTradeService#getTradeHistory(Object...)} implementations).
+   * (in {@link com.xeiam.xchange.service.polling.trade.PollingTradeService#getTradeHistory(Object...)} implementations).
    *
    * @param type
    *          The trade type (BID side or ASK side)

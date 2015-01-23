@@ -8,7 +8,7 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.examples.poloniex.PoloniexExamplesUtils;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexAccountServiceRaw;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.utils.CertHelper;
 
 /**

@@ -1,4 +1,4 @@
-package com.xeiam.xchange.service.polling.trade;
+package com.xeiam.xchange.service.polling.trade.params;
 
 import java.util.Date;
 

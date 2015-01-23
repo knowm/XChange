@@ -14,7 +14,7 @@ import com.xeiam.xchange.lakebtc.LakeBTCAdapters;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * @author kpysniak

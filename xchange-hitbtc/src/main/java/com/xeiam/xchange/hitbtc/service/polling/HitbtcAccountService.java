@@ -6,7 +6,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeServiceHelper;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeMetaData;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -14,7 +15,7 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 import static com.xeiam.xchange.utils.TradeServiceHelperConfigurer.CFG;
 
@@ -47,7 +48,7 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Pol
     throw new NotYetImplementedForExchangeException();
   }
 
-  public void setTradingFeeFromTradeHelpers(Map<CurrencyPair, HitbtcTradeServiceHelper> metadata){
+  public void setTradingFeeFromTradeHelpers(Map<CurrencyPair, HitbtcTradeMetaData> metadata){
     boolean makerFee = CFG.getBoolProperty(HITBTC_ORDER_FEE_POLICY_MAKER);
     Properties config = CFG.getProperties();
 
@@ -57,7 +58,7 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Pol
 
     CurrencyPair pair = CurrencyPair.fromString(currencyPair);
 
-    HitbtcTradeServiceHelper listingHelper = metadata.get(pair);
+    HitbtcTradeMetaData listingHelper = metadata.get(pair);
     tradingFee= makerFee ? listingHelper.getProvideLiquidityRate() : listingHelper.getTakeLiquidityRate();
   }
 }
