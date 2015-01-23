@@ -5,6 +5,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.FundsExceededException;
+import com.xeiam.xchange.NonceException;
+import com.xeiam.xchange.hitbtc.dto.HitbtcException;
+import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -55,5 +60,24 @@ public abstract class HitbtcBasePollingService<T extends Hitbtc> extends BaseExc
     }
 
     return currencyPairs;
+  }
+
+  protected void checkRejected(HitbtcExecutionReport executionReport) {
+    if ("rejected".equals(executionReport.getExecReportType())) {
+      if ("orderExceedsLimit".equals(executionReport.getOrderRejectReason()))
+        throw new FundsExceededException(executionReport.getClientOrderId());
+      else if ("exchangeClosed ".equals(executionReport.getOrderRejectReason()))
+        throw new IllegalStateException(executionReport.getOrderRejectReason());
+      else
+        throw new IllegalArgumentException("Order rejected, " + executionReport.getOrderRejectReason());
+    }
+  }
+
+  protected RuntimeException handleException(HitbtcException exception) {
+    String message = exception.getMessage();
+
+    if ("Nonce has been used".equals(message))
+      return new NonceException(message);
+    return new ExchangeException(message);
   }
 }

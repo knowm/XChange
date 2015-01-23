@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.xeiam.xchange.FundsExceededException;
+import com.xeiam.xchange.NonceException;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
@@ -22,15 +22,13 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-/**
- * @author Matija Mazi
- */
 public class BTCEBasePollingService<T extends BTCE> extends BaseExchangeService implements BasePollingService {
 
   protected static final String PREFIX = "btce";
   protected static final String KEY_ORDER_SIZE_SCALE_DEFAULT = PREFIX + SUF_ORDER_SIZE_SCALE_DEFAULT;
 
-  private final Logger logger = LoggerFactory.getLogger(BTCEBasePollingService.class);
+  private static final String ERR_MSG_NONCE = "invalid nonce parameter; on key:";
+  private static final String ERR_MSG_FUNDS = "It is not enough ";
 
   public final Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();
 
@@ -70,16 +68,25 @@ public class BTCEBasePollingService<T extends BTCE> extends BaseExchangeService 
     return nonceFactory;
   }
 
-  protected void checkResult(BTCEReturn<?> info) {
+  protected void checkResult(BTCEReturn<?> result) {
+    String error = result.getError();
 
-    if (!info.isSuccess()) {
-      throw new ExchangeException(info.getError());
+    if (!result.isSuccess()) {
+      if (error != null) {
+        if (error.startsWith(ERR_MSG_NONCE))
+          throw new NonceException(error);
+        else if (error.startsWith(ERR_MSG_FUNDS))
+          throw new FundsExceededException(error);
+      }
+      throw new ExchangeException(error);
     }
-    else if (info.getReturnValue() == null) {
-      throw new ExchangeException("Didn't receive any return value. Message: " + info.getError());
+
+    else if (result.getReturnValue() == null) {
+      throw new ExchangeException("Didn't receive any return value. Message: " + error);
     }
-    else if (info.getError() != null) {
-      throw new ExchangeException(info.getError());
+
+    else if (error != null) {
+      throw new ExchangeException(error);
     }
   }
 

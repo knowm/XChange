@@ -3,6 +3,7 @@ package com.xeiam.xchange.anx.v2.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -47,7 +48,9 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
       ANXOpenOrderWrapper anxOpenOrderWrapper = anxV2.getOpenOrders(ANXUtils.urlEncode(exchangeSpecification.getApiKey()), signatureCreator, getNonce(), baseCurrency, counterCurrency);
       return anxOpenOrderWrapper.getANXOpenOrders();
     } catch (ANXException e) {
-      throw new ExchangeException("Error calling getOpenOrders(): " + e.getError(), e);
+      throw handleError(e);
+    } catch (HttpStatusIOException e){
+      throw handleHttpError(e);
     }
   }
 
@@ -57,7 +60,9 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
       ANXOpenOrderWrapper anxOpenOrderWrapper = anxV2.getOpenOrders(ANXUtils.urlEncode(exchangeSpecification.getApiKey()), signatureCreator, getNonce());
       return anxOpenOrderWrapper.getANXOpenOrders();
     } catch (ANXException e) {
-      throw new ExchangeException("Error calling getOpenOrders(): " + e.getError(), e);
+      throw handleError(e);
+    } catch (HttpStatusIOException e){
+      throw handleHttpError(e);
     }
   }
 
@@ -69,7 +74,9 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
               .getType().equals(Order.OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount(), null);
       return anxGenericResponse;
     } catch (ANXException e) {
-      throw new ExchangeException("Error calling placeMarketOrder(): " + e.getError(), e);
+      throw handleError(e);
+    } catch (HttpStatusIOException e){
+      throw handleHttpError(e);
     }
   }
 
@@ -81,7 +88,9 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
 
       return anxGenericResponse;
     } catch (ANXException e) {
-      throw new ExchangeException("Error calling placeLimitOrder(): " + e.getError(), e);
+      throw handleError(e);
+    } catch (HttpStatusIOException e) {
+      throw handleHttpError(e);
     }
   }
 
@@ -92,7 +101,9 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
       ANXGenericResponse anxGenericResponse = anxV2.cancelOrder(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), orderId, baseCurrency, counterCurrency);
       return anxGenericResponse;
     } catch (ANXException e) {
-      throw new ExchangeException("Error calling cancelOrder(): " + e.getError(), e);
+      throw handleError(e);
+    } catch (HttpStatusIOException e){
+      throw handleHttpError(e);
     }
   }
 
@@ -103,7 +114,9 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
       ANXTradeResultWrapper anxTradeResultWrapper = anxV2.getExecutedTrades(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), from, to);
       return anxTradeResultWrapper;
     } catch (ANXException e) {
-      throw new ExchangeException("Error calling getExecutedANXTrades(): " + e.getError(), e);
+      throw handleError(e);
+    } catch (HttpStatusIOException e){
+      throw handleHttpError(e);
     }
   }
 
@@ -114,7 +127,9 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
       ANXOrderResultWrapper anxOrderResultWrapper = anxV2.getOrderResult(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), baseCurrency, counterCurrency, orderId, type);
       return anxOrderResultWrapper;
     } catch (ANXException e) {
-      throw new ExchangeException("Error calling getANXOrderResult(): " + e.getError(), e);
+      throw handleError(e);
+    } catch (HttpStatusIOException e){
+      throw handleHttpError(e);
     }
   }
 }

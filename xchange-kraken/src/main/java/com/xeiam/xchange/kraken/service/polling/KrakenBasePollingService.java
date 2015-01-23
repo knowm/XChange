@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.xeiam.xchange.FrequencyLimitExceededException;
+import com.xeiam.xchange.NonceException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -142,7 +144,16 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
   protected <R> R checkResult(KrakenResult<R> krakenResult) {
 
     if (!krakenResult.isSuccess()) {
-      throw new ExchangeException(Arrays.toString(krakenResult.getError()));
+      String[] errors = krakenResult.getError();
+      if (errors.length == 0)
+        throw new ExchangeException("Missing error message");
+      String error = errors[0];
+      if ("EAPI:Invalid nonce".equals(error))
+        throw new NonceException(error);
+      else if ("EGeneral:Temporary lockout".equals(error))
+        throw new FrequencyLimitExceededException(error);
+
+      throw new ExchangeException(Arrays.toString(errors));
     }
 
     return krakenResult.getResult();
