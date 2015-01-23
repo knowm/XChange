@@ -146,7 +146,7 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.7.8</version>
+				<version>1.7.10</version>
 			</dependency>
 
 			<!-- SLF4J implementation for use in testing -->
@@ -238,11 +238,6 @@
 				<artifactId>commons-io</artifactId>
 				<version>2.4</version>
 			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId>
-				<artifactId>commons-lang3</artifactId>
-				<version>3.3.2</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -254,6 +249,14 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- slf4j implementation for testing-->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.10</version>
 			<scope>test</scope>
 		</dependency>
 
