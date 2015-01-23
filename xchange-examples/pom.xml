@@ -217,12 +217,6 @@
 			<artifactId>xchange-poloniex</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange Vault of Satoshi exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-vaultofsatoshi</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange OkCoin exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>

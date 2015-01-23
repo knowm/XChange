@@ -108,7 +108,6 @@
 		<module>xchange-okcoin</module>
 		<module>xchange-openexchangerates</module>
 		<module>xchange-poloniex</module>
-		<module>xchange-vaultofsatoshi</module>
 		<module>xchange-vircurex</module>
 	</modules>
 
@@ -252,7 +251,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- slf4j implementation for testing-->
+		<!-- slf4j implementation for testing -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
