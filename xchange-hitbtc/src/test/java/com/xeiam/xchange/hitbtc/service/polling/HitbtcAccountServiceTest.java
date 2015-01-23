@@ -13,6 +13,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeMetaData;
 
 public class HitbtcAccountServiceTest {
 
@@ -26,11 +27,12 @@ public class HitbtcAccountServiceTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     HitbtcSymbols hitBtcSymbols = mapper.readValue(is, HitbtcSymbols.class);
-    Map<CurrencyPair, ? extends TradeMetaData> metaMap = HitbtcAdapters.adaptSymbolsToMetadata(hitBtcSymbols);
+    Map<CurrencyPair, ? extends TradeMetaData> metaMap = HitbtcAdapters.adaptSymbolsToTradeMetadataMap(hitBtcSymbols);
 
-    TradeMetaData eur = metaMap.get(CurrencyPair.BTC_EUR);
+    HitbtcTradeMetaData eur = (HitbtcTradeMetaData) metaMap.get(CurrencyPair.BTC_EUR);
 
     assertThat(eur.getAmountMinimum()).isEqualTo(".01");
     assertThat(eur.getAmountStep()).isEqualTo(".01");
+    System.out.println(eur.getTakeLiquidityRate());
   }
 }

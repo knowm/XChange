@@ -16,9 +16,9 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -227,16 +227,17 @@ public class HitbtcAdapters {
     return type == OrderType.BID ? "buy" : "sell";
   }
 
-  public static Map<CurrencyPair, HitbtcTradeMetaData> adaptSymbolsToMetadata(HitbtcSymbols symbols) {
+  public static Map<CurrencyPair, HitbtcTradeMetaData> adaptSymbolsToTradeMetadataMap(HitbtcSymbols symbols) {
 
     Map<CurrencyPair, HitbtcTradeMetaData> result = new HashMap<CurrencyPair, HitbtcTradeMetaData>();
     for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
+
       CurrencyPair pair = adaptSymbol(symbol);
 
       BigDecimal lot = symbol.getLot();
-      HitbtcTradeMetaData tradeServiceHelper = new HitbtcTradeMetaData(lot, symbol.getStep().scale(), symbol.getTakeLiquidityRate(), symbol.getProvideLiquidityRate());
+      HitbtcTradeMetaData hitbtcTradeMetaData = new HitbtcTradeMetaData(lot, symbol.getStep().scale(), symbol.getTakeLiquidityRate(), symbol.getProvideLiquidityRate());
 
-      result.put(pair, tradeServiceHelper);
+      result.put(pair, hitbtcTradeMetaData);
     }
 
     return result;

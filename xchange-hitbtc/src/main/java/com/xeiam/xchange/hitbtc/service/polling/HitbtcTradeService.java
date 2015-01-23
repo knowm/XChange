@@ -119,7 +119,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
    */
   @Override
   public Map<CurrencyPair, HitbtcTradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    metadata = HitbtcAdapters.adaptSymbolsToMetadata(hitbtc.getSymbols());
+    metadata = HitbtcAdapters.adaptSymbolsToTradeMetadataMap(hitbtc.getSymbols());
     return metadata;
   }
 
