@@ -3,10 +3,10 @@ package com.xeiam.xchange.anx.v2.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXV2;
@@ -45,7 +45,9 @@ public class ANXAccountServiceRaw extends ANXBasePollingService {
       ANXAccountInfoWrapper anxAccountInfoWrapper = anxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, getNonce());
       return anxAccountInfoWrapper.getANXAccountInfo();
     } catch (ANXException e) {
-      throw new ExchangeException("Error calling getAccountInfo(): " + e.getError(), e);
+      throw handleError(e);
+    } catch (HttpStatusIOException e){
+      throw handleHttpError(e);
     }
   }
 
@@ -57,7 +59,9 @@ public class ANXAccountServiceRaw extends ANXBasePollingService {
               .intValue(), 1, false, false);
       return anxWithdrawalResponseWrapper.getAnxWithdrawalResponse();
     } catch (ANXException e) {
-      throw new ExchangeException("Error calling withdrawFunds(): " + e.getError(), e);
+      throw handleError(e);
+    } catch (HttpStatusIOException e){
+      throw handleHttpError(e);
     }
   }
 
@@ -67,7 +71,9 @@ public class ANXAccountServiceRaw extends ANXBasePollingService {
       ANXBitcoinDepositAddressWrapper anxBitcoinDepositAddressWrapper = anxV2.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), currency);
       return anxBitcoinDepositAddressWrapper.getAnxBitcoinDepositAddress();
     } catch (ANXException e) {
-      throw new ExchangeException("Error calling requestBitcoinDepositAddress(): " + e.getError(), e);
+      throw handleError(e);
+    } catch (HttpStatusIOException e){
+      throw handleHttpError(e);
     }
   }
 }

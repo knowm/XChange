@@ -1,8 +1,14 @@
 package com.xeiam.xchange.anx.v2.service.polling;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.FundsExceededException;
+import com.xeiam.xchange.NonceException;
+import com.xeiam.xchange.anx.v2.dto.ANXException;
+import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -168,6 +174,20 @@ public class ANXBasePollingService extends BaseExchangeService implements BasePo
   protected SynchronizedValueFactory<Long> getNonce() {
 
     return nonceFactory;
+  }
+
+  protected RuntimeException handleHttpError(HttpStatusIOException exception) throws IOException {
+    if (exception.getHttpStatusCode() == 304)
+      return new NonceException(exception.getHttpBody());
+    else
+      throw exception;
+  }
+
+  protected RuntimeException handleError(ANXException exception) {
+    if ("Insufficient Funds".equals(exception.getError()))
+      return new FundsExceededException();
+    else
+      return new ExchangeException(exception.getError(), exception);
   }
 
 }
