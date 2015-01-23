@@ -2,12 +2,9 @@ package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 
+import com.xeiam.xchange.*;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.hitbtc.HitbtcAuthenticated;
 import com.xeiam.xchange.hitbtc.dto.HitbtcException;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
@@ -26,7 +23,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService<HitbtcAuth
       HitbtcBalanceResponse hitbtcBalance = hitbtc.getHitbtcBalance(signatureCreator, valueFactory, apiKey);
       return hitbtcBalance.getBalances();
     } catch (HitbtcException e) {
-      throw new ExchangeException(e.getMessage());
+      throw handleException(e);
     }
   }
 
@@ -36,7 +33,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService<HitbtcAuth
       HitbtcBalanceResponse hitbtcBalanceResponse = hitbtc.getHitbtcBalance(signatureCreator, valueFactory, apiKey);
       return hitbtcBalanceResponse;
     } catch (HitbtcException e) {
-      throw new ExchangeException(e.getMessage());
+      throw handleException(e);
     }
   }
 }

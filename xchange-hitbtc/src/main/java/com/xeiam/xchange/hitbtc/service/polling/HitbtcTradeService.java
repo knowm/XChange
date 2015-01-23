@@ -148,10 +148,4 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     }
   }
 
-  private void checkRejected(HitbtcExecutionReport executionReport) {
-
-    if ("rejected".equals(executionReport.getExecReportType()))
-      throw new ExchangeException("Order rejected, " + executionReport.getOrderRejectReason());
-  }
-
 }
