@@ -35,7 +35,7 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Polli
 
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

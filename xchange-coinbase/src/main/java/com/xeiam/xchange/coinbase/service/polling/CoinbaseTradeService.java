@@ -94,7 +94,7 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   @Override
   public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
 }

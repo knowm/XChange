@@ -126,7 +126,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
 }

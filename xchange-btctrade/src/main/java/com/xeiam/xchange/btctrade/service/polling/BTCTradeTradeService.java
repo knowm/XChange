@@ -97,7 +97,7 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
   @Override
   public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
 }
