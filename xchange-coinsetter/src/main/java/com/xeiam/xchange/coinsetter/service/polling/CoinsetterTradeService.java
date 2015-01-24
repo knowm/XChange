@@ -5,13 +5,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.coinsetter.CoinsetterAdapters;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
 import com.xeiam.xchange.coinsetter.dto.order.request.CoinsetterOrderRequest;
@@ -20,7 +17,6 @@ import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -59,7 +55,7 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
    * Method returns CoinsetterOrder type giving full order execution state
    * details. Method getOpenOrders() do not provide information of
    * filledQuantity, average execution price etc.
-   * 
+   *
    * @return
    * @throws IOException
    */
@@ -115,7 +111,7 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
   }
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
@@ -123,18 +119,6 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
   @Override
   public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
-    return null;
-  }
-
-  /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
-   * from the exchange.
-   *
-   * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
-   */
-  @Override
-  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 

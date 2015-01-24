@@ -5,11 +5,9 @@ import java.math.BigDecimal;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
 import com.xeiam.xchange.bitstamp.BitstampUtils;
-import com.xeiam.xchange.bitstamp.dto.BitstampException;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
@@ -24,8 +22,9 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
 
   /**
    * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   *
+   * @param exchangeSpecification The
+   *          {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public BitstampTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
 
@@ -63,4 +62,5 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
 
     return bitstampAuthenticated.getUserTransactions(exchangeSpecification.getApiKey(), signatureCreator, BitstampUtils.getNonce(), numberOfTransactions, offset, sort);
   }
+
 }

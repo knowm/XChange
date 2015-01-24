@@ -1,27 +1,17 @@
 package com.xeiam.xchange.kraken.service.polling;
 
-import static com.xeiam.xchange.utils.TradeServiceHelperConfigurer.CFG;
-
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.kraken.KrakenAdapters;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamOffset;
@@ -82,33 +72,6 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new KrakenTradeHistoryParams();
-  }
-
-  /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
-   * from the exchange.
-   *
-   * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
-   */
-  @Override
-  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
-    Map<CurrencyPair, TradeMetaData> result = new HashMap<CurrencyPair, TradeMetaData>();
-
-    Map<String, KrakenAssetPair> assetPairs = getKrakenAssetPairs().getAssetPairMap();
-    for (Map.Entry<String, KrakenAssetPair> e : assetPairs.entrySet()) {
-      String krakenPair = e.getKey();
-      CurrencyPair pair = KrakenAdapters.adaptCurrencyPair(krakenPair);
-
-      KrakenAssetPair assetPair = e.getValue();
-      BigDecimal amountMinimum = CFG.getBigDecimalProperty(KEY_ORDER_SIZE_MIN_DEFAULT).setScale(assetPair.getVolumeLotScale(), BigDecimal.ROUND_UNNECESSARY);
-      TradeMetaData baseTradeMetaData = new TradeMetaData(amountMinimum, assetPair.getPairScale());
-
-      result.put(pair, baseTradeMetaData);
-    }
-
-    return result;
   }
 
   private static Long getTime(Date date) {

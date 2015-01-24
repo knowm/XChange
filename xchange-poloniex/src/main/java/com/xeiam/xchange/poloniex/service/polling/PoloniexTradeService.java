@@ -18,7 +18,6 @@ import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -105,7 +104,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
    */
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     CurrencyPair currencyPair = null;
     Date startTime = null;
@@ -152,18 +151,6 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new PoloniexTradeHistoryParams();
-  }
-
-  /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
-   * from the exchange.
-   *
-   * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
-   */
-  @Override
-  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotAvailableFromExchangeException();
   }
 
   public static class PoloniexTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan {

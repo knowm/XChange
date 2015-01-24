@@ -2,7 +2,6 @@ package com.xeiam.xchange.cexio.service.polling;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -10,8 +9,6 @@ import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.cexio.CexIOAdapters;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -71,7 +68,7 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
   }
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
@@ -80,18 +77,6 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
   public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return null;
-  }
-
-  /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
-   * from the exchange.
-   *
-   * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
-   */
-  @Override
-  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotAvailableFromExchangeException();
   }
 
 }

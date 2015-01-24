@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Map;
 
-import com.xeiam.xchange.hitbtc.HitbtcAdapters;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeMetaData;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
@@ -17,8 +15,10 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.HitbtcAuthenticated;
 import com.xeiam.xchange.hitbtc.dto.HitbtcException;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeMetaData;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
@@ -68,7 +68,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   }
 
   public HitbtcExecutionReportResponse placeMarketOrderRawBaseResponse(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  IOException {
 
     String symbol = marketOrder.getCurrencyPair().baseSymbol + marketOrder.getCurrencyPair().counterSymbol;
 
@@ -102,7 +102,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   }
 
   public HitbtcExecutionReportResponse placeLimitOrderRawReturningHitbtcExecutionReportResponse(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  NotYetImplementedForExchangeException, IOException {
 
     HitbtcExecutionReportResponse postHitbtcNewOrder = fillHitbtcExecutionReportResponse(limitOrder);
     return postHitbtcNewOrder;
@@ -136,7 +136,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   }
 
   public HitbtcExecutionReportResponse cancelOrderRaw(String clientOrderId, String cancelRequestClientOrderId, String symbol, String side) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  NotYetImplementedForExchangeException, IOException {
 
     try {
       return hitbtc.postHitbtcCancelOrder(signatureCreator, valueFactory, apiKey, clientOrderId, cancelRequestClientOrderId, symbol, side);
@@ -146,7 +146,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   }
 
   public HitbtcTradeResponse getTradeHistoryRawBaseResponse(int startIndex, int maxResults, String symbols) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  NotYetImplementedForExchangeException, IOException {
 
     try {
       HitbtcTradeResponse hitbtcTrades = hitbtc.getHitbtcTrades(signatureCreator, valueFactory, apiKey, "ts", startIndex, maxResults, symbols, "desc", null, null);
@@ -157,7 +157,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   }
 
   public HitbtcOwnTrade[] getTradeHistoryRaw(int startIndex, int maxResults, String symbols) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  IOException {
 
     HitbtcTradeResponse hitbtcTrades = getTradeHistoryRawBaseResponse(startIndex, maxResults, symbols);
     return hitbtcTrades.getTrades();
@@ -166,7 +166,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   /**
    * Represent tradableAmount in lots
    *
-   * @throws java.lang.IllegalArgumentException if the result were to be less than lot size for given currency pair
+   * @throws java.lang.IllegalArgumentException if the result were to be less
+   *           than lot size for given currency pair
    */
   protected BigInteger getLots(Order order) {
 
@@ -174,9 +175,22 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
     BigDecimal lotDivisor = metadata.get(pair).getAmountMinimum();
 
     BigDecimal lots = order.getTradableAmount().divide(lotDivisor, BigDecimal.ROUND_UNNECESSARY);
-    if (lots.compareTo(BigDecimal.ONE) < 0)
+    if (lots.compareTo(BigDecimal.ONE) < 0) {
       throw new IllegalArgumentException("Tradable amount too low");
+    }
     return lots.toBigIntegerExact();
+  }
+
+  /**
+   * Fetch the {@link com.com.xeiam.xchange.service.polling.trade.TradeMetaData}
+   * from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.com.xeiam.xchange.service.polling.trade.TradeMetaData
+   */
+  public Map<CurrencyPair, HitbtcTradeMetaData> getTradeMetaDataMap() throws IOException {
+    metadata = HitbtcAdapters.adaptSymbolsToTradeMetadataMap(hitbtc.getSymbols());
+    return metadata;
   }
 
 }

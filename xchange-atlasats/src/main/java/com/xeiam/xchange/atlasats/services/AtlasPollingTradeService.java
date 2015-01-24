@@ -67,7 +67,7 @@ public class AtlasPollingTradeService extends BasePollingExchangeService impleme
   }
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     // TODO Auto-generated method stub
     return null;

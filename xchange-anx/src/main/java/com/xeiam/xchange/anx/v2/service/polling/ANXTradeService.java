@@ -2,12 +2,6 @@ package com.xeiam.xchange.anx.v2.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradeMetaData;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.utils.DateUtils;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -26,8 +20,7 @@ import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamsT
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.utils.Assert;
-
-import static com.xeiam.xchange.utils.TradeServiceHelperConfigurer.CFG;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * @author timmolter
@@ -37,7 +30,8 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param exchangeSpecification The
+   *          {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public ANXTradeService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
 
@@ -88,7 +82,8 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   }
 
   /**
-   * @param args Accept zero or 2 parameters, both are unix time: Long from, Long to
+   * @param args Accept zero or 2 parameters, both are unix time: Long from,
+   *          Long to
    */
   @Override
   public UserTrades getTradeHistory(Object... args) throws IOException {
@@ -96,10 +91,12 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
     Long from = null;
     Long to = null;
 
-    if (args.length > 0)
+    if (args.length > 0) {
       from = (Long) args[0];
-    if (args.length > 1)
+    }
+    if (args.length > 1) {
       to = (Long) args[1];
+    }
 
     return getTradeHistory(from, to);
   }
@@ -108,15 +105,15 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
     ANXTradeResultWrapper rawTrades = getExecutedANXTrades(from, to);
     String error = rawTrades.getError();
 
-    if (error != null)
+    if (error != null) {
       throw new IllegalStateException(error);
+    }
 
     return ANXAdapters.adaptUserTrades(rawTrades.getAnxTradeResults());
   }
 
   /**
-   * Suported parameter types:
-   * {@link TradeHistoryParamsTimeSpan}
+   * Suported parameter types: {@link TradeHistoryParamsTimeSpan}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
@@ -135,37 +132,6 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new DefaultTradeHistoryParamsTimeSpan();
-  }
-
-  /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
-   *
-   * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
-   */
-  @Override public Map<CurrencyPair, ANXTradeMetaData> getTradeMetaDataMap() throws IOException {
-    Map<CurrencyPair, ANXTradeMetaData> meta = new HashMap<CurrencyPair, ANXTradeMetaData>();
-    int amountScale = CFG.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
-    int priceScale = CFG.getIntProperty(KEY_ORDER_PRICE_SCALE_DEFAULT);
-    BigDecimal defAmountMin = CFG.getBigDecimalProperty(KEY_ORDER_SIZE_MIN_DEFAULT).setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
-    BigDecimal defAmountMax = CFG.getBigDecimalProperty(KEY_ORDER_SIZE_MAX_DEFAULT).setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
-
-    for (CurrencyPair pair : CURRENCY_PAIRS) {
-      BigDecimal amountMinimum = CFG.getBigDecimalProperty(PREKEY_ORDER_SIZE_MIN + pair.baseSymbol);
-      if (amountMinimum == null)
-        amountMinimum = defAmountMin;
-      else
-        amountMinimum = amountMinimum.setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
-
-      BigDecimal amountMaximum = CFG.getBigDecimalProperty(PREKEY_ORDER_SIZE_MAX + pair.baseSymbol);
-      if (amountMaximum == null)
-        amountMaximum = defAmountMax;
-      else
-        amountMaximum = amountMaximum.setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
-
-      meta.put(pair, new ANXTradeMetaData(amountMinimum, amountMaximum, priceScale));
-    }
-    return meta;
   }
 
 }

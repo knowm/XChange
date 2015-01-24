@@ -1,6 +1,10 @@
 package com.xeiam.xchange.kraken.service.polling;
 
+import static com.xeiam.xchange.utils.TradeServiceHelperConfigurer.CFG;
+
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -9,9 +13,12 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.TradeMetaData;
+import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.kraken.KrakenAuthenticated;
 import com.xeiam.xchange.kraken.dto.account.KrakenTradeVolume;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOpenPosition;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrder;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrderResponse;
@@ -140,18 +147,15 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
 
     KrakenOrderResult result = null;
     if (!krakenStandardOrder.isValidateOnly()) {
-      result =
-          kraken.addOrder(createKrakenCurrencyPair(krakenStandardOrder.getAssetPair()), krakenStandardOrder.getType().toString(), krakenStandardOrder.getOrderType().toString(), krakenStandardOrder
-              .getPrice(), krakenStandardOrder.getSecondaryPrice(), krakenStandardOrder.getVolume().toString(), krakenStandardOrder.getLeverage(), krakenStandardOrder.getPositionTxId(),
-              delimitSet(krakenStandardOrder.getOrderFlags()), krakenStandardOrder.getStartTime(), krakenStandardOrder.getExpireTime(), krakenStandardOrder.getUserRefId(), krakenStandardOrder
-              .getCloseOrder(), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
-    }
-    else {
-      result =
-          kraken.addOrderValidateOnly(createKrakenCurrencyPair(krakenStandardOrder.getAssetPair()), krakenStandardOrder.getType().toString(), krakenStandardOrder.getOrderType().toString(),
-              krakenStandardOrder.getPrice(), krakenStandardOrder.getSecondaryPrice(), krakenStandardOrder.getVolume().toString(), krakenStandardOrder.getLeverage(), krakenStandardOrder
-              .getPositionTxId(), delimitSet(krakenStandardOrder.getOrderFlags()), krakenStandardOrder.getStartTime(), krakenStandardOrder.getExpireTime(), krakenStandardOrder.getUserRefId(),
-              true, krakenStandardOrder.getCloseOrder(), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+      result = kraken.addOrder(createKrakenCurrencyPair(krakenStandardOrder.getAssetPair()), krakenStandardOrder.getType().toString(), krakenStandardOrder.getOrderType().toString(),
+          krakenStandardOrder.getPrice(), krakenStandardOrder.getSecondaryPrice(), krakenStandardOrder.getVolume().toString(), krakenStandardOrder.getLeverage(),
+          krakenStandardOrder.getPositionTxId(), delimitSet(krakenStandardOrder.getOrderFlags()), krakenStandardOrder.getStartTime(), krakenStandardOrder.getExpireTime(),
+          krakenStandardOrder.getUserRefId(), krakenStandardOrder.getCloseOrder(), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    } else {
+      result = kraken.addOrderValidateOnly(createKrakenCurrencyPair(krakenStandardOrder.getAssetPair()), krakenStandardOrder.getType().toString(), krakenStandardOrder.getOrderType().toString(),
+          krakenStandardOrder.getPrice(), krakenStandardOrder.getSecondaryPrice(), krakenStandardOrder.getVolume().toString(), krakenStandardOrder.getLeverage(),
+          krakenStandardOrder.getPositionTxId(), delimitSet(krakenStandardOrder.getOrderFlags()), krakenStandardOrder.getStartTime(), krakenStandardOrder.getExpireTime(),
+          krakenStandardOrder.getUserRefId(), true, krakenStandardOrder.getCloseOrder(), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
     }
 
     return checkResult(result);
@@ -169,5 +173,31 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
     KrakenTradeVolumeResult result = kraken.tradeVolume(delimitAssetPairs(currencyPairs), exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
 
     return checkResult(result);
+  }
+
+  /**
+   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
+   * from the exchange.
+   *
+   * @return Map of currency pairs to their corresponding metadata.
+   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
+   */
+  public Map<CurrencyPair, TradeMetaData> getTradeMetaDataMap() throws IOException {
+
+    Map<CurrencyPair, TradeMetaData> result = new HashMap<CurrencyPair, TradeMetaData>();
+
+    Map<String, KrakenAssetPair> assetPairs = getKrakenAssetPairs().getAssetPairMap();
+    for (Map.Entry<String, KrakenAssetPair> e : assetPairs.entrySet()) {
+      String krakenPair = e.getKey();
+      CurrencyPair pair = KrakenAdapters.adaptCurrencyPair(krakenPair);
+
+      KrakenAssetPair assetPair = e.getValue();
+      BigDecimal amountMinimum = CFG.getBigDecimalProperty(KEY_ORDER_SIZE_MIN_DEFAULT).setScale(assetPair.getVolumeLotScale(), BigDecimal.ROUND_UNNECESSARY);
+      TradeMetaData baseTradeMetaData = new TradeMetaData(amountMinimum, assetPair.getPairScale());
+
+      result.put(pair, baseTradeMetaData);
+    }
+
+    return result;
   }
 }

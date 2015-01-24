@@ -2,16 +2,15 @@ package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradeMetaData;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEPairInfo;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
@@ -22,7 +21,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.service.polling.trade.*;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
@@ -31,9 +30,6 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsIdSpan;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.utils.DateUtils;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-import static com.xeiam.xchange.utils.TradeServiceHelperConfigurer.CFG;
-
 /**
  * @author Matija Mazi
  */
@@ -41,9 +37,8 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
-   *          The {@link ExchangeSpecification}
+   *
+   * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   public BTCETradeService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Integer> nonceFactory) {
 
@@ -84,11 +79,10 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   }
 
   /**
-   * @param arguments Vararg list of optional (nullable) arguments:
-   *          (Long) arguments[0] Number of transactions to return
-   *          (String) arguments[1] TradableIdentifier
-   *          (String) arguments[2] TransactionCurrency
-   *          (Long) arguments[3] Starting ID
+   * @param arguments Vararg list of optional (nullable) arguments: (Long)
+   *          arguments[0] Number of transactions to return (String)
+   *          arguments[1] TradableIdentifier (String) arguments[2]
+   *          TransactionCurrency (Long) arguments[3] Starting ID
    * @return Trades object
    * @throws IOException
    */
@@ -116,13 +110,12 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   }
 
   /**
-   * Supported parameters:
-   * {@link TradeHistoryParamPaging}
-   * {@link TradeHistoryParamsIdSpan}
-   * {@link TradeHistoryParamsTimeSpan}
+   * Supported parameters: {@link TradeHistoryParamPaging}
+   * {@link TradeHistoryParamsIdSpan} {@link TradeHistoryParamsTimeSpan}
    * {@link TradeHistoryParamCurrencyPair}
    *
-   * You can also override sorting order (default is descending) by using {@link BTCETradeHistoryParams}
+   * You can also override sorting order (default is descending) by using
+   * {@link BTCETradeHistoryParams}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
@@ -140,14 +133,16 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
       TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
       Integer pageLength = pagingParams.getPageLength();
       Integer pageNumber = pagingParams.getPageNumber();
-      if (pageNumber == null)
+      if (pageNumber == null) {
         pageNumber = 0;
+      }
 
       if (pageLength != null) {
         count = pageLength.longValue();
         offset = (long) (pageLength * pageNumber);
-      } else
+      } else {
         offset = pageNumber.longValue();
+      }
     }
 
     if (params instanceof TradeHistoryParamsIdSpan) {
@@ -164,12 +159,14 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
     if (params instanceof TradeHistoryParamCurrencyPair) {
       CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-      if (pair != null)
+      if (pair != null) {
         btcrPair = BTCEAdapters.adaptCurrencyPair(pair);
+      }
     }
 
-    if (params instanceof BTCETradeHistoryParams)
+    if (params instanceof BTCETradeHistoryParams) {
       sort = ((BTCETradeHistoryParams) params).sortOrder;
+    }
 
     Map<Long, BTCETradeHistoryResult> resultMap = getBTCETradeHistory(offset, count, startId, endId, sort, startTime, endTime, btcrPair);
     return BTCEAdapters.adaptTradeHistory(resultMap);
@@ -192,28 +189,6 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new BTCETradeHistoryParams();
-  }
-
-  /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData} from the exchange.
-   *
-   * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
-   */
-  @Override
-  public Map<CurrencyPair, BTCETradeMetaData> getTradeMetaDataMap() throws IOException {
-
-    Map<CurrencyPair, BTCETradeMetaData>result = new HashMap<CurrencyPair, BTCETradeMetaData>();
-    int amountScale = CFG.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
-
-    Map<String, BTCEPairInfo> pairInfos = getExchangeInfo().getPairs();
-    for (Map.Entry<String, BTCEPairInfo> e : pairInfos.entrySet()) {
-      CurrencyPair pair = BTCEAdapters.adaptCurrencyPair(e.getKey());
-      BTCETradeMetaData meta = BTCEAdapters.createMarketMetadata(e.getValue(), amountScale);
-
-      result.put(pair, meta);
-    }
-    return result;
   }
 
   public static class BTCETradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrencyPair {

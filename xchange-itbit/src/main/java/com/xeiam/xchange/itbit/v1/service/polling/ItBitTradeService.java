@@ -1,7 +1,6 @@
 package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
-import java.util.Map;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -10,7 +9,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.trade.TradeMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -78,7 +76,7 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
    * {@link TradeHistoryParamCurrencyPair}
    */
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     TradeHistoryParamPaging paging = (TradeHistoryParamPaging) params;
     Integer pageLength = paging.getPageLength();
@@ -102,18 +100,6 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
   public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new ItBitTradeHistoryParams();
-  }
-
-  /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
-   * from the exchange.
-   *
-   * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
-   */
-  @Override
-  public Map<CurrencyPair, ? extends TradeMetaData> getTradeMetaDataMap() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotAvailableFromExchangeException();
   }
 
   public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {
