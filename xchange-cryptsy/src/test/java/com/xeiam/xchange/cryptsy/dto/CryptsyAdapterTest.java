@@ -2,7 +2,7 @@ package com.xeiam.xchange.cryptsy.dto;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,7 +58,7 @@ public class CryptsyAdapterTest {
 
     assertEquals(adaptedOrderBook.getAsks().size(), cryptsyOrderBook.getReturnValue().sellOrders().size());
     assertEquals(adaptedOrderBook.getBids().size(), cryptsyOrderBook.getReturnValue().buyOrders().size());
-    assertNotNull(adaptedOrderBook.getTimeStamp());
+    assertNull(adaptedOrderBook.getTimeStamp());
   }
 
   @Test
@@ -77,7 +77,7 @@ public class CryptsyAdapterTest {
     OrderBook adaptedOrderBook = adaptedOrderBookList.get(0);
     assertEquals(adaptedOrderBook.getAsks().size(), 3);
     assertEquals(adaptedOrderBook.getBids().size(), 3);
-    assertNotNull(adaptedOrderBook.getTimeStamp());
+    assertNull(adaptedOrderBook.getTimeStamp());
 
     LimitOrder asks = adaptedOrderBook.getAsks().get(0);
     assertThat(asks.getCurrencyPair()).isEqualTo(CurrencyPair.DOGE_LTC);

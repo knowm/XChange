@@ -38,7 +38,7 @@ public final class EmpoExAdapters {
     BigDecimal counterVolume = new BigDecimal(raw.getBaseVolume24hr().replace(",", ""));
     BigDecimal volume = counterVolume.divide(last, new MathContext(8, RoundingMode.HALF_UP));
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(bid).ask(ask).volume(volume).timestamp(new Date()).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(bid).ask(ask).volume(volume).build();
   }
 
   public static Trades adaptEmpoExTrades(List<EmpoExTrade> raw, CurrencyPair currencyPair) {
@@ -80,7 +80,7 @@ public final class EmpoExAdapters {
       bids.add(new LimitOrder.Builder(OrderType.BID, currencyPair).tradableAmount(amount).limitPrice(price).build());
     }
 
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   public static AccountInfo adaptBalances(List<EmpoExBalance> raw) {

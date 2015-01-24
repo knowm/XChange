@@ -32,7 +32,7 @@ public class BTCCentralAdapters {
 
   /**
    * Adapts a BTCCentralTicker to a Ticker Object
-   * 
+   *
    * @param btcCentralTicker The exchange specific ticker
    * @param currencyPair (e.g. BTC/USD)
    * @return The ticker
@@ -61,9 +61,7 @@ public class BTCCentralAdapters {
     List<LimitOrder> bids = adaptMarketOrderToLimitOrder(marketDepth.getBids(), OrderType.BID, currencyPair);
     Collections.reverse(bids);
 
-    // TODO
-    // What timestamp should be used? Latest/Earliest/Current one?
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   /**
@@ -88,8 +86,7 @@ public class BTCCentralAdapters {
     List<Trade> trades = new ArrayList<Trade>();
 
     for (BTCCentralTrade btcCentralTrade : btcCentralTrades) {
-      Trade trade =
-          new Trade(null, btcCentralTrade.getTraded_btc(), currencyPair, btcCentralTrade.getPrice(), new Date(btcCentralTrade.getCreated_at_int()), btcCentralTrade.getUuid().toString());
+      Trade trade = new Trade(null, btcCentralTrade.getTraded_btc(), currencyPair, btcCentralTrade.getPrice(), new Date(btcCentralTrade.getCreated_at_int()), btcCentralTrade.getUuid().toString());
 
       trades.add(trade);
     }

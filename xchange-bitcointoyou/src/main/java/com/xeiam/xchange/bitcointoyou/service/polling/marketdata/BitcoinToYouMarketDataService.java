@@ -1,7 +1,6 @@
 package com.xeiam.xchange.bitcointoyou.service.polling.marketdata;
 
 import java.io.IOException;
-import java.util.Date;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcointoyou.BitcoinToYouAdapters;
@@ -19,8 +18,9 @@ public class BitcoinToYouMarketDataService extends BitcoinToYouMarketDataService
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   *
+   * @param exchangeSpecification The
+   *          {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public BitcoinToYouMarketDataService(ExchangeSpecification exchangeSpecification) {
 
@@ -37,7 +37,7 @@ public class BitcoinToYouMarketDataService extends BitcoinToYouMarketDataService
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitcoinToYouAdapters.adaptOrderBook(getBitcoinToYouOrderBook(currencyPair), currencyPair, new Date().getTime());
+    return BitcoinToYouAdapters.adaptOrderBook(getBitcoinToYouOrderBook(currencyPair), currencyPair);
   }
 
   @Override

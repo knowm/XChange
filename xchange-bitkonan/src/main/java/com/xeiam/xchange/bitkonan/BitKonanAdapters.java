@@ -55,7 +55,7 @@ public class BitKonanAdapters {
     List<LimitOrder> asks = adaptMarketOrderToLimitOrder(bitKonanOrderBook.getAsks(), OrderType.ASK, CurrencyPair.BTC_USD);
     List<LimitOrder> bids = adaptMarketOrderToLimitOrder(bitKonanOrderBook.getBids(), OrderType.BID, CurrencyPair.BTC_USD);
 
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   private static List<LimitOrder> adaptMarketOrderToLimitOrder(BitKonanOrderBookElement[] bitkonanOrders, OrderType orderType, CurrencyPair currencyPair) {

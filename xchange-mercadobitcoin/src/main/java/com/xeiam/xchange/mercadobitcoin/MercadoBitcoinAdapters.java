@@ -1,5 +1,13 @@
 package com.xeiam.xchange.mercadobitcoin;
 
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -19,17 +27,9 @@ import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrdersEntry;
 import com.xeiam.xchange.utils.DateUtils;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Various adapters for converting from Mercado Bitcoin DTOs to XChange DTOs
- * 
+ *
  * @author Felipe Micaroni Lalli
  */
 public final class MercadoBitcoinAdapters {
@@ -42,18 +42,18 @@ public final class MercadoBitcoinAdapters {
   }
 
   /**
-   * Adapts a com.xeiam.xchange.mercadobitcoin.dto.marketdata.OrderBook to a OrderBook Object
+   * Adapts a com.xeiam.xchange.mercadobitcoin.dto.marketdata.OrderBook to a
+   * OrderBook Object
    *
    * @param currencyPair (e.g. BTC/BRL or LTC/BRL)
    * @param timestamp When the book was retrieved from server.
    * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrderBook(MercadoBitcoinOrderBook mercadoBitcoinOrderBook, CurrencyPair currencyPair, long timestamp) {
+  public static OrderBook adaptOrderBook(MercadoBitcoinOrderBook mercadoBitcoinOrderBook, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, mercadoBitcoinOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, mercadoBitcoinOrderBook.getBids());
-    Date date = new Date(timestamp);
-    return new OrderBook(date, asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
@@ -112,8 +112,9 @@ public final class MercadoBitcoinAdapters {
     long lastTradeId = 0;
     for (MercadoBitcoinTransaction tx : transactions) {
       final long tradeId = tx.getTid();
-      if (tradeId > lastTradeId)
+      if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
+      }
       trades.add(new Trade(tx.getType().equals("buy") ? OrderType.BID : OrderType.ASK, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String
           .valueOf(tradeId)));
     }
@@ -122,7 +123,8 @@ public final class MercadoBitcoinAdapters {
   }
 
   /**
-   * Adapts a MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> to a AccountInfo
+   * Adapts a MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> to a
+   * AccountInfo
    *
    * @param accountInfo The Mercado Bitcoin accountInfo
    * @param userName The user name

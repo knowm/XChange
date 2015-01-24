@@ -1,5 +1,15 @@
 package com.xeiam.xchange.bitcointoyou;
 
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+
 import com.xeiam.xchange.bitcointoyou.dto.BitcoinToYouBaseTradeApiResult;
 import com.xeiam.xchange.bitcointoyou.dto.account.BitcoinToYouBalance;
 import com.xeiam.xchange.bitcointoyou.dto.marketdata.BitcoinToYouOrderBook;
@@ -18,19 +28,9 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.utils.DateUtils;
 
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.MessageFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
 /**
  * Various adapters for converting from BitcoinToYou DTOs to XChange DTOs
- * 
+ *
  * @author Felipe Micaroni Lalli
  */
 public final class BitcoinToYouAdapters {
@@ -43,18 +43,18 @@ public final class BitcoinToYouAdapters {
   }
 
   /**
-   * Adapts a com.xeiam.xchange.bitcointoyou.dto.marketdata.OrderBook to a OrderBook Object
+   * Adapts a com.xeiam.xchange.bitcointoyou.dto.marketdata.OrderBook to a
+   * OrderBook Object
    *
    * @param currencyPair (e.g. BTC/BRL or LTC/BRL)
    * @param timestamp When the book was retrieved from server.
    * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrderBook(BitcoinToYouOrderBook bitcoinToYouOrderBook, CurrencyPair currencyPair, long timestamp) {
+  public static OrderBook adaptOrderBook(BitcoinToYouOrderBook bitcoinToYouOrderBook, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, bitcoinToYouOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, bitcoinToYouOrderBook.getBids());
-    Date date = new Date(timestamp);
-    return new OrderBook(date, asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
@@ -113,8 +113,9 @@ public final class BitcoinToYouAdapters {
     long lastTradeId = 0;
     for (BitcoinToYouTransaction tx : transactions) {
       final long tradeId = tx.getTid();
-      if (tradeId > lastTradeId)
+      if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
+      }
       trades.add(new Trade(tx.getType().equals("buy") ? OrderType.BID : OrderType.ASK, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String
           .valueOf(tradeId)));
     }
@@ -123,7 +124,8 @@ public final class BitcoinToYouAdapters {
   }
 
   /**
-   * Adapts a BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> to an AccountInfo
+   * Adapts a BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> to an
+   * AccountInfo
    *
    * @param accountInfo The BitcoinToYou accountInfo
    * @param userName The user name

@@ -1,5 +1,7 @@
 package com.xeiam.xchange.mercadobitcoin.service.polling.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -7,9 +9,6 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinAdapters;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
-
-import java.io.IOException;
-import java.util.Date;
 
 /**
  * @author Matija Mazi
@@ -19,8 +18,9 @@ public class MercadoBitcoinMarketDataService extends MercadoBitcoinMarketDataSer
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   *
+   * @param exchangeSpecification The
+   *          {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public MercadoBitcoinMarketDataService(ExchangeSpecification exchangeSpecification) {
 
@@ -37,13 +37,13 @@ public class MercadoBitcoinMarketDataService extends MercadoBitcoinMarketDataSer
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return MercadoBitcoinAdapters.adaptOrderBook(getMercadoBitcoinOrderBook(currencyPair), currencyPair, new Date().getTime());
+    return MercadoBitcoinAdapters.adaptOrderBook(getMercadoBitcoinOrderBook(currencyPair), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-      return MercadoBitcoinAdapters.adaptTrades(getMercadoBitcoinTransactions(currencyPair, args), currencyPair);
+    return MercadoBitcoinAdapters.adaptTrades(getMercadoBitcoinTransactions(currencyPair, args), currencyPair);
   }
 
 }

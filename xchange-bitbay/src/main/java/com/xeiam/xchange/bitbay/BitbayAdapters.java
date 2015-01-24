@@ -30,7 +30,7 @@ public class BitbayAdapters {
 
   /**
    * Adapts a BitbayTicker to a Ticker Object
-   * 
+   *
    * @param bitbayTicker The exchange specific ticker
    * @param currencyPair (e.g. BTC/USD)
    * @return The ticker
@@ -43,9 +43,8 @@ public class BitbayAdapters {
     BigDecimal low = bitbayTicker.getMin();
     BigDecimal volume = bitbayTicker.getVolume();
     BigDecimal last = bitbayTicker.getLast();
-    Date timestamp = new Date();
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).build();
   }
 
   /**
@@ -72,9 +71,8 @@ public class BitbayAdapters {
    */
   public static OrderBook adaptOrderBook(BitbayOrderBook bitbayOrderBook, CurrencyPair currencyPair) {
 
-    OrderBook orderBook =
-        new OrderBook(new Date(), transformArrayToLimitOrders(bitbayOrderBook.getAsks(), OrderType.ASK, currencyPair), transformArrayToLimitOrders(bitbayOrderBook.getBids(), OrderType.BID,
-            currencyPair));
+    OrderBook orderBook = new OrderBook(null, transformArrayToLimitOrders(bitbayOrderBook.getAsks(), OrderType.ASK, currencyPair), transformArrayToLimitOrders(bitbayOrderBook.getBids(),
+        OrderType.BID, currencyPair));
 
     return orderBook;
   }

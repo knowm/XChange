@@ -1,7 +1,6 @@
 package com.xeiam.xchange.vircurex.service.polling;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -28,7 +27,7 @@ public class VircurexMarketDataService extends VircurexMarketDataServiceRaw impl
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification
    */
   public VircurexMarketDataService(ExchangeSpecification exchangeSpecification) {
@@ -51,7 +50,7 @@ public class VircurexMarketDataService extends VircurexMarketDataServiceRaw impl
     List<LimitOrder> asks = VircurexAdapters.adaptOrders(vircurexDepth.getAsks(), currencyPair, "ask", "");
     List<LimitOrder> bids = VircurexAdapters.adaptOrders(vircurexDepth.getBids(), currencyPair, "bid", "");
 
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   @Override

@@ -62,10 +62,8 @@ public final class CoinsetterAdapters {
    */
   public static Ticker adaptTicker(CoinsetterTicker coinsetterTicker) {
 
-    return new Ticker.Builder().currencyPair(CurrencyPair.BTC_USD)
-            .timestamp(new Date(coinsetterTicker.getLast().getTimeStamp())).ask(coinsetterTicker.getAsk().getPrice())
-            .bid(coinsetterTicker.getBid().getPrice()).last(coinsetterTicker.getLast().getPrice())
-            .volume(coinsetterTicker.getVolume()).build();
+    return new Ticker.Builder().currencyPair(CurrencyPair.BTC_USD).timestamp(new Date(coinsetterTicker.getLast().getTimeStamp())).ask(coinsetterTicker.getAsk().getPrice())
+        .bid(coinsetterTicker.getBid().getPrice()).last(coinsetterTicker.getLast().getPrice()).volume(coinsetterTicker.getVolume()).build();
   }
 
   /**
@@ -77,7 +75,7 @@ public final class CoinsetterAdapters {
   public static OrderBook adaptOrderBook(CoinsetterPair[] coinsetterPairs) {
 
     int length = coinsetterPairs.length;
-    Date timeStamp;
+    Date timeStamp = null;
     List<LimitOrder> asks;
     List<LimitOrder> bids;
     if (length > 0) {
@@ -91,7 +89,6 @@ public final class CoinsetterAdapters {
         bids.add(new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD).limitPrice(bid.getPrice()).tradableAmount(bid.getSize()).build());
       }
     } else {
-      timeStamp = new Date();
       asks = Collections.emptyList();
       bids = Collections.emptyList();
     }
@@ -106,7 +103,7 @@ public final class CoinsetterAdapters {
    */
   public static OrderBook adaptOrderBook(CoinsetterListDepth coinsetterListDepth) {
 
-    Date timeStamp = coinsetterListDepth.getTimeStamp() == null ? new Date() : new Date(coinsetterListDepth.getTimeStamp());
+    Date timeStamp = coinsetterListDepth.getTimeStamp() == null ? null : new Date(coinsetterListDepth.getTimeStamp());
 
     BigDecimal[][] asks = coinsetterListDepth.getAsks();
     BigDecimal[][] bids = coinsetterListDepth.getBids();
@@ -148,9 +145,8 @@ public final class CoinsetterAdapters {
 
   public static LimitOrder adaptLimitOrder(CoinsetterOrder order) {
 
-    return new LimitOrder.Builder(adaptSide(order.getSide()), adaptCurrencyPair(order.getSymbol()))
-            .id(order.getUuid().toString()).timestamp(order.getCreateDate()).limitPrice(order.getRequestedPrice())
-            .tradableAmount(order.getOpenQuantity()).build();
+    return new LimitOrder.Builder(adaptSide(order.getSide()), adaptCurrencyPair(order.getSymbol())).id(order.getUuid().toString()).timestamp(order.getCreateDate())
+        .limitPrice(order.getRequestedPrice()).tradableAmount(order.getOpenQuantity()).build();
   }
 
 }

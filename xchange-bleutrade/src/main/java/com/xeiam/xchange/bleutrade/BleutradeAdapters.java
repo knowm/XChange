@@ -1,7 +1,6 @@
 package com.xeiam.xchange.bleutrade;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -79,7 +78,7 @@ public class BleutradeAdapters {
       bids.add(builder.build());
     }
 
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   public static Trades adaptBleutradeMarketHistory(List<BleutradeTrade> bleutradeTrades, CurrencyPair currencyPair) {
