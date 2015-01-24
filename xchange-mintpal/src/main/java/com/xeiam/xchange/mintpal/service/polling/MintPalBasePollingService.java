@@ -7,9 +7,9 @@ import java.util.Set;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.mintpal.MintPal;
 import com.xeiam.xchange.mintpal.MintPalAdapters;
 import com.xeiam.xchange.mintpal.dto.MintPalBaseResponse;

@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -17,6 +14,9 @@ import com.xeiam.xchange.empoex.EmpoExUtils;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExLevel;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExTicker;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExTrade;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**

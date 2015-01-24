@@ -5,9 +5,7 @@ import java.math.BigDecimal;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcointoyou.BitcoinToYou;
 import com.xeiam.xchange.bitcointoyou.dto.marketdata.BitcoinToYouOrderBook;
 import com.xeiam.xchange.bitcointoyou.dto.marketdata.BitcoinToYouTicker;
@@ -15,6 +13,8 @@ import com.xeiam.xchange.bitcointoyou.dto.marketdata.BitcoinToYouTransaction;
 import com.xeiam.xchange.bitcointoyou.service.polling.BitcoinToYouBasePollingService;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 
 /**
  * @author gnandiga

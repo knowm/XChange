@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.btctrade.dto.BTCTradeResult;
 import com.xeiam.xchange.btctrade.dto.account.BTCTradeBalance;
 import com.xeiam.xchange.btctrade.dto.account.BTCTradeWallet;
@@ -34,6 +33,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * Various adapters for converting from BTCTrade DTOs to XChange DTOs.

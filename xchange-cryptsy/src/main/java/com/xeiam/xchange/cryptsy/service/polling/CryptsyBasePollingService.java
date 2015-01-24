@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptsy.Cryptsy;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
@@ -23,6 +22,7 @@ import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyCurrencyPairsReturn;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyMarketId;
 import com.xeiam.xchange.cryptsy.service.CryptsyHmacPostBodyDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 

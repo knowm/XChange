@@ -12,9 +12,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOpenOrders.CexIOOpenOrdersDeserializer;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOrder.Type;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 @JsonDeserialize(using = CexIOOpenOrdersDeserializer.class)
 public class CexIOOpenOrders {

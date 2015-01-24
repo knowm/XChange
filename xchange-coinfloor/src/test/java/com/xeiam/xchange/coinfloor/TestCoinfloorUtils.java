@@ -7,8 +7,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.coinfloor.CoinfloorUtils.CoinfloorCurrency;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * @author obsessiveOrange

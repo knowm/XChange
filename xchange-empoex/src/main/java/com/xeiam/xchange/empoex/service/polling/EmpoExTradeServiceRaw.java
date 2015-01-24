@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.empoex.EmpoExAuthenticated;
@@ -14,6 +13,7 @@ import com.xeiam.xchange.empoex.EmpoExException;
 import com.xeiam.xchange.empoex.EmpoExUtils;
 import com.xeiam.xchange.empoex.dto.trade.EmpoExOpenOrder;
 import com.xeiam.xchange.empoex.dto.trade.EmpoExOrderResponse;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 public class EmpoExTradeServiceRaw extends EmpoExBasePollingService<EmpoExAuthenticated> {
 

@@ -3,6 +3,7 @@ package com.xeiam.xchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.utils.Assert;
 
 /**

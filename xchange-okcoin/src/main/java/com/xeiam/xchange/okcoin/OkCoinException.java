@@ -1,6 +1,6 @@
 package com.xeiam.xchange.okcoin;
 
-import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 public class OkCoinException extends ExchangeException {
 

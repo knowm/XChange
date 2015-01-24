@@ -6,7 +6,6 @@ import java.util.Map;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cexio.CexIOAuthenticated;
 import com.xeiam.xchange.cexio.CexIOUtils;
@@ -14,6 +13,7 @@ import com.xeiam.xchange.cexio.dto.account.CexIOBalanceInfo;
 import com.xeiam.xchange.cexio.dto.account.GHashIOHashrate;
 import com.xeiam.xchange.cexio.dto.account.GHashIOWorker;
 import com.xeiam.xchange.cexio.service.CexIODigest;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * @author timmolter

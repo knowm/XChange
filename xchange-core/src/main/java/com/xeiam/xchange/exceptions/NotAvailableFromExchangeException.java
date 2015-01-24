@@ -1,4 +1,4 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.exceptions;
 
 /**
  * <p>

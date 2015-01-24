@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.bitvc.dto.account.BitVcAccountInfo;
 import com.xeiam.xchange.bitvc.dto.account.HuobiAccountInfo;
 import com.xeiam.xchange.bitvc.dto.marketdata.BitVcDepth;
@@ -36,6 +35,7 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 public final class BitVcAdapters {
 

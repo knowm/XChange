@@ -2,9 +2,9 @@ package com.xeiam.xchange.bitvc.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitvc.dto.account.BitVcAccountInfo;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 public class BitVcAccountServiceRaw extends BitVcBaseTradeService {
 

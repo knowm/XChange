@@ -6,16 +6,16 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.xeiam.xchange.FrequencyLimitExceededException;
-import com.xeiam.xchange.NonceException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.FrequencyLimitExceededException;
+import com.xeiam.xchange.exceptions.NonceException;
 import com.xeiam.xchange.kraken.Kraken;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.kraken.dto.KrakenResult;

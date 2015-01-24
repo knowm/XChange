@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcurex.BitcurexAuthenticated;
 import com.xeiam.xchange.bitcurex.BitcurexUtils;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
 import com.xeiam.xchange.bitcurex.service.BitcurexDigest;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 public class BitcurexAccountServiceRaw extends BitcurexBasePollingService {
 

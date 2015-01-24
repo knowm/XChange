@@ -3,7 +3,6 @@ package com.xeiam.xchange.bittrex.v1.service.polling;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bittrex.v1.Bittrex;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexCurrenciesResponse;
@@ -17,6 +16,7 @@ import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTickerResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTickersResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTrade;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTradesResponse;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * <p>

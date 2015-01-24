@@ -1,9 +1,9 @@
 package com.xeiam.xchange.mercadobitcoin;
 
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 
 /**
  * @author Felipe Micaroni Lalli

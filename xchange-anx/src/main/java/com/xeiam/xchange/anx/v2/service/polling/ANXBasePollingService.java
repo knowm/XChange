@@ -4,15 +4,16 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.FundsExceededException;
-import com.xeiam.xchange.NonceException;
 import com.xeiam.xchange.anx.v2.dto.ANXException;
+
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.FundsExceededException;
+import com.xeiam.xchange.exceptions.NonceException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 

@@ -1,6 +1,5 @@
 package com.xeiam.xchange.bitcointoyou.service.polling.account;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcointoyou.BitcoinToYouAuthenticated;
 import com.xeiam.xchange.bitcointoyou.BitcoinToYouUtils;
@@ -8,6 +7,8 @@ import com.xeiam.xchange.bitcointoyou.dto.BitcoinToYouBaseTradeApiResult;
 import com.xeiam.xchange.bitcointoyou.dto.account.BitcoinToYouBalance;
 import com.xeiam.xchange.bitcointoyou.service.BitcoinToYouDigest;
 import com.xeiam.xchange.bitcointoyou.service.polling.BitcoinToYouBasePollingService;
+import com.xeiam.xchange.exceptions.ExchangeException;
+
 import si.mazi.rescu.RestProxyFactory;
 
 import java.io.IOException;

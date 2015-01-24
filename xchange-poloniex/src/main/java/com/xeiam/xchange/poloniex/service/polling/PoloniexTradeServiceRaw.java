@@ -7,11 +7,11 @@ package com.xeiam.xchange.poloniex.service.polling;
 import java.io.IOException;
 import java.util.HashMap;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.poloniex.PoloniexAdapters;
 import com.xeiam.xchange.poloniex.PoloniexAuthenticated;
 import com.xeiam.xchange.poloniex.PoloniexException;

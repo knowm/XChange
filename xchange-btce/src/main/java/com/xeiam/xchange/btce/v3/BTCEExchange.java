@@ -1,8 +1,8 @@
 package com.xeiam.xchange.btce.v3;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeServiceRaw;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -11,6 +11,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEAccountService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.utils.nonce.IntTimeNonceFactory;
 
 import java.io.IOException;

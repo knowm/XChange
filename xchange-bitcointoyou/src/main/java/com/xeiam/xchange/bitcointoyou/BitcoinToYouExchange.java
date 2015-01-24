@@ -3,10 +3,10 @@ package com.xeiam.xchange.bitcointoyou;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.bitcointoyou.service.polling.account.BitcoinToYouAccountService;
 import com.xeiam.xchange.bitcointoyou.service.polling.marketdata.BitcoinToYouMarketDataService;
 import com.xeiam.xchange.bitcointoyou.service.polling.trade.BitcoinToYouTradeService;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 

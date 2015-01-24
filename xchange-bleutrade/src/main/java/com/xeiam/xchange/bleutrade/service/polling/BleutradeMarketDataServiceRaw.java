@@ -3,7 +3,6 @@ package com.xeiam.xchange.bleutrade.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bleutrade.Bleutrade;
 import com.xeiam.xchange.bleutrade.BleutradeUtils;
@@ -16,6 +15,7 @@ import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTicker;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTickerReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * <p>

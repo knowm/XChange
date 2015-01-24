@@ -5,9 +5,7 @@ import java.math.BigDecimal;
 
 import javax.annotation.Nullable;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.cryptsy.CryptsyAuthenticated;
 import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
 import com.xeiam.xchange.cryptsy.dto.account.CryptsyAccountInfoReturn;
@@ -16,6 +14,8 @@ import com.xeiam.xchange.cryptsy.dto.account.CryptsyNewAddressReturn;
 import com.xeiam.xchange.cryptsy.dto.account.CryptsyTransfersReturn;
 import com.xeiam.xchange.cryptsy.dto.account.CryptsyTxnHistoryReturn;
 import com.xeiam.xchange.cryptsy.dto.account.CryptsyWithdrawalReturn;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 
 /**
  * @author ObsessiveOrange

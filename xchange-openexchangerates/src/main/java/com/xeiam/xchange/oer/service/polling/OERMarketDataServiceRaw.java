@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.CachedDataSession;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.oer.OER;
 import com.xeiam.xchange.oer.OERUtils;
 import com.xeiam.xchange.oer.dto.marketdata.OERRates;

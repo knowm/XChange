@@ -1,8 +1,8 @@
 package com.xeiam.xchange.mercadobitcoin.service.polling.account;
 
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinAdapters;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 

@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptsy.CryptsyAuthenticated;
 import com.xeiam.xchange.cryptsy.dto.CryptsyOrder.CryptsyOrderType;
@@ -15,6 +14,7 @@ import com.xeiam.xchange.cryptsy.dto.trade.CryptsyCancelOrderReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyOpenOrdersReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyPlaceOrderReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * @author ObsessiveOrange

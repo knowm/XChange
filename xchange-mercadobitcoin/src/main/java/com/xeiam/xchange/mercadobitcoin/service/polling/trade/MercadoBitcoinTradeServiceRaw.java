@@ -1,7 +1,7 @@
 package com.xeiam.xchange.mercadobitcoin.service.polling.trade;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinAuthenticated;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinUtils;
 import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
@@ -10,10 +10,12 @@ import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderR
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import com.xeiam.xchange.mercadobitcoin.service.MercadoBitcoinDigest;
 import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinBasePollingService;
+
 import si.mazi.rescu.RestProxyFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 

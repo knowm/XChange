@@ -1,18 +1,19 @@
-package com.xeiam.xchange;
+package com.xeiam.xchange.exceptions;
 
 /**
  * <p>
  * Exception to provide the following to API:
  * </p>
  * <ul>
- * <li>Indication that the exchange supports the requested function or data, but it's not yet been implemented</li>
+ * <li>Indication that the exchange supports the requested function or data, but
+ * it's not yet been implemented</li>
  * </ul>
  */
 public class NotYetImplementedForExchangeException extends RuntimeException {
 
   /**
    * Constructor
-   * 
+   *
    * @param message
    */
   private NotYetImplementedForExchangeException(String message) {
@@ -25,7 +26,7 @@ public class NotYetImplementedForExchangeException extends RuntimeException {
    */
   public NotYetImplementedForExchangeException() {
 
-    this("Capability not yet implemented for exchange.");
+    this("Feature not yet implemented for exchange.");
   }
 
 }

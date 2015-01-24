@@ -3,7 +3,6 @@ package com.xeiam.xchange.bleutrade.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
 import com.xeiam.xchange.bleutrade.BleutradeException;
@@ -13,6 +12,7 @@ import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrdersReturn;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 public class BleutradeTradeServiceRaw extends BleutradeBasePollingService<BleutradeAuthenticated> {
 

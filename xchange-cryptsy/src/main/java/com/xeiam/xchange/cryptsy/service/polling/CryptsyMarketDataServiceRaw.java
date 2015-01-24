@@ -2,12 +2,12 @@ package com.xeiam.xchange.cryptsy.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptsy.CryptsyAuthenticated;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyGetMarketsReturn;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyMarketTradesReturn;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyOrderBookReturn;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * @author ObsessiveOrange

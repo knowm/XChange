@@ -3,7 +3,6 @@ package com.xeiam.xchange.cryptsy.service.polling;
 import java.io.IOException;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptsy.Cryptsy;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
@@ -11,6 +10,7 @@ import com.xeiam.xchange.cryptsy.CryptsyExchange;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyCurrencyPairsReturn;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicMarketData;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicOrderbook;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 public class CryptsyPublicMarketDataServiceRaw extends CryptsyBasePollingService<Cryptsy> {
 

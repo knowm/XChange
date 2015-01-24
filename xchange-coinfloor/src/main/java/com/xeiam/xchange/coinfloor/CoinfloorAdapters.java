@@ -11,7 +11,6 @@ import java.util.Map;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.coinfloor.dto.streaming.CoinfloorOrder;
 import com.xeiam.xchange.coinfloor.dto.streaming.account.CoinfloorAssetBalance;
 import com.xeiam.xchange.coinfloor.dto.streaming.account.CoinfloorBalances;
@@ -33,6 +32,7 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * @author obsessiveOrange

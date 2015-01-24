@@ -1,6 +1,5 @@
 package com.xeiam.xchange.bitcointoyou;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.bitcointoyou.dto.BitcoinToYouBaseTradeApiResult;
 import com.xeiam.xchange.bitcointoyou.dto.account.BitcoinToYouBalance;
 import com.xeiam.xchange.bitcointoyou.dto.marketdata.BitcoinToYouOrderBook;
@@ -16,6 +15,7 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;

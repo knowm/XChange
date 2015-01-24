@@ -1,13 +1,14 @@
 package com.xeiam.xchange.lakebtc.service.polling;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.lakebtc.LakeBTCAuthenticated;
 import com.xeiam.xchange.lakebtc.LakeBTCUtil;
 import com.xeiam.xchange.lakebtc.dto.trade.*;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;

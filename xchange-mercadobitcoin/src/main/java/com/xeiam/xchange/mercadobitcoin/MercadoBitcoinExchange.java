@@ -3,7 +3,7 @@ package com.xeiam.xchange.mercadobitcoin;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.mercadobitcoin.service.polling.account.MercadoBitcoinAccountService;
 import com.xeiam.xchange.mercadobitcoin.service.polling.marketdata.MercadoBitcoinMarketDataService;
 import com.xeiam.xchange.mercadobitcoin.service.polling.trade.MercadoBitcoinTradeService;

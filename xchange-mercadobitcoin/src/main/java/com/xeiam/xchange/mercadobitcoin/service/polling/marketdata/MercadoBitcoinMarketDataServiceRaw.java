@@ -1,15 +1,16 @@
 package com.xeiam.xchange.mercadobitcoin.service.polling.marketdata;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoin;
 import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
 import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
 import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
 import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinBasePollingService;
+
 import si.mazi.rescu.RestProxyFactory;
 
 import java.io.IOException;
