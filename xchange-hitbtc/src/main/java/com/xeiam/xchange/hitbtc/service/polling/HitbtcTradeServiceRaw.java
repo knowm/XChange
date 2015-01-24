@@ -3,6 +3,7 @@ package com.xeiam.xchange.hitbtc.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.Map;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -18,12 +19,14 @@ import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.HitbtcAuthenticated;
 import com.xeiam.xchange.hitbtc.dto.HitbtcException;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeMetaData;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
+import com.xeiam.xchange.hitbtc.dto.trade.HitbtcTradeMetaData;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 
 public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthenticated> {
@@ -182,14 +185,43 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService<HitbtcAuthen
   }
 
   /**
-   * Fetch the {@link com.com.xeiam.xchange.service.polling.trade.TradeMetaData}
-   * from the exchange.
    *
    * @return Map of currency pairs to their corresponding metadata.
-   * @see com.com.xeiam.xchange.service.polling.trade.TradeMetaData
    */
   public Map<CurrencyPair, HitbtcTradeMetaData> getTradeMetaDataMap() throws IOException {
-    metadata = HitbtcAdapters.adaptSymbolsToTradeMetadataMap(hitbtc.getSymbols());
+
+    // // 1. get trading fee from properties file
+    // boolean makerFee = CFG.getBoolProperty(HITBTC_ORDER_FEE_POLICY_MAKER);
+    // Properties config = CFG.getProperties();
+    // String currencyPair =
+    // config.getProperty(HITBTC_ORDER_FEE_LISTING_DEFAULT);
+    // if (currencyPair == null) {
+    // currencyPair = config.getProperty(XCHANGE_ORDER_FEE_LISTING_DEFAULT,
+    // CurrencyPair.BTC_USD.toString());
+    // }
+    // CurrencyPair pair = CurrencyPair.fromString(currencyPair);
+    // HitbtcTradeMetaData listingHelper = metadata.get(pair);
+    // BigDecimal tradingFee = makerFee ?
+    // listingHelper.getProvideLiquidityRate() :
+    // listingHelper.getTakeLiquidityRate();
+
+    // 2. get symbols from REST API
+    HitbtcSymbols hitbtcSymbols = hitbtc.getSymbols();
+
+    // 3. Create meta data
+    Map<CurrencyPair, HitbtcTradeMetaData> result = new HashMap<CurrencyPair, HitbtcTradeMetaData>();
+    for (HitbtcSymbol symbol : hitbtcSymbols.getHitbtcSymbols()) {
+
+      CurrencyPair pair = HitbtcAdapters.adaptSymbol(symbol);
+
+      BigDecimal lot = symbol.getLot();
+
+      // TODO look up or poll fee for pair and provide to following method
+
+      HitbtcTradeMetaData hitbtcTradeMetaData = new HitbtcTradeMetaData(null, lot, symbol.getStep().scale(), symbol.getTakeLiquidityRate(), symbol.getProvideLiquidityRate());
+
+      result.put(pair, hitbtcTradeMetaData);
+    }
     return metadata;
   }
 

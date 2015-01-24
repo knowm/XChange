@@ -11,7 +11,7 @@ public class ANXTradeMetaData extends TradeMetaData {
 
   public ANXTradeMetaData(BigDecimal amountMinimum, BigDecimal amountMaximum, int priceScale) {
 
-    super(amountMinimum, priceScale);
+    super(null, amountMinimum, priceScale);
     this.amountMaximum = amountMaximum;
   }
 

@@ -137,7 +137,7 @@ public final class MercadoBitcoinAdapters {
     Wallet btcWallet = new Wallet(Currencies.BTC, accountInfo.getTheReturn().getFunds().getBtc(), "Bitcoin balance (XBT / BTC)");
     Wallet ltcWallet = new Wallet(Currencies.LTC, accountInfo.getTheReturn().getFunds().getLtc(), "Litecoin balance (XLT / LTC)");
 
-    return new AccountInfo(userName, null, Arrays.asList(brlWallet, btcWallet, ltcWallet));
+    return new AccountInfo(userName, Arrays.asList(brlWallet, btcWallet, ltcWallet));
   }
 
   public static List<LimitOrder> adaptOrders(CurrencyPair currencyPair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> input) {

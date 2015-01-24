@@ -147,6 +147,6 @@ public class LakeBTCAdapters {
     Wallet cnyWWallet = new Wallet(Currencies.CNY, balance.getCNY());
     Wallet btcWallet = new Wallet(Currencies.BTC, balance.getBTC());
 
-    return new AccountInfo(profile.getId(), null, Arrays.asList(usdWallet, btcWallet, cnyWWallet));
+    return new AccountInfo(profile.getId(), Arrays.asList(usdWallet, btcWallet, cnyWWallet));
   }
 }

@@ -193,7 +193,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
 
       KrakenAssetPair assetPair = e.getValue();
       BigDecimal amountMinimum = CFG.getBigDecimalProperty(KEY_ORDER_SIZE_MIN_DEFAULT).setScale(assetPair.getVolumeLotScale(), BigDecimal.ROUND_UNNECESSARY);
-      TradeMetaData baseTradeMetaData = new TradeMetaData(amountMinimum, assetPair.getPairScale());
+      TradeMetaData baseTradeMetaData = new TradeMetaData(null, amountMinimum, assetPair.getPairScale());
 
       result.put(pair, baseTradeMetaData);
     }

@@ -3,7 +3,6 @@ package com.xeiam.xchange.hitbtc;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,6 @@ import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrade;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTradeMetaData;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
@@ -181,7 +179,7 @@ public class HitbtcAdapters {
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static AccountInfo adaptAccountInfo(HitbtcBalance[] accountInfoRaw, BigDecimal tradingFee) {
+  public static AccountInfo adaptAccountInfo(HitbtcBalance[] accountInfoRaw) {
 
     List<Wallet> wallets = new ArrayList<Wallet>(accountInfoRaw.length);
 
@@ -192,7 +190,7 @@ public class HitbtcAdapters {
       wallets.add(wallet);
 
     }
-    return new AccountInfo(null, tradingFee, wallets);
+    return new AccountInfo(null, wallets);
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
@@ -227,19 +225,4 @@ public class HitbtcAdapters {
     return type == OrderType.BID ? "buy" : "sell";
   }
 
-  public static Map<CurrencyPair, HitbtcTradeMetaData> adaptSymbolsToTradeMetadataMap(HitbtcSymbols symbols) {
-
-    Map<CurrencyPair, HitbtcTradeMetaData> result = new HashMap<CurrencyPair, HitbtcTradeMetaData>();
-    for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
-
-      CurrencyPair pair = adaptSymbol(symbol);
-
-      BigDecimal lot = symbol.getLot();
-      HitbtcTradeMetaData hitbtcTradeMetaData = new HitbtcTradeMetaData(lot, symbol.getStep().scale(), symbol.getTakeLiquidityRate(), symbol.getProvideLiquidityRate());
-
-      result.put(pair, hitbtcTradeMetaData);
-    }
-
-    return result;
-  }
 }

@@ -108,7 +108,6 @@ public class BitcoinToYouAdapterTest {
 
     AccountInfo accountInfo = BitcoinToYouAdapters.adaptAccountInfo(bitcoinToYouAccountInfo, "Nina Tufão & Bit");
     assertThat(accountInfo.getUsername()).isEqualTo("Nina Tufão & Bit");
-    assertThat(accountInfo.getTradingFee()).isNull();
     assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("BRL");
     assertThat(accountInfo.getWallets().get(0).getBalance()).isEqualTo(new BigDecimal("17628.7309736"));
     assertThat(accountInfo.getWallets().get(1).getCurrency()).isEqualTo("BTC");

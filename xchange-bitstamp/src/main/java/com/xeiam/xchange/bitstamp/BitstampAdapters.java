@@ -42,7 +42,7 @@ public final class BitstampAdapters {
 
   /**
    * Adapts a BitstampBalance to a AccountInfo
-   * 
+   *
    * @param bitstampBalance The Bitstamp balance
    * @param userName The user name
    * @return The account info
@@ -53,15 +53,17 @@ public final class BitstampAdapters {
     Wallet usdWallet = new Wallet(Currencies.USD, bitstampBalance.getUsdBalance());
     Wallet btcWallet = new Wallet(Currencies.BTC, bitstampBalance.getBtcBalance());
 
-    return new AccountInfo(userName, bitstampBalance.getFee(), Arrays.asList(usdWallet, btcWallet));
+    return new AccountInfo(userName, Arrays.asList(usdWallet, btcWallet));
   }
 
   /**
-   * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
-   * 
+   * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook
+   * Object
+   *
    * @param currencyPair (e.g. BTC/USD)
    * @param currency The currency (e.g. USD in BTC/USD)
-   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
+   * @param timeScale polled order books provide a timestamp in seconds, stream
+   *          in ms
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair, int timeScale) {
@@ -96,7 +98,7 @@ public final class BitstampAdapters {
 
   /**
    * Adapts a Transaction[] to a Trades Object
-   * 
+   *
    * @param transactions The Bitstamp transactions
    * @param currencyPair (e.g. BTC/USD)
    * @return The XChange Trades
@@ -107,8 +109,9 @@ public final class BitstampAdapters {
     long lastTradeId = 0;
     for (BitstampTransaction tx : transactions) {
       final long tradeId = tx.getTid();
-      if (tradeId > lastTradeId)
+      if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
+      }
       trades.add(new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
     }
 
@@ -117,10 +120,11 @@ public final class BitstampAdapters {
 
   /**
    * Adapts a Transaction to a Trade Object
-   * 
+   *
    * @param transactions The Bitstamp transaction
    * @param currencyPair (e.g. BTC/USD)
-   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
+   * @param timeScale polled order books provide a timestamp in seconds, stream
+   *          in ms
    * @return The XChange Trade
    */
   public static Trade adaptTrade(BitstampTransaction tx, CurrencyPair currencyPair, int timeScale) {
@@ -132,7 +136,7 @@ public final class BitstampAdapters {
 
   /**
    * Adapts a BitstampTicker to a Ticker Object
-   * 
+   *
    * @param bitstampTicker The exchange specific ticker
    * @param currencyPair (e.g. BTC/USD)
    * @return The ticker
@@ -153,7 +157,7 @@ public final class BitstampAdapters {
 
   /**
    * Adapt the user's trades
-   * 
+   *
    * @param bitstampUserTransactions
    * @return
    */
@@ -168,8 +172,9 @@ public final class BitstampAdapters {
         BigDecimal price = bitstampUserTransaction.getPrice().abs();
         Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
         long transactionId = bitstampUserTransaction.getId();
-        if (transactionId > lastTradeId)
+        if (transactionId > lastTradeId) {
           lastTradeId = transactionId;
+        }
         final String tradeId = String.valueOf(transactionId);
         final String orderId = String.valueOf(bitstampUserTransaction.getOrderId());
         final BigDecimal feeAmount = bitstampUserTransaction.getFee();

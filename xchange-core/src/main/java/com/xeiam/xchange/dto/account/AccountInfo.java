@@ -10,37 +10,24 @@ import com.xeiam.xchange.dto.trade.Wallet;
  * DTO representing account information
  * </p>
  * <p>
- * Account information is associated with the current balances in various currencies held on the exchange.
+ * Account information is associated with the current balances in various
+ * currencies held on the exchange.
  * </p>
  */
 public final class AccountInfo {
 
   private final String username;
-  private final BigDecimal tradingFee;
   private final List<Wallet> wallets;
 
   /**
    * Constructor
-   * 
+   *
    * @param username The user name
    * @param wallets The available wallets
    */
   public AccountInfo(String username, List<Wallet> wallets) {
 
-    this(username, null, wallets);
-  }
-
-  /**
-   * Constructor
-   * 
-   * @param username The user name
-   * @param tradingFee the trading fee
-   * @param wallets The available wallets
-   */
-  public AccountInfo(String username, BigDecimal tradingFee, List<Wallet> wallets) {
-
     this.username = username;
-    this.tradingFee = tradingFee;
     this.wallets = wallets;
   }
 
@@ -61,19 +48,10 @@ public final class AccountInfo {
   }
 
   /**
-   * Returns the current trading fee
-   * 
-   * @return The trading fee
-   */
-  public BigDecimal getTradingFee() {
-
-    return tradingFee;
-  }
-
-  /**
    * Utility method to locate an exchange balance in the given currency
-   * 
-   * @param currency A valid currency unit (e.g. CurrencyUnit.USD or CurrencyUnit.of("BTC"))
+   *
+   * @param currency A valid currency unit (e.g. CurrencyUnit.USD or
+   *          CurrencyUnit.of("BTC"))
    * @return The balance, or zero if not found
    */
   public BigDecimal getBalance(String currency) {
@@ -91,7 +69,7 @@ public final class AccountInfo {
   @Override
   public String toString() {
 
-    return "AccountInfo [username=" + username + ", fee=" + tradingFee + ", wallets=" + wallets + "]";
+    return "AccountInfo [username=" + username + ", wallets=" + wallets + "]";
   }
 
 }

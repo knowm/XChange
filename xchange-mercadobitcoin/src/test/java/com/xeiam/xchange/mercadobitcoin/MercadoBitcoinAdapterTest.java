@@ -31,7 +31,7 @@ import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 
 /**
  * Tests the MercadoBitcoinAdapter class
- * 
+ *
  * @author Felipe Micaroni Lalli
  */
 public class MercadoBitcoinAdapterTest {
@@ -109,7 +109,6 @@ public class MercadoBitcoinAdapterTest {
 
     AccountInfo accountInfo = MercadoBitcoinAdapters.adaptAccountInfo(mercadoBitcoinAccountInfo, "Nina Tufão & Bit");
     assertThat(accountInfo.getUsername()).isEqualTo("Nina Tufão & Bit");
-    assertThat(accountInfo.getTradingFee()).isNull();
     assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("BRL");
     assertThat(accountInfo.getWallets().get(0).getBalance()).isEqualTo(new BigDecimal("248.29516"));
     assertThat(accountInfo.getWallets().get(1).getCurrency()).isEqualTo("BTC");

@@ -1,9 +1,7 @@
 package com.xeiam.xchange;
 
-import java.io.IOException;
 import java.util.Map;
 
-import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
@@ -35,8 +33,7 @@ public abstract class BaseExchange implements Exchange {
     // Check if default is for everything
     if (exchangeSpecification == null) {
       this.exchangeSpecification = defaultSpecification;
-    }
-    else {
+    } else {
       // Using a configured exchange
       if (exchangeSpecification.getExchangeName() == null) {
         exchangeSpecification.setExchangeName(defaultSpecification.getExchangeName());
@@ -55,8 +52,7 @@ public abstract class BaseExchange implements Exchange {
       }
       if (exchangeSpecification.getExchangeSpecificParameters() == null) {
         exchangeSpecification.setExchangeSpecificParameters(defaultSpecification.getExchangeSpecificParameters());
-      }
-      else {
+      } else {
         // add default value unless it is overriden by current spec
         for (Map.Entry<String, Object> entry : defaultSpecification.getExchangeSpecificParameters().entrySet()) {
           if (exchangeSpecification.getExchangeSpecificParametersItem(entry.getKey()) == null) {
@@ -98,17 +94,6 @@ public abstract class BaseExchange implements Exchange {
   public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 
     return streamingExchangeService;
-  }
-
-  /**
-   * Initialize the services if necessary. Implementations may call the remote service.
-   *
-   * @throws java.io.IOException                 - Indication that a networking error occurred while fetching JSON data
-   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
-   */
-  @Override
-  public void init() throws IOException, ExchangeException {
-    // do nothing
   }
 
   @Override

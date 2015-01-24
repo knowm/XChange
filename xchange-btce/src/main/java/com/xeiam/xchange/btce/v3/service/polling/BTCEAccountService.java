@@ -2,26 +2,20 @@ package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Iterator;
-import java.util.Map;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEPairInfo;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
-
-import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Matija Mazi
  */
 public class BTCEAccountService extends BTCEAccountServiceRaw implements PollingAccountService {
-
-  private BigDecimal tradingFee;
 
   /**
    * Constructor
@@ -37,7 +31,7 @@ public class BTCEAccountService extends BTCEAccountServiceRaw implements Polling
   public AccountInfo getAccountInfo() throws IOException {
 
     BTCEAccountInfo info = getBTCEAccountInfo(null, null, null, null, null, null, null);
-    return BTCEAdapters.adaptAccountInfo(info, tradingFee);
+    return BTCEAdapters.adaptAccountInfo(info);
   }
 
   @Override
@@ -52,10 +46,4 @@ public class BTCEAccountService extends BTCEAccountServiceRaw implements Polling
     throw new NotAvailableFromExchangeException();
   }
 
-  public void setTradingFeeFromExchangeInfo(BTCEExchangeInfo info) {
-    Map<String, BTCEPairInfo> pairs = info.getPairs();
-    Iterator<BTCEPairInfo> iter = pairs.values().iterator();
-    if (iter.hasNext())
-      tradingFee = iter.next().getFee().movePointLeft(2);
-  }
 }

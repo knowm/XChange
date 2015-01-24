@@ -6,13 +6,27 @@ import com.xeiam.xchange.dto.Order;
 
 public class TradeMetaData {
 
+  private final BigDecimal tradingFee;
   private final BigDecimal amountMinimum;
   private final int priceScale;
 
-  public TradeMetaData(BigDecimal amountMinimum, int priceScale) {
+  /**
+   *
+   * Constructor
+   *
+   * @param tradingFee
+   * @param amountMinimum
+   * @param priceScale
+   */
+  public TradeMetaData(BigDecimal tradingFee, BigDecimal amountMinimum, int priceScale) {
 
+    this.tradingFee = tradingFee;
     this.amountMinimum = amountMinimum;
     this.priceScale = priceScale;
+  }
+
+  public BigDecimal getTradingFee() {
+    return tradingFee;
   }
 
   public BigDecimal getAmountMinimum() {

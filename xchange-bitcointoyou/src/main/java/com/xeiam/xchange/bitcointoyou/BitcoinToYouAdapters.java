@@ -140,7 +140,7 @@ public final class BitcoinToYouAdapters {
       wallets.add(new Wallet(balance.getCurrency(), balance.getBalanceAvailable(), balance.getCurrency() + " balance"));
     }
 
-    return new AccountInfo(userName, null, wallets);
+    return new AccountInfo(userName, wallets);
   }
 
   public static List<LimitOrder> adaptOrders(BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder[]> input) {

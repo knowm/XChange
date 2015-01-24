@@ -42,7 +42,6 @@ public class BitstampAdapterTest {
 
     AccountInfo accountInfo = BitstampAdapters.adaptAccountInfo(bitstampBalance, "Joe Mama");
     assertThat(accountInfo.getUsername()).isEqualTo("Joe Mama");
-    assertThat(accountInfo.getTradingFee()).isEqualTo(new BigDecimal("0.5000"));
     assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("USD");
     assertThat(accountInfo.getWallets().get(0).getBalance().toString()).isEqualTo("172.87");
     assertThat(accountInfo.getWallets().get(1).getCurrency()).isEqualTo("BTC");

@@ -68,8 +68,10 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a List of btcchinaOrders to a List of LimitOrders
-   * 
-   * @deprecated Use {@link #adaptOrders(BigDecimal[][], CurrencyPair, OrderType)} instead.
+   *
+   * @deprecated Use
+   *             {@link #adaptOrders(BigDecimal[][], CurrencyPair, OrderType)}
+   *             instead.
    */
   @Deprecated
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
@@ -88,7 +90,7 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a BTCChinaTrade to a Trade Object
-   * 
+   *
    * @param btcChinaTrade A BTCChina trade
    * @return The XChange Trade
    */
@@ -110,7 +112,7 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts a BTCChinaTrade[] to a Trades Object.
-   * 
+   *
    * @param btcchinaTrades The BTCChina trade data
    * @return The trades
    */
@@ -120,8 +122,9 @@ public final class BTCChinaAdapters {
     long latestTradeId = 0;
     for (BTCChinaTrade btcchinaTrade : btcchinaTrades) {
       long tradeId = btcchinaTrade.getTid();
-      if (tradeId > latestTradeId)
+      if (tradeId > latestTradeId) {
         latestTradeId = tradeId;
+      }
       tradesList.add(adaptTrade(btcchinaTrade, currencyPair));
     }
     return new Trades(tradesList, latestTradeId, TradeSortType.SortByID);
@@ -164,7 +167,7 @@ public final class BTCChinaAdapters {
   public static AccountInfo adaptAccountInfo(BTCChinaResponse<BTCChinaAccountInfo> response) {
 
     BTCChinaAccountInfo result = response.getResult();
-    return new AccountInfo(result.getProfile().getUsername(), result.getProfile().getTradeFee(), BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens(), result.getLoans()));
+    return new AccountInfo(result.getProfile().getUsername(), BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens(), result.getLoans()));
   }
 
   public static List<Wallet> adaptWallets(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens, Map<String, BTCChinaValue> loans) {
@@ -174,11 +177,11 @@ public final class BTCChinaAdapters {
     for (Map.Entry<String, BTCChinaValue> entry : balances.entrySet()) {
       BTCChinaValue frozen = frozens.get(entry.getKey());
       BTCChinaValue loan = loans.get(entry.getKey());
-      
+
       BigDecimal balanceAmount = BTCChinaUtils.valueToBigDecimal(entry.getValue());
       BigDecimal frozenAmount = frozen == null ? BigDecimal.ZERO : BTCChinaUtils.valueToBigDecimal(frozen);
       BigDecimal loanAmount = loan == null ? BigDecimal.ZERO : BTCChinaUtils.valueToBigDecimal(loan);
-      
+
       // add frozen amount, subtract loaned amount
       BigDecimal cash = balanceAmount.add(frozenAmount).subtract(loanAmount);
       wallets.add(new Wallet(entry.getValue().getCurrency(), cash));
@@ -187,10 +190,9 @@ public final class BTCChinaAdapters {
 
   }
 
-
   /**
    * Adapts {@link BTCChinaDepth} to {@link OrderBook}.
-   * 
+   *
    * @param btcChinaDepth {@link BTCChinaDepth}
    * @param currencyPair the currency pair of the depth.
    * @return {@link OrderBook}
@@ -262,7 +264,8 @@ public final class BTCChinaAdapters {
   }
 
   /**
-   * @deprecated Use {@link #adaptOrders(BTCChinaOrder[], CurrencyPair)} instead.
+   * @deprecated Use {@link #adaptOrders(BTCChinaOrder[], CurrencyPair)}
+   *             instead.
    */
   @Deprecated
   public static List<LimitOrder> adaptOrders(List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
@@ -289,8 +292,9 @@ public final class BTCChinaAdapters {
 
   /**
    * Adapts BTCChinaOrder to LimitOrder.
-   * 
-   * @deprecated Use {@link #adaptLimitOrder(BTCChinaOrder, CurrencyPair)} instead.
+   *
+   * @deprecated Use {@link #adaptLimitOrder(BTCChinaOrder, CurrencyPair)}
+   *             instead.
    */
   @Deprecated
   public static LimitOrder adaptLimitOrder(BTCChinaOrder order) {
@@ -332,18 +336,15 @@ public final class BTCChinaAdapters {
       amount = transaction.getBtcAmount().abs();
       money = transaction.getCnyAmount().abs();
       scale = BTCChinaExchange.CNY_SCALE;
-    }
-    else if (currencyPair.equals(CurrencyPair.LTC_CNY)) {
+    } else if (currencyPair.equals(CurrencyPair.LTC_CNY)) {
       amount = transaction.getLtcAmount().abs();
       money = transaction.getCnyAmount().abs();
       scale = BTCChinaExchange.CNY_SCALE;
-    }
-    else if (currencyPair.equals(CurrencyPair.LTC_BTC)) {
+    } else if (currencyPair.equals(CurrencyPair.LTC_BTC)) {
       amount = transaction.getLtcAmount().abs();
       money = transaction.getBtcAmount().abs();
       scale = BTCChinaExchange.BTC_SCALE;
-    }
-    else {
+    } else {
       throw new IllegalArgumentException("Unknown currency pair: " + currencyPair);
     }
 

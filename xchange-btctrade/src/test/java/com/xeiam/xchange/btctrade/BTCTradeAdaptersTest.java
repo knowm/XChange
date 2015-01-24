@@ -119,7 +119,6 @@ public class BTCTradeAdaptersTest {
 
     AccountInfo accountInfo = BTCTradeAdapters.adaptAccountInfo(balance);
     assertNull(accountInfo.getUsername());
-    assertNull(accountInfo.getTradingFee());
     assertEquals(new BigDecimal(3), accountInfo.getBalance(Currencies.BTC));
     assertEquals(new BigDecimal("7"), accountInfo.getBalance(Currencies.LTC));
     assertEquals(new BigDecimal("11"), accountInfo.getBalance(Currencies.DOGE));
