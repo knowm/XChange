@@ -21,7 +21,7 @@ public class Trades {
 
   /**
    * Constructor
-   * 
+   *
    * @param trades
    * @param tradeSortType
    */
@@ -32,7 +32,7 @@ public class Trades {
 
   /**
    * Constructor
-   * 
+   *
    * @param trades The list of trades
    * @param lastID
    */
@@ -80,6 +80,7 @@ public class Trades {
   public String toString() {
 
     StringBuilder sb = new StringBuilder("Trades\n");
+    sb.append("lastID= " + lastID + "\n");
     for (Trade trade : getTrades()) {
       sb.append("[trade=");
       sb.append(trade.toString());
