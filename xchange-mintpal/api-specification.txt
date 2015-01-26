@@ -1,5 +1,0 @@
-Mintpal Bitcoin Exchange API specification
-================================
-
-Documentation
--------------

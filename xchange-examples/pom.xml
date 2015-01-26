@@ -205,12 +205,6 @@
 			<artifactId>xchange-cryptonit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange MintPal exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-mintpal</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange Poloniex exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
