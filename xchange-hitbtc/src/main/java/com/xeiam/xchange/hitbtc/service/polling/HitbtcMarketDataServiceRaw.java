@@ -17,7 +17,7 @@ import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 /**
  * @author kpysniak
  */
-public abstract class HitbtcMarketDataServiceRaw extends HitbtcBasePollingService<Hitbtc> {
+public class HitbtcMarketDataServiceRaw extends HitbtcBasePollingService<Hitbtc> {
 
   /**
    * Constructor

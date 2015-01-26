@@ -21,7 +21,7 @@ import com.xeiam.xchange.hitbtc.service.HitbtcHmacDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-public abstract class HitbtcBasePollingService<T extends Hitbtc> extends BaseExchangeService implements BasePollingService {
+public class HitbtcBasePollingService<T extends Hitbtc> extends BaseExchangeService implements BasePollingService {
 
   //  protected static final String HITBTC = "hitbtc";
   //  protected static final String HITBTC_ORDER_FEE_POLICY_MAKER = HITBTC + ".order.feePolicy.maker";

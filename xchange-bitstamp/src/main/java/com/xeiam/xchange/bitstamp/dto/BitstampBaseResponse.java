@@ -1,6 +1,6 @@
 package com.xeiam.xchange.bitstamp.dto;
 
-public abstract class BitstampBaseResponse {
+public class BitstampBaseResponse {
 
   private final String error;
 

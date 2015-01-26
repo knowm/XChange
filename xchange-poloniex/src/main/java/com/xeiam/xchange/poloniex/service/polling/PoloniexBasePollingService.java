@@ -20,11 +20,11 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.poloniex.Poloniex;
 import com.xeiam.xchange.poloniex.PoloniexUtils;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
-import com.xeiam.xchange.poloniex.service.PoloniexBaseService;
 import com.xeiam.xchange.poloniex.service.PoloniexDigest;
+import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class PoloniexBasePollingService<T extends Poloniex> extends PoloniexBaseService implements BasePollingService {
+public class PoloniexBasePollingService<T extends Poloniex> extends BaseExchangeService implements BasePollingService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
   private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));

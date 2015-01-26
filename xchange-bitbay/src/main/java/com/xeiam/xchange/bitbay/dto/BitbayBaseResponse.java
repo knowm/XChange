@@ -3,7 +3,7 @@ package com.xeiam.xchange.bitbay.dto;
 /**
  * @author kpysniak
  */
-public abstract class BitbayBaseResponse {
+public class BitbayBaseResponse {
 
   private final String error;
 

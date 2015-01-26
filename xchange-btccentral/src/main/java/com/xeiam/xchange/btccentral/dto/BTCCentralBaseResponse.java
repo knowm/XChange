@@ -3,7 +3,7 @@ package com.xeiam.xchange.btccentral.dto;
 /**
  * @author kpysniak
  */
-public abstract class BTCCentralBaseResponse {
+public class BTCCentralBaseResponse {
 
   private final String error;
 

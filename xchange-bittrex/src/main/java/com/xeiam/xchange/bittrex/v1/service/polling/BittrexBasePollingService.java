@@ -12,12 +12,12 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bittrex.v1.Bittrex;
 import com.xeiam.xchange.bittrex.v1.BittrexAdapters;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
-import com.xeiam.xchange.bittrex.v1.service.BittrexBaseService;
 import com.xeiam.xchange.bittrex.v1.service.BittrexDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class BittrexBasePollingService<T extends Bittrex> extends BittrexBaseService implements BasePollingService {
+public class BittrexBasePollingService<T extends Bittrex> extends BaseExchangeService implements BasePollingService {
 
   private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
   private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));

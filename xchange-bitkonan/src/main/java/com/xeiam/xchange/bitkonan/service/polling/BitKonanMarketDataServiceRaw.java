@@ -12,7 +12,7 @@ import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanTicker;
 /**
  * @author Piotr Ładyżyński
  */
-public abstract class BitKonanMarketDataServiceRaw extends BitKonanBasePollingService<BitKonan> {
+public class BitKonanMarketDataServiceRaw extends BitKonanBasePollingService<BitKonan> {
 
   /**
    * Constructor

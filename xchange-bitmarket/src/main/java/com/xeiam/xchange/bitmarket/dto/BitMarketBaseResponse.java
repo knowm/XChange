@@ -3,7 +3,7 @@ package com.xeiam.xchange.bitmarket.dto;
 /**
  * @author kpysniak
  */
-public abstract class BitMarketBaseResponse {
+public class BitMarketBaseResponse {
 
   private final String error;
 
