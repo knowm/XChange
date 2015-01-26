@@ -14,13 +14,6 @@ public class ItBitExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory = new LongTimeNonceFactory();
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public ItBitExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

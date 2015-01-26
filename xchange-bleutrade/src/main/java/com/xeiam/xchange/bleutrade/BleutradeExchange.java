@@ -9,13 +9,6 @@ import com.xeiam.xchange.bleutrade.service.polling.BleutradeTradeService;
 
 public class BleutradeExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BleutradeExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

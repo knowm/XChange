@@ -26,13 +26,6 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
    */
   protected PollingMarketDataService pollingPublicMarketDataService;
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public CryptsyExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

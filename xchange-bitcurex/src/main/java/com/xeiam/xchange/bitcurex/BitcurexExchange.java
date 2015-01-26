@@ -7,13 +7,6 @@ import com.xeiam.xchange.bitcurex.service.polling.BitcurexMarketDataService;
 
 public class BitcurexExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BitcurexExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

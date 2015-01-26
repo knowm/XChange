@@ -17,13 +17,6 @@ import com.xeiam.xchange.virtex.v1.service.polling.VirtExMarketDataService;
 @Deprecated
 public class VirtExExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public VirtExExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

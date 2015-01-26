@@ -9,13 +9,6 @@ import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexTradeService;
 
 public class BitfinexExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BitfinexExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

@@ -9,13 +9,6 @@ import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeTradeService;
 
 public class CryptoTradeExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public CryptoTradeExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

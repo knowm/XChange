@@ -14,13 +14,6 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Integer> nonceFactory = new IntTimeNonceFactory();
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BTCEExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

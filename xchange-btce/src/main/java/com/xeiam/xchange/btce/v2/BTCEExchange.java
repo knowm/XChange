@@ -10,13 +10,6 @@ import com.xeiam.xchange.btce.v2.service.polling.BTCETradeService;
 @Deprecated
 public class BTCEExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BTCEExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

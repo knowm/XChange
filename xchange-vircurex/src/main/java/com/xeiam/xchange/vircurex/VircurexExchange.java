@@ -9,13 +9,6 @@ import com.xeiam.xchange.vircurex.service.polling.VircurexTradeService;
 
 public class VircurexExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public VircurexExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

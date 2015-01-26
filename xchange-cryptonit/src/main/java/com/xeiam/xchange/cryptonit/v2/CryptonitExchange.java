@@ -7,13 +7,6 @@ import com.xeiam.xchange.cryptonit.v2.service.polling.CryptonitMarketDataService
 
 public class CryptonitExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public CryptonitExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

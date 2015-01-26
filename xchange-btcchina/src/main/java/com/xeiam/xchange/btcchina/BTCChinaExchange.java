@@ -14,6 +14,8 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 public class BTCChinaExchange extends BaseExchange implements Exchange {
 
+  // TODO handle these constants. metadata?
+
   public static final String WEBSOCKET_URI_KEY = "websocket.uri";
 
   public static final String ALL_MARKET = "ALL";
@@ -30,13 +32,6 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
   public static final int BTC_SCALE = 4;
 
   private final BTCChinaTonceFactory tonceFactory = new BTCChinaTonceFactory();
-
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BTCChinaExchange() {
-
-  }
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {

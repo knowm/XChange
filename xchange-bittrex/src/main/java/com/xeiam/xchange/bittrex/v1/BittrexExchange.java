@@ -9,13 +9,6 @@ import com.xeiam.xchange.bittrex.v1.service.polling.BittrexTradeService;
 
 public class BittrexExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BittrexExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

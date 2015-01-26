@@ -13,13 +13,6 @@ import com.xeiam.xchange.poloniex.service.polling.PoloniexTradeService;
 
 public class PoloniexExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public PoloniexExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

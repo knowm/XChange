@@ -9,13 +9,6 @@ import com.xeiam.xchange.empoex.service.polling.EmpoExTradeService;
 
 public class EmpoExExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public EmpoExExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

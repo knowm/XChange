@@ -7,13 +7,6 @@ import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataService;
 
 public class BitcoiniumExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BitcoiniumExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 

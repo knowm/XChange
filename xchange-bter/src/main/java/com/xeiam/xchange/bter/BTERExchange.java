@@ -9,13 +9,6 @@ import com.xeiam.xchange.bter.service.polling.BTERPollingTradeService;
 
 public class BTERExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BTERExchange() {
-
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
