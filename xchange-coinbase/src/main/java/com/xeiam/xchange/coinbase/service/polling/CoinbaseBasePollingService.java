@@ -61,7 +61,7 @@ public class CoinbaseBasePollingService<T extends Coinbase> extends BaseExchange
    * @return Information for the newly created user.
    * @throws IOException
    */
-  public CoinbaseUser createCoinbaseUser(final CoinbaseUser user) throws IOException {
+  public CoinbaseUser createCoinbaseUser(CoinbaseUser user) throws IOException {
 
     final CoinbaseUser createdUser = coinbase.createUser(user);
     return handleResponse(createdUser);
@@ -81,7 +81,7 @@ public class CoinbaseBasePollingService<T extends Coinbase> extends BaseExchange
    *         perform future OAuth requests for the user.
    * @throws IOException
    */
-  public CoinbaseUser createCoinbaseUser(final CoinbaseUser user, final String oAuthClientId) throws IOException {
+  public CoinbaseUser createCoinbaseUser(CoinbaseUser user, final String oAuthClientId) throws IOException {
 
     final CoinbaseUser createdUser = coinbase.createUser(user.withoAuthClientId(oAuthClientId));
     return handleResponse(createdUser);
@@ -108,7 +108,7 @@ public class CoinbaseBasePollingService<T extends Coinbase> extends BaseExchange
     return System.currentTimeMillis();
   }
 
-  protected <R extends CoinbaseBaseResponse> R handleResponse(final R response) {
+  protected <R extends CoinbaseBaseResponse> R handleResponse(R response) {
 
     final List<String> errors = response.getErrors();
     if (errors != null && !errors.isEmpty()) {

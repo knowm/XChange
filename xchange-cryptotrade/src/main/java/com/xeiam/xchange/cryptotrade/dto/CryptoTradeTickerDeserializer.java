@@ -16,7 +16,7 @@ import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 
 public class CryptoTradeTickerDeserializer extends JsonDeserializer<CryptoTradeTicker> {
 
-  private static BigDecimal getNumberIfPresent(final String numberString) {
+  private static BigDecimal getNumberIfPresent(String numberString) {
 
     return numberString.isEmpty() ? null : new BigDecimal(numberString);
   }

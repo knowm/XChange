@@ -26,7 +26,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
     this.button = button;
   }
 
-  CoinbaseButton(final CoinbaseButtonInfo button) {
+  CoinbaseButton(CoinbaseButtonInfo button) {
 
     super(true);
     this.button = button;
@@ -238,12 +238,12 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
     private String price4;
     private String price5;
 
-    public CoinbaseButtonBuilder(final String name, final String currency, final String priceString) {
+    public CoinbaseButtonBuilder(String name, final String currency, final String priceString) {
 
       this(name, new CoinbaseMoney(currency, new BigDecimal(priceString)));
     }
 
-    public CoinbaseButtonBuilder(final String name, final CoinbaseMoney price) {
+    public CoinbaseButtonBuilder(String name, final CoinbaseMoney price) {
 
       this.name = name;
       this.price = price;
@@ -283,7 +283,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return type;
     }
 
-    public CoinbaseButtonBuilder withType(final CoinbaseButtonType type) {
+    public CoinbaseButtonBuilder withType(CoinbaseButtonType type) {
 
       this.type = type;
       return this;
@@ -294,7 +294,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return description;
     }
 
-    public CoinbaseButtonBuilder withDescription(final String description) {
+    public CoinbaseButtonBuilder withDescription(String description) {
 
       this.description = description;
       return this;
@@ -305,7 +305,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return custom;
     }
 
-    public CoinbaseButtonBuilder withCustom(final String custom) {
+    public CoinbaseButtonBuilder withCustom(String custom) {
 
       this.custom = custom;
       return this;
@@ -316,7 +316,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return style;
     }
 
-    public CoinbaseButtonBuilder withStyle(final CoinbaseButtonStyle style) {
+    public CoinbaseButtonBuilder withStyle(CoinbaseButtonStyle style) {
 
       this.style = style;
       return this;
@@ -327,7 +327,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return text;
     }
 
-    public CoinbaseButtonBuilder withText(final String text) {
+    public CoinbaseButtonBuilder withText(String text) {
 
       this.text = text;
       return this;
@@ -338,7 +338,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return repeat;
     }
 
-    public CoinbaseButtonBuilder withRepeat(final CoinbaseRepeat repeat) {
+    public CoinbaseButtonBuilder withRepeat(CoinbaseRepeat repeat) {
 
       this.repeat = repeat;
       return this;
@@ -349,7 +349,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return customSecure;
     }
 
-    public CoinbaseButtonBuilder withCustomSecure(final boolean customSecure) {
+    public CoinbaseButtonBuilder withCustomSecure(boolean customSecure) {
 
       this.customSecure = customSecure;
       return this;
@@ -360,7 +360,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return callbackUrl;
     }
 
-    public CoinbaseButtonBuilder withCallbackUrl(final String callbackUrl) {
+    public CoinbaseButtonBuilder withCallbackUrl(String callbackUrl) {
 
       this.callbackUrl = callbackUrl;
       return this;
@@ -371,7 +371,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return successUrl;
     }
 
-    public CoinbaseButtonBuilder withSuccessUrl(final String successUrl) {
+    public CoinbaseButtonBuilder withSuccessUrl(String successUrl) {
 
       this.successUrl = successUrl;
       return this;
@@ -382,7 +382,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return cancelUrl;
     }
 
-    public CoinbaseButtonBuilder withCancelUrl(final String cancelUrl) {
+    public CoinbaseButtonBuilder withCancelUrl(String cancelUrl) {
 
       this.cancelUrl = cancelUrl;
       return this;
@@ -393,7 +393,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return infoUrl;
     }
 
-    public CoinbaseButtonBuilder withInfoUrl(final String infoUrl) {
+    public CoinbaseButtonBuilder withInfoUrl(String infoUrl) {
 
       this.infoUrl = infoUrl;
       return this;
@@ -404,7 +404,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return autoDirect;
     }
 
-    public CoinbaseButtonBuilder withAutoDirect(final boolean autoDirect) {
+    public CoinbaseButtonBuilder withAutoDirect(boolean autoDirect) {
 
       this.autoDirect = autoDirect;
       return this;
@@ -415,7 +415,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return variablePrice;
     }
 
-    public CoinbaseButtonBuilder withVariablePrice(final boolean variablePrice) {
+    public CoinbaseButtonBuilder withVariablePrice(boolean variablePrice) {
 
       this.variablePrice = variablePrice;
       return this;
@@ -426,7 +426,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return choosePrice;
     }
 
-    public CoinbaseButtonBuilder withChoosePrice(final boolean choosePrice) {
+    public CoinbaseButtonBuilder withChoosePrice(boolean choosePrice) {
 
       this.choosePrice = choosePrice;
       return this;
@@ -437,7 +437,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return includeAddress;
     }
 
-    public CoinbaseButtonBuilder withIncludeAddress(final boolean includeAddress) {
+    public CoinbaseButtonBuilder withIncludeAddress(boolean includeAddress) {
 
       this.includeAddress = includeAddress;
       return this;
@@ -448,7 +448,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return includeEmail;
     }
 
-    public CoinbaseButtonBuilder withIncludeEmail(final boolean includeEmail) {
+    public CoinbaseButtonBuilder withIncludeEmail(boolean includeEmail) {
 
       this.includeEmail = includeEmail;
       return this;
@@ -481,7 +481,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
 
     private static final int MAX_SUGGESTED_PRICES = 5;
 
-    public CoinbaseButtonBuilder withSuggestedPrices(final String... suggestedPrices) {
+    public CoinbaseButtonBuilder withSuggestedPrices(String... suggestedPrices) {
 
       if (suggestedPrices.length > MAX_SUGGESTED_PRICES)
         throw new IllegalArgumentException("Only " + MAX_SUGGESTED_PRICES + " suggested prices are allowed. There was an attempt to add " + suggestedPrices.length + " prices.");

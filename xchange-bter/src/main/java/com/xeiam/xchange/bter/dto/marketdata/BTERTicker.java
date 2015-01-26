@@ -29,8 +29,7 @@ public class BTERTicker extends BTERBaseResponse {
   private final BigDecimal buy;
   private final Map<String, BigDecimal> volumes;
 
-  private BTERTicker(final BigDecimal last, final BigDecimal high, final BigDecimal low, final BigDecimal average, final BigDecimal sell, final BigDecimal buy, final Map<String, BigDecimal> volumes,
-      final boolean result, final String message) {
+  private BTERTicker(BigDecimal last, BigDecimal high, BigDecimal low, BigDecimal average, BigDecimal sell, BigDecimal buy, Map<String, BigDecimal> volumes, boolean result, String message) {
 
     super(result, message);
     this.last = last;
@@ -72,7 +71,7 @@ public class BTERTicker extends BTERBaseResponse {
     return buy;
   }
 
-  public BigDecimal getVolume(final String currency) {
+  public BigDecimal getVolume(String currency) {
 
     return volumes.get(currency.toUpperCase());
   }
@@ -85,7 +84,7 @@ public class BTERTicker extends BTERBaseResponse {
 
   static class BTERTickerTickerDeserializer extends JsonDeserializer<BTERTicker> {
 
-    private static BigDecimal getNumberIfPresent(final JsonNode numberNode) {
+    private static BigDecimal getNumberIfPresent(JsonNode numberNode) {
 
       final String numberString = numberNode.asText();
       return numberString.isEmpty() ? null : new BigDecimal(numberString);

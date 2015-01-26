@@ -112,7 +112,7 @@ public interface PollingTradeService extends BasePollingService {
    * @throws IOException - Indication that a networking error occurred while
    *           fetching JSON data
    */
-  public UserTrades getTradeHistory(final Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Fetch the history of user trades.

@@ -28,7 +28,7 @@ public enum CoinbaseTransferType {
     private static final EnumFromStringHelper<CoinbaseTransferType> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseTransferType>(CoinbaseTransferType.class);
 
     @Override
-    public CoinbaseTransferType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseTransferType deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jsonParser.getCodec();
       final JsonNode node = oc.readTree(jsonParser);

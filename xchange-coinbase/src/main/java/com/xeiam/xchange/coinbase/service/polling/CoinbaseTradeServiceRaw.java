@@ -18,7 +18,7 @@ class CoinbaseTradeServiceRaw extends CoinbaseBasePollingService<CoinbaseAuthent
    *
    * @param exchange
    */
-  protected CoinbaseTradeServiceRaw(final Exchange exchange) {
+  protected CoinbaseTradeServiceRaw(Exchange exchange) {
 
     super(CoinbaseAuthenticated.class, exchange);
   }
@@ -36,7 +36,7 @@ class CoinbaseTradeServiceRaw extends CoinbaseBasePollingService<CoinbaseAuthent
    * @return The {@code CoinbaseTransfer} representing the buy.
    * @throws IOException
    */
-  public CoinbaseTransfer buy(final BigDecimal quantity) throws IOException {
+  public CoinbaseTransfer buy(BigDecimal quantity) throws IOException {
 
     final CoinbaseTransfer buyTransfer = coinbase.buy(quantity.toPlainString(), false, exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNonce());
     return handleResponse(buyTransfer);
@@ -55,7 +55,7 @@ class CoinbaseTradeServiceRaw extends CoinbaseBasePollingService<CoinbaseAuthent
    * @return A {@code CoinbaseTransfer} representing the buy.
    * @throws IOException
    */
-  public CoinbaseTransfer buyAndAgreeBTCAmountVaries(final BigDecimal quantity) throws IOException {
+  public CoinbaseTransfer buyAndAgreeBTCAmountVaries(BigDecimal quantity) throws IOException {
 
     final CoinbaseTransfer buyTransfer = coinbase.buy(quantity.toPlainString(), true, exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNonce());
     return handleResponse(buyTransfer);
@@ -73,7 +73,7 @@ class CoinbaseTradeServiceRaw extends CoinbaseBasePollingService<CoinbaseAuthent
    * @return A {@code CoinbaseTransfer} representing the sell.
    * @throws IOException
    */
-  public CoinbaseTransfer sell(final BigDecimal quantity) throws IOException {
+  public CoinbaseTransfer sell(BigDecimal quantity) throws IOException {
 
     final CoinbaseTransfer sellTransfer = coinbase.sell(quantity.toPlainString(), exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNonce());
     return handleResponse(sellTransfer);
@@ -108,7 +108,7 @@ class CoinbaseTradeServiceRaw extends CoinbaseBasePollingService<CoinbaseAuthent
    * @return
    * @throws IOException
    */
-  public CoinbaseTransfers getCoinbaseTransfers(final Integer page, final Integer limit) throws IOException {
+  public CoinbaseTransfers getCoinbaseTransfers(Integer page, final Integer limit) throws IOException {
 
     final CoinbaseTransfers transfers = coinbase.getTransfers(page, limit, exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNonce());
     return transfers;

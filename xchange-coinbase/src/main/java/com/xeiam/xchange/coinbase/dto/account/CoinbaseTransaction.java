@@ -35,7 +35,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     this.transaction = transaction;
   }
 
-  public CoinbaseTransaction(final CoinbaseTransactionInfo transaction) {
+  public CoinbaseTransaction(CoinbaseTransactionInfo transaction) {
 
     super(true, null);
     this.transaction = transaction;
@@ -89,16 +89,19 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     return transaction.getRecipientAddress();
   }
 
+  @Override
   public String getNotes() {
 
     return transaction.getNotes();
   }
 
+  @Override
   public String getTransactionHash() {
 
     return transaction.getTransactionHash();
   }
 
+  @Override
   public String getIdempotencyKey() {
 
     return transaction.getIdempotencyKey();
@@ -139,7 +142,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     @JsonProperty("notes")
     protected String notes;
 
-    private CoinbaseTransactionRequest(final String currency, final String amountString) {
+    private CoinbaseTransactionRequest(String currency, final String amountString) {
 
       this.amountString = amountString;
       this.currencyIso = currency;
@@ -199,7 +202,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
       return notes;
     }
 
-    public abstract CoinbaseTransactionRequest withNotes(final String notes);
+    public abstract CoinbaseTransactionRequest withNotes(String notes);
 
     @Override
     public String getTransactionHash() {
@@ -214,32 +217,32 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     }
   }
 
-  public static CoinbaseRequestMoneyRequest createMoneyRequest(final String from, final CoinbaseMoney amount) {
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(String from, final CoinbaseMoney amount) {
 
     return createMoneyRequest(from, amount.getCurrency(), amount.getAmount());
   }
 
-  public static CoinbaseRequestMoneyRequest createMoneyRequest(final String from, final String currency, final BigDecimal amount) {
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(String from, final String currency, final BigDecimal amount) {
 
     return createMoneyRequest(from, currency, amount.toPlainString());
   }
 
-  public static CoinbaseRequestMoneyRequest createMoneyRequest(final String from, final String currency, final String amountString) {
+  public static CoinbaseRequestMoneyRequest createMoneyRequest(String from, final String currency, final String amountString) {
 
     return new CoinbaseRequestMoneyRequest(from, currency, amountString);
   }
 
-  public static CoinbaseSendMoneyRequest createSendMoneyRequest(final String from, final CoinbaseMoney amount) {
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(String from, final CoinbaseMoney amount) {
 
     return createSendMoneyRequest(from, amount.getCurrency(), amount.getAmount());
   }
 
-  public static CoinbaseSendMoneyRequest createSendMoneyRequest(final String from, final String currency, final BigDecimal amount) {
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(String from, final String currency, final BigDecimal amount) {
 
     return createSendMoneyRequest(from, currency, amount.toPlainString());
   }
 
-  public static CoinbaseSendMoneyRequest createSendMoneyRequest(final String from, final String currency, final String amountString) {
+  public static CoinbaseSendMoneyRequest createSendMoneyRequest(String from, final String currency, final String amountString) {
 
     return new CoinbaseSendMoneyRequest(from, currency, amountString);
   }
@@ -249,7 +252,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     @JsonProperty("from")
     private final String from;
 
-    private CoinbaseRequestMoneyRequest(final String from, final String currency, final String amountString) {
+    private CoinbaseRequestMoneyRequest(String from, final String currency, final String amountString) {
 
       super(currency, amountString);
       this.from = from;
@@ -281,7 +284,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     @JsonProperty("instant_buy")
     private boolean instantBuy;
 
-    private CoinbaseSendMoneyRequest(final String to, final String currency, final String amountString) {
+    private CoinbaseSendMoneyRequest(String to, final String currency, final String amountString) {
 
       super(currency, amountString);
       this.to = to;
@@ -304,7 +307,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
       return userFee;
     }
 
-    public CoinbaseSendMoneyRequest withUserFee(final String userFee) {
+    public CoinbaseSendMoneyRequest withUserFee(String userFee) {
 
       this.userFee = userFee;
       return this;
@@ -315,18 +318,19 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
       return referrerId;
     }
 
-    public CoinbaseSendMoneyRequest withReferrerId(final String referrerId) {
+    public CoinbaseSendMoneyRequest withReferrerId(String referrerId) {
 
       this.referrerId = referrerId;
       return this;
     }
 
+    @Override
     public String getIdempotencyKey() {
 
       return idempotencyKey;
     }
 
-    public CoinbaseSendMoneyRequest withIdempotencyKey(final String idempotencyKey) {
+    public CoinbaseSendMoneyRequest withIdempotencyKey(String idempotencyKey) {
 
       this.idempotencyKey = idempotencyKey;
       return this;
@@ -337,7 +341,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
       return instantBuy;
     }
 
-    public CoinbaseSendMoneyRequest withInstantBuy(final boolean instantBuy) {
+    public CoinbaseSendMoneyRequest withInstantBuy(boolean instantBuy) {
 
       this.instantBuy = instantBuy;
       return this;

@@ -50,7 +50,7 @@ public class BitstampAccountServiceRaw extends BitstampBasePollingService {
     return bitstampBalance;
   }
 
-  public BitstampWithdrawal withdrawBitstampFunds(final BigDecimal amount, final String address) throws IOException {
+  public BitstampWithdrawal withdrawBitstampFunds(BigDecimal amount, final String address) throws IOException {
 
     final BitstampWithdrawal response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, BitstampUtils.getNonce(), amount, address);
     if (response.getError() != null) {

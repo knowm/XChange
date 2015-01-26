@@ -71,7 +71,7 @@ public class BTCChinaApplication extends MessageCracker implements Application {
   }
 
   @Override
-  public void onLogon(final SessionID sessionId) {
+  public void onLogon(SessionID sessionId) {
 
     log.debug("onLogon: {}", sessionId);
   }

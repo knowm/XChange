@@ -76,7 +76,7 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
    * @throws IOException
    */
   @Override
-  public UserTrades getTradeHistory(final Object... arguments) throws IOException, ExchangeException {
+  public UserTrades getTradeHistory(Object... arguments) throws IOException, ExchangeException {
 
     Date startDate = new Date(0); // default value
     Date endDate = new Date(); // default value

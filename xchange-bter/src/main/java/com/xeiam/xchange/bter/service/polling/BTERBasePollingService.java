@@ -54,7 +54,7 @@ public class BTERBasePollingService<T extends BTER> extends BaseExchangeService 
     return currencyPairs;
   }
 
-  protected <R extends BTERBaseResponse> R handleResponse(final R response) {
+  protected <R extends BTERBaseResponse> R handleResponse(R response) {
 
     if (!response.isResult()) {
       throw new ExchangeException(response.getMessage());

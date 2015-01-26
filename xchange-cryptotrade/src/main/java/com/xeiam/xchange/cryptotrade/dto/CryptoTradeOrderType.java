@@ -19,7 +19,7 @@ public enum CryptoTradeOrderType {
   static class CryptTradeOrderTypeDeserializer extends JsonDeserializer<CryptoTradeOrderType> {
 
     @Override
-    public CryptoTradeOrderType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CryptoTradeOrderType deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jsonParser.getCodec();
       final JsonNode node = oc.readTree(jsonParser);

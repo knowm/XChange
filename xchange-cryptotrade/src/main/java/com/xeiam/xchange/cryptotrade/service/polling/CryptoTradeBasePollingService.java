@@ -45,7 +45,7 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
     return (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
   }
 
-  protected <R extends CryptoTradeBaseResponse> R handleResponse(final R response) {
+  protected <R extends CryptoTradeBaseResponse> R handleResponse(R response) {
 
     final String status = response.getStatus();
     final String error = response.getError();

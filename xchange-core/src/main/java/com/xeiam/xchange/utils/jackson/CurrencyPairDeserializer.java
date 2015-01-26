@@ -13,7 +13,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
 
   @Override
-  public CurrencyPair deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  public CurrencyPair deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
     final ObjectCodec oc = jsonParser.getCodec();
     final JsonNode node = oc.readTree(jsonParser);

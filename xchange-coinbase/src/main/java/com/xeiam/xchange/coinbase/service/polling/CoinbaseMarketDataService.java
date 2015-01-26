@@ -25,7 +25,7 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
    *
    * @param exchange
    */
-  public CoinbaseMarketDataService(final Exchange exchange) {
+  public CoinbaseMarketDataService(Exchange exchange) {
 
     super(exchange);
   }
@@ -40,7 +40,7 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
    *         low.
    */
   @Override
-  public Ticker getTicker(final CurrencyPair currencyPair, final Object... args) throws IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, final Object... args) throws IOException {
 
     final String currency = currencyPair.counterSymbol;
     final CoinbasePrice buyPrice = super.getCoinbaseBuyPrice(BigDecimal.ONE, currency);
@@ -54,13 +54,13 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
   }
 
   @Override
-  public OrderBook getOrderBook(final CurrencyPair currencyPair, final Object... args) {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, final Object... args) {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public Trades getTrades(final CurrencyPair currencyPair, final Object... args) {
+  public Trades getTrades(CurrencyPair currencyPair, final Object... args) {
 
     throw new NotAvailableFromExchangeException();
   }

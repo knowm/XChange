@@ -316,7 +316,7 @@ public final class BTCChinaAdapters {
     return new LimitOrder(orderType, amount, currencyPair, id, date, price);
   }
 
-  public static UserTrade adaptTransaction(final BTCChinaTransaction transaction) {
+  public static UserTrade adaptTransaction(BTCChinaTransaction transaction) {
 
     final String type = transaction.getType();
 

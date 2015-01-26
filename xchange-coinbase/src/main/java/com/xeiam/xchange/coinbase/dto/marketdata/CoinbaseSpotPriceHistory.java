@@ -18,7 +18,7 @@ public class CoinbaseSpotPriceHistory {
 
   private final List<CoinbaseHistoricalSpotPrice> spotPriceHistory;
 
-  private CoinbaseSpotPriceHistory(final List<CoinbaseHistoricalSpotPrice> spotPriceHistory) {
+  private CoinbaseSpotPriceHistory(List<CoinbaseHistoricalSpotPrice> spotPriceHistory) {
 
     this.spotPriceHistory = spotPriceHistory;
   }

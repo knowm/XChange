@@ -23,7 +23,7 @@ public enum KrakenOrderFlags {
     return super.toString().toLowerCase();
   }
 
-  public static KrakenOrderFlags fromString(final String orderTypeString) {
+  public static KrakenOrderFlags fromString(String orderTypeString) {
 
     return fromString.get(orderTypeString.toLowerCase());
   }

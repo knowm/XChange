@@ -82,7 +82,7 @@ public class LakeBTCDigest extends BaseParamsDigest {
      * Strip the {@code params} for signature message.
      *
      */
-    private String stripParams(final String params) {
+    private String stripParams(String params) {
 
         final String[] original = params.substring(1, params.length() - 1).split(",");
         final String[] stripped = new String[original.length];

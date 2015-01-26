@@ -24,7 +24,7 @@ public enum KrakenOrderStatus {
     return super.toString().toLowerCase();
   }
 
-  public static KrakenOrderStatus fromString(final String orderStatusString) {
+  public static KrakenOrderStatus fromString(String orderStatusString) {
 
     return fromString.get(orderStatusString.toLowerCase());
   }

@@ -21,7 +21,7 @@ public class CexIOOpenOrders {
 
   private final List<CexIOOrder> openOrders;
 
-  public CexIOOpenOrders(final List<CexIOOrder> openOrders) {
+  public CexIOOpenOrders(List<CexIOOrder> openOrders) {
 
     this.openOrders = openOrders;
   }
@@ -36,12 +36,12 @@ public class CexIOOpenOrders {
     return openOrders;
   }
 
-  public void addOpenOrders(final List<CexIOOrder> openOrders) {
+  public void addOpenOrders(List<CexIOOrder> openOrders) {
 
     this.openOrders.addAll(openOrders);
   }
 
-  public void addOpenOrder(final CexIOOrder openOrder) {
+  public void addOpenOrder(CexIOOrder openOrder) {
 
     this.openOrders.add(openOrder);
   }
@@ -65,8 +65,7 @@ public class CexIOOpenOrders {
         final String errorText = errorNode.asText();
         if (errorText.equals("Invalid symbols pair")) {
           return new CexIOOpenOrders();
-        }
-        else {
+        } else {
           throw new ExchangeException("Unable to retrieve open orders because " + errorText);
         }
       }

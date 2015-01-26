@@ -19,7 +19,7 @@ public enum BTEROrderType {
   static class BTEROrderTypeDeserializer extends JsonDeserializer<BTEROrderType> {
 
     @Override
-    public BTEROrderType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public BTEROrderType deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jsonParser.getCodec();
       final JsonNode node = oc.readTree(jsonParser);

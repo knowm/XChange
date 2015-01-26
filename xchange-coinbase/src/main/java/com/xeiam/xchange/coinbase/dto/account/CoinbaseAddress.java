@@ -18,7 +18,7 @@ public class CoinbaseAddress extends CoinbaseBaseResponse {
   private final String label;
   private final Date createdAt;
 
-  CoinbaseAddress(final String address, final String callbackUrl, final String label, final Date createdAt) {
+  CoinbaseAddress(String address, final String callbackUrl, final String label, final Date createdAt) {
 
     super(true, null);
     this.address = address;

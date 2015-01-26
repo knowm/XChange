@@ -67,7 +67,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   }
 
   @Override
-  public UserTrades getTradeHistory(final Object... arguments) throws IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws IOException {
 
     String symbol = "btcusd";
     long timestamp = 0;

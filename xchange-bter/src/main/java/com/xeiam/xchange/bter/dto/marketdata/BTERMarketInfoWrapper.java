@@ -24,7 +24,7 @@ public class BTERMarketInfoWrapper {
 
   private final Map<CurrencyPair, BTERMarketInfo> marketInfoMap;
 
-  private BTERMarketInfoWrapper(final Map<CurrencyPair, BTERMarketInfo> marketInfoMap) {
+  private BTERMarketInfoWrapper(Map<CurrencyPair, BTERMarketInfo> marketInfoMap) {
 
     this.marketInfoMap = marketInfoMap;
   }
@@ -107,13 +107,11 @@ public class BTERMarketInfoWrapper {
             BTERMarketInfo marketInfoObject = new BTERMarketInfo(currencyPair, decimalPlaces, minAmount, fee);
 
             marketInfoMap.put(currencyPair, marketInfoObject);
-          }
-          else {
+          } else {
             throw new ExchangeException("Invalid market info response received from BTER." + marketsNodeWrapper);
           }
         }
-      }
-      else {
+      } else {
         throw new ExchangeException("Invalid market info response received from BTER." + marketsNodeWrapper);
       }
 

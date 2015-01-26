@@ -110,7 +110,7 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   }
 
   @SuppressWarnings("incomplete-switch")
-  private CoinfloorExchangeEvent doNewRequest(final CoinfloorRequest requestObject, ExchangeEventType expectedEventType) {
+  private CoinfloorExchangeEvent doNewRequest(CoinfloorRequest requestObject, ExchangeEventType expectedEventType) {
 
     try {
       try {

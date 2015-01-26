@@ -32,7 +32,7 @@ public final class CoinbaseAdapters {
 
   }
 
-  public static AccountInfo adaptAccountInfo(final CoinbaseUser user) {
+  public static AccountInfo adaptAccountInfo(CoinbaseUser user) {
 
     final String username = user.getEmail();
     final CoinbaseMoney balance = user.getBalance();
@@ -44,16 +44,16 @@ public final class CoinbaseAdapters {
     return accountInfo;
   }
 
-  public static UserTrades adaptTrades(final CoinbaseTransfers transfers) {
+  public static UserTrades adaptTrades(CoinbaseTransfers transfers) {
 
     final List<UserTrade> trades = new ArrayList<UserTrade>();
-    for (final CoinbaseTransfer transfer : transfers.getTransfers())
+    for (CoinbaseTransfer transfer : transfers.getTransfers())
       trades.add(adaptTrade(transfer));
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static UserTrade adaptTrade(final CoinbaseTransfer transfer) {
+  public static UserTrade adaptTrade(CoinbaseTransfer transfer) {
 
     final OrderType orderType = adaptOrderType(transfer.getType());
     final CoinbaseMoney btcAmount = transfer.getBtcAmount();
@@ -70,7 +70,7 @@ public final class CoinbaseAdapters {
     return new UserTrade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, id, id, feeAmount, feeCurrency);
   }
 
-  public static OrderType adaptOrderType(final CoinbaseTransferType transferType) {
+  public static OrderType adaptOrderType(CoinbaseTransferType transferType) {
 
     switch (transferType) {
     case BUY:
@@ -83,7 +83,7 @@ public final class CoinbaseAdapters {
 
   private static final int TWENTY_FOUR_HOURS_IN_MILLIS = 1000 * 60 * 60 * 24;
 
-  public static Ticker adaptTicker(final CurrencyPair currencyPair, final CoinbasePrice buyPrice, final CoinbasePrice sellPrice, final CoinbaseMoney spotRate,
+  public static Ticker adaptTicker(CurrencyPair currencyPair, final CoinbasePrice buyPrice, final CoinbasePrice sellPrice, final CoinbaseMoney spotRate,
       final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory) {
 
     final Ticker.Builder tickerBuilder =
@@ -95,7 +95,7 @@ public final class CoinbaseAdapters {
       BigDecimal observedLow = spotRate.getAmount();
       Date twentyFourHoursAgo = null;
       // The spot price history list is sorted in descending order by timestamp when deserialized.
-      for (final CoinbaseHistoricalSpotPrice historicalSpotPrice : coinbaseSpotPriceHistory.getSpotPriceHistory()) {
+      for (CoinbaseHistoricalSpotPrice historicalSpotPrice : coinbaseSpotPriceHistory.getSpotPriceHistory()) {
 
         if (twentyFourHoursAgo == null)
           twentyFourHoursAgo = new Date(historicalSpotPrice.getTimestamp().getTime() - TWENTY_FOUR_HOURS_IN_MILLIS);

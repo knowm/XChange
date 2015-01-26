@@ -24,7 +24,7 @@ public class CoinbaseExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(final ExchangeSpecification exchangeSpecification) {
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
 

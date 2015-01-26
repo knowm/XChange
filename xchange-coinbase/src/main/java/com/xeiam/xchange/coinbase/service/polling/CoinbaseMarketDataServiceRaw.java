@@ -20,7 +20,7 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
    *
    * @param exchange
    */
-  public CoinbaseMarketDataServiceRaw(final Exchange exchange) {
+  public CoinbaseMarketDataServiceRaw(Exchange exchange) {
 
     // TODO look at this
     super(Coinbase.class, exchange);

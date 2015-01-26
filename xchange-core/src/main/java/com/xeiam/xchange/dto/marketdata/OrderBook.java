@@ -136,7 +136,7 @@ public final class OrderBook {
   }
 
   @Override
-  public boolean equals(final Object obj) {
+  public boolean equals(Object obj) {
 
     if (obj == null) {
       return false;

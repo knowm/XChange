@@ -19,7 +19,7 @@ import com.xeiam.xchange.utils.DateUtils;
 public class Rfc1123DateDeserializer extends JsonDeserializer<Date> {
 
   @Override
-  public Date deserialize(final JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  public Date deserialize(JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
     return DateUtils.fromRfc1123DateString(jp.getValueAsString(), Locale.US);
   }

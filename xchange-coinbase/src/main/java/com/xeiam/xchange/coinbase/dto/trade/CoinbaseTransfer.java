@@ -40,7 +40,7 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
   private final CoinbaseMoney total;
   private final String description;
 
-  public CoinbaseTransfer(final String id, final CoinbaseTransferType type, final String fundingType, final String code, final Date createdAt, final CoinbaseMoney coinbaseFee,
+  public CoinbaseTransfer(String id, final CoinbaseTransferType type, final String fundingType, final String code, final Date createdAt, final CoinbaseMoney coinbaseFee,
       final CoinbaseMoney bankFee, final Date payoutDate, final String transactionId, final CoinbaseTransferStatus status, final CoinbaseMoney btcAmount, final CoinbaseMoney subtotal,
       final CoinbaseMoney total, final String description, final boolean success, final List<String> errors) {
 
@@ -159,7 +159,7 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
         success = successNode.asBoolean();
         final JsonNode errorsNode = node.path("errors");
         if (errorsNode.isArray())
-          for (final JsonNode errorNode : errorsNode)
+          for (JsonNode errorNode : errorsNode)
             errors.add(errorNode.asText());
       }
 

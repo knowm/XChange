@@ -29,7 +29,7 @@ public enum CoinbaseBuySellLevel {
         .addJsonStringMapping("2", TWO).addJsonStringMapping("3", THREE);
 
     @Override
-    public CoinbaseBuySellLevel deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseBuySellLevel deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jsonParser.getCodec();
       final JsonNode node = oc.readTree(jsonParser);

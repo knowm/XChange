@@ -28,7 +28,7 @@ public enum CoinbaseButtonStyle {
     private static final EnumFromStringHelper<CoinbaseButtonStyle> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseButtonStyle>(CoinbaseButtonStyle.class);
 
     @Override
-    public CoinbaseButtonStyle deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseButtonStyle deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jsonParser.getCodec();
       final JsonNode node = oc.readTree(jsonParser);

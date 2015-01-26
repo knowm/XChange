@@ -9,7 +9,7 @@ public abstract class CoinbasePagedResult {
   private final int numPages;
   private final int currentPage;
 
-  protected CoinbasePagedResult(final int totalCount, final int numPages, final int currentPage) {
+  protected CoinbasePagedResult(int totalCount, final int numPages, final int currentPage) {
 
     this.totalCount = totalCount;
     this.numPages = numPages;

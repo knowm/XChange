@@ -24,7 +24,7 @@ public enum KrakenOrderType {
     return super.toString().toLowerCase();
   }
 
-  public static KrakenOrderType fromString(final String orderTypeString) {
+  public static KrakenOrderType fromString(String orderTypeString) {
 
     return fromString.get(orderTypeString.replace('-', '_').toLowerCase());
   }

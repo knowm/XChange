@@ -64,7 +64,7 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
     List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
 
     final Set<String> krakenCurrencyPairs = getKrakenAssetPairs().getAssetPairMap().keySet();
-    for (final String krakenCurrencyPair : krakenCurrencyPairs) {
+    for (String krakenCurrencyPair : krakenCurrencyPairs) {
       String krakenTradeCurrency = krakenCurrencyPair.substring(0, 4);
       String krakenPriceCurrency = krakenCurrencyPair.substring(4);
 

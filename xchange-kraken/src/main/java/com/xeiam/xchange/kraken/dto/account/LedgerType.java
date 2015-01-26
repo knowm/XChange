@@ -24,7 +24,7 @@ public enum LedgerType {
     return super.toString().toLowerCase();
   }
 
-  public static LedgerType fromString(final String ledgerTypeString) {
+  public static LedgerType fromString(String ledgerTypeString) {
 
     return fromString.get(ledgerTypeString.toLowerCase());
   }

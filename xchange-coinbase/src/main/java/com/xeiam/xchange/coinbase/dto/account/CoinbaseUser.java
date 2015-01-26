@@ -33,19 +33,19 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     this.oAuth = oAuth;
   }
 
-  public CoinbaseUser(final CoinbaseUserInfo user) {
+  public CoinbaseUser(CoinbaseUserInfo user) {
 
     super(true);
     this.user = user;
     this.oAuth = null;
   }
 
-  public static CoinbaseUser createNewCoinbaseUser(final String email, final String password) {
+  public static CoinbaseUser createNewCoinbaseUser(String email, final String password) {
 
     return new CoinbaseUser(new CoinbaseUserInfo(email, password, null));
   }
 
-  public static CoinbaseUser createCoinbaseNewUserWithReferrerId(final String email, final String password, final String referrerId) {
+  public static CoinbaseUser createCoinbaseNewUserWithReferrerId(String email, final String password, final String referrerId) {
 
     return new CoinbaseUser(new CoinbaseUserInfo(email, password, referrerId));
   }
@@ -62,7 +62,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     return user.getEmail();
   }
 
-  public CoinbaseUser updateEmail(final String email) {
+  public CoinbaseUser updateEmail(String email) {
 
     user.setEmail(email);
     return this;
@@ -74,7 +74,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     return user.getName();
   }
 
-  public CoinbaseUser updateName(final String name) {
+  public CoinbaseUser updateName(String name) {
 
     user.setName(name);
     return this;
@@ -104,7 +104,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     return user.getTimeZone();
   }
 
-  public CoinbaseUser updateTimeZone(final String timeZone) {
+  public CoinbaseUser updateTimeZone(String timeZone) {
 
     user.setTimeZone(timeZone);
     return this;
@@ -122,7 +122,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     return user.getNativeCurrency();
   }
 
-  public CoinbaseUser updateNativeCurrency(final String nativeCurrency) {
+  public CoinbaseUser updateNativeCurrency(String nativeCurrency) {
 
     user.setNativeCurrency(nativeCurrency);
     return this;
@@ -158,7 +158,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     return user.getPin();
   }
 
-  public CoinbaseUser updatePin(final String pin) {
+  public CoinbaseUser updatePin(String pin) {
 
     user.setPin(pin);
     return this;
@@ -181,7 +181,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
     return oAuthClientId;
   }
 
-  public CoinbaseUser withoAuthClientId(final String oAuthClientId) {
+  public CoinbaseUser withoAuthClientId(String oAuthClientId) {
 
     this.oAuthClientId = oAuthClientId;
     return this;
@@ -243,7 +243,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
       this.merchant = merchant;
     }
 
-    private CoinbaseUserInfo(final String email, final String password, final String referrerId) {
+    private CoinbaseUserInfo(String email, final String password, final String referrerId) {
 
       this.email = email;
       this.password = password;
@@ -273,7 +273,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
       return email;
     }
 
-    private void setEmail(final String email) {
+    private void setEmail(String email) {
 
       this.email = email;
     }
@@ -283,7 +283,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
       return name;
     }
 
-    private void setName(final String name) {
+    private void setName(String name) {
 
       this.name = name;
     }
@@ -309,7 +309,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
       return timeZone;
     }
 
-    private void setTimeZone(final String timeZone) {
+    private void setTimeZone(String timeZone) {
 
       this.timeZone = timeZone;
     }
@@ -325,7 +325,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
       return nativeCurrency;
     }
 
-    private void setNativeCurrency(final String nativeCurrency) {
+    private void setNativeCurrency(String nativeCurrency) {
 
       this.nativeCurrency = nativeCurrency;
     }
@@ -359,7 +359,7 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
       return pin;
     }
 
-    private void setPin(final String pin) {
+    private void setPin(String pin) {
 
       this.pin = pin;
     }

@@ -88,7 +88,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
    * @throws IOException
    */
   @Override
-  public UserTrades getTradeHistory(final Object... arguments) throws IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws IOException {
 
     Long numberOfTransactions = Long.MAX_VALUE;
     String tradableIdentifier = "";

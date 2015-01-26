@@ -11,7 +11,7 @@ public class CoinbaseHistoricalSpotPrice implements Comparable<CoinbaseHistorica
   private final Date timestamp;
   private final BigDecimal spotRate;
 
-  CoinbaseHistoricalSpotPrice(final Date timestamp, final BigDecimal spotRate) {
+  CoinbaseHistoricalSpotPrice(Date timestamp, final BigDecimal spotRate) {
 
     this.timestamp = timestamp;
     this.spotRate = spotRate;
