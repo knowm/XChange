@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.rs.CoinsetterPing;
 import com.xeiam.xchange.service.BaseExchangeService;
 
@@ -16,12 +16,15 @@ public class CoinsetterPingServiceRaw extends BaseExchangeService {
   protected final CoinsetterPing ping;
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public CoinsetterPingServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public CoinsetterPingServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    String baseUrl = exchangeSpecification.getSslUri();
+    super(exchange);
+
+    String baseUrl = exchange.getExchangeSpecification().getSslUri();
     ping = RestProxyFactory.createProxy(CoinsetterPing.class, baseUrl);
   }
 

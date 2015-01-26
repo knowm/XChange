@@ -3,7 +3,7 @@ package com.xeiam.xchange.bleutrade.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bleutrade.BleutradeAdapters;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeOrderBook;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTicker;
@@ -17,24 +17,16 @@ import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
-/**
- * <p>
- * Implementation of the market data service for Bittrex
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
- */
 public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BleutradeMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BleutradeMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -72,8 +64,7 @@ public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw im
 
     if (count < 1) {
       count = 1;
-    }
-    else if (count > 200) {
+    } else if (count > 200) {
       count = 200;
     }
 

@@ -2,7 +2,7 @@ package com.xeiam.xchange.bter.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bter.BTERAuthenticated;
 import com.xeiam.xchange.bter.dto.account.BTERFunds;
 
@@ -10,17 +10,18 @@ public class BTERPollingAccountServiceRaw extends BTERBasePollingService<BTERAut
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public BTERPollingAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BTERPollingAccountServiceRaw(Exchange exchange) {
 
-    super(BTERAuthenticated.class, exchangeSpecification);
+    //TODO look at this
+    super(BTERAuthenticated.class, exchange);
   }
 
   public BTERFunds getBTERAccountInfo() throws IOException {
 
-    BTERFunds bterFunds = bter.getFunds(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    BTERFunds bterFunds = bter.getFunds(exchange.getExchangeSpecification().getApiKey(), signatureCreator, nextNonce());
     return handleResponse(bterFunds);
   }
 

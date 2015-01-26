@@ -24,7 +24,7 @@ public class CoinsetterClientSessionDemo {
     String ipAddress = args[2];
 
     Exchange coinsetter = CoinsetterExamplesUtils.getExchange();
-    CoinsetterClientSessionServiceRaw clientSessionService = new CoinsetterClientSessionServiceRaw(coinsetter.getExchangeSpecification());
+    CoinsetterClientSessionServiceRaw clientSessionService = new CoinsetterClientSessionServiceRaw(coinsetter);
     CoinsetterClientSession clientSession = clientSessionService.login(username, password, ipAddress);
     log.info("Client session: {}", clientSession);
 

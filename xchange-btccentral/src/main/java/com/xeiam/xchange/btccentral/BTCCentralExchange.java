@@ -27,7 +27,7 @@ public class BTCCentralExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BTCCentralMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new BTCCentralMarketDataService(this);
     this.pollingTradeService = null;
     this.pollingAccountService = null;
   }

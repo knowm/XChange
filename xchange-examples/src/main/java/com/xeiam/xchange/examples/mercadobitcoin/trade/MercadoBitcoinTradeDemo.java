@@ -11,7 +11,7 @@ import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinCancelOrderResul
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrdersEntry;
-import com.xeiam.xchange.mercadobitcoin.service.polling.trade.MercadoBitcoinTradeServiceRaw;
+import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinTradeServiceRaw;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 import java.io.IOException;

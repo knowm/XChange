@@ -3,7 +3,7 @@ package com.xeiam.xchange.bitvc.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitvc.BitVcAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
@@ -11,8 +11,13 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class BitVcAccountService extends BitVcAccountServiceRaw implements PollingAccountService {
 
-  public BitVcAccountService(ExchangeSpecification exchangeSpecification) {
-    super(exchangeSpecification);
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public BitVcAccountService(Exchange exchange) {
+    super(exchange);
   }
 
   @Override

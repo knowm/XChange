@@ -7,14 +7,6 @@ import com.xeiam.xchange.vircurex.service.polling.VircurexAccountService;
 import com.xeiam.xchange.vircurex.service.polling.VircurexMarketDataService;
 import com.xeiam.xchange.vircurex.service.polling.VircurexTradeService;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the Vircurex exchange API</li>
- * </ul>
- */
 public class VircurexExchange extends BaseExchange implements Exchange {
 
   /**
@@ -29,9 +21,9 @@ public class VircurexExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new VircurexMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new VircurexAccountService(exchangeSpecification);
-    this.pollingTradeService = new VircurexTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new VircurexMarketDataService(this);
+    this.pollingAccountService = new VircurexAccountService(this);
+    this.pollingTradeService = new VircurexTradeService(this);
   }
 
   @Override

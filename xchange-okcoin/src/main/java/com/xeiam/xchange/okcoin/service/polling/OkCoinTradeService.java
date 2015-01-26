@@ -8,7 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -29,14 +29,20 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class OkCoinTradeService extends OkCoinTradeServiceRaw implements PollingTradeService {
+
   private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
 
   private final Logger log = LoggerFactory.getLogger(OkCoinTradeService.class);
   private final List<CurrencyPair> exchangeSymbols = (List<CurrencyPair>) getExchangeSymbols();
 
-  public OkCoinTradeService(ExchangeSpecification exchangeSpecification) {
-    super(exchangeSpecification);
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public OkCoinTradeService(Exchange exchange) {
 
+    super(exchange);
   }
 
   @Override
@@ -125,9 +131,8 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   }
 
   /**
-   * Required parameters {@link TradeHistoryParamPaging}
-   *
-   * Supported parameters {@link TradeHistoryParamCurrencyPair}
+   * Required parameters {@link TradeHistoryParamPaging} Supported parameters
+   * {@link TradeHistoryParamCurrencyPair}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {

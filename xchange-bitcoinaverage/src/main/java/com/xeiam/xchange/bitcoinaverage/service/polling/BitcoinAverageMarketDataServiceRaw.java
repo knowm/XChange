@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcoinaverage.BitcoinAverage;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTickers;
@@ -22,14 +22,15 @@ public class BitcoinAverageMarketDataServiceRaw extends BitcoinAverageBasePollin
   private final BitcoinAverage bitcoinAverage;
 
   /**
+   *
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BitcoinAverageMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BitcoinAverageMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.bitcoinAverage = RestProxyFactory.createProxy(BitcoinAverage.class, exchangeSpecification.getSslUri());
+    super(exchange);
+    this.bitcoinAverage = RestProxyFactory.createProxy(BitcoinAverage.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public BitcoinAverageTicker getBitcoinAverageTicker(String tradableIdentifier, String currency) throws IOException {

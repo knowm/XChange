@@ -2,13 +2,13 @@ package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.hitbtc.HitbtcAdapters;
-import com.xeiam.xchange.hitbtc.dto.HitbtcException;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.hitbtc.Hitbtc;
+import com.xeiam.xchange.hitbtc.HitbtcAdapters;
+import com.xeiam.xchange.hitbtc.dto.HitbtcException;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
@@ -20,13 +20,14 @@ import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 public abstract class HitbtcMarketDataServiceRaw extends HitbtcBasePollingService<Hitbtc> {
 
   /**
-   * Constructor Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
+   * @param nonceFactory
    */
-  protected HitbtcMarketDataServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  protected HitbtcMarketDataServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
 
-    super(Hitbtc.class, exchangeSpecification, nonceFactory);
+    super(Hitbtc.class, exchange, nonceFactory);
   }
 
   public HitbtcTicker getHitbtcTicker(CurrencyPair currencyPair) throws IOException {
@@ -50,8 +51,7 @@ public abstract class HitbtcMarketDataServiceRaw extends HitbtcBasePollingServic
   public HitbtcTrades getHitbtcTrades(CurrencyPair currencyPair, long from, HitbtcTrades.HitbtcTradesSortOrder sortBy, long startIndex, long maxResults) throws IOException {
 
     try {
-      return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), String.valueOf(from), sortBy.toString(), "desc", String.valueOf(startIndex), String
-          .valueOf(maxResults), "object");
+      return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), String.valueOf(from), sortBy.toString(), "desc", String.valueOf(startIndex), String.valueOf(maxResults), "object");
     } catch (HitbtcException e) {
       throw handleException(e);
     }

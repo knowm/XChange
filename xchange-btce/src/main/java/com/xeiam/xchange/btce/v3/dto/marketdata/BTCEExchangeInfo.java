@@ -5,8 +5,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Author: brox
- * Takes public BTC-E exchange info, such as valid currency pairs, fees, etc
+ * @author brox
  */
 public class BTCEExchangeInfo {
 

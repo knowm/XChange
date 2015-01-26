@@ -2,7 +2,7 @@ package com.xeiam.xchange.bittrex.v1.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bittrex.v1.BittrexAdapters;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -20,11 +20,11 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Polli
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
-  public BittrexTradeService(ExchangeSpecification exchangeSpecification) {
+  public BittrexTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

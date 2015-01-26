@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.newsalert.response.CoinsetterNewsAlertList;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -18,12 +18,14 @@ public class CoinsetterNewsAlertServiceRaw extends BaseExchangeService {
   private final com.xeiam.xchange.coinsetter.rs.CoinsetterNewsAlert newsAlert;
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public CoinsetterNewsAlertServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public CoinsetterNewsAlertServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    String baseUrl = exchangeSpecification.getSslUri();
+    super(exchange);
+    String baseUrl = exchange.getExchangeSpecification().getSslUri();
     newsAlert = RestProxyFactory.createProxy(com.xeiam.xchange.coinsetter.rs.CoinsetterNewsAlert.class, baseUrl);
   }
 

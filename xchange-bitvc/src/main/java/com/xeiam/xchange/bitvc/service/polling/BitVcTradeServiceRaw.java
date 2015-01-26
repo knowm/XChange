@@ -5,7 +5,7 @@ import static com.xeiam.xchange.dto.Order.OrderType.BID;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcCancelOrderResult;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcOrder;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcOrderResult;
@@ -15,10 +15,16 @@ import com.xeiam.xchange.huobi.service.polling.TradeServiceRaw;
 
 public class BitVcTradeServiceRaw extends BitVcBaseTradeService implements TradeServiceRaw {
 
-  public BitVcTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
-    super(exchangeSpecification);
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public BitVcTradeServiceRaw(Exchange exchange) {
+    super(exchange);
   }
 
+  @Override
   public BitVcOrder[] getBitVcOrders(int coinType) throws IOException {
 
     BitVcOrderResult orders = bitvc.getOrders(accessKey, coinType, nextCreated(), digest);
@@ -31,6 +37,7 @@ public class BitVcTradeServiceRaw extends BitVcBaseTradeService implements Trade
     return bitvc.getOrder(accessKey, coinType, nextCreated(), digest, id);
   }
 
+  @Override
   public BitVcPlaceOrderResult placeBitVcLimitOrder(OrderType type, int coinType, BigDecimal price, BigDecimal amount) throws IOException {
 
     final String method = type == BID ? "buy" : "sell";
@@ -41,6 +48,7 @@ public class BitVcTradeServiceRaw extends BitVcBaseTradeService implements Trade
     return result;
   }
 
+  @Override
   public BitVcPlaceOrderResult placeBitVcMarketOrder(OrderType type, int coinType, BigDecimal amount) throws IOException {
 
     final String method = type == BID ? "buy_market" : "sell_market";
@@ -52,6 +60,7 @@ public class BitVcTradeServiceRaw extends BitVcBaseTradeService implements Trade
     return result;
   }
 
+  @Override
   public BitVcCancelOrderResult cancelBitVcOrder(int coinType, long id) throws IOException {
 
     return bitvc.cancelOrder(accessKey, coinType, nextCreated(), id, digest, id);

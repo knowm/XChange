@@ -1,7 +1,5 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
-import static com.xeiam.xchange.utils.TradeServiceHelperConfigurer.CFG;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,12 +7,9 @@ import java.util.Map;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.v3.BTCEAdapters;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEPairInfo;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradeMetaData;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderReturn;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOpenOrdersReturn;
@@ -23,7 +18,6 @@ import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderReturn;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
-import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * Author: brox Since: 2014-02-13
@@ -37,12 +31,12 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
   /**
    * Constructor
    *
-   * @param exchangeSpecification The
-   *          {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param exchange
+   * @param nonceFactory
    */
-  public BTCETradeServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Integer> nonceFactory) {
+  public BTCETradeServiceRaw(Exchange exchange, SynchronizedValueFactory<Integer> nonceFactory) {
 
-    super(BTCEAuthenticated.class, exchangeSpecification, nonceFactory);
+    super(BTCEAuthenticated.class, exchange, nonceFactory);
   }
 
   /**
@@ -117,25 +111,25 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
     return btce.getInfo();
   }
 
-  /**
-   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
-   * from the exchange.
-   *
-   * @return Map of currency pairs to their corresponding metadata.
-   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
-   */
-  public Map<CurrencyPair, BTCETradeMetaData> getTradeMetaDataMap() throws IOException {
-
-    Map<CurrencyPair, BTCETradeMetaData> result = new HashMap<CurrencyPair, BTCETradeMetaData>();
-    int amountScale = CFG.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
-
-    Map<String, BTCEPairInfo> pairInfos = getExchangeInfo().getPairs();
-    for (Map.Entry<String, BTCEPairInfo> e : pairInfos.entrySet()) {
-      CurrencyPair pair = BTCEAdapters.adaptCurrencyPair(e.getKey());
-      BTCETradeMetaData meta = BTCEAdapters.createMarketMetadata(e.getValue(), amountScale);
-
-      result.put(pair, meta);
-    }
-    return result;
-  }
+  //  /**
+  //   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
+  //   * from the exchange.
+  //   *
+  //   * @return Map of currency pairs to their corresponding metadata.
+  //   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
+  //   */
+  //  public Map<CurrencyPair, BTCETradeMetaData> getTradeMetaDataMap() throws IOException {
+  //
+  //    Map<CurrencyPair, BTCETradeMetaData> result = new HashMap<CurrencyPair, BTCETradeMetaData>();
+  //    int amountScale = CFG.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
+  //
+  //    Map<String, BTCEPairInfo> pairInfos = getExchangeInfo().getPairs();
+  //    for (Map.Entry<String, BTCEPairInfo> e : pairInfos.entrySet()) {
+  //      CurrencyPair pair = BTCEAdapters.adaptCurrencyPair(e.getKey());
+  //      BTCETradeMetaData meta = BTCEAdapters.createMarketMetadata(e.getValue(), amountScale);
+  //
+  //      result.put(pair, meta);
+  //    }
+  //    return result;
+  //  }
 }

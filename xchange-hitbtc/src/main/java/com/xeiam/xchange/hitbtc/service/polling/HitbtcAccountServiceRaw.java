@@ -2,10 +2,9 @@ package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.*;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -16,9 +15,15 @@ import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
 
 public class HitbtcAccountServiceRaw extends HitbtcBasePollingService<HitbtcAuthenticated> {
 
-  public HitbtcAccountServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   * @param nonceFactory
+   */
+  public HitbtcAccountServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
 
-    super(HitbtcAuthenticated.class, exchangeSpecification, nonceFactory);
+    super(HitbtcAuthenticated.class, exchange, nonceFactory);
   }
 
   public HitbtcBalance[] getAccountInfoRaw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {

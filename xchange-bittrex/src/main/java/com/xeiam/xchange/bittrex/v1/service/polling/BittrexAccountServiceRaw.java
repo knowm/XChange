@@ -3,7 +3,7 @@ package com.xeiam.xchange.bittrex.v1.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bittrex.v1.BittrexAuthenticated;
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalance;
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalancesResponse;
@@ -14,12 +14,12 @@ public class BittrexAccountServiceRaw extends BittrexBasePollingService<BittrexA
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BittrexAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BittrexAccountServiceRaw(Exchange exchange) {
 
-    super(BittrexAuthenticated.class, exchangeSpecification);
+    super(BittrexAuthenticated.class, exchange);
   }
 
   public List<BittrexBalance> getBittrexAccountInfo() throws IOException {
@@ -28,8 +28,7 @@ public class BittrexAccountServiceRaw extends BittrexBasePollingService<BittrexA
 
     if (response.getSuccess()) {
       return response.getResult();
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
   }
@@ -39,8 +38,7 @@ public class BittrexAccountServiceRaw extends BittrexBasePollingService<BittrexA
     BittrexDepositAddressResponse response = bittrex.getdepositaddress(apiKey, signatureCreator, String.valueOf(nextNonce()), currency);
     if (response.getSuccess()) {
       return response.getResult().getAddress();
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
   }

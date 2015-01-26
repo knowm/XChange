@@ -29,8 +29,8 @@ public class CoinsetterPriceAlertDemo {
     String ipAddress = args[2];
 
     Exchange coinsetter = CoinsetterExamplesUtils.getExchange();
-    CoinsetterClientSessionServiceRaw clientSessionService = new CoinsetterClientSessionServiceRaw(coinsetter.getExchangeSpecification());
-    CoinsetterPriceAlertServiceRaw priceAlertService = new CoinsetterPriceAlertServiceRaw(coinsetter.getExchangeSpecification());
+    CoinsetterClientSessionServiceRaw clientSessionService = new CoinsetterClientSessionServiceRaw(coinsetter);
+    CoinsetterPriceAlertServiceRaw priceAlertService = new CoinsetterPriceAlertServiceRaw(coinsetter);
 
     CoinsetterClientSession clientSession = clientSessionService.login(username, password, ipAddress);
     log.info("Client session: {}", clientSession);

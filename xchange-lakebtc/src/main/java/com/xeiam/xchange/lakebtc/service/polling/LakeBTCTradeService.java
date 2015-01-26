@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -26,11 +26,11 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Polli
   /**
    * Constructor
    *
-   * @param exchangeSpecification The
-   *          {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param exchange
+   * @param tonceFactory
    */
-  public LakeBTCTradeService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
-    super(exchangeSpecification, tonceFactory);
+  public LakeBTCTradeService(Exchange exchange, SynchronizedValueFactory<Long> tonceFactory) {
+    super(exchange, tonceFactory);
   }
 
   @Override

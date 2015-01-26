@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.gson.JsonElement;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterExchange;
 import com.xeiam.xchange.coinsetter.service.streaming.event.CoinsetterSocketListener;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -35,9 +35,9 @@ public class CoinsetterSocket extends BaseExchangeService {
 
   private final List<CoinsetterSocketListener> socketIOListeners = new ArrayList<CoinsetterSocketListener>();
 
-  public CoinsetterSocket(ExchangeSpecification exchangeSpecification, CoinsetterStreamingConfiguration coinsetterStreamingConfiguration) {
+  public CoinsetterSocket(Exchange exchange, CoinsetterStreamingConfiguration coinsetterStreamingConfiguration) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
     this.coinsetterStreamingConfiguration = coinsetterStreamingConfiguration;
 
@@ -47,7 +47,7 @@ public class CoinsetterSocket extends BaseExchangeService {
       throw new RuntimeException(e);
     }
 
-    final String uri = (String) exchangeSpecification.getExchangeSpecificParametersItem(CoinsetterExchange.WEBSOCKET_URI_KEY);
+    final String uri = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(CoinsetterExchange.WEBSOCKET_URI_KEY);
 
     try {
       socket = new SocketIO(uri);

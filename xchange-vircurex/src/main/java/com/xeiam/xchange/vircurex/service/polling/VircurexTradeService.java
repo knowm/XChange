@@ -2,7 +2,7 @@ package com.xeiam.xchange.vircurex.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -16,11 +16,11 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Pol
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
-  public VircurexTradeService(ExchangeSpecification exchangeSpecification) {
+  public VircurexTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

@@ -32,9 +32,10 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new HitbtcMarketDataService(exchangeSpecification, nonceFactory);
-    HitbtcTradeService hitbtcTradeService = new HitbtcTradeService(exchangeSpecification, nonceFactory);
-    HitbtcAccountService hitbtcAccountService = new HitbtcAccountService(exchangeSpecification, nonceFactory);
+
+    this.pollingMarketDataService = new HitbtcMarketDataService(this, nonceFactory);
+    HitbtcTradeService hitbtcTradeService = new HitbtcTradeService(this, nonceFactory);
+    HitbtcAccountService hitbtcAccountService = new HitbtcAccountService(this, nonceFactory);
     this.pollingTradeService = hitbtcTradeService;
     this.pollingAccountService = hitbtcAccountService;
   }

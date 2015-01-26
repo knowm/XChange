@@ -7,7 +7,7 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.account.MyFunds;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -24,12 +24,12 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public CampBXAccountService(ExchangeSpecification exchangeSpecification) {
+  public CampBXAccountService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -40,9 +40,8 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
 
     if (!myFunds.isError()) {
       // TODO move to adapter class
-      return new AccountInfo(exchangeSpecification.getUserName(), Arrays.asList(new Wallet("BTC", myFunds.getTotalBTC()), new Wallet("USD", myFunds.getTotalUSD())));
-    }
-    else {
+      return new AccountInfo(exchange.getExchangeSpecification().getUserName(), Arrays.asList(new Wallet("BTC", myFunds.getTotalBTC()), new Wallet("USD", myFunds.getTotalUSD())));
+    } else {
       throw new ExchangeException("Error calling getAccountInfo(): " + myFunds.getError());
     }
   }
@@ -55,8 +54,7 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
 
     if (!campBXResponse.isError()) {
       return campBXResponse.getSuccess();
-    }
-    else {
+    } else {
       throw new ExchangeException("Error calling withdrawFunds(): " + campBXResponse.getError());
     }
   }
@@ -69,8 +67,7 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
 
     if (!campBXResponse.isError()) {
       return campBXResponse.getSuccess();
-    }
-    else {
+    } else {
       throw new ExchangeException("Error calling requestBitcoinDepositAddress(): " + campBXResponse.getError());
     }
   }

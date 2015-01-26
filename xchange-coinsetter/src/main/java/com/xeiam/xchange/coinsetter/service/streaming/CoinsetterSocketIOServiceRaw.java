@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterLevel;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterLevels;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPair;
@@ -23,7 +23,8 @@ import com.xeiam.xchange.coinsetter.service.streaming.event.CoinsetterSocketList
 import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
- * Coinsetter Websockets API implementation, fires Coinsetter exchange raw DTO events.
+ * Coinsetter Websockets API implementation, fires Coinsetter exchange raw DTO
+ * events.
  */
 public class CoinsetterSocketIOServiceRaw extends BaseExchangeService {
 
@@ -34,11 +35,17 @@ public class CoinsetterSocketIOServiceRaw extends BaseExchangeService {
 
   private final List<CoinsetterExchangeListener> exchangeListeners = new ArrayList<CoinsetterExchangeListener>();
 
-  public CoinsetterSocketIOServiceRaw(final ExchangeSpecification exchangeSpecification, final CoinsetterStreamingConfiguration coinsetterStreamingConfiguration) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   * @param coinsetterStreamingConfiguration
+   */
+  public CoinsetterSocketIOServiceRaw(Exchange exchange, CoinsetterStreamingConfiguration coinsetterStreamingConfiguration) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
-    socket = new CoinsetterSocket(exchangeSpecification, coinsetterStreamingConfiguration);
+    socket = new CoinsetterSocket(exchange, coinsetterStreamingConfiguration);
     socket.addListener(new CoinsetterSocketAdapter() {
 
       @Override
@@ -46,44 +53,37 @@ public class CoinsetterSocketIOServiceRaw extends BaseExchangeService {
 
         if (event == null) {
           log.warn("event is null.");
-        }
-        else if (event.equals("last")) {
+        } else if (event.equals("last")) {
           CoinsetterTrade last = gson.fromJson(args[0], CoinsetterTrade.class);
           for (CoinsetterExchangeListener listener : exchangeListeners) {
             listener.onLast(last);
           }
-        }
-        else if (event.equals("ticker")) {
+        } else if (event.equals("ticker")) {
           CoinsetterTicker ticker = gson.fromJson(args[0], CoinsetterTicker.class);
           for (CoinsetterExchangeListener listener : exchangeListeners) {
             listener.onTicker(ticker);
           }
-        }
-        else if (event.equals("depth")) {
+        } else if (event.equals("depth")) {
           CoinsetterPair[] depth = gson.fromJson(args[0], CoinsetterPair[].class);
           for (CoinsetterExchangeListener listener : exchangeListeners) {
             listener.onDepth(depth);
           }
-        }
-        else if (event.equals("levels")) {
+        } else if (event.equals("levels")) {
           CoinsetterLevels levels = gson.fromJson(args[0], CoinsetterLevels.class);
           for (CoinsetterExchangeListener listener : exchangeListeners) {
             listener.onLevels(levels);
           }
-        }
-        else if (event.equals("levels_COINSETTER") || event.equals("levels_SMART")) {
+        } else if (event.equals("levels_COINSETTER") || event.equals("levels_SMART")) {
           CoinsetterLevel level = gson.fromJson(args[0], CoinsetterLevel.class);
           for (CoinsetterExchangeListener listener : exchangeListeners) {
             listener.onLevel(level);
           }
-        }
-        else if (event.startsWith("orders-")) {
+        } else if (event.startsWith("orders-")) {
           CoinsetterOrderStatus orderStatus = gson.fromJson(args[0], CoinsetterOrderStatus.class);
           for (CoinsetterExchangeListener listener : exchangeListeners) {
             listener.onOrderStatus(orderStatus);
           }
-        }
-        else {
+        } else {
           log.warn("Unknown event: {}", event);
         }
       }

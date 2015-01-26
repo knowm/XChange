@@ -16,9 +16,9 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 
 public class AtlasPollingMarketDataService extends BasePollingExchangeService implements PollingMarketDataService {
 
-  public AtlasPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public AtlasPollingMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

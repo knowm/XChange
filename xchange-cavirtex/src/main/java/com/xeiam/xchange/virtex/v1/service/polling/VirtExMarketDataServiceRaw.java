@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.virtex.v1.VirtEx;
 import com.xeiam.xchange.virtex.v1.dto.marketdata.VirtExDepth;
 import com.xeiam.xchange.virtex.v1.dto.marketdata.VirtExTicker;
@@ -26,13 +26,13 @@ public class VirtExMarketDataServiceRaw extends VirtexBasePollingService {
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public VirtExMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public VirtExMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.virtEx = RestProxyFactory.createProxy(VirtEx.class, exchangeSpecification.getSslUri());
+    super(exchange);
+    this.virtEx = RestProxyFactory.createProxy(VirtEx.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public VirtExTicker getVirtExTicker(String currency) throws IOException {

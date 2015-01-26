@@ -13,16 +13,14 @@ public class BTCTradeExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BTCTradeMarketDataService(exchangeSpecification);
+
+    this.pollingMarketDataService = new BTCTradeMarketDataService(this);
     if (exchangeSpecification.getApiKey() != null) {
-      this.pollingAccountService = new BTCTradeAccountService(exchangeSpecification);
-      this.pollingTradeService = new BTCTradeTradeService(exchangeSpecification);
+      this.pollingAccountService = new BTCTradeAccountService(this);
+      this.pollingTradeService = new BTCTradeTradeService(this);
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 

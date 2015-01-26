@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pusher.client.Pusher;
 import com.pusher.client.channel.Channel;
 import com.pusher.client.channel.SubscriptionEventListener;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampStreamingOrderBook;
@@ -57,9 +58,9 @@ public class BitstampPusherService extends BitstampBasePollingService implements
    *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public BitstampPusherService(ExchangeSpecification exchangeSpecification, BitstampStreamingConfiguration configuration) {
+  public BitstampPusherService(Exchange exchange, BitstampStreamingConfiguration configuration) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
     this.configuration = configuration;
     client = new Pusher(configuration.getPusherKey(), configuration.pusherOptions());

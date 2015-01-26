@@ -32,9 +32,7 @@ import com.xeiam.xchange.utils.DateUtils;
 public final class ANXAdapters {
 
   private static final String SIDE_BID = "bid";
-  // TODO move to TradeMetaData
   private static final int PRICE_SCALE = 8;
-  private static final int PERCENT_DECIMAL_SHIFT = 2;
 
   /**
    * private Constructor
@@ -232,7 +230,7 @@ public final class ANXAdapters {
     return new UserTrades(trades, lastId, TradeSortType.SortByTimestamp);
   }
 
-  // TODO We need to be able to access the PRICE_SCALE from the TradeMetaData class somehow
+  // TODO Is using PRICE_SCALE here correct?
   private static UserTrade adaptUserTrade(ANXTradeResult aNXTradeResult) {
 
     BigDecimal tradedCurrencyFillAmount = aNXTradeResult.getTradedCurrencyFillAmount();
@@ -259,7 +257,4 @@ public final class ANXAdapters {
     return SIDE_BID.equals(side) ? OrderType.BID : OrderType.ASK;
   }
 
-  public static BigDecimal percentToFactor(BigDecimal percent) {
-    return percent.movePointLeft(PERCENT_DECIMAL_SHIFT);
-  }
 }

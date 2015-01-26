@@ -3,7 +3,7 @@ package com.xeiam.xchange.bter.service.polling;
 import java.io.IOException;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bter.BTER;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
 import com.xeiam.xchange.bter.dto.marketdata.BTERMarketInfoWrapper;
@@ -17,12 +17,12 @@ public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService<BTER
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public BTERPollingMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BTERPollingMarketDataServiceRaw(Exchange exchange) {
 
-    super(BTER.class, exchangeSpecification);
+    super(BTER.class, exchange);
   }
 
   public Map<CurrencyPair, BTERMarketInfo> getBTERMarketInfo() throws IOException {

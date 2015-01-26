@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.CachedDataSession;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcoincharts.BitcoinCharts;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsAdapters;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsUtils;
@@ -37,14 +37,15 @@ public class BitcoinChartsMarketDataService extends BitcoinChartsBasePollingServ
   private BitcoinChartsTicker[] cachedBitcoinChartsTickers;
 
   /**
+   *
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BitcoinChartsMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BitcoinChartsMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.bitcoinCharts = RestProxyFactory.createProxy(BitcoinCharts.class, exchangeSpecification.getPlainTextUri());
+    super(exchange);
+    this.bitcoinCharts = RestProxyFactory.createProxy(BitcoinCharts.class, exchange.getExchangeSpecification().getPlainTextUri());
   }
 
   @Override

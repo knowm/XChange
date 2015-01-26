@@ -21,9 +21,9 @@ public class EmpoExExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new EmpoExMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new EmpoExAccountService(exchangeSpecification);
-    this.pollingTradeService = new EmpoExTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new EmpoExMarketDataService(this);
+    this.pollingAccountService = new EmpoExAccountService(this);
+    this.pollingTradeService = new EmpoExTradeService(this);
   }
 
   @Override

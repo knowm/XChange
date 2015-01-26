@@ -27,7 +27,7 @@ public class BitbayExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitbayMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new BitbayMarketDataService(this);
     this.pollingTradeService = null;
     this.pollingAccountService = null;
   }

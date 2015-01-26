@@ -2,7 +2,7 @@ package com.xeiam.xchange.btctrade.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btctrade.dto.BTCTradeSecretData;
 import com.xeiam.xchange.btctrade.dto.BTCTradeSecretResponse;
 import com.xeiam.xchange.exceptions.ExchangeException;
@@ -10,20 +10,21 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 public class BTCTradeSecretDataService extends BTCTradeBasePollingService {
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public BTCTradeSecretDataService(ExchangeSpecification exchangeSpecification) {
+  public BTCTradeSecretDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   public BTCTradeSecretData getSecretData() throws IOException {
 
-    BTCTradeSecretResponse response = btcTrade.getSecret(exchangeSpecification.getSecretKey(), exchangeSpecification.getApiKey());
+    BTCTradeSecretResponse response = btcTrade.getSecret(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getApiKey());
     if (response.getResult()) {
       return response.getData();
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
   }

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
 import com.xeiam.xchange.bter.dto.trade.BTERTrade;
@@ -25,11 +25,11 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
-  public BTERPollingTradeService(ExchangeSpecification exchangeSpecification) {
+  public BTERPollingTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

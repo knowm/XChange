@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -20,11 +20,12 @@ public class BTCEAccountService extends BTCEAccountServiceRaw implements Polling
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
+   * @param nonceFactory
    */
-  public BTCEAccountService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Integer> nonceFactory) {
+  public BTCEAccountService(Exchange exchange, SynchronizedValueFactory<Integer> nonceFactory) {
 
-    super(exchangeSpecification, nonceFactory);
+    super(exchange, nonceFactory);
   }
 
   @Override

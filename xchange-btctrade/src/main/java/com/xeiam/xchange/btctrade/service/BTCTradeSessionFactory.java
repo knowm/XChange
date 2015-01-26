@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 
 /**
@@ -30,20 +31,21 @@ public enum BTCTradeSessionFactory {
   }
 
   /**
-   * Returns the session of the specified API key
-   * in the {@code ExchangeSpecification}.
+   * Returns the session of the specified API key in the
+   * {@code ExchangeSpecification}.
    *
-   * @param exchangeSpecification the {@link ExchangeSpecification} to create the session.
+   * @param exchangeSpecification the {@link ExchangeSpecification} to create
+   *          the session.
    * @return the session.
    */
-  public synchronized BTCTradeSession getSession(ExchangeSpecification exchangeSpecification) {
+  public synchronized BTCTradeSession getSession(Exchange exchange) {
 
-    String publicKey = exchangeSpecification.getApiKey();
+    String publicKey = exchange.getExchangeSpecification().getApiKey();
     log.debug("Getting session: {}", publicKey);
     BTCTradeSession session = sessions.get(publicKey);
     if (session == null) {
       log.debug("Creating session: {}", publicKey);
-      session = new BTCTradeSession(exchangeSpecification);
+      session = new BTCTradeSession(exchange);
       sessions.put(publicKey, session);
     }
     return session;

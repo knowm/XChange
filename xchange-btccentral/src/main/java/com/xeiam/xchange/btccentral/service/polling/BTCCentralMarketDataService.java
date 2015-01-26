@@ -2,7 +2,7 @@ package com.xeiam.xchange.btccentral.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btccentral.BTCCentralAdapters;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -19,13 +19,13 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 public class BTCCentralMarketDataService extends BTCCentralMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   * Constructor Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  public BTCCentralMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BTCCentralMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

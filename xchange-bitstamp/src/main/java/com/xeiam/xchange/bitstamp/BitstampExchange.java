@@ -32,16 +32,16 @@ public class BitstampExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitstampMarketDataService(exchangeSpecification);
-    this.pollingTradeService = new BitstampTradeService(exchangeSpecification);
-    this.pollingAccountService = new BitstampAccountService(exchangeSpecification);
+    this.pollingMarketDataService = new BitstampMarketDataService(this);
+    this.pollingTradeService = new BitstampTradeService(this);
+    this.pollingAccountService = new BitstampAccountService(this);
   }
 
   @Override
   public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
 
     if (configuration instanceof BitstampStreamingConfiguration) {
-      return new BitstampPusherService(getExchangeSpecification(), (BitstampStreamingConfiguration) configuration);
+      return new BitstampPusherService(this, (BitstampStreamingConfiguration) configuration);
     }
 
     throw new IllegalArgumentException("Bitstamp only supports BitstampStreamingConfiguration");

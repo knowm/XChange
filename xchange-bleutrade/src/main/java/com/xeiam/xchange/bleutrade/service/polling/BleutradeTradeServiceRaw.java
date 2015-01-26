@@ -3,7 +3,7 @@ package com.xeiam.xchange.bleutrade.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
 import com.xeiam.xchange.bleutrade.BleutradeException;
 import com.xeiam.xchange.bleutrade.BleutradeUtils;
@@ -18,12 +18,12 @@ public class BleutradeTradeServiceRaw extends BleutradeBasePollingService<Bleutr
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public BleutradeTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BleutradeTradeServiceRaw(Exchange exchange) {
 
-    super(BleutradeAuthenticated.class, exchangeSpecification);
+    super(BleutradeAuthenticated.class, exchange);
   }
 
   public String buyLimit(LimitOrder limitOrder) throws IOException {
@@ -31,8 +31,8 @@ public class BleutradeTradeServiceRaw extends BleutradeBasePollingService<Bleutr
     try {
       String pairString = BleutradeUtils.toPairString(limitOrder.getCurrencyPair());
 
-      BleutradePlaceOrderReturn response =
-          bleutrade.buyLimit(apiKey, signatureCreator, String.valueOf(nextNonce()), pairString, limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
+      BleutradePlaceOrderReturn response = bleutrade.buyLimit(apiKey, signatureCreator, String.valueOf(nextNonce()), pairString, limitOrder.getTradableAmount().toPlainString(), limitOrder
+          .getLimitPrice().toPlainString());
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());
@@ -49,8 +49,8 @@ public class BleutradeTradeServiceRaw extends BleutradeBasePollingService<Bleutr
     try {
       String pairString = BleutradeUtils.toPairString(limitOrder.getCurrencyPair());
 
-      BleutradePlaceOrderReturn response =
-          bleutrade.sellLimit(apiKey, signatureCreator, String.valueOf(nextNonce()), pairString, limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
+      BleutradePlaceOrderReturn response = bleutrade.sellLimit(apiKey, signatureCreator, String.valueOf(nextNonce()), pairString, limitOrder.getTradableAmount().toPlainString(), limitOrder
+          .getLimitPrice().toPlainString());
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());

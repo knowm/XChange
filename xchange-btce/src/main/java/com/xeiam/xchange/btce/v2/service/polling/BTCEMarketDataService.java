@@ -5,7 +5,7 @@ import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v2.BTCE;
 import com.xeiam.xchange.btce.v2.BTCEAdapters;
 import com.xeiam.xchange.btce.v2.dto.marketdata.BTCEDepth;
@@ -32,12 +32,14 @@ public class BTCEMarketDataService extends BTCEBasePollingService implements Pol
   protected final BTCE btce;
 
   /**
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  public BTCEMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BTCEMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
-    btce = RestProxyFactory.createProxy(BTCE.class, exchangeSpecification.getSslUri());
+    super(exchange);
+    btce = RestProxyFactory.createProxy(BTCE.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   @Override
@@ -62,13 +64,13 @@ public class BTCEMarketDataService extends BTCEBasePollingService implements Pol
 
   /**
    * Get recent trades from exchange
-   * 
+   *
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest, null if irrelevant
-   * @param args Optional arguments. This implementation assumes
-   *          args[0] is integer value limiting number of trade items to get.
-   *          -1 or missing -> use default output of 150 items from API v.2
-   *          int from 1 to 2000 -> use API v.3 to get corresponding number of trades
+   * @param args Optional arguments. This implementation assumes args[0] is
+   *          integer value limiting number of trade items to get. -1 or missing
+   *          -> use default output of 150 items from API v.2 int from 1 to 2000
+   *          -> use API v.3 to get corresponding number of trades
    * @return Trades object
    * @throws IOException
    */

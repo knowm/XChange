@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.kraken.KrakenAdapters;
@@ -13,15 +13,21 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class KrakenAccountService extends KrakenAccountServiceRaw implements PollingAccountService {
 
-  public KrakenAccountService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   * @param nonceFactory
+   */
+  public KrakenAccountService(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification, nonceFactory);
+    super(exchange, nonceFactory);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return KrakenAdapters.adaptBalance(getKrakenBalance(), exchangeSpecification.getUserName());
+    return KrakenAdapters.adaptBalance(getKrakenBalance(), exchange.getExchangeSpecification().getUserName());
   }
 
   @Override

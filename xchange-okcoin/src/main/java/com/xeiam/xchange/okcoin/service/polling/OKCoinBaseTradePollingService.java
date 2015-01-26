@@ -4,7 +4,7 @@ import java.util.Map;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.okcoin.OkCoin;
 import com.xeiam.xchange.okcoin.OkCoinDigest;
@@ -18,24 +18,28 @@ public class OKCoinBaseTradePollingService extends OkCoinBasePollingService {
   protected final String apikey;
   protected final String secretKey;
 
-  protected OKCoinBaseTradePollingService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  protected OKCoinBaseTradePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
-    Map<String, Object> specific = exchangeSpecification.getExchangeSpecificParameters();
-    okCoin = RestProxyFactory.createProxy(OkCoin.class, useIntl ? (String) specific.get("Intl_SslUri") : exchangeSpecification.getSslUri());
-    apikey = exchangeSpecification.getApiKey();
-    secretKey = exchangeSpecification.getSecretKey();
-    
-    signatureCreator = new OkCoinDigest(apikey, secretKey); 
+    Map<String, Object> specific = exchange.getExchangeSpecification().getExchangeSpecificParameters();
+    okCoin = RestProxyFactory.createProxy(OkCoin.class, useIntl ? (String) specific.get("Intl_SslUri") : exchange.getExchangeSpecification().getSslUri());
+    apikey = exchange.getExchangeSpecification().getApiKey();
+    secretKey = exchange.getExchangeSpecification().getSecretKey();
+
+    signatureCreator = new OkCoinDigest(apikey, secretKey);
   }
 
   protected static <T extends OkCoinErrorResult> T returnOrThrow(T t) {
 
     if (t.isResult()) {
       return t;
-    }
-    else {
+    } else {
       throw new ExchangeException(OkCoinUtils.getErrorMessage(t.getErrorCode()));
     }
   }

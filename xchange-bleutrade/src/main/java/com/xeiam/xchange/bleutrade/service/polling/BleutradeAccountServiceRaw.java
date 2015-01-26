@@ -3,7 +3,7 @@ package com.xeiam.xchange.bleutrade.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
 import com.xeiam.xchange.bleutrade.BleutradeException;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalance;
@@ -17,12 +17,13 @@ public class BleutradeAccountServiceRaw extends BleutradeBasePollingService<Bleu
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BleutradeAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BleutradeAccountServiceRaw(Exchange exchange) {
 
-    super(BleutradeAuthenticated.class, exchangeSpecification);
+    // TODO look at this
+    super(BleutradeAuthenticated.class, exchange);
   }
 
   public BleutradeDepositAddress getBleutradeDepositAddress(String currency) throws IOException {

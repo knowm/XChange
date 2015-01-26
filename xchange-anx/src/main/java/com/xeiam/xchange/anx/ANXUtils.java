@@ -1,6 +1,7 @@
 package com.xeiam.xchange.anx;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public final class ANXUtils {
 
   /**
    * Find and match an order with id in orders
-   * 
+   *
    * @param orders
    * @param order
    * @param id
@@ -52,8 +53,7 @@ public final class ANXUtils {
 
     if (currencyPair.baseSymbol.equalsIgnoreCase(Currencies.BTC.toString()) || currencyPair.baseSymbol.equalsIgnoreCase(Currencies.LTC.toString())) {
       return 5;
-    }
-    else {
+    } else {
       return 8;
     }
   }
@@ -67,4 +67,8 @@ public final class ANXUtils {
     }
   }
 
+  public static BigDecimal percentToFactor(BigDecimal percent) {
+    int PERCENT_DECIMAL_SHIFT = 2;
+    return percent.movePointLeft(PERCENT_DECIMAL_SHIFT);
+  }
 }

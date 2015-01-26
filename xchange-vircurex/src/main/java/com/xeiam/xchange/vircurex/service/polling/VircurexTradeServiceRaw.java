@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -21,13 +21,14 @@ public class VircurexTradeServiceRaw extends VircurexBasePollingService {
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public VircurexTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public VircurexTradeServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    vircurex = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchangeSpecification.getSslUri());
+    super(exchange);
+
+    vircurex = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public String placeVircurexLimitOrder(LimitOrder limitOrder) throws IOException {
@@ -35,20 +36,19 @@ public class VircurexTradeServiceRaw extends VircurexBasePollingService {
     String type = limitOrder.getType() == Order.OrderType.BID ? "buy" : "sell";
     String timestamp = VircurexUtils.getUtcTimestamp();
     String nonce = (System.currentTimeMillis() / 250L) + "";
-    VircurexSha2Digest digest =
-        new VircurexSha2Digest(exchangeSpecification.getApiKey(), exchangeSpecification.getUserName(), timestamp, nonce, "create_order", type.toString(), limitOrder.getTradableAmount().floatValue()
-            + "", limitOrder.getCurrencyPair().counterSymbol.toLowerCase(), limitOrder.getLimitPrice().floatValue() + "", limitOrder.getCurrencyPair().baseSymbol.toLowerCase());
+    VircurexSha2Digest digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), timestamp, nonce, "create_order",
+        type.toString(), limitOrder.getTradableAmount().floatValue() + "", limitOrder.getCurrencyPair().counterSymbol.toLowerCase(), limitOrder.getLimitPrice().floatValue() + "",
+        limitOrder.getCurrencyPair().baseSymbol.toLowerCase());
 
-    VircurexPlaceOrderReturn ret =
-        vircurex.trade(exchangeSpecification.getApiKey(), nonce, digest.toString(), timestamp, type.toString(), limitOrder.getTradableAmount().floatValue() + "",
-            limitOrder.getCurrencyPair().counterSymbol.toLowerCase(), limitOrder.getLimitPrice().floatValue() + "", limitOrder.getCurrencyPair().baseSymbol.toLowerCase());
+    VircurexPlaceOrderReturn ret = vircurex.trade(exchange.getExchangeSpecification().getApiKey(), nonce, digest.toString(), timestamp, type.toString(), limitOrder.getTradableAmount().floatValue()
+        + "", limitOrder.getCurrencyPair().counterSymbol.toLowerCase(), limitOrder.getLimitPrice().floatValue() + "", limitOrder.getCurrencyPair().baseSymbol.toLowerCase());
 
     timestamp = VircurexUtils.getUtcTimestamp();
     nonce = (System.currentTimeMillis() / 200L) + "";
 
-    digest = new VircurexSha2Digest(exchangeSpecification.getApiKey(), exchangeSpecification.getUserName(), timestamp, nonce, "release_order", ret.getOrderId());
+    digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), timestamp, nonce, "release_order", ret.getOrderId());
 
-    ret = vircurex.release(exchangeSpecification.getApiKey(), nonce, digest.toString(), timestamp, ret.getOrderId());
+    ret = vircurex.release(exchange.getExchangeSpecification().getApiKey(), nonce, digest.toString(), timestamp, ret.getOrderId());
     return ret.getOrderId();
   }
 
@@ -56,8 +56,8 @@ public class VircurexTradeServiceRaw extends VircurexBasePollingService {
 
     String timestamp = VircurexUtils.getUtcTimestamp();
     String nonce = (System.currentTimeMillis() / 250L) + "";
-    VircurexSha2Digest digest = new VircurexSha2Digest(exchangeSpecification.getApiKey(), exchangeSpecification.getUserName(), timestamp, nonce, "read_orders");
-    VircurexOpenOrdersReturn openOrdersReturn = vircurex.getOpenOrders(exchangeSpecification.getUserName(), nonce, digest.toString(), timestamp, VircurexUtils.RELEASED_ORDER);
+    VircurexSha2Digest digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), timestamp, nonce, "read_orders");
+    VircurexOpenOrdersReturn openOrdersReturn = vircurex.getOpenOrders(exchange.getExchangeSpecification().getUserName(), nonce, digest.toString(), timestamp, VircurexUtils.RELEASED_ORDER);
 
     return new OpenOrders(VircurexAdapters.adaptOpenOrders(openOrdersReturn.getOpenOrders()));
   }

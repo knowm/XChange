@@ -5,7 +5,7 @@ import java.util.Date;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
@@ -19,15 +19,15 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
   /**
    * Constructor
    *
-   * @param exchangeSpecification
-   *          The {@link ExchangeSpecification}
+   * @param exchange
+   * @param nonceFactory
    */
-  public ItBitTradeServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  public ItBitTradeServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification, nonceFactory);
+    super(exchange, nonceFactory);
 
     // wallet Id used for this instance.
-    walletId = (String) exchangeSpecification.getExchangeSpecificParameters().get("walletId");
+    walletId = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get("walletId");
   }
 
   public ItBitOrder[] getItBitOpenOrders() throws IOException {
@@ -62,9 +62,8 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
 
-    ItBitOrder postOrder =
-        itBit.postOrder(signatureCreator, new Date().getTime(), nonceFactory, walletId, new ItBitPlaceOrderRequest(side, "limit", limitOrder.getCurrencyPair().baseSymbol, limitOrder
-            .getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), limitOrder.getCurrencyPair().baseSymbol + limitOrder.getCurrencyPair().counterSymbol));
+    ItBitOrder postOrder = itBit.postOrder(signatureCreator, new Date().getTime(), nonceFactory, walletId, new ItBitPlaceOrderRequest(side, "limit", limitOrder.getCurrencyPair().baseSymbol,
+        limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(), limitOrder.getCurrencyPair().baseSymbol + limitOrder.getCurrencyPair().counterSymbol));
 
     return postOrder;
   }

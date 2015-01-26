@@ -3,7 +3,7 @@ package com.xeiam.xchange.bitcurex.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcurex.BitcurexAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.ExchangeException;
@@ -13,15 +13,23 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class BitcurexAccountService extends BitcurexAccountServiceRaw implements PollingAccountService {
 
-  public BitcurexAccountService(ExchangeSpecification exchangeSpecification) throws IOException {
+  /**
+   *
+   * Constructor
+   *
+   * @param exchange
+   * @throws IOException
+   */
+  // TODO look at this IOException
+  public BitcurexAccountService(Exchange exchange) throws IOException {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    return BitcurexAdapters.adaptAccountInfo(getFunds(), exchangeSpecification.getUserName());
+    return BitcurexAdapters.adaptAccountInfo(getFunds(), exchange.getExchangeSpecification().getUserName());
   }
 
   @Override

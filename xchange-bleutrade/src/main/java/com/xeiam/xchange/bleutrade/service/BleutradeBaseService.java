@@ -1,6 +1,6 @@
 package com.xeiam.xchange.bleutrade.service;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
@@ -10,12 +10,12 @@ public abstract class BleutradeBaseService extends BaseExchangeService {
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BleutradeBaseService(ExchangeSpecification exchangeSpecification) {
+  public BleutradeBaseService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
 }

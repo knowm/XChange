@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcurex.BitcurexAuthenticated;
 import com.xeiam.xchange.bitcurex.BitcurexUtils;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
@@ -16,17 +16,24 @@ public class BitcurexAccountServiceRaw extends BitcurexBasePollingService {
   private final BitcurexDigest signatureCreator;
   private final BitcurexAuthenticated bitcurexAuthenticated;
 
-  public BitcurexAccountServiceRaw(ExchangeSpecification exchangeSpecification) throws IOException {
+  /**
+   *
+   * Constructor
+   *
+   * @param exchange
+   * @throws IOException
+   */
+  public BitcurexAccountServiceRaw(Exchange exchange) throws IOException {
 
-    super(exchangeSpecification);
+    super(exchange);
 
-    this.bitcurexAuthenticated = RestProxyFactory.createProxy(BitcurexAuthenticated.class, exchangeSpecification.getSslUri());
-    this.signatureCreator = BitcurexDigest.createInstance(exchangeSpecification.getSecretKey(), exchangeSpecification.getApiKey());
+    this.bitcurexAuthenticated = RestProxyFactory.createProxy(BitcurexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.signatureCreator = BitcurexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getApiKey());
   }
 
   public BitcurexFunds getFunds() throws IOException, ExchangeException {
 
-    BitcurexFunds bitcurexFunds = bitcurexAuthenticated.getFunds(exchangeSpecification.getApiKey(), signatureCreator, BitcurexUtils.getNonce());
+    BitcurexFunds bitcurexFunds = bitcurexAuthenticated.getFunds(exchange.getExchangeSpecification().getApiKey(), signatureCreator, BitcurexUtils.getNonce());
     if (bitcurexFunds.getError() != null) {
       throw new ExchangeException("Error getting balance. " + bitcurexFunds.getError());
     }

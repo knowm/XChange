@@ -10,14 +10,6 @@ import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
 import com.xeiam.xchange.utils.nonce.IntTimeNonceFactory;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the BTCE exchange API</li>
- * </ul>
- */
 public class BTCEExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Integer> nonceFactory = new IntTimeNonceFactory();
@@ -34,9 +26,10 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new BTCEMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new BTCEAccountService(exchangeSpecification, nonceFactory);
-    this.pollingTradeService = new BTCETradeService(exchangeSpecification, nonceFactory);
+    this.pollingMarketDataService = new BTCEMarketDataService(this);
+    // TODO look at this
+    this.pollingAccountService = new BTCEAccountService(this, nonceFactory);
+    this.pollingTradeService = new BTCETradeService(this, nonceFactory);
   }
 
   @Override

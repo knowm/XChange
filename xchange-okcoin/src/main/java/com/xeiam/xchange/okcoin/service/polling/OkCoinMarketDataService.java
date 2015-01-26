@@ -2,7 +2,7 @@ package com.xeiam.xchange.okcoin.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -16,11 +16,11 @@ public class OkCoinMarketDataService extends OkCoinMarketDataServiceRaw implemen
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
-  public OkCoinMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public OkCoinMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

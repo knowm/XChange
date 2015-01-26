@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaID;
@@ -34,12 +34,14 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
+   * @param tonceFactory
    */
-  public BTCChinaAccountServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
+  // TODO look at this
+  public BTCChinaAccountServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> tonceFactory) {
 
-    super(BTCChina.class, exchangeSpecification, tonceFactory);
+    super(BTCChina.class, exchange, tonceFactory);
   }
 
   public BTCChinaGetAccountInfoResponse getBTCChinaAccountInfo() throws IOException {
@@ -89,7 +91,8 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
   }
 
   /**
-   * @deprecated use {@link #withdrawBTCChinaFunds(String, BigDecimal, String)} instead.
+   * @deprecated use {@link #withdrawBTCChinaFunds(String, BigDecimal, String)}
+   *             instead.
    */
   @Deprecated
   public BTCChinaResponse<BTCChinaID> withdrawBTCChinaFunds(BigDecimal amount, String address) throws IOException {

@@ -18,9 +18,9 @@ import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 public class AtlasPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
-  public AtlasPollingTradeService(ExchangeSpecification exchangeSpecification) {
+  public AtlasPollingTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
     // TODO Auto-generated constructor stub
   }
 

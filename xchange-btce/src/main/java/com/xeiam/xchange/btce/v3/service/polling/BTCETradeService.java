@@ -6,7 +6,7 @@ import java.util.Map;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
@@ -38,11 +38,12 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
+   * @param nonceFactory
    */
-  public BTCETradeService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Integer> nonceFactory) {
+  public BTCETradeService(Exchange exchange, SynchronizedValueFactory<Integer> nonceFactory) {
 
-    super(exchangeSpecification, nonceFactory);
+    super(exchange, nonceFactory);
   }
 
   @Override
@@ -112,10 +113,8 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   /**
    * Supported parameters: {@link TradeHistoryParamPaging}
    * {@link TradeHistoryParamsIdSpan} {@link TradeHistoryParamsTimeSpan}
-   * {@link TradeHistoryParamCurrencyPair}
-   *
-   * You can also override sorting order (default is descending) by using
-   * {@link BTCETradeHistoryParams}
+   * {@link TradeHistoryParamCurrencyPair} You can also override sorting order
+   * (default is descending) by using {@link BTCETradeHistoryParams}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {

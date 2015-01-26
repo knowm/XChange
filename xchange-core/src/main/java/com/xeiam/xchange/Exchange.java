@@ -1,5 +1,6 @@
 package com.xeiam.xchange;
 
+import com.xeiam.xchange.dto.MetaData;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
@@ -23,6 +24,14 @@ public interface Exchange {
    * @return The ExchangeSpecification in use for this exchange
    */
   ExchangeSpecification getExchangeSpecification();
+
+  /**
+   * The MetaData defining some semi-static properties of an exchange such as
+   * currency pairs, trading fees, etc.
+   *
+   * @return
+   */
+  MetaData getMetaData();
 
   /**
    * @return A default ExchangeSpecification to use during the creation process

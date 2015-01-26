@@ -2,7 +2,7 @@ package com.xeiam.xchange.mintpal.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -16,9 +16,14 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
  */
 public class MintPalMarketDataService extends MintPalMarketDataServiceRaw implements PollingMarketDataService {
 
-  public MintPalMarketDataService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public MintPalMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

@@ -2,7 +2,7 @@ package com.xeiam.xchange.cryptotrade.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeException;
 import com.xeiam.xchange.cryptotrade.dto.account.CryptoTradeAccountInfo;
@@ -11,17 +11,17 @@ public class CryptoTradeAccountServiceRaw extends CryptoTradeBasePollingService<
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public CryptoTradeAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public CryptoTradeAccountServiceRaw(Exchange exchange) {
 
-    super(CryptoTradeAuthenticated.class, exchangeSpecification);
+    super(CryptoTradeAuthenticated.class, exchange);
   }
 
   public CryptoTradeAccountInfo getCryptoTradeAccountInfo() throws CryptoTradeException, IOException {
 
-    CryptoTradeAccountInfo info = cryptoTradeProxy.getInfo(exchangeSpecification.getApiKey(), signatureCreator, nextNonce());
+    CryptoTradeAccountInfo info = cryptoTradeProxy.getInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator, nextNonce());
     return handleResponse(info);
   }
 

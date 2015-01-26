@@ -7,14 +7,6 @@ import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexAccountService;
 import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexMarketDataService;
 import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexTradeService;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the Bitfinex exchange API</li>
- * </ul>
- */
 public class BitfinexExchange extends BaseExchange implements Exchange {
 
   /**
@@ -29,9 +21,9 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new BitfinexMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new BitfinexAccountService(exchangeSpecification);
-    this.pollingTradeService = new BitfinexTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new BitfinexMarketDataService(this);
+    this.pollingAccountService = new BitfinexAccountService(this);
+    this.pollingTradeService = new BitfinexTradeService(this);
   }
 
   @Override

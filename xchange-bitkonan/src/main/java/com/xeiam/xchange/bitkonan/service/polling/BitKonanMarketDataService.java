@@ -1,11 +1,10 @@
 package com.xeiam.xchange.bitkonan.service.polling;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitkonan.BitKonanAdapters;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -22,13 +21,14 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 public class BitKonanMarketDataService extends BitKonanMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   * Constructor Initialize common properties from the exchange specification
+   * Constructor
    *
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param exchange
+   * @param nonceFactory
    */
-  public BitKonanMarketDataService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  public BitKonanMarketDataService(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification, nonceFactory);
+    super(exchange, nonceFactory);
   }
 
   @Override
@@ -36,8 +36,7 @@ public class BitKonanMarketDataService extends BitKonanMarketDataServiceRaw impl
 
     if (currencyPair.equals(CurrencyPair.BTC_USD)) {
       return BitKonanAdapters.adaptTicker(getBitKonanTickerBTC(), currencyPair);
-    }
-    else {
+    } else {
       throw new NotYetImplementedForExchangeException();
     }
   }
@@ -47,8 +46,7 @@ public class BitKonanMarketDataService extends BitKonanMarketDataServiceRaw impl
 
     if (currencyPair.equals(CurrencyPair.BTC_USD)) {
       return BitKonanAdapters.adaptOrderBook(getBitKonanOrderBookBTC());
-    }
-    else {
+    } else {
       throw new NotYetImplementedForExchangeException();
     }
   }
@@ -59,9 +57,4 @@ public class BitKonanMarketDataService extends BitKonanMarketDataServiceRaw impl
     throw new NotYetImplementedForExchangeException();
   }
 
-  @Override
-  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
 }

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.empoex.EmpoExAuthenticated;
 import com.xeiam.xchange.empoex.EmpoExErrorException;
@@ -19,12 +19,13 @@ public class EmpoExTradeServiceRaw extends EmpoExBasePollingService<EmpoExAuthen
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public EmpoExTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public EmpoExTradeServiceRaw(Exchange exchange) {
 
-    super(EmpoExAuthenticated.class, exchangeSpecification);
+    //TODO look at this
+    super(EmpoExAuthenticated.class, exchange);
   }
 
   public Map<String, List<EmpoExOpenOrder>> getEmpoExOpenOrders() throws IOException {

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.CachedDataSession;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.oer.OER;
 import com.xeiam.xchange.oer.OERUtils;
@@ -33,13 +33,13 @@ public class OERMarketDataServiceRaw extends OERBasePollingService implements Ca
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public OERMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public OERMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.openExchangeRates = RestProxyFactory.createProxy(OER.class, exchangeSpecification.getPlainTextUri());
+    super(exchange);
+    this.openExchangeRates = RestProxyFactory.createProxy(OER.class, exchange.getExchangeSpecification().getPlainTextUri());
   }
 
   @Override
@@ -56,7 +56,7 @@ public class OERMarketDataServiceRaw extends OERBasePollingService implements Ca
       logger.debug("requesting OER tickers");
 
       // Request data
-      cachedOERTickers = openExchangeRates.getTickers(exchangeSpecification.getApiKey());
+      cachedOERTickers = openExchangeRates.getTickers(exchange.getExchangeSpecification().getApiKey());
       if (cachedOERTickers == null) {
         throw new ExchangeException("Null response returned from Open Exchange Rates!");
       }

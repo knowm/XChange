@@ -1,0 +1,28 @@
+{
+   "currency_pairs":[
+      "BTC/USD",
+      "BTC/EUR",
+      "ANC/BTC",
+      "AUR/BTC",
+      "BC/BTC",
+      "DGC/BTC",
+      "DOGE/BTC",
+      "DVC/BTC",
+      "FRC/BTC",
+      "FTC/BTC",
+      "IOC/BTC",
+      "IXC/BTC",
+      "LTC/BTC",
+      "NMC/BTC",
+      "PPC/BTC",
+      "QRK/BTC",
+      "TRC/BTC",
+      "VTC/BTC",
+      "WC/BTC",
+      "WDC/BTC",
+      "XPM/BTC",
+      "ZET/BTC"
+   ],
+   "max_public_poll_rate_per_minute":12
+   
+}

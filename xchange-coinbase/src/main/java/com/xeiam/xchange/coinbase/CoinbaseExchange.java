@@ -28,9 +28,9 @@ public class CoinbaseExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new CoinbaseMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new CoinbaseAccountService(exchangeSpecification);
-    this.pollingTradeService = new CoinbaseTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new CoinbaseMarketDataService(this);
+    this.pollingAccountService = new CoinbaseAccountService(this);
+    this.pollingTradeService = new CoinbaseTradeService(this);
   }
 
   @Override
@@ -39,7 +39,7 @@ public class CoinbaseExchange extends BaseExchange implements Exchange {
     final ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://coinbase.com");
     exchangeSpecification.setHost("coinbase.com");
-    exchangeSpecification.setExchangeName("coinbase");
+    exchangeSpecification.setExchangeName("Coinbase");
     exchangeSpecification
         .setExchangeDescription("Founded in June of 2012, Coinbase is a bitcoin wallet and platform where merchants and consumers can transact with the new digital currency bitcoin.");
     return exchangeSpecification;

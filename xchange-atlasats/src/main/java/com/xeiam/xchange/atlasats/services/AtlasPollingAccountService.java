@@ -16,9 +16,9 @@ import com.xeiam.xchange.service.polling.PollingAccountService;
 
 public class AtlasPollingAccountService extends BasePollingExchangeService implements PollingAccountService {
 
-  public AtlasPollingAccountService(ExchangeSpecification exchangeSpecification) {
+  public AtlasPollingAccountService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
   }
 

@@ -2,7 +2,7 @@ package com.xeiam.xchange.campbx.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.campbx.CampBXAdapters;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
@@ -20,12 +20,12 @@ public class CampBXMarketDataService extends CampBXMarketDataServiceRaw implemen
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public CampBXMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public CampBXMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

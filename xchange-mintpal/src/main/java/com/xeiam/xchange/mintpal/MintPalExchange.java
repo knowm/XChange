@@ -15,7 +15,7 @@ public class MintPalExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new MintPalMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new MintPalMarketDataService(this);
 
   }
 

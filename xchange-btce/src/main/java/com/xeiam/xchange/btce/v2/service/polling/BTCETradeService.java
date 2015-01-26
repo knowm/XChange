@@ -3,7 +3,7 @@ package com.xeiam.xchange.btce.v2.service.polling;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v2.BTCEAdapters;
 import com.xeiam.xchange.btce.v2.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCECancelOrderReturn;
@@ -28,11 +28,11 @@ public class BTCETradeService extends BTCEBasePollingService implements PollingT
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
    */
-  public BTCETradeService(ExchangeSpecification exchangeSpecification) {
+  public BTCETradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

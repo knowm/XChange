@@ -6,7 +6,7 @@ import java.util.Map;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
@@ -27,11 +27,12 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
+   * @param tonceFactory
    */
-  public BTCChinaMarketDataServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
+  public BTCChinaMarketDataServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> tonceFactory) {
 
-    super(BTCChina.class, exchangeSpecification, tonceFactory);
+    super(BTCChina.class, exchange, tonceFactory);
   }
 
   public Map<String, BTCChinaTickerObject> getBTCChinaTickers() throws IOException {
@@ -123,7 +124,8 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
   }
 
   /**
-   * @deprecated Use {@link #getBTCChinaHistoryData(String, long, int, String)} instead.
+   * @deprecated Use {@link #getBTCChinaHistoryData(String, long, int, String)}
+   *             instead.
    */
   @Deprecated
   public List<BTCChinaTrade> getBTCChinaTrades(String market, long since, int limit, String sinceType) throws IOException {

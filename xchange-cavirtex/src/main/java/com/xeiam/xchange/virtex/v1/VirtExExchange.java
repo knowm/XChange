@@ -28,7 +28,7 @@ public class VirtExExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new VirtExMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new VirtExMarketDataService(this);
   }
 
   @Override

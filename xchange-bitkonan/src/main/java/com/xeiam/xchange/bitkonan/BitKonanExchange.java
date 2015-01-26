@@ -32,7 +32,7 @@ public class BitKonanExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitKonanMarketDataService(exchangeSpecification, nonceFactory);
+    this.pollingMarketDataService = new BitKonanMarketDataService(this, nonceFactory);
   }
 
 }

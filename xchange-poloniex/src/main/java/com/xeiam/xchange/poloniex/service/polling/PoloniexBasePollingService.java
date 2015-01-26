@@ -5,15 +5,16 @@ package com.xeiam.xchange.poloniex.service.polling;
  */
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.poloniex.Poloniex;
@@ -31,20 +32,18 @@ public class PoloniexBasePollingService<T extends Poloniex> extends PoloniexBase
   protected final String apiKey;
   protected final T poloniex;
   protected final ParamsDigest signatureCreator;
-  private final Set<CurrencyPair> currencyPairs;
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public PoloniexBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
+  public PoloniexBasePollingService(Class<T> type, Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.poloniex = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
-    this.apiKey = exchangeSpecification.getApiKey();
-    this.signatureCreator = PoloniexDigest.createInstance(exchangeSpecification.getSecretKey());
-    this.currencyPairs = new HashSet<CurrencyPair>();
+    super(exchange);
+    this.poloniex = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+    this.apiKey = exchange.getExchangeSpecification().getApiKey();
+    this.signatureCreator = PoloniexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   protected int nextNonce() {
@@ -53,13 +52,13 @@ public class PoloniexBasePollingService<T extends Poloniex> extends PoloniexBase
   }
 
   @Override
-  public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+
+    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
 
     String command = "returnTicker";
     HashMap<String, PoloniexMarketData> marketData = poloniex.getTicker(command);
     Set<String> pairStrings = marketData.keySet();
-
-    currencyPairs.clear();
 
     for (String pairString : pairStrings) {
       currencyPairs.add(PoloniexUtils.toCurrencyPair(pairString));

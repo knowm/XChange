@@ -3,7 +3,7 @@ package com.xeiam.xchange.bitcurex.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcurex.BitcurexAdapters;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
@@ -27,13 +27,14 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
+   *
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BitcurexMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BitcurexMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

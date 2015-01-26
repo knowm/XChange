@@ -6,6 +6,7 @@ import java.util.Date;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
@@ -16,14 +17,14 @@ public class ItBitAccountServiceRaw extends ItBitBasePollingService {
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public ItBitAccountServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  public ItBitAccountServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification, nonceFactory);
+    super(exchange, nonceFactory);
 
-    this.userId = (String) exchangeSpecification.getExchangeSpecificParametersItem("userId");
+    this.userId = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("userId");
   }
 
   public ItBitAccountInfoReturn[] getItBitAccountInfo() throws IOException {

@@ -2,7 +2,7 @@ package com.xeiam.xchange.empoex.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -17,9 +17,14 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class EmpoExTradeService extends EmpoExTradeServiceRaw implements PollingTradeService {
 
-  public EmpoExTradeService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public EmpoExTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

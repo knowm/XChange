@@ -3,7 +3,7 @@ package com.xeiam.xchange.cryptsy.service.polling;
 import java.io.IOException;
 import java.util.Date;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
 import com.xeiam.xchange.cryptsy.CryptsyCurrencyUtils;
 import com.xeiam.xchange.cryptsy.dto.CryptsyOrder.CryptsyOrderType;
@@ -31,11 +31,11 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
    */
-  public CryptsyTradeService(ExchangeSpecification exchangeSpecification) {
+  public CryptsyTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

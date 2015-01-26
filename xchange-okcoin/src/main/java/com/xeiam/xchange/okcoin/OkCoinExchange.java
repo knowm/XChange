@@ -28,24 +28,22 @@ public class OkCoinExchange extends BaseExchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    
-    if(exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false) &&
-        exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
-     throw new RuntimeException("Futures only available on international version. Set `Use_Intl` to true."); 
+
+    if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false) && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+      throw new RuntimeException("Futures only available on international version. Set `Use_Intl` to true.");
     }
 
-    if(exchangeSpecification.getExchangeSpecificParameters() != null && 
-        exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
-      this.pollingMarketDataService = new OkCoinFuturesMarketDataService(exchangeSpecification);
+    if (exchangeSpecification.getExchangeSpecificParameters() != null && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+      this.pollingMarketDataService = new OkCoinFuturesMarketDataService(this);
       if (exchangeSpecification.getApiKey() != null) {
-        this.pollingAccountService = new OkCoinFuturesAccountService(exchangeSpecification);
-        this.pollingTradeService = new OkCoinFuturesTradeService(exchangeSpecification);
-      }      
+        this.pollingAccountService = new OkCoinFuturesAccountService(this);
+        this.pollingTradeService = new OkCoinFuturesTradeService(this);
+      }
     } else {
-      this.pollingMarketDataService = new OkCoinMarketDataService(exchangeSpecification);
+      this.pollingMarketDataService = new OkCoinMarketDataService(this);
       if (exchangeSpecification.getApiKey() != null) {
-        this.pollingAccountService = new OkCoinAccountService(exchangeSpecification);
-        this.pollingTradeService = new OkCoinTradeService(exchangeSpecification);
+        this.pollingAccountService = new OkCoinAccountService(this);
+        this.pollingTradeService = new OkCoinTradeService(this);
       }
     }
   }

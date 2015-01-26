@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterAdapters;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
 import com.xeiam.xchange.coinsetter.dto.order.request.CoinsetterOrderRequest;
@@ -34,10 +34,11 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
   /**
    * @param exchangeSpecification
    */
-  public CoinsetterTradeService(ExchangeSpecification exchangeSpecification) {
+  public CoinsetterTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
-    orderServiceRaw = new CoinsetterOrderServiceRaw(exchangeSpecification);
+    super(exchange);
+    // TODO look at this
+    orderServiceRaw = new CoinsetterOrderServiceRaw(exchange);
   }
 
   /**

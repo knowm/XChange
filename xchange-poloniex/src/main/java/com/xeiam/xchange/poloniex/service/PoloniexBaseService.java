@@ -1,5 +1,6 @@
 package com.xeiam.xchange.poloniex.service;
 
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.service.BaseExchangeService;
 
@@ -11,12 +12,12 @@ public abstract class PoloniexBaseService extends BaseExchangeService {
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
-  public PoloniexBaseService(ExchangeSpecification exchangeSpecification) {
+  public PoloniexBaseService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
 }

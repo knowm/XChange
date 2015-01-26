@@ -3,15 +3,11 @@ package com.xeiam.xchange.bitcointoyou;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitcointoyou.service.polling.account.BitcoinToYouAccountService;
-import com.xeiam.xchange.bitcointoyou.service.polling.marketdata.BitcoinToYouMarketDataService;
-import com.xeiam.xchange.bitcointoyou.service.polling.trade.BitcoinToYouTradeService;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
-import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+import com.xeiam.xchange.bitcointoyou.service.polling.BitcoinToYouAccountService;
+import com.xeiam.xchange.bitcointoyou.service.polling.BitcoinToYouMarketDataService;
+import com.xeiam.xchange.bitcointoyou.service.polling.BitcoinToYouTradeService;
 
 /**
- * @author Matija Mazi
  * @author Felipe Micaroni Lalli
  */
 public class BitcoinToYouExchange extends BaseExchange implements Exchange {
@@ -25,7 +21,7 @@ public class BitcoinToYouExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BitcoinToYou");
     exchangeSpecification
-        .setExchangeDescription("BitcoinToYou is a Bitcoin and Litecoin exchange registered in Brazil. From site description (in Portuguese): Compre e venda Bitcoin com segurança e facilidade. Somos líderes no Brasil, mais de 7000 clientes!");
+    .setExchangeDescription("BitcoinToYou is a Bitcoin and Litecoin exchange registered in Brazil. From site description (in Portuguese): Compre e venda Bitcoin com segurança e facilidade. Somos líderes no Brasil, mais de 7000 clientes!");
     return exchangeSpecification;
   }
 
@@ -33,16 +29,9 @@ public class BitcoinToYouExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitcoinToYouMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new BitcoinToYouAccountService(exchangeSpecification);
-    this.pollingTradeService = new BitcoinToYouTradeService(exchangeSpecification);
-  }
-
-  @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-
-    // "BitcoinToYou does not support streaming yet (Dec 2014)."
-    throw new NotAvailableFromExchangeException();
+    this.pollingMarketDataService = new BitcoinToYouMarketDataService(this);
+    this.pollingAccountService = new BitcoinToYouAccountService(this);
+    this.pollingTradeService = new BitcoinToYouTradeService(this);
   }
 
 }

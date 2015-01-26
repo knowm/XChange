@@ -7,14 +7,6 @@ import com.xeiam.xchange.btce.v2.service.polling.BTCEAccountService;
 import com.xeiam.xchange.btce.v2.service.polling.BTCEMarketDataService;
 import com.xeiam.xchange.btce.v2.service.polling.BTCETradeService;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the BTCE exchange API</li>
- * </ul>
- */
 @Deprecated
 public class BTCEExchange extends BaseExchange implements Exchange {
 
@@ -30,9 +22,9 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new BTCEMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new BTCEAccountService(exchangeSpecification);
-    this.pollingTradeService = new BTCETradeService(exchangeSpecification);
+    this.pollingMarketDataService = new BTCEMarketDataService(this);
+    this.pollingAccountService = new BTCEAccountService(this);
+    this.pollingTradeService = new BTCETradeService(this);
   }
 
   @Override

@@ -1,15 +1,14 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCE;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.dto.BTCEReturn;
@@ -23,13 +22,11 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class BTCEBasePollingService<T extends BTCE> extends BaseExchangeService implements BasePollingService {
 
-  protected static final String PREFIX = "btce";
-  protected static final String KEY_ORDER_SIZE_SCALE_DEFAULT = PREFIX + SUF_ORDER_SIZE_SCALE_DEFAULT;
+  //  protected static final String PREFIX = "btce";
+  //  protected static final String KEY_ORDER_SIZE_SCALE_DEFAULT = PREFIX + SUF_ORDER_SIZE_SCALE_DEFAULT;
 
   private static final String ERR_MSG_NONCE = "invalid nonce parameter; on key:";
   private static final String ERR_MSG_FUNDS = "It is not enough ";
-
-  public final Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();
 
   private SynchronizedValueFactory<Integer> nonceFactory;
 
@@ -40,24 +37,26 @@ public class BTCEBasePollingService<T extends BTCE> extends BaseExchangeService 
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param btceType
+   * @param exchange
+   * @param nonceFactory
    */
-  public BTCEBasePollingService(Class<T> btceType, ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Integer> nonceFactory) {
+  public BTCEBasePollingService(Class<T> btceType, Exchange exchange, SynchronizedValueFactory<Integer> nonceFactory) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
-    this.btce = RestProxyFactory.createProxy(btceType, exchangeSpecification.getSslUri());
-    this.apiKey = exchangeSpecification.getApiKey();
-    this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(exchangeSpecification.getSecretKey());
+    this.btce = RestProxyFactory.createProxy(btceType, exchange.getExchangeSpecification().getSslUri());
+    this.apiKey = exchange.getExchangeSpecification().getApiKey();
+    this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.nonceFactory = nonceFactory;
   }
 
   @Override
-  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    if (currencyPairs.isEmpty()) {
-      currencyPairs.addAll(BTCEAdapters.adaptCurrencyPairs(btce.getInfo().getPairs().keySet()));
-    }
+    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+
+    currencyPairs.addAll(BTCEAdapters.adaptCurrencyPairs(btce.getInfo().getPairs().keySet()));
 
     return currencyPairs;
   }
@@ -72,10 +71,11 @@ public class BTCEBasePollingService<T extends BTCE> extends BaseExchangeService 
 
     if (!result.isSuccess()) {
       if (error != null) {
-        if (error.startsWith(ERR_MSG_NONCE))
+        if (error.startsWith(ERR_MSG_NONCE)) {
           throw new NonceException(error);
-        else if (error.startsWith(ERR_MSG_FUNDS))
+        } else if (error.startsWith(ERR_MSG_FUNDS)) {
           throw new FundsExceededException(error);
+        }
       }
       throw new ExchangeException(error);
     }

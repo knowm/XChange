@@ -5,15 +5,6 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptonit.v2.service.polling.CryptonitMarketDataService;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the Cryptonit exchange API</li>
- * </ul>
- */
-
 public class CryptonitExchange extends BaseExchange implements Exchange {
 
   /**
@@ -27,7 +18,7 @@ public class CryptonitExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new CryptonitMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new CryptonitMarketDataService(this);
   }
 
   @Override

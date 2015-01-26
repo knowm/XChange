@@ -3,12 +3,9 @@ package com.xeiam.xchange.mercadobitcoin;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.mercadobitcoin.service.polling.account.MercadoBitcoinAccountService;
-import com.xeiam.xchange.mercadobitcoin.service.polling.marketdata.MercadoBitcoinMarketDataService;
-import com.xeiam.xchange.mercadobitcoin.service.polling.trade.MercadoBitcoinTradeService;
-import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
-import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinAccountService;
+import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinMarketDataService;
+import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinTradeService;
 
 /**
  * @author Matija Mazi
@@ -32,16 +29,9 @@ public class MercadoBitcoinExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new MercadoBitcoinMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new MercadoBitcoinAccountService(exchangeSpecification);
-    this.pollingTradeService = new MercadoBitcoinTradeService(exchangeSpecification);
-  }
-
-  @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-
-    // "Mercado Bitcoin does not support streaming yet (Nov 2014)."
-    throw new NotAvailableFromExchangeException();
+    this.pollingMarketDataService = new MercadoBitcoinMarketDataService(this);
+    this.pollingAccountService = new MercadoBitcoinAccountService(this);
+    this.pollingTradeService = new MercadoBitcoinTradeService(this);
   }
 
 }

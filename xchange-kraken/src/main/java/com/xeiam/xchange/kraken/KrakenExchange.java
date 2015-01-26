@@ -22,9 +22,9 @@ public class KrakenExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
     // Configure the basic services if configuration does not apply
-    this.pollingMarketDataService = new KrakenMarketDataService(exchangeSpecification, nonceFactory);
-    this.pollingTradeService = new KrakenTradeService(exchangeSpecification, nonceFactory);
-    this.pollingAccountService = new KrakenAccountService(exchangeSpecification, nonceFactory);
+    this.pollingMarketDataService = new KrakenMarketDataService(this, nonceFactory);
+    this.pollingTradeService = new KrakenTradeService(this, nonceFactory);
+    this.pollingAccountService = new KrakenAccountService(this, nonceFactory);
   }
 
   @Override

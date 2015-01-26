@@ -3,7 +3,7 @@ package com.xeiam.xchange.bittrex.v1.service.polling;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bittrex.v1.Bittrex;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexCurrenciesResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexCurrency;
@@ -30,12 +30,12 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BittrexMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BittrexMarketDataServiceRaw(Exchange exchange) {
 
-    super(Bittrex.class, exchangeSpecification);
+    super(Bittrex.class, exchange);
   }
 
   public BittrexCurrency[] getBittrexCurrencies() throws IOException {
@@ -44,8 +44,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
 
     if (response.isSuccess()) {
       return response.getCurrencies();
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
 
@@ -57,8 +56,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
 
     if (response.isSuccess()) {
       return response.getSymbols();
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
 
@@ -70,8 +68,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
 
     if (response.getSuccess()) {
       return response.getTicker();
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
 
@@ -83,8 +80,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
 
     if (response.isSuccess()) {
       return response.getTickers();
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
 
@@ -98,8 +94,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
 
       BittrexDepth bittrexDepth = response.getDepth();
       return bittrexDepth;
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
   }
@@ -112,8 +107,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
 
       BittrexTrade[] bittrexTrades = response.getTrades();
       return bittrexTrades;
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
   }

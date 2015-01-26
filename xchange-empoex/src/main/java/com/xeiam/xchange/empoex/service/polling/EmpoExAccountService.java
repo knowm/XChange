@@ -3,7 +3,7 @@ package com.xeiam.xchange.empoex.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.empoex.EmpoExAdapters;
 import com.xeiam.xchange.exceptions.ExchangeException;
@@ -16,11 +16,11 @@ public class EmpoExAccountService extends EmpoExAccountServiceRaw implements Pol
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
    */
-  public EmpoExAccountService(ExchangeSpecification exchangeSpecification) {
+  public EmpoExAccountService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

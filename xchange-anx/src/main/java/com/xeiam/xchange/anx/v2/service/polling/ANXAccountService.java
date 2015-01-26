@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -13,7 +13,8 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * <p>
- * XChange service to provide the following to {@link com.xeiam.xchange.Exchange}:
+ * XChange service to provide the following to
+ * {@link com.xeiam.xchange.Exchange}:
  * </p>
  * <ul>
  * <li>ANX specific methods to handle account-related operations</li>
@@ -23,12 +24,10 @@ public class ANXAccountService extends ANXAccountServiceRaw implements PollingAc
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  public ANXAccountService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  public ANXAccountService(BaseExchange baseExchange, SynchronizedValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification, nonceFactory);
+    super(baseExchange, nonceFactory);
   }
 
   @Override

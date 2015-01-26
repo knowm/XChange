@@ -2,7 +2,7 @@ package com.xeiam.xchange.bitbay.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitbay.BitbayAdapters;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -19,13 +19,14 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 public class BitbayMarketDataService extends BitbayMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   * Constructor Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   *
+   * Constructor
+   *
+   * @param exchange
    */
-  public BitbayMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BitbayMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

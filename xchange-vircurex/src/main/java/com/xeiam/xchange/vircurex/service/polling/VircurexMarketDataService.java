@@ -3,7 +3,7 @@ package com.xeiam.xchange.vircurex.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -28,11 +28,11 @@ public class VircurexMarketDataService extends VircurexMarketDataServiceRaw impl
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
-  public VircurexMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public VircurexMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

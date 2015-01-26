@@ -2,7 +2,7 @@ package com.xeiam.xchange.btctrade.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btctrade.BTCTradeAdapters;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -14,11 +14,13 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public BTCTradeMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BTCTradeMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   /**
@@ -48,8 +50,7 @@ public class BTCTradeMarketDataService extends BTCTradeMarketDataServiceRaw impl
     final BTCTradeTrade[] trades;
     if (args.length == 0) {
       trades = getBTCTradeTrades();
-    }
-    else {
+    } else {
       trades = getBTCTradeTrades(toLong(args[0]));
     }
     return BTCTradeAdapters.adaptTrades(trades, currencyPair);

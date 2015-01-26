@@ -380,7 +380,7 @@ public final class CryptsyAdapters {
 
   public static CurrencyPair adaptCurrencyPair(String cryptsyLabel) {
 
-    return CurrencyPair.fromString(cryptsyLabel);
+    return new CurrencyPair(cryptsyLabel);
   }
 
   /**

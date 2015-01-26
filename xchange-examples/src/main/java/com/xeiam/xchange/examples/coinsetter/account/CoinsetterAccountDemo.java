@@ -24,14 +24,15 @@ public class CoinsetterAccountDemo {
     String ipAddress = args[2];
 
     Exchange coinsetter = CoinsetterExamplesUtils.getExchange();
-    CoinsetterClientSessionServiceRaw clientSessionService = new CoinsetterClientSessionServiceRaw(coinsetter.getExchangeSpecification());
-    CoinsetterAccountServiceRaw accountService = new CoinsetterAccountServiceRaw(coinsetter.getExchangeSpecification());
+    CoinsetterClientSessionServiceRaw clientSessionService = new CoinsetterClientSessionServiceRaw(coinsetter);
+    CoinsetterAccountServiceRaw accountService = (CoinsetterAccountServiceRaw) coinsetter.getPollingAccountService();
 
     CoinsetterClientSession clientSession = clientSessionService.login(username, password, ipAddress);
     log.info("Client session: {}", clientSession);
 
     CoinsetterAccountList coinsetterAccounts = accountService.list(clientSession.getUuid());
     for (CoinsetterAccount account : coinsetterAccounts.getAccountList()) {
+
       log.info("account: {}", account.getAccountUuid());
 
       CoinsetterAccount a = accountService.get(clientSession.getUuid(), account.getAccountUuid());

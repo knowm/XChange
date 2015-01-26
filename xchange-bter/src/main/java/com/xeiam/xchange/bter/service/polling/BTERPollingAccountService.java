@@ -3,7 +3,7 @@ package com.xeiam.xchange.bter.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
@@ -13,12 +13,12 @@ public class BTERPollingAccountService extends BTERPollingAccountServiceRaw impl
 
   /**
    * Constructor
-   * 
+   *
    * @param exchangeSpecification
    */
-  public BTERPollingAccountService(ExchangeSpecification exchangeSpecification) {
+  public BTERPollingAccountService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
   }
 

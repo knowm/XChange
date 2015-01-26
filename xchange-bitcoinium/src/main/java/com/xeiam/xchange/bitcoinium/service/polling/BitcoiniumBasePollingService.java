@@ -1,10 +1,9 @@
 package com.xeiam.xchange.bitcoinium.service.polling;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
@@ -14,38 +13,21 @@ import com.xeiam.xchange.service.polling.BasePollingService;
  */
 public class BitcoiniumBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  new CurrencyPair(Currencies.BTC, "BITSTAMP_USD"),
-
-  new CurrencyPair(Currencies.BTC, "BTCCHINA_CNY"),
-
-  new CurrencyPair(Currencies.BTC, "BTCE_EUR"),
-
-  new CurrencyPair(Currencies.BTC, "BTCE_RUR"),
-
-  new CurrencyPair(Currencies.BTC, "BTCE_USD"),
-
-  new CurrencyPair(Currencies.BTC, "KRAKEN_EUR"),
-
-  new CurrencyPair(Currencies.BTC, "KRAKEN_USD")
-
-  );
-
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public BitcoiniumBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public BitcoiniumBasePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return CURRENCY_PAIRS;
-
+    // TODO call the public API and parse out the symbols.
+    return exchange.getMetaData().getCurrencyPairs();
   }
+
 }

@@ -2,7 +2,7 @@ package com.xeiam.xchange.bleutrade.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bleutrade.BleutradeAdapters;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -20,11 +20,11 @@ public class BleutradeTradeService extends BleutradeTradeServiceRaw implements P
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
-  public BleutradeTradeService(ExchangeSpecification exchangeSpecification) {
+  public BleutradeTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

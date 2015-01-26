@@ -8,7 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -27,6 +27,7 @@ import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements PollingTradeService {
+
   private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
 
   private final Logger log = LoggerFactory.getLogger(OkCoinFuturesTradeService.class);
@@ -34,11 +35,17 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   private FuturesContract futuresContract = FuturesContract.NextWeek;
 
-  public OkCoinFuturesTradeService(ExchangeSpecification exchangeSpecification) {
-    super(exchangeSpecification);
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public OkCoinFuturesTradeService(Exchange exchange) {
 
-    if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
-      futuresContract = (FuturesContract) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract");
+    super(exchange);
+
+    if (exchange.getExchangeSpecification().getExchangeSpecificParameters().containsKey("Futures_Contract")) {
+      futuresContract = (FuturesContract) exchange.getExchangeSpecification().getExchangeSpecificParameters().get("Futures_Contract");
       log.info("Using futures contract " + futuresContract);
     } else {
       log.info("Using default futures contract " + futuresContract);

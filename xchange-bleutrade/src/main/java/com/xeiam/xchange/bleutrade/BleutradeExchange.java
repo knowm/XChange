@@ -21,9 +21,9 @@ public class BleutradeExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new BleutradeMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new BleutradeAccountService(exchangeSpecification);
-    this.pollingTradeService = new BleutradeTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new BleutradeMarketDataService(this);
+    this.pollingAccountService = new BleutradeAccountService(this);
+    this.pollingTradeService = new BleutradeTradeService(this);
   }
 
   @Override

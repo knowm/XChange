@@ -1,13 +1,12 @@
 package com.xeiam.xchange.mintpal.service.polling;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.mintpal.MintPal;
@@ -22,27 +21,33 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 public class MintPalBasePollingService<T extends MintPal> extends BaseExchangeService implements BasePollingService {
 
   protected T mintPal;
-  private final Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();
 
-  public MintPalBasePollingService(final Class<T> type, final ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   *
+   * @param type
+   * @param exchangeSpecification
+   */
+  public MintPalBasePollingService(final Class<T> type, final Exchange exchange) {
 
-    super(exchangeSpecification);
-    mintPal = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
+    super(exchange);
+    mintPal = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
   }
 
   @Override
-  public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    if (currencyPairs.isEmpty())
-      currencyPairs.addAll(MintPalAdapters.adaptCurrencyPairs(handleRespone(mintPal.getAllTickers())));
+    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    currencyPairs.addAll(MintPalAdapters.adaptCurrencyPairs(handleRespone(mintPal.getAllTickers())));
 
     return currencyPairs;
   }
 
   public <R> R handleRespone(final MintPalBaseResponse<R> response) {
 
-    if (!response.getStatus().equals("success"))
+    if (!response.getStatus().equals("success")) {
       throw new ExchangeException(response.getMessage());
+    }
 
     return response.getData();
   }

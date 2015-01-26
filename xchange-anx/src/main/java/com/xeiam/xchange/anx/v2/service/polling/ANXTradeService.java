@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResultWrapper;
@@ -33,9 +33,9 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
    * @param exchangeSpecification The
    *          {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  public ANXTradeService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  public ANXTradeService(BaseExchange baseExchange, SynchronizedValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification, nonceFactory);
+    super(baseExchange, nonceFactory);
   }
 
   @Override

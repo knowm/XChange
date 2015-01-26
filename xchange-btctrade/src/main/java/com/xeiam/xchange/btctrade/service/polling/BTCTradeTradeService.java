@@ -2,7 +2,7 @@ package com.xeiam.xchange.btctrade.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btctrade.BTCTradeAdapters;
 import com.xeiam.xchange.btctrade.dto.BTCTradeResult;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradeOrder;
@@ -20,34 +20,27 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements PollingTradeService {
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public BTCTradeTradeService(ExchangeSpecification exchangeSpecification) {
+  public BTCTradeTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
     return BTCTradeAdapters.adaptOpenOrders(getBTCTradeOrders(0, "open"));
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) {
 
     throw new NotAvailableFromExchangeException();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
@@ -60,9 +53,6 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
     return BTCTradeAdapters.adaptPlaceOrderResult(result);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
@@ -70,9 +60,6 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
     return BTCTradeAdapters.adaptResult(result);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public UserTrades getTradeHistory(Object... arguments) throws IOException {
 

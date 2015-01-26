@@ -1,17 +1,12 @@
 package com.xeiam.xchange.utils;
 
 import static org.apache.commons.io.IOUtils.closeQuietly;
-import static org.apache.commons.io.IOUtils.copy;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -24,41 +19,20 @@ public class TradeServiceHelperConfigurer {
   final private static Logger log = LoggerFactory.getLogger(TradeServiceHelperConfigurer.class);
 
   final private static String CFG_FILE_NAME = "xchange.properties";
-
-  final private static URL DEFAULT_REMOTE;
-
-  static {
-
-    try {
-      DEFAULT_REMOTE = new URL("https://github.com/timmolter/XChange/raw/develop/xchange-core/src/main/resources/" + CFG_FILE_NAME);
-    } catch (MalformedURLException e) {
-      throw new ExceptionInInitializerError(e);
-    }
-  }
+  private Properties properties;
 
   /**
    * System property containing local override path for the configuration
    */
   public static final String KEY_OVERRIDE_PATH = "xchange.config.override";
+  private File override;
 
   /**
    * System property containing local storage path for the configuration update
    * file
    */
   public static final String KEY_LOCAL_PATH = "xchange.config.local";
-
-  /**
-   * System property containing URL for the remote configuration
-   */
-  public static final String KEY_REMOTE_URL = "xchange.config.remote";
-
-  private File override;
-
   private File local;
-
-  private URL remote;
-
-  private Properties properties;
 
   /**
    * If the override file is configured, either by a system property or
@@ -90,8 +64,6 @@ public class TradeServiceHelperConfigurer {
 
     local = getFile(KEY_LOCAL_PATH, local, false);
     if (local != null) {
-      remote = getRemote(KEY_REMOTE_URL, remote);
-      updateRemote();
       init(local);
       return true;
     } else {
@@ -115,34 +87,6 @@ public class TradeServiceHelperConfigurer {
       }
     }
     return properties;
-  }
-
-  private void updateRemote() throws IOException {
-
-    InputStream input = null;
-    OutputStream output = null;
-    try {
-      input = remote.openStream();
-      output = new FileOutputStream(local);
-      copy(input, output);
-    } finally {
-      closeQuietly(input);
-      closeQuietly(output);
-    }
-  }
-
-  private static URL getRemote(String propertyKey, URL remote) {
-
-    String userRemote = System.getProperty(propertyKey);
-    if (userRemote != null) {
-      try {
-        return new URL(userRemote);
-      } catch (MalformedURLException e) {
-        throw new IllegalStateException(e);
-      }
-    } else {
-      return remote != null ? remote : DEFAULT_REMOTE;
-    }
   }
 
   private static File getFile(String propertyKey, File defaultFile, boolean requireReadable) {
@@ -218,8 +162,4 @@ public class TradeServiceHelperConfigurer {
     this.local = local;
   }
 
-  public void setRemote(URL remote) {
-
-    this.remote = remote;
-  }
 }

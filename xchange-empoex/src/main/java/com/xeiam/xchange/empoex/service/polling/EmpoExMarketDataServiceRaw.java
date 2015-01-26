@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.empoex.EmpoEx;
 import com.xeiam.xchange.empoex.EmpoExUtils;
@@ -12,24 +12,16 @@ import com.xeiam.xchange.empoex.dto.marketdata.EmpoExLevel;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExTicker;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExTrade;
 
-/**
- * <p>
- * Implementation of the market data service for EmpoEx
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
- */
 public class EmpoExMarketDataServiceRaw extends EmpoExBasePollingService<EmpoEx> {
 
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
    */
-  public EmpoExMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public EmpoExMarketDataServiceRaw(Exchange exchange) {
 
-    super(EmpoEx.class, exchangeSpecification);
+    super(EmpoEx.class, exchange);
   }
 
   public List<EmpoExTicker> getEmpoExTickers() throws IOException {

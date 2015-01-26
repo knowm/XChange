@@ -2,7 +2,7 @@ package com.xeiam.xchange.cryptsy.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptsy.CryptsyAuthenticated;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyGetMarketsReturn;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyMarketTradesReturn;
@@ -17,48 +17,55 @@ public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService<Crypt
   protected static final int FULL_SIZE = 2000;
 
   /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  public CryptsyMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public CryptsyMarketDataServiceRaw(Exchange exchange) {
 
-    super(CryptsyAuthenticated.class, exchangeSpecification);
+    super(CryptsyAuthenticated.class, exchange);
   }
 
   /**
    * Get the orderbook for this market
-   * 
+   *
    * @param marketID the marketID to get the orderbook for
    * @return CryptsyOrderBookReturn DTO representing the overall orderbook
-   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this error.
+   * @throws ExchangeException Indication that the exchange reported some kind
+   *           of error with the request or response. Implementers should log
+   *           this error.
    * @throws IOException
    */
   public CryptsyOrderBookReturn getCryptsyOrderBook(int marketID) throws IOException, ExchangeException {
 
-    return checkResult(cryptsy.marketorders(apiKey, signatureCreator, nextNonce(), marketID));
+    return checkResult(cryptsyPrivate.marketorders(apiKey, signatureCreator, nextNonce(), marketID));
   }
 
   /**
    * @param marketID the marketID to get the orderbook for
-   * @return CryptsyMarketTradesReturn DTO representing the past trades in this market
-   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this error.
+   * @return CryptsyMarketTradesReturn DTO representing the past trades in this
+   *         market
+   * @throws ExchangeException Indication that the exchange reported some kind
+   *           of error with the request or response. Implementers should log
+   *           this error.
    * @throws IOException
    */
   public CryptsyMarketTradesReturn getCryptsyTrades(int marketID) throws IOException, ExchangeException {
 
-    return checkResult(cryptsy.markettrades(apiKey, signatureCreator, nextNonce(), marketID));
+    return checkResult(cryptsyPrivate.markettrades(apiKey, signatureCreator, nextNonce(), marketID));
   }
 
   /**
    * Get all active markets from exchange
-   * 
+   *
    * @return CryptsyTradesWrapper DTO representing market summary information
-   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this error.
+   * @throws ExchangeException Indication that the exchange reported some kind
+   *           of error with the request or response. Implementers should log
+   *           this error.
    * @throws IOException
    */
   public CryptsyGetMarketsReturn getCryptsyMarkets() throws IOException, ExchangeException {
 
-    return checkResult(cryptsy.getmarkets(apiKey, signatureCreator, nextNonce()));
+    return checkResult(cryptsyPrivate.getmarkets(apiKey, signatureCreator, nextNonce()));
   }
 }

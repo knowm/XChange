@@ -9,7 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.CampBXOrder;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
@@ -37,11 +37,11 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
-  public CampBXTradeService(ExchangeSpecification exchangeSpecification) {
+  public CampBXTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

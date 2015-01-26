@@ -2,7 +2,7 @@ package com.xeiam.xchange.bitvc.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitvc.BitVcAdapters;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -12,9 +12,14 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class BitVcMarketDataService extends BitVcMarketDataServiceRaw implements PollingMarketDataService {
 
-  public BitVcMarketDataService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public BitVcMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

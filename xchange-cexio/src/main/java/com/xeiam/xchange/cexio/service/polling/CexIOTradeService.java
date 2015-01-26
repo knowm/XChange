@@ -3,7 +3,7 @@ package com.xeiam.xchange.cexio.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cexio.CexIOAdapters;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -22,14 +22,13 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTradeService {
 
   /**
-   * Initialize common properties from the exchange specification
+   * Constructor
    *
-   * @param exchangeSpecification The
-   *          {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param exchange
    */
-  public CexIOTradeService(ExchangeSpecification exchangeSpecification) {
+  public CexIOTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

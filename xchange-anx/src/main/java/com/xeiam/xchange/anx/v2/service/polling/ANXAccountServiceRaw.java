@@ -7,7 +7,7 @@ import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXV2;
 import com.xeiam.xchange.anx.v2.dto.ANXException;
@@ -26,27 +26,27 @@ public class ANXAccountServiceRaw extends ANXBasePollingService {
   private final ANXV2Digest signatureCreator;
 
   /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   *
+   * Constructor
+   *
    */
-  protected ANXAccountServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  protected ANXAccountServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
 
-    super(exchangeSpecification, nonceFactory);
+    super(exchange, nonceFactory);
 
-    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-    this.anxV2 = RestProxyFactory.createProxy(ANXV2.class, exchangeSpecification.getSslUri());
-    this.signatureCreator = ANXV2Digest.createInstance(exchangeSpecification.getSecretKey());
+    Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
+    this.anxV2 = RestProxyFactory.createProxy(ANXV2.class, exchange.getExchangeSpecification().getSslUri());
+    this.signatureCreator = ANXV2Digest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   public ANXAccountInfo getANXAccountInfo() throws IOException {
 
     try {
-      ANXAccountInfoWrapper anxAccountInfoWrapper = anxV2.getAccountInfo(exchangeSpecification.getApiKey(), signatureCreator, getNonce());
+      ANXAccountInfoWrapper anxAccountInfoWrapper = anxV2.getAccountInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNonce());
       return anxAccountInfoWrapper.getANXAccountInfo();
     } catch (ANXException e) {
       throw handleError(e);
-    } catch (HttpStatusIOException e){
+    } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
   }
@@ -54,13 +54,12 @@ public class ANXAccountServiceRaw extends ANXBasePollingService {
   public ANXWithdrawalResponse anxWithdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     try {
-      ANXWithdrawalResponseWrapper anxWithdrawalResponseWrapper =
-          anxV2.withdrawBtc(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), currency, address, amount.multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2))
-              .intValue(), 1, false, false);
+      ANXWithdrawalResponseWrapper anxWithdrawalResponseWrapper = anxV2.withdrawBtc(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNonce(), currency, address,
+          amount.multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2)).intValue(), 1, false, false);
       return anxWithdrawalResponseWrapper.getAnxWithdrawalResponse();
     } catch (ANXException e) {
       throw handleError(e);
-    } catch (HttpStatusIOException e){
+    } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
   }
@@ -68,11 +67,11 @@ public class ANXAccountServiceRaw extends ANXBasePollingService {
   public ANXBitcoinDepositAddress anxRequestDepositAddress(String currency) throws IOException {
 
     try {
-      ANXBitcoinDepositAddressWrapper anxBitcoinDepositAddressWrapper = anxV2.requestDepositAddress(exchangeSpecification.getApiKey(), signatureCreator, getNonce(), currency);
+      ANXBitcoinDepositAddressWrapper anxBitcoinDepositAddressWrapper = anxV2.requestDepositAddress(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNonce(), currency);
       return anxBitcoinDepositAddressWrapper.getAnxBitcoinDepositAddress();
     } catch (ANXException e) {
       throw handleError(e);
-    } catch (HttpStatusIOException e){
+    } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
   }

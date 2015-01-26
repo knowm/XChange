@@ -1,6 +1,6 @@
 package com.xeiam.xchange.bittrex.v1.service;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
@@ -10,12 +10,12 @@ public abstract class BittrexBaseService extends BaseExchangeService {
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BittrexBaseService(ExchangeSpecification exchangeSpecification) {
+  public BittrexBaseService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
 }

@@ -5,7 +5,7 @@ import static com.xeiam.xchange.coinsetter.CoinsetterExchange.DEFAULT_EXCHANGE;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterAdapters;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterListDepth;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -23,28 +23,22 @@ public class CoinsetterMarketDataService extends CoinsetterBasePollingService im
   private final CoinsetterMarketDataServiceRaw marketDataServiceRaw;
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public CoinsetterMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public CoinsetterMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
-    marketDataServiceRaw = new CoinsetterMarketDataServiceRaw(exchangeSpecification);
+    super(exchange);
+    marketDataServiceRaw = new CoinsetterMarketDataServiceRaw(exchange);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     return CoinsetterAdapters.adaptTicker(marketDataServiceRaw.getCoinsetterTicker());
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @param args [exchange, depth]
-   */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
@@ -53,12 +47,10 @@ public class CoinsetterMarketDataService extends CoinsetterBasePollingService im
 
     if (argsLength == 0) {
       coinsetterListDepth = marketDataServiceRaw.getCoinsetterFullDepth();
-    }
-    else if (argsLength == 1) {
+    } else if (argsLength == 1) {
       String exchange = (String) args[0];
       coinsetterListDepth = marketDataServiceRaw.getCoinsetterFullDepth(exchange == null ? DEFAULT_EXCHANGE : exchange);
-    }
-    else {
+    } else {
       String exchange = (String) args[0];
       Number depth = (Number) args[1];
       coinsetterListDepth = marketDataServiceRaw.getCoinsetterListDepth(depth == null ? DEFAULT_DEPTH : depth.intValue(), exchange == null ? DEFAULT_EXCHANGE : exchange);
@@ -67,9 +59,6 @@ public class CoinsetterMarketDataService extends CoinsetterBasePollingService im
     return CoinsetterAdapters.adaptOrderBook(coinsetterListDepth);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 

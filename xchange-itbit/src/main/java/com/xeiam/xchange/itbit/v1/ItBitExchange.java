@@ -10,15 +10,6 @@ import com.xeiam.xchange.itbit.v1.service.polling.ItBitMarketDataService;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitTradeService;
 import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the BTCE exchange API</li>
- * </ul>
- */
-
 public class ItBitExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory = new LongTimeNonceFactory();
@@ -35,9 +26,9 @@ public class ItBitExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new ItBitMarketDataService(exchangeSpecification, nonceFactory);
-    this.pollingAccountService = new ItBitAccountService(exchangeSpecification, nonceFactory);
-    this.pollingTradeService = new ItBitTradeService(exchangeSpecification, nonceFactory);
+    this.pollingMarketDataService = new ItBitMarketDataService(this, nonceFactory);
+    this.pollingAccountService = new ItBitAccountService(this, nonceFactory);
+    this.pollingTradeService = new ItBitTradeService(this, nonceFactory);
   }
 
   @Override

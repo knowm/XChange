@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.BTCChinaExchangeException;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
@@ -48,11 +48,13 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
   /**
    * Constructor
+   *
+   * @param exchange
+   * @param tonceFactory
    */
-  public BTCChinaTradeService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
+  public BTCChinaTradeService(Exchange exchange, SynchronizedValueFactory<Long> tonceFactory) {
 
-    super(exchangeSpecification, tonceFactory);
-
+    super(exchange, tonceFactory);
   }
 
   @Override

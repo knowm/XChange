@@ -25,9 +25,9 @@ public class PoloniexExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new PoloniexMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new PoloniexAccountService(exchangeSpecification);
-    this.pollingTradeService = new PoloniexTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new PoloniexMarketDataService(this);
+    this.pollingAccountService = new PoloniexAccountService(this);
+    this.pollingTradeService = new PoloniexTradeService(this);
   }
 
   @Override

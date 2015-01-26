@@ -2,7 +2,7 @@ package com.xeiam.xchange.coinbase.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbase.CoinbaseAdapters;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
@@ -22,9 +22,14 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
  */
 public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implements PollingTradeService {
 
-  public CoinbaseTradeService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public CoinbaseTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

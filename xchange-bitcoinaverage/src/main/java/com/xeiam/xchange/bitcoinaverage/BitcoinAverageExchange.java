@@ -5,14 +5,6 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoinaverage.service.polling.BitcoinAverageMarketDataService;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the BitcoinAverage API</li>
- * </ul>
- */
 public class BitcoinAverageExchange extends BaseExchange implements Exchange {
 
   /**
@@ -26,7 +18,7 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitcoinAverageMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new BitcoinAverageMarketDataService(this);
   }
 
   @Override

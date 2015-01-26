@@ -13,18 +13,6 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.examples.anx.v2.ANXExamplesUtils;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
-/**
- * <p>
- * Example showing the following:
- * </p>
- * <ul>
- * <li>Connecting to Mt Gox BTC exchange</li>
- * <li>Retrieving the last tick</li>
- * <li>Retrieving the current order book</li>
- * <li>Retrieving the current full order book</li>
- * <li>Retrieving trades</li>
- * </ul>
- */
 public class ANXMarketdataDemo {
 
   public static void main(String[] args) throws IOException {
@@ -54,11 +42,11 @@ public class ANXMarketdataDemo {
     ANXMarketDataServiceRaw marketDataServiceRaw = (ANXMarketDataServiceRaw) marketDataService;
 
     // Get all tickers
-    Map<String, ANXTicker> tickers = marketDataServiceRaw.getANXTickers(marketDataServiceRaw.getExchangeSymbols());
+    Map<String, ANXTicker> tickers = marketDataServiceRaw.getANXTickers(anx.getMetaData().getCurrencyPairs());
     System.out.println(tickers);
 
     // Get all orderbooks
-    Map<String, ANXDepth> orderbooks = marketDataServiceRaw.getANXFullOrderBooks(marketDataServiceRaw.getExchangeSymbols());
+    Map<String, ANXDepth> orderbooks = marketDataServiceRaw.getANXFullOrderBooks(anx.getMetaData().getCurrencyPairs());
     System.out.println(orderbooks);
 
   }

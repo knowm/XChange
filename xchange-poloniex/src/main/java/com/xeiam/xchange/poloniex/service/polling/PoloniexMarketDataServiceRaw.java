@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.poloniex.Poloniex;
@@ -28,12 +28,12 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Pol
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public PoloniexMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public PoloniexMarketDataServiceRaw(Exchange exchange) {
 
-    super(Poloniex.class, exchangeSpecification);
+    super(Poloniex.class, exchange);
   }
 
   public Map<String, PoloniexCurrencyInfo> getPoloniexCurrencyInfo() throws IOException {

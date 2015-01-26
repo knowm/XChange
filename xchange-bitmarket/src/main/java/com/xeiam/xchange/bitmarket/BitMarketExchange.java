@@ -27,7 +27,7 @@ public class BitMarketExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new BitMarketDataService(this);
     this.pollingTradeService = null;
     this.pollingAccountService = null;
   }

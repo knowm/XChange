@@ -2,7 +2,7 @@ package com.xeiam.xchange.cexio.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cexio.CexIOAdapters;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -15,20 +15,18 @@ import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
- * Author: brox
- * Since: 2/6/14
+ * Author: brox Since: 2/6/14
  */
-
 public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  public CexIOMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public CexIOMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -52,12 +50,10 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
       Object arg0 = args[0];
       if (!(arg0 instanceof Number)) {
         throw new ExchangeException("arg[0] must be a Number used to represent since trade id.");
-      }
-      else {
+      } else {
         trades = getCexIOTrades(currencyPair, ((Number) arg0).longValue());
       }
-    }
-    else { // default to full available trade history
+    } else { // default to full available trade history
       trades = getCexIOTrades(currencyPair, null);
     }
 

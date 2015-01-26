@@ -5,14 +5,6 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.oer.service.polling.OERMarketDataService;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the Open Exchange Rate API</li>
- * </ul>
- */
 public class OERExchange extends BaseExchange implements Exchange {
 
   /**
@@ -26,7 +18,7 @@ public class OERExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new OERMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new OERMarketDataService(this);
   }
 
   @Override

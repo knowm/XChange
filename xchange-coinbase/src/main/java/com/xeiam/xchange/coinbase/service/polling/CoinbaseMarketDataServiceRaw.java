@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbase.Coinbase;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
@@ -17,19 +17,23 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public CoinbaseMarketDataServiceRaw(final ExchangeSpecification exchangeSpecification) {
+  public CoinbaseMarketDataServiceRaw(final Exchange exchange) {
 
-    super(Coinbase.class, exchangeSpecification);
+    // TODO look at this
+    super(Coinbase.class, exchange);
   }
 
   /**
-   * Unauthenticated resource that returns BTC to fiat (and vice versus) exchange rates in various currencies.
-   * 
-   * @see <a href="https://coinbase.com/api/doc/1.0/currencies/exchange_rates.html">coinbase.com/api/doc/1.0/currencies/exchange_rates.html</a>
-   * @return Map of lower case directional currency pairs, i.e. btc_to_xxx and xxx_to_btc, to exchange rates.
+   * Unauthenticated resource that returns BTC to fiat (and vice versus)
+   * exchange rates in various currencies.
+   *
+   * @see <a
+   *      href="https://coinbase.com/api/doc/1.0/currencies/exchange_rates.html">coinbase.com/api/doc/1.0/currencies/exchange_rates.html</a>
+   * @return Map of lower case directional currency pairs, i.e. btc_to_xxx and
+   *         xxx_to_btc, to exchange rates.
    * @throws IOException
    */
   public Map<String, BigDecimal> getCoinbaseCurrencyExchangeRates() throws IOException {
@@ -38,9 +42,11 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
   }
 
   /**
-   * Unauthenticated resource that tells you the total price in USD to buy 1 Bitcoin.
-   * 
-   * @see <a href="https://coinbase.com/api/doc/1.0/prices/buy.html">coinbase.com/api/doc/1.0/prices/buy.html</a>
+   * Unauthenticated resource that tells you the total price in USD to buy 1
+   * Bitcoin.
+   *
+   * @see <a
+   *      href="https://coinbase.com/api/doc/1.0/prices/buy.html">coinbase.com/api/doc/1.0/prices/buy.html</a>
    * @return The price to buy 1 BTC.
    * @throws IOException
    */
@@ -50,10 +56,13 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
   }
 
   /**
-   * Unauthenticated resource that tells you the total price in USD to buy some quantity of Bitcoin.
-   * 
-   * @see <a href="https://coinbase.com/api/doc/1.0/prices/buy.html">coinbase.com/api/doc/1.0/prices/buy.html</a>
-   * @param quantity The quantity of Bitcoin you would like to buy (default is 1 if null).
+   * Unauthenticated resource that tells you the total price in USD to buy some
+   * quantity of Bitcoin.
+   *
+   * @see <a
+   *      href="https://coinbase.com/api/doc/1.0/prices/buy.html">coinbase.com/api/doc/1.0/prices/buy.html</a>
+   * @param quantity The quantity of Bitcoin you would like to buy (default is 1
+   *          if null).
    * @return The price to buy the given {@code quantity} BTC.
    * @throws IOException
    */
@@ -63,12 +72,16 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
   }
 
   /**
-   * Unauthenticated resource that tells you the total price to buy some quantity of Bitcoin.
-   * 
-   * @see <a href="https://coinbase.com/api/doc/1.0/prices/buy.html">coinbase.com/api/doc/1.0/prices/buy.html</a>
-   * @param quantity The quantity of Bitcoin you would like to buy (default is 1 if null).
+   * Unauthenticated resource that tells you the total price to buy some
+   * quantity of Bitcoin.
+   *
+   * @see <a
+   *      href="https://coinbase.com/api/doc/1.0/prices/buy.html">coinbase.com/api/doc/1.0/prices/buy.html</a>
+   * @param quantity The quantity of Bitcoin you would like to buy (default is 1
+   *          if null).
    * @param currency Default is USD. Right now this is the only value allowed.
-   * @return The price in the desired {@code currency} to buy the given {@code quantity} BTC.
+   * @return The price in the desired {@code currency} to buy the given
+   *         {@code quantity} BTC.
    * @throws IOException
    */
   public CoinbasePrice getCoinbaseBuyPrice(BigDecimal quantity, String currency) throws IOException {
@@ -77,9 +90,11 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
   }
 
   /**
-   * Unauthenticated resource that tells you the total amount in USD you can get if you sell 1 Bitcoin.
-   * 
-   * @see <a href="https://coinbase.com/api/doc/1.0/prices/sell.html">coinbase.com/api/doc/1.0/prices/sell.html</a>
+   * Unauthenticated resource that tells you the total amount in USD you can get
+   * if you sell 1 Bitcoin.
+   *
+   * @see <a
+   *      href="https://coinbase.com/api/doc/1.0/prices/sell.html">coinbase.com/api/doc/1.0/prices/sell.html</a>
    * @return The price to sell 1 BTC.
    * @throws IOException
    */
@@ -89,10 +104,13 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
   }
 
   /**
-   * Unauthenticated resource that tells you the total amount in USD you can get if you sell some quantity Bitcoin.
-   * 
-   * @see <a href="https://coinbase.com/api/doc/1.0/prices/sell.html">coinbase.com/api/doc/1.0/prices/sell.html</a>
-   * @param quantity The quantity of Bitcoin you would like to sell (default is 1 if null).
+   * Unauthenticated resource that tells you the total amount in USD you can get
+   * if you sell some quantity Bitcoin.
+   *
+   * @see <a
+   *      href="https://coinbase.com/api/doc/1.0/prices/sell.html">coinbase.com/api/doc/1.0/prices/sell.html</a>
+   * @param quantity The quantity of Bitcoin you would like to sell (default is
+   *          1 if null).
    * @return The price to sell the given {@code quantity} BTC.
    * @throws IOException
    */
@@ -102,12 +120,16 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
   }
 
   /**
-   * Unauthenticated resource that tells you the total amount you can get if you sell some quantity Bitcoin.
-   * 
-   * @see <a href="https://coinbase.com/api/doc/1.0/prices/sell.html">coinbase.com/api/doc/1.0/prices/sell.html</a>
-   * @param quantity The quantity of Bitcoin you would like to sell (default is 1 if null).
+   * Unauthenticated resource that tells you the total amount you can get if you
+   * sell some quantity Bitcoin.
+   *
+   * @see <a
+   *      href="https://coinbase.com/api/doc/1.0/prices/sell.html">coinbase.com/api/doc/1.0/prices/sell.html</a>
+   * @param quantity The quantity of Bitcoin you would like to sell (default is
+   *          1 if null).
    * @param currency Default is USD. Right now this is the only value allowed.
-   * @return The price in the desired {@code currency} to sell the given {@code quantity} BTC.
+   * @return The price in the desired {@code currency} to sell the given
+   *         {@code quantity} BTC.
    * @throws IOException
    */
   public CoinbasePrice getCoinbaseSellPrice(BigDecimal quantity, String currency) throws IOException {
@@ -116,10 +138,12 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
   }
 
   /**
-   * Unauthenticated resource that tells you the current price of Bitcoin.
-   * This is usually somewhere in between the buy and sell price, current to within a few minutes.
-   * 
-   * @see <a href="https://coinbase.com/api/doc/1.0/prices/spot_rate.html">coinbase.com/api/doc/1.0/prices/spot_rate.html</a>
+   * Unauthenticated resource that tells you the current price of Bitcoin. This
+   * is usually somewhere in between the buy and sell price, current to within a
+   * few minutes.
+   *
+   * @see <a
+   *      href="https://coinbase.com/api/doc/1.0/prices/spot_rate.html">coinbase.com/api/doc/1.0/prices/spot_rate.html</a>
    * @param currency ISO 4217 currency code. Default is USD if null.
    * @return
    * @throws IOException
@@ -130,10 +154,11 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
   }
 
   /**
-   * Unauthenticated resource that displays historical spot rates for Bitcoin in USD.
-   * This is a paged resource and will return the first page by default.
-   * 
-   * @see <a href="https://coinbase.com/api/doc/1.0/prices/historical.html">coinbase.com/api/doc/1.0/prices/historical.html</a>
+   * Unauthenticated resource that displays historical spot rates for Bitcoin in
+   * USD. This is a paged resource and will return the first page by default.
+   *
+   * @see <a
+   *      href="https://coinbase.com/api/doc/1.0/prices/historical.html">coinbase.com/api/doc/1.0/prices/historical.html</a>
    * @return One thousand historical spot prices representing page 1.
    * @throws IOException
    */
@@ -143,9 +168,11 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
   }
 
   /**
-   * Unauthenticated resource that displays historical spot rates for Bitcoin in USD.
-   * 
-   * @param page Optional parameter to request a desired page of results. Will return page 1 if the supplied page is null or less than 1.
+   * Unauthenticated resource that displays historical spot rates for Bitcoin in
+   * USD.
+   *
+   * @param page Optional parameter to request a desired page of results. Will
+   *          return page 1 if the supplied page is null or less than 1.
    * @return One thousand historical spot prices for the given page.
    * @throws IOException
    */

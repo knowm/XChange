@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.vircurex.Vircurex;
 import com.xeiam.xchange.vircurex.dto.marketdata.VircurexDepth;
@@ -23,13 +23,14 @@ public class VircurexMarketDataServiceRaw extends VircurexBasePollingService {
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public VircurexMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public VircurexMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    vircurex = RestProxyFactory.createProxy(Vircurex.class, exchangeSpecification.getSslUri());
+    super(exchange);
+
+    vircurex = RestProxyFactory.createProxy(Vircurex.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   // TODO: implement Ticker by combining get_last_trade, get_volume, get_highest_bid and get_lowest_ask APIs: https://vircurex.com/welcome/api?locale=en

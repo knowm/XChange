@@ -5,7 +5,7 @@ import java.util.Map;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.kraken.Kraken;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
@@ -21,12 +21,13 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken>
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
+   * @param nonceFactory
    */
-  public KrakenMarketDataServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  public KrakenMarketDataServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
 
-    super(Kraken.class, exchangeSpecification, nonceFactory);
+    super(Kraken.class, exchange, nonceFactory);
   }
 
   public KrakenTicker getKrakenTicker(CurrencyPair currencyPair) throws IOException {

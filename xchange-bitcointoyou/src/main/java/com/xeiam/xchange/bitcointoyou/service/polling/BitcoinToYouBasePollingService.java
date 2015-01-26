@@ -1,39 +1,32 @@
 package com.xeiam.xchange.bitcointoyou.service.polling;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
- * @author timmolter
  * @author Felipe Micaroni Lalli
  */
 public class BitcoinToYouBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_BRL, new CurrencyPair(Currencies.LTC, Currencies.BRL)
-
-  );
-
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
-  public BitcoinToYouBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public BitcoinToYouBasePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return CURRENCY_PAIRS;
+    return exchange.getMetaData().getCurrencyPairs();
   }
+
 }

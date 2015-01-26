@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
@@ -50,7 +50,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
  * <ul>
  * <li>Provides access to trade functions</li>
  * </ul>
- * 
+ *
  * @author ObsessiveOrange
  */
 public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina> {
@@ -59,17 +59,20 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
+   * @param tonceFactory
    */
-  public BTCChinaTradeServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
+  public BTCChinaTradeServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> tonceFactory) {
 
-    super(BTCChina.class, exchangeSpecification, tonceFactory);
+    super(BTCChina.class, exchange, tonceFactory);
   }
 
   /**
-   * @see BTCChinaGetMarketDepthRequest#BTCChinaGetMarketDepthRequest(Integer, String)
-   * @see BTCChina#getMarketDepth(si.mazi.rescu.ParamsDigest, si.mazi.rescu.SynchronizedValueFactory, BTCChinaGetMarketDepthRequest)
+   * @see BTCChinaGetMarketDepthRequest#BTCChinaGetMarketDepthRequest(Integer,
+   *      String)
+   * @see BTCChina#getMarketDepth(si.mazi.rescu.ParamsDigest,
+   *      si.mazi.rescu.SynchronizedValueFactory, BTCChinaGetMarketDepthRequest)
    */
   public BTCChinaGetMarketDepthResponse getMarketDepth(Integer limit, String market) throws IOException {
 
@@ -135,7 +138,9 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   /**
    * @return Set of BTCChina Orders
    * @throws IOException
-   * @deprecated Use {@link #getBTCChinaOrders(Boolean, String, Integer, Integer)} instead.
+   * @deprecated Use
+   *             {@link #getBTCChinaOrders(Boolean, String, Integer, Integer)}
+   *             instead.
    */
   @Deprecated
   public BTCChinaResponse<BTCChinaOrders> getBTCChinaOpenOrders() throws IOException {
@@ -144,7 +149,8 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   }
 
   /**
-   * @see BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer)
+   * @see BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String,
+   *      Integer, Integer)
    */
   public BTCChinaGetOrdersResponse getBTCChinaOrders(Boolean openOnly, String market, Integer limit, Integer offset) throws IOException {
 
@@ -154,7 +160,8 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   }
 
   /**
-   * @see BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer, Integer, Boolean)
+   * @see BTCChinaGetOrdersRequest#BTCChinaGetOrdersRequest(Boolean, String,
+   *      Integer, Integer, Integer, Boolean)
    */
   public BTCChinaGetOrdersResponse getBTCChinaOrders(Boolean openOnly, String market, Integer limit, Integer offset, Integer since, Boolean withdetail) throws IOException {
 
@@ -165,7 +172,8 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
 
   /**
    * @return BTCChinaIntegerResponse of new limit order status.
-   * @deprecated use {@link #buy(BigDecimal, BigDecimal, String)} or {@link #sell(BigDecimal, BigDecimal, String)} instead.
+   * @deprecated use {@link #buy(BigDecimal, BigDecimal, String)} or
+   *             {@link #sell(BigDecimal, BigDecimal, String)} instead.
    */
   @Deprecated
   public BTCChinaIntegerResponse placeBTCChinaLimitOrder(BigDecimal price, BigDecimal amount, OrderType orderType) throws IOException {
@@ -175,8 +183,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
     if (orderType == OrderType.BID) {
 
       response = btcChina.buyOrder2(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaBuyOrderRequest(price, amount));
-    }
-    else {
+    } else {
       response = btcChina.sellOrder2(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaSellOrderRequest(price, amount));
     }
 
@@ -186,12 +193,11 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   /**
    * Place a buy order.
    *
-   * @param price The price in quote currency to buy 1 base currency.
-   *          Max 2 decimals for BTC/CNY and LTC/CNY markets.
-   *          4 decimals for LTC/BTC market.
-   *          Market order is executed by setting price to 'null'.
-   * @param amount The amount of LTC/BTC to buy.
-   *          Supports 4 decimal places for BTC and 3 decimal places for LTC.
+   * @param price The price in quote currency to buy 1 base currency. Max 2
+   *          decimals for BTC/CNY and LTC/CNY markets. 4 decimals for LTC/BTC
+   *          market. Market order is executed by setting price to 'null'.
+   * @param amount The amount of LTC/BTC to buy. Supports 4 decimal places for
+   *          BTC and 3 decimal places for LTC.
    * @param market [ BTCCNY | LTCCNY | LTCBTC ]
    * @return order ID.
    * @throws IOException
@@ -214,12 +220,11 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   /**
    * Place a sell order.
    *
-   * @param price The price in quote currency to sell 1 base currency.
-   *          Max 2 decimals for BTC/CNY and LTC/CNY markets.
-   *          4 decimals for LTC/BTC market.
-   *          Market order is executed by setting price to 'null'.
-   * @param amount The amount of LTC/BTC to sell.
-   *          Supports 4 decimal places for BTC and 3 decimal places for LTC.
+   * @param price The price in quote currency to sell 1 base currency. Max 2
+   *          decimals for BTC/CNY and LTC/CNY markets. 4 decimals for LTC/BTC
+   *          market. Market order is executed by setting price to 'null'.
+   * @param amount The amount of LTC/BTC to sell. Supports 4 decimal places for
+   *          BTC and 3 decimal places for LTC.
    * @param market [ BTCCNY | LTCCNY | LTCBTC ]
    * @return order ID.
    * @throws IOException
@@ -250,6 +255,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   /**
    * @deprecated Use {@link #cancelBTCChinaOrder(int)} instead.
    */
+  @Deprecated
   public BTCChinaBooleanResponse cancelBTCChinaOrder(String orderId) throws IOException {
 
     return cancelBTCChinaOrder(Integer.parseInt(orderId));
@@ -261,7 +267,9 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   }
 
   /**
-   * @deprecated Use {@link #getTransactions(String, Integer, Integer, Integer, String)} instead.
+   * @deprecated Use
+   *             {@link #getTransactions(String, Integer, Integer, Integer, String)}
+   *             instead.
    */
   @Deprecated
   public BTCChinaTransactionsResponse getTransactions(String type, Integer limit, Integer offset) throws IOException {
@@ -270,7 +278,8 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
   }
 
   /**
-   * @see BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String, Integer, Integer, Integer, String)
+   * @see BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String,
+   *      Integer, Integer, Integer, String)
    */
   public BTCChinaTransactionsResponse getTransactions(String type, Integer limit, Integer offset, Integer since, String sincetype) throws IOException {
 

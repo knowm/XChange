@@ -2,7 +2,7 @@ package com.xeiam.xchange.poloniex.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -22,9 +22,14 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw implements PollingMarketDataService {
 
-  public PoloniexMarketDataService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public PoloniexMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -44,8 +49,7 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw impl
       if (args[0] instanceof Integer) {
         int depthLimit = (Integer) args[0];
         depth = getPoloniexDepth(currencyPair, depthLimit);
-      }
-      else {
+      } else {
         throw new ExchangeException("Orderbook size argument must be an Integer!");
       }
     }
@@ -77,8 +81,7 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw impl
     PoloniexPublicTrade[] poloniexPublicTrades = null;
     if (startTime == null && endTime == null) {
       poloniexPublicTrades = getPoloniexPublicTrades(currencyPair);
-    }
-    else {
+    } else {
       poloniexPublicTrades = getPoloniexPublicTrades(currencyPair, startTime, endTime);
     }
     Trades trades = PoloniexAdapters.adaptPoloniexPublicTrades(poloniexPublicTrades, currencyPair);
