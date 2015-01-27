@@ -3,15 +3,16 @@ package com.xeiam.xchange.anx.v2.dto.marketdata;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.trade.TradeMetaData;
+import com.xeiam.xchange.dto.trade.TradeMetaInfo;
 
-public class ANXTradeMetaData extends TradeMetaData {
+//TODO look at this
+public class ANXTradeMetaData extends TradeMetaInfo {
 
   private final BigDecimal amountMaximum;
 
   public ANXTradeMetaData(BigDecimal amountMinimum, BigDecimal amountMaximum, int priceScale) {
 
-    super(null, amountMinimum, priceScale);
+    super(null, amountMinimum, priceScale, null);
     this.amountMaximum = amountMaximum;
   }
 

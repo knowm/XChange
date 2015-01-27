@@ -6,12 +6,11 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.hitbtc.HitbtcAuthenticated;
 import com.xeiam.xchange.hitbtc.dto.HitbtcException;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
 
-public class HitbtcAccountServiceRaw extends HitbtcBasePollingService<HitbtcAuthenticated> {
+public class HitbtcAccountServiceRaw extends HitbtcBasePollingService {
 
   /**
    * Constructor
@@ -20,7 +19,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService<HitbtcAuth
    */
   public HitbtcAccountServiceRaw(Exchange exchange) {
 
-    super(HitbtcAuthenticated.class, exchange);
+    super(exchange);
   }
 
   public HitbtcBalance[] getAccountInfoRaw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {

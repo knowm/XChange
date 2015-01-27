@@ -8,31 +8,30 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bittrex.v1.Bittrex;
 import com.xeiam.xchange.bittrex.v1.BittrexAdapters;
+import com.xeiam.xchange.bittrex.v1.BittrexAuthenticated;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
 import com.xeiam.xchange.bittrex.v1.service.BittrexDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class BittrexBasePollingService<T extends Bittrex> extends BaseExchangeService implements BasePollingService {
+public class BittrexBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected final String apiKey;
-  protected final T bittrex;
+  protected final BittrexAuthenticated bittrex;
   protected final ParamsDigest signatureCreator;
 
   /**
    * Constructor
    *
-   * @param type
    * @param exchange
    */
-  // TODO look at this
-  public BittrexBasePollingService(Class<T> type, Exchange exchange) {
+  public BittrexBasePollingService(Exchange exchange) {
 
     super(exchange);
-    this.bittrex = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+
+    this.bittrex = RestProxyFactory.createProxy(BittrexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BittrexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

@@ -3,9 +3,9 @@ package com.xeiam.xchange.btce.v3.dto.marketdata;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.TradeMetaData;
+import com.xeiam.xchange.dto.trade.TradeMetaInfo;
 
-public class BTCETradeMetaData extends TradeMetaData {
+public class BTCETradeMetaData extends TradeMetaInfo {
 
   final private BigDecimal minPrice;
   final private BigDecimal maxPrice;
@@ -19,9 +19,10 @@ public class BTCETradeMetaData extends TradeMetaData {
    * @param minPrice
    * @param maxPrice
    */
+  //TODO look at this
   public BTCETradeMetaData(BigDecimal fee, BigDecimal amountMinimum, int priceScale, BigDecimal minPrice, BigDecimal maxPrice) {
 
-    super(fee, amountMinimum, priceScale);
+    super(fee, amountMinimum, priceScale, null);
     assert minPrice != null;
     assert maxPrice != null;
     this.minPrice = minPrice;

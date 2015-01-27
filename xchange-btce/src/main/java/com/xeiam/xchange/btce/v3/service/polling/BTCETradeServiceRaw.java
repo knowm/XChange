@@ -21,7 +21,7 @@ import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
  * Author: brox Since: 2014-02-13
  */
 
-public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticated> {
+public class BTCETradeServiceRaw extends BTCEBasePollingService {
 
   private static final String MSG_NO_TRADES = "no trades";
   private static final String MSG_BAD_STATUS = "bad status";
@@ -33,7 +33,7 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
    */
   public BTCETradeServiceRaw(Exchange exchange) {
 
-    super(BTCEAuthenticated.class, exchange);
+    super(exchange);
   }
 
   /**

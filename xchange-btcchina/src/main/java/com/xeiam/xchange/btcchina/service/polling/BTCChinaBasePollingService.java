@@ -26,24 +26,23 @@ import com.xeiam.xchange.utils.Assert;
 /**
  * @author timmolter
  */
-public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchangeService implements BasePollingService {
+public class BTCChinaBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  protected final T btcChina;
+  protected final BTCChina btcChina;
   protected final ParamsDigest signatureCreator;
 
   /**
    * Constructor
    *
-   * @param type
    * @param exchange
    */
-  public BTCChinaBasePollingService(Class<T> type, Exchange exchange) {
+  public BTCChinaBasePollingService(Exchange exchange) {
 
     super(exchange);
 
     Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
 
-    this.btcChina = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+    this.btcChina = RestProxyFactory.createProxy(BTCChina.class, exchange.getExchangeSpecification().getSslUri());
     this.signatureCreator = BTCChinaDigest.createInstance(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey());
   }
 

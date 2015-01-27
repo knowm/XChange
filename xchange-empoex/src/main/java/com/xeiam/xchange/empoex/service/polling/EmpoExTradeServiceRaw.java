@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.empoex.EmpoExAuthenticated;
 import com.xeiam.xchange.empoex.EmpoExErrorException;
 import com.xeiam.xchange.empoex.EmpoExException;
 import com.xeiam.xchange.empoex.EmpoExUtils;
@@ -15,7 +14,7 @@ import com.xeiam.xchange.empoex.dto.trade.EmpoExOpenOrder;
 import com.xeiam.xchange.empoex.dto.trade.EmpoExOrderResponse;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
-public class EmpoExTradeServiceRaw extends EmpoExBasePollingService<EmpoExAuthenticated> {
+public class EmpoExTradeServiceRaw extends EmpoExBasePollingService {
 
   /**
    * Constructor
@@ -24,8 +23,7 @@ public class EmpoExTradeServiceRaw extends EmpoExBasePollingService<EmpoExAuthen
    */
   public EmpoExTradeServiceRaw(Exchange exchange) {
 
-    //TODO look at this
-    super(EmpoExAuthenticated.class, exchange);
+    super(exchange);
   }
 
   public Map<String, List<EmpoExOpenOrder>> getEmpoExOpenOrders() throws IOException {

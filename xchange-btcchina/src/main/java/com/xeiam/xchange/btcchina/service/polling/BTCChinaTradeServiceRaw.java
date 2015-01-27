@@ -49,7 +49,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
  *
  * @author ObsessiveOrange
  */
-public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina> {
+public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService {
 
   private final Logger log = LoggerFactory.getLogger(BTCChinaTradeServiceRaw.class);
 
@@ -60,7 +60,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService<BTCChina
    */
   public BTCChinaTradeServiceRaw(Exchange exchange) {
 
-    super(BTCChina.class, exchange);
+    super(exchange);
   }
 
   /**

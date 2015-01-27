@@ -10,7 +10,7 @@ import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfoReturn;
 /**
  * Author: brox
  */
-public class BTCEAccountServiceRaw extends BTCEBasePollingService<BTCEAuthenticated> {
+public class BTCEAccountServiceRaw extends BTCEBasePollingService {
 
   /**
    * Constructor
@@ -20,7 +20,7 @@ public class BTCEAccountServiceRaw extends BTCEBasePollingService<BTCEAuthentica
   public BTCEAccountServiceRaw(Exchange exchange) {
 
     // TODO look at this
-    super(BTCEAuthenticated.class, exchange);
+    super(exchange);
   }
 
   /**

@@ -4,13 +4,12 @@ import java.io.IOException;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bittrex.v1.BittrexAuthenticated;
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalance;
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalancesResponse;
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexDepositAddressResponse;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
-public class BittrexAccountServiceRaw extends BittrexBasePollingService<BittrexAuthenticated> {
+public class BittrexAccountServiceRaw extends BittrexBasePollingService {
 
   /**
    * Constructor
@@ -19,7 +18,7 @@ public class BittrexAccountServiceRaw extends BittrexBasePollingService<BittrexA
    */
   public BittrexAccountServiceRaw(Exchange exchange) {
 
-    super(BittrexAuthenticated.class, exchange);
+    super(exchange);
   }
 
   public List<BittrexBalance> getBittrexAccountInfo() throws IOException {

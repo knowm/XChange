@@ -15,7 +15,7 @@ import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.trade.TradeMetaData;
+import com.xeiam.xchange.dto.trade.TradeMetaInfo;
 
 /**
  * @author gnandiga
@@ -69,9 +69,10 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
   /**
    * @return Map of currency pairs to their corresponding metadata.
    */
-  public Map<CurrencyPair, TradeMetaData> getTradeMetaDataMap() throws IOException {
+  //TODO look at this
+  public Map<CurrencyPair, TradeMetaInfo> getTradeMetaDataMap() throws IOException {
 
-    Map<CurrencyPair, TradeMetaData> returnObject = new HashMap<CurrencyPair, TradeMetaData>();
+    Map<CurrencyPair, TradeMetaInfo> returnObject = new HashMap<CurrencyPair, TradeMetaInfo>();
 
     BitstampBalance bitstampBalance = bitstampAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
 
@@ -79,7 +80,7 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
     for (CurrencyPair currencyPair : currencyPairs) {
 
       // minimum trade $5 // TODO put this in properties file
-      returnObject.put(currencyPair, new TradeMetaData(bitstampBalance.getFee(), new BigDecimal("5"), 0));
+      returnObject.put(currencyPair, new TradeMetaInfo(bitstampBalance.getFee(), new BigDecimal("5"), 0, null));
 
     }
     return returnObject;

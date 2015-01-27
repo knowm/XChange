@@ -6,13 +6,12 @@ import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.empoex.EmpoEx;
 import com.xeiam.xchange.empoex.EmpoExUtils;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExLevel;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExTicker;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExTrade;
 
-public class EmpoExMarketDataServiceRaw extends EmpoExBasePollingService<EmpoEx> {
+public class EmpoExMarketDataServiceRaw extends EmpoExBasePollingService {
 
   /**
    * Constructor
@@ -21,7 +20,7 @@ public class EmpoExMarketDataServiceRaw extends EmpoExBasePollingService<EmpoEx>
    */
   public EmpoExMarketDataServiceRaw(Exchange exchange) {
 
-    super(EmpoEx.class, exchange);
+    super(exchange);
   }
 
   public List<EmpoExTicker> getEmpoExTickers() throws IOException {

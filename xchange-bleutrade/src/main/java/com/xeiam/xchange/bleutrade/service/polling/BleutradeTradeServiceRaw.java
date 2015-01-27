@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
 import com.xeiam.xchange.bleutrade.BleutradeException;
 import com.xeiam.xchange.bleutrade.BleutradeUtils;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeCancelOrderReturn;
@@ -14,7 +13,7 @@ import com.xeiam.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
-public class BleutradeTradeServiceRaw extends BleutradeBasePollingService<BleutradeAuthenticated> {
+public class BleutradeTradeServiceRaw extends BleutradeBasePollingService {
 
   /**
    * Constructor
@@ -23,7 +22,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBasePollingService<Bleutr
    */
   public BleutradeTradeServiceRaw(Exchange exchange) {
 
-    super(BleutradeAuthenticated.class, exchange);
+    super(exchange);
   }
 
   public String buyLimit(LimitOrder limitOrder) throws IOException {

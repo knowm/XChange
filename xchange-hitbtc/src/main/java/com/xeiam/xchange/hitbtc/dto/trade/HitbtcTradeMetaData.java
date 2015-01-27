@@ -2,15 +2,14 @@ package com.xeiam.xchange.hitbtc.dto.trade;
 
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.dto.trade.TradeMetaData;
+import com.xeiam.xchange.dto.trade.TradeMetaInfo;
 
-public class HitbtcTradeMetaData extends TradeMetaData {
+public class HitbtcTradeMetaData extends TradeMetaInfo {
 
   private final BigDecimal takeLiquidityRate;
   private final BigDecimal provideLiquidityRate;
 
   /**
-   *
    * Constructor
    *
    * @param tradingFee
@@ -19,9 +18,10 @@ public class HitbtcTradeMetaData extends TradeMetaData {
    * @param takeLiquidityRate
    * @param provideLiquidityRate
    */
+  //TODO look at this
   public HitbtcTradeMetaData(BigDecimal tradingFee, BigDecimal amountMinimum, int priceScale, BigDecimal takeLiquidityRate, BigDecimal provideLiquidityRate) {
 
-    super(tradingFee, amountMinimum, priceScale);
+    super(tradingFee, amountMinimum, priceScale, null);
     this.takeLiquidityRate = takeLiquidityRate;
     this.provideLiquidityRate = provideLiquidityRate;
   }

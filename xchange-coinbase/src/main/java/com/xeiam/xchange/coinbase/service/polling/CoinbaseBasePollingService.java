@@ -7,7 +7,7 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.coinbase.Coinbase;
+import com.xeiam.xchange.coinbase.CoinbaseAuthenticated;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseToken;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
@@ -21,21 +21,21 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 /**
  * @author jamespedwards42
  */
-public class CoinbaseBasePollingService<T extends Coinbase> extends BaseExchangeService implements BasePollingService {
+public class CoinbaseBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  protected final T coinbase;
+  protected final CoinbaseAuthenticated coinbase;
   protected final ParamsDigest signatureCreator;
 
   /**
    * Constructor
    *
-   * @param type
    * @param exchange
    */
-  protected CoinbaseBasePollingService(Class<T> type, Exchange exchange) {
+  protected CoinbaseBasePollingService(Exchange exchange) {
 
     super(exchange);
-    coinbase = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+
+    coinbase = RestProxyFactory.createProxy(CoinbaseAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     signatureCreator = CoinbaseDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 

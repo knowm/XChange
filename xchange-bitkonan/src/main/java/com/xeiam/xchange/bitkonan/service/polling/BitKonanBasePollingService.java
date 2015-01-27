@@ -14,22 +14,20 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 /**
  * @author Piotr Ładyżyński
  */
-public class BitKonanBasePollingService<T extends BitKonan> extends BaseExchangeService implements BasePollingService {
+public class BitKonanBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  protected final T bitKonan;
+  protected final BitKonan bitKonan;
 
   /**
    * Constructor
    *
-   * @param bitkonanType
    * @param exchange
-   * @param nonceFactory
    */
-  protected BitKonanBasePollingService(Class<T> bitkonanType, Exchange exchange) {
+  protected BitKonanBasePollingService(Exchange exchange) {
 
     super(exchange);
 
-    this.bitKonan = RestProxyFactory.createProxy(bitkonanType, exchange.getExchangeSpecification().getSslUri());
+    this.bitKonan = RestProxyFactory.createProxy(BitKonan.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   @Override

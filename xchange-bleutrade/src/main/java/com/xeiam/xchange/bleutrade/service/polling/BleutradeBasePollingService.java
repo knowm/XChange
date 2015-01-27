@@ -8,31 +8,30 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bleutrade.Bleutrade;
 import com.xeiam.xchange.bleutrade.BleutradeAdapters;
+import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;
 import com.xeiam.xchange.bleutrade.service.BleutradeDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class BleutradeBasePollingService<T extends Bleutrade> extends BaseExchangeService implements BasePollingService {
+public class BleutradeBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected final String apiKey;
-  protected final T bleutrade;
+  protected final BleutradeAuthenticated bleutrade;
   protected final ParamsDigest signatureCreator;
 
   /**
    * Constructor
    *
-   * @param type
    * @param exchange
    */
-  public BleutradeBasePollingService(Class<T> type, Exchange exchange) {
+  public BleutradeBasePollingService(Exchange exchange) {
 
     super(exchange);
 
-    this.bleutrade = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+    this.bleutrade = RestProxyFactory.createProxy(BleutradeAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BleutradeDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

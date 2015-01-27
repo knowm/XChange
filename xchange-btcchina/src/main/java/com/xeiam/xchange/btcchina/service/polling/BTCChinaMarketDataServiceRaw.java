@@ -20,7 +20,7 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
  *
  * @author ObsessiveOrange
  */
-public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTCChina> {
+public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService {
 
   /**
    * Constructor
@@ -29,7 +29,7 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
    */
   public BTCChinaMarketDataServiceRaw(Exchange exchange) {
 
-    super(BTCChina.class, exchange);
+    super(exchange);
   }
 
   public Map<String, BTCChinaTickerObject> getBTCChinaTickers() throws IOException {

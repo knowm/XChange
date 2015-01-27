@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.coinbase.CoinbaseAuthenticated;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
 
 /**
  * @author jamespedwards42
  */
-class CoinbaseTradeServiceRaw extends CoinbaseBasePollingService<CoinbaseAuthenticated> {
+class CoinbaseTradeServiceRaw extends CoinbaseBasePollingService {
 
   /**
    * Constructor
@@ -20,7 +19,7 @@ class CoinbaseTradeServiceRaw extends CoinbaseBasePollingService<CoinbaseAuthent
    */
   protected CoinbaseTradeServiceRaw(Exchange exchange) {
 
-    super(CoinbaseAuthenticated.class, exchange);
+    super(exchange);
   }
 
   /**

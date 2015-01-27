@@ -9,7 +9,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.empoex.EmpoEx;
+import com.xeiam.xchange.empoex.EmpoExAuthenticated;
 import com.xeiam.xchange.empoex.EmpoExUtils;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExTicker;
 import com.xeiam.xchange.empoex.service.EmpoExHmacPostBodyDigest;
@@ -17,24 +17,23 @@ import com.xeiam.xchange.empoex.service.EmpoExPayloadDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class EmpoExBasePollingService<T extends EmpoEx> extends BaseExchangeService implements BasePollingService {
+public class EmpoExBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected final String apiKey;
-  protected final T empoex;
+  protected final EmpoExAuthenticated empoex;
   protected final ParamsDigest signatureCreator;
   protected final ParamsDigest payloadCreator;
 
   /**
    * Constructor
    *
-   * @param type
    * @param exchange
    */
-  public EmpoExBasePollingService(Class<T> type, Exchange exchange) {
+  public EmpoExBasePollingService(Exchange exchange) {
 
     super(exchange);
 
-    this.empoex = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+    this.empoex = RestProxyFactory.createProxy(EmpoExAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = EmpoExHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.payloadCreator = new EmpoExPayloadDigest();

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bter.BTERAuthenticated;
 import com.xeiam.xchange.bter.BTERUtils;
 import com.xeiam.xchange.bter.dto.BTERBaseResponse;
 import com.xeiam.xchange.bter.dto.BTEROrderType;
@@ -16,7 +15,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
-public class BTERPollingTradeServiceRaw extends BTERBasePollingService<BTERAuthenticated> {
+public class BTERPollingTradeServiceRaw extends BTERBasePollingService {
 
   /**
    * Constructor
@@ -25,7 +24,7 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService<BTERAuthe
    */
   public BTERPollingTradeServiceRaw(Exchange exchange) {
 
-    super(BTERAuthenticated.class, exchange);
+    super(exchange);
   }
 
   /**

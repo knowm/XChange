@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bittrex.v1.Bittrex;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexCurrenciesResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexCurrency;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexDepth;
@@ -18,15 +17,7 @@ import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTrade;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTradesResponse;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
-/**
- * <p>
- * Implementation of the market data service for Bittrex
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
- */
-public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittrex> {
+public class BittrexMarketDataServiceRaw extends BittrexBasePollingService {
 
   /**
    * Constructor
@@ -35,7 +26,7 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
    */
   public BittrexMarketDataServiceRaw(Exchange exchange) {
 
-    super(Bittrex.class, exchange);
+    super(exchange);
   }
 
   public BittrexCurrency[] getBittrexCurrencies() throws IOException {

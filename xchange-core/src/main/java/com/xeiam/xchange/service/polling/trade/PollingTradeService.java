@@ -168,4 +168,6 @@ public interface PollingTradeService extends BasePollingService {
    */
   public TradeHistoryParams createTradeHistoryParams();
 
+  //  public TradeMetaInfo getTradeMetaInfo();
+
 }

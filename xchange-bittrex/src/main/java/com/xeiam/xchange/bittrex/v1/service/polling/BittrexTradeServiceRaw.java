@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bittrex.v1.BittrexAuthenticated;
 import com.xeiam.xchange.bittrex.v1.BittrexUtils;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexCancelOrderResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrder;
@@ -17,7 +16,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
-public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAuthenticated> {
+public class BittrexTradeServiceRaw extends BittrexBasePollingService {
 
   /**
    * Constructor
@@ -26,7 +25,7 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService<BittrexAut
    */
   public BittrexTradeServiceRaw(Exchange exchange) {
 
-    super(BittrexAuthenticated.class, exchange);
+    super(exchange);
   }
 
   public String placeBittrexMarketOrder(MarketOrder marketOrder) throws IOException {

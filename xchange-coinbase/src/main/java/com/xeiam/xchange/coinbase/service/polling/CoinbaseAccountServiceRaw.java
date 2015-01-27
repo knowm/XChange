@@ -3,7 +3,6 @@ package com.xeiam.xchange.coinbase.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.coinbase.CoinbaseAuthenticated;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAccountChanges;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddress;
@@ -28,7 +27,7 @@ import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseSubscriptions;
 /**
  * @author jamespedwards42
  */
-class CoinbaseAccountServiceRaw extends CoinbaseBasePollingService<CoinbaseAuthenticated> {
+class CoinbaseAccountServiceRaw extends CoinbaseBasePollingService {
 
   /**
    * Constructor
@@ -37,7 +36,7 @@ class CoinbaseAccountServiceRaw extends CoinbaseBasePollingService<CoinbaseAuthe
    */
   public CoinbaseAccountServiceRaw(Exchange exchange) {
 
-    super(CoinbaseAuthenticated.class, exchange);
+    super(exchange);
   }
 
   /**

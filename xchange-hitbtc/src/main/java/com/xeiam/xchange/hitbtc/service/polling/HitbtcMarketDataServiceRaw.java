@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.hitbtc.Hitbtc;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.dto.HitbtcException;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
@@ -15,7 +14,7 @@ import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 /**
  * @author kpysniak
  */
-public class HitbtcMarketDataServiceRaw extends HitbtcBasePollingService<Hitbtc> {
+public class HitbtcMarketDataServiceRaw extends HitbtcBasePollingService {
 
   /**
    * Constructor
@@ -24,7 +23,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBasePollingService<Hitbtc>
    */
   protected HitbtcMarketDataServiceRaw(Exchange exchange) {
 
-    super(Hitbtc.class, exchange);
+    super(exchange);
   }
 
   public HitbtcTicker getHitbtcTicker(CurrencyPair currencyPair) throws IOException {

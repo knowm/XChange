@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.coinbase.Coinbase;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
@@ -13,7 +12,7 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 /**
  * @author jamespedwards42
  */
-class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> {
+class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService {
 
   /**
    * Constructor
@@ -22,8 +21,7 @@ class CoinbaseMarketDataServiceRaw extends CoinbaseBasePollingService<Coinbase> 
    */
   public CoinbaseMarketDataServiceRaw(Exchange exchange) {
 
-    // TODO look at this
-    super(Coinbase.class, exchange);
+    super(exchange);
   }
 
   /**

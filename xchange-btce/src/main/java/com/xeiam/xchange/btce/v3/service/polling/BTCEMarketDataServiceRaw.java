@@ -3,7 +3,6 @@ package com.xeiam.xchange.btce.v3.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.btce.v3.BTCE;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
@@ -12,7 +11,7 @@ import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradesWrapper;
 /**
  * @author brox
  */
-public class BTCEMarketDataServiceRaw extends BTCEBasePollingService<BTCE> {
+public class BTCEMarketDataServiceRaw extends BTCEBasePollingService {
 
   protected static final int FULL_SIZE = 2000;
 
@@ -23,8 +22,7 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService<BTCE> {
    */
   public BTCEMarketDataServiceRaw(Exchange exchange) {
 
-    // TODO look at this
-    super(BTCE.class, exchange);
+    super(exchange);
   }
 
   /**

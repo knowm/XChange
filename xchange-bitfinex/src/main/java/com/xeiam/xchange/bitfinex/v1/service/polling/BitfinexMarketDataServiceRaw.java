@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collection;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitfinex.v1.Bitfinex;
 import com.xeiam.xchange.bitfinex.v1.dto.BitfinexException;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLend;
@@ -21,7 +20,7 @@ import com.xeiam.xchange.exceptions.ExchangeException;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService<Bitfinex> {
+public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService {
 
   /**
    * Constructor
@@ -30,7 +29,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService<Bit
    */
   public BitfinexMarketDataServiceRaw(Exchange exchange) {
 
-    super(Bitfinex.class, exchange);
+    super(exchange);
   }
 
   public BitfinexTicker getBitfinexTicker(String pair) throws IOException {

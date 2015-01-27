@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bleutrade.Bleutrade;
 import com.xeiam.xchange.bleutrade.BleutradeUtils;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarket;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketHistoryReturn;
@@ -25,7 +24,7 @@ import com.xeiam.xchange.exceptions.ExchangeException;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BleutradeMarketDataServiceRaw extends BleutradeBasePollingService<Bleutrade> {
+public class BleutradeMarketDataServiceRaw extends BleutradeBasePollingService {
 
   /**
    * Constructor
@@ -34,8 +33,7 @@ public class BleutradeMarketDataServiceRaw extends BleutradeBasePollingService<B
    */
   public BleutradeMarketDataServiceRaw(Exchange exchange) {
 
-    // TODO look at this
-    super(Bleutrade.class, exchange);
+    super(exchange);
   }
 
   public List<BleutradeTicker> getBleutradeTickers() throws IOException {

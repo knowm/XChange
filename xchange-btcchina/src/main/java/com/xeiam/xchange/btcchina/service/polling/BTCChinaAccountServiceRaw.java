@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.dto.BTCChinaID;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
@@ -22,17 +21,16 @@ import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaRequestWithdrawal
 /**
  * @author ObsessiveOrange
  */
-public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChina> {
+public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService {
 
   /**
    * Constructor
    *
    * @param exchange
    */
-  // TODO look at this
   public BTCChinaAccountServiceRaw(Exchange exchange) {
 
-    super(BTCChina.class, exchange);
+    super(exchange);
   }
 
   public BTCChinaGetAccountInfoResponse getBTCChinaAccountInfo() throws IOException {

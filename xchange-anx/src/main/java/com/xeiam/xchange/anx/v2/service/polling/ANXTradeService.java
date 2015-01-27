@@ -98,7 +98,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
     return getTradeHistory(from, to);
   }
 
-  public UserTrades getTradeHistory(Long from, Long to) throws IOException {
+  private UserTrades getTradeHistory(Long from, Long to) throws IOException {
     ANXTradeResultWrapper rawTrades = getExecutedANXTrades(from, to);
     String error = rawTrades.getError();
 

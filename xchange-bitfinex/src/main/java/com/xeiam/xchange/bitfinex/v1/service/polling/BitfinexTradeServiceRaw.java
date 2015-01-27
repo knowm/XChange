@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitfinex.v1.BitfinexAuthenticated;
 import com.xeiam.xchange.bitfinex.v1.BitfinexOrderType;
 import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
 import com.xeiam.xchange.bitfinex.v1.dto.BitfinexException;
@@ -31,7 +30,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
-public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<BitfinexAuthenticated> {
+public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
 
   /**
    * Constructor
@@ -40,7 +39,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService<Bitfinex
    */
   public BitfinexTradeServiceRaw(Exchange exchange) {
 
-    super(BitfinexAuthenticated.class, exchange);
+    super(exchange);
   }
 
   public BitfinexOrderStatusResponse[] getBitfinexOpenOrders() throws IOException {
