@@ -19,9 +19,9 @@ import com.xeiam.xchange.bitcointoyou.dto.account.BitcoinToYouBalance;
 import com.xeiam.xchange.bitcointoyou.dto.trade.BitcoinToYouOrder;
 
 /**
- * Implementation note: the foobar param is necessary because if
- * the body is empty, the server is returning HTTP 411 (missing Content-Length header).
- * At least until Dec 2014.
+ * Implementation note: the foobar param is necessary because if the body is
+ * empty, the server is returning HTTP 411 (missing Content-Length header). At
+ * least until Dec 2014.
  *
  * @author Felipe Micaroni Lalli
  * @see BitcoinToYou
@@ -29,7 +29,7 @@ import com.xeiam.xchange.bitcointoyou.dto.trade.BitcoinToYouOrder;
 @Path("API")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
-public interface BitcoinToYouAuthenticated {
+public interface BitcoinToYouAuthenticated extends BitcoinToYou {
 
   @POST
   @Path("balance.aspx")

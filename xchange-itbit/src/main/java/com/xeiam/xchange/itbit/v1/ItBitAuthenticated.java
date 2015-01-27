@@ -24,7 +24,7 @@ import com.xeiam.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
 @Path("v1")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
-public interface ItBitAuthenticated {
+public interface ItBitAuthenticated extends ItBit {
 
   @GET
   @Path("/markets/{ident}{currency}/ticker")
@@ -47,7 +47,7 @@ public interface ItBitAuthenticated {
   @Consumes(MediaType.APPLICATION_JSON)
   ItBitOrder[] getOrders(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp, @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory,
       @QueryParam("instrument") String instrument, @QueryParam("page") String page, @QueryParam("perPage") String perPage, @QueryParam("status") String status, @PathParam("walletId") String walletId)
-      throws IOException;
+          throws IOException;
 
   @GET
   @Path("wallets/{walletId}/orders/{orderId}")

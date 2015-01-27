@@ -29,7 +29,7 @@ import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 @Path("api")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
-public interface BitstampAuthenticated {
+public interface BitstampAuthenticated extends Bitstamp {
 
   @POST
   @Path("open_orders/")
@@ -55,7 +55,7 @@ public interface BitstampAuthenticated {
   @POST
   @Path("balance/")
   public BitstampBalance getBalance(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException,
-      IOException;
+  IOException;
 
   @POST
   @Path("user_transactions/")

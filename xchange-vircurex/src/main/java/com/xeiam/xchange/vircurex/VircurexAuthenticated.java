@@ -12,7 +12,7 @@ import com.xeiam.xchange.vircurex.dto.trade.VircurexPlaceOrderReturn;
 
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)
-public interface VircurexAuthenticated {
+public interface VircurexAuthenticated extends Vircurex {
 
   @GET
   @Path("get_balances.json")
