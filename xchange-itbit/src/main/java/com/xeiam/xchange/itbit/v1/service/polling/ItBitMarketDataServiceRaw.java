@@ -3,7 +3,6 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -23,11 +22,10 @@ public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public ItBitMarketDataServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public ItBitMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
     itBitPublic = RestProxyFactory.createProxy(ItBit.class, exchange.getExchangeSpecification().getSslUri());
   }
 

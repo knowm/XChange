@@ -1,13 +1,18 @@
 package com.xeiam.xchange.bitfinex.v1;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexAccountService;
 import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexMarketDataService;
 import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexTradeService;
+import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 public class BitfinexExchange extends BaseExchange implements Exchange {
+
+  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -31,4 +36,11 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
 
     return exchangeSpecification;
   }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
+  }
+
 }

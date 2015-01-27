@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitcoincharts;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -32,5 +34,11 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription("Bitcoin charts provides financial and technical data related to the Bitcoin network.");
 
     return exchangeSpecification;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // No private API implemented. Not needed for this exchange at the moment.
+    return null;
   }
 }

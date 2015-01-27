@@ -15,14 +15,6 @@ import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
-/**
- * <p>
- * Abstract base class to provide the following to {@link Exchange}s:
- * </p>
- * <ul>
- * <li>Access to common methods and fields</li>
- * </ul>
- */
 public abstract class BaseExchange implements Exchange {
 
   private final Logger logger = LoggerFactory.getLogger(BaseExchange.class);

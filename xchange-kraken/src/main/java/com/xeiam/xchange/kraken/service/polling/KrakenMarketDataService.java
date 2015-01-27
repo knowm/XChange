@@ -2,8 +2,6 @@ package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -21,11 +19,10 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public KrakenMarketDataService(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public KrakenMarketDataService(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
   }
 
   @Override

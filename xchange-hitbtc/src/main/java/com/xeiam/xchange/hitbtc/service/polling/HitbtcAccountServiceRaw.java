@@ -2,8 +2,6 @@ package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
@@ -19,17 +17,16 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService<HitbtcAuth
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public HitbtcAccountServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public HitbtcAccountServiceRaw(Exchange exchange) {
 
-    super(HitbtcAuthenticated.class, exchange, nonceFactory);
+    super(HitbtcAuthenticated.class, exchange);
   }
 
   public HitbtcBalance[] getAccountInfoRaw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     try {
-      HitbtcBalanceResponse hitbtcBalance = hitbtc.getHitbtcBalance(signatureCreator, valueFactory, apiKey);
+      HitbtcBalanceResponse hitbtcBalance = hitbtc.getHitbtcBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
       return hitbtcBalance.getBalances();
     } catch (HitbtcException e) {
       throw handleException(e);
@@ -39,7 +36,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService<HitbtcAuth
   public HitbtcBalanceResponse getAccountBaseInfoRaw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     try {
-      HitbtcBalanceResponse hitbtcBalanceResponse = hitbtc.getHitbtcBalance(signatureCreator, valueFactory, apiKey);
+      HitbtcBalanceResponse hitbtcBalanceResponse = hitbtc.getHitbtcBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
       return hitbtcBalanceResponse;
     } catch (HitbtcException e) {
       throw handleException(e);

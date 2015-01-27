@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitkonan.BitKonan;
@@ -17,8 +16,6 @@ import com.xeiam.xchange.service.polling.BasePollingService;
  */
 public class BitKonanBasePollingService<T extends BitKonan> extends BaseExchangeService implements BasePollingService {
 
-  protected final SynchronizedValueFactory<Long> valueFactory;
-
   protected final T bitKonan;
 
   /**
@@ -28,11 +25,10 @@ public class BitKonanBasePollingService<T extends BitKonan> extends BaseExchange
    * @param exchange
    * @param nonceFactory
    */
-  protected BitKonanBasePollingService(Class<T> bitkonanType, Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  protected BitKonanBasePollingService(Class<T> bitkonanType, Exchange exchange) {
 
     super(exchange);
 
-    this.valueFactory = nonceFactory;
     this.bitKonan = RestProxyFactory.createProxy(bitkonanType, exchange.getExchangeSpecification().getSslUri());
   }
 

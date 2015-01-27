@@ -2,6 +2,8 @@ package com.xeiam.xchange.coinsetter;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -37,7 +39,7 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
   public static final String SESSION_KEY = "session";
 
   /**
-   * XChange do not support multiple sub account, so specify one account using
+   * XChange do not support multiple sub accounts, so specify one account using
    * to trade. If does not specified, the first one in from the account list
    * will be used.
    */
@@ -60,7 +62,7 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setHost("api.coinsetter.com");
     exchangeSpecification.setExchangeName("Coinsetter");
     exchangeSpecification
-        .setExchangeDescription("Coinsetter is a New York City based, venture capital funded bitcoin exchange that is dedicated to making bitcoin safe and reliable for active users.");
+    .setExchangeDescription("Coinsetter is a New York City based, venture capital funded bitcoin exchange that is dedicated to making bitcoin safe and reliable for active users.");
     exchangeSpecification.setExchangeSpecificParametersItem(WEBSOCKET_URI_KEY, "https://plug.coinsetter.com:3000");
 
     // default heartbeat interval is 30 seconds.
@@ -87,6 +89,12 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
     }
 
     return new CoinsetterSocketIOService(this, coinsetterStreamingConfiguration);
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // Coinsetter uses it's own session authentication scheme and does not use a nonce
+    return null;
   }
 
 }

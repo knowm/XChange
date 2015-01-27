@@ -1,13 +1,18 @@
 package com.xeiam.xchange.cryptotrade;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeAccountService;
 import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeMarketDataService;
 import com.xeiam.xchange.cryptotrade.service.polling.CryptoTradeTradeService;
+import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 public class CryptoTradeExchange extends BaseExchange implements Exchange {
+
+  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -31,4 +36,9 @@ public class CryptoTradeExchange extends BaseExchange implements Exchange {
     return exchangeSpecification;
   }
 
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
+  }
 }

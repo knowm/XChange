@@ -103,11 +103,6 @@ public class CoinbaseBasePollingService<T extends Coinbase> extends BaseExchange
     return handleResponse(token);
   }
 
-  protected long getNonce() {
-
-    return System.currentTimeMillis();
-  }
-
   protected <R extends CoinbaseBaseResponse> R handleResponse(R response) {
 
     final List<String> errors = response.getErrors();

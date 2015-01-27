@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,11 +31,6 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 public class CryptsyBasePollingService<T extends Cryptsy> extends BaseExchangeService implements BasePollingService {
 
   private final Logger logger = LoggerFactory.getLogger(CryptsyBasePollingService.class);
-
-  private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
-
-  // counter for the nonce
-  private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
 
   protected final String apiKey;
   protected final T cryptsyPrivate;
@@ -86,14 +80,6 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends BaseExchangeSe
     }
 
     return currencyPairs;
-  }
-
-  protected int nextNonce() {
-
-    int nextNonce = lastNonce.incrementAndGet();
-    logger.debug("nextNonce in CryptsyBaseService: " + nextNonce);
-
-    return nextNonce;
   }
 
   @SuppressWarnings("rawtypes")

@@ -14,11 +14,6 @@ public final class MercadoBitcoinUtils {
 
   }
 
-  public static String getTonce() {
-
-    return "" + (System.currentTimeMillis() / 1000L);
-  }
-
   /**
    * Return something like <code>btc_brl:83948239</code>
    */
@@ -28,11 +23,9 @@ public final class MercadoBitcoinUtils {
 
     if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
       pair = "btc_brl";
-    }
-    else if (currencyPair.equals(new CurrencyPair(Currencies.LTC, Currencies.BRL))) {
+    } else if (currencyPair.equals(new CurrencyPair(Currencies.LTC, Currencies.BRL))) {
       pair = "ltc_brl";
-    }
-    else {
+    } else {
       throw new NotAvailableFromExchangeException();
     }
 
@@ -40,7 +33,8 @@ public final class MercadoBitcoinUtils {
   }
 
   /**
-   * @see #makeMercadoBitcoinOrderId(com.xeiam.xchange.currency.CurrencyPair, String)
+   * @see #makeMercadoBitcoinOrderId(com.xeiam.xchange.currency.CurrencyPair,
+   *      String)
    */
   public static String makeMercadoBitcoinOrderId(LimitOrder limitOrder) {
 

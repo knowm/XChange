@@ -21,14 +21,14 @@ public class BTCTradeAccountServiceRaw extends BTCTradeBaseTradePollingService {
   public BTCTradeBalance getBTCTradeBalance() throws IOException {
 
     synchronized (session) {
-      return btcTrade.getBalance(nextNonce(), publicKey, getSignatureCreator());
+      return btcTrade.getBalance(exchange.getNonceFactory(), publicKey, getSignatureCreator());
     }
   }
 
   public BTCTradeWallet getBTCTradeWallet() throws IOException {
 
     synchronized (session) {
-      return btcTrade.getWallet(nextNonce(), publicKey, getSignatureCreator());
+      return btcTrade.getWallet(exchange.getNonceFactory(), publicKey, getSignatureCreator());
     }
   }
 }

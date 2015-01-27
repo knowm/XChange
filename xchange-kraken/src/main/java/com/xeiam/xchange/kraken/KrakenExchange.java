@@ -8,23 +8,23 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.kraken.service.polling.KrakenAccountService;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataService;
 import com.xeiam.xchange.kraken.service.polling.KrakenTradeService;
-import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
+import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 /**
  * @author Benedikt Bünz
  */
 public class KrakenExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new LongTimeNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    // Configure the basic services if configuration does not apply
-    this.pollingMarketDataService = new KrakenMarketDataService(this, nonceFactory);
-    this.pollingTradeService = new KrakenTradeService(this, nonceFactory);
-    this.pollingAccountService = new KrakenAccountService(this, nonceFactory);
+
+    this.pollingMarketDataService = new KrakenMarketDataService(this);
+    this.pollingTradeService = new KrakenTradeService(this);
+    this.pollingAccountService = new KrakenAccountService(this);
   }
 
   @Override
@@ -39,4 +39,9 @@ public class KrakenExchange extends BaseExchange implements Exchange {
     return exchangeSpecification;
   }
 
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
+  }
 }

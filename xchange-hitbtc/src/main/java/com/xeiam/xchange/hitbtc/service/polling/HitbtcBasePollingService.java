@@ -6,7 +6,6 @@ import java.util.List;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -27,8 +26,6 @@ public class HitbtcBasePollingService<T extends Hitbtc> extends BaseExchangeServ
   //  protected static final String HITBTC_ORDER_FEE_POLICY_MAKER = HITBTC + ".order.feePolicy.maker";
   //  protected static final String HITBTC_ORDER_FEE_LISTING_DEFAULT = HITBTC + ORDER_FEE_LISTING + "default";
 
-  protected final SynchronizedValueFactory<Long> valueFactory;
-
   protected final T hitbtc;
   protected final String apiKey;
   protected final ParamsDigest signatureCreator;
@@ -38,14 +35,12 @@ public class HitbtcBasePollingService<T extends Hitbtc> extends BaseExchangeServ
    *
    * @param hitbtcType
    * @param exchange
-   * @param nonceFactory
    */
   // TODO look at this
-  protected HitbtcBasePollingService(Class<T> hitbtcType, Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  protected HitbtcBasePollingService(Class<T> hitbtcType, Exchange exchange) {
 
     super(exchange);
 
-    this.valueFactory = nonceFactory;
     this.hitbtc = RestProxyFactory.createProxy(hitbtcType, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     String apiKey = exchange.getExchangeSpecification().getSecretKey();

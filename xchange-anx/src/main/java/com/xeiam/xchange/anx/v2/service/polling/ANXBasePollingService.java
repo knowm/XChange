@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import si.mazi.rescu.HttpStatusIOException;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.anx.v2.dto.ANXException;
@@ -15,17 +14,7 @@ import com.xeiam.xchange.exceptions.NonceException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-/**
- * <p>
- * Implementation of the market data service for ANX V2
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
- */
 public class ANXBasePollingService extends BaseExchangeService implements BasePollingService {
-
-  private final SynchronizedValueFactory<Long> nonceFactory;
 
   /**
    * Constructor
@@ -33,15 +22,9 @@ public class ANXBasePollingService extends BaseExchangeService implements BasePo
    * @param exchange
    * @param nonceFactory
    */
-  public ANXBasePollingService(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public ANXBasePollingService(Exchange exchange) {
 
     super(exchange);
-    this.nonceFactory = nonceFactory;
-  }
-
-  protected SynchronizedValueFactory<Long> getNonce() {
-
-    return nonceFactory;
   }
 
   protected RuntimeException handleHttpError(HttpStatusIOException exception) throws IOException {

@@ -3,11 +3,8 @@ package com.xeiam.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChina;
-import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaID;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
@@ -23,11 +20,6 @@ import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsRes
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaRequestWithdrawalResponse;
 
 /**
- * Implementation of the account data service for BTCChina.
- * <ul>
- * <li>Provides access to account data</li>
- * </ul>
- *
  * @author ObsessiveOrange
  */
 public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChina> {
@@ -36,22 +28,21 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
    * Constructor
    *
    * @param exchange
-   * @param tonceFactory
    */
   // TODO look at this
-  public BTCChinaAccountServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> tonceFactory) {
+  public BTCChinaAccountServiceRaw(Exchange exchange) {
 
-    super(BTCChina.class, exchange, tonceFactory);
+    super(BTCChina.class, exchange);
   }
 
   public BTCChinaGetAccountInfoResponse getBTCChinaAccountInfo() throws IOException {
 
-    return checkResult(btcChina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest()));
+    return checkResult(btcChina.getAccountInfo(signatureCreator, exchange.getNonceFactory(), new BTCChinaGetAccountInfoRequest()));
   }
 
   public BTCChinaGetAccountInfoResponse getBTCChinaAccountInfo(String type) throws IOException {
 
-    return checkResult(btcChina.getAccountInfo(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaGetAccountInfoRequest(type)));
+    return checkResult(btcChina.getAccountInfo(signatureCreator, exchange.getNonceFactory(), new BTCChinaGetAccountInfoRequest(type)));
   }
 
   public BTCChinaGetDepositsResponse getDeposits(String currency) throws IOException {
@@ -62,7 +53,7 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
   public BTCChinaGetDepositsResponse getDeposits(String currency, boolean pendingOnly) throws IOException {
 
     BTCChinaGetDepositsRequest request = new BTCChinaGetDepositsRequest(currency, pendingOnly);
-    BTCChinaGetDepositsResponse response = btcChina.getDeposits(signatureCreator, BTCChinaUtils.getNonce(), request);
+    BTCChinaGetDepositsResponse response = btcChina.getDeposits(signatureCreator, exchange.getNonceFactory(), request);
     return checkResult(response);
   }
 
@@ -74,7 +65,7 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
   public BTCChinaGetWithdrawalResponse getWithdrawal(long id, String currency) throws IOException {
 
     BTCChinaGetWithdrawalRequest request = new BTCChinaGetWithdrawalRequest(id, currency);
-    BTCChinaGetWithdrawalResponse response = btcChina.getWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), request);
+    BTCChinaGetWithdrawalResponse response = btcChina.getWithdrawal(signatureCreator, exchange.getNonceFactory(), request);
     return checkResult(response);
   }
 
@@ -86,7 +77,7 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
   public BTCChinaGetWithdrawalsResponse getWithdrawals(String currency, boolean pendingOnly) throws IOException {
 
     BTCChinaGetWithdrawalsRequest request = new BTCChinaGetWithdrawalsRequest(currency, pendingOnly);
-    BTCChinaGetWithdrawalsResponse response = btcChina.getWithdrawals(signatureCreator, BTCChinaUtils.getNonce(), request);
+    BTCChinaGetWithdrawalsResponse response = btcChina.getWithdrawals(signatureCreator, exchange.getNonceFactory(), request);
     return checkResult(response);
   }
 
@@ -97,13 +88,13 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService<BTCChi
   @Deprecated
   public BTCChinaResponse<BTCChinaID> withdrawBTCChinaFunds(BigDecimal amount, String address) throws IOException {
 
-    return checkResult(btcChina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), new BTCChinaRequestWithdrawalRequest(amount)));
+    return checkResult(btcChina.requestWithdrawal(signatureCreator, exchange.getNonceFactory(), new BTCChinaRequestWithdrawalRequest(amount)));
   }
 
   public BTCChinaResponse<BTCChinaID> withdrawBTCChinaFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     BTCChinaRequestWithdrawalRequest request = new BTCChinaRequestWithdrawalRequest(currency, amount);
-    BTCChinaRequestWithdrawalResponse response = btcChina.requestWithdrawal(signatureCreator, BTCChinaUtils.getNonce(), request);
+    BTCChinaRequestWithdrawalResponse response = btcChina.requestWithdrawal(signatureCreator, exchange.getNonceFactory(), request);
     return checkResult(response);
   }
 

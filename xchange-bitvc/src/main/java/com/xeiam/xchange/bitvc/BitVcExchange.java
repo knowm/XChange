@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitvc;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -51,5 +53,11 @@ public class BitVcExchange extends BaseExchange implements Exchange {
     spec.setExchangeSpecificParametersItem(URI_HUOBI_MARKETDATA, "http://market.huobi.com/staticmarket");
 
     return spec;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // BitVC doesn't require a nonce for it's authenticated API
+    return null;
   }
 }

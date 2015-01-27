@@ -14,32 +14,17 @@ import javax.crypto.spec.SecretKeySpec;
 import com.xeiam.xchange.btcchina.dto.BTCChinaValue;
 
 /**
- * @author ObsessiveOrange
- *         A central place for shared BTCChina properties
+ * @author ObsessiveOrange A central place for shared BTCChina properties
  */
 public final class BTCChinaUtils {
 
   private static long generatedId = 1;
-  private static long lastNonce = 0l;
 
   /**
    * private Constructor
    */
   private BTCChinaUtils() {
 
-  }
-
-  public synchronized static long getNonce() {
-
-    long newNonce = System.currentTimeMillis() * 1000;
-
-    while (newNonce == lastNonce) {
-      newNonce++;
-    }
-
-    lastNonce = newNonce;
-
-    return newNonce;
   }
 
   public static long getGeneratedId() {

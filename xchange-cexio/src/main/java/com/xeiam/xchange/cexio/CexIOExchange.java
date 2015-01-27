@@ -1,16 +1,21 @@
 package com.xeiam.xchange.cexio;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cexio.service.polling.CexIOAccountService;
 import com.xeiam.xchange.cexio.service.polling.CexIOMarketDataService;
 import com.xeiam.xchange.cexio.service.polling.CexIOTradeService;
+import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
 
 /**
  * @Author brox
  */
 public class CexIOExchange extends BaseExchange implements Exchange {
+
+  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2014NonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -35,4 +40,9 @@ public class CexIOExchange extends BaseExchange implements Exchange {
     return exchangeSpecification;
   }
 
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
+  }
 }

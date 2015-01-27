@@ -3,8 +3,6 @@ package com.xeiam.xchange.btce.v3.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
@@ -21,11 +19,10 @@ public class BTCEAccountService extends BTCEAccountServiceRaw implements Polling
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public BTCEAccountService(Exchange exchange, SynchronizedValueFactory<Integer> nonceFactory) {
+  public BTCEAccountService(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
   }
 
   @Override

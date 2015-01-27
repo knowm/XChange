@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitcoinaverage;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -11,6 +13,7 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
+
     this.pollingMarketDataService = new BitcoinAverageMarketDataService(this);
   }
 
@@ -25,5 +28,11 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription("Bitcoin Average provides a more accurate price of bitcoin using weighted average for multiple exchanges.");
 
     return exchangeSpecification;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // No private API implemented. Not needed for this exchange at the moment.
+    return null;
   }
 }

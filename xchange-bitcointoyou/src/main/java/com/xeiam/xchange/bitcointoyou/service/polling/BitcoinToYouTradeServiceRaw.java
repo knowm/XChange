@@ -8,7 +8,6 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcointoyou.BitcoinToYouAuthenticated;
-import com.xeiam.xchange.bitcointoyou.BitcoinToYouUtils;
 import com.xeiam.xchange.bitcointoyou.dto.BitcoinToYouBaseTradeApiResult;
 import com.xeiam.xchange.bitcointoyou.dto.trade.BitcoinToYouOrder;
 import com.xeiam.xchange.bitcointoyou.service.BitcoinToYouDigest;
@@ -24,7 +23,6 @@ public class BitcoinToYouTradeServiceRaw extends BitcoinToYouBasePollingService 
   private final BitcoinToYouAuthenticated bitcoinToYouAuthenticated;
 
   /**
-   *
    * Constructor
    *
    * @param exchange
@@ -37,7 +35,7 @@ public class BitcoinToYouTradeServiceRaw extends BitcoinToYouBasePollingService 
 
   public BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder[]> getBitcoinToYouUserOrders(@Nonnull String status) throws IOException {
 
-    Long nonce = BitcoinToYouUtils.getNonce();
+    Long nonce = exchange.getNonceFactory().createValue();
 
     BitcoinToYouDigest signatureCreator = BitcoinToYouDigest.createInstance(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey(), nonce);
 
@@ -52,7 +50,7 @@ public class BitcoinToYouTradeServiceRaw extends BitcoinToYouBasePollingService 
 
   public BitcoinToYouOrder[] placeBitcoinToYouLimitOrder(LimitOrder limitOrder) {
 
-    Long nonce = BitcoinToYouUtils.getNonce();
+    Long nonce = exchange.getNonceFactory().createValue();
 
     BitcoinToYouDigest signatureCreator = BitcoinToYouDigest.createInstance(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey(), nonce);
 
@@ -68,7 +66,7 @@ public class BitcoinToYouTradeServiceRaw extends BitcoinToYouBasePollingService 
 
   public BitcoinToYouOrder cancelBitcoinToYouLimitOrder(String orderId) {
 
-    Long nonce = BitcoinToYouUtils.getNonce();
+    Long nonce = exchange.getNonceFactory().createValue();
 
     BitcoinToYouDigest signatureCreator = BitcoinToYouDigest.createInstance(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey(), nonce);
 

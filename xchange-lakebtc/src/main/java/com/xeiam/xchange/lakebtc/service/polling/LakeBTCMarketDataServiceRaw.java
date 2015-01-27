@@ -12,7 +12,7 @@ import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
 /**
  * @author kpysniak
  */
-public class LakeBTCMarketDataServiceRaw extends LakeBTCBasePollingService {
+public class LakeBTCMarketDataServiceRaw extends LakeBTCBasePollingService<LakeBTC> {
 
   private final LakeBTC lakeBTC;
 

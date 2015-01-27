@@ -21,7 +21,7 @@ public class BTERPollingAccountServiceRaw extends BTERBasePollingService<BTERAut
 
   public BTERFunds getBTERAccountInfo() throws IOException {
 
-    BTERFunds bterFunds = bter.getFunds(exchange.getExchangeSpecification().getApiKey(), signatureCreator, nextNonce());
+    BTERFunds bterFunds = bter.getFunds(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return handleResponse(bterFunds);
   }
 

@@ -15,12 +15,6 @@ import com.xeiam.xchange.exceptions.ExchangeException;
  */
 public class TestCoinfloorUtils {
 
-  @Test
-  public void verifyNoncelength() {
-
-    Assert.assertEquals(16, CoinfloorUtils.buildNonceString().getBytes().length);
-  }
-
   @Test(expected = ExchangeException.class)
   public void verifyCheckSuccessInt() {
 

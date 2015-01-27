@@ -2,8 +2,6 @@ package com.xeiam.xchange.bitkonan.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitkonan.BitKonan;
 import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanOrderBook;
@@ -18,11 +16,11 @@ public class BitKonanMarketDataServiceRaw extends BitKonanBasePollingService<Bit
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  protected BitKonanMarketDataServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  protected BitKonanMarketDataServiceRaw(Exchange exchange) {
 
-    super(BitKonan.class, exchange, nonceFactory);
+    // TODO look at this
+    super(BitKonan.class, exchange);
   }
 
   public BitKonanTicker getBitKonanTickerBTC() throws IOException {

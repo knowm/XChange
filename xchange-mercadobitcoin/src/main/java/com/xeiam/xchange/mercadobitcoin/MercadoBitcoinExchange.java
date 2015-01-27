@@ -1,17 +1,22 @@
 package com.xeiam.xchange.mercadobitcoin;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinAccountService;
 import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinMarketDataService;
 import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinTradeService;
+import com.xeiam.xchange.utils.nonce.CurrentTime1000NonceFactory;
 
 /**
  * @author Matija Mazi
  * @author Felipe Micaroni Lalli
  */
 public class MercadoBitcoinExchange extends BaseExchange implements Exchange {
+
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
@@ -34,4 +39,9 @@ public class MercadoBitcoinExchange extends BaseExchange implements Exchange {
     this.pollingTradeService = new MercadoBitcoinTradeService(this);
   }
 
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
+  }
 }

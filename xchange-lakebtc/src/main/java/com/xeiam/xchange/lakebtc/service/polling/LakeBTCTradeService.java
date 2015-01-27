@@ -2,8 +2,6 @@ package com.xeiam.xchange.lakebtc.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -27,10 +25,10 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Polli
    * Constructor
    *
    * @param exchange
-   * @param tonceFactory
    */
-  public LakeBTCTradeService(Exchange exchange, SynchronizedValueFactory<Long> tonceFactory) {
-    super(exchange, tonceFactory);
+  public LakeBTCTradeService(Exchange exchange) {
+
+    super(exchange);
   }
 
   @Override

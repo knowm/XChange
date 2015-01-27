@@ -3,8 +3,6 @@ package com.xeiam.xchange.anx.v2.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
@@ -30,12 +28,11 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   /**
    * Constructor
    *
-   * @param exchangeSpecification The
-   *          {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param baseExchange
    */
-  public ANXTradeService(BaseExchange baseExchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public ANXTradeService(BaseExchange baseExchange) {
 
-    super(baseExchange, nonceFactory);
+    super(baseExchange);
   }
 
   @Override

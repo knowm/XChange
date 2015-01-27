@@ -11,7 +11,6 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cexio.CexIOAuthenticated;
-import com.xeiam.xchange.cexio.CexIOUtils;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOpenOrders;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
 import com.xeiam.xchange.cexio.service.CexIODigest;
@@ -48,7 +47,8 @@ public class CexIOTradeServiceRaw extends CexIOBasePollingService {
     String tradableIdentifier = currencyPair.baseSymbol;
     String transactionCurrency = currencyPair.counterSymbol;
 
-    CexIOOpenOrders openOrders = cexIOAuthenticated.getOpenOrders(tradableIdentifier, transactionCurrency, exchange.getExchangeSpecification().getApiKey(), signatureCreator, CexIOUtils.nextNonce());
+    CexIOOpenOrders openOrders = cexIOAuthenticated.getOpenOrders(tradableIdentifier, transactionCurrency, exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory());
 
     for (CexIOOrder cexIOOrder : openOrders.getOpenOrders()) {
       cexIOOrder.setTradableIdentifier(tradableIdentifier);
@@ -72,7 +72,7 @@ public class CexIOTradeServiceRaw extends CexIOBasePollingService {
   public CexIOOrder placeCexIOLimitOrder(LimitOrder limitOrder) throws IOException {
 
     CexIOOrder order = cexIOAuthenticated.placeOrder(limitOrder.getCurrencyPair().baseSymbol, limitOrder.getCurrencyPair().counterSymbol, exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, CexIOUtils.nextNonce(), (limitOrder.getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell), limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
+        signatureCreator, exchange.getNonceFactory(), (limitOrder.getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell), limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
     if (order.getErrorMessage() != null) {
       throw new ExchangeException(order.getErrorMessage());
     }
@@ -81,7 +81,7 @@ public class CexIOTradeServiceRaw extends CexIOBasePollingService {
 
   public boolean cancelCexIOOrder(String orderId) throws IOException {
 
-    return cexIOAuthenticated.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, CexIOUtils.nextNonce(), Long.parseLong(orderId)).equals(true);
+    return cexIOAuthenticated.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), Long.parseLong(orderId)).equals(true);
   }
 
 }

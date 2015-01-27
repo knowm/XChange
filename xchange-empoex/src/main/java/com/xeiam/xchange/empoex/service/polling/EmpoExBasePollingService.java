@@ -3,7 +3,6 @@ package com.xeiam.xchange.empoex.service.polling;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
@@ -19,9 +18,6 @@ import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class EmpoExBasePollingService<T extends EmpoEx> extends BaseExchangeService implements BasePollingService {
-
-  private static final long START_MILLIS = 1356998400000L;
-  private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
 
   protected final String apiKey;
   protected final T empoex;
@@ -42,11 +38,6 @@ public class EmpoExBasePollingService<T extends EmpoEx> extends BaseExchangeServ
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = EmpoExHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.payloadCreator = new EmpoExPayloadDigest();
-  }
-
-  protected int nextNonce() {
-
-    return lastNonce.incrementAndGet();
   }
 
   @Override

@@ -7,7 +7,6 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinAuthenticated;
-import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinUtils;
 import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import com.xeiam.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
 import com.xeiam.xchange.mercadobitcoin.service.MercadoBitcoinDigest;
@@ -36,7 +35,7 @@ public class MercadoBitcoinAccountServiceRaw extends MercadoBitcoinBasePollingSe
   public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> getMercadoBitcoinAccountInfo() throws IOException {
 
     String method = GET_ACCOUNT_INFO;
-    String tonce = MercadoBitcoinUtils.getTonce();
+    long tonce = exchange.getNonceFactory().createValue();
 
     MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(), exchange.getExchangeSpecification().getSecretKey(), tonce);
 

@@ -43,7 +43,7 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    */
   public CryptsyAccountInfoReturn getCryptsyAccountInfo() throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.getinfo(apiKey, signatureCreator, nextNonce()));
+    return checkResult(cryptsyPrivate.getinfo(apiKey, signatureCreator, exchange.getNonceFactory()));
   }
 
   /**
@@ -57,7 +57,7 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    */
   public CryptsyTxnHistoryReturn getCryptsyTransactions() throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.mytransactions(apiKey, signatureCreator, nextNonce()));
+    return checkResult(cryptsyPrivate.mytransactions(apiKey, signatureCreator, exchange.getNonceFactory()));
   }
 
   /**
@@ -82,7 +82,7 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
       throw new ExchangeException("Either currencyID or currencyCode must be supplied. Both cannot be null");
     }
 
-    return checkResult(cryptsyPrivate.generatenewaddress(apiKey, signatureCreator, nextNonce(), currencyID, currencyCode));
+    return checkResult(cryptsyPrivate.generatenewaddress(apiKey, signatureCreator, exchange.getNonceFactory(), currencyID, currencyCode));
   }
 
   /**
@@ -92,7 +92,7 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    */
   public CryptsyDepositAddressReturn getCurrentCryptsyDepositAddresses() throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.getmydepositaddresses(apiKey, signatureCreator, nextNonce()));
+    return checkResult(cryptsyPrivate.getmydepositaddresses(apiKey, signatureCreator, exchange.getNonceFactory()));
   }
 
   /**
@@ -106,7 +106,7 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    */
   public CryptsyWithdrawalReturn makeCryptsyWithdrawal(String address, BigDecimal amount) throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.makewithdrawal(apiKey, signatureCreator, nextNonce(), address, amount));
+    return checkResult(cryptsyPrivate.makewithdrawal(apiKey, signatureCreator, exchange.getNonceFactory(), address, amount));
   }
 
   /**
@@ -116,7 +116,7 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    */
   public CryptsyTransfersReturn getTransferHistory() throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.mytransfers(apiKey, signatureCreator, nextNonce()));
+    return checkResult(cryptsyPrivate.mytransfers(apiKey, signatureCreator, exchange.getNonceFactory()));
   }
 
   /**
@@ -127,6 +127,6 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
   public CryptsyGenericReturn<String> getWalletStatus() throws IOException, ExchangeException {
 
     throw new NotAvailableFromExchangeException();
-    // return cryptsy.getwalletstatus(apiKey, signatureCreator, nextNonce());
+    // return cryptsy.getwalletstatus(apiKey, signatureCreator,exchange.getNonceFactory());
   }
 }

@@ -3,8 +3,6 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -23,11 +21,10 @@ public class ItBitMarketDataService extends ItBitMarketDataServiceRaw implements
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public ItBitMarketDataService(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public ItBitMarketDataService(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
   }
 
   @Override

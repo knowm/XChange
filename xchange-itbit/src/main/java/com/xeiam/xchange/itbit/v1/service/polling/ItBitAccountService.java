@@ -3,8 +3,6 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.ExchangeException;
@@ -19,11 +17,10 @@ public class ItBitAccountService extends ItBitAccountServiceRaw implements Polli
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public ItBitAccountService(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public ItBitAccountService(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
   }
 
   @Override

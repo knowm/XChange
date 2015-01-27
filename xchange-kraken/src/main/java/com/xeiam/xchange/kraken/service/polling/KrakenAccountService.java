@@ -3,8 +3,6 @@ package com.xeiam.xchange.kraken.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
@@ -17,11 +15,10 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Pol
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public KrakenAccountService(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public KrakenAccountService(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
   }
 
   @Override

@@ -3,16 +3,15 @@ package com.xeiam.xchange.anx.v2;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
-import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.anx.v2.service.polling.ANXAccountService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXMarketDataService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXTradeService;
-import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
+import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 
-public class ANXExchange extends BaseExchange implements Exchange {
+public class ANXExchange extends BaseExchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new LongTimeNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -21,8 +20,8 @@ public class ANXExchange extends BaseExchange implements Exchange {
 
     // Configure the basic services if configuration does not apply
     this.pollingMarketDataService = new ANXMarketDataService(this);
-    this.pollingTradeService = new ANXTradeService(this, nonceFactory);
-    this.pollingAccountService = new ANXAccountService(this, nonceFactory);
+    this.pollingTradeService = new ANXTradeService(this);
+    this.pollingAccountService = new ANXAccountService(this);
   }
 
   @Override
@@ -36,6 +35,12 @@ public class ANXExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription("Asia Nexgen is a Bitcoin exchange registered in Hong Kong.");
 
     return exchangeSpecification;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
   }
 
 }

@@ -24,7 +24,7 @@ public class BittrexAccountServiceRaw extends BittrexBasePollingService<BittrexA
 
   public List<BittrexBalance> getBittrexAccountInfo() throws IOException {
 
-    BittrexBalancesResponse response = bittrex.balances(apiKey, signatureCreator, String.valueOf(nextNonce()));
+    BittrexBalancesResponse response = bittrex.balances(apiKey, signatureCreator, exchange.getNonceFactory());
 
     if (response.getSuccess()) {
       return response.getResult();
@@ -35,7 +35,7 @@ public class BittrexAccountServiceRaw extends BittrexBasePollingService<BittrexA
 
   public String getBittrexDepositAddress(String currency) throws IOException {
 
-    BittrexDepositAddressResponse response = bittrex.getdepositaddress(apiKey, signatureCreator, String.valueOf(nextNonce()), currency);
+    BittrexDepositAddressResponse response = bittrex.getdepositaddress(apiKey, signatureCreator, exchange.getNonceFactory(), currency);
     if (response.getSuccess()) {
       return response.getResult().getAddress();
     } else {

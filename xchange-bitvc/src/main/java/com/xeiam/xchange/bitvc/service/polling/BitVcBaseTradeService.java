@@ -20,6 +20,7 @@ public class BitVcBaseTradeService extends BitVcBasePollingService {
   public BitVcBaseTradeService(Exchange exchange) {
 
     super(exchange);
+
     final String baseUrl = exchange.getExchangeSpecification().getSslUri();
     bitvc = RestProxyFactory.createProxy(BitVc.class, baseUrl);
     accessKey = exchange.getExchangeSpecification().getApiKey();

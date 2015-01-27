@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.anx.ANXUtils;
@@ -28,14 +27,13 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
   private final ANXV2Digest signatureCreator;
 
   /**
-   * Initialize common properties from the exchange specification
+   * Constructor
    *
-   * @param exchangeSpecification The
-   *          {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param exchange
    */
-  protected ANXTradeServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  protected ANXTradeServiceRaw(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
 
     Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
     this.anxV2 = RestProxyFactory.createProxy(ANXV2.class, exchange.getExchangeSpecification().getSslUri());
@@ -45,7 +43,8 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
   public ANXOpenOrder[] getANXOpenOrders(String baseCurrency, String counterCurrency) throws IOException {
 
     try {
-      ANXOpenOrderWrapper anxOpenOrderWrapper = anxV2.getOpenOrders(ANXUtils.urlEncode(exchange.getExchangeSpecification().getApiKey()), signatureCreator, getNonce(), baseCurrency, counterCurrency);
+      ANXOpenOrderWrapper anxOpenOrderWrapper = anxV2.getOpenOrders(ANXUtils.urlEncode(exchange.getExchangeSpecification().getApiKey()), signatureCreator, exchange.getNonceFactory(), baseCurrency,
+          counterCurrency);
       return anxOpenOrderWrapper.getANXOpenOrders();
     } catch (ANXException e) {
       throw handleError(e);
@@ -57,7 +56,7 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
   public ANXOpenOrder[] getANXOpenOrders() throws IOException {
 
     try {
-      ANXOpenOrderWrapper anxOpenOrderWrapper = anxV2.getOpenOrders(ANXUtils.urlEncode(exchange.getExchangeSpecification().getApiKey()), signatureCreator, getNonce());
+      ANXOpenOrderWrapper anxOpenOrderWrapper = anxV2.getOpenOrders(ANXUtils.urlEncode(exchange.getExchangeSpecification().getApiKey()), signatureCreator, exchange.getNonceFactory());
       return anxOpenOrderWrapper.getANXOpenOrders();
     } catch (ANXException e) {
       throw handleError(e);
@@ -69,7 +68,7 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
   public ANXGenericResponse placeANXMarketOrder(MarketOrder marketOrder) throws IOException {
 
     try {
-      ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNonce(), marketOrder.getCurrencyPair().baseSymbol,
+      ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), marketOrder.getCurrencyPair().baseSymbol,
           marketOrder.getCurrencyPair().counterSymbol, marketOrder.getType().equals(Order.OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount(), null);
       return anxGenericResponse;
     } catch (ANXException e) {
@@ -82,8 +81,8 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
   public ANXGenericResponse placeANXLimitOrder(CurrencyPair currencyPair, String type, BigDecimal amount, BigDecimal price) throws IOException {
 
     try {
-      ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNonce(), currencyPair.baseSymbol, currencyPair.counterSymbol,
-          type, amount, price);
+      ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), currencyPair.baseSymbol,
+          currencyPair.counterSymbol, type, amount, price);
 
       return anxGenericResponse;
     } catch (ANXException e) {
@@ -97,7 +96,7 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
 
     try {
 
-      ANXGenericResponse anxGenericResponse = anxV2.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNonce(), orderId, baseCurrency, counterCurrency);
+      ANXGenericResponse anxGenericResponse = anxV2.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), orderId, baseCurrency, counterCurrency);
       return anxGenericResponse;
     } catch (ANXException e) {
       throw handleError(e);
@@ -110,7 +109,7 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
 
     try {
 
-      ANXTradeResultWrapper anxTradeResultWrapper = anxV2.getExecutedTrades(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNonce(), from, to);
+      ANXTradeResultWrapper anxTradeResultWrapper = anxV2.getExecutedTrades(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), from, to);
       return anxTradeResultWrapper;
     } catch (ANXException e) {
       throw handleError(e);
@@ -123,7 +122,8 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
 
     try {
 
-      ANXOrderResultWrapper anxOrderResultWrapper = anxV2.getOrderResult(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNonce(), baseCurrency, counterCurrency, orderId, type);
+      ANXOrderResultWrapper anxOrderResultWrapper = anxV2.getOrderResult(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), baseCurrency, counterCurrency,
+          orderId, type);
       return anxOrderResultWrapper;
     } catch (ANXException e) {
       throw handleError(e);

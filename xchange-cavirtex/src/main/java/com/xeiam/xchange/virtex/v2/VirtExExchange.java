@@ -1,5 +1,7 @@
 package com.xeiam.xchange.virtex.v2;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -25,5 +27,11 @@ public class VirtExExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription("CAVirtex is a Bitcoin exchange registered in Canada.");
 
     return exchangeSpecification;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // No private API implemented. Not needed for this exchange at the moment.
+    return null;
   }
 }

@@ -3,8 +3,6 @@ package com.xeiam.xchange.anx.v2.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
@@ -25,9 +23,9 @@ public class ANXAccountService extends ANXAccountServiceRaw implements PollingAc
   /**
    * Constructor
    */
-  public ANXAccountService(BaseExchange baseExchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public ANXAccountService(BaseExchange baseExchange) {
 
-    super(baseExchange, nonceFactory);
+    super(baseExchange);
   }
 
   @Override

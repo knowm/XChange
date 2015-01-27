@@ -6,7 +6,6 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcointoyou.BitcoinToYouAuthenticated;
-import com.xeiam.xchange.bitcointoyou.BitcoinToYouUtils;
 import com.xeiam.xchange.bitcointoyou.dto.BitcoinToYouBaseTradeApiResult;
 import com.xeiam.xchange.bitcointoyou.dto.account.BitcoinToYouBalance;
 import com.xeiam.xchange.bitcointoyou.service.BitcoinToYouDigest;
@@ -21,7 +20,6 @@ public class BitcoinToYouAccountServiceRaw extends BitcoinToYouBasePollingServic
   private final BitcoinToYouAuthenticated bitcoinToYouAuthenticated;
 
   /**
-   *
    * @param exchange
    */
   protected BitcoinToYouAccountServiceRaw(Exchange exchange) {
@@ -33,7 +31,7 @@ public class BitcoinToYouAccountServiceRaw extends BitcoinToYouBasePollingServic
 
   public BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> getBitcoinToYouBalance() throws IOException {
 
-    Long nonce = BitcoinToYouUtils.getNonce();
+    Long nonce = exchange.getNonceFactory().createValue();
 
     BitcoinToYouDigest signatureCreator = BitcoinToYouDigest.createInstance(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey(), nonce);
 

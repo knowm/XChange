@@ -3,8 +3,6 @@ package com.xeiam.xchange.kraken.service.polling;
 import java.io.IOException;
 import java.util.Date;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -24,11 +22,10 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public KrakenTradeService(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public KrakenTradeService(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
   }
 
   @Override

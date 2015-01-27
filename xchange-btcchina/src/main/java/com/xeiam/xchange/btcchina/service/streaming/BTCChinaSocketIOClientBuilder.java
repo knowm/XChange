@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nkzawa.emitter.Emitter;
@@ -24,6 +26,7 @@ import com.github.nkzawa.socketio.client.Socket;
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.trade.streaming.request.BTCChinaPayload;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 
 public class BTCChinaSocketIOClientBuilder {
 
@@ -31,7 +34,9 @@ public class BTCChinaSocketIOClientBuilder {
   public static final String EVENT_TRADE = "trade";
 
   /**
-   * @since <a href="http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122">WebSocket API v1.2.2</a>
+   * @since <a href=
+   *        "http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122"
+   *        >WebSocket API v1.2.2</a>
    */
   public static final String EVENT_GROUPORDER = "grouporder";
 
@@ -53,6 +58,8 @@ public class BTCChinaSocketIOClientBuilder {
   private String accessKey;
   private String secretKey;
 
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentNanosecondTimeIncrementalNonceFactory();
+
   protected final IO.Options opt = new IO.Options();
 
   public static BTCChinaSocketIOClientBuilder create() {
@@ -64,7 +71,8 @@ public class BTCChinaSocketIOClientBuilder {
 
     opt.reconnection = true;
     /*
-     * Prevents all sockets reporting the events of other socket's subscriptions.
+     * Prevents all sockets reporting the events of other socket's
+     * subscriptions.
      */
     opt.multiplex = false;
   }
@@ -99,7 +107,9 @@ public class BTCChinaSocketIOClientBuilder {
   }
 
   /**
-   * @since <a href="http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122">WebSocket API v1.2.2</a>
+   * @since <a href=
+   *        "http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122"
+   *        >WebSocket API v1.2.2</a>
    */
   public BTCChinaSocketIOClientBuilder subscribeGrouporder(CurrencyPair... currencyPairs) {
 
@@ -212,7 +222,7 @@ public class BTCChinaSocketIOClientBuilder {
 
   private BTCChinaPayload getPayload(String[] params) {
 
-    final long tonce = BTCChinaUtils.getNonce();
+    final long tonce = nonceFactory.createValue();
     final BTCChinaPayload payload = new BTCChinaPayload(tonce, accessKey, "post", "subscribe", params);
     return payload;
   }

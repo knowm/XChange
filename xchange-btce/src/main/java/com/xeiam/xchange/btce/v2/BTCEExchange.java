@@ -1,14 +1,19 @@
 package com.xeiam.xchange.btce.v2;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v2.service.polling.BTCEAccountService;
 import com.xeiam.xchange.btce.v2.service.polling.BTCEMarketDataService;
 import com.xeiam.xchange.btce.v2.service.polling.BTCETradeService;
+import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 @Deprecated
 public class BTCEExchange extends BaseExchange implements Exchange {
+
+  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -32,4 +37,11 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
     return exchangeSpecification;
   }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
+  }
+
 }

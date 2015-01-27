@@ -3,6 +3,8 @@ package com.xeiam.xchange.okcoin;
 import java.util.Arrays;
 import java.util.List;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -71,4 +73,9 @@ public class OkCoinExchange extends BaseExchange {
     return exchangeSpecification;
   }
 
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // This exchange doesn't use a nonce for authentication
+    return null;
+  }
 }

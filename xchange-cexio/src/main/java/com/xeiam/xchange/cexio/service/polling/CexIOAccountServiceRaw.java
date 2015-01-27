@@ -8,7 +8,6 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cexio.CexIOAuthenticated;
-import com.xeiam.xchange.cexio.CexIOUtils;
 import com.xeiam.xchange.cexio.dto.account.CexIOBalanceInfo;
 import com.xeiam.xchange.cexio.dto.account.GHashIOHashrate;
 import com.xeiam.xchange.cexio.dto.account.GHashIOWorker;
@@ -38,7 +37,7 @@ public class CexIOAccountServiceRaw extends CexIOBasePollingService {
 
   public CexIOBalanceInfo getCexIOAccountInfo() throws IOException {
 
-    CexIOBalanceInfo info = cexIOAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator, CexIOUtils.nextNonce());
+    CexIOBalanceInfo info = cexIOAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     if (info.getError() != null) {
       throw new ExchangeException("Error getting balance. " + info.getError());
     }
@@ -48,12 +47,12 @@ public class CexIOAccountServiceRaw extends CexIOBasePollingService {
 
   public GHashIOHashrate getHashrate() throws IOException {
 
-    return cexIOAuthenticated.getHashrate(exchange.getExchangeSpecification().getApiKey(), signatureCreator, CexIOUtils.nextNonce());
+    return cexIOAuthenticated.getHashrate(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
   }
 
   public Map<String, GHashIOWorker> getWorkers() throws IOException {
 
-    return cexIOAuthenticated.getWorkers(exchange.getExchangeSpecification().getApiKey(), signatureCreator, CexIOUtils.nextNonce()).getWorkers();
+    return cexIOAuthenticated.getWorkers(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory()).getWorkers();
   }
 
 }

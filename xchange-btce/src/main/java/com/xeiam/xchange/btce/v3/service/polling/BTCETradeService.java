@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
@@ -39,11 +37,10 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public BTCETradeService(Exchange exchange, SynchronizedValueFactory<Integer> nonceFactory) {
+  public BTCETradeService(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
   }
 
   @Override

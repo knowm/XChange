@@ -28,7 +28,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBasePollingService<Poloni
 
   public List<Wallet> getWallets() throws IOException {
 
-    HashMap<String, String> response = poloniex.returnBalances(apiKey, signatureCreator, String.valueOf(nextNonce()));
+    HashMap<String, String> response = poloniex.returnBalances(apiKey, signatureCreator, exchange.getNonceFactory());
 
     if (response.containsKey("error")) {
       throw new ExchangeException(response.get("error"));
@@ -39,7 +39,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBasePollingService<Poloni
 
   public String getDepositAddress(String currency) throws IOException {
 
-    HashMap<String, String> response = poloniex.returnDepositAddresses(apiKey, signatureCreator, String.valueOf(nextNonce()));
+    HashMap<String, String> response = poloniex.returnDepositAddresses(apiKey, signatureCreator, exchange.getNonceFactory());
 
     if (response.containsKey("error")) {
       throw new ExchangeException(response.get("error"));

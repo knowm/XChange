@@ -5,8 +5,6 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
@@ -31,11 +29,10 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
    * Constructor
    *
    * @param exchange
-   * @param tonceFactory
    */
-  public BTCChinaMarketDataService(Exchange exchange, SynchronizedValueFactory<Long> tonceFactory) {
+  public BTCChinaMarketDataService(Exchange exchange) {
 
-    super(exchange, tonceFactory);
+    super(exchange);
   }
 
   @Override

@@ -22,7 +22,7 @@ public final class BitstampUtils {
 
   /**
    * Format a date String for Bitstamp
-   * 
+   *
    * @param dateString
    * @return
    */
@@ -33,11 +33,6 @@ public final class BitstampUtils {
     } catch (ParseException e) {
       throw new ExchangeException("Illegal date/time format", e);
     }
-  }
-
-  public static long getNonce() {
-
-    return System.currentTimeMillis();
   }
 
 }

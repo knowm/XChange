@@ -26,6 +26,7 @@ import com.xeiam.xchange.exceptions.ExchangeException;
  */
 public class CoinfloorUtils {
 
+  // TODO move this to metadata and coinfloor.json
   public enum CoinfloorCurrency {
     BTC, GBP, EUR, USD, PLN
   }
@@ -79,12 +80,6 @@ public class CoinfloorUtils {
     }
   }
 
-  protected static String buildNonceString() {
-
-    long currentTime = System.currentTimeMillis();
-    return "::" + currentTime + ":";
-  }
-
   private static String bigIntegerToBase64(BigInteger bi) {
 
     byte[] bytes = bi.toByteArray();
@@ -104,8 +99,7 @@ public class CoinfloorUtils {
 
     if (currency.equals("BTC")) {
       return CoinfloorCurrency.BTC;
-    }
-    else if (currency.equals("GBP")) {
+    } else if (currency.equals("GBP")) {
       return CoinfloorCurrency.GBP;
     }
 
@@ -192,7 +186,7 @@ public class CoinfloorUtils {
 
   /**
    * Scale integer price results from API call to BigDecimal for local use.
-   * 
+   *
    * @param amountToScale The integer result recieved from API Call
    * @return BigDecimal representation of integer amount
    */
@@ -208,7 +202,7 @@ public class CoinfloorUtils {
 
   /**
    * Scale integer price results from API call to BigDecimal for local use.
-   * 
+   *
    * @param amountToScale The integer result recieved from API Call
    * @return BigDecimal representation of integer amount
    */

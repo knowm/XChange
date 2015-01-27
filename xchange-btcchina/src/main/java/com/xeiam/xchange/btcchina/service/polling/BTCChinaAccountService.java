@@ -3,8 +3,6 @@ package com.xeiam.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.BTCChinaID;
@@ -27,12 +25,10 @@ public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements
    * Constructor
    *
    * @param exchange
-   * @param tonceFactory
    */
-  public BTCChinaAccountService(Exchange exchange, SynchronizedValueFactory<Long> tonceFactory) {
+  public BTCChinaAccountService(Exchange exchange) {
 
-    super(exchange, tonceFactory);
-
+    super(exchange);
   }
 
   @Override

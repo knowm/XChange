@@ -2,11 +2,8 @@ package com.xeiam.xchange.lakebtc.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.lakebtc.LakeBTCAuthenticated;
-import com.xeiam.xchange.lakebtc.LakeBTCUtil;
 import com.xeiam.xchange.lakebtc.dto.account.LakeBTCAccountInfoResponse;
 import com.xeiam.xchange.lakebtc.dto.account.LakeBTCAccountRequest;
 
@@ -19,14 +16,14 @@ public class LakeBTCAccountServiceRaw extends LakeBTCBasePollingService<LakeBTCA
    * Constructor
    *
    * @param exchangeSpecification
-   * @param tonceFactory
    */
-  public LakeBTCAccountServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> tonceFactory) {
-    super(LakeBTCAuthenticated.class, exchange, tonceFactory);
+  public LakeBTCAccountServiceRaw(Exchange exchange) {
+
+    super(LakeBTCAuthenticated.class, exchange);
   }
 
   public LakeBTCAccountInfoResponse getLakeBTCAccountInfo() throws IOException {
-    return checkResult(btcLakeBTC.getAccountInfo(signatureCreator, LakeBTCUtil.getNonce(), new LakeBTCAccountRequest()));
+    return checkResult(btcLakeBTC.getAccountInfo(signatureCreator, exchange.getNonceFactory(), new LakeBTCAccountRequest()));
   }
 
 }

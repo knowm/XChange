@@ -10,7 +10,6 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
-import com.xeiam.xchange.bitstamp.BitstampUtils;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
@@ -39,32 +38,32 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
 
   public BitstampOrder[] getBitstampOpenOrders() throws IOException {
 
-    return bitstampAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, BitstampUtils.getNonce());
+    return bitstampAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
   }
 
   public BitstampOrder sellBitstampOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
-    return bitstampAuthenticated.sell(exchange.getExchangeSpecification().getApiKey(), signatureCreator, BitstampUtils.getNonce(), tradableAmount, price);
+    return bitstampAuthenticated.sell(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount, price);
   }
 
   public BitstampOrder buyBitStampOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
-    return bitstampAuthenticated.buy(exchange.getExchangeSpecification().getApiKey(), signatureCreator, BitstampUtils.getNonce(), tradableAmount, price);
+    return bitstampAuthenticated.buy(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount, price);
   }
 
   public boolean cancelBitstampOrder(int orderId) throws IOException {
 
-    return bitstampAuthenticated.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, BitstampUtils.getNonce(), orderId);
+    return bitstampAuthenticated.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), orderId);
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions) throws IOException {
 
-    return bitstampAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, BitstampUtils.getNonce(), numberOfTransactions);
+    return bitstampAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), numberOfTransactions);
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, Long offset, String sort) throws IOException {
 
-    return bitstampAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, BitstampUtils.getNonce(), numberOfTransactions, offset, sort);
+    return bitstampAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), numberOfTransactions, offset, sort);
   }
 
   /**
@@ -74,7 +73,7 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
 
     Map<CurrencyPair, TradeMetaData> returnObject = new HashMap<CurrencyPair, TradeMetaData>();
 
-    BitstampBalance bitstampBalance = bitstampAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator, BitstampUtils.getNonce());
+    BitstampBalance bitstampBalance = bitstampAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
 
     List<CurrencyPair> currencyPairs = exchange.getMetaData().getCurrencyPairs();
     for (CurrencyPair currencyPair : currencyPairs) {

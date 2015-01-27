@@ -31,7 +31,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBasePollingService<Bleutr
     try {
       String pairString = BleutradeUtils.toPairString(limitOrder.getCurrencyPair());
 
-      BleutradePlaceOrderReturn response = bleutrade.buyLimit(apiKey, signatureCreator, String.valueOf(nextNonce()), pairString, limitOrder.getTradableAmount().toPlainString(), limitOrder
+      BleutradePlaceOrderReturn response = bleutrade.buyLimit(apiKey, signatureCreator, exchange.getNonceFactory(), pairString, limitOrder.getTradableAmount().toPlainString(), limitOrder
           .getLimitPrice().toPlainString());
 
       if (!response.getSuccess()) {
@@ -49,7 +49,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBasePollingService<Bleutr
     try {
       String pairString = BleutradeUtils.toPairString(limitOrder.getCurrencyPair());
 
-      BleutradePlaceOrderReturn response = bleutrade.sellLimit(apiKey, signatureCreator, String.valueOf(nextNonce()), pairString, limitOrder.getTradableAmount().toPlainString(), limitOrder
+      BleutradePlaceOrderReturn response = bleutrade.sellLimit(apiKey, signatureCreator, exchange.getNonceFactory(), pairString, limitOrder.getTradableAmount().toPlainString(), limitOrder
           .getLimitPrice().toPlainString());
 
       if (!response.getSuccess()) {
@@ -65,7 +65,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBasePollingService<Bleutr
   public boolean cancel(String orderId) throws IOException {
 
     try {
-      BleutradeCancelOrderReturn response = bleutrade.cancel(apiKey, signatureCreator, String.valueOf(nextNonce()), orderId);
+      BleutradeCancelOrderReturn response = bleutrade.cancel(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
 
       return response.getSuccess();
     } catch (BleutradeException e) {
@@ -76,7 +76,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBasePollingService<Bleutr
   public List<BleutradeOpenOrder> getBleutradeOpenOrders() throws IOException {
 
     try {
-      BleutradeOpenOrdersReturn response = bleutrade.getOrders(apiKey, signatureCreator, String.valueOf(nextNonce()));
+      BleutradeOpenOrdersReturn response = bleutrade.getOrders(apiKey, signatureCreator, exchange.getNonceFactory());
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());

@@ -19,8 +19,6 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseExchangeService implements BasePollingService {
 
-  private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
-
   protected final String apiKey;
   protected final T cryptoTradeProxy;
   protected final ParamsDigest signatureCreator;
@@ -38,11 +36,6 @@ public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseEx
     this.cryptoTradeProxy = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = CryptoTradeHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-  }
-
-  protected int nextNonce() {
-
-    return (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
   }
 
   protected <R extends CryptoTradeBaseResponse> R handleResponse(R response) {

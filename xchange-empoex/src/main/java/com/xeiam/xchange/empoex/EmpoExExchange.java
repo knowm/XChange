@@ -1,5 +1,7 @@
 package com.xeiam.xchange.empoex;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -30,5 +32,11 @@ public class EmpoExExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription("EmpoEX is a bitcoin and altcoin exchange.");
 
     return exchangeSpecification;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // This exchange doesn't use nones for authentication
+    return null;
   }
 }

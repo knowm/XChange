@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
@@ -32,11 +30,10 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public BTCETradeServiceRaw(Exchange exchange, SynchronizedValueFactory<Integer> nonceFactory) {
+  public BTCETradeServiceRaw(Exchange exchange) {
 
-    super(BTCEAuthenticated.class, exchange, nonceFactory);
+    super(BTCEAuthenticated.class, exchange);
   }
 
   /**
@@ -46,7 +43,7 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
    */
   public Map<Long, BTCEOrder> getBTCEActiveOrders(String pair) throws IOException {
 
-    BTCEOpenOrdersReturn orders = btce.ActiveOrders(apiKey, signatureCreator, nextNonce(), pair);
+    BTCEOpenOrdersReturn orders = btce.ActiveOrders(apiKey, signatureCreator, exchange.getNonceFactory(), pair);
     if ("no orders".equals(orders.getError())) {
       return new HashMap<Long, BTCEOrder>();
     }
@@ -62,14 +59,14 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
   public BTCEPlaceOrderResult placeBTCEOrder(BTCEOrder order) throws IOException {
 
     String pair = order.getPair().toLowerCase();
-    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, nextNonce(), pair, order.getType(), order.getRate(), order.getAmount());
+    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, exchange.getNonceFactory(), pair, order.getType(), order.getRate(), order.getAmount());
     checkResult(ret);
     return ret.getReturnValue();
   }
 
   public BTCECancelOrderResult cancelBTCEOrder(long orderId) throws IOException {
 
-    BTCECancelOrderReturn ret = btce.CancelOrder(apiKey, signatureCreator, nextNonce(), orderId);
+    BTCECancelOrderReturn ret = btce.CancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
     if (MSG_BAD_STATUS.equals(ret.getError())) {
       return null;
     }
@@ -96,7 +93,7 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService<BTCEAuthenticate
    */
   public Map<Long, BTCETradeHistoryResult> getBTCETradeHistory(Long from, Long count, Long fromId, Long endId, BTCEAuthenticated.SortOrder order, Long since, Long end, String pair) throws IOException {
 
-    BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, nextNonce(), from, count, fromId, endId, order, since, end, pair);
+    BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), from, count, fromId, endId, order, since, end, pair);
     String error = btceTradeHistory.getError();
     // BTC-e returns this error if it finds no trades matching the criteria
     if (MSG_NO_TRADES.equals(error)) {

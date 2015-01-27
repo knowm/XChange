@@ -3,8 +3,6 @@ package com.xeiam.xchange.hitbtc.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -18,11 +16,10 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Pol
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public HitbtcAccountService(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public HitbtcAccountService(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
   }
 
   @Override

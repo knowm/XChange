@@ -11,7 +11,6 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinAuthenticated;
-import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinUtils;
 import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinCancelOrderResult;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
@@ -44,7 +43,7 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBasePollingServ
       @Nullable String endId, @Nullable Long since, @Nullable Long end) throws IOException {
 
     String method = GET_ORDER_LIST;
-    String tonce = MercadoBitcoinUtils.getTonce();
+    long tonce = exchange.getNonceFactory().createValue();
 
     MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(), exchange.getExchangeSpecification().getSecretKey(), tonce);
 
@@ -62,7 +61,7 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBasePollingServ
       @Nonnull BigDecimal price) throws IOException {
 
     String method = TRADE;
-    String tonce = MercadoBitcoinUtils.getTonce();
+    long tonce = exchange.getNonceFactory().createValue();
 
     MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(), exchange.getExchangeSpecification().getSecretKey(), tonce);
 
@@ -87,7 +86,7 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBasePollingServ
   public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> mercadoBitcoinCancelOrder(@Nonnull String pair, @Nonnull String orderId) throws IOException {
 
     String method = CANCEL_ORDER;
-    String tonce = MercadoBitcoinUtils.getTonce();
+    long tonce = exchange.getNonceFactory().createValue();
 
     MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(), exchange.getExchangeSpecification().getSecretKey(), tonce);
 

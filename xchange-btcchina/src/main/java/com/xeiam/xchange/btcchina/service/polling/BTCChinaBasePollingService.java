@@ -7,7 +7,6 @@ import java.util.Map;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChina;
@@ -31,16 +30,14 @@ public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchange
 
   protected final T btcChina;
   protected final ParamsDigest signatureCreator;
-  protected final SynchronizedValueFactory<Long> tonce;
 
   /**
    * Constructor
    *
    * @param type
    * @param exchange
-   * @param tonceFactory
    */
-  public BTCChinaBasePollingService(Class<T> type, Exchange exchange, SynchronizedValueFactory<Long> tonceFactory) {
+  public BTCChinaBasePollingService(Class<T> type, Exchange exchange) {
 
     super(exchange);
 
@@ -48,7 +45,6 @@ public class BTCChinaBasePollingService<T extends BTCChina> extends BaseExchange
 
     this.btcChina = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
     this.signatureCreator = BTCChinaDigest.createInstance(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey());
-    this.tonce = tonceFactory;
   }
 
   @Override

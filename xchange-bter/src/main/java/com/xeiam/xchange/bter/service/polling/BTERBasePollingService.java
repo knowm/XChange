@@ -39,14 +39,6 @@ public class BTERBasePollingService<T extends BTER> extends BaseExchangeService 
     this.signatureCreator = BTERHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
-  protected int nextNonce() {
-
-    // NOTE: this nonce creation formula is not bullet-proof:
-    // - It allows for only one request per .25 seconds,
-    // - It will cycle over MAX_INTEGER and start producing illegal negative nonces on January 5, 2030
-    return (int) ((System.currentTimeMillis() - START_MILLIS) / 250L);
-  }
-
   @Override
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
 

@@ -2,8 +2,6 @@ package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
@@ -18,12 +16,11 @@ public class BTCEAccountServiceRaw extends BTCEBasePollingService<BTCEAuthentica
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public BTCEAccountServiceRaw(Exchange exchange, SynchronizedValueFactory<Integer> nonceFactory) {
+  public BTCEAccountServiceRaw(Exchange exchange) {
 
     // TODO look at this
-    super(BTCEAuthenticated.class, exchange, nonceFactory);
+    super(BTCEAuthenticated.class, exchange);
   }
 
   /**
@@ -41,7 +38,7 @@ public class BTCEAccountServiceRaw extends BTCEBasePollingService<BTCEAuthentica
    */
   public BTCEAccountInfo getBTCEAccountInfo(Long from, Long count, Long fromId, Long endId, Boolean descOrder, Long since, Long end) throws IOException {
 
-    BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, nextNonce(), from, count, fromId, endId, BTCEAuthenticated.SortOrder.DESC, null, null);
+    BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, exchange.getNonceFactory(), from, count, fromId, endId, BTCEAuthenticated.SortOrder.DESC, null, null);
     checkResult(info);
     return info.getReturnValue();
   }

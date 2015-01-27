@@ -27,15 +27,13 @@ public class ANXMarketDataServiceRaw extends ANXBasePollingService {
   private final ANXV2 anxV2;
 
   /**
-   *
    * Constructor
    *
    * @param exchange
    */
   protected ANXMarketDataServiceRaw(Exchange exchange) {
 
-    // nonce is not used in this class, pass null
-    super(exchange, null);
+    super(exchange);
 
     Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
     this.anxV2 = RestProxyFactory.createProxy(ANXV2.class, exchange.getExchangeSpecification().getSslUri());

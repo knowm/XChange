@@ -3,8 +3,6 @@ package com.xeiam.xchange.kraken.service.polling;
 import java.io.IOException;
 import java.util.Map;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.kraken.Kraken;
@@ -23,11 +21,10 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken>
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public KrakenMarketDataServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public KrakenMarketDataServiceRaw(Exchange exchange) {
 
-    super(Kraken.class, exchange, nonceFactory);
+    super(Kraken.class, exchange);
   }
 
   public KrakenTicker getKrakenTicker(CurrencyPair currencyPair) throws IOException {

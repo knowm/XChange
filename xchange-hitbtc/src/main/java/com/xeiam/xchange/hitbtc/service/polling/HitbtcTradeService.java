@@ -2,8 +2,6 @@ package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -30,11 +28,10 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public HitbtcTradeService(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public HitbtcTradeService(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
   }
 
   @Override

@@ -49,7 +49,7 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
       limit = args[0];
     }
 
-    return checkResult(cryptsyPrivate.mytrades(apiKey, signatureCreator, nextNonce(), marketID, limit));
+    return checkResult(cryptsyPrivate.mytrades(apiKey, signatureCreator, exchange.getNonceFactory(), marketID, limit));
   }
 
   /**
@@ -67,8 +67,8 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
 
     SimpleDateFormat outputFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    return checkResult(cryptsyPrivate.allmytrades(apiKey, signatureCreator, nextNonce(), (startDate == null ? null : outputFormatter.format(startDate)),
-        (endDate == null ? null : outputFormatter.format(endDate))));
+    return checkResult(cryptsyPrivate.allmytrades(apiKey, signatureCreator, exchange.getNonceFactory(), (startDate == null ? null : outputFormatter.format(startDate)), (endDate == null ? null
+        : outputFormatter.format(endDate))));
   }
 
   /**
@@ -84,7 +84,7 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    */
   public CryptsyOpenOrdersReturn getCryptsySingleMarketOpenOrders(int marketID) throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.myorders(apiKey, signatureCreator, nextNonce(), marketID));
+    return checkResult(cryptsyPrivate.myorders(apiKey, signatureCreator, exchange.getNonceFactory(), marketID));
   }
 
   /**
@@ -98,7 +98,7 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    */
   public CryptsyOpenOrdersReturn getCryptsyOpenOrders() throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.allmyorders(apiKey, signatureCreator, nextNonce()));
+    return checkResult(cryptsyPrivate.allmyorders(apiKey, signatureCreator, exchange.getNonceFactory()));
   }
 
   /**
@@ -116,7 +116,7 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    */
   public CryptsyPlaceOrderReturn placeCryptsyLimitOrder(int marketID, CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.createorder(apiKey, signatureCreator, nextNonce(), marketID, orderType.toString(), quantity, price));
+    return checkResult(cryptsyPrivate.createorder(apiKey, signatureCreator, exchange.getNonceFactory(), marketID, orderType.toString(), quantity, price));
   }
 
   /**
@@ -131,7 +131,7 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    */
   public CryptsyCancelOrderReturn cancelSingleCryptsyLimitOrder(int orderID) throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.cancelorder(apiKey, signatureCreator, nextNonce(), orderID));
+    return checkResult(cryptsyPrivate.cancelorder(apiKey, signatureCreator, exchange.getNonceFactory(), orderID));
   }
 
   /**
@@ -147,7 +147,7 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    */
   public CryptsyCancelMultipleOrdersReturn cancelMarketCryptsyLimitOrders(int marketID) throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.cancelmarketorders(apiKey, signatureCreator, nextNonce(), marketID));
+    return checkResult(cryptsyPrivate.cancelmarketorders(apiKey, signatureCreator, exchange.getNonceFactory(), marketID));
   }
 
   /**
@@ -162,7 +162,7 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    */
   public CryptsyCancelMultipleOrdersReturn cancelAllCryptsyLimitOrders() throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.cancelallorders(apiKey, signatureCreator, nextNonce()));
+    return checkResult(cryptsyPrivate.cancelallorders(apiKey, signatureCreator, exchange.getNonceFactory()));
   }
 
   /**
@@ -179,7 +179,7 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    */
   public CryptsyCalculatedFeesReturn calculateCryptsyFees(CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.calculatefees(apiKey, signatureCreator, nextNonce(), orderType.toString(), quantity, price));
+    return checkResult(cryptsyPrivate.calculatefees(apiKey, signatureCreator, exchange.getNonceFactory(), orderType.toString(), quantity, price));
   }
 
 }

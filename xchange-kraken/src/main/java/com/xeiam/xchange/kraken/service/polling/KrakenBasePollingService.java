@@ -9,7 +9,6 @@ import java.util.Set;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
@@ -40,22 +39,19 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
 
   protected T kraken;
   protected ParamsDigest signatureCreator;
-  protected SynchronizedValueFactory<Long> nonce;
 
   /**
    * Constructor
    *
    * @param type
    * @param exchange
-   * @param nonceFactory
    */
-  public KrakenBasePollingService(Class<T> type, Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public KrakenBasePollingService(Class<T> type, Exchange exchange) {
 
     super(exchange);
 
     kraken = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
     signatureCreator = KrakenDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-    nonce = nonceFactory;
   }
 
   @Override
@@ -159,11 +155,6 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
     }
 
     return krakenResult.getResult();
-  }
-
-  protected SynchronizedValueFactory<Long> nextNonce() {
-
-    return nonce;
   }
 
   protected String createDelimitedString(String[] items) {

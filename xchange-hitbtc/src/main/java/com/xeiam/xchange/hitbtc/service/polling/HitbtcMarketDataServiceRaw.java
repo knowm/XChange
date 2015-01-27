@@ -2,8 +2,6 @@ package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.hitbtc.Hitbtc;
@@ -23,11 +21,10 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBasePollingService<Hitbtc>
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  protected HitbtcMarketDataServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  protected HitbtcMarketDataServiceRaw(Exchange exchange) {
 
-    super(Hitbtc.class, exchange, nonceFactory);
+    super(Hitbtc.class, exchange);
   }
 
   public HitbtcTicker getHitbtcTicker(CurrencyPair currencyPair) throws IOException {

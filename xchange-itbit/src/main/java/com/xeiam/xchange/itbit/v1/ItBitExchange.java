@@ -8,20 +8,20 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitAccountService;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitMarketDataService;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitTradeService;
-import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
+import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 public class ItBitExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new LongTimeNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new ItBitMarketDataService(this, nonceFactory);
-    this.pollingAccountService = new ItBitAccountService(this, nonceFactory);
-    this.pollingTradeService = new ItBitTradeService(this, nonceFactory);
+    this.pollingMarketDataService = new ItBitMarketDataService(this);
+    this.pollingAccountService = new ItBitAccountService(this);
+    this.pollingTradeService = new ItBitTradeService(this);
   }
 
   @Override
@@ -36,5 +36,11 @@ public class ItBitExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeSpecificParametersItem("authHost", " https://api.itbit.com");
 
     return exchangeSpecification;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
   }
 }

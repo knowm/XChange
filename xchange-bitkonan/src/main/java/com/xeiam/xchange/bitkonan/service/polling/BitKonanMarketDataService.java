@@ -2,8 +2,6 @@ package com.xeiam.xchange.bitkonan.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitkonan.BitKonanAdapters;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -24,11 +22,10 @@ public class BitKonanMarketDataService extends BitKonanMarketDataServiceRaw impl
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public BitKonanMarketDataService(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public BitKonanMarketDataService(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
   }
 
   @Override

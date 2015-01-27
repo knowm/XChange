@@ -6,7 +6,6 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcurex.BitcurexAuthenticated;
-import com.xeiam.xchange.bitcurex.BitcurexUtils;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
 import com.xeiam.xchange.bitcurex.service.BitcurexDigest;
 import com.xeiam.xchange.exceptions.ExchangeException;
@@ -17,7 +16,6 @@ public class BitcurexAccountServiceRaw extends BitcurexBasePollingService {
   private final BitcurexAuthenticated bitcurexAuthenticated;
 
   /**
-   *
    * Constructor
    *
    * @param exchange
@@ -33,7 +31,7 @@ public class BitcurexAccountServiceRaw extends BitcurexBasePollingService {
 
   public BitcurexFunds getFunds() throws IOException, ExchangeException {
 
-    BitcurexFunds bitcurexFunds = bitcurexAuthenticated.getFunds(exchange.getExchangeSpecification().getApiKey(), signatureCreator, BitcurexUtils.getNonce());
+    BitcurexFunds bitcurexFunds = bitcurexAuthenticated.getFunds(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     if (bitcurexFunds.getError() != null) {
       throw new ExchangeException("Error getting balance. " + bitcurexFunds.getError());
     }

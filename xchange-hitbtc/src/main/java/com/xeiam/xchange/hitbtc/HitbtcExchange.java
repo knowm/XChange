@@ -8,11 +8,21 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcAccountService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcTradeService;
-import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
+import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 public class HitbtcExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new LongTimeNonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
+    super.applySpecification(exchangeSpecification);
+
+    this.pollingMarketDataService = new HitbtcMarketDataService(this);
+    this.pollingTradeService = new HitbtcTradeService(this);
+    this.pollingAccountService = new HitbtcAccountService(this);
+  }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
@@ -29,15 +39,9 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+  public SynchronizedValueFactory<Long> getNonceFactory() {
 
-    super.applySpecification(exchangeSpecification);
-
-    this.pollingMarketDataService = new HitbtcMarketDataService(this, nonceFactory);
-    HitbtcTradeService hitbtcTradeService = new HitbtcTradeService(this, nonceFactory);
-    HitbtcAccountService hitbtcAccountService = new HitbtcAccountService(this, nonceFactory);
-    this.pollingTradeService = hitbtcTradeService;
-    this.pollingAccountService = hitbtcAccountService;
+    return nonceFactory;
   }
 
 }

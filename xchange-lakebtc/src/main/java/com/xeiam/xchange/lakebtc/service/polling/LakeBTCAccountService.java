@@ -3,8 +3,6 @@ package com.xeiam.xchange.lakebtc.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.ExchangeException;
@@ -15,7 +13,7 @@ import com.xeiam.xchange.lakebtc.dto.account.LakeBTCAccountInfoResponse;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
- * Created by cristian.lucaci on 12/19/2014.
+ * @author cristian.lucaci
  */
 public class LakeBTCAccountService extends LakeBTCAccountServiceRaw implements PollingAccountService {
 
@@ -23,10 +21,10 @@ public class LakeBTCAccountService extends LakeBTCAccountServiceRaw implements P
    * Constructor
    *
    * @param exchange
-   * @param tonceFactory
    */
-  public LakeBTCAccountService(Exchange exchange, SynchronizedValueFactory<Long> tonceFactory) {
-    super(exchange, tonceFactory);
+  public LakeBTCAccountService(Exchange exchange) {
+
+    super(exchange);
   }
 
   @Override

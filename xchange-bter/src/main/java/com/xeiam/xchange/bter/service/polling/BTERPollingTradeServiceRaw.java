@@ -75,35 +75,35 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService<BTERAuthe
   public boolean placeBTERLimitOrder(CurrencyPair currencyPair, BTEROrderType orderType, BigDecimal rate, BigDecimal amount) throws IOException {
 
     String pair = String.format("%s_%s", currencyPair.baseSymbol, currencyPair.counterSymbol).toLowerCase();
-    BTERPlaceOrderReturn orderId = bter.placeOrder(pair, orderType, rate, amount, apiKey, signatureCreator, nextNonce());
+    BTERPlaceOrderReturn orderId = bter.placeOrder(pair, orderType, rate, amount, apiKey, signatureCreator, exchange.getNonceFactory());
 
     return handleResponse(orderId).isResult();
   }
 
   public boolean cancelOrder(String orderId) throws IOException {
 
-    BTERBaseResponse cancelOrderResult = bter.cancelOrder(orderId, apiKey, signatureCreator, nextNonce());
+    BTERBaseResponse cancelOrderResult = bter.cancelOrder(orderId, apiKey, signatureCreator, exchange.getNonceFactory());
 
     return handleResponse(cancelOrderResult).isResult();
   }
 
   public BTEROpenOrders getBTEROpenOrders() throws IOException {
 
-    BTEROpenOrders bterOpenOrdersReturn = bter.getOpenOrders(apiKey, signatureCreator, nextNonce());
+    BTEROpenOrders bterOpenOrdersReturn = bter.getOpenOrders(apiKey, signatureCreator, exchange.getNonceFactory());
 
     return handleResponse(bterOpenOrdersReturn);
   }
 
   public BTEROrderStatus getBTEROrderStatus(String orderId) throws IOException {
 
-    BTEROrderStatus orderStatus = bter.getOrderStatus(orderId, apiKey, signatureCreator, nextNonce());
+    BTEROrderStatus orderStatus = bter.getOrderStatus(orderId, apiKey, signatureCreator, exchange.getNonceFactory());
 
     return handleResponse(orderStatus);
   }
 
   public BTERTradeHistoryReturn getBTERTradeHistory(CurrencyPair currencyPair) throws IOException {
 
-    BTERTradeHistoryReturn bterTradeHistoryReturn = bter.getUserTradeHistory(apiKey, signatureCreator, nextNonce(), BTERUtils.toPairString(currencyPair));
+    BTERTradeHistoryReturn bterTradeHistoryReturn = bter.getUserTradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), BTERUtils.toPairString(currencyPair));
 
     return handleResponse(bterTradeHistoryReturn);
   }

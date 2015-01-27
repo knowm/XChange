@@ -10,9 +10,10 @@ import com.xeiam.xchange.utils.DigestUtils;
  * create a digest of the post body (composed of @FormParam's). Don't use as the
  * value of a @FormParam, it will probably cause an infinite loop.
  * <p/>
- * This may be used for REST APIs where some parameters' values must be digests of other parameters. An example is the MtGox API v1, where the Rest-Sign header parameter must be a digest of the
- * request body (which is composed of
- * 
+ * This may be used for REST APIs where some parameters' values must be digests
+ * of other parameters. An example is the MtGox API v1, where the Rest-Sign
+ * header parameter must be a digest of the request body (which is composed of
+ *
  * @FormParams).
  */
 public class VircurexSha2Digest {
@@ -23,13 +24,12 @@ public class VircurexSha2Digest {
 
   /**
    * Constructor
-   * 
+   *
    * @param aSecretWord
-   * @throws IllegalArgumentException
-   *           if key is invalid (cannot be base-64-decoded or the decoded key
-   *           is invalid).
+   * @throws IllegalArgumentException if key is invalid (cannot be
+   *           base-64-decoded or the decoded key is invalid).
    */
-  public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, String aNonce, String aMethod, String anOrderType, String anOrderAmount, String aTransactionCurrency,
+  public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, long aNonce, String aMethod, String anOrderType, String anOrderAmount, String aTransactionCurrency,
       String aLimitPrice, String aTradeableCurrency) throws IllegalArgumentException {
 
     try {
@@ -43,7 +43,7 @@ public class VircurexSha2Digest {
     secretWord = DigestUtils.bytesToHex(digest.digest());
   }
 
-  public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, String aNonce, String aMethod) {
+  public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, long aNonce, String aMethod) {
 
     try {
       digest = MessageDigest.getInstance(SHA_256);
@@ -54,7 +54,7 @@ public class VircurexSha2Digest {
     secretWord = DigestUtils.bytesToHex(digest.digest());
   }
 
-  public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, String aNonce, String aMethod, String anOrderId) {
+  public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, long aNonce, String aMethod, String anOrderId) {
 
     try {
       digest = MessageDigest.getInstance(SHA_256);

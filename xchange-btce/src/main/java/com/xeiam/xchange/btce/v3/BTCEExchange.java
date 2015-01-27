@@ -8,11 +8,11 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEAccountService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
-import com.xeiam.xchange.utils.nonce.IntTimeNonceFactory;
+import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 public class BTCEExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Integer> nonceFactory = new IntTimeNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -20,9 +20,8 @@ public class BTCEExchange extends BaseExchange implements Exchange {
     super.applySpecification(exchangeSpecification);
 
     this.pollingMarketDataService = new BTCEMarketDataService(this);
-    // TODO look at this
-    this.pollingAccountService = new BTCEAccountService(this, nonceFactory);
-    this.pollingTradeService = new BTCETradeService(this, nonceFactory);
+    this.pollingAccountService = new BTCEAccountService(this);
+    this.pollingTradeService = new BTCETradeService(this);
   }
 
   @Override
@@ -36,6 +35,12 @@ public class BTCEExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription("BTC-e is a Bitcoin exchange registered in Russia.");
 
     return exchangeSpecification;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
   }
 
 }

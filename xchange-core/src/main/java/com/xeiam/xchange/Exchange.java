@@ -1,5 +1,7 @@
 package com.xeiam.xchange;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.dto.MetaData;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
@@ -32,6 +34,17 @@ public interface Exchange {
    * @return
    */
   MetaData getMetaData();
+
+  /**
+   * The nonce factory used to create a nonce value. Allows services to accept a
+   * placeholder that is replaced with generated value just before message is
+   * serialized and sent. If a method of a rest accepts ValueFactory as a
+   * parameter, it's evaluated, the message is serialized and sent in a single
+   * synchronized block.
+   *
+   * @return
+   */
+  SynchronizedValueFactory<Long> getNonceFactory();
 
   /**
    * @return A default ExchangeSpecification to use during the creation process

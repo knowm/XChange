@@ -1,4 +1,4 @@
-package com.xeiam.xchange.lakebtc.service.polling;
+package com.xeiam.xchange.lakebtc.service;
 
 import com.xeiam.xchange.lakebtc.LakeBTCUtil;
 import com.xeiam.xchange.lakebtc.dto.LakeBTCRequest;

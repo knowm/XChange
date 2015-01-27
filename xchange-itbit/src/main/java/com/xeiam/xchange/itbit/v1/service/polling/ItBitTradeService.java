@@ -2,8 +2,6 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -26,11 +24,10 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
-  public ItBitTradeService(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public ItBitTradeService(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
   }
 
   @Override

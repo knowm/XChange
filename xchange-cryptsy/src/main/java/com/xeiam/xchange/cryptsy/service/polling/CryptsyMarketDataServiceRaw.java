@@ -38,7 +38,7 @@ public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService<Crypt
    */
   public CryptsyOrderBookReturn getCryptsyOrderBook(int marketID) throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.marketorders(apiKey, signatureCreator, nextNonce(), marketID));
+    return checkResult(cryptsyPrivate.marketorders(apiKey, signatureCreator, exchange.getNonceFactory(), marketID));
   }
 
   /**
@@ -52,7 +52,7 @@ public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService<Crypt
    */
   public CryptsyMarketTradesReturn getCryptsyTrades(int marketID) throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.markettrades(apiKey, signatureCreator, nextNonce(), marketID));
+    return checkResult(cryptsyPrivate.markettrades(apiKey, signatureCreator, exchange.getNonceFactory(), marketID));
   }
 
   /**
@@ -66,6 +66,6 @@ public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService<Crypt
    */
   public CryptsyGetMarketsReturn getCryptsyMarkets() throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.getmarkets(apiKey, signatureCreator, nextNonce()));
+    return checkResult(cryptsyPrivate.getmarkets(apiKey, signatureCreator, exchange.getNonceFactory()));
   }
 }

@@ -25,8 +25,6 @@ public class BTCTradeSession {
   private final Exchange exchange;
   private final BTCTradeSecretDataService secretDataService;
 
-  private long lastNonce = 0L;
-
   private BTCTradeSecretData secretData;
   private long secretExpiresTime;
 
@@ -56,21 +54,6 @@ public class BTCTradeSession {
   public String getKey() {
 
     return exchange.getExchangeSpecification().getApiKey();
-  }
-
-  /**
-   * Returns the next nonce of the session.
-   *
-   * @return the next nonce of the session.
-   */
-  public synchronized long nextNonce() {
-
-    long newNonce = System.currentTimeMillis() * 1000;
-    while (newNonce <= lastNonce) {
-      newNonce++;
-    }
-    lastNonce = newNonce;
-    return newNonce;
   }
 
   public synchronized ParamsDigest getSignatureCreator() throws IOException {

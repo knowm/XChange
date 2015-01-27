@@ -26,16 +26,6 @@ public class BTCTradeBaseTradePollingService extends BTCTradeBasePollingService 
   }
 
   /**
-   * Returns the next nonce.
-   *
-   * @return the next nonce.
-   */
-  public long nextNonce() {
-
-    return session.nextNonce();
-  }
-
-  /**
    * Returns the {@link BTCTradeDigest}.
    *
    * @return the {@link BTCTradeDigest}.

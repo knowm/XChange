@@ -1,5 +1,7 @@
 package com.xeiam.xchange.campbx;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -50,4 +52,9 @@ public class CampBXExchange extends BaseExchange implements Exchange {
     this.pollingAccountService = new CampBXAccountService(this);
   }
 
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // CampBX doesn't use a none on their authenticated API
+    return null;
+  }
 }

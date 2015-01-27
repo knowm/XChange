@@ -29,7 +29,7 @@ public class BleutradeAccountServiceRaw extends BleutradeBasePollingService<Bleu
   public BleutradeDepositAddress getBleutradeDepositAddress(String currency) throws IOException {
 
     try {
-      BleutradeDepositAddressReturn response = bleutrade.getDepositAddress(apiKey, signatureCreator, String.valueOf(nextNonce()), currency);
+      BleutradeDepositAddressReturn response = bleutrade.getDepositAddress(apiKey, signatureCreator, exchange.getNonceFactory(), currency);
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());
@@ -44,7 +44,7 @@ public class BleutradeAccountServiceRaw extends BleutradeBasePollingService<Bleu
   public BleutradeBalance getBleutradeBalance(String currency) throws IOException {
 
     try {
-      BleutradeBalanceReturn response = bleutrade.getBalance(apiKey, signatureCreator, String.valueOf(nextNonce()), currency);
+      BleutradeBalanceReturn response = bleutrade.getBalance(apiKey, signatureCreator, exchange.getNonceFactory(), currency);
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());
@@ -59,7 +59,7 @@ public class BleutradeAccountServiceRaw extends BleutradeBasePollingService<Bleu
   public List<BleutradeBalance> getBleutradeBalances() throws IOException {
 
     try {
-      BleutradeBalancesReturn response = bleutrade.getBalances(apiKey, signatureCreator, String.valueOf(nextNonce()));
+      BleutradeBalancesReturn response = bleutrade.getBalances(apiKey, signatureCreator, exchange.getNonceFactory());
 
       if (!response.getSuccess()) {
         throw new ExchangeException(response.getMessage());

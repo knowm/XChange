@@ -3,7 +3,6 @@ package com.xeiam.xchange.bitfinex.v1.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAuthenticated;
 import com.xeiam.xchange.bitfinex.v1.dto.BitfinexException;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
@@ -17,7 +16,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService<Bitfin
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
    */
   //TODO look at this
   public BitfinexAccountServiceRaw(Exchange exchange) {
@@ -28,7 +27,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService<Bitfin
   public BitfinexBalancesResponse[] getBitfinexAccountInfo() throws IOException {
 
     try {
-      BitfinexBalancesResponse[] balances = bitfinex.balances(apiKey, payloadCreator, signatureCreator, new BitfinexBalancesRequest(String.valueOf(nextNonce())));
+      BitfinexBalancesResponse[] balances = bitfinex.balances(apiKey, payloadCreator, signatureCreator, new BitfinexBalancesRequest(String.valueOf(exchange.getNonceFactory().createValue())));
       return balances;
     } catch (BitfinexException e) {
       throw new ExchangeException(e.getMessage());
@@ -38,7 +37,8 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService<Bitfin
   public BitfinexMarginInfosResponse[] getBitfinexMarginInfos() throws IOException {
 
     try {
-      BitfinexMarginInfosResponse[] marginInfos = bitfinex.marginInfos(apiKey, payloadCreator, signatureCreator, new BitfinexMarginInfosRequest(String.valueOf(nextNonce())));
+      BitfinexMarginInfosResponse[] marginInfos = bitfinex.marginInfos(apiKey, payloadCreator, signatureCreator,
+          new BitfinexMarginInfosRequest(String.valueOf(exchange.getNonceFactory().createValue())));
       return marginInfos;
     } catch (BitfinexException e) {
       throw new ExchangeException(e.getMessage());

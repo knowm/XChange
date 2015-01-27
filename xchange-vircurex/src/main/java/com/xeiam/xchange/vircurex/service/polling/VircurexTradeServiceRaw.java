@@ -35,7 +35,7 @@ public class VircurexTradeServiceRaw extends VircurexBasePollingService {
 
     String type = limitOrder.getType() == Order.OrderType.BID ? "buy" : "sell";
     String timestamp = VircurexUtils.getUtcTimestamp();
-    String nonce = (System.currentTimeMillis() / 250L) + "";
+    long nonce = exchange.getNonceFactory().createValue();
     VircurexSha2Digest digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), timestamp, nonce, "create_order",
         type.toString(), limitOrder.getTradableAmount().floatValue() + "", limitOrder.getCurrencyPair().counterSymbol.toLowerCase(), limitOrder.getLimitPrice().floatValue() + "",
         limitOrder.getCurrencyPair().baseSymbol.toLowerCase());
@@ -44,7 +44,7 @@ public class VircurexTradeServiceRaw extends VircurexBasePollingService {
         + "", limitOrder.getCurrencyPair().counterSymbol.toLowerCase(), limitOrder.getLimitPrice().floatValue() + "", limitOrder.getCurrencyPair().baseSymbol.toLowerCase());
 
     timestamp = VircurexUtils.getUtcTimestamp();
-    nonce = (System.currentTimeMillis() / 200L) + "";
+    nonce = exchange.getNonceFactory().createValue();
 
     digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), timestamp, nonce, "release_order", ret.getOrderId());
 
@@ -55,7 +55,7 @@ public class VircurexTradeServiceRaw extends VircurexBasePollingService {
   public OpenOrders getVircurexOpenOrders() throws IOException {
 
     String timestamp = VircurexUtils.getUtcTimestamp();
-    String nonce = (System.currentTimeMillis() / 250L) + "";
+    long nonce = exchange.getNonceFactory().createValue();
     VircurexSha2Digest digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), timestamp, nonce, "read_orders");
     VircurexOpenOrdersReturn openOrdersReturn = vircurex.getOpenOrders(exchange.getExchangeSpecification().getUserName(), nonce, digest.toString(), timestamp, VircurexUtils.RELEASED_ORDER);
 

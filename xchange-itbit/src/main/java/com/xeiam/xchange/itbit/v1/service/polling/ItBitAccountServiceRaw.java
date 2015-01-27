@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
 
@@ -18,18 +15,18 @@ public class ItBitAccountServiceRaw extends ItBitBasePollingService {
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
    */
-  public ItBitAccountServiceRaw(Exchange exchange, SynchronizedValueFactory<Long> nonceFactory) {
+  public ItBitAccountServiceRaw(Exchange exchange) {
 
-    super(exchange, nonceFactory);
+    super(exchange);
 
     this.userId = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("userId");
   }
 
   public ItBitAccountInfoReturn[] getItBitAccountInfo() throws IOException {
 
-    ItBitAccountInfoReturn[] info = itBit.getInfo(signatureCreator, new Date().getTime(), nonceFactory, userId);
+    ItBitAccountInfoReturn[] info = itBit.getInfo(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), userId);
     return info;
   }
 
@@ -45,7 +42,7 @@ public class ItBitAccountServiceRaw extends ItBitBasePollingService {
 
   public ItBitAccountInfoReturn getItBitAccountInfo(String walletId) throws IOException {
 
-    ItBitAccountInfoReturn itBitAccountInfoReturn = itBit.getWallet(signatureCreator, new Date().getTime(), nonceFactory, walletId);
+    ItBitAccountInfoReturn itBitAccountInfoReturn = itBit.getWallet(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId);
     return itBitAccountInfoReturn;
   }
 }

@@ -33,9 +33,6 @@ import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrderWrapper;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOrderResultWrapper;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResultWrapper;
 
-/**
- * @author timmolter
- */
 @Path("api/2")
 @Produces(MediaType.APPLICATION_JSON)
 public interface ANXV2 {
@@ -75,9 +72,8 @@ public interface ANXV2 {
   @POST
   @Path("money/info")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  ANXAccountInfoWrapper
-      getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-          throws ANXException, IOException;
+  ANXAccountInfoWrapper getAccountInfo(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+      throws ANXException, IOException;
 
   @POST
   @Path("money/{currency}/address")
@@ -155,7 +151,8 @@ public interface ANXV2 {
       @FormParam("price") BigDecimal price) throws ANXException, IOException;
 
   /**
-   * Note: I know it's weird to have BTCEUR hardcoded in the URL, but it really doesn't seems to matter. BTCUSD works too.
+   * Note: I know it's weird to have BTCEUR hardcoded in the URL, but it really
+   * doesn't seems to matter. BTCUSD works too.
    * <p>
    *
    * @param apiKey
@@ -184,6 +181,6 @@ public interface ANXV2 {
   @POST
   @Path("money/wallet/history")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  ANXWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("page") Integer page) throws ANXException, IOException;
+  ANXWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") SynchronizedValueFactory nonce,
+      @FormParam("currency") String currency, @FormParam("page") Integer page) throws ANXException, IOException;
 }
