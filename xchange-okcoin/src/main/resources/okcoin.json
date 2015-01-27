@@ -3,7 +3,7 @@
       "BTC/USD",
       "LTC/USD",      
       "BTC/CNY",
-      "LTC/CNY",
+      "LTC/CNY"
    ],
    "max_public_poll_rate_per_second":20
    

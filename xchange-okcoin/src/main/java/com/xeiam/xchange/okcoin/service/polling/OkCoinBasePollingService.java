@@ -1,6 +1,5 @@
 package com.xeiam.xchange.okcoin.service.polling;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
@@ -29,9 +28,9 @@ public class OkCoinBasePollingService extends BasePollingExchangeService impleme
     useIntl = (Boolean) exchange.getExchangeSpecification().getExchangeSpecificParameters().get("Use_Intl");
 
     if (useIntl) {
-      symbols = (ArrayList<CurrencyPair>) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(OkCoinExchange.INTL_SYMBOLS_PARAMETER);
+      symbols = (List<CurrencyPair>) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(OkCoinExchange.INTL_SYMBOLS_PARAMETER);
     } else {
-      symbols = (ArrayList<CurrencyPair>) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(OkCoinExchange.SYMBOLS_PARAMETER);
+      symbols = (List<CurrencyPair>) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(OkCoinExchange.SYMBOLS_PARAMETER);
     }
   }
 
