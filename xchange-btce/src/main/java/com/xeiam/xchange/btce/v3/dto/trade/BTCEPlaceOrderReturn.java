@@ -15,7 +15,8 @@ public class BTCEPlaceOrderReturn extends BTCEReturn<BTCEPlaceOrderResult> {
    * @param value
    * @param error
    */
-  public BTCEPlaceOrderReturn(@JsonProperty("success") boolean success, @JsonProperty("return") BTCEPlaceOrderResult value, @JsonProperty("error") String error) {
+  public BTCEPlaceOrderReturn(@JsonProperty("success") boolean success, @JsonProperty("return") BTCEPlaceOrderResult value,
+      @JsonProperty("error") String error) {
 
     super(success, value, error);
   }

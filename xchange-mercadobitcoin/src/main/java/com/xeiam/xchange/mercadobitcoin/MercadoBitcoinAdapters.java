@@ -42,8 +42,7 @@ public final class MercadoBitcoinAdapters {
   }
 
   /**
-   * Adapts a com.xeiam.xchange.mercadobitcoin.dto.marketdata.OrderBook to a
-   * OrderBook Object
+   * Adapts a com.xeiam.xchange.mercadobitcoin.dto.marketdata.OrderBook to a OrderBook Object
    *
    * @param currencyPair (e.g. BTC/BRL or LTC/BRL)
    * @param timestamp When the book was retrieved from server.
@@ -95,7 +94,8 @@ public final class MercadoBitcoinAdapters {
     BigDecimal volume = mercadoBitcoinTicker.getTicker().getVol();
     Date timestamp = new Date(mercadoBitcoinTicker.getTicker().getDate() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
 
   }
 
@@ -115,16 +115,15 @@ public final class MercadoBitcoinAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades.add(new Trade(tx.getType().equals("buy") ? OrderType.BID : OrderType.ASK, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String
-          .valueOf(tradeId)));
+      trades.add(new Trade(tx.getType().equals("buy") ? OrderType.BID : OrderType.ASK, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils
+          .fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
     }
 
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByID);
   }
 
   /**
-   * Adapts a MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> to a
-   * AccountInfo
+   * Adapts a MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> to a AccountInfo
    *
    * @param accountInfo The Mercado Bitcoin accountInfo
    * @param userName The user name

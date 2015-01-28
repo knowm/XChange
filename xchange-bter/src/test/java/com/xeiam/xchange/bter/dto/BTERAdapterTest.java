@@ -74,7 +74,8 @@ public class BTERAdapterTest {
     assertThat(adaptedOrder.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_BTC);
     assertThat(adaptedOrder.getId()).isEqualTo("12941907");
     assertThat(adaptedOrder.getTimestamp()).isNull();
-    assertThat(adaptedOrder.getLimitPrice().doubleValue()).isEqualTo(new BigDecimal("0.010176").divide(new BigDecimal("0.384"), RoundingMode.HALF_EVEN).doubleValue());
+    assertThat(adaptedOrder.getLimitPrice().doubleValue()).isEqualTo(
+        new BigDecimal("0.010176").divide(new BigDecimal("0.384"), RoundingMode.HALF_EVEN).doubleValue());
   }
 
   @Test

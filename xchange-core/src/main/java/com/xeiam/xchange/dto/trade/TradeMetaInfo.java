@@ -7,10 +7,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 
 /**
- * This DTO holds information relating to trading constraints for a given
- * exchange such as the trading fee, minimum amounts and scale factors. For some
- * exchanges, this information is relevant for all currencies, while for others
- * it changes depending on the currency.
+ * This DTO holds information relating to trading constraints for a given exchange such as the trading fee, minimum amounts and scale factors. For
+ * some exchanges, this information is relevant for all currencies, while for others it changes depending on the currency.
  */
 public class TradeMetaInfo {
 
@@ -28,7 +26,8 @@ public class TradeMetaInfo {
    * @param scaleFactor
    * @param currencyPairTradeInfoMap
    */
-  public TradeMetaInfo(BigDecimal tradingFee, BigDecimal minimumAmount, Integer scaleFactor, Map<CurrencyPair, CurrencyPairTradeInfo> currencyPairTradeInfoMap) {
+  public TradeMetaInfo(BigDecimal tradingFee, BigDecimal minimumAmount, Integer scaleFactor,
+      Map<CurrencyPair, CurrencyPairTradeInfo> currencyPairTradeInfoMap) {
 
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;

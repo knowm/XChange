@@ -19,9 +19,11 @@ public class VircurexOpenOrder {
   private final String lastChangedDate;
   private final String releaseDate;
 
-  public VircurexOpenOrder(@JsonProperty("orderid") String orderId, @JsonProperty("ordertype") String orderType, @JsonProperty("quantity") BigDecimal quantity,
-      @JsonProperty("openquantity") BigDecimal openQuantity, @JsonProperty("currency1") String baseCurrency, @JsonProperty("unitprice") BigDecimal unitPrice,
-      @JsonProperty("currency2") String counterCurrency, @JsonProperty("lastchangedat") String lastChangedDate, @JsonProperty("releasedat") String releaseDate) {
+  public VircurexOpenOrder(@JsonProperty("orderid") String orderId, @JsonProperty("ordertype") String orderType,
+      @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("openquantity") BigDecimal openQuantity,
+      @JsonProperty("currency1") String baseCurrency, @JsonProperty("unitprice") BigDecimal unitPrice,
+      @JsonProperty("currency2") String counterCurrency, @JsonProperty("lastchangedat") String lastChangedDate,
+      @JsonProperty("releasedat") String releaseDate) {
 
     this.orderId = orderId;
     this.baseCurrency = baseCurrency;

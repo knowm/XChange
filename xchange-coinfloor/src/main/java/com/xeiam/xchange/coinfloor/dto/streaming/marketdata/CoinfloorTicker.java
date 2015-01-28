@@ -25,8 +25,9 @@ public class CoinfloorTicker {
   private final BigDecimal high;
   private final BigDecimal volume;
 
-  public CoinfloorTicker(@JsonProperty("tag") int tag, @JsonProperty("error_code") int errorCode, @JsonProperty("base") int base, @JsonProperty("counter") int counter, @JsonProperty("last") int last,
-      @JsonProperty("bid") int bid, @JsonProperty("ask") int ask, @JsonProperty("low") int low, @JsonProperty("high") int high, @JsonProperty("volume") int volume) {
+  public CoinfloorTicker(@JsonProperty("tag") int tag, @JsonProperty("error_code") int errorCode, @JsonProperty("base") int base,
+      @JsonProperty("counter") int counter, @JsonProperty("last") int last, @JsonProperty("bid") int bid, @JsonProperty("ask") int ask,
+      @JsonProperty("low") int low, @JsonProperty("high") int high, @JsonProperty("volume") int volume) {
 
     this.tag = tag;
     this.errorCode = errorCode;
@@ -93,6 +94,7 @@ public class CoinfloorTicker {
   @Override
   public String toString() {
 
-    return "CoinfloorTicker{tag='" + tag + "', errorcode='" + errorCode + "', last='" + last + "', bid='" + bid + "', ask='" + ask + "', low='" + low + "', volume='" + volume + "'}";
+    return "CoinfloorTicker{tag='" + tag + "', errorcode='" + errorCode + "', last='" + last + "', bid='" + bid + "', ask='" + ask + "', low='" + low
+        + "', volume='" + volume + "'}";
   }
 }

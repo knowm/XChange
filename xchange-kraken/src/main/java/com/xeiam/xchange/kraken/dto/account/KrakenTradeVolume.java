@@ -18,7 +18,8 @@ public class KrakenTradeVolume {
    * @param volume
    * @param fees
    */
-  public KrakenTradeVolume(@JsonProperty("currency") String currency, @JsonProperty("volume") BigDecimal volume, @JsonProperty("fees") Map<String, KrakenVolumeFee> fees) {
+  public KrakenTradeVolume(@JsonProperty("currency") String currency, @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("fees") Map<String, KrakenVolumeFee> fees) {
 
     this.currency = currency;
     this.volume = volume;

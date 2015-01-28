@@ -107,7 +107,8 @@ public class BitcoiniumRealtimeOrderbookDemo {
     updateData();
 
     // create chart
-    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time Bitcoinium Order Book - BITSTAMP_BTC_USD").xAxisTitle("BTC").yAxisTitle("USD").build();
+    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time Bitcoinium Order Book - BITSTAMP_BTC_USD")
+        .xAxisTitle("BTC").yAxisTitle("USD").build();
     chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
 
     // add series

@@ -25,7 +25,6 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   *
    * Constructor
    *
    * @param exchange

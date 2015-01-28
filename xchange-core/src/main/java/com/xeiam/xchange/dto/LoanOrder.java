@@ -83,7 +83,8 @@ public class LoanOrder {
   @Override
   public String toString() {
 
-    return "LoanOrder [type=" + type + ", currency=" + currency + ", tradableAmount=" + tradableAmount + ", dayPeriod=" + dayPeriod + ", id=" + id + ", timestamp=" + timestamp + "]";
+    return "LoanOrder [type=" + type + ", currency=" + currency + ", tradableAmount=" + tradableAmount + ", dayPeriod=" + dayPeriod + ", id=" + id
+        + ", timestamp=" + timestamp + "]";
   }
 
   @Override
@@ -113,28 +114,24 @@ public class LoanOrder {
     if (currency == null) {
       if (other.currency != null)
         return false;
-    }
-    else if (!currency.equals(other.currency))
+    } else if (!currency.equals(other.currency))
       return false;
     if (dayPeriod != other.dayPeriod)
       return false;
     if (id == null) {
       if (other.id != null)
         return false;
-    }
-    else if (!id.equals(other.id))
+    } else if (!id.equals(other.id))
       return false;
     if (timestamp == null) {
       if (other.timestamp != null)
         return false;
-    }
-    else if (!timestamp.equals(other.timestamp))
+    } else if (!timestamp.equals(other.timestamp))
       return false;
     if (tradableAmount == null) {
       if (other.tradableAmount != null)
         return false;
-    }
-    else if (!tradableAmount.equals(other.tradableAmount))
+    } else if (!tradableAmount.equals(other.tradableAmount))
       return false;
     if (type != other.type)
       return false;

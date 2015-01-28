@@ -21,10 +21,11 @@ public class BittrexTicker {
   private String timeStamp;
   private BigDecimal volume;
 
-  public BittrexTicker(@JsonProperty("Ask") BigDecimal ask, @JsonProperty("BaseVolume") BigDecimal baseVolume, @JsonProperty("Bid") BigDecimal bid, @JsonProperty("Created") String created,
-      @JsonProperty("DisplayMarketName") String displayMarketName, @JsonProperty("High") BigDecimal high, @JsonProperty("Last") BigDecimal last, @JsonProperty("Low") BigDecimal low,
-      @JsonProperty("MarketName") String marketName, @JsonProperty("OpenBuyOrders") int openBuyOrders, @JsonProperty("OpenSellOrders") int openSellOrders, @JsonProperty("PrevDay") BigDecimal prevDay,
-      @JsonProperty("TimeStamp") String timeStamp, @JsonProperty("Volume") BigDecimal volume) {
+  public BittrexTicker(@JsonProperty("Ask") BigDecimal ask, @JsonProperty("BaseVolume") BigDecimal baseVolume, @JsonProperty("Bid") BigDecimal bid,
+      @JsonProperty("Created") String created, @JsonProperty("DisplayMarketName") String displayMarketName, @JsonProperty("High") BigDecimal high,
+      @JsonProperty("Last") BigDecimal last, @JsonProperty("Low") BigDecimal low, @JsonProperty("MarketName") String marketName,
+      @JsonProperty("OpenBuyOrders") int openBuyOrders, @JsonProperty("OpenSellOrders") int openSellOrders,
+      @JsonProperty("PrevDay") BigDecimal prevDay, @JsonProperty("TimeStamp") String timeStamp, @JsonProperty("Volume") BigDecimal volume) {
 
     this.ask = ask;
     this.baseVolume = baseVolume;
@@ -185,9 +186,9 @@ public class BittrexTicker {
   @Override
   public String toString() {
 
-    return "BittrexTicker [ask=" + ask + ", baseVolume=" + baseVolume + ", bid=" + bid + ", created=" + created + ", displayMarketName=" + displayMarketName + ", high=" + high + ", last=" + last
-        + ", low=" + low + ", marketName=" + marketName + ", openBuyOrders=" + openBuyOrders + ", openSellOrders=" + openSellOrders + ", prevDay=" + prevDay + ", timeStamp=" + timeStamp + ", volume="
-        + volume + "]";
+    return "BittrexTicker [ask=" + ask + ", baseVolume=" + baseVolume + ", bid=" + bid + ", created=" + created + ", displayMarketName="
+        + displayMarketName + ", high=" + high + ", last=" + last + ", low=" + low + ", marketName=" + marketName + ", openBuyOrders="
+        + openBuyOrders + ", openSellOrders=" + openSellOrders + ", prevDay=" + prevDay + ", timeStamp=" + timeStamp + ", volume=" + volume + "]";
   }
 
 }

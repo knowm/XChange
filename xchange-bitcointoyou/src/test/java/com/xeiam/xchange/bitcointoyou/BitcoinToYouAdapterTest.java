@@ -103,8 +103,9 @@ public class BitcoinToYouAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> bitcoinToYouAccountInfo = mapper.readValue(is, new TypeReference<BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]>>() {
-    });
+    BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> bitcoinToYouAccountInfo = mapper.readValue(is,
+        new TypeReference<BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]>>() {
+        });
 
     AccountInfo accountInfo = BitcoinToYouAdapters.adaptAccountInfo(bitcoinToYouAccountInfo, "Nina Tufão & Bit");
     assertThat(accountInfo.getUsername()).isEqualTo("Nina Tufão & Bit");
@@ -124,8 +125,9 @@ public class BitcoinToYouAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder[]> apiResult = mapper.readValue(is, new TypeReference<BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder[]>>() {
-    });
+    BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder[]> apiResult = mapper.readValue(is,
+        new TypeReference<BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder[]>>() {
+        });
 
     List<LimitOrder> orders = BitcoinToYouAdapters.adaptOrders(apiResult);
 

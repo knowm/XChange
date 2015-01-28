@@ -39,7 +39,8 @@ public final class CampBXOrderBook extends CampBXResponse {
   @Override
   public String toString() {
 
-    return "CampBXOrderBook [bids=" + bids + ", asks=" + asks + ", getSuccess()=" + getSuccess() + ", getInfo()=" + getInfo() + ", getError()=" + getError() + "]";
+    return "CampBXOrderBook [bids=" + bids + ", asks=" + asks + ", getSuccess()=" + getSuccess() + ", getInfo()=" + getInfo() + ", getError()="
+        + getError() + "]";
   }
 
 }

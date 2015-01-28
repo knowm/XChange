@@ -22,7 +22,8 @@ public class BitbayTrade {
    * @param amount
    * @param tid
    */
-  public BitbayTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("tid") String tid) {
+  public BitbayTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("tid") String tid) {
 
     this.date = date;
     this.price = price;

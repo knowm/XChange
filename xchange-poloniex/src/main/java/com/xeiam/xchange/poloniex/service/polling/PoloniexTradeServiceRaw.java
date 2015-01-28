@@ -39,7 +39,8 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
 
   public PoloniexUserTrade[] returnTradeHistory(CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
 
-    return poloniex.returnTradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexUtils.toPairString(currencyPair), startTime, endTime);
+    return poloniex.returnTradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexUtils.toPairString(currencyPair), startTime,
+        endTime);
   }
 
   public HashMap<String, PoloniexUserTrade[]> returnTradeHistory(Long startTime, Long endTime) throws IOException {
@@ -51,8 +52,8 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
   public PoloniexTradeResponse buy(LimitOrder limitOrder) throws IOException {
 
     try {
-      PoloniexTradeResponse response = poloniex.buy(apiKey, signatureCreator, exchange.getNonceFactory(), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
-          PoloniexUtils.toPairString(limitOrder.getCurrencyPair()));
+      PoloniexTradeResponse response = poloniex.buy(apiKey, signatureCreator, exchange.getNonceFactory(), limitOrder.getTradableAmount()
+          .toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils.toPairString(limitOrder.getCurrencyPair()));
       return response;
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError());
@@ -62,8 +63,8 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
   public PoloniexTradeResponse sell(LimitOrder limitOrder) throws IOException {
 
     try {
-      PoloniexTradeResponse response = poloniex.sell(apiKey, signatureCreator, exchange.getNonceFactory(), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
-          PoloniexUtils.toPairString(limitOrder.getCurrencyPair()));
+      PoloniexTradeResponse response = poloniex.sell(apiKey, signatureCreator, exchange.getNonceFactory(), limitOrder.getTradableAmount()
+          .toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils.toPairString(limitOrder.getCurrencyPair()));
       return response;
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError());
@@ -73,13 +74,13 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
   public boolean cancel(String orderId) throws IOException {
 
     /*
-     * Need to look up CurrencyPair associated with orderId Poloniex is working
-     * on fixing this
+     * Need to look up CurrencyPair associated with orderId Poloniex is working on fixing this
      */
     OpenOrders openOrders = PoloniexAdapters.adaptPoloniexOpenOrders(returnOpenOrders());
     for (LimitOrder order : openOrders.getOpenOrders()) {
       if (order.getId().equals(orderId)) {
-        HashMap<String, String> response = poloniex.cancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId, PoloniexUtils.toPairString(order.getCurrencyPair()));
+        HashMap<String, String> response = poloniex.cancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId,
+            PoloniexUtils.toPairString(order.getCurrencyPair()));
         if (response.containsKey("error")) {
           throw new ExchangeException(response.get("error"));
         } else {
@@ -95,10 +96,10 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
   public boolean cancel(String orderId, CurrencyPair currencyPair) throws IOException {
 
     /*
-     * No need to look up CurrencyPair associated with orderId, as the caller
-     * will provide it.
+     * No need to look up CurrencyPair associated with orderId, as the caller will provide it.
      */
-    HashMap<String, String> response = poloniex.cancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId, PoloniexUtils.toPairString(currencyPair));
+    HashMap<String, String> response = poloniex.cancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId,
+        PoloniexUtils.toPairString(currencyPair));
     if (response.containsKey("error")) {
       throw new ExchangeException(response.get("error"));
     }

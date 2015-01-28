@@ -23,7 +23,6 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   *
    * Constructor
    *
    * @param exchange

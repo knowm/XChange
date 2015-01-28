@@ -8,8 +8,7 @@ import com.xeiam.xchange.examples.cexio.CexIODemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
- * Author: brox
- * Since: 2/6/14
+ * Author: brox Since: 2/6/14
  */
 
 public class AccountInfoDemo {

@@ -65,7 +65,8 @@ public class BitcoiniumMarketDataDemo {
     System.out.println("Volume: " + bitcoiniumTicker.getVolume());
 
     // Get the latest order book data for BTC/USD - MtGox
-    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumSpecificMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, "BITSTAMP_USD", "TEN_PERCENT");
+    BitcoiniumOrderbook bitcoiniumOrderbook = bitcoiniumSpecificMarketDataService.getBitcoiniumOrderbook(Currencies.BTC, "BITSTAMP_USD",
+        "TEN_PERCENT");
 
     System.out.println("Order book: " + bitcoiniumOrderbook);
   }

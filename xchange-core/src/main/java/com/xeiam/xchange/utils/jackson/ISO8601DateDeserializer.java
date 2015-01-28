@@ -10,8 +10,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
- * Deserializes an ISO 8601 formatted Date String to a Java Date
- * ISO 8601 format: yyyy-MM-dd'T'HH:mm:ssX
+ * Deserializes an ISO 8601 formatted Date String to a Java Date ISO 8601 format: yyyy-MM-dd'T'HH:mm:ssX
  * 
  * @author jamespedwards42
  */

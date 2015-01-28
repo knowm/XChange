@@ -59,8 +59,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   }
 
   /**
-   * Required parameters {@link TradeHistoryParamsTimeSpan}
-   * {@link TradeHistoryParamOffset}
+   * Required parameters {@link TradeHistoryParamsTimeSpan} {@link TradeHistoryParamOffset}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
@@ -68,7 +67,8 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
     TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
     TradeHistoryParamOffset offset = (TradeHistoryParamOffset) params;
 
-    return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory(null, false, getTime(timeSpan.getStartTime()), getTime(timeSpan.getEndTime()), offset.getOffset()));
+    return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory(null, false, getTime(timeSpan.getStartTime()), getTime(timeSpan.getEndTime()),
+        offset.getOffset()));
   }
 
   @Override

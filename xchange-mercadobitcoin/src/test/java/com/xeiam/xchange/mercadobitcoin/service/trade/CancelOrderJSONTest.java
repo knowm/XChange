@@ -1,19 +1,21 @@
 package com.xeiam.xchange.mercadobitcoin.service.trade;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
-import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
+import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
 
 /**
  * Test Transaction[] JSON parsing
+ * 
  * @author Felipe Micaroni Lalli
  */
 public class CancelOrderJSONTest {
@@ -26,8 +28,9 @@ public class CancelOrderJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> apiResult = mapper.readValue(is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult>>() {
-    });
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> apiResult = mapper.readValue(is,
+        new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult>>() {
+        });
 
     MercadoBitcoinPlaceLimitOrderResult limitOrder = apiResult.getTheReturn();
 

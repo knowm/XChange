@@ -10,8 +10,7 @@ import com.xeiam.xchange.dto.trade.Wallet;
  * DTO representing account information
  * </p>
  * <p>
- * Account information is associated with the current balances in various
- * currencies held on the exchange.
+ * Account information is associated with the current balances in various currencies held on the exchange.
  * </p>
  */
 public final class AccountInfo {
@@ -74,8 +73,7 @@ public final class AccountInfo {
   /**
    * Utility method to locate an exchange balance in the given currency
    *
-   * @param currency A valid currency unit (e.g. CurrencyUnit.USD or
-   *          CurrencyUnit.of("BTC"))
+   * @param currency A valid currency unit (e.g. CurrencyUnit.USD or CurrencyUnit.of("BTC"))
    * @return The balance, or zero if not found
    */
   public BigDecimal getBalance(String currency) {

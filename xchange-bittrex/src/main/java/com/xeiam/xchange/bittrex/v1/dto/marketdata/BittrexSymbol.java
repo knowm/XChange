@@ -13,9 +13,10 @@ public class BittrexSymbol {
   private String marketName;
   private Number minTradeSize;
 
-  public BittrexSymbol(@JsonProperty("BaseCurrency") String baseCurrency, @JsonProperty("BaseCurrencyLong") String baseCurrencyLong, @JsonProperty("Created") String created,
-      @JsonProperty("IsActive") boolean isActive, @JsonProperty("MarketCurrency") String marketCurrency, @JsonProperty("MarketCurrencyLong") String marketCurrencyLong,
-      @JsonProperty("MarketName") String marketName, @JsonProperty("MinTradeSize") Number minTradeSize) {
+  public BittrexSymbol(@JsonProperty("BaseCurrency") String baseCurrency, @JsonProperty("BaseCurrencyLong") String baseCurrencyLong,
+      @JsonProperty("Created") String created, @JsonProperty("IsActive") boolean isActive, @JsonProperty("MarketCurrency") String marketCurrency,
+      @JsonProperty("MarketCurrencyLong") String marketCurrencyLong, @JsonProperty("MarketName") String marketName,
+      @JsonProperty("MinTradeSize") Number minTradeSize) {
 
     this.baseCurrency = baseCurrency;
     this.baseCurrencyLong = baseCurrencyLong;
@@ -111,8 +112,9 @@ public class BittrexSymbol {
   @Override
   public String toString() {
 
-    return "BittrexSymbol [baseCurrency=" + baseCurrency + ", baseCurrencyLong=" + baseCurrencyLong + ", created=" + created + ", isActive=" + isActive + ", marketCurrency=" + marketCurrency
-        + ", marketCurrencyLong=" + marketCurrencyLong + ", marketName=" + marketName + ", minTradeSize=" + minTradeSize + "]";
+    return "BittrexSymbol [baseCurrency=" + baseCurrency + ", baseCurrencyLong=" + baseCurrencyLong + ", created=" + created + ", isActive="
+        + isActive + ", marketCurrency=" + marketCurrency + ", marketCurrencyLong=" + marketCurrencyLong + ", marketName=" + marketName
+        + ", minTradeSize=" + minTradeSize + "]";
   }
 
 }

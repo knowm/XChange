@@ -43,8 +43,7 @@ public final class BitcoinToYouAdapters {
   }
 
   /**
-   * Adapts a com.xeiam.xchange.bitcointoyou.dto.marketdata.OrderBook to a
-   * OrderBook Object
+   * Adapts a com.xeiam.xchange.bitcointoyou.dto.marketdata.OrderBook to a OrderBook Object
    *
    * @param currencyPair (e.g. BTC/BRL or LTC/BRL)
    * @param timestamp When the book was retrieved from server.
@@ -96,7 +95,8 @@ public final class BitcoinToYouAdapters {
     BigDecimal volume = bitcoinToYouTicker.getTicker().getVol();
     Date timestamp = new Date(bitcoinToYouTicker.getTicker().getDate() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
 
   }
 
@@ -116,16 +116,15 @@ public final class BitcoinToYouAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades.add(new Trade(tx.getType().equals("buy") ? OrderType.BID : OrderType.ASK, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String
-          .valueOf(tradeId)));
+      trades.add(new Trade(tx.getType().equals("buy") ? OrderType.BID : OrderType.ASK, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils
+          .fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
     }
 
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByID);
   }
 
   /**
-   * Adapts a BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> to an
-   * AccountInfo
+   * Adapts a BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> to an AccountInfo
    *
    * @param accountInfo The BitcoinToYou accountInfo
    * @param userName The user name
@@ -153,8 +152,8 @@ public final class BitcoinToYouAdapters {
       time.setTimeZone(TimeZone.getTimeZone("Brazil/East"));
 
       try {
-        limitOrders.add(new LimitOrder(order.getAction().equals("buy") ? OrderType.BID : OrderType.ASK, order.getAmount(), new CurrencyPair(order.getAsset(), order.getCurrency()), order.getId() + "",
-            time.parse(order.getDateCreated()), order.getPrice()));
+        limitOrders.add(new LimitOrder(order.getAction().equals("buy") ? OrderType.BID : OrderType.ASK, order.getAmount(), new CurrencyPair(order
+            .getAsset(), order.getCurrency()), order.getId() + "", time.parse(order.getDateCreated()), order.getPrice()));
       } catch (ParseException e) {
         throw new ExchangeException(e.getMessage(), e);
       }

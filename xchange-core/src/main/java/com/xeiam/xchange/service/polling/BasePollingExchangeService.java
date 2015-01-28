@@ -9,7 +9,6 @@ import com.xeiam.xchange.service.BaseExchangeService;
 public abstract class BasePollingExchangeService extends BaseExchangeService {
 
   /**
-   *
    * Constructor
    *
    * @param exchange

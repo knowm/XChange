@@ -31,13 +31,14 @@ public class CexIOAccountServiceRaw extends CexIOBasePollingService {
 
     super(exchange);
     this.cexIOAuthenticated = RestProxyFactory.createProxy(CexIOAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    signatureCreator = CexIODigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification()
-        .getApiKey());
+    signatureCreator = CexIODigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
+        .getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
 
   public CexIOBalanceInfo getCexIOAccountInfo() throws IOException {
 
-    CexIOBalanceInfo info = cexIOAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    CexIOBalanceInfo info = cexIOAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory());
     if (info.getError() != null) {
       throw new ExchangeException("Error getting balance. " + info.getError());
     }

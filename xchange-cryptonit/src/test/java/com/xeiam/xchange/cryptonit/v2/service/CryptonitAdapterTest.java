@@ -100,7 +100,8 @@ public class CryptonitAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    CollectionLikeType nestedListType = mapper.getTypeFactory().constructCollectionType(List.class, mapper.getTypeFactory().constructCollectionType(List.class, String.class));
+    CollectionLikeType nestedListType = mapper.getTypeFactory().constructCollectionType(List.class,
+        mapper.getTypeFactory().constructCollectionType(List.class, String.class));
     List<List<String>> tradingPairs = mapper.readValue(is, nestedListType);
 
     Collection<CurrencyPair> currencyPairs = CryptonitAdapters.adaptCurrencyPairs(tradingPairs);

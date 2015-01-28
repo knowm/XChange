@@ -47,6 +47,6 @@ public interface BitcoinToYou {
 
   @GET
   @Path("/trades.aspx")
-  public BitcoinToYouTransaction[] getTransactions(@Nonnull @QueryParam("currency") String currency, @Nullable @QueryParam("timestamp") Long timestamp, @Nullable @QueryParam("tid") String tid)
-      throws IOException;
+  public BitcoinToYouTransaction[] getTransactions(@Nonnull @QueryParam("currency") String currency,
+      @Nullable @QueryParam("timestamp") Long timestamp, @Nullable @QueryParam("tid") String tid) throws IOException;
 }

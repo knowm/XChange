@@ -31,11 +31,12 @@ public class CoinsetterOrderRequest {
    * @param side Side ("BUY" or "SELL")
    * @param orderType Order type ("MARKET" or "LIMIT")
    * @param requestedQuantity Requested quantity to buy/sell. (Integer with up to two decimal places)
-   * @param routingMethod How your order Will be routed (1 for SMART routing, 2 for COINSETTER routing). If the order is routed to SMART you will be using the aggregate OrderBook. If you route the
-   *          order to COINSETTER you will use COINSETTER orderBook only.
+   * @param routingMethod How your order Will be routed (1 for SMART routing, 2 for COINSETTER routing). If the order is routed to SMART you will be
+   *        using the aggregate OrderBook. If you route the order to COINSETTER you will use COINSETTER orderBook only.
    * @param requestedPrice Requested price (Integer with up to two decimal places)
    */
-  public CoinsetterOrderRequest(UUID customerUuid, UUID accountUuid, String symbol, String side, String orderType, BigDecimal requestedQuantity, int routingMethod, BigDecimal requestedPrice) {
+  public CoinsetterOrderRequest(UUID customerUuid, UUID accountUuid, String symbol, String side, String orderType, BigDecimal requestedQuantity,
+      int routingMethod, BigDecimal requestedPrice) {
 
     this.customerUuid = customerUuid;
     this.accountUuid = accountUuid;

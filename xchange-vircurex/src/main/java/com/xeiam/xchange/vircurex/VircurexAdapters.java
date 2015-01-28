@@ -76,8 +76,8 @@ public final class VircurexAdapters {
         timeStamp = null;
       }
 
-      adaptedOrders.add(new LimitOrder(orderType, BigDecimal.ONE, new CurrencyPair(vircurexOpenOrder.getBaseCurrency(), vircurexOpenOrder.getCounterCurrency()), vircurexOpenOrder.getOrderId(),
-          timeStamp, vircurexOpenOrder.getUnitPrice()));
+      adaptedOrders.add(new LimitOrder(orderType, BigDecimal.ONE, new CurrencyPair(vircurexOpenOrder.getBaseCurrency(), vircurexOpenOrder
+          .getCounterCurrency()), vircurexOpenOrder.getOrderId(), timeStamp, vircurexOpenOrder.getUnitPrice()));
     }
 
     return adaptedOrders;

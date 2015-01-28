@@ -26,8 +26,7 @@ public class BitcoinToYouMarketDataServiceRaw extends BitcoinToYouBasePollingSer
   /**
    * Initialize common properties from the exchange specification
    *
-   * @param exchangeSpecification The
-   *          {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public BitcoinToYouMarketDataServiceRaw(Exchange exchange) {
 

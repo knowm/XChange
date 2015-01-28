@@ -39,8 +39,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   }
 
   /**
-   * This returns the currently set deposit address. It will not generate a new
-   * address (ie. repeated calls will return the same address).
+   * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
    */
   @Override
   public String requestDepositAddress(String currency, String... arguments) throws IOException {

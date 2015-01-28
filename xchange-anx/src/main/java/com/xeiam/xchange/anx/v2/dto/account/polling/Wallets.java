@@ -51,11 +51,12 @@ public final class Wallets {
    * @param nZD
    * @param sGD
    */
-  public Wallets(@JsonProperty("BTC") ANXWallet bTC, @JsonProperty("USD") ANXWallet uSD, @JsonProperty("EUR") ANXWallet eUR, @JsonProperty("GBP") ANXWallet gBP, @JsonProperty("AUD") ANXWallet aUD,
-      @JsonProperty("CAD") ANXWallet cAD, @JsonProperty("CHF") ANXWallet cHF, @JsonProperty("JPY") ANXWallet jPY, @JsonProperty("CNY") ANXWallet cNY, @JsonProperty("HKD") ANXWallet hKD,
-      @JsonProperty("NZD") ANXWallet nZD, @JsonProperty("SGD") ANXWallet sGD, @JsonProperty("LTC") ANXWallet lTC, @JsonProperty("NMC") ANXWallet nMC, @JsonProperty("MEC") ANXWallet mEC,
-      @JsonProperty("SBC") ANXWallet sBC, @JsonProperty("WDC") ANXWallet wDC, @JsonProperty("QRK") ANXWallet qRK, @JsonProperty("PPC") ANXWallet pPC, @JsonProperty("DOGE") ANXWallet dOGE,
-      @JsonProperty("NXT") ANXWallet nXT, @JsonProperty("MSC") ANXWallet mSC) {
+  public Wallets(@JsonProperty("BTC") ANXWallet bTC, @JsonProperty("USD") ANXWallet uSD, @JsonProperty("EUR") ANXWallet eUR,
+      @JsonProperty("GBP") ANXWallet gBP, @JsonProperty("AUD") ANXWallet aUD, @JsonProperty("CAD") ANXWallet cAD, @JsonProperty("CHF") ANXWallet cHF,
+      @JsonProperty("JPY") ANXWallet jPY, @JsonProperty("CNY") ANXWallet cNY, @JsonProperty("HKD") ANXWallet hKD, @JsonProperty("NZD") ANXWallet nZD,
+      @JsonProperty("SGD") ANXWallet sGD, @JsonProperty("LTC") ANXWallet lTC, @JsonProperty("NMC") ANXWallet nMC, @JsonProperty("MEC") ANXWallet mEC,
+      @JsonProperty("SBC") ANXWallet sBC, @JsonProperty("WDC") ANXWallet wDC, @JsonProperty("QRK") ANXWallet qRK, @JsonProperty("PPC") ANXWallet pPC,
+      @JsonProperty("DOGE") ANXWallet dOGE, @JsonProperty("NXT") ANXWallet nXT, @JsonProperty("MSC") ANXWallet mSC) {
 
     this.bTC = bTC;
     this.uSD = uSD;
@@ -202,9 +203,9 @@ public final class Wallets {
   @Override
   public String toString() {
 
-    return "Wallets [BTC=" + bTC + ", USD=" + uSD + ", EUR=" + eUR + ", GBP=" + gBP + ", AUD=" + aUD + ", CAD=" + cAD + ", CHF=" + cHF + ", JPY=" + jPY + ", CNY=" + cNY + ", HKD=" + hKD + ", NZD="
-        + nZD + ", SGD=" + sGD + ", LTC=" + lTC + ", NMC=" + nMC + ", MEC=" + mEC + ", SBC=" + sBC + ", WDC=" + wDC + ", QRK=" + qRK + ", PPC=" + pPC + ", DOGE=" + dOGE + ", NXT=" + nXT + ", MSC="
-        + mSC + "]";
+    return "Wallets [BTC=" + bTC + ", USD=" + uSD + ", EUR=" + eUR + ", GBP=" + gBP + ", AUD=" + aUD + ", CAD=" + cAD + ", CHF=" + cHF + ", JPY="
+        + jPY + ", CNY=" + cNY + ", HKD=" + hKD + ", NZD=" + nZD + ", SGD=" + sGD + ", LTC=" + lTC + ", NMC=" + nMC + ", MEC=" + mEC + ", SBC=" + sBC
+        + ", WDC=" + wDC + ", QRK=" + qRK + ", PPC=" + pPC + ", DOGE=" + dOGE + ", NXT=" + nXT + ", MSC=" + mSC + "]";
   }
 
 }

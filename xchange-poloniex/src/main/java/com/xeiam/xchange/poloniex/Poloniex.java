@@ -30,16 +30,19 @@ public interface Poloniex {
   HashMap<String, PoloniexMarketData> getTicker(@QueryParam("command") String command) throws PoloniexException, IOException;
 
   @GET
-  PoloniexDepth getOrderBook(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
+  PoloniexDepth getOrderBook(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair) throws PoloniexException,
+      IOException;
 
   @GET
-  PoloniexDepth getOrderBook(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair, @QueryParam("depth") Integer depth) throws PoloniexException, IOException;
+  PoloniexDepth getOrderBook(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair,
+      @QueryParam("depth") Integer depth) throws PoloniexException, IOException;
 
   @GET
-  PoloniexPublicTrade[] getTrades(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair, @QueryParam("start") Long startTime, @QueryParam("end") Long endTime)
-      throws PoloniexException, IOException;
+  PoloniexPublicTrade[] getTrades(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair,
+      @QueryParam("start") Long startTime, @QueryParam("end") Long endTime) throws PoloniexException, IOException;
 
   @GET
-  Map<String, PoloniexDepth> getAllOrderBooks(@QueryParam("command") String command, @QueryParam("currencyPair") String pair, @QueryParam("depth") Integer depth) throws PoloniexException, IOException;
+  Map<String, PoloniexDepth> getAllOrderBooks(@QueryParam("command") String command, @QueryParam("currencyPair") String pair,
+      @QueryParam("depth") Integer depth) throws PoloniexException, IOException;
 
 }

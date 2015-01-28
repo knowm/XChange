@@ -67,8 +67,7 @@ public class CoinsetterStreamingConfiguration implements ExchangeStreamingConfig
   }
 
   /**
-   * Add event channel to subscribe.
-   * The event could be:
+   * Add event channel to subscribe. The event could be:
    * <ul>
    * <li>last room</li>
    * <li>ticker room</li>

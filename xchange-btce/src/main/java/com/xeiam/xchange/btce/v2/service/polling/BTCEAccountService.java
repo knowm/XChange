@@ -30,7 +30,8 @@ public class BTCEAccountService extends BTCEBasePollingService implements Pollin
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null, null);
+    BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, nextNonce(), null, null, null, null, BTCEAuthenticated.SortOrder.DESC, null,
+        null);
     checkResult(info);
     return BTCEAdapters.adaptAccountInfo(info.getReturnValue());
   }

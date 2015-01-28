@@ -50,14 +50,16 @@ public class TradesDemo {
     BTCTradeTrade[] trades = marketDataService.getBTCTradeTrades();
     System.out.println("Trades count: " + trades.length);
     for (BTCTradeTrade trade : trades) {
-      System.out.println(trade.getTid() + "\t" + new Date(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t" + trade.getAmount());
+      System.out.println(trade.getTid() + "\t" + new Date(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t"
+          + trade.getAmount());
     }
 
     // Get 500 trades which tid > 0
     trades = marketDataService.getBTCTradeTrades(0);
     System.out.println("Trades count: " + trades.length);
     for (BTCTradeTrade trade : trades) {
-      System.out.println(trade.getTid() + "\t" + new Date(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t" + trade.getAmount());
+      System.out.println(trade.getTid() + "\t" + new Date(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t"
+          + trade.getAmount());
     }
   }
 

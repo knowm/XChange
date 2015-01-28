@@ -11,8 +11,7 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * <p>
- * XChange service to provide the following to
- * {@link com.xeiam.xchange.Exchange}:
+ * XChange service to provide the following to {@link com.xeiam.xchange.Exchange}:
  * </p>
  * <ul>
  * <li>ANX specific methods to handle account-related operations</li>

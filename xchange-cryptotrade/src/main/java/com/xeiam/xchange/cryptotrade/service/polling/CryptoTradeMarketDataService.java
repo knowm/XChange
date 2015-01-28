@@ -56,7 +56,8 @@ public class CryptoTradeMarketDataService extends CryptoTradeMarketDataServiceRa
       sinceTimestamp = ((Number) arg0).longValue();
     }
 
-    List<CryptoTradePublicTrade> publicTradeHistory = sinceTimestamp == 0 ? super.getCryptoTradeTradeHistory(currencyPair) : super.getCryptoTradeTradeHistory(currencyPair, sinceTimestamp);
+    List<CryptoTradePublicTrade> publicTradeHistory = sinceTimestamp == 0 ? super.getCryptoTradeTradeHistory(currencyPair) : super
+        .getCryptoTradeTradeHistory(currencyPair, sinceTimestamp);
 
     return CryptoTradeAdapters.adaptPublicTradeHistory(currencyPair, publicTradeHistory);
   }

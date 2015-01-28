@@ -14,8 +14,9 @@ public class BitfinexCreditResponse {
   private final BigDecimal amount;
   private final BigDecimal timestamp;
 
-  public BitfinexCreditResponse(@JsonProperty("id") int id, @JsonProperty("currency") String currency, @JsonProperty("status") String status, @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("period") int period, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") BigDecimal timestamp) {
+  public BitfinexCreditResponse(@JsonProperty("id") int id, @JsonProperty("currency") String currency, @JsonProperty("status") String status,
+      @JsonProperty("rate") BigDecimal rate, @JsonProperty("period") int period, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("timestamp") BigDecimal timestamp) {
 
     this.id = id;
     this.currency = currency;
@@ -64,7 +65,8 @@ public class BitfinexCreditResponse {
   @Override
   public String toString() {
 
-    return "BitfinexCreditResponse [id=" + id + ", currency=" + currency + ", status=" + status + ", rate=" + rate + ", period=" + period + ", amount=" + amount + ", timestamp=" + timestamp + "]";
+    return "BitfinexCreditResponse [id=" + id + ", currency=" + currency + ", status=" + status + ", rate=" + rate + ", period=" + period
+        + ", amount=" + amount + ", timestamp=" + timestamp + "]";
   }
 
 }

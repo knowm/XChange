@@ -50,8 +50,8 @@ public class CoinsetterOrderDemo {
 
     // Add order
     log.info("Adding order...");
-    CoinsetterOrderRequest request = new CoinsetterOrderRequest(clientSession.getCustomerUuid(), tradeAccount.getAccountUuid(), "BTCUSD", "BUY", "LIMIT", new BigDecimal("0.01"), 2, new BigDecimal(
-        "0.01"));
+    CoinsetterOrderRequest request = new CoinsetterOrderRequest(clientSession.getCustomerUuid(), tradeAccount.getAccountUuid(), "BTCUSD", "BUY",
+        "LIMIT", new BigDecimal("0.01"), 2, new BigDecimal("0.01"));
     CoinsetterOrderResponse orderResponse = orderService.add(clientSession.getUuid(), request);
     log.info("add order response: {}", orderResponse);
 

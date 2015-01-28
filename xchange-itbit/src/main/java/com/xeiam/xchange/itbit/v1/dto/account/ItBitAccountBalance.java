@@ -10,7 +10,8 @@ public class ItBitAccountBalance {
   private final BigDecimal totalBalance;
   private final String currency;
 
-  public ItBitAccountBalance(@JsonProperty("availableBalance") BigDecimal availableBalance, @JsonProperty("totalBalance") BigDecimal totalBalance, @JsonProperty("currency") String currency) {
+  public ItBitAccountBalance(@JsonProperty("availableBalance") BigDecimal availableBalance, @JsonProperty("totalBalance") BigDecimal totalBalance,
+      @JsonProperty("currency") String currency) {
 
     this.availableBalance = availableBalance;
     this.totalBalance = totalBalance;

@@ -20,8 +20,9 @@ public class CryptsyPublicOrderbook {
    * Constructor
    */
   @JsonCreator
-  public CryptsyPublicOrderbook(@JsonProperty("marketid") int marketId, @JsonProperty("label") String label, @JsonProperty("primarycode") String priCurrCode,
-      @JsonProperty("primaryname") String priCurrName, @JsonProperty("secondarycode") String secCurrCode, @JsonProperty("secondaryname") String secCurrName,
+  public CryptsyPublicOrderbook(@JsonProperty("marketid") int marketId, @JsonProperty("label") String label,
+      @JsonProperty("primarycode") String priCurrCode, @JsonProperty("primaryname") String priCurrName,
+      @JsonProperty("secondarycode") String secCurrCode, @JsonProperty("secondaryname") String secCurrName,
       @JsonProperty("buyorders") List<CryptsyPublicOrder> buyOrders, @JsonProperty("sellorders") List<CryptsyPublicOrder> sellOrders) {
 
     this.marketId = marketId;
@@ -77,8 +78,8 @@ public class CryptsyPublicOrderbook {
   @Override
   public String toString() {
 
-    return "CryptsyPublicOrderbook [marketId=" + marketId + ", label=" + label + ", priCurrCode=" + priCurrCode + ", priCurrName=" + priCurrName + ", secCurrCode=" + secCurrCode + ", secCurrName="
-        + secCurrName + ", buyOrders=" + buyOrders + ", sellOrders=" + sellOrders + "]";
+    return "CryptsyPublicOrderbook [marketId=" + marketId + ", label=" + label + ", priCurrCode=" + priCurrCode + ", priCurrName=" + priCurrName
+        + ", secCurrCode=" + secCurrCode + ", secCurrName=" + secCurrName + ", buyOrders=" + buyOrders + ", sellOrders=" + sellOrders + "]";
   }
 
 }

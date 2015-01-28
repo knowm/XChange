@@ -24,7 +24,8 @@ public final class VirtExTicker {
    */
 
   @Deprecated
-  public VirtExTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume, @JsonProperty("last") BigDecimal last) {
+  public VirtExTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("last") BigDecimal last) {
 
     this.high = high;
     this.low = low;

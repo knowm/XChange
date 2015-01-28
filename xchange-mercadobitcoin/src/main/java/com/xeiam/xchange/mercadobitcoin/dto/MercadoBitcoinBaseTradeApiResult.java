@@ -11,7 +11,8 @@ public class MercadoBitcoinBaseTradeApiResult<R> {
   private final String error;
   private final R theReturn;
 
-  public MercadoBitcoinBaseTradeApiResult(@JsonProperty("success") Integer success, @JsonProperty("error") String error, @JsonProperty("return") R theReturn) {
+  public MercadoBitcoinBaseTradeApiResult(@JsonProperty("success") Integer success, @JsonProperty("error") String error,
+      @JsonProperty("return") R theReturn) {
 
     this.success = success;
     this.error = error;

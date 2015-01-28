@@ -21,8 +21,8 @@ public class CoinfloorCancelOrder {
   private final BigDecimal quantity;
   private final BigDecimal price;
 
-  public CoinfloorCancelOrder(@JsonProperty("tag") int tag, @JsonProperty("errorCode") int errorCode, @JsonProperty("base") int base, @JsonProperty("counter") int counter,
-      @JsonProperty("quantity") int quantity, @JsonProperty("price") int price) {
+  public CoinfloorCancelOrder(@JsonProperty("tag") int tag, @JsonProperty("errorCode") int errorCode, @JsonProperty("base") int base,
+      @JsonProperty("counter") int counter, @JsonProperty("quantity") int quantity, @JsonProperty("price") int price) {
 
     this.tag = tag;
     this.errorCode = errorCode;
@@ -65,6 +65,7 @@ public class CoinfloorCancelOrder {
   @Override
   public String toString() {
 
-    return "CoinfloorCancelOrderReturn{tag='" + tag + "', errorcode='" + errorCode + "', base='" + base + "', counter='" + counter + "', quantity='" + quantity + "', price='" + price + "'}";
+    return "CoinfloorCancelOrderReturn{tag='" + tag + "', errorcode='" + errorCode + "', base='" + base + "', counter='" + counter + "', quantity='"
+        + quantity + "', price='" + price + "'}";
   }
 }

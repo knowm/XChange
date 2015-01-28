@@ -22,7 +22,8 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService {
     super(exchange);
   }
 
-  public HitbtcBalance[] getAccountInfoRaw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public HitbtcBalance[] getAccountInfoRaw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+      IOException {
 
     try {
       HitbtcBalanceResponse hitbtcBalance = hitbtc.getHitbtcBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
@@ -32,7 +33,8 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService {
     }
   }
 
-  public HitbtcBalanceResponse getAccountBaseInfoRaw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public HitbtcBalanceResponse getAccountBaseInfoRaw() throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     try {
       HitbtcBalanceResponse hitbtcBalanceResponse = hitbtc.getHitbtcBalance(signatureCreator, exchange.getNonceFactory(), apiKey);

@@ -10,8 +10,7 @@ import si.mazi.rescu.RestInvocation;
 import com.xeiam.xchange.service.BaseParamsDigest;
 
 /**
- * Author: brox
- * Since: 2/7/14 9:42 PM
+ * Author: brox Since: 2/7/14 9:42 PM
  */
 public class CexIODigest extends BaseParamsDigest {
 

@@ -33,5 +33,4 @@ public class AccountDemo {
     ((CoinsetterAccountService) accountService).logout();
   }
 
-
 }

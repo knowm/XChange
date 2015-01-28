@@ -37,8 +37,8 @@ public class WalletHistoryJSONTest {
     Assert.assertTrue(anxWalletHistoryWrapper.getANXWalletHistory().getMaxResults() == 50);
     Assert.assertTrue(anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries().length == 50);
 
-    Assert.assertEquals("BTC bought: [tid:264f7b7f-f70c-4fc6-ba27-2bcf33b6cd51] 10.00000000 BTC at 280.65500 HKD", anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries()[0]
-        .getInfo());
+    Assert.assertEquals("BTC bought: [tid:264f7b7f-f70c-4fc6-ba27-2bcf33b6cd51] 10.00000000 BTC at 280.65500 HKD", anxWalletHistoryWrapper
+        .getANXWalletHistory().getANXWalletHistoryEntries()[0].getInfo());
 
     Assert.assertEquals(104, anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries()[0].getIndex());
 
@@ -51,13 +51,17 @@ public class WalletHistoryJSONTest {
     // Assert.assertEquals(new BigDecimal(0),
     // anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries()[0].getValue().getValue());
 
-    Assert.assertEquals(new BigDecimal("103168.75400000"), anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries()[0].getBalance().getValue());
+    Assert.assertEquals(new BigDecimal("103168.75400000"), anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries()[0].getBalance()
+        .getValue());
 
-    Assert.assertEquals("cc496636-4849-4acf-a390-e4091a5009c3", anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries()[0].getTrade().getOid());
+    Assert.assertEquals("cc496636-4849-4acf-a390-e4091a5009c3", anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries()[0]
+        .getTrade().getOid());
 
-    Assert.assertEquals("264f7b7f-f70c-4fc6-ba27-2bcf33b6cd51", anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries()[0].getTrade().getTid());
+    Assert.assertEquals("264f7b7f-f70c-4fc6-ba27-2bcf33b6cd51", anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries()[0]
+        .getTrade().getTid());
 
-    Assert.assertEquals(new BigDecimal("10.00000000"), anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries()[0].getTrade().getAmount().getValue());
+    Assert.assertEquals(new BigDecimal("10.00000000"), anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries()[0].getTrade()
+        .getAmount().getValue());
 
     Assert.assertEquals("market", anxWalletHistoryWrapper.getANXWalletHistory().getANXWalletHistoryEntries()[0].getTrade().getProperties());
 

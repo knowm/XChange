@@ -46,11 +46,13 @@ public class CoinsetterOrder {
    * @param routingMethod How your order has been routed (1 for SMART routing, 2 for COINSETTER routing)
    * @param createDate Epoch Date
    */
-  public CoinsetterOrder(@JsonProperty("uuid") UUID uuid, @JsonProperty("customerUuid") UUID customerUuid, @JsonProperty("accountUuid") UUID accountUuid,
-      @JsonProperty("orderNumber") String orderNumber, @JsonProperty("stage") String stage, @JsonProperty("orderType") String orderType, @JsonProperty("side") String side,
-      @JsonProperty("symbol") String symbol, @JsonProperty("requestedQuantity") BigDecimal requestedQuantity, @JsonProperty("filledQuantity") BigDecimal filledQuantity,
-      @JsonProperty("openQuantity") BigDecimal openQuantity, @JsonProperty("requestedPrice") BigDecimal requestedPrice, @JsonProperty("costBasis") BigDecimal costBasis,
-      @JsonProperty("commission") BigDecimal commission, @JsonProperty("routingMethod") int routingMethod, @JsonProperty("createDate") Date createDate) {
+  public CoinsetterOrder(@JsonProperty("uuid") UUID uuid, @JsonProperty("customerUuid") UUID customerUuid,
+      @JsonProperty("accountUuid") UUID accountUuid, @JsonProperty("orderNumber") String orderNumber, @JsonProperty("stage") String stage,
+      @JsonProperty("orderType") String orderType, @JsonProperty("side") String side, @JsonProperty("symbol") String symbol,
+      @JsonProperty("requestedQuantity") BigDecimal requestedQuantity, @JsonProperty("filledQuantity") BigDecimal filledQuantity,
+      @JsonProperty("openQuantity") BigDecimal openQuantity, @JsonProperty("requestedPrice") BigDecimal requestedPrice,
+      @JsonProperty("costBasis") BigDecimal costBasis, @JsonProperty("commission") BigDecimal commission,
+      @JsonProperty("routingMethod") int routingMethod, @JsonProperty("createDate") Date createDate) {
 
     this.uuid = uuid;
     this.customerUuid = customerUuid;

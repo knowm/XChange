@@ -2,7 +2,9 @@ package com.xeiam.xchange.empoex.dto.account;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +25,6 @@ public class EmpoExBalance {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * 
    * @return The Coin
    */
   @JsonProperty("Coin")
@@ -32,7 +33,6 @@ public class EmpoExBalance {
   }
 
   /**
-   * 
    * @param Coin The Coin
    */
   @JsonProperty("Coin")
@@ -41,7 +41,6 @@ public class EmpoExBalance {
   }
 
   /**
-   * 
    * @return The Amount
    */
   @JsonProperty("Amount")
@@ -50,7 +49,6 @@ public class EmpoExBalance {
   }
 
   /**
-   * 
    * @param Amount The Amount
    */
   @JsonProperty("Amount")

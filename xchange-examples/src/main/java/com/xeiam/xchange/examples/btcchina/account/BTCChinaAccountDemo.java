@@ -93,8 +93,8 @@ public class BTCChinaAccountDemo {
 
     // Not implemented for *Raw layer - retrieve from accountInfo
     /*
-     * String depositAddress = btcChinaAccountService.requestBTCChinaBitcoinDepositAddress(null, null);
-     * System.out.println("Deposit address: " + depositAddress);
+     * String depositAddress = btcChinaAccountService.requestBTCChinaBitcoinDepositAddress(null, null); System.out.println("Deposit address: " +
+     * depositAddress);
      */
     System.out.println("AccountInfo as String: " + accountInfo.getResult().getProfile().getDepositAddress("btc"));
 

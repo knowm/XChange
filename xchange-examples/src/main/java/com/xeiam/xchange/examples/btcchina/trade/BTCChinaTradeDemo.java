@@ -53,7 +53,8 @@ public class BTCChinaTradeDemo {
     long result = -1;
     for (LimitOrder order : openOrders.getOpenOrders()) {
       long orderId = Long.parseLong(order.getId());
-      if (order.getType().equals(limitOrder.getType().toString()) && order.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0 && orderId > result) {
+      if (order.getType().equals(limitOrder.getType().toString()) && order.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0
+          && orderId > result) {
 
         result = orderId;
       }

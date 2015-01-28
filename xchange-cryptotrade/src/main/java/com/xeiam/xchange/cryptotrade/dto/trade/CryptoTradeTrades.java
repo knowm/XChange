@@ -14,7 +14,8 @@ public class CryptoTradeTrades extends CryptoTradeBaseResponse {
 
   private final List<CryptoTradeTrade> trades;
 
-  private CryptoTradeTrades(@JsonProperty("data") List<CryptoTradeTrade> trades, @JsonProperty("status") String status, @JsonProperty("error") String error) {
+  private CryptoTradeTrades(@JsonProperty("data") List<CryptoTradeTrade> trades, @JsonProperty("status") String status,
+      @JsonProperty("error") String error) {
 
     super(status, error);
     this.trades = trades;
@@ -41,8 +42,8 @@ public class CryptoTradeTrades extends CryptoTradeBaseResponse {
     private final BigDecimal rate;
     private final long myOrder;
 
-    private CryptoTradeTrade(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp,
-        @JsonProperty("pair") @JsonDeserialize(using = CurrencyPairDeserializer.class) CurrencyPair currencyPair, @JsonProperty("type") CryptoTradeOrderType type,
+    private CryptoTradeTrade(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp, @JsonProperty("pair") @JsonDeserialize(
+        using = CurrencyPairDeserializer.class) CurrencyPair currencyPair, @JsonProperty("type") CryptoTradeOrderType type,
         @JsonProperty("amount") BigDecimal amount, @JsonProperty("rate") BigDecimal rate, @JsonProperty("my_order") long myOrder) {
 
       this.id = id;
@@ -92,7 +93,8 @@ public class CryptoTradeTrades extends CryptoTradeBaseResponse {
     @Override
     public String toString() {
 
-      return "CryptoTradeTrade [id=" + id + ", timestamp=" + timestamp + ", currencyPair=" + currencyPair + ", type=" + type + ", amount=" + amount + ", rate=" + rate + ", myOrder=" + myOrder + "]";
+      return "CryptoTradeTrade [id=" + id + ", timestamp=" + timestamp + ", currencyPair=" + currencyPair + ", type=" + type + ", amount=" + amount
+          + ", rate=" + rate + ", myOrder=" + myOrder + "]";
     }
 
   }

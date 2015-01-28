@@ -11,9 +11,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 public final class CryptsyCurrencyUtils {
 
   /**
-   * Map containing relationships between MarketIds and CurrencyPairs
-   * CAA: 27 June 2014
-   * This list is not final, since CryptsyBasePollingService will update it on first run.
+   * Map containing relationships between MarketIds and CurrencyPairs CAA: 27 June 2014 This list is not final, since CryptsyBasePollingService will
+   * update it on first run.
    */
   @SuppressWarnings("serial")
   public static Map<Integer, CurrencyPair> marketIds_CurrencyPairs = new HashMap<Integer, CurrencyPair>() {
@@ -262,9 +261,8 @@ public final class CryptsyCurrencyUtils {
   };
 
   /**
-   * Map containing relationships between MarketIds and CurrencyPairs
-   * CAA: 27 June 2014
-   * This list is not final, since CryptsyBasePollingService will update it on first run.
+   * Map containing relationships between MarketIds and CurrencyPairs CAA: 27 June 2014 This list is not final, since CryptsyBasePollingService will
+   * update it on first run.
    */
   @SuppressWarnings("serial")
   public static Map<CurrencyPair, Integer> currencyPairs_MarketIds = new HashMap<CurrencyPair, Integer>() {

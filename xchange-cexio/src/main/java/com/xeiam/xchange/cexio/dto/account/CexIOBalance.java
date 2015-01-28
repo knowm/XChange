@@ -6,8 +6,7 @@ import java.text.MessageFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Author: brox
- * Since: 2/7/14
+ * Author: brox Since: 2/7/14
  */
 public class CexIOBalance {
 
@@ -22,7 +21,8 @@ public class CexIOBalance {
    * @param orders Balance in pending orders
    * @param bonus Referral program bonus
    */
-  public CexIOBalance(@JsonProperty("available") BigDecimal available, @JsonProperty("orders") BigDecimal orders, @JsonProperty("bonus") BigDecimal bonus) {
+  public CexIOBalance(@JsonProperty("available") BigDecimal available, @JsonProperty("orders") BigDecimal orders,
+      @JsonProperty("bonus") BigDecimal bonus) {
 
     this.available = available;
     this.orders = orders;

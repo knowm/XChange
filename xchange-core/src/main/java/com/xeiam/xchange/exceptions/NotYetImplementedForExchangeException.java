@@ -5,8 +5,7 @@ package com.xeiam.xchange.exceptions;
  * Exception to provide the following to API:
  * </p>
  * <ul>
- * <li>Indication that the exchange supports the requested function or data, but
- * it's not yet been implemented</li>
+ * <li>Indication that the exchange supports the requested function or data, but it's not yet been implemented</li>
  * </ul>
  */
 public class NotYetImplementedForExchangeException extends RuntimeException {

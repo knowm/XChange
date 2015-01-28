@@ -1,8 +1,6 @@
 package com.xeiam.xchange.dto.marketdata;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -39,7 +37,8 @@ public final class Ticker {
    * @param volume 24h volume
    * @param timestamp
    */
-  private Ticker(CurrencyPair currencyPair, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal volume, Date timestamp) {
+  private Ticker(CurrencyPair currencyPair, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal volume,
+      Date timestamp) {
 
     this.currencyPair = currencyPair;
     this.last = last;
@@ -94,7 +93,8 @@ public final class Ticker {
   @Override
   public String toString() {
 
-    return "Ticker [currencyPair=" + currencyPair + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ", volume=" + volume + ", timestamp=" + DateUtils.toMillisNullSafe(timestamp) + "]";
+    return "Ticker [currencyPair=" + currencyPair + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low
+        + ", volume=" + volume + ", timestamp=" + DateUtils.toMillisNullSafe(timestamp) + "]";
   }
 
   /**

@@ -10,7 +10,8 @@ public class BittrexCurrenciesResponse {
   private final String message;
   private final BittrexCurrency[] currencies;
 
-  public BittrexCurrenciesResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message, @JsonProperty("result") BittrexCurrency[] currencies) {
+  public BittrexCurrenciesResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+      @JsonProperty("result") BittrexCurrency[] currencies) {
 
     this.success = success;
     this.message = message;

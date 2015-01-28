@@ -17,8 +17,9 @@ public class BTCEPairInfo {
   private final int hidden;
   private final BigDecimal fee;
 
-  public BTCEPairInfo(@JsonProperty("decimal_places") int decimals, @JsonProperty("min_price") BigDecimal minPrice, @JsonProperty("max_price") BigDecimal maxPrice,
-      @JsonProperty("min_amount") BigDecimal minAmount, @JsonProperty("hidden") int hidden, @JsonProperty("fee") BigDecimal fee) {
+  public BTCEPairInfo(@JsonProperty("decimal_places") int decimals, @JsonProperty("min_price") BigDecimal minPrice,
+      @JsonProperty("max_price") BigDecimal maxPrice, @JsonProperty("min_amount") BigDecimal minAmount, @JsonProperty("hidden") int hidden,
+      @JsonProperty("fee") BigDecimal fee) {
 
     this.decimals = decimals;
     this.minPrice = minPrice;
@@ -61,7 +62,8 @@ public class BTCEPairInfo {
   @Override
   public String toString() {
 
-    return "BTCEPairInfo [decimals=" + decimals + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", minAmount=" + minAmount + ", hidden=" + hidden + ", fee=" + fee + "]";
+    return "BTCEPairInfo [decimals=" + decimals + ", minPrice=" + minPrice + ", maxPrice=" + maxPrice + ", minAmount=" + minAmount + ", hidden="
+        + hidden + ", fee=" + fee + "]";
   }
 
 }

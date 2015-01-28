@@ -26,8 +26,7 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService {
   }
 
   /**
-   * @param pairs Dash-delimited string of currency pairs to retrieve (e.g.
-   *          "btc_usd-ltc_btc")
+   * @param pairs Dash-delimited string of currency pairs to retrieve (e.g. "btc_usd-ltc_btc")
    * @return BTCETickerWrapper object
    * @throws IOException
    */
@@ -39,10 +38,8 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService {
   /**
    * Get market depth from exchange
    *
-   * @param pairs Dash-delimited string of currency pairs to retrieve (e.g.
-   *          "btc_usd-ltc_btc")
-   * @param size Integer value from 1 to 2000 -> get corresponding number of
-   *          items
+   * @param pairs Dash-delimited string of currency pairs to retrieve (e.g. "btc_usd-ltc_btc")
+   * @param size Integer value from 1 to 2000 -> get corresponding number of items
    * @return BTCEDepthWrapper object
    * @throws IOException
    */
@@ -62,10 +59,8 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService {
   /**
    * Get recent trades from exchange
    *
-   * @param pairs Dash-delimited string of currency pairs to retrieve (e.g.
-   *          "btc_usd-ltc_btc")
-   * @param size Integer value from 1 to 2000 -> get corresponding number of
-   *          items
+   * @param pairs Dash-delimited string of currency pairs to retrieve (e.g. "btc_usd-ltc_btc")
+   * @param size Integer value from 1 to 2000 -> get corresponding number of items
    * @return BTCETradesWrapper object
    * @throws IOException
    */

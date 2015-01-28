@@ -26,8 +26,7 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
   public static final String KEY_PUBLIC_API_URL = "KEY_PUBLIC_API_URL";
 
   /**
-   * Crptsy has both a public and private market data API. Here we add the
-   * public maraketdata service
+   * Crptsy has both a public and private market data API. Here we add the public maraketdata service
    */
   protected PollingMarketDataService pollingPublicMarketDataService;
 

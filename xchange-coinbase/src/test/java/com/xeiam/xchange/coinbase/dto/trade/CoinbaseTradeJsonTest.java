@@ -46,7 +46,8 @@ public class CoinbaseTradeJsonTest {
     assertThat(transfer.getBtcAmount()).isEqualsToByComparingFields(new CoinbaseMoney("BTC", new BigDecimal("1.20000000")));
     assertThat(transfer.getSubtotal()).isEqualsToByComparingFields(new CoinbaseMoney("USD", new BigDecimal("905.10")));
     assertThat(transfer.getTotal()).isEqualsToByComparingFields(new CoinbaseMoney("USD", new BigDecimal("914.30")));
-    assertThat(transfer.getDescription()).isEqualTo("Bought 1.20 BTC for $914.30.  \n\nPaid for with Bank ****. Your bitcoin will arrive by the end of day on Thursday Feb  6, 2014.");
+    assertThat(transfer.getDescription()).isEqualTo(
+        "Bought 1.20 BTC for $914.30.  \n\nPaid for with Bank ****. Your bitcoin will arrive by the end of day on Thursday Feb  6, 2014.");
 
   }
 }

@@ -19,8 +19,8 @@ public final class VirtExTradesWrapper {
    * @param message
    * @param apirate
    */
-  public VirtExTradesWrapper(@JsonProperty("orders") ArrayList<VirtExTrade> trades, @JsonProperty("message") String message, @JsonProperty("status") String status,
-      @JsonProperty("apirate") String apirate) {
+  public VirtExTradesWrapper(@JsonProperty("orders") ArrayList<VirtExTrade> trades, @JsonProperty("message") String message,
+      @JsonProperty("status") String status, @JsonProperty("apirate") String apirate) {
 
     this.trades = trades;
     this.status = status;

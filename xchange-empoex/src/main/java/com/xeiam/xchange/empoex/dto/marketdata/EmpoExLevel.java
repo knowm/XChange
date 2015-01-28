@@ -27,7 +27,6 @@ public class EmpoExLevel {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * 
    * @return The amount
    */
   @JsonProperty("amount")
@@ -36,7 +35,6 @@ public class EmpoExLevel {
   }
 
   /**
-   * 
    * @param amount The amount
    */
   @JsonProperty("amount")
@@ -45,7 +43,6 @@ public class EmpoExLevel {
   }
 
   /**
-   * 
    * @return The price
    */
   @JsonProperty("price")
@@ -54,7 +51,6 @@ public class EmpoExLevel {
   }
 
   /**
-   * 
    * @param price The price
    */
   @JsonProperty("price")
@@ -63,7 +59,6 @@ public class EmpoExLevel {
   }
 
   /**
-   * 
    * @return The total
    */
   @JsonProperty("total")
@@ -72,7 +67,6 @@ public class EmpoExLevel {
   }
 
   /**
-   * 
    * @param total The total
    */
   @JsonProperty("total")

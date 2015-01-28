@@ -57,7 +57,8 @@ public class CoinsetterLevel {
   @Override
   public String toString() {
 
-    return "CoinsetterLevel [sequenceNumber=" + sequenceNumber + ", side=" + side + ", level=" + level + ", size=" + size + ", exchangeId=" + exchangeId + ", timeStamp=" + timeStamp + "]";
+    return "CoinsetterLevel [sequenceNumber=" + sequenceNumber + ", side=" + side + ", level=" + level + ", size=" + size + ", exchangeId="
+        + exchangeId + ", timeStamp=" + timeStamp + "]";
   }
 
 }

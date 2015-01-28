@@ -1,5 +1,8 @@
 package com.xeiam.xchange.examples.bitcointoyou.account;
 
+import java.io.IOException;
+import java.util.Arrays;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcointoyou.dto.BitcoinToYouBaseTradeApiResult;
 import com.xeiam.xchange.bitcointoyou.dto.account.BitcoinToYouBalance;
@@ -7,9 +10,6 @@ import com.xeiam.xchange.bitcointoyou.service.polling.BitcoinToYouAccountService
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitcointoyou.InteractiveAuthenticatedExchange;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
-
-import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * <p>

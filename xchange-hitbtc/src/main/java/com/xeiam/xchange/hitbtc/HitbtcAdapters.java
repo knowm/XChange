@@ -87,7 +87,8 @@ public class HitbtcAdapters {
     BigDecimal volume = hitbtcTicker.getVolume();
     Date timestamp = new Date(hitbtcTicker.getTimetamp());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
   }
 
   public static OrderBook adaptOrderBook(HitbtcOrderBook hitbtcOrderBook, CurrencyPair currencyPair) {
@@ -147,7 +148,8 @@ public class HitbtcAdapters {
 
       OrderType type = adaptOrderType(o.getSide());
 
-      LimitOrder order = new LimitOrder(type, o.getExecQuantity(), adaptSymbol(o.getSymbol()), o.getClientOrderId(), new Date(o.getLastTimestamp()), o.getOrderPrice());
+      LimitOrder order = new LimitOrder(type, o.getExecQuantity(), adaptSymbol(o.getSymbol()), o.getClientOrderId(), new Date(o.getLastTimestamp()),
+          o.getOrderPrice());
 
       openOrders.add(order);
     }
@@ -170,8 +172,8 @@ public class HitbtcAdapters {
       CurrencyPair pair = adaptSymbol(t.getSymbol());
 
       BigDecimal lotMultiplier = metadata.get(pair).getMinimumAmount();
-      UserTrade trade = new UserTrade(type, t.getExecQuantity().multiply(lotMultiplier), pair, t.getExecPrice(), new Date(t.getTimestamp()), t.getClientOrderId(),
-          Long.toString(t.getOriginalOrderId()), t.getFee(), pair.counterSymbol);
+      UserTrade trade = new UserTrade(type, t.getExecQuantity().multiply(lotMultiplier), pair, t.getExecPrice(), new Date(t.getTimestamp()),
+          t.getClientOrderId(), Long.toString(t.getOriginalOrderId()), t.getFee(), pair.counterSymbol);
 
       trades.add(trade);
     }

@@ -1,10 +1,10 @@
 package com.xeiam.xchange.mercadobitcoin.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Felipe Micaroni Lalli
@@ -19,8 +19,9 @@ public class MercadoBitcoinUserOrdersEntry {
   private final String type;
   private final Operations operations;
 
-  public MercadoBitcoinUserOrdersEntry(@JsonProperty("status") String status, @JsonProperty("created") Long created, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("volume") BigDecimal volume, @JsonProperty("pair") String pair, @JsonProperty("type") String type, @JsonProperty("operations") Operations operations) {
+  public MercadoBitcoinUserOrdersEntry(@JsonProperty("status") String status, @JsonProperty("created") Long created,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("volume") BigDecimal volume, @JsonProperty("pair") String pair,
+      @JsonProperty("type") String type, @JsonProperty("operations") Operations operations) {
 
     this.status = status;
     this.created = created;
@@ -69,11 +70,11 @@ public class MercadoBitcoinUserOrdersEntry {
   @Override
   public String toString() {
 
-    return "MercadoBitcoinUserOrdersEntry [" + "status='" + status + '\'' + ", created=" + created + ", price=" + price + ", volume=" + volume + ", pair='" + pair + '\'' + ", type='" + type + '\''
-        + ", operations=" + operations + ']';
+    return "MercadoBitcoinUserOrdersEntry [" + "status='" + status + '\'' + ", created=" + created + ", price=" + price + ", volume=" + volume
+        + ", pair='" + pair + '\'' + ", type='" + type + '\'' + ", operations=" + operations + ']';
   }
 
-    public static final class Operations extends HashMap<String, OperationEntry> {
+  public static final class Operations extends HashMap<String, OperationEntry> {
 
     public Operations(int initialCapacity, float loadFactor) {
 

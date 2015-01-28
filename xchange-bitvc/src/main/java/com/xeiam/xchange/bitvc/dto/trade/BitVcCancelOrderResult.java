@@ -6,7 +6,8 @@ public class BitVcCancelOrderResult extends BitVcError {
 
   private final String result;
 
-  public BitVcCancelOrderResult(@JsonProperty("code") final int code, @JsonProperty("msg") final String msg, @JsonProperty("time") final long time, @JsonProperty("result") final String result) {
+  public BitVcCancelOrderResult(@JsonProperty("code") final int code, @JsonProperty("msg") final String msg, @JsonProperty("time") final long time,
+      @JsonProperty("result") final String result) {
 
     super(code, msg, time);
     this.result = result;

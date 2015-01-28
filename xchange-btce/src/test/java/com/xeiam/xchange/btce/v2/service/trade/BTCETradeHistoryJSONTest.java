@@ -16,8 +16,7 @@ import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.btce.v2.dto.trade.BTCETradeHistoryReturn;
 
 /**
- * @author Benedikt Bünz
- *         Test BTCETradeHistoryReturn JSON parsing
+ * @author Benedikt Bünz Test BTCETradeHistoryReturn JSON parsing
  */
 @Deprecated
 @Ignore

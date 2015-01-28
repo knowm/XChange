@@ -69,7 +69,7 @@ public class ChartData {
   @Override
   public String toString() {
 
-    return "ChartData{" + "date=" + date + ", open=" + open + ", high=" + high + ", low=" + low + ", close=" + close + ", volume=" + volume + ", volumeCurrency=" + volumeCurrency + ", weightedPrice="
-        + weightedPrice + '}';
+    return "ChartData{" + "date=" + date + ", open=" + open + ", high=" + high + ", low=" + low + ", close=" + close + ", volume=" + volume
+        + ", volumeCurrency=" + volumeCurrency + ", weightedPrice=" + weightedPrice + '}';
   }
 }

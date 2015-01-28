@@ -7,7 +7,8 @@ import com.xeiam.xchange.btcchina.dto.trade.BTCChinaMarketDepthObject;
 
 public class BTCChinaGetMarketDepthResponse extends BTCChinaResponse<BTCChinaMarketDepthObject> {
 
-  public BTCChinaGetMarketDepthResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaMarketDepthObject result, @JsonProperty("error") BTCChinaError error) {
+  public BTCChinaGetMarketDepthResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaMarketDepthObject result,
+      @JsonProperty("error") BTCChinaError error) {
 
     super(id, result, error);
   }

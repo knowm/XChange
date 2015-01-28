@@ -67,7 +67,8 @@ public final class CoinbaseAdapters {
     final BigDecimal feeAmount = transfer.getCoinbaseFee().getAmount();
     final String feeCurrency = transfer.getCoinbaseFee().getCurrency();
 
-    return new UserTrade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, id, id, feeAmount, feeCurrency);
+    return new UserTrade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, id, id, feeAmount,
+        feeCurrency);
   }
 
   public static OrderType adaptOrderType(CoinbaseTransferType transferType) {
@@ -83,11 +84,11 @@ public final class CoinbaseAdapters {
 
   private static final int TWENTY_FOUR_HOURS_IN_MILLIS = 1000 * 60 * 60 * 24;
 
-  public static Ticker adaptTicker(CurrencyPair currencyPair, final CoinbasePrice buyPrice, final CoinbasePrice sellPrice, final CoinbaseMoney spotRate,
-      final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory) {
+  public static Ticker adaptTicker(CurrencyPair currencyPair, final CoinbasePrice buyPrice, final CoinbasePrice sellPrice,
+      final CoinbaseMoney spotRate, final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory) {
 
-    final Ticker.Builder tickerBuilder =
-        new Ticker.Builder().currencyPair(currencyPair).ask(buyPrice.getSubTotal().getAmount()).bid(sellPrice.getSubTotal().getAmount()).last(spotRate.getAmount());
+    final Ticker.Builder tickerBuilder = new Ticker.Builder().currencyPair(currencyPair).ask(buyPrice.getSubTotal().getAmount())
+        .bid(sellPrice.getSubTotal().getAmount()).last(spotRate.getAmount());
 
     // Get the 24 hour high and low spot price if the history is provided.
     if (coinbaseSpotPriceHistory != null) {

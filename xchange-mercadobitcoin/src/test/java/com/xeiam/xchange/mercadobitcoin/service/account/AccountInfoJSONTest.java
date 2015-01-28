@@ -1,19 +1,21 @@
 package com.xeiam.xchange.mercadobitcoin.service.account;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
-import com.xeiam.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
+import com.xeiam.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
 
 /**
  * Test Mercado Bitcoin Account Info JSON parsing
+ * 
  * @author Felipe Micaroni Lalli
  */
 public class AccountInfoJSONTest {
@@ -27,8 +29,9 @@ public class AccountInfoJSONTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo = mapper.readValue(is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo>>() {
-    });
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo = mapper.readValue(is,
+        new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo>>() {
+        });
 
     // Verify that the example data was unmarshalled correctly
     assertThat(accountInfo.getSuccess()).isEqualTo(1);

@@ -31,7 +31,6 @@ public class EmpoExTrade {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * 
    * @return The type
    */
   @JsonProperty("type")
@@ -40,7 +39,6 @@ public class EmpoExTrade {
   }
 
   /**
-   * 
    * @param type The type
    */
   @JsonProperty("type")
@@ -49,7 +47,6 @@ public class EmpoExTrade {
   }
 
   /**
-   * 
    * @return The date
    */
   @JsonProperty("date")
@@ -58,7 +55,6 @@ public class EmpoExTrade {
   }
 
   /**
-   * 
    * @param date The date
    */
   @JsonProperty("date")
@@ -67,7 +63,6 @@ public class EmpoExTrade {
   }
 
   /**
-   * 
    * @return The amount
    */
   @JsonProperty("amount")
@@ -76,7 +71,6 @@ public class EmpoExTrade {
   }
 
   /**
-   * 
    * @param amount The amount
    */
   @JsonProperty("amount")
@@ -85,7 +79,6 @@ public class EmpoExTrade {
   }
 
   /**
-   * 
    * @return The price
    */
   @JsonProperty("price")
@@ -94,7 +87,6 @@ public class EmpoExTrade {
   }
 
   /**
-   * 
    * @param price The price
    */
   @JsonProperty("price")
@@ -103,7 +95,6 @@ public class EmpoExTrade {
   }
 
   /**
-   * 
    * @return The total
    */
   @JsonProperty("total")
@@ -112,7 +103,6 @@ public class EmpoExTrade {
   }
 
   /**
-   * 
    * @param total The total
    */
   @JsonProperty("total")
@@ -132,7 +122,8 @@ public class EmpoExTrade {
 
   @Override
   public String toString() {
-    return "EmpoExTrade [type=" + type + ", date=" + date + ", amount=" + amount + ", price=" + price + ", total=" + total + ", additionalProperties=" + additionalProperties + "]";
+    return "EmpoExTrade [type=" + type + ", date=" + date + ", amount=" + amount + ", price=" + price + ", total=" + total
+        + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

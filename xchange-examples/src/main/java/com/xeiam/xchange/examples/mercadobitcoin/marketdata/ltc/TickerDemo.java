@@ -1,5 +1,7 @@
 package com.xeiam.xchange.examples.mercadobitcoin.marketdata.ltc;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
@@ -10,11 +12,9 @@ import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
 import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
-import java.io.IOException;
-
-
 /**
  * Demonstrate requesting Ticker at Mercado Bitcoin. You can access both the raw data from Mercado Bitcoin or the XChange generic DTO data format.
+ * 
  * @author Copied from Bitstamp and adapted by Felipe Micaroni Lalli
  */
 public class TickerDemo {

@@ -30,8 +30,9 @@ public final class BitcoiniumTicker {
    * @param ask
    * @param isAllTimeHigh
    */
-  public BitcoiniumTicker(@JsonProperty("l") BigDecimal last, @JsonProperty("t") long timestamp, @JsonProperty("v") BigDecimal volume, @JsonProperty("h") BigDecimal high,
-      @JsonProperty("lo") BigDecimal low, @JsonProperty("b") BigDecimal bid, @JsonProperty("a") BigDecimal ask, @JsonProperty("tr") BigDecimal trades) {
+  public BitcoiniumTicker(@JsonProperty("l") BigDecimal last, @JsonProperty("t") long timestamp, @JsonProperty("v") BigDecimal volume,
+      @JsonProperty("h") BigDecimal high, @JsonProperty("lo") BigDecimal low, @JsonProperty("b") BigDecimal bid, @JsonProperty("a") BigDecimal ask,
+      @JsonProperty("tr") BigDecimal trades) {
 
     this.last = last;
     this.timestamp = timestamp;
@@ -86,7 +87,8 @@ public final class BitcoiniumTicker {
   @Override
   public String toString() {
 
-    return "BitcoiniumTicker [last=" + last + ", timestamp=" + timestamp + ", volume=" + volume + ", high=" + high + ", low=" + low + ", bid=" + bid + ", ask=" + ask + ", trades=" + trades + "]";
+    return "BitcoiniumTicker [last=" + last + ", timestamp=" + timestamp + ", volume=" + volume + ", high=" + high + ", low=" + low + ", bid=" + bid
+        + ", ask=" + ask + ", trades=" + trades + "]";
   }
 
 }

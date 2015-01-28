@@ -53,8 +53,7 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
   }
 
   /**
-   * Method returns CoinsetterOrder type giving full order execution state
-   * details. Method getOpenOrders() do not provide information of
+   * Method returns CoinsetterOrder type giving full order execution state details. Method getOpenOrders() do not provide information of
    * filledQuantity, average execution price etc.
    *
    * @return
@@ -87,8 +86,8 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
   private String add(CurrencyPair currencyPair, OrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException {
 
     CoinsetterClientSession session = getSession();
-    CoinsetterOrderRequest request = new CoinsetterOrderRequest(session.getCustomerUuid(), getAccountUuid(), CoinsetterAdapters.adaptSymbol(currencyPair), CoinsetterAdapters.adaptSide(orderType),
-        price == null ? "MARKET" : "LIMIT", quantity, 2, price);
+    CoinsetterOrderRequest request = new CoinsetterOrderRequest(session.getCustomerUuid(), getAccountUuid(),
+        CoinsetterAdapters.adaptSymbol(currencyPair), CoinsetterAdapters.adaptSide(orderType), price == null ? "MARKET" : "LIMIT", quantity, 2, price);
     return orderServiceRaw.add(getSession().getUuid(), request).getUuid().toString();
   }
 

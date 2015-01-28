@@ -6,7 +6,8 @@ public class BTCTradeSecretResponse extends BTCTradeResult {
 
   private final BTCTradeSecretData data;
 
-  public BTCTradeSecretResponse(@JsonProperty("result") boolean result, @JsonProperty("message") String message, @JsonProperty("data") BTCTradeSecretData data) {
+  public BTCTradeSecretResponse(@JsonProperty("result") boolean result, @JsonProperty("message") String message,
+      @JsonProperty("data") BTCTradeSecretData data) {
 
     super(result, message);
     this.data = data;

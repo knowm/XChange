@@ -46,10 +46,8 @@ public class BTCEBasePollingService extends BaseExchangeService implements BaseP
   protected synchronized int nextNonce() {
 
     /*
-     * Use time as the nonce by default (so that nonces of different processes
-     * that use the same API key are synchronized), but still increase the nonce
-     * when the time component hasn't changed. See
-     * https://github.com/timmolter/XChange/issues/754 for details.
+     * Use time as the nonce by default (so that nonces of different processes that use the same API key are synchronized), but still increase the
+     * nonce when the time component hasn't changed. See https://github.com/timmolter/XChange/issues/754 for details.
      */
     lastNonce = Math.max(lastNonce + 1, (int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
     return lastNonce;

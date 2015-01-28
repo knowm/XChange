@@ -44,10 +44,11 @@ public final class BTCChinaTradeRequest {
     return message;
   }
 
-  public static NewOrderSingle createNewOrderSingle(long nonce, String accessKey, String secretKey, String clOrdId, char side, char ordType, BigDecimal orderQty, BigDecimal price, String symbol) {
+  public static NewOrderSingle createNewOrderSingle(long nonce, String accessKey, String secretKey, String clOrdId, char side, char ordType,
+      BigDecimal orderQty, BigDecimal price, String symbol) {
 
-    String methodString = String.format("method=%s&params=%s,%s,%s", side == Side.BUY ? "buyOrder3" : "sellOrder3", price == null ? "" : price.stripTrailingZeros().toPlainString(), orderQty
-        .stripTrailingZeros().toPlainString(), symbol);
+    String methodString = String.format("method=%s&params=%s,%s,%s", side == Side.BUY ? "buyOrder3" : "sellOrder3", price == null ? "" : price
+        .stripTrailingZeros().toPlainString(), orderQty.stripTrailingZeros().toPlainString(), symbol);
     String account = getAccountString(nonce, accessKey, secretKey, methodString);
 
     NewOrderSingle message = new NewOrderSingle(new ClOrdID(clOrdId), new Side(side), new TransactTime(), new OrdType(ordType));
@@ -60,7 +61,8 @@ public final class BTCChinaTradeRequest {
     return message;
   }
 
-  public static OrderCancelRequest createOrderCancelRequest(long nonce, String accessKey, String secretKey, String clOrdId, String orderId, String symbol) {
+  public static OrderCancelRequest createOrderCancelRequest(long nonce, String accessKey, String secretKey, String clOrdId, String orderId,
+      String symbol) {
 
     String methodString = String.format("method=cancelOrder3&params=%s,%s", orderId, symbol);
     String account = getAccountString(nonce, accessKey, secretKey, methodString);
@@ -73,7 +75,8 @@ public final class BTCChinaTradeRequest {
     return message;
   }
 
-  public static OrderMassStatusRequest createOrderMassStatusRequest(long nonce, String accessKey, String secretKey, String massStatusReqId, int massStatusReqType, String symbol) {
+  public static OrderMassStatusRequest createOrderMassStatusRequest(long nonce, String accessKey, String secretKey, String massStatusReqId,
+      int massStatusReqType, String symbol) {
 
     String methodString = String.format("method=getOrders&params=1,%s,1000,0,0,1", symbol);
     String account = getAccountString(nonce, accessKey, secretKey, methodString);
@@ -85,7 +88,8 @@ public final class BTCChinaTradeRequest {
     return message;
   }
 
-  public static OrderStatusRequest createOrderStatusRequest(long nonce, String accessKey, String secretKey, String clOrdId, String orderId, String symbol) {
+  public static OrderStatusRequest createOrderStatusRequest(long nonce, String accessKey, String secretKey, String clOrdId, String orderId,
+      String symbol) {
 
     String methodString = String.format("method=getOrder&params=%s,%s,1", orderId, symbol);
     String account = getAccountString(nonce, accessKey, secretKey, methodString);

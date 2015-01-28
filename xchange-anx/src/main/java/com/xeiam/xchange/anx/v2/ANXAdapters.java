@@ -51,7 +51,8 @@ public final class ANXAdapters {
   public static AccountInfo adaptAccountInfo(ANXAccountInfo anxAccountInfo) {
 
     // Adapt to XChange DTOs
-    AccountInfo accountInfo = new AccountInfo(anxAccountInfo.getLogin(), percentToFactor(anxAccountInfo.getTradeFee()), ANXAdapters.adaptWallets(anxAccountInfo.getWallets()));
+    AccountInfo accountInfo = new AccountInfo(anxAccountInfo.getLogin(), percentToFactor(anxAccountInfo.getTradeFee()),
+        ANXAdapters.adaptWallets(anxAccountInfo.getWallets()));
     return accountInfo;
   }
 
@@ -67,7 +68,8 @@ public final class ANXAdapters {
    * @param orderTypeString
    * @return
    */
-  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradedCurrency, String transactionCurrency, String orderTypeString, String id, Date timestamp) {
+  public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradedCurrency, String transactionCurrency, String orderTypeString,
+      String id, Date timestamp) {
 
     // place a limit order
     OrderType orderType = SIDE_BID.equalsIgnoreCase(orderTypeString) ? OrderType.BID : OrderType.ASK;
@@ -103,8 +105,8 @@ public final class ANXAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (int i = 0; i < anxOpenOrders.length; i++) {
-      limitOrders.add(adaptOrder(anxOpenOrders[i].getAmount().getValue(), anxOpenOrders[i].getPrice().getValue(), anxOpenOrders[i].getItem(), anxOpenOrders[i].getCurrency(),
-          anxOpenOrders[i].getType(), anxOpenOrders[i].getOid(), new Date(anxOpenOrders[i].getDate())));
+      limitOrders.add(adaptOrder(anxOpenOrders[i].getAmount().getValue(), anxOpenOrders[i].getPrice().getValue(), anxOpenOrders[i].getItem(),
+          anxOpenOrders[i].getCurrency(), anxOpenOrders[i].getType(), anxOpenOrders[i].getOid(), new Date(anxOpenOrders[i].getDate())));
     }
 
     return limitOrders;
@@ -215,7 +217,8 @@ public final class ANXAdapters {
 
     CurrencyPair currencyPair = adaptCurrencyPair(anxTicker.getVol().getCurrency(), anxTicker.getAvg().getCurrency());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
 
   }
 
@@ -243,7 +246,8 @@ public final class ANXAdapters {
     BigDecimal price = aNXTradeResult.getSettlementCurrencyFillAmount().divide(tradedCurrencyFillAmount, PRICE_SCALE, BigDecimal.ROUND_HALF_EVEN);
     OrderType type = adaptSide(aNXTradeResult.getSide());
     // for fees, getWalletHistory should be used.
-    return new UserTrade(type, tradedCurrencyFillAmount, currencyPair, price, aNXTradeResult.getTimestamp(), aNXTradeResult.getTradeId(), aNXTradeResult.getOrderId(), null, null);
+    return new UserTrade(type, tradedCurrencyFillAmount, currencyPair, price, aNXTradeResult.getTimestamp(), aNXTradeResult.getTradeId(),
+        aNXTradeResult.getOrderId(), null, null);
   }
 
   private static CurrencyPair adaptCurrencyPair(String currencyPairRaw) {

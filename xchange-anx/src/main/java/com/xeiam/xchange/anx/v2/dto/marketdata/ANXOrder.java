@@ -24,8 +24,8 @@ public final class ANXOrder {
    * @param amountInt
    * @param stamp
    */
-  public ANXOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price_int") long priceInt, @JsonProperty("amount_int") long amountInt,
-      @JsonProperty("stamp") long stamp) {
+  public ANXOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price_int") long priceInt,
+      @JsonProperty("amount_int") long amountInt, @JsonProperty("stamp") long stamp) {
 
     this.price = price;
     this.amount = amount;

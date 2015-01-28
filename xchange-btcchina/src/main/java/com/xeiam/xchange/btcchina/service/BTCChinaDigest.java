@@ -26,8 +26,7 @@ public class BTCChinaDigest extends BaseParamsDigest {
    * Constructor
    *
    * @param secretKeyBase64
-   * @throws IllegalArgumentException if key is invalid (cannot be
-   *           base-64-decoded or the decoded key is invalid).
+   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   private BTCChinaDigest(String exchangeAccessKey, String exchangeSecretKey) {
 
@@ -60,7 +59,8 @@ public class BTCChinaDigest extends BaseParamsDigest {
     final String method = request.getMethod();
     final String params = stripParams(request.getParams());
 
-    String signature = String.format("tonce=%s&accesskey=%s&requestmethod=%s&id=%d&method=%s&params=%s", tonce, exchangeAccessKey, "post", id, method, params);
+    String signature = String.format("tonce=%s&accesskey=%s&requestmethod=%s&id=%d&method=%s&params=%s", tonce, exchangeAccessKey, "post", id,
+        method, params);
     log.debug("signature message: {}", signature);
 
     Mac mac = getMac();
@@ -76,9 +76,7 @@ public class BTCChinaDigest extends BaseParamsDigest {
    *
    * @param params the value of {@link BTCChinaRequest#getParams()}.
    * @return the params string for signature message.
-   * @see the note in <a
-   *      href="http://btcchina.org/api-trade-documentation-en#faq">FAQ</a>
-   *      4.2(USING OPENONLY AS TRUE EXAMPLE)
+   * @see the note in <a href="http://btcchina.org/api-trade-documentation-en#faq">FAQ</a> 4.2(USING OPENONLY AS TRUE EXAMPLE)
    */
   private String stripParams(String params) {
 

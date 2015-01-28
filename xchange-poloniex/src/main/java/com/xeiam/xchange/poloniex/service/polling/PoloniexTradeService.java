@@ -54,13 +54,15 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     if (limitOrder.getType() == OrderType.BID) {
       return buy(limitOrder).getOrderNumber().toString();
@@ -70,13 +72,15 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+      IOException {
 
     return cancel(orderId);
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     CurrencyPair currencyPair = null;
     Long startTime = null;
@@ -102,10 +106,8 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   }
 
   /**
-   * @param params Can optionally implement
-   *          {@link TradeHistoryParamCurrencyPair} and
-   *          {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams
-   *          types will be ignored.
+   * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams
+   *        types will be ignored.
    */
 
   @Override
@@ -147,9 +149,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   }
 
   /**
-   * Create {@link TradeHistoryParams} that supports
-   * {@link TradeHistoryParamsTimeSpan} and
-   * {@link TradeHistoryParamCurrencyPair}.
+   * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan} and {@link TradeHistoryParamCurrencyPair}.
    */
 
   @Override

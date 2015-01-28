@@ -1,5 +1,8 @@
 package com.xeiam.xchange.examples.bitcointoyou.trade;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcointoyou.dto.BitcoinToYouBaseTradeApiResult;
 import com.xeiam.xchange.bitcointoyou.dto.trade.BitcoinToYouOrder;
@@ -11,12 +14,8 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 /**
- * IMPORTANT NOTE: the sleep of 5 sec between each call is necessary
- * due to a API limitation.
+ * IMPORTANT NOTE: the sleep of 5 sec between each call is necessary due to a API limitation.
  * <p>
  * Example showing the following:
  * </p>
@@ -73,7 +72,8 @@ public class BitcoinToYouTradeDemo {
 
     Thread.sleep(1000);
 
-    LimitOrder limitOrder = new LimitOrder((Order.OrderType.BID), new BigDecimal("0.01"), new CurrencyPair(Currencies.LTC, Currencies.BRL), "", null, new BigDecimal("1"));
+    LimitOrder limitOrder = new LimitOrder((Order.OrderType.BID), new BigDecimal("0.01"), new CurrencyPair(Currencies.LTC, Currencies.BRL), "", null,
+        new BigDecimal("1"));
 
     // place a limit buy order
     BitcoinToYouOrder[] order = tradeService.placeBitcoinToYouLimitOrder(limitOrder);

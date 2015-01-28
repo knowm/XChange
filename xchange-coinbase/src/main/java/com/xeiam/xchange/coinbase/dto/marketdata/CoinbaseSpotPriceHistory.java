@@ -34,7 +34,8 @@ public class CoinbaseSpotPriceHistory {
     return "CoinbaseSpotPriceHistory [spotPriceHistory=" + spotPriceHistory + "]";
   }
 
-  private static final Pattern historicalRateStringPatternInReverse = Pattern.compile("(\\d{1,2}\\.\\d+),(\\d{2}:\\d{2}-\\d{2}:\\d{2}:\\d{2}T\\d{2}\\-\\d{2}-\\d{4})");
+  private static final Pattern historicalRateStringPatternInReverse = Pattern
+      .compile("(\\d{1,2}\\.\\d+),(\\d{2}:\\d{2}-\\d{2}:\\d{2}:\\d{2}T\\d{2}\\-\\d{2}-\\d{4})");
 
   public static CoinbaseSpotPriceHistory fromRawString(String spotPriceHistoryString) {
 

@@ -18,7 +18,8 @@ public class BTCChinaGetIcebergOrderResponseTest {
   @Test
   public void testBTCChinaGetIcebergOrderResponse() throws IOException {
 
-    BTCChinaGetIcebergOrderResponse response = mapper.readValue(getClass().getResource("getIcebergOrder.json"), BTCChinaGetIcebergOrderResponse.class);
+    BTCChinaGetIcebergOrderResponse response = mapper
+        .readValue(getClass().getResource("getIcebergOrder.json"), BTCChinaGetIcebergOrderResponse.class);
     BTCChinaIcebergOrder io = response.getResult().getIcebergOrder();
     assertEquals(1, io.getId());
     assertEquals("bid", io.getType());

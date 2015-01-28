@@ -61,8 +61,7 @@ public final class BTCEAdapters {
       // Bid orderbook is reversed order. Insert at index 0 instead of appending
       if (orderType.equalsIgnoreCase("bid")) {
         limitOrders.add(0, adaptOrder(btceOrder[1], btceOrder[0], currencyPair, orderType, id));
-      }
-      else {
+      } else {
         limitOrders.add(adaptOrder(btceOrder[1], btceOrder[0], currencyPair, orderType, id));
       }
     }
@@ -92,8 +91,7 @@ public final class BTCEAdapters {
   /**
    * Adapts a BTCETrade to a Trade Object
    * 
-   * @param bTCETrade
-   *          A BTCE trade
+   * @param bTCETrade A BTCE trade
    * @return The XChange Trade
    */
   public static Trade adaptTrade(BTCETrade bTCETrade) {
@@ -113,8 +111,7 @@ public final class BTCEAdapters {
   /**
    * Adapts a BTCETrade[] to a Trades Object
    * 
-   * @param BTCETrades
-   *          The BTCE trade data
+   * @param BTCETrades The BTCE trade data
    * @return The trades
    */
   public static Trades adaptTrades(BTCETrade[] BTCETrades) {
@@ -143,7 +140,8 @@ public final class BTCEAdapters {
     BigDecimal volume = bTCETicker.getTicker().getVolCur();
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getTicker().getServerTime() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
   }
 
   public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {

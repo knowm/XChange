@@ -36,9 +36,8 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw impl
 
   /**
    * @return The Coinbase transaction id for the newly created withdrawal. See
-   *         {@link CoinbaseAccountServiceRaw#getCoinbaseTransaction(String transactionIdOrIdemField)}
-   *         to retreive more information about the transaction, including the
-   *         blockchain transaction hash.
+   *         {@link CoinbaseAccountServiceRaw#getCoinbaseTransaction(String transactionIdOrIdemField)} to retreive more information about the
+   *         transaction, including the blockchain transaction hash.
    */
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {

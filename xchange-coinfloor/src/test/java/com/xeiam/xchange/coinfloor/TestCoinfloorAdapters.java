@@ -265,9 +265,8 @@ public class TestCoinfloorAdapters {
   }
 
   /**
-   * Experimental: USE WITH CAUTION.
-   * Adapters take every "BalancesUpdated" event, update local AccountInfo object with said new balance.
-   * This method will return that cached AccountInfo object.
+   * Experimental: USE WITH CAUTION. Adapters take every "BalancesUpdated" event, update local AccountInfo object with said new balance. This method
+   * will return that cached AccountInfo object.
    * 
    * @return Trades object representing all OrdersMatched trades recieved.
    * @throws ExchangeException if getBalances method has not yet been called, or response has not been recieved.
@@ -282,10 +281,8 @@ public class TestCoinfloorAdapters {
   }
 
   /**
-   * Experimental: USE WITH CAUTION.
-   * Adapters take every "OrderOpened," "OrdersMatched," or "OrderClosed" event, update local Orderbook object.
-   * This method will return that cached Orderbook object.
-   * Notes: Will not survive program restarts, instantiated upon class instantiation with NO WALLETS.
+   * Experimental: USE WITH CAUTION. Adapters take every "OrderOpened," "OrdersMatched," or "OrderClosed" event, update local Orderbook object. This
+   * method will return that cached Orderbook object. Notes: Will not survive program restarts, instantiated upon class instantiation with NO WALLETS.
    * 
    * @return Trades object representing all OrdersMatched trades recieved.
    * @throws ExchangeException if watchOrders method has not been called.
@@ -300,11 +297,9 @@ public class TestCoinfloorAdapters {
   }
 
   /**
-   * Experimental: USE WITH CAUTION.
-   * Adapters cache every "OrdersMatched" event, add the trade to a local Trades object.
-   * This method will return that cached Trades object.
-   * Notes: Will not survive program restarts, will only cache user's transactions, unless
-   * \tWatchOrders method is called, in which case it will cache ALL transctions happening on that market.
+   * Experimental: USE WITH CAUTION. Adapters cache every "OrdersMatched" event, add the trade to a local Trades object. This method will return that
+   * cached Trades object. Notes: Will not survive program restarts, will only cache user's transactions, unless \tWatchOrders method is called, in
+   * which case it will cache ALL transctions happening on that market.
    * 
    * @return Trades object representing all OrdersMatched trades recieved.
    * @throws ExchangeException if watchOrders method has not been called, or no trades have occurred.

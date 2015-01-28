@@ -23,8 +23,7 @@ public class BleutradeOrderId {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * @return
-   *         The orderid
+   * @return The orderid
    */
   @JsonProperty("orderid")
   public String getOrderid() {
@@ -33,8 +32,7 @@ public class BleutradeOrderId {
   }
 
   /**
-   * @param orderid
-   *          The orderid
+   * @param orderid The orderid
    */
   @JsonProperty("orderid")
   public void setOrderid(String orderid) {

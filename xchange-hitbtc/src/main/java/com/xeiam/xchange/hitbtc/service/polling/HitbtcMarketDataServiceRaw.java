@@ -44,10 +44,12 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBasePollingService {
     }
   }
 
-  public HitbtcTrades getHitbtcTrades(CurrencyPair currencyPair, long from, HitbtcTrades.HitbtcTradesSortOrder sortBy, long startIndex, long maxResults) throws IOException {
+  public HitbtcTrades getHitbtcTrades(CurrencyPair currencyPair, long from, HitbtcTrades.HitbtcTradesSortOrder sortBy, long startIndex,
+      long maxResults) throws IOException {
 
     try {
-      return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), String.valueOf(from), sortBy.toString(), "desc", String.valueOf(startIndex), String.valueOf(maxResults), "object");
+      return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), String.valueOf(from), sortBy.toString(), "desc",
+          String.valueOf(startIndex), String.valueOf(maxResults), "object");
     } catch (HitbtcException e) {
       throw handleException(e);
     }

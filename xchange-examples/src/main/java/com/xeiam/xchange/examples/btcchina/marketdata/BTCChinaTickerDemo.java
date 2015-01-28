@@ -18,8 +18,7 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
- * @author ObsessiveOrange
- *         Demonstrate requesting Ticker at BTC China
+ * @author ObsessiveOrange Demonstrate requesting Ticker at BTC China
  */
 public class BTCChinaTickerDemo {
 

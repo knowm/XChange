@@ -69,8 +69,7 @@ public class OkCoinDigest implements ParamsDigest {
     if (nameValueMap.containsKey("type") && nameValueMap.get("type").contains("market")) {
       if (nameValueMap.get("type").equals("buy_market")) {
         nameValueMap.remove("amount");
-      }
-      else if (nameValueMap.get("type").equals("sell_market")) {
+      } else if (nameValueMap.get("type").equals("sell_market")) {
         nameValueMap.remove("price");
       }
     }

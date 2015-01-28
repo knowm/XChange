@@ -40,9 +40,10 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
   private final CoinbaseMoney total;
   private final String description;
 
-  public CoinbaseTransfer(String id, final CoinbaseTransferType type, final String fundingType, final String code, final Date createdAt, final CoinbaseMoney coinbaseFee,
-      final CoinbaseMoney bankFee, final Date payoutDate, final String transactionId, final CoinbaseTransferStatus status, final CoinbaseMoney btcAmount, final CoinbaseMoney subtotal,
-      final CoinbaseMoney total, final String description, final boolean success, final List<String> errors) {
+  public CoinbaseTransfer(String id, final CoinbaseTransferType type, final String fundingType, final String code, final Date createdAt,
+      final CoinbaseMoney coinbaseFee, final CoinbaseMoney bankFee, final Date payoutDate, final String transactionId,
+      final CoinbaseTransferStatus status, final CoinbaseMoney btcAmount, final CoinbaseMoney subtotal, final CoinbaseMoney total,
+      final String description, final boolean success, final List<String> errors) {
 
     super(success, errors);
     this.id = id;
@@ -134,9 +135,9 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
   @Override
   public String toString() {
 
-    return "CoinbaseTransfer [id=" + id + ", type=" + type + ", fundingType=" + fundingType + ", code=" + code + ", createdAt=" + createdAt + ", coinbaseFee=" + coinbaseFee + ", bankFee=" + bankFee
-        + ", payoutDate=" + payoutDate + ", transactionId=" + transactionId + ", status=" + status + ", btcAmount=" + btcAmount + ", subtotal=" + subtotal + ", total=" + total + ", description="
-        + description + "]";
+    return "CoinbaseTransfer [id=" + id + ", type=" + type + ", fundingType=" + fundingType + ", code=" + code + ", createdAt=" + createdAt
+        + ", coinbaseFee=" + coinbaseFee + ", bankFee=" + bankFee + ", payoutDate=" + payoutDate + ", transactionId=" + transactionId + ", status="
+        + status + ", btcAmount=" + btcAmount + ", subtotal=" + subtotal + ", total=" + total + ", description=" + description + "]";
   }
 
   public enum CoinbaseTransferStatus {
@@ -180,7 +181,8 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
       final CoinbaseMoney total = CoinbaseMoneyDeserializer.getCoinbaseMoneyFromNode(transferNode.path("total"));
       final String description = transferNode.path("description").asText();
 
-      return new CoinbaseTransfer(id, type, fundingType, code, createdAt, coinbaseFee, bankFee, payoutDate, transactionId, status, btcAmount, subtotal, total, description, success, errors);
+      return new CoinbaseTransfer(id, type, fundingType, code, createdAt, coinbaseFee, bankFee, payoutDate, transactionId, status, btcAmount,
+          subtotal, total, description, success, errors);
     }
   }
 }

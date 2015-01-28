@@ -25,8 +25,9 @@ public class CryptsyPublicTrade {
    * @throws ParseException
    */
   @JsonCreator
-  public CryptsyPublicTrade(@JsonProperty("id") long id, @JsonProperty("time") String time, @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity,
-      @JsonProperty("total") BigDecimal total, @JsonProperty("type") String type) throws ParseException {
+  public CryptsyPublicTrade(@JsonProperty("id") long id, @JsonProperty("time") String time, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("total") BigDecimal total, @JsonProperty("type") String type)
+      throws ParseException {
 
     this.id = id;
     this.time = time == null ? null : CryptsyUtils.convertDateTime(time);

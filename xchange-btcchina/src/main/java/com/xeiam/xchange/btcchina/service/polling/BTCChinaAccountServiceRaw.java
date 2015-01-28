@@ -80,8 +80,7 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService {
   }
 
   /**
-   * @deprecated use {@link #withdrawBTCChinaFunds(String, BigDecimal, String)}
-   *             instead.
+   * @deprecated use {@link #withdrawBTCChinaFunds(String, BigDecimal, String)} instead.
    */
   @Deprecated
   public BTCChinaResponse<BTCChinaID> withdrawBTCChinaFunds(BigDecimal amount, String address) throws IOException {

@@ -23,8 +23,7 @@ import com.xeiam.xchange.utils.Assert;
 
 /**
  * <p>
- * Streaming market data service to provide the following to streaming market
- * data API:
+ * Streaming market data service to provide the following to streaming market data API:
  * </p>
  * <ul>
  * <li>Connection to an upstream market data source with a configured provider</li>

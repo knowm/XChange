@@ -129,16 +129,12 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
    * Gets trade history for user's account.
    *
    * @param args 2 optional arguments:
-   *          <ol>
-   *          <li>limit: limit the number of transactions, default value is 10
-   *          if null.</li>
-   *          <li>offset: start index used for pagination, default value is 0 if
-   *          null.</li>
-   *          <li>since: to fetch the transactions from this point, which can
-   *          either be an order id or a unix timestamp, default value is 0.</li>
-   *          <li>sincetype: specify the type of 'since' parameter, can either
-   *          be 'id' or 'time'. default value is 'time'.</li>
-   *          </ol>
+   *        <ol>
+   *        <li>limit: limit the number of transactions, default value is 10 if null.</li>
+   *        <li>offset: start index used for pagination, default value is 0 if null.</li>
+   *        <li>since: to fetch the transactions from this point, which can either be an order id or a unix timestamp, default value is 0.</li>
+   *        <li>sincetype: specify the type of 'since' parameter, can either be 'id' or 'time'. default value is 'time'.</li>
+   *        </ol>
    */
   @Override
   public UserTrades getTradeHistory(Object... args) throws IOException {
@@ -160,10 +156,8 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   }
 
   /**
-   * Supported parameters: {@link TradeHistoryParamPaging}
-   * {@link TradeHistoryParamsTimeSpan#getStartTime()}
-   * {@link TradeHistoryParamsIdSpan#getStartId()} used only if startTime is not
-   * set
+   * Supported parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamsTimeSpan#getStartTime()}
+   * {@link TradeHistoryParamsIdSpan#getStartId()} used only if startTime is not set
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
@@ -209,7 +203,8 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     return new BTCChinaTradeHistoryParams();
   }
 
-  public static class BTCChinaTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsTimeSpan, TradeHistoryParamsIdSpan {
+  public static class BTCChinaTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsTimeSpan,
+      TradeHistoryParamsIdSpan {
 
     private String type = BTCChinaTransactionsRequest.TYPE_ALL;
     private Date startTime;

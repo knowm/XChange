@@ -54,8 +54,9 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, ExchangeException {
 
-    CryptsyPlaceOrderReturn result = super.placeCryptsyLimitOrder(CryptsyCurrencyUtils.convertToMarketId(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.ASK ? CryptsyOrderType.Sell
-        : CryptsyOrderType.Buy, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    CryptsyPlaceOrderReturn result = super.placeCryptsyLimitOrder(CryptsyCurrencyUtils.convertToMarketId(limitOrder.getCurrencyPair()),
+        limitOrder.getType() == OrderType.ASK ? CryptsyOrderType.Sell : CryptsyOrderType.Buy, limitOrder.getTradableAmount(),
+        limitOrder.getLimitPrice());
 
     return Integer.toString(result.getReturnValue());
   }
@@ -68,10 +69,8 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   }
 
   /**
-   * @param arguments Vararg list of optional (nullable) arguments: (Long)
-   *          arguments[0] Number of transactions to return (String)
-   *          arguments[1] TradableIdentifier (String) arguments[2]
-   *          TransactionCurrency (Long) arguments[3] Starting ID
+   * @param arguments Vararg list of optional (nullable) arguments: (Long) arguments[0] Number of transactions to return (String) arguments[1]
+   *        TradableIdentifier (String) arguments[2] TransactionCurrency (Long) arguments[3] Starting ID
    * @return Trades object
    * @throws IOException
    */
@@ -91,8 +90,7 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   }
 
   /**
-   * @param params Can optionally implement {@link TradeHistoryParamsTimeSpan}.
-   *          All other TradeHistoryParams types will be ignored.
+   * @param params Can optionally implement {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
    */
 
   @Override
@@ -109,8 +107,7 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   }
 
   /**
-   * Create {@link TradeHistoryParams} that supports
-   * {@link TradeHistoryParamsTimeSpan}.
+   * Create {@link TradeHistoryParams} that supports {@link TradeHistoryParamsTimeSpan}.
    */
 
   @Override

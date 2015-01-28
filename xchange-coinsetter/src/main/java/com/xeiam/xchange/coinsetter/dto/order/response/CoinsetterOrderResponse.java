@@ -19,8 +19,8 @@ public class CoinsetterOrderResponse extends CoinsetterResponse {
    * @param requestStatus Either "SUCCESS" or "FAILURE"
    * @param orderNumber Order number, if success
    */
-  public CoinsetterOrderResponse(@JsonProperty("uuid") UUID uuid, @JsonProperty("message") String message, @JsonProperty("requestStatus") String requestStatus,
-      @JsonProperty("orderNumber") String orderNumber) {
+  public CoinsetterOrderResponse(@JsonProperty("uuid") UUID uuid, @JsonProperty("message") String message,
+      @JsonProperty("requestStatus") String requestStatus, @JsonProperty("orderNumber") String orderNumber) {
 
     super(message, requestStatus);
     this.uuid = uuid;

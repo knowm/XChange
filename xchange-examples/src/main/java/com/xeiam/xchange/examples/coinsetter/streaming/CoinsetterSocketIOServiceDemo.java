@@ -43,7 +43,8 @@ public class CoinsetterSocketIOServiceDemo {
         while (!isInterrupted()) {
           try {
             ExchangeEvent event = service.getNextEvent();
-            log.info("status: {}, type: {}, data: {}, payload: {}", service.getWebSocketStatus(), event.getEventType(), event.getData(), event.getPayload());
+            log.info("status: {}, type: {}, data: {}, payload: {}", service.getWebSocketStatus(), event.getEventType(), event.getData(),
+                event.getPayload());
           } catch (InterruptedException e) {
             this.interrupt();
           }

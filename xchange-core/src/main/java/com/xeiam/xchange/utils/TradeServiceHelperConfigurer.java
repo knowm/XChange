@@ -28,27 +28,16 @@ public class TradeServiceHelperConfigurer {
   private File override;
 
   /**
-   * System property containing local storage path for the configuration update
-   * file
+   * System property containing local storage path for the configuration update file
    */
   public static final String KEY_LOCAL_PATH = "xchange.config.local";
   private File local;
 
   /**
-   * If the override file is configured, either by a system property or
-   * programmatically, the properties are loaded from the file and exposed to
-   * the exchange clients.
-   *
-   * If not, but the remote update was configured, either by a system property
-   * or programmatically, remote configuration is downloaded, stored locally and
-   * used to load the configuration.
-   *
-   * If not, the internal configuration file, kept in xchange-core, is used.
-   *
-   * Exchange client implementation should never call this method directly.
-   *
-   * Note: downloading a file over the Internet may take significant amount of
-   * time.
+   * If the override file is configured, either by a system property or programmatically, the properties are loaded from the file and exposed to the
+   * exchange clients. If not, but the remote update was configured, either by a system property or programmatically, remote configuration is
+   * downloaded, stored locally and used to load the configuration. If not, the internal configuration file, kept in xchange-core, is used. Exchange
+   * client implementation should never call this method directly. Note: downloading a file over the Internet may take significant amount of time.
    *
    * @return false if update was not configured
    */

@@ -11,8 +11,8 @@ public class BitVcTradeObject {
   private final BigDecimal amount;
   private final String type;
 
-  public BitVcTradeObject(@JsonProperty("time") final String time, @JsonProperty("price") final BigDecimal price, @JsonProperty("amount") final BigDecimal amount,
-      @JsonProperty("type") final String type) {
+  public BitVcTradeObject(@JsonProperty("time") final String time, @JsonProperty("price") final BigDecimal price,
+      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("type") final String type) {
 
     this.time = time;
     this.price = price;

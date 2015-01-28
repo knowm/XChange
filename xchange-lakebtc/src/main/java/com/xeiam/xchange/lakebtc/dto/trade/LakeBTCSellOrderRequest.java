@@ -7,25 +7,25 @@ import com.xeiam.xchange.lakebtc.dto.LakeBTCRequest;
  */
 public class LakeBTCSellOrderRequest extends LakeBTCRequest {
 
-    private static final String METHOD_NAME = "sellOrder";
+  private static final String METHOD_NAME = "sellOrder";
 
-    /**
-     * Constructor
-     */
-    public LakeBTCSellOrderRequest() {
+  /**
+   * Constructor
+   */
+  public LakeBTCSellOrderRequest() {
 
-        method = METHOD_NAME;
-        params = "[]";
-    }
+    method = METHOD_NAME;
+    params = "[]";
+  }
 
-    public LakeBTCSellOrderRequest(String type) {
+  public LakeBTCSellOrderRequest(String type) {
 
-        method = METHOD_NAME;
-        params = String.format("[\"%s\"]", type);
-    }
+    method = METHOD_NAME;
+    params = String.format("[\"%s\"]", type);
+  }
 
-    @Override
-    public String toString() {
-        return String.format("LakeBTCSellOrderRequest{id=%d, method=%s, params=%s}", id, method, params);
-    }
+  @Override
+  public String toString() {
+    return String.format("LakeBTCSellOrderRequest{id=%d, method=%s, params=%s}", id, method, params);
+  }
 }

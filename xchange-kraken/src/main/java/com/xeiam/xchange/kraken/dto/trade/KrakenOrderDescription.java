@@ -29,8 +29,9 @@ public class KrakenOrderDescription {
    * @param orderDescription
    * @param closeDescription
    */
-  public KrakenOrderDescription(@JsonProperty("pair") String assetPair, @JsonProperty("type") KrakenType type, @JsonProperty("ordertype") KrakenOrderType orderType,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("price2") BigDecimal secondaryPrice, @JsonProperty("leverage") String leverage, @JsonProperty("position") String positionTxId,
+  public KrakenOrderDescription(@JsonProperty("pair") String assetPair, @JsonProperty("type") KrakenType type,
+      @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("price2") BigDecimal secondaryPrice, @JsonProperty("leverage") String leverage, @JsonProperty("position") String positionTxId,
       @JsonProperty("order") String orderDescription, @JsonProperty("close") String closeDescription) {
 
     this.assetPair = assetPair;
@@ -92,8 +93,9 @@ public class KrakenOrderDescription {
   @Override
   public String toString() {
 
-    return "KrakenOrderDescription [assetPair=" + assetPair + ", type=" + type + ", orderType=" + orderType + ", price=" + price + ", secondaryPrice=" + secondaryPrice + ", leverage=" + leverage
-        + ", positionTxId=" + positionTxId + ", orderDescription=" + orderDescription + ", closeDescription=" + closeDescription + "]";
+    return "KrakenOrderDescription [assetPair=" + assetPair + ", type=" + type + ", orderType=" + orderType + ", price=" + price
+        + ", secondaryPrice=" + secondaryPrice + ", leverage=" + leverage + ", positionTxId=" + positionTxId + ", orderDescription="
+        + orderDescription + ", closeDescription=" + closeDescription + "]";
   }
 
 }

@@ -57,13 +57,11 @@ public final class BitstampAdapters {
   }
 
   /**
-   * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook
-   * Object
+   * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
    *
    * @param currencyPair (e.g. BTC/USD)
    * @param currency The currency (e.g. USD in BTC/USD)
-   * @param timeScale polled order books provide a timestamp in seconds, stream
-   *          in ms
+   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair, int timeScale) {
@@ -112,7 +110,8 @@ public final class BitstampAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades.add(new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
+      trades
+          .add(new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
     }
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
@@ -123,8 +122,7 @@ public final class BitstampAdapters {
    *
    * @param transactions The Bitstamp transaction
    * @param currencyPair (e.g. BTC/USD)
-   * @param timeScale polled order books provide a timestamp in seconds, stream
-   *          in ms
+   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
    */
   public static Trade adaptTrade(BitstampTransaction tx, CurrencyPair currencyPair, int timeScale) {
@@ -151,7 +149,8 @@ public final class BitstampAdapters {
     BigDecimal volume = bitstampTicker.getVolume();
     Date timestamp = new Date(bitstampTicker.getTimestamp() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
 
   }
 
@@ -180,7 +179,8 @@ public final class BitstampAdapters {
         final BigDecimal feeAmount = bitstampUserTransaction.getFee();
         final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
-        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount, currencyPair.counterSymbol);
+        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
+            currencyPair.counterSymbol);
         trades.add(trade);
       }
     }

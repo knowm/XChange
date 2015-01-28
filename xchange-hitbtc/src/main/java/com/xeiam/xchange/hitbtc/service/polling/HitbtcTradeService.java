@@ -42,7 +42,8 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     HitbtcExecutionReport placeMarketOrderRaw = placeMarketOrderRaw(marketOrder);
     checkRejected(placeMarketOrderRaw);
@@ -50,7 +51,8 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     HitbtcExecutionReport placeLimitOrderRaw = placeLimitOrderRaw(limitOrder);
     checkRejected(placeLimitOrderRaw);
@@ -58,14 +60,16 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+      IOException {
 
     HitbtcExecutionReportResponse cancelOrderRaw = cancelOrderRaw(orderId);
     return cancelOrderRaw.getCancelReject() == null && cancelOrderRaw.getExecutionReport() != null;
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     int startIndex = 0;
     int maxResults = 1000;
@@ -82,8 +86,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   }
 
   /**
-   * Required parameters: {@link TradeHistoryParamPaging}
-   * {@link TradeHistoryParamCurrencyPair}
+   * Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {

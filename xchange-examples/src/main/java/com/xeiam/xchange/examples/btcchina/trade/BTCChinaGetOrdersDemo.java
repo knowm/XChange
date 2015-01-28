@@ -13,8 +13,7 @@ import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 /**
- * Demo for {@link BTCChinaTradeServiceRaw#getBTCChinaOrders(Boolean, String, Integer, Integer)}.
- * and {@link BTCChinaTradeService#getOpenOrders()}.
+ * Demo for {@link BTCChinaTradeServiceRaw#getBTCChinaOrders(Boolean, String, Integer, Integer)} . and {@link BTCChinaTradeService#getOpenOrders()}.
  */
 public class BTCChinaGetOrdersDemo {
 
@@ -39,7 +38,8 @@ public class BTCChinaGetOrdersDemo {
     BTCChinaGetOrdersResponse all = tradeServiceRaw.getBTCChinaOrders(true, BTCChinaGetOrdersRequest.ALL_MARKET, null, null);
     System.out.println(all);
 
-    BTCChinaGetOrdersResponse withdetail = tradeServiceRaw.getBTCChinaOrders(Boolean.FALSE, BTCChinaExchange.DEFAULT_MARKET, null, null, null, Boolean.TRUE);
+    BTCChinaGetOrdersResponse withdetail = tradeServiceRaw.getBTCChinaOrders(Boolean.FALSE, BTCChinaExchange.DEFAULT_MARKET, null, null, null,
+        Boolean.TRUE);
     System.out.println(withdetail);
 
     // Generic

@@ -27,9 +27,10 @@ public class CoinbaseAddress extends CoinbaseBaseResponse {
     this.createdAt = createdAt;
   }
 
-  private CoinbaseAddress(@JsonProperty("address") final String address, @JsonProperty("callback_url") final String callbackUrl, @JsonProperty("label") final String label,
-      @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("success") final boolean success,
-      @JsonProperty("errors") final List<String> errors) {
+  private CoinbaseAddress(@JsonProperty("address") final String address, @JsonProperty("callback_url") final String callbackUrl,
+      @JsonProperty("label") final String label,
+      @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
+      @JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
 
     super(success, errors);
     this.address = address;

@@ -20,7 +20,8 @@ public class BTCCentralExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setHost("bitcoin-central.net");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitcoin-Central");
-    exchangeSpecification.setExchangeDescription("Bitcoin-Central is a Bitcoin exchange registered and maintained by a company based in Paris, France.");
+    exchangeSpecification
+        .setExchangeDescription("Bitcoin-Central is a Bitcoin exchange registered and maintained by a company based in Paris, France.");
 
     return exchangeSpecification;
   }

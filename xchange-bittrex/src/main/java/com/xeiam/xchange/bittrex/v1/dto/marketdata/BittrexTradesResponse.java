@@ -8,7 +8,8 @@ public class BittrexTradesResponse {
   private final String message;
   private final BittrexTrade[] trades;
 
-  public BittrexTradesResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message, @JsonProperty("result") BittrexTrade[] trades) {
+  public BittrexTradesResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+      @JsonProperty("result") BittrexTrade[] trades) {
 
     super();
     this.success = success;

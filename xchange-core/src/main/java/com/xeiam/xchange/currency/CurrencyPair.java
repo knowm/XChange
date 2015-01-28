@@ -8,12 +8,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * </p>
  * <ul>
  * <li>Provision of major currency symbol pairs (EUR/USD, GBP/USD etc)</li>
- * <li>Provision of arbitrary symbol pairs for exchange index trading, notional
- * currencies etc</li>
+ * <li>Provision of arbitrary symbol pairs for exchange index trading, notional currencies etc</li>
  * </ul>
  * <p>
- * Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be
- * purchased with 1.25 USD
+ * Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with 1.25 USD
  * </p>
  */
 @JsonSerialize(using = CustomCurrencyPairSerializer.class)
@@ -164,13 +162,11 @@ public class CurrencyPair {
    * <p>
    * Full constructor
    * </p>
-   * In general the CurrencyPair.base is what you're wanting to buy/sell. The
-   * CurrencyPair.counter is what currency you want to use to pay/receive for
+   * In general the CurrencyPair.base is what you're wanting to buy/sell. The CurrencyPair.counter is what currency you want to use to pay/receive for
    * your purchase/sale.
    *
    * @param baseSymbol The base symbol is what you're wanting to buy/sell
-   * @param counterSymbol The counter symbol is what currency you want to use to
-   *          pay/receive for your purchase/sale.
+   * @param counterSymbol The counter symbol is what currency you want to use to pay/receive for your purchase/sale.
    */
   public CurrencyPair(String baseSymbol, String counterSymbol) {
 
@@ -179,8 +175,7 @@ public class CurrencyPair {
   }
 
   /**
-   * Parse currency pair from a string in the same format as returned by
-   * toString() method - XXX/YYY
+   * Parse currency pair from a string in the same format as returned by toString() method - XXX/YYY
    */
   public CurrencyPair(String currencyPair) {
     int split = currencyPair.indexOf("/");

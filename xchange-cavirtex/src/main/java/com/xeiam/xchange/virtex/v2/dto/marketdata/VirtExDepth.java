@@ -20,7 +20,8 @@ public final class VirtExDepth {
    * @param asks
    * @param bids
    */
-  public VirtExDepth(@JsonProperty("currencypair") String currencypair, @JsonProperty("asks") List<BigDecimal[]> asks, @JsonProperty("bids") List<BigDecimal[]> bids) {
+  public VirtExDepth(@JsonProperty("currencypair") String currencypair, @JsonProperty("asks") List<BigDecimal[]> asks,
+      @JsonProperty("bids") List<BigDecimal[]> bids) {
 
     this.asks = asks;
     this.bids = bids;

@@ -13,8 +13,9 @@ public class OkCoinTicker {
   private final BigDecimal last;
   private final BigDecimal vol;
 
-  public OkCoinTicker(@JsonProperty("high") final BigDecimal high, @JsonProperty("low") final BigDecimal low, @JsonProperty("buy") final BigDecimal buy, @JsonProperty("sell") final BigDecimal sell,
-      @JsonProperty("last") final BigDecimal last, @JsonProperty("vol") final BigDecimal vol) {
+  public OkCoinTicker(@JsonProperty("high") final BigDecimal high, @JsonProperty("low") final BigDecimal low,
+      @JsonProperty("buy") final BigDecimal buy, @JsonProperty("sell") final BigDecimal sell, @JsonProperty("last") final BigDecimal last,
+      @JsonProperty("vol") final BigDecimal vol) {
 
     this.high = high;
     this.low = low;

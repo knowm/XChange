@@ -8,8 +8,7 @@ import com.xeiam.xchange.Exchange;
 public abstract class BaseExchangeService {
 
   /**
-   * The base Exchange. Every service has access to the containing exchange
-   * class, which hold meta data and the exchange specification
+   * The base Exchange. Every service has access to the containing exchange class, which hold meta data and the exchange specification
    */
   protected final Exchange exchange;
 

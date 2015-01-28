@@ -27,45 +27,50 @@ public interface BittrexAuthenticated extends Bittrex {
 
   @GET
   @Path("account/getdepositaddress")
-  BittrexDepositAddressResponse getdepositaddress(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @QueryParam("currency") String currency) throws IOException;
+  BittrexDepositAddressResponse getdepositaddress(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("currency") String currency) throws IOException;
 
   @GET
   @Path("account/getbalances")
-  BittrexBalancesResponse balances(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  BittrexBalancesResponse balances(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @GET
   @Path("market/buylimit")
-  BittrexTradeResponse buylimit(@QueryParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @QueryParam("market") String market, @QueryParam("quantity") String quantity, @QueryParam("rate") String rate) throws IOException;
+  BittrexTradeResponse buylimit(@QueryParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("market") String market, @QueryParam("quantity") String quantity,
+      @QueryParam("rate") String rate) throws IOException;
 
   @GET
   @Path("market/selllimit")
-  BittrexTradeResponse selllimit(@QueryParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @QueryParam("market") String market, @QueryParam("quantity") String quantity, @QueryParam("rate") String rate) throws IOException;
+  BittrexTradeResponse selllimit(@QueryParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("market") String market, @QueryParam("quantity") String quantity,
+      @QueryParam("rate") String rate) throws IOException;
 
   @GET
   @Path("market/buymarket")
-  BittrexTradeResponse buymarket(@QueryParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @QueryParam("market") String market, @QueryParam("quantity") String quantity) throws IOException;
+  BittrexTradeResponse buymarket(@QueryParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("market") String market, @QueryParam("quantity") String quantity)
+      throws IOException;
 
   @GET
   @Path("market/sellmarket")
-  BittrexTradeResponse sellmarket(@QueryParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @QueryParam("market") String market, @QueryParam("quantity") String quantity) throws IOException;
+  BittrexTradeResponse sellmarket(@QueryParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("market") String market, @QueryParam("quantity") String quantity)
+      throws IOException;
 
   @GET
   @Path("market/cancel")
-  BittrexCancelOrderResponse cancel(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @QueryParam("uuid") String uuid) throws IOException;
+  BittrexCancelOrderResponse cancel(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("uuid") String uuid) throws IOException;
 
   @GET
   @Path("market/getopenorders")
-  BittrexOpenOrdersResponse openorders(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> nonce)
-      throws IOException;
+  BittrexOpenOrdersResponse openorders(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @GET
   @Path("account/getorderhistory")
-  BittrexTradeHistoryResponse getorderhistory(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> nonce)
-      throws IOException;
+  BittrexTradeHistoryResponse getorderhistory(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 }

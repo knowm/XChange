@@ -34,13 +34,15 @@ public class EmpoExTradeService extends EmpoExTradeServiceRaw implements Polling
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     if (limitOrder.getType() == OrderType.BID) {
       return super.buy(limitOrder);
@@ -50,13 +52,15 @@ public class EmpoExTradeService extends EmpoExTradeServiceRaw implements Polling
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+      IOException {
 
     return super.cancel(orderId);
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     throw new NotAvailableFromExchangeException();
   }

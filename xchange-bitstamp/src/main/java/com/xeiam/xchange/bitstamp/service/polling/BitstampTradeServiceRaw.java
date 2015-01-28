@@ -32,8 +32,8 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
 
     super(exchange);
     this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = BitstampDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification()
-        .getApiKey());
+    this.signatureCreator = BitstampDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
+        .getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
 
   public BitstampOrder[] getBitstampOpenOrders() throws IOException {
@@ -43,12 +43,14 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
 
   public BitstampOrder sellBitstampOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
-    return bitstampAuthenticated.sell(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount, price);
+    return bitstampAuthenticated.sell(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount,
+        price);
   }
 
   public BitstampOrder buyBitStampOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
-    return bitstampAuthenticated.buy(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount, price);
+    return bitstampAuthenticated.buy(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount,
+        price);
   }
 
   public boolean cancelBitstampOrder(int orderId) throws IOException {
@@ -58,12 +60,14 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions) throws IOException {
 
-    return bitstampAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), numberOfTransactions);
+    return bitstampAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
+        numberOfTransactions);
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, Long offset, String sort) throws IOException {
 
-    return bitstampAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), numberOfTransactions, offset, sort);
+    return bitstampAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
+        numberOfTransactions, offset, sort);
   }
 
   /**
@@ -74,7 +78,8 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
 
     Map<CurrencyPair, TradeMetaInfo> returnObject = new HashMap<CurrencyPair, TradeMetaInfo>();
 
-    BitstampBalance bitstampBalance = bitstampAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    BitstampBalance bitstampBalance = bitstampAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory());
 
     List<CurrencyPair> currencyPairs = exchange.getMetaData().getCurrencyPairs();
     for (CurrencyPair currencyPair : currencyPairs) {

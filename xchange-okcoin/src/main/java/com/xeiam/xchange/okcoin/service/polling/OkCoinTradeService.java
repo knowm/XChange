@@ -67,7 +67,8 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     String marketOrderType = null;
     String rate = null;
@@ -88,15 +89,17 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
-    long orderId = trade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "buy" : "sell", limitOrder.getLimitPrice().toPlainString(),
-        limitOrder.getTradableAmount().toPlainString()).getOrderId();
+    long orderId = trade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "buy" : "sell",
+        limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString()).getOrderId();
     return String.valueOf(orderId);
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+      IOException {
 
     boolean ret = false;
     long id = Long.valueOf(orderId);
@@ -121,7 +124,8 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     CurrencyPair currencyPair = arguments.length > 0 ? (CurrencyPair) arguments[0] : (useIntl ? CurrencyPair.BTC_USD : CurrencyPair.BTC_CNY);
     Integer page = arguments.length > 1 ? (Integer) arguments[1] : 0;
@@ -131,8 +135,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   }
 
   /**
-   * Required parameters {@link TradeHistoryParamPaging} Supported parameters
-   * {@link TradeHistoryParamCurrencyPair}
+   * Required parameters {@link TradeHistoryParamPaging} Supported parameters {@link TradeHistoryParamCurrencyPair}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {

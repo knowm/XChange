@@ -34,9 +34,7 @@ public class BTCChinaSocketIOClientBuilder {
   public static final String EVENT_TRADE = "trade";
 
   /**
-   * @since <a href=
-   *        "http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122"
-   *        >WebSocket API v1.2.2</a>
+   * @since <a href= "http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122" >WebSocket API v1.2.2</a>
    */
   public static final String EVENT_GROUPORDER = "grouporder";
 
@@ -71,8 +69,7 @@ public class BTCChinaSocketIOClientBuilder {
 
     opt.reconnection = true;
     /*
-     * Prevents all sockets reporting the events of other socket's
-     * subscriptions.
+     * Prevents all sockets reporting the events of other socket's subscriptions.
      */
     opt.multiplex = false;
   }
@@ -107,9 +104,7 @@ public class BTCChinaSocketIOClientBuilder {
   }
 
   /**
-   * @since <a href=
-   *        "http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122"
-   *        >WebSocket API v1.2.2</a>
+   * @since <a href= "http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122" >WebSocket API v1.2.2</a>
    */
   public BTCChinaSocketIOClientBuilder subscribeGrouporder(CurrencyPair... currencyPairs) {
 
@@ -242,7 +237,8 @@ public class BTCChinaSocketIOClientBuilder {
   private String getSign(BTCChinaPayload payload) {
 
     final String payloadParamsString = StringUtils.join(payload.getParams(), ",");
-    final String params = String.format("tonce=%1$d&accesskey=%2$s&requestmethod=post&id=%1$s&method=subscribe&params=%3$s", payload.getTonce(), payload.getAccessKey(), payloadParamsString);
+    final String params = String.format("tonce=%1$d&accesskey=%2$s&requestmethod=post&id=%1$s&method=subscribe&params=%3$s", payload.getTonce(),
+        payload.getAccessKey(), payloadParamsString);
     log.debug("signature message: {}", params);
     String hash;
     try {

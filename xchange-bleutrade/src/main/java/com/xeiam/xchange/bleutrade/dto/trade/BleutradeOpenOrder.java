@@ -42,8 +42,7 @@ public class BleutradeOpenOrder {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * @return
-   *         The OrderId
+   * @return The OrderId
    */
   @JsonProperty("OrderId")
   public String getOrderId() {
@@ -52,8 +51,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @param OrderId
-   *          The OrderId
+   * @param OrderId The OrderId
    */
   @JsonProperty("OrderId")
   public void setOrderId(String OrderId) {
@@ -62,8 +60,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @return
-   *         The Exchange
+   * @return The Exchange
    */
   @JsonProperty("Exchange")
   public String getExchange() {
@@ -72,8 +69,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @param Exchange
-   *          The Exchange
+   * @param Exchange The Exchange
    */
   @JsonProperty("Exchange")
   public void setExchange(String Exchange) {
@@ -82,8 +78,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @return
-   *         The Type
+   * @return The Type
    */
   @JsonProperty("Type")
   public String getType() {
@@ -92,8 +87,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @param Type
-   *          The Type
+   * @param Type The Type
    */
   @JsonProperty("Type")
   public void setType(String Type) {
@@ -102,8 +96,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @return
-   *         The Quantity
+   * @return The Quantity
    */
   @JsonProperty("Quantity")
   public BigDecimal getQuantity() {
@@ -112,8 +105,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @param Quantity
-   *          The Quantity
+   * @param Quantity The Quantity
    */
   @JsonProperty("Quantity")
   public void setQuantity(BigDecimal Quantity) {
@@ -122,8 +114,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @return
-   *         The QuantityRemaining
+   * @return The QuantityRemaining
    */
   @JsonProperty("QuantityRemaining")
   public BigDecimal getQuantityRemaining() {
@@ -132,8 +123,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @param QuantityRemaining
-   *          The QuantityRemaining
+   * @param QuantityRemaining The QuantityRemaining
    */
   @JsonProperty("QuantityRemaining")
   public void setQuantityRemaining(BigDecimal QuantityRemaining) {
@@ -142,8 +132,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @return
-   *         The QuantityBaseTraded
+   * @return The QuantityBaseTraded
    */
   @JsonProperty("QuantityBaseTraded")
   public String getQuantityBaseTraded() {
@@ -152,8 +141,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @param QuantityBaseTraded
-   *          The QuantityBaseTraded
+   * @param QuantityBaseTraded The QuantityBaseTraded
    */
   @JsonProperty("QuantityBaseTraded")
   public void setQuantityBaseTraded(String QuantityBaseTraded) {
@@ -162,8 +150,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @return
-   *         The Price
+   * @return The Price
    */
   @JsonProperty("Price")
   public BigDecimal getPrice() {
@@ -172,8 +159,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @param Price
-   *          The Price
+   * @param Price The Price
    */
   @JsonProperty("Price")
   public void setPrice(BigDecimal Price) {
@@ -182,8 +168,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @return
-   *         The Status
+   * @return The Status
    */
   @JsonProperty("Status")
   public String getStatus() {
@@ -192,8 +177,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @param Status
-   *          The Status
+   * @param Status The Status
    */
   @JsonProperty("Status")
   public void setStatus(String Status) {
@@ -202,8 +186,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @return
-   *         The Created
+   * @return The Created
    */
   @JsonProperty("Created")
   public String getCreated() {
@@ -212,8 +195,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @param Created
-   *          The Created
+   * @param Created The Created
    */
   @JsonProperty("Created")
   public void setCreated(String Created) {
@@ -222,8 +204,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @return
-   *         The Comments
+   * @return The Comments
    */
   @JsonProperty("Comments")
   public String getComments() {
@@ -232,8 +213,7 @@ public class BleutradeOpenOrder {
   }
 
   /**
-   * @param Comments
-   *          The Comments
+   * @param Comments The Comments
    */
   @JsonProperty("Comments")
   public void setComments(String Comments) {
@@ -256,8 +236,9 @@ public class BleutradeOpenOrder {
   @Override
   public String toString() {
 
-    return "BleutradeOpenOrder [OrderId=" + OrderId + ", Exchange=" + Exchange + ", Type=" + Type + ", Quantity=" + Quantity + ", QuantityRemaining=" + QuantityRemaining + ", QuantityBaseTraded="
-        + QuantityBaseTraded + ", Price=" + Price + ", Status=" + Status + ", Created=" + Created + ", Comments=" + Comments + ", additionalProperties=" + additionalProperties + "]";
+    return "BleutradeOpenOrder [OrderId=" + OrderId + ", Exchange=" + Exchange + ", Type=" + Type + ", Quantity=" + Quantity + ", QuantityRemaining="
+        + QuantityRemaining + ", QuantityBaseTraded=" + QuantityBaseTraded + ", Price=" + Price + ", Status=" + Status + ", Created=" + Created
+        + ", Comments=" + Comments + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

@@ -39,7 +39,8 @@ public class ANXAccountServiceRaw extends ANXBasePollingService {
   public ANXAccountInfo getANXAccountInfo() throws IOException {
 
     try {
-      ANXAccountInfoWrapper anxAccountInfoWrapper = anxV2.getAccountInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+      ANXAccountInfoWrapper anxAccountInfoWrapper = anxV2.getAccountInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+          exchange.getNonceFactory());
       return anxAccountInfoWrapper.getANXAccountInfo();
     } catch (ANXException e) {
       throw handleError(e);
@@ -51,7 +52,8 @@ public class ANXAccountServiceRaw extends ANXBasePollingService {
   public ANXWithdrawalResponse anxWithdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     try {
-      ANXWithdrawalResponseWrapper anxWithdrawalResponseWrapper = anxV2.withdrawBtc(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), currency, address,
+      ANXWithdrawalResponseWrapper anxWithdrawalResponseWrapper = anxV2.withdrawBtc(exchange.getExchangeSpecification().getApiKey(),
+          signatureCreator, exchange.getNonceFactory(), currency, address,
           amount.multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2)).intValue(), 1, false, false);
       return anxWithdrawalResponseWrapper.getAnxWithdrawalResponse();
     } catch (ANXException e) {
@@ -64,8 +66,8 @@ public class ANXAccountServiceRaw extends ANXBasePollingService {
   public ANXBitcoinDepositAddress anxRequestDepositAddress(String currency) throws IOException {
 
     try {
-      ANXBitcoinDepositAddressWrapper anxBitcoinDepositAddressWrapper = anxV2.requestDepositAddress(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-          currency);
+      ANXBitcoinDepositAddressWrapper anxBitcoinDepositAddressWrapper = anxV2.requestDepositAddress(exchange.getExchangeSpecification().getApiKey(),
+          signatureCreator, exchange.getNonceFactory(), currency);
       return anxBitcoinDepositAddressWrapper.getAnxBitcoinDepositAddress();
     } catch (ANXException e) {
       throw handleError(e);

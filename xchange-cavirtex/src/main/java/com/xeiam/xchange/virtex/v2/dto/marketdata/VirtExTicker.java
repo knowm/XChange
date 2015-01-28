@@ -24,8 +24,8 @@ public final class VirtExTicker {
    * @param volume
    * @param last
    */
-  public VirtExTicker(@JsonProperty("sell") BigDecimal sell, @JsonProperty("buy") BigDecimal buy, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("volume") BigDecimal volume, @JsonProperty("last") BigDecimal last) {
+  public VirtExTicker(@JsonProperty("sell") BigDecimal sell, @JsonProperty("buy") BigDecimal buy, @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume, @JsonProperty("last") BigDecimal last) {
 
     this.sell = sell;
     this.buy = buy;

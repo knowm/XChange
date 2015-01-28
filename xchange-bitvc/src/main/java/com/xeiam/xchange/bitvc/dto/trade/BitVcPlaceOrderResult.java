@@ -7,8 +7,8 @@ public class BitVcPlaceOrderResult extends BitVcError {
   private final String result;
   private final long id;
 
-  public BitVcPlaceOrderResult(@JsonProperty("code") final int code, @JsonProperty("msg") final String msg, @JsonProperty("time") final long time, @JsonProperty("result") final String result,
-      @JsonProperty("id") final long id) {
+  public BitVcPlaceOrderResult(@JsonProperty("code") final int code, @JsonProperty("msg") final String msg, @JsonProperty("time") final long time,
+      @JsonProperty("result") final String result, @JsonProperty("id") final long id) {
 
     super(code, msg, time);
     this.result = result;

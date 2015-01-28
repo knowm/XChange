@@ -124,8 +124,8 @@ public class PoloniexMarketData {
   @Override
   public String toString() {
 
-    return "PoloniexMarketData [last=" + last + ", lowestAsk=" + lowestAsk + ", highestBid=" + highestBid + ", percentChange=" + percentChange + ", baseVolume=" + baseVolume + ", quoteVolume="
-        + quoteVolume + ", additionalProperties=" + additionalProperties + "]";
+    return "PoloniexMarketData [last=" + last + ", lowestAsk=" + lowestAsk + ", highestBid=" + highestBid + ", percentChange=" + percentChange
+        + ", baseVolume=" + baseVolume + ", quoteVolume=" + quoteVolume + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

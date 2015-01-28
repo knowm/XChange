@@ -5,8 +5,7 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Author: brox
- * Since: 2/5/14
+ * Author: brox Since: 2/5/14
  */
 public class CexIOOrder {
 
@@ -32,8 +31,9 @@ public class CexIOOrder {
    * @param amount
    * @param pending
    */
-  public CexIOOrder(@JsonProperty("id") long id, @JsonProperty("time") long time, @JsonProperty("type") Type type, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("pending") BigDecimal pending, @JsonProperty("error") String errorMessage) {
+  public CexIOOrder(@JsonProperty("id") long id, @JsonProperty("time") long time, @JsonProperty("type") Type type,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("pending") BigDecimal pending,
+      @JsonProperty("error") String errorMessage) {
 
     this.id = id;
     this.time = time;
@@ -102,7 +102,8 @@ public class CexIOOrder {
   @Override
   public String toString() {
 
-    return errorMessage != null ? errorMessage : String.format("Order{id=%s, time=%s, type=%s, price=%s, amount=%s, pending=%s}", id, time, type, price, amount, pending);
+    return errorMessage != null ? errorMessage : String.format("Order{id=%s, time=%s, type=%s, price=%s, amount=%s, pending=%s}", id, time, type,
+        price, amount, pending);
   }
 
   public static enum Type {

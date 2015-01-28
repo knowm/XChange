@@ -15,8 +15,7 @@ import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
- * @author ObsessiveOrange
- *         Demonstrate requesting Trades at BTC China
+ * @author ObsessiveOrange Demonstrate requesting Trades at BTC China
  */
 public class BTCChinaTradesDemo {
 

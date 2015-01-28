@@ -22,7 +22,8 @@ public class HuobiBaseTradeService extends BitVcBasePollingService {
 
     super(exchange);
 
-    huobi = RestProxyFactory.createProxy(Huobi.class, (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(BitVcExchange.URI_HUOBI));
+    huobi = RestProxyFactory.createProxy(Huobi.class,
+        (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(BitVcExchange.URI_HUOBI));
     accessKey = exchange.getExchangeSpecification().getApiKey();
     digest = new BitVcDigest(exchange.getExchangeSpecification().getSecretKey());
   }

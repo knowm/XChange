@@ -10,8 +10,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 
 /**
- * {@link BTCTradeSession} factory to ensure the polling service instances,
- * which using the same API key, share the same secret data and nonce.
+ * {@link BTCTradeSession} factory to ensure the polling service instances, which using the same API key, share the same secret data and nonce.
  */
 public enum BTCTradeSessionFactory {
 
@@ -31,11 +30,9 @@ public enum BTCTradeSessionFactory {
   }
 
   /**
-   * Returns the session of the specified API key in the
-   * {@code ExchangeSpecification}.
+   * Returns the session of the specified API key in the {@code ExchangeSpecification}.
    *
-   * @param exchangeSpecification the {@link ExchangeSpecification} to create
-   *          the session.
+   * @param exchangeSpecification the {@link ExchangeSpecification} to create the session.
    * @return the session.
    */
   public synchronized BTCTradeSession getSession(Exchange exchange) {

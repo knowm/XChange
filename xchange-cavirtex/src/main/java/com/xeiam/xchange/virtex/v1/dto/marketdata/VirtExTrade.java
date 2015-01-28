@@ -26,7 +26,8 @@ public final class VirtExTrade {
    * @param price
    * @param tid
    */
-  public VirtExTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") double date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid) {
+  public VirtExTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") double date, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("tid") long tid) {
 
     this.amount = amount;
     this.date = date;

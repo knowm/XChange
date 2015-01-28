@@ -62,6 +62,7 @@ public class BTEROpenOrder {
   @Override
   public String toString() {
 
-    return "BTEROpenOrder [id=" + id + ", sellCurrency=" + sellCurrency + ", buyCurrency=" + buyCurrency + ", sellAmount=" + sellAmount + ", buyAmount=" + buyAmount + "]";
+    return "BTEROpenOrder [id=" + id + ", sellCurrency=" + sellCurrency + ", buyCurrency=" + buyCurrency + ", sellAmount=" + sellAmount
+        + ", buyAmount=" + buyAmount + "]";
   }
 }

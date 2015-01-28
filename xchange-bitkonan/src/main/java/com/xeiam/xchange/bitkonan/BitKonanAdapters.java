@@ -46,7 +46,8 @@ public class BitKonanAdapters {
     // no timestamp from BitKonan
     Date timestamp = null;
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
   }
 
   public static OrderBook adaptOrderBook(BitKonanOrderBook bitKonanOrderBook) {
@@ -58,7 +59,8 @@ public class BitKonanAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  private static List<LimitOrder> adaptMarketOrderToLimitOrder(BitKonanOrderBookElement[] bitkonanOrders, OrderType orderType, CurrencyPair currencyPair) {
+  private static List<LimitOrder> adaptMarketOrderToLimitOrder(BitKonanOrderBookElement[] bitkonanOrders, OrderType orderType,
+      CurrencyPair currencyPair) {
 
     List<LimitOrder> orders = new ArrayList<LimitOrder>(bitkonanOrders.length);
 

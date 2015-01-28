@@ -17,7 +17,8 @@ public class CoinsetterPriceAlertResponse extends CoinsetterResponse {
    * @param requestStatus Status of the add request (ex: "SUCCESS")
    * @param uuid Unique identifier of newly created price alert
    */
-  public CoinsetterPriceAlertResponse(@JsonProperty("message") String message, @JsonProperty("requestStatus") String requestStatus, @JsonProperty("uuid") UUID uuid) {
+  public CoinsetterPriceAlertResponse(@JsonProperty("message") String message, @JsonProperty("requestStatus") String requestStatus,
+      @JsonProperty("uuid") UUID uuid) {
 
     super(message, requestStatus);
     this.uuid = uuid;

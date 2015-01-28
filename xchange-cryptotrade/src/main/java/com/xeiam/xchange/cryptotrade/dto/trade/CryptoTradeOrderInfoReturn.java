@@ -9,12 +9,12 @@ public class CryptoTradeOrderInfoReturn extends CryptoTradeBaseResponse {
 
   private final List<CryptoTradeOrder> orders;
 
-  private CryptoTradeOrderInfoReturn(@JsonProperty("data") List<CryptoTradeOrder> orders, @JsonProperty("status") String status, @JsonProperty("error") String error) {
+  private CryptoTradeOrderInfoReturn(@JsonProperty("data") List<CryptoTradeOrder> orders, @JsonProperty("status") String status,
+      @JsonProperty("error") String error) {
 
     super(status, error);
     /*
-     * XXX: CryptoTrade 'orderinfo' API accepts only a single orderId argument,
-     * but it returns an array.
+     * XXX: CryptoTrade 'orderinfo' API accepts only a single orderId argument, but it returns an array.
      */
     this.orders = orders;
   }

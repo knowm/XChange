@@ -27,8 +27,8 @@ public class BTCEAccountInfo {
    * @param rights The rights
    * @param funds The funds
    */
-  public BTCEAccountInfo(@JsonProperty("transaction_count") int transactionCount, @JsonProperty("open_orders") int openOrders, @JsonProperty("server_time") long serverTime,
-      @JsonProperty("rights") Rights rights, @JsonProperty("funds") Map<String, BigDecimal> funds) {
+  public BTCEAccountInfo(@JsonProperty("transaction_count") int transactionCount, @JsonProperty("open_orders") int openOrders,
+      @JsonProperty("server_time") long serverTime, @JsonProperty("rights") Rights rights, @JsonProperty("funds") Map<String, BigDecimal> funds) {
 
     this.transactionCount = transactionCount;
     this.openOrders = openOrders;
@@ -65,7 +65,8 @@ public class BTCEAccountInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("BTCEAccountInfo[transactionCount={0}, openOrders={1}, serverTime={2}, rights={3}, funds=''{4}''']", transactionCount, openOrders, serverTime, rights, funds);
+    return MessageFormat.format("BTCEAccountInfo[transactionCount={0}, openOrders={1}, serverTime={2}, rights={3}, funds=''{4}''']",
+        transactionCount, openOrders, serverTime, rights, funds);
   }
 
   public static class Rights {

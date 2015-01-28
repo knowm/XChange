@@ -48,19 +48,13 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
   }
 
   /**
-   * Submits a Limit Order to be executed on the BTER Exchange for the desired
-   * market defined by {@code CurrencyPair}. WARNING - BTER will return true
-   * regardless of whether or not an order actually gets created. The reason for
-   * this is that orders are simply submitted to a queue in their back-end. One
-   * example for why an order might not get created is because there are
-   * insufficient funds. The best attempt you can make to confirm that the order
-   * was created is to poll {@link #getOpenOrders}. However, if the order is
-   * created and executed before it is caught in its open state from calling
-   * {@link #getOpenOrders} then the only way to confirm would be confirm the
-   * expected difference in funds available for your account.
+   * Submits a Limit Order to be executed on the BTER Exchange for the desired market defined by {@code CurrencyPair}. WARNING - BTER will return true
+   * regardless of whether or not an order actually gets created. The reason for this is that orders are simply submitted to a queue in their
+   * back-end. One example for why an order might not get created is because there are insufficient funds. The best attempt you can make to confirm
+   * that the order was created is to poll {@link #getOpenOrders}. However, if the order is created and executed before it is caught in its open state
+   * from calling {@link #getOpenOrders} then the only way to confirm would be confirm the expected difference in funds available for your account.
    *
-   * @return String "true"/"false" Used to determine if the order request was
-   *         submitted successfully.
+   * @return String "true"/"false" Used to determine if the order request was submitted successfully.
    */
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {

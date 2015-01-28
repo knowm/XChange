@@ -37,8 +37,9 @@ public class BitcoinToYouTicker {
     private final BigDecimal sell;
     private final long date;
 
-    public Ticker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("vol") BigDecimal vol,
-        @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell, @JsonProperty("date") long date) {
+    public Ticker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
+        @JsonProperty("vol") BigDecimal vol, @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell,
+        @JsonProperty("date") long date) {
 
       this.last = last;
       this.high = high;
@@ -87,7 +88,8 @@ public class BitcoinToYouTicker {
     @Override
     public String toString() {
 
-      return "Ticker [" + "last=" + last + ", high=" + high + ", low=" + low + ", vol=" + vol + ", buy=" + buy + ", sell=" + sell + ", date=" + date + ']';
+      return "Ticker [" + "last=" + last + ", high=" + high + ", low=" + low + ", vol=" + vol + ", buy=" + buy + ", sell=" + sell + ", date=" + date
+          + ']';
     }
   }
 }

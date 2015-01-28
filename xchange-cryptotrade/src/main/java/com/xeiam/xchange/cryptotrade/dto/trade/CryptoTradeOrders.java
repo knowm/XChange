@@ -9,7 +9,8 @@ public class CryptoTradeOrders extends CryptoTradeBaseResponse {
 
   private final List<CryptoTradeOrder> orders;
 
-  private CryptoTradeOrders(@JsonProperty("data") List<CryptoTradeOrder> orders, @JsonProperty("status") String status, @JsonProperty("error") String error) {
+  private CryptoTradeOrders(@JsonProperty("data") List<CryptoTradeOrder> orders, @JsonProperty("status") String status,
+      @JsonProperty("error") String error) {
 
     super(status, error);
     this.orders = orders;

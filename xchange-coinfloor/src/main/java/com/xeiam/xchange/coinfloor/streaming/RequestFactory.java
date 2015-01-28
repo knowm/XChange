@@ -133,15 +133,14 @@ public class RequestFactory {
 
       if (order.getType().equals(OrderType.ASK)) {
         this.quantity = (-1) * CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseSymbol, order.getTradableAmount());
-      }
-      else {
+      } else {
         this.quantity = CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseSymbol, order.getTradableAmount());
       }
 
       if (order instanceof LimitOrder) {
-        this.price = CoinfloorUtils.scalePriceToInt(order.getCurrencyPair().baseSymbol, order.getCurrencyPair().counterSymbol, ((LimitOrder) order).getLimitPrice());
-      }
-      else {
+        this.price = CoinfloorUtils.scalePriceToInt(order.getCurrencyPair().baseSymbol, order.getCurrencyPair().counterSymbol,
+            ((LimitOrder) order).getLimitPrice());
+      } else {
         this.price = (Integer) null;
       }
     }
@@ -217,8 +216,7 @@ public class RequestFactory {
 
       if (currency.equals("BTC")) {
         tag = 102 + (tagCounter.getAndIncrement() << 10);
-      }
-      else {
+      } else {
         tag = 103 + (tagCounter.getAndIncrement() << 10);
       }
     }
@@ -254,8 +252,7 @@ public class RequestFactory {
 
       if (order.getType().equals(OrderType.ASK)) {
         this.quantity = (-1) * CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseSymbol, order.getTradableAmount());
-      }
-      else {
+      } else {
         this.quantity = CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseSymbol, order.getTradableAmount());
       }
 

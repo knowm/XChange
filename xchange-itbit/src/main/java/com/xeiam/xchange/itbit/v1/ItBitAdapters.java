@@ -95,7 +95,8 @@ public final class ItBitAdapters {
 
   }
 
-  private static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderId, OrderType orderType, Date timestamp) {
+  private static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, CurrencyPair currencyPair, String orderId, OrderType orderType,
+      Date timestamp) {
 
     return new LimitOrder(orderType, amount, currencyPair, orderId, timestamp, price);
   }
@@ -155,7 +156,8 @@ public final class ItBitAdapters {
       CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
       Date timestamp = parseDate(itBitOrder.getCreatedTime());
 
-      trades.add(new UserTrade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), timestamp, itBitOrder.getId(), itBitOrder.getId(), null, null));
+      trades.add(new UserTrade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), timestamp, itBitOrder.getId(), itBitOrder
+          .getId(), null, null));
     }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
@@ -171,6 +173,7 @@ public final class ItBitAdapters {
     BigDecimal volume = itBitTicker.getVolume24h();
     Date timestamp = parseDate(itBitTicker.getTimestamp());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
   }
 }

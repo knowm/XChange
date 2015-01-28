@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.xeiam.xchange.currency.CurrencyPair;
-
-import static com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.Order.OrderType;
 
 /**
  * Data object representing a Trade
@@ -43,25 +42,17 @@ public class Trade {
   protected final String id;
 
   /**
-   * This constructor is called to create a public Trade object
-   * in {@link com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService#getTrades(com.xeiam.xchange.currency.CurrencyPair, Object...)} implementations)
-   * since it's missing the orderId and fee parameters.
+   * This constructor is called to create a public Trade object in
+   * {@link com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService#getTrades(com.xeiam.xchange.currency.CurrencyPair, Object...)}
+   * implementations) since it's missing the orderId and fee parameters.
    *
-   * @param type
-   *          The trade type (BID side or ASK side)
-   * @param tradableAmount
-   *          The depth of this trade
-   * @param tradableIdentifier
-   *          The exchange identifier (e.g. "BTC/USD")
-   * @param transactionCurrency
-   *          The transaction currency (e.g. USD in BTC/USD)
-   * @param price
-   *          The price (either the bid or the ask)
-   * @param timestamp
-   *          The timestamp when the order was placed. Exchange matching is
-   *          usually price first then timestamp asc to clear older orders
-   * @param id
-   *          The id of the trade
+   * @param type The trade type (BID side or ASK side)
+   * @param tradableAmount The depth of this trade
+   * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   * @param price The price (either the bid or the ask)
+   * @param timestamp The timestamp when the order was placed. Exchange matching is usually price first then timestamp asc to clear older orders
+   * @param id The id of the trade
    */
   public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
 
@@ -124,7 +115,8 @@ public class Trade {
   @Override
   public String toString() {
 
-    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp=" + timestamp + ", id=" + id + "]";
+    return "Trade [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", timestamp="
+        + timestamp + ", id=" + id + "]";
   }
 
   public static class Builder {

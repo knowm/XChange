@@ -71,8 +71,8 @@ public class BitbayAdapters {
    */
   public static OrderBook adaptOrderBook(BitbayOrderBook bitbayOrderBook, CurrencyPair currencyPair) {
 
-    OrderBook orderBook = new OrderBook(null, transformArrayToLimitOrders(bitbayOrderBook.getAsks(), OrderType.ASK, currencyPair), transformArrayToLimitOrders(bitbayOrderBook.getBids(),
-        OrderType.BID, currencyPair));
+    OrderBook orderBook = new OrderBook(null, transformArrayToLimitOrders(bitbayOrderBook.getAsks(), OrderType.ASK, currencyPair),
+        transformArrayToLimitOrders(bitbayOrderBook.getBids(), OrderType.BID, currencyPair));
 
     return orderBook;
   }
@@ -88,7 +88,8 @@ public class BitbayAdapters {
 
     for (BitbayTrade bitbayTrade : bitbayTrades) {
 
-      Trade trade = new Trade(null, bitbayTrade.getAmount(), currencyPair, bitbayTrade.getPrice(), new Date(bitbayTrade.getDate()), bitbayTrade.getTid());
+      Trade trade = new Trade(null, bitbayTrade.getAmount(), currencyPair, bitbayTrade.getPrice(), new Date(bitbayTrade.getDate()),
+          bitbayTrade.getTid());
 
       tradeList.add(trade);
     }

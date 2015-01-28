@@ -31,8 +31,8 @@ import com.xeiam.xchange.dto.Order.OrderType;
 /**
  * DTO representing a fixed rate loan order
  * <p>
- * A fixed rate loan order lets you specify a fixed rate for your loan order. When offering loan orders, you should be aware as to whether or not loans have callable or putable provisions. These
- * provisions can serve to be advantageous to either the debtor or the creditor.
+ * A fixed rate loan order lets you specify a fixed rate for your loan order. When offering loan orders, you should be aware as to whether or not
+ * loans have callable or putable provisions. These provisions can serve to be advantageous to either the debtor or the creditor.
  */
 public final class FixedRateLoanOrder extends LoanOrder implements Comparable<FixedRateLoanOrder> {
 
@@ -96,8 +96,7 @@ public final class FixedRateLoanOrder extends LoanOrder implements Comparable<Fi
     if (rate == null) {
       if (other.rate != null)
         return false;
-    }
-    else if (!rate.equals(other.rate))
+    } else if (!rate.equals(other.rate))
       return false;
     return true;
   }

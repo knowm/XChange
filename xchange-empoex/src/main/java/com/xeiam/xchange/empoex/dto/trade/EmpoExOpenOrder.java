@@ -31,7 +31,6 @@ public class EmpoExOpenOrder {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * 
    * @return The orderId
    */
   @JsonProperty("order_id")
@@ -40,7 +39,6 @@ public class EmpoExOpenOrder {
   }
 
   /**
-   * 
    * @param orderId The order_id
    */
   @JsonProperty("order_id")
@@ -49,7 +47,6 @@ public class EmpoExOpenOrder {
   }
 
   /**
-   * 
    * @return The amountRemaining
    */
   @JsonProperty("amount_remaining")
@@ -58,7 +55,6 @@ public class EmpoExOpenOrder {
   }
 
   /**
-   * 
    * @param amountRemaining The amount_remaining
    */
   @JsonProperty("amount_remaining")
@@ -67,7 +63,6 @@ public class EmpoExOpenOrder {
   }
 
   /**
-   * 
    * @return The originalAmount
    */
   @JsonProperty("original_amount")
@@ -76,7 +71,6 @@ public class EmpoExOpenOrder {
   }
 
   /**
-   * 
    * @param originalAmount The original_amount
    */
   @JsonProperty("original_amount")
@@ -85,7 +79,6 @@ public class EmpoExOpenOrder {
   }
 
   /**
-   * 
    * @return The value
    */
   @JsonProperty("value")
@@ -94,7 +87,6 @@ public class EmpoExOpenOrder {
   }
 
   /**
-   * 
    * @param value The value
    */
   @JsonProperty("value")
@@ -103,7 +95,6 @@ public class EmpoExOpenOrder {
   }
 
   /**
-   * 
    * @return The type
    */
   @JsonProperty("type")
@@ -112,7 +103,6 @@ public class EmpoExOpenOrder {
   }
 
   /**
-   * 
    * @param type The type
    */
   @JsonProperty("type")
@@ -132,8 +122,8 @@ public class EmpoExOpenOrder {
 
   @Override
   public String toString() {
-    return "EmpoExOpenOrder [orderId=" + orderId + ", amountRemaining=" + amountRemaining + ", originalAmount=" + originalAmount + ", value=" + value + ", type=" + type + ", additionalProperties="
-        + additionalProperties + "]";
+    return "EmpoExOpenOrder [orderId=" + orderId + ", amountRemaining=" + amountRemaining + ", originalAmount=" + originalAmount + ", value=" + value
+        + ", type=" + type + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

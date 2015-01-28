@@ -31,8 +31,9 @@ public class BTCChinaOrder {
    * @param date
    * @param status
    */
-  public BTCChinaOrder(@JsonProperty("id") int id, @JsonProperty("type") String type, @JsonProperty("price") BigDecimal price, @JsonProperty("currency") String currency,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_original") BigDecimal amountOriginal, @JsonProperty("date") long date, @JsonProperty("status") String status,
+  public BTCChinaOrder(@JsonProperty("id") int id, @JsonProperty("type") String type, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("amount_original") BigDecimal amountOriginal, @JsonProperty("date") long date, @JsonProperty("status") String status,
       @JsonProperty("details") BTCChinaOrderDetail[] details) {
 
     this.id = id;
@@ -94,8 +95,8 @@ public class BTCChinaOrder {
   @Override
   public String toString() {
 
-    return String.format("BTCChinaOrder{id=%d, type=%s, price=%s, currency=%s, amount=%s, amountOriginal=%s, date=%d, status=%s, details=%s}", id, type, price, currency, amount, amountOriginal, date,
-        status, details);
+    return String.format("BTCChinaOrder{id=%d, type=%s, price=%s, currency=%s, amount=%s, amountOriginal=%s, date=%d, status=%s, details=%s}", id,
+        type, price, currency, amount, amountOriginal, date, status, details);
   }
 
 }

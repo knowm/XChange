@@ -23,8 +23,7 @@ import com.xeiam.xchange.coinsetter.service.streaming.event.CoinsetterSocketList
 import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
- * Coinsetter Websockets API implementation, fires Coinsetter exchange raw DTO
- * events.
+ * Coinsetter Websockets API implementation, fires Coinsetter exchange raw DTO events.
  */
 public class CoinsetterSocketIOServiceRaw extends BaseExchangeService {
 

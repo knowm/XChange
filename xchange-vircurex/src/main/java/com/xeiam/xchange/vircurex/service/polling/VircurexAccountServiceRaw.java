@@ -30,7 +30,8 @@ public class VircurexAccountServiceRaw extends VircurexBasePollingService {
 
     String timestamp = VircurexUtils.getUtcTimestamp();
     long nonce = exchange.getNonceFactory().createValue();
-    VircurexSha2Digest digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), timestamp, nonce, "get_balances");
+    VircurexSha2Digest digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification()
+        .getUserName(), timestamp, nonce, "get_balances");
     VircurexAccountInfoReturn info = vircurex.getInfo(exchange.getExchangeSpecification().getUserName(), nonce, digest.toString(), timestamp);
     return info;
   }

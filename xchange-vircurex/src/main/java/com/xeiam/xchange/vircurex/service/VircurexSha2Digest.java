@@ -6,13 +6,11 @@ import java.security.NoSuchAlgorithmException;
 import com.xeiam.xchange.utils.DigestUtils;
 
 /**
- * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to
- * create a digest of the post body (composed of @FormParam's). Don't use as the
- * value of a @FormParam, it will probably cause an infinite loop.
+ * This may be used as the value of a @HeaderParam, @QueryParam or @PathParam to create a digest of the post body (composed of @FormParam's). Don't
+ * use as the value of a @FormParam, it will probably cause an infinite loop.
  * <p/>
- * This may be used for REST APIs where some parameters' values must be digests
- * of other parameters. An example is the MtGox API v1, where the Rest-Sign
- * header parameter must be a digest of the request body (which is composed of
+ * This may be used for REST APIs where some parameters' values must be digests of other parameters. An example is the MtGox API v1, where the
+ * Rest-Sign header parameter must be a digest of the request body (which is composed of
  *
  * @FormParams).
  */
@@ -26,17 +24,15 @@ public class VircurexSha2Digest {
    * Constructor
    *
    * @param aSecretWord
-   * @throws IllegalArgumentException if key is invalid (cannot be
-   *           base-64-decoded or the decoded key is invalid).
+   * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
-  public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, long aNonce, String aMethod, String anOrderType, String anOrderAmount, String aTransactionCurrency,
-      String aLimitPrice, String aTradeableCurrency) throws IllegalArgumentException {
+  public VircurexSha2Digest(String aSecretWord, String aUserName, String aTimeStamp, long aNonce, String aMethod, String anOrderType,
+      String anOrderAmount, String aTransactionCurrency, String aLimitPrice, String aTradeableCurrency) throws IllegalArgumentException {
 
     try {
       digest = MessageDigest.getInstance(SHA_256);
-      digest
-          .update((aSecretWord + ";" + aUserName + ";" + aTimeStamp + ";" + aNonce + ";" + aMethod + ";" + anOrderType + ";" + anOrderAmount + ";" + aTransactionCurrency + ";" + aLimitPrice + ";" + aTradeableCurrency)
-              .getBytes());
+      digest.update((aSecretWord + ";" + aUserName + ";" + aTimeStamp + ";" + aNonce + ";" + aMethod + ";" + anOrderType + ";" + anOrderAmount + ";"
+          + aTransactionCurrency + ";" + aLimitPrice + ";" + aTradeableCurrency).getBytes());
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException(e.getMessage(), e);
     }

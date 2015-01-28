@@ -31,11 +31,13 @@ public class OkCoinExchange extends BaseExchange {
 
     super.applySpecification(exchangeSpecification);
 
-    if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false) && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+    if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false)
+        && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
       throw new RuntimeException("Futures only available on international version. Set `Use_Intl` to true.");
     }
 
-    if (exchangeSpecification.getExchangeSpecificParameters() != null && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
+    if (exchangeSpecification.getExchangeSpecificParameters() != null
+        && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
       this.pollingMarketDataService = new OkCoinFuturesMarketDataService(this);
       if (exchangeSpecification.getApiKey() != null) {
         this.pollingAccountService = new OkCoinFuturesAccountService(this);

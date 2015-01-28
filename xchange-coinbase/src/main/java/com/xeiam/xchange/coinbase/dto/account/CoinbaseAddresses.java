@@ -26,8 +26,8 @@ public class CoinbaseAddresses extends CoinbasePagedResult {
 
   private final List<CoinbaseAddress> addresses;
 
-  private CoinbaseAddresses(@JsonProperty("addresses") final List<CoinbaseAddress> addresses, @JsonProperty("total_count") final int totalCount, @JsonProperty("num_pages") final int numPages,
-      @JsonProperty("current_page") final int currentPage) {
+  private CoinbaseAddresses(@JsonProperty("addresses") final List<CoinbaseAddress> addresses, @JsonProperty("total_count") final int totalCount,
+      @JsonProperty("num_pages") final int numPages, @JsonProperty("current_page") final int currentPage) {
 
     super(totalCount, numPages, currentPage);
     this.addresses = addresses;

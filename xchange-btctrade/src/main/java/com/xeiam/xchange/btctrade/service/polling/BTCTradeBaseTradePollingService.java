@@ -29,8 +29,7 @@ public class BTCTradeBaseTradePollingService extends BTCTradeBasePollingService 
    * Returns the {@link BTCTradeDigest}.
    *
    * @return the {@link BTCTradeDigest}.
-   * @throws IOException indicates I/O exception in refreshing session from
-   *           server.
+   * @throws IOException indicates I/O exception in refreshing session from server.
    */
   public ParamsDigest getSignatureCreator() throws IOException {
 

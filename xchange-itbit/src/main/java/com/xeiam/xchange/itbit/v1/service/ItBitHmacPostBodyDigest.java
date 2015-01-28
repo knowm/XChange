@@ -53,16 +53,14 @@ public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
     String requestBody = restInvocation.getRequestBody();
     if (requestBody == null) {
       requestBody = "";
-    }
-    else {
+    } else {
       requestBody = requestBody.replace("\"", "\\\"");
     }
 
     String verb = restInvocation.getHttpMethod().trim();
     String invocationUrl = restInvocation.getInvocationUrl().trim();
-    String message =
-        new StringBuilder("[\"").append(verb).append(FIELD_SEPARATOR).append(invocationUrl).append(FIELD_SEPARATOR).append(requestBody).append(FIELD_SEPARATOR).append(currentNonce).append(
-            FIELD_SEPARATOR).append(currentTimestamp).append("\"]").toString();
+    String message = new StringBuilder("[\"").append(verb).append(FIELD_SEPARATOR).append(invocationUrl).append(FIELD_SEPARATOR).append(requestBody)
+        .append(FIELD_SEPARATOR).append(currentNonce).append(FIELD_SEPARATOR).append(currentTimestamp).append("\"]").toString();
 
     md.update((currentNonce + message).getBytes());
     BigInteger hash = new BigInteger(md.digest());

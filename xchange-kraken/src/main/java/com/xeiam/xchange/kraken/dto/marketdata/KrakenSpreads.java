@@ -60,8 +60,7 @@ public class KrakenSpreads {
         JsonNode value = entry.getValue();
         if (key == "last") {
           last = value.asLong();
-        }
-        else if (value.isArray()) {
+        } else if (value.isArray()) {
           for (JsonNode jsonSpreadNode : value) {
             long time = jsonSpreadNode.path(0).asLong();
             BigDecimal bid = new BigDecimal(jsonSpreadNode.path(1).asText());

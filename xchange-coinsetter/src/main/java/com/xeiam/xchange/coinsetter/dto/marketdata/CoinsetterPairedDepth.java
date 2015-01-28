@@ -14,7 +14,8 @@ public class CoinsetterPairedDepth {
   private final String exchangeId;
   private final int sequenceNumber;
 
-  public CoinsetterPairedDepth(@JsonProperty("topNBidAsks") CoinsetterPair[] topNBidAsks, @JsonProperty("depth") int depth, @JsonProperty("exchangeId") String exchangeId, @JsonProperty("sequenceNumber") int sequenceNumber) {
+  public CoinsetterPairedDepth(@JsonProperty("topNBidAsks") CoinsetterPair[] topNBidAsks, @JsonProperty("depth") int depth,
+      @JsonProperty("exchangeId") String exchangeId, @JsonProperty("sequenceNumber") int sequenceNumber) {
 
     this.topNBidAsks = topNBidAsks;
     this.depth = depth;
@@ -44,7 +45,8 @@ public class CoinsetterPairedDepth {
   }
 
   /**
-   * Returns the sequence number (for COINSETTER exchange only) for synchronizing with <a href="https://www.coinsetter.com/api/websockets/levels">incremental ticks stream</a> (See web sockets documentation)
+   * Returns the sequence number (for COINSETTER exchange only) for synchronizing with <a
+   * href="https://www.coinsetter.com/api/websockets/levels">incremental ticks stream</a> (See web sockets documentation)
    */
   public int getSequenceNumber() {
 
@@ -54,7 +56,8 @@ public class CoinsetterPairedDepth {
   @Override
   public String toString() {
 
-    return "CoinsetterPairedDepth [topNBidAsks=" + Arrays.toString(topNBidAsks) + ", depth=" + depth + ", exchangeId=" + exchangeId + ", sequenceNumber=" + sequenceNumber + "]";
+    return "CoinsetterPairedDepth [topNBidAsks=" + Arrays.toString(topNBidAsks) + ", depth=" + depth + ", exchangeId=" + exchangeId
+        + ", sequenceNumber=" + sequenceNumber + "]";
   }
 
 }

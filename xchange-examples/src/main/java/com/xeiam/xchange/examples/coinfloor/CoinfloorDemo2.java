@@ -22,10 +22,10 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
- * The purpose of this class is to show an alternative way. The methods themselves DO return data, and thus allows interaction
- * much in the same way as the polling data services. It looks messier, since the request and output are all clustered together,
- * but it allows for much more flexibility when retrieving data (Specifically, look at the section that cancels all orders).
- * Doing it this way removes the need for a secondary queue to pull data that has been handled already by the executorService.
+ * The purpose of this class is to show an alternative way. The methods themselves DO return data, and thus allows interaction much in the same way as
+ * the polling data services. It looks messier, since the request and output are all clustered together, but it allows for much more flexibility when
+ * retrieving data (Specifically, look at the section that cancels all orders). Doing it this way removes the need for a secondary queue to pull data
+ * that has been handled already by the executorService.
  * 
  * @author obsessiveOrange
  */
@@ -126,7 +126,8 @@ public class CoinfloorDemo2 {
           }
 
           // send two orders, that will (partially) fulfill each other, to generate a trade.
-          LimitOrder buyLimitOrder = new LimitOrder(OrderType.BID, new BigDecimal(1), new CurrencyPair("BTC", "GBP"), null, null, new BigDecimal(3.20));
+          LimitOrder buyLimitOrder = new LimitOrder(OrderType.BID, new BigDecimal(1), new CurrencyPair("BTC", "GBP"), null, null,
+              new BigDecimal(3.20));
           resultMap = ((CoinfloorStreamingExchangeService) streamingExchangeService).placeOrder(buyLimitOrder).getPayload();
           System.out.println("\n\n\n\n\nBuy Limit Order Placed: ");
           System.out.println("Raw Object: " + resultMap.get("raw"));
@@ -140,7 +141,8 @@ public class CoinfloorDemo2 {
           System.out.println("\n\n\n\n\nCached Account Info: ");
           System.out.println(((CoinfloorStreamingExchangeService) streamingExchangeService).getCachedAccountInfo());
 
-          LimitOrder sellLimitOrder = new LimitOrder(OrderType.ASK, new BigDecimal(1.52321512784), new CurrencyPair("BTC", "GBP"), null, null, new BigDecimal(3.19));
+          LimitOrder sellLimitOrder = new LimitOrder(OrderType.ASK, new BigDecimal(1.52321512784), new CurrencyPair("BTC", "GBP"), null, null,
+              new BigDecimal(3.19));
           resultMap = ((CoinfloorStreamingExchangeService) streamingExchangeService).placeOrder(sellLimitOrder).getPayload();
           System.out.println("\n\n\n\n\nSell Limit Order Placed: ");
           System.out.println("Raw Object: " + resultMap.get("raw"));
@@ -155,7 +157,8 @@ public class CoinfloorDemo2 {
           System.out.println(((CoinfloorStreamingExchangeService) streamingExchangeService).getCachedAccountInfo());
 
           // then send another order, that will never be fulfilled
-          LimitOrder bigLimitOrder = new LimitOrder(OrderType.ASK, new BigDecimal(1.152), new CurrencyPair("BTC", "GBP"), null, null, new BigDecimal(500));
+          LimitOrder bigLimitOrder = new LimitOrder(OrderType.ASK, new BigDecimal(1.152), new CurrencyPair("BTC", "GBP"), null, null, new BigDecimal(
+              500));
           resultMap = ((CoinfloorStreamingExchangeService) streamingExchangeService).placeOrder(bigLimitOrder).getPayload();
           System.out.println("\n\n\n\n\nBig Limit Order Placed: ");
           System.out.println("Raw Object: " + resultMap.get("raw"));
@@ -190,7 +193,8 @@ public class CoinfloorDemo2 {
     }
 
     // get user's current open orders, cancel all of them.
-    CoinfloorOpenOrders openOrders = (CoinfloorOpenOrders) ((CoinfloorStreamingExchangeService) streamingExchangeService).getOrders().getPayloadItem("raw");
+    CoinfloorOpenOrders openOrders = (CoinfloorOpenOrders) ((CoinfloorStreamingExchangeService) streamingExchangeService).getOrders().getPayloadItem(
+        "raw");
     for (CoinfloorOrder order : openOrders.getOrders()) {
       resultMap = ((CoinfloorStreamingExchangeService) streamingExchangeService).cancelOrder(order.getId()).getPayload();
       System.out.println("\n\n\n\n\nCancelled order: ");

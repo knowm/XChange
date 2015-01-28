@@ -21,8 +21,8 @@ public class CoinfloorPlaceOrder {
   private final long time;
   private final BigDecimal remaining;
 
-  public CoinfloorPlaceOrder(@JsonProperty("tag") int tag, @JsonProperty("error_code") int errorCode, @JsonProperty("id") int id, @JsonProperty("time") long time,
-      @JsonProperty("remaining") int remaining) {
+  public CoinfloorPlaceOrder(@JsonProperty("tag") int tag, @JsonProperty("error_code") int errorCode, @JsonProperty("id") int id,
+      @JsonProperty("time") long time, @JsonProperty("remaining") int remaining) {
 
     this.tag = tag;
     this.errorCode = errorCode;
@@ -59,6 +59,7 @@ public class CoinfloorPlaceOrder {
   @Override
   public String toString() {
 
-    return "CoinfloorPlaceOrderReturn{tag='" + tag + "', errorCode='" + errorCode + "', id='" + id + "', Time='" + new Date(time) + "', remaining='" + remaining + "'}";
+    return "CoinfloorPlaceOrderReturn{tag='" + tag + "', errorCode='" + errorCode + "', id='" + id + "', Time='" + new Date(time) + "', remaining='"
+        + remaining + "'}";
   }
 }

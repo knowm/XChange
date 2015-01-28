@@ -28,7 +28,8 @@ public class ItBitBasePollingService extends BaseExchangeService implements Base
 
     super(exchange);
 
-    this.itBit = RestProxyFactory.createProxy(ItBitAuthenticated.class, (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("authHost"));
+    this.itBit = RestProxyFactory.createProxy(ItBitAuthenticated.class, (String) exchange.getExchangeSpecification()
+        .getExchangeSpecificParametersItem("authHost"));
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = ItBitHmacPostBodyDigest.createInstance(apiKey, exchange.getExchangeSpecification().getSecretKey());
   }

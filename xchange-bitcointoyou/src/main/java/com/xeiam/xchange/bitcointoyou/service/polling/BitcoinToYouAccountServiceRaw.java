@@ -33,9 +33,11 @@ public class BitcoinToYouAccountServiceRaw extends BitcoinToYouBasePollingServic
 
     Long nonce = exchange.getNonceFactory().createValue();
 
-    BitcoinToYouDigest signatureCreator = BitcoinToYouDigest.createInstance(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getSecretKey(), nonce);
+    BitcoinToYouDigest signatureCreator = BitcoinToYouDigest.createInstance(exchange.getExchangeSpecification().getApiKey(), exchange
+        .getExchangeSpecification().getSecretKey(), nonce);
 
-    BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> accountInfo = bitcoinToYouAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), nonce, signatureCreator, nonce);
+    BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> accountInfo = bitcoinToYouAuthenticated.getBalance(exchange.getExchangeSpecification()
+        .getApiKey(), nonce, signatureCreator, nonce);
 
     if (accountInfo.getSuccess() == 0) {
       throw new ExchangeException("Error getting account info: " + accountInfo.getError());

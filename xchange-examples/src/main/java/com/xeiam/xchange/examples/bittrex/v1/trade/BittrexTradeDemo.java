@@ -16,7 +16,8 @@ import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 public class BittrexTradeDemo {
 
-  public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+      IOException {
 
     Exchange exchange = BittrexExamplesUtils.getExchange();
 
@@ -30,7 +31,8 @@ public class BittrexTradeDemo {
   private static void generic(PollingTradeService tradeService) throws IOException {
 
     CurrencyPair pair = new CurrencyPair("ZET", "BTC");
-    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000")).tradableAmount(new BigDecimal("100")).build();
+    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000"))
+        .tradableAmount(new BigDecimal("100")).build();
 
     try {
       String uuid = tradeService.placeLimitOrder(limitOrder);
@@ -46,8 +48,7 @@ public class BittrexTradeDemo {
 
       if (cancelled) {
         System.out.println("Order successfully canceled.");
-      }
-      else {
+      } else {
         System.out.println("Order not successfully canceled.");
       }
 
@@ -64,7 +65,8 @@ public class BittrexTradeDemo {
   private static void raw(BittrexTradeServiceRaw tradeService) throws IOException {
 
     CurrencyPair pair = new CurrencyPair("ZET", "BTC");
-    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000")).tradableAmount(new BigDecimal("100")).build();
+    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000"))
+        .tradableAmount(new BigDecimal("100")).build();
 
     try {
       String uuid = tradeService.placeBittrexLimitOrder(limitOrder);
@@ -80,8 +82,7 @@ public class BittrexTradeDemo {
 
       if (cancelled) {
         System.out.println("Order successfully canceled.");
-      }
-      else {
+      } else {
         System.out.println("Order not successfully canceled.");
       }
 

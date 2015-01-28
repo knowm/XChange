@@ -13,8 +13,7 @@ import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
- * @author timmolter
- *         Demonstrate requesting Trades at BTC China given a since as a timestamp
+ * @author timmolter Demonstrate requesting Trades at BTC China given a since as a timestamp
  */
 public class BTCChinaTradesDemo2 {
 
@@ -37,7 +36,8 @@ public class BTCChinaTradesDemo2 {
     System.out.println(trades);
     System.out.println("NumTrades=" + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(CurrencyPair.BTC_CNY, trades.getTrades().get(trades.getTrades().size() - 3).getTimestamp().getTime() / 1000, 20, "time");
+    trades = marketDataService.getTrades(CurrencyPair.BTC_CNY, trades.getTrades().get(trades.getTrades().size() - 3).getTimestamp().getTime() / 1000,
+        20, "time");
 
     System.out.println(trades);
     System.out.println("NumTrades=" + trades.getTrades().size());

@@ -18,7 +18,8 @@ public class CryptsyCancelMultipleOrdersReturn extends CryptsyGenericReturn<List
    * @param value
    * @param error
    */
-  public CryptsyCancelMultipleOrdersReturn(@JsonProperty("success") int success, @JsonProperty("return") List<String> value, @JsonProperty("error") String error) {
+  public CryptsyCancelMultipleOrdersReturn(@JsonProperty("success") int success, @JsonProperty("return") List<String> value,
+      @JsonProperty("error") String error) {
 
     super(success, (value == null ? new ArrayList<String>() : value), error);
   }

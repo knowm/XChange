@@ -29,8 +29,9 @@ public class AccountInfoJSONTest {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
-    BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> apiResult = mapper.readValue(is, new TypeReference<BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]>>() {
-    });
+    BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> apiResult = mapper.readValue(is,
+        new TypeReference<BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]>>() {
+        });
 
     // Verify that the example data was unmarshalled correctly
     assertThat(apiResult.getSuccess()).isEqualTo(1);

@@ -24,8 +24,8 @@ public class BTCEPlaceOrderResult {
    * @param remains
    * @param funds
    */
-  public BTCEPlaceOrderResult(@JsonProperty("order_id") long orderId, @JsonProperty("received") BigDecimal received, @JsonProperty("remains") BigDecimal remains,
-      @JsonProperty("funds") Map<String, BigDecimal> funds) {
+  public BTCEPlaceOrderResult(@JsonProperty("order_id") long orderId, @JsonProperty("received") BigDecimal received,
+      @JsonProperty("remains") BigDecimal remains, @JsonProperty("funds") Map<String, BigDecimal> funds) {
 
     this.orderId = orderId;
     this.received = received;

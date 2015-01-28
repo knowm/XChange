@@ -22,7 +22,8 @@ public interface CoinsetterAccount {
 
   @GET
   @Path("{accountUuid}")
-  com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccount get(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, @PathParam("accountUuid") UUID accountUuid) throws CoinsetterException, IOException;
+  com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccount get(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId,
+      @PathParam("accountUuid") UUID accountUuid) throws CoinsetterException, IOException;
 
   @GET
   CoinsetterAccountList list(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId) throws CoinsetterException, IOException;

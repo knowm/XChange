@@ -33,8 +33,8 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
    * @param isEncryptedChannel - should it use an encrypted channel or not? (ws vs. wss protocol)
    * @param channel - the specific data channel you want to tap into (https://mtgox.com/api/2/stream/list_public), null if none
    */
-  public BitstampStreamingConfiguration(PusherOptions pusherOptions, int maxReconnectAttempts, int reconnectWaitTimeInMs, int timeoutInMs, boolean isEncryptedChannel, String pusherKey,
-      Set<String> channels) {
+  public BitstampStreamingConfiguration(PusherOptions pusherOptions, int maxReconnectAttempts, int reconnectWaitTimeInMs, int timeoutInMs,
+      boolean isEncryptedChannel, String pusherKey, Set<String> channels) {
 
     this.maxReconnectAttempts = maxReconnectAttempts;
     this.reconnectWaitTimeInMs = reconnectWaitTimeInMs;

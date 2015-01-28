@@ -13,8 +13,9 @@ public class CoinbaseOAuth {
   private final String refreshToken;
   private final CoinbaseScope scope;
 
-  private CoinbaseOAuth(@JsonProperty("access_token") final String accessToken, @JsonProperty("token_type") final String tokenType, @JsonProperty("expires_in") final long expiresIn,
-      @JsonProperty("refresh_token") final String refreshToken, @JsonProperty("scope") final CoinbaseScope scope) {
+  private CoinbaseOAuth(@JsonProperty("access_token") final String accessToken, @JsonProperty("token_type") final String tokenType,
+      @JsonProperty("expires_in") final long expiresIn, @JsonProperty("refresh_token") final String refreshToken,
+      @JsonProperty("scope") final CoinbaseScope scope) {
 
     this.accessToken = accessToken;
     this.tokenType = tokenType;
@@ -51,6 +52,7 @@ public class CoinbaseOAuth {
   @Override
   public String toString() {
 
-    return "CoinbaseOAuthInfo [accessToken=" + accessToken + ", tokenType=" + tokenType + ", expiresIn=" + expiresIn + ", refreshToken=" + refreshToken + ", scope=" + scope + "]";
+    return "CoinbaseOAuthInfo [accessToken=" + accessToken + ", tokenType=" + tokenType + ", expiresIn=" + expiresIn + ", refreshToken="
+        + refreshToken + ", scope=" + scope + "]";
   }
 }

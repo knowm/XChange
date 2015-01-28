@@ -1,5 +1,9 @@
 package com.xeiam.xchange.examples.mercadobitcoin.trade;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Map;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -13,10 +17,6 @@ import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrdersEntry;
 import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinTradeServiceRaw;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Map;
 
 /**
  * <p>
@@ -69,13 +69,15 @@ public class MercadoBitcoinTradeDemo {
     printRawOpenOrders(tradeService);
 
     // place a limit buy order
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> order = tradeService.mercadoBitcoinPlaceLimitOrder("ltc_brl", "buy", new BigDecimal("0.01"), new BigDecimal("1"));
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> order = tradeService.mercadoBitcoinPlaceLimitOrder("ltc_brl", "buy",
+        new BigDecimal("0.01"), new BigDecimal("1"));
     System.out.println("MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> return value: " + order);
 
     printRawOpenOrders(tradeService);
 
     // Cancel the added order
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> cancelResult = tradeService.mercadoBitcoinCancelOrder("ltc_brl", order.getTheReturn().keySet().iterator().next());
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> cancelResult = tradeService.mercadoBitcoinCancelOrder("ltc_brl", order
+        .getTheReturn().keySet().iterator().next());
     System.out.println("Canceling returned " + cancelResult);
 
     printRawOpenOrders(tradeService);
@@ -83,7 +85,8 @@ public class MercadoBitcoinTradeDemo {
 
   private static void printRawOpenOrders(MercadoBitcoinTradeServiceRaw tradeService) throws IOException, InterruptedException {
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersResult = tradeService.getMercadoBitcoinUserOrders("btc_brl", null, "active", null, null, null, null);
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersResult = tradeService.getMercadoBitcoinUserOrders("btc_brl", null, "active",
+        null, null, null, null);
 
     MercadoBitcoinUserOrders openOrders = openOrdersResult.getTheReturn();
 

@@ -37,7 +37,8 @@ public class LakeBTCBasePollingService<T extends LakeBTC> extends BaseExchangeSe
     Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
 
     this.btcLakeBTC = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = LakeBTCDigest.createInstance(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getSecretKey());
+    this.signatureCreator = LakeBTCDigest.createInstance(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification()
+        .getSecretKey());
   }
 
   protected LakeBTCBasePollingService(Exchange exchange) {

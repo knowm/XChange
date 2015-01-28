@@ -20,9 +20,10 @@ public class ItBitOrder extends ItBitBaseResponse {
   private final BigDecimal amount;
   private final BigDecimal volumeWeightedAveragePrice;
 
-  public ItBitOrder(@JsonProperty("id") String id, @JsonProperty("walletId") String walletId, @JsonProperty("side") String side, @JsonProperty("instrument") String instrument,
-      @JsonProperty("currency") String currency, @JsonProperty("type") String type, @JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amountFilled") BigDecimal amountFilled, @JsonProperty("volumeWeightedAveragePrice") BigDecimal volumeWeightedAveragePrice, @JsonProperty("createdTime") String createdTime,
+  public ItBitOrder(@JsonProperty("id") String id, @JsonProperty("walletId") String walletId, @JsonProperty("side") String side,
+      @JsonProperty("instrument") String instrument, @JsonProperty("currency") String currency, @JsonProperty("type") String type,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price, @JsonProperty("amountFilled") BigDecimal amountFilled,
+      @JsonProperty("volumeWeightedAveragePrice") BigDecimal volumeWeightedAveragePrice, @JsonProperty("createdTime") String createdTime,
       @JsonProperty("status") String status) {
 
     this.id = id;

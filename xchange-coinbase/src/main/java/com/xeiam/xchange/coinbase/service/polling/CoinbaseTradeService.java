@@ -41,7 +41,8 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, IOException {
 
-    final CoinbaseTransfer transfer = marketOrder.getType().equals(OrderType.BID) ? super.buy(marketOrder.getTradableAmount()) : super.sell(marketOrder.getTradableAmount());
+    final CoinbaseTransfer transfer = marketOrder.getType().equals(OrderType.BID) ? super.buy(marketOrder.getTradableAmount()) : super
+        .sell(marketOrder.getTradableAmount());
     return transfer.getTransactionId();
   }
 
@@ -58,14 +59,11 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   }
 
   /**
-   * Authenticated resource which returns the user’s Bitcoin purchases and
-   * sells. Sorted in descending order by creation date.
+   * Authenticated resource which returns the user’s Bitcoin purchases and sells. Sorted in descending order by creation date.
    *
-   * @see <a
-   *      href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
-   * @param arguments Optional Integer arguments page (arg[0]) and limit
-   *          (arg[1]). If no arguments are given then page 1 will be returned
-   *          and the results are limited to 25 per page by coinbase by default.
+   * @see <a href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
+   * @param arguments Optional Integer arguments page (arg[0]) and limit (arg[1]). If no arguments are given then page 1 will be returned and the
+   *        results are limited to 25 per page by coinbase by default.
    */
   @Override
   public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, IOException {

@@ -38,7 +38,8 @@ public class BitcoinAverageTickerDemo {
 
   private static void raw(Exchange bitcoinAverageExchange) throws IOException {
 
-    BitcoinAverageMarketDataServiceRaw bitcoinAverageMarketDataServiceRaw = (BitcoinAverageMarketDataServiceRaw) bitcoinAverageExchange.getPollingMarketDataService();
+    BitcoinAverageMarketDataServiceRaw bitcoinAverageMarketDataServiceRaw = (BitcoinAverageMarketDataServiceRaw) bitcoinAverageExchange
+        .getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
     BitcoinAverageTicker ticker = bitcoinAverageMarketDataServiceRaw.getBitcoinAverageTicker(Currencies.BTC, Currencies.EUR);

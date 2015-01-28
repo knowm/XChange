@@ -73,7 +73,8 @@ public class ANXMarketDataServiceRaw extends ANXBasePollingService {
         ticker.put(pathCurrencyPair.baseSymbol + pathCurrencyPair.counterSymbol, anxTicker);
         return ticker;
       }
-      ANXTickersWrapper anxTickerWrapper = anxV2.getTickers(pathCurrencyPair.baseSymbol, pathCurrencyPair.counterSymbol, extraCurrencyPairs.toString());
+      ANXTickersWrapper anxTickerWrapper = anxV2.getTickers(pathCurrencyPair.baseSymbol, pathCurrencyPair.counterSymbol,
+          extraCurrencyPairs.toString());
       return anxTickerWrapper.getAnxTickers();
     } catch (ANXException e) {
       throw handleError(e);
@@ -116,7 +117,8 @@ public class ANXMarketDataServiceRaw extends ANXBasePollingService {
         book.put(pathCurrencyPair.baseSymbol + pathCurrencyPair.counterSymbol, anxDepthWrapper.getAnxDepth());
         return book;
       }
-      ANXDepthsWrapper anxDepthWrapper = anxV2.getFullDepths(pathCurrencyPair.baseSymbol, pathCurrencyPair.counterSymbol, extraCurrencyPairs.toString());
+      ANXDepthsWrapper anxDepthWrapper = anxV2.getFullDepths(pathCurrencyPair.baseSymbol, pathCurrencyPair.counterSymbol,
+          extraCurrencyPairs.toString());
       return anxDepthWrapper.getAnxDepths();
     } catch (ANXException e) {
       throw handleError(e);

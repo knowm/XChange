@@ -18,7 +18,8 @@ public class BTCETradeHistoryReturn extends BTCEReturn<Map<Long, BTCETradeHistor
    * @param value
    * @param error
    */
-  public BTCETradeHistoryReturn(@JsonProperty("success") boolean success, @JsonProperty("return") Map<Long, BTCETradeHistoryResult> value, @JsonProperty("error") String error) {
+  public BTCETradeHistoryReturn(@JsonProperty("success") boolean success, @JsonProperty("return") Map<Long, BTCETradeHistoryResult> value,
+      @JsonProperty("error") String error) {
 
     super(success, value, error);
   }

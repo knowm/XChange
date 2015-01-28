@@ -28,32 +28,22 @@ public final class UserTrade extends Trade {
   private final String feeCurrency;
 
   /**
-   * This constructor is called to construct user's trade objects
-   * (in {@link com.xeiam.xchange.service.polling.trade.PollingTradeService#getTradeHistory(Object...)} implementations).
+   * This constructor is called to construct user's trade objects (in
+   * {@link com.xeiam.xchange.service.polling.trade.PollingTradeService#getTradeHistory(Object...)} implementations).
    *
-   * @param type
-   *          The trade type (BID side or ASK side)
-   * @param tradableAmount
-   *          The depth of this trade
-   * @param tradableIdentifier
-   *          The exchange identifier (e.g. "BTC/USD")
-   * @param transactionCurrency
-   *          The transaction currency (e.g. USD in BTC/USD)
-   * @param price
-   *          The price (either the bid or the ask)
-   * @param timestamp
-   *          The timestamp when the order was placed. Exchange matching is
-   *          usually price first then timestamp asc to clear older orders
-   * @param id
-   *          The id of the trade
-   * @param orderId
-   *          The id of the order responsible for execution of this trade
-   * @param feeAmount
-   *          The fee that was charged by the exchange for this trade
-   * @param feeCurrency
-   *          The symbol of the currency in which the fee was charged
+   * @param type The trade type (BID side or ASK side)
+   * @param tradableAmount The depth of this trade
+   * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
+   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   * @param price The price (either the bid or the ask)
+   * @param timestamp The timestamp when the order was placed. Exchange matching is usually price first then timestamp asc to clear older orders
+   * @param id The id of the trade
+   * @param orderId The id of the order responsible for execution of this trade
+   * @param feeAmount The fee that was charged by the exchange for this trade
+   * @param feeCurrency The symbol of the currency in which the fee was charged
    */
-  public UserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId, BigDecimal feeAmount, String feeCurrency) {
+  public UserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId,
+      BigDecimal feeAmount, String feeCurrency) {
 
     super(type, tradableAmount, currencyPair, price, timestamp, id);
 

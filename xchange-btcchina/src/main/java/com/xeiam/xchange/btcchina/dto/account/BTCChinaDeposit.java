@@ -36,8 +36,8 @@ public class BTCChinaDeposit {
    */
   private final String status;
 
-  public BTCChinaDeposit(@JsonProperty("id") long id, @JsonProperty("address") String address, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("date") long date, @JsonProperty("status") String status) {
+  public BTCChinaDeposit(@JsonProperty("id") long id, @JsonProperty("address") String address, @JsonProperty("currency") String currency,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("status") String status) {
 
     this.id = id;
     this.address = address;
@@ -80,7 +80,8 @@ public class BTCChinaDeposit {
   @Override
   public String toString() {
 
-    return "BTCChinaDeposit [id=" + id + ", address=" + address + ", currency=" + currency + ", amount=" + amount + ", date=" + date + ", status=" + status + "]";
+    return "BTCChinaDeposit [id=" + id + ", address=" + address + ", currency=" + currency + ", amount=" + amount + ", date=" + date + ", status="
+        + status + "]";
   }
 
 }

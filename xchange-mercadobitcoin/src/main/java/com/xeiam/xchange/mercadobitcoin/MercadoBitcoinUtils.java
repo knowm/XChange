@@ -33,8 +33,7 @@ public final class MercadoBitcoinUtils {
   }
 
   /**
-   * @see #makeMercadoBitcoinOrderId(com.xeiam.xchange.currency.CurrencyPair,
-   *      String)
+   * @see #makeMercadoBitcoinOrderId(com.xeiam.xchange.currency.CurrencyPair, String)
    */
   public static String makeMercadoBitcoinOrderId(LimitOrder limitOrder) {
 

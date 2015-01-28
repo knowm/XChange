@@ -62,17 +62,22 @@ public class ItBitTradesDemo {
 
     }
 
-    String placeLimitOrder1 = trades.placeLimitOrder(new LimitOrder(OrderType.BID, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal.valueOf(300)));
-    String placeLimitOrder2 = trades.placeLimitOrder(new LimitOrder(OrderType.BID, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal.valueOf(350)));
-    String placeLimitOrder3 = trades.placeLimitOrder(new LimitOrder(OrderType.BID, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal.valueOf(360)));
-    String placeLimitOrder4 = trades.placeLimitOrder(new LimitOrder(OrderType.BID, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal.valueOf(370)));
+    String placeLimitOrder1 = trades.placeLimitOrder(new LimitOrder(OrderType.BID, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0",
+        new Date(), BigDecimal.valueOf(300)));
+    String placeLimitOrder2 = trades.placeLimitOrder(new LimitOrder(OrderType.BID, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0",
+        new Date(), BigDecimal.valueOf(350)));
+    String placeLimitOrder3 = trades.placeLimitOrder(new LimitOrder(OrderType.BID, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0",
+        new Date(), BigDecimal.valueOf(360)));
+    String placeLimitOrder4 = trades.placeLimitOrder(new LimitOrder(OrderType.BID, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0",
+        new Date(), BigDecimal.valueOf(370)));
 
     System.out.println("limit order id " + placeLimitOrder1);
     System.out.println("limit order id " + placeLimitOrder2);
     System.out.println("limit order id " + placeLimitOrder3);
     System.out.println("limit order id " + placeLimitOrder4);
 
-    trades.placeLimitOrder(new LimitOrder(OrderType.ASK, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal.valueOf(770)));
+    trades.placeLimitOrder(new LimitOrder(OrderType.ASK, BigDecimal.valueOf(10), new CurrencyPair("XBT", "USD"), "0", new Date(), BigDecimal
+        .valueOf(770)));
 
     System.out.println("Cancelling " + placeLimitOrder1);
     trades.cancelOrder(placeLimitOrder1);

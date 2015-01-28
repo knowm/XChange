@@ -128,8 +128,8 @@ public class PoloniexAdapters {
 
     OrderType type = openOrder.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
     Date timestamp = PoloniexUtils.stringToDate(openOrder.getDate());
-    LimitOrder limitOrder = new LimitOrder.Builder(type, currencyPair).limitPrice(openOrder.getRate()).tradableAmount(openOrder.getAmount()).id(openOrder.getOrderNumber()).timestamp(timestamp)
-        .build();
+    LimitOrder limitOrder = new LimitOrder.Builder(type, currencyPair).limitPrice(openOrder.getRate()).tradableAmount(openOrder.getAmount())
+        .id(openOrder.getOrderNumber()).timestamp(timestamp).build();
 
     return limitOrder;
   }

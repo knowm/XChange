@@ -1,5 +1,9 @@
 package com.xeiam.xchange.examples.mercadobitcoin.marketdata.btc;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Date;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -9,12 +13,9 @@ import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction
 import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
-
 /**
  * Demonstrate requesting Trades at Mercado Bitcoin
+ * 
  * @author Copied from Bitstamp and adapted by Felipe Micaroni Lalli
  */
 public class TradesDemo {

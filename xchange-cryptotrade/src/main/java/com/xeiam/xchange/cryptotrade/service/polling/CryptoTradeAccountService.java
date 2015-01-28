@@ -37,7 +37,8 @@ public class CryptoTradeAccountService extends CryptoTradeAccountServiceRaw impl
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     throw new NotAvailableFromExchangeException();
   }

@@ -40,7 +40,8 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
 
     if (!myFunds.isError()) {
       // TODO move to adapter class
-      return new AccountInfo(exchange.getExchangeSpecification().getUserName(), Arrays.asList(new Wallet("BTC", myFunds.getTotalBTC()), new Wallet("USD", myFunds.getTotalUSD())));
+      return new AccountInfo(exchange.getExchangeSpecification().getUserName(), Arrays.asList(new Wallet("BTC", myFunds.getTotalBTC()), new Wallet(
+          "USD", myFunds.getTotalUSD())));
     } else {
       throw new ExchangeException("Error calling getAccountInfo(): " + myFunds.getError());
     }

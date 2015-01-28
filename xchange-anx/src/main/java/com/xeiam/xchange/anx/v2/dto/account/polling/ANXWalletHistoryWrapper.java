@@ -18,7 +18,8 @@ public class ANXWalletHistoryWrapper {
    * @param anxWalletHistory
    * @param error
    */
-  public ANXWalletHistoryWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXWalletHistory anxWalletHistory, @JsonProperty("error") String error) {
+  public ANXWalletHistoryWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXWalletHistory anxWalletHistory,
+      @JsonProperty("error") String error) {
 
     this.result = result;
     this.anxWalletHistory = anxWalletHistory;

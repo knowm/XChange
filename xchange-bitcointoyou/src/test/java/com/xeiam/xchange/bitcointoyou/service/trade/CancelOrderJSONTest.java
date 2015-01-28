@@ -28,8 +28,9 @@ public class CancelOrderJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder> apiResult = mapper.readValue(is, new TypeReference<BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder>>() {
-    });
+    BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder> apiResult = mapper.readValue(is,
+        new TypeReference<BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder>>() {
+        });
 
     BitcoinToYouOrder userOrder = apiResult.getTheReturn();
 

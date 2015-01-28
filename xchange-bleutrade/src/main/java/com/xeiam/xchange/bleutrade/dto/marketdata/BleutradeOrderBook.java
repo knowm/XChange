@@ -27,8 +27,7 @@ public class BleutradeOrderBook {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * @return
-   *         The buy
+   * @return The buy
    */
   @JsonProperty("buy")
   public List<BleutradeLevel> getBuy() {
@@ -37,8 +36,7 @@ public class BleutradeOrderBook {
   }
 
   /**
-   * @param buy
-   *          The buy
+   * @param buy The buy
    */
   @JsonProperty("buy")
   public void setBuy(List<BleutradeLevel> buy) {
@@ -47,8 +45,7 @@ public class BleutradeOrderBook {
   }
 
   /**
-   * @return
-   *         The sell
+   * @return The sell
    */
   @JsonProperty("sell")
   public List<BleutradeLevel> getSell() {
@@ -57,8 +54,7 @@ public class BleutradeOrderBook {
   }
 
   /**
-   * @param sell
-   *          The sell
+   * @param sell The sell
    */
   @JsonProperty("sell")
   public void setSell(List<BleutradeLevel> sell) {

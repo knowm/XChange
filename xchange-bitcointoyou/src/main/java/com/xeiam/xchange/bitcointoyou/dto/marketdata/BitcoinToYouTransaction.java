@@ -17,8 +17,8 @@ public class BitcoinToYouTransaction {
   private final String type;
   private final String currency;
 
-  public BitcoinToYouTransaction(@JsonProperty("date") long date, @JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("type") String type, @JsonProperty("currency") String currency) {
+  public BitcoinToYouTransaction(@JsonProperty("date") long date, @JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("type") String type, @JsonProperty("currency") String currency) {
 
     this.date = date;
     this.tid = tid;
@@ -31,7 +31,8 @@ public class BitcoinToYouTransaction {
   @Override
   public String toString() {
 
-    return "BitcoinToYouTransaction [" + "date=" + date + ", tid=" + tid + ", price=" + price + ", amount=" + amount + ", type='" + type + '\'' + ", currency='" + currency + '\'' + ']';
+    return "BitcoinToYouTransaction [" + "date=" + date + ", tid=" + tid + ", price=" + price + ", amount=" + amount + ", type='" + type + '\''
+        + ", currency='" + currency + '\'' + ']';
   }
 
   public long getDate() {

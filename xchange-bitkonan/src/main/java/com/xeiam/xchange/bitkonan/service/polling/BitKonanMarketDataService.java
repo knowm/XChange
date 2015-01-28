@@ -29,7 +29,8 @@ public class BitKonanMarketDataService extends BitKonanMarketDataServiceRaw impl
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     if (currencyPair.equals(CurrencyPair.BTC_USD)) {
       return BitKonanAdapters.adaptTicker(getBitKonanTickerBTC(), currencyPair);
@@ -39,7 +40,8 @@ public class BitKonanMarketDataService extends BitKonanMarketDataServiceRaw impl
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     if (currencyPair.equals(CurrencyPair.BTC_USD)) {
       return BitKonanAdapters.adaptOrderBook(getBitKonanOrderBookBTC());
@@ -49,7 +51,8 @@ public class BitKonanMarketDataService extends BitKonanMarketDataServiceRaw impl
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     throw new NotYetImplementedForExchangeException();
   }

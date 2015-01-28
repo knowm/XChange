@@ -15,7 +15,8 @@ public class BTCECancelOrderReturn extends BTCEReturn<BTCECancelOrderResult> {
    * @param value
    * @param error
    */
-  public BTCECancelOrderReturn(@JsonProperty("success") boolean success, @JsonProperty("return") BTCECancelOrderResult value, @JsonProperty("error") String error) {
+  public BTCECancelOrderReturn(@JsonProperty("success") boolean success, @JsonProperty("return") BTCECancelOrderResult value,
+      @JsonProperty("error") String error) {
 
     super(success, value, error);
   }

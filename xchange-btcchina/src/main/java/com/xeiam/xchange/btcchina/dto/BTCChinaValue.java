@@ -62,7 +62,8 @@ public class BTCChinaValue {
   @Override
   public String toString() {
 
-    return String.format("BTCChinaValue{currency=%s, symbol=%s, amount=%s, amountInteger=%s, amountDecimal=%s}", currency, symbol, amount, amountInteger, amountDecimal);
+    return String.format("BTCChinaValue{currency=%s, symbol=%s, amount=%s, amountInteger=%s, amountDecimal=%s}", currency, symbol, amount,
+        amountInteger, amountDecimal);
   }
 
 }

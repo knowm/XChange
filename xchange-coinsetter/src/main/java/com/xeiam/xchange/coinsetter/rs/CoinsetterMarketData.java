@@ -38,12 +38,13 @@ public interface CoinsetterMarketData {
 
   @GET
   @Path("depth")
-  public CoinsetterPairedDepth getPairedDepth(@QueryParam("depth") @DefaultValue("10") int depth, @QueryParam("exchange") @DefaultValue("SMART") String exchange) throws CoinsetterException, IOException;
+  public CoinsetterPairedDepth getPairedDepth(@QueryParam("depth") @DefaultValue("10") int depth,
+      @QueryParam("exchange") @DefaultValue("SMART") String exchange) throws CoinsetterException, IOException;
 
   @GET
   @Path("depth")
-  public CoinsetterListDepth getListDepth(@QueryParam("depth") @DefaultValue("10") int depth, @QueryParam("format") String format, @QueryParam("exchange") @DefaultValue("SMART") String exchange)
-      throws CoinsetterException, IOException;
+  public CoinsetterListDepth getListDepth(@QueryParam("depth") @DefaultValue("10") int depth, @QueryParam("format") String format,
+      @QueryParam("exchange") @DefaultValue("SMART") String exchange) throws CoinsetterException, IOException;
 
   @GET
   @Path("full_depth")
@@ -55,6 +56,7 @@ public interface CoinsetterMarketData {
 
   @GET
   @Path("quote")
-  public CoinsetterQuote getQuote(@QueryParam("quantity") BigDecimal quantity, @QueryParam("symbol") String symbol) throws CoinsetterException, IOException;
+  public CoinsetterQuote getQuote(@QueryParam("quantity") BigDecimal quantity, @QueryParam("symbol") String symbol) throws CoinsetterException,
+      IOException;
 
 }

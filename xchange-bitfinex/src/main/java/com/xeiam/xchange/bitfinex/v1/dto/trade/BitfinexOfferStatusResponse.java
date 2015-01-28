@@ -19,9 +19,10 @@ public class BitfinexOfferStatusResponse {
   private final BigDecimal remainingAmount;
   private final BigDecimal executedAmount;
 
-  public BitfinexOfferStatusResponse(@JsonProperty("id") int id, @JsonProperty("currency") String currency, @JsonProperty("rate") BigDecimal rate, @JsonProperty("period") int period,
-      @JsonProperty("direction") String direction, @JsonProperty("type") String type, @JsonProperty("timestamp") BigDecimal timestamp, @JsonProperty("is_live") boolean isLive,
-      @JsonProperty("is_cancelled") boolean isCancelled, @JsonProperty("original_amount") BigDecimal originalAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount,
+  public BitfinexOfferStatusResponse(@JsonProperty("id") int id, @JsonProperty("currency") String currency, @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("period") int period, @JsonProperty("direction") String direction, @JsonProperty("type") String type,
+      @JsonProperty("timestamp") BigDecimal timestamp, @JsonProperty("is_live") boolean isLive, @JsonProperty("is_cancelled") boolean isCancelled,
+      @JsonProperty("original_amount") BigDecimal originalAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount,
       @JsonProperty("executed_amount") BigDecimal executedAmount) {
 
     this.id = id;
@@ -101,8 +102,9 @@ public class BitfinexOfferStatusResponse {
   @Override
   public String toString() {
 
-    return "BitfinexOfferStatusResponse [id=" + id + ", currency=" + currency + ", rate=" + rate + ", period=" + period + ", direction=" + direction + ", type=" + type + ", timestamp=" + timestamp
-        + ", isLive=" + isLive + ", isCancelled=" + isCancelled + ", originalAmount=" + originalAmount + ", remainingAmount=" + remainingAmount + ", executedAmount=" + executedAmount + "]";
+    return "BitfinexOfferStatusResponse [id=" + id + ", currency=" + currency + ", rate=" + rate + ", period=" + period + ", direction=" + direction
+        + ", type=" + type + ", timestamp=" + timestamp + ", isLive=" + isLive + ", isCancelled=" + isCancelled + ", originalAmount="
+        + originalAmount + ", remainingAmount=" + remainingAmount + ", executedAmount=" + executedAmount + "]";
   }
 
 }

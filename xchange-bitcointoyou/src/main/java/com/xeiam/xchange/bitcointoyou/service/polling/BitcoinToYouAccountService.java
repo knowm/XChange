@@ -16,7 +16,6 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
 public class BitcoinToYouAccountService extends BitcoinToYouAccountServiceRaw implements PollingAccountService {
 
   /**
-   *
    * Constructor
    *
    * @param exchange
@@ -39,8 +38,7 @@ public class BitcoinToYouAccountService extends BitcoinToYouAccountServiceRaw im
   }
 
   /**
-   * This returns the currently set deposit address. It will not generate a new
-   * address (ie. repeated calls will return the same address).
+   * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
    */
   @Override
   public String requestDepositAddress(String currency, String... arguments) throws IOException {

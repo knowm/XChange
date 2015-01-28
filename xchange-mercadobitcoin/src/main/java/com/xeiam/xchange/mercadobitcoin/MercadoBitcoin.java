@@ -1,15 +1,16 @@
 package com.xeiam.xchange.mercadobitcoin;
 
-import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
-import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
-import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
+import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
+
+import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
+import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
+import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
 
 /**
  * @author Matija Mazi
@@ -60,9 +61,11 @@ public interface MercadoBitcoin {
 
   @GET
   @Path("/v1/trades/{start_timestamp: [0-9]}/{end_timestamp: [0-9]}/")
-  public MercadoBitcoinTransaction[] getTransactionsBTC(@PathParam("start_timestamp") Long startTimestamp, @PathParam("end_timestamp") Long endTimestamp) throws IOException;
+  public MercadoBitcoinTransaction[] getTransactionsBTC(@PathParam("start_timestamp") Long startTimestamp,
+      @PathParam("end_timestamp") Long endTimestamp) throws IOException;
 
   @GET
   @Path("/v1/trades_litecoin/{start_timestamp: [0-9]}/{end_timestamp: [0-9]}/")
-  public MercadoBitcoinTransaction[] getTransactionsLTC(@PathParam("start_timestamp") Long startTimestamp, @PathParam("end_timestamp") Long endTimestamp) throws IOException;
+  public MercadoBitcoinTransaction[] getTransactionsLTC(@PathParam("start_timestamp") Long startTimestamp,
+      @PathParam("end_timestamp") Long endTimestamp) throws IOException;
 }

@@ -22,11 +22,13 @@ public interface CoinsetterFinancialTransaction {
 
   @GET
   @Path("financialTransaction/{financialTransactionUuid}")
-  com.xeiam.xchange.coinsetter.dto.financialtransaction.CoinsetterFinancialTransaction get(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId,
-      @PathParam("financialTransactionUuid") UUID financialTransactionUuid) throws CoinsetterException, IOException;
+  com.xeiam.xchange.coinsetter.dto.financialtransaction.CoinsetterFinancialTransaction get(
+      @HeaderParam("coinsetter-client-session-id") UUID clientSessionId, @PathParam("financialTransactionUuid") UUID financialTransactionUuid)
+      throws CoinsetterException, IOException;
 
   @GET
   @Path("customer/account/{accountUuid}/financialTransaction")
-  CoinsetterFinancialTransactionList list(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, @PathParam("accountUuid") UUID accountUuid) throws CoinsetterException, IOException;
+  CoinsetterFinancialTransactionList list(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId,
+      @PathParam("accountUuid") UUID accountUuid) throws CoinsetterException, IOException;
 
 }

@@ -30,7 +30,8 @@ public enum ExchangeFactory {
   /**
    * Create an Exchange object.
    * <p>
-   * The factory is parameterised with the name of the exchange implementation class. This must be a class extending {@link com.xeiam.xchange.Exchange}.
+   * The factory is parameterised with the name of the exchange implementation class. This must be a class extending
+   * {@link com.xeiam.xchange.Exchange}.
    * </p>
    * 
    * @param exchangeClassName the fully-qualified class name of the exchange
@@ -54,8 +55,7 @@ public enum ExchangeFactory {
         Exchange exchange = (Exchange) exchangeProviderClass.newInstance();
         exchange.applySpecification(exchange.getDefaultExchangeSpecification());
         return exchange;
-      }
-      else {
+      } else {
         throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
       }
     } catch (ClassNotFoundException e) {
@@ -90,8 +90,7 @@ public enum ExchangeFactory {
         Exchange exchange = (Exchange) exchangeProviderClass.newInstance();
         exchange.applySpecification(exchangeSpecification);
         return exchange;
-      }
-      else {
+      } else {
         throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
       }
     } catch (ClassNotFoundException e) {

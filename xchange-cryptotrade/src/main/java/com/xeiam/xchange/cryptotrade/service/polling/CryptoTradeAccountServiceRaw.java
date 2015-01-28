@@ -21,7 +21,8 @@ public class CryptoTradeAccountServiceRaw extends CryptoTradeBasePollingService<
 
   public CryptoTradeAccountInfo getCryptoTradeAccountInfo() throws CryptoTradeException, IOException {
 
-    CryptoTradeAccountInfo info = cryptoTradeProxy.getInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    CryptoTradeAccountInfo info = cryptoTradeProxy.getInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory());
     return handleResponse(info);
   }
 

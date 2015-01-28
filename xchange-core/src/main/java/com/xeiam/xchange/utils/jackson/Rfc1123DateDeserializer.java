@@ -11,8 +11,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
- * Deserializes an rfc1123 formatted Date String to a Java Date
- * rfc1123 format: 'EEE, dd MMM yyyy HH:mm:ss zzz'
+ * Deserializes an rfc1123 formatted Date String to a Java Date rfc1123 format: 'EEE, dd MMM yyyy HH:mm:ss zzz'
  * 
  * @author jamespedwards42
  */

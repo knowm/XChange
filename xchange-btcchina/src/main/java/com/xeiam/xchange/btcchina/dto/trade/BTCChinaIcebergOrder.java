@@ -18,9 +18,10 @@ public class BTCChinaIcebergOrder {
   private final String status;
   private final BTCChinaOrder[] orders;
 
-  public BTCChinaIcebergOrder(@JsonProperty("id") int id, @JsonProperty("type") String type, @JsonProperty("price") BigDecimal price, @JsonProperty("market") String market,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_original") BigDecimal amountOriginal, @JsonProperty("disclosed_amount") BigDecimal disclosedAmount,
-      @JsonProperty("variance") BigDecimal variance, @JsonProperty("date") long date, @JsonProperty("status") String status, @JsonProperty("order") BTCChinaOrder[] orders) {
+  public BTCChinaIcebergOrder(@JsonProperty("id") int id, @JsonProperty("type") String type, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("market") String market, @JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_original") BigDecimal amountOriginal,
+      @JsonProperty("disclosed_amount") BigDecimal disclosedAmount, @JsonProperty("variance") BigDecimal variance, @JsonProperty("date") long date,
+      @JsonProperty("status") String status, @JsonProperty("order") BTCChinaOrder[] orders) {
 
     super();
     this.id = id;

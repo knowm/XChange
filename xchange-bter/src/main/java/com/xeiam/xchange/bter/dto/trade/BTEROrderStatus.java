@@ -15,7 +15,8 @@ public class BTEROrderStatus extends BTERBaseResponse {
 
   private final BTEROrderStatusInfo orderStatusInfo;
 
-  private BTEROrderStatus(@JsonProperty("order") BTEROrderStatusInfo orderStatusInfo, @JsonProperty("result") boolean result, @JsonProperty("msg") String msg) {
+  private BTEROrderStatus(@JsonProperty("order") BTEROrderStatusInfo orderStatusInfo, @JsonProperty("result") boolean result,
+      @JsonProperty("msg") String msg) {
 
     super(result, msg);
     this.orderStatusInfo = orderStatusInfo;
@@ -77,8 +78,9 @@ public class BTEROrderStatus extends BTERBaseResponse {
     private final BigDecimal initialRate;
     private final BigDecimal initialAmount;
 
-    private BTEROrderStatusInfo(@JsonProperty("id") String id, @JsonProperty("status") String status, @JsonProperty("pair") String currencyPair, @JsonProperty("type") BTEROrderType type,
-        @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount, @JsonProperty("initial_rate") BigDecimal initialRate, @JsonProperty("initial_amount") BigDecimal initialAmount) {
+    private BTEROrderStatusInfo(@JsonProperty("id") String id, @JsonProperty("status") String status, @JsonProperty("pair") String currencyPair,
+        @JsonProperty("type") BTEROrderType type, @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount,
+        @JsonProperty("initial_rate") BigDecimal initialRate, @JsonProperty("initial_amount") BigDecimal initialAmount) {
 
       this.id = id;
       this.status = status;
@@ -133,8 +135,8 @@ public class BTEROrderStatus extends BTERBaseResponse {
     @Override
     public String toString() {
 
-      return "BTEROrderStatusInfo [id=" + id + ", status=" + status + ", currencyPair=" + currencyPair + ", type=" + type + ", rate=" + rate + ", amount=" + amount + ", initialRate=" + initialRate
-          + ", initialAmount=" + initialAmount + "]";
+      return "BTEROrderStatusInfo [id=" + id + ", status=" + status + ", currencyPair=" + currencyPair + ", type=" + type + ", rate=" + rate
+          + ", amount=" + amount + ", initialRate=" + initialRate + ", initialAmount=" + initialAmount + "]";
     }
   }
 }

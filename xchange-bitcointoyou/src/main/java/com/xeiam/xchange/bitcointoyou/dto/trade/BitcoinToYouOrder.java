@@ -20,8 +20,9 @@ public class BitcoinToYouOrder {
   private final BigDecimal executedAmount;
   private final String dateCreated;
 
-  public BitcoinToYouOrder(@JsonProperty("asset") String asset, @JsonProperty("currency") String currency, @JsonProperty("id") Long id, @JsonProperty("action") String action,
-      @JsonProperty("status") String status, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("executedPriceAverage") BigDecimal executedPriceAverage,
+  public BitcoinToYouOrder(@JsonProperty("asset") String asset, @JsonProperty("currency") String currency, @JsonProperty("id") Long id,
+      @JsonProperty("action") String action, @JsonProperty("status") String status, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("executedPriceAverage") BigDecimal executedPriceAverage,
       @JsonProperty("executedAmount") BigDecimal executedAmount, @JsonProperty("dateCreated") String dateCreated) {
 
     this.asset = asset;
@@ -39,8 +40,9 @@ public class BitcoinToYouOrder {
   @Override
   public String toString() {
 
-    return "BitcoinToYouOrder [" + "asset='" + asset + '\'' + ", currency='" + currency + '\'' + ", id=" + id + ", action='" + action + '\'' + ", status='" + status + '\'' + ", price=" + price
-        + ", amount=" + amount + ", executedPriceAverage=" + executedPriceAverage + ", executedAmount=" + executedAmount + ", dateCreated='" + dateCreated + '\'' + ']';
+    return "BitcoinToYouOrder [" + "asset='" + asset + '\'' + ", currency='" + currency + '\'' + ", id=" + id + ", action='" + action + '\''
+        + ", status='" + status + '\'' + ", price=" + price + ", amount=" + amount + ", executedPriceAverage=" + executedPriceAverage
+        + ", executedAmount=" + executedAmount + ", dateCreated='" + dateCreated + '\'' + ']';
   }
 
   public String getAsset() {

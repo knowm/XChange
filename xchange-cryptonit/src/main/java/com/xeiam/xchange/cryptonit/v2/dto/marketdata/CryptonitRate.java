@@ -22,8 +22,8 @@ public final class CryptonitRate {
    * @param ask
    * @param last
    */
-  public CryptonitRate(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("last") BigDecimal last) {
+  public CryptonitRate(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask, @JsonProperty("last") BigDecimal last) {
 
     this.high = high;
     this.low = low;

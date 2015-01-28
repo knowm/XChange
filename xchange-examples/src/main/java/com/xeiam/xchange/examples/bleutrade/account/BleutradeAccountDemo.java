@@ -12,7 +12,8 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class BleutradeAccountDemo {
 
-  public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException, InterruptedException {
+  public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+      IOException, InterruptedException {
 
     Exchange bleutrade = BleutradeDemoUtils.getExchange();
     PollingAccountService accountService = bleutrade.getPollingAccountService();
@@ -21,8 +22,8 @@ public class BleutradeAccountDemo {
     raw((BleutradeAccountServiceRaw) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException,
-      InterruptedException {
+  private static void generic(PollingAccountService accountService) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException, InterruptedException {
 
     System.out.println(accountService.requestDepositAddress("BTC"));
     Thread.sleep(1000);

@@ -15,7 +15,8 @@ public class CryptsyCalculatedFeesReturn extends CryptsyGenericReturn<CryptsyCal
    * @param value
    * @param error
    */
-  public CryptsyCalculatedFeesReturn(@JsonProperty("success") int success, @JsonProperty("return") CryptsyCalculatedFees value, @JsonProperty("error") String error) {
+  public CryptsyCalculatedFeesReturn(@JsonProperty("success") int success, @JsonProperty("return") CryptsyCalculatedFees value,
+      @JsonProperty("error") String error) {
 
     super(success, value, error);
   }

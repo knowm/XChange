@@ -31,13 +31,10 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
   }
 
   /**
-   * @param args Optional Boolean. If true an additional call to retrieve the
-   *          spot price history will be made and used to populate the 24 hour
-   *          high and low values for the Ticker.
-   * @return A Ticker with Coinbase's current buy price as the best ask, sell
-   *         price as the best bid, spot price as the last value, and can
-   *         optionally use the spot price history to find the 24 hour high and
-   *         low.
+   * @param args Optional Boolean. If true an additional call to retrieve the spot price history will be made and used to populate the 24 hour high
+   *        and low values for the Ticker.
+   * @return A Ticker with Coinbase's current buy price as the best ask, sell price as the best bid, spot price as the last value, and can optionally
+   *         use the spot price history to find the 24 hour high and low.
    */
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, final Object... args) throws IOException {
@@ -50,7 +47,7 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
     final CoinbaseSpotPriceHistory coinbaseSpotPriceHistory = (args != null && args.length > 0 && args[0] != null && args[0] instanceof Boolean && (Boolean) args[0]) ? super
         .getCoinbaseHistoricalSpotRates() : null;
 
-        return CoinbaseAdapters.adaptTicker(currencyPair, buyPrice, sellPrice, spotRate, coinbaseSpotPriceHistory);
+    return CoinbaseAdapters.adaptTicker(currencyPair, buyPrice, sellPrice, spotRate, coinbaseSpotPriceHistory);
   }
 
   @Override

@@ -8,13 +8,13 @@ import com.xeiam.xchange.lakebtc.dto.LakeBTCResponse;
  */
 public class LakeBTCOrdersResponse extends LakeBTCResponse<LakeBTCOrder> {
 
-    /**
-     * Constructor
-     *
-     * @param id
-     * @param result
-     */
-    public LakeBTCOrdersResponse(@JsonProperty("id") String id, @JsonProperty("result") LakeBTCOrder result) {
-        super(id, result);
-    }
+  /**
+   * Constructor
+   *
+   * @param id
+   * @param result
+   */
+  public LakeBTCOrdersResponse(@JsonProperty("id") String id, @JsonProperty("result") LakeBTCOrder result) {
+    super(id, result);
+  }
 }

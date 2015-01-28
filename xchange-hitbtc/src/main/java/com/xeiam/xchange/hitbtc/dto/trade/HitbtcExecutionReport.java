@@ -23,10 +23,12 @@ public class HitbtcExecutionReport {
   private final BigDecimal cumQuantity;
   private final BigDecimal averagePrice;
 
-  public HitbtcExecutionReport(@JsonProperty("orderId") String orderId, @JsonProperty("clientOrderId") String clientOrderId, @JsonProperty("execReportType") String execReportType,
-      @JsonProperty("orderRejectReason") String orderRejectReason, @JsonProperty("symbol") String symbol, @JsonProperty("side") String side, @JsonProperty("timestamp") long timestamp,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("type") String type, @JsonProperty("timeInForce") String timeInForce,
-      @JsonProperty("lastQuantity") BigDecimal lastQuantity, @JsonProperty("lastPrice") BigDecimal lastPrice, @JsonProperty("leavesQuantity") BigDecimal leavesQuantity,
+  public HitbtcExecutionReport(@JsonProperty("orderId") String orderId, @JsonProperty("clientOrderId") String clientOrderId,
+      @JsonProperty("execReportType") String execReportType, @JsonProperty("orderRejectReason") String orderRejectReason,
+      @JsonProperty("symbol") String symbol, @JsonProperty("side") String side, @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("type") String type,
+      @JsonProperty("timeInForce") String timeInForce, @JsonProperty("lastQuantity") BigDecimal lastQuantity,
+      @JsonProperty("lastPrice") BigDecimal lastPrice, @JsonProperty("leavesQuantity") BigDecimal leavesQuantity,
       @JsonProperty("cumQuantity") BigDecimal cumQuantity, @JsonProperty("averagePrice") BigDecimal averagePrice) {
 
     super();

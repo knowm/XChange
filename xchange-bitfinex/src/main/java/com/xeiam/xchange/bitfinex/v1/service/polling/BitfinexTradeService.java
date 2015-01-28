@@ -94,11 +94,8 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   }
 
   /**
-   * @param params Implementation of {@link TradeHistoryParamCurrencyPair} is
-   *          mandatory. Can optionally implement
-   *          {@link TradeHistoryParamPaging} and
-   *          {@link TradeHistoryParamsTimeSpan#getStartTime()}. All other
-   *          TradeHistoryParams types will be ignored.
+   * @param params Implementation of {@link TradeHistoryParamCurrencyPair} is mandatory. Can optionally implement {@link TradeHistoryParamPaging} and
+   *        {@link TradeHistoryParamsTimeSpan#getStartTime()}. All other TradeHistoryParams types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -141,7 +138,8 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     return new BitfinexTradeHistoryParams(new Date(0), 50, CurrencyPair.BTC_USD);
   }
 
-  public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
+  public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamCurrencyPair,
+      TradeHistoryParamPaging {
 
     private int count;
     private CurrencyPair pair;

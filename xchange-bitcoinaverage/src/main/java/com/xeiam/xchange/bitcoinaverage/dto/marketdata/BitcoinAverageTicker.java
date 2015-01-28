@@ -34,7 +34,8 @@ public final class BitcoinAverageTicker {
    * @param timestamp
    */
 
-  public BitcoinAverageTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("volume_btc") BigDecimal volume, @JsonProperty("last") BigDecimal last,
+  public BitcoinAverageTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("volume_btc") BigDecimal volume, @JsonProperty("last") BigDecimal last,
       @JsonProperty("volume_percent") BigDecimal volume_percent, @JsonProperty("timestamp") String timestamp) {
 
     this.ask = ask;
@@ -87,7 +88,8 @@ public final class BitcoinAverageTicker {
   @Override
   public String toString() {
 
-    return "BitcoinAverageTicker [last=" + last + ", ask=" + ask + ", bid=" + bid + ", volume=" + volume + ", volume_percent=" + volume_percent + ", timestamp=" + timestamp + "]";
+    return "BitcoinAverageTicker [last=" + last + ", ask=" + ask + ", bid=" + bid + ", volume=" + volume + ", volume_percent=" + volume_percent
+        + ", timestamp=" + timestamp + "]";
 
   }
 

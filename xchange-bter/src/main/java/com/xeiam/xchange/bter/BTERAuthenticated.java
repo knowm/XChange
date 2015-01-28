@@ -28,26 +28,29 @@ public interface BTERAuthenticated extends BTER {
 
   @POST
   @Path("private/getfunds")
-  BTERFunds getFunds(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  BTERFunds getFunds(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("private/cancelorder")
-  BTERFunds cancelOrder(@FormParam("order_id") String orderId, @HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-      throws IOException;
+  BTERFunds cancelOrder(@FormParam("order_id") String orderId, @HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("private/placeorder")
-  BTERPlaceOrderReturn placeOrder(@FormParam("pair") String pair, @FormParam("type") BTEROrderType type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount,
-      @HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  BTERPlaceOrderReturn placeOrder(@FormParam("pair") String pair, @FormParam("type") BTEROrderType type, @FormParam("rate") BigDecimal rate,
+      @FormParam("amount") BigDecimal amount, @HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("private/orderlist")
-  BTEROpenOrders getOpenOrders(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  BTEROpenOrders getOpenOrders(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("private/mytrades")
-  BTERTradeHistoryReturn getUserTradeHistory(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("pair") String pair) throws IOException;
+  BTERTradeHistoryReturn getUserTradeHistory(@HeaderParam("KEY") String apiKey, @HeaderParam("SIGN") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("pair") String pair) throws IOException;
 
   @POST
   @Path("private/getorder")

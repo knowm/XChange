@@ -48,8 +48,8 @@ public final class BitVcAdapters {
   public static Ticker adaptTicker(BitVcTicker BitVcTicker, CurrencyPair currencyPair) {
 
     BitVcTickerObject ticker = BitVcTicker.getTicker();
-    return new Ticker.Builder().currencyPair(currencyPair).last(ticker.getLast()).bid(ticker.getBuy()).ask(ticker.getSell()).high(ticker.getHigh()).low(ticker.getLow()).volume(ticker.getVol())
-        .build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(ticker.getLast()).bid(ticker.getBuy()).ask(ticker.getSell()).high(ticker.getHigh())
+        .low(ticker.getLow()).volume(ticker.getVol()).build();
   }
 
   public static OrderBook adaptOrderBook(BitVcDepth BitVcDepth, CurrencyPair currencyPair) {
@@ -151,8 +151,8 @@ public final class BitVcAdapters {
 
   public static LimitOrder adaptOpenOrder(BitVcOrder order, CurrencyPair currencyPair) {
 
-    return new LimitOrder(order.getType() == 1 ? BID : ASK, order.getOrderAmount().subtract(order.getProcessedAmount()), currencyPair, String.valueOf(order.getId()), new Date(
-        order.getOrderTime() * 1000), order.getOrderPrice());
+    return new LimitOrder(order.getType() == 1 ? BID : ASK, order.getOrderAmount().subtract(order.getProcessedAmount()), currencyPair,
+        String.valueOf(order.getId()), new Date(order.getOrderTime() * 1000), order.getOrderPrice());
   }
 
 }

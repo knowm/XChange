@@ -6,8 +6,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cexio.CexIOExchange;
 
 /**
- * Author: brox
- * Since: 2/6/14
+ * Author: brox Since: 2/6/14
  */
 
 public class CexIODemoUtils {

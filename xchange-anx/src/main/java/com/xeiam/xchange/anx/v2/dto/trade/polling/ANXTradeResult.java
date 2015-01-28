@@ -19,8 +19,9 @@ public final class ANXTradeResult {
   private final String side;
 
   public ANXTradeResult(@JsonProperty("tradeId") String tradeId, @JsonProperty("orderId") String orderId, @JsonProperty("timestamp") Date timestamp,
-      @JsonProperty("tradedCurrencyFillAmount") BigDecimal tradedCurrencyFillAmount, @JsonProperty("settlementCurrencyFillAmount") BigDecimal settlementCurrencyFillAmount,
-      @JsonProperty("ccyPair") String currencyPair, @JsonProperty("side") String side) {
+      @JsonProperty("tradedCurrencyFillAmount") BigDecimal tradedCurrencyFillAmount,
+      @JsonProperty("settlementCurrencyFillAmount") BigDecimal settlementCurrencyFillAmount, @JsonProperty("ccyPair") String currencyPair,
+      @JsonProperty("side") String side) {
 
     this.tradeId = tradeId;
     this.orderId = orderId;
@@ -69,7 +70,8 @@ public final class ANXTradeResult {
   @Override
   public String toString() {
 
-    return "ANXOrderResultTrade{" + "tradeId='" + tradeId + '\'' + ", orderId='" + orderId + '\'' + ", timestamp=" + timestamp + ", tradedCurrencyFillAmount=" + tradedCurrencyFillAmount
-        + ", settlementCurrencyFillAmount=" + settlementCurrencyFillAmount + ", currencyPair='" + currencyPair + '\'' + ", side='" + side + '\'' + '}';
+    return "ANXOrderResultTrade{" + "tradeId='" + tradeId + '\'' + ", orderId='" + orderId + '\'' + ", timestamp=" + timestamp
+        + ", tradedCurrencyFillAmount=" + tradedCurrencyFillAmount + ", settlementCurrencyFillAmount=" + settlementCurrencyFillAmount
+        + ", currencyPair='" + currencyPair + '\'' + ", side='" + side + '\'' + '}';
   }
 }

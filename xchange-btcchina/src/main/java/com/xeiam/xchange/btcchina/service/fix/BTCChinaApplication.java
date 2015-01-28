@@ -179,27 +179,33 @@ public class BTCChinaApplication extends MessageCracker implements Application {
     sendMessage(message, sessionId);
   }
 
-  public void placeOrder(String accessKey, String secretKey, String clOrdId, char side, char ordType, BigDecimal orderQty, BigDecimal price, String symbol, SessionID sessionId) {
+  public void placeOrder(String accessKey, String secretKey, String clOrdId, char side, char ordType, BigDecimal orderQty, BigDecimal price,
+      String symbol, SessionID sessionId) {
 
-    NewOrderSingle message = BTCChinaTradeRequest.createNewOrderSingle(nonceFactory.createValue(), accessKey, secretKey, clOrdId, side, ordType, orderQty, price, symbol);
+    NewOrderSingle message = BTCChinaTradeRequest.createNewOrderSingle(nonceFactory.createValue(), accessKey, secretKey, clOrdId, side, ordType,
+        orderQty, price, symbol);
     sendMessage(message, sessionId);
   }
 
   public void cancelOrder(String accessKey, String secretKey, String clOrdId, String orderId, String symbol, SessionID sessionId) {
 
-    OrderCancelRequest message = BTCChinaTradeRequest.createOrderCancelRequest(nonceFactory.createValue(), accessKey, secretKey, clOrdId, orderId, symbol);
+    OrderCancelRequest message = BTCChinaTradeRequest.createOrderCancelRequest(nonceFactory.createValue(), accessKey, secretKey, clOrdId, orderId,
+        symbol);
     sendMessage(message, sessionId);
   }
 
-  public void requestOrderMassStatus(String accessKey, String secretKey, String massStatusReqId, int massStatusReqType, String symbol, SessionID sessionId) {
+  public void requestOrderMassStatus(String accessKey, String secretKey, String massStatusReqId, int massStatusReqType, String symbol,
+      SessionID sessionId) {
 
-    OrderMassStatusRequest message = BTCChinaTradeRequest.createOrderMassStatusRequest(nonceFactory.createValue(), accessKey, secretKey, massStatusReqId, massStatusReqType, symbol);
+    OrderMassStatusRequest message = BTCChinaTradeRequest.createOrderMassStatusRequest(nonceFactory.createValue(), accessKey, secretKey,
+        massStatusReqId, massStatusReqType, symbol);
     sendMessage(message, sessionId);
   }
 
   public void requestOrderStatus(String accessKey, String secretKey, String clOrdId, String orderId, String symbol, SessionID sessionId) {
 
-    OrderStatusRequest message = BTCChinaTradeRequest.createOrderStatusRequest(nonceFactory.createValue(), accessKey, secretKey, clOrdId, orderId, symbol);
+    OrderStatusRequest message = BTCChinaTradeRequest.createOrderStatusRequest(nonceFactory.createValue(), accessKey, secretKey, clOrdId, orderId,
+        symbol);
     sendMessage(message, sessionId);
   }
 

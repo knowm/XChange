@@ -19,7 +19,6 @@ public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
   private final Bitbay bitbay;
 
   /**
-   *
    * Constructor
    *
    * @param exchange

@@ -37,10 +37,12 @@ public class CoinsetterAccount {
    * @param approvedMarginRatio Your approved Margin Ratio
    * @param createDate Date/time account was created. Format = "dd/MM/yyyy HH:mm:ss.SSS"
    */
-  public CoinsetterAccount(@JsonProperty("uuid") UUID accountUuid, @JsonProperty("customerUuid") UUID customerUuid, @JsonProperty("accountNumber") String accountNumber,
-      @JsonProperty("name") String name, @JsonProperty("description") String description, @JsonProperty("btcBalance") BigDecimal btcBalance, @JsonProperty("usdBalance") BigDecimal usdBalance,
-      @JsonProperty("accountClass") String accountClass, @JsonProperty("activeStatus") String activeStatus, @JsonProperty("approvedMarginRatio") BigDecimal approvedMarginRatio,
-      @JsonProperty("createDate") @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss.SSS", timezone = "EST", locale = "us") Date createDate) {
+  public CoinsetterAccount(@JsonProperty("uuid") UUID accountUuid, @JsonProperty("customerUuid") UUID customerUuid,
+      @JsonProperty("accountNumber") String accountNumber, @JsonProperty("name") String name, @JsonProperty("description") String description,
+      @JsonProperty("btcBalance") BigDecimal btcBalance, @JsonProperty("usdBalance") BigDecimal usdBalance,
+      @JsonProperty("accountClass") String accountClass, @JsonProperty("activeStatus") String activeStatus,
+      @JsonProperty("approvedMarginRatio") BigDecimal approvedMarginRatio, @JsonProperty("createDate") @JsonFormat(
+          pattern = "dd/MM/yyyy HH:mm:ss.SSS", timezone = "EST", locale = "us") Date createDate) {
 
     this.accountUuid = accountUuid;
     this.customerUuid = customerUuid;
@@ -113,9 +115,9 @@ public class CoinsetterAccount {
   @Override
   public String toString() {
 
-    return "CoinsetterAccountResponse [accountUuid=" + accountUuid + ", customerUuid=" + customerUuid + ", accountNumber=" + accountNumber + ", name=" + name + ", description=" + description
-        + ", btcBalance=" + btcBalance + ", usdBalance=" + usdBalance + ", accountClass=" + accountClass + ", activeStatus=" + activeStatus + ", approvedMarginRatio=" + approvedMarginRatio
-        + ", createDate=" + createDate + "]";
+    return "CoinsetterAccountResponse [accountUuid=" + accountUuid + ", customerUuid=" + customerUuid + ", accountNumber=" + accountNumber
+        + ", name=" + name + ", description=" + description + ", btcBalance=" + btcBalance + ", usdBalance=" + usdBalance + ", accountClass="
+        + accountClass + ", activeStatus=" + activeStatus + ", approvedMarginRatio=" + approvedMarginRatio + ", createDate=" + createDate + "]";
   }
 
 }

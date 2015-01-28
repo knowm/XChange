@@ -14,7 +14,6 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
 public class BitcurexAccountService extends BitcurexAccountServiceRaw implements PollingAccountService {
 
   /**
-   *
    * Constructor
    *
    * @param exchange
@@ -33,13 +32,15 @@ public class BitcurexAccountService extends BitcurexAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
 
     return getFunds().getAddress();
   }

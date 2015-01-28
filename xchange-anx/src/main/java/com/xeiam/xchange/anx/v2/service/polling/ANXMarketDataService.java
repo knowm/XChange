@@ -27,7 +27,6 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 public class ANXMarketDataService extends ANXMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   *
    * Constructor
    *
    * @param exchange
@@ -46,9 +45,8 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
   /**
    * Get market depth from exchange
    *
-   * @param args Optional arguments. Exchange-specific. This implementation
-   *          assumes: absent or "full" -> get full OrderBook "partial" -> get
-   *          partial OrderBook
+   * @param args Optional arguments. Exchange-specific. This implementation assumes: absent or "full" -> get full OrderBook "partial" -> get partial
+   *        OrderBook
    * @return The OrderBook
    * @throws java.io.IOException
    */
@@ -72,8 +70,10 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
     }
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getAsks(), currencyPair.baseSymbol, currencyPair.counterSymbol, "ask", "");
-    List<LimitOrder> bids = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getBids(), currencyPair.baseSymbol, currencyPair.counterSymbol, "bid", "");
+    List<LimitOrder> asks = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getAsks(), currencyPair.baseSymbol, currencyPair.counterSymbol,
+        "ask", "");
+    List<LimitOrder> bids = ANXAdapters.adaptOrders(anxDepthWrapper.getAnxDepth().getBids(), currencyPair.baseSymbol, currencyPair.counterSymbol,
+        "bid", "");
     Date date = new Date(anxDepthWrapper.getAnxDepth().getMicroTime() / 1000);
     return new OrderBook(date, asks, bids);
   }
@@ -91,7 +91,8 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
         Date arg = (Date) args[0];
         sinceTimeStamp = arg.getTime();
       } else {
-        throw new IllegalArgumentException("Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
+        throw new IllegalArgumentException("Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was "
+            + args[0].getClass() + ")");
       }
     }
 

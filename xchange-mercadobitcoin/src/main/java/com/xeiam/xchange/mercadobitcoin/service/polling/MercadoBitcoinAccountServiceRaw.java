@@ -29,7 +29,8 @@ public class MercadoBitcoinAccountServiceRaw extends MercadoBitcoinBasePollingSe
 
     super(exchange);
 
-    this.mercadoBitcoinAuthenticated = RestProxyFactory.createProxy(MercadoBitcoinAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.mercadoBitcoinAuthenticated = RestProxyFactory.createProxy(MercadoBitcoinAuthenticated.class, exchange.getExchangeSpecification()
+        .getSslUri());
   }
 
   public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> getMercadoBitcoinAccountInfo() throws IOException {
@@ -37,9 +38,11 @@ public class MercadoBitcoinAccountServiceRaw extends MercadoBitcoinBasePollingSe
     String method = GET_ACCOUNT_INFO;
     long tonce = exchange.getNonceFactory().createValue();
 
-    MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(), exchange.getExchangeSpecification().getSecretKey(), tonce);
+    MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(), exchange
+        .getExchangeSpecification().getSecretKey(), tonce);
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo = mercadoBitcoinAuthenticated.getInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator, method, tonce);
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo = mercadoBitcoinAuthenticated.getInfo(exchange.getExchangeSpecification()
+        .getApiKey(), signatureCreator, method, tonce);
 
     if (accountInfo.getSuccess() == 0) {
       throw new ExchangeException("Error getting account info: " + accountInfo.getError());

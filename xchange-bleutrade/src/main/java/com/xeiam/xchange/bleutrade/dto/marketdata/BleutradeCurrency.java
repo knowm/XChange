@@ -34,8 +34,7 @@ public class BleutradeCurrency {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * @return
-   *         The Currency
+   * @return The Currency
    */
   @JsonProperty("Currency")
   public String getCurrency() {
@@ -44,8 +43,7 @@ public class BleutradeCurrency {
   }
 
   /**
-   * @param Currency
-   *          The Currency
+   * @param Currency The Currency
    */
   @JsonProperty("Currency")
   public void setCurrency(String Currency) {
@@ -54,8 +52,7 @@ public class BleutradeCurrency {
   }
 
   /**
-   * @return
-   *         The CurrencyLong
+   * @return The CurrencyLong
    */
   @JsonProperty("CurrencyLong")
   public String getCurrencyLong() {
@@ -64,8 +61,7 @@ public class BleutradeCurrency {
   }
 
   /**
-   * @param CurrencyLong
-   *          The CurrencyLong
+   * @param CurrencyLong The CurrencyLong
    */
   @JsonProperty("CurrencyLong")
   public void setCurrencyLong(String CurrencyLong) {
@@ -74,8 +70,7 @@ public class BleutradeCurrency {
   }
 
   /**
-   * @return
-   *         The MinConfirmation
+   * @return The MinConfirmation
    */
   @JsonProperty("MinConfirmation")
   public Integer getMinConfirmation() {
@@ -84,8 +79,7 @@ public class BleutradeCurrency {
   }
 
   /**
-   * @param MinConfirmation
-   *          The MinConfirmation
+   * @param MinConfirmation The MinConfirmation
    */
   @JsonProperty("MinConfirmation")
   public void setMinConfirmation(Integer MinConfirmation) {
@@ -94,8 +88,7 @@ public class BleutradeCurrency {
   }
 
   /**
-   * @return
-   *         The TxFee
+   * @return The TxFee
    */
   @JsonProperty("TxFee")
   public BigDecimal getTxFee() {
@@ -104,8 +97,7 @@ public class BleutradeCurrency {
   }
 
   /**
-   * @param TxFee
-   *          The TxFee
+   * @param TxFee The TxFee
    */
   @JsonProperty("TxFee")
   public void setTxFee(BigDecimal TxFee) {
@@ -114,8 +106,7 @@ public class BleutradeCurrency {
   }
 
   /**
-   * @return
-   *         The IsActive
+   * @return The IsActive
    */
   @JsonProperty("IsActive")
   public Boolean getIsActive() {
@@ -124,8 +115,7 @@ public class BleutradeCurrency {
   }
 
   /**
-   * @param IsActive
-   *          The IsActive
+   * @param IsActive The IsActive
    */
   @JsonProperty("IsActive")
   public void setIsActive(Boolean IsActive) {
@@ -134,8 +124,7 @@ public class BleutradeCurrency {
   }
 
   /**
-   * @return
-   *         The CoinType
+   * @return The CoinType
    */
   @JsonProperty("CoinType")
   public String getCoinType() {
@@ -144,8 +133,7 @@ public class BleutradeCurrency {
   }
 
   /**
-   * @param CoinType
-   *          The CoinType
+   * @param CoinType The CoinType
    */
   @JsonProperty("CoinType")
   public void setCoinType(String CoinType) {
@@ -168,8 +156,8 @@ public class BleutradeCurrency {
   @Override
   public String toString() {
 
-    return "BleutradeCurrency [Currency=" + Currency + ", CurrencyLong=" + CurrencyLong + ", MinConfirmation=" + MinConfirmation + ", TxFee=" + TxFee + ", IsActive=" + IsActive + ", CoinType="
-        + CoinType + ", additionalProperties=" + additionalProperties + "]";
+    return "BleutradeCurrency [Currency=" + Currency + ", CurrencyLong=" + CurrencyLong + ", MinConfirmation=" + MinConfirmation + ", TxFee=" + TxFee
+        + ", IsActive=" + IsActive + ", CoinType=" + CoinType + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

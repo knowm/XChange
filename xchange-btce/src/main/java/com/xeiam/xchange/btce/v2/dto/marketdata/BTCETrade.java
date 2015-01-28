@@ -31,8 +31,9 @@ public class BTCETrade {
    * @param currency
    * @param tradeType
    */
-  public BTCETrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid,
-      @JsonProperty("item") String tradeableIdentifier, @JsonProperty("price_currency") String currency, @JsonProperty("trade_type") String tradeType) {
+  public BTCETrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("tid") long tid, @JsonProperty("item") String tradeableIdentifier, @JsonProperty("price_currency") String currency,
+      @JsonProperty("trade_type") String tradeType) {
 
     this.amount = amount;
     this.date = date;
@@ -81,8 +82,8 @@ public class BTCETrade {
   @Override
   public String toString() {
 
-    return "BTCETrade [amount=" + amount + ", date=" + date + ", price=" + price + ", tid=" + tid + ", tradeableIdentifier=" + tradeableIdentifier + ", currency=" + currency + ", tradeType="
-        + tradeType + "]";
+    return "BTCETrade [amount=" + amount + ", date=" + date + ", price=" + price + ", tid=" + tid + ", tradeableIdentifier=" + tradeableIdentifier
+        + ", currency=" + currency + ", tradeType=" + tradeType + "]";
   }
 
 }

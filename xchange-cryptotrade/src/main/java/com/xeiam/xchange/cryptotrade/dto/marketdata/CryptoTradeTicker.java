@@ -17,8 +17,8 @@ public class CryptoTradeTicker extends CryptoTradeBaseResponse {
   private final BigDecimal minAsk;
   private final BigDecimal maxBid;
 
-  public CryptoTradeTicker(BigDecimal last, BigDecimal low, BigDecimal high, BigDecimal volumeTradeCurrency, BigDecimal volumePriceCurrency, BigDecimal minAsk, BigDecimal maxBid, String status,
-      String error) {
+  public CryptoTradeTicker(BigDecimal last, BigDecimal low, BigDecimal high, BigDecimal volumeTradeCurrency, BigDecimal volumePriceCurrency,
+      BigDecimal minAsk, BigDecimal maxBid, String status, String error) {
 
     super(status, error);
     this.last = last;
@@ -68,8 +68,8 @@ public class CryptoTradeTicker extends CryptoTradeBaseResponse {
   @Override
   public String toString() {
 
-    return "CryptoTradeTicker [last=" + last + ", low=" + low + ", high=" + high + ", volumeTradeCurrency=" + volumeTradeCurrency + ", volumePriceCurrency=" + volumePriceCurrency + ", minAsk="
-        + minAsk + ", maxBid=" + maxBid + "]";
+    return "CryptoTradeTicker [last=" + last + ", low=" + low + ", high=" + high + ", volumeTradeCurrency=" + volumeTradeCurrency
+        + ", volumePriceCurrency=" + volumePriceCurrency + ", minAsk=" + minAsk + ", maxBid=" + maxBid + "]";
   }
 
 }

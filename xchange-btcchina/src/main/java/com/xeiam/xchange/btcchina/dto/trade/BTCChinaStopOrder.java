@@ -24,8 +24,9 @@ public class BTCChinaStopOrder {
   private final String status;
   private final Integer orderId;
 
-  public BTCChinaStopOrder(@JsonProperty("id") int id, @JsonProperty("type") String type, @JsonProperty("stop_price") BigDecimal stopPrice, @JsonProperty("trailing_amount") BigDecimal trailingAmount,
-      @JsonProperty("trailing_percentage") BigDecimal trailingPercentage, @JsonProperty("price") BigDecimal price, @JsonProperty("market") String market, @JsonProperty("amount") BigDecimal amount,
+  public BTCChinaStopOrder(@JsonProperty("id") int id, @JsonProperty("type") String type, @JsonProperty("stop_price") BigDecimal stopPrice,
+      @JsonProperty("trailing_amount") BigDecimal trailingAmount, @JsonProperty("trailing_percentage") BigDecimal trailingPercentage,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("market") String market, @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("date") long date, @JsonProperty("status") String status, @JsonProperty("order_id") Integer orderId) {
 
     this.id = id;

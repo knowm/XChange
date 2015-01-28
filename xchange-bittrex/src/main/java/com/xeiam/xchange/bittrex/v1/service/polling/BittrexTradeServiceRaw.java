@@ -34,7 +34,8 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService {
 
     if (marketOrder.getType() == OrderType.BID) {
 
-      BittrexTradeResponse response = bittrex.buymarket(apiKey, signatureCreator, exchange.getNonceFactory(), pair, marketOrder.getTradableAmount().toPlainString());
+      BittrexTradeResponse response = bittrex.buymarket(apiKey, signatureCreator, exchange.getNonceFactory(), pair, marketOrder.getTradableAmount()
+          .toPlainString());
 
       if (response.getSuccess()) {
         return response.getResult().getUuid();
@@ -44,7 +45,8 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService {
 
     } else {
 
-      BittrexTradeResponse response = bittrex.sellmarket(apiKey, signatureCreator, exchange.getNonceFactory(), pair, marketOrder.getTradableAmount().toPlainString());
+      BittrexTradeResponse response = bittrex.sellmarket(apiKey, signatureCreator, exchange.getNonceFactory(), pair, marketOrder.getTradableAmount()
+          .toPlainString());
 
       if (response.getSuccess()) {
         return response.getResult().getUuid();
@@ -60,8 +62,8 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService {
     String pair = BittrexUtils.toPairString(limitOrder.getCurrencyPair());
 
     if (limitOrder.getType() == OrderType.BID) {
-      BittrexTradeResponse response = bittrex.buylimit(apiKey, signatureCreator, exchange.getNonceFactory(), pair, limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice()
-          .toPlainString());
+      BittrexTradeResponse response = bittrex.buylimit(apiKey, signatureCreator, exchange.getNonceFactory(), pair, limitOrder.getTradableAmount()
+          .toPlainString(), limitOrder.getLimitPrice().toPlainString());
 
       if (response.getSuccess()) {
         return response.getResult().getUuid();
@@ -70,8 +72,8 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService {
       }
 
     } else {
-      BittrexTradeResponse response = bittrex.selllimit(apiKey, signatureCreator, exchange.getNonceFactory(), pair, limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice()
-          .toPlainString());
+      BittrexTradeResponse response = bittrex.selllimit(apiKey, signatureCreator, exchange.getNonceFactory(), pair, limitOrder.getTradableAmount()
+          .toPlainString(), limitOrder.getLimitPrice().toPlainString());
 
       if (response.getSuccess()) {
         return response.getResult().getUuid();

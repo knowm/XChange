@@ -36,9 +36,10 @@ public final class ANXAccountInfo {
    * @param monthlyVolume
    * @param tradeFee
    */
-  public ANXAccountInfo(@JsonProperty("Login") String login, @JsonProperty("Index") String index, @JsonProperty("Id") String id, @JsonProperty("Rights") List<String> rights,
-      @JsonProperty("Language") String language, @JsonProperty("Created") String created, @JsonProperty("Last_Login") String lastLogin, @JsonProperty("Wallets") Wallets wallets,
-      @JsonProperty("Monthly_Volume") ANXValue monthlyVolume, @JsonProperty("Trade_Fee") BigDecimal tradeFee) {
+  public ANXAccountInfo(@JsonProperty("Login") String login, @JsonProperty("Index") String index, @JsonProperty("Id") String id,
+      @JsonProperty("Rights") List<String> rights, @JsonProperty("Language") String language, @JsonProperty("Created") String created,
+      @JsonProperty("Last_Login") String lastLogin, @JsonProperty("Wallets") Wallets wallets, @JsonProperty("Monthly_Volume") ANXValue monthlyVolume,
+      @JsonProperty("Trade_Fee") BigDecimal tradeFee) {
 
     this.login = login;
     this.index = index;
@@ -105,8 +106,8 @@ public final class ANXAccountInfo {
   @Override
   public String toString() {
 
-    return "ANXAccountInfo [login=" + login + ", index=" + index + ", id=" + id + ", rights=" + rights + ", language=" + language + ", created=" + created + ", lastLogin=" + lastLogin + ", wallets="
-        + wallets + ", monthlyVolume=" + monthlyVolume + ", tradeFee=" + tradeFee + "]";
+    return "ANXAccountInfo [login=" + login + ", index=" + index + ", id=" + id + ", rights=" + rights + ", language=" + language + ", created="
+        + created + ", lastLogin=" + lastLogin + ", wallets=" + wallets + ", monthlyVolume=" + monthlyVolume + ", tradeFee=" + tradeFee + "]";
   }
 
 }

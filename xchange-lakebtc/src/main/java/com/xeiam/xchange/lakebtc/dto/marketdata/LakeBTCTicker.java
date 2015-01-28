@@ -16,8 +16,8 @@ public final class LakeBTCTicker {
   private final BigDecimal low;
   private final BigDecimal volume;
 
-  public LakeBTCTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("high") BigDecimal high,
-      @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume) {
+  public LakeBTCTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume) {
 
     this.last = last;
     this.bid = bid;

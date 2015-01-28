@@ -77,10 +77,8 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   }
 
   /**
-   * @param arguments Vararg list of optional (nullable) arguments: (Long)
-   *          arguments[0] Number of transactions to return (String)
-   *          arguments[1] TradableIdentifier (String) arguments[2]
-   *          TransactionCurrency (Long) arguments[3] Starting ID
+   * @param arguments Vararg list of optional (nullable) arguments: (Long) arguments[0] Number of transactions to return (String) arguments[1]
+   *        TradableIdentifier (String) arguments[2] TransactionCurrency (Long) arguments[3] Starting ID
    * @return Trades object
    * @throws IOException
    */
@@ -103,15 +101,14 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     if (!tradableIdentifier.equals("") && !transactionCurrency.equals("")) {
       pair = String.format("%s_%s", tradableIdentifier, transactionCurrency).toLowerCase();
     }
-    Map<Long, BTCETradeHistoryResult> resultMap = getBTCETradeHistory(null, numberOfTransactions, id, id, BTCEAuthenticated.SortOrder.DESC, null, null, pair);
+    Map<Long, BTCETradeHistoryResult> resultMap = getBTCETradeHistory(null, numberOfTransactions, id, id, BTCEAuthenticated.SortOrder.DESC, null,
+        null, pair);
     return BTCEAdapters.adaptTradeHistory(resultMap);
   }
 
   /**
-   * Supported parameters: {@link TradeHistoryParamPaging}
-   * {@link TradeHistoryParamsIdSpan} {@link TradeHistoryParamsTimeSpan}
-   * {@link TradeHistoryParamCurrencyPair} You can also override sorting order
-   * (default is descending) by using {@link BTCETradeHistoryParams}
+   * Supported parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamsIdSpan} {@link TradeHistoryParamsTimeSpan}
+   * {@link TradeHistoryParamCurrencyPair} You can also override sorting order (default is descending) by using {@link BTCETradeHistoryParams}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
@@ -187,7 +184,8 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     return new BTCETradeHistoryParams();
   }
 
-  public static class BTCETradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrencyPair {
+  public static class BTCETradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan,
+      TradeHistoryParamCurrencyPair {
 
     private CurrencyPair pair;
     private BTCEAuthenticated.SortOrder sortOrder;

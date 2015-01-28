@@ -40,7 +40,8 @@ import com.xeiam.xchange.service.polling.trade.PollingTradeService;
  */
 public class CryptsyDemo {
 
-  public static void main(String[] args) throws IOException, ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, InterruptedException {
+  public static void main(String[] args) throws IOException, ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, InterruptedException {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(CryptsyExchange.class);
 
@@ -57,8 +58,8 @@ public class CryptsyDemo {
     publicAPI((CryptsyExchange) cryptsyExchange);
   }
 
-  private static void generic(PollingAccountService accountService, PollingMarketDataService marketDataService, PollingTradeService tradeService) throws ExchangeException,
-      NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException, InterruptedException {
+  private static void generic(PollingAccountService accountService, PollingMarketDataService marketDataService, PollingTradeService tradeService)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException, InterruptedException {
 
     System.out.println("\nOpenOrders:\n" + tradeService.getOpenOrders());
     Thread.sleep(500);
@@ -78,7 +79,8 @@ public class CryptsyDemo {
     System.out.println("\ngetTrades:\n" + marketDataService.getTrades(new CurrencyPair("NET", "BTC")));
     Thread.sleep(500);
 
-    String orderID = tradeService.placeLimitOrder(new LimitOrder(OrderType.BID, new BigDecimal("50.000000"), new CurrencyPair("NET", "BTC"), null, null, new BigDecimal("0.00000001")));
+    String orderID = tradeService.placeLimitOrder(new LimitOrder(OrderType.BID, new BigDecimal("50.000000"), new CurrencyPair("NET", "BTC"), null,
+        null, new BigDecimal("0.00000001")));
     System.out.println("\nPlaceOrder:\n" + orderID);
     Thread.sleep(500);
 
@@ -96,19 +98,15 @@ public class CryptsyDemo {
 
   }
 
-  private static void raw(CryptsyAccountServiceRaw accountService, CryptsyMarketDataServiceRaw marketDataService, CryptsyTradeServiceRaw tradeService) throws IOException, InterruptedException {
+  private static void raw(CryptsyAccountServiceRaw accountService, CryptsyMarketDataServiceRaw marketDataService, CryptsyTradeServiceRaw tradeService)
+      throws IOException, InterruptedException {
 
     /*
-     * All the raw methods are listed here: * *Account getCryptsyAccountInfo()
-     * getCryptsyTransactions() generateNewCryptsyDepositAddress(Integer,
-     * String) getCurrentCryptsyDepositAddresses() makeCryptsyWithdrawal(String,
-     * BigDecimal) checkTransfers() getWalletStatus() * *MarketData
-     * getCryptsyOrderBook(int) getCryptsyTrades(int) getCryptsyMarkets() *
-     * *Trade getCryptsySingleMarketTradeHistory(int, int...)
-     * getCryptsyTradeHistory(Date, Date) getCryptsySingleMarketOpenOrders(int)
-     * getCryptsyOpenOrders() placeCryptsyLimitOrder(int, CryptsyOrderType,
-     * BigDecimal, BigDecimal) cancelSingleCryptsyLimitOrder(int)
-     * cancelMarketCryptsyLimitOrders(int) cancelAllCryptsyLimitOrders()
+     * All the raw methods are listed here: * *Account getCryptsyAccountInfo() getCryptsyTransactions() generateNewCryptsyDepositAddress(Integer,
+     * String) getCurrentCryptsyDepositAddresses() makeCryptsyWithdrawal(String, BigDecimal) checkTransfers() getWalletStatus() * *MarketData
+     * getCryptsyOrderBook(int) getCryptsyTrades(int) getCryptsyMarkets() * *Trade getCryptsySingleMarketTradeHistory(int, int...)
+     * getCryptsyTradeHistory(Date, Date) getCryptsySingleMarketOpenOrders(int) getCryptsyOpenOrders() placeCryptsyLimitOrder(int, CryptsyOrderType,
+     * BigDecimal, BigDecimal) cancelSingleCryptsyLimitOrder(int) cancelMarketCryptsyLimitOrders(int) cancelAllCryptsyLimitOrders()
      * calculateCryptsyFees(CryptsyOrderType, BigDecimal, BigDecimal)
      */
 
@@ -139,17 +137,21 @@ public class CryptsyDemo {
     System.out.println("\ngetMarkets:\n" + marketDataService.getCryptsyMarkets());
     Thread.sleep(500);
 
-    int orderID = tradeService.placeCryptsyLimitOrder(134, CryptsyOrderType.Buy, new BigDecimal("50.000000"), new BigDecimal("0.00000001")).getReturnValue();
+    int orderID = tradeService.placeCryptsyLimitOrder(134, CryptsyOrderType.Buy, new BigDecimal("50.000000"), new BigDecimal("0.00000001"))
+        .getReturnValue();
     System.out.println("\nPlaceOrder:\n" + orderID);
     Thread.sleep(500);
 
-    System.out.println("\nPlaceOrder:\n" + tradeService.placeCryptsyLimitOrder(134, CryptsyOrderType.Buy, new BigDecimal("50.100000"), new BigDecimal("0.00000001")).getReturnValue());
+    System.out.println("\nPlaceOrder:\n"
+        + tradeService.placeCryptsyLimitOrder(134, CryptsyOrderType.Buy, new BigDecimal("50.100000"), new BigDecimal("0.00000001")).getReturnValue());
     Thread.sleep(500);
 
-    System.out.println("\nPlaceOrder:\n" + tradeService.placeCryptsyLimitOrder(134, CryptsyOrderType.Buy, new BigDecimal("50.010000"), new BigDecimal("0.00000001")).getReturnValue());
+    System.out.println("\nPlaceOrder:\n"
+        + tradeService.placeCryptsyLimitOrder(134, CryptsyOrderType.Buy, new BigDecimal("50.010000"), new BigDecimal("0.00000001")).getReturnValue());
     Thread.sleep(500);
 
-    System.out.println("\nPlaceOrder:\n" + tradeService.placeCryptsyLimitOrder(134, CryptsyOrderType.Buy, new BigDecimal("50.001000"), new BigDecimal("0.00000001")).getReturnValue());
+    System.out.println("\nPlaceOrder:\n"
+        + tradeService.placeCryptsyLimitOrder(134, CryptsyOrderType.Buy, new BigDecimal("50.001000"), new BigDecimal("0.00000001")).getReturnValue());
     Thread.sleep(500);
 
     System.out.println("\nOpenOrders:\n" + tradeService.getCryptsyOpenOrders());
@@ -182,7 +184,8 @@ public class CryptsyDemo {
     System.out.println("\nTradeHistory:\n" + tradeService.getCryptsyTradeHistory(new Date(0), new Date()));
     Thread.sleep(500);
 
-    System.out.println("\nCalculateFees:\n" + tradeService.calculateCryptsyFees(CryptsyOrderType.Buy, new BigDecimal("500"), new BigDecimal("0.15182")));
+    System.out.println("\nCalculateFees:\n"
+        + tradeService.calculateCryptsyFees(CryptsyOrderType.Buy, new BigDecimal("500"), new BigDecimal("0.15182")));
     Thread.sleep(500);
 
     System.out.println("\nOpenOrders:\n" + tradeService.getCryptsyOpenOrders());

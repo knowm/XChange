@@ -27,14 +27,13 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
- * This class shows the ExcutorService way of processing returns from the server. While it does look neat, it suffers from the
- * problem that the requests and responses come on different streams, and responses have to be matched with requests before
- * the data can be used. See the cancel all orders section of this demo. To cancel all orders, a request has to first be made to
- * get all open orders, the response of which will be caught by the eventCatcherThread (MarketDataRunnable). Then, it will process
- * that event, print it out, and then store the event in a secondary queue for retrival by the cancel-all-orders part of this program.
- * This is vastly different from the polling services, where data retrieved is returned directly from the method. This
- * CoinfloorStreamingExchangeService allows for the same retrival methods as the polling services. Please see CoinfloorDemo2
- * for example code implementing that route of data retrival. (Note: It is possible to mix both.)
+ * This class shows the ExcutorService way of processing returns from the server. While it does look neat, it suffers from the problem that the
+ * requests and responses come on different streams, and responses have to be matched with requests before the data can be used. See the cancel all
+ * orders section of this demo. To cancel all orders, a request has to first be made to get all open orders, the response of which will be caught by
+ * the eventCatcherThread (MarketDataRunnable). Then, it will process that event, print it out, and then store the event in a secondary queue for
+ * retrival by the cancel-all-orders part of this program. This is vastly different from the polling services, where data retrieved is returned
+ * directly from the method. This CoinfloorStreamingExchangeService allows for the same retrival methods as the polling services. Please see
+ * CoinfloorDemo2 for example code implementing that route of data retrival. (Note: It is possible to mix both.)
  * 
  * @author obsessiveOrange
  */
@@ -95,7 +94,8 @@ public class CoinfloorDemo {
     ((CoinfloorStreamingExchangeService) streamingExchangeService).placeOrder(buyLimitOrder);
     TimeUnit.MILLISECONDS.sleep(1000);
 
-    LimitOrder sellLimitOrder = new LimitOrder(OrderType.ASK, new BigDecimal(1.52321512784), new CurrencyPair("BTC", "GBP"), null, null, new BigDecimal(319));
+    LimitOrder sellLimitOrder = new LimitOrder(OrderType.ASK, new BigDecimal(1.52321512784), new CurrencyPair("BTC", "GBP"), null, null,
+        new BigDecimal(319));
     ((CoinfloorStreamingExchangeService) streamingExchangeService).placeOrder(sellLimitOrder);
     TimeUnit.MILLISECONDS.sleep(1000);
 
@@ -110,7 +110,8 @@ public class CoinfloorDemo {
     TimeUnit.MILLISECONDS.sleep(1000);
 
     // get user's current open orders, cancel all of them.
-    CoinfloorOpenOrders openOrders = (CoinfloorOpenOrders) ((CoinfloorStreamingExchangeService) streamingExchangeService).getOrders().getPayloadItem("raw");
+    CoinfloorOpenOrders openOrders = (CoinfloorOpenOrders) ((CoinfloorStreamingExchangeService) streamingExchangeService).getOrders().getPayloadItem(
+        "raw");
     for (CoinfloorOrder order : openOrders.getOrders()) {
       ((CoinfloorStreamingExchangeService) streamingExchangeService).cancelOrder(order.getId());
       TimeUnit.MILLISECONDS.sleep(1000);

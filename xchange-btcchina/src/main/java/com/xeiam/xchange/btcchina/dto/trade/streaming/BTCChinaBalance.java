@@ -50,7 +50,8 @@ public class BTCChinaBalance {
   @Override
   public String toString() {
 
-    return "BTCChinaBalance [amountInteger=" + amountInteger + ", amount=" + amount + ", symbol=" + symbol + ", amountDecimal=" + amountDecimal + ", currency=" + currency + "]";
+    return "BTCChinaBalance [amountInteger=" + amountInteger + ", amount=" + amount + ", symbol=" + symbol + ", amountDecimal=" + amountDecimal
+        + ", currency=" + currency + "]";
   }
 
 }

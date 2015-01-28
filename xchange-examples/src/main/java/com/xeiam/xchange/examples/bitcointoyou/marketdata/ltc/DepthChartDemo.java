@@ -1,5 +1,11 @@
 package com.xeiam.xchange.examples.bitcointoyou.marketdata.ltc;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcointoyou.BitcoinToYouExchange;
@@ -13,12 +19,6 @@ import com.xeiam.xchart.Series;
 import com.xeiam.xchart.SeriesMarker;
 import com.xeiam.xchart.StyleManager.ChartType;
 import com.xeiam.xchart.SwingWrapper;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Demonstrate requesting OrderBook from BitcoinToYou and plotting it using XChart.

@@ -18,8 +18,8 @@ public class CryptoTradeDepth extends CryptoTradeBaseResponse {
    * @param status
    * @param error
    */
-  public CryptoTradeDepth(@JsonProperty("asks") List<CryptoTradePublicOrder> asks, @JsonProperty("bids") List<CryptoTradePublicOrder> bids, @JsonProperty("status") String status,
-      @JsonProperty("error") String error) {
+  public CryptoTradeDepth(@JsonProperty("asks") List<CryptoTradePublicOrder> asks, @JsonProperty("bids") List<CryptoTradePublicOrder> bids,
+      @JsonProperty("status") String status, @JsonProperty("error") String error) {
 
     super(status, error);
     this.asks = asks;

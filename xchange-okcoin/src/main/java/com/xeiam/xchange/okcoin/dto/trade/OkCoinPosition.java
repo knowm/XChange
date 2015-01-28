@@ -7,83 +7,83 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OkCoinPosition {
 
-	private final long orderId;
+  private final long orderId;
 
-	private final int status;
+  private final int status;
 
-	private final String symbol;
+  private final String symbol;
 
-	private final String type;
+  private final String type;
 
-	private final BigDecimal rate;
+  private final BigDecimal rate;
 
-	private final BigDecimal amount;
+  private final BigDecimal amount;
 
-	private final BigDecimal dealAmount;
+  private final BigDecimal dealAmount;
 
-	private final BigDecimal avgRate;
+  private final BigDecimal avgRate;
 
-	private final Date createDate;
+  private final Date createDate;
 
-	public OkCoinPosition(@JsonProperty("orders_id") final long orderId, @JsonProperty("status") final int status, @JsonProperty("symbol") final String symbol,
-			@JsonProperty("type") final String type, @JsonProperty("rate") final BigDecimal rate, @JsonProperty("amount") final BigDecimal amount,
-			@JsonProperty("deal_amount") final BigDecimal dealAmount, @JsonProperty("avg_rate") final BigDecimal avgRate,
-			@JsonProperty("createDate") final Date createDate) {
+  public OkCoinPosition(@JsonProperty("orders_id") final long orderId, @JsonProperty("status") final int status,
+      @JsonProperty("symbol") final String symbol, @JsonProperty("type") final String type, @JsonProperty("rate") final BigDecimal rate,
+      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("deal_amount") final BigDecimal dealAmount,
+      @JsonProperty("avg_rate") final BigDecimal avgRate, @JsonProperty("createDate") final Date createDate) {
 
-		this.orderId = orderId;
-		this.status = status;
-		this.symbol = symbol;
-		this.type = type;
-		this.rate = rate;
-		this.amount = amount;
-		this.dealAmount = dealAmount;
-		this.avgRate = avgRate;
-		this.createDate = createDate;
-	}
+    this.orderId = orderId;
+    this.status = status;
+    this.symbol = symbol;
+    this.type = type;
+    this.rate = rate;
+    this.amount = amount;
+    this.dealAmount = dealAmount;
+    this.avgRate = avgRate;
+    this.createDate = createDate;
+  }
 
-	public long getOrderId() {
+  public long getOrderId() {
 
-		return orderId;
-	}
+    return orderId;
+  }
 
-	public int getStatus() {
+  public int getStatus() {
 
-		return status;
-	}
+    return status;
+  }
 
-	public String getSymbol() {
+  public String getSymbol() {
 
-		return symbol;
-	}
+    return symbol;
+  }
 
-	public String getType() {
+  public String getType() {
 
-		return type;
-	}
+    return type;
+  }
 
-	public BigDecimal getRate() {
+  public BigDecimal getRate() {
 
-		return rate;
-	}
+    return rate;
+  }
 
-	public BigDecimal getAmount() {
+  public BigDecimal getAmount() {
 
-		return amount;
-	}
+    return amount;
+  }
 
-	public BigDecimal getDealAmount() {
+  public BigDecimal getDealAmount() {
 
-		return dealAmount;
-	}
+    return dealAmount;
+  }
 
-	public BigDecimal getAvgRate() {
+  public BigDecimal getAvgRate() {
 
-		return avgRate;
-	}
+    return avgRate;
+  }
 
-	public Date getCreateDate() {
+  public Date getCreateDate() {
 
-		return createDate;
-	}
+    return createDate;
+  }
 
 }

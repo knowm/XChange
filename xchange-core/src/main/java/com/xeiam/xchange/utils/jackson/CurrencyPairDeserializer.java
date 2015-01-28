@@ -42,8 +42,7 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
       return new CurrencyPair(symbols[0], symbols[1]);
 
     /*
-     * Last-ditch effort to obtain the correct CurrencyPair (eg: "BTCUSD")
-     * XXX: What about a "DOGEBTC" or "BCBTC" string??
+     * Last-ditch effort to obtain the correct CurrencyPair (eg: "BTCUSD") XXX: What about a "DOGEBTC" or "BCBTC" string??
      */
     final String tradeCurrency = currencyPairString.substring(0, 3);
     final String priceCurrency = currencyPairString.substring(currencyPairString.length() - 3);

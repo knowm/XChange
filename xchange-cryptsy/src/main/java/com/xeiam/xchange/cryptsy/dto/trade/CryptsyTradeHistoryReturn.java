@@ -18,7 +18,8 @@ public class CryptsyTradeHistoryReturn extends CryptsyGenericReturn<List<Cryptsy
    * @param value
    * @param error
    */
-  public CryptsyTradeHistoryReturn(@JsonProperty("success") int success, @JsonProperty("return") List<CryptsyTradeHistory> value, @JsonProperty("error") String error) {
+  public CryptsyTradeHistoryReturn(@JsonProperty("success") int success, @JsonProperty("return") List<CryptsyTradeHistory> value,
+      @JsonProperty("error") String error) {
 
     super(success, (value == null ? new ArrayList<CryptsyTradeHistory>() : value), error);
   }

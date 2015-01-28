@@ -121,8 +121,7 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService {
   }
 
   /**
-   * @deprecated Use {@link #getBTCChinaHistoryData(String, long, int, String)}
-   *             instead.
+   * @deprecated Use {@link #getBTCChinaHistoryData(String, long, int, String)} instead.
    */
   @Deprecated
   public List<BTCChinaTrade> getBTCChinaTrades(String market, long since, int limit, String sinceType) throws IOException {

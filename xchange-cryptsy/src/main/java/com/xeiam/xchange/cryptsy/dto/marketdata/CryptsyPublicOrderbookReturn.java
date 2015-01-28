@@ -14,7 +14,8 @@ public class CryptsyPublicOrderbookReturn extends CryptsyGenericReturn<Map<Strin
    * @param value
    * @param error
    */
-  public CryptsyPublicOrderbookReturn(@JsonProperty("success") int success, @JsonProperty("return") Map<String, CryptsyPublicOrderbook> value, @JsonProperty("error") String error) {
+  public CryptsyPublicOrderbookReturn(@JsonProperty("success") int success, @JsonProperty("return") Map<String, CryptsyPublicOrderbook> value,
+      @JsonProperty("error") String error) {
 
     super(success, value, error);
   }

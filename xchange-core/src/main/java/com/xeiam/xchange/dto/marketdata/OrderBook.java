@@ -22,10 +22,8 @@ public final class OrderBook {
    * Constructor
    *
    * @param timeStamp The timeStamp of the OrderBook or of the latest Update
-   * @param asks
-   *          The ASK orders
-   * @param bids
-   *          The BID orders
+   * @param asks The ASK orders
+   * @param bids The BID orders
    */
   public OrderBook(Date timeStamp, List<LimitOrder> asks, List<LimitOrder> bids) {
 
@@ -55,8 +53,7 @@ public final class OrderBook {
   }
 
   /**
-   * Given a new LimitOrder, it will replace and old matching limit order in
-   * the orderbook or simply get added. The timeStamp may be updated as well.
+   * Given a new LimitOrder, it will replace and old matching limit order in the orderbook or simply get added. The timeStamp may be updated as well.
    *
    * @param limitOrder the new LimitOrder
    */
@@ -72,15 +69,14 @@ public final class OrderBook {
     if (idx >= 0) {
       asks.remove(idx);
       asks.add(idx, limitOrder);
-    }
-    else {
+    } else {
       asks.add(-idx - 1, limitOrder);
     }
   }
 
   /**
-   * Given an OrderBookUpdate, it will replace and old matching limit order in
-   * the orderbook or simply get added. The timeStamp may be updated as well.
+   * Given an OrderBookUpdate, it will replace and old matching limit order in the orderbook or simply get added. The timeStamp may be updated as
+   * well.
    *
    * @param orderBookUpdate the new OrderBookUpdate
    */
@@ -91,8 +87,7 @@ public final class OrderBook {
     int idx = Collections.binarySearch(limitOrders, limitOrder);
     if (idx >= 0) {
       limitOrders.remove(idx);
-    }
-    else {
+    } else {
       idx = -idx - 1;
     }
 

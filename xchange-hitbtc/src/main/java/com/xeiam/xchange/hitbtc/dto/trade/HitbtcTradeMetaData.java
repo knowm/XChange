@@ -19,7 +19,8 @@ public class HitbtcTradeMetaData extends TradeMetaInfo {
    * @param provideLiquidityRate
    */
   //TODO look at this
-  public HitbtcTradeMetaData(BigDecimal tradingFee, BigDecimal amountMinimum, int priceScale, BigDecimal takeLiquidityRate, BigDecimal provideLiquidityRate) {
+  public HitbtcTradeMetaData(BigDecimal tradingFee, BigDecimal amountMinimum, int priceScale, BigDecimal takeLiquidityRate,
+      BigDecimal provideLiquidityRate) {
 
     super(tradingFee, amountMinimum, priceScale, null);
     this.takeLiquidityRate = takeLiquidityRate;

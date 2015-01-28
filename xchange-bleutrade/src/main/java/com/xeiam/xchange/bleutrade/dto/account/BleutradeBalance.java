@@ -34,8 +34,7 @@ public class BleutradeBalance {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * @return
-   *         The Currency
+   * @return The Currency
    */
   @JsonProperty("Currency")
   public String getCurrency() {
@@ -44,8 +43,7 @@ public class BleutradeBalance {
   }
 
   /**
-   * @param Currency
-   *          The Currency
+   * @param Currency The Currency
    */
   @JsonProperty("Currency")
   public void setCurrency(String Currency) {
@@ -54,8 +52,7 @@ public class BleutradeBalance {
   }
 
   /**
-   * @return
-   *         The Balance
+   * @return The Balance
    */
   @JsonProperty("Balance")
   public BigDecimal getBalance() {
@@ -64,8 +61,7 @@ public class BleutradeBalance {
   }
 
   /**
-   * @param Balance
-   *          The Balance
+   * @param Balance The Balance
    */
   @JsonProperty("Balance")
   public void setBalance(BigDecimal Balance) {
@@ -74,8 +70,7 @@ public class BleutradeBalance {
   }
 
   /**
-   * @return
-   *         The Available
+   * @return The Available
    */
   @JsonProperty("Available")
   public BigDecimal getAvailable() {
@@ -84,8 +79,7 @@ public class BleutradeBalance {
   }
 
   /**
-   * @param Available
-   *          The Available
+   * @param Available The Available
    */
   @JsonProperty("Available")
   public void setAvailable(BigDecimal Available) {
@@ -94,8 +88,7 @@ public class BleutradeBalance {
   }
 
   /**
-   * @return
-   *         The Pending
+   * @return The Pending
    */
   @JsonProperty("Pending")
   public BigDecimal getPending() {
@@ -104,8 +97,7 @@ public class BleutradeBalance {
   }
 
   /**
-   * @param Pending
-   *          The Pending
+   * @param Pending The Pending
    */
   @JsonProperty("Pending")
   public void setPending(BigDecimal Pending) {
@@ -114,8 +106,7 @@ public class BleutradeBalance {
   }
 
   /**
-   * @return
-   *         The CryptoAddress
+   * @return The CryptoAddress
    */
   @JsonProperty("CryptoAddress")
   public String getCryptoAddress() {
@@ -124,8 +115,7 @@ public class BleutradeBalance {
   }
 
   /**
-   * @param CryptoAddress
-   *          The CryptoAddress
+   * @param CryptoAddress The CryptoAddress
    */
   @JsonProperty("CryptoAddress")
   public void setCryptoAddress(String CryptoAddress) {
@@ -134,8 +124,7 @@ public class BleutradeBalance {
   }
 
   /**
-   * @return
-   *         The IsActive
+   * @return The IsActive
    */
   @JsonProperty("IsActive")
   public Boolean getIsActive() {
@@ -144,8 +133,7 @@ public class BleutradeBalance {
   }
 
   /**
-   * @param IsActive
-   *          The IsActive
+   * @param IsActive The IsActive
    */
   @JsonProperty("IsActive")
   public void setIsActive(Boolean IsActive) {
@@ -168,8 +156,8 @@ public class BleutradeBalance {
   @Override
   public String toString() {
 
-    return "BleutradeBalance [Currency=" + Currency + ", Balance=" + Balance + ", Available=" + Available + ", Pending=" + Pending + ", CryptoAddress=" + CryptoAddress + ", IsActive=" + IsActive
-        + ", additionalProperties=" + additionalProperties + "]";
+    return "BleutradeBalance [Currency=" + Currency + ", Balance=" + Balance + ", Available=" + Available + ", Pending=" + Pending
+        + ", CryptoAddress=" + CryptoAddress + ", IsActive=" + IsActive + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

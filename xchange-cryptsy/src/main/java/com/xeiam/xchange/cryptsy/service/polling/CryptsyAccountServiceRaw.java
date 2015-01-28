@@ -36,9 +36,8 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    * Retrieves account information, including wallet balances
    *
    * @return CryptsyAccountInfo DTO representing account information
-   * @throws ExchangeException Indication that the exchange reported some kind
-   *           of error with the request or response. Implementers should log
-   *           this error.
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this
+   *         error.
    * @throws IOException
    */
   public CryptsyAccountInfoReturn getCryptsyAccountInfo() throws IOException, ExchangeException {
@@ -50,9 +49,8 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    * Retrieves transaction history
    *
    * @return CryptsyTxnHistoryReturn DTO representing past transactions made
-   * @throws ExchangeException Indication that the exchange reported some kind
-   *           of error with the request or response. Implementers should log
-   *           this error.
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this
+   *         error.
    * @throws IOException
    */
   public CryptsyTxnHistoryReturn getCryptsyTransactions() throws IOException, ExchangeException {
@@ -61,22 +59,18 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
   }
 
   /**
-   * Generates a new deposit address for the specified currency. Only one of the
-   * two (currencyID or currencyCode) is needed
+   * Generates a new deposit address for the specified currency. Only one of the two (currencyID or currencyCode) is needed
    *
-   * @param currencyID Nullable - Integer representation of the currencyID (not
-   *          normally used)
-   * @param currencyCode Nullable - String representation of the currencyCode
-   *          (Eg: "BTC")
-   * @return CryptsyNewAddressReturn representing new deposit address for
-   *         specified currency
+   * @param currencyID Nullable - Integer representation of the currencyID (not normally used)
+   * @param currencyCode Nullable - String representation of the currencyCode (Eg: "BTC")
+   * @return CryptsyNewAddressReturn representing new deposit address for specified currency
    * @throws ExchangeException if both currencyID and currencyCode are null
-   * @throws ExchangeException Indication that the exchange reported some kind
-   *           of error with the request or response. Implementers should log
-   *           this error.
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this
+   *         error.
    * @throws IOException
    */
-  public CryptsyNewAddressReturn generateNewCryptsyDepositAddress(@Nullable Integer currencyID, @Nullable String currencyCode) throws IOException, ExchangeException {
+  public CryptsyNewAddressReturn generateNewCryptsyDepositAddress(@Nullable Integer currencyID, @Nullable String currencyCode) throws IOException,
+      ExchangeException {
 
     if (currencyID == null && currencyCode == null) {
       throw new ExchangeException("Either currencyID or currencyCode must be supplied. Both cannot be null");
@@ -96,8 +90,7 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
   }
 
   /**
-   * Makes a withdrawal of given amount from Cryptsy to the pre-approved address
-   * given. Currency is determined by address of withdrawal
+   * Makes a withdrawal of given amount from Cryptsy to the pre-approved address given. Currency is determined by address of withdrawal
    *
    * @param address Address to withdraw to
    * @param amount Amount to withdraw to address

@@ -34,9 +34,10 @@ public class CryptsyTransfers {
    * @param funds The funds
    * @throws ParseException
    */
-  public CryptsyTransfers(@JsonProperty("currency") String currency, @JsonProperty("request_timeStamp") String req_timeStamp, @JsonProperty("processed") int processed,
-      @JsonProperty("processed_timeStamp") String proc_timeStamp, @JsonProperty("from") String from, @JsonProperty("to") String to, @JsonProperty("quantity") BigDecimal quantity,
-      @JsonProperty("direction") CryptsyTrfDirection direction) throws ParseException {
+  public CryptsyTransfers(@JsonProperty("currency") String currency, @JsonProperty("request_timeStamp") String req_timeStamp,
+      @JsonProperty("processed") int processed, @JsonProperty("processed_timeStamp") String proc_timeStamp, @JsonProperty("from") String from,
+      @JsonProperty("to") String to, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("direction") CryptsyTrfDirection direction)
+      throws ParseException {
 
     this.currency = currency;
     this.req_timeStamp = req_timeStamp == null ? null : CryptsyUtils.convertDateTime(req_timeStamp);
@@ -91,8 +92,9 @@ public class CryptsyTransfers {
   @Override
   public String toString() {
 
-    return "CryptsyTransactionHistory[" + "Currency='" + currency + "', Request Timestamp='" + req_timeStamp + "',Processed='" + processed + "',Processed Timestamp='" + proc_timeStamp
-        + "',Originator='" + from + "',Recipient='" + to + "',Quantity='" + quantity + "',Transfer Direction='" + direction + "']";
+    return "CryptsyTransactionHistory[" + "Currency='" + currency + "', Request Timestamp='" + req_timeStamp + "',Processed='" + processed
+        + "',Processed Timestamp='" + proc_timeStamp + "',Originator='" + from + "',Recipient='" + to + "',Quantity='" + quantity
+        + "',Transfer Direction='" + direction + "']";
   }
 
   public static enum CryptsyTrfDirection {

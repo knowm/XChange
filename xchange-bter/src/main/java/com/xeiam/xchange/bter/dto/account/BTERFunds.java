@@ -18,8 +18,9 @@ public class BTERFunds extends BTERBaseResponse {
    * @param theAvailableFunds
    * @param theLockedFunds
    */
-  public BTERFunds(@JsonProperty("available_funds") Map<String, BigDecimal> theAvailableFunds, @JsonProperty("locked_funds") Map<String, BigDecimal> theLockedFunds,
-      @JsonProperty("result") boolean result, @JsonProperty("message") final String message) {
+  public BTERFunds(@JsonProperty("available_funds") Map<String, BigDecimal> theAvailableFunds,
+      @JsonProperty("locked_funds") Map<String, BigDecimal> theLockedFunds, @JsonProperty("result") boolean result,
+      @JsonProperty("message") final String message) {
 
     super(result, message);
     availableFunds = theAvailableFunds;

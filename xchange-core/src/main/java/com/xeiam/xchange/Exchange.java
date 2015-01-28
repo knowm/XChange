@@ -28,18 +28,15 @@ public interface Exchange {
   ExchangeSpecification getExchangeSpecification();
 
   /**
-   * The MetaData defining some semi-static properties of an exchange such as
-   * currency pairs, trading fees, etc.
+   * The MetaData defining some semi-static properties of an exchange such as currency pairs, trading fees, etc.
    *
    * @return
    */
   MetaData getMetaData();
 
   /**
-   * The nonce factory used to create a nonce value. Allows services to accept a
-   * placeholder that is replaced with generated value just before message is
-   * serialized and sent. If a method of a rest accepts ValueFactory as a
-   * parameter, it's evaluated, the message is serialized and sent in a single
+   * The nonce factory used to create a nonce value. Allows services to accept a placeholder that is replaced with generated value just before message
+   * is serialized and sent. If a method of a rest accepts ValueFactory as a parameter, it's evaluated, the message is serialized and sent in a single
    * synchronized block.
    *
    * @return
@@ -47,8 +44,7 @@ public interface Exchange {
   SynchronizedValueFactory<Long> getNonceFactory();
 
   /**
-   * @return A default ExchangeSpecification to use during the creation process
-   *         if one is not supplied
+   * @return A default ExchangeSpecification to use during the creation process if one is not supplied
    */
   ExchangeSpecification getDefaultExchangeSpecification();
 
@@ -61,8 +57,7 @@ public interface Exchange {
 
   /**
    * <p>
-   * A market data service typically consists of a regularly updated list of the
-   * available prices for the various symbols
+   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
    * </p>
    * <p>
    * This is the non-streaming (blocking) version of the service
@@ -74,17 +69,14 @@ public interface Exchange {
 
   /**
    * <p>
-   * A market data service typically consists of a regularly updated list of the
-   * available prices for the various symbols
+   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
    * </p>
    * <p>
-   * This is the streaming (non-blocking and event driven) version of the
-   * service, and requires an application to provide a suitable implementation
-   * of the listener to allow event callbacks to take place.
+   * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of
+   * the listener to allow event callbacks to take place.
    * </p>
    *
-   * @param configuration The exchange-specific configuration to be applied
-   *          after creation
+   * @param configuration The exchange-specific configuration to be applied after creation
    * @return The exchange's "push" market data service
    */
   StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration);
@@ -94,8 +86,7 @@ public interface Exchange {
    * An trade service typically provides access to trading functionality
    * </p>
    * <p>
-   * Typically access is restricted by a secret API key and/or username password
-   * authentication which are usually provided in the
+   * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the
    * {@link ExchangeSpecification}
    * </p>
    *
@@ -105,12 +96,10 @@ public interface Exchange {
 
   /**
    * <p>
-   * An account service typically provides access to the user's private exchange
-   * data
+   * An account service typically provides access to the user's private exchange data
    * </p>
    * <p>
-   * Typically access is restricted by a secret API key and/or username password
-   * authentication which are usually provided in the
+   * Typically access is restricted by a secret API key and/or username password authentication which are usually provided in the
    * {@link ExchangeSpecification}
    * </p>
    *

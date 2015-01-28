@@ -11,8 +11,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
- * Author: brox
- * Since: 2/6/14
+ * Author: brox Since: 2/6/14
  */
 
 public class TradesDemo {

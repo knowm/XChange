@@ -69,9 +69,7 @@ public final class BTCChinaAdapters {
   /**
    * Adapts a List of btcchinaOrders to a List of LimitOrders
    *
-   * @deprecated Use
-   *             {@link #adaptOrders(BigDecimal[][], CurrencyPair, OrderType)}
-   *             instead.
+   * @deprecated Use {@link #adaptOrders(BigDecimal[][], CurrencyPair, OrderType)} instead.
    */
   @Deprecated
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
@@ -167,7 +165,8 @@ public final class BTCChinaAdapters {
   public static AccountInfo adaptAccountInfo(BTCChinaResponse<BTCChinaAccountInfo> response) {
 
     BTCChinaAccountInfo result = response.getResult();
-    return new AccountInfo(result.getProfile().getUsername(), result.getProfile().getTradeFee(), BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens(), result.getLoans()));
+    return new AccountInfo(result.getProfile().getUsername(), result.getProfile().getTradeFee(), BTCChinaAdapters.adaptWallets(result.getBalances(),
+        result.getFrozens(), result.getLoans()));
   }
 
   public static List<Wallet> adaptWallets(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens, Map<String, BTCChinaValue> loans) {
@@ -264,8 +263,7 @@ public final class BTCChinaAdapters {
   }
 
   /**
-   * @deprecated Use {@link #adaptOrders(BTCChinaOrder[], CurrencyPair)}
-   *             instead.
+   * @deprecated Use {@link #adaptOrders(BTCChinaOrder[], CurrencyPair)} instead.
    */
   @Deprecated
   public static List<LimitOrder> adaptOrders(List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
@@ -293,8 +291,7 @@ public final class BTCChinaAdapters {
   /**
    * Adapts BTCChinaOrder to LimitOrder.
    *
-   * @deprecated Use {@link #adaptLimitOrder(BTCChinaOrder, CurrencyPair)}
-   *             instead.
+   * @deprecated Use {@link #adaptLimitOrder(BTCChinaOrder, CurrencyPair)} instead.
    */
   @Deprecated
   public static LimitOrder adaptLimitOrder(BTCChinaOrder order) {

@@ -1,5 +1,7 @@
 package com.xeiam.xchange.examples.bitcointoyou.marketdata.btc;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcointoyou.BitcoinToYouExchange;
@@ -8,8 +10,6 @@ import com.xeiam.xchange.bitcointoyou.service.polling.BitcoinToYouMarketDataServ
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
-
-import java.io.IOException;
 
 /**
  * Demonstrate requesting Depth at BitcoinToYou

@@ -27,8 +27,9 @@ public class BTCChinaProfile extends LinkedHashMap<String, String> {
    * @param tradeFee
    * @param apiKeyPermission
    */
-  public BTCChinaProfile(@JsonProperty("username") String username, @JsonProperty("trade_password_enabled") Boolean tradePasswordEnabled, @JsonProperty("otp_enabled") Boolean otpEnabled,
-      @JsonProperty("trade_fee") BigDecimal tradeFee, @JsonProperty("api_key_permission") int apiKeyPermission) {
+  public BTCChinaProfile(@JsonProperty("username") String username, @JsonProperty("trade_password_enabled") Boolean tradePasswordEnabled,
+      @JsonProperty("otp_enabled") Boolean otpEnabled, @JsonProperty("trade_fee") BigDecimal tradeFee,
+      @JsonProperty("api_key_permission") int apiKeyPermission) {
 
     this.username = username;
     this.tradePasswordEnabled = tradePasswordEnabled;
@@ -116,7 +117,8 @@ public class BTCChinaProfile extends LinkedHashMap<String, String> {
   @Override
   public String toString() {
 
-    return String.format("Profile{username=%s, tradePasswordEnabled=%s, otpEnabled=%s, tradeFee=%s, apiKeyPermission=%d}", username, tradePasswordEnabled, otpEnabled, tradeFee, apiKeyPermission);
+    return String.format("Profile{username=%s, tradePasswordEnabled=%s, otpEnabled=%s, tradeFee=%s, apiKeyPermission=%d}", username,
+        tradePasswordEnabled, otpEnabled, tradeFee, apiKeyPermission);
   }
 
 }

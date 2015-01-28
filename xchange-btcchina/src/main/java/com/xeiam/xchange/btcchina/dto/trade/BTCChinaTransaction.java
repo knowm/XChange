@@ -14,8 +14,9 @@ public class BTCChinaTransaction {
   private final long date;
   private final String market;
 
-  public BTCChinaTransaction(@JsonProperty("id") long id, @JsonProperty("type") String type, @JsonProperty("btc_amount") BigDecimal btcAmount, @JsonProperty("ltc_amount") BigDecimal ltcAmount,
-      @JsonProperty("cny_amount") BigDecimal cnyAmount, @JsonProperty("date") long date, @JsonProperty("market") String market) {
+  public BTCChinaTransaction(@JsonProperty("id") long id, @JsonProperty("type") String type, @JsonProperty("btc_amount") BigDecimal btcAmount,
+      @JsonProperty("ltc_amount") BigDecimal ltcAmount, @JsonProperty("cny_amount") BigDecimal cnyAmount, @JsonProperty("date") long date,
+      @JsonProperty("market") String market) {
 
     this.id = id;
     this.type = type;

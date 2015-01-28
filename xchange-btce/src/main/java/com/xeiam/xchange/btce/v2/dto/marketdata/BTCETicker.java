@@ -33,9 +33,9 @@ public final class BTCETicker {
    * @param volCur
    * @param sell
    */
-  public BTCETicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("vol") BigDecimal vol, @JsonProperty("last") BigDecimal last,
-      @JsonProperty("avg") BigDecimal avg, @JsonProperty("buy") BigDecimal buy, @JsonProperty("server_time") long serverTime, @JsonProperty("vol_cur") BigDecimal volCur,
-      @JsonProperty("sell") BigDecimal sell) {
+  public BTCETicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("vol") BigDecimal vol,
+      @JsonProperty("last") BigDecimal last, @JsonProperty("avg") BigDecimal avg, @JsonProperty("buy") BigDecimal buy,
+      @JsonProperty("server_time") long serverTime, @JsonProperty("vol_cur") BigDecimal volCur, @JsonProperty("sell") BigDecimal sell) {
 
     this.high = high;
     this.low = low;
@@ -96,8 +96,8 @@ public final class BTCETicker {
   @Override
   public String toString() {
 
-    return "BTCETickerObject [last=" + last + ", high=" + high + ", low=" + low + ", avg=" + avg + ", buy=" + buy + ", sell=" + sell + ", serverTime=" + serverTime + ", vol=" + vol + ", volCur="
-        + volCur + "]";
+    return "BTCETickerObject [last=" + last + ", high=" + high + ", low=" + low + ", avg=" + avg + ", buy=" + buy + ", sell=" + sell
+        + ", serverTime=" + serverTime + ", vol=" + vol + ", volCur=" + volCur + "]";
   }
 
 }

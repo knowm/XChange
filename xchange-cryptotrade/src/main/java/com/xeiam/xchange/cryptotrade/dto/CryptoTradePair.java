@@ -53,7 +53,8 @@ public class CryptoTradePair extends CryptoTradeBaseResponse {
   @Override
   public String toString() {
 
-    return String.format("CryptoTradePair [label='%s', type='%s', minOrderAmount='%s', decimals='%s']", getLabel(), getType(), getMinOrderAmount(), getDecimals());
+    return String.format("CryptoTradePair [label='%s', type='%s', minOrderAmount='%s', decimals='%s']", getLabel(), getType(), getMinOrderAmount(),
+        getDecimals());
   }
 
 }

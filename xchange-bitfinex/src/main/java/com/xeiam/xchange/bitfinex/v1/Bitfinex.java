@@ -27,7 +27,8 @@ public interface Bitfinex {
 
   @GET
   @Path("book/{symbol}")
-  BitfinexDepth getBook(@PathParam("symbol") String symbol, @QueryParam("limit_bids") int limit_bids, @QueryParam("limit_asks") int limit_asks) throws IOException, BitfinexException;
+  BitfinexDepth getBook(@PathParam("symbol") String symbol, @QueryParam("limit_bids") int limit_bids, @QueryParam("limit_asks") int limit_asks)
+      throws IOException, BitfinexException;
 
   @GET
   @Path("book/{symbol}")
@@ -35,7 +36,8 @@ public interface Bitfinex {
 
   @GET
   @Path("lendbook/{currency}")
-  BitfinexLendDepth getLendBook(@PathParam("currency") String currency, @QueryParam("limit_bids") int limit_bids, @QueryParam("limit_asks") int limit_asks) throws IOException, BitfinexException;
+  BitfinexLendDepth getLendBook(@PathParam("currency") String currency, @QueryParam("limit_bids") int limit_bids,
+      @QueryParam("limit_asks") int limit_asks) throws IOException, BitfinexException;
 
   @GET
   @Path("trades/{symbol}")
@@ -43,7 +45,8 @@ public interface Bitfinex {
 
   @GET
   @Path("lends/{currency}")
-  BitfinexLend[] getLends(@PathParam("currency") String currency, @QueryParam("timestamp") long timestamp, @QueryParam("limit_trades") int limit_trades) throws IOException, BitfinexException;
+  BitfinexLend[] getLends(@PathParam("currency") String currency, @QueryParam("timestamp") long timestamp,
+      @QueryParam("limit_trades") int limit_trades) throws IOException, BitfinexException;
 
   @GET
   @Path("symbols")

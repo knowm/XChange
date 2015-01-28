@@ -25,8 +25,9 @@ public class CoinsetterClientSession extends CoinsetterResponse {
    * @param username User's unique username, if success.
    * @param customerStatus Customer status (i.e. ACTIVE, PENDING_EMAIL_CONFIRMATION, etc.).
    */
-  public CoinsetterClientSession(@JsonProperty("uuid") UUID uuid, @JsonProperty("message") String message, @JsonProperty("customerUuid") UUID customerUuid,
-      @JsonProperty("requestStatus") String requestStatus, @JsonProperty("customerPasswordStatus") String customerPasswordStatus, @JsonProperty("username") String username,
+  public CoinsetterClientSession(@JsonProperty("uuid") UUID uuid, @JsonProperty("message") String message,
+      @JsonProperty("customerUuid") UUID customerUuid, @JsonProperty("requestStatus") String requestStatus,
+      @JsonProperty("customerPasswordStatus") String customerPasswordStatus, @JsonProperty("username") String username,
       @JsonProperty("customerStatus") String customerStatus) {
 
     super(message, requestStatus);
@@ -65,8 +66,8 @@ public class CoinsetterClientSession extends CoinsetterResponse {
   @Override
   public String toString() {
 
-    return "CoinsetterClientSession [uuid=" + uuid + ", customerUuid=" + customerUuid + ", customerPasswordStatus=" + customerPasswordStatus + ", username=" + username + ", customerStatus="
-        + customerStatus + "]";
+    return "CoinsetterClientSession [uuid=" + uuid + ", customerUuid=" + customerUuid + ", customerPasswordStatus=" + customerPasswordStatus
+        + ", username=" + username + ", customerStatus=" + customerStatus + "]";
   }
 
 }

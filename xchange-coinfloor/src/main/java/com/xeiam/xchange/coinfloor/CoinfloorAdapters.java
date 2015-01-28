@@ -91,7 +91,8 @@ public class CoinfloorAdapters {
       type = OrderType.ASK;
     }
 
-    return new LimitOrder(type, order.getBaseQty(), new CurrencyPair(baseCurrency, counterCurrency), String.valueOf(order.getId()), new Date(order.getTime()), order.getPrice());
+    return new LimitOrder(type, order.getBaseQty(), new CurrencyPair(baseCurrency, counterCurrency), String.valueOf(order.getId()), new Date(
+        order.getTime()), order.getPrice());
   }
 
   public Map<String, Object> adaptOpenOrders(String data) throws ExchangeException {
@@ -212,7 +213,8 @@ public class CoinfloorAdapters {
     BigDecimal ask = rawRetObj.getAsk();
     BigDecimal low = rawRetObj.getLow();
     BigDecimal high = rawRetObj.getHigh();
-    Ticker genericTicker = new Ticker.Builder().volume(rawRetObj.getVolume()).ask(ask).currencyPair(new CurrencyPair("BTC", "GBP")).bid(bid).high(high).low(low).last(last).build();
+    Ticker genericTicker = new Ticker.Builder().volume(rawRetObj.getVolume()).ask(ask).currencyPair(new CurrencyPair("BTC", "GBP")).bid(bid)
+        .high(high).low(low).last(last).build();
 
     synchronized (cachedDataSynchronizationObject) {
       cachedTicker = genericTicker;
@@ -246,8 +248,8 @@ public class CoinfloorAdapters {
       BigDecimal high = (rawRetObj.getHigh().doubleValue() == 0 ? cachedTicker.getHigh() : rawRetObj.getHigh());
       BigDecimal volume = (rawRetObj.getVolume().doubleValue() == 0 ? cachedTicker.getVolume() : rawRetObj.getVolume());
 
-      genericTicker = new Ticker.Builder().currencyPair(new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString())).last(last).bid(bid).ask(ask).low(low).high(high)
-          .volume(volume).build();
+      genericTicker = new Ticker.Builder().currencyPair(new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString()))
+          .last(last).bid(bid).ask(ask).low(low).high(high).volume(volume).build();
       cachedTicker = genericTicker;
     }
 
@@ -396,7 +398,8 @@ public class CoinfloorAdapters {
       OrderType type = (rawRetObj.getBidId() > rawRetObj.getAskId() ? OrderType.BID : OrderType.ASK);
       BigDecimal limitPrice = rawRetObj.getPrice();
 
-      trade = new Trade(type, rawRetObj.getBaseQty(), new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString()), limitPrice, null, String.valueOf(rawRetObj.getId()));
+      trade = new Trade(type, rawRetObj.getBaseQty(), new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString()),
+          limitPrice, null, String.valueOf(rawRetObj.getId()));
 
       List<Trade> newTradesList = (cachedTrades == null ? new ArrayList<Trade>() : cachedTrades.getTrades());
       newTradesList.add(trade);
@@ -456,13 +459,11 @@ public class CoinfloorAdapters {
   }
 
   /**
-   * Experimental: USE WITH CAUTION. Adapters take every "BalancesUpdated"
-   * event, update local AccountInfo object with said new balance. This method
+   * Experimental: USE WITH CAUTION. Adapters take every "BalancesUpdated" event, update local AccountInfo object with said new balance. This method
    * will return that cached AccountInfo object.
    *
    * @return Trades object representing all OrdersMatched trades recieved.
-   * @throws ExchangeException if getBalances method has not yet been called, or
-   *           response has not been recieved.
+   * @throws ExchangeException if getBalances method has not yet been called, or response has not been recieved.
    */
   public AccountInfo getCachedAccountInfo() {
 
@@ -475,11 +476,8 @@ public class CoinfloorAdapters {
   }
 
   /**
-   * Experimental: USE WITH CAUTION. Adapters take every "OrderOpened,"
-   * "OrdersMatched," or "OrderClosed" event, update local Orderbook object.
-   * This method will return that cached Orderbook object. Notes: Will not
-   * survive program restarts, instantiated upon class instantiation with NO
-   * WALLETS.
+   * Experimental: USE WITH CAUTION. Adapters take every "OrderOpened," "OrdersMatched," or "OrderClosed" event, update local Orderbook object. This
+   * method will return that cached Orderbook object. Notes: Will not survive program restarts, instantiated upon class instantiation with NO WALLETS.
    *
    * @return Trades object representing all OrdersMatched trades recieved.
    * @throws ExchangeException if watchOrders method has not been called.
@@ -495,15 +493,12 @@ public class CoinfloorAdapters {
   }
 
   /**
-   * Experimental: USE WITH CAUTION. Adapters cache every "OrdersMatched" event,
-   * add the trade to a local Trades object. This method will return that cached
-   * Trades object. Notes: Will not survive program restarts, will only cache
-   * user's transactions, unless \tWatchOrders method is called, in which case
-   * it will cache ALL transctions happening on that market.
+   * Experimental: USE WITH CAUTION. Adapters cache every "OrdersMatched" event, add the trade to a local Trades object. This method will return that
+   * cached Trades object. Notes: Will not survive program restarts, will only cache user's transactions, unless \tWatchOrders method is called, in
+   * which case it will cache ALL transctions happening on that market.
    *
    * @return Trades object representing all OrdersMatched trades recieved.
-   * @throws ExchangeException if watchOrders method has not been called, or no
-   *           trades have occurred.
+   * @throws ExchangeException if watchOrders method has not been called, or no trades have occurred.
    */
   public Trades getCachedTrades() {
 
@@ -516,15 +511,12 @@ public class CoinfloorAdapters {
   }
 
   /**
-   * Experimental: USE WITH CAUTION. Adapters cache every "OrdersMatched" event,
-   * add the trade to a local Trades object. This method will return that cached
-   * Trades object. Notes: Will not survive program restarts, will only cache
-   * user's transactions, unless \tWatchOrders method is called, in which case
-   * it will cache ALL transctions happening on that market.
+   * Experimental: USE WITH CAUTION. Adapters cache every "OrdersMatched" event, add the trade to a local Trades object. This method will return that
+   * cached Trades object. Notes: Will not survive program restarts, will only cache user's transactions, unless \tWatchOrders method is called, in
+   * which case it will cache ALL transctions happening on that market.
    *
    * @return Trades object representing all OrdersMatched trades recieved.
-   * @throws ExchangeException if watchOrders method has not been called, or no
-   *           trades have occurred.
+   * @throws ExchangeException if watchOrders method has not been called, or no trades have occurred.
    */
   public Ticker getCachedTicker() {
 

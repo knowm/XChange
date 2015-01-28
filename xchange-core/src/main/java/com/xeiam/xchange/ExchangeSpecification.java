@@ -161,8 +161,8 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Get the URI to reach the <b>root</b> of the exchange API for SSL queries
-   * (e.g. use "https://example.com:8443/exchange", not "https://example.com:8443/exchange/api/v3/trades").
+   * Get the URI to reach the <b>root</b> of the exchange API for SSL queries (e.g. use "https://example.com:8443/exchange", not
+   * "https://example.com:8443/exchange/api/v3/trades").
    * 
    * @return the SSL URI
    */
@@ -172,8 +172,8 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Set the URI to reach the <b>root</b> of the exchange API for SSL queries
-   * (e.g. use "https://example.com:8443/exchange", not "https://example.com:8443/exchange/api/v3/trades").
+   * Set the URI to reach the <b>root</b> of the exchange API for SSL queries (e.g. use "https://example.com:8443/exchange", not
+   * "https://example.com:8443/exchange/api/v3/trades").
    * 
    * @param uri the SSL URI
    */
@@ -183,8 +183,8 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Get the URI to reach the <b>root</b> of the exchange API for plaintext (non-SSL) queries
-   * (e.g. use "http://example.com:8080/exchange", not "http://example.com:8080/exchange/api/v3/trades")
+   * Get the URI to reach the <b>root</b> of the exchange API for plaintext (non-SSL) queries (e.g. use "http://example.com:8080/exchange", not
+   * "http://example.com:8080/exchange/api/v3/trades")
    * 
    * @return the plain text URI
    */
@@ -194,8 +194,8 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Set the URI to reach the <b>root</b> of the exchange API for plaintext (non-SSL) queries
-   * (e.g. use "http://example.com:8080/exchange", not "http://example.com:8080/exchange/api/v3/trades")
+   * Set the URI to reach the <b>root</b> of the exchange API for plaintext (non-SSL) queries (e.g. use "http://example.com:8080/exchange", not
+   * "http://example.com:8080/exchange/api/v3/trades")
    * 
    * @param plainTextUri the plain text URI
    */

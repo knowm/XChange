@@ -93,7 +93,8 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
 
   public void authenticate() {
 
-    if (exchange.getExchangeSpecification().getUserName() == null || exchange.getExchangeSpecification().getUserName() == null || exchange.getExchangeSpecification().getUserName() == null) {
+    if (exchange.getExchangeSpecification().getUserName() == null || exchange.getExchangeSpecification().getUserName() == null
+        || exchange.getExchangeSpecification().getUserName() == null) {
       throw new ExchangeException("Username (UserID), Cookie, and Password cannot be null");
     }
     try {
@@ -102,8 +103,9 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
       throw new ExchangeException("Username (UserID) must be the string representation of a integer or long value.");
     }
 
-    RequestFactory.CoinfloorAuthenticationRequest authVars = new RequestFactory.CoinfloorAuthenticationRequest(Long.valueOf(exchange.getExchangeSpecification().getUserName()), (String) exchange
-        .getExchangeSpecification().getExchangeSpecificParametersItem("cookie"), exchange.getExchangeSpecification().getPassword(), exchangeEventListener.getServerNonce());
+    RequestFactory.CoinfloorAuthenticationRequest authVars = new RequestFactory.CoinfloorAuthenticationRequest(Long.valueOf(exchange
+        .getExchangeSpecification().getUserName()), (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("cookie"),
+        exchange.getExchangeSpecification().getPassword(), exchangeEventListener.getServerNonce());
 
     doNewRequest(authVars, ExchangeEventType.AUTHENTICATION);
 
@@ -145,10 +147,8 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   }
 
   /**
-   * Get user's balances Upon receipt of response, a CoinfloorExchangeEvent with
-   * payload Map<String, Object>, consisting of: > A raw object of type
-   * CoinfloorBalances (key "raw") > A generic object of type AccountInfo (key
-   * "generic")
+   * Get user's balances Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A raw object of type
+   * CoinfloorBalances (key "raw") > A generic object of type AccountInfo (key "generic")
    */
   public CoinfloorExchangeEvent getBalances() {
 
@@ -156,10 +156,8 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   }
 
   /**
-   * Get user's open orders Upon receipt of response, a CoinfloorExchangeEvent
-   * with payload Map<String, Object>, consisting of: > A raw object of type
-   * CoinfloorOpenOrders (key "raw") > A generic object of type OpenOrders (key
-   * "generic")
+   * Get user's open orders Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A raw object of type
+   * CoinfloorOpenOrders (key "raw") > A generic object of type OpenOrders (key "generic")
    */
   public CoinfloorExchangeEvent getOrders() {
 
@@ -167,10 +165,8 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   }
 
   /**
-   * Place an order Upon receipt of response, a CoinfloorExchangeEvent with
-   * payload Map<String, Object>, consisting of: > A raw object of type
-   * CoinfloorPlaceOrder (key "raw") > A generic object of type String,
-   * representing the orderID (key "generic")
+   * Place an order Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A raw object of type
+   * CoinfloorPlaceOrder (key "raw") > A generic object of type String, representing the orderID (key "generic")
    */
   public CoinfloorExchangeEvent placeOrder(Order order) {
 
@@ -178,10 +174,8 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   }
 
   /**
-   * Cancel an order Upon receipt of response, a CoinfloorExchangeEvent with
-   * payload Map<String, Object>, consisting of: > A raw object of type
-   * CoinfloorCancelOrder (key "raw") > A generic object of type LimitOrder,
-   * representing the cancelled order (key "generic")
+   * Cancel an order Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A raw object of type
+   * CoinfloorCancelOrder (key "raw") > A generic object of type LimitOrder, representing the cancelled order (key "generic")
    */
   public CoinfloorExchangeEvent cancelOrder(int orderID) {
 
@@ -189,10 +183,8 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   }
 
   /**
-   * Get past 30-day trade volume Upon receipt of response, a
-   * CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A
-   * raw object of type CoinfloorTradeVolume (key "raw") > A generic object of
-   * type BigDecimal, representing the past-30 day volume (key "generic")
+   * Get past 30-day trade volume Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A raw object
+   * of type CoinfloorTradeVolume (key "raw") > A generic object of type BigDecimal, representing the past-30 day volume (key "generic")
    */
   public CoinfloorExchangeEvent getTradeVolume(String currency) {
 
@@ -200,11 +192,9 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   }
 
   /**
-   * Estimate the results of a market order Upon receipt of response, a
-   * CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A
-   * raw object of type CoinfloorEstimateMarketOrder (key "raw") Note that this
-   * method has no (useful) generic return. The "generic" key corresponds to the
-   * same item as the "raw" key
+   * Estimate the results of a market order Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A
+   * raw object of type CoinfloorEstimateMarketOrder (key "raw") Note that this method has no (useful) generic return. The "generic" key corresponds
+   * to the same item as the "raw" key
    */
   public CoinfloorExchangeEvent estimateMarketOrder(MarketOrder order) {
 
@@ -212,10 +202,8 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   }
 
   /**
-   * Watch the orderbook Upon receipt of response, a CoinfloorExchangeEvent with
-   * payload Map<String, Object>, consisting of: > A raw object of type
-   * CoinfloorOrderbookReturn (key "raw") > A generic object of type Depth (key
-   * "generic")
+   * Watch the orderbook Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A raw object of type
+   * CoinfloorOrderbookReturn (key "raw") > A generic object of type Depth (key "generic")
    */
   public CoinfloorExchangeEvent watchOrders(String tradableIdentifier, String tradingCurrency) {
 
@@ -223,10 +211,8 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   }
 
   /**
-   * Stop watching the orderbook Upon receipt of response, a
-   * CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A
-   * raw object of type CoinfloorOrderbookReturn (key "raw") > A generic object
-   * of type Depth (key "generic")
+   * Stop watching the orderbook Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A raw object of
+   * type CoinfloorOrderbookReturn (key "raw") > A generic object of type Depth (key "generic")
    */
   public CoinfloorExchangeEvent unwatchOrders(String tradableIdentifier, String tradingCurrency) {
 
@@ -234,10 +220,8 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   }
 
   /**
-   * Watch the ticker feed Upon receipt of response, a CoinfloorExchangeEvent
-   * with payload Map<String, Object>, consisting of: > A raw object of type
-   * CoinfloorTicker (key "raw") > A generic object of type Ticker (key
-   * "generic")
+   * Watch the ticker feed Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A raw object of type
+   * CoinfloorTicker (key "raw") > A generic object of type Ticker (key "generic")
    */
   public CoinfloorExchangeEvent watchTicker(String tradableIdentifier, String tradingCurrency) {
 
@@ -245,10 +229,8 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   }
 
   /**
-   * Stop watching the ticker feed Upon receipt of response, a
-   * CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A
-   * raw object of type CoinfloorTicker (key "raw") > A generic object of type
-   * Ticker (key "generic")
+   * Stop watching the ticker feed Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A raw object
+   * of type CoinfloorTicker (key "raw") > A generic object of type Ticker (key "generic")
    */
   public CoinfloorExchangeEvent unwatchTicker(String tradableIdentifier, String tradingCurrency) {
 
@@ -259,8 +241,7 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
    * Retrieves cached AccountInfo. WARNING: EXPERIMENTAL METHOD
    *
    * @return the AccountInfo, as updated by last BalancesChanged event
-   * @throws ExchangeException if getBalances() method has not been called, or
-   *           data not recieved yet.
+   * @throws ExchangeException if getBalances() method has not been called, or data not recieved yet.
    */
   public AccountInfo getCachedAccountInfo() {
 
@@ -270,10 +251,8 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   /**
    * Retrieves cached OrderBook. WARNING: EXPERIMENTAL METHOD
    *
-   * @return the OrderBook, as updated by last OrderOpened, OrdersMatched or
-   *         OrderClosed event
-   * @throws ExchangeException if watchOrders() method has not been called, or
-   *           data not recieved yet.
+   * @return the OrderBook, as updated by last OrderOpened, OrdersMatched or OrderClosed event
+   * @throws ExchangeException if watchOrders() method has not been called, or data not recieved yet.
    */
   public OrderBook getCachedOrderBook() {
 
@@ -284,8 +263,7 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
    * Retrieves cached Trades. WARNING: EXPERIMENTAL METHOD
    *
    * @return the Trades, as updated by last OrdersMatched event
-   * @throws ExchangeException if watchOrders() method has not been called, or
-   *           no trades have occurred yet.
+   * @throws ExchangeException if watchOrders() method has not been called, or no trades have occurred yet.
    */
   public Trades getCachedTrades() {
 
@@ -296,8 +274,7 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
    * Retrieves cached Ticker. WARNING: EXPERIMENTAL METHOD
    *
    * @return the Ticker, as updated by last TickerChanged event
-   * @throws ExchangeException if watchTicker() method has not been called, or
-   *           no ticker data has been recieved.
+   * @throws ExchangeException if watchTicker() method has not been called, or no ticker data has been recieved.
    */
   public Ticker getCachedTicker() {
 

@@ -41,8 +41,10 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersBitcoinResult = getMercadoBitcoinUserOrders("btc_brl", null, "active", null, null, null, null);
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersLitecoinResult = getMercadoBitcoinUserOrders("ltc_brl", null, "active", null, null, null, null);
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersBitcoinResult = getMercadoBitcoinUserOrders("btc_brl", null, "active", null,
+        null, null, null);
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersLitecoinResult = getMercadoBitcoinUserOrders("ltc_brl", null, "active",
+        null, null, null, null);
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
@@ -59,11 +61,8 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   }
 
   /**
-   * The result is not the pure order id. It is a composition with the currency
-   * pair and the order id (the same format used as parameter of
-   * {@link #cancelOrder}). Please see
-   * {@link com.xeiam.xchange.mercadobitcoin.MercadoBitcoinUtils#makeMercadoBitcoinOrderId}
-   * .
+   * The result is not the pure order id. It is a composition with the currency pair and the order id (the same format used as parameter of
+   * {@link #cancelOrder}). Please see {@link com.xeiam.xchange.mercadobitcoin.MercadoBitcoinUtils#makeMercadoBitcoinOrderId} .
    */
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
@@ -86,16 +85,15 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
       type = "sell";
     }
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> newOrderResult = mercadoBitcoinPlaceLimitOrder(pair, type, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> newOrderResult = mercadoBitcoinPlaceLimitOrder(pair, type,
+        limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
 
     return MercadoBitcoinUtils.makeMercadoBitcoinOrderId(limitOrder.getCurrencyPair(), newOrderResult.getTheReturn().keySet().iterator().next());
   }
 
   /**
-   * The ID is composed by the currency pair and the id number separated by
-   * colon, like: <code>btc_brl:3498</code> Please see and use
-   * {@link com.xeiam.xchange.mercadobitcoin.MercadoBitcoinUtils#makeMercadoBitcoinOrderId}
-   * .
+   * The ID is composed by the currency pair and the id number separated by colon, like: <code>btc_brl:3498</code> Please see and use
+   * {@link com.xeiam.xchange.mercadobitcoin.MercadoBitcoinUtils#makeMercadoBitcoinOrderId} .
    */
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
@@ -115,8 +113,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   }
 
   /**
-   * Required parameter types:
-   * {@link com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging#getPageLength()}
+   * Required parameter types: {@link com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging#getPageLength()}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {

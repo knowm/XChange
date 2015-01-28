@@ -53,7 +53,8 @@ public class CoinsetterMarketDataService extends CoinsetterBasePollingService im
     } else {
       String exchange = (String) args[0];
       Number depth = (Number) args[1];
-      coinsetterListDepth = marketDataServiceRaw.getCoinsetterListDepth(depth == null ? DEFAULT_DEPTH : depth.intValue(), exchange == null ? DEFAULT_EXCHANGE : exchange);
+      coinsetterListDepth = marketDataServiceRaw.getCoinsetterListDepth(depth == null ? DEFAULT_DEPTH : depth.intValue(),
+          exchange == null ? DEFAULT_EXCHANGE : exchange);
     }
 
     return CoinsetterAdapters.adaptOrderBook(coinsetterListDepth);

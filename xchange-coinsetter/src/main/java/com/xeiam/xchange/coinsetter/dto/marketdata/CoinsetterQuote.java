@@ -15,8 +15,9 @@ public class CoinsetterQuote {
   private final String vwapCurrency;
   private final BigDecimal totalPrice;
 
-  public CoinsetterQuote(@JsonProperty("symbol") String symbol, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("vwapPrice") BigDecimal vwapPrice,
-      @JsonProperty("vwapCurrency") String vwapCurrency, @JsonProperty("totalPrice") BigDecimal totalPrice) {
+  public CoinsetterQuote(@JsonProperty("symbol") String symbol, @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("vwapPrice") BigDecimal vwapPrice, @JsonProperty("vwapCurrency") String vwapCurrency,
+      @JsonProperty("totalPrice") BigDecimal totalPrice) {
 
     this.symbol = symbol;
     this.quantity = quantity;
@@ -36,8 +37,8 @@ public class CoinsetterQuote {
   }
 
   /**
-   * Quantity you specified (If more than 150 you will recieve the error message: {"error":"QUANTITY TOO HIGH. MUST BE LESS THAN 150"}, if not divisible by 5 then you will recieve the message
-   * {"error":"QUANTITY MUST BE A UNIT OF 5"}).
+   * Quantity you specified (If more than 150 you will recieve the error message: {"error":"QUANTITY TOO HIGH. MUST BE LESS THAN 150"}, if not
+   * divisible by 5 then you will recieve the message {"error":"QUANTITY MUST BE A UNIT OF 5"}).
    *
    * @return the quantity you specified.
    */
@@ -79,7 +80,8 @@ public class CoinsetterQuote {
   @Override
   public String toString() {
 
-    return "CoinsetterQuote [symbol=" + symbol + ", quantity=" + quantity + ", vwapPrice=" + vwapPrice + ", vwapCurrency=" + vwapCurrency + ", totalPrice=" + totalPrice + "]";
+    return "CoinsetterQuote [symbol=" + symbol + ", quantity=" + quantity + ", vwapPrice=" + vwapPrice + ", vwapCurrency=" + vwapCurrency
+        + ", totalPrice=" + totalPrice + "]";
   }
 
 }

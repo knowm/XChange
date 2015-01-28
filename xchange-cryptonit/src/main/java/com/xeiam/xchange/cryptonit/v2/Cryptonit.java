@@ -29,7 +29,7 @@ public interface Cryptonit {
 
   @GET
   @Path("ccorder.json?bid_currency={bid_currency}&ask_currency={ask_currency}&type={type}&limit={limit}")
-  public CryptonitOrders getOrders(@PathParam("bid_currency") String bid_currency, @PathParam("ask_currency") String ask_currency, @PathParam("type") String type, @PathParam("limit") String limit)
-      throws IOException;
+  public CryptonitOrders getOrders(@PathParam("bid_currency") String bid_currency, @PathParam("ask_currency") String ask_currency,
+      @PathParam("type") String type, @PathParam("limit") String limit) throws IOException;
 
 }

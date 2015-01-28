@@ -17,7 +17,8 @@ public class CoinsetterFinancialTransactionTest {
   @Test
   public void test() throws IOException {
 
-    CoinsetterFinancialTransaction financialTransaction = ObjectMapperHelper.readValue(getClass().getResource("financialTransaction.json"), CoinsetterFinancialTransaction.class);
+    CoinsetterFinancialTransaction financialTransaction = ObjectMapperHelper.readValue(getClass().getResource("financialTransaction.json"),
+        CoinsetterFinancialTransaction.class);
     assertEquals(UUID.fromString("ef178baa-46f0-441d-a97d-c92a848f4f29"), financialTransaction.getUuid());
     assertEquals(UUID.fromString("5ba865b8-cd46-4da5-a99a-fdf7bcbc37b3"), financialTransaction.getCustomerUuid());
     assertEquals(UUID.fromString("3b1a82ce-e632-4281-b1bd-eb9bf3aeb60c"), financialTransaction.getAccountUuid());

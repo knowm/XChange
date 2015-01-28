@@ -32,14 +32,11 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
   /**
    * Gets the trade history for a single market
    *
-   * @param marketID marketID for which this TradeHistory request will be
-   *          executed against
-   * @param args - limit (int) of how many past trades should be shown (defualt:
-   *          1000)
+   * @param marketID marketID for which this TradeHistory request will be executed against
+   * @param args - limit (int) of how many past trades should be shown (defualt: 1000)
    * @return CryptsyTradeHistoryReturn DTO representing results of this request
-   * @throws ExchangeException Indication that the exchange reported some kind
-   *           of error with the request or response. Implementers should log
-   *           this error.
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this
+   *         error.
    * @throws IOException
    */
   public CryptsyTradeHistoryReturn getCryptsySingleMarketTradeHistory(int marketID, int... args) throws IOException, ExchangeException {
@@ -58,28 +55,25 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * @param startDate start date to get trade history from
    * @param endDate end date to get trade history until
    * @return CryptsyTradeHistoryReturn DTO representing results of this request
-   * @throws ExchangeException Indication that the exchange reported some kind
-   *           of error with the request or response. Implementers should log
-   *           this error.
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this
+   *         error.
    * @throws IOException
    */
   public CryptsyTradeHistoryReturn getCryptsyTradeHistory(Date startDate, Date endDate) throws IOException, ExchangeException {
 
     SimpleDateFormat outputFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
-    return checkResult(cryptsyPrivate.allmytrades(apiKey, signatureCreator, exchange.getNonceFactory(), (startDate == null ? null : outputFormatter.format(startDate)), (endDate == null ? null
-        : outputFormatter.format(endDate))));
+    return checkResult(cryptsyPrivate.allmytrades(apiKey, signatureCreator, exchange.getNonceFactory(),
+        (startDate == null ? null : outputFormatter.format(startDate)), (endDate == null ? null : outputFormatter.format(endDate))));
   }
 
   /**
    * Gets the open orders in a specific market
    *
-   * @param marketID marketID for which this OpenOrders request will be executed
-   *          against
+   * @param marketID marketID for which this OpenOrders request will be executed against
    * @return CryptsyOpenOrdersReturn DTO representing open order for that market
-   * @throws ExchangeException Indication that the exchange reported some kind
-   *           of error with the request or response. Implementers should log
-   *           this error.
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this
+   *         error.
    * @throws IOException
    */
   public CryptsyOpenOrdersReturn getCryptsySingleMarketOpenOrders(int marketID) throws IOException, ExchangeException {
@@ -91,9 +85,8 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * Gets the open orders in all markets
    *
    * @return CryptsyOpenOrdersReturn DTO representing open order for that market
-   * @throws ExchangeException Indication that the exchange reported some kind
-   *           of error with the request or response. Implementers should log
-   *           this error.
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this
+   *         error.
    * @throws IOException
    */
   public CryptsyOpenOrdersReturn getCryptsyOpenOrders() throws IOException, ExchangeException {
@@ -109,14 +102,15 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * @param quantity BigDecimal represenation of the quantity to trade
    * @param price BigDecimal represenation of the limit price
    * @return CryptsyPlaceOrderReturn DTO representing the transactionID
-   * @throws ExchangeException Indication that the exchange reported some kind
-   *           of error with the request or response. Implementers should log
-   *           this error.
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this
+   *         error.
    * @throws IOException
    */
-  public CryptsyPlaceOrderReturn placeCryptsyLimitOrder(int marketID, CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException, ExchangeException {
+  public CryptsyPlaceOrderReturn placeCryptsyLimitOrder(int marketID, CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price)
+      throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.createorder(apiKey, signatureCreator, exchange.getNonceFactory(), marketID, orderType.toString(), quantity, price));
+    return checkResult(cryptsyPrivate.createorder(apiKey, signatureCreator, exchange.getNonceFactory(), marketID, orderType.toString(), quantity,
+        price));
   }
 
   /**
@@ -124,9 +118,8 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    *
    * @param orderID ID of order to cancel
    * @return CryptsyCancelOrderReturn DTO representing result of request
-   * @throws ExchangeException Indication that the exchange reported some kind
-   *           of error with the request or response. Implementers should log
-   *           this error.
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this
+   *         error.
    * @throws IOException
    */
   public CryptsyCancelOrderReturn cancelSingleCryptsyLimitOrder(int orderID) throws IOException, ExchangeException {
@@ -138,11 +131,9 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * Cancels all orders in given marketID
    *
    * @param marketID ID of market in which all orders should be cancelled
-   * @return CryptsyCancelMultipleOrdersReturn DTO representing result of
-   *         request
-   * @throws ExchangeException Indication that the exchange reported some kind
-   *           of error with the request or response. Implementers should log
-   *           this error.
+   * @return CryptsyCancelMultipleOrdersReturn DTO representing result of request
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this
+   *         error.
    * @throws IOException
    */
   public CryptsyCancelMultipleOrdersReturn cancelMarketCryptsyLimitOrders(int marketID) throws IOException, ExchangeException {
@@ -153,11 +144,9 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
   /**
    * Cancels all orders across all markets
    *
-   * @return CryptsyCancelMultipleOrdersReturn DTO representing result of
-   *         request
-   * @throws ExchangeException Indication that the exchange reported some kind
-   *           of error with the request or response. Implementers should log
-   *           this error.
+   * @return CryptsyCancelMultipleOrdersReturn DTO representing result of request
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this
+   *         error.
    * @throws IOException
    */
   public CryptsyCancelMultipleOrdersReturn cancelAllCryptsyLimitOrders() throws IOException, ExchangeException {
@@ -172,12 +161,12 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAut
    * @param quantity BigDecimal represenation of the quantity to trade
    * @param price BigDecimal represenation of the limit price
    * @return CryptsyCalculatedFeesReturn DTO representing results of calculation
-   * @throws ExchangeException Indication that the exchange reported some kind
-   *           of error with the request or response. Implementers should log
-   *           this error.
+   * @throws ExchangeException Indication that the exchange reported some kind of error with the request or response. Implementers should log this
+   *         error.
    * @throws IOException
    */
-  public CryptsyCalculatedFeesReturn calculateCryptsyFees(CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException, ExchangeException {
+  public CryptsyCalculatedFeesReturn calculateCryptsyFees(CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException,
+      ExchangeException {
 
     return checkResult(cryptsyPrivate.calculatefees(apiKey, signatureCreator, exchange.getNonceFactory(), orderType.toString(), quantity, price));
   }

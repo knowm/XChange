@@ -34,12 +34,14 @@ public class TradeDemo {
 
   }
 
-  private static void generic(PollingTradeService tradeService) throws NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  private static void generic(PollingTradeService tradeService) throws NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+      IOException {
 
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, BigDecimal.ONE, new CurrencyPair(Currencies.GHs, Currencies.BTC), "", null, new BigDecimal("0.00015600"));
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, BigDecimal.ONE, new CurrencyPair(Currencies.GHs, Currencies.BTC), "", null,
+        new BigDecimal("0.00015600"));
     System.out.println("Trying to place: " + limitOrder);
     String orderId = "0";
     try {

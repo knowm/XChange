@@ -22,7 +22,8 @@ public class BTCChinaAccountInfo {
    * @param balances balances for the various currencies
    * @param frozens balances for the various frozen currencies
    */
-  public BTCChinaAccountInfo(@JsonProperty("profile") BTCChinaProfile profile, @JsonProperty("balance") Map<String, BTCChinaValue> balances, @JsonProperty("frozen") Map<String, BTCChinaValue> frozens, @JsonProperty("loan") Map<String, BTCChinaValue> loans) {
+  public BTCChinaAccountInfo(@JsonProperty("profile") BTCChinaProfile profile, @JsonProperty("balance") Map<String, BTCChinaValue> balances,
+      @JsonProperty("frozen") Map<String, BTCChinaValue> frozens, @JsonProperty("loan") Map<String, BTCChinaValue> loans) {
 
     this.profile = profile;
     this.balances = balances;
@@ -60,12 +61,12 @@ public class BTCChinaAccountInfo {
 
     return frozens;
   }
-  
+
   /**
    * Get the loaned balances.
    * 
    * @return the frozen balances
-   */  
+   */
   public Map<String, BTCChinaValue> getLoans() {
 
     return loans;

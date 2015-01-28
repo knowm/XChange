@@ -10,7 +10,8 @@ public class BTCChinaMarketDepth {
   private final BTCChinaMarketDepthOrder[] asks;
   private final long date;
 
-  public BTCChinaMarketDepth(@JsonProperty("bid") BTCChinaMarketDepthOrder[] bids, @JsonProperty("ask") BTCChinaMarketDepthOrder[] asks, @JsonProperty("date") long date) {
+  public BTCChinaMarketDepth(@JsonProperty("bid") BTCChinaMarketDepthOrder[] bids, @JsonProperty("ask") BTCChinaMarketDepthOrder[] asks,
+      @JsonProperty("date") long date) {
 
     this.bids = bids;
     this.asks = asks;

@@ -31,7 +31,8 @@ public class TradeDemo {
     Exchange coinsetter = CoinsetterExamplesUtils.getExchange(username, password, ipAddress);
     PollingTradeService tradeService = coinsetter.getPollingTradeService();
 
-    String orderId = tradeService.placeLimitOrder(new LimitOrder(OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, null, null, new BigDecimal("0.01")));
+    String orderId = tradeService.placeLimitOrder(new LimitOrder(OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, null, null,
+        new BigDecimal("0.01")));
     log.info("limit order id: {}", orderId);
 
     OpenOrders openOrders = tradeService.getOpenOrders();

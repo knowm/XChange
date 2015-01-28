@@ -8,8 +8,8 @@ public class HitbtcCancelReject {
   private final String clientOrderId;
   private final String rejectReasonCode;
 
-  public HitbtcCancelReject(@JsonProperty("cancelRequestClientOrderId") String cancelRequestClientOrderId, @JsonProperty("clientOrderId") String clientOrderId,
-      @JsonProperty("rejectReasonCode") String rejectReasonCode) {
+  public HitbtcCancelReject(@JsonProperty("cancelRequestClientOrderId") String cancelRequestClientOrderId,
+      @JsonProperty("clientOrderId") String clientOrderId, @JsonProperty("rejectReasonCode") String rejectReasonCode) {
 
     super();
     this.cancelRequestClientOrderId = cancelRequestClientOrderId;

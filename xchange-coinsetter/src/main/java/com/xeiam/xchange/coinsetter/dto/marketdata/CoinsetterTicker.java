@@ -15,8 +15,8 @@ public class CoinsetterTicker {
   private final BigDecimal volume;
   private final BigDecimal volume24;
 
-  public CoinsetterTicker(@JsonProperty("bid") CoinsetterTrade bid, @JsonProperty("ask") CoinsetterTrade ask, @JsonProperty("last") CoinsetterTrade last, @JsonProperty("volume") BigDecimal volume,
-      @JsonProperty("volume24") BigDecimal volume24) {
+  public CoinsetterTicker(@JsonProperty("bid") CoinsetterTrade bid, @JsonProperty("ask") CoinsetterTrade ask,
+      @JsonProperty("last") CoinsetterTrade last, @JsonProperty("volume") BigDecimal volume, @JsonProperty("volume24") BigDecimal volume24) {
 
     this.bid = bid;
     this.ask = ask;

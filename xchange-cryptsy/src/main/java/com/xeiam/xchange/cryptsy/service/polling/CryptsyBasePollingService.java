@@ -54,7 +54,8 @@ public class CryptsyBasePollingService<T extends Cryptsy> extends BaseExchangeSe
     this.signatureCreator = CryptsyHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
 
     // for public API (market data)
-    this.cryptsyPublic = RestProxyFactory.createProxy(cryptsyType, (String) exchange.getExchangeSpecification().getParameter(CryptsyExchange.KEY_PUBLIC_API_URL));
+    this.cryptsyPublic = RestProxyFactory.createProxy(cryptsyType,
+        (String) exchange.getExchangeSpecification().getParameter(CryptsyExchange.KEY_PUBLIC_API_URL));
 
   }
 

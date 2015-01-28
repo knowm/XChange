@@ -16,21 +16,22 @@ public interface VircurexAuthenticated extends Vircurex {
 
   @GET
   @Path("get_balances.json")
-  VircurexAccountInfoReturn getInfo(@QueryParam("account") String aUserName, @QueryParam("id") long nonce, @QueryParam("token") String aToken, @QueryParam("timestamp") String aTimestamp);
+  VircurexAccountInfoReturn getInfo(@QueryParam("account") String aUserName, @QueryParam("id") long nonce, @QueryParam("token") String aToken,
+      @QueryParam("timestamp") String aTimestamp);
 
   @Path("create_order.json")
   @GET
-  VircurexPlaceOrderReturn trade(@QueryParam("account") String aUserName, @QueryParam("id") long nonce, @QueryParam("token") String aToken, @QueryParam("timestamp") String aTimestamp,
-      @QueryParam("ordertype") String anOrderType, @QueryParam("amount") String anAmount, @QueryParam("currency1") String aCurrency, @QueryParam("unitprice") String aPrice,
-      @QueryParam("currency2") String aTransactionCurrency);
+  VircurexPlaceOrderReturn trade(@QueryParam("account") String aUserName, @QueryParam("id") long nonce, @QueryParam("token") String aToken,
+      @QueryParam("timestamp") String aTimestamp, @QueryParam("ordertype") String anOrderType, @QueryParam("amount") String anAmount,
+      @QueryParam("currency1") String aCurrency, @QueryParam("unitprice") String aPrice, @QueryParam("currency2") String aTransactionCurrency);
 
   @Path("release_order.json")
   @GET
-  VircurexPlaceOrderReturn release(@QueryParam("account") String apiKey, @QueryParam("id") long nonce, @QueryParam("token") String token, @QueryParam("timestamp") String timestamp,
-      @QueryParam("orderid") String orderId);
+  VircurexPlaceOrderReturn release(@QueryParam("account") String apiKey, @QueryParam("id") long nonce, @QueryParam("token") String token,
+      @QueryParam("timestamp") String timestamp, @QueryParam("orderid") String orderId);
 
   @Path("read_orders.json")
   @GET
-  VircurexOpenOrdersReturn getOpenOrders(@QueryParam("account") String apiKey, @QueryParam("id") long nonce, @QueryParam("token") String token, @QueryParam("timestamp") String timestamp,
-      @QueryParam("otype") int releaseStatus);
+  VircurexOpenOrdersReturn getOpenOrders(@QueryParam("account") String apiKey, @QueryParam("id") long nonce, @QueryParam("token") String token,
+      @QueryParam("timestamp") String timestamp, @QueryParam("otype") int releaseStatus);
 }

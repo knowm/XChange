@@ -20,11 +20,9 @@ public class BTCChinaGetMarketDepthRequest extends BTCChinaRequest {
 
     if (limit == null && market == null) {
       this.params = "[]";
-    }
-    else if (market == null) {
+    } else if (market == null) {
       this.params = String.format("[%d]", limit);
-    }
-    else {
+    } else {
       this.params = String.format("[%d,\"%s\"]", limit == null ? DEFAULT_LIMIT : limit, market);
     }
   }

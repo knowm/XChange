@@ -1,16 +1,17 @@
 package com.xeiam.xchange.mercadobitcoin.service.trade;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
-import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
+import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 
 /**
  * Test MercadoBitcoinUserOrders JSON parsing
@@ -27,8 +28,9 @@ public class UserOrdersJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> apiResult = mapper.readValue(is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders>>() {
-    });
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> apiResult = mapper.readValue(is,
+        new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders>>() {
+        });
 
     MercadoBitcoinUserOrders userOrders = apiResult.getTheReturn();
 

@@ -23,8 +23,9 @@ public final class ANXOrderResult {
    * @param totalSpent
    * @param trades
    */
-  public ANXOrderResult(@JsonProperty("avg_cost") ANXValue avgCost, @JsonProperty("order_id") String orderId, @JsonProperty("total_amount") ANXValue totalAmount,
-      @JsonProperty("total_spent") ANXValue totalSpent, @JsonProperty("trades") ANXOrderResultTrade[] trades) {
+  public ANXOrderResult(@JsonProperty("avg_cost") ANXValue avgCost, @JsonProperty("order_id") String orderId,
+      @JsonProperty("total_amount") ANXValue totalAmount, @JsonProperty("total_spent") ANXValue totalSpent,
+      @JsonProperty("trades") ANXOrderResultTrade[] trades) {
 
     this.avgCost = avgCost;
     this.orderId = orderId;
@@ -65,7 +66,8 @@ public final class ANXOrderResult {
     for (int i = 0; i < trades.length; i++)
       tradesString += ((i > 0) ? ", " : "") + trades[i].toString();
     tradesString += "]";
-    return "ANXOpenOrder [avgCost=" + avgCost + ", orderId=" + orderId + ", totalAmount=" + totalAmount + ", totalSpent=" + totalSpent + ", trades=" + tradesString + "]";
+    return "ANXOpenOrder [avgCost=" + avgCost + ", orderId=" + orderId + ", totalAmount=" + totalAmount + ", totalSpent=" + totalSpent + ", trades="
+        + tradesString + "]";
   }
 
 }

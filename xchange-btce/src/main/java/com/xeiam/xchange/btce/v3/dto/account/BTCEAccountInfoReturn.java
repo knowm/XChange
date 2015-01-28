@@ -15,7 +15,8 @@ public class BTCEAccountInfoReturn extends BTCEReturn<BTCEAccountInfo> {
    * @param value The BTC-e account info
    * @param error Any error
    */
-  public BTCEAccountInfoReturn(@JsonProperty("success") boolean success, @JsonProperty("return") BTCEAccountInfo value, @JsonProperty("error") String error) {
+  public BTCEAccountInfoReturn(@JsonProperty("success") boolean success, @JsonProperty("return") BTCEAccountInfo value,
+      @JsonProperty("error") String error) {
 
     super(success, value, error);
   }

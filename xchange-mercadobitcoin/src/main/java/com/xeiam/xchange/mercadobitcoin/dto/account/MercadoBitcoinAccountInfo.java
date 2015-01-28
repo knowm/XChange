@@ -1,8 +1,8 @@
 package com.xeiam.xchange.mercadobitcoin.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Felipe Micaroni Lalli
@@ -13,7 +13,8 @@ public class MercadoBitcoinAccountInfo {
   private final Long serverTime;
   private final Long openOrders;
 
-  public MercadoBitcoinAccountInfo(@JsonProperty("funds") MercadoBitcoinAccountInfo.Funds funds, @JsonProperty("server_time") Long serverTime, @JsonProperty("open_orders") Long openOrders) {
+  public MercadoBitcoinAccountInfo(@JsonProperty("funds") MercadoBitcoinAccountInfo.Funds funds, @JsonProperty("server_time") Long serverTime,
+      @JsonProperty("open_orders") Long openOrders) {
 
     this.funds = funds;
     this.serverTime = serverTime;

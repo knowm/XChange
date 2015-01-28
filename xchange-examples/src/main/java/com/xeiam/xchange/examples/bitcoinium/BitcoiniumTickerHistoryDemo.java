@@ -42,7 +42,8 @@ public class BitcoiniumTickerHistoryDemo {
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - BITSTAMP
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD", "THIRTY_DAYS");
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD",
+        "THIRTY_DAYS");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 
@@ -59,7 +60,8 @@ public class BitcoiniumTickerHistoryDemo {
       yAxisData.add(price);
     }
 
-    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(600).title("Bitstamp Price vs. Date").xAxisTitle("Date").yAxisTitle("Price").build();
+    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(600).title("Bitstamp Price vs. Date").xAxisTitle("Date")
+        .yAxisTitle("Price").build();
     chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
 
     Series series = chart.addSeries("Bitcoinium USD/BTC", xAxisData, yAxisData);

@@ -20,10 +20,11 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
   }
 
   /**
-   * @param subscribeMarketData Subscribe with 'subscribe' method and listen on "ticker" and "trade" method to received and process market data including ticker data and trade data.
-   * @param subscribeOrderFeed Subscribe with 'private' method and listen on "order" method to receive and process your own order data. Whenever the status of your own orders change, the server will
-   *          push corresponding orders to your client side.
-   *          This requires authentication with your access key and secret key, which is used the same way as our trade API.
+   * @param subscribeMarketData Subscribe with 'subscribe' method and listen on "ticker" and "trade" method to received and process market data
+   *        including ticker data and trade data.
+   * @param subscribeOrderFeed Subscribe with 'private' method and listen on "order" method to receive and process your own order data. Whenever the
+   *        status of your own orders change, the server will push corresponding orders to your client side. This requires authentication with your
+   *        access key and secret key, which is used the same way as our trade API.
    * @param currencyPairs could be one or more of {@link CurrencyPair#BTC_CNY}, {@link CurrencyPair#LTC_CNY}, {@link CurrencyPair#LTC_BTC}.
    */
   public BTCChinaStreamingConfiguration(boolean subscribeMarktData, boolean subscribeOrderFeed, CurrencyPair... currencyPairs) {
@@ -31,17 +32,20 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
     this(subscribeMarktData, subscribeOrderFeed, true, currencyPairs);
   }
 
-  public BTCChinaStreamingConfiguration(boolean subscribeMarktData, boolean subscribeOrderFeed, boolean subscribeAccountInfo, CurrencyPair... currencyPairs) {
+  public BTCChinaStreamingConfiguration(boolean subscribeMarktData, boolean subscribeOrderFeed, boolean subscribeAccountInfo,
+      CurrencyPair... currencyPairs) {
 
     this(subscribeMarktData, true, subscribeOrderFeed, subscribeAccountInfo);
   }
 
   /**
-   * @since <a href="http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122">WebSocket API v1.2.2</a>
+   * @since <a href= "http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122" >WebSocket API v1.2.2</a>
    */
-  public BTCChinaStreamingConfiguration(boolean subscribeMarktData, boolean subscribeGrouporder, boolean subscribeOrderFeed, boolean subscribeAccountInfo, CurrencyPair... currencyPairs) {
+  public BTCChinaStreamingConfiguration(boolean subscribeMarktData, boolean subscribeGrouporder, boolean subscribeOrderFeed,
+      boolean subscribeAccountInfo, CurrencyPair... currencyPairs) {
 
-    this(subscribeMarktData ? currencyPairs : null, subscribeGrouporder ? currencyPairs : null, subscribeOrderFeed ? currencyPairs : null, subscribeAccountInfo);
+    this(subscribeMarktData ? currencyPairs : null, subscribeGrouporder ? currencyPairs : null, subscribeOrderFeed ? currencyPairs : null,
+        subscribeAccountInfo);
   }
 
   public BTCChinaStreamingConfiguration(CurrencyPair[] marketDataCurrencyPairs, CurrencyPair[] orderFeedCurrencyPairs) {
@@ -55,9 +59,10 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
   }
 
   /**
-   * @since <a href="http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122">WebSocket API v1.2.2</a>
+   * @since <a href= "http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122" >WebSocket API v1.2.2</a>
    */
-  public BTCChinaStreamingConfiguration(CurrencyPair[] marketDataCurrencyPairs, CurrencyPair[] grouporderCurrencyPairs, CurrencyPair[] orderFeedCurrencyPairs, boolean subscribeAccountInfo) {
+  public BTCChinaStreamingConfiguration(CurrencyPair[] marketDataCurrencyPairs, CurrencyPair[] grouporderCurrencyPairs,
+      CurrencyPair[] orderFeedCurrencyPairs, boolean subscribeAccountInfo) {
 
     this.marketDataCurrencyPairs = marketDataCurrencyPairs == null ? new CurrencyPair[0] : marketDataCurrencyPairs;
     this.grouporderCurrencyPairs = grouporderCurrencyPairs == null ? new CurrencyPair[0] : grouporderCurrencyPairs;
@@ -139,7 +144,7 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
   }
 
   /**
-   * @since <a href="http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122">WebSocket API v1.2.2</a>
+   * @since <a href= "http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122" >WebSocket API v1.2.2</a>
    */
   public CurrencyPair[] getGrouporderCurrencyPairs() {
 

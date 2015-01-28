@@ -13,8 +13,8 @@ public class BitcoinToYouBaseTradeApiResult<R> {
   private final String date;
   private final Long timestamp;
 
-  public BitcoinToYouBaseTradeApiResult(@JsonProperty("success") Integer success, @JsonProperty("error") String error, @JsonProperty("oReturn") R theReturn, @JsonProperty("date") String date,
-      @JsonProperty("timestamp") Long timestamp) {
+  public BitcoinToYouBaseTradeApiResult(@JsonProperty("success") Integer success, @JsonProperty("error") String error,
+      @JsonProperty("oReturn") R theReturn, @JsonProperty("date") String date, @JsonProperty("timestamp") Long timestamp) {
 
     this.success = success;
     this.error = error;
@@ -51,6 +51,7 @@ public class BitcoinToYouBaseTradeApiResult<R> {
   @Override
   public String toString() {
 
-    return "BitcoinToYouBaseTradeApiResult [" + "success=" + success + ", error='" + error + '\'' + ", theReturn=" + theReturn + ", date='" + date + '\'' + ", timestamp=" + timestamp + ']';
+    return "BitcoinToYouBaseTradeApiResult [" + "success=" + success + ", error='" + error + '\'' + ", theReturn=" + theReturn + ", date='" + date
+        + '\'' + ", timestamp=" + timestamp + ']';
   }
 }

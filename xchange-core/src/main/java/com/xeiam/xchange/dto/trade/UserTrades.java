@@ -9,16 +9,16 @@ public class UserTrades extends Trades {
 
   public UserTrades(List<UserTrade> trades, TradeSortType tradeSortType) {
 
-    super((List)trades, tradeSortType);
+    super((List) trades, tradeSortType);
   }
 
   public UserTrades(List<UserTrade> trades, long lastID, TradeSortType tradeSortType) {
 
-    super((List)trades, lastID, tradeSortType);
+    super((List) trades, lastID, tradeSortType);
   }
 
   public List<UserTrade> getUserTrades() {
 
-    return (List)getTrades();
+    return (List) getTrades();
   }
 }

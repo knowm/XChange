@@ -18,7 +18,8 @@ public class CryptsySellOrder {
   private final BigDecimal total;
 
   @JsonCreator
-  public CryptsySellOrder(@JsonProperty("sellprice") BigDecimal sellPrice, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("total") BigDecimal total) {
+  public CryptsySellOrder(@JsonProperty("sellprice") BigDecimal sellPrice, @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("total") BigDecimal total) {
 
     this.sellPrice = sellPrice;
     this.quantity = quantity;

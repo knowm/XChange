@@ -47,8 +47,7 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
   }
 
   /**
-   * @param args If two integers are provided, then those count as limit bid and
-   *          limit ask count
+   * @param args If two integers are provided, then those count as limit bid and limit ask count
    */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
@@ -112,10 +111,8 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
 
   /**
    * @param currencyPair The CurrencyPair for which to query trades.
-   * @param args One argument may be supplied which is the timestamp after which
-   *          trades should be collected. Trades before this time are not
-   *          reported. The argument may be of type java.util.Date or Number
-   *          (milliseconds since Jan 1, 1970)
+   * @param args One argument may be supplied which is the timestamp after which trades should be collected. Trades before this time are not reported.
+   *        The argument may be of type java.util.Date or Number (milliseconds since Jan 1, 1970)
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
@@ -130,7 +127,8 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
         Date arg = (Date) args[0];
         lastTradeTime = arg.getTime() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
       } else {
-        throw new IllegalArgumentException("Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
+        throw new IllegalArgumentException("Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was "
+            + args[0].getClass() + ")");
       }
     }
     BitfinexTrade[] trades = getBitfinexTrades(BitfinexUtils.toPairString(currencyPair), lastTradeTime);

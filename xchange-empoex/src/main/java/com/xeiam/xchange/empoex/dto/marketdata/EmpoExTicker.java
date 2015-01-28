@@ -14,7 +14,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "pairname", "last", "base_volume_24hr", "low", "high", "bid", "ask", "open_buy_volume", "open_sell_volume", "open_buy_volume_base", "open_sell_volume_base", "change" })
+@JsonPropertyOrder({ "pairname", "last", "base_volume_24hr", "low", "high", "bid", "ask", "open_buy_volume", "open_sell_volume",
+    "open_buy_volume_base", "open_sell_volume_base", "change" })
 public class EmpoExTicker {
 
   @JsonProperty("pairname")
@@ -45,7 +46,6 @@ public class EmpoExTicker {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * 
    * @return The pairname
    */
   @JsonProperty("pairname")
@@ -54,7 +54,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @param pairname The pairname
    */
   @JsonProperty("pairname")
@@ -63,7 +62,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @return The last
    */
   @JsonProperty("last")
@@ -72,7 +70,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @param last The last
    */
   @JsonProperty("last")
@@ -81,7 +78,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @return The baseVolume24hr
    */
   @JsonProperty("base_volume_24hr")
@@ -90,7 +86,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @param baseVolume24hr The base_volume_24hr
    */
   @JsonProperty("base_volume_24hr")
@@ -99,7 +94,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @return The low
    */
   @JsonProperty("low")
@@ -108,7 +102,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @param low The low
    */
   @JsonProperty("low")
@@ -117,7 +110,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @return The high
    */
   @JsonProperty("high")
@@ -126,7 +118,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @param high The high
    */
   @JsonProperty("high")
@@ -135,7 +126,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @return The bid
    */
   @JsonProperty("bid")
@@ -144,7 +134,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @param bid The bid
    */
   @JsonProperty("bid")
@@ -153,7 +142,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @return The ask
    */
   @JsonProperty("ask")
@@ -162,7 +150,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @param ask The ask
    */
   @JsonProperty("ask")
@@ -171,7 +158,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @return The openBuyVolume
    */
   @JsonProperty("open_buy_volume")
@@ -180,7 +166,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @param openBuyVolume The open_buy_volume
    */
   @JsonProperty("open_buy_volume")
@@ -189,7 +174,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @return The openSellVolume
    */
   @JsonProperty("open_sell_volume")
@@ -198,7 +182,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @param openSellVolume The open_sell_volume
    */
   @JsonProperty("open_sell_volume")
@@ -207,7 +190,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @return The openBuyVolumeBase
    */
   @JsonProperty("open_buy_volume_base")
@@ -216,7 +198,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @param openBuyVolumeBase The open_buy_volume_base
    */
   @JsonProperty("open_buy_volume_base")
@@ -225,7 +206,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @return The openSellVolumeBase
    */
   @JsonProperty("open_sell_volume_base")
@@ -234,7 +214,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @param openSellVolumeBase The open_sell_volume_base
    */
   @JsonProperty("open_sell_volume_base")
@@ -243,7 +222,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @return The change
    */
   @JsonProperty("change")
@@ -252,7 +230,6 @@ public class EmpoExTicker {
   }
 
   /**
-   * 
    * @param change The change
    */
   @JsonProperty("change")
@@ -272,9 +249,10 @@ public class EmpoExTicker {
 
   @Override
   public String toString() {
-    return "EmpoExTicker [pairname=" + pairname + ", last=" + last + ", baseVolume24hr=" + baseVolume24hr + ", low=" + low + ", high=" + high + ", bid=" + bid + ", ask=" + ask + ", openBuyVolume="
-        + openBuyVolume + ", openSellVolume=" + openSellVolume + ", openBuyVolumeBase=" + openBuyVolumeBase + ", openSellVolumeBase=" + openSellVolumeBase + ", change=" + change
-        + ", additionalProperties=" + additionalProperties + "]";
+    return "EmpoExTicker [pairname=" + pairname + ", last=" + last + ", baseVolume24hr=" + baseVolume24hr + ", low=" + low + ", high=" + high
+        + ", bid=" + bid + ", ask=" + ask + ", openBuyVolume=" + openBuyVolume + ", openSellVolume=" + openSellVolume + ", openBuyVolumeBase="
+        + openBuyVolumeBase + ", openSellVolumeBase=" + openSellVolumeBase + ", change=" + change + ", additionalProperties=" + additionalProperties
+        + "]";
   }
 
 }

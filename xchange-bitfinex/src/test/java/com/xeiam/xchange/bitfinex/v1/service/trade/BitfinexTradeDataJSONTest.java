@@ -1,26 +1,25 @@
 package com.xeiam.xchange.bitfinex.v1.service.trade;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
-import java.math.BigDecimal;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
 
 public class BitfinexTradeDataJSONTest {
 
   /**
-   * This test will currently fail since the JSON field "order_id" cannot be matched to a field in
-   * BitfinexOrderStatusResponse.
+   * This test will currently fail since the JSON field "order_id" cannot be matched to a field in BitfinexOrderStatusResponse.
    *
    * @throws IOException
    */

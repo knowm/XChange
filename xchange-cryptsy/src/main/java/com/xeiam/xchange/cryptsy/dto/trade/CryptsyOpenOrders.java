@@ -37,8 +37,9 @@ public class CryptsyOpenOrders {
    * @param pair
    * @throws ParseException
    */
-  public CryptsyOpenOrders(@JsonProperty("marketid") int marketId, @JsonProperty("ordertype") CryptsyOrderType type, @JsonProperty("orderid") int orderId, @JsonProperty("created") String timeStamp,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantityRem, @JsonProperty("total") BigDecimal total, @JsonProperty("orig_quantity") BigDecimal quantityOrg)
+  public CryptsyOpenOrders(@JsonProperty("marketid") int marketId, @JsonProperty("ordertype") CryptsyOrderType type,
+      @JsonProperty("orderid") int orderId, @JsonProperty("created") String timeStamp, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("quantity") BigDecimal quantityRem, @JsonProperty("total") BigDecimal total, @JsonProperty("orig_quantity") BigDecimal quantityOrg)
       throws ParseException {
 
     this.marketId = marketId;
@@ -94,7 +95,7 @@ public class CryptsyOpenOrders {
   @Override
   public String toString() {
 
-    return "CryptsyOpenOrder[" + "Market ID='" + marketId + "',Order ID='" + orderId + "',Type='" + type + "',Timestamp='" + timeStamp + "',Price='" + price + "',Quantity Remaining='" + quantityRem
-        + "',Total='" + total + "',Original Quantity='" + quantityOrg + "']";
+    return "CryptsyOpenOrder[" + "Market ID='" + marketId + "',Order ID='" + orderId + "',Type='" + type + "',Timestamp='" + timeStamp + "',Price='"
+        + price + "',Quantity Remaining='" + quantityRem + "',Total='" + total + "',Original Quantity='" + quantityOrg + "']";
   }
 }

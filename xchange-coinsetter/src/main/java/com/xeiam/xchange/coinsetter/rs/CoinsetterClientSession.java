@@ -26,11 +26,12 @@ import com.xeiam.xchange.coinsetter.dto.clientsession.request.CoinsetterLoginReq
 public interface CoinsetterClientSession {
 
   @POST
-  public com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession login(CoinsetterLoginRequest request) throws CoinsetterException, IOException;
+  public com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession login(CoinsetterLoginRequest request)
+      throws CoinsetterException, IOException;
 
   @PUT
   @Path("{client-session-id}")
-  public CoinsetterResponse action(@HeaderParam("coinsetter-client-session-id") @PathParam("client-session-id") UUID clientSessionId, @QueryParam("action") String action)
-      throws CoinsetterException, IOException;
+  public CoinsetterResponse action(@HeaderParam("coinsetter-client-session-id") @PathParam("client-session-id") UUID clientSessionId,
+      @QueryParam("action") String action) throws CoinsetterException, IOException;
 
 }

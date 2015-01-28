@@ -83,7 +83,8 @@ public class CoinfloorUtils {
   private static String bigIntegerToBase64(BigInteger bi) {
 
     byte[] bytes = bi.toByteArray();
-    return bytes[0] == 0 ? org.bouncycastle.util.encoders.Base64.toBase64String(bytes, 1, bytes.length - 1) : org.bouncycastle.util.encoders.Base64.toBase64String(bytes);
+    return bytes[0] == 0 ? org.bouncycastle.util.encoders.Base64.toBase64String(bytes, 1, bytes.length - 1) : org.bouncycastle.util.encoders.Base64
+        .toBase64String(bytes);
   }
 
   public static void checkSuccess(Map<String, Object> payload) {

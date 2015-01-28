@@ -32,40 +32,47 @@ public interface CryptoTradeAuthenticated extends CryptoTrade {
 
   @POST
   @Path("private/getinfo")
-  CryptoTradeAccountInfo getInfo(@HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-      throws CryptoTradeException, IOException;
+  CryptoTradeAccountInfo getInfo(@HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws CryptoTradeException, IOException;
 
   @POST
   @Path("private/trade")
-  CryptoTradePlaceOrderReturn trade(@FormParam("pair") String pair, @FormParam("type") CryptoTradeOrderType type, @FormParam("price") BigDecimal rate, @FormParam("amount") BigDecimal amount,
-      @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws CryptoTradeException, IOException;
+  CryptoTradePlaceOrderReturn trade(@FormParam("pair") String pair, @FormParam("type") CryptoTradeOrderType type,
+      @FormParam("price") BigDecimal rate, @FormParam("amount") BigDecimal amount, @HeaderParam("AuthKey") String apiKey,
+      @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws CryptoTradeException,
+      IOException;
 
   @POST
   @Path("private/cancelorder")
-  CryptoTradeCancelOrderReturn cancelOrder(@FormParam("orderid") long orderId, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws CryptoTradeException, IOException;
+  CryptoTradeCancelOrderReturn cancelOrder(@FormParam("orderid") long orderId, @HeaderParam("AuthKey") String apiKey,
+      @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws CryptoTradeException,
+      IOException;
 
   @POST
   @Path("private/orderinfo")
-  CryptoTradeOrderInfoReturn getOrderInfo(@FormParam("orderid") long orderId, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws CryptoTradeException, IOException;
+  CryptoTradeOrderInfoReturn getOrderInfo(@FormParam("orderid") long orderId, @HeaderParam("AuthKey") String apiKey,
+      @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws CryptoTradeException,
+      IOException;
 
   @POST
   @Path("private/tradeshistory")
-  CryptoTradeTrades getTradeHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate,
-      @FormParam("count") Integer count, @FormParam("order") CryptoTradeOrdering ordering, @FormParam("pair") String currencyPair, @HeaderParam("AuthKey") String apiKey,
-      @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws CryptoTradeException, IOException;
+  CryptoTradeTrades getTradeHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate,
+      @FormParam("end_date") Long endDate, @FormParam("count") Integer count, @FormParam("order") CryptoTradeOrdering ordering,
+      @FormParam("pair") String currencyPair, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws CryptoTradeException, IOException;
 
   @POST
   @Path("private/ordershistory")
-  CryptoTradeOrders getOrderHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate,
-      @FormParam("count") Integer count, @FormParam("order") CryptoTradeOrdering ordering, @FormParam("pair") String currencyPair, @HeaderParam("AuthKey") String apiKey,
-      @HeaderParam("AuthSign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws CryptoTradeException, IOException;
+  CryptoTradeOrders getOrderHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate,
+      @FormParam("end_date") Long endDate, @FormParam("count") Integer count, @FormParam("order") CryptoTradeOrdering ordering,
+      @FormParam("pair") String currencyPair, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws CryptoTradeException, IOException;
 
   @POST
   @Path("private/transactions")
-  CryptoTradeTransactions getTransactionHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId, @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate,
-      @FormParam("count") Integer count, @FormParam("order") CryptoTradeOrdering ordering, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer,
+  CryptoTradeTransactions getTransactionHistory(@FormParam("start_id") Long startId, @FormParam("end_id") Long endId,
+      @FormParam("start_date") Long startDate, @FormParam("end_date") Long endDate, @FormParam("count") Integer count,
+      @FormParam("order") CryptoTradeOrdering ordering, @HeaderParam("AuthKey") String apiKey, @HeaderParam("AuthSign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws CryptoTradeException, IOException;
 
 }

@@ -11,8 +11,9 @@ import com.xeiam.xchange.dto.Order;
  * DTO representing a limit order
  * </p>
  * <p>
- * A limit order lets you set a minimum or maximum price before your trade will be treated by the exchange as a {@link MarketOrder}. There is no guarantee that your conditions will be met on the
- * exchange, so your order may not be executed. However, until you become very experienced, almost all orders should be limit orders to protect yourself.
+ * A limit order lets you set a minimum or maximum price before your trade will be treated by the exchange as a {@link MarketOrder}. There is no
+ * guarantee that your conditions will be met on the exchange, so your order may not be executed. However, until you become very experienced, almost
+ * all orders should be limit orders to protect yourself.
  * </p>
  */
 public final class LimitOrder extends Order implements Comparable<LimitOrder> {
@@ -95,14 +96,13 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
       this.currencyPair = currencyPair;
     }
 
-    public static Builder from(LimitOrder order){
+    public static Builder from(LimitOrder order) {
 
-      return from((Order)order).limitPrice(order.getLimitPrice());
+      return from((Order) order).limitPrice(order.getLimitPrice());
     }
 
-    public static Builder from(Order o){
-      return new Builder(o.getType(),o.getCurrencyPair()).tradableAmount(o.getTradableAmount()).timestamp(o.getTimestamp())
-              .id(o.getId());
+    public static Builder from(Order o) {
+      return new Builder(o.getType(), o.getCurrencyPair()).tradableAmount(o.getTradableAmount()).timestamp(o.getTimestamp()).id(o.getId());
     }
 
     public Builder orderType(OrderType orderType) {

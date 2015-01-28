@@ -29,7 +29,8 @@ public class BTERTradeHistoryReturn extends BTERBaseResponse {
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  protected BTERTradeHistoryReturn(@JsonProperty("result") boolean result, @JsonProperty("trades") List<BTERTrade> trades, @JsonProperty("msg") String message) {
+  protected BTERTradeHistoryReturn(@JsonProperty("result") boolean result, @JsonProperty("trades") List<BTERTrade> trades,
+      @JsonProperty("msg") String message) {
 
     super(result, message);
     this.trades = trades;

@@ -8,9 +8,8 @@ import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTrade;
 import com.xeiam.xchange.coinsetter.dto.trade.CoinsetterOrderStatus;
 
 /**
- * An abstract adapter class for receiving Coinsetter exchange events.
- * The methods in this class are empty.
- * This class exists as convenience for creating listener objects.
+ * An abstract adapter class for receiving Coinsetter exchange events. The methods in this class are empty. This class exists as convenience for
+ * creating listener objects.
  */
 public abstract class CoinsetterExchangeAdapter implements CoinsetterExchangeListener {
 

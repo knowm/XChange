@@ -39,7 +39,8 @@ public final class BitcoinChartsAdapters {
         BigDecimal volume = bitcoinChartsTickers[i].getVolume();
         Date timeStamp = new Date(bitcoinChartsTickers[i].getLatestTrade() * 1000L);
 
-        return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timeStamp).build();
+        return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timeStamp)
+            .build();
 
       }
     }

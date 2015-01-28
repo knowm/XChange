@@ -24,25 +24,13 @@ public class BitbayExchangeTest {
   }
 
   /*
-   * @Test
-   * public void testBitbayRequest() {
-   * try {
-   * BitbayTicker bitbayTicker = bitbayMarketDataServiceRaw.getBitbayTicker(currencyPair);
-   * System.out.println(bitbayTicker.toString());
-   * BitbayOrderBook bitbayOrderBook = bitbayMarketDataServiceRaw.getBitbayOrderBook(currencyPair);
-   * System.out.println(bitbayOrderBook.toString());
-   * BitbayTrade[] trades = bitbayMarketDataServiceRaw.getBitbayTrades(currencyPair);
-   * System.out.println(Arrays.toString(trades));
-   * Ticker ticker = bitbayExchange.getPollingMarketDataService().getTicker(currencyPair);
-   * System.out.println(ticker.toString());
-   * OrderBook orderBook = bitbayExchange.getPollingMarketDataService().getOrderBook(currencyPair);
-   * System.out.println(orderBook.toString());
-   * Trades tradesAll = bitbayExchange.getPollingMarketDataService().getTrades(currencyPair);
-   * System.out.println(tradesAll.toString());
-   * } catch (IOException e) {
-   * Assert.fail();
-   * }
-   * }
+   * @Test public void testBitbayRequest() { try { BitbayTicker bitbayTicker = bitbayMarketDataServiceRaw.getBitbayTicker(currencyPair);
+   * System.out.println(bitbayTicker.toString()); BitbayOrderBook bitbayOrderBook = bitbayMarketDataServiceRaw.getBitbayOrderBook(currencyPair);
+   * System.out.println(bitbayOrderBook.toString()); BitbayTrade[] trades = bitbayMarketDataServiceRaw.getBitbayTrades(currencyPair);
+   * System.out.println(Arrays.toString(trades)); Ticker ticker = bitbayExchange.getPollingMarketDataService().getTicker(currencyPair);
+   * System.out.println(ticker.toString()); OrderBook orderBook = bitbayExchange.getPollingMarketDataService().getOrderBook(currencyPair);
+   * System.out.println(orderBook.toString()); Trades tradesAll = bitbayExchange.getPollingMarketDataService().getTrades(currencyPair);
+   * System.out.println(tradesAll.toString()); } catch (IOException e) { Assert.fail(); } }
    */
 
 }

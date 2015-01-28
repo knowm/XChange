@@ -2,7 +2,9 @@ package com.xeiam.xchange.empoex.dto.trade;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.annotation.Generated;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,7 +27,6 @@ public class EmpoExOrderResponse {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * 
    * @return The success
    */
   @JsonProperty("success")
@@ -34,7 +35,6 @@ public class EmpoExOrderResponse {
   }
 
   /**
-   * 
    * @param success The success
    */
   @JsonProperty("success")
@@ -43,7 +43,6 @@ public class EmpoExOrderResponse {
   }
 
   /**
-   * 
    * @return The message
    */
   @JsonProperty("message")
@@ -52,7 +51,6 @@ public class EmpoExOrderResponse {
   }
 
   /**
-   * 
    * @param message The message
    */
   @JsonProperty("message")
@@ -61,7 +59,6 @@ public class EmpoExOrderResponse {
   }
 
   /**
-   * 
    * @return The orderId
    */
   @JsonProperty("order_id")
@@ -70,7 +67,6 @@ public class EmpoExOrderResponse {
   }
 
   /**
-   * 
    * @param orderId The order_id
    */
   @JsonProperty("order_id")
@@ -90,7 +86,8 @@ public class EmpoExOrderResponse {
 
   @Override
   public String toString() {
-    return "EmpoExOrderResponse [success=" + success + ", message=" + message + ", orderId=" + orderId + ", additionalProperties=" + additionalProperties + "]";
+    return "EmpoExOrderResponse [success=" + success + ", message=" + message + ", orderId=" + orderId + ", additionalProperties="
+        + additionalProperties + "]";
   }
 
 }

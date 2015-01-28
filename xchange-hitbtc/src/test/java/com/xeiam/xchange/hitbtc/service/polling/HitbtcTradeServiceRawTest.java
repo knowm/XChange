@@ -16,7 +16,8 @@ public class HitbtcTradeServiceRawTest {
   @Test
   public void testReadSymbol() throws Exception {
 
-    String id = HitbtcAdapters.createOrderId(new LimitOrder(Order.OrderType.ASK, BigDecimal.ONE, CurrencyPair.BTC_EUR, null, null, BigDecimal.ONE), 0);
+    String id = HitbtcAdapters
+        .createOrderId(new LimitOrder(Order.OrderType.ASK, BigDecimal.ONE, CurrencyPair.BTC_EUR, null, null, BigDecimal.ONE), 0);
 
     assertEquals("BTCEUR", HitbtcAdapters.readSymbol(id));
     assertEquals(Order.OrderType.ASK, HitbtcAdapters.readOrderType(id));
@@ -25,7 +26,8 @@ public class HitbtcTradeServiceRawTest {
   @Test
   public void testReadSymbolDoge() throws Exception {
 
-    String id = HitbtcAdapters.createOrderId(new LimitOrder(Order.OrderType.ASK, BigDecimal.ONE, CurrencyPair.DOGE_BTC, null, null, BigDecimal.ONE), 0);
+    String id = HitbtcAdapters.createOrderId(new LimitOrder(Order.OrderType.ASK, BigDecimal.ONE, CurrencyPair.DOGE_BTC, null, null, BigDecimal.ONE),
+        0);
 
     assertEquals("DOGEBTC", HitbtcAdapters.readSymbol(id));
     assertEquals(Order.OrderType.ASK, HitbtcAdapters.readOrderType(id));

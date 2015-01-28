@@ -10,7 +10,8 @@ public class BittrexTickerResponse {
   private final String message;
   private final BittrexTicker ticker;
 
-  public BittrexTickerResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message, @JsonProperty("result") ArrayList<BittrexTicker> result) {
+  public BittrexTickerResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+      @JsonProperty("result") ArrayList<BittrexTicker> result) {
 
     super();
     this.success = success;

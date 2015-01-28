@@ -79,8 +79,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   }
 
   /**
-   * @param args Accept zero or 2 parameters, both are unix time: Long from,
-   *          Long to
+   * @param args Accept zero or 2 parameters, both are unix time: Long from, Long to
    */
   @Override
   public UserTrades getTradeHistory(Object... args) throws IOException {

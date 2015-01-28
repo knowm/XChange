@@ -17,9 +17,10 @@ public final class ANXTrade {
   private final long tid;
   private final String tradeType;
 
-  public ANXTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_int") long amountInt, @JsonProperty("item") String item, @JsonProperty("price_currency") String priceCurrency,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("price_int") long priceInt, @JsonProperty("primary") String primary, @JsonProperty("properties") String properties,
-      @JsonProperty("tid") long tid, @JsonProperty("trade_type") String tradeType) {
+  public ANXTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("amount_int") long amountInt, @JsonProperty("item") String item,
+      @JsonProperty("price_currency") String priceCurrency, @JsonProperty("price") BigDecimal price, @JsonProperty("price_int") long priceInt,
+      @JsonProperty("primary") String primary, @JsonProperty("properties") String properties, @JsonProperty("tid") long tid,
+      @JsonProperty("trade_type") String tradeType) {
 
     this.amount = amount;
     this.amountInt = amountInt;
@@ -86,8 +87,8 @@ public final class ANXTrade {
   @Override
   public String toString() {
 
-    return "ANXTrade [amount=" + amount + ", amountInt=" + amountInt + ", item=" + item + ", priceCurrency=" + priceCurrency + ", price=" + price + ", priceInt=" + priceInt + ", primary=" + primary
-        + ", properties=" + properties + ", tid=" + tid + ", tradeType=" + tradeType + "]";
+    return "ANXTrade [amount=" + amount + ", amountInt=" + amountInt + ", item=" + item + ", priceCurrency=" + priceCurrency + ", price=" + price
+        + ", priceInt=" + priceInt + ", primary=" + primary + ", properties=" + properties + ", tid=" + tid + ", tradeType=" + tradeType + "]";
   }
 
 }

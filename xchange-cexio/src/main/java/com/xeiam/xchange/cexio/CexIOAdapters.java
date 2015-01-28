@@ -89,7 +89,8 @@ public class CexIOAdapters {
     BigDecimal volume = ticker.getVolume();
     Date timestamp = new Date(ticker.getTimestamp() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
   }
 
   /**
@@ -216,8 +217,8 @@ public class CexIOAdapters {
     for (CexIOOrder cexIOOrder : cexIOOrderList) {
       Order.OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? Order.OrderType.BID : Order.OrderType.ASK;
       String id = Long.toString(cexIOOrder.getId());
-      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getPending(), new CurrencyPair(cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()), id, DateUtils
-          .fromMillisUtc(cexIOOrder.getTime()), cexIOOrder.getPrice()));
+      limitOrders.add(new LimitOrder(orderType, cexIOOrder.getPending(), new CurrencyPair(cexIOOrder.getTradableIdentifier(), cexIOOrder
+          .getTransactionCurrency()), id, DateUtils.fromMillisUtc(cexIOOrder.getTime()), cexIOOrder.getPrice()));
     }
 
     return new OpenOrders(limitOrders);

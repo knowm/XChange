@@ -22,7 +22,6 @@ public class BitcoinAverageMarketDataServiceRaw extends BitcoinAverageBasePollin
   private final BitcoinAverage bitcoinAverage;
 
   /**
-   *
    * Constructor
    *
    * @param exchange

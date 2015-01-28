@@ -22,8 +22,8 @@ public class OkCoinTrade {
    * @param tid
    * @param type
    */
-  public OkCoinTrade(@JsonProperty("date") final long date, @JsonProperty("price") final BigDecimal price, @JsonProperty("amount") final BigDecimal amount, @JsonProperty("tid") final long tid,
-      @JsonProperty("type") final String type) {
+  public OkCoinTrade(@JsonProperty("date") final long date, @JsonProperty("price") final BigDecimal price,
+      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("tid") final long tid, @JsonProperty("type") final String type) {
 
     this.date = new Date(date * 1000);
     this.price = price;

@@ -39,9 +39,8 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
   public static final String SESSION_KEY = "session";
 
   /**
-   * XChange do not support multiple sub accounts, so specify one account using
-   * to trade. If does not specified, the first one in from the account list
-   * will be used.
+   * XChange do not support multiple sub accounts, so specify one account using to trade. If does not specified, the first one in from the account
+   * list will be used.
    */
   public static final String ACCOUNT_UUID_KEY = "account";
 
@@ -62,7 +61,7 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setHost("api.coinsetter.com");
     exchangeSpecification.setExchangeName("Coinsetter");
     exchangeSpecification
-    .setExchangeDescription("Coinsetter is a New York City based, venture capital funded bitcoin exchange that is dedicated to making bitcoin safe and reliable for active users.");
+        .setExchangeDescription("Coinsetter is a New York City based, venture capital funded bitcoin exchange that is dedicated to making bitcoin safe and reliable for active users.");
     exchangeSpecification.setExchangeSpecificParametersItem(WEBSOCKET_URI_KEY, "https://plug.coinsetter.com:3000");
 
     // default heartbeat interval is 30 seconds.

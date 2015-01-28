@@ -57,7 +57,8 @@ public class BTCETradeService extends BTCEBasePollingService implements PollingT
 
     String pair = String.format("%s_%s", limitOrder.getCurrencyPair().baseSymbol, limitOrder.getCurrencyPair().counterSymbol).toLowerCase();
     BTCEOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTCEOrder.Type.buy : BTCEOrder.Type.sell;
-    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
+    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, nextNonce(), pair, type, limitOrder.getLimitPrice(),
+        limitOrder.getTradableAmount());
     checkResult(ret);
     return Long.toString(ret.getReturnValue().getOrderId());
   }
@@ -85,7 +86,8 @@ public class BTCETradeService extends BTCEBasePollingService implements PollingT
     }
 
     String pair = String.format("%s_%s", tradableIdentifier, transactionCurrency).toLowerCase();
-    BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, nextNonce(), null, numberOfTransactions, null, null, BTCEAuthenticated.SortOrder.DESC, null, null, pair);
+    BTCETradeHistoryReturn btceTradeHistory = btce.TradeHistory(apiKey, signatureCreator, nextNonce(), null, numberOfTransactions, null, null,
+        BTCEAuthenticated.SortOrder.DESC, null, null, pair);
     checkResult(btceTradeHistory);
     return BTCEAdapters.adaptTradeHistory(btceTradeHistory.getReturnValue());
   }

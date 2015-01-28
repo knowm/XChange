@@ -92,8 +92,7 @@ public class BitcoiniumRealtimeTickerDemo {
             Series series = chartPanel.updateSeries(SERIES_NAME, xAxisData, yAxisData);
             System.out.println(series.getXData());
             System.out.println(series.getYData());
-          }
-          else {
+          } else {
             System.out.println("No new data.");
           }
         } catch (IOException e) {
@@ -112,7 +111,8 @@ public class BitcoiniumRealtimeTickerDemo {
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - BITSTAMP
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD", "THREE_HOURS");
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD",
+        "THREE_HOURS");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 
@@ -131,7 +131,8 @@ public class BitcoiniumRealtimeTickerDemo {
     }
 
     // create chart
-    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time Bitstamp Price vs. Time").xAxisTitle("Time").yAxisTitle("Price").build();
+    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time Bitstamp Price vs. Time").xAxisTitle("Time")
+        .yAxisTitle("Price").build();
     chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
 
     // add series

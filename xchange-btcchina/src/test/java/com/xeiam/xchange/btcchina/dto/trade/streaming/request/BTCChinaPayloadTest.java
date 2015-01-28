@@ -21,8 +21,10 @@ public class BTCChinaPayloadTest {
     BTCChinaPayload payload = new BTCChinaPayload(0, "myAccessKey", "post", "subscribe", new String[] { "order_cnybtc" });
     String payloadString = mapper.writeValueAsString(payload);
 
-    String postdata =
-        String.format("{\"tonce\":\"%1$d\",\"accesskey\":\"%2$s\",\"requestmethod\":\"post\",\"id\":\"%1$s\",\"method\":\"subscribe\",\"params\":[\"order_%3$s\"]}", tonce, accessKey, market);
+    String postdata = String
+        .format(
+            "{\"tonce\":\"%1$d\",\"accesskey\":\"%2$s\",\"requestmethod\":\"post\",\"id\":\"%1$s\",\"method\":\"subscribe\",\"params\":[\"order_%3$s\"]}",
+            tonce, accessKey, market);
 
     assertEquals(postdata, payloadString);
   }

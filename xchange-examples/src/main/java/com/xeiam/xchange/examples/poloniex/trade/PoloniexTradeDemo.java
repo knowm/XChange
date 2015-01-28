@@ -45,7 +45,8 @@ public class PoloniexTradeDemo {
     raw((PoloniexTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException, InterruptedException {
+  private static void generic(PollingTradeService tradeService) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException, InterruptedException {
 
     System.out.println("----------GENERIC----------");
 
@@ -66,8 +67,7 @@ public class PoloniexTradeDemo {
     boolean canceled = tradeService.cancelOrder(orderId);
     if (canceled) {
       System.out.println("Successfully canceled order #" + orderId);
-    }
-    else {
+    } else {
       System.out.println("Did not successfully cancel order #" + orderId);
     }
 
@@ -76,7 +76,8 @@ public class PoloniexTradeDemo {
     System.out.println(tradeService.getOpenOrders());
   }
 
-  private static void raw(PoloniexTradeServiceRaw tradeService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException, InterruptedException {
+  private static void raw(PoloniexTradeServiceRaw tradeService) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException, InterruptedException {
 
     System.out.println("------------RAW------------");
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, null, null)));
@@ -96,8 +97,7 @@ public class PoloniexTradeDemo {
     boolean canceled = tradeService.cancel(orderId);
     if (canceled) {
       System.out.println("Successfully canceled order #" + orderId);
-    }
-    else {
+    } else {
       System.out.println("Did not successfully cancel order #" + orderId);
     }
 

@@ -10,7 +10,8 @@ public class CryptoTradePlaceOrderReturn extends CryptoTradeBaseResponse {
 
   private final CryptoTradePlacedOrderData placedOrderData;
 
-  private CryptoTradePlaceOrderReturn(@JsonProperty("data") CryptoTradePlacedOrderData placedOrderData, @JsonProperty("status") String status, @JsonProperty("error") String error) {
+  private CryptoTradePlaceOrderReturn(@JsonProperty("data") CryptoTradePlacedOrderData placedOrderData, @JsonProperty("status") String status,
+      @JsonProperty("error") String error) {
 
     super(status, error);
     this.placedOrderData = placedOrderData;
@@ -55,8 +56,8 @@ public class CryptoTradePlaceOrderReturn extends CryptoTradeBaseResponse {
     private final int orderId;
     private final Map<String, BigDecimal> funds;
 
-    private CryptoTradePlacedOrderData(@JsonProperty("Bought") BigDecimal bought, @JsonProperty("Sold") BigDecimal sold, @JsonProperty("remaining") BigDecimal remaining,
-        @JsonProperty("order_id") int orderId, @JsonProperty("funds") Map<String, BigDecimal> funds) {
+    private CryptoTradePlacedOrderData(@JsonProperty("Bought") BigDecimal bought, @JsonProperty("Sold") BigDecimal sold,
+        @JsonProperty("remaining") BigDecimal remaining, @JsonProperty("order_id") int orderId, @JsonProperty("funds") Map<String, BigDecimal> funds) {
 
       this.bought = bought;
       this.sold = sold;
@@ -93,7 +94,8 @@ public class CryptoTradePlaceOrderReturn extends CryptoTradeBaseResponse {
     @Override
     public String toString() {
 
-      return "CryptoTradePlacedOrderData [bought=" + bought + ", sold=" + sold + ", remaining=" + remaining + ", orderId=" + orderId + ", funds=" + funds + "]";
+      return "CryptoTradePlacedOrderData [bought=" + bought + ", sold=" + sold + ", remaining=" + remaining + ", orderId=" + orderId + ", funds="
+          + funds + "]";
     }
 
   }

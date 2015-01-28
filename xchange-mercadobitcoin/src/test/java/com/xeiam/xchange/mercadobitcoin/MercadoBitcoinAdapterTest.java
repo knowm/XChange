@@ -104,8 +104,9 @@ public class MercadoBitcoinAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> mercadoBitcoinAccountInfo = mapper.readValue(is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo>>() {
-    });
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> mercadoBitcoinAccountInfo = mapper.readValue(is,
+        new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo>>() {
+        });
 
     AccountInfo accountInfo = MercadoBitcoinAdapters.adaptAccountInfo(mercadoBitcoinAccountInfo, "Nina Tufão & Bit");
     assertThat(accountInfo.getUsername()).isEqualTo("Nina Tufão & Bit");
@@ -125,8 +126,9 @@ public class MercadoBitcoinAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> apiResult = mapper.readValue(is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders>>() {
-    });
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> apiResult = mapper.readValue(is,
+        new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders>>() {
+        });
 
     List<LimitOrder> orders = MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currencies.LTC, Currencies.BRL), apiResult);
 

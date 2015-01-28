@@ -12,7 +12,8 @@ public class CoinbaseToken extends CoinbaseBaseResponse {
 
   private final CoinbaseTokenInfo token;
 
-  private CoinbaseToken(@JsonProperty("token") final CoinbaseTokenInfo token, @JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
+  private CoinbaseToken(@JsonProperty("token") final CoinbaseTokenInfo token, @JsonProperty("success") final boolean success,
+      @JsonProperty("errors") final List<String> errors) {
 
     super(success, errors);
     this.token = token;

@@ -10,7 +10,8 @@ public class BitVcOrderBookObject {
   private final BigDecimal level;
   private final BigDecimal amount;
 
-  public BitVcOrderBookObject(@JsonProperty("price") final BigDecimal price, @JsonProperty("level") final BigDecimal level, @JsonProperty("amount") final BigDecimal amount) {
+  public BitVcOrderBookObject(@JsonProperty("price") final BigDecimal price, @JsonProperty("level") final BigDecimal level,
+      @JsonProperty("amount") final BigDecimal amount) {
 
     this.price = price;
     this.level = level;

@@ -5,9 +5,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * Author: brox
- * Since: 11/12/13 11:00 PM
- * Data object representing multi-currency market data from BTCE API v.3
+ * Author: brox Since: 11/12/13 11:00 PM Data object representing multi-currency market data from BTCE API v.3
  */
 public class BTCEDepthWrapper {
 

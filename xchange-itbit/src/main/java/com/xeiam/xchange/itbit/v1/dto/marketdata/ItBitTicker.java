@@ -22,9 +22,10 @@ public class ItBitTicker {
   private final double vwap24h;
   private final String timestamp;
 
-  public ItBitTicker(@JsonProperty("pair") CurrencyPair currencyPair, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("bidAmt") double bidAmt,
-      @JsonProperty("askAmt") double askAmt, @JsonProperty("lastPrice") BigDecimal lastPrice, @JsonProperty("lastAmt") double lastAmt, @JsonProperty("volume24h") BigDecimal volume24h,
-      @JsonProperty("highToday") BigDecimal highToday, @JsonProperty("lowToday") BigDecimal lowToday, @JsonProperty("openToday") double openToday, @JsonProperty("vwapToday") double vwapToday,
+  public ItBitTicker(@JsonProperty("pair") CurrencyPair currencyPair, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("bidAmt") double bidAmt, @JsonProperty("askAmt") double askAmt, @JsonProperty("lastPrice") BigDecimal lastPrice,
+      @JsonProperty("lastAmt") double lastAmt, @JsonProperty("volume24h") BigDecimal volume24h, @JsonProperty("highToday") BigDecimal highToday,
+      @JsonProperty("lowToday") BigDecimal lowToday, @JsonProperty("openToday") double openToday, @JsonProperty("vwapToday") double vwapToday,
       @JsonProperty("vwap24h") double vwap24h, @JsonProperty("servertimeUTC") String timestamp) {
 
     super();

@@ -39,9 +39,10 @@ public class CryptsyTradeHistory {
    * @param pair
    * @throws ParseException
    */
-  public CryptsyTradeHistory(@JsonProperty("marketid") int marketId, @JsonProperty("tradeid") int tradeId, @JsonProperty("tradetype") CryptsyOrderType type,
-      @JsonProperty("datetime") String timeStamp, @JsonProperty("tradeprice") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("total") BigDecimal total,
-      @JsonProperty("fee") BigDecimal fee, @JsonProperty("initiate_ordertype") CryptsyOrderType init_type, @JsonProperty("order_id") int orderId) throws ParseException {
+  public CryptsyTradeHistory(@JsonProperty("marketid") int marketId, @JsonProperty("tradeid") int tradeId,
+      @JsonProperty("tradetype") CryptsyOrderType type, @JsonProperty("datetime") String timeStamp, @JsonProperty("tradeprice") BigDecimal price,
+      @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("total") BigDecimal total, @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("initiate_ordertype") CryptsyOrderType init_type, @JsonProperty("order_id") int orderId) throws ParseException {
 
     this.marketId = marketId;
     this.tradeId = tradeId;
@@ -108,7 +109,8 @@ public class CryptsyTradeHistory {
   @Override
   public String toString() {
 
-    return "CryptsyTrade[" + "Market ID='" + marketId + "',Trade ID='" + tradeId + "',Type='" + type + "',Timestamp='" + timeStamp + "',Price='" + price + "',Quantity='" + quantity + "',Total='"
-        + total + "',Fee='" + fee + "',InitiatingOrderType='" + init_type + "',Order ID='" + orderId + "']";
+    return "CryptsyTrade[" + "Market ID='" + marketId + "',Trade ID='" + tradeId + "',Type='" + type + "',Timestamp='" + timeStamp + "',Price='"
+        + price + "',Quantity='" + quantity + "',Total='" + total + "',Fee='" + fee + "',InitiatingOrderType='" + init_type + "',Order ID='"
+        + orderId + "']";
   }
 }

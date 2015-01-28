@@ -23,8 +23,7 @@ public class BitcoinToYouTradeService extends BitcoinToYouTradeServiceRaw implem
   /**
    * Constructor
    *
-   * @param exchangeSpecification The
-   *          {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
   public BitcoinToYouTradeService(Exchange exchange) {
 
@@ -69,8 +68,7 @@ public class BitcoinToYouTradeService extends BitcoinToYouTradeServiceRaw implem
   }
 
   /**
-   * Required parameter types:
-   * {@link com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging#getPageLength()}
+   * Required parameter types: {@link com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging#getPageLength()}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {

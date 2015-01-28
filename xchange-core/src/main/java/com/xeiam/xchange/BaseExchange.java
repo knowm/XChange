@@ -85,7 +85,8 @@ public abstract class BaseExchange implements Exchange {
         logger.warn("An exception occured while loading the metadata file from the classpath. This may lead to unexpected results.", e);
       }
     } else {
-      logger.warn("No \"exchange name\" found in the ExchangeSpecification. The name is used to load the meta data file from the classpath and may lead to unexpected results.");
+      logger
+          .warn("No \"exchange name\" found in the ExchangeSpecification. The name is used to load the meta data file from the classpath and may lead to unexpected results.");
     }
 
   }

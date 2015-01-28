@@ -25,8 +25,9 @@ public final class ANXWallet {
    * @param availableBalance
    * @param operations
    */
-  public ANXWallet(@JsonProperty("Balance") ANXValue balance, @JsonProperty("Daily_Withdrawal_Limit") ANXValue dailyWithdrawLimit, @JsonProperty("Max_Withdraw") ANXValue maxWithdraw,
-      @JsonProperty("Monthly_Withdraw_Limit") ANXValue monthlyWithdrawLimit, @JsonProperty("Available_Balance") ANXValue availableBalance, @JsonProperty("Operations") int operations) {
+  public ANXWallet(@JsonProperty("Balance") ANXValue balance, @JsonProperty("Daily_Withdrawal_Limit") ANXValue dailyWithdrawLimit,
+      @JsonProperty("Max_Withdraw") ANXValue maxWithdraw, @JsonProperty("Monthly_Withdraw_Limit") ANXValue monthlyWithdrawLimit,
+      @JsonProperty("Available_Balance") ANXValue availableBalance, @JsonProperty("Operations") int operations) {
 
     this.balance = balance;
     this.dailyWithdrawLimit = dailyWithdrawLimit;
@@ -69,8 +70,8 @@ public final class ANXWallet {
   @Override
   public String toString() {
 
-    return "ANXWallet [balance=" + balance + ", dailyWithdrawLimit=" + dailyWithdrawLimit + ", maxWithdraw=" + maxWithdraw + ", monthlyWithdrawLimit=" + monthlyWithdrawLimit + ", operations="
-        + operations + "]";
+    return "ANXWallet [balance=" + balance + ", dailyWithdrawLimit=" + dailyWithdrawLimit + ", maxWithdraw=" + maxWithdraw
+        + ", monthlyWithdrawLimit=" + monthlyWithdrawLimit + ", operations=" + operations + "]";
   }
 
 }

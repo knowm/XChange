@@ -16,7 +16,10 @@ public class BTCETradeHistoryResult {
   private final BigDecimal amount;
   private final BigDecimal rate;
   private final Long orderId;
-  /** reflects who created original order. True means that you opened the order and then someone completely bought/sold it. False means you bought/sold from someone else's order. */
+  /**
+   * reflects who created original order. True means that you opened the order and then someone completely bought/sold it. False means you bought/sold
+   * from someone else's order.
+   */
   private final int isYourOrder;
   private final Long timestamp;
 
@@ -31,8 +34,9 @@ public class BTCETradeHistoryResult {
    * @param type
    * @param pair
    */
-  public BTCETradeHistoryResult(@JsonProperty("timestamp") Long timestamp, @JsonProperty("is_your_order") int isYourOrder, @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("order_id") Long orderId, @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
+  public BTCETradeHistoryResult(@JsonProperty("timestamp") Long timestamp, @JsonProperty("is_your_order") int isYourOrder,
+      @JsonProperty("rate") BigDecimal rate, @JsonProperty("amount") BigDecimal amount, @JsonProperty("order_id") Long orderId,
+      @JsonProperty("type") Type type, @JsonProperty("pair") String pair) {
 
     this.timestamp = timestamp;
     this.isYourOrder = isYourOrder;
@@ -81,8 +85,8 @@ public class BTCETradeHistoryResult {
   @Override
   public String toString() {
 
-    return MessageFormat.format("BTCEOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, timestamp={4}, orderId={5}, isYourOrder={6}]", pair, type, amount, rate, timestamp, orderId,
-        isYourOrder);
+    return MessageFormat.format("BTCEOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, timestamp={4}, orderId={5}, isYourOrder={6}]",
+        pair, type, amount, rate, timestamp, orderId, isYourOrder);
   }
 
   public static enum Type {

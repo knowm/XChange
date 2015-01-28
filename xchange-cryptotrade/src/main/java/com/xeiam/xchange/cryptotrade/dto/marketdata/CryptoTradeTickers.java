@@ -12,8 +12,8 @@ public class CryptoTradeTickers extends CryptoTradeBaseResponse {
 
   private final Map<CurrencyPair, CryptoTradeTicker> tickers;
 
-  public CryptoTradeTickers(@JsonProperty("status") String status, @JsonProperty("error") String error,
-      @JsonProperty("data") @JsonDeserialize(using = CryptoTradeTickersDeserializer.class) Map<CurrencyPair, CryptoTradeTicker> tickers) {
+  public CryptoTradeTickers(@JsonProperty("status") String status, @JsonProperty("error") String error, @JsonProperty("data") @JsonDeserialize(
+      using = CryptoTradeTickersDeserializer.class) Map<CurrencyPair, CryptoTradeTicker> tickers) {
 
     super(status, error);
     this.tickers = tickers;

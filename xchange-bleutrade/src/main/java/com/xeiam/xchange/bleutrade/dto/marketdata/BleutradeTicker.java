@@ -46,8 +46,7 @@ public class BleutradeTicker {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * @return
-   *         The MarketName
+   * @return The MarketName
    */
   @JsonProperty("MarketName")
   public String getMarketName() {
@@ -56,8 +55,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @param MarketName
-   *          The MarketName
+   * @param MarketName The MarketName
    */
   @JsonProperty("MarketName")
   public void setMarketName(String MarketName) {
@@ -66,8 +64,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @return
-   *         The PrevDay
+   * @return The PrevDay
    */
   @JsonProperty("PrevDay")
   public BigDecimal getPrevDay() {
@@ -76,8 +73,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @param PrevDay
-   *          The PrevDay
+   * @param PrevDay The PrevDay
    */
   @JsonProperty("PrevDay")
   public void setPrevDay(BigDecimal PrevDay) {
@@ -86,8 +82,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @return
-   *         The High
+   * @return The High
    */
   @JsonProperty("High")
   public BigDecimal getHigh() {
@@ -96,8 +91,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @param High
-   *          The High
+   * @param High The High
    */
   @JsonProperty("High")
   public void setHigh(BigDecimal High) {
@@ -106,8 +100,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @return
-   *         The Low
+   * @return The Low
    */
   @JsonProperty("Low")
   public BigDecimal getLow() {
@@ -116,8 +109,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @param Low
-   *          The Low
+   * @param Low The Low
    */
   @JsonProperty("Low")
   public void setLow(BigDecimal Low) {
@@ -126,8 +118,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @return
-   *         The Last
+   * @return The Last
    */
   @JsonProperty("Last")
   public BigDecimal getLast() {
@@ -136,8 +127,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @param Last
-   *          The Last
+   * @param Last The Last
    */
   @JsonProperty("Last")
   public void setLast(BigDecimal Last) {
@@ -146,8 +136,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @return
-   *         The Average
+   * @return The Average
    */
   @JsonProperty("Average")
   public BigDecimal getAverage() {
@@ -156,8 +145,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @param Average
-   *          The Average
+   * @param Average The Average
    */
   @JsonProperty("Average")
   public void setAverage(BigDecimal Average) {
@@ -166,8 +154,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @return
-   *         The Volume
+   * @return The Volume
    */
   @JsonProperty("Volume")
   public BigDecimal getVolume() {
@@ -176,8 +163,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @param Volume
-   *          The Volume
+   * @param Volume The Volume
    */
   @JsonProperty("Volume")
   public void setVolume(BigDecimal Volume) {
@@ -186,8 +172,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @return
-   *         The BaseVolume
+   * @return The BaseVolume
    */
   @JsonProperty("BaseVolume")
   public BigDecimal getBaseVolume() {
@@ -196,8 +181,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @param BaseVolume
-   *          The BaseVolume
+   * @param BaseVolume The BaseVolume
    */
   @JsonProperty("BaseVolume")
   public void setBaseVolume(BigDecimal BaseVolume) {
@@ -206,8 +190,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @return
-   *         The TimeStamp
+   * @return The TimeStamp
    */
   @JsonProperty("TimeStamp")
   public String getTimeStamp() {
@@ -216,8 +199,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @param TimeStamp
-   *          The TimeStamp
+   * @param TimeStamp The TimeStamp
    */
   @JsonProperty("TimeStamp")
   public void setTimeStamp(String TimeStamp) {
@@ -226,8 +208,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @return
-   *         The Bid
+   * @return The Bid
    */
   @JsonProperty("Bid")
   public BigDecimal getBid() {
@@ -236,8 +217,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @param Bid
-   *          The Bid
+   * @param Bid The Bid
    */
   @JsonProperty("Bid")
   public void setBid(BigDecimal Bid) {
@@ -246,8 +226,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @return
-   *         The Ask
+   * @return The Ask
    */
   @JsonProperty("Ask")
   public BigDecimal getAsk() {
@@ -256,8 +235,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @param Ask
-   *          The Ask
+   * @param Ask The Ask
    */
   @JsonProperty("Ask")
   public void setAsk(BigDecimal Ask) {
@@ -266,8 +244,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @return
-   *         The IsActive
+   * @return The IsActive
    */
   @JsonProperty("IsActive")
   public Boolean getIsActive() {
@@ -276,8 +253,7 @@ public class BleutradeTicker {
   }
 
   /**
-   * @param IsActive
-   *          The IsActive
+   * @param IsActive The IsActive
    */
   @JsonProperty("IsActive")
   public void setIsActive(Boolean IsActive) {
@@ -300,8 +276,9 @@ public class BleutradeTicker {
   @Override
   public String toString() {
 
-    return "BleutradeTicker [MarketName=" + MarketName + ", PrevDay=" + PrevDay + ", High=" + High + ", Low=" + Low + ", Last=" + Last + ", Average=" + Average + ", Volume=" + Volume
-        + ", BaseVolume=" + BaseVolume + ", TimeStamp=" + TimeStamp + ", Bid=" + Bid + ", Ask=" + Ask + ", IsActive=" + IsActive + ", additionalProperties=" + additionalProperties + "]";
+    return "BleutradeTicker [MarketName=" + MarketName + ", PrevDay=" + PrevDay + ", High=" + High + ", Low=" + Low + ", Last=" + Last + ", Average="
+        + Average + ", Volume=" + Volume + ", BaseVolume=" + BaseVolume + ", TimeStamp=" + TimeStamp + ", Bid=" + Bid + ", Ask=" + Ask
+        + ", IsActive=" + IsActive + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

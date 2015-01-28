@@ -32,24 +32,28 @@ public interface MercadoBitcoinAuthenticated extends MercadoBitcoin {
 
   @POST
   @Path("/")
-  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> getInfo(@HeaderParam("Key") String key, @HeaderParam("Sign") ParamsDigest sign, @FormParam("method") String method,
-      @FormParam("tonce") long tonce) throws IOException;
+  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> getInfo(@HeaderParam("Key") String key, @HeaderParam("Sign") ParamsDigest sign,
+      @FormParam("method") String method, @FormParam("tonce") long tonce) throws IOException;
 
   @POST
   @Path("/")
-  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> getOrderList(@HeaderParam("Key") String key, @HeaderParam("Sign") ParamsDigest sign, @FormParam("method") String method,
-      @FormParam("tonce") long tonce, @Nonnull @FormParam("pair") String pair, @Nullable @FormParam("type") String type, @FormParam("status") @Nullable String status,
-      @FormParam("fromId") @Nullable String fromId, @FormParam("endId") @Nullable String endId, @FormParam("since") @Nullable Long since, @FormParam("end") @Nullable Long end) throws IOException;
+  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> getOrderList(@HeaderParam("Key") String key,
+      @HeaderParam("Sign") ParamsDigest sign, @FormParam("method") String method, @FormParam("tonce") long tonce,
+      @Nonnull @FormParam("pair") String pair, @Nullable @FormParam("type") String type, @FormParam("status") @Nullable String status,
+      @FormParam("fromId") @Nullable String fromId, @FormParam("endId") @Nullable String endId, @FormParam("since") @Nullable Long since,
+      @FormParam("end") @Nullable Long end) throws IOException;
 
   @POST
   @Path("/")
-  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> placeLimitOrder(@HeaderParam("Key") String key, @HeaderParam("Sign") ParamsDigest sign,
-      @FormParam("method") String method, @FormParam("tonce") long tonce, @Nonnull @FormParam("pair") String pair, @Nonnull @FormParam("type") String type,
-      @Nonnull @FormParam("volume") BigDecimal volume, @Nonnull @FormParam("price") BigDecimal price) throws IOException;
+  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> placeLimitOrder(@HeaderParam("Key") String key,
+      @HeaderParam("Sign") ParamsDigest sign, @FormParam("method") String method, @FormParam("tonce") long tonce,
+      @Nonnull @FormParam("pair") String pair, @Nonnull @FormParam("type") String type, @Nonnull @FormParam("volume") BigDecimal volume,
+      @Nonnull @FormParam("price") BigDecimal price) throws IOException;
 
   @POST
   @Path("/")
-  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> cancelOrder(@HeaderParam("Key") String key, @HeaderParam("Sign") ParamsDigest sign, @FormParam("method") String method,
-      @FormParam("tonce") long tonce, @Nonnull @FormParam("pair") String pair, @Nonnull @FormParam("order_id") String id) throws IOException;
+  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> cancelOrder(@HeaderParam("Key") String key,
+      @HeaderParam("Sign") ParamsDigest sign, @FormParam("method") String method, @FormParam("tonce") long tonce,
+      @Nonnull @FormParam("pair") String pair, @Nonnull @FormParam("order_id") String id) throws IOException;
 
 }

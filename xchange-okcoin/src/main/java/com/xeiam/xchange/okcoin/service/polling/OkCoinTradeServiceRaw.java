@@ -45,7 +45,8 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradePollingService {
 
   /** OkCoin.com Futures API **/
 
-  public OkCoinTradeResult futuresTrade(String symbol, String type, String price, String amount, FuturesContract prompt, int matchPrice) throws IOException {
+  public OkCoinTradeResult futuresTrade(String symbol, String type, String price, String amount, FuturesContract prompt, int matchPrice)
+      throws IOException {
 
     OkCoinTradeResult tradeResult = okCoin.futuresTrade(apikey, symbol, prompt.getName(), type, price, amount, matchPrice, signatureCreator);
     return returnOrThrow(tradeResult);
@@ -57,7 +58,8 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradePollingService {
     return returnOrThrow(tradeResult);
   }
 
-  public OkCoinOrderResult getFuturesOrder(long orderId, String symbol, String currentPage, String pageLength, FuturesContract prompt) throws IOException {
+  public OkCoinOrderResult getFuturesOrder(long orderId, String symbol, String currentPage, String pageLength, FuturesContract prompt)
+      throws IOException {
 
     OkCoinOrderResult orderResult = okCoin.getFuturesOrder(apikey, orderId, symbol, "0", currentPage, pageLength, prompt.getName(), signatureCreator);
     return returnOrThrow(orderResult);

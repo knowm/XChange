@@ -19,9 +19,8 @@ import com.xeiam.xchange.bitcointoyou.dto.account.BitcoinToYouBalance;
 import com.xeiam.xchange.bitcointoyou.dto.trade.BitcoinToYouOrder;
 
 /**
- * Implementation note: the foobar param is necessary because if the body is
- * empty, the server is returning HTTP 411 (missing Content-Length header). At
- * least until Dec 2014.
+ * Implementation note: the foobar param is necessary because if the body is empty, the server is returning HTTP 411 (missing Content-Length header).
+ * At least until Dec 2014.
  *
  * @author Felipe Micaroni Lalli
  * @see BitcoinToYou
@@ -33,21 +32,22 @@ public interface BitcoinToYouAuthenticated extends BitcoinToYou {
 
   @POST
   @Path("balance.aspx")
-  public BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> getBalance(@HeaderParam("key") String key, @HeaderParam("nonce") Long nonce, @HeaderParam("signature") ParamsDigest signature,
-      @FormParam("foobar") Long foobar) throws IOException;
+  public BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> getBalance(@HeaderParam("key") String key, @HeaderParam("nonce") Long nonce,
+      @HeaderParam("signature") ParamsDigest signature, @FormParam("foobar") Long foobar) throws IOException;
 
   @POST
   @Path("getOrders.aspx")
-  public BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder[]> getOrders(@HeaderParam("key") String key, @HeaderParam("nonce") Long nonce, @HeaderParam("signature") ParamsDigest signature,
-      @FormParam("foobar") Long foobar, @QueryParam("status") String status) throws IOException;
+  public BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder[]> getOrders(@HeaderParam("key") String key, @HeaderParam("nonce") Long nonce,
+      @HeaderParam("signature") ParamsDigest signature, @FormParam("foobar") Long foobar, @QueryParam("status") String status) throws IOException;
 
   @POST
   @Path("createOrder.aspx")
-  BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder[]> createOrder(@HeaderParam("key") String key, @HeaderParam("nonce") Long nonce, @HeaderParam("signature") ParamsDigest signature,
-      @FormParam("foobar") Long foobar, @QueryParam("asset") String asset, @QueryParam("action") String action, @QueryParam("amount") BigDecimal amount, @QueryParam("price") BigDecimal price);
+  BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder[]> createOrder(@HeaderParam("key") String key, @HeaderParam("nonce") Long nonce,
+      @HeaderParam("signature") ParamsDigest signature, @FormParam("foobar") Long foobar, @QueryParam("asset") String asset,
+      @QueryParam("action") String action, @QueryParam("amount") BigDecimal amount, @QueryParam("price") BigDecimal price);
 
   @POST
   @Path("deleteOrders.aspx")
-  BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder> deleteOrder(@HeaderParam("key") String key, @HeaderParam("nonce") Long nonce, @HeaderParam("signature") ParamsDigest signature,
-      @FormParam("foobar") Long foobar, @QueryParam("id") String id);
+  BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder> deleteOrder(@HeaderParam("key") String key, @HeaderParam("nonce") Long nonce,
+      @HeaderParam("signature") ParamsDigest signature, @FormParam("foobar") Long foobar, @QueryParam("id") String id);
 }

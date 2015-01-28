@@ -7,25 +7,25 @@ import com.xeiam.xchange.lakebtc.dto.LakeBTCRequest;
  */
 public class LakeBTCCancelRequest extends LakeBTCRequest {
 
-    private static final String METHOD_NAME = "cancelOrder";
+  private static final String METHOD_NAME = "cancelOrder";
 
-    /**
-     * Constructor
-     */
-    public LakeBTCCancelRequest() {
+  /**
+   * Constructor
+   */
+  public LakeBTCCancelRequest() {
 
-        method = METHOD_NAME;
-        params = "[]";
-    }
+    method = METHOD_NAME;
+    params = "[]";
+  }
 
-    public LakeBTCCancelRequest(String type) {
+  public LakeBTCCancelRequest(String type) {
 
-        method = METHOD_NAME;
-        params = String.format("[\"%s\"]", type);
-    }
+    method = METHOD_NAME;
+    params = String.format("[\"%s\"]", type);
+  }
 
-    @Override
-    public String toString() {
-        return String.format("LakeBTCCancelRequest{id=%d, method=%s, params=%s}", id, method, params);
-    }
+  @Override
+  public String toString() {
+    return String.format("LakeBTCCancelRequest{id=%d, method=%s, params=%s}", id, method, params);
+  }
 }

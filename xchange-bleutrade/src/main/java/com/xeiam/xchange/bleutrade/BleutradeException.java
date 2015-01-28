@@ -31,8 +31,7 @@ public class BleutradeException extends RuntimeException {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * @return
-   *         The success
+   * @return The success
    */
   @JsonProperty("success")
   public String getSuccess() {
@@ -41,8 +40,7 @@ public class BleutradeException extends RuntimeException {
   }
 
   /**
-   * @param success
-   *          The success
+   * @param success The success
    */
   @JsonProperty("success")
   public void setSuccess(String success) {
@@ -51,8 +49,7 @@ public class BleutradeException extends RuntimeException {
   }
 
   /**
-   * @return
-   *         The message
+   * @return The message
    */
   @JsonProperty("message")
   public String getMessage() {
@@ -61,8 +58,7 @@ public class BleutradeException extends RuntimeException {
   }
 
   /**
-   * @param message
-   *          The message
+   * @param message The message
    */
   @JsonProperty("message")
   public void setMessage(String message) {
@@ -71,8 +67,7 @@ public class BleutradeException extends RuntimeException {
   }
 
   /**
-   * @return
-   *         The result
+   * @return The result
    */
   @JsonProperty("result")
   public List<Object> getResult() {
@@ -81,8 +76,7 @@ public class BleutradeException extends RuntimeException {
   }
 
   /**
-   * @param result
-   *          The result
+   * @param result The result
    */
   @JsonProperty("result")
   public void setResult(List<Object> result) {

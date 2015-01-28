@@ -63,14 +63,16 @@ public class BitVcTradeService extends BitVcTradeServiceRaw implements PollingTr
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    BitVcPlaceOrderResult result = placeBitVcMarketOrder(marketOrder.getType(), coinTypes.get(marketOrder.getCurrencyPair()), marketOrder.getTradableAmount());
+    BitVcPlaceOrderResult result = placeBitVcMarketOrder(marketOrder.getType(), coinTypes.get(marketOrder.getCurrencyPair()),
+        marketOrder.getTradableAmount());
     return BitVcAdapters.adaptPlaceOrderResult(result);
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    BitVcPlaceOrderResult result = placeBitVcLimitOrder(limitOrder.getType(), coinTypes.get(limitOrder.getCurrencyPair()), limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
+    BitVcPlaceOrderResult result = placeBitVcLimitOrder(limitOrder.getType(), coinTypes.get(limitOrder.getCurrencyPair()),
+        limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
     return BitVcAdapters.adaptPlaceOrderResult(result);
   }
 

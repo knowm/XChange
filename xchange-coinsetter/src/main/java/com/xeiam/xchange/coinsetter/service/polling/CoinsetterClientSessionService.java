@@ -48,7 +48,8 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
     accountServiceRaw = new CoinsetterAccountServiceRaw(exchange);
     lock = (ReadWriteLock) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_LOCK_KEY);
     heartbeatInterval = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_HEARTBEAT_INTERVAL_KEY);
-    heartbeatMaxFailureTimes = (Integer) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_HEARTBEAT_MAX_FAILURE_TIMES_KEY);
+    heartbeatMaxFailureTimes = (Integer) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(
+        SESSION_HEARTBEAT_MAX_FAILURE_TIMES_KEY);
   }
 
   public CoinsetterClientSession getSession() throws IOException {
@@ -98,7 +99,8 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
         final CoinsetterClientSession session = login();
         exchange.getExchangeSpecification().setExchangeSpecificParametersItem(SESSION_KEY, session);
 
-        final String heatbeatThreadName = String.format("Coinsetter-heatbeat-%s(%s)-%s", session.getUsername(), session.getCustomerUuid(), session.getUuid());
+        final String heatbeatThreadName = String.format("Coinsetter-heatbeat-%s(%s)-%s", session.getUsername(), session.getCustomerUuid(),
+            session.getUuid());
         heartbeatThread = new HeartbeatThread(heatbeatThreadName, session, heartbeatInterval, heartbeatMaxFailureTimes);
         heartbeatThread.start();
 
@@ -116,7 +118,8 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
   private CoinsetterClientSession login() throws IOException {
 
     String ipAddress = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_IP_ADDRESS_KEY);
-    CoinsetterClientSession session = clientSessionServiceRaw.login(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getPassword(), ipAddress);
+    CoinsetterClientSession session = clientSessionServiceRaw.login(exchange.getExchangeSpecification().getUserName(), exchange
+        .getExchangeSpecification().getPassword(), ipAddress);
     return session;
   }
 
@@ -154,7 +157,8 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
           log.debug("Interrupted: {}", e.getMessage());
           this.interrupt();
         }
-      } while (!this.isInterrupted() && tryTimes < heartbeatMaxFailureTimes && heatbeatResponse != null && "SUCCESS".equals(heatbeatResponse.getRequestStatus()));
+      } while (!this.isInterrupted() && tryTimes < heartbeatMaxFailureTimes && heatbeatResponse != null
+          && "SUCCESS".equals(heatbeatResponse.getRequestStatus()));
 
       // Session logged out or session is invalid
       log.debug("Session logged out or session is invalid.");

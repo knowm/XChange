@@ -1,6 +1,5 @@
 package com.xeiam.xchange.service.polling.trade.params;
 
-
 /**
  * Common implementation of {@link TradeHistoryParamPaging} interface
  */

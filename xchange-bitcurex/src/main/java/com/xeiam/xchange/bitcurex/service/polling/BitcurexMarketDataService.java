@@ -27,7 +27,6 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 public class BitcurexMarketDataService extends BitcurexMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   *
    * Constructor
    *
    * @param exchange

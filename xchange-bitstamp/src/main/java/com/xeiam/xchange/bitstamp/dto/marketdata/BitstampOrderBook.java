@@ -21,7 +21,8 @@ public class BitstampOrderBook {
    * @param bids
    * @param asks
    */
-  public BitstampOrderBook(@JsonProperty("timestamp") Long timestamp, @JsonProperty("bids") List<List<BigDecimal>> bids, @JsonProperty("asks") List<List<BigDecimal>> asks) {
+  public BitstampOrderBook(@JsonProperty("timestamp") Long timestamp, @JsonProperty("bids") List<List<BigDecimal>> bids,
+      @JsonProperty("asks") List<List<BigDecimal>> asks) {
 
     this.bids = bids;
     this.asks = asks;

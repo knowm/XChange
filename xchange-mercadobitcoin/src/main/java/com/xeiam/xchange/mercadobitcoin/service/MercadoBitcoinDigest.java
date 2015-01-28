@@ -21,8 +21,7 @@ public class MercadoBitcoinDigest extends BaseParamsDigest {
    * Constructor
    *
    * @param signCode (called "Codigo")
-   * @param tonce See
-   *          {@link com.xeiam.xchange.mercadobitcoin.MercadoBitcoinUtils#getTonce()}
+   * @param tonce See {@link com.xeiam.xchange.mercadobitcoin.MercadoBitcoinUtils#getTonce()}
    */
   private MercadoBitcoinDigest(String method, String pin, String signCode, long tonce) {
 

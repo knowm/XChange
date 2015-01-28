@@ -29,8 +29,7 @@ public class BleutradeMarketHistoryReturn {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * @return
-   *         The success
+   * @return The success
    */
   @JsonProperty("success")
   public Boolean getSuccess() {
@@ -39,8 +38,7 @@ public class BleutradeMarketHistoryReturn {
   }
 
   /**
-   * @param success
-   *          The success
+   * @param success The success
    */
   @JsonProperty("success")
   public void setSuccess(Boolean success) {
@@ -49,8 +47,7 @@ public class BleutradeMarketHistoryReturn {
   }
 
   /**
-   * @return
-   *         The message
+   * @return The message
    */
   @JsonProperty("message")
   public String getMessage() {
@@ -59,8 +56,7 @@ public class BleutradeMarketHistoryReturn {
   }
 
   /**
-   * @param message
-   *          The message
+   * @param message The message
    */
   @JsonProperty("message")
   public void setMessage(String message) {
@@ -69,8 +65,7 @@ public class BleutradeMarketHistoryReturn {
   }
 
   /**
-   * @return
-   *         The result
+   * @return The result
    */
   @JsonProperty("result")
   public List<BleutradeTrade> getResult() {
@@ -79,8 +74,7 @@ public class BleutradeMarketHistoryReturn {
   }
 
   /**
-   * @param result
-   *          The result
+   * @param result The result
    */
   @JsonProperty("result")
   public void setResult(List<BleutradeTrade> result) {
@@ -103,7 +97,8 @@ public class BleutradeMarketHistoryReturn {
   @Override
   public String toString() {
 
-    return "BleutradeMarketHistoryReturn [success=" + success + ", message=" + message + ", result=" + result + ", additionalProperties=" + additionalProperties + "]";
+    return "BleutradeMarketHistoryReturn [success=" + success + ", message=" + message + ", result=" + result + ", additionalProperties="
+        + additionalProperties + "]";
   }
 
 }

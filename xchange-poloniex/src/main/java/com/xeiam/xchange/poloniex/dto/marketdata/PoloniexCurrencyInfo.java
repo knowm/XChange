@@ -11,8 +11,8 @@ public class PoloniexCurrencyInfo {
   private final int minConf;
   private final boolean disabled;
 
-  public PoloniexCurrencyInfo(@JsonProperty("maxDailyWithdrawal") BigDecimal maxDailyWithdrawal, @JsonProperty("txFee") BigDecimal txFee, @JsonProperty("minConf") int minConf,
-      @JsonProperty("disabled") boolean disabled) {
+  public PoloniexCurrencyInfo(@JsonProperty("maxDailyWithdrawal") BigDecimal maxDailyWithdrawal, @JsonProperty("txFee") BigDecimal txFee,
+      @JsonProperty("minConf") int minConf, @JsonProperty("disabled") boolean disabled) {
 
     this.maxDailyWithdrawal = maxDailyWithdrawal;
     this.txFee = txFee;
@@ -43,6 +43,7 @@ public class PoloniexCurrencyInfo {
   @Override
   public String toString() {
 
-    return "PoloniexCurrencyInfo [maxDailyWithdrawal=" + maxDailyWithdrawal + ", txFee=" + txFee + ", minConf=" + minConf + ", disabled=" + disabled + "]";
+    return "PoloniexCurrencyInfo [maxDailyWithdrawal=" + maxDailyWithdrawal + ", txFee=" + txFee + ", minConf=" + minConf + ", disabled=" + disabled
+        + "]";
   }
 }

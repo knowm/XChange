@@ -18,7 +18,8 @@ public class GHashIORejected {
    * @param duplicate
    * @param lowdiff
    */
-  public GHashIORejected(@JsonProperty("stale") BigDecimal stale, @JsonProperty("duplicate") BigDecimal duplicate, @JsonProperty("lowdiff") BigDecimal lowdiff) {
+  public GHashIORejected(@JsonProperty("stale") BigDecimal stale, @JsonProperty("duplicate") BigDecimal duplicate,
+      @JsonProperty("lowdiff") BigDecimal lowdiff) {
 
     this.stale = stale;
     this.duplicate = duplicate;

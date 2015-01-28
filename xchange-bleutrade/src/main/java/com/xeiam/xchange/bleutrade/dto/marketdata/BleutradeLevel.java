@@ -26,8 +26,7 @@ public class BleutradeLevel {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * @return
-   *         The Quantity
+   * @return The Quantity
    */
   @JsonProperty("Quantity")
   public BigDecimal getQuantity() {
@@ -36,8 +35,7 @@ public class BleutradeLevel {
   }
 
   /**
-   * @param Quantity
-   *          The Quantity
+   * @param Quantity The Quantity
    */
   @JsonProperty("Quantity")
   public void setQuantity(BigDecimal Quantity) {
@@ -46,8 +44,7 @@ public class BleutradeLevel {
   }
 
   /**
-   * @return
-   *         The Rate
+   * @return The Rate
    */
   @JsonProperty("Rate")
   public BigDecimal getRate() {
@@ -56,8 +53,7 @@ public class BleutradeLevel {
   }
 
   /**
-   * @param Rate
-   *          The Rate
+   * @param Rate The Rate
    */
   @JsonProperty("Rate")
   public void setRate(BigDecimal Rate) {

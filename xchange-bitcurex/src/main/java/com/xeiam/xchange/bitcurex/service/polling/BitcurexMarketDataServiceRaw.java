@@ -24,7 +24,6 @@ public class BitcurexMarketDataServiceRaw extends BitcurexBasePollingService {
   private final Bitcurex bitcurex;
 
   /**
-   *
    * Constructor
    *
    * @param exchange

@@ -7,15 +7,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
- * This class holds data "hardcoded" in a json file found in each module's
- * "resources" folder. It is loaded during creation of the Exchange and is
- * intended to hold semi-static data that is not readily available from an HTTP
- * API request at an exchange, but is still important information to have.
- * Examples include currency pairs, max polling rates, scaling factors, etc.
+ * This class holds data "hardcoded" in a json file found in each module's "resources" folder. It is loaded during creation of the Exchange and is
+ * intended to hold semi-static data that is not readily available from an HTTP API request at an exchange, but is still important information to
+ * have. Examples include currency pairs, max polling rates, scaling factors, etc.
  * <p>
- * This data may be directly accessed or it can be used by the service classes
- * to enhance or supplement data that may not be directly obtained from the
- * exchange.
+ * This data may be directly accessed or it can be used by the service classes to enhance or supplement data that may not be directly obtained from
+ * the exchange.
  *
  * @author timmolter
  */
@@ -53,10 +50,14 @@ public class MetaData {
    * @param fiatAmountMultiplier
    * @param cryptoAmountMultiplier
    */
-  public MetaData(@JsonProperty("currency_pairs") List<CurrencyPair> currencyPairs, @JsonProperty("max_private_poll_rate_per_second") int maxPrivatePollRatePerSecond,
-      @JsonProperty("max_private_poll_rate_per_10_second") int maxPrivatePollRatePer10Second, @JsonProperty("max_private_poll_rate_per_minute") int maxPrivatePollRatePerMinute,
-      @JsonProperty("max_private_poll_rate_per_hour") int maxPrivatePollRatePerHour, @JsonProperty("max_public_poll_rate_per_second") int maxPublicPollRatePerSecond,
-      @JsonProperty("max_public_poll_rate_per_10_second") int maxPublicPollRatePer10Second, @JsonProperty("max_public_poll_rate_per_minute") int maxPublicPollRatePerMinute,
+  public MetaData(@JsonProperty("currency_pairs") List<CurrencyPair> currencyPairs,
+      @JsonProperty("max_private_poll_rate_per_second") int maxPrivatePollRatePerSecond,
+      @JsonProperty("max_private_poll_rate_per_10_second") int maxPrivatePollRatePer10Second,
+      @JsonProperty("max_private_poll_rate_per_minute") int maxPrivatePollRatePerMinute,
+      @JsonProperty("max_private_poll_rate_per_hour") int maxPrivatePollRatePerHour,
+      @JsonProperty("max_public_poll_rate_per_second") int maxPublicPollRatePerSecond,
+      @JsonProperty("max_public_poll_rate_per_10_second") int maxPublicPollRatePer10Second,
+      @JsonProperty("max_public_poll_rate_per_minute") int maxPublicPollRatePerMinute,
       @JsonProperty("max_public_poll_rate_per_hour") int maxPublicPollRatePerHour, @JsonProperty("fiat_amount_multiplier") int fiatAmountMultiplier,
       @JsonProperty("crypto_amount_multiplier") int cryptoAmountMultiplier) {
     this.currencyPairs = currencyPairs;
@@ -162,10 +163,12 @@ public class MetaData {
 
   @Override
   public String toString() {
-    return "MetaData [currencyPairs=" + currencyPairs + ", maxPrivatePollRatePerSecond=" + maxPrivatePollRatePerSecond + ", maxPrivatePollRatePer10Second=" + maxPrivatePollRatePer10Second
-        + ", maxPrivatePollRatePerMinute=" + maxPrivatePollRatePerMinute + ", maxPrivatePollRatePerHour=" + maxPrivatePollRatePerHour + ", maxPublicPollRatePerSecond=" + maxPublicPollRatePerSecond
-        + ", maxPublicPollRatePer10Second=" + maxPublicPollRatePer10Second + ", maxPublicPollRatePerMinute=" + maxPublicPollRatePerMinute + ", maxPublicPollRatePerHour=" + maxPublicPollRatePerHour
-        + ", fiatAmountMultiplier=" + fiatAmountMultiplier + ", cryptoAmountMultiplier=" + cryptoAmountMultiplier + "]";
+    return "MetaData [currencyPairs=" + currencyPairs + ", maxPrivatePollRatePerSecond=" + maxPrivatePollRatePerSecond
+        + ", maxPrivatePollRatePer10Second=" + maxPrivatePollRatePer10Second + ", maxPrivatePollRatePerMinute=" + maxPrivatePollRatePerMinute
+        + ", maxPrivatePollRatePerHour=" + maxPrivatePollRatePerHour + ", maxPublicPollRatePerSecond=" + maxPublicPollRatePerSecond
+        + ", maxPublicPollRatePer10Second=" + maxPublicPollRatePer10Second + ", maxPublicPollRatePerMinute=" + maxPublicPollRatePerMinute
+        + ", maxPublicPollRatePerHour=" + maxPublicPollRatePerHour + ", fiatAmountMultiplier=" + fiatAmountMultiplier + ", cryptoAmountMultiplier="
+        + cryptoAmountMultiplier + "]";
   }
 
 }

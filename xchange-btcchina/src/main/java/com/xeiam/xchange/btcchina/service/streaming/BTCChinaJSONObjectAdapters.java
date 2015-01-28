@@ -35,9 +35,11 @@ public class BTCChinaJSONObjectAdapters {
   private static Ticker internalAdaptTicker(JSONObject jsonObject) throws JSONException {
 
     JSONObject tickerJsonObject = jsonObject.getJSONObject("ticker");
-    return new Ticker.Builder().high(new BigDecimal(tickerJsonObject.getString("high"))).low(new BigDecimal(tickerJsonObject.getString("low"))).bid(new BigDecimal(tickerJsonObject.getString("buy")))
-        .ask(new BigDecimal(tickerJsonObject.getString("sell"))).last(new BigDecimal(tickerJsonObject.getString("last"))).volume(new BigDecimal(tickerJsonObject.getString("vol")))
-        .timestamp(BTCChinaAdapters.adaptDate(tickerJsonObject.getLong("date"))).currencyPair(BTCChinaAdapters.adaptCurrencyPair(tickerJsonObject.getString("market"))).build();
+    return new Ticker.Builder().high(new BigDecimal(tickerJsonObject.getString("high"))).low(new BigDecimal(tickerJsonObject.getString("low")))
+        .bid(new BigDecimal(tickerJsonObject.getString("buy"))).ask(new BigDecimal(tickerJsonObject.getString("sell")))
+        .last(new BigDecimal(tickerJsonObject.getString("last"))).volume(new BigDecimal(tickerJsonObject.getString("vol")))
+        .timestamp(BTCChinaAdapters.adaptDate(tickerJsonObject.getLong("date")))
+        .currencyPair(BTCChinaAdapters.adaptCurrencyPair(tickerJsonObject.getString("market"))).build();
   }
 
   public static Trade adaptTrade(JSONObject jsonObject) {
@@ -51,8 +53,9 @@ public class BTCChinaJSONObjectAdapters {
 
   private static Trade internalAdaptTrade(JSONObject jsonObject) throws JSONException {
 
-    return new Trade(BTCChinaAdapters.adaptOrderType(jsonObject.getString("type")), new BigDecimal(jsonObject.getString("amount")), BTCChinaAdapters.adaptCurrencyPair(jsonObject.getString("market")),
-        new BigDecimal(jsonObject.getString("price")), BTCChinaAdapters.adaptDate(jsonObject.getLong("date")), String.valueOf(jsonObject.getLong("trade_id")));
+    return new Trade(BTCChinaAdapters.adaptOrderType(jsonObject.getString("type")), new BigDecimal(jsonObject.getString("amount")),
+        BTCChinaAdapters.adaptCurrencyPair(jsonObject.getString("market")), new BigDecimal(jsonObject.getString("price")),
+        BTCChinaAdapters.adaptDate(jsonObject.getLong("date")), String.valueOf(jsonObject.getLong("trade_id")));
   }
 
   public static BTCChinaOrder adaptOrder(JSONObject jsonObject) {
@@ -68,8 +71,9 @@ public class BTCChinaJSONObjectAdapters {
 
     JSONObject orderJsonObject = jsonObject.getJSONObject("order");
     return new BTCChinaOrder(BTCChinaAdapters.adaptOrderType(orderJsonObject.getString("type")), new BigDecimal(orderJsonObject.getString("amount")),
-        BTCChinaAdapters.adaptCurrencyPair(orderJsonObject.getString("market")), String.valueOf(orderJsonObject.getLong("id")), BTCChinaAdapters.adaptDate(orderJsonObject.getLong("date")),
-        new BigDecimal(orderJsonObject.getString("price")), new BigDecimal(orderJsonObject.getString("amount_original")), BTCChinaAdapters.adaptOrderStatus(orderJsonObject.getString("status")));
+        BTCChinaAdapters.adaptCurrencyPair(orderJsonObject.getString("market")), String.valueOf(orderJsonObject.getLong("id")),
+        BTCChinaAdapters.adaptDate(orderJsonObject.getLong("date")), new BigDecimal(orderJsonObject.getString("price")), new BigDecimal(
+            orderJsonObject.getString("amount_original")), BTCChinaAdapters.adaptOrderStatus(orderJsonObject.getString("status")));
   }
 
   public static BTCChinaBalance adaptBalance(JSONObject jsonObject) {
@@ -84,8 +88,8 @@ public class BTCChinaJSONObjectAdapters {
   private static BTCChinaBalance internalAdaptBalance(JSONObject jsonObject) throws JSONException {
 
     JSONObject balanceJsonObject = jsonObject.getJSONObject("balance");
-    return new BTCChinaBalance(new BigDecimal(balanceJsonObject.getString("amount_integer")), new BigDecimal(balanceJsonObject.getString("amount")), balanceJsonObject.getString("symbol"),
-        balanceJsonObject.getInt("amount_decimal"), balanceJsonObject.getString("currency"));
+    return new BTCChinaBalance(new BigDecimal(balanceJsonObject.getString("amount_integer")), new BigDecimal(balanceJsonObject.getString("amount")),
+        balanceJsonObject.getString("symbol"), balanceJsonObject.getInt("amount_decimal"), balanceJsonObject.getString("currency"));
   }
 
   /**
@@ -94,9 +98,7 @@ public class BTCChinaJSONObjectAdapters {
    * @param json the {@link JSONObject}.
    * @return the {@link OrderBook}.
    * @throws JSONException indicates read JSONObject failure.
-   * @since <a href=
-   *        "http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122"
-   *        >WebSocket API v1.2.2</a>
+   * @since <a href= "http://btcchina.org/websocket-api-market-data-documentation-en#websocket_api_v122" >WebSocket API v1.2.2</a>
    */
   public static OrderBook adaptDepth(JSONObject jsonObject) {
 
@@ -128,7 +130,8 @@ public class BTCChinaJSONObjectAdapters {
       String price = groupedOrder.getString("price");
       // String type = groupedOrder.getString("type");
       String totalamount = groupedOrder.getString("totalamount");
-      asks.add(new LimitOrder.Builder(OrderType.ASK, currencyPair).limitPrice(new BigDecimal(price)).tradableAmount(new BigDecimal(totalamount)).build());
+      asks.add(new LimitOrder.Builder(OrderType.ASK, currencyPair).limitPrice(new BigDecimal(price)).tradableAmount(new BigDecimal(totalamount))
+          .build());
     }
 
     for (int i = 0; i < bidLength; i++) {
@@ -136,7 +139,8 @@ public class BTCChinaJSONObjectAdapters {
       String price = groupedOrder.getString("price");
       // String type = groupedOrder.getString("type");
       String totalamount = groupedOrder.getString("totalamount");
-      bids.add(new LimitOrder.Builder(OrderType.BID, currencyPair).limitPrice(new BigDecimal(price)).tradableAmount(new BigDecimal(totalamount)).build());
+      bids.add(new LimitOrder.Builder(OrderType.BID, currencyPair).limitPrice(new BigDecimal(price)).tradableAmount(new BigDecimal(totalamount))
+          .build());
     }
 
     return new OrderBook(null, asks, bids);

@@ -15,7 +15,8 @@ public class CryptsyOrderBookReturn extends CryptsyGenericReturn<CryptsyOrderBoo
    * @param value
    * @param error
    */
-  public CryptsyOrderBookReturn(@JsonProperty("success") int success, @JsonProperty("return") CryptsyOrderBook value, @JsonProperty("error") String error) {
+  public CryptsyOrderBookReturn(@JsonProperty("success") int success, @JsonProperty("return") CryptsyOrderBook value,
+      @JsonProperty("error") String error) {
 
     super(success, value, error);
   }

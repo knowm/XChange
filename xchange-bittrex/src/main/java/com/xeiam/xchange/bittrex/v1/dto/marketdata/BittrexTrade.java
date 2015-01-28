@@ -14,8 +14,9 @@ public class BittrexTrade {
   private String timeStamp;
   private BigDecimal total;
 
-  public BittrexTrade(@JsonProperty("FillType") String fillType, @JsonProperty("Id") String id, @JsonProperty("OrderType") String orderType, @JsonProperty("Price") BigDecimal price,
-      @JsonProperty("Quantity") BigDecimal quantity, @JsonProperty("TimeStamp") String timeStamp, @JsonProperty("Total") BigDecimal total) {
+  public BittrexTrade(@JsonProperty("FillType") String fillType, @JsonProperty("Id") String id, @JsonProperty("OrderType") String orderType,
+      @JsonProperty("Price") BigDecimal price, @JsonProperty("Quantity") BigDecimal quantity, @JsonProperty("TimeStamp") String timeStamp,
+      @JsonProperty("Total") BigDecimal total) {
 
     super();
     this.fillType = fillType;
@@ -100,7 +101,8 @@ public class BittrexTrade {
   @Override
   public String toString() {
 
-    return "BittrexTrade [fillType=" + fillType + ", id=" + id + ", orderType=" + orderType + ", price=" + price + ", quantity=" + quantity + ", timeStamp=" + timeStamp + ", total=" + total + "]";
+    return "BittrexTrade [fillType=" + fillType + ", id=" + id + ", orderType=" + orderType + ", price=" + price + ", quantity=" + quantity
+        + ", timeStamp=" + timeStamp + ", total=" + total + "]";
   }
 
 }

@@ -13,7 +13,8 @@ public class BTCChinaOrder extends Order {
   private final BigDecimal amountOriginal;
   private final BTCChinaOrderStatus status;
 
-  public BTCChinaOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice, BigDecimal amountOriginal, BTCChinaOrderStatus status) {
+  public BTCChinaOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice,
+      BigDecimal amountOriginal, BTCChinaOrderStatus status) {
 
     super(type, tradableAmount, currencyPair, id, timestamp);
     this.limitPrice = limitPrice;
