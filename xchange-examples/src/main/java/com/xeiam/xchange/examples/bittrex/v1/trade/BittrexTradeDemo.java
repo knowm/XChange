@@ -16,8 +16,7 @@ import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 public class BittrexTradeDemo {
 
-  public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  public static void main(String[] args) throws IOException {
 
     Exchange exchange = BittrexExamplesUtils.getExchange();
 

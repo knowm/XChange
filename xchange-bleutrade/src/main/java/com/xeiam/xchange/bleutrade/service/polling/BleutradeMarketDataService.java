@@ -12,9 +12,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw implements PollingMarketDataService {
@@ -30,16 +27,14 @@ public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw im
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     BleutradeTicker bleutradeTicker = getBleutradeTicker(currencyPair);
     return BleutradeAdapters.adaptBleutradeTicker(bleutradeTicker);
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     int depth = 50;
 
@@ -54,8 +49,7 @@ public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw im
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     int count = 50;
 

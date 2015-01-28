@@ -37,13 +37,14 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
   private volatile HeartbeatThread heartbeatThread;
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
   public CoinsetterClientSessionService(Exchange exchange) {
 
     super(exchange);
 
-    // TODO look at this
     clientSessionServiceRaw = new CoinsetterClientSessionServiceRaw(exchange);
     accountServiceRaw = new CoinsetterAccountServiceRaw(exchange);
     lock = (ReadWriteLock) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_LOCK_KEY);

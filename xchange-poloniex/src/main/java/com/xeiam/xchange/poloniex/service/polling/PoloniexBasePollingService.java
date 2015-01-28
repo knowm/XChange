@@ -14,7 +14,6 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.poloniex.Poloniex;
 import com.xeiam.xchange.poloniex.PoloniexUtils;
@@ -32,7 +31,8 @@ public class PoloniexBasePollingService<T extends Poloniex> extends BaseExchange
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param type
+   * @param exchange
    */
   public PoloniexBasePollingService(Class<T> type, Exchange exchange) {
 

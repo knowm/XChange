@@ -16,7 +16,7 @@ import com.xeiam.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactor
 
 public class BTCChinaExchange extends BaseExchange implements Exchange {
 
-  // TODO handle these constants. metadata?
+  // move to metadata
 
   public static final String WEBSOCKET_URI_KEY = "websocket.uri";
 

@@ -16,7 +16,7 @@ public class BitcurexBasePollingService extends BaseExchangeService implements B
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
   public BitcurexBasePollingService(Exchange exchange) {
 

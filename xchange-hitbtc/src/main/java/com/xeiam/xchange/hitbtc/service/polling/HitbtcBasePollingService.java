@@ -35,7 +35,6 @@ public class HitbtcBasePollingService extends BaseExchangeService implements Bas
    *
    * @param exchange
    */
-  // TODO look at this
   protected HitbtcBasePollingService(Exchange exchange) {
 
     super(exchange);

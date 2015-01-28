@@ -1,7 +1,5 @@
 {
    "currency_pairs":[
-      "BTC/USD",
-      "LTC/USD",      
       "BTC/CNY",
       "LTC/CNY"
    ],

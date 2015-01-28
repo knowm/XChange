@@ -31,7 +31,7 @@ public class BTCChinaTradesDemo {
     raw();
   }
 
-  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void generic() throws IOException {
 
     // Get the latest trade data for BTC/CNY
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CNY);
@@ -61,7 +61,7 @@ public class BTCChinaTradesDemo {
     System.out.println("LastId=" + trades.getlastID());
   }
 
-  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void raw() throws IOException {
 
     // Get the latest trade data for BTC/CNY
     BTCChinaTrade[] trades = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaHistoryData(BTCChinaExchange.DEFAULT_MARKET);

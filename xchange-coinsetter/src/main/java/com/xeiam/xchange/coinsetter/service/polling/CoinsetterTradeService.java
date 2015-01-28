@@ -27,18 +27,16 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 /**
  * Trade service.
  */
-public class CoinsetterTradeService extends CoinsetterBasePollingService implements PollingTradeService {
-
-  private final CoinsetterOrderServiceRaw orderServiceRaw;
+public class CoinsetterTradeService extends CoinsetterOrderServiceRaw implements PollingTradeService {
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
   public CoinsetterTradeService(Exchange exchange) {
 
     super(exchange);
-    // TODO look at this
-    orderServiceRaw = new CoinsetterOrderServiceRaw(exchange);
   }
 
   /**
@@ -48,7 +46,7 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
   public OpenOrders getOpenOrders() throws IOException {
 
     CoinsetterClientSession session = getSession();
-    CoinsetterOrderList orderList = orderServiceRaw.list(session.getUuid(), getAccountUuid(), "OPEN");
+    CoinsetterOrderList orderList = list(session.getUuid(), getAccountUuid(), "OPEN");
     return CoinsetterAdapters.adaptOpenOrders(orderList);
   }
 
@@ -61,7 +59,7 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
    */
   public List<CoinsetterOrder> getCoinsetterOpenOrders() throws IOException {
     CoinsetterClientSession session = getSession();
-    CoinsetterOrderList orderList = orderServiceRaw.list(session.getUuid(), getAccountUuid(), "OPEN");
+    CoinsetterOrderList orderList = list(session.getUuid(), getAccountUuid(), "OPEN");
     return new ArrayList<CoinsetterOrder>(Arrays.asList(orderList.getOrderList()));
   }
 
@@ -88,7 +86,7 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
     CoinsetterClientSession session = getSession();
     CoinsetterOrderRequest request = new CoinsetterOrderRequest(session.getCustomerUuid(), getAccountUuid(),
         CoinsetterAdapters.adaptSymbol(currencyPair), CoinsetterAdapters.adaptSide(orderType), price == null ? "MARKET" : "LIMIT", quantity, 2, price);
-    return orderServiceRaw.add(getSession().getUuid(), request).getUuid().toString();
+    return add(getSession().getUuid(), request).getUuid().toString();
   }
 
   /**
@@ -97,7 +95,7 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    CoinsetterOrderResponse response = orderServiceRaw.cancel(getSession().getUuid(), UUID.fromString(orderId));
+    CoinsetterOrderResponse response = cancel(getSession().getUuid(), UUID.fromString(orderId));
     return "SUCCESS".equals(response.getRequestStatus());
   }
 
@@ -120,10 +118,6 @@ public class CoinsetterTradeService extends CoinsetterBasePollingService impleme
   public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     throw new NotAvailableFromExchangeException();
-  }
-
-  public CoinsetterOrderServiceRaw getOrderServiceRaw() {
-    return orderServiceRaw;
   }
 
 }

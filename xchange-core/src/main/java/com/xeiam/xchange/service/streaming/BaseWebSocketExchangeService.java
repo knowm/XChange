@@ -16,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.utils.Assert;
@@ -50,7 +49,8 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
+   * @param exchangeStreamingConfiguration
    */
   public BaseWebSocketExchangeService(Exchange exchange, ExchangeStreamingConfiguration exchangeStreamingConfiguration) {
 

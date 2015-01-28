@@ -19,7 +19,6 @@ public class BTCEAccountServiceRaw extends BTCEBasePollingService {
    */
   public BTCEAccountServiceRaw(Exchange exchange) {
 
-    // TODO look at this
     super(exchange);
   }
 

@@ -70,8 +70,7 @@ public abstract class BaseExchange implements Exchange {
     // load the metadata from the classpath
     if (exchangeSpecification.getExchangeName() != null) {
 
-      InputStream is = BaseExchangeService.class.getClassLoader().getResourceAsStream(
-          exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + ".json");
+      InputStream is = BaseExchangeService.class.getClassLoader().getResourceAsStream(getMetaDataFileName(exchangeSpecification) + ".json");
 
       // Use Jackson to parse it
       ObjectMapper mapper = new ObjectMapper();
@@ -89,6 +88,11 @@ public abstract class BaseExchange implements Exchange {
           .warn("No \"exchange name\" found in the ExchangeSpecification. The name is used to load the meta data file from the classpath and may lead to unexpected results.");
     }
 
+  }
+
+  public String getMetaDataFileName(ExchangeSpecification exchangeSpecification) {
+
+    return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "");
   }
 
   @Override

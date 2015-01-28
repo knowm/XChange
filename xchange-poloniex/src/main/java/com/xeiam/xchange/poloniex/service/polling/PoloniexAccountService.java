@@ -29,22 +29,20 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   }
 
   @Override
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public AccountInfo getAccountInfo() throws IOException {
 
     List<Wallet> wallets = getWallets();
     return new AccountInfo(null, wallets);
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String requestDepositAddress(String currency, String... args) throws IOException {
 
     return getDepositAddress(currency);
   }

@@ -42,7 +42,7 @@ public class BTCChinaAccountDemo {
     raw();
   }
 
-  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void generic() throws IOException {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
@@ -56,7 +56,7 @@ public class BTCChinaAccountDemo {
     // System.out.println("withdrawResult = " + withdrawResult);
   }
 
-  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void raw() throws IOException {
 
     BTCChinaAccountServiceRaw btcChinaAccountService = (BTCChinaAccountServiceRaw) accountService;
 

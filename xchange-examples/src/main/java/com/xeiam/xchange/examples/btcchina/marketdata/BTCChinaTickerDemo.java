@@ -34,7 +34,7 @@ public class BTCChinaTickerDemo {
     raw();
   }
 
-  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void generic() throws IOException {
 
     // Get the latest ticker data showing BTC to CNY
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_LTC);
@@ -48,7 +48,7 @@ public class BTCChinaTickerDemo {
 
   }
 
-  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void raw() throws IOException {
 
     BTCChinaMarketDataServiceRaw marketDataServiceRaw = ((BTCChinaMarketDataServiceRaw) marketDataService);
 

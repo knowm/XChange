@@ -15,12 +15,14 @@ public class BTCTradeBaseTradePollingService extends BTCTradeBasePollingService 
   protected final BTCTradeSession session;
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
   protected BTCTradeBaseTradePollingService(Exchange exchange) {
 
     super(exchange);
-    // TODO LOOK AT THIS
+
     session = BTCTradeSessionFactory.INSTANCE.getSession(exchange);
     publicKey = session.getKey();
   }

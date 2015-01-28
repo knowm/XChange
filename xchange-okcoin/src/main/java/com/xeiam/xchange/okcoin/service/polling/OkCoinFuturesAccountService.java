@@ -24,21 +24,19 @@ public class OkCoinFuturesAccountService extends OkCoinAccountServiceRaw impleme
   }
 
   @Override
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public AccountInfo getAccountInfo() throws IOException {
 
     return OkCoinAdapters.adaptAccountInfo(getFutureUserInfo());
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String requestDepositAddress(String currency, String... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

@@ -40,8 +40,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
     super(exchange);
   }
 
-  public HitbtcOrdersResponse getOpenOrdersRawBaseResponse() throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public HitbtcOrdersResponse getOpenOrdersRawBaseResponse() throws IOException {
 
     try {
       HitbtcOrdersResponse hitbtcActiveOrders = hitbtc.getHitbtcActiveOrders(signatureCreator, exchange.getNonceFactory(), apiKey);
@@ -51,15 +50,13 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
     }
   }
 
-  public HitbtcOrder[] getOpenOrdersRaw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  public HitbtcOrder[] getOpenOrdersRaw() throws IOException {
 
     HitbtcOrdersResponse hitbtcActiveOrders = getOpenOrdersRawBaseResponse();
     return hitbtcActiveOrders.getOrders();
   }
 
-  public HitbtcOrdersResponse getRecentOrdersRawBaseResponse(int max_results) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public HitbtcOrdersResponse getRecentOrdersRawBaseResponse(int max_results) throws IOException {
 
     try {
       HitbtcOrdersResponse hitbtcActiveOrders = hitbtc.getHitbtcRecentOrders(signatureCreator, exchange.getNonceFactory(), apiKey, max_results);
@@ -69,15 +66,13 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
     }
   }
 
-  public HitbtcOrder[] getRecentOrdersRaw(int max_results) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public HitbtcOrder[] getRecentOrdersRaw(int max_results) throws IOException {
 
     HitbtcOrdersResponse hitbtcActiveOrders = getRecentOrdersRawBaseResponse(max_results);
     return hitbtcActiveOrders.getOrders();
   }
 
-  public HitbtcExecutionReportResponse placeMarketOrderRawBaseResponse(MarketOrder marketOrder) throws ExchangeException,
-      NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public HitbtcExecutionReportResponse placeMarketOrderRawBaseResponse(MarketOrder marketOrder) throws IOException {
 
     String symbol = marketOrder.getCurrencyPair().baseSymbol + marketOrder.getCurrencyPair().counterSymbol;
 
@@ -95,15 +90,13 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
     }
   }
 
-  public HitbtcExecutionReport placeMarketOrderRaw(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public HitbtcExecutionReport placeMarketOrderRaw(MarketOrder marketOrder) throws IOException {
 
     HitbtcExecutionReportResponse response = placeMarketOrderRawBaseResponse(marketOrder);
     return response.getExecutionReport();
   }
 
-  public HitbtcExecutionReport placeLimitOrderRaw(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public HitbtcExecutionReport placeLimitOrderRaw(LimitOrder limitOrder) throws IOException {
 
     try {
       HitbtcExecutionReportResponse postHitbtcNewOrder = fillHitbtcExecutionReportResponse(limitOrder);
@@ -113,8 +106,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
     }
   }
 
-  public HitbtcExecutionReportResponse placeLimitOrderRawReturningHitbtcExecutionReportResponse(LimitOrder limitOrder) throws ExchangeException,
-      NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public HitbtcExecutionReportResponse placeLimitOrderRawReturningHitbtcExecutionReportResponse(LimitOrder limitOrder) throws IOException {
 
     HitbtcExecutionReportResponse postHitbtcNewOrder = fillHitbtcExecutionReportResponse(limitOrder);
     return postHitbtcNewOrder;
@@ -135,8 +127,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
     }
   }
 
-  public HitbtcExecutionReportResponse cancelOrderRaw(String orderId) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public HitbtcExecutionReportResponse cancelOrderRaw(String orderId) throws IOException {
 
     // extract symbol and side from original order id: buy/sell
     String originalSide = HitbtcAdapters.getSide(HitbtcAdapters.readOrderType(orderId));
@@ -150,7 +141,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
   }
 
   public HitbtcExecutionReportResponse cancelOrderRaw(String clientOrderId, String cancelRequestClientOrderId, String symbol, String side)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      throws IOException {
 
     try {
       return hitbtc.postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, clientOrderId, cancelRequestClientOrderId, symbol,
@@ -160,8 +151,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
     }
   }
 
-  public HitbtcTradeResponse getTradeHistoryRawBaseResponse(int startIndex, int maxResults, String symbols) throws ExchangeException,
-      NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public HitbtcTradeResponse getTradeHistoryRawBaseResponse(int startIndex, int maxResults, String symbols) throws IOException {
 
     try {
       HitbtcTradeResponse hitbtcTrades = hitbtc.getHitbtcTrades(signatureCreator, exchange.getNonceFactory(), apiKey, "ts", startIndex, maxResults,
@@ -172,8 +162,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
     }
   }
 
-  public HitbtcOwnTrade[] getTradeHistoryRaw(int startIndex, int maxResults, String symbols) throws ExchangeException,
-      NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public HitbtcOwnTrade[] getTradeHistoryRaw(int startIndex, int maxResults, String symbols) throws IOException {
 
     HitbtcTradeResponse hitbtcTrades = getTradeHistoryRawBaseResponse(startIndex, maxResults, symbols);
     return hitbtcTrades.getTrades();

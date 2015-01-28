@@ -6,9 +6,7 @@ import java.math.BigDecimal;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cexio.CexIOAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
@@ -40,8 +38,7 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Polli
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
 

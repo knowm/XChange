@@ -31,7 +31,7 @@ public class CoinsetterBasePollingService extends BaseExchangeService implements
   public CoinsetterBasePollingService(Exchange exchange) {
 
     super(exchange);
-    // TODO look at this
+
     clientSessionService = new CoinsetterClientSessionService(exchange);
   }
 

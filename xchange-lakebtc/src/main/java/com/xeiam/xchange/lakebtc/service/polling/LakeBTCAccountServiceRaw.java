@@ -15,7 +15,7 @@ public class LakeBTCAccountServiceRaw extends LakeBTCBasePollingService<LakeBTCA
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
   public LakeBTCAccountServiceRaw(Exchange exchange) {
 

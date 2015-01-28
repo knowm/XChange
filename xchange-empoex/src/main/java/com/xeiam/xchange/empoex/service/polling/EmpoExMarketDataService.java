@@ -40,16 +40,14 @@ public class EmpoExMarketDataService extends EmpoExMarketDataServiceRaw implemen
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     EmpoExTicker empoExTicker = super.getEmpoExTicker(currencyPair);
     return EmpoExAdapters.adaptEmpoExTicker(empoExTicker);
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     String pairString = EmpoExUtils.toPairString(currencyPair);
     Map<String, List<EmpoExLevel>> depth = super.getEmpoExDepth(currencyPair).get(pairString);
@@ -58,8 +56,7 @@ public class EmpoExMarketDataService extends EmpoExMarketDataServiceRaw implemen
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     String pairString = EmpoExUtils.toPairString(currencyPair);
     List<EmpoExTrade> trades = super.getEmpoExTrades(currencyPair).get(pairString);

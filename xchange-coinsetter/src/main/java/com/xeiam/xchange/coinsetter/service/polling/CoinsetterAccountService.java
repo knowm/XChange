@@ -14,9 +14,7 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
 /**
  * Account service.
  */
-public class CoinsetterAccountService extends CoinsetterBasePollingService implements PollingAccountService {
-
-  private final CoinsetterAccountServiceRaw accountServiceRaw;
+public class CoinsetterAccountService extends CoinsetterAccountServiceRaw implements PollingAccountService {
 
   /**
    * Constructor
@@ -26,14 +24,13 @@ public class CoinsetterAccountService extends CoinsetterBasePollingService imple
   public CoinsetterAccountService(Exchange exchange) {
 
     super(exchange);
-    accountServiceRaw = new CoinsetterAccountServiceRaw(exchange);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
     CoinsetterClientSession session = getSession();
-    CoinsetterAccount account = accountServiceRaw.get(session.getUuid(), getAccountUuid());
+    CoinsetterAccount account = get(session.getUuid(), getAccountUuid());
     return CoinsetterAdapters.adaptAccountInfo(session.getUsername(), account);
   }
 

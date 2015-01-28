@@ -40,8 +40,7 @@ import com.xeiam.xchange.service.polling.trade.PollingTradeService;
  */
 public class CryptsyDemo {
 
-  public static void main(String[] args) throws IOException, ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, InterruptedException {
+  public static void main(String[] args) throws IOException, InterruptedException {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(CryptsyExchange.class);
 
@@ -59,7 +58,7 @@ public class CryptsyDemo {
   }
 
   private static void generic(PollingAccountService accountService, PollingMarketDataService marketDataService, PollingTradeService tradeService)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException, InterruptedException {
+      throws IOException, InterruptedException {
 
     System.out.println("\nOpenOrders:\n" + tradeService.getOpenOrders());
     Thread.sleep(500);

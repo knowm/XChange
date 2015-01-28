@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.TradeMetaInfo;
 
-//TODO look at this
 public class ANXTradeMetaData extends TradeMetaInfo {
 
   private final BigDecimal amountMaximum;

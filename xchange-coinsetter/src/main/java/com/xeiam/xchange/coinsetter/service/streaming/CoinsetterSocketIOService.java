@@ -30,11 +30,13 @@ public class CoinsetterSocketIOService extends CoinsetterSocketIOServiceRaw impl
   private volatile READYSTATE webSocketStatus = READYSTATE.NOT_YET_CONNECTED;
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
+   * @param coinsetterStreamingConfiguration
    */
   public CoinsetterSocketIOService(Exchange exchange, CoinsetterStreamingConfiguration coinsetterStreamingConfiguration) {
 
-    // TODO look at this
     super(exchange, coinsetterStreamingConfiguration);
 
     super.addListener(new CoinsetterSocketAdapter() {

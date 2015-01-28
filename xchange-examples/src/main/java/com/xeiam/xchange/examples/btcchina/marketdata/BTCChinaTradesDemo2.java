@@ -28,7 +28,7 @@ public class BTCChinaTradesDemo2 {
     generic();
   }
 
-  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void generic() throws IOException {
 
     // Get the latest trade data for BTC/CNY
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CNY);

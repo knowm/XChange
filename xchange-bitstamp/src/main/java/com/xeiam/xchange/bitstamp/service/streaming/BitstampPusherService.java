@@ -16,7 +16,6 @@ import com.pusher.client.Pusher;
 import com.pusher.client.channel.Channel;
 import com.pusher.client.channel.SubscriptionEventListener;
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampStreamingOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampStreamingTransaction;
@@ -56,7 +55,8 @@ public class BitstampPusherService extends BitstampBasePollingService implements
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
+   * @param configuration
    */
   public BitstampPusherService(Exchange exchange, BitstampStreamingConfiguration configuration) {
 

@@ -31,7 +31,6 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
 
   private final Logger log = LoggerFactory.getLogger(OkCoinFuturesTradeService.class);
-  private final List<CurrencyPair> exchangeSymbols = (List<CurrencyPair>) getExchangeSymbols();
 
   private FuturesContract futuresContract = FuturesContract.NextWeek;
 
@@ -53,7 +52,9 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws IOException {
+
+    List<CurrencyPair> exchangeSymbols = getExchangeSymbols();
 
     List<OkCoinOrderResult> orderResults = new ArrayList<OkCoinOrderResult>(exchangeSymbols.size());
 
@@ -74,8 +75,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()), marketOrder.getType() == OrderType.BID ? "1" : "2", "0",
         marketOrder.getTradableAmount().toPlainString(), futuresContract, 1).getOrderId();
@@ -83,8 +83,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "1" : "2",
         limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString(), futuresContract, 0).getOrderId();
@@ -92,12 +91,12 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  public boolean cancelOrder(String orderId) throws IOException {
 
     boolean ret = false;
     long id = Long.valueOf(orderId);
 
+    List<CurrencyPair> exchangeSymbols = getExchangeSymbols();
     for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
       try {
@@ -118,8 +117,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws IOException {
 
     CurrencyPair currencyPair = arguments.length > 0 ? (CurrencyPair) arguments[0] : CurrencyPair.BTC_USD;
     Integer page = arguments.length > 1 ? (Integer) arguments[1] : 0;

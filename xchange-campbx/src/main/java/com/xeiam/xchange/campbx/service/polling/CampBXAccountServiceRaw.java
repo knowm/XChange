@@ -20,7 +20,7 @@ public class CampBXAccountServiceRaw extends CampBXBasePollingService {
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
   public CampBXAccountServiceRaw(Exchange exchange) {
 

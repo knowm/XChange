@@ -32,34 +32,30 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Polli
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
     final LakeBTCOrderResponse response = placeLakeBTCMarketOrder(marketOrder);
     return response.getId();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
     final LakeBTCOrderResponse response = placeLakeBTCLimitOrder(limitOrder);
     return response.getId();
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  public boolean cancelOrder(String orderId) throws IOException {
     final LakeBTCCancelResponse response = cancelLakeBTCOrder(orderId);
     return Boolean.valueOf(response.getResult());
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

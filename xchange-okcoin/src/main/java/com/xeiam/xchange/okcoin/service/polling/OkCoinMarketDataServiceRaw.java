@@ -28,8 +28,7 @@ public class OkCoinMarketDataServiceRaw extends OkCoinBasePollingService {
     super(exchange);
 
     Map<String, Object> specific = exchange.getExchangeSpecification().getExchangeSpecificParameters();
-    okCoin = RestProxyFactory.createProxy(OkCoin.class, useIntl ? (String) specific.get("Intl_SslUri") : exchange.getExchangeSpecification()
-        .getSslUri());
+    okCoin = RestProxyFactory.createProxy(OkCoin.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public OkCoinTickerResponse getTicker(CurrencyPair currencyPair) throws IOException {

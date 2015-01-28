@@ -19,7 +19,6 @@ public class BTCETradeMetaData extends TradeMetaInfo {
    * @param minPrice
    * @param maxPrice
    */
-  //TODO look at this
   public BTCETradeMetaData(BigDecimal fee, BigDecimal amountMinimum, int priceScale, BigDecimal minPrice, BigDecimal maxPrice) {
 
     super(fee, amountMinimum, priceScale, null);

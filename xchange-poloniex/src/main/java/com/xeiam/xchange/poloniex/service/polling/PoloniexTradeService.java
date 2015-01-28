@@ -47,22 +47,20 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws IOException {
 
     HashMap<String, PoloniexOpenOrder[]> poloniexOpenOrders = returnOpenOrders();
     return PoloniexAdapters.adaptPoloniexOpenOrders(poloniexOpenOrders);
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     if (limitOrder.getType() == OrderType.BID) {
       return buy(limitOrder).getOrderNumber().toString();
@@ -72,15 +70,13 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  public boolean cancelOrder(String orderId) throws IOException {
 
     return cancel(orderId);
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws IOException {
 
     CurrencyPair currencyPair = null;
     Long startTime = null;

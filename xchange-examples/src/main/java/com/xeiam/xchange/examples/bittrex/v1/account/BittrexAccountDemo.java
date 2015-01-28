@@ -15,8 +15,7 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class BittrexAccountDemo {
 
-  public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  public static void main(String[] args) throws IOException {
 
     Exchange exchange = BittrexExamplesUtils.getExchange();
 
@@ -26,8 +25,7 @@ public class BittrexAccountDemo {
     raw((BittrexAccountServiceRaw) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  private static void generic(PollingAccountService accountService) throws IOException {
 
     System.out.println("----------GENERIC---------");
 

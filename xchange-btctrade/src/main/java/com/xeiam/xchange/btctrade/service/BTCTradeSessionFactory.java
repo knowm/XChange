@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeSpecification;
 
 /**
  * {@link BTCTradeSession} factory to ensure the polling service instances, which using the same API key, share the same secret data and nonce.
@@ -30,10 +29,8 @@ public enum BTCTradeSessionFactory {
   }
 
   /**
-   * Returns the session of the specified API key in the {@code ExchangeSpecification}.
-   *
-   * @param exchangeSpecification the {@link ExchangeSpecification} to create the session.
-   * @return the session.
+   * @param exchange
+   * @return
    */
   public synchronized BTCTradeSession getSession(Exchange exchange) {
 

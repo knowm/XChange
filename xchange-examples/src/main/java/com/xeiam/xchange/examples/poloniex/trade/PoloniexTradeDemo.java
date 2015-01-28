@@ -45,8 +45,7 @@ public class PoloniexTradeDemo {
     raw((PoloniexTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException, InterruptedException {
+  private static void generic(PollingTradeService tradeService) throws IOException, InterruptedException {
 
     System.out.println("----------GENERIC----------");
 
@@ -76,8 +75,7 @@ public class PoloniexTradeDemo {
     System.out.println(tradeService.getOpenOrders());
   }
 
-  private static void raw(PoloniexTradeServiceRaw tradeService) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException, InterruptedException {
+  private static void raw(PoloniexTradeServiceRaw tradeService) throws IOException, InterruptedException {
 
     System.out.println("------------RAW------------");
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, null, null)));

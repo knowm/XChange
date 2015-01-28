@@ -28,20 +28,18 @@ public class LakeBTCAccountService extends LakeBTCAccountServiceRaw implements P
   }
 
   @Override
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public AccountInfo getAccountInfo() throws IOException {
     LakeBTCAccountInfoResponse response = super.getLakeBTCAccountInfo();
     return LakeBTCAdapters.adaptAccountInfo(response.getResult());
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String requestDepositAddress(String currency, String... args) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

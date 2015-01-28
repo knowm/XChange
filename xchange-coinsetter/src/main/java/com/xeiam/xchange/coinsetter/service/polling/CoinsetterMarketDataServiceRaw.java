@@ -14,12 +14,11 @@ import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPairedDepth;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterQuote;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
 import com.xeiam.xchange.coinsetter.rs.CoinsetterMarketData;
-import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
  * Market data raw service.
  */
-public class CoinsetterMarketDataServiceRaw extends BaseExchangeService {
+public class CoinsetterMarketDataServiceRaw extends CoinsetterBasePollingService {
 
   protected final CoinsetterMarketData marketData;
 

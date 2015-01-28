@@ -23,7 +23,7 @@ public class BitcoinToYouTradeService extends BitcoinToYouTradeServiceRaw implem
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param exchange
    */
   public BitcoinToYouTradeService(Exchange exchange) {
 

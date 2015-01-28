@@ -42,7 +42,7 @@ public class AtlasPollingAccountServiceTest {
   }
 
   @Test
-  public void testGetAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public void testGetAccountInfo() throws  IOException {
 
     AccountInfo accountInfo = accountService.getAccountInfo();
     assertNotNull(accountInfo);

@@ -28,16 +28,14 @@ public class CoinsetterMarketDataDemo {
 
   private static final Logger log = LoggerFactory.getLogger(CoinsetterMarketDataDemo.class);
 
-  public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  public static void main(String[] args) throws IOException {
 
     Exchange coinsetter = ExchangeFactory.INSTANCE.createExchange(CoinsetterExchange.class.getName());
     generic(coinsetter);
     raw(coinsetter);
   }
 
-  private static void generic(Exchange exchange) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  private static void generic(Exchange exchange) throws IOException {
 
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 

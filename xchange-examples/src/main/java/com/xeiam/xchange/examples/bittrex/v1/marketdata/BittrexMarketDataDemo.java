@@ -26,8 +26,7 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class BittrexMarketDataDemo {
 
-  public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
+  public static void main(String[] args) throws IOException {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class.getName());
     PollingMarketDataService pollingMarketDataService = exchange.getPollingMarketDataService();
@@ -37,8 +36,7 @@ public class BittrexMarketDataDemo {
 
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     System.out.println("----------GENERIC---------");
 

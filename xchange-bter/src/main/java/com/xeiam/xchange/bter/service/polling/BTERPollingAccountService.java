@@ -14,7 +14,7 @@ public class BTERPollingAccountService extends BTERPollingAccountServiceRaw impl
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
   public BTERPollingAccountService(Exchange exchange) {
 

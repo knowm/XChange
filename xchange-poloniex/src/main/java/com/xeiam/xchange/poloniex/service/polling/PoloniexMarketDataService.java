@@ -33,8 +33,7 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw impl
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     PoloniexTicker poloniexTicker = getPoloniexTicker(currencyPair);
     Ticker ticker = PoloniexAdapters.adaptPoloniexTicker(poloniexTicker, currencyPair);

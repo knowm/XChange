@@ -29,24 +29,21 @@ public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
     itBitPublic = RestProxyFactory.createProxy(ItBit.class, exchange.getExchangeSpecification().getSslUri());
   }
 
-  public ItBitTicker getItBitTicker(CurrencyPair currencyPair) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public ItBitTicker getItBitTicker(CurrencyPair currencyPair) throws IOException {
 
     ItBitTicker ticker = itBit.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return ticker;
   }
 
-  public ItBitDepth getItBitDepth(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public ItBitDepth getItBitDepth(CurrencyPair currencyPair, Object... args) throws IOException {
 
     ItBitDepth depth = itBitPublic.getDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return depth;
   }
 
-  public ItBitTrade[] getItBitTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public ItBitTrade[] getItBitTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     long since = 0;
     if (args.length == 1) {

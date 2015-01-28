@@ -73,7 +73,6 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
   /**
    * @return Map of currency pairs to their corresponding metadata.
    */
-  //TODO look at this
   public Map<CurrencyPair, TradeMetaInfo> getTradeMetaDataMap() throws IOException {
 
     Map<CurrencyPair, TradeMetaInfo> returnObject = new HashMap<CurrencyPair, TradeMetaInfo>();

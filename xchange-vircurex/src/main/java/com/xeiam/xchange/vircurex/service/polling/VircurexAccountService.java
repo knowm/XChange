@@ -36,8 +36,7 @@ public class VircurexAccountService extends VircurexAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(String currecny, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(String currecny, BigDecimal amount, String address) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
 

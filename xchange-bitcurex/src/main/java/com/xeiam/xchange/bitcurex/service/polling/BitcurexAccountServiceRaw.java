@@ -21,7 +21,7 @@ public class BitcurexAccountServiceRaw extends BitcurexBasePollingService {
    * @param exchange
    * @throws IOException
    */
-  public BitcurexAccountServiceRaw(Exchange exchange) throws IOException {
+  public BitcurexAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
 
