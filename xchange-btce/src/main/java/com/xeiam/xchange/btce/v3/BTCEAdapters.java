@@ -1,7 +1,6 @@
 package com.xeiam.xchange.btce.v3;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,10 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEPairInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
-import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradeMetaData;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -210,13 +207,4 @@ public final class BTCEAdapters {
     return pairs;
   }
 
-  public static BTCETradeMetaData createMarketMetadata(BTCEPairInfo pairInfo, int amountScale) {
-
-    BigDecimal minAmount = pairInfo.getMinAmount().setScale(amountScale, RoundingMode.UNNECESSARY);
-
-    // convert percent to factor
-    BigDecimal orderFeeFactor = pairInfo.getFee().movePointLeft(2);
-
-    return new BTCETradeMetaData(pairInfo.getFee(), minAmount, pairInfo.getDecimals(), pairInfo.getMinPrice(), pairInfo.getMaxPrice());
-  }
 }

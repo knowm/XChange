@@ -108,25 +108,4 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService {
     return btce.getInfo();
   }
 
-  //  /**
-  //   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
-  //   * from the exchange.
-  //   *
-  //   * @return Map of currency pairs to their corresponding metadata.
-  //   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
-  //   */
-  //  public Map<CurrencyPair, BTCETradeMetaData> getTradeMetaDataMap() throws IOException {
-  //
-  //    Map<CurrencyPair, BTCETradeMetaData> result = new HashMap<CurrencyPair, BTCETradeMetaData>();
-  //    int amountScale = CFG.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
-  //
-  //    Map<String, BTCEPairInfo> pairInfos = getExchangeInfo().getPairs();
-  //    for (Map.Entry<String, BTCEPairInfo> e : pairInfos.entrySet()) {
-  //      CurrencyPair pair = BTCEAdapters.adaptCurrencyPair(e.getKey());
-  //      BTCETradeMetaData meta = BTCEAdapters.createMarketMetadata(e.getValue(), amountScale);
-  //
-  //      result.put(pair, meta);
-  //    }
-  //    return result;
-  //  }
 }

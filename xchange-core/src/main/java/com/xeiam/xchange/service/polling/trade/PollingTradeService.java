@@ -52,7 +52,7 @@ public interface PollingTradeService extends BasePollingService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException;
+  NotYetImplementedForExchangeException, IOException;
 
   /**
    * Place a limit order
@@ -66,7 +66,7 @@ public interface PollingTradeService extends BasePollingService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException;
+  NotYetImplementedForExchangeException, IOException;
 
   /**
    * cancels order with matching orderId
@@ -80,7 +80,7 @@ public interface PollingTradeService extends BasePollingService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException;
+  IOException;
 
   /**
    * gets trade history for user's account
@@ -94,7 +94,7 @@ public interface PollingTradeService extends BasePollingService {
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
   public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException;
+  NotYetImplementedForExchangeException, IOException;
 
   /**
    * Fetch the history of user trades.
@@ -134,7 +134,5 @@ public interface PollingTradeService extends BasePollingService {
    * that created the object.
    */
   public TradeHistoryParams createTradeHistoryParams();
-
-  //  public TradeMetaInfo getTradeMetaInfo();
 
 }

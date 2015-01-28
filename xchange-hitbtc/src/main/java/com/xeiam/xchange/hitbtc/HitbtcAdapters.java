@@ -3,6 +3,7 @@ package com.xeiam.xchange.hitbtc;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.TradeMetaInfo;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -34,6 +34,21 @@ import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 public class HitbtcAdapters {
 
   public static final char DELIM = '_';
+
+  // TODO move this to metadata
+  private static Map<String, BigDecimal> LOT_SIZES = new HashMap<String, BigDecimal>();
+  static {
+
+    LOT_SIZES.put("BTCUSD", new BigDecimal("0.01"));
+    LOT_SIZES.put("BTCEUR", new BigDecimal("0.01"));
+    LOT_SIZES.put("LTCBTC", new BigDecimal("0.1"));
+    LOT_SIZES.put("LTCUSD", new BigDecimal("0.1"));
+    LOT_SIZES.put("LTCEUR", new BigDecimal("0.1"));
+    LOT_SIZES.put("DOGEBTC", new BigDecimal("1000"));
+    LOT_SIZES.put("XMRBTC", new BigDecimal("0.01"));
+    LOT_SIZES.put("BCNBTC", new BigDecimal("100"));
+    LOT_SIZES.put("XDNBTC", new BigDecimal("100"));
+  }
 
   /**
    * Singleton
@@ -162,7 +177,7 @@ public class HitbtcAdapters {
     return side.equals("buy") ? OrderType.BID : OrderType.ASK;
   }
 
-  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw, Map<CurrencyPair, ? extends TradeMetaInfo> metadata) {
+  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw) {
 
     List<UserTrade> trades = new ArrayList<UserTrade>(tradeHistoryRaw.length);
     for (int i = 0; i < tradeHistoryRaw.length; i++) {
@@ -171,9 +186,8 @@ public class HitbtcAdapters {
 
       CurrencyPair pair = adaptSymbol(t.getSymbol());
 
-      BigDecimal lotMultiplier = metadata.get(pair).getMinimumAmount();
-      UserTrade trade = new UserTrade(type, t.getExecQuantity().multiply(lotMultiplier), pair, t.getExecPrice(), new Date(t.getTimestamp()),
-          t.getClientOrderId(), Long.toString(t.getOriginalOrderId()), t.getFee(), pair.counterSymbol);
+      UserTrade trade = new UserTrade(type, t.getExecQuantity().multiply(LOT_SIZES.get(t.getSymbol())), pair, t.getExecPrice(), new Date(
+          t.getTimestamp()), t.getClientOrderId(), Long.toString(t.getOriginalOrderId()), t.getFee(), pair.counterSymbol);
 
       trades.add(trade);
     }

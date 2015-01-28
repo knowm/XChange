@@ -8,9 +8,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
@@ -78,7 +75,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     }
 
     HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(startIndex, maxResults, symbols);
-    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, metadata);
+    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw);
   }
 
   /**
@@ -102,7 +99,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     }
 
     HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(offset, count, HitbtcAdapters.adaptCurrencyPair(pair));
-    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, metadata);
+    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw);
   }
 
   @Override

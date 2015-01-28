@@ -2,20 +2,14 @@ package com.xeiam.xchange.bitstamp.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.trade.TradeMetaInfo;
 
 /**
  * @author gnandiga
@@ -68,26 +62,6 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
 
     return bitstampAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
         numberOfTransactions, offset, sort);
-  }
-
-  /**
-   * @return Map of currency pairs to their corresponding metadata.
-   */
-  public Map<CurrencyPair, TradeMetaInfo> getTradeMetaDataMap() throws IOException {
-
-    Map<CurrencyPair, TradeMetaInfo> returnObject = new HashMap<CurrencyPair, TradeMetaInfo>();
-
-    BitstampBalance bitstampBalance = bitstampAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory());
-
-    List<CurrencyPair> currencyPairs = exchange.getMetaData().getCurrencyPairs();
-    for (CurrencyPair currencyPair : currencyPairs) {
-
-      // minimum trade $5 // TODO put this in properties file
-      returnObject.put(currencyPair, new TradeMetaInfo(bitstampBalance.getFee(), new BigDecimal("5"), 0, null));
-
-    }
-    return returnObject;
   }
 
 }

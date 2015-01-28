@@ -136,38 +136,4 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
     }
   }
 
-  //  /**
-  //   * Fetch the {@link com.xeiam.xchange.service.polling.trade.TradeMetaData}
-  //   * from the exchange.
-  //   *
-  //   * @return Map of currency pairs to their corresponding metadata.
-  //   * @see com.xeiam.xchange.service.polling.trade.TradeMetaData
-  //   */
-  //  public Map<CurrencyPair, ANXTradeMetaData> getTradeMetaDataMap() throws IOException {
-  //
-  //    Map<CurrencyPair, ANXTradeMetaData> meta = new HashMap<CurrencyPair, ANXTradeMetaData>();
-  //    int amountScale = CFG.getIntProperty(KEY_ORDER_SIZE_SCALE_DEFAULT);
-  //    int priceScale = CFG.getIntProperty(KEY_ORDER_PRICE_SCALE_DEFAULT);
-  //    BigDecimal defAmountMin = CFG.getBigDecimalProperty(KEY_ORDER_SIZE_MIN_DEFAULT).setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
-  //    BigDecimal defAmountMax = CFG.getBigDecimalProperty(KEY_ORDER_SIZE_MAX_DEFAULT).setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
-  //
-  //    for (CurrencyPair pair : exchange.getMetaData().getCurrencyPairs()) {
-  //      BigDecimal amountMinimum = CFG.getBigDecimalProperty(PREKEY_ORDER_SIZE_MIN + pair.baseSymbol);
-  //      if (amountMinimum == null) {
-  //        amountMinimum = defAmountMin;
-  //      } else {
-  //        amountMinimum = amountMinimum.setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
-  //      }
-  //
-  //      BigDecimal amountMaximum = CFG.getBigDecimalProperty(PREKEY_ORDER_SIZE_MAX + pair.baseSymbol);
-  //      if (amountMaximum == null) {
-  //        amountMaximum = defAmountMax;
-  //      } else {
-  //        amountMaximum = amountMaximum.setScale(amountScale, BigDecimal.ROUND_UNNECESSARY);
-  //      }
-  //
-  //      meta.put(pair, new ANXTradeMetaData(amountMinimum, amountMaximum, priceScale));
-  //    }
-  //    return meta;
-  //  }
 }
