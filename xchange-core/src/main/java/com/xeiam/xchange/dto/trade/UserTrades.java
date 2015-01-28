@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.xeiam.xchange.dto.marketdata.Trades;
 
-@SuppressWarnings("unchecked")
 public class UserTrades extends Trades {
 
   public UserTrades(List<UserTrade> trades, TradeSortType tradeSortType) {

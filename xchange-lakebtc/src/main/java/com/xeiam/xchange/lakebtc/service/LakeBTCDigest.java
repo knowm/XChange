@@ -3,7 +3,6 @@ package com.xeiam.xchange.lakebtc.service;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +19,6 @@ import com.xeiam.xchange.service.BaseParamsDigest;
 public class LakeBTCDigest extends BaseParamsDigest {
 
   private final Logger log = LoggerFactory.getLogger(LakeBTCDigest.class);
-
-  private static final String FIELD_SEPARATOR = "\",\"";
 
   private final String clientId;
   private final String apiKey;
@@ -76,37 +73,6 @@ public class LakeBTCDigest extends BaseParamsDigest {
     return auth.digestParams(restInvocation);
   }
 
-  /**
-   * Strip the {@code params} for signature message.
-   */
-  private String stripParams(String params) {
-
-    final String[] original = params.substring(1, params.length() - 1).split(",");
-    final String[] stripped = new String[original.length];
-
-    for (int i = 0; i < original.length; i++) {
-      final String param = original[i];
-
-      if (param.startsWith("\"") && param.endsWith("\"")) {
-        // string
-        stripped[i] = param.substring(1, param.length() - 1);
-      } else if (param.equals("true")) {
-        // boolean: true
-        stripped[i] = "1";
-      } else if (param.equals("false")) {
-        // boolean: false
-        stripped[i] = StringUtils.EMPTY;
-      } else if (param.equals("null")) {
-        stripped[i] = StringUtils.EMPTY;
-      } else {
-        // number, etc.
-        stripped[i] = param;
-      }
-
-    }
-    return StringUtils.join(stripped, ",");
-  }
-
   public static String makeSign(String data, String key) throws Exception {
 
     SecretKeySpec sign = new SecretKeySpec(key.getBytes(), HMAC_SHA_1);
@@ -119,13 +85,10 @@ public class LakeBTCDigest extends BaseParamsDigest {
 
   private static String arrayHex(byte[] a) {
     StringBuilder sb = new StringBuilder();
-    for (byte b : a)
+    for (byte b : a) {
       sb.append(String.format("%02x", b & 0xff));
+    }
     return sb.toString();
   }
 
-  public static void main(String[] args) {
-    String params = "tonce=1389067414466757&accesskey=foo@bar.com&requestmethod=post&id=123&method=ticker&params=";
-
-  }
 }

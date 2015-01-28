@@ -19,6 +19,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
  */
 public class BitKonanAdapters {
 
+  // TODO move to metadata
   private static final BigDecimal LOT_MULTIPLIER = new BigDecimal("100");
 
   /**

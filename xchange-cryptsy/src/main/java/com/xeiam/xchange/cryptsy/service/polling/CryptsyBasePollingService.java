@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -29,8 +26,6 @@ import com.xeiam.xchange.service.polling.BasePollingService;
  * @author ObsessiveOrange
  */
 public class CryptsyBasePollingService<T extends Cryptsy> extends BaseExchangeService implements BasePollingService {
-
-  private final Logger logger = LoggerFactory.getLogger(CryptsyBasePollingService.class);
 
   protected final String apiKey;
   protected final T cryptsyPrivate;

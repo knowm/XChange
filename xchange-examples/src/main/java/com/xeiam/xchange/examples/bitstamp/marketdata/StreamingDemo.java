@@ -36,6 +36,8 @@ public class StreamingDemo {
         case SUBSCRIBE_ORDERS:
           printOrderBook((OrderBook) evt.getPayload());
           break;
+        default:
+          break;
         }
 
       }

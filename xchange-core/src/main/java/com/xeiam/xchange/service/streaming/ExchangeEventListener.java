@@ -1,8 +1,5 @@
 package com.xeiam.xchange.service.streaming;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
@@ -15,8 +12,6 @@ import com.xeiam.xchange.exceptions.ExchangeException;
  */
 public abstract class ExchangeEventListener {
 
-  private final Logger log = LoggerFactory.getLogger(ExchangeEventListener.class);
-
   /**
    * Constructor
    */
@@ -28,7 +23,7 @@ public abstract class ExchangeEventListener {
    * <p>
    * Client code is expected to implement this in a manner specific to their own application
    * </p>
-   * 
+   *
    * @param event The exchange event containing the information
    */
   public abstract void handleEvent(ExchangeEvent event) throws ExchangeException;

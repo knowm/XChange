@@ -2,9 +2,6 @@ package com.xeiam.xchange.oer.service.polling;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
@@ -17,8 +14,6 @@ import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
  * @author timmolter
  */
 public class OERMarketDataServiceRaw extends OERBasePollingService {
-
-  private final Logger logger = LoggerFactory.getLogger(OERMarketDataServiceRaw.class);
 
   private final OER openExchangeRates;
 

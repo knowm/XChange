@@ -31,6 +31,7 @@ import com.xeiam.xchange.utils.DateUtils;
  */
 public class LakeBTCAdapters {
 
+  // TODO move to metadata
   private static final String SIDE_BID = "";
   private static final int PRICE_SCALE = 8;
   private static final int PERCENT_DECIMAL_SHIFT = 2;
