@@ -53,7 +53,7 @@ public final class BitstampAdapters {
     Wallet usdWallet = new Wallet(Currencies.USD, bitstampBalance.getUsdBalance());
     Wallet btcWallet = new Wallet(Currencies.BTC, bitstampBalance.getBtcBalance());
 
-    return new AccountInfo(userName, Arrays.asList(usdWallet, btcWallet));
+    return new AccountInfo(userName, bitstampBalance.getFee(), Arrays.asList(usdWallet, btcWallet));
   }
 
   /**

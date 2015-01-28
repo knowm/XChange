@@ -48,7 +48,7 @@ public interface ANXV2 {
   @GET
   @Path("{ident}{currency}/money/ticker")
   ANXTickersWrapper getTickers(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("extraCcyPairs") String extraCurrencyPairs) throws ANXException,
-      IOException;
+  IOException;
 
   @GET
   @Path("{ident}{currency}/money/depth/fetch")
@@ -61,7 +61,7 @@ public interface ANXV2 {
   @GET
   @Path("{ident}{currency}/money/depth/full")
   ANXDepthsWrapper getFullDepths(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("extraCcyPairs") String extraCurrencyPairs) throws ANXException,
-      IOException;
+  IOException;
 
   @GET
   @Path("{ident}{currency}/money/trade/fetch")
@@ -181,6 +181,6 @@ public interface ANXV2 {
   @POST
   @Path("money/wallet/history")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  ANXWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator, @FormParam("nonce") SynchronizedValueFactory nonce,
-      @FormParam("currency") String currency, @FormParam("page") Integer page) throws ANXException, IOException;
+  ANXWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("page") Integer page) throws ANXException, IOException;
 }

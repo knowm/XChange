@@ -17,6 +17,7 @@ import com.xeiam.xchange.dto.trade.Wallet;
 public final class AccountInfo {
 
   private final String username;
+  private final BigDecimal tradingFee;
   private final List<Wallet> wallets;
 
   /**
@@ -27,7 +28,20 @@ public final class AccountInfo {
    */
   public AccountInfo(String username, List<Wallet> wallets) {
 
+    this(username, null, wallets);
+  }
+
+  /**
+   * Constructor
+   *
+   * @param username The user name
+   * @param tradingFee the trading fee
+   * @param wallets The available wallets
+   */
+  public AccountInfo(String username, BigDecimal tradingFee, List<Wallet> wallets) {
+
     this.username = username;
+    this.tradingFee = tradingFee;
     this.wallets = wallets;
   }
 
@@ -37,6 +51,16 @@ public final class AccountInfo {
   public String getUsername() {
 
     return username;
+  }
+
+  /**
+   * Returns the current trading fee
+   *
+   * @return The trading fee
+   */
+  public BigDecimal getTradingFee() {
+
+    return tradingFee;
   }
 
   /**
@@ -68,8 +92,7 @@ public final class AccountInfo {
 
   @Override
   public String toString() {
-
-    return "AccountInfo [username=" + username + ", wallets=" + wallets + "]";
+    return "AccountInfo [username=" + username + ", tradingFee=" + tradingFee + ", wallets=" + wallets + "]";
   }
 
 }

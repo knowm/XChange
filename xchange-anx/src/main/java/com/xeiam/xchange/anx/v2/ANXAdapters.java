@@ -33,6 +33,7 @@ public final class ANXAdapters {
 
   private static final String SIDE_BID = "bid";
   private static final int PRICE_SCALE = 8;
+  private static final int PERCENT_DECIMAL_SHIFT = 2;
 
   /**
    * private Constructor
@@ -50,8 +51,12 @@ public final class ANXAdapters {
   public static AccountInfo adaptAccountInfo(ANXAccountInfo anxAccountInfo) {
 
     // Adapt to XChange DTOs
-    AccountInfo accountInfo = new AccountInfo(anxAccountInfo.getLogin(), ANXAdapters.adaptWallets(anxAccountInfo.getWallets()));
+    AccountInfo accountInfo = new AccountInfo(anxAccountInfo.getLogin(), percentToFactor(anxAccountInfo.getTradeFee()), ANXAdapters.adaptWallets(anxAccountInfo.getWallets()));
     return accountInfo;
+  }
+
+  public static BigDecimal percentToFactor(BigDecimal percent) {
+    return percent.movePointLeft(PERCENT_DECIMAL_SHIFT);
   }
 
   /**
