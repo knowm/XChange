@@ -18,6 +18,6 @@ public class LakeBTCAccountRawSpecificDemo {
     LakeBTCAccountInfoResponse balanceInfo = rawLakeBtcAcctService.getLakeBTCAccountInfo();
     System.out.println(balanceInfo);
 
-    //TODO: add more tests
+    //TODO: add more demos
   }
 }

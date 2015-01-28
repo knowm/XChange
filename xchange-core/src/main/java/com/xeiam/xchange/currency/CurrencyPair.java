@@ -175,7 +175,7 @@ public class CurrencyPair {
   }
 
   /**
-   * Parse currency pair from a string in the same format as returned by toString() method - XXX/YYY
+   * Parse currency pair from a string in the same format as returned by toString() method - ABC/XYZ
    */
   public CurrencyPair(String currencyPair) {
     int split = currencyPair.indexOf("/");

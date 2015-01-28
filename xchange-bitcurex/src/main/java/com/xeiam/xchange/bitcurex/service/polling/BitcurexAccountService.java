@@ -15,9 +15,7 @@ public class BitcurexAccountService extends BitcurexAccountServiceRaw implements
    * Constructor
    *
    * @param exchange
-   * @throws IOException
    */
-  // TODO look at this IOException
   public BitcurexAccountService(Exchange exchange) {
 
     super(exchange);

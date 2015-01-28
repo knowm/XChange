@@ -180,8 +180,8 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
     return checkResult(result);
   }
 
-  // TODO reimplement this
-  //  public Map<CurrencyPair, TradeMetaData> getTradeMetaDataMap() throws IOException {
+  //  // TODO reimplement this
+  //  public Map<CurrencyPair, TradeMetaInfo> getTradeMetaDataMap() throws IOException {
   //
   //    Map<CurrencyPair, TradeMetaData> result = new HashMap<CurrencyPair, TradeMetaData>();
   //
@@ -191,12 +191,13 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService<KrakenAuthen
   //      CurrencyPair pair = KrakenAdapters.adaptCurrencyPair(krakenPair);
   //
   //      KrakenAssetPair assetPair = e.getValue();
-  //      BigDecimal amountMinimum = CFG.getBigDecimalProperty(KEY_ORDER_SIZE_MIN_DEFAULT).setScale(assetPair.getVolumeLotScale(), BigDecimal.ROUND_UNNECESSARY);
+  //      BigDecimal amountMinimum = CFG.getBigDecimalProperty(KEY_ORDER_SIZE_MIN_DEFAULT).setScale(assetPair.getVolumeLotScale(),
+  //          BigDecimal.ROUND_UNNECESSARY);
   //      TradeMetaData baseTradeMetaData = new TradeMetaData(null, amountMinimum, assetPair.getPairScale());
   //
   //      result.put(pair, baseTradeMetaData);
   //    }
   //
   //    return result;
-  //  }
+  //}
 }

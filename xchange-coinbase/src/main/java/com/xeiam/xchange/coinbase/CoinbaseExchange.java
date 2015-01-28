@@ -17,14 +17,6 @@ public class CoinbaseExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
-  // TODO remove this, or make it abstract and available for all exchanges
-  public static Exchange newInstance() {
-
-    final Exchange exchange = new CoinbaseExchange();
-    exchange.applySpecification(exchange.getDefaultExchangeSpecification());
-    return exchange;
-  }
-
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
@@ -43,7 +35,7 @@ public class CoinbaseExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setHost("coinbase.com");
     exchangeSpecification.setExchangeName("Coinbase");
     exchangeSpecification
-        .setExchangeDescription("Founded in June of 2012, Coinbase is a bitcoin wallet and platform where merchants and consumers can transact with the new digital currency bitcoin.");
+    .setExchangeDescription("Founded in June of 2012, Coinbase is a bitcoin wallet and platform where merchants and consumers can transact with the new digital currency bitcoin.");
     return exchangeSpecification;
   }
 
