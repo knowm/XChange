@@ -26,7 +26,7 @@ public class BitstampStreamingConfiguration implements ExchangeStreamingConfigur
 
   /**
    * Constructor
-   * 
+   *
    * @param maxReconnectAttempts
    * @param reconnectWaitTimeInMs
    * @param timeoutInMs

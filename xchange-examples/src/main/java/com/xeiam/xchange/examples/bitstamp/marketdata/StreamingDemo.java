@@ -7,6 +7,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
 import com.xeiam.xchange.bitstamp.service.streaming.BitstampStreamingConfiguration;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
@@ -23,18 +24,24 @@ public class StreamingDemo {
     // Interested in the public streaming market data feed (no authentication)
     StreamingExchangeService streamService = bitstamp.getStreamingExchangeService(streamCfg);
     streamService.connect();
-    generic(streamService);
+    go(streamService);
     streamService.disconnect();
   }
 
-  private static void generic(StreamingExchangeService stream) throws IOException {
+  private static void go(StreamingExchangeService streamService) throws IOException {
 
     try {
       for (int i = 0; i < 10; i++) {
-        ExchangeEvent evt = stream.getNextEvent();
+        ExchangeEvent evt = streamService.getNextEvent();
         switch (evt.getEventType()) {
         case SUBSCRIBE_ORDERS:
-          printOrderBook((OrderBook) evt.getPayload());
+          System.out.println(((OrderBook) evt.getPayload()).toString());
+          break;
+        case DEPTH:
+          System.out.println(((OrderBook) evt.getPayload()).toString());
+          break;
+        case TRADE:
+          System.out.println(((Trade) evt.getPayload()).toString());
           break;
         default:
           break;
@@ -45,11 +52,6 @@ public class StreamingDemo {
     } catch (InterruptedException e) {
       e.printStackTrace(System.err);
     }
-  }
-
-  private static void printOrderBook(OrderBook orderBook) {
-
-    System.out.println(orderBook.toString());
   }
 
 }
