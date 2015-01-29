@@ -132,6 +132,11 @@ public class Trade {
 
     }
 
+    public static Builder from(Trade trade) {
+      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice()).timestamp(trade.getTimestamp())
+          .id(trade.getId());
+    }
+
     public Builder type(OrderType type) {
 
       this.type = type;

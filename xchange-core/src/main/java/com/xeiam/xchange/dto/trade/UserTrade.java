@@ -83,6 +83,11 @@ public final class UserTrade extends Trade {
 
     }
 
+    public static Builder from(UserTrade trade) {
+      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice()).timestamp(trade.getTimestamp())
+          .id(trade.getId()).orderId(trade.getOrderId()).feeAmount(trade.getFeeAmount()).feeCurrency(trade.getFeeCurrency());
+    }
+
     public Builder type(OrderType type) {
 
       this.type = type;
