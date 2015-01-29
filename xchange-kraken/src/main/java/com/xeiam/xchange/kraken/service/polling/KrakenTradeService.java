@@ -1,7 +1,6 @@
 package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
-import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -15,6 +14,7 @@ import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamsT
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamOffset;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.utils.DateUtils;
 
 public class KrakenTradeService extends KrakenTradeServiceRaw implements PollingTradeService {
 
@@ -59,27 +59,38 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   }
 
   /**
-   * Required parameters {@link TradeHistoryParamsTimeSpan} {@link TradeHistoryParamOffset}
+   * @param params Can optionally implement {@link TradeHistoryParamOffset} and
+   *          {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams
+   *          types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
 
-    TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
-    TradeHistoryParamOffset offset = (TradeHistoryParamOffset) params;
+    final Long startTime;
+    final Long endTime;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
+      startTime = DateUtils.toUnixTimeNullSafe(timeSpan.getStartTime());
+      endTime = DateUtils.toUnixTimeNullSafe(timeSpan.getEndTime());
+    } else {
+      startTime = null;
+      endTime = null;
+    }
 
-    return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory(null, false, getTime(timeSpan.getStartTime()), getTime(timeSpan.getEndTime()),
-        offset.getOffset()));
+    final Long offset;
+    if (params instanceof TradeHistoryParamOffset) {
+      offset = ((TradeHistoryParamOffset) params).getOffset();
+    } else {
+      offset = null;
+    }
+
+    return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory(null, false, startTime, endTime, offset));
   }
 
   @Override
   public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new KrakenTradeHistoryParams();
-  }
-
-  private static Long getTime(Date date) {
-
-    return date == null ? null : date.getTime();
   }
 
   public static class KrakenTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamOffset {
