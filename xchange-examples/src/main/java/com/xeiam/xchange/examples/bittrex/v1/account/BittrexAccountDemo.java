@@ -8,9 +8,6 @@ import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalance;
 import com.xeiam.xchange.bittrex.v1.service.polling.BittrexAccountServiceRaw;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.examples.bittrex.v1.BittrexExamplesUtils;
-import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class BittrexAccountDemo {
