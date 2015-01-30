@@ -12,9 +12,6 @@ import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
@@ -70,7 +67,7 @@ public class BTCChinaDepthDemo {
 
     // first item in each BigDecial[] will be price (in RMB), and second will be volume/depth.
     System.out.println("Asks:");
-    for (BigDecimal[] currRow : orderBook.getAsks()) {
+    for (BigDecimal[] currRow : orderBook.getAsksArray()) {
       for (BigDecimal currItem : currRow) {
         System.out.print(currItem.toPlainString() + ", ");
       }
@@ -78,7 +75,7 @@ public class BTCChinaDepthDemo {
     }
 
     System.out.println("Bids:");
-    for (BigDecimal[] currRow : orderBook.getBids()) {
+    for (BigDecimal[] currRow : orderBook.getBidsArray()) {
       for (BigDecimal currItem : currRow) {
         System.out.print(currItem.toPlainString() + ", ");
       }

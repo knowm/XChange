@@ -22,15 +22,6 @@ public class BTCChinaGetOrderRequest extends BTCChinaRequest {
     params = "[" + id + "]";
   }
 
-  /**
-   * @deprecated
-   */
-  @Deprecated
-  public BTCChinaGetOrderRequest(long id) {
-
-    this((int) id);
-  }
-
   public BTCChinaGetOrderRequest(int id, String market) {
 
     method = METHOD_NAME;
@@ -38,17 +29,8 @@ public class BTCChinaGetOrderRequest extends BTCChinaRequest {
   }
 
   /**
-   * @deprecated
-   */
-  @Deprecated
-  public BTCChinaGetOrderRequest(long id, String market) {
-
-    this((int) id, market);
-  }
-
-  /**
    * Constructs a {@code getOrder} request.
-   * 
+   *
    * @param id the order ID.
    * @param market Default to “BTCCNY”. [ BTCCNY | LTCCNY | LTCBTC ]
    * @param withdetail return the trade details or not for this order. Default to false, no detail will be returned.

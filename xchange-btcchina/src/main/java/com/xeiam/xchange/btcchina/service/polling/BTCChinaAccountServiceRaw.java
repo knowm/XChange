@@ -79,15 +79,6 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService {
     return checkResult(response);
   }
 
-  /**
-   * @deprecated use {@link #withdrawBTCChinaFunds(String, BigDecimal, String)} instead.
-   */
-  @Deprecated
-  public BTCChinaResponse<BTCChinaID> withdrawBTCChinaFunds(BigDecimal amount, String address) throws IOException {
-
-    return checkResult(btcChina.requestWithdrawal(signatureCreator, exchange.getNonceFactory(), new BTCChinaRequestWithdrawalRequest(amount)));
-  }
-
   public BTCChinaResponse<BTCChinaID> withdrawBTCChinaFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     BTCChinaRequestWithdrawalRequest request = new BTCChinaRequestWithdrawalRequest(currency, amount);
@@ -100,15 +91,6 @@ public class BTCChinaAccountServiceRaw extends BTCChinaBasePollingService {
     BTCChinaResponse<BTCChinaAccountInfo> response = getBTCChinaAccountInfo(BTCChinaGetAccountInfoRequest.PROFILE_TYPE);
 
     return response.getResult().getProfile().getDepositAddress(currency);
-  }
-
-  /**
-   * @deprecated Use {@link #requestBTCChinaDepositAddress(String)} instead.
-   */
-  @Deprecated
-  public String requestBTCChinaBitcoinDepositAddress() throws IOException {
-
-    return requestBTCChinaDepositAddress("btc");
   }
 
 }

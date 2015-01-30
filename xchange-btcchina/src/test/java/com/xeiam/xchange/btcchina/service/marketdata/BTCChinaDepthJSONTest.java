@@ -27,6 +27,6 @@ public class BTCChinaDepthJSONTest {
     BTCChinaDepth btcChinaDepth = mapper.readValue(is, BTCChinaDepth.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(btcChinaDepth.getAsks().get(0)[0]).isEqualTo(new BigDecimal("1.0e+14"));
+    assertThat(btcChinaDepth.getAsksArray()[0][0]).isEqualTo(new BigDecimal("1.0e+14"));
   }
 }

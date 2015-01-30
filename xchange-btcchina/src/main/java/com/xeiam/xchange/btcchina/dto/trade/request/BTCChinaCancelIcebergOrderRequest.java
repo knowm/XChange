@@ -4,18 +4,15 @@ public class BTCChinaCancelIcebergOrderRequest extends BTCChinaCancelOrderReques
 
   private static final String METHOD_NAME = "cancelIcebergOrder";
 
+  /**
+   * Constructor
+   *
+   * @param id
+   * @param market
+   */
   public BTCChinaCancelIcebergOrderRequest(int id, String market) {
 
     super(METHOD_NAME, id, market);
-  }
-
-  /**
-   * @deprecated
-   */
-  @Deprecated
-  public BTCChinaCancelIcebergOrderRequest(long id, String market) {
-
-    this((int) id, market);
   }
 
 }

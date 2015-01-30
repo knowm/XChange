@@ -31,7 +31,6 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -64,17 +63,6 @@ public final class BTCChinaAdapters {
     }
 
     return limitOrders;
-  }
-
-  /**
-   * Adapts a List of btcchinaOrders to a List of LimitOrders
-   *
-   * @deprecated Use {@link #adaptOrders(BigDecimal[][], CurrencyPair, OrderType)} instead.
-   */
-  @Deprecated
-  public static List<LimitOrder> adaptOrders(List<BigDecimal[]> btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
-
-    return adaptOrders(btcchinaOrders.toArray(new BigDecimal[0][0]), currencyPair, orderType);
   }
 
   /**
@@ -226,30 +214,6 @@ public final class BTCChinaAdapters {
     return new LimitOrder.Builder(orderType, currencyPair).limitPrice(order.getPrice()).tradableAmount(order.getAmount()).build();
   }
 
-  /**
-   * Adapts List&lt;BTCChinaOrder&gt; to OpenOrders.
-   *
-   * @deprecated Do not use this anymore.
-   */
-  @Deprecated
-  public static OpenOrders adaptOpenOrders(List<BTCChinaOrder> orders) {
-
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders == null ? 0 : orders.size());
-
-    if (orders != null) {
-      for (BTCChinaOrder order : orders) {
-        if (order.getStatus().equals("open")) {
-          LimitOrder limitOrder = adaptLimitOrder(order);
-          if (limitOrder != null) {
-            limitOrders.add(limitOrder);
-          }
-        }
-      }
-    }
-
-    return new OpenOrders(limitOrders);
-  }
-
   public static List<LimitOrder> adaptOrders(BTCChinaOrder[] orders, CurrencyPair currencyPair) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
@@ -260,15 +224,6 @@ public final class BTCChinaAdapters {
     }
 
     return limitOrders;
-  }
-
-  /**
-   * @deprecated Use {@link #adaptOrders(BTCChinaOrder[], CurrencyPair)} instead.
-   */
-  @Deprecated
-  public static List<LimitOrder> adaptOrders(List<BTCChinaOrder> orders, CurrencyPair currencyPair) {
-
-    return adaptOrders(orders.toArray(new BTCChinaOrder[0]), currencyPair);
   }
 
   public static List<LimitOrder> adaptOrders(BTCChinaOrders orders, CurrencyPair specifiedCurrencyPair) {
@@ -286,17 +241,6 @@ public final class BTCChinaAdapters {
     }
 
     return limitOrders;
-  }
-
-  /**
-   * Adapts BTCChinaOrder to LimitOrder.
-   *
-   * @deprecated Use {@link #adaptLimitOrder(BTCChinaOrder, CurrencyPair)} instead.
-   */
-  @Deprecated
-  public static LimitOrder adaptLimitOrder(BTCChinaOrder order) {
-
-    return adaptLimitOrder(order, CurrencyPair.BTC_CNY);
   }
 
   /**

@@ -4,7 +4,6 @@ import static com.xeiam.xchange.service.BaseParamsDigest.HMAC_SHA_1;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -59,15 +58,6 @@ public final class BTCChinaUtils {
   public static BigDecimal valueToBigDecimal(BTCChinaValue value) {
 
     return new BigDecimal(new BigInteger(value.getAmountInteger()), value.getAmountDecimal().intValue());
-  }
-
-  /**
-   * @deprecated scales of BTCCNY, LTCCNY, LTCBTC are different.
-   */
-  @Deprecated
-  public static BigDecimal truncateAmount(BigDecimal value) {
-
-    return value.setScale(3, RoundingMode.FLOOR).stripTrailingZeros();
   }
 
 }

@@ -20,7 +20,7 @@ public class BTCChinaProfile extends LinkedHashMap<String, String> {
 
   /**
    * Constructor
-   * 
+   *
    * @param username
    * @param tradePasswordEnabled
    * @param otpEnabled
@@ -72,41 +72,14 @@ public class BTCChinaProfile extends LinkedHashMap<String, String> {
     return new BigDecimal(get(String.format("daily_%s_limit", currency)));
   }
 
-  /**
-   * @deprecated Use {@link #getDailyLimit(String)} instead.
-   */
-  @Deprecated
-  public BigDecimal getDailyBtcLimit() {
-
-    return getDailyLimit("btc");
-  }
-
   public String getDepositAddress(String currency) {
 
     return get(String.format("%s_deposit_address", currency.toLowerCase()));
   }
 
-  /**
-   * @deprecated Use {@link #getDepositAddress(String)} instead.
-   */
-  @Deprecated
-  public String getBtcDepositAddress() {
-
-    return getDepositAddress("btc");
-  }
-
   public String getWithdrawalAddress(String currency) {
 
     return get(String.format("%s_withdrawal_address", currency.toLowerCase()));
-  }
-
-  /**
-   * @deprecated Use {@link #getWithdrawalAddress(String)} instead.
-   */
-  @Deprecated
-  public String getBtcWithdrawalAddress() {
-
-    return getWithdrawalAddress("btc");
   }
 
   public int getApiKeyPermission() {

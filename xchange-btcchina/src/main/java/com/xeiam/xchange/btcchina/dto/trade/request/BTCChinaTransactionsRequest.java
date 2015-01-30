@@ -18,15 +18,6 @@ public class BTCChinaTransactionsRequest extends BTCChinaRequest {
   }
 
   /**
-   * @deprecated Use {@link #BTCChinaTransactionsRequest(String, Integer, Integer, Integer, String)} instead.
-   */
-  @Deprecated
-  public BTCChinaTransactionsRequest(String type, Integer limit, Integer offset) {
-
-    this(type, limit, offset, null, null);
-  }
-
-  /**
    * Constructs a getting transactions log request.
    *
    * @param type Fetch transactions by type. Default is 'all'. Available types 'all | fundbtc | withdrawbtc | fundmoney | withdrawmoney | refundmoney

@@ -8,41 +8,11 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
  */
 public final class BTCChinaGetOrdersRequest extends BTCChinaRequest {
 
-  /**
-   * @deprecated
-   */
-  @Deprecated
-  public static final String DEFAULT_MARKET = BTCChinaExchange.DEFAULT_MARKET;
   public static final String ALL_MARKET = "ALL";
 
   public static final int DEFAULT_LIMIT = 1000;
 
   private static final String METHOD_NAME = "getOrders";
-
-  /**
-   * Constructor (Optional parameter, default openOnly = false)
-   * 
-   * @deprecated Use {@link #BTCChinaGetOrdersRequest(Boolean, String, Integer, Integer)} instead.
-   */
-  @Deprecated
-  public BTCChinaGetOrdersRequest() {
-
-    method = METHOD_NAME;
-    params = "[]";
-  }
-
-  /**
-   * Constructor
-   * 
-   * @param openOnly
-   * @deprecated this constructor is incorrect, it will fail into `invalid parameter'(error code = -32019).
-   */
-  @Deprecated
-  public BTCChinaGetOrdersRequest(Boolean openOnly) {
-
-    method = METHOD_NAME;
-    params = "[" + ((openOnly) ? 1 : 0) + "]";
-  }
 
   /**
    * Constructor.
@@ -62,7 +32,7 @@ public final class BTCChinaGetOrdersRequest extends BTCChinaRequest {
 
   /**
    * Constructs a {@code getOrders} request.
-   * 
+   *
    * @param openOnly Default is 'true'. Only open orders are returned.
    * @param market Default to "BTCCNY". [ BTCCNY | LTCCNY | LTCBTC | ALL]
    * @param limit Limit the number of transactions, default value is 1000.

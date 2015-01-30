@@ -1,8 +1,6 @@
 package com.xeiam.xchange.btcchina;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
@@ -29,7 +27,6 @@ import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsRes
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaRequestWithdrawalResponse;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
-import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
@@ -62,14 +59,6 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsRespons
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface BTCChina {
-
-  /**
-   * @deprecated Use {@link #getTicker(String)} instead.
-   */
-  @Deprecated
-  @GET
-  @Path("data/ticker")
-  Map<String, BTCChinaTickerObject> getTickers(@QueryParam("market") String market) throws IOException;
 
   @GET
   @Path("data/ticker")
@@ -105,16 +94,6 @@ public interface BTCChina {
 
   /**
    * Returns last 100 trade records.
-   *
-   * @deprecated Use {@link #getHistoryData(String)} instead.
-   */
-  @GET
-  @Path("data/historydata")
-  @Deprecated
-  List<BTCChinaTrade> getTrades(@QueryParam("market") String market) throws IOException;
-
-  /**
-   * Returns last 100 trade records.
    */
   @GET
   @Path("data/historydata")
@@ -126,36 +105,10 @@ public interface BTCChina {
    * @param market
    * @param limit the range of limit is [0,5000].
    * @throws IOException
-   * @deprecated Use {@link #getHistoryData(String, int)} instead.
-   */
-  @Deprecated
-  @GET
-  @Path("data/historydata")
-  List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("limit") int limit) throws IOException;
-
-  /**
-   * Returns last {@code limit} trade records.
-   *
-   * @param market
-   * @param limit the range of limit is [0,5000].
-   * @throws IOException
    */
   @GET
   @Path("data/historydata")
   BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("limit") int limit) throws IOException;
-
-  /**
-   * Returns 100 trade records starting from id {@code since}.
-   *
-   * @param market
-   * @param since the starting trade ID(exclusive).
-   * @throws IOException
-   * @deprecated Use {@link #getHistoryData(String, long)} instead.
-   */
-  @Deprecated
-  @GET
-  @Path("data/historydata")
-  List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since) throws IOException;
 
   /**
    * Returns 100 trade records starting from id {@code since}.
@@ -175,35 +128,11 @@ public interface BTCChina {
    * @param since the starting trade ID(exclusive).
    * @param limit the range of limit is [0,5000].
    * @throws IOException
-   * @deprecated
-   */
-  @Deprecated
-  @GET
-  @Path("data/historydata")
-  List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit)
-      throws IOException;
-
-  /**
-   * Returns {@code limit} trades starting from id {@code since}
-   *
-   * @param market
-   * @param since the starting trade ID(exclusive).
-   * @param limit the range of limit is [0,5000].
-   * @throws IOException
    */
   @GET
   @Path("data/historydata")
   BTCChinaTrade[] getHistoryData(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit)
       throws IOException;
-
-  /**
-   * @deprecated Use {@link #getHistoryData(String, long, int, String)} instead.
-   */
-  @Deprecated
-  @GET
-  @Path("data/historydata")
-  List<BTCChinaTrade> getTrades(@QueryParam("market") String market, @QueryParam("since") long since, @QueryParam("limit") int limit,
-      @QueryParam("sincetype") @DefaultValue("id") String sincetype) throws IOException;
 
   @GET
   @Path("data/historydata")
@@ -215,7 +144,7 @@ public interface BTCChina {
   @Consumes(MediaType.APPLICATION_JSON)
   BTCChinaGetAccountInfoResponse getAccountInfo(@HeaderParam("Authorization") ParamsDigest authorization,
       @HeaderParam("Json-Rpc-Tonce") SynchronizedValueFactory<Long> jsonRpcTonce, BTCChinaGetAccountInfoRequest getAccountInfoRequest)
-      throws IOException;
+          throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
@@ -249,7 +178,7 @@ public interface BTCChina {
   @Consumes(MediaType.APPLICATION_JSON)
   BTCChinaRequestWithdrawalResponse requestWithdrawal(@HeaderParam("Authorization") ParamsDigest authorization,
       @HeaderParam("Json-Rpc-Tonce") SynchronizedValueFactory<Long> jsonRpcTonce, BTCChinaRequestWithdrawalRequest requestWithdrawalRequest)
-      throws IOException;
+          throws IOException;
 
   @POST
   @Path("api_trade_v1.php")

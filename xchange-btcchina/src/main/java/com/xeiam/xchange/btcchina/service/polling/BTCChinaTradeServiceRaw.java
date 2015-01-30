@@ -10,8 +10,6 @@ import si.mazi.rescu.HttpStatusIOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChina;
-import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
-import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyIcebergOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyOrderRequest;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaBuyStopOrderRequest;
@@ -39,7 +37,6 @@ import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetStopOrderRespons
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetStopOrdersResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
-import com.xeiam.xchange.dto.Order.OrderType;
 
 /**
  * Implementation of the trade service for BTCChina.
@@ -89,15 +86,6 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService {
   }
 
   /**
-   * @deprecated Use {@link #getBTCChinaOrder(int)} instead.
-   */
-  @Deprecated
-  public BTCChinaGetOrderResponse getBTCChinaOrder(long id) throws IOException {
-
-    return getBTCChinaOrder((int) id);
-  }
-
-  /**
    * Get order status.
    *
    * @param id the order id.
@@ -112,31 +100,11 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService {
     return checkResult(returnObject);
   }
 
-  /**
-   * @deprecated Use {@link #getBTCChinaOrder(int, String)} instead.
-   */
-  @Deprecated
-  public BTCChinaGetOrderResponse getBTCChinaOrder(long id, String market) throws IOException {
-
-    return getBTCChinaOrder((int) id, market);
-  }
-
   public BTCChinaGetOrderResponse getBTCChinaOrder(int id, String market, Boolean withdetail) throws IOException {
 
     BTCChinaGetOrderRequest request = new BTCChinaGetOrderRequest(id, market, withdetail);
     BTCChinaGetOrderResponse response = btcChina.getOrder(signatureCreator, exchange.getNonceFactory(), request);
     return checkResult(response);
-  }
-
-  /**
-   * @return Set of BTCChina Orders
-   * @throws IOException
-   * @deprecated Use {@link #getBTCChinaOrders(Boolean, String, Integer, Integer)} instead.
-   */
-  @Deprecated
-  public BTCChinaResponse<BTCChinaOrders> getBTCChinaOpenOrders() throws IOException {
-
-    return checkResult(btcChina.getOrders(signatureCreator, exchange.getNonceFactory(), new BTCChinaGetOrdersRequest()));
   }
 
   /**
@@ -157,25 +125,6 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService {
 
     BTCChinaGetOrdersRequest request = new BTCChinaGetOrdersRequest(openOnly, market, limit, offset, since, withdetail);
     BTCChinaGetOrdersResponse response = btcChina.getOrders(signatureCreator, exchange.getNonceFactory(), request);
-    return checkResult(response);
-  }
-
-  /**
-   * @return BTCChinaIntegerResponse of new limit order status.
-   * @deprecated use {@link #buy(BigDecimal, BigDecimal, String)} or {@link #sell(BigDecimal, BigDecimal, String)} instead.
-   */
-  @Deprecated
-  public BTCChinaIntegerResponse placeBTCChinaLimitOrder(BigDecimal price, BigDecimal amount, OrderType orderType) throws IOException {
-
-    BTCChinaIntegerResponse response = null;
-
-    if (orderType == OrderType.BID) {
-
-      response = btcChina.buyOrder2(signatureCreator, exchange.getNonceFactory(), new BTCChinaBuyOrderRequest(price, amount));
-    } else {
-      response = btcChina.sellOrder2(signatureCreator, exchange.getNonceFactory(), new BTCChinaSellOrderRequest(price, amount));
-    }
-
     return checkResult(response);
   }
 
@@ -237,27 +186,9 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBasePollingService {
     return checkResult(btcChina.cancelOrder(signatureCreator, exchange.getNonceFactory(), new BTCChinaCancelOrderRequest(id)));
   }
 
-  /**
-   * @deprecated Use {@link #cancelBTCChinaOrder(int)} instead.
-   */
-  @Deprecated
-  public BTCChinaBooleanResponse cancelBTCChinaOrder(String orderId) throws IOException {
-
-    return cancelBTCChinaOrder(Integer.parseInt(orderId));
-  }
-
   public BTCChinaTransactionsResponse getTransactions() throws IOException {
 
     return checkResult(btcChina.getTransactions(signatureCreator, exchange.getNonceFactory(), new BTCChinaTransactionsRequest()));
-  }
-
-  /**
-   * @deprecated Use {@link #getTransactions(String, Integer, Integer, Integer, String)} instead.
-   */
-  @Deprecated
-  public BTCChinaTransactionsResponse getTransactions(String type, Integer limit, Integer offset) throws IOException {
-
-    return getTransactions(type, limit, offset, null, null);
   }
 
   /**

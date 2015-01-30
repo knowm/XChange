@@ -70,67 +70,34 @@ public class BTCChinaStreamingConfiguration implements ExchangeStreamingConfigur
     this.subscribeAccountInfo = subscribeAccountInfo;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int getMaxReconnectAttempts() {
 
     return 0;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int getReconnectWaitTimeInMs() {
 
     return 0;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public int getTimeoutInMs() {
 
     return 0;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean isEncryptedChannel() {
 
     return false;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean keepAlive() {
 
     return false;
-  }
-
-  @Deprecated
-  public boolean isSubscribeMarketData() {
-
-    return marketDataCurrencyPairs.length > 0;
-  }
-
-  @Deprecated
-  public boolean isSubscribeOrderFeed() {
-
-    return orderFeedCurrencyPairs.length > 0;
-  }
-
-  @Deprecated
-  public CurrencyPair[] getCurrencyPairs() {
-
-    return marketDataCurrencyPairs;
   }
 
   public boolean isSubscribeAccountInfo() {
