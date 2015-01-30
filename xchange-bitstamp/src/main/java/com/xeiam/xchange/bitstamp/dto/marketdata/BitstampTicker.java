@@ -12,6 +12,7 @@ public final class BitstampTicker {
   private final BigDecimal last;
   private final BigDecimal high;
   private final BigDecimal low;
+  private final BigDecimal vwap;
   private final BigDecimal volume;
   private final BigDecimal bid;
   private final BigDecimal ask;
@@ -23,17 +24,19 @@ public final class BitstampTicker {
    * @param last
    * @param high
    * @param low
+   * @param vwap
    * @param volume
    * @param bid
    * @param ask
    */
   public BitstampTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("timestamp") long timestamp) {
+      @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask, @JsonProperty("timestamp") long timestamp) {
 
     this.last = last;
     this.high = high;
     this.low = low;
+    this.vwap = vwap;
     this.volume = volume;
     this.bid = bid;
     this.ask = ask;
@@ -54,6 +57,11 @@ public final class BitstampTicker {
   public BigDecimal getLow() {
 
     return low;
+  }
+
+  public BigDecimal getVwap() {
+
+	return vwap;
   }
 
   public BigDecimal getVolume() {
@@ -79,8 +87,8 @@ public final class BitstampTicker {
   @Override
   public String toString() {
 
-    return "BitstampTicker [last=" + last + ", high=" + high + ", low=" + low + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask
-        + ", timestamp=" + timestamp + "]";
+    return "BitstampTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid
+        + ", ask=" + ask + ", timestamp=" + timestamp + "]";
   }
 
 }
