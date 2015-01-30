@@ -8,7 +8,8 @@ import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * <p>
- * A class encapsulating the most basic information a "Ticker" should contain.
+ * A class encapsulating the information a "Ticker" can contain.
+ * Some fields can be empty if not provided by the exchange.
  * </p>
  * <p>
  * A ticker contains data representing the latest trade.
@@ -22,6 +23,7 @@ public final class Ticker {
   private final BigDecimal ask;
   private final BigDecimal high;
   private final BigDecimal low;
+  private final BigDecimal vwap;
   private final BigDecimal volume;
   private final Date timestamp;
 
@@ -37,7 +39,7 @@ public final class Ticker {
    * @param volume 24h volume
    * @param timestamp
    */
-  private Ticker(CurrencyPair currencyPair, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal volume,
+  private Ticker(CurrencyPair currencyPair, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal vwap, BigDecimal volume,
       Date timestamp) {
 
     this.currencyPair = currencyPair;
@@ -46,6 +48,7 @@ public final class Ticker {
     this.ask = ask;
     this.high = high;
     this.low = low;
+    this.vwap = vwap;
     this.volume = volume;
     this.timestamp = timestamp;
   }
@@ -80,6 +83,11 @@ public final class Ticker {
     return low;
   }
 
+  public BigDecimal getVwap() {
+
+    return vwap;
+  }
+
   public BigDecimal getVolume() {
 
     return volume;
@@ -94,7 +102,7 @@ public final class Ticker {
   public String toString() {
 
     return "Ticker [currencyPair=" + currencyPair + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low
-        + ", volume=" + volume + ", timestamp=" + DateUtils.toMillisNullSafe(timestamp) + "]";
+        + ",avg=" + vwap + ", volume=" + volume + ", timestamp=" + DateUtils.toMillisNullSafe(timestamp) + "]";
   }
 
   /**
@@ -114,6 +122,7 @@ public final class Ticker {
     private BigDecimal ask;
     private BigDecimal high;
     private BigDecimal low;
+    private BigDecimal vwap;
     private BigDecimal volume;
     private Date timestamp;
 
@@ -124,7 +133,7 @@ public final class Ticker {
 
       validateState();
 
-      Ticker ticker = new Ticker(currencyPair, last, bid, ask, high, low, volume, timestamp);
+      Ticker ticker = new Ticker(currencyPair, last, bid, ask, high, low, vwap, volume, timestamp);
 
       isBuilt = true;
 
@@ -171,6 +180,12 @@ public final class Ticker {
     public Builder low(BigDecimal low) {
 
       this.low = low;
+      return this;
+    }
+
+    public Builder vwap(BigDecimal vwap) {
+
+      this.vwap = vwap;
       return this;
     }
 
