@@ -19,7 +19,7 @@ import com.xeiam.xchange.empoex.dto.marketdata.EmpoExTrade;
 public interface EmpoEx {
 
   @GET
-  @Path("marketinfo/")
+  @Path("marketinfo")
   List<EmpoExTicker> getEmpoExTickers() throws IOException;
 
   @GET

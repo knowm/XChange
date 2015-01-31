@@ -9,6 +9,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.empoex.EmpoEx;
 import com.xeiam.xchange.empoex.EmpoExAuthenticated;
 import com.xeiam.xchange.empoex.EmpoExUtils;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExTicker;
@@ -20,9 +21,11 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 public class EmpoExBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected final String apiKey;
-  protected final EmpoExAuthenticated empoex;
+  protected final EmpoExAuthenticated empoExAuthenticated;
   protected final ParamsDigest signatureCreator;
   protected final ParamsDigest payloadCreator;
+
+  protected final EmpoEx empoEx;
 
   /**
    * Constructor
@@ -33,10 +36,13 @@ public class EmpoExBasePollingService extends BaseExchangeService implements Bas
 
     super(exchange);
 
-    this.empoex = RestProxyFactory.createProxy(EmpoExAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.empoExAuthenticated = RestProxyFactory.createProxy(EmpoExAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = EmpoExHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.payloadCreator = new EmpoExPayloadDigest();
+
+    this.empoEx = RestProxyFactory.createProxy(EmpoEx.class, exchange.getExchangeSpecification().getSslUri());
+
   }
 
   @Override
@@ -44,7 +50,7 @@ public class EmpoExBasePollingService extends BaseExchangeService implements Bas
 
     List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
 
-    List<EmpoExTicker> tickers = empoex.getEmpoExTickers();
+    List<EmpoExTicker> tickers = empoExAuthenticated.getEmpoExTickers();
 
     for (EmpoExTicker ticker : tickers) {
       currencyPairs.add(EmpoExUtils.toCurrencyPair(ticker.getPairname()));

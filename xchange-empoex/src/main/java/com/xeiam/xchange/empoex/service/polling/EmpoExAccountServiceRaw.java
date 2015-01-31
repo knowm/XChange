@@ -24,7 +24,7 @@ public class EmpoExAccountServiceRaw extends EmpoExBasePollingService {
   public Map<String, List<EmpoExBalance>> getEmpoExBalances() throws IOException {
 
     try {
-      return empoex.getEmpoExBalances(apiKey);
+      return empoExAuthenticated.getEmpoExBalances(apiKey);
     } catch (EmpoExErrorException e) {
       throw new ExchangeException(e.getError());
     }

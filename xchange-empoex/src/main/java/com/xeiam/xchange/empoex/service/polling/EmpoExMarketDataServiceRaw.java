@@ -25,24 +25,24 @@ public class EmpoExMarketDataServiceRaw extends EmpoExBasePollingService {
 
   public List<EmpoExTicker> getEmpoExTickers() throws IOException {
 
-    return empoex.getEmpoExTickers();
+    return empoEx.getEmpoExTickers();
   }
 
   public EmpoExTicker getEmpoExTicker(CurrencyPair currencyPair) throws IOException {
 
     String pairString = EmpoExUtils.toPairString(currencyPair);
-    return empoex.getEmpoExTicker(pairString).get(0);
+    return empoEx.getEmpoExTicker(pairString).get(0);
   }
 
   public Map<String, List<EmpoExTrade>> getEmpoExTrades(CurrencyPair currencyPair) throws IOException {
 
     String pairString = EmpoExUtils.toPairString(currencyPair);
-    return empoex.getEmpoExTrades(pairString);
+    return empoEx.getEmpoExTrades(pairString);
   }
 
   public Map<String, Map<String, List<EmpoExLevel>>> getEmpoExDepth(CurrencyPair currencyPair) throws IOException {
 
     String pairString = EmpoExUtils.toPairString(currencyPair);
-    return empoex.getEmpoExDepth(pairString);
+    return empoEx.getEmpoExDepth(pairString);
   }
 }

@@ -29,7 +29,7 @@ public class EmpoExTradeServiceRaw extends EmpoExBasePollingService {
   public Map<String, List<EmpoExOpenOrder>> getEmpoExOpenOrders() throws IOException {
 
     try {
-      return empoex.getEmpoExOpenOrders(apiKey);
+      return empoExAuthenticated.getEmpoExOpenOrders(apiKey);
     } catch (EmpoExErrorException e) {
 
       if (e.getError().equals("No open orders")) {
@@ -43,7 +43,7 @@ public class EmpoExTradeServiceRaw extends EmpoExBasePollingService {
   public boolean cancel(String orderId) throws IOException {
 
     try {
-      Map<String, Boolean> response = empoex.cancelEmpoExOrder(apiKey, orderId);
+      Map<String, Boolean> response = empoExAuthenticated.cancelEmpoExOrder(apiKey, orderId);
       return response.get("success");
     } catch (EmpoExException e) {
       throw new ExchangeException(e.getMessage());
@@ -53,7 +53,7 @@ public class EmpoExTradeServiceRaw extends EmpoExBasePollingService {
   public String buy(LimitOrder limitOrder) throws IOException {
 
     try {
-      EmpoExOrderResponse response = empoex.buy(apiKey, EmpoExUtils.toPairString(limitOrder.getCurrencyPair()), limitOrder.getTradableAmount()
+      EmpoExOrderResponse response = empoExAuthenticated.buy(apiKey, EmpoExUtils.toPairString(limitOrder.getCurrencyPair()), limitOrder.getTradableAmount()
           .toPlainString(), limitOrder.getLimitPrice().toPlainString());
       if (response.getSuccess()) {
         return response.getOrderId();
@@ -68,7 +68,7 @@ public class EmpoExTradeServiceRaw extends EmpoExBasePollingService {
   public String sell(LimitOrder limitOrder) throws IOException {
 
     try {
-      EmpoExOrderResponse response = empoex.sell(apiKey, EmpoExUtils.toPairString(limitOrder.getCurrencyPair()), limitOrder.getTradableAmount()
+      EmpoExOrderResponse response = empoExAuthenticated.sell(apiKey, EmpoExUtils.toPairString(limitOrder.getCurrencyPair()), limitOrder.getTradableAmount()
           .toPlainString(), limitOrder.getLimitPrice().toPlainString());
       if (response.getSuccess()) {
         return response.getOrderId();
