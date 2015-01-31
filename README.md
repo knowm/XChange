@@ -122,6 +122,8 @@ The current snapshot version is:
     
 ## Building with Maven
 
+run unit tests: `mvn clean test`  
+run integration tests: `mvn clean verify`  
 install in local Maven repo: `mvn clean install`  
 create project javadocs: `mvn javadoc:aggregate`  
 generate dependency tree: `mvn dependency:tree`  
