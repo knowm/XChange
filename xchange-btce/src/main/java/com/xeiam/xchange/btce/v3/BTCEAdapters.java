@@ -134,10 +134,11 @@ public final class BTCEAdapters {
     BigDecimal ask = bTCETicker.getBuy();
     BigDecimal high = bTCETicker.getHigh();
     BigDecimal low = bTCETicker.getLow();
+    BigDecimal avg = bTCETicker.getAvg();
     BigDecimal volume = bTCETicker.getVolCur();
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getUpdated() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(avg).volume(volume).timestamp(timestamp)
         .build();
   }
 
