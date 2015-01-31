@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.kraken.KrakenAuthenticated;
 import com.xeiam.xchange.kraken.dto.account.KrakenLedger;
 import com.xeiam.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
 import com.xeiam.xchange.kraken.dto.account.KrakenTradeVolume;
@@ -20,7 +19,7 @@ import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
 /**
  * @author jamespedwards42
  */
-public class KrakenAccountServiceRaw extends KrakenBasePollingService<KrakenAuthenticated> {
+public class KrakenAccountServiceRaw extends KrakenBasePollingService {
 
   /**
    * Constructor
@@ -29,7 +28,7 @@ public class KrakenAccountServiceRaw extends KrakenBasePollingService<KrakenAuth
    */
   public KrakenAccountServiceRaw(Exchange exchange) {
 
-    super(KrakenAuthenticated.class, exchange);
+    super(exchange);
   }
 
   /**

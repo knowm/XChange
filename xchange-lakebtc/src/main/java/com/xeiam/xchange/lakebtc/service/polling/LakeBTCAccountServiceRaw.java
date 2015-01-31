@@ -3,14 +3,13 @@ package com.xeiam.xchange.lakebtc.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.lakebtc.LakeBTCAuthenticated;
 import com.xeiam.xchange.lakebtc.dto.account.LakeBTCAccountInfoResponse;
 import com.xeiam.xchange.lakebtc.dto.account.LakeBTCAccountRequest;
 
 /**
  * User: cristian.lucaci Date: 10/3/2014 Time: 5:02 PM
  */
-public class LakeBTCAccountServiceRaw extends LakeBTCBasePollingService<LakeBTCAuthenticated> {
+public class LakeBTCAccountServiceRaw extends LakeBTCBasePollingService {
 
   /**
    * Constructor
@@ -19,11 +18,11 @@ public class LakeBTCAccountServiceRaw extends LakeBTCBasePollingService<LakeBTCA
    */
   public LakeBTCAccountServiceRaw(Exchange exchange) {
 
-    super(LakeBTCAuthenticated.class, exchange);
+    super(exchange);
   }
 
   public LakeBTCAccountInfoResponse getLakeBTCAccountInfo() throws IOException {
-    return checkResult(btcLakeBTC.getAccountInfo(signatureCreator, exchange.getNonceFactory(), new LakeBTCAccountRequest()));
+    return checkResult(lakeBTC.getAccountInfo(signatureCreator, exchange.getNonceFactory(), new LakeBTCAccountRequest()));
   }
 
 }

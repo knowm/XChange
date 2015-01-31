@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.cryptotrade.CryptoTrade;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeException;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradePair;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradePairs;
@@ -16,7 +15,7 @@ import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTicker;
 import com.xeiam.xchange.cryptotrade.dto.marketdata.CryptoTradeTickers;
 import com.xeiam.xchange.currency.CurrencyPair;
 
-public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingService<CryptoTrade> {
+public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingService {
 
   /**
    * Constructor
@@ -25,7 +24,7 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
    */
   public CryptoTradeMarketDataServiceRaw(Exchange exchange) {
 
-    super(CryptoTrade.class, exchange);
+    super(exchange);
   }
 
   public CryptoTradeTicker getCryptoTradeTicker(CurrencyPair currencyPair) throws CryptoTradeException, IOException {

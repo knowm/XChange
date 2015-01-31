@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.kraken.Kraken;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpreads;
@@ -15,7 +14,7 @@ import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
 
-public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken> {
+public class KrakenMarketDataServiceRaw extends KrakenBasePollingService {
 
   /**
    * Constructor
@@ -24,7 +23,7 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService<Kraken>
    */
   public KrakenMarketDataServiceRaw(Exchange exchange) {
 
-    super(Kraken.class, exchange);
+    super(exchange);
   }
 
   public KrakenTicker getKrakenTicker(CurrencyPair currencyPair) throws IOException {

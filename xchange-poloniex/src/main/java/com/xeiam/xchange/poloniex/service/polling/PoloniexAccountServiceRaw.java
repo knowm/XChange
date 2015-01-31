@@ -8,13 +8,12 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.poloniex.PoloniexAdapters;
-import com.xeiam.xchange.poloniex.PoloniexAuthenticated;
 
 /**
  * @author Zach Holmes
  */
 
-public class PoloniexAccountServiceRaw extends PoloniexBasePollingService<PoloniexAuthenticated> {
+public class PoloniexAccountServiceRaw extends PoloniexBasePollingService {
 
   /**
    * Constructor
@@ -23,7 +22,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBasePollingService<Poloni
    */
   public PoloniexAccountServiceRaw(Exchange exchange) {
 
-    super(PoloniexAuthenticated.class, exchange);
+    super(exchange);
   }
 
   public List<Wallet> getWallets() throws IOException {

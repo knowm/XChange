@@ -13,14 +13,13 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.poloniex.PoloniexAdapters;
-import com.xeiam.xchange.poloniex.PoloniexAuthenticated;
 import com.xeiam.xchange.poloniex.PoloniexException;
 import com.xeiam.xchange.poloniex.PoloniexUtils;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
 
-public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<PoloniexAuthenticated> {
+public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
 
   /**
    * Constructor
@@ -29,7 +28,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService<Poloniex
    */
   public PoloniexTradeServiceRaw(Exchange exchange) {
 
-    super(PoloniexAuthenticated.class, exchange);
+    super(exchange);
   }
 
   public HashMap<String, PoloniexOpenOrder[]> returnOpenOrders() throws IOException {

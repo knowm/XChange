@@ -2,19 +2,14 @@ package com.xeiam.xchange.lakebtc.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.lakebtc.LakeBTC;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
 
 /**
  * @author kpysniak
  */
-public class LakeBTCMarketDataServiceRaw extends LakeBTCBasePollingService<LakeBTC> {
-
-  private final LakeBTC lakeBTC;
+public class LakeBTCMarketDataServiceRaw extends LakeBTCBasePollingService {
 
   /**
    * @param exchange
@@ -23,7 +18,6 @@ public class LakeBTCMarketDataServiceRaw extends LakeBTCBasePollingService<LakeB
 
     super(exchange);
 
-    this.lakeBTC = RestProxyFactory.createProxy(LakeBTC.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public LakeBTCTickers getLakeBTCTickers() throws IOException {

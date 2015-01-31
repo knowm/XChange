@@ -8,7 +8,7 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.cryptotrade.CryptoTrade;
+import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeBaseResponse;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeException;
 import com.xeiam.xchange.cryptotrade.service.CryptoTradeHmacPostBodyDigest;
@@ -17,23 +17,22 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class CryptoTradeBasePollingService<T extends CryptoTrade> extends BaseExchangeService implements BasePollingService {
+public class CryptoTradeBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected final String apiKey;
-  protected final T cryptoTradeProxy;
+  protected final CryptoTradeAuthenticated cryptoTradeProxy;
   protected final ParamsDigest signatureCreator;
 
   /**
    * Constructor
    *
-   * @param type
    * @param exchange
    */
-  public CryptoTradeBasePollingService(Class<T> type, Exchange exchange) {
+  public CryptoTradeBasePollingService(Exchange exchange) {
 
     super(exchange);
 
-    this.cryptoTradeProxy = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+    this.cryptoTradeProxy = RestProxyFactory.createProxy(CryptoTradeAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = CryptoTradeHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

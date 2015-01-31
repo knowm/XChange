@@ -3,7 +3,6 @@ package com.xeiam.xchange.cryptotrade.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.cryptotrade.CryptoTradeAuthenticated;
 import com.xeiam.xchange.cryptotrade.CryptoTradeUtils;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeException;
 import com.xeiam.xchange.cryptotrade.dto.CryptoTradeOrderType;
@@ -17,7 +16,7 @@ import com.xeiam.xchange.cryptotrade.dto.trade.CryptoTradeTrades;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
-public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService<CryptoTradeAuthenticated> {
+public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService {
 
   /**
    * Constructor
@@ -26,7 +25,7 @@ public class CryptoTradeTradeServiceRaw extends CryptoTradeBasePollingService<Cr
    */
   public CryptoTradeTradeServiceRaw(Exchange exchange) {
 
-    super(CryptoTradeAuthenticated.class, exchange);
+    super(exchange);
   }
 
   public CryptoTradePlaceOrderReturn placeCryptoTradeLimitOrder(LimitOrder limitOrder) throws CryptoTradeException, IOException {

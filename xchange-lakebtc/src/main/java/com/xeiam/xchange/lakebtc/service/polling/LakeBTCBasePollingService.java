@@ -9,7 +9,7 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.lakebtc.LakeBTC;
+import com.xeiam.xchange.lakebtc.LakeBTCAuthenticated;
 import com.xeiam.xchange.lakebtc.dto.LakeBTCResponse;
 import com.xeiam.xchange.lakebtc.service.LakeBTCDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -19,31 +19,25 @@ import com.xeiam.xchange.utils.Assert;
 /**
  * @author kpysniak
  */
-public class LakeBTCBasePollingService<T extends LakeBTC> extends BaseExchangeService implements BasePollingService {
+public class LakeBTCBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  protected T btcLakeBTC;
+  protected LakeBTCAuthenticated lakeBTC;
   protected ParamsDigest signatureCreator;
 
   /**
    * Constructor
    *
-   * @param type
    * @param exchange
    */
-  public LakeBTCBasePollingService(Class<T> type, Exchange exchange) {
+  public LakeBTCBasePollingService(Exchange exchange) {
 
     super(exchange);
 
     Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
 
-    this.btcLakeBTC = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+    this.lakeBTC = RestProxyFactory.createProxy(LakeBTCAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.signatureCreator = LakeBTCDigest.createInstance(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification()
         .getSecretKey());
-  }
-
-  protected LakeBTCBasePollingService(Exchange exchange) {
-
-    super(exchange);
   }
 
   @SuppressWarnings("rawtypes")

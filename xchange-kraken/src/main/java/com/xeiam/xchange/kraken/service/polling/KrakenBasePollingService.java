@@ -16,8 +16,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.FrequencyLimitExceededException;
 import com.xeiam.xchange.exceptions.NonceException;
-import com.xeiam.xchange.kraken.Kraken;
 import com.xeiam.xchange.kraken.KrakenAdapters;
+import com.xeiam.xchange.kraken.KrakenAuthenticated;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairs;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssets;
@@ -29,7 +29,7 @@ import com.xeiam.xchange.kraken.service.KrakenDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeService implements BasePollingService {
+public class KrakenBasePollingService extends BaseExchangeService implements BasePollingService {
 
   //  protected static final String PREFIX = "kraken";
   //  protected static final String KEY_ORDER_SIZE_MIN_DEFAULT = PREFIX + SUF_ORDER_SIZE_MIN_DEFAULT;
@@ -37,20 +37,19 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
   private final Set<String> FIAT_CURRENCIES = new HashSet<String>();
   private final Set<String> DIGITAL_CURRENCIES = new HashSet<String>();
 
-  protected T kraken;
+  protected KrakenAuthenticated kraken;
   protected ParamsDigest signatureCreator;
 
   /**
    * Constructor
    *
-   * @param type
    * @param exchange
    */
-  public KrakenBasePollingService(Class<T> type, Exchange exchange) {
+  public KrakenBasePollingService(Exchange exchange) {
 
     super(exchange);
 
-    kraken = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+    kraken = RestProxyFactory.createProxy(KrakenAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     signatureCreator = KrakenDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
