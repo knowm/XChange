@@ -29,9 +29,10 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 public class CryptsyBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected final String apiKey;
-  protected final CryptsyAuthenticated cryptsyPrivate;
+  protected final CryptsyAuthenticated cryptsyAuthenticated;
   protected final ParamsDigest signatureCreator;
-  protected final Cryptsy cryptsyPublic;
+
+  protected final Cryptsy cryptsy;
 
   /**
    * Constructor
@@ -43,12 +44,12 @@ public class CryptsyBasePollingService extends BaseExchangeService implements Ba
     super(exchange);
 
     // for private API data (trade and account)
-    this.cryptsyPrivate = RestProxyFactory.createProxy(CryptsyAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.cryptsyAuthenticated = RestProxyFactory.createProxy(CryptsyAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = CryptsyHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
 
     // for public API (market data)
-    this.cryptsyPublic = RestProxyFactory.createProxy(Cryptsy.class,
+    this.cryptsy = RestProxyFactory.createProxy(Cryptsy.class,
         (String) exchange.getExchangeSpecification().getParameter(CryptsyExchange.KEY_PUBLIC_API_URL));
 
   }
@@ -58,7 +59,7 @@ public class CryptsyBasePollingService extends BaseExchangeService implements Ba
 
     List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
 
-    CryptsyCurrencyPairsReturn response = cryptsyPublic.getCryptsyCurrencyPairs();
+    CryptsyCurrencyPairsReturn response = cryptsy.getCryptsyCurrencyPairs();
     HashMap<String, CryptsyMarketId> map = response.getReturnValue();
 
     CryptsyCurrencyUtils.marketIds_CurrencyPairs.clear();

@@ -13,8 +13,6 @@ import com.xeiam.xchange.exceptions.ExchangeException;
  */
 public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService {
 
-  protected static final int FULL_SIZE = 2000;
-
   /**
    * Constructor
    *
@@ -36,7 +34,7 @@ public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService {
    */
   public CryptsyOrderBookReturn getCryptsyOrderBook(int marketID) throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.marketorders(apiKey, signatureCreator, exchange.getNonceFactory(), marketID));
+    return checkResult(cryptsyAuthenticated.marketorders(apiKey, signatureCreator, exchange.getNonceFactory(), marketID));
   }
 
   /**
@@ -48,7 +46,7 @@ public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService {
    */
   public CryptsyMarketTradesReturn getCryptsyTrades(int marketID) throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.markettrades(apiKey, signatureCreator, exchange.getNonceFactory(), marketID));
+    return checkResult(cryptsyAuthenticated.markettrades(apiKey, signatureCreator, exchange.getNonceFactory(), marketID));
   }
 
   /**
@@ -61,6 +59,6 @@ public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService {
    */
   public CryptsyGetMarketsReturn getCryptsyMarkets() throws IOException, ExchangeException {
 
-    return checkResult(cryptsyPrivate.getmarkets(apiKey, signatureCreator, exchange.getNonceFactory()));
+    return checkResult(cryptsyAuthenticated.getmarkets(apiKey, signatureCreator, exchange.getNonceFactory()));
   }
 }
