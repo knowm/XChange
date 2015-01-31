@@ -16,7 +16,7 @@ import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
 
 @Path("api/0")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-public interface BitcurexAuthenticated extends Bitcurex {
+public interface BitcurexAuthenticated {
 
   @POST
   @Path("getFunds")

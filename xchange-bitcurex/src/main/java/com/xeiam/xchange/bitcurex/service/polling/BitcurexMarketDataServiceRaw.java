@@ -2,10 +2,7 @@ package com.xeiam.xchange.bitcurex.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitcurex.Bitcurex;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
@@ -21,8 +18,6 @@ import com.xeiam.xchange.exceptions.ExchangeException;
  */
 public class BitcurexMarketDataServiceRaw extends BitcurexBasePollingService {
 
-  private final Bitcurex bitcurex;
-
   /**
    * Constructor
    *
@@ -31,8 +26,6 @@ public class BitcurexMarketDataServiceRaw extends BitcurexBasePollingService {
   public BitcurexMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-
-    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public BitcurexTicker getBitcurexTicker(String currency) throws IOException, ExchangeException {

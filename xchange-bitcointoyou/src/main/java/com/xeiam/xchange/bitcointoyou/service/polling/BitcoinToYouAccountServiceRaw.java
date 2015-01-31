@@ -2,10 +2,7 @@ package com.xeiam.xchange.bitcointoyou.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitcointoyou.BitcoinToYouAuthenticated;
 import com.xeiam.xchange.bitcointoyou.dto.BitcoinToYouBaseTradeApiResult;
 import com.xeiam.xchange.bitcointoyou.dto.account.BitcoinToYouBalance;
 import com.xeiam.xchange.bitcointoyou.service.BitcoinToYouDigest;
@@ -17,8 +14,6 @@ import com.xeiam.xchange.exceptions.ExchangeException;
  */
 public class BitcoinToYouAccountServiceRaw extends BitcoinToYouBasePollingService {
 
-  private final BitcoinToYouAuthenticated bitcoinToYouAuthenticated;
-
   /**
    * @param exchange
    */
@@ -26,7 +21,6 @@ public class BitcoinToYouAccountServiceRaw extends BitcoinToYouBasePollingServic
 
     super(exchange);
 
-    this.bitcoinToYouAuthenticated = RestProxyFactory.createProxy(BitcoinToYouAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public BitcoinToYouBaseTradeApiResult<BitcoinToYouBalance[]> getBitcoinToYouBalance() throws IOException {

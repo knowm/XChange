@@ -3,7 +3,11 @@ package com.xeiam.xchange.bitcointoyou.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.bitcointoyou.BitcoinToYou;
+import com.xeiam.xchange.bitcointoyou.BitcoinToYouAuthenticated;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
@@ -13,6 +17,9 @@ import com.xeiam.xchange.service.polling.BasePollingService;
  */
 public class BitcoinToYouBasePollingService extends BaseExchangeService implements BasePollingService {
 
+  protected final BitcoinToYouAuthenticated bitcoinToYouAuthenticated;
+  protected final BitcoinToYou bitcoinToYou;
+
   /**
    * Constructor
    *
@@ -21,6 +28,8 @@ public class BitcoinToYouBasePollingService extends BaseExchangeService implemen
   public BitcoinToYouBasePollingService(Exchange exchange) {
 
     super(exchange);
+    this.bitcoinToYouAuthenticated = RestProxyFactory.createProxy(BitcoinToYouAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitcoinToYou = RestProxyFactory.createProxy(BitcoinToYou.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   @Override

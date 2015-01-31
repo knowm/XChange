@@ -3,10 +3,7 @@ package com.xeiam.xchange.bitcointoyou.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitcointoyou.BitcoinToYou;
 import com.xeiam.xchange.bitcointoyou.dto.marketdata.BitcoinToYouOrderBook;
 import com.xeiam.xchange.bitcointoyou.dto.marketdata.BitcoinToYouTicker;
 import com.xeiam.xchange.bitcointoyou.dto.marketdata.BitcoinToYouTransaction;
@@ -21,8 +18,6 @@ import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
  */
 public class BitcoinToYouMarketDataServiceRaw extends BitcoinToYouBasePollingService {
 
-  private final BitcoinToYou bitcoinToYou;
-
   /**
    * Constructor
    *
@@ -31,7 +26,6 @@ public class BitcoinToYouMarketDataServiceRaw extends BitcoinToYouBasePollingSer
   public BitcoinToYouMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitcoinToYou = RestProxyFactory.createProxy(BitcoinToYou.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public BitcoinToYouOrderBook getBitcoinToYouOrderBook(CurrencyPair currencyPair) throws IOException {

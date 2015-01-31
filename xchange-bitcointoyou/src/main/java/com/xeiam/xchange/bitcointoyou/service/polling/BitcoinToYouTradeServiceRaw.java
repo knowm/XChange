@@ -4,10 +4,7 @@ import java.io.IOException;
 
 import javax.annotation.Nonnull;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitcointoyou.BitcoinToYouAuthenticated;
 import com.xeiam.xchange.bitcointoyou.dto.BitcoinToYouBaseTradeApiResult;
 import com.xeiam.xchange.bitcointoyou.dto.trade.BitcoinToYouOrder;
 import com.xeiam.xchange.bitcointoyou.service.BitcoinToYouDigest;
@@ -20,8 +17,6 @@ import com.xeiam.xchange.exceptions.ExchangeException;
  */
 public class BitcoinToYouTradeServiceRaw extends BitcoinToYouBasePollingService {
 
-  private final BitcoinToYouAuthenticated bitcoinToYouAuthenticated;
-
   /**
    * Constructor
    *
@@ -30,7 +25,6 @@ public class BitcoinToYouTradeServiceRaw extends BitcoinToYouBasePollingService 
   public BitcoinToYouTradeServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitcoinToYouAuthenticated = RestProxyFactory.createProxy(BitcoinToYouAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder[]> getBitcoinToYouUserOrders(@Nonnull String status) throws IOException {
@@ -59,7 +53,7 @@ public class BitcoinToYouTradeServiceRaw extends BitcoinToYouBasePollingService 
 
     BitcoinToYouBaseTradeApiResult<BitcoinToYouOrder[]> userOrders = bitcoinToYouAuthenticated.createOrder(exchange.getExchangeSpecification()
         .getApiKey(), nonce, signatureCreator, nonce, limitOrder.getCurrencyPair().baseSymbol, limitOrder.getType() == Order.OrderType.BID ? "buy"
-        : "sell", limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+            : "sell", limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
 
     if (userOrders.getSuccess() == 0) {
       throw new ExchangeException("Error placing limit order: " + userOrders.getError());

@@ -2,18 +2,11 @@ package com.xeiam.xchange.bitcurex.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitcurex.BitcurexAuthenticated;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
-import com.xeiam.xchange.bitcurex.service.BitcurexDigest;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
 public class BitcurexAccountServiceRaw extends BitcurexBasePollingService {
-
-  private final BitcurexDigest signatureCreator;
-  private final BitcurexAuthenticated bitcurexAuthenticated;
 
   /**
    * Constructor
@@ -24,9 +17,6 @@ public class BitcurexAccountServiceRaw extends BitcurexBasePollingService {
 
     super(exchange);
 
-    this.bitcurexAuthenticated = RestProxyFactory.createProxy(BitcurexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = BitcurexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
-        .getApiKey());
   }
 
   public BitcurexFunds getFunds() throws IOException, ExchangeException {
