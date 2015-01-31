@@ -22,7 +22,7 @@ public class LakeBTCAccountServiceRaw extends LakeBTCBasePollingService {
   }
 
   public LakeBTCAccountInfoResponse getLakeBTCAccountInfo() throws IOException {
-    return checkResult(lakeBTC.getAccountInfo(signatureCreator, exchange.getNonceFactory(), new LakeBTCAccountRequest()));
+    return checkResult(lakeBTCAuthenticated.getAccountInfo(signatureCreator, exchange.getNonceFactory(), new LakeBTCAccountRequest()));
   }
 
 }

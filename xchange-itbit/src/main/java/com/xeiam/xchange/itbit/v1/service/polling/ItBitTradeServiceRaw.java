@@ -29,7 +29,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   public ItBitOrder[] getItBitOpenOrders() throws IOException {
 
-    ItBitOrder[] orders = itBit
+    ItBitOrder[] orders = itBitAuthenticated
         .getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), "XBTUSD", "1", "1000", "open", walletId);
 
     return orders;
@@ -44,7 +44,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
    */
   public ItBitOrder[] getItBitOrders(String status) throws IOException {
 
-    ItBitOrder[] orders = itBit
+    ItBitOrder[] orders = itBitAuthenticated
         .getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), "XBTUSD", "1", "1000", status, walletId);
 
     return orders;
@@ -52,7 +52,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   public ItBitOrder getItBitOrder(String orderId) throws IOException {
 
-    ItBitOrder order = itBit.getOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, orderId);
+    ItBitOrder order = itBitAuthenticated.getOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, orderId);
 
     return order;
   }
@@ -61,7 +61,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
 
-    ItBitOrder postOrder = itBit.postOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, new ItBitPlaceOrderRequest(
+    ItBitOrder postOrder = itBitAuthenticated.postOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, new ItBitPlaceOrderRequest(
         side, "limit", limitOrder.getCurrencyPair().baseSymbol, limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice()
             .toPlainString(), limitOrder.getCurrencyPair().baseSymbol + limitOrder.getCurrencyPair().counterSymbol));
 
@@ -70,12 +70,12 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   public void cancelItBitOrder(String orderId) throws IOException {
 
-    itBit.cancelOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, orderId);
+    itBitAuthenticated.cancelOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, orderId);
   }
 
   public ItBitOrder[] getItBitTradeHistory(String currency, String pageNum, String pageLen) throws IOException {
 
-    ItBitOrder[] orders = itBit.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), currency, pageNum, pageLen, "filled",
+    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), currency, pageNum, pageLen, "filled",
         walletId);
     return orders;
   }

@@ -28,7 +28,7 @@ import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 @Path("tapi")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
-public interface MercadoBitcoinAuthenticated extends MercadoBitcoin {
+public interface MercadoBitcoinAuthenticated {
 
   @POST
   @Path("/")

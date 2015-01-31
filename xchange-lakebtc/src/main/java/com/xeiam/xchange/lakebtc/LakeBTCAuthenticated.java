@@ -31,7 +31,7 @@ import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCTradesRequest;
 @Path("api_v1")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
-public interface LakeBTCAuthenticated extends LakeBTC {
+public interface LakeBTCAuthenticated {
 
   @POST
   @Path("/")

@@ -38,12 +38,12 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBasePollingService {
       LakeBTCOrderResponse newOrder = null;
       switch (marketOrder.getType()) {
       case BID:
-        newOrder = lakeBTC.placeBuyOrder(signatureCreator, exchange.getNonceFactory(),
+        newOrder = lakeBTCAuthenticated.placeBuyOrder(signatureCreator, exchange.getNonceFactory(),
             //unit price, amount, currency concatenated by commas
             new LakeBTCBuyOrderRequest(String.format("\"%s,%s,%s\"", "0", marketOrder.getTradableAmount().toString(), pair)));
         break;
       case ASK:
-        newOrder = lakeBTC.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
+        newOrder = lakeBTCAuthenticated.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
             //unit price, amount, currency concatenated by commas
             new LakeBTCSellOrderRequest(String.format("\"%s,%s,%s\"", "0", marketOrder.getTradableAmount().toString(), pair)));
         break;
@@ -60,12 +60,12 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBasePollingService {
       LakeBTCOrderResponse newOrder = null;
       switch (limitOrder.getType()) {
       case BID:
-        newOrder = lakeBTC.placeBuyOrder(signatureCreator, exchange.getNonceFactory(),
+        newOrder = lakeBTCAuthenticated.placeBuyOrder(signatureCreator, exchange.getNonceFactory(),
             //unit price, amount, currency concatenated by commas
             new LakeBTCBuyOrderRequest(String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getTradableAmount().toString(), pair)));
         break;
       case ASK:
-        newOrder = lakeBTC.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
+        newOrder = lakeBTCAuthenticated.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
             //unit price, amount, currency concatenated by commas
             new LakeBTCSellOrderRequest(String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getTradableAmount().toString(), pair)));
         break;
@@ -78,7 +78,7 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBasePollingService {
 
   public LakeBTCCancelResponse cancelLakeBTCOrder(String orderId) throws IOException {
     try {
-      return lakeBTC.cancelOrder(signatureCreator, exchange.getNonceFactory(), new LakeBTCCancelRequest(orderId));
+      return lakeBTCAuthenticated.cancelOrder(signatureCreator, exchange.getNonceFactory(), new LakeBTCCancelRequest(orderId));
     } catch (Exception e) {
       throw new ExchangeException("LakeBTC returned an error: " + e.getMessage());
     }
@@ -87,13 +87,13 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBasePollingService {
   public LakeBTCTradeResponse[] getLakeBTCTradeHistory(long timestamp) throws IOException {
 
     try {
-      return lakeBTC.pastTrades(signatureCreator, exchange.getNonceFactory(), new LakeBTCTradesRequest(String.valueOf(timestamp)));
+      return lakeBTCAuthenticated.pastTrades(signatureCreator, exchange.getNonceFactory(), new LakeBTCTradesRequest(String.valueOf(timestamp)));
     } catch (IOException e) {
       throw new ExchangeException("LakeBTC returned an error: " + e.getMessage());
     }
   }
 
   public LakeBTCOrdersResponse[] getLakeBTCOrders() throws IOException {
-    return lakeBTC.getOrders(signatureCreator, exchange.getNonceFactory(), new LakeBTCOrdersRequest());
+    return lakeBTCAuthenticated.getOrders(signatureCreator, exchange.getNonceFactory(), new LakeBTCOrdersRequest());
   }
 }

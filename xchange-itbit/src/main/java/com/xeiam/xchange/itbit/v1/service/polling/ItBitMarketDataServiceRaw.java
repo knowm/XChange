@@ -2,18 +2,13 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.itbit.v1.ItBit;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitDepth;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrade;
 
 public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
-
-  protected final ItBit itBitPublic;
 
   /**
    * Constructor
@@ -23,12 +18,11 @@ public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
   public ItBitMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    itBitPublic = RestProxyFactory.createProxy(ItBit.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public ItBitTicker getItBitTicker(CurrencyPair currencyPair) throws IOException {
 
-    ItBitTicker ticker = itBit.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    ItBitTicker ticker = itBitAuthenticated.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return ticker;
   }
