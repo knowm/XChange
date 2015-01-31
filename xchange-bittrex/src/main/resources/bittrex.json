@@ -1,19 +1,5 @@
 {
    "currency_pairs":[
-      "BTC/XPY",
-      "BTC/LTC",
-      "BTC/DOGE",
-      "BTC/CSD",
-      "BTC/XST",
-      "BTC/NAV",
-      "BTC/BLK",
-      "BTC/MZC",
-      "BTC/DRK",
-      "BTC/LXC",
-      "BTC/SDC",
-      "BTC/VIA",
-      "BTC/RBR",
-      "BTC/ARCH",
-      "BTC/VRC"
+      "LTC/BTC"
    ]
 }

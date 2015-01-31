@@ -19,7 +19,7 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 public class BittrexBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected final String apiKey;
-  protected final BittrexAuthenticated bittrex;
+  protected final BittrexAuthenticated bittrexAuthenticated;
   protected final ParamsDigest signatureCreator;
 
   /**
@@ -31,7 +31,7 @@ public class BittrexBasePollingService extends BaseExchangeService implements Ba
 
     super(exchange);
 
-    this.bittrex = RestProxyFactory.createProxy(BittrexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.bittrexAuthenticated = RestProxyFactory.createProxy(BittrexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BittrexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
@@ -40,7 +40,7 @@ public class BittrexBasePollingService extends BaseExchangeService implements Ba
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
     List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-    for (BittrexSymbol symbol : bittrex.getSymbols().getSymbols()) {
+    for (BittrexSymbol symbol : bittrexAuthenticated.getSymbols().getSymbols()) {
       currencyPairs.add(BittrexAdapters.adaptCurrencyPair(symbol));
     }
     return currencyPairs;
