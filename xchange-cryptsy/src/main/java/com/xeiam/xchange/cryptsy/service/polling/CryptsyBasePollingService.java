@@ -11,6 +11,7 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptsy.Cryptsy;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
+import com.xeiam.xchange.cryptsy.CryptsyAuthenticated;
 import com.xeiam.xchange.cryptsy.CryptsyCurrencyUtils;
 import com.xeiam.xchange.cryptsy.CryptsyExchange;
 import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
@@ -25,31 +26,29 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 /**
  * @author ObsessiveOrange
  */
-public class CryptsyBasePollingService<T extends Cryptsy> extends BaseExchangeService implements BasePollingService {
+public class CryptsyBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected final String apiKey;
-  protected final T cryptsyPrivate;
+  protected final CryptsyAuthenticated cryptsyPrivate;
   protected final ParamsDigest signatureCreator;
-
   protected final Cryptsy cryptsyPublic;
 
   /**
    * Constructor
    *
-   * @param cryptsyType
    * @param exchange
    */
-  public CryptsyBasePollingService(Class<T> cryptsyType, Exchange exchange) {
+  public CryptsyBasePollingService(Exchange exchange) {
 
     super(exchange);
 
     // for private API data (trade and account)
-    this.cryptsyPrivate = RestProxyFactory.createProxy(cryptsyType, exchange.getExchangeSpecification().getSslUri());
+    this.cryptsyPrivate = RestProxyFactory.createProxy(CryptsyAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = CryptsyHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
 
     // for public API (market data)
-    this.cryptsyPublic = RestProxyFactory.createProxy(Cryptsy.class, 
+    this.cryptsyPublic = RestProxyFactory.createProxy(Cryptsy.class,
         (String) exchange.getExchangeSpecification().getParameter(CryptsyExchange.KEY_PUBLIC_API_URL));
 
   }

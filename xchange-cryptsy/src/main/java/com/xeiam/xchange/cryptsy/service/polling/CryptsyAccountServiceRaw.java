@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import javax.annotation.Nullable;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.cryptsy.CryptsyAuthenticated;
 import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
 import com.xeiam.xchange.cryptsy.dto.account.CryptsyAccountInfoReturn;
 import com.xeiam.xchange.cryptsy.dto.account.CryptsyDepositAddressReturn;
@@ -20,7 +19,7 @@ import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 /**
  * @author ObsessiveOrange
  */
-public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyAuthenticated> {
+public class CryptsyAccountServiceRaw extends CryptsyBasePollingService {
 
   /**
    * Constructor
@@ -29,7 +28,7 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService<CryptsyA
    */
   public CryptsyAccountServiceRaw(Exchange exchange) {
 
-    super(CryptsyAuthenticated.class, exchange);
+    super(exchange);
   }
 
   /**

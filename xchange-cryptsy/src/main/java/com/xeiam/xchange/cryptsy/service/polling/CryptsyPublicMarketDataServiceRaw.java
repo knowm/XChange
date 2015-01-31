@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.cryptsy.Cryptsy;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyCurrencyPairsReturn;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicMarketData;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicOrderbook;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
-public class CryptsyPublicMarketDataServiceRaw extends CryptsyBasePollingService<Cryptsy> {
+public class CryptsyPublicMarketDataServiceRaw extends CryptsyBasePollingService {
 
   /**
    * Constructor
@@ -20,7 +19,7 @@ public class CryptsyPublicMarketDataServiceRaw extends CryptsyBasePollingService
    */
   public CryptsyPublicMarketDataServiceRaw(Exchange exchange) {
 
-    super(Cryptsy.class, exchange);
+    super(exchange);
   }
 
   public Map<Integer, CryptsyPublicMarketData> getAllCryptsyMarketData() throws IOException, ExchangeException {

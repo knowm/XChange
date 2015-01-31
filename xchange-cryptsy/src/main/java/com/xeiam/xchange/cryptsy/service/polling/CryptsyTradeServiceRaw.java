@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.cryptsy.CryptsyAuthenticated;
 import com.xeiam.xchange.cryptsy.dto.CryptsyOrder.CryptsyOrderType;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyCalculatedFeesReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyCancelMultipleOrdersReturn;
@@ -19,14 +18,14 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 /**
  * @author ObsessiveOrange
  */
-public class CryptsyTradeServiceRaw extends CryptsyBasePollingService<CryptsyAuthenticated> {
+public class CryptsyTradeServiceRaw extends CryptsyBasePollingService {
 
   /**
    * @param exchange
    */
   public CryptsyTradeServiceRaw(Exchange exchange) {
 
-    super(CryptsyAuthenticated.class, exchange);
+    super(exchange);
   }
 
   /**

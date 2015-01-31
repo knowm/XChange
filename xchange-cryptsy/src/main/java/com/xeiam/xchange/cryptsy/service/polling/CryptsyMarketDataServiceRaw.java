@@ -3,7 +3,6 @@ package com.xeiam.xchange.cryptsy.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.cryptsy.CryptsyAuthenticated;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyGetMarketsReturn;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyMarketTradesReturn;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyOrderBookReturn;
@@ -12,7 +11,7 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 /**
  * @author ObsessiveOrange
  */
-public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService<CryptsyAuthenticated> {
+public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService {
 
   protected static final int FULL_SIZE = 2000;
 
@@ -23,7 +22,7 @@ public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService<Crypt
    */
   public CryptsyMarketDataServiceRaw(Exchange exchange) {
 
-    super(CryptsyAuthenticated.class, exchange);
+    super(exchange);
   }
 
   /**
