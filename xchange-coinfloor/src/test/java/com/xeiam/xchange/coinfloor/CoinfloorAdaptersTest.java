@@ -23,7 +23,7 @@ import com.xeiam.xchange.exceptions.ExchangeException;
  * @author obsessiveOrange
  */
 
-public class TestCoinfloorAdapters {
+public class CoinfloorAdaptersTest {
 
   private AccountInfo cachedAccountInfo;
   private Trades cachedTrades;

@@ -15,24 +15,25 @@ import com.xeiam.xchange.coinfloor.CoinfloorUtils.CoinfloorCurrency;
 /**
  * @author obsessiveOrange
  */
-public class TestCancelOrderReturn {
+public class CoinfloorOpenOrdersTest {
 
   @Test
   public void testMapping() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TestCancelOrderReturn.class.getResourceAsStream("/trade/example-cancelOrder-response.json");
+    InputStream is = CoinfloorOpenOrdersTest.class.getResourceAsStream("/trade/example-openOrders-response.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    CoinfloorCancelOrder testObject = mapper.readValue(is, CoinfloorCancelOrder.class);
+    CoinfloorOpenOrders testObject = mapper.readValue(is, CoinfloorOpenOrders.class);
 
     // Verify that the example data was mapped correctly
     Assert.assertEquals(0, testObject.getErrorCode());
-    Assert.assertEquals(303, testObject.getTag());
-    Assert.assertEquals(CoinfloorCurrency.BTC, testObject.getBase());
-    Assert.assertEquals(CoinfloorCurrency.GBP, testObject.getCounter());
-    Assert.assertEquals(BigDecimal.valueOf(5000, 2), testObject.getPrice());
-    Assert.assertEquals(BigDecimal.valueOf(10000, 4), testObject.getQuantity());
+    Assert.assertEquals(301, testObject.getTag());
+    Assert.assertEquals(211118, testObject.getOrders().get(0).getId());
+    Assert.assertEquals(CoinfloorCurrency.BTC, testObject.getOrders().get(0).getBase());
+    Assert.assertEquals(CoinfloorCurrency.GBP, testObject.getOrders().get(0).getCounter());
+    Assert.assertEquals(BigDecimal.valueOf(10000, 2), testObject.getOrders().get(0).getPrice());
+    Assert.assertEquals(BigDecimal.valueOf(10000, 4), testObject.getOrders().get(0).getBaseQty());
   }
 }

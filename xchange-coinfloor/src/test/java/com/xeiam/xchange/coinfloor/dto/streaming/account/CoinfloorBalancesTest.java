@@ -15,13 +15,13 @@ import com.xeiam.xchange.coinfloor.CoinfloorUtils.CoinfloorCurrency;
 /**
  * @author obsessiveOrange
  */
-public class TestGetBalancesReturn {
+public class CoinfloorBalancesTest {
 
   @Test
   public void testMapping() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TestGetBalancesReturn.class.getResourceAsStream("/account/example-balances-response.json");
+    InputStream is = CoinfloorBalancesTest.class.getResourceAsStream("/account/example-balances-response.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

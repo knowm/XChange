@@ -13,13 +13,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author timmolter
  */
-public class TestOERTickers {
+public class OERTickersTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TestOERTickers.class.getResourceAsStream("/example-latest-rates.json");
+    InputStream is = OERTickersTest.class.getResourceAsStream("/example-latest-rates.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

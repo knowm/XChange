@@ -1,4 +1,4 @@
-package com.xeiam.xchange.coinfloor.dto.streaming.marketdata;
+package com.xeiam.xchange.coinfloor.dto.streaming.trade;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,24 +14,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author obsessiveOrange
  */
-public class TestOrderbookReturn {
+public class CoinfloorEstimateMarketOrderTest {
 
   @Test
   public void testMapping() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TestOrderbookReturn.class.getResourceAsStream("/marketdata/example-orders-response.json");
+    InputStream is = CoinfloorEstimateMarketOrderTest.class.getResourceAsStream("/trade/example-estimateMarketOrder-response.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    CoinfloorOrderbook testObject = mapper.readValue(is, CoinfloorOrderbook.class);
+    CoinfloorEstimateMarketOrder testObject = mapper.readValue(is, CoinfloorEstimateMarketOrder.class);
 
     // Verify that the example data was mapped correctly
     Assert.assertEquals(0, testObject.getErrorCode());
-    Assert.assertEquals(201, testObject.getTag());
-    Assert.assertEquals(14, testObject.getOrders().size());
-    Assert.assertEquals(211077, testObject.getOrders().get(0).getId());
-    Assert.assertEquals(BigDecimal.valueOf(32000, 2), testObject.getOrders().get(0).getPrice());
-    Assert.assertEquals(BigDecimal.valueOf(9983, 4), testObject.getOrders().get(0).getBaseQty());
+    Assert.assertEquals(304, testObject.getTag());
+    Assert.assertEquals(BigDecimal.valueOf(10000, 4), testObject.getBaseQty());
+    Assert.assertEquals(BigDecimal.valueOf(33000, 2), testObject.getCounterQty());
   }
 }

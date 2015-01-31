@@ -14,13 +14,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author obsessiveOrange
  */
-public class TestTicker {
+public class CoinfloorTickerTest {
 
   @Test
   public void testMapping() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TestTicker.class.getResourceAsStream("/marketdata/example-ticker-response.json");
+    InputStream is = CoinfloorTickerTest.class.getResourceAsStream("/marketdata/example-ticker-response.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -40,7 +40,7 @@ public class TestTicker {
   public void testMapping2() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = TestTicker.class.getResourceAsStream("/marketdata/example-ticker-update.json");
+    InputStream is = CoinfloorTickerTest.class.getResourceAsStream("/marketdata/example-ticker-update.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

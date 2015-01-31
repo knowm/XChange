@@ -13,7 +13,7 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 /**
  * @author obsessiveOrange
  */
-public class TestCoinfloorUtils {
+public class CoinfloorUtilsTest {
 
   @Test(expected = ExchangeException.class)
   public void verifyCheckSuccessInt() {
