@@ -2,22 +2,17 @@ package com.xeiam.xchange.vircurex.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.vircurex.VircurexAdapters;
-import com.xeiam.xchange.vircurex.VircurexAuthenticated;
 import com.xeiam.xchange.vircurex.VircurexUtils;
 import com.xeiam.xchange.vircurex.dto.trade.VircurexOpenOrdersReturn;
 import com.xeiam.xchange.vircurex.dto.trade.VircurexPlaceOrderReturn;
 import com.xeiam.xchange.vircurex.service.VircurexSha2Digest;
 
 public class VircurexTradeServiceRaw extends VircurexBasePollingService {
-
-  private VircurexAuthenticated vircurex;
 
   /**
    * Constructor
@@ -27,8 +22,6 @@ public class VircurexTradeServiceRaw extends VircurexBasePollingService {
   public VircurexTradeServiceRaw(Exchange exchange) {
 
     super(exchange);
-
-    vircurex = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public String placeVircurexLimitOrder(LimitOrder limitOrder) throws IOException {
@@ -41,9 +34,9 @@ public class VircurexTradeServiceRaw extends VircurexBasePollingService {
         limitOrder.getCurrencyPair().counterSymbol.toLowerCase(), limitOrder.getLimitPrice().floatValue() + "",
         limitOrder.getCurrencyPair().baseSymbol.toLowerCase());
 
-    VircurexPlaceOrderReturn ret = vircurex.trade(exchange.getExchangeSpecification().getApiKey(), nonce, digest.toString(), timestamp,
+    VircurexPlaceOrderReturn ret = vircurexAuthenticated.trade(exchange.getExchangeSpecification().getApiKey(), nonce, digest.toString(), timestamp,
         type.toString(), limitOrder.getTradableAmount().floatValue() + "", limitOrder.getCurrencyPair().counterSymbol.toLowerCase(), limitOrder
-            .getLimitPrice().floatValue() + "", limitOrder.getCurrencyPair().baseSymbol.toLowerCase());
+        .getLimitPrice().floatValue() + "", limitOrder.getCurrencyPair().baseSymbol.toLowerCase());
 
     timestamp = VircurexUtils.getUtcTimestamp();
     nonce = exchange.getNonceFactory().createValue();
@@ -51,7 +44,7 @@ public class VircurexTradeServiceRaw extends VircurexBasePollingService {
     digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), timestamp,
         nonce, "release_order", ret.getOrderId());
 
-    ret = vircurex.release(exchange.getExchangeSpecification().getApiKey(), nonce, digest.toString(), timestamp, ret.getOrderId());
+    ret = vircurexAuthenticated.release(exchange.getExchangeSpecification().getApiKey(), nonce, digest.toString(), timestamp, ret.getOrderId());
     return ret.getOrderId();
   }
 
@@ -61,7 +54,7 @@ public class VircurexTradeServiceRaw extends VircurexBasePollingService {
     long nonce = exchange.getNonceFactory().createValue();
     VircurexSha2Digest digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification()
         .getUserName(), timestamp, nonce, "read_orders");
-    VircurexOpenOrdersReturn openOrdersReturn = vircurex.getOpenOrders(exchange.getExchangeSpecification().getUserName(), nonce, digest.toString(),
+    VircurexOpenOrdersReturn openOrdersReturn = vircurexAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getUserName(), nonce, digest.toString(),
         timestamp, VircurexUtils.RELEASED_ORDER);
 
     return new OpenOrders(VircurexAdapters.adaptOpenOrders(openOrdersReturn.getOpenOrders()));

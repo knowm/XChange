@@ -13,10 +13,10 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCMarketDataJsonTest;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
 import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
-import com.xeiam.xchange.lakebtc.marketdata.LakeBTCMarketDataJsonTest;
 
 public class LakeBTCAdapterTest {
 

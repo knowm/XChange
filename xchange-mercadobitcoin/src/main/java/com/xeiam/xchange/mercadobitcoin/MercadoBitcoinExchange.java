@@ -11,7 +11,6 @@ import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinTradeServi
 import com.xeiam.xchange.utils.nonce.CurrentTime1000NonceFactory;
 
 /**
- * @author Matija Mazi
  * @author Felipe Micaroni Lalli
  */
 public class MercadoBitcoinExchange extends BaseExchange implements Exchange {
