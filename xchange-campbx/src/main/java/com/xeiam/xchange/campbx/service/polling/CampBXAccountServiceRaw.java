@@ -3,10 +3,7 @@ package com.xeiam.xchange.campbx.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.account.MyFunds;
 
@@ -14,8 +11,6 @@ import com.xeiam.xchange.campbx.dto.account.MyFunds;
  * @author Matija Mazi
  */
 public class CampBXAccountServiceRaw extends CampBXBasePollingService {
-
-  private final CampBX campBX;
 
   /**
    * Constructor
@@ -25,7 +20,6 @@ public class CampBXAccountServiceRaw extends CampBXBasePollingService {
   public CampBXAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.campBX = RestProxyFactory.createProxy(CampBX.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public MyFunds getCampBXAccountInfo() throws IOException {

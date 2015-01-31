@@ -29,21 +29,21 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
 
   public CryptoTradeTicker getCryptoTradeTicker(CurrencyPair currencyPair) throws CryptoTradeException, IOException {
 
-    CryptoTradeTicker cryptoTradeTicker = cryptoTradeProxy.getTicker(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
+    CryptoTradeTicker cryptoTradeTicker = cryptoTradeAuthenticated.getTicker(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
 
     return handleResponse(cryptoTradeTicker);
   }
 
   public Map<CurrencyPair, CryptoTradeTicker> getCryptoTradeTickers() throws CryptoTradeException, IOException {
 
-    CryptoTradeTickers cryptoTradeTickers = cryptoTradeProxy.getTickers();
+    CryptoTradeTickers cryptoTradeTickers = cryptoTradeAuthenticated.getTickers();
 
     return handleResponse(cryptoTradeTickers).getTickers();
   }
 
   public CryptoTradeDepth getCryptoTradeOrderBook(CurrencyPair currencyPair) throws CryptoTradeException, IOException {
 
-    CryptoTradeDepth cryptoTradeDepth = cryptoTradeProxy
+    CryptoTradeDepth cryptoTradeDepth = cryptoTradeAuthenticated
         .getFullDepth(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
 
     return handleResponse(cryptoTradeDepth);
@@ -51,7 +51,7 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
 
   public List<CryptoTradePublicTrade> getCryptoTradeTradeHistory(CurrencyPair currencyPair) throws CryptoTradeException, IOException {
 
-    CryptoTradePublicTrades cryptoTradeDepth = cryptoTradeProxy.getTradeHistory(currencyPair.baseSymbol.toLowerCase(),
+    CryptoTradePublicTrades cryptoTradeDepth = cryptoTradeAuthenticated.getTradeHistory(currencyPair.baseSymbol.toLowerCase(),
         currencyPair.counterSymbol.toLowerCase());
 
     return handleResponse(cryptoTradeDepth).getPublicTrades();
@@ -60,7 +60,7 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
   public List<CryptoTradePublicTrade> getCryptoTradeTradeHistory(CurrencyPair currencyPair, long sinceTimestamp) throws CryptoTradeException,
       IOException {
 
-    CryptoTradePublicTrades cryptoTradeDepth = cryptoTradeProxy.getTradeHistory(currencyPair.baseSymbol.toLowerCase(),
+    CryptoTradePublicTrades cryptoTradeDepth = cryptoTradeAuthenticated.getTradeHistory(currencyPair.baseSymbol.toLowerCase(),
         currencyPair.counterSymbol.toLowerCase(), sinceTimestamp);
 
     return handleResponse(cryptoTradeDepth).getPublicTrades();
@@ -68,14 +68,14 @@ public class CryptoTradeMarketDataServiceRaw extends CryptoTradeBasePollingServi
 
   public CryptoTradePair getCryptoTradePairInfo(CurrencyPair currencyPair) throws CryptoTradeException, IOException {
 
-    CryptoTradePair cryptoTradePair = cryptoTradeProxy.getPair(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
+    CryptoTradePair cryptoTradePair = cryptoTradeAuthenticated.getPair(currencyPair.baseSymbol.toLowerCase(), currencyPair.counterSymbol.toLowerCase());
 
     return handleResponse(cryptoTradePair);
   }
 
   public Map<CurrencyPair, CryptoTradePair> getCryptoTradePairs() throws CryptoTradeException, IOException {
 
-    CryptoTradePairs cryptoPairs = cryptoTradeProxy.getPairs();
+    CryptoTradePairs cryptoPairs = cryptoTradeAuthenticated.getPairs();
 
     return handleResponse(cryptoPairs).getPairs();
   }

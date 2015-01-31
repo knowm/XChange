@@ -20,7 +20,7 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 public class CryptoTradeBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected final String apiKey;
-  protected final CryptoTradeAuthenticated cryptoTradeProxy;
+  protected final CryptoTradeAuthenticated cryptoTradeAuthenticated;
   protected final ParamsDigest signatureCreator;
 
   /**
@@ -32,7 +32,7 @@ public class CryptoTradeBasePollingService extends BaseExchangeService implement
 
     super(exchange);
 
-    this.cryptoTradeProxy = RestProxyFactory.createProxy(CryptoTradeAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.cryptoTradeAuthenticated = RestProxyFactory.createProxy(CryptoTradeAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = CryptoTradeHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
@@ -52,7 +52,7 @@ public class CryptoTradeBasePollingService extends BaseExchangeService implement
   public List<CurrencyPair> getExchangeSymbols() throws CryptoTradeException, IOException {
 
     List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-    currencyPairs.addAll(cryptoTradeProxy.getPairs().getPairs().keySet());
+    currencyPairs.addAll(cryptoTradeAuthenticated.getPairs().getPairs().keySet());
 
     return currencyPairs;
   }

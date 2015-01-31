@@ -2,10 +2,7 @@ package com.xeiam.xchange.campbx.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXOrderBook;
 import com.xeiam.xchange.campbx.dto.marketdata.CampBXTicker;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -18,8 +15,6 @@ import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
  */
 public class CampBXMarketDataServiceRaw extends CampBXBasePollingService {
 
-  private final CampBX campBX;
-
   /**
    * Constructor
    *
@@ -28,7 +23,6 @@ public class CampBXMarketDataServiceRaw extends CampBXBasePollingService {
   public CampBXMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.campBX = RestProxyFactory.createProxy(CampBX.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public CampBXTicker getCampBXTicker() throws IOException {
