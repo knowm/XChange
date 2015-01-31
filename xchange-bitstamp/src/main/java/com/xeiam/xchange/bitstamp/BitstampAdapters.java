@@ -146,10 +146,11 @@ public final class BitstampAdapters {
     BigDecimal ask = bitstampTicker.getAsk();
     BigDecimal high = bitstampTicker.getHigh();
     BigDecimal low = bitstampTicker.getLow();
+    BigDecimal vwap = bitstampTicker.getVwap();
     BigDecimal volume = bitstampTicker.getVolume();
     Date timestamp = new Date(bitstampTicker.getTimestamp() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume).timestamp(timestamp)
         .build();
 
   }
