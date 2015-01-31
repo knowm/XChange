@@ -40,8 +40,10 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
       Object arg0 = args[0];
       if (arg0 instanceof Long) {
         count = (Long) arg0;
+      } else if (arg0 instanceof Integer) {
+        count = (Integer) arg0;
       } else {
-        throw new ExchangeException("args[0] must be of type Long!");
+        throw new ExchangeException("args[0] must be of type Long or Integer");
       }
     }
 
