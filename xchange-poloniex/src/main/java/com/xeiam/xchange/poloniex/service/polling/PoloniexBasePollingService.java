@@ -15,6 +15,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.poloniex.Poloniex;
 import com.xeiam.xchange.poloniex.PoloniexAuthenticated;
 import com.xeiam.xchange.poloniex.PoloniexUtils;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
@@ -25,8 +26,10 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 public class PoloniexBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected final String apiKey;
-  protected final PoloniexAuthenticated poloniex;
+  protected final PoloniexAuthenticated poloniexAuthenticated;
   protected final ParamsDigest signatureCreator;
+
+  protected final Poloniex poloniex;
 
   /**
    * Constructor
@@ -36,9 +39,12 @@ public class PoloniexBasePollingService extends BaseExchangeService implements B
   public PoloniexBasePollingService(Exchange exchange) {
 
     super(exchange);
-    this.poloniex = RestProxyFactory.createProxy(PoloniexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.poloniexAuthenticated = RestProxyFactory.createProxy(PoloniexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = PoloniexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+
+    this.poloniex = RestProxyFactory.createProxy(Poloniex.class, exchange.getExchangeSpecification().getSslUri());
+
   }
 
   @Override

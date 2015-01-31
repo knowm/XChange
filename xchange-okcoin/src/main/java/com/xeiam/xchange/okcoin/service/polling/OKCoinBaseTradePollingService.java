@@ -1,7 +1,5 @@
 package com.xeiam.xchange.okcoin.service.polling;
 
-import java.util.Map;
-
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
@@ -27,7 +25,6 @@ public class OKCoinBaseTradePollingService extends OkCoinBasePollingService {
 
     super(exchange);
 
-    Map<String, Object> specific = exchange.getExchangeSpecification().getExchangeSpecificParameters();
     okCoin = RestProxyFactory.createProxy(OkCoin.class, exchange.getExchangeSpecification().getSslUri());
     apikey = exchange.getExchangeSpecification().getApiKey();
     secretKey = exchange.getExchangeSpecification().getSecretKey();

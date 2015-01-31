@@ -24,7 +24,7 @@ import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
 @Path("tradingApi")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-public interface PoloniexAuthenticated extends Poloniex {
+public interface PoloniexAuthenticated {
 
   @POST
   @FormParam("command")
