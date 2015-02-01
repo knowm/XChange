@@ -16,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.CoinsetterResponse;
-import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccount;
-import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccountList;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
 import com.xeiam.xchange.service.BaseExchangeService;
 
@@ -29,7 +27,7 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
   private final Logger log = LoggerFactory.getLogger(CoinsetterClientSessionService.class);
 
   private final CoinsetterClientSessionServiceRaw clientSessionServiceRaw;
-  private final CoinsetterAccountServiceRaw accountServiceRaw;
+  //  private final CoinsetterAccountServiceRaw accountServiceRaw;
   private final ReadWriteLock lock;
   private final long heartbeatInterval;
   private final int heartbeatMaxFailureTimes;
@@ -46,7 +44,7 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
     super(exchange);
 
     clientSessionServiceRaw = new CoinsetterClientSessionServiceRaw(exchange);
-    accountServiceRaw = new CoinsetterAccountServiceRaw(exchange);
+    //    accountServiceRaw = new CoinsetterAccountServiceRaw(exchange);
     lock = (ReadWriteLock) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_LOCK_KEY);
     heartbeatInterval = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_HEARTBEAT_INTERVAL_KEY);
     heartbeatMaxFailureTimes = (Integer) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(
@@ -106,9 +104,9 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
         heartbeatThread.start();
 
         if (exchange.getExchangeSpecification().getExchangeSpecificParametersItem(ACCOUNT_UUID_KEY) == null) {
-          CoinsetterAccountList accountList = accountServiceRaw.list(session.getUuid());
-          CoinsetterAccount account = accountList.getAccountList()[0];
-          exchange.getExchangeSpecification().setExchangeSpecificParametersItem(ACCOUNT_UUID_KEY, account.getAccountUuid());
+          //          CoinsetterAccountList accountList = accountServiceRaw.list(session.getUuid());
+          //          CoinsetterAccount account = accountList.getAccountList()[0];
+          //          exchange.getExchangeSpecification().setExchangeSpecificParametersItem(ACCOUNT_UUID_KEY, account.getAccountUuid());
         }
       }
     } finally {
