@@ -16,7 +16,6 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
  */
 public class TickerFetchIntegration {
 
-  // TODO add this back when exchange is fixed
   @Test
   public void tickerFetchTest() throws Exception {
 

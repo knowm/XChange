@@ -17,16 +17,15 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.CoinsetterResponse;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
-import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
  * Client session manager.
  */
-public class CoinsetterClientSessionService extends BaseExchangeService {
+public class CoinsetterClientSessionService extends CoinsetterClientSessionServiceRaw {
 
   private final Logger log = LoggerFactory.getLogger(CoinsetterClientSessionService.class);
 
-  private final CoinsetterClientSessionServiceRaw clientSessionServiceRaw;
+  //  private final CoinsetterClientSessionServiceRaw clientSessionServiceRaw;
   //  private final CoinsetterAccountServiceRaw accountServiceRaw;
   private final ReadWriteLock lock;
   private final long heartbeatInterval;
@@ -43,7 +42,7 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
 
     super(exchange);
 
-    clientSessionServiceRaw = new CoinsetterClientSessionServiceRaw(exchange);
+    //    clientSessionServiceRaw = new CoinsetterClientSessionServiceRaw(exchange);
     //    accountServiceRaw = new CoinsetterAccountServiceRaw(exchange);
     lock = (ReadWriteLock) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_LOCK_KEY);
     heartbeatInterval = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_HEARTBEAT_INTERVAL_KEY);
@@ -70,7 +69,7 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
       heartbeatThread.interrupt();
     }
 
-    clientSessionServiceRaw.logout(readSession().getUuid());
+    logout(readSession().getUuid());
   }
 
   private CoinsetterClientSession readSession() {
@@ -117,8 +116,8 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
   private CoinsetterClientSession login() throws IOException {
 
     String ipAddress = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_IP_ADDRESS_KEY);
-    CoinsetterClientSession session = clientSessionServiceRaw.login(exchange.getExchangeSpecification().getUserName(), exchange
-        .getExchangeSpecification().getPassword(), ipAddress);
+    CoinsetterClientSession session = login(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getPassword(),
+        ipAddress);
     return session;
   }
 
@@ -144,7 +143,7 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
       do {
         try {
           Thread.sleep(heatbeatInterval);
-          heatbeatResponse = clientSessionServiceRaw.heartbeat(session.getUuid());
+          heatbeatResponse = heartbeat(session.getUuid());
           log.trace("heatbeat: {}", heatbeatResponse);
           tryTimes = 0;
         } catch (CoinsetterException e) {
