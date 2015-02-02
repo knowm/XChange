@@ -8,11 +8,11 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEAccountService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
-import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+import com.xeiam.xchange.utils.nonce.TimestampIncrementingNonceFactory;
 
 public class BTCEExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
