@@ -68,17 +68,15 @@ public abstract class BaseExchange implements Exchange {
     }
 
     // load the metadata from the classpath
-    if (exchangeSpecification.getExchangeName() != null) {
+    if (this.exchangeSpecification.getExchangeName() != null) {
 
       InputStream is = BaseExchangeService.class.getClassLoader().getResourceAsStream(getMetaDataFileName(exchangeSpecification) + ".json");
 
       // Use Jackson to parse it
       ObjectMapper mapper = new ObjectMapper();
 
-      MetaData metaData = null;
       try {
         metaData = mapper.readValue(is, MetaData.class);
-        this.metaData = metaData;
         logger.debug(metaData.toString());
       } catch (Exception e) {
         logger.warn("An exception occured while loading the metadata file from the classpath. This may lead to unexpected results.", e);
