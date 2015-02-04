@@ -129,12 +129,13 @@ public final class BTCChinaAdapters {
     BigDecimal last = ticker.getLast();
     BigDecimal high = ticker.getHigh();
     BigDecimal low = ticker.getLow();
+    BigDecimal vwap = ticker.getVwap();
     BigDecimal buy = ticker.getBuy();
     BigDecimal sell = ticker.getSell();
     BigDecimal volume = ticker.getVol();
     Date date = adaptDate(ticker.getDate());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(buy).ask(sell).volume(volume).timestamp(date).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).vwap(vwap).bid(buy).ask(sell).volume(volume).timestamp(date).build();
   }
 
   public static Map<CurrencyPair, Ticker> adaptTickers(BTCChinaTicker btcChinaTicker) {
