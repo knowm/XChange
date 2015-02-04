@@ -8,14 +8,13 @@ import static com.xeiam.xchange.dto.Order.OrderType.BID;
 import static com.xeiam.xchange.dto.marketdata.Trades.TradeSortType.SortByTimestamp;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+import java.util.TimeZone;
 
 import com.xeiam.xchange.bitvc.dto.account.BitVcAccountInfo;
 import com.xeiam.xchange.bitvc.dto.account.HuobiAccountInfo;
@@ -39,7 +38,7 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 
 public final class BitVcAdapters {
 
-  private static final SimpleDateFormat tradeDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+  private static final long FIVE_MINUTES = 5L * 60L * 1000L;
 
   private BitVcAdapters() {
 
@@ -92,13 +91,24 @@ public final class BitVcAdapters {
   private static Trade adaptTrade(BitVcTradeObject trade, CurrencyPair currencyPair) {
 
     OrderType type = trade.getType().equals("买入") ? BID : ASK;
-    final Date time;
-    try {
-      time = tradeDateFormat.parse(trade.getTime());
-    } catch (ParseException e) {
-      throw new ExchangeException(e.getMessage(), e);
+    Date timestamp = adaptTime(trade.getTime());
+    return new Trade(type, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, null);
+  }
+
+  private static Date adaptTime(String time) {
+    String[] hms = time.split(":");
+    TimeZone timeZone = TimeZone.getTimeZone("Asia/Shanghai");
+    Calendar now = Calendar.getInstance();
+    Calendar timestamp = Calendar.getInstance(timeZone);
+    timestamp.setTime(now.getTime());
+    timestamp.set(Calendar.HOUR, Integer.parseInt(hms[0]));
+    timestamp.set(Calendar.MINUTE, Integer.parseInt(hms[1]));
+    timestamp.set(Calendar.SECOND, Integer.parseInt(hms[2]));
+    timestamp.set(Calendar.MILLISECOND, 0);
+    if (timestamp.getTimeInMillis() > now.getTimeInMillis() + FIVE_MINUTES) {
+      timestamp.add(Calendar.DAY_OF_MONTH, -1);
     }
-    return new Trade(type, trade.getAmount(), currencyPair, trade.getPrice(), time, null);
+    return timestamp.getTime();
   }
 
   public static AccountInfo adaptAccountInfo(BitVcAccountInfo a) {
