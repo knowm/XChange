@@ -76,6 +76,7 @@
 		<module>xchange-bitfinex</module>
 		<module>xchange-bitkonan</module>
 		<module>xchange-bitmarket</module>
+		<module>xchange-bitso</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-bittrex</module>
 		<module>xchange-bitvc</module>
