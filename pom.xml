@@ -5,7 +5,7 @@
 
 	<groupId>com.xeiam.xchange</groupId>
 	<artifactId>xchange-parent</artifactId>
-	<version>3.0.0</version>
+	<version>3.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>XChange Parent</name>
@@ -58,7 +58,7 @@
 		<connection>scm:git:git@github.com:timmolter/XChange.git</connection>
 		<developerConnection>scm:git:git@github.com:timmolter/XChange.git</developerConnection>
 		<url>git@github.com:timmolter/XChange.git</url>
-		<tag>xchange-3.0.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<ciManagement>
