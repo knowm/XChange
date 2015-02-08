@@ -1,5 +1,7 @@
 package com.xeiam.xchange;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Map;
 
@@ -67,8 +69,26 @@ public abstract class BaseExchange implements Exchange {
       this.exchangeSpecification = exchangeSpecification;
     }
 
-    // load the metadata from the classpath
-    if (this.exchangeSpecification.getExchangeName() != null) {
+    if (this.exchangeSpecification.getMetaDataJsonFileOverride() != null) {// load the metadata from the file system
+
+      try {
+        InputStream is = new FileInputStream(this.exchangeSpecification.getMetaDataJsonFileOverride());
+        // Use Jackson to parse it
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+          metaData = mapper.readValue(is, MetaData.class);
+          logger.debug(metaData.toString());
+        } catch (Exception e) {
+          logger.warn("An exception occured while loading the metadata file from the classpath. This may lead to unexpected results.", e);
+        }
+
+      } catch (FileNotFoundException e) {
+        logger.warn("An exception occured while loading the metadata file from the file system. This may lead to unexpected results.", e);
+
+      }
+
+    } else if (this.exchangeSpecification.getExchangeName() != null) { // load the metadata from the classpath
 
       InputStream is = BaseExchangeService.class.getClassLoader().getResourceAsStream(getMetaDataFileName(exchangeSpecification) + ".json");
 

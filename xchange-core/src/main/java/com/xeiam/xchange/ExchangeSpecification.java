@@ -3,6 +3,8 @@ package com.xeiam.xchange;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xeiam.xchange.dto.MetaData;
+
 /**
  * <p>
  * Specification to provide the following to {@link ExchangeFactory}:
@@ -37,6 +39,8 @@ public class ExchangeSpecification {
   private String host;
 
   private int port = 80;
+
+  private String metaDataJsonFileOverride = null;
 
   private final String exchangeClassName;
 
@@ -362,6 +366,30 @@ public class ExchangeSpecification {
   public void setExchangeDescription(String exchangeDescription) {
 
     this.exchangeDescription = exchangeDescription;
+  }
+
+  /**
+   * Get the override file for generating the {@link MetaData} object. By default, the {@link MetaData} object is loaded at startup from a json file
+   * on the classpath with the same name as the name of the exchange as defined in {@link ExchangeSpecification}. With this parameter, you can
+   * override that file with a file of your choice located outside of the classpath.
+   *
+   * @return
+   */
+  public String getMetaDataJsonFileOverride() {
+
+    return metaDataJsonFileOverride;
+  }
+
+  /**
+   * Set the override file for generating the {@link MetaData} object. By default, the {@link MetaData} object is loaded at startup from a json file
+   * on the classpath with the same name as the name of the exchange as defined in {@link ExchangeSpecification}. With this parameter, you can
+   * override that file with a file of your choice located outside of the classpath.
+   *
+   * @return
+   */
+  public void setMetaDataJsonFileOverride(String metaDataJsonFileOverride) {
+
+    this.metaDataJsonFileOverride = metaDataJsonFileOverride;
   }
 
 }
