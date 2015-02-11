@@ -2,6 +2,7 @@ package com.xeiam.xchange.bitbay.service.polling;
 
 import java.io.IOException;
 
+import com.xeiam.xchange.bitbay.dto.marketdata.BitbayMarketAll;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.ExchangeSpecification;
@@ -42,4 +43,8 @@ public class BitbayMarketDataServiceRaw extends BitbayBasePollingService<Bitbay>
     return bitbay.getBitbayTrades(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString(), since);
   }
 
+  public BitbayMarketAll getBitbatAllMarketData(CurrencyPair currencyPair) throws IOException {
+
+    return bitbay.getAll(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString());
+  }
 }

@@ -31,7 +31,7 @@ public class BitbayAccountServiceRaw extends BitbayBasePollingService<BitbayAuth
 
     protected BitbayAccount getBitbayAccountInfo(String currency) throws IOException {
 
-        BitbayAccount info = bitbay.info(apiKey, signatureCreator, new Date().getTime(), currency);
+        BitbayAccount info = bitbay.info(apiKey, signatureCreator, new Date().getTime()/1000, currency);
         return info;
     }
 

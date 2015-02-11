@@ -9,20 +9,6 @@ import java.math.BigDecimal;
  */
 public class BitbayOrder {
 
-/*
-    [
-    {"order_id":199121,
-    "order_currency":null,
-    "order_date":"2014-10-17 13:29:32",
-    "payment_currency":null,
-    "type":"ask",
-    "status":"active",
-    "units":"0.01000000",
-    "price":"13.00000000",
-    "total":13}
-    ]
-*/
-
     private String orderId;
     private String orderCurrency;
     private String orderDate;
@@ -30,8 +16,9 @@ public class BitbayOrder {
     private String type;
     private String status;
     private BigDecimal units;
-    private BigDecimal price;
-    private BigDecimal total;
+    private BigDecimal startUnits;
+    private BigDecimal currentPrice;
+    private BigDecimal startPrice;
 
     public BitbayOrder(@JsonProperty("order_id") String orderId,
                        @JsonProperty("order_currency") String orderCurrency,
@@ -40,8 +27,9 @@ public class BitbayOrder {
                        @JsonProperty("type") String type,
                        @JsonProperty("status") String status,
                        @JsonProperty("units") BigDecimal units,
-                       @JsonProperty("price") BigDecimal price,
-                       @JsonProperty("total") BigDecimal total) {
+                       @JsonProperty("start_units") BigDecimal startUnits,
+                       @JsonProperty("current_price") BigDecimal currentPrice,
+                       @JsonProperty("start_price") BigDecimal startPrice) {
         this.orderId = orderId;
         this.orderCurrency = orderCurrency;
         this.orderDate = orderDate;
@@ -49,8 +37,9 @@ public class BitbayOrder {
         this.type = type;
         this.status = status;
         this.units = units;
-        this.price = price;
-        this.total = total;
+        this.startUnits = startUnits;
+        this.currentPrice = currentPrice;
+        this.startPrice = startPrice;
     }
 
     public String getOrderId() {
@@ -81,11 +70,16 @@ public class BitbayOrder {
         return units;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getStartUnits() {
+        return startUnits;
     }
 
-    public BigDecimal getTotal() {
-        return total;
+    public BigDecimal getStartPrice() {
+        return startPrice;
     }
+
+    public BigDecimal getCurrentPrice() {
+        return currentPrice;
+    }
+
 }

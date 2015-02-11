@@ -7,6 +7,9 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bitbay.BitbayAdapters;
+import com.xeiam.xchange.bitbay.dto.marketdata.BitbayMarketAll;
+import com.xeiam.xchange.bitbay.dto.marketdata.BitbayOrderBook;
+import com.xeiam.xchange.bitbay.dto.marketdata.MarketData;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -52,4 +55,18 @@ public class BitbayMarketDataService extends BitbayMarketDataServiceRaw implemen
 
     return BitbayAdapters.adaptTrades(getBitbayTrades(currencyPair, sinceTid), currencyPair);
   }
+
+    public MarketData getAllMarketData(CurrencyPair currencyPair) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+        BitbayMarketAll marketData = getBitbatAllMarketData(currencyPair);
+
+        Ticker ticker = BitbayAdapters.adaptTicker(marketData, currencyPair);
+
+        BitbayOrderBook bitbayOrderBook = new BitbayOrderBook(marketData.getAsks(), marketData.getBids());
+        OrderBook orderBook = BitbayAdapters.adaptOrderBook(bitbayOrderBook, currencyPair);
+
+        Trades trades = BitbayAdapters.adaptTrades(marketData.getTrades(), currencyPair);
+
+        return new MarketData(ticker, orderBook, trades);
+    }
 }

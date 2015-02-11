@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author kpysniak
  */
-public final class BitbayTicker {
+public class BitbayTicker {
 
   private final BigDecimal max;
   private final BigDecimal min;

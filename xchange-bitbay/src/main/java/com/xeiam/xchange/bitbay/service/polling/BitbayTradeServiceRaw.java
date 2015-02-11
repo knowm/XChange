@@ -29,17 +29,17 @@ public class BitbayTradeServiceRaw extends BitbayBasePollingService<BitbayAuthen
   }
 
     protected List<BitbayOrder> getOrders() throws IOException {
-        return bitbay.orders(apiKey, signatureCreator, new Date().getTime());
+        return bitbay.orders(apiKey, signatureCreator, new Date().getTime() / 1000);
     }
 
 
     protected BitbayTradeResponse placeBitbayOrder(LimitOrder order) throws IOException {
-        return bitbay.trade(apiKey, signatureCreator, new Date().getTime(),
+        return bitbay.trade(apiKey, signatureCreator, new Date().getTime() / 1000,
                 order.getType().toString().toLowerCase(), order.getCurrencyPair().baseSymbol, order.getCurrencyPair().counterSymbol,
                 order.getTradableAmount(), order.getTradableAmount().multiply(order.getLimitPrice()), order.getLimitPrice());
     }
 
     protected BitbayBaseResponse cancelBitbayOrder(String orderId) throws IOException {
-        return bitbay.cancel(apiKey, signatureCreator, new Date().getTime(), orderId);
+        return bitbay.cancel(apiKey, signatureCreator, new Date().getTime() / 1000, orderId);
     }
 }

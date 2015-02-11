@@ -47,7 +47,7 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements Polling
     @Override
     public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
         BitbayTradeResponse response = placeBitbayOrder(limitOrder);
-        if (response.getSuccess() == null) {
+        if (response.getSuccess() == null || Integer.valueOf(response.getOrderId()) == 0) {
             throw new ExchangeException(response.getMessage());
         }
         return response.getOrderId();

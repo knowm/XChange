@@ -12,7 +12,6 @@ import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTicker;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTrade;
 import com.xeiam.xchange.bitbay.dto.trade.BitbayOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -116,8 +115,8 @@ public class BitbayAdapters {
         for (Map.Entry<String, BitbayBalance> balanceEntry : balances.entrySet()) {
             Wallet wallet = new Wallet(balanceEntry.getKey(), balanceEntry.getValue().getAvailable(), "Available");
             wallets.add(wallet);
-            wallet = new Wallet(balanceEntry.getKey(), balanceEntry.getValue().getLocked(), "Locked");
-            wallets.add(wallet);
+//            wallet = new Wallet(balanceEntry.getKey(), balanceEntry.getValue().getLocked(), "Locked");
+//            wallets.add(wallet);
         }
 
         return new AccountInfo(null, wallets);
@@ -138,7 +137,7 @@ public class BitbayAdapters {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                BigDecimal rate = bitbayOrder.getPrice().divide(bitbayOrder.getUnits());
+                BigDecimal rate = bitbayOrder.getStartPrice().divide(bitbayOrder.getStartUnits());
                 orders.add(new LimitOrder(type, bitbayOrder.getUnits(), pair, bitbayOrder.getOrderId(), date, rate));
             }
         }

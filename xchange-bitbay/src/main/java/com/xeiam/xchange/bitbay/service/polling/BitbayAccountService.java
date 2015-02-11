@@ -35,6 +35,9 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Pol
     @Override
     public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
         BitbayAccount bitbayAccountInfo = getBitbayAccountInfo(null);
+        if (bitbayAccountInfo.getSuccess() == null) {
+            throw new ExchangeException(bitbayAccountInfo.getMessage());
+        }
         return BitbayAdapters.adaptAccount(bitbayAccountInfo);
     }
 
