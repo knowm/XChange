@@ -56,8 +56,8 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
   public static ExchangeSpecification getDefaultPublicExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(CryptsyExchange.class.getCanonicalName());
-    exchangeSpecification.setSslUri("http://pubapi.cryptsy.com");
-    exchangeSpecification.setHost("pubapi.cryptsy.com");
+    exchangeSpecification.setSslUri("http://pubapi2.cryptsy.com");
+    exchangeSpecification.setHost("pubapi2.cryptsy.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Cryptsy");
     exchangeSpecification.setExchangeDescription("Cryptsy is an altcoin exchange");

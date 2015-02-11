@@ -12,6 +12,8 @@ public class HitbtcSymbol {
   private final String symbol;
   private final BigDecimal step;
   private final BigDecimal lot;
+  private final String currency;
+  private final String commodity;
 
   /**
    * Constructor
@@ -20,11 +22,13 @@ public class HitbtcSymbol {
    * @param step
    * @param lot
    */
-  public HitbtcSymbol(@JsonProperty("symbol") String symbol, @JsonProperty("step") BigDecimal step, @JsonProperty("lot") BigDecimal lot) {
+  public HitbtcSymbol(@JsonProperty("symbol") String symbol, @JsonProperty("step") BigDecimal step, @JsonProperty("lot") BigDecimal lot, @JsonProperty("currency") String currency, @JsonProperty("commodity") String commodity) {
 
     this.symbol = symbol;
     this.step = step;
     this.lot = lot;
+    this.currency = currency;
+    this.commodity = commodity;
   }
 
   public String getSymbol() {
@@ -40,6 +44,14 @@ public class HitbtcSymbol {
   public BigDecimal getLot() {
 
     return lot;
+  }
+
+  public String getCommodity() {
+    return commodity;
+  }
+
+  public String getCurrency() {
+    return currency;
   }
 
   @Override
