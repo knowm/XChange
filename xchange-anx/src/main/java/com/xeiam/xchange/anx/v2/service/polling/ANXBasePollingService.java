@@ -32,117 +32,20 @@ public class ANXBasePollingService extends BaseExchangeService implements BasePo
 
   static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
 
-  new CurrencyPair("BTC", "USD"),
-
-  new CurrencyPair("BTC", "HKD"),
-
-  new CurrencyPair("BTC", "EUR"),
-
-  new CurrencyPair("BTC", "CAD"),
-
-  new CurrencyPair("BTC", "AUD"),
-
-  new CurrencyPair("BTC", "SGD"),
-
-  new CurrencyPair("BTC", "JPY"),
-
-  new CurrencyPair("BTC", "CHF"),
-
-  new CurrencyPair("BTC", "GBP"),
-
-  new CurrencyPair("BTC", "NZD"),
-
-  new CurrencyPair("LTC", "BTC"),
-
-  new CurrencyPair("LTC", "USD"),
-
-  new CurrencyPair("LTC", "HKD"),
-
-  new CurrencyPair("LTC", "EUR"),
-
-  new CurrencyPair("LTC", "CAD"),
-
-  new CurrencyPair("LTC", "AUD"),
-
-  new CurrencyPair("LTC", "SGD"),
-
-  new CurrencyPair("LTC", "JPY"),
-
-  new CurrencyPair("LTC", "CHF"),
-
-  new CurrencyPair("LTC", "GBP"),
-
-  new CurrencyPair("LTC", "NZD"),
-
-  new CurrencyPair("PPC", "BTC"),
-
-  new CurrencyPair("PPC", "LTC"),
-
-  new CurrencyPair("PPC", "USD"),
-
-  new CurrencyPair("PPC", "HKD"),
-
-  new CurrencyPair("PPC", "EUR"),
-
-  new CurrencyPair("PPC", "CAD"),
-
-  new CurrencyPair("PPC", "AUD"),
-
-  new CurrencyPair("PPC", "SGD"),
-
-  new CurrencyPair("PPC", "JPY"),
-
-  new CurrencyPair("PPC", "CHF"),
-
-  new CurrencyPair("PPC", "GBP"),
-
-  new CurrencyPair("PPC", "NZD"),
-
-  new CurrencyPair("NMC", "BTC"),
-
-  new CurrencyPair("NMC", "LTC"),
-
-  new CurrencyPair("NMC", "USD"),
-
-  new CurrencyPair("NMC", "HKD"),
-
-  new CurrencyPair("NMC", "EUR"),
-
-  new CurrencyPair("NMC", "CAD"),
-
-  new CurrencyPair("NMC", "AUD"),
-
-  new CurrencyPair("NMC", "SGD"),
-
-  new CurrencyPair("NMC", "JPY"),
-
-  new CurrencyPair("NMC", "CHF"),
-
-  new CurrencyPair("NMC", "GBP"),
-
-  new CurrencyPair("NMC", "NZD"),
-
-  new CurrencyPair("DOGE", "BTC"),
-
-  new CurrencyPair("DOGE", "USD"),
-
-  new CurrencyPair("DOGE", "HKD"),
-
-  new CurrencyPair("DOGE", "EUR"),
-
-  new CurrencyPair("DOGE", "CAD"),
-
-  new CurrencyPair("DOGE", "AUD"),
-
-  new CurrencyPair("DOGE", "SGD"),
-
-  new CurrencyPair("DOGE", "JPY"),
-
-  new CurrencyPair("DOGE", "CHF"),
-
-  new CurrencyPair("DOGE", "GBP"),
-
-  new CurrencyPair("DOGE", "NZD")
+    new CurrencyPair("BTC", "USD"),
+    new CurrencyPair("BTC", "HKD"),
+    new CurrencyPair("BTC", "EUR"),
+    new CurrencyPair("BTC", "CAD"),
+    new CurrencyPair("BTC", "AUD"),
+    new CurrencyPair("BTC", "SGD"),
+    new CurrencyPair("BTC", "JPY"),
+    new CurrencyPair("BTC", "CHF"),
+    new CurrencyPair("BTC", "GBP"),
+    new CurrencyPair("BTC", "NZD"),
+    new CurrencyPair("LTC", "BTC"),
+    new CurrencyPair("DOGE", "BTC"),
+    new CurrencyPair("STR", "BTC"),
+    new CurrencyPair("XRP", "BTC")
 
   );
 
