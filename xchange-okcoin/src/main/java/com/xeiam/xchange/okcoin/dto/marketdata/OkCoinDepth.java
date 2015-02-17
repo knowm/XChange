@@ -10,7 +10,7 @@ public class OkCoinDepth {
   private final BigDecimal[][] asks;
   private final BigDecimal[][] bids;
 
-  public OkCoinDepth(@JsonProperty("asks") final BigDecimal[][] asks, @JsonProperty("bids") final BigDecimal[][] bids) {
+  public OkCoinDepth(@JsonProperty("asks") final BigDecimal[][] asks, @JsonProperty("bids") final BigDecimal[][] bids, @JsonProperty(required=false, value="timestamp") long timestamp) {
 
     this.asks = asks;
     this.bids = bids;
