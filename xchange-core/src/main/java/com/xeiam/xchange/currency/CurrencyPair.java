@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * </p>
  */
 @JsonSerialize(using = CustomCurrencyPairSerializer.class)
-public class CurrencyPair {
+public class CurrencyPair implements Comparable<CurrencyPair>{
 
   // Provide some standard major symbols
   public static final CurrencyPair EUR_USD = new CurrencyPair(Currencies.EUR, Currencies.USD);
@@ -239,5 +239,10 @@ public class CurrencyPair {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public int compareTo(CurrencyPair o) {
+    return (baseSymbol.compareTo(o.baseSymbol) << 16) + counterSymbol.compareTo(o.counterSymbol);
   }
 }

@@ -1,45 +1,87 @@
 {
-   "currency_pairs":[
-      "BTC/USD",
-      "BTC/HKD",
-      "BTC/EUR",
-      "BTC/CAD",
-      "BTC/AUD",
-      "BTC/SGD",
-      "BTC/JPY",
-      "BTC/CNY",
-      "BTC/GBP",
-      "BTC/NZD",
-      "LTC/BTC",
-      "DOGE/BTC",
-      "STR/BTC",
-      "XRP/BTC",
-      "START/USD",
-      "START/HKD",
-      "START/EUR",
-      "START/CAD",
-      "START/AUD",
-      "START/SGD",
-      "START/JPY",
-      "START/GBP",
-      "START/NZD",
-      "START/BTC",
-      "EGD/USD",
-      "EGD/HKD",
-      "EGD/EUR",
-      "EGD/CAD",
-      "EGD/AUD",
-      "EGD/SGD",
-      "EGD/JPY",
-      "EGD/CNY",
-      "EGD/GBP",
-      "EGD/NZD"
-   ],
-   "max_private_poll_rate_per_second":30,
-   "max_private_poll_rate_per_10_second":60,
-   "max_private_poll_rate_per_hour":50000,
-   "max_public_poll_rate_per_second":5,
+  "currencyPairs": {
+    "BTC/AUD": {
+      "minimumAmount": 0.01000,
+      "maximumAmount": 100000.00000
+    },
+    "BTC/CAD": {
+      "minimumAmount": 0.01000,
+      "maximumAmount": 100000.00000
+    },
+    "BTC/CNY": {
+      "minimumAmount": 0.01000,
+      "maximumAmount": 100000.00000
+    },
+    "BTC/EUR": {
+      "minimumAmount": 0.01000,
+      "maximumAmount": 100000.00000
+    },
+    "BTC/GBP": {
+      "minimumAmount": 0.01000,
+      "maximumAmount": 100000.00000
+    },
+    "BTC/HKD": {
+      "minimumAmount": 0.01000,
+      "maximumAmount": 100000.00000
+    },
+    "BTC/JPY": {
+      "minimumAmount": 0.01000,
+      "maximumAmount": 100000.00000
+    },
+    "BTC/NZD": {
+      "minimumAmount": 0.01000,
+      "maximumAmount": 100000.00000
+    },
+    "BTC/SGD": {
+      "minimumAmount": 0.01000,
+      "maximumAmount": 100000.00000
+    },
+    "BTC/USD": {
+      "minimumAmount": 0.01000,
+      "maximumAmount": 100000.00000
+    },
+    "DOGE/BTC": {
+      "minimumAmount": 10000.00000000,
+      "maximumAmount": 10000000000.00000000
+    },
+    "LTC/BTC": {
+      "minimumAmount": 0.10000,
+      "maximumAmount": 10000000.00000
+    },
+    "STR/BTC": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000
+    },
+    "XRP/BTC": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000
+    },
+     "START/USD":{},
+      "START/HKD":{},
+      "START/EUR":{},
+      "START/CAD":{},
+      "START/AUD":{},
+      "START/SGD":{},
+      "START/JPY":{},
+      "START/GBP":{},
+      "START/NZD":{},
+      "START/BTC":{},
+      "EGD/USD":{},
+      "EGD/HKD":{},
+      "EGD/EUR":{},
+      "EGD/CAD":{},
+      "EGD/AUD":{},
+      "EGD/SGD":{},
+      "EGD/JPY":{},
+      "EGD/CNY":{},
+      "EGD/GBP":{},
+      "EGD/NZD":{}
+  },
+  "tradingFee": 0.006,
+  "maxPrivatePollRatePerSecond": 30,
+  "maxPrivatePollRatePer10Second": 60,
+  "maxPrivatePollRatePerHour": 50000,
+  "maxPublicPollRatePerSecond": 5,
    "fiat_amount_multiplier":2,
    "crypto_amount_multiplier":8
-   
 }

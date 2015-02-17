@@ -1,19 +1,20 @@
 package com.xeiam.xchange.anx.v2;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWallet;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXOrder;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTicker;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
+import com.xeiam.xchange.anx.v2.dto.ANXMarketMetaData;
+import com.xeiam.xchange.anx.v2.dto.ANXMetaData;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResult;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.MarketMetaData;
+import com.xeiam.xchange.dto.MetaData;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -104,8 +105,9 @@ public final class ANXAdapters {
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     for (ANXOpenOrder anxOpenOrder : anxOpenOrders) {
-      limitOrders.add(adaptOrder(anxOpenOrder.getAmount().getValue(), anxOpenOrder.getPrice().getValue(), anxOpenOrder.getItem(),
-          anxOpenOrder.getCurrency(), anxOpenOrder.getType(), anxOpenOrder.getOid(), new Date(anxOpenOrder.getDate())));
+      limitOrders.add(
+          adaptOrder(anxOpenOrder.getAmount().getValue(), anxOpenOrder.getPrice().getValue(), anxOpenOrder.getItem(), anxOpenOrder.getCurrency(), anxOpenOrder.getType(),
+              anxOpenOrder.getOid(), new Date(anxOpenOrder.getDate())));
     }
 
     return limitOrders;
@@ -265,4 +267,16 @@ public final class ANXAdapters {
     return SIDE_BID.equals(side) ? OrderType.BID : OrderType.ASK;
   }
 
+  public static MetaData adaptMetaData(ANXMetaData anx) {
+    HashMap<CurrencyPair, MarketMetaData> marketMetaDataMap = new HashMap<CurrencyPair, MarketMetaData>();
+    for (Map.Entry<CurrencyPair, ANXMarketMetaData> e : anx.currencyPairs.entrySet()) {
+      MarketMetaData meta = adaptMarketMetaData(anx, e.getValue());
+      marketMetaDataMap.put(e.getKey(), meta);
+    }
+    return new MetaData(marketMetaDataMap, anx.maxPrivatePollRatePerSecond, anx.maxPrivatePollRatePer10Second, 0, anx.maxPrivatePollRatePerHour, anx.maxPublicPollRatePerSecond, 0, 0, 0, 0, 0);
+  }
+
+  private static MarketMetaData adaptMarketMetaData(ANXMetaData metaData, ANXMarketMetaData marketMetaData) {
+    return new MarketMetaData(metaData.tradingFee, marketMetaData.minimumAmount);
+  }
 }

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,7 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 public abstract class BaseExchange implements Exchange {
 
-  private final Logger logger = LoggerFactory.getLogger(BaseExchange.class);
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   protected ExchangeSpecification exchangeSpecification;
   protected MetaData metaData;
@@ -71,50 +72,47 @@ public abstract class BaseExchange implements Exchange {
 
     if (this.exchangeSpecification.getMetaDataJsonFileOverride() != null) {// load the metadata from the file system
 
+      InputStream is = null;
       try {
-        InputStream is = new FileInputStream(this.exchangeSpecification.getMetaDataJsonFileOverride());
-        // Use Jackson to parse it
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-          metaData = mapper.readValue(is, MetaData.class);
-          logger.debug(metaData.toString());
-        } catch (Exception e) {
-          logger
-          .warn(
-              "An exception occured while loading the metadata file from the classpath. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
-              e);
-        }
-
+        is = new FileInputStream(this.exchangeSpecification.getMetaDataJsonFileOverride());
+        loadMetaData(is);
       } catch (FileNotFoundException e) {
-        logger
-        .warn(
-            "An exception occured while loading the metadata file from the file system. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
+        logger.warn(
+            "An exception occured while loading the metadata file from the classpath. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
             e);
-
+      } finally {
+        IOUtils.closeQuietly(is);
       }
 
     } else if (this.exchangeSpecification.getExchangeName() != null) { // load the metadata from the classpath
 
-      InputStream is = BaseExchangeService.class.getClassLoader().getResourceAsStream(getMetaDataFileName(exchangeSpecification) + ".json");
-
-      // Use Jackson to parse it
-      ObjectMapper mapper = new ObjectMapper();
-
+      InputStream is = null;
       try {
-        metaData = mapper.readValue(is, MetaData.class);
-        logger.debug(metaData.toString());
-      } catch (Exception e) {
-        logger
-        .warn(
-            "An exception occured while loading the metadata file from the classpath. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
-            e);
+        is = BaseExchangeService.class.getClassLoader().getResourceAsStream(getMetaDataFileName(exchangeSpecification) + ".json");
+        loadMetaData(is);
+      } finally {
+        IOUtils.closeQuietly(is);
       }
+
     } else {
       logger
           .warn("No \"exchange name\" found in the ExchangeSpecification. The name is used to load the meta data file from the classpath and may lead to unexpected results.");
     }
 
+  }
+
+  protected void loadMetaData(InputStream is) {
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+
+    try {
+      metaData = mapper.readValue(is, MetaData.class);
+      logger.debug(metaData.toString());
+    } catch (Exception e) {
+      logger.warn(
+          "An exception occured while loading the metadata file from the file system. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
+          e);
+    }
   }
 
   public String getMetaDataFileName(ExchangeSpecification exchangeSpecification) {

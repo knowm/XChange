@@ -1,7 +1,10 @@
 package com.xeiam.xchange.dto;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -20,7 +23,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 public class MetaData {
 
   @JsonProperty("currency_pairs")
-  private List<CurrencyPair> currencyPairs;
+  private Map<CurrencyPair, MarketMetaData> currencyPairs;
 
   private Integer maxPrivatePollRatePerSecond;
   private Integer maxPrivatePollRatePer10Second;
@@ -50,7 +53,7 @@ public class MetaData {
    * @param fiatAmountMultiplier
    * @param cryptoAmountMultiplier
    */
-  public MetaData(@JsonProperty("currency_pairs") List<CurrencyPair> currencyPairs,
+  public MetaData(@JsonProperty("currency_pairs") Map<CurrencyPair, MarketMetaData> currencyPairs,
       @JsonProperty("max_private_poll_rate_per_second") int maxPrivatePollRatePerSecond,
       @JsonProperty("max_private_poll_rate_per_10_second") int maxPrivatePollRatePer10Second,
       @JsonProperty("max_private_poll_rate_per_minute") int maxPrivatePollRatePerMinute,
@@ -73,12 +76,14 @@ public class MetaData {
     this.cryptoAmountMultiplier = cryptoAmountMultiplier;
   }
 
+  @JsonIgnore
   public List<CurrencyPair> getCurrencyPairs() {
-    return currencyPairs;
+    return new ArrayList<CurrencyPair>(currencyPairs.keySet());
   }
 
-  public void setCurrencyPairs(List<CurrencyPair> currencyPairs) {
-    this.currencyPairs = currencyPairs;
+  @JsonProperty("currency_pairs")
+  public Map<CurrencyPair, MarketMetaData>getMarketMetaDataMap(){
+    return currencyPairs;
   }
 
   public Integer getMaxPrivatePollRatePerSecond() {

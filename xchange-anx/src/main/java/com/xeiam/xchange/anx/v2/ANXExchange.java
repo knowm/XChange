@@ -1,9 +1,13 @@
 package com.xeiam.xchange.anx.v2;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.anx.v2.dto.ANXMetaData;
 import com.xeiam.xchange.anx.v2.service.polling.ANXAccountService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXMarketDataService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXTradeService;
@@ -43,4 +47,23 @@ public class ANXExchange extends BaseExchange {
     return nonceFactory;
   }
 
+  private ANXMetaData anxMetaData;
+
+  public ANXMetaData getANXMetaData(){
+    return anxMetaData;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+
+    try {
+      anxMetaData = mapper.readValue(is, ANXMetaData.class);
+      logger.debug(anxMetaData.toString());
+      metaData = ANXAdapters.adaptMetaData(anxMetaData);
+    } catch (Exception e) {
+      logger.warn("An exception occurred while loading the metadata file from the file. This may lead to unexpected results.", e);
+    }
+  }
 }
