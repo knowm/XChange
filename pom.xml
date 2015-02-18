@@ -222,7 +222,14 @@
 				<groupId>com.github.nkzawa</groupId>
 				<artifactId>socket.io-client</artifactId>
 				<version>0.2.0</version>
-			</dependency>
+			</dependency>	
+
+                        <!-- For Netty-based websockets -->
+                        <dependency>
+                                <groupId>io.netty</groupId>
+                                <artifactId>netty-all</artifactId>
+                                <version>4.1.0.Beta3</version>
+                        </dependency>
 
 			<!-- For CoinsetterSocketIOService -->
 			<dependency>
