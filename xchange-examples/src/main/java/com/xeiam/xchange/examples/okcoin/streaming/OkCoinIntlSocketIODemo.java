@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.okcoin.OkCoinExchange;
 import com.xeiam.xchange.okcoin.service.streaming.OkCoinExchangeStreamingConfiguration;
@@ -14,16 +15,21 @@ import com.xeiam.xchange.service.streaming.ExchangeEventType;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 
-public class OkCoinSocketIODemo {
+public class OkCoinIntlSocketIODemo {
 
   public static void main(String[] args) throws InterruptedException {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(OkCoinExchange.class);
     exSpec.setSecretKey("aa");
     exSpec.setApiKey("bb");
+    
+    //Force intl
+    exSpec.setExchangeSpecificParametersItem("Use_Intl", true);     
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
-    final StreamingExchangeService service = exchange.getStreamingExchangeService(new OkCoinExchangeStreamingConfiguration());
+    
+    //Forcing the currency pair is required for Intl
+    final StreamingExchangeService service = exchange.getStreamingExchangeService(new OkCoinExchangeStreamingConfiguration(new CurrencyPair[]{ CurrencyPair.BTC_USD }));
 
     Thread consumer = new Thread("consumer") {
 
