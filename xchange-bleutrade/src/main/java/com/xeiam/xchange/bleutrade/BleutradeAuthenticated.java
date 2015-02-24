@@ -22,7 +22,6 @@ import com.xeiam.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
 
 @Path("v2")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 public interface BleutradeAuthenticated extends Bleutrade {
 
   @GET
