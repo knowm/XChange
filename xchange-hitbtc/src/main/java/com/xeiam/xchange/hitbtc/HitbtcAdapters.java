@@ -187,7 +187,7 @@ public class HitbtcAdapters {
       CurrencyPair pair = adaptSymbol(t.getSymbol());
 
       UserTrade trade = new UserTrade(type, t.getExecQuantity().multiply(LOT_SIZES.get(t.getSymbol())), pair, t.getExecPrice(), new Date(
-          t.getTimestamp()), t.getClientOrderId(), Long.toString(t.getOriginalOrderId()), t.getFee(), pair.counterSymbol);
+          t.getTimestamp()), Long.toString(t.getTradeId()), t.getClientOrderId(), t.getFee(), pair.counterSymbol);
 
       trades.add(trade);
     }
