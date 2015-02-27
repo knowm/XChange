@@ -73,7 +73,7 @@ public final class OkCoinAdapters {
     Collections.reverse(asks);
 
     List<LimitOrder> bids = adaptLimitOrders(OrderType.BID, depth.getBids(), currencyPair);
-    return new OrderBook(null, asks, bids);
+    return new OrderBook(depth.getTimestamp(), asks, bids);
   }
 
   public static Trades adaptTrades(OkCoinTrade[] trades, CurrencyPair currencyPair) {
