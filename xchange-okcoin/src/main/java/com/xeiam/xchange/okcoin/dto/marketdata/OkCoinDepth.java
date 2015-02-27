@@ -2,6 +2,7 @@ package com.xeiam.xchange.okcoin.dto.marketdata;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,11 +10,13 @@ public class OkCoinDepth {
 
   private final BigDecimal[][] asks;
   private final BigDecimal[][] bids;
+  private final Date timestamp;
 
-  public OkCoinDepth(@JsonProperty("asks") final BigDecimal[][] asks, @JsonProperty("bids") final BigDecimal[][] bids, @JsonProperty(required=false, value="timestamp") long timestamp) {
+  public OkCoinDepth(@JsonProperty("asks") final BigDecimal[][] asks, @JsonProperty("bids") final BigDecimal[][] bids, @JsonProperty(required=false, value="timestamp") Date timestamp) {
 
     this.asks = asks;
     this.bids = bids;
+    this.timestamp = timestamp;
   }
 
   public BigDecimal[][] getAsks() {
@@ -25,11 +28,15 @@ public class OkCoinDepth {
 
     return bids;
   }
+  
+  
+  public Date getTimestamp() {
+    return timestamp;
+  }
 
   @Override
   public String toString() {
 
     return "OkCoinDepth [asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + "]";
   }
-
 }
