@@ -1,17 +1,23 @@
 package com.xeiam.xchange.anx.v2.dto.account;
 
-import static com.xeiam.xchange.currency.Currencies.*;
-import static org.fest.assertions.api.Assertions.assertThat;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-
-import org.junit.Test;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.anx.v2.ANXExchange;
+import com.xeiam.xchange.anx.v2.dto.ANXMetaData;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
+import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWallet;
+import org.junit.Test;
+
+import static com.xeiam.xchange.currency.Currencies.*;
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test BitStamp Full Depth JSON parsing
@@ -43,5 +49,25 @@ public class AccountInfoJSONTest {
     // Get Other Balance
     assertThat(anxAccountInfo.getWallets().get(BTC).getMaxWithdraw().getValue()).isEqualTo(new BigDecimal("20.00000000"));
     assertThat(anxAccountInfo.getWallets().get(BTC).getDailyWithdrawLimit().getValue()).isEqualTo(new BigDecimal("20.00000000"));
+  }
+
+  @Test
+  public void testCurrencies() throws Exception {
+    // Read in the JSON from the example resources
+    InputStream is = AccountInfoJSONTest.class.getResourceAsStream("/v2/account/example-accountinfo-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    ANXAccountInfo anxAccountInfo = mapper.readValue(is, ANXAccountInfo.class);
+
+    Map<String, ANXWallet> wallets = anxAccountInfo.getWallets();
+
+
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
+    ANXMetaData anxMetaData = ((ANXExchange) exchange).getANXMetaData();
+
+    assertEquals(wallets.keySet(), anxMetaData.currencies.keySet());
+
   }
 }

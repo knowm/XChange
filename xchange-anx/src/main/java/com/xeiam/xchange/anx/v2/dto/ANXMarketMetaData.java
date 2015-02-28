@@ -5,9 +5,14 @@ import java.math.BigDecimal;
 public class ANXMarketMetaData {
   public BigDecimal minimumAmount;
   public BigDecimal maximumAmount;
+  public int priceScale;
 
-  public ANXMarketMetaData(BigDecimal minimumAmount, BigDecimal maximumAmount) {
+  public ANXMarketMetaData() {
+  }
+
+  public ANXMarketMetaData(BigDecimal minimumAmount, BigDecimal maximumAmount, int priceScale) {
     this.minimumAmount = minimumAmount;
     this.maximumAmount = maximumAmount;
+    this.priceScale = priceScale;
   }
 }

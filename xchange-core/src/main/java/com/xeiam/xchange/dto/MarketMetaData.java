@@ -13,9 +13,12 @@ public class MarketMetaData {
    */
   private final BigDecimal minimumAmount;
 
-  public MarketMetaData(BigDecimal tradingFee, BigDecimal minimumAmount) {
+  private final int priceScale;
+
+  public MarketMetaData(BigDecimal tradingFee, BigDecimal minimumAmount, int priceScale) {
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
+    this.priceScale = priceScale;
   }
 
   public BigDecimal getTradingFee() {
@@ -26,4 +29,7 @@ public class MarketMetaData {
     return minimumAmount;
   }
 
+  public int getPriceScale() {
+    return priceScale;
+  }
 }
