@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWallet;
-import com.xeiam.xchange.anx.v2.dto.account.polling.Wallets;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXOrder;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTicker;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
@@ -64,7 +64,6 @@ public final class ANXAdapters {
    * Adapts a ANXOrder to a LimitOrder
    *
    * @param price
-   * @param currency
    * @param orderTypeString
    * @return
    */
@@ -134,11 +133,11 @@ public final class ANXAdapters {
    * @param anxWallets
    * @return
    */
-  public static List<Wallet> adaptWallets(Wallets anxWallets) {
+  public static List<Wallet> adaptWallets(Map<String, ANXWallet> anxWallets) {
 
     List<Wallet> wallets = new ArrayList<Wallet>();
 
-    for (ANXWallet anxWallet : anxWallets.getANXWallets()) {
+    for (ANXWallet anxWallet : anxWallets.values()) {
       Wallet wallet = adaptWallet(anxWallet);
       if (wallet != null) {
         wallets.add(wallet);

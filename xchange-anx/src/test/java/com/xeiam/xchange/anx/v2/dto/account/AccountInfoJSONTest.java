@@ -1,5 +1,6 @@
 package com.xeiam.xchange.anx.v2.dto.account;
 
+import static com.xeiam.xchange.currency.Currencies.*;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
@@ -32,15 +33,15 @@ public class AccountInfoJSONTest {
     assertThat(anxAccountInfo.getLogin()).isEqualTo("test@anxpro.com");
 
     // Get Balance
-    assertThat(anxAccountInfo.getWallets().getBTC().getBalance().getValue()).isEqualTo(new BigDecimal("100000.01988000"));
-    assertThat(anxAccountInfo.getWallets().getUSD().getBalance().getValue()).isEqualTo(new BigDecimal("100000.00000"));
-    assertThat(anxAccountInfo.getWallets().getHKD().getBalance().getValue()).isEqualTo(new BigDecimal("99863.07000"));
+    assertThat(anxAccountInfo.getWallets().get(BTC).getBalance().getValue()).isEqualTo(new BigDecimal("100000.01988000"));
+    assertThat(anxAccountInfo.getWallets().get(USD).getBalance().getValue()).isEqualTo(new BigDecimal("100000.00000"));
+    assertThat(anxAccountInfo.getWallets().get(HKD).getBalance().getValue()).isEqualTo(new BigDecimal("99863.07000"));
 
-    assertThat(anxAccountInfo.getWallets().getLTC().getBalance().getValue()).isEqualTo(new BigDecimal("100000.00000000"));
-    assertThat(anxAccountInfo.getWallets().getDOGE().getBalance().getValue()).isEqualTo(new BigDecimal("9999781.09457936"));
+    assertThat(anxAccountInfo.getWallets().get(LTC).getBalance().getValue()).isEqualTo(new BigDecimal("100000.00000000"));
+    assertThat(anxAccountInfo.getWallets().get(DOGE).getBalance().getValue()).isEqualTo(new BigDecimal("9999781.09457936"));
 
     // Get Other Balance
-    assertThat(anxAccountInfo.getWallets().getBTC().getMaxWithdraw().getValue()).isEqualTo(new BigDecimal("100.00000000"));
-    assertThat(anxAccountInfo.getWallets().getBTC().getDailyWithdrawLimit().getValue()).isEqualTo(new BigDecimal("100.00000000"));
+    assertThat(anxAccountInfo.getWallets().get(BTC).getMaxWithdraw().getValue()).isEqualTo(new BigDecimal("20.00000000"));
+    assertThat(anxAccountInfo.getWallets().get(BTC).getDailyWithdrawLimit().getValue()).isEqualTo(new BigDecimal("20.00000000"));
   }
 }
