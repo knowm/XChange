@@ -47,6 +47,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
   @Override
   public void channelInactive(ChannelHandlerContext ctx) {
     log.warn("WebSocket Client disconnected!");
+    service.onDisconnect();
   }
 
   @SuppressWarnings("deprecation")

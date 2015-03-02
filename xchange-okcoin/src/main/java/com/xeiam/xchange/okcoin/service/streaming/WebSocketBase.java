@@ -7,11 +7,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
@@ -373,29 +371,4 @@ public class  WebSocketBase {
       e.printStackTrace();
     }
   }
-}
-
-
-class MonitorTask extends TimerTask {  
-  private long  startTime = System.currentTimeMillis();
-  private int checkTime = 5000;
-  private WebSocketBase client = null;
-  
-  public void updateTime(){
-    startTime = System.currentTimeMillis();
-  }
-  
-  public MonitorTask(WebSocketBase client){
-    this.client = client;
-  }
-  
-  public void run() {  
-    if(System.currentTimeMillis() - startTime > checkTime){
-      client.setStatus(false);
-
-      client.reConnect();
-    } 
-    
-    client.sendPing();
-  }  
 }  
