@@ -9,30 +9,31 @@ import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.huobi.HuobiAdapters;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
-public class HuobiAccountService extends HuobiAccountServiceRaw implements PollingAccountService {
+public class BitVcAccountService extends BitVcAccountServiceRaw implements PollingAccountService {
 
   /**
    * Constructor
    *
    * @param exchange
    */
-  public HuobiAccountService(Exchange exchange) {
-
+  public BitVcAccountService(Exchange exchange) {
     super(exchange);
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return HuobiAdapters.adaptHuobiAccountInfo(getHuobiAccountInfo());
+    return HuobiAdapters.adaptAccountInfo(getBitVcAccountInfo());
   }
 
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address) {
+
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public String requestDepositAddress(String currency, String... args) {
+
     throw new NotAvailableFromExchangeException();
   }
 

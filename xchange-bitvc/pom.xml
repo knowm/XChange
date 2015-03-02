@@ -8,10 +8,10 @@
 		<version>3.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>xchange-bitvc</artifactId>
+	<artifactId>xchange-huobi</artifactId>
 
 	<name>XChange BitVC</name>
-	<description>XChange implementation for BitVC</description>
+	<description>XChange implementation for Huobi / BitVC</description>
 
 	<url>http://xeiam.com</url>
 	<inceptionYear>2012</inceptionYear>

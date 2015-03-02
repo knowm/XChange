@@ -3,11 +3,12 @@ package com.xeiam.xchange.huobi.service.polling;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.huobi.Huobi;
+import com.xeiam.xchange.huobi.BitVc;
 import com.xeiam.xchange.huobi.service.HuobiDigest;
 
-public class HuobiBaseTradeService extends HuobiBasePollingService {
-  protected final Huobi huobi;
+public class BitVcBaseTradeService extends HuobiBasePollingService {
+
+  protected final BitVc bitvc;
   protected final String accessKey;
   protected final HuobiDigest digest;
 
@@ -16,16 +17,19 @@ public class HuobiBaseTradeService extends HuobiBasePollingService {
    *
    * @param exchange
    */
-  protected HuobiBaseTradeService(Exchange exchange) {
+  public BitVcBaseTradeService(Exchange exchange) {
 
     super(exchange);
 
-    huobi = RestProxyFactory.createProxy(Huobi.class, exchange.getExchangeSpecification().getSslUri());
+    final String baseUrl = exchange.getExchangeSpecification().getSslUri();
+    bitvc = RestProxyFactory.createProxy(BitVc.class, baseUrl);
     accessKey = exchange.getExchangeSpecification().getApiKey();
     digest = new HuobiDigest(exchange.getExchangeSpecification().getSecretKey());
   }
 
   protected long nextCreated() {
+
     return System.currentTimeMillis() / 1000;
   }
+
 }
