@@ -142,7 +142,7 @@ public class ANXAdapterTest {
 
     // in Wallet(s), only wallets from ANXAccountInfo.getWallets that contained data are NOT null.
     List<Wallet> wallets = ANXAdapters.adaptWallets(anxAccountInfo.getWallets());
-    Assert.assertEquals(22, wallets.size());
+    Assert.assertEquals(21, wallets.size());
 
     Assert.assertTrue(wallets.contains(new Wallet(Currencies.CAD, new BigDecimal("100000.00000"))));
     Assert.assertTrue(wallets.contains(new Wallet(Currencies.BTC, new BigDecimal("100000.01988000"))));
