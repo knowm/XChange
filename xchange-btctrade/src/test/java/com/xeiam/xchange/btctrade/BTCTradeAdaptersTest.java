@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+import junit.framework.Assert;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -176,4 +178,15 @@ public class BTCTradeAdaptersTest {
     assertEquals(OrderType.BID, order.getType());
   }
 
+  @Test
+  public void testNullSafeSum() throws Exception {
+    assertEquals(BTCTradeAdapters.zeroIfNull(new BigDecimal(3)), new BigDecimal(3));
+    assertEquals(BTCTradeAdapters.zeroIfNull(new BigDecimal(0)), BigDecimal.ZERO);
+    assertEquals(BTCTradeAdapters.zeroIfNull(null), BigDecimal.ZERO);
+
+    assertEquals(BTCTradeAdapters.nullSafeSum(BigDecimal.ONE, new BigDecimal(2)), new BigDecimal(3));
+    assertEquals(BTCTradeAdapters.nullSafeSum(BigDecimal.ONE, null), BigDecimal.ONE);
+    assertEquals(BTCTradeAdapters.nullSafeSum(null, new BigDecimal(2)), new BigDecimal(2));
+    assertEquals(BTCTradeAdapters.nullSafeSum(null, null), BigDecimal.ZERO);
+  }
 }
