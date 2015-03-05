@@ -79,7 +79,7 @@
 		<module>xchange-bitso</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-bittrex</module>
-		<module>xchange-bitvc</module>
+		<module>xchange-huobi</module>
 		<module>xchange-bleutrade</module>
 		<module>xchange-blockchain</module>
 		<module>xchange-btccentral</module>
