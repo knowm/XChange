@@ -90,6 +90,7 @@
 		<module>xchange-campbx</module>
 		<module>xchange-cavirtex</module>
 		<module>xchange-cexio</module>
+        <module>xchange-clevercoin</module>
 		<module>xchange-coinbase</module>
 		<module>xchange-coinfloor</module>
 		<module>xchange-coinsetter</module>
@@ -107,8 +108,8 @@
 		<module>xchange-okcoin</module>
 		<module>xchange-openexchangerates</module>
 		<module>xchange-poloniex</module>
-		<module>xchange-vircurex</module>
-	</modules>
+		<module>xchange-vircurex</module>\
+  </modules>
 
 	<repositories>
 		<repository>
