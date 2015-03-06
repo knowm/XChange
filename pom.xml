@@ -90,6 +90,7 @@
 		<module>xchange-campbx</module>
 		<module>xchange-cavirtex</module>
 		<module>xchange-cexio</module>
+		<module>xchange-clevercoin</module>
 		<module>xchange-coinbase</module>
 		<module>xchange-coinfloor</module>
 		<module>xchange-coinsetter</module>

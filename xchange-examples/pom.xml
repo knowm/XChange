@@ -132,6 +132,12 @@
 			<artifactId>xchange-cexio</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange CleverCoin exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-clevercoin</artifactId>
+			<version>${project.version}</version>
+		</dependency>	
 		<!-- XChange CryptoTrade exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
