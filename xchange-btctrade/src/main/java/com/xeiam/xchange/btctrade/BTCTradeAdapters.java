@@ -146,7 +146,7 @@ public final class BTCTradeAdapters {
 
     checkException(balance);
 
-    List<Wallet> wallets = new ArrayList<Wallet>(4);
+    List<Wallet> wallets = new ArrayList<Wallet>(5);
     wallets.add(new Wallet(Currencies.BTC, nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved())));
     wallets.add(new Wallet(Currencies.LTC, nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved())));
     wallets.add(new Wallet(Currencies.DOGE, nullSafeSum(balance.getDogeBalance(), balance.getDogeReserved())));
