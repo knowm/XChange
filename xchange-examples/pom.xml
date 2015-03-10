@@ -180,6 +180,12 @@
 			<artifactId>xchange-lakebtc</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Loyalbit exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-loyalbit</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange Cryptsy exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
