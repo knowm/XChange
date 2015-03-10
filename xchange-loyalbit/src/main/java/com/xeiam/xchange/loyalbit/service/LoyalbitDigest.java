@@ -1,6 +1,6 @@
 package com.xeiam.xchange.loyalbit.service;
 
-import java.math.BigInteger;
+import java.io.IOException;
 
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
@@ -8,20 +8,25 @@ import javax.ws.rs.FormParam;
 import si.mazi.rescu.RestInvocation;
 
 import com.xeiam.xchange.service.BaseParamsDigest;
+import com.xeiam.xchange.utils.Base64;
 
 public class LoyalbitDigest extends BaseParamsDigest {
 
   private final String clientId;
-  private final String apiKey;
+  private final byte[] apiKey;
 
-  private LoyalbitDigest(String secretKeyBase64, String clientId, String apiKey) {
-    super(secretKeyBase64, HMAC_SHA_256);
+  private LoyalbitDigest(String secretKeyHex, String clientId, String apiKeyHex) throws IOException {
+    super(secretKeyHex.getBytes(), HMAC_SHA_256);
     this.clientId = clientId;
-    this.apiKey = apiKey;
+    this.apiKey = apiKeyHex.getBytes();
   }
 
   public static LoyalbitDigest createInstance(String secretKeyBase64, String clientId, String apiKey) {
-    return secretKeyBase64 == null ? null : new LoyalbitDigest(secretKeyBase64, clientId, apiKey);
+    try {
+      return secretKeyBase64 == null ? null : new LoyalbitDigest(secretKeyBase64, clientId, apiKey);
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Error parsing API key or secret", e);
+    }
   }
 
   @Override
@@ -30,8 +35,8 @@ public class LoyalbitDigest extends BaseParamsDigest {
     mac256.update(restInvocation.getInvocationUrl().getBytes());
     mac256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes());
     mac256.update(clientId.getBytes());
-    mac256.update(apiKey.getBytes());
+    mac256.update(apiKey);
 
-    return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
+    return Base64.encodeBytes(mac256.doFinal());
   }
 }

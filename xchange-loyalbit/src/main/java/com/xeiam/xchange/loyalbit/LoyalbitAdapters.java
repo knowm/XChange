@@ -88,7 +88,7 @@ public final class LoyalbitAdapters {
       }
       final String tradeId = String.valueOf(transactionId);
       final String orderId = String.valueOf(loyalbitUserTransaction.getOrderId());
-      final BigDecimal feeAmount = loyalbitUserTransaction.getFee();
+      final BigDecimal feeAmount = loyalbitUserTransaction.getFeeUSD();
       final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
       UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,

@@ -74,7 +74,7 @@ public class LoyalbitTradeService extends LoyalbitTradeServiceRaw implements Pol
     if (params instanceof TradeHistoryParamPaging) {
       final TradeHistoryParamPaging paging = (TradeHistoryParamPaging) params;
       limit = paging.getPageLength();
-      offset = paging.getPageLength() * (paging.getPageNumber() - 1);
+      offset = paging.getPageLength() * paging.getPageNumber();
     }
     if (params instanceof TradeHistoryParamsSorted) {
       sort = LoyalbitAuthenticated.Sort.valueOf(((TradeHistoryParamsSorted) params).getOrder().name());
