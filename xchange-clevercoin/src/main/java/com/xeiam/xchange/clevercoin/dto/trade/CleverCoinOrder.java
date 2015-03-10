@@ -35,7 +35,7 @@ public final class CleverCoinOrder {
       @JsonProperty("error") @JsonDeserialize(using = CleverCoinErrorDeserializer.class) String errorMessage) {
 
     this.id = id;
-    this.type = (type == "bid" ? 0 : 1);
+    this.type = (type.equals("bid") ? 0 : 1);
     this.price = price;
     this.datetime = datetime;
     this.isOpen = isOpen ? 1 : 0;
