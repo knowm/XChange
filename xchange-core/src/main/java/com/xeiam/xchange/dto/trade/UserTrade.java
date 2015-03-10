@@ -67,6 +67,17 @@ public final class UserTrade extends Trade {
     return feeCurrency;
   }
 
+  @Override
+  public String toString() {
+    return "UserTrade[type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", price=" + price + ", " +
+        "timestamp=" + timestamp +
+        ", id=" + id +
+        ", orderId='" + orderId + '\'' +
+        ", feeAmount=" + feeAmount +
+        ", feeCurrency='" + feeCurrency + '\'' +
+        "]";
+  }
+
   public static class Builder {
 
     private OrderType type;
