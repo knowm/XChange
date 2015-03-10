@@ -2,6 +2,9 @@ package com.xeiam.xchange.loyalbit.dto.marketdata;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,16 +16,14 @@ public class LoyalbitOrderBook {
   private final List<List<BigDecimal>> bids;
   private final List<List<BigDecimal>> asks;
 
-  /**
-   * Constructor
-   *
-   * @param timestamp
-   * @param bids
-   * @param asks
-   */
-  public LoyalbitOrderBook(@JsonProperty("bids") List<List<BigDecimal>> bids,
-      @JsonProperty("asks") List<List<BigDecimal>> asks) {
-
+  public LoyalbitOrderBook(
+      @JsonProperty("bids") List<List<BigDecimal>> bids,
+      @JsonProperty("asks") List<List<BigDecimal>> asks,
+      @JsonProperty("status") Integer status
+  ) throws ExceptionalReturnContentException {
+    if (Objects.equals(status, 0)) {
+      throw new ExceptionalReturnContentException("Status indicates failure: " + status);
+    }
     this.bids = bids;
     this.asks = asks;
   }

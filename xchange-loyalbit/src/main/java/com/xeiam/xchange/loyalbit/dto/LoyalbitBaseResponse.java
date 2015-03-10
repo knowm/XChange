@@ -1,5 +1,7 @@
 package com.xeiam.xchange.loyalbit.dto;
 
+import java.util.Objects;
+
 import si.mazi.rescu.ExceptionalReturnContentException;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +15,7 @@ public class LoyalbitBaseResponse {
       @JsonProperty("status") Integer status,
       @JsonProperty("message") String message
   ) {
-    if (status != 1) {
+    if (Objects.equals(status, 0)) {
       throw new ExceptionalReturnContentException(message);
     }
     this.status = status;

@@ -2,7 +2,9 @@ package com.xeiam.xchange.loyalbit.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
+import si.mazi.rescu.ExceptionalReturnContentException;
 import si.mazi.rescu.serialization.jackson.serializers.FloatingTimestampDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,8 +36,12 @@ public final class LoyalbitUserTransaction {
       @JsonProperty("subtotal") BigDecimal subtotal,
       @JsonProperty("fee") BigDecimal fee,
       @JsonProperty("feeUSD") BigDecimal feeUSD,
-      @JsonProperty("total") BigDecimal total
-  ) {
+      @JsonProperty("total") BigDecimal total,
+      @JsonProperty("status") Integer status
+  ) throws ExceptionalReturnContentException {
+    if (Objects.equals(status, 0)) {
+      throw new ExceptionalReturnContentException("Status indicates failure: " + status);
+    }
     this.id = id;
     this.orderId = orderId;
     this.microtime = microtime;

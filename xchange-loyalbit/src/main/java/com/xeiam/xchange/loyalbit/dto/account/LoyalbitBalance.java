@@ -1,6 +1,9 @@
 package com.xeiam.xchange.loyalbit.dto.account;
 
 import java.math.BigDecimal;
+import java.util.Objects;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -24,8 +27,12 @@ public class LoyalbitBalance {
       @JsonProperty("reserved_order_btc") BigDecimal reservedOrderBtc,
       @JsonProperty("reserved_withdraw_usd") BigDecimal reservedWithdrawUsd,
       @JsonProperty("reserved_withdraw_btc") BigDecimal reservedWithdrawBtc,
-      @JsonProperty("fee") BigDecimal fee
-  ) {
+      @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("status") Integer status
+  ) throws ExceptionalReturnContentException {
+    if (Objects.equals(status, 0)) {
+      throw new ExceptionalReturnContentException("Status indicates failure: " + status);
+    }
     this.availableUsd = availableUsd;
     this.availableBtc = availableBtc;
     this.reservedOrderUsd = reservedOrderUsd;
