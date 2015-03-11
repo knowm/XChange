@@ -5,13 +5,14 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.CurrencyMetaData;
 
 public class ANXMetaData {
   @JsonProperty("currencyPairs")
   public Map<CurrencyPair, ANXMarketMetaData> currencyPairs;
 
   @JsonProperty("currencies")
-  public Map<String, ANXCurrencyData> currencies;
+  public Map<String, CurrencyMetaData> currencies;
 
   @JsonProperty("makerTradingFee")
   public BigDecimal makerTradingFee;
@@ -34,7 +35,7 @@ public class ANXMetaData {
   public ANXMetaData() {
   }
 
-  public ANXMetaData(Map<CurrencyPair, ANXMarketMetaData> currencyPairs, Map<String, ANXCurrencyData> currencies, BigDecimal makerTradingFee, BigDecimal takerTradingFee,
+  public ANXMetaData(Map<CurrencyPair, ANXMarketMetaData> currencyPairs, Map<String, CurrencyMetaData> currencies, BigDecimal makerTradingFee, BigDecimal takerTradingFee,
       int maxPrivatePollRatePerSecond, int maxPrivatePollRatePer10Second, int maxPrivatePollRatePerHour, int maxPublicPollRatePerSecond) {
     this.currencyPairs = currencyPairs;
     this.currencies = currencies;
@@ -45,5 +46,4 @@ public class ANXMetaData {
     this.maxPrivatePollRatePerHour = maxPrivatePollRatePerHour;
     this.maxPublicPollRatePerSecond = maxPublicPollRatePerSecond;
   }
-
 }

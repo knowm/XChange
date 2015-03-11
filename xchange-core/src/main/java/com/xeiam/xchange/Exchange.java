@@ -2,7 +2,7 @@ package com.xeiam.xchange;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.dto.MetaData;
+import com.xeiam.xchange.dto.SimpleMetaData;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
@@ -32,7 +32,7 @@ public interface Exchange {
    *
    * @return
    */
-  MetaData getMetaData();
+  SimpleMetaData getMetaData();
 
   /**
    * The nonce factory used to create a nonce value. Allows services to accept a placeholder that is replaced with generated value just before message

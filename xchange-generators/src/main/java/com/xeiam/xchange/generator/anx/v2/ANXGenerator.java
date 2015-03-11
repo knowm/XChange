@@ -8,10 +8,10 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.xeiam.xchange.anx.v2.dto.ANXCurrencyData;
 import com.xeiam.xchange.anx.v2.dto.ANXMarketMetaData;
 import com.xeiam.xchange.anx.v2.dto.ANXMetaData;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.CurrencyMetaData;
 
 import static com.xeiam.xchange.currency.Currencies.*;
 import static com.xeiam.xchange.currency.CurrencyPair.DOGE_BTC;
@@ -48,7 +48,7 @@ public class ANXGenerator {
   // base currency -> min order size
   static Map<String, BigDecimal> minAmount = new HashMap<String, BigDecimal>();
   static Map<String, BigDecimal> maxAmount = new HashMap<String, BigDecimal>();
-  static Map<String, ANXCurrencyData> currencyMap = new TreeMap<String, ANXCurrencyData>();
+  static Map<String, CurrencyMetaData> currencyMap = new TreeMap<String, CurrencyMetaData>();
 
   static Set<CurrencyPair> pairs = new HashSet<CurrencyPair>();
 
@@ -70,20 +70,20 @@ public class ANXGenerator {
     maxAmount.put(EGD, null);
 
     for (String crypto : cryptos) {
-      currencyMap.put(crypto, new ANXCurrencyData(8));
+      currencyMap.put(crypto, new CurrencyMetaData(8));
     }
 
-    currencyMap.put(CNY, new ANXCurrencyData(8));
+    currencyMap.put(CNY, new CurrencyMetaData(8));
     for (String fiat : fiats) {
       if (!currencyMap.containsKey(fiat))
-        currencyMap.put(fiat, new ANXCurrencyData(2));
+        currencyMap.put(fiat, new CurrencyMetaData(2));
     }
 
     // extra currencies available, but not traded
-    currencyMap.put(CHF, new ANXCurrencyData(2));
-    currencyMap.put(NMC, new ANXCurrencyData(8));
-    currencyMap.put(BGC, new ANXCurrencyData(8));
-    currencyMap.put(PPC, new ANXCurrencyData(8));
+    currencyMap.put(CHF, new CurrencyMetaData(2));
+    currencyMap.put(NMC, new CurrencyMetaData(8));
+    currencyMap.put(BGC, new CurrencyMetaData(8));
+    currencyMap.put(PPC, new CurrencyMetaData(8));
 
     Collections.addAll(pairs, pairsOther);
 

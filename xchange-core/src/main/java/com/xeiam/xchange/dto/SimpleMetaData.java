@@ -1,38 +1,27 @@
 package com.xeiam.xchange.dto;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
- * This class is loaded during creation of the Exchange and is
- * intended to hold both data that is readily available from an HTTP API request at an exchange extended by semi-static data that is not available from an HTTP API,
- * but is still important information to
+ * This class holds data "hardcoded" in a json file found in each module's "resources" folder. It is loaded during creation of the Exchange and is
+ * intended to hold semi-static data that is not readily available from an HTTP API request at an exchange, but is still important information to
  * have. Examples include currency pairs, max polling rates, scaling factors, etc.
- *
  * <p>
- * Note that this class extends SimpleMetaData (formerly named MetaData) as a temporary measure.
- * SimpleMetaData is used both as a generic JSON-mapped object and the type returned to users.
- * This class is used only in the API by the classes that merge metadata stored in custom JSON file and online info from the remote exchange.
- *
+ * This data may be directly accessed or it can be used by the service classes to enhance or supplement data that may not be directly obtained from
+ * the exchange.
  *
  * @author timmolter
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MetaData extends SimpleMetaData{
+public class SimpleMetaData {
 
   @JsonProperty("currency_pairs")
-  private Map<CurrencyPair, MarketMetaData> currencyPairs;
+  private List<CurrencyPair> currencyPairs;
 
-  @JsonProperty("currency")
-  private Map<String, CurrencyMetaData> currency;
-
-/*
   private Integer maxPrivatePollRatePerSecond;
   private Integer maxPrivatePollRatePer10Second;
   private Integer maxPrivatePollRatePerMinute;
@@ -45,12 +34,10 @@ public class MetaData extends SimpleMetaData{
 
   private Integer fiatAmountMultiplier;
   private Integer cryptoAmountMultiplier;
-*/
 
   /**
    * Constructor
    *  @param currencyPairs
-   * @param currency
    * @param maxPrivatePollRatePerSecond
    * @param maxPrivatePollRatePer10Second
    * @param maxPrivatePollRatePerMinute
@@ -62,21 +49,13 @@ public class MetaData extends SimpleMetaData{
    * @param fiatAmountMultiplier
    * @param cryptoAmountMultiplier
    */
-  public MetaData(@JsonProperty("currency_pairs") Map<CurrencyPair, MarketMetaData> currencyPairs,
-      Map<String, CurrencyMetaData> currency,
-      @JsonProperty("max_private_poll_rate_per_second") int maxPrivatePollRatePerSecond,
-      @JsonProperty("max_private_poll_rate_per_10_second") int maxPrivatePollRatePer10Second,
-      @JsonProperty("max_private_poll_rate_per_minute") int maxPrivatePollRatePerMinute,
-      @JsonProperty("max_private_poll_rate_per_hour") int maxPrivatePollRatePerHour,
-      @JsonProperty("max_public_poll_rate_per_second") int maxPublicPollRatePerSecond,
-      @JsonProperty("max_public_poll_rate_per_10_second") int maxPublicPollRatePer10Second,
-      @JsonProperty("max_public_poll_rate_per_minute") int maxPublicPollRatePerMinute,
+  public SimpleMetaData(@JsonProperty("currency_pairs") List<CurrencyPair> currencyPairs, @JsonProperty("max_private_poll_rate_per_second") int maxPrivatePollRatePerSecond,
+      @JsonProperty("max_private_poll_rate_per_10_second") int maxPrivatePollRatePer10Second, @JsonProperty("max_private_poll_rate_per_minute") int maxPrivatePollRatePerMinute,
+      @JsonProperty("max_private_poll_rate_per_hour") int maxPrivatePollRatePerHour, @JsonProperty("max_public_poll_rate_per_second") int maxPublicPollRatePerSecond,
+      @JsonProperty("max_public_poll_rate_per_10_second") int maxPublicPollRatePer10Second, @JsonProperty("max_public_poll_rate_per_minute") int maxPublicPollRatePerMinute,
       @JsonProperty("max_public_poll_rate_per_hour") int maxPublicPollRatePerHour, @JsonProperty("fiat_amount_multiplier") int fiatAmountMultiplier,
       @JsonProperty("crypto_amount_multiplier") int cryptoAmountMultiplier) {
-    super(new ArrayList<CurrencyPair>(currencyPairs.keySet()), maxPrivatePollRatePerSecond, maxPrivatePollRatePer10Second, maxPrivatePollRatePerMinute, maxPrivatePollRatePerHour, maxPublicPollRatePerSecond, maxPublicPollRatePer10Second, maxPublicPollRatePerMinute, maxPublicPollRatePerHour, fiatAmountMultiplier, cryptoAmountMultiplier);
     this.currencyPairs = currencyPairs;
-    this.currency = currency;
-/*
     this.maxPrivatePollRatePerSecond = maxPrivatePollRatePerSecond;
     this.maxPrivatePollRatePer10Second = maxPrivatePollRatePer10Second;
     this.maxPrivatePollRatePerMinute = maxPrivatePollRatePerMinute;
@@ -87,23 +66,13 @@ public class MetaData extends SimpleMetaData{
     this.maxPublicPollRatePerHour = maxPublicPollRatePerHour;
     this.fiatAmountMultiplier = fiatAmountMultiplier;
     this.cryptoAmountMultiplier = cryptoAmountMultiplier;
-*/
-  }
-
-  @JsonIgnore
-  public List<CurrencyPair> getCurrencyPairs() {
-    return super.getCurrencyPairs();
-/*
-    return new ArrayList<CurrencyPair>(currencyPairs.keySet());
-*/
   }
 
   @JsonProperty("currency_pairs")
-  public Map<CurrencyPair, MarketMetaData>getMarketMetaDataMap(){
+  public List<CurrencyPair>getCurrencyPairs(){
     return currencyPairs;
   }
 
-/*
   public Integer getMaxPrivatePollRatePerSecond() {
     return maxPrivatePollRatePerSecond;
   }
@@ -193,6 +162,5 @@ public class MetaData extends SimpleMetaData{
         + ", maxPublicPollRatePerHour=" + maxPublicPollRatePerHour + ", fiatAmountMultiplier=" + fiatAmountMultiplier + ", cryptoAmountMultiplier="
         + cryptoAmountMultiplier + "]";
   }
-*/
 
 }

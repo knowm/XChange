@@ -271,7 +271,7 @@ public final class ANXAdapters {
       MarketMetaData meta = adaptMarketMetaData(anx, e.getValue());
       marketMetaDataMap.put(e.getKey(), meta);
     }
-    return new MetaData(marketMetaDataMap, anx.maxPrivatePollRatePerSecond, anx.maxPrivatePollRatePer10Second, 0, anx.maxPrivatePollRatePerHour, anx.maxPublicPollRatePerSecond, 0, 0, 0, 0, 0);
+    return new MetaData(marketMetaDataMap, anx.currencies, anx.maxPrivatePollRatePerSecond, anx.maxPrivatePollRatePer10Second, 0, anx.maxPrivatePollRatePerHour, anx.maxPublicPollRatePerSecond, 0, 0, 0, 0, 0);
   }
 
   private static MarketMetaData adaptMarketMetaData(ANXMetaData metaData, ANXMarketMetaData marketMetaData) {

@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.dto.MetaData;
+import com.xeiam.xchange.dto.SimpleMetaData;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
@@ -23,7 +23,7 @@ public abstract class BaseExchange implements Exchange {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   protected ExchangeSpecification exchangeSpecification;
-  protected MetaData metaData;
+  protected SimpleMetaData metaData;
 
   protected PollingMarketDataService pollingMarketDataService;
   protected PollingTradeService pollingTradeService;
@@ -106,7 +106,7 @@ public abstract class BaseExchange implements Exchange {
     ObjectMapper mapper = new ObjectMapper();
 
     try {
-      metaData = mapper.readValue(is, MetaData.class);
+      metaData = mapper.readValue(is, SimpleMetaData.class);
       logger.debug(metaData.toString());
     } catch (Exception e) {
       logger.warn(
@@ -127,7 +127,7 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public MetaData getMetaData() {
+  public SimpleMetaData getMetaData() {
     return metaData;
   }
 
