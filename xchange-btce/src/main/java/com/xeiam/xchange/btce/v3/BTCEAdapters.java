@@ -1,12 +1,16 @@
 package com.xeiam.xchange.btce.v3;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.math.RoundingMode;
+import java.util.*;
 import java.util.Map.Entry;
 
+import com.xeiam.xchange.btce.v3.dto.BTCEMetaData;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEPairInfo;
+import com.xeiam.xchange.dto.CurrencyMetaData;
+import com.xeiam.xchange.dto.MarketMetaData;
+import com.xeiam.xchange.dto.MetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,8 +87,7 @@ public final class BTCEAdapters {
    * Adapts a BTCETradeV3 to a Trade Object
    *
    * @param bTCETrade BTCE trade object v.3
-   * @param tradableIdentifier First currency in the pair
-   * @param currency Second currency in the pair
+   * @param currencyPair the currency pair
    * @return The XChange Trade
    */
   public static Trade adaptTrade(BTCETrade bTCETrade, CurrencyPair currencyPair) {
@@ -102,8 +105,7 @@ public final class BTCEAdapters {
    * Adapts a BTCETradeV3[] to a Trades Object
    *
    * @param bTCETrades The BTCE trade data returned by API v.3
-   * @param tradableIdentifier First currency of the pair
-   * @param currency Second currency of the pair
+   * @param currencyPair the currency pair
    * @return The trades
    */
   public static Trades adaptTrades(BTCETrade[] bTCETrades, CurrencyPair currencyPair) {
@@ -208,4 +210,42 @@ public final class BTCEAdapters {
     return pairs;
   }
 
+  public static MetaData toMetaData(BTCEExchangeInfo btceExchangeInfo, BTCEMetaData btceMetaData) {
+    Map<CurrencyPair, MarketMetaData> currencyPairs = new HashMap<CurrencyPair, MarketMetaData>();
+    Map<String, CurrencyMetaData> currencies = new HashMap<String, CurrencyMetaData>();
+
+    for (Entry<String, BTCEPairInfo> e : btceExchangeInfo.getPairs().entrySet()) {
+      CurrencyPair pair = adaptCurrencyPair(e.getKey());
+      MarketMetaData marketMetaData = toMarketMetaData(e.getValue(), btceMetaData);
+      currencyPairs.put(pair, marketMetaData);
+
+      addCurrencyMetaData(pair.baseSymbol, currencies);
+      addCurrencyMetaData(pair.counterSymbol, currencies);
+    }
+
+    return new MetaData(currencyPairs, currencies, 0, 0, 0, 0, 0, 10 / btceMetaData.publicInfoCacheSeconds, 0, 0, 0, 0);
+  }
+
+  private static void addCurrencyMetaData(String symbol, Map<String, CurrencyMetaData> currencies) {
+    if (!currencies.containsKey(symbol)) {
+      currencies.put(symbol, new CurrencyMetaData(8));
+    }
+  }
+
+  public static MarketMetaData toMarketMetaData(BTCEPairInfo info, BTCEMetaData btceMetaData) {
+    int priceScale = info.getDecimals();
+    BigDecimal minimumAmount = withScale(info.getMinAmount(), btceMetaData.amountScale);
+    BigDecimal feeFraction = info.getFee().movePointLeft(2);
+
+    return new MarketMetaData(feeFraction, minimumAmount, priceScale);
+  }
+
+  private static BigDecimal withScale(BigDecimal value, int priceScale) {
+    try {
+      return value.setScale(priceScale, RoundingMode.UNNECESSARY);
+    } catch (ArithmeticException e) {
+      log.debug("Could not round {} to {} decimal places: {}", value, priceScale, e.getMessage());
+      return value.setScale(priceScale, RoundingMode.CEILING);
+    }
+  }
 }
