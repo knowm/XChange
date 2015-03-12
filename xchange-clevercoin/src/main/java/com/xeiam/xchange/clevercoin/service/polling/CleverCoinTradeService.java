@@ -10,6 +10,7 @@ import java.util.List;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.clevercoin.CleverCoinAdapters;
 import com.xeiam.xchange.clevercoin.dto.CleverCoinException;
+import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinOpenOrder;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -63,14 +64,13 @@ public class CleverCoinTradeService extends CleverCoinTradeServiceRaw implements
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, CleverCoinException {
 
-    CleverCoinOrder cleverCoinOrder;
+    CleverCoinOpenOrder cleverCoinOrder;
     String orderType = (limitOrder.getType() == BID ? "bid" : "ask");
     cleverCoinOrder= createCleverCoinOrder(orderType, limitOrder.getTradableAmount(),limitOrder.getLimitPrice());
     if (cleverCoinOrder.getErrorMessage() != null) {
       throw new ExchangeException(cleverCoinOrder.getErrorMessage());
     }
-
-    return Integer.toString(cleverCoinOrder.getId());
+    return cleverCoinOrder.getOrderId();
   }
 
   @Override
