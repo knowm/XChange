@@ -1,54 +1,113 @@
 package com.xeiam.xchange.clevercoin.service.polling;
 
+import static com.xeiam.xchange.dto.Order.OrderType.BID;
+
 import java.io.IOException;
 import java.math.BigDecimal;
-
-import si.mazi.rescu.RestProxyFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.clevercoin.CleverCoinAuthenticated;
+import com.xeiam.xchange.clevercoin.CleverCoinAdapters;
+import com.xeiam.xchange.clevercoin.dto.CleverCoinException;
+import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinOpenOrder;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinOrder;
-import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinCancelOrder;
-import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinUserTransaction;
-import com.xeiam.xchange.clevercoin.service.CleverCoinDigest;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 /**
- * @author gnandiga
+ * @author Karsten Nilsen
  */
-public class CleverCoinTradeServiceRaw extends CleverCoinBasePollingService {
-
-  private final CleverCoinAuthenticated cleverCoinAuthenticated;
-  private final CleverCoinDigest signatureCreator;
+public class CleverCoinTradeService extends CleverCoinTradeServiceRaw implements PollingTradeService {
 
   /**
+   * Constructor
+   *
    * @param exchange
    */
-  public CleverCoinTradeServiceRaw(Exchange exchange) {
+  public CleverCoinTradeService(Exchange exchange) {
 
     super(exchange);
-    this.cleverCoinAuthenticated = RestProxyFactory.createProxy(CleverCoinAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = CleverCoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getApiKey());
   }
 
-  public CleverCoinOrder[] getCleverCoinOpenOrders() throws IOException {
+  @Override
+  public OpenOrders getOpenOrders() throws IOException, CleverCoinException {
 
-    return cleverCoinAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    CleverCoinOrder[] openOrders = getCleverCoinOpenOrders();
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    for (CleverCoinOrder cleverCoinOrder : openOrders) {
+      OrderType orderType = cleverCoinOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
+      String id = Integer.toString(cleverCoinOrder.getId());
+      BigDecimal price = cleverCoinOrder.getPrice();
+      limitOrders.add(new LimitOrder(orderType, cleverCoinOrder.getAmount(), CurrencyPair.BTC_EUR, id, cleverCoinOrder.getTime(), price));
+    }
+    return new OpenOrders(limitOrders);
   }
-  
-  public CleverCoinOrder createCleverCoinOrder(String type, BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
-	    return cleverCoinAuthenticated.createLimitedOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-	    		type, tradableAmount, price);
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException, CleverCoinException {
+
+    throw new NotAvailableFromExchangeException();
   }
 
-  public CleverCoinCancelOrder cancelCleverCoinOrder(int orderId) throws IOException {
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException, CleverCoinException {
 
-    return cleverCoinAuthenticated.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), orderId);
+    CleverCoinOpenOrder cleverCoinOrder;
+    String orderType = (limitOrder.getType() == BID ? "bid" : "ask");
+    cleverCoinOrder= createCleverCoinOrder(orderType, limitOrder.getTradableAmount(),limitOrder.getLimitPrice());
+    if (cleverCoinOrder.getErrorMessage() != null) {
+      throw new ExchangeException(cleverCoinOrder.getErrorMessage());
+    }
+    return cleverCoinOrder.getOrderId();
   }
 
-  public CleverCoinUserTransaction[] getCleverCoinUserTransactions(int count) throws IOException {
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException, CleverCoinException {
 
-    return cleverCoinAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),count);
+    return cancelCleverCoinOrder(Integer.parseInt(orderId)).getResult().equals("success");
+  }
+
+  @Override
+  public UserTrades getTradeHistory(Object... args) throws IOException, CleverCoinException {
+
+    int numberOfTransactions = 100;
+    if (args.length > 0) {
+      Object arg0 = args[0];
+      if (!(arg0 instanceof Number)) {
+        throw new ExchangeException("Argument must be a Number!");
+      } else {
+        numberOfTransactions = ((Number) args[0]).intValue();
+      }
+    }
+    
+    return CleverCoinAdapters.adaptTradeHistory(getCleverCoinUserTransactions(numberOfTransactions));
+  }
+
+  /**
+   * Required parameter types: {@link TradeHistoryParamPaging#getPageLength()}
+   */
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+
+    return CleverCoinAdapters.adaptTradeHistory(getCleverCoinUserTransactions(100));
+  }
+
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+
+    return new DefaultTradeHistoryParamPaging(1000);
   }
 
 }
