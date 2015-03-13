@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinCancelOrder;
+import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinOpenOrder;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinOrder;
 import com.xeiam.xchange.clevercoin.service.polling.CleverCoinTradeServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -65,16 +66,16 @@ public class CleverCoinTradeDemo {
 
     printRawOpenOrders(tradeService);
     // place a limit buy order
-    CleverCoinOrder order = tradeService.createCleverCoinOrder("ask", new BigDecimal(".01"), new BigDecimal("10000.00"));
+    CleverCoinOpenOrder order = tradeService.createCleverCoinOrder("ask", new BigDecimal(".01"), new BigDecimal("10000.00"));
     System.out.println("Clevercoin return value: " + order);
 
     printRawOpenOrders(tradeService);
 
 
     // Cancel the added order
-    System.out.println(order.getId());
+    System.out.println(order.getOrderId());
     
-	 CleverCoinCancelOrder cancelResult = tradeService.cancelCleverCoinOrder(order.getId());
+	 CleverCoinCancelOrder cancelResult = tradeService.cancelCleverCoinOrder(Integer.valueOf(order.getOrderId()));
 	 System.out.println("Canceling returned: " + cancelResult.getResult());   
     printRawOpenOrders(tradeService);
   }

@@ -7,6 +7,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.clevercoin.CleverCoinAuthenticated;
+import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinOpenOrder;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinOrder;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinCancelOrder;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinUserTransaction;
@@ -35,7 +36,7 @@ public class CleverCoinTradeServiceRaw extends CleverCoinBasePollingService {
     return cleverCoinAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
   }
   
-  public CleverCoinOrder createCleverCoinOrder(String type, BigDecimal tradableAmount, BigDecimal price) throws IOException {
+  public CleverCoinOpenOrder createCleverCoinOrder(String type, BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
 	    return cleverCoinAuthenticated.createLimitedOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
 	    		type, tradableAmount, price);
