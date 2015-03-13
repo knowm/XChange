@@ -25,6 +25,7 @@ import com.xeiam.xchange.clevercoin.dto.account.CleverCoinWithdrawal;
 import com.xeiam.xchange.clevercoin.dto.account.DepositTransaction;
 import com.xeiam.xchange.clevercoin.dto.account.WithdrawalRequest;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinCancelOrder;
+import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinOpenOrder;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinOrder;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinUserTransaction;
 
@@ -43,7 +44,7 @@ public interface CleverCoinAuthenticated extends CleverCoin {
 
   @POST
   @Path("orders/limited")
-  public CleverCoinOrder createLimitedOrder(@HeaderParam("X-CleverAPI-Key") String apiKey, @HeaderParam("X-CleverAPI-Signature") ParamsDigest signer,
+  public CleverCoinOpenOrder createLimitedOrder(@HeaderParam("X-CleverAPI-Key") String apiKey, @HeaderParam("X-CleverAPI-Signature") ParamsDigest signer,
 		  @HeaderParam("X-CleverAPI-Nonce") SynchronizedValueFactory<Long> nonce, @FormParam("type") String type, @FormParam("amount") BigDecimal amount,
 		  @FormParam("price") BigDecimal price)
       throws CleverCoinException, IOException;
