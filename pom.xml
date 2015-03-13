@@ -82,6 +82,7 @@
 		<module>xchange-huobi</module>
 		<module>xchange-bleutrade</module>
 		<module>xchange-blockchain</module>
+		<module>xchange-btc38</module>
 		<module>xchange-btccentral</module>
 		<module>xchange-btcchina</module>
 		<module>xchange-btce</module>

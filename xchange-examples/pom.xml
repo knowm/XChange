@@ -259,11 +259,17 @@
             <version>${project.version}</version>
         </dependency>
 		<!-- XChange Yacuna exchange support -->
-    <dependency>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>xchange-yacuna</artifactId>
-        <version>${project.version}</version>
-    </dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-yacuna</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- XChange BTC38 exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-btc38</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
