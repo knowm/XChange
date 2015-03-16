@@ -12,7 +12,7 @@ public class DefaultTradeHistoryParamPaging implements TradeHistoryParamPaging {
   }
 
   public DefaultTradeHistoryParamPaging(Integer pageLength) {
-    this.pageLength = pageLength;
+    this(pageLength, 0);
   }
 
   public DefaultTradeHistoryParamPaging(Integer pageLength, Integer pageNumber) {
