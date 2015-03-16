@@ -1,5 +1,11 @@
 package com.xeiam.xchange.bitfinex.v1;
 
+import static org.junit.Assert.assertEquals;
+
+import java.math.BigDecimal;
+
+import org.junit.Test;
+
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
@@ -10,9 +16,6 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import java.math.BigDecimal;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class BitfinexAdaptersTest {
 
@@ -41,9 +44,8 @@ public class BitfinexAdaptersTest {
   }
 
   /**
-   * Create 60 {@link BitfinexLevel}s. The values increase as the array index does. The timestamps
-   * increase by 1 second + 1 minute + 1 hour + 1 day in order to test the correct handling of the
-   * given timestamp.
+   * Create 60 {@link BitfinexLevel}s. The values increase as the array index does. The timestamps increase by 1 second + 1 minute + 1 hour + 1 day in
+   * order to test the correct handling of the given timestamp.
    *
    * @return The generated responses.
    */
@@ -71,9 +73,7 @@ public class BitfinexAdaptersTest {
     for (int i = 0; i < responses.length; i++) {
       LimitOrder order = orders.getOpenOrders().get(i);
       long expectedTimestampMillis = responses[i].getTimestamp().multiply(new BigDecimal(1000l)).longValue();
-      Order.OrderType expectedOrderType = responses[i].getSide().equalsIgnoreCase("buy")
-              ? Order.OrderType.BID
-              : Order.OrderType.ASK;
+      Order.OrderType expectedOrderType = responses[i].getSide().equalsIgnoreCase("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
 
       assertEquals(String.valueOf(responses[i].getId()), order.getId());
       assertEquals(responses[i].getRemainingAmount(), order.getTradableAmount());
@@ -85,9 +85,8 @@ public class BitfinexAdaptersTest {
   }
 
   /**
-   * Create 60 {@link BitfinexOrderStatusResponse}s. The values increase as array index does. The
-   * timestamps increase by 1 second + 1 minute + 1 hour + 1 day in order to test the correct
-   * handling of the given timestamp.
+   * Create 60 {@link BitfinexOrderStatusResponse}s. The values increase as array index does. The timestamps increase by 1 second + 1 minute + 1 hour
+   * + 1 day in order to test the correct handling of the given timestamp.
    *
    * @return The generated responses.
    */
@@ -107,7 +106,8 @@ public class BitfinexAdaptersTest {
       BigDecimal originalAmount = new BigDecimal("70");
       BigDecimal remainingAmount = originalAmount.subtract(new BigDecimal(i * 1));
       BigDecimal executedAmount = originalAmount.subtract(remainingAmount);
-      responses[i] = new BitfinexOrderStatusResponse(i, SYMBOL, EXCHANGE, price, avgExecutionPrice, side, type, timestamp, isLive, isCancelled, wasForced, originalAmount, remainingAmount, executedAmount);
+      responses[i] = new BitfinexOrderStatusResponse(i, SYMBOL, EXCHANGE, price, avgExecutionPrice, side, type, timestamp, isLive, isCancelled,
+          wasForced, originalAmount, remainingAmount, executedAmount);
     }
 
     return responses;
@@ -123,9 +123,7 @@ public class BitfinexAdaptersTest {
     for (int i = 0; i < responses.length; i++) {
       Trade trade = trades.getTrades().get(i);
       long expectedTimestampMillis = responses[i].getTimestamp().multiply(new BigDecimal(1000l)).longValue();
-      Order.OrderType expectedOrderType = responses[i].getType().equalsIgnoreCase("buy")
-              ? OrderType.BID
-              : OrderType.ASK;
+      Order.OrderType expectedOrderType = responses[i].getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 
       assertEquals(responses[i].getPrice(), trade.getPrice());
       assertEquals(responses[i].getAmount(), trade.getTradableAmount());
@@ -137,9 +135,8 @@ public class BitfinexAdaptersTest {
   }
 
   /**
-   * Create 60 {@link BitfinexTradeResponse}s. The values increase as array index does. The
-   * timestamps increase by 1 second + 1 minute + 1 hour + 1 day in order to test the correct
-   * handling of the given timestamp.
+   * Create 60 {@link BitfinexTradeResponse}s. The values increase as array index does. The timestamps increase by 1 second + 1 minute + 1 hour + 1
+   * day in order to test the correct handling of the given timestamp.
    *
    * @return The generated responses.
    */

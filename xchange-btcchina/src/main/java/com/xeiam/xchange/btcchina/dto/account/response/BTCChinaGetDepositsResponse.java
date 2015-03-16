@@ -12,7 +12,8 @@ public class BTCChinaGetDepositsResponse extends BTCChinaResponse<BTCChinaDeposi
    * @param result
    * @param error
    */
-  public BTCChinaGetDepositsResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaDepositObject result, @JsonProperty("error") BTCChinaError error) {
+  public BTCChinaGetDepositsResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaDepositObject result,
+      @JsonProperty("error") BTCChinaError error) {
 
     super(id, result, error);
   }

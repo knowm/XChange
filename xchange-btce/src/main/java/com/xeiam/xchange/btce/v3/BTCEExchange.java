@@ -1,43 +1,27 @@
 package com.xeiam.xchange.btce.v3;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEAccountService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataService;
-import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketMetadataService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
-import com.xeiam.xchange.utils.nonce.IntTimeNonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
+import com.xeiam.xchange.utils.nonce.TimestampIncrementingNonceFactory;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the BTCE exchange API</li>
- * </ul>
- */
 public class BTCEExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Integer> nonceFactory = new IntTimeNonceFactory();
-
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BTCEExchange() {
-
-  }
+  private SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new BTCEMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new BTCEAccountService(exchangeSpecification, nonceFactory);
-    this.pollingTradeService = new BTCETradeService(exchangeSpecification, nonceFactory);
-    this.marketMetadataService = new BTCEMarketMetadataService(exchangeSpecification);
+    this.pollingMarketDataService = new BTCEMarketDataService(this);
+    this.pollingAccountService = new BTCEAccountService(this);
+    this.pollingTradeService = new BTCETradeService(this);
   }
 
   @Override
@@ -52,4 +36,11 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
     return exchangeSpecification;
   }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
+  }
+
 }

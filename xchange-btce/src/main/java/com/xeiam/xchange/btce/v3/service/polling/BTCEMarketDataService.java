@@ -3,8 +3,7 @@ package com.xeiam.xchange.btce.v3.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEUtils;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
@@ -15,24 +14,19 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
-/**
- * <p>
- * Implementation of the market data service for BTCE
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
- */
 public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  public BTCEMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BTCEMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -47,11 +41,10 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
 
   /**
    * Get market depth from exchange
-   * 
+   *
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG). First currency of the pair
    * @param currency The currency of interest, null if irrelevant. Second currency of the pair
-   * @param args Optional arguments. Exchange-specific. This implementation assumes:
-   *          Integer value from 1 to 2000 -> get corresponding number of items
+   * @param args Optional arguments. Exchange-specific. This implementation assumes: Integer value from 1 to 2000 -> get corresponding number of items
    * @return The OrderBook
    * @throws IOException
    */
@@ -65,12 +58,10 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
       Object arg0 = args[0];
       if (!(arg0 instanceof Integer) || ((Integer) arg0 < 1) || ((Integer) arg0 > FULL_SIZE)) {
         throw new ExchangeException("Orderbook size argument must be an Integer in the range: (1, 2000)!");
-      }
-      else {
+      } else {
         btceDepthWrapper = getBTCEDepth(pairs, (Integer) arg0);
       }
-    }
-    else { // default to full orderbook
+    } else { // default to full orderbook
       btceDepthWrapper = getBTCEDepth(pairs, FULL_SIZE);
     }
 
@@ -83,13 +74,11 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
 
   /**
    * Get recent trades from exchange
-   * 
+   *
    * @param tradableIdentifier The identifier to use (e.g. BTC or GOOG)
    * @param currency The currency of interest
-   * @param args Optional arguments. This implementation assumes
-   *          args[0] is integer value limiting number of trade items to get.
-   *          -1 or missing -> use default 2000 max fetch value
-   *          int from 1 to 2000 -> use API v.3 to get corresponding number of trades
+   * @param args Optional arguments. This implementation assumes args[0] is integer value limiting number of trade items to get. -1 or missing -> use
+   *        default 2000 max fetch value int from 1 to 2000 -> use API v.3 to get corresponding number of trades
    * @return Trades object
    * @throws IOException
    */
@@ -107,8 +96,7 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
 
     if (numberOfItems == -1) {
       bTCETrades = getBTCETrades(pairs, FULL_SIZE).getTrades(com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair));
-    }
-    else {
+    } else {
       bTCETrades = getBTCETrades(pairs, numberOfItems).getTrades(com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair));
     }
 

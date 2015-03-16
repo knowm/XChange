@@ -98,7 +98,8 @@ public class BTCChinaAdaptersTest {
   @Test
   public void testAdaptOrderBook() throws IOException {
 
-    BTCChinaGetMarketDepthResponse response = mapper.readValue(getClass().getResourceAsStream("dto/trade/response/getMarketDepth2.json"), BTCChinaGetMarketDepthResponse.class);
+    BTCChinaGetMarketDepthResponse response = mapper.readValue(getClass().getResourceAsStream("dto/trade/response/getMarketDepth2.json"),
+        BTCChinaGetMarketDepthResponse.class);
     OrderBook orderBook = BTCChinaAdapters.adaptOrderBook(response.getResult().getMarketDepth(), CurrencyPair.BTC_CNY);
     List<LimitOrder> bids = orderBook.getBids();
     List<LimitOrder> asks = orderBook.getAsks();
@@ -135,7 +136,8 @@ public class BTCChinaAdaptersTest {
   @Test
   public void testAdaptOrders() throws IOException {
 
-    BTCChinaGetOrdersResponse response = mapper.readValue(getClass().getResource("dto/trade/response/getOrders-single-market-2-orders.json"), BTCChinaGetOrdersResponse.class);
+    BTCChinaGetOrdersResponse response = mapper.readValue(getClass().getResource("dto/trade/response/getOrders-single-market-2-orders.json"),
+        BTCChinaGetOrdersResponse.class);
     List<LimitOrder> limitOrders = BTCChinaAdapters.adaptOrders(response.getResult(), null);
     assertEquals(2, limitOrders.size());
     LimitOrder order = limitOrders.get(0);

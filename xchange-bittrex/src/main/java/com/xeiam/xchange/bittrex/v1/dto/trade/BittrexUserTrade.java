@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "OrderUuid", "Exchange", "TimeStamp", "OrderType", "Limit", "Quantity", "QuantityRemaining", "Commission", "Price", "PricePerUnit", "IsConditional", "Condition",
-    "ConditionTarget", "ImmediateOrCancel" })
+@JsonPropertyOrder({ "OrderUuid", "Exchange", "TimeStamp", "OrderType", "Limit", "Quantity", "QuantityRemaining", "Commission", "Price",
+    "PricePerUnit", "IsConditional", "Condition", "ConditionTarget", "ImmediateOrCancel" })
 public class BittrexUserTrade {
 
   @JsonProperty("OrderUuid")
@@ -233,9 +233,10 @@ public class BittrexUserTrade {
   @Override
   public String toString() {
 
-    return "BittrexUserTrade [orderUuid=" + orderUuid + ", exchange=" + exchange + ", timeStamp=" + timeStamp + ", orderType=" + orderType + ", limit=" + limit + ", quantity=" + quantity
-        + ", quantityRemaining=" + quantityRemaining + ", commission=" + commission + ", price=" + price + ", pricePerUnit=" + pricePerUnit + ", isConditional=" + isConditional + ", condition="
-        + condition + ", conditionTarget=" + conditionTarget + ", immediateOrCancel=" + immediateOrCancel + ", additionalProperties=" + additionalProperties + "]";
+    return "BittrexUserTrade [orderUuid=" + orderUuid + ", exchange=" + exchange + ", timeStamp=" + timeStamp + ", orderType=" + orderType
+        + ", limit=" + limit + ", quantity=" + quantity + ", quantityRemaining=" + quantityRemaining + ", commission=" + commission + ", price="
+        + price + ", pricePerUnit=" + pricePerUnit + ", isConditional=" + isConditional + ", condition=" + condition + ", conditionTarget="
+        + conditionTarget + ", immediateOrCancel=" + immediateOrCancel + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

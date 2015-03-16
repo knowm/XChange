@@ -25,7 +25,7 @@ public enum KrakenType {
     return super.toString().toLowerCase();
   }
 
-  public static KrakenType fromString(final String typeString) {
+  public static KrakenType fromString(String typeString) {
 
     return fromString.get(typeString.toLowerCase());
   }

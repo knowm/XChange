@@ -2,13 +2,13 @@ package com.xeiam.xchange.bitstamp.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * @author Matija Mazi
@@ -17,12 +17,12 @@ public class BitstampMarketDataService extends BitstampMarketDataServiceRaw impl
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BitstampMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BitstampMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
   }
 

@@ -7,29 +7,31 @@ import java.math.BigDecimal;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterLast;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterListDepth;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPairedDepth;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterQuote;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
 import com.xeiam.xchange.coinsetter.rs.CoinsetterMarketData;
-import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
  * Market data raw service.
  */
-public class CoinsetterMarketDataServiceRaw extends BaseExchangeService {
+public class CoinsetterMarketDataServiceRaw extends CoinsetterBasePollingService {
 
   protected final CoinsetterMarketData marketData;
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public CoinsetterMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public CoinsetterMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    String baseUrl = exchangeSpecification.getSslUri();
+    super(exchange);
+
+    String baseUrl = exchange.getExchangeSpecification().getSslUri();
     marketData = RestProxyFactory.createProxy(CoinsetterMarketData.class, baseUrl);
   }
 
@@ -105,7 +107,8 @@ public class CoinsetterMarketDataServiceRaw extends BaseExchangeService {
    * New full-depth snapshot is generated every 60 seconds. So, there is no need to call this more than once a minute.
    * </p>
    *
-   * @param exchange "SMART" (Default) or "COINSETTER" for Coinsetter-only data (Optional). Filter for given exchange or deafult to SMART for aggregated data.
+   * @param exchange "SMART" (Default) or "COINSETTER" for Coinsetter-only data (Optional). Filter for given exchange or deafult to SMART for
+   *        aggregated data.
    * @return the whole aggreated order book.
    * @throws IOException indicates I/O exception.
    * @see <a href="https://www.coinsetter.com/api/marketdata/full_depth">Market Data: Full-Depth</a>
@@ -116,12 +119,13 @@ public class CoinsetterMarketDataServiceRaw extends BaseExchangeService {
   }
 
   /**
-   * Ever want to know at a glance how much it will cost to buy 10 BTC or 30BTC? Use this call to do so. It returns an indicative or synthetic quote for a given quantity based on the current state of
-   * the order book. Using this request you can retrieve a VWAP (volume-weighted average price) quote in USD for a given BTC quantity. For example, if you want to know what you will pay to buy 10 BTC,
-   * you make a GET request to our api and provide 10 as the quantity, the value returned will be the VWAP in dollars (ex. $572.68, total $5726.80).
+   * Ever want to know at a glance how much it will cost to buy 10 BTC or 30BTC? Use this call to do so. It returns an indicative or synthetic quote
+   * for a given quantity based on the current state of the order book. Using this request you can retrieve a VWAP (volume-weighted average price)
+   * quote in USD for a given BTC quantity. For example, if you want to know what you will pay to buy 10 BTC, you make a GET request to our api and
+   * provide 10 as the quantity, the value returned will be the VWAP in dollars (ex. $572.68, total $5726.80).
    *
-   * @param quantity if a positive quantity is passed in, it will query the BID side to determine the volume-weighted average price and total order cost. For negative quantity, the ASK side. (Must be
-   *          less than 150 and divisible by 5).
+   * @param quantity if a positive quantity is passed in, it will query the BID side to determine the volume-weighted average price and total order
+   *        cost. For negative quantity, the ASK side. (Must be less than 150 and divisible by 5).
    * @param symbol trade symbol to find amount in (Currently only BTCUSD is supported and is the default).
    * @return the quote.
    * @throws IOException indicates I/O exception.

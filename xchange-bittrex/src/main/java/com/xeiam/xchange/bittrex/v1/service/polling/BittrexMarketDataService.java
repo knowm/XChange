@@ -3,7 +3,7 @@ package com.xeiam.xchange.bittrex.v1.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bittrex.v1.BittrexAdapters;
 import com.xeiam.xchange.bittrex.v1.BittrexUtils;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexDepth;
@@ -13,7 +13,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * <p>
@@ -27,12 +27,12 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw implem
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BittrexMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BittrexMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -65,9 +65,8 @@ public class BittrexMarketDataService extends BittrexMarketDataServiceRaw implem
 
   /**
    * @param currencyPair The CurrencyPair for which to query trades.
-   * @param args One argument may be supplied which is the timestamp after which trades should be collected.
-   *          Trades before this time are not reported. The argument may be of type java.util.Date or
-   *          Number (milliseconds since Jan 1, 1970)
+   * @param args One argument may be supplied which is the timestamp after which trades should be collected. Trades before this time are not reported.
+   *        The argument may be of type java.util.Date or Number (milliseconds since Jan 1, 1970)
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {

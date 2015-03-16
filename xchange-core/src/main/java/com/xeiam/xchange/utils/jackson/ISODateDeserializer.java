@@ -10,15 +10,14 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
- * Deserializes an ISO formatted Date String to a Java Date
- * ISO format: 'yyyy-MM-dd'T'HH:mm:ss.SSS'Z''
+ * Deserializes an ISO formatted Date String to a Java Date ISO format: 'yyyy-MM-dd'T'HH:mm:ss.SSS'Z''
  * 
  * @author jamespedwards42
  */
 public class ISODateDeserializer extends JsonDeserializer<Date> {
 
   @Override
-  public Date deserialize(final JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  public Date deserialize(JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
     return DateUtils.fromISODateString(jp.getValueAsString());
   }

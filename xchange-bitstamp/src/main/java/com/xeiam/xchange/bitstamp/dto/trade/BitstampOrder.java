@@ -30,8 +30,9 @@ public final class BitstampOrder {
    * @param price
    * @param amount
    */
-  public BitstampOrder(@JsonProperty("id") int id, @JsonProperty("datetime") String datetime, @JsonProperty("type") int type, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("error") @JsonDeserialize(using = BitstampErrorDeserializer.class) String errorMessage) {
+  public BitstampOrder(@JsonProperty("id") int id, @JsonProperty("datetime") String datetime, @JsonProperty("type") int type,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("error") @JsonDeserialize(
+          using = BitstampErrorDeserializer.class) String errorMessage) {
 
     this.id = id;
     this.datetime = datetime;
@@ -81,6 +82,7 @@ public final class BitstampOrder {
   @Override
   public String toString() {
 
-    return errorMessage != null ? errorMessage : String.format("Order{id=%s, datetime=%s, type=%s, price=%s, amount=%s}", id, datetime, type, price, amount);
+    return errorMessage != null ? errorMessage : String.format("Order{id=%s, datetime=%s, type=%s, price=%s, amount=%s}", id, datetime, type, price,
+        amount);
   }
 }

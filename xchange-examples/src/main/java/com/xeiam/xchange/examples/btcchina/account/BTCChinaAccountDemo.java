@@ -3,9 +3,6 @@ package com.xeiam.xchange.examples.btcchina.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaDeposit;
@@ -15,7 +12,7 @@ import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsRes
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.utils.CertHelper;
 
 /**
@@ -42,7 +39,7 @@ public class BTCChinaAccountDemo {
     raw();
   }
 
-  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void generic() throws IOException {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
@@ -56,7 +53,7 @@ public class BTCChinaAccountDemo {
     // System.out.println("withdrawResult = " + withdrawResult);
   }
 
-  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void raw() throws IOException {
 
     BTCChinaAccountServiceRaw btcChinaAccountService = (BTCChinaAccountServiceRaw) accountService;
 
@@ -93,8 +90,8 @@ public class BTCChinaAccountDemo {
 
     // Not implemented for *Raw layer - retrieve from accountInfo
     /*
-     * String depositAddress = btcChinaAccountService.requestBTCChinaBitcoinDepositAddress(null, null);
-     * System.out.println("Deposit address: " + depositAddress);
+     * String depositAddress = btcChinaAccountService.requestBTCChinaBitcoinDepositAddress(null, null); System.out.println("Deposit address: " +
+     * depositAddress);
      */
     System.out.println("AccountInfo as String: " + accountInfo.getResult().getProfile().getDepositAddress("btc"));
 

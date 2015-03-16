@@ -1,5 +1,7 @@
 package com.xeiam.xchange.currency;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 /**
  * <p>
  * Value object to provide the following to API:
@@ -12,11 +14,12 @@ package com.xeiam.xchange.currency;
  * Symbol pairs are quoted, for example, as EUR/USD 1.25 such that 1 EUR can be purchased with 1.25 USD
  * </p>
  */
+@JsonSerialize(using = CustomCurrencyPairSerializer.class)
 public class CurrencyPair {
 
   // Provide some standard major symbols
-  public static final CurrencyPair EUR_USD = new CurrencyPair(Currencies.EUR);
-  public static final CurrencyPair GBP_USD = new CurrencyPair(Currencies.GBP);
+  public static final CurrencyPair EUR_USD = new CurrencyPair(Currencies.EUR, Currencies.USD);
+  public static final CurrencyPair GBP_USD = new CurrencyPair(Currencies.GBP, Currencies.USD);
   public static final CurrencyPair USD_JPY = new CurrencyPair(Currencies.USD, Currencies.JPY);
   public static final CurrencyPair JPY_USD = new CurrencyPair(Currencies.JPY, Currencies.USD);
   public static final CurrencyPair USD_CHF = new CurrencyPair(Currencies.USD, Currencies.CHF);
@@ -31,7 +34,7 @@ public class CurrencyPair {
   public static final CurrencyPair KRW_XRP = new CurrencyPair(Currencies.KRW, Currencies.XRP);
 
   // Provide some courtesy BTC major symbols
-  public static final CurrencyPair BTC_USD = new CurrencyPair(Currencies.BTC);
+  public static final CurrencyPair BTC_USD = new CurrencyPair(Currencies.BTC, Currencies.USD);
   public static final CurrencyPair BTC_GBP = new CurrencyPair(Currencies.BTC, Currencies.GBP);
   public static final CurrencyPair BTC_EUR = new CurrencyPair(Currencies.BTC, Currencies.EUR);
   public static final CurrencyPair BTC_JPY = new CurrencyPair(Currencies.BTC, Currencies.JPY);
@@ -157,22 +160,11 @@ public class CurrencyPair {
 
   /**
    * <p>
-   * Reduced constructor using the global reserve currency symbol (USD) as the default counter
-   * </p>
-   * 
-   * @param baseSymbol The base symbol is what you're wanting to buy/sell
-   */
-  public CurrencyPair(String baseSymbol) {
-
-    this(baseSymbol, Currencies.USD);
-  }
-
-  /**
-   * <p>
    * Full constructor
    * </p>
-   * In general the CurrencyPair.base is what you're wanting to buy/sell. The CurrencyPair.counter is what currency you want to use to pay/receive for your purchase/sale.
-   * 
+   * In general the CurrencyPair.base is what you're wanting to buy/sell. The CurrencyPair.counter is what currency you want to use to pay/receive for
+   * your purchase/sale.
+   *
    * @param baseSymbol The base symbol is what you're wanting to buy/sell
    * @param counterSymbol The counter symbol is what currency you want to use to pay/receive for your purchase/sale.
    */
@@ -180,6 +172,21 @@ public class CurrencyPair {
 
     this.baseSymbol = baseSymbol;
     this.counterSymbol = counterSymbol;
+  }
+
+  /**
+   * Parse currency pair from a string in the same format as returned by toString() method - ABC/XYZ
+   */
+  public CurrencyPair(String currencyPair) {
+    int split = currencyPair.indexOf("/");
+    if (split < 1) {
+      throw new IllegalArgumentException("Could not parse currency pair from '" + currencyPair + "'");
+    }
+    String base = currencyPair.substring(0, split);
+    String counter = currencyPair.substring(split + 1);
+
+    this.baseSymbol = base;
+    this.counterSymbol = counter;
   }
 
   @Override
@@ -215,19 +222,16 @@ public class CurrencyPair {
       if (other.baseSymbol != null) {
         return false;
       }
-    }
-    else if (!baseSymbol.equals(other.baseSymbol)) {
+    } else if (!baseSymbol.equals(other.baseSymbol)) {
       return false;
     }
     if (counterSymbol == null) {
       if (other.counterSymbol != null) {
         return false;
       }
-    }
-    else if (!counterSymbol.equals(other.counterSymbol)) {
+    } else if (!counterSymbol.equals(other.counterSymbol)) {
       return false;
     }
     return true;
   }
-
 }

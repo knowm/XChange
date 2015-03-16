@@ -18,7 +18,8 @@ public class ANXAccountInfoWrapper {
    * @param anxAccountInfo
    * @param error
    */
-  public ANXAccountInfoWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXAccountInfo anxAccountInfo, @JsonProperty("error") String error) {
+  public ANXAccountInfoWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXAccountInfo anxAccountInfo,
+      @JsonProperty("error") String error) {
 
     this.result = result;
     this.ANXAccountInfo = anxAccountInfo;

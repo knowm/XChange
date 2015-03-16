@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
@@ -14,18 +14,18 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public BTERPollingMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BTERPollingMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -59,9 +59,9 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    BTERTradeHistory tradeHistory =
-        (args != null && args.length > 0 && args[0] != null && args[0] instanceof String) ? super.getBTERTradeHistorySince(currencyPair.baseSymbol, currencyPair.counterSymbol, (String) args[0])
-            : super.getBTERTradeHistory(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    BTERTradeHistory tradeHistory = (args != null && args.length > 0 && args[0] != null && args[0] instanceof String) ? super
+        .getBTERTradeHistorySince(currencyPair.baseSymbol, currencyPair.counterSymbol, (String) args[0]) : super.getBTERTradeHistory(
+        currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return BTERAdapters.adaptTrades(tradeHistory, currencyPair);
   }

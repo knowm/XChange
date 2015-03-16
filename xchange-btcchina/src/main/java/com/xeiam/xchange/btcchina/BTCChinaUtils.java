@@ -4,7 +4,6 @@ import static com.xeiam.xchange.service.BaseParamsDigest.HMAC_SHA_1;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -14,32 +13,17 @@ import javax.crypto.spec.SecretKeySpec;
 import com.xeiam.xchange.btcchina.dto.BTCChinaValue;
 
 /**
- * @author ObsessiveOrange
- *         A central place for shared BTCChina properties
+ * @author ObsessiveOrange A central place for shared BTCChina properties
  */
 public final class BTCChinaUtils {
 
   private static long generatedId = 1;
-  private static long lastNonce = 0l;
 
   /**
    * private Constructor
    */
   private BTCChinaUtils() {
 
-  }
-
-  public synchronized static long getNonce() {
-
-    long newNonce = System.currentTimeMillis() * 1000;
-
-    while (newNonce == lastNonce) {
-      newNonce++;
-    }
-
-    lastNonce = newNonce;
-
-    return newNonce;
   }
 
   public static long getGeneratedId() {
@@ -74,15 +58,6 @@ public final class BTCChinaUtils {
   public static BigDecimal valueToBigDecimal(BTCChinaValue value) {
 
     return new BigDecimal(new BigInteger(value.getAmountInteger()), value.getAmountDecimal().intValue());
-  }
-
-  /**
-   * @deprecated scales of BTCCNY, LTCCNY, LTCBTC are different.
-   */
-  @Deprecated
-  public static BigDecimal truncateAmount(BigDecimal value) {
-
-    return value.setScale(3, RoundingMode.FLOOR).stripTrailingZeros();
   }
 
 }

@@ -20,8 +20,9 @@ public class CoinbaseAccountChange {
   private final CoinbaseCache cache;
   private final CoinbaseMoney amount;
 
-  private CoinbaseAccountChange(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
-      @JsonProperty("transaction_id") final String transactionId, @JsonProperty("confirmed") final boolean confirmed, @JsonProperty("cache") final CoinbaseCache cache,
+  private CoinbaseAccountChange(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(
+      using = ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("transaction_id") final String transactionId,
+      @JsonProperty("confirmed") final boolean confirmed, @JsonProperty("cache") final CoinbaseCache cache,
       @JsonProperty("amount") final CoinbaseMoney amount) {
 
     this.id = id;
@@ -65,7 +66,8 @@ public class CoinbaseAccountChange {
   @Override
   public String toString() {
 
-    return "AccountChange [id=" + id + ", createdAt=" + createdAt + ", transactionId=" + transactionId + ", confirmed=" + confirmed + ", cache=" + cache + ", amount=" + amount + "]";
+    return "AccountChange [id=" + id + ", createdAt=" + createdAt + ", transactionId=" + transactionId + ", confirmed=" + confirmed + ", cache="
+        + cache + ", amount=" + amount + "]";
   }
 
   public static class CoinbaseCache {
@@ -74,8 +76,8 @@ public class CoinbaseAccountChange {
     private final CoinbaseAccountChangeCategory category;
     private final CoinbaseUser otherUser;
 
-    private CoinbaseCache(@JsonProperty("notes_present") final boolean notesPresent, @JsonProperty("category") final CoinbaseAccountChangeCategory category,
-        @JsonProperty("other_user") final CoinbaseUserInfo otherUser) {
+    private CoinbaseCache(@JsonProperty("notes_present") final boolean notesPresent,
+        @JsonProperty("category") final CoinbaseAccountChangeCategory category, @JsonProperty("other_user") final CoinbaseUserInfo otherUser) {
 
       this.notesPresent = notesPresent;
       this.category = category;

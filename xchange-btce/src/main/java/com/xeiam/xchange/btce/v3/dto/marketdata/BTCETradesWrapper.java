@@ -5,8 +5,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * Author: brox
- * Data object representing multi-currency trades from BTCE API v.3
+ * Author: brox Data object representing multi-currency trades from BTCE API v.3
  */
 public class BTCETradesWrapper {
 

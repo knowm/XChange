@@ -20,7 +20,8 @@ public final class BitcoiniumOrderbook {
    * @param bids
    * @param asks
    */
-  public BitcoiniumOrderbook(@JsonProperty("ticker") BitcoiniumTicker bitcoiniumTicker, @JsonProperty("bids") CondensedOrder[] bids, @JsonProperty("asks") CondensedOrder[] asks) {
+  public BitcoiniumOrderbook(@JsonProperty("ticker") BitcoiniumTicker bitcoiniumTicker, @JsonProperty("bids") CondensedOrder[] bids,
+      @JsonProperty("asks") CondensedOrder[] asks) {
 
     this.bitcoiniumTicker = bitcoiniumTicker;
     this.bids = bids;

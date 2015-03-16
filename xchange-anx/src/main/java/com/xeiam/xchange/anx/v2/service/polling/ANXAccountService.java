@@ -3,13 +3,11 @@ package com.xeiam.xchange.anx.v2.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * <p>
@@ -23,12 +21,10 @@ public class ANXAccountService extends ANXAccountServiceRaw implements PollingAc
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  public ANXAccountService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  public ANXAccountService(BaseExchange baseExchange) {
 
-    super(exchangeSpecification, nonceFactory);
+    super(baseExchange);
   }
 
   @Override

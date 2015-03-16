@@ -93,24 +93,21 @@ public final class Wallet {
       if (other.balance != null) {
         return false;
       }
-    }
-    else if (!balance.equals(other.balance)) {
+    } else if (!balance.equals(other.balance)) {
       return false;
     }
     if (currency == null) {
       if (other.currency != null) {
         return false;
       }
-    }
-    else if (!currency.equals(other.currency)) {
+    } else if (!currency.equals(other.currency)) {
       return false;
     }
     if (description == null) {
       if (other.description != null) {
         return false;
       }
-    }
-    else if (!description.equals(other.description)) {
+    } else if (!description.equals(other.description)) {
       return false;
     }
     return true;

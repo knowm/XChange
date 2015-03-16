@@ -5,21 +5,17 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
- * @author ObsessiveOrange
- *         Demonstrate requesting Order Book at BTC China
+ * @author ObsessiveOrange Demonstrate requesting Order Book at BTC China
  */
 public class BTCChinaDepthDemo {
 
@@ -35,7 +31,7 @@ public class BTCChinaDepthDemo {
     raw();
   }
 
-  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void generic() throws IOException {
 
     // Get the latest order book data for BTC/CNY
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CNY, 10);
@@ -61,7 +57,7 @@ public class BTCChinaDepthDemo {
     }
   }
 
-  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void raw() throws IOException {
 
     // Get the latest order book data for BTC/CNY
     BTCChinaDepth orderBook = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaOrderBook(BTCChinaExchange.DEFAULT_MARKET, 10);
@@ -71,7 +67,7 @@ public class BTCChinaDepthDemo {
 
     // first item in each BigDecial[] will be price (in RMB), and second will be volume/depth.
     System.out.println("Asks:");
-    for (BigDecimal[] currRow : orderBook.getAsks()) {
+    for (BigDecimal[] currRow : orderBook.getAsksArray()) {
       for (BigDecimal currItem : currRow) {
         System.out.print(currItem.toPlainString() + ", ");
       }
@@ -79,7 +75,7 @@ public class BTCChinaDepthDemo {
     }
 
     System.out.println("Bids:");
-    for (BigDecimal[] currRow : orderBook.getBids()) {
+    for (BigDecimal[] currRow : orderBook.getBidsArray()) {
       for (BigDecimal currItem : currRow) {
         System.out.print(currItem.toPlainString() + ", ");
       }

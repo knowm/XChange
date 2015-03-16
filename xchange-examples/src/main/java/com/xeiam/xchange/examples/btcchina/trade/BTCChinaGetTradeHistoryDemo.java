@@ -12,7 +12,7 @@ import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeServiceRaw;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 /**
  * Demo for {@link BTCChinaTradeService#getTradeHistory(Object...)}.

@@ -12,7 +12,8 @@ public class BTERTradeHistory extends BTERBaseResponse {
   private final List<BTERPublicTrade> trades;
   private final String elapsed;
 
-  private BTERTradeHistory(@JsonProperty("data") List<BTERPublicTrade> trades, @JsonProperty("result") boolean result, @JsonProperty("elapsed") String elapsed) {
+  private BTERTradeHistory(@JsonProperty("data") List<BTERPublicTrade> trades, @JsonProperty("result") boolean result,
+      @JsonProperty("elapsed") String elapsed) {
 
     super(result, null);
     this.trades = trades;
@@ -43,8 +44,8 @@ public class BTERTradeHistory extends BTERBaseResponse {
     private final String tradeId;
     private final BTEROrderType type;
 
-    private BTERPublicTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("tid") String tradeId,
-        @JsonProperty("type") BTEROrderType type) {
+    private BTERPublicTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+        @JsonProperty("tid") String tradeId, @JsonProperty("type") BTEROrderType type) {
 
       this.date = date;
       this.price = price;

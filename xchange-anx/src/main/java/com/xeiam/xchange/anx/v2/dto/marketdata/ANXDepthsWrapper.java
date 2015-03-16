@@ -10,7 +10,8 @@ public class ANXDepthsWrapper {
   private final Map<String, ANXDepth> anxDepths;
   private final String error;
 
-  public ANXDepthsWrapper(@JsonProperty("result") String result, @JsonProperty("data") Map<String, ANXDepth> anxDepth, @JsonProperty("error") String error) {
+  public ANXDepthsWrapper(@JsonProperty("result") String result, @JsonProperty("data") Map<String, ANXDepth> anxDepth,
+      @JsonProperty("error") String error) {
 
     this.result = result;
     this.anxDepths = anxDepth;

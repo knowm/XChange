@@ -1,0 +1,11 @@
+{
+   "currency_pairs":[
+      "BTC/USD",
+      "BTC/EUR",
+      "BTC/PLN",
+      "LTC/USD",
+      "LTC/EUR",
+      "LTC/PLN",
+      "LTC/BTC"
+   ]
+}

@@ -8,6 +8,13 @@ import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
  */
 public class BTCChinaCancelOrderRequest extends BTCChinaRequest {
 
+  /**
+   * Constructor
+   *
+   * @param method
+   * @param id
+   * @param market
+   */
   public BTCChinaCancelOrderRequest(String method, int id, String market) {
 
     this.method = method;
@@ -21,15 +28,6 @@ public class BTCChinaCancelOrderRequest extends BTCChinaRequest {
 
     method = "cancelOrder";
     params = "[" + id + "]";
-  }
-
-  /**
-   * @deprecated
-   */
-  @Deprecated
-  public BTCChinaCancelOrderRequest(long id) {
-
-    this((int) id);
   }
 
   @Override

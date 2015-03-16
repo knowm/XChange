@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccount;
 import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccountList;
@@ -19,12 +19,15 @@ public class CoinsetterAccountServiceRaw extends BaseExchangeService {
   private final com.xeiam.xchange.coinsetter.rs.CoinsetterAccount account;
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public CoinsetterAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public CoinsetterAccountServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    String baseUrl = exchangeSpecification.getSslUri();
+    super(exchange);
+
+    String baseUrl = exchange.getExchangeSpecification().getSslUri();
     account = RestProxyFactory.createProxy(com.xeiam.xchange.coinsetter.rs.CoinsetterAccount.class, baseUrl);
   }
 

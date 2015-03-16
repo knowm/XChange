@@ -1,20 +1,15 @@
 package com.xeiam.xchange.bitkonan.service.polling;
 
 import java.io.IOException;
-import java.util.Collection;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitkonan.BitKonanAdapters;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * @author Piotr Ładyżyński
@@ -22,46 +17,39 @@ import com.xeiam.xchange.service.polling.PollingMarketDataService;
 public class BitKonanMarketDataService extends BitKonanMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   * Constructor Initialize common properties from the exchange specification
+   * Constructor
    *
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * @param exchange
    */
-  public BitKonanMarketDataService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  public BitKonanMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification, nonceFactory);
+    super(exchange);
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     if (currencyPair.equals(CurrencyPair.BTC_USD)) {
       return BitKonanAdapters.adaptTicker(getBitKonanTickerBTC(), currencyPair);
-    }
-    else {
+    } else {
       throw new NotYetImplementedForExchangeException();
     }
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     if (currencyPair.equals(CurrencyPair.BTC_USD)) {
       return BitKonanAdapters.adaptOrderBook(getBitKonanOrderBookBTC());
-    }
-    else {
+    } else {
       throw new NotYetImplementedForExchangeException();
     }
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
-  @Override
-  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
 }

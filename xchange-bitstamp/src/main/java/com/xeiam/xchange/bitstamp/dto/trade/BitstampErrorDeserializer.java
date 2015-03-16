@@ -18,8 +18,7 @@ public class BitstampErrorDeserializer extends JsonDeserializer<String> {
     JsonNode node = oc.readTree(jsonParser);
     if (node.isTextual()) {
       return node.textValue();
-    }
-    else if (node.isObject()) {
+    } else if (node.isObject()) {
       JsonNode allNode = node.get("__all__");
       if (allNode != null && allNode.isArray()) {
         StringBuffer buf = new StringBuffer();

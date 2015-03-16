@@ -18,7 +18,8 @@ public class ANXBitcoinDepositAddressWrapper {
    * @param anxBitcoinDepositAddress
    * @param error
    */
-  public ANXBitcoinDepositAddressWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXBitcoinDepositAddress anxBitcoinDepositAddress, @JsonProperty("error") String error) {
+  public ANXBitcoinDepositAddressWrapper(@JsonProperty("result") String result,
+      @JsonProperty("data") ANXBitcoinDepositAddress anxBitcoinDepositAddress, @JsonProperty("error") String error) {
 
     this.result = result;
     this.anxBitcoinDepositAddress = anxBitcoinDepositAddress;

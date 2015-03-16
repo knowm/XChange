@@ -31,8 +31,9 @@ public final class ANXDepthUpdate {
    * @param now
    * @param totalVolumeInt
    */
-  public ANXDepthUpdate(@JsonProperty("type_str") String tradeType, @JsonProperty("price_int") long priceInt, @JsonProperty("volume_int") long volumeInt, @JsonProperty("item") String item,
-      @JsonProperty("currency") String currency, @JsonProperty("now") long now, @JsonProperty("total_volume_int") long totalVolumeInt) {
+  public ANXDepthUpdate(@JsonProperty("type_str") String tradeType, @JsonProperty("price_int") long priceInt,
+      @JsonProperty("volume_int") long volumeInt, @JsonProperty("item") String item, @JsonProperty("currency") String currency,
+      @JsonProperty("now") long now, @JsonProperty("total_volume_int") long totalVolumeInt) {
 
     this.tradeType = tradeType;
     this.priceInt = priceInt;
@@ -81,8 +82,8 @@ public final class ANXDepthUpdate {
   @Override
   public String toString() {
 
-    return "ANXDepthUpdate [tradeType=" + tradeType + ", priceInt=" + priceInt + ", volumeInt=" + volumeInt + ", item=" + item + ", currency=" + currency + ", now=" + now + ", totalVolumeInt="
-        + totalVolumeInt + "]";
+    return "ANXDepthUpdate [tradeType=" + tradeType + ", priceInt=" + priceInt + ", volumeInt=" + volumeInt + ", item=" + item + ", currency="
+        + currency + ", now=" + now + ", totalVolumeInt=" + totalVolumeInt + "]";
   }
 
 }

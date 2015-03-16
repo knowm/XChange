@@ -25,7 +25,7 @@ public abstract class BaseParamsDigest implements ParamsDigest {
    * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
-  protected BaseParamsDigest(final String secretKeyBase64, final String hmacString) throws IllegalArgumentException {
+  protected BaseParamsDigest(String secretKeyBase64, final String hmacString) throws IllegalArgumentException {
 
     try {
       final SecretKey secretKey = new SecretKeySpec(secretKeyBase64.getBytes("UTF-8"), hmacString);
@@ -56,7 +56,7 @@ public abstract class BaseParamsDigest implements ParamsDigest {
    * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
-  protected BaseParamsDigest(final byte[] secretKeyBase64, final String hmacString) throws IllegalArgumentException {
+  protected BaseParamsDigest(byte[] secretKeyBase64, final String hmacString) throws IllegalArgumentException {
 
     final SecretKey secretKey = new SecretKeySpec(secretKeyBase64, hmacString);
     threadLocalMac = new ThreadLocal<Mac>() {

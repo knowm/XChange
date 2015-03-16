@@ -10,7 +10,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 /**
- * Manually override the JVM's TrustManager to accept all HTTPS connections. Use this ONLY for testing, and even at that use it cautiously. Someone could steal your API keys with a MITM attack!
+ * Manually override the JVM's TrustManager to accept all HTTPS connections. Use this ONLY for testing, and even at that use it cautiously. Someone
+ * could steal your API keys with a MITM attack!
  */
 public class CertHelper {
 

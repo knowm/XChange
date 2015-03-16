@@ -31,8 +31,9 @@ public final class ANXTicker {
    * @param sell
    * @param now
    */
-  public ANXTicker(@JsonProperty("high") ANXValue high, @JsonProperty("low") ANXValue low, @JsonProperty("avg") ANXValue avg, @JsonProperty("vwap") ANXValue vwap, @JsonProperty("vol") ANXValue vol,
-      @JsonProperty("last") ANXValue last, @JsonProperty("buy") ANXValue buy, @JsonProperty("sell") ANXValue sell, @JsonProperty("now") long now) {
+  public ANXTicker(@JsonProperty("high") ANXValue high, @JsonProperty("low") ANXValue low, @JsonProperty("avg") ANXValue avg,
+      @JsonProperty("vwap") ANXValue vwap, @JsonProperty("vol") ANXValue vol, @JsonProperty("last") ANXValue last, @JsonProperty("buy") ANXValue buy,
+      @JsonProperty("sell") ANXValue sell, @JsonProperty("now") long now) {
 
     this.high = high;
     this.low = low;
@@ -93,7 +94,8 @@ public final class ANXTicker {
   @Override
   public String toString() {
 
-    return "ANXTicker [high=" + high + ", low=" + low + ", avg=" + avg + ", vwap=" + vwap + ", vol=" + vol + ", last=" + last + ", buy=" + buy + ", sell=" + sell + ", now=" + now + "]";
+    return "ANXTicker [high=" + high + ", low=" + low + ", avg=" + avg + ", vwap=" + vwap + ", vol=" + vol + ", last=" + last + ", buy=" + buy
+        + ", sell=" + sell + ", now=" + now + "]";
   }
 
 }

@@ -8,36 +8,20 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitAccountService;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitMarketDataService;
 import com.xeiam.xchange.itbit.v1.service.polling.ItBitTradeService;
-import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
-
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the BTCE exchange API</li>
- * </ul>
- */
+import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 public class ItBitExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new LongTimeNonceFactory();
-
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public ItBitExchange() {
-
-  }
+  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new ItBitMarketDataService(exchangeSpecification, nonceFactory);
-    this.pollingAccountService = new ItBitAccountService(exchangeSpecification, nonceFactory);
-    this.pollingTradeService = new ItBitTradeService(exchangeSpecification, nonceFactory);
+    this.pollingMarketDataService = new ItBitMarketDataService(this);
+    this.pollingAccountService = new ItBitAccountService(this);
+    this.pollingTradeService = new ItBitTradeService(this);
   }
 
   @Override
@@ -52,5 +36,11 @@ public class ItBitExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeSpecificParametersItem("authHost", " https://api.itbit.com");
 
     return exchangeSpecification;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
   }
 }

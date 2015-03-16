@@ -1,14 +1,14 @@
 package com.xeiam.xchange.examples.mercadobitcoin.account;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.mercadobitcoin.InteractiveAuthenticatedExchange;
 import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import com.xeiam.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
-import com.xeiam.xchange.mercadobitcoin.service.polling.account.MercadoBitcoinAccountServiceRaw;
-import com.xeiam.xchange.service.polling.PollingAccountService;
-
-import java.io.IOException;
+import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinAccountServiceRaw;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * <p>

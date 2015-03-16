@@ -2,8 +2,6 @@ package com.xeiam.xchange.btcchina.dto.account;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCChinaWithdrawal {
@@ -16,8 +14,9 @@ public class BTCChinaWithdrawal {
   private final String transaction;
   private final String status;
 
-  public BTCChinaWithdrawal(@JsonProperty("id") long id, @JsonProperty("address") String address, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("date") long date, @JsonProperty("transaction") String transaction, @JsonProperty("status") String status) {
+  public BTCChinaWithdrawal(@JsonProperty("id") long id, @JsonProperty("address") String address, @JsonProperty("currency") String currency,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("transaction") String transaction,
+      @JsonProperty("status") String status) {
 
     this.id = id;
     this.address = address;
@@ -66,7 +65,8 @@ public class BTCChinaWithdrawal {
   @Override
   public String toString() {
 
-    return ToStringBuilder.reflectionToString(this);
+    return "BTCChinaWithdrawal [id=" + id + ", address=" + address + ", currency=" + currency + ", amount=" + amount + ", date=" + date
+        + ", transaction=" + transaction + ", status=" + status + "]";
   }
 
 }

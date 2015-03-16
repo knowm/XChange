@@ -33,8 +33,9 @@ public class CryptsyTxn {
    * @param funds The funds
    * @throws ParseException
    */
-  public CryptsyTxn(@JsonProperty("currency") String currency, @JsonProperty("type") CryptsyTxnType type, @JsonProperty("datetime") String timeStamp, @JsonProperty("address") String address,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("fee") BigDecimal fee, @JsonProperty("trxid") String txnId) throws ParseException {
+  public CryptsyTxn(@JsonProperty("currency") String currency, @JsonProperty("type") CryptsyTxnType type, @JsonProperty("datetime") String timeStamp,
+      @JsonProperty("address") String address, @JsonProperty("amount") BigDecimal amount, @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("trxid") String txnId) throws ParseException {
 
     this.currency = currency;
     this.type = type;
@@ -83,8 +84,8 @@ public class CryptsyTxn {
   @Override
   public String toString() {
 
-    return "CryptsyTransactionHistory[" + "Currency='" + currency + "', Type='" + type + "',Timestamp='" + timeStamp + "',Address='" + address + "',Amount='" + amount + "',Fee='" + fee
-        + "',Transaction ID='" + txnId + "']";
+    return "CryptsyTransactionHistory[" + "Currency='" + currency + "', Type='" + type + "',Timestamp='" + timeStamp + "',Address='" + address
+        + "',Amount='" + amount + "',Fee='" + fee + "',Transaction ID='" + txnId + "']";
   }
 
   public static enum CryptsyTxnType {

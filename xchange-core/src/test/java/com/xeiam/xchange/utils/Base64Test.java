@@ -11,7 +11,7 @@ import java.util.Random;
 import org.junit.Test;
 
 /**
- * Based on <a href="http://iharder.sourceforge.net/current/java/base64/Base64Test.java">iHarder</a>
+ * Based on <a href="http://iharder.sourceforge.net/current/java/base64/Base64Test.java" >iHarder</a>
  */
 public class Base64Test {
 

@@ -12,7 +12,8 @@ public class CryptsyPublicOrder {
   private final BigDecimal total;
 
   @JsonCreator
-  public CryptsyPublicOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("total") BigDecimal total) {
+  public CryptsyPublicOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity,
+      @JsonProperty("total") BigDecimal total) {
 
     this.price = price;
     this.quantity = quantity;

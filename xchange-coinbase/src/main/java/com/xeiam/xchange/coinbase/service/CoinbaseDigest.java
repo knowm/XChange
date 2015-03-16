@@ -14,20 +14,21 @@ import com.xeiam.xchange.service.BaseParamsDigest;
  */
 public class CoinbaseDigest extends BaseParamsDigest {
 
-  private CoinbaseDigest(final String secretKey) {
+  private CoinbaseDigest(String secretKey) {
 
     super(secretKey, HMAC_SHA_256);
   }
 
-  public static CoinbaseDigest createInstance(final String secretKey) {
+  public static CoinbaseDigest createInstance(String secretKey) {
 
     return secretKey == null ? null : new CoinbaseDigest(secretKey);
   }
 
   @Override
-  public String digestParams(final RestInvocation restInvocation) {
+  public String digestParams(RestInvocation restInvocation) {
 
-    final String message = restInvocation.getParamValue(HeaderParam.class, "ACCESS_NONCE").toString() + restInvocation.getInvocationUrl() + restInvocation.getRequestBody();
+    final String message = restInvocation.getParamValue(HeaderParam.class, "ACCESS_NONCE").toString() + restInvocation.getInvocationUrl()
+        + restInvocation.getRequestBody();
 
     Mac mac256 = getMac();
     mac256.update(message.getBytes());

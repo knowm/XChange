@@ -10,8 +10,8 @@ public class CryptoTradePairs extends CryptoTradeBaseResponse {
 
   private Map<CurrencyPair, CryptoTradePair> pairs;
 
-  public CryptoTradePairs(@JsonProperty("status") String status, @JsonProperty("error") String error,
-      @JsonProperty("data") @JsonDeserialize(using = CryptoTradePairsDeserializer.class) Map<CurrencyPair, CryptoTradePair> pairs) {
+  public CryptoTradePairs(@JsonProperty("status") String status, @JsonProperty("error") String error, @JsonProperty("data") @JsonDeserialize(
+      using = CryptoTradePairsDeserializer.class) Map<CurrencyPair, CryptoTradePair> pairs) {
 
     super(status, error);
     this.pairs = pairs;

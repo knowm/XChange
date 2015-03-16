@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * A central place for shared Bitstamp properties
@@ -22,7 +22,7 @@ public final class BitstampUtils {
 
   /**
    * Format a date String for Bitstamp
-   * 
+   *
    * @param dateString
    * @return
    */
@@ -33,11 +33,6 @@ public final class BitstampUtils {
     } catch (ParseException e) {
       throw new ExchangeException("Illegal date/time format", e);
     }
-  }
-
-  public static long getNonce() {
-
-    return System.currentTimeMillis();
   }
 
 }

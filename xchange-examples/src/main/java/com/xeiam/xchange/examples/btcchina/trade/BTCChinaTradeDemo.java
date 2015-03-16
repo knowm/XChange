@@ -15,7 +15,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 /**
  * @author ObsessiveOrange
@@ -53,7 +53,8 @@ public class BTCChinaTradeDemo {
     long result = -1;
     for (LimitOrder order : openOrders.getOpenOrders()) {
       long orderId = Long.parseLong(order.getId());
-      if (order.getType().equals(limitOrder.getType().toString()) && order.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0 && orderId > result) {
+      if (order.getType().equals(limitOrder.getType().toString()) && order.getLimitPrice().compareTo(limitOrder.getLimitPrice()) == 0
+          && orderId > result) {
 
         result = orderId;
       }
@@ -86,8 +87,8 @@ public class BTCChinaTradeDemo {
     BTCChinaResponse<BTCChinaOrders> openOrders = printOpenOrdersRaw();
 
     long result = -1;
-    for (int i = 0; i < openOrders.getResult().getOrders().size(); i++) {
-      BTCChinaOrder order = openOrders.getResult().getOrders().get(i);
+    for (int i = 0; i < openOrders.getResult().getOrdersArray().length; i++) {
+      BTCChinaOrder order = openOrders.getResult().getOrdersArray()[i];
       int orderId = order.getId();
       if (order.getType().equals(limitOrder.getType().toString()) && order.getPrice().compareTo(limitOrder.getLimitPrice()) == 0 && orderId > result) {
         result = orderId;

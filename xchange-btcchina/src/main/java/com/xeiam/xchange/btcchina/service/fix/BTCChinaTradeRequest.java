@@ -33,10 +33,10 @@ public final class BTCChinaTradeRequest {
 
   }
 
-  public static AccountInfoRequest createAccountInfoRequest(String accessKey, String secretKey, String accReqId) {
+  public static AccountInfoRequest createAccountInfoRequest(long nonce, String accessKey, String secretKey, String accReqId) {
 
     String methodString = "method=getAccountInfo&params=balance";
-    String account = getAccountString(accessKey, secretKey, methodString);
+    String account = getAccountString(nonce, accessKey, secretKey, methodString);
 
     AccountInfoRequest message = new AccountInfoRequest();
     message.set(new Account(account));
@@ -44,10 +44,12 @@ public final class BTCChinaTradeRequest {
     return message;
   }
 
-  public static NewOrderSingle createNewOrderSingle(String accessKey, String secretKey, String clOrdId, char side, char ordType, BigDecimal orderQty, BigDecimal price, String symbol) {
+  public static NewOrderSingle createNewOrderSingle(long nonce, String accessKey, String secretKey, String clOrdId, char side, char ordType,
+      BigDecimal orderQty, BigDecimal price, String symbol) {
 
-    String methodString = String.format("method=%s&params=%s,%s,%s", side == Side.BUY ? "buyOrder3" : "sellOrder3", price == null ? "" : price.stripTrailingZeros().toPlainString(), orderQty.stripTrailingZeros().toPlainString(), symbol);
-    String account = getAccountString(accessKey, secretKey, methodString);
+    String methodString = String.format("method=%s&params=%s,%s,%s", side == Side.BUY ? "buyOrder3" : "sellOrder3", price == null ? "" : price
+        .stripTrailingZeros().toPlainString(), orderQty.stripTrailingZeros().toPlainString(), symbol);
+    String account = getAccountString(nonce, accessKey, secretKey, methodString);
 
     NewOrderSingle message = new NewOrderSingle(new ClOrdID(clOrdId), new Side(side), new TransactTime(), new OrdType(ordType));
     message.set(new Account(account));
@@ -59,10 +61,11 @@ public final class BTCChinaTradeRequest {
     return message;
   }
 
-  public static OrderCancelRequest createOrderCancelRequest(String accessKey, String secretKey, String clOrdId, String orderId, String symbol) {
+  public static OrderCancelRequest createOrderCancelRequest(long nonce, String accessKey, String secretKey, String clOrdId, String orderId,
+      String symbol) {
 
     String methodString = String.format("method=cancelOrder3&params=%s,%s", orderId, symbol);
-    String account = getAccountString(accessKey, secretKey, methodString);
+    String account = getAccountString(nonce, accessKey, secretKey, methodString);
 
     // OrigClOrdID and Side are required, but insignificant.
     OrderCancelRequest message = new OrderCancelRequest(new OrigClOrdID("DUMMY"), new ClOrdID(clOrdId), new Side(Side.SELL), new TransactTime());
@@ -72,10 +75,11 @@ public final class BTCChinaTradeRequest {
     return message;
   }
 
-  public static OrderMassStatusRequest createOrderMassStatusRequest(String accessKey, String secretKey, String massStatusReqId, int massStatusReqType, String symbol) {
+  public static OrderMassStatusRequest createOrderMassStatusRequest(long nonce, String accessKey, String secretKey, String massStatusReqId,
+      int massStatusReqType, String symbol) {
 
     String methodString = String.format("method=getOrders&params=1,%s,1000,0,0,1", symbol);
-    String account = getAccountString(accessKey, secretKey, methodString);
+    String account = getAccountString(nonce, accessKey, secretKey, methodString);
 
     OrderMassStatusRequest message = new OrderMassStatusRequest(new MassStatusReqID(massStatusReqId), new MassStatusReqType(massStatusReqType));
     message.set(new Side(Side.BUY)); // required, but insignificant
@@ -84,10 +88,11 @@ public final class BTCChinaTradeRequest {
     return message;
   }
 
-  public static OrderStatusRequest createOrderStatusRequest(String accessKey, String secretKey, String clOrdId, String orderId, String symbol) {
+  public static OrderStatusRequest createOrderStatusRequest(long nonce, String accessKey, String secretKey, String clOrdId, String orderId,
+      String symbol) {
 
     String methodString = String.format("method=getOrder&params=%s,%s,1", orderId, symbol);
-    String account = getAccountString(accessKey, secretKey, methodString);
+    String account = getAccountString(nonce, accessKey, secretKey, methodString);
 
     // Side is required, but insignificant.
     OrderStatusRequest message = new OrderStatusRequest(new ClOrdID(clOrdId), new Side(Side.BUY));
@@ -97,10 +102,9 @@ public final class BTCChinaTradeRequest {
     return message;
   }
 
-  private static String getAccountString(String accessKey, String secretKey, String methodString) {
+  private static String getAccountString(long nonce, String accessKey, String secretKey, String methodString) {
 
-    final long tonce = BTCChinaUtils.getNonce();
-    final String params = String.format("tonce=%d&accesskey=%s&requestmethod=post&id=1&%s", tonce, accessKey, methodString);
+    final String params = String.format("tonce=%d&accesskey=%s&requestmethod=post&id=1&%s", nonce, accessKey, methodString);
 
     final String hash;
     try {
@@ -114,7 +118,7 @@ public final class BTCChinaTradeRequest {
     final String userpass = accessKey + ":" + hash;
     final String basicAuth = "Basic " + DatatypeConverter.printBase64Binary(userpass.getBytes());
 
-    return tonce + ":" + basicAuth;
+    return nonce + ":" + basicAuth;
   }
 
 }

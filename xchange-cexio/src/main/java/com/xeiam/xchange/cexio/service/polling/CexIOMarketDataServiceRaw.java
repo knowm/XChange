@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cexio.CexIO;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIODepth;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTicker;
@@ -19,14 +19,15 @@ public class CexIOMarketDataServiceRaw extends CexIOBasePollingService {
   private final CexIO cexio;
 
   /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  public CexIOMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public CexIOMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.cexio = RestProxyFactory.createProxy(CexIO.class, exchangeSpecification.getSslUri());
+    super(exchange);
+
+    this.cexio = RestProxyFactory.createProxy(CexIO.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public CexIOTicker getCexIOTicker(CurrencyPair currencyPair) throws IOException {
@@ -49,8 +50,7 @@ public class CexIOMarketDataServiceRaw extends CexIOBasePollingService {
 
     if (since != null) {
       trades = cexio.getTradesSince(currencyPair.baseSymbol, currencyPair.counterSymbol, since);
-    }
-    else { // default to full available trade history
+    } else { // default to full available trade history
       trades = cexio.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol);
     }
 

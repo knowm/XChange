@@ -7,10 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.CoinsetterExchange;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterLast;
@@ -22,20 +19,20 @@ import com.xeiam.xchange.coinsetter.service.polling.CoinsetterMarketDataServiceR
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class CoinsetterMarketDataDemo {
 
   private static final Logger log = LoggerFactory.getLogger(CoinsetterMarketDataDemo.class);
 
-  public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void main(String[] args) throws IOException {
 
     Exchange coinsetter = ExchangeFactory.INSTANCE.createExchange(CoinsetterExchange.class.getName());
     generic(coinsetter);
     raw(coinsetter);
   }
 
-  private static void generic(Exchange exchange) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  private static void generic(Exchange exchange) throws IOException {
 
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 

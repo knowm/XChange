@@ -3,6 +3,8 @@ Open Exchange Rates API specification
 
 Public API
 
+https://openexchangerates.org/documentation
+
 Latest
 ------
 http://openexchangerates.org/api/latest.json?app_id=ab32c922bca749ec9345b4717914ee1f

@@ -7,7 +7,8 @@ public class OkCoinUserInfo extends OkCoinErrorResult {
 
   private final OkCoinInfo info;
 
-  public OkCoinUserInfo(@JsonProperty("result") final boolean result, @JsonProperty("error_code") final int errorCode, @JsonProperty("info") OkCoinInfo info) {
+  public OkCoinUserInfo(@JsonProperty("result") final boolean result, @JsonProperty("error_code") final int errorCode,
+      @JsonProperty("info") OkCoinInfo info) {
 
     super(result, errorCode);
     this.info = info;

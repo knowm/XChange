@@ -51,7 +51,6 @@ public class BitcoiniumRealtimeOrderbookDemo {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
     // exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
     exchangeSpecification.setApiKey("42djci5kmbtyzrvglfdw3e2dgmh5mr37");
-    exchangeSpecification.setPlainTextUri("http://173.10.241.154:9090");
     System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
@@ -107,7 +106,8 @@ public class BitcoiniumRealtimeOrderbookDemo {
     updateData();
 
     // create chart
-    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time Bitcoinium Order Book - BITSTAMP_BTC_USD").xAxisTitle("BTC").yAxisTitle("USD").build();
+    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time Bitcoinium Order Book - BITSTAMP_BTC_USD")
+        .xAxisTitle("BTC").yAxisTitle("USD").build();
     chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
 
     // add series

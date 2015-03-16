@@ -3,12 +3,9 @@ package com.xeiam.xchange.examples.poloniex.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.examples.poloniex.PoloniexExamplesUtils;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexAccountServiceRaw;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.utils.CertHelper;
 
 /**
@@ -28,14 +25,14 @@ public class PoloniexAccountDemo {
     raw((PoloniexAccountServiceRaw) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  private static void generic(PollingAccountService accountService) throws IOException {
 
     System.out.println("----------GENERIC----------");
     System.out.println(accountService.requestDepositAddress("BTC"));
     System.out.println(accountService.getAccountInfo());
   }
 
-  private static void raw(PoloniexAccountServiceRaw accountService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  private static void raw(PoloniexAccountServiceRaw accountService) throws IOException {
 
     System.out.println("------------RAW------------");
     System.out.println(accountService.getDepositAddress("BTC"));

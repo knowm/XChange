@@ -3,10 +3,12 @@ package com.xeiam.xchange.examples.bleutrade.marketdata;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bleutrade.BleutradeExchange;
 import com.xeiam.xchange.bleutrade.service.polling.BleutradeMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.examples.bleutrade.BleutradeDemoUtils;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class BleutradeMarketDataDemo {
 
@@ -14,7 +16,10 @@ public class BleutradeMarketDataDemo {
 
   public static void main(String[] args) throws IOException, InterruptedException {
 
-    Exchange bleutrade = BleutradeDemoUtils.getExchange();
+    //    Exchange bleutrade = BleutradeDemoUtils.getExchange();
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BleutradeExchange.class.getName());
+    Exchange bleutrade = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+
     PollingMarketDataService dataService = bleutrade.getPollingMarketDataService();
 
     generic(dataService);

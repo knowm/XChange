@@ -2,6 +2,7 @@ package com.xeiam.xchange.bitstamp.service.streaming;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -15,19 +16,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pusher.client.Pusher;
 import com.pusher.client.channel.Channel;
 import com.pusher.client.channel.SubscriptionEventListener;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampStreamingOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampStreamingTransaction;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampBasePollingService;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
-import com.xeiam.xchange.service.streaming.ReconnectService;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
@@ -37,7 +39,7 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
  */
 public class BitstampPusherService extends BitstampBasePollingService implements StreamingExchangeService {
 
-  private final Logger log = LoggerFactory.getLogger(BitstampPusherService.class);
+  private final Logger logger = LoggerFactory.getLogger(BitstampPusherService.class);
 
   // private final ExchangeEventListener exchangeEventListener;
   private final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>();
@@ -50,21 +52,22 @@ public class BitstampPusherService extends BitstampBasePollingService implements
 
   private Pusher client;
   private Map<String, Channel> channels;
-  
-//  private ReconnectService reconnectService;
+
+  // private ReconnectService reconnectService;
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
+   * @param configuration
    */
-  public BitstampPusherService(ExchangeSpecification exchangeSpecification, BitstampStreamingConfiguration configuration) {
+  public BitstampPusherService(Exchange exchange, BitstampStreamingConfiguration configuration) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
     this.configuration = configuration;
     client = new Pusher(configuration.getPusherKey(), configuration.pusherOptions());
-//    reconnectService = new ReconnectService(this, configuration);
+    // reconnectService = new ReconnectService(this, configuration);
     channels = new HashMap<String, Channel>();
 
     streamObjectMapper = new ObjectMapper();
@@ -74,21 +77,19 @@ public class BitstampPusherService extends BitstampBasePollingService implements
   @Override
   public void connect() {
 
-    // Re-connect is handled by the base ReconnectService when it reads a closed conn. state
+    // Re-connect is handled by the base ReconnectService when it reads a closed
+    // conn. state
     client.connect();
     channels.clear();
     for (String name : configuration.getChannels()) {
       Channel instance = client.subscribe(name);
       if (name.equals("order_book")) {
         bindOrderData(instance);
-      }
-      else if (name.equals("diff_order_book")) {
-    	bindDiffOrderData(instance);
-      }
-      else if (name.equals("live_trades")) {
+      } else if (name.equals("diff_order_book")) {
+        bindDiffOrderData(instance);
+      } else if (name.equals("live_trades")) {
         bindTradeData(instance);
-      }
-      else {
+      } else {
         throw new IllegalArgumentException(name);
       }
       channels.put(name, instance);
@@ -106,7 +107,7 @@ public class BitstampPusherService extends BitstampBasePollingService implements
    * <p>
    * Returns next event in consumer event queue, then removes it.
    * </p>
-   * 
+   *
    * @return An ExchangeEvent
    */
   @Override
@@ -167,7 +168,7 @@ public class BitstampPusherService extends BitstampBasePollingService implements
           OrderBook snapshot = parseOrderBook(data);
           xevt = new DefaultExchangeEvent(ExchangeEventType.SUBSCRIBE_ORDERS, data, snapshot);
         } catch (IOException e) {
-          log.error("JSON stream error", e);
+          logger.error("JSON stream error", e);
         }
         if (xevt != null) {
           addToEventQueue(xevt);
@@ -176,34 +177,36 @@ public class BitstampPusherService extends BitstampBasePollingService implements
     };
     chan.bind("data", listener);
   }
-  
+
   private void bindDiffOrderData(Channel chan) {
 
-	    SubscriptionEventListener listener = new SubscriptionEventListener() {
+    SubscriptionEventListener listener = new SubscriptionEventListener() {
 
-	      @Override
-	      public void onEvent(String channelName, String eventName, String data) {
+      @Override
+      public void onEvent(String channelName, String eventName, String data) {
 
-	        ExchangeEvent xevt = null;
-	        try {
-	          OrderBook delta = parseOrderBook(data);
-	          xevt = new DefaultExchangeEvent(ExchangeEventType.DEPTH, data, delta);
-	        } catch (IOException e) {
-	          log.error("JSON stream error", e);
-	        }
-	        if (xevt != null) {
-	          addToEventQueue(xevt);
-	        }
-	      }
-	    };
-	    chan.bind("data", listener);
-	  }
+        ExchangeEvent xevt = null;
+        try {
+          OrderBook delta = parseOrderBook(data);
+          xevt = new DefaultExchangeEvent(ExchangeEventType.DEPTH, data, delta);
+        } catch (IOException e) {
+          logger.error("JSON stream error", e);
+        }
+        if (xevt != null) {
+          addToEventQueue(xevt);
+        }
+      }
+    };
+    chan.bind("data", listener);
+  }
 
   private OrderBook parseOrderBook(String rawJson) throws IOException {
 
-    BitstampStreamingOrderBook nativeBook = streamObjectMapper.readValue(rawJson, BitstampStreamingOrderBook.class);
-    // BitstampOrderBook nativeBook = new BitstampOrderBook((new Date()).getTime(), json.get("bids"), json.get("asks"));
-    return BitstampAdapters.adaptOrderBook(nativeBook, CurrencyPair.BTC_USD, 1);
+    BitstampStreamingOrderBook bitstampOrderBook = streamObjectMapper.readValue(rawJson, BitstampStreamingOrderBook.class);
+
+    List<LimitOrder> asks = BitstampAdapters.createOrders(CurrencyPair.BTC_USD, Order.OrderType.ASK, bitstampOrderBook.getAsks());
+    List<LimitOrder> bids = BitstampAdapters.createOrders(CurrencyPair.BTC_USD, Order.OrderType.BID, bitstampOrderBook.getBids());
+    return new OrderBook(null, asks, bids);
   }
 
   private void bindTradeData(Channel chan) {
@@ -213,15 +216,15 @@ public class BitstampPusherService extends BitstampBasePollingService implements
       @Override
       public void onEvent(String channelName, String eventName, String data) {
 
-        ExchangeEvent xevt = null;
+        ExchangeEvent exchangeEvent = null;
         try {
-          Trade t = parseTrade(data);
-          xevt = new DefaultExchangeEvent(ExchangeEventType.TRADE, data, t);
+          Trade trade = parseTrade(data);
+          exchangeEvent = new DefaultExchangeEvent(ExchangeEventType.TRADE, data, trade);
         } catch (IOException e) {
-          log.error("JSON stream error", e);
+          logger.error("JSON stream error", e);
         }
-        if (xevt != null) {
-          addToEventQueue(xevt);
+        if (exchangeEvent != null) {
+          addToEventQueue(exchangeEvent);
         }
       }
     };
@@ -231,7 +234,7 @@ public class BitstampPusherService extends BitstampBasePollingService implements
   private Trade parseTrade(String rawJson) throws IOException {
 
     BitstampTransaction transaction = streamObjectMapper.readValue(rawJson, BitstampStreamingTransaction.class);
-    return BitstampAdapters.adaptTrade(transaction, CurrencyPair.BTC_USD, 1);
+    return new Trade(null, transaction.getAmount(), CurrencyPair.BTC_USD, transaction.getPrice(), null, String.valueOf(transaction.getTid()));
   }
 
   private void addToEventQueue(ExchangeEvent event) {
@@ -239,7 +242,7 @@ public class BitstampPusherService extends BitstampBasePollingService implements
     try {
       consumerEventQueue.put(event);
     } catch (InterruptedException e) {
-      log.debug("Event queue interrupted", e);
+      logger.debug("Event queue interrupted", e);
     }
   }
 

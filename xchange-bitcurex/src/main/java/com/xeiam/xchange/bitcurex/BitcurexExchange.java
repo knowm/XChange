@@ -1,32 +1,22 @@
 package com.xeiam.xchange.bitcurex;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcurex.service.polling.BitcurexMarketDataService;
+import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the Bitcurex exchange API</li>
- * </ul>
- */
 public class BitcurexExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BitcurexExchange() {
-
-  }
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitcurexMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new BitcurexMarketDataService(this);
   }
 
   @Override
@@ -42,4 +32,9 @@ public class BitcurexExchange extends BaseExchange implements Exchange {
     return exchangeSpecification;
   }
 
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
+  }
 }

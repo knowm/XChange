@@ -1,5 +1,7 @@
 package com.xeiam.xchange.blockchain;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -13,7 +15,7 @@ public class BlockchainExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setPlainTextUri("http://blockchain.info");
+    exchangeSpecification.setPlainTextUri("https://blockchain.info");
     exchangeSpecification.setHost("blockchain.info");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Blockchain");
@@ -25,6 +27,12 @@ public class BlockchainExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // No private API implemented. Not needed for this exchange at the moment.
+    return null;
   }
 
 }

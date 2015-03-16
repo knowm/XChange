@@ -1,0 +1,9 @@
+Coinbase Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://www.coinbase.com/docs/api/overview
+

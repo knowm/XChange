@@ -11,15 +11,14 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
- * Deserializes an rfc1123 formatted Date String to a Java Date
- * rfc1123 format: 'EEE, dd MMM yyyy HH:mm:ss zzz'
+ * Deserializes an rfc1123 formatted Date String to a Java Date rfc1123 format: 'EEE, dd MMM yyyy HH:mm:ss zzz'
  * 
  * @author jamespedwards42
  */
 public class Rfc1123DateDeserializer extends JsonDeserializer<Date> {
 
   @Override
-  public Date deserialize(final JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+  public Date deserialize(JsonParser jp, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
     return DateUtils.fromRfc1123DateString(jp.getValueAsString(), Locale.US);
   }

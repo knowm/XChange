@@ -27,11 +27,9 @@ public class BTCChinaGetOrderDemo {
     BTCChinaGetOrderResponse response;
     if (market == null) {
       response = tradeServiceRaw.getBTCChinaOrder(orderId);
-    }
-    else if (withdetail == null) {
+    } else if (withdetail == null) {
       response = tradeServiceRaw.getBTCChinaOrder(orderId, market);
-    }
-    else {
+    } else {
       response = tradeServiceRaw.getBTCChinaOrder(orderId, market, withdetail);
     }
     System.out.println(response);

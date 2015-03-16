@@ -1,9 +1,9 @@
 package com.xeiam.xchange.mercadobitcoin;
 
-import com.xeiam.xchange.NotAvailableFromExchangeException;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 
 /**
  * @author Felipe Micaroni Lalli
@@ -12,11 +12,6 @@ public final class MercadoBitcoinUtils {
 
   private MercadoBitcoinUtils() {
 
-  }
-
-  public static String getTonce() {
-
-    return "" + (System.currentTimeMillis() / 1000L);
   }
 
   /**
@@ -28,11 +23,9 @@ public final class MercadoBitcoinUtils {
 
     if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
       pair = "btc_brl";
-    }
-    else if (currencyPair.equals(new CurrencyPair(Currencies.LTC, Currencies.BRL))) {
+    } else if (currencyPair.equals(new CurrencyPair(Currencies.LTC, Currencies.BRL))) {
       pair = "ltc_brl";
-    }
-    else {
+    } else {
       throw new NotAvailableFromExchangeException();
     }
 

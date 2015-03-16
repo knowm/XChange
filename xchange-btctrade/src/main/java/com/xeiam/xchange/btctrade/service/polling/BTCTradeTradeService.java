@@ -2,9 +2,7 @@ package com.xeiam.xchange.btctrade.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btctrade.BTCTradeAdapters;
 import com.xeiam.xchange.btctrade.dto.BTCTradeResult;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradeOrder;
@@ -14,58 +12,47 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
-
-import java.io.IOException;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements PollingTradeService {
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public BTCTradeTradeService(ExchangeSpecification exchangeSpecification) {
+  public BTCTradeTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
     return BTCTradeAdapters.adaptOpenOrders(getBTCTradeOrders(0, "open"));
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) {
 
     throw new NotAvailableFromExchangeException();
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     final BTCTradePlaceOrderResult result;
     if (limitOrder.getType() == OrderType.BID) {
       result = buy(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-    }
-    else {
+    } else {
       result = sell(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
     }
     return BTCTradeAdapters.adaptPlaceOrderResult(result);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
@@ -73,9 +60,6 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
     return BTCTradeAdapters.adaptResult(result);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public UserTrades getTradeHistory(Object... arguments) throws IOException {
 
@@ -98,9 +82,9 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
   }
 
   @Override
-  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
 }

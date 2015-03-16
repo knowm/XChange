@@ -1,7 +1,7 @@
 package com.xeiam.xchange.coinsetter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * Coinsetter exception.

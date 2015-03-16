@@ -77,7 +77,8 @@ public class BittrexTradeResponse {
   @Override
   public String toString() {
 
-    return "BittrexTradeResponse [success=" + success + ", message=" + message + ", result=" + result + ", additionalProperties=" + additionalProperties + "]";
+    return "BittrexTradeResponse [success=" + success + ", message=" + message + ", result=" + result + ", additionalProperties="
+        + additionalProperties + "]";
   }
 
 }

@@ -23,8 +23,9 @@ public class KrakenVolumeFee {
    * @param nextVolume
    * @param tierVolume
    */
-  public KrakenVolumeFee(@JsonProperty("fee") BigDecimal fee, @JsonProperty("minfee") BigDecimal minFee, @JsonProperty("maxfee") BigDecimal maxFee, @JsonProperty("nextfee") BigDecimal nextFee,
-      @JsonProperty("nextvolume") BigDecimal nextVolume, @JsonProperty("tiervolume") BigDecimal tierVolume) {
+  public KrakenVolumeFee(@JsonProperty("fee") BigDecimal fee, @JsonProperty("minfee") BigDecimal minFee, @JsonProperty("maxfee") BigDecimal maxFee,
+      @JsonProperty("nextfee") BigDecimal nextFee, @JsonProperty("nextvolume") BigDecimal nextVolume,
+      @JsonProperty("tiervolume") BigDecimal tierVolume) {
 
     this.fee = fee;
     this.minFee = minFee;
@@ -67,7 +68,8 @@ public class KrakenVolumeFee {
   @Override
   public String toString() {
 
-    return "KrakenVolumeFee [fee=" + fee + ", minFee=" + minFee + ", maxFee=" + maxFee + ", nextFee=" + nextFee + ", nextVolume=" + nextVolume + ", tierVolume=" + tierVolume + "]";
+    return "KrakenVolumeFee [fee=" + fee + ", minFee=" + minFee + ", maxFee=" + maxFee + ", nextFee=" + nextFee + ", nextVolume=" + nextVolume
+        + ", tierVolume=" + tierVolume + "]";
   }
 
 }

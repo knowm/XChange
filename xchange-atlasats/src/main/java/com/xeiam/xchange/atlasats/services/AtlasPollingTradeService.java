@@ -18,35 +18,35 @@ import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 
 public class AtlasPollingTradeService extends BasePollingExchangeService implements PollingTradeService {
 
-  public AtlasPollingTradeService(ExchangeSpecification exchangeSpecification) {
+  public AtlasPollingTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
     // TODO Auto-generated constructor stub
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws  IOException {
 
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws  IOException {
 
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws  IOException {
 
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(String orderId) throws  IOException {
 
     // TODO Auto-generated method stub
     return false;
@@ -60,14 +60,14 @@ public class AtlasPollingTradeService extends BasePollingExchangeService impleme
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws  IOException {
 
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     // TODO Auto-generated method stub
     return null;

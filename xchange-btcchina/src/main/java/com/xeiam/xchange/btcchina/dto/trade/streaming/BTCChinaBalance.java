@@ -2,8 +2,6 @@ package com.xeiam.xchange.btcchina.dto.trade.streaming;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 public class BTCChinaBalance {
 
   private final BigDecimal amountInteger;
@@ -51,8 +49,9 @@ public class BTCChinaBalance {
    */
   @Override
   public String toString() {
-	  return "BTCChinaBalance [amountInteger=" + amountInteger + ", amount=" + amount + ", symbol=" + symbol 
-			  + ", amountDecimal=" + amountDecimal + ", currency=" + currency + "]";  
+
+    return "BTCChinaBalance [amountInteger=" + amountInteger + ", amount=" + amount + ", symbol=" + symbol + ", amountDecimal=" + amountDecimal
+        + ", currency=" + currency + "]";
   }
 
 }

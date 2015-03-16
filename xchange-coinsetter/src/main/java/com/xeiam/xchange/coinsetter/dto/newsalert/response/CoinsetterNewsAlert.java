@@ -22,8 +22,8 @@ public class CoinsetterNewsAlert {
    * @param createDate The date the message was created
    * @param messageType The type of news alert
    */
-  public CoinsetterNewsAlert(@JsonProperty("message") String message, @JsonProperty("uuid") UUID uuid,
-      @JsonProperty("createDate") @JsonFormat(pattern = "EEE, MMM dd, yyyy", timezone = "EST", locale = "us") Date createDate, @JsonProperty("messageType") String messageType) {
+  public CoinsetterNewsAlert(@JsonProperty("message") String message, @JsonProperty("uuid") UUID uuid, @JsonProperty("createDate") @JsonFormat(
+      pattern = "EEE, MMM dd, yyyy", timezone = "EST", locale = "us") Date createDate, @JsonProperty("messageType") String messageType) {
 
     this.message = message;
     this.uuid = uuid;

@@ -8,8 +8,8 @@ package com.xeiam.xchange.service.streaming;
  * <li>A common entry point for the application of configuration data</li>
  * </ul>
  * <p>
- * Often it is necessary for additional configuration to be applied to the exchange data feeds after the initial creation with ExchangeSpecification has completed. This is the mechanism to achieve
- * this.
+ * Often it is necessary for additional configuration to be applied to the exchange data feeds after the initial creation with ExchangeSpecification
+ * has completed. This is the mechanism to achieve this.
  * </p>
  */
 public interface ExchangeStreamingConfiguration {

@@ -1,26 +1,21 @@
 package com.xeiam.xchange.service.polling;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
- * <p>
- * Abstract base class to provide the following to exchange services:
- * </p>
- * <ul>
- * <li>Provision of standard specification parsing</li>
- * </ul>
+ * Placeholder to contain any base polling service functionality
  */
 public abstract class BasePollingExchangeService extends BaseExchangeService {
 
   /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  protected BasePollingExchangeService(ExchangeSpecification exchangeSpecification) {
+  protected BasePollingExchangeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
 }

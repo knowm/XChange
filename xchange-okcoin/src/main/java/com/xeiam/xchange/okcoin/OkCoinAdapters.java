@@ -41,17 +41,16 @@ public final class OkCoinAdapters {
   }
 
   private static BigDecimal getOrZero(String key, Map<String, BigDecimal> map) {
-    
+
     if (map != null && map.containsKey(key)) {
       return map.get(key);
-    }
-    else {
+    } else {
       return BigDecimal.ZERO;
     }
   }
 
   public static String adaptSymbol(CurrencyPair currencyPair) {
-    
+
     return currencyPair.baseSymbol.toLowerCase() + "_" + currencyPair.counterSymbol.toLowerCase();
   }
 
@@ -63,8 +62,9 @@ public final class OkCoinAdapters {
 
   public static Ticker adaptTicker(OkCoinTickerResponse tickerResponse, CurrencyPair currencyPair) {
 
-    return new Ticker.Builder().currencyPair(currencyPair).high(tickerResponse.getTicker().getHigh()).low(tickerResponse.getTicker().getLow()).bid(
-            tickerResponse.getTicker().getBuy()).ask(tickerResponse.getTicker().getSell()).last(tickerResponse.getTicker().getLast()).volume(tickerResponse.getTicker().getVol()).timestamp(new Date()).build();
+    return new Ticker.Builder().currencyPair(currencyPair).high(tickerResponse.getTicker().getHigh()).low(tickerResponse.getTicker().getLow())
+        .bid(tickerResponse.getTicker().getBuy()).ask(tickerResponse.getTicker().getSell()).last(tickerResponse.getTicker().getLast())
+        .volume(tickerResponse.getTicker().getVol()).build();
   }
 
   public static OrderBook adaptOrderBook(OkCoinDepth depth, CurrencyPair currencyPair) {
@@ -73,7 +73,7 @@ public final class OkCoinAdapters {
     Collections.reverse(asks);
 
     List<LimitOrder> bids = adaptLimitOrders(OrderType.BID, depth.getBids(), currencyPair);
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   public static Trades adaptTrades(OkCoinTrade[] trades, CurrencyPair currencyPair) {
@@ -100,13 +100,14 @@ public final class OkCoinAdapters {
     if (is_cny) {
       base = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(getOrZero("cny", funds.getBorrow())), "available");
       baseLoan = new Wallet(CNY, getOrZero("cny", funds.getBorrow()), "loan");
-    }
-    else {
+    } else {
       base = new Wallet(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())), "available");
       baseLoan = new Wallet(USD, getOrZero("usd", funds.getBorrow()), "loan");
     }
-    Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(getOrZero("btc", funds.getBorrow())), "available");
-    Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(getOrZero("ltc", funds.getBorrow())), "available");
+    Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(getOrZero("btc", funds.getBorrow())),
+        "available");
+    Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(getOrZero("ltc", funds.getBorrow())),
+        "available");
 
     // loaned wallets
     Wallet btcLoan = new Wallet(BTC, getOrZero("btc", funds.getBorrow()), "loan");
@@ -119,11 +120,11 @@ public final class OkCoinAdapters {
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
-    
+
     for (int i = 0; i < orderResults.size(); i++) {
       OkCoinOrderResult orderResult = orderResults.get(i);
       OkCoinOrder[] orders = orderResult.getOrders();
-      for( int j = 0; j < orders.length; j++) {
+      for (int j = 0; j < orders.length; j++) {
         OkCoinOrder singleOrder = orders[j];
         openOrders.add(adaptOpenOrder(singleOrder));
       }
@@ -163,13 +164,14 @@ public final class OkCoinAdapters {
 
   private static Trade adaptTrade(OkCoinTrade trade, CurrencyPair currencyPair) {
 
-    return new Trade(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), "" + trade.getTid());
+    return new Trade(trade.getType().equals("buy") ? OrderType.BID : OrderType.ASK, trade.getAmount(), currencyPair, trade.getPrice(),
+        trade.getDate(), "" + trade.getTid());
   }
 
   private static LimitOrder adaptOpenOrder(OkCoinOrder order) {
 
-    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount().subtract(order.getDealAmount()), adaptSymbol(order.getSymbol()), String.valueOf(order.getOrderId()),
-        order.getCreateDate(), order.getRate());
+    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount().subtract(order.getDealAmount()), adaptSymbol(order.getSymbol()),
+        String.valueOf(order.getOrderId()), order.getCreateDate(), order.getRate());
   }
 
   public static OrderType adaptOrderType(String type) {
@@ -179,6 +181,7 @@ public final class OkCoinAdapters {
 
   private static UserTrade adaptTrade(OkCoinOrder order) {
 
-    return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(), order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, null);
+    return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(),
+        order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, null);
   }
 }

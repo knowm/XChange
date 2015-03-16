@@ -14,7 +14,8 @@ public class CryptsyCurrencyPairsReturn extends CryptsyGenericReturn<HashMap<Str
    * @param value
    * @param error
    */
-  public CryptsyCurrencyPairsReturn(@JsonProperty("success") int success, @JsonProperty("return") HashMap<String, CryptsyMarketId> value, @JsonProperty("error") String error) {
+  public CryptsyCurrencyPairsReturn(@JsonProperty("success") int success, @JsonProperty("return") HashMap<String, CryptsyMarketId> value,
+      @JsonProperty("error") String error) {
 
     super(success, (value == null ? new HashMap<String, CryptsyMarketId>() : value), error);
   }

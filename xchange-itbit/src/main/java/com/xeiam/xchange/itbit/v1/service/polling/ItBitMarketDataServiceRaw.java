@@ -2,47 +2,39 @@ package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.itbit.v1.ItBit;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitDepth;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrade;
 
 public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
 
-  protected final ItBit itBitPublic;
-
   /**
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  public ItBitMarketDataServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  public ItBitMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification, nonceFactory);
-    itBitPublic = RestProxyFactory.createProxy(ItBit.class, exchangeSpecification.getSslUri());
+    super(exchange);
   }
 
-  public ItBitTicker getItBitTicker(CurrencyPair currencyPair) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public ItBitTicker getItBitTicker(CurrencyPair currencyPair) throws IOException {
 
-    ItBitTicker ticker = itBit.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    ItBitTicker ticker = itBitAuthenticated.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return ticker;
   }
 
-  public ItBitDepth getItBitDepth(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public ItBitDepth getItBitDepth(CurrencyPair currencyPair, Object... args) throws IOException {
 
     ItBitDepth depth = itBitPublic.getDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
 
     return depth;
   }
 
-  public ItBitTrade[] getItBitTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public ItBitTrade[] getItBitTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     long since = 0;
     if (args.length == 1) {

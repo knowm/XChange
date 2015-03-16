@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitstamp.Bitstamp;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * @author gnandiga
@@ -19,14 +19,14 @@ public class BitstampMarketDataServiceRaw extends BitstampBasePollingService {
   private final Bitstamp bitstamp;
 
   /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  public BitstampMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BitstampMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.bitstamp = RestProxyFactory.createProxy(Bitstamp.class, exchangeSpecification.getSslUri());
+    super(exchange);
+    this.bitstamp = RestProxyFactory.createProxy(Bitstamp.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public BitstampTicker getBitstampTicker() throws IOException {
@@ -45,12 +45,10 @@ public class BitstampMarketDataServiceRaw extends BitstampBasePollingService {
 
     if (args.length == 0) {
       transactions = bitstamp.getTransactions(); // default values: offset=0, limit=100
-    }
-    else if (args.length == 1) {
+    } else if (args.length == 1) {
       BitstampTime bitstampTime = (BitstampTime) args[0];
       transactions = bitstamp.getTransactions(bitstampTime.toString().toLowerCase()); // default values: limit=100
-    }
-    else {
+    } else {
       throw new ExchangeException("Invalid argument length. Must be 0, or 1.");
     }
     return transactions;

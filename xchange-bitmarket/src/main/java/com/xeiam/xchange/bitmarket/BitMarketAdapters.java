@@ -30,7 +30,7 @@ public class BitMarketAdapters {
 
   /**
    * Adapts BitMarket ticker to Ticker.
-   * 
+   *
    * @param bitMarketTicker
    * @param currencyPair
    * @return
@@ -60,9 +60,8 @@ public class BitMarketAdapters {
 
   public static OrderBook adaptOrderBook(BitMarketOrderBook bitMarketOrderBook, CurrencyPair currencyPair) {
 
-    OrderBook orderBook =
-        new OrderBook(new Date(), transformArrayToLimitOrders(bitMarketOrderBook.getAsks(), OrderType.ASK, currencyPair), transformArrayToLimitOrders(bitMarketOrderBook.getBids(), OrderType.BID,
-            currencyPair));
+    OrderBook orderBook = new OrderBook(null, transformArrayToLimitOrders(bitMarketOrderBook.getAsks(), OrderType.ASK, currencyPair),
+        transformArrayToLimitOrders(bitMarketOrderBook.getBids(), OrderType.BID, currencyPair));
 
     return orderBook;
   }
@@ -73,7 +72,8 @@ public class BitMarketAdapters {
 
     for (BitMarketTrade bitMarketTrade : bitMarketTrades) {
 
-      Trade trade = new Trade(OrderType.BID, bitMarketTrade.getAmount(), currencyPair, bitMarketTrade.getPrice(), new Date(bitMarketTrade.getDate()), bitMarketTrade.getTid());
+      Trade trade = new Trade(OrderType.BID, bitMarketTrade.getAmount(), currencyPair, bitMarketTrade.getPrice(), new Date(bitMarketTrade.getDate()),
+          bitMarketTrade.getTid());
 
       tradeList.add(trade);
     }

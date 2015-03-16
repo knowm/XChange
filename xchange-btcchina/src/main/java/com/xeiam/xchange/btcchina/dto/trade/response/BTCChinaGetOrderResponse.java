@@ -14,7 +14,8 @@ public class BTCChinaGetOrderResponse extends BTCChinaResponse<BTCChinaOrderObje
    * @param result
    * @param error
    */
-  public BTCChinaGetOrderResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaOrderObject result, @JsonProperty("error") BTCChinaError error) {
+  public BTCChinaGetOrderResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaOrderObject result,
+      @JsonProperty("error") BTCChinaError error) {
 
     super(id, result, error);
   }

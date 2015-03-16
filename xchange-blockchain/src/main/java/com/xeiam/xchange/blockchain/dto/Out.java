@@ -22,7 +22,8 @@ public final class Out {
    * @param type
    * @param value
    */
-  public Out(@JsonProperty("addr") String addr, @JsonProperty("n") long n, @JsonProperty("tx_index") long tx_index, @JsonProperty("type") int type, @JsonProperty("value") long value) {
+  public Out(@JsonProperty("addr") String addr, @JsonProperty("n") long n, @JsonProperty("tx_index") long tx_index, @JsonProperty("type") int type,
+      @JsonProperty("value") long value) {
 
     this.addr = addr;
     this.n = n;

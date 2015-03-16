@@ -5,28 +5,30 @@ import java.util.UUID;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.order.request.CoinsetterOrderRequest;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrder;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderResponse;
-import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
  * Order raw service.
  */
-public class CoinsetterOrderServiceRaw extends BaseExchangeService {
+public class CoinsetterOrderServiceRaw extends CoinsetterBasePollingService {
 
   private final com.xeiam.xchange.coinsetter.rs.CoinsetterOrder order;
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public CoinsetterOrderServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public CoinsetterOrderServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    String baseUrl = exchangeSpecification.getSslUri();
+    super(exchange);
+
+    String baseUrl = exchange.getExchangeSpecification().getSslUri();
     order = RestProxyFactory.createProxy(com.xeiam.xchange.coinsetter.rs.CoinsetterOrder.class, baseUrl);
   }
 

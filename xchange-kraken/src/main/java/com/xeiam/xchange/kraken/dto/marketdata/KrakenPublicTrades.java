@@ -62,8 +62,7 @@ public class KrakenPublicTrades {
         JsonNode value = entry.getValue();
         if (key == "last") {
           last = value.asLong();
-        }
-        else if (value.isArray()) {
+        } else if (value.isArray()) {
           for (JsonNode tradeJsonNode : value) {
             BigDecimal price = new BigDecimal(tradeJsonNode.path(0).asText());
             BigDecimal volume = new BigDecimal(tradeJsonNode.path(1).asText());

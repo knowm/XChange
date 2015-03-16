@@ -24,7 +24,8 @@ public class CoinfloorOrderbook {
    * @param op
    * @param amount
    */
-  public CoinfloorOrderbook(@JsonProperty("tag") int tag, @JsonProperty("error_code") int errorCode, @JsonProperty("orders") List<CoinfloorOrder> orders) {
+  public CoinfloorOrderbook(@JsonProperty("tag") int tag, @JsonProperty("error_code") int errorCode,
+      @JsonProperty("orders") List<CoinfloorOrder> orders) {
 
     this.tag = tag;
     this.errorCode = errorCode;

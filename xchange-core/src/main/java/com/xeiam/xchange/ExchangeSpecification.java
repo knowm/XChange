@@ -3,6 +3,8 @@ package com.xeiam.xchange;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.xeiam.xchange.dto.MetaData;
+
 /**
  * <p>
  * Specification to provide the following to {@link ExchangeFactory}:
@@ -38,6 +40,8 @@ public class ExchangeSpecification {
 
   private int port = 80;
 
+  private String metaDataJsonFileOverride = null;
+
   private final String exchangeClassName;
 
   /** arbitrary exchange params that can be set for unique cases */
@@ -45,7 +49,7 @@ public class ExchangeSpecification {
 
   /**
    * Dynamic binding
-   * 
+   *
    * @param exchangeClassName The exchange class name (e.g. "com.xeiam.xchange.mtgox.v1.MtGoxExchange")
    */
   public ExchangeSpecification(String exchangeClassName) {
@@ -55,7 +59,7 @@ public class ExchangeSpecification {
 
   /**
    * Static binding
-   * 
+   *
    * @param exchangeClass The exchange class
    */
   public ExchangeSpecification(Class exchangeClass) {
@@ -82,7 +86,7 @@ public class ExchangeSpecification {
 
   /**
    * Get the host name of the server providing data (e.g. "mtgox.com").
-   * 
+   *
    * @return the host name
    */
   public String getHost() {
@@ -92,7 +96,7 @@ public class ExchangeSpecification {
 
   /**
    * Set the host name of the server providing data.
-   * 
+   *
    * @param host the host name
    */
   public void setHost(String host) {
@@ -102,7 +106,7 @@ public class ExchangeSpecification {
 
   /**
    * Get the API key. For MtGox this would be the "Rest-Key" field.
-   * 
+   *
    * @return the API key
    */
   public String getApiKey() {
@@ -112,7 +116,7 @@ public class ExchangeSpecification {
 
   /**
    * Set the API key. For MtGox this would be the "Rest-Key" field.
-   * 
+   *
    * @param apiKey the API key
    */
   public void setApiKey(String apiKey) {
@@ -122,7 +126,7 @@ public class ExchangeSpecification {
 
   /**
    * Get the port number of the server providing direct socket data (e.g. "1337").
-   * 
+   *
    * @return the port number
    */
   public int getPort() {
@@ -132,7 +136,7 @@ public class ExchangeSpecification {
 
   /**
    * Set the port number of the server providing direct socket data (e.g. "1337").
-   * 
+   *
    * @param port the port number
    */
   public void setPort(int port) {
@@ -142,7 +146,7 @@ public class ExchangeSpecification {
 
   /**
    * Get the API secret key typically used in HMAC signing of requests. For MtGox this would be the "Rest-Sign" field.
-   * 
+   *
    * @return the secret key
    */
   public String getSecretKey() {
@@ -152,7 +156,7 @@ public class ExchangeSpecification {
 
   /**
    * Set the API secret key typically used in HMAC signing of requests. For MtGox this would be the "Rest-Sign" field.
-   * 
+   *
    * @param secretKey the secret key
    */
   public void setSecretKey(String secretKey) {
@@ -161,9 +165,9 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Get the URI to reach the <b>root</b> of the exchange API for SSL queries
-   * (e.g. use "https://example.com:8443/exchange", not "https://example.com:8443/exchange/api/v3/trades").
-   * 
+   * Get the URI to reach the <b>root</b> of the exchange API for SSL queries (e.g. use "https://example.com:8443/exchange", not
+   * "https://example.com:8443/exchange/api/v3/trades").
+   *
    * @return the SSL URI
    */
   public String getSslUri() {
@@ -172,9 +176,9 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Set the URI to reach the <b>root</b> of the exchange API for SSL queries
-   * (e.g. use "https://example.com:8443/exchange", not "https://example.com:8443/exchange/api/v3/trades").
-   * 
+   * Set the URI to reach the <b>root</b> of the exchange API for SSL queries (e.g. use "https://example.com:8443/exchange", not
+   * "https://example.com:8443/exchange/api/v3/trades").
+   *
    * @param uri the SSL URI
    */
   public void setSslUri(String uri) {
@@ -183,9 +187,9 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Get the URI to reach the <b>root</b> of the exchange API for plaintext (non-SSL) queries
-   * (e.g. use "http://example.com:8080/exchange", not "http://example.com:8080/exchange/api/v3/trades")
-   * 
+   * Get the URI to reach the <b>root</b> of the exchange API for plaintext (non-SSL) queries (e.g. use "http://example.com:8080/exchange", not
+   * "http://example.com:8080/exchange/api/v3/trades")
+   *
    * @return the plain text URI
    */
   public String getPlainTextUri() {
@@ -194,9 +198,9 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Set the URI to reach the <b>root</b> of the exchange API for plaintext (non-SSL) queries
-   * (e.g. use "http://example.com:8080/exchange", not "http://example.com:8080/exchange/api/v3/trades")
-   * 
+   * Set the URI to reach the <b>root</b> of the exchange API for plaintext (non-SSL) queries (e.g. use "http://example.com:8080/exchange", not
+   * "http://example.com:8080/exchange/api/v3/trades")
+   *
    * @param plainTextUri the plain text URI
    */
   public void setPlainTextUri(String plainTextUri) {
@@ -206,7 +210,7 @@ public class ExchangeSpecification {
 
   /**
    * Set the URI for plain text streaming.
-   * 
+   *
    * @return the plaintext streaming URI
    */
   public String getPlainTextUriStreaming() {
@@ -216,7 +220,7 @@ public class ExchangeSpecification {
 
   /**
    * Set the URI for plain text streaming.
-   * 
+   *
    * @param plainTextUriStreaming the plaintext streaming URI
    */
   public void setPlainTextUriStreaming(String plainTextUriStreaming) {
@@ -226,7 +230,7 @@ public class ExchangeSpecification {
 
   /**
    * Get the URI for SSL streaming.
-   * 
+   *
    * @return the URI for ssl streaming
    */
   public String getSslUriStreaming() {
@@ -236,7 +240,7 @@ public class ExchangeSpecification {
 
   /**
    * Set the URI for SSL streaming.
-   * 
+   *
    * @param sslUriStreaming the URI for ssl streaming
    */
   public void setSslUriStreaming(String sslUriStreaming) {
@@ -246,7 +250,7 @@ public class ExchangeSpecification {
 
   /**
    * Get the arbitrary exchange-specific parameters to be passed to the exchange implementation.
-   * 
+   *
    * @return a Map of named exchange-specific parameter values
    */
   public Map<String, Object> getExchangeSpecificParameters() {
@@ -256,7 +260,7 @@ public class ExchangeSpecification {
 
   /**
    * Set the arbitrary exchange-specific parameters to be passed to the exchange implementation.
-   * 
+   *
    * @param exchangeSpecificParameters a Map of named exchange-specific parameter values
    */
   public void setExchangeSpecificParameters(Map<String, Object> exchangeSpecificParameters) {
@@ -266,7 +270,7 @@ public class ExchangeSpecification {
 
   /**
    * Get an item from the arbitrary exchange-specific parameters to be passed to the exchange implementation.
-   * 
+   *
    * @return a Map of named exchange-specific parameter values
    */
   public Object getExchangeSpecificParametersItem(String key) {
@@ -276,7 +280,7 @@ public class ExchangeSpecification {
 
   /**
    * Set an item in the arbitrary exchange-specific parameters to be passed to the exchange implementation.
-   * 
+   *
    * @param exchangeSpecificParameters a Map of named exchange-specific parameter values
    */
   public void setExchangeSpecificParametersItem(String key, Object value) {
@@ -286,7 +290,7 @@ public class ExchangeSpecification {
 
   /**
    * Get the password for authentication.
-   * 
+   *
    * @return the password
    */
   public String getPassword() {
@@ -296,7 +300,7 @@ public class ExchangeSpecification {
 
   /**
    * Set the password for authentication.
-   * 
+   *
    * @param password the password
    */
   public void setPassword(String password) {
@@ -306,7 +310,7 @@ public class ExchangeSpecification {
 
   /**
    * Get the username for authentication.
-   * 
+   *
    * @return the username
    */
   public String getUserName() {
@@ -316,7 +320,7 @@ public class ExchangeSpecification {
 
   /**
    * Set the username for authentication.
-   * 
+   *
    * @param userName the username
    */
   public void setUserName(String userName) {
@@ -326,7 +330,7 @@ public class ExchangeSpecification {
 
   /**
    * Get the exchange name.
-   * 
+   *
    * @return the exchange name (e.g. "Mt Gox")
    */
   public String getExchangeName() {
@@ -336,7 +340,7 @@ public class ExchangeSpecification {
 
   /**
    * Set the exchange name (e.g. "Mt Gox").
-   * 
+   *
    * @param exchangeName the exchange name
    */
   public void setExchangeName(String exchangeName) {
@@ -346,7 +350,7 @@ public class ExchangeSpecification {
 
   /**
    * Get the exchange description (e.g. "Major exchange specialising in USD, EUR, GBP").
-   * 
+   *
    * @return the exchange description
    */
   public String getExchangeDescription() {
@@ -356,12 +360,36 @@ public class ExchangeSpecification {
 
   /**
    * Set the exchange description (e.g. "Major exchange specialising in USD, EUR, GBP").
-   * 
+   *
    * @param exchangeDescription the exchange description
    */
   public void setExchangeDescription(String exchangeDescription) {
 
     this.exchangeDescription = exchangeDescription;
+  }
+
+  /**
+   * Get the override file for generating the {@link MetaData} object. By default, the {@link MetaData} object is loaded at startup from a json file
+   * on the classpath with the same name as the name of the exchange as defined in {@link ExchangeSpecification}. With this parameter, you can
+   * override that file with a file of your choice located outside of the classpath.
+   *
+   * @return
+   */
+  public String getMetaDataJsonFileOverride() {
+
+    return metaDataJsonFileOverride;
+  }
+
+  /**
+   * Set the override file for generating the {@link MetaData} object. By default, the {@link MetaData} object is loaded at startup from a json file
+   * on the classpath with the same name as the name of the exchange as defined in {@link ExchangeSpecification}. With this parameter, you can
+   * override that file with a file of your choice located outside of the classpath.
+   *
+   * @return
+   */
+  public void setMetaDataJsonFileOverride(String metaDataJsonFileOverride) {
+
+    this.metaDataJsonFileOverride = metaDataJsonFileOverride;
   }
 
 }

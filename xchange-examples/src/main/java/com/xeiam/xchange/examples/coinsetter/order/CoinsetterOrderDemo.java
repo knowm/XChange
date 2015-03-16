@@ -30,9 +30,9 @@ public class CoinsetterOrderDemo {
     String ipAddress = args[2];
 
     Exchange coinsetter = CoinsetterExamplesUtils.getExchange();
-    CoinsetterClientSessionServiceRaw clientSessionService = new CoinsetterClientSessionServiceRaw(coinsetter.getExchangeSpecification());
-    CoinsetterAccountServiceRaw accountService = new CoinsetterAccountServiceRaw(coinsetter.getExchangeSpecification());
-    CoinsetterOrderServiceRaw orderService = new CoinsetterOrderServiceRaw(coinsetter.getExchangeSpecification());
+    CoinsetterClientSessionServiceRaw clientSessionService = new CoinsetterClientSessionServiceRaw(coinsetter);
+    CoinsetterAccountServiceRaw accountService = (CoinsetterAccountServiceRaw) coinsetter.getPollingAccountService();
+    CoinsetterOrderServiceRaw orderService = new CoinsetterOrderServiceRaw(coinsetter);
 
     CoinsetterClientSession clientSession = clientSessionService.login(username, password, ipAddress);
     log.info("Client session: {}", clientSession);
@@ -50,8 +50,8 @@ public class CoinsetterOrderDemo {
 
     // Add order
     log.info("Adding order...");
-    CoinsetterOrderRequest request =
-        new CoinsetterOrderRequest(clientSession.getCustomerUuid(), tradeAccount.getAccountUuid(), "BTCUSD", "BUY", "LIMIT", new BigDecimal("0.01"), 2, new BigDecimal("0.01"));
+    CoinsetterOrderRequest request = new CoinsetterOrderRequest(clientSession.getCustomerUuid(), tradeAccount.getAccountUuid(), "BTCUSD", "BUY",
+        "LIMIT", new BigDecimal("0.01"), 2, new BigDecimal("0.01"));
     CoinsetterOrderResponse orderResponse = orderService.add(clientSession.getUuid(), request);
     log.info("add order response: {}", orderResponse);
 

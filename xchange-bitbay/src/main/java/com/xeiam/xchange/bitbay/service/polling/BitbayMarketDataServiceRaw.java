@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayMarketAll;
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitbay.Bitbay;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayOrderBook;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTicker;
@@ -17,15 +17,17 @@ import com.xeiam.xchange.currency.CurrencyPair;
  */
 public class BitbayMarketDataServiceRaw extends BitbayBasePollingService<Bitbay> {
 
+  private final Bitbay bitbay;
 
   /**
-   * Constructor Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  protected BitbayMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  protected BitbayMarketDataServiceRaw(Exchange exchange) {
 
-    super(Bitbay.class, exchangeSpecification);
+    super(exchange);
+    this.bitbay = RestProxyFactory.createProxy(Bitbay.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public BitbayTicker getBitbayTicker(CurrencyPair currencyPair) throws IOException {

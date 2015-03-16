@@ -40,10 +40,12 @@ public class KrakenAssetPair {
    * @param marginCall
    * @param marginStop
    */
-  public KrakenAssetPair(@JsonProperty("altname") String altName, @JsonProperty("aclass_base") String classBase, @JsonProperty("base") String base, @JsonProperty("aclass_quote") String classQuote,
-      @JsonProperty("quote") String quote, @JsonProperty("lot") String volumeLotSize, @JsonProperty("pair_decimals") int pairScale, @JsonProperty("lot_decimals") int volumeLotScale,
-      @JsonProperty("lot_multiplier") BigDecimal volumeMultiplier, @JsonProperty("leverage") List<String> leverage, @JsonProperty("fees") List<KrakenFee> fees,
-      @JsonProperty("fee_volume_currency") String feeVolumeCurrency, @JsonProperty("margin_call") BigDecimal marginCall, @JsonProperty("margin_stop") BigDecimal marginStop) {
+  public KrakenAssetPair(@JsonProperty("altname") String altName, @JsonProperty("aclass_base") String classBase, @JsonProperty("base") String base,
+      @JsonProperty("aclass_quote") String classQuote, @JsonProperty("quote") String quote, @JsonProperty("lot") String volumeLotSize,
+      @JsonProperty("pair_decimals") int pairScale, @JsonProperty("lot_decimals") int volumeLotScale,
+      @JsonProperty("lot_multiplier") BigDecimal volumeMultiplier, @JsonProperty("leverage") List<String> leverage,
+      @JsonProperty("fees") List<KrakenFee> fees, @JsonProperty("fee_volume_currency") String feeVolumeCurrency,
+      @JsonProperty("margin_call") BigDecimal marginCall, @JsonProperty("margin_stop") BigDecimal marginStop) {
 
     this.altName = altName;
     this.classBase = classBase;
@@ -134,9 +136,10 @@ public class KrakenAssetPair {
   @Override
   public String toString() {
 
-    return "KrakenAssetPairInfo [altName=" + altName + ", classBase=" + classBase + ", base=" + base + ", classQuote=" + classQuote + ", quote=" + quote + ", volumeLotSize=" + volumeLotSize
-        + ", pairScale=" + pairScale + ", volumeLotScale=" + volumeLotScale + ", volumeMultiplier=" + volumeMultiplier + ", leverage=" + leverage + ", fees=" + fees + ", feeVolumeCurrency="
-        + feeVolumeCurrency + ", marginCall=" + marginCall + ", marginStop=" + marginStop + "]";
+    return "KrakenAssetPairInfo [altName=" + altName + ", classBase=" + classBase + ", base=" + base + ", classQuote=" + classQuote + ", quote="
+        + quote + ", volumeLotSize=" + volumeLotSize + ", pairScale=" + pairScale + ", volumeLotScale=" + volumeLotScale + ", volumeMultiplier="
+        + volumeMultiplier + ", leverage=" + leverage + ", fees=" + fees + ", feeVolumeCurrency=" + feeVolumeCurrency + ", marginCall=" + marginCall
+        + ", marginStop=" + marginStop + "]";
   }
 
 }

@@ -11,7 +11,7 @@ import com.xeiam.xchange.btctrade.dto.account.BTCTradeWallet;
 import com.xeiam.xchange.btctrade.service.polling.BTCTradeAccountServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class AccountInfoDemo {
 

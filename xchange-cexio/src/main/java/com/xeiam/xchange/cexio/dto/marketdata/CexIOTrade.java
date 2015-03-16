@@ -5,8 +5,7 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Author: brox
- * Since: 2/5/14
+ * Author: brox Since: 2/5/14
  */
 public class CexIOTrade {
 
@@ -23,7 +22,8 @@ public class CexIOTrade {
    * @param date
    * @param tid
    */
-  public CexIOTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price, @JsonProperty("date") long date, @JsonProperty("tid") long tid) {
+  public CexIOTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price, @JsonProperty("date") long date,
+      @JsonProperty("tid") long tid) {
 
     this.price = price;
     this.amount = amount;

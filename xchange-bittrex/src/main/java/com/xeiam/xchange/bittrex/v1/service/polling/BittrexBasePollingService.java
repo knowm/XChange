@@ -1,61 +1,48 @@
 package com.xeiam.xchange.bittrex.v1.service.polling;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bittrex.v1.Bittrex;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bittrex.v1.BittrexAdapters;
+import com.xeiam.xchange.bittrex.v1.BittrexAuthenticated;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
-import com.xeiam.xchange.bittrex.v1.service.BittrexBaseService;
 import com.xeiam.xchange.bittrex.v1.service.BittrexDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class BittrexBasePollingService<T extends Bittrex> extends BittrexBaseService implements BasePollingService {
-
-  private static final long START_MILLIS = 1356998400000L; // Jan 1st, 2013 in milliseconds from epoch
-  private static final AtomicInteger lastNonce = new AtomicInteger((int) ((System.currentTimeMillis() - START_MILLIS) / 250L));
+public class BittrexBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected final String apiKey;
-  protected final T bittrex;
+  protected final BittrexAuthenticated bittrexAuthenticated;
   protected final ParamsDigest signatureCreator;
-  private final Set<CurrencyPair> currencyPairs;
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BittrexBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
+  public BittrexBasePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.bittrex = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
-    this.apiKey = exchangeSpecification.getApiKey();
-    this.signatureCreator = BittrexDigest.createInstance(exchangeSpecification.getSecretKey());
-    this.currencyPairs = new HashSet<CurrencyPair>();
-  }
+    super(exchange);
 
-  protected int nextNonce() {
-
-    return lastNonce.incrementAndGet();
+    this.bittrexAuthenticated = RestProxyFactory.createProxy(BittrexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.apiKey = exchange.getExchangeSpecification().getApiKey();
+    this.signatureCreator = BittrexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   @Override
-  public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    if (currencyPairs.isEmpty()) {
-      for (BittrexSymbol symbol : bittrex.getSymbols().getSymbols()) {
-        currencyPairs.add(BittrexAdapters.adaptCurrencyPair(symbol));
-      }
+    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    for (BittrexSymbol symbol : bittrexAuthenticated.getSymbols().getSymbols()) {
+      currencyPairs.add(BittrexAdapters.adaptCurrencyPair(symbol));
     }
-
     return currencyPairs;
   }
 }

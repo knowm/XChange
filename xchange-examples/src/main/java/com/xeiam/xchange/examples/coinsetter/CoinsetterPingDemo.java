@@ -15,7 +15,7 @@ public class CoinsetterPingDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange coinsetter = CoinsetterExamplesUtils.getExchange();
-    CoinsetterPingServiceRaw pingService = new CoinsetterPingServiceRaw(coinsetter.getExchangeSpecification());
+    CoinsetterPingServiceRaw pingService = new CoinsetterPingServiceRaw(coinsetter);
 
     String text = pingService.ping("HelloWorld");
     log.info("ping result: {}", text);

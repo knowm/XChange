@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitmarket;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -9,6 +11,16 @@ import com.xeiam.xchange.bitmarket.service.polling.BitMarketDataService;
  * @author kpysniak
  */
 public class BitMarketExchange extends BaseExchange implements Exchange {
+
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
+    super.applySpecification(exchangeSpecification);
+
+    this.pollingMarketDataService = new BitMarketDataService(this);
+    this.pollingTradeService = null;
+    this.pollingAccountService = null;
+  }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
@@ -24,12 +36,9 @@ public class BitMarketExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitMarketDataService(exchangeSpecification);
-    this.pollingTradeService = null;
-    this.pollingAccountService = null;
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // No private API implemented. Not needed for this exchange at the moment.
+    return null;
   }
 
 }

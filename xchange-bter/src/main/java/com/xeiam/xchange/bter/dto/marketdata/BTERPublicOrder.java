@@ -18,7 +18,7 @@ public class BTERPublicOrder {
   private final BigDecimal price;
   private final BigDecimal amount;
 
-  private BTERPublicOrder(final BigDecimal price, final BigDecimal amount) {
+  private BTERPublicOrder(BigDecimal price, final BigDecimal amount) {
 
     this.price = price;
     this.amount = amount;

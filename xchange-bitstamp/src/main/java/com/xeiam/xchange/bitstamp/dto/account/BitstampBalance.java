@@ -29,8 +29,9 @@ public final class BitstampBalance {
    * @param btcAvailable
    * @param fee
    */
-  public BitstampBalance(@JsonProperty("usd_balance") BigDecimal usdBalance, @JsonProperty("btc_balance") BigDecimal btcBalance, @JsonProperty("usd_reserved") BigDecimal usdReserved,
-      @JsonProperty("btc_reserved") BigDecimal btcReserved, @JsonProperty("usd_available") BigDecimal usdAvailable, @JsonProperty("btc_available") BigDecimal btcAvailable,
+  public BitstampBalance(@JsonProperty("usd_balance") BigDecimal usdBalance, @JsonProperty("btc_balance") BigDecimal btcBalance,
+      @JsonProperty("usd_reserved") BigDecimal usdReserved, @JsonProperty("btc_reserved") BigDecimal btcReserved,
+      @JsonProperty("usd_available") BigDecimal usdAvailable, @JsonProperty("btc_available") BigDecimal btcAvailable,
       @JsonProperty("fee") BigDecimal fee, @JsonProperty("error") String error) {
 
     this.usdBalance = usdBalance;
@@ -86,7 +87,7 @@ public final class BitstampBalance {
   @Override
   public String toString() {
 
-    return String.format("Balance{usdBalance=%s, btcBalance=%s, usdReserved=%s, btcReserved=%s, usdAvailable=%s, btcAvailable=%s, fee=%s}", usdBalance, btcBalance, usdReserved, btcReserved,
-        usdAvailable, btcAvailable, fee);
+    return String.format("Balance{usdBalance=%s, btcBalance=%s, usdReserved=%s, btcReserved=%s, usdAvailable=%s, btcAvailable=%s, fee=%s}",
+        usdBalance, btcBalance, usdReserved, btcReserved, usdAvailable, btcAvailable, fee);
   }
 }

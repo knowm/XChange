@@ -30,7 +30,8 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
   @JsonProperty("order")
   private CoinbaseOrderInfo order;
 
-  private CoinbaseOrder(@JsonProperty("order") final CoinbaseOrderInfo order, @JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
+  private CoinbaseOrder(@JsonProperty("order") final CoinbaseOrderInfo order, @JsonProperty("success") final boolean success,
+      @JsonProperty("errors") final List<String> errors) {
 
     super(success, errors);
     this.order = order;
@@ -95,7 +96,8 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
 
     static class CoinbaseOrderStatusDeserializer extends JsonDeserializer<CoinbaseOrderStatus> {
 
-      private static final EnumFromStringHelper<CoinbaseOrderStatus> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseOrderStatus>(CoinbaseOrderStatus.class);
+      private static final EnumFromStringHelper<CoinbaseOrderStatus> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseOrderStatus>(
+          CoinbaseOrderStatus.class);
 
       @Override
       public CoinbaseOrderStatus deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
@@ -120,10 +122,13 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
     private final CoinbaseButton button;
     private final CoinbaseOrderTransaction transaction;
 
-    private CoinbaseOrderInfo(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
-        @JsonProperty("status") final CoinbaseOrderStatus status, @JsonProperty("total_btc") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final CoinbaseMoney totalBTC,
-        @JsonProperty("total_native") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final CoinbaseMoney totalNative, @JsonProperty("custom") final String custom,
-        @JsonProperty("receive_address") final String receiveAddress, @JsonProperty("button") final CoinbaseButtonInfo button, @JsonProperty("transaction") final CoinbaseOrderTransaction transaction) {
+    private CoinbaseOrderInfo(@JsonProperty("id") final String id,
+        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
+        @JsonProperty("status") final CoinbaseOrderStatus status,
+        @JsonProperty("total_btc") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final CoinbaseMoney totalBTC,
+        @JsonProperty("total_native") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final CoinbaseMoney totalNative,
+        @JsonProperty("custom") final String custom, @JsonProperty("receive_address") final String receiveAddress,
+        @JsonProperty("button") final CoinbaseButtonInfo button, @JsonProperty("transaction") final CoinbaseOrderTransaction transaction) {
 
       this.id = id;
       this.createdAt = createdAt;
@@ -184,8 +189,8 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
     @Override
     public String toString() {
 
-      return "CoinbaseOrderInfo [id=" + id + ", createdAt=" + createdAt + ", status=" + status + ", totalBTC=" + totalBTC + ", totalNative=" + totalNative + ", custom=" + custom + ", receiveAddress="
-          + receiveAddress + ", button=" + button + ", transaction=" + transaction + "]";
+      return "CoinbaseOrderInfo [id=" + id + ", createdAt=" + createdAt + ", status=" + status + ", totalBTC=" + totalBTC + ", totalNative="
+          + totalNative + ", custom=" + custom + ", receiveAddress=" + receiveAddress + ", button=" + button + ", transaction=" + transaction + "]";
     }
 
   }
@@ -196,7 +201,8 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
     private final String hash;
     private final int confirmations;
 
-    private CoinbaseOrderTransaction(@JsonProperty("id") final String id, @JsonProperty("hash") final String hash, @JsonProperty("confirmations") final int confirmations) {
+    private CoinbaseOrderTransaction(@JsonProperty("id") final String id, @JsonProperty("hash") final String hash,
+        @JsonProperty("confirmations") final int confirmations) {
 
       this.id = id;
       this.hash = hash;

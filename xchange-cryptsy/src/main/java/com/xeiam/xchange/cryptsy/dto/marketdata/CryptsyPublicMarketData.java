@@ -30,10 +30,13 @@ public class CryptsyPublicMarketData {
    * @throws ParseException
    */
   @JsonCreator
-  public CryptsyPublicMarketData(@JsonProperty("marketid") int marketId, @JsonProperty("label") String label, @JsonProperty("primarycode") String priCurrCode,
-      @JsonProperty("primaryname") String priCurrName, @JsonProperty("secondarycode") String secCurrCode, @JsonProperty("secondaryname") String secCurrName, @JsonProperty("volume") BigDecimal volume,
-      @JsonProperty("lasttradeprice") BigDecimal lastTradePrice, @JsonProperty("lasttradetime") String lastTradeTime, @JsonProperty("recenttrades") List<CryptsyPublicTrade> recentTrades,
-      @JsonProperty("buyorders") List<CryptsyPublicOrder> buyOrders, @JsonProperty("sellorders") List<CryptsyPublicOrder> sellOrders) throws ParseException {
+  public CryptsyPublicMarketData(@JsonProperty("marketid") int marketId, @JsonProperty("label") String label,
+      @JsonProperty("primarycode") String priCurrCode, @JsonProperty("primaryname") String priCurrName,
+      @JsonProperty("secondarycode") String secCurrCode, @JsonProperty("secondaryname") String secCurrName,
+      @JsonProperty("volume") BigDecimal volume, @JsonProperty("lasttradeprice") BigDecimal lastTradePrice,
+      @JsonProperty("lasttradetime") String lastTradeTime, @JsonProperty("recenttrades") List<CryptsyPublicTrade> recentTrades,
+      @JsonProperty("buyorders") List<CryptsyPublicOrder> buyOrders, @JsonProperty("sellorders") List<CryptsyPublicOrder> sellOrders)
+      throws ParseException {
 
     this.marketId = marketId;
     this.label = label;
@@ -112,8 +115,8 @@ public class CryptsyPublicMarketData {
   @Override
   public String toString() {
 
-    return "CryptsyPublicMarketData [marketId=" + marketId + ", label=" + label + ", priCurrCode=" + priCurrCode + ", priCurrName=" + priCurrName + ", secCurrCode=" + secCurrCode + ", secCurrName="
-        + secCurrName + ", volume=" + volume + ", lastTradePrice=" + lastTradePrice + ", lastTradeTime=" + lastTradeTime + ", recentTrades=" + recentTrades + ", buyOrders=" + buyOrders
-        + ", sellOrders=" + sellOrders + "]";
+    return "CryptsyPublicMarketData [marketId=" + marketId + ", label=" + label + ", priCurrCode=" + priCurrCode + ", priCurrName=" + priCurrName
+        + ", secCurrCode=" + secCurrCode + ", secCurrName=" + secCurrName + ", volume=" + volume + ", lastTradePrice=" + lastTradePrice
+        + ", lastTradeTime=" + lastTradeTime + ", recentTrades=" + recentTrades + ", buyOrders=" + buyOrders + ", sellOrders=" + sellOrders + "]";
   }
 }

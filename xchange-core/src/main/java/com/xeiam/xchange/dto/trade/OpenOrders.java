@@ -35,8 +35,7 @@ public final class OpenOrders {
     StringBuilder sb = new StringBuilder();
     if (getOpenOrders().size() < 1) {
       sb.append("No open orders!");
-    }
-    else {
+    } else {
       sb.append("Open orders: \n");
       for (LimitOrder order : getOpenOrders()) {
         sb.append("[order=");

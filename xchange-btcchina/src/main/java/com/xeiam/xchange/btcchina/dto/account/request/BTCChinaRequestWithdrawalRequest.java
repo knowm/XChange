@@ -3,7 +3,6 @@ package com.xeiam.xchange.btcchina.dto.account.request;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
-import com.xeiam.xchange.currency.Currencies;
 
 /**
  * @author David Yam
@@ -11,18 +10,6 @@ import com.xeiam.xchange.currency.Currencies;
 public final class BTCChinaRequestWithdrawalRequest extends BTCChinaRequest {
 
   private static final String METHOD_NAME = "requestWithdrawal";
-
-  /**
-   * Constructor
-   * 
-   * @deprecated Use {@link #BTCChinaRequestWithdrawalRequest(String, BigDecimal)} instead.
-   */
-  @Deprecated
-  public BTCChinaRequestWithdrawalRequest(BigDecimal amount) {
-
-    method = METHOD_NAME;
-    params = "[\"" + Currencies.BTC + "\"," + amount.doubleValue() + "]";
-  }
 
   /**
    * @param currency [ BTC | LTC ].

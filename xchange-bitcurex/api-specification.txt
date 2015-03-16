@@ -1,7 +1,7 @@
 Bitcurex API specification
 ================================
 
-https://bitcurex.com/en-pages,eurapi.html
+https://bitcurex.com/
 
 Public API
 

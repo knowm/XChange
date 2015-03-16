@@ -16,7 +16,8 @@ public class BTCChinaSocketIOClientBuilderDemo {
 
   public static void main(String[] args) throws InterruptedException {
 
-    Socket socket = BTCChinaSocketIOClientBuilder.create().setUri(URI.create("https://websocket.btcchina.com")).subscribeMarketData(CurrencyPair.BTC_CNY).build();
+    Socket socket = BTCChinaSocketIOClientBuilder.create().setUri(URI.create("https://websocket.btcchina.com"))
+        .subscribeMarketData(CurrencyPair.BTC_CNY).build();
 
     socket.on(EVENT_TICKER, new Emitter.Listener() {
 

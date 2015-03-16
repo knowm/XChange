@@ -3,13 +3,15 @@
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>2.2.0-SNAPSHOT</version>
+		<version>3.0.1-SNAPSHOT</version>
 	</parent>
+
 	<artifactId>xchange-btctrade</artifactId>
 	<name>XChange BtcTrade</name>
 	<description>
 		XChange implementation for the BtcTrade exchange.
 	</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -17,4 +19,5 @@
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
+
 </project>

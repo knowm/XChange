@@ -1,97 +1,63 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.xeiam.xchange</groupId>
-		<artifactId>xchange-parent</artifactId>
-		<version>2.2.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>com.xeiam.xchange</groupId>
+        <artifactId>xchange-parent</artifactId>
+        <version>3.0.1-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>xchange-btcchina</artifactId>
+    <artifactId>xchange-btcchina</artifactId>
 
-	<name>XChange BTC China</name>
-	<description>XChange implementation for BTC China</description>
+    <name>XChange BTC China</name>
+    <description>XChange implementation for BTC China</description>
 
-	<url>http://xeiam.com</url>
-	<inceptionYear>2012</inceptionYear>
+    <url>http://xeiam.com</url>
+    <inceptionYear>2012</inceptionYear>
 
-	<organization>
-		<name>Xeiam, LLC</name>
-		<url>http://xeiam.com</url>
-	</organization>
+    <organization>
+        <name>Xeiam, LLC</name>
+        <url>http://xeiam.com</url>
+    </organization>
 
-	<properties>
-		<quickfixj.version>1.5.3-bd</quickfixj.version>
-		<mina.version>1.1.7</mina.version>
-	</properties>
+    <!-- Parent provides default configuration for dependencies -->
+    <dependencies>
 
-	<!-- Parent provides default configuration for dependencies -->
-	<dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.e-movimento.tinytools</groupId>
-			<artifactId>privilegedaccessor</artifactId>
-			<version>1.2.2</version>
-			<scope>test</scope>
-		</dependency>
+        <!-- For FIX API -->
+        <dependency>
+            <groupId>quickfixj</groupId>
+            <artifactId>quickfixj-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>quickfixj</groupId>
+            <artifactId>quickfixj-msg-fix44</artifactId>
+        </dependency>
 
-		<!-- For BTCChinaSocketIOService -->
-		<dependency>
-			<groupId>com.github.nkzawa</groupId>
-			<artifactId>socket.io-client</artifactId>
-			<version>0.2.0</version>
-		</dependency>
+         <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency> 
 
-		<!-- For FIX API -->
-		<dependency>
-			<groupId>quickfixj</groupId>
-			<artifactId>quickfixj-core</artifactId>
-			<version>${quickfixj.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>quickfixj</groupId>
-			<artifactId>quickfixj-msg-fix44</artifactId>
-			<version>${quickfixj.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.mina</groupId>
-			<artifactId>mina-core</artifactId>
-			<version>${mina.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.mina</groupId>
-			<artifactId>mina-filter-ssl</artifactId>
-			<version>${mina.version}</version>
-		</dependency>
+        <!-- For BTCChinaSocketIOService -->
+        <dependency>
+            <groupId>com.github.nkzawa</groupId>
+            <artifactId>socket.io-client</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+        <!--Test-->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>MarketceteraRepo</id>
-			<url>http://repo.marketcetera.org/maven</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-	</repositories>
+    </dependencies>
 
 </project>

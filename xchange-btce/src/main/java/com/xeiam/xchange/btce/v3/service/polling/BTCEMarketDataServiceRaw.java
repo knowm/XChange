@@ -2,29 +2,27 @@ package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btce.v3.BTCE;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradesWrapper;
 
 /**
- * Author: brox
- * Since: 2014-02-12
+ * @author brox
  */
-public class BTCEMarketDataServiceRaw extends BTCEBasePollingService<BTCE> {
+public class BTCEMarketDataServiceRaw extends BTCEBasePollingService {
 
   protected static final int FULL_SIZE = 2000;
 
   /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  public BTCEMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BTCEMarketDataServiceRaw(Exchange exchange) {
 
-    super(BTCE.class, exchangeSpecification, null);
+    super(exchange);
   }
 
   /**
@@ -39,7 +37,7 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService<BTCE> {
 
   /**
    * Get market depth from exchange
-   * 
+   *
    * @param pairs Dash-delimited string of currency pairs to retrieve (e.g. "btc_usd-ltc_btc")
    * @param size Integer value from 1 to 2000 -> get corresponding number of items
    * @return BTCEDepthWrapper object
@@ -60,7 +58,7 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService<BTCE> {
 
   /**
    * Get recent trades from exchange
-   * 
+   *
    * @param pairs Dash-delimited string of currency pairs to retrieve (e.g. "btc_usd-ltc_btc")
    * @param size Integer value from 1 to 2000 -> get corresponding number of items
    * @return BTCETradesWrapper object
@@ -81,7 +79,7 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService<BTCE> {
 
   /**
    * Get BTC-e exchange info
-   * 
+   *
    * @return BTCEExchangeInfo object
    * @throws IOException
    */

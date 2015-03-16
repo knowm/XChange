@@ -28,8 +28,9 @@ public final class BitMarketTicker {
    * @param vwap
    * @param volume
    */
-  public BitMarketTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("last") BigDecimal last, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("high") BigDecimal high, @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("volume") BigDecimal volume) {
+  public BitMarketTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("last") BigDecimal last,
+      @JsonProperty("low") BigDecimal low, @JsonProperty("high") BigDecimal high, @JsonProperty("vwap") BigDecimal vwap,
+      @JsonProperty("volume") BigDecimal volume) {
 
     this.ask = ask;
     this.bid = bid;
@@ -78,6 +79,7 @@ public final class BitMarketTicker {
   @Override
   public String toString() {
 
-    return "BitMarketTicker{" + "ask=" + ask + ", bid=" + bid + ", last=" + last + ", low=" + low + ", high=" + high + ", vwap=" + vwap + ", volume=" + volume + '}';
+    return "BitMarketTicker{" + "ask=" + ask + ", bid=" + bid + ", last=" + last + ", low=" + low + ", high=" + high + ", vwap=" + vwap + ", volume="
+        + volume + '}';
   }
 }

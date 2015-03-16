@@ -20,7 +20,8 @@ public final class VirtExTickerWrapper {
    * @param message
    * @param apirate
    */
-  public VirtExTickerWrapper(@JsonProperty("ticker") TickerWrapper ticker, @JsonProperty("message") String message, @JsonProperty("status") String status, @JsonProperty("apirate") String apirate) {
+  public VirtExTickerWrapper(@JsonProperty("ticker") TickerWrapper ticker, @JsonProperty("message") String message,
+      @JsonProperty("status") String status, @JsonProperty("apirate") String apirate) {
 
     this.ticker = ticker.getTicker();
     this.status = status;

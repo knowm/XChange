@@ -12,7 +12,7 @@ public final class ANXBitcoinDepositAddress {
 
   /**
    * Constructor
-   * 
+   *
    * @param address The Bitcoin deposit address
    */
   @JsonCreator
@@ -21,7 +21,6 @@ public final class ANXBitcoinDepositAddress {
     this.address = address;
   }
 
-  // TODO Fix spelling error!
   public String getAddress() {
 
     return address;

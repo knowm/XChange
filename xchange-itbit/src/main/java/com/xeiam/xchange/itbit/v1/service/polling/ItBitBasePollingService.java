@@ -1,14 +1,14 @@
 package com.xeiam.xchange.itbit.v1.service.polling;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.itbit.v1.ItBit;
 import com.xeiam.xchange.itbit.v1.ItBitAuthenticated;
 import com.xeiam.xchange.itbit.v1.service.ItBitHmacPostBodyDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -16,31 +16,34 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class ItBitBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  protected final SynchronizedValueFactory<Long> nonceFactory;
-
   protected final String apiKey;
-  protected final ItBitAuthenticated itBit;
+  protected final ItBitAuthenticated itBitAuthenticated;
   protected final ParamsDigest signatureCreator;
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(new CurrencyPair("XBT", "USD"), new CurrencyPair("XBT", "EUR"), new CurrencyPair("XBT", "SGD"));
+  protected final ItBit itBitPublic;
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public ItBitBasePollingService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  public ItBitBasePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.nonceFactory = nonceFactory;
-    this.itBit = RestProxyFactory.createProxy(ItBitAuthenticated.class, (String) exchangeSpecification.getExchangeSpecificParametersItem("authHost"));
-    this.apiKey = exchangeSpecification.getApiKey();
-    this.signatureCreator = ItBitHmacPostBodyDigest.createInstance(apiKey, exchangeSpecification.getSecretKey());
+    super(exchange);
+
+    this.itBitAuthenticated = RestProxyFactory.createProxy(ItBitAuthenticated.class, (String) exchange.getExchangeSpecification()
+        .getExchangeSpecificParametersItem("authHost"));
+    this.apiKey = exchange.getExchangeSpecification().getApiKey();
+    this.signatureCreator = ItBitHmacPostBodyDigest.createInstance(apiKey, exchange.getExchangeSpecification().getSecretKey());
+
+    this.itBitPublic = RestProxyFactory.createProxy(ItBit.class, exchange.getExchangeSpecification().getSslUri());
+
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return CURRENCY_PAIRS;
+    return exchange.getMetaData().getCurrencyPairs();
   }
+
 }

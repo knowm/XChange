@@ -4,10 +4,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.poloniex.Poloniex;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.poloniex.PoloniexException;
 import com.xeiam.xchange.poloniex.PoloniexUtils;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
@@ -16,24 +15,16 @@ import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexTicker;
 
-/**
- * <p>
- * Implementation of the market data service for Poloniex
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
- */
-public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService<Poloniex> {
+public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService {
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public PoloniexMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public PoloniexMarketDataServiceRaw(Exchange exchange) {
 
-    super(Poloniex.class, exchangeSpecification);
+    super(exchange);
   }
 
   public Map<String, PoloniexCurrencyInfo> getPoloniexCurrencyInfo() throws IOException {

@@ -16,7 +16,7 @@ import com.xeiam.xchange.cexio.dto.marketdata.CexIOTicker;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTrade;
 
 /**
- * Author: brox
+ * @author brox
  */
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -36,6 +36,7 @@ public interface CexIO {
 
   @POST
   @Path("trade_history/{ident}/{currency}/")
-  CexIOTrade[] getTradesSince(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @DefaultValue("1") @FormParam("since") long since) throws IOException;
+  CexIOTrade[] getTradesSince(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency,
+      @DefaultValue("1") @FormParam("since") long since) throws IOException;
 
 }

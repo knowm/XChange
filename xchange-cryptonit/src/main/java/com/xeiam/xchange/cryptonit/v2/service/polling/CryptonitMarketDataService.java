@@ -3,7 +3,7 @@ package com.xeiam.xchange.cryptonit.v2.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptonit.v2.CryptonitAdapters;
 import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -11,7 +11,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * <p>
@@ -26,12 +26,12 @@ public class CryptonitMarketDataService extends CryptonitMarketDataServiceRaw im
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public CryptonitMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public CryptonitMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

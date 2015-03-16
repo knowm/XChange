@@ -32,7 +32,6 @@ public class BitcoiniumTickerHistoryDemo {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
     // exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
     exchangeSpecification.setApiKey("42djci5kmbtyzrvglfdw3e2dgmh5mr37");
-    exchangeSpecification.setPlainTextUri("http://173.10.241.154:9090");
     System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
@@ -42,7 +41,8 @@ public class BitcoiniumTickerHistoryDemo {
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - BITSTAMP
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD", "THIRTY_DAYS");
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD",
+        "THIRTY_DAYS");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 
@@ -59,7 +59,8 @@ public class BitcoiniumTickerHistoryDemo {
       yAxisData.add(price);
     }
 
-    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(600).title("Bitstamp Price vs. Date").xAxisTitle("Date").yAxisTitle("Price").build();
+    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(600).title("Bitstamp Price vs. Date").xAxisTitle("Date")
+        .yAxisTitle("Price").build();
     chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
 
     Series series = chart.addSeries("Bitcoinium USD/BTC", xAxisData, yAxisData);

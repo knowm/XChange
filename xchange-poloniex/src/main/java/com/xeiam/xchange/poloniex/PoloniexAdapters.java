@@ -42,9 +42,7 @@ public class PoloniexAdapters {
     BigDecimal low = null;
     BigDecimal volume = marketData.getQuoteVolume();
 
-    Date timestamp = new Date();
-
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).build();
 
   }
 
@@ -53,7 +51,7 @@ public class PoloniexAdapters {
     List<LimitOrder> asks = adaptPoloniexPublicOrders(depth.getAsks(), OrderType.ASK, currencyPair);
     List<LimitOrder> bids = adaptPoloniexPublicOrders(depth.getBids(), OrderType.BID, currencyPair);
 
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   public static List<LimitOrder> adaptPoloniexPublicOrders(List<List<BigDecimal>> rawLevels, OrderType orderType, CurrencyPair currencyPair) {
@@ -130,8 +128,8 @@ public class PoloniexAdapters {
 
     OrderType type = openOrder.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
     Date timestamp = PoloniexUtils.stringToDate(openOrder.getDate());
-    LimitOrder limitOrder =
-        new LimitOrder.Builder(type, currencyPair).limitPrice(openOrder.getRate()).tradableAmount(openOrder.getAmount()).id(openOrder.getOrderNumber()).timestamp(timestamp).build();
+    LimitOrder limitOrder = new LimitOrder.Builder(type, currencyPair).limitPrice(openOrder.getRate()).tradableAmount(openOrder.getAmount())
+        .id(openOrder.getOrderNumber()).timestamp(timestamp).build();
 
     return limitOrder;
   }
@@ -144,7 +142,7 @@ public class PoloniexAdapters {
     Date date = PoloniexUtils.stringToDate(userTrade.getDate());
     String tradeId = String.valueOf(userTrade.getTradeID());
     String orderId = String.valueOf(userTrade.getOrderNumber());
-    
+
     // Poloniex returns fee as a multiplier, e.g. a 0.2% fee is 0.002
     BigDecimal feeAmount = amount.multiply(price).multiply(userTrade.getFee());
 

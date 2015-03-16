@@ -32,7 +32,7 @@ public class BTCCentralAdapters {
 
   /**
    * Adapts a BTCCentralTicker to a Ticker Object
-   * 
+   *
    * @param btcCentralTicker The exchange specific ticker
    * @param currencyPair (e.g. BTC/USD)
    * @return The ticker
@@ -47,7 +47,8 @@ public class BTCCentralAdapters {
     BigDecimal volume = btcCentralTicker.getVolume();
     Date timestamp = new Date(btcCentralTicker.getAt() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).bid(bid).ask(ask).high(high).low(low).last(last).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).bid(bid).ask(ask).high(high).low(low).last(last).volume(volume).timestamp(timestamp)
+        .build();
   }
 
   /**
@@ -61,9 +62,7 @@ public class BTCCentralAdapters {
     List<LimitOrder> bids = adaptMarketOrderToLimitOrder(marketDepth.getBids(), OrderType.BID, currencyPair);
     Collections.reverse(bids);
 
-    // TODO
-    // What timestamp should be used? Latest/Earliest/Current one?
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
   /**
@@ -71,12 +70,14 @@ public class BTCCentralAdapters {
    * @param orderType
    * @param currencyPair
    */
-  private static List<LimitOrder> adaptMarketOrderToLimitOrder(List<BTCCentralMarketOrder> btcCentralMarketOrders, OrderType orderType, CurrencyPair currencyPair) {
+  private static List<LimitOrder> adaptMarketOrderToLimitOrder(List<BTCCentralMarketOrder> btcCentralMarketOrders, OrderType orderType,
+      CurrencyPair currencyPair) {
 
     List<LimitOrder> orders = new ArrayList<LimitOrder>(btcCentralMarketOrders.size());
 
     for (BTCCentralMarketOrder btcCentralMarketOrder : btcCentralMarketOrders) {
-      LimitOrder limitOrder = new LimitOrder(orderType, btcCentralMarketOrder.getAmount(), currencyPair, null, new Date(btcCentralMarketOrder.getTimestamp()), btcCentralMarketOrder.getPrice());
+      LimitOrder limitOrder = new LimitOrder(orderType, btcCentralMarketOrder.getAmount(), currencyPair, null, new Date(
+          btcCentralMarketOrder.getTimestamp()), btcCentralMarketOrder.getPrice());
       orders.add(limitOrder);
     }
 
@@ -88,8 +89,8 @@ public class BTCCentralAdapters {
     List<Trade> trades = new ArrayList<Trade>();
 
     for (BTCCentralTrade btcCentralTrade : btcCentralTrades) {
-      Trade trade =
-          new Trade(null, btcCentralTrade.getTraded_btc(), currencyPair, btcCentralTrade.getPrice(), new Date(btcCentralTrade.getCreated_at_int()), btcCentralTrade.getUuid().toString());
+      Trade trade = new Trade(null, btcCentralTrade.getTraded_btc(), currencyPair, btcCentralTrade.getPrice(), new Date(
+          btcCentralTrade.getCreated_at_int()), btcCentralTrade.getUuid().toString());
 
       trades.add(trade);
     }

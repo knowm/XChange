@@ -15,7 +15,8 @@ public class BTCChinaGetOrdersResponseTest {
   @Test
   public void testSingleMarket() throws IOException {
 
-    BTCChinaGetOrdersResponse response = mapper.readValue(getClass().getResourceAsStream("getOrders-single-market.json"), BTCChinaGetOrdersResponse.class);
+    BTCChinaGetOrdersResponse response = mapper.readValue(getClass().getResourceAsStream("getOrders-single-market.json"),
+        BTCChinaGetOrdersResponse.class);
     assertEquals("1", response.getId());
     assertEquals(0, response.getResult().getOrdersArray().length);
     assertEquals(1407054781L, response.getResult().getDate());
@@ -24,7 +25,8 @@ public class BTCChinaGetOrdersResponseTest {
   @Test
   public void testAllMarket() throws IOException {
 
-    BTCChinaGetOrdersResponse response = mapper.readValue(getClass().getResourceAsStream("getOrders-all-market.json"), BTCChinaGetOrdersResponse.class);
+    BTCChinaGetOrdersResponse response = mapper.readValue(getClass().getResourceAsStream("getOrders-all-market.json"),
+        BTCChinaGetOrdersResponse.class);
     assertEquals("4", response.getId());
     assertEquals(0, response.getResult().get("order_btccny").length);
     assertEquals(0, response.getResult().get("order_ltccny").length);

@@ -1,5 +1,7 @@
 package com.xeiam.xchange.coinfloor;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -22,8 +24,8 @@ public class CoinfloorExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setHost("coinfloor.co.uk");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Coinfloor");
-    exchangeSpecification.setExchangeDescription("Coinfloor is a company registered in England and Wales registration number 08493818. " + "Coinfloor allows users to trade Bitcoin. "
-        + "Coinfloor LTD is registered at 200 Aldergate C/O Buckworth Solicitors EC1A 4HD London, United Kingdom.");
+    exchangeSpecification
+        .setExchangeDescription("Coinfloor is a company registered in England and Wales registration number 08493818. Coinfloor allows users to trade Bitcoin. Coinfloor LTD is registered at 200 Aldergate C/O Buckworth Solicitors EC1A 4HD London, United Kingdom.");
 
     return exchangeSpecification;
   }
@@ -31,11 +33,17 @@ public class CoinfloorExchange extends BaseExchange implements Exchange {
   @Override
   public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration exchangeStreamingConfiguration) {
 
-    return new CoinfloorStreamingExchangeService(getExchangeSpecification(), (CoinfloorStreamingConfiguration) exchangeStreamingConfiguration);
+    return new CoinfloorStreamingExchangeService(this, (CoinfloorStreamingConfiguration) exchangeStreamingConfiguration);
   }
 
   public StreamingExchangeService getStreamingExchangeService() {
 
     return getStreamingExchangeService(new CoinfloorStreamingConfiguration(10, 10000, 60000, false, true, false));
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // Coinfloor uses it's own custom request factory for making authenticated API calls
+    return null;
   }
 }

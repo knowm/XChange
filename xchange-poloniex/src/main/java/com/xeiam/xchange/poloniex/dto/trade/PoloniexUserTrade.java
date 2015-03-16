@@ -152,8 +152,8 @@ public class PoloniexUserTrade {
   @Override
   public String toString() {
 
-    return "PoloniexUserTrade [tradeID= " + tradeID + ", date=" + date + ", rate=" + rate + ", amount=" + amount + ", total=" + total + ", fee=" + fee + ", orderNumber=" + orderNumber + ", type="
-        + type + ", additionalProperties=" + additionalProperties + "]";
+    return "PoloniexUserTrade [tradeID= " + tradeID + ", date=" + date + ", rate=" + rate + ", amount=" + amount + ", total=" + total + ", fee="
+        + fee + ", orderNumber=" + orderNumber + ", type=" + type + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

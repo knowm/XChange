@@ -11,8 +11,8 @@ public class BitVcTopObject {
   private final BigDecimal amount;
   private final BigDecimal accu;
 
-  public BitVcTopObject(@JsonProperty("price") final BigDecimal price, @JsonProperty("level") final BigDecimal level, @JsonProperty("amount") final BigDecimal amount,
-      @JsonProperty("accu") final BigDecimal accu) {
+  public BitVcTopObject(@JsonProperty("price") final BigDecimal price, @JsonProperty("level") final BigDecimal level,
+      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("accu") final BigDecimal accu) {
 
     this.price = price;
     this.level = level;

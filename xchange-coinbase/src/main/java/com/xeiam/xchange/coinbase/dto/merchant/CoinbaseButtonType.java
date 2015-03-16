@@ -25,10 +25,11 @@ public enum CoinbaseButtonType {
 
   static class CoinbaseButtonTypeDeserializer extends JsonDeserializer<CoinbaseButtonType> {
 
-    private static final EnumFromStringHelper<CoinbaseButtonType> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseButtonType>(CoinbaseButtonType.class);
+    private static final EnumFromStringHelper<CoinbaseButtonType> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseButtonType>(
+        CoinbaseButtonType.class);
 
     @Override
-    public CoinbaseButtonType deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseButtonType deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jsonParser.getCodec();
       final JsonNode node = oc.readTree(jsonParser);

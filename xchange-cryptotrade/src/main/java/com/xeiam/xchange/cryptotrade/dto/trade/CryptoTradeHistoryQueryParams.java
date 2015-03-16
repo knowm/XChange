@@ -13,7 +13,8 @@ public class CryptoTradeHistoryQueryParams {
   private final CryptoTradeOrdering ordering;
   private final String currencyPair;
 
-  private CryptoTradeHistoryQueryParams(Long startId, Long endId, Long startDate, Long endDate, Integer count, CryptoTradeOrdering ordering, String currencyPair) {
+  private CryptoTradeHistoryQueryParams(Long startId, Long endId, Long startDate, Long endDate, Integer count, CryptoTradeOrdering ordering,
+      String currencyPair) {
 
     this.startId = startId;
     this.endId = endId;
@@ -62,8 +63,8 @@ public class CryptoTradeHistoryQueryParams {
   @Override
   public String toString() {
 
-    return "CryptoTradeHistoryQueryParams [startId=" + startId + ", endId=" + endId + ", startDate=" + startDate + ", endDate=" + endDate + ", count=" + count + ", ordering=" + ordering
-        + ", currencyPair=" + currencyPair + "]";
+    return "CryptoTradeHistoryQueryParams [startId=" + startId + ", endId=" + endId + ", startDate=" + startDate + ", endDate=" + endDate
+        + ", count=" + count + ", ordering=" + ordering + ", currencyPair=" + currencyPair + "]";
   }
 
   public static CryptoTradeQueryParamsBuilder getQueryParamsBuilder() {
@@ -182,8 +183,8 @@ public class CryptoTradeHistoryQueryParams {
     @Override
     public String toString() {
 
-      return "CryptoTradeQueryParamsBuilder [startId=" + startId + ", endId=" + endId + ", startDate=" + startDate + ", endDate=" + endDate + ", count=" + count + ", ordering=" + ordering
-          + ", currencyPair=" + currencyPair + "]";
+      return "CryptoTradeQueryParamsBuilder [startId=" + startId + ", endId=" + endId + ", startDate=" + startDate + ", endDate=" + endDate
+          + ", count=" + count + ", ordering=" + ordering + ", currencyPair=" + currencyPair + "]";
     }
 
   }

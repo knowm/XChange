@@ -34,7 +34,7 @@ public final class BitcurexAdapters {
 
   /**
    * Adapts a List of bitcurexOrders to a List of LimitOrders
-   * 
+   *
    * @param bitcurexOrders
    * @param currency
    * @param orderType
@@ -54,7 +54,7 @@ public final class BitcurexAdapters {
 
   /**
    * Adapts a BitcurexOrder to a LimitOrder
-   * 
+   *
    * @param amount
    * @param price
    * @param currency
@@ -72,7 +72,7 @@ public final class BitcurexAdapters {
 
   /**
    * Adapts a BitcurexTrade to a Trade Object
-   * 
+   *
    * @param bitcurexTrade A Bitcurex trade
    * @return The XChange Trade
    */
@@ -88,7 +88,7 @@ public final class BitcurexAdapters {
 
   /**
    * Adapts a BitcurexTrade[] to a Trades Object
-   * 
+   *
    * @param bitcurexTrades The Bitcurex trade data
    * @return The trades
    */
@@ -98,8 +98,9 @@ public final class BitcurexAdapters {
     long lastTradeId = 0;
     for (BitcurexTrade bitcurexTrade : bitcurexTrades) {
       long tradeId = bitcurexTrade.getTid();
-      if (tradeId > lastTradeId)
+      if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
+      }
       tradesList.add(adaptTrade(bitcurexTrade, currencyPair));
     }
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
@@ -107,7 +108,7 @@ public final class BitcurexAdapters {
 
   /**
    * Adapts a BitcurexTicker to a Ticker Object
-   * 
+   *
    * @param bitcurexTicker
    * @return
    */
@@ -125,7 +126,7 @@ public final class BitcurexAdapters {
 
   /**
    * Adapts a BitcurexFunds to an AccountInfo Object
-   * 
+   *
    * @param bitcurexFunds
    * @param user name for the accountInfo
    * @return
@@ -137,14 +138,16 @@ public final class BitcurexAdapters {
     wallets.add(new Wallet(Currencies.BTC, funds.getBtcs()));
 
     BigDecimal eur = funds.getEurs();
-    if (eur != null)
+    if (eur != null) {
       wallets.add(new Wallet(Currencies.EUR, eur));
+    }
 
     BigDecimal pln = funds.getPlns();
-    if (pln != null)
+    if (pln != null) {
       wallets.add(new Wallet(Currencies.PLN, pln));
+    }
 
-    return new AccountInfo(userName, null, wallets);
+    return new AccountInfo(userName, wallets);
   }
 
 }

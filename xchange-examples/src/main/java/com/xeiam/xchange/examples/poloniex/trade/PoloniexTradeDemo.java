@@ -6,9 +6,6 @@ import java.util.Arrays;
 import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -16,7 +13,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.examples.poloniex.PoloniexExamplesUtils;
 import com.xeiam.xchange.poloniex.PoloniexAdapters;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexTradeServiceRaw;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.utils.CertHelper;
 
 /**
@@ -45,7 +42,7 @@ public class PoloniexTradeDemo {
     raw((PoloniexTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException, InterruptedException {
+  private static void generic(PollingTradeService tradeService) throws IOException, InterruptedException {
 
     System.out.println("----------GENERIC----------");
 
@@ -66,8 +63,7 @@ public class PoloniexTradeDemo {
     boolean canceled = tradeService.cancelOrder(orderId);
     if (canceled) {
       System.out.println("Successfully canceled order #" + orderId);
-    }
-    else {
+    } else {
       System.out.println("Did not successfully cancel order #" + orderId);
     }
 
@@ -76,7 +72,7 @@ public class PoloniexTradeDemo {
     System.out.println(tradeService.getOpenOrders());
   }
 
-  private static void raw(PoloniexTradeServiceRaw tradeService) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException, InterruptedException {
+  private static void raw(PoloniexTradeServiceRaw tradeService) throws IOException, InterruptedException {
 
     System.out.println("------------RAW------------");
     System.out.println(Arrays.asList(tradeService.returnTradeHistory(currencyPair, null, null)));
@@ -96,8 +92,7 @@ public class PoloniexTradeDemo {
     boolean canceled = tradeService.cancel(orderId);
     if (canceled) {
       System.out.println("Successfully canceled order #" + orderId);
-    }
-    else {
+    } else {
       System.out.println("Did not successfully cancel order #" + orderId);
     }
 

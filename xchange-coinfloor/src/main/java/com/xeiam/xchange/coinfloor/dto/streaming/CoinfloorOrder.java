@@ -30,10 +30,11 @@ public class CoinfloorOrder {
   private final BigDecimal askBaseFee;
   private final BigDecimal askCounterFee;
 
-  public CoinfloorOrder(@JsonProperty("id") int id, @JsonProperty("bid") int bidID, @JsonProperty("ask") int askID, @JsonProperty("base") int base, @JsonProperty("counter") int counter,
-      @JsonProperty("quantity") int baseQty, @JsonProperty("price") int price, @JsonProperty("total") int counterQty, @JsonProperty("bid_rem") int bidRem, @JsonProperty("ask_rem") int askRem,
-      @JsonProperty("time") long time, @JsonProperty("bid_base_fee") int bidBaseFee, @JsonProperty("bid_counter_fee") int bidCounterFee, @JsonProperty("ask_base_fee") int askBaseFee,
-      @JsonProperty("ask_counter_fee") int askCounterFee) {
+  public CoinfloorOrder(@JsonProperty("id") int id, @JsonProperty("bid") int bidID, @JsonProperty("ask") int askID, @JsonProperty("base") int base,
+      @JsonProperty("counter") int counter, @JsonProperty("quantity") int baseQty, @JsonProperty("price") int price,
+      @JsonProperty("total") int counterQty, @JsonProperty("bid_rem") int bidRem, @JsonProperty("ask_rem") int askRem,
+      @JsonProperty("time") long time, @JsonProperty("bid_base_fee") int bidBaseFee, @JsonProperty("bid_counter_fee") int bidCounterFee,
+      @JsonProperty("ask_base_fee") int askBaseFee, @JsonProperty("ask_counter_fee") int askCounterFee) {
 
     this.id = id;
     this.bidID = bidID;
@@ -115,8 +116,7 @@ public class CoinfloorOrder {
 
     if (bidBaseFee != null) {
       return bidBaseFee;
-    }
-    else if (askBaseFee != null) {
+    } else if (askBaseFee != null) {
       return askBaseFee;
     }
     return null;
@@ -126,8 +126,7 @@ public class CoinfloorOrder {
 
     if (bidCounterFee != null) {
       return bidCounterFee;
-    }
-    else if (askCounterFee != null) {
+    } else if (askCounterFee != null) {
       return askCounterFee;
     }
     return null;
@@ -136,8 +135,9 @@ public class CoinfloorOrder {
   @Override
   public String toString() {
 
-    return "CoinfloorOrder{id='" + id + "', bidID='" + bidID + "', askID='" + askID + "', base='" + base + "', counter='" + counter + "', baseQty='" + baseQty + "', price='" + price
-        + "', counterQty='" + counterQty + "', bidRem='" + bidRem + "', askRem='" + askRem + "', bidBaseFee='" + bidBaseFee + "', bidCounterFee='" + bidCounterFee + "', askBaseFee='" + askBaseFee
-        + "', askCounterFee='" + askCounterFee + "', time='" + time + "'}";
+    return "CoinfloorOrder{id='" + id + "', bidID='" + bidID + "', askID='" + askID + "', base='" + base + "', counter='" + counter + "', baseQty='"
+        + baseQty + "', price='" + price + "', counterQty='" + counterQty + "', bidRem='" + bidRem + "', askRem='" + askRem + "', bidBaseFee='"
+        + bidBaseFee + "', bidCounterFee='" + bidCounterFee + "', askBaseFee='" + askBaseFee + "', askCounterFee='" + askCounterFee + "', time='"
+        + time + "'}";
   }
 }

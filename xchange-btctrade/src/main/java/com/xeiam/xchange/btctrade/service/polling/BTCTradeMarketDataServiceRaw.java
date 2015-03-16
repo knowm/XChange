@@ -2,7 +2,7 @@ package com.xeiam.xchange.btctrade.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeDepth;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTicker;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTrade;
@@ -10,11 +10,13 @@ import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTrade;
 public class BTCTradeMarketDataServiceRaw extends BTCTradeBasePollingService {
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  protected BTCTradeMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BTCTradeMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   public BTCTradeTicker getBTCTradeTicker() throws IOException {

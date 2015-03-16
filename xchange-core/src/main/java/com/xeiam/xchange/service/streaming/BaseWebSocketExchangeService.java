@@ -15,8 +15,8 @@ import org.java_websocket.framing.FramedataImpl1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.utils.Assert;
 
@@ -48,12 +48,13 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
+   * @param exchangeStreamingConfiguration
    */
-  public BaseWebSocketExchangeService(ExchangeSpecification exchangeSpecification, ExchangeStreamingConfiguration exchangeStreamingConfiguration) {
+  public BaseWebSocketExchangeService(Exchange exchange, ExchangeStreamingConfiguration exchangeStreamingConfiguration) {
 
-    super(exchangeSpecification);
+    super(exchange);
     this.exchangeStreamingConfiguration = exchangeStreamingConfiguration;
     reconnectService = new ReconnectService(this, exchangeStreamingConfiguration);
   }
@@ -109,6 +110,7 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     exchangeEventProducer.send(msg);
   }
 
+  @Override
   public READYSTATE getWebSocketStatus() {
 
     return exchangeEventProducer.getConnection().getReadyState();

@@ -7,13 +7,3 @@ Documentation
 -------------
 https://www.kraken.com/help/api
 
-
-Account 
-
-user: xchange
-
-password: xeiam.com
-
-API Key: cUQtvjUTeflRAyjXeQVhWTInsZh/VMLcCrugPX4nSpgqs0hadPJQATUc
-
-API Secret: BMTodAUWigFa+wCEEdjvFM03jAa0oovRoLKbFjjvkiQOcJmvrQoNs6mMTvS/vQMQzHfQI5EhGgfWftSES1CfkQ==

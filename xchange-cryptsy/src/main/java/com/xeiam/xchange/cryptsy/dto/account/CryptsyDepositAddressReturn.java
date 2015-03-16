@@ -18,7 +18,8 @@ public class CryptsyDepositAddressReturn extends CryptsyGenericReturn<Map<String
    * @param value The BTC-e account info
    * @param error Any error
    */
-  public CryptsyDepositAddressReturn(@JsonProperty("success") int success, @JsonProperty("return") Map<String, String> value, @JsonProperty("error") String error) {
+  public CryptsyDepositAddressReturn(@JsonProperty("success") int success, @JsonProperty("return") Map<String, String> value,
+      @JsonProperty("error") String error) {
 
     super(success, (value == null ? new HashMap<String, String>() : value), error);
   }

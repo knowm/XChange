@@ -1,7 +1,5 @@
 package com.xeiam.xchange.bitcurex.service;
 
-import java.io.IOException;
-
 import javax.crypto.Mac;
 import javax.xml.bind.DatatypeConverter;
 
@@ -14,17 +12,16 @@ public class BitcurexDigest extends BaseParamsDigest {
 
   /**
    * Constructor
-   * 
+   *
    * @param secretKeyBase64
-   * @param clientId
    * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
-  private BitcurexDigest(String secretKeyBase64, String apiKey) throws IOException {
+  private BitcurexDigest(String secretKeyBase64, String apiKey) {
 
     super(DatatypeConverter.parseBase64Binary(secretKeyBase64), HMAC_SHA_512);
   }
 
-  public static BitcurexDigest createInstance(String secretKeyBase64, String apiKey) throws IOException {
+  public static BitcurexDigest createInstance(String secretKeyBase64, String apiKey) {
 
     return secretKeyBase64 == null ? null : new BitcurexDigest(secretKeyBase64, apiKey);
   }

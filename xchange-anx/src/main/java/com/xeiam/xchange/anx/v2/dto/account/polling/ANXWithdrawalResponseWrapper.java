@@ -18,7 +18,8 @@ public class ANXWithdrawalResponseWrapper {
    * @param anxWithdrawalResponse
    * @param error
    */
-  public ANXWithdrawalResponseWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXWithdrawalResponse anxWithdrawalResponse, @JsonProperty("error") String error) {
+  public ANXWithdrawalResponseWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXWithdrawalResponse anxWithdrawalResponse,
+      @JsonProperty("error") String error) {
 
     this.result = result;
     this.anxWithdrawalResponse = anxWithdrawalResponse;

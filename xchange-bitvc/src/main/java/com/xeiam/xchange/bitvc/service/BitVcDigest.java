@@ -31,7 +31,7 @@ public class BitVcDigest implements ParamsDigest {
     }
   };
 
-  public BitVcDigest(final String secretKey) {
+  public BitVcDigest(String secretKey) {
 
     this.secretKey = secretKey;
 

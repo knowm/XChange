@@ -4,10 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 import com.xeiam.xchange.bitstamp.util.WithdrawalRequestStatusDeserializer;
 import com.xeiam.xchange.bitstamp.util.WithdrawalRequestTypeDeserializer;
-import com.xeiam.xchange.utils.jackson.EnumIntDeserializerOneBased;
 import com.xeiam.xchange.utils.jackson.SqlTimeDeserializer;
 
 public class WithdrawalRequest {
@@ -25,7 +23,7 @@ public class WithdrawalRequest {
   @JsonDeserialize(using = WithdrawalRequestStatusDeserializer.class)
   private Status status;
 
-//  private String data; // additional withdrawal request data
+  //  private String data; // additional withdrawal request data
 
   ////////////////////
 
@@ -51,8 +49,7 @@ public class WithdrawalRequest {
 
   @Override
   public String toString() {
-    return String.format("WithdrawalRequest{id=%d, datetime=%s, type=%s, amount=%s, status=%s}",
-        id, datetime, type, amount, status);
+    return String.format("WithdrawalRequest{id=%d, datetime=%s, type=%s, amount=%s, status=%s}", id, datetime, type, amount, status);
   }
 
   public static enum Type {

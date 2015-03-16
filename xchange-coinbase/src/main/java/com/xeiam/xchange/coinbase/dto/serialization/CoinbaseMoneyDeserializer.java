@@ -25,7 +25,7 @@ public class CoinbaseMoneyDeserializer extends JsonDeserializer<CoinbaseMoney> {
     return getCoinbaseMoneyFromNode(node);
   }
 
-  public static CoinbaseMoney getCoinbaseMoneyFromNode(final JsonNode node) {
+  public static CoinbaseMoney getCoinbaseMoneyFromNode(JsonNode node) {
 
     final String amount = node.path("amount").asText();
     final String currency = node.path("currency").asText();

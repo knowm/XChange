@@ -1,9 +1,12 @@
 package com.xeiam.xchange.campbx.service.polling;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import si.mazi.rescu.RestProxyFactory;
+
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
@@ -13,25 +16,23 @@ import com.xeiam.xchange.service.polling.BasePollingService;
  */
 public class CampBXBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_USD
-
-  );
+  protected final CampBX campBX;
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public CampBXBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public CampBXBasePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
+    this.campBX = RestProxyFactory.createProxy(CampBX.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return CURRENCY_PAIRS;
+    return exchange.getMetaData().getCurrencyPairs();
   }
+
 }

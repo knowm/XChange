@@ -1,53 +1,38 @@
 package com.xeiam.xchange.vircurex.service.polling;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.Currencies;
+import si.mazi.rescu.RestProxyFactory;
+
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+import com.xeiam.xchange.vircurex.VircurexAuthenticated;
 
 /**
  * @author timmolter
  */
 public class VircurexBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = new ArrayList<CurrencyPair>();
-
-  static {
-
-    CURRENCY_PAIRS.add(CurrencyPair.LTC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.TRC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.PPC_BTC);
-    CURRENCY_PAIRS.add(new CurrencyPair("DGC", Currencies.BTC));
-    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.NVC, Currencies.BTC));
-    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.NMC, Currencies.BTC));
-    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.TRC, Currencies.BTC));
-    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.DVC, Currencies.BTC));
-    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.IXC, Currencies.BTC));
-    CURRENCY_PAIRS.add(new CurrencyPair("FRC", Currencies.BTC));
-    CURRENCY_PAIRS.add(new CurrencyPair(Currencies.FTC, Currencies.LTC));
-    CURRENCY_PAIRS.add(CurrencyPair.NMC_BTC);
-    CURRENCY_PAIRS.add(CurrencyPair.BTC_USD);
-    CURRENCY_PAIRS.add(new CurrencyPair("ANC", Currencies.BTC));
-    CURRENCY_PAIRS.add(CurrencyPair.XDC_BTC);
-  }
+  protected VircurexAuthenticated vircurexAuthenticated;
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public VircurexBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public VircurexBasePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
+    this.vircurexAuthenticated = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return CURRENCY_PAIRS;
+    return exchange.getMetaData().getCurrencyPairs();
   }
+
 }

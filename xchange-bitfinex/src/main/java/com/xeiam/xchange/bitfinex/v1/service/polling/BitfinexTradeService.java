@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
 import com.xeiam.xchange.bitfinex.v1.BitfinexOrderType;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
@@ -17,21 +14,22 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.DefaultTradeHistoryParamsTimeSpan;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamCurrencyPair;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamPaging;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.utils.DateUtils;
 
 public class BitfinexTradeService extends BitfinexTradeServiceRaw implements PollingTradeService {
 
   private static final OpenOrders noOpenOrders = new OpenOrders(new ArrayList<LimitOrder>());
 
-  public BitfinexTradeService(ExchangeSpecification exchangeSpecification) {
+  public BitfinexTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -41,8 +39,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
 
     if (activeOrders.length <= 0) {
       return noOpenOrders;
-    }
-    else {
+    } else {
       return BitfinexAdapters.adaptOrders(activeOrders);
     }
   }
@@ -70,7 +67,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   }
 
   @Override
-  public UserTrades getTradeHistory(final Object... arguments) throws IOException {
+  public UserTrades getTradeHistory(Object... arguments) throws IOException {
 
     String symbol = "btcusd";
     long timestamp = 0;
@@ -80,8 +77,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
       if (arguments[0] instanceof CurrencyPair) {
         final CurrencyPair pair = (CurrencyPair) arguments[0];
         symbol = pair.baseSymbol + pair.counterSymbol;
-      }
-      else {
+      } else {
         symbol = (String) arguments[0];
       }
     }
@@ -98,18 +94,16 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   }
 
   /**
-   * @param params
-   *          Implementation of {@link TradeHistoryParamCurrencyPair} is mandatory. Can optionally implement {@link TradeHistoryParamPaging} and {@link TradeHistoryParamsTimeSpan#getStartTime()}. All
-   *          other TradeHistoryParams types will be ignored.
+   * @param params Implementation of {@link TradeHistoryParamCurrencyPair} is mandatory. Can optionally implement {@link TradeHistoryParamPaging} and
+   *        {@link TradeHistoryParamsTimeSpan#getStartTime()}. All other TradeHistoryParams types will be ignored.
    */
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     final String symbol;
     if (params instanceof TradeHistoryParamCurrencyPair && ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
       symbol = BitfinexAdapters.adaptCurrencyPair(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
-    }
-    else {
+    } else {
       // Exchange will return the errors below if CurrencyPair is not provided.
       // field not on request: "Key symbol was not present."
       // field supplied but blank: "Key symbol may not be the empty string"
@@ -120,8 +114,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     if (params instanceof TradeHistoryParamsTimeSpan) {
       Date startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
       timestamp = DateUtils.toUnixTime(startTime);
-    }
-    else {
+    } else {
       timestamp = 0;
     }
 
@@ -131,8 +124,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
       Integer pageLength = pagingParams.getPageLength();
       Integer pageNum = pagingParams.getPageNumber();
       limit = (pageLength != null && pageNum != null) ? pageLength * (pageNum + 1) : 50;
-    }
-    else {
+    } else {
       limit = 50;
     }
 
@@ -141,12 +133,13 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   }
 
   @Override
-  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new BitfinexTradeHistoryParams(new Date(0), 50, CurrencyPair.BTC_USD);
   }
 
-  public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
+  public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamCurrencyPair,
+      TradeHistoryParamPaging {
 
     private int count;
     private CurrencyPair pair;

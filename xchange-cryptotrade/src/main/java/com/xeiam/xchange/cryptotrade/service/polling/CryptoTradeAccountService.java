@@ -3,31 +3,29 @@ package com.xeiam.xchange.cryptotrade.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptotrade.CryptoTradeAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class CryptoTradeAccountService extends CryptoTradeAccountServiceRaw implements PollingAccountService {
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public CryptoTradeAccountService(ExchangeSpecification exchangeSpecification) {
+  public CryptoTradeAccountService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
   }
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return CryptoTradeAdapters.adaptAccountInfo(exchangeSpecification.getUserName(), getCryptoTradeAccountInfo());
+    return CryptoTradeAdapters.adaptAccountInfo(exchange.getExchangeSpecification().getUserName(), getCryptoTradeAccountInfo());
   }
 
   @Override
@@ -37,7 +35,7 @@ public class CryptoTradeAccountService extends CryptoTradeAccountServiceRaw impl
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

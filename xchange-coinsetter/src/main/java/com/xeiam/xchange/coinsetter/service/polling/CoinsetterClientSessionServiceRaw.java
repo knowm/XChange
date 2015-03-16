@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.CoinsetterResponse;
 import com.xeiam.xchange.coinsetter.dto.clientsession.request.CoinsetterLoginRequest;
@@ -20,12 +20,15 @@ public class CoinsetterClientSessionServiceRaw extends BaseExchangeService {
   protected com.xeiam.xchange.coinsetter.rs.CoinsetterClientSession clientSession;
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public CoinsetterClientSessionServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public CoinsetterClientSessionServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    String baseUrl = exchangeSpecification.getSslUri();
+    super(exchange);
+
+    String baseUrl = exchange.getExchangeSpecification().getSslUri();
     clientSession = RestProxyFactory.createProxy(com.xeiam.xchange.coinsetter.rs.CoinsetterClientSession.class, baseUrl);
   }
 

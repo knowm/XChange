@@ -6,14 +6,18 @@ import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitkonan.service.polling.BitKonanMarketDataService;
-import com.xeiam.xchange.utils.nonce.LongTimeNonceFactory;
 
 /**
  * @author Piotr Ładyżyński
  */
 public class BitKonanExchange extends BaseExchange implements Exchange {
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new LongTimeNonceFactory();
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
+    super.applySpecification(exchangeSpecification);
+    this.pollingMarketDataService = new BitKonanMarketDataService(this);
+  }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
@@ -29,10 +33,8 @@ public class BitKonanExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitKonanMarketDataService(exchangeSpecification, nonceFactory);
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // No private API implemented. Not needed for this exchange at the moment.
+    return null;
   }
-
 }

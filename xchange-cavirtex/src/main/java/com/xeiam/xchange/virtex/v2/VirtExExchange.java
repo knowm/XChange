@@ -1,32 +1,19 @@
 package com.xeiam.xchange.virtex.v2;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.virtex.v2.service.polling.VirtExMarketDataService;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the VirtEx exchange API</li>
- * </ul>
- */
 public class VirtExExchange extends BaseExchange implements Exchange {
-
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public VirtExExchange() {
-
-  }
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new VirtExMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new VirtExMarketDataService(this);
   }
 
   @Override
@@ -36,9 +23,15 @@ public class VirtExExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setSslUri("https://cavirtex.com");
     exchangeSpecification.setHost("cavirtex.com");
     exchangeSpecification.setPort(80);
-    exchangeSpecification.setExchangeName("VirtEx");
+    exchangeSpecification.setExchangeName("CaVirtEx");
     exchangeSpecification.setExchangeDescription("CAVirtex is a Bitcoin exchange registered in Canada.");
 
     return exchangeSpecification;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // No private API implemented. Not needed for this exchange at the moment.
+    return null;
   }
 }

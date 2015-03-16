@@ -1,12 +1,9 @@
 package com.xeiam.xchange.btcchina.service.polling;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChina;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
@@ -22,16 +19,16 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTrade;
  *
  * @author ObsessiveOrange
  */
-public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTCChina> {
+public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService {
 
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
    */
-  public BTCChinaMarketDataServiceRaw(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
+  public BTCChinaMarketDataServiceRaw(Exchange exchange) {
 
-    super(BTCChina.class, exchangeSpecification, tonceFactory);
+    super(exchange);
   }
 
   public Map<String, BTCChinaTickerObject> getBTCChinaTickers() throws IOException {
@@ -55,29 +52,11 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
   }
 
   /**
-   * @deprecated Use {@link #getBTCChinaHistoryData(String)} instead.
-   */
-  @Deprecated
-  public List<BTCChinaTrade> getBTCChinaTrades(String market) throws IOException {
-
-    return btcChina.getTrades(market);
-  }
-
-  /**
    * @see BTCChina#getHistoryData(String)
    */
   public BTCChinaTrade[] getBTCChinaHistoryData(String market) throws IOException {
 
     return btcChina.getHistoryData(market);
-  }
-
-  /**
-   * @deprecated Use {@link #getBTCChinaHistoryData(String, int)} instead.
-   */
-  @Deprecated
-  public List<BTCChinaTrade> getBTCChinaTrades(String market, int limit) throws IOException {
-
-    return btcChina.getTrades(market, limit);
   }
 
   /**
@@ -89,15 +68,6 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
   }
 
   /**
-   * @deprecated Use {@link #getBTCChinaHistoryData(String, long)} instead.
-   */
-  @Deprecated
-  public List<BTCChinaTrade> getBTCChinaTrades(String market, long since) throws IOException {
-
-    return btcChina.getTrades(market, since);
-  }
-
-  /**
    * @see BTCChina#getHistoryData(String, long)
    */
   public BTCChinaTrade[] getBTCChinaHistoryData(String market, long since) throws IOException {
@@ -106,29 +76,11 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService<BTC
   }
 
   /**
-   * @deprecated Use {@link #getBTCChinaHistoryData(String, long, int)} instead.
-   */
-  @Deprecated
-  public List<BTCChinaTrade> getBTCChinaTrades(String market, long since, int limit) throws IOException {
-
-    return btcChina.getTrades(market, since, limit);
-  }
-
-  /**
    * @see BTCChina#getHistoryData(String, long, int)
    */
   public BTCChinaTrade[] getBTCChinaHistoryData(String market, long since, int limit) throws IOException {
 
     return btcChina.getHistoryData(market, since, limit);
-  }
-
-  /**
-   * @deprecated Use {@link #getBTCChinaHistoryData(String, long, int, String)} instead.
-   */
-  @Deprecated
-  public List<BTCChinaTrade> getBTCChinaTrades(String market, long since, int limit, String sinceType) throws IOException {
-
-    return btcChina.getTrades(market, since, limit, sinceType);
   }
 
   /**

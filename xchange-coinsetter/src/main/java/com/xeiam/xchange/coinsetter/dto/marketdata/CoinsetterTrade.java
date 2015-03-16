@@ -17,8 +17,9 @@ public class CoinsetterTrade {
   private final BigDecimal volume;
   private final BigDecimal volume24;
 
-  public CoinsetterTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size, @JsonProperty("exchangeId") String exchangeId, @JsonProperty("tickId") long tickId,
-      @JsonProperty("timeStamp") long timeStamp, @JsonProperty("volume") BigDecimal volume, @JsonProperty("volume24") BigDecimal volume24) {
+  public CoinsetterTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size,
+      @JsonProperty("exchangeId") String exchangeId, @JsonProperty("tickId") long tickId, @JsonProperty("timeStamp") long timeStamp,
+      @JsonProperty("volume") BigDecimal volume, @JsonProperty("volume24") BigDecimal volume24) {
 
     this.price = price;
     this.size = size;
@@ -61,6 +62,7 @@ public class CoinsetterTrade {
 
   /**
    * Returns the tick ID.
+   * 
    * @return the tick ID.
    */
   public long getTickId() {
@@ -69,7 +71,8 @@ public class CoinsetterTrade {
   }
 
   /**
-   * Returns the UTC time since January 1, 1970, 00:00:00. Value is in milliseconds, which is a Java timestamp format standard. To get the UNIX timestamp format standard, simply divide by 1000.
+   * Returns the UTC time since January 1, 1970, 00:00:00. Value is in milliseconds, which is a Java timestamp format standard. To get the UNIX
+   * timestamp format standard, simply divide by 1000.
    *
    * @return the UTC time.
    */
@@ -101,8 +104,8 @@ public class CoinsetterTrade {
   @Override
   public String toString() {
 
-    return "CoinsetterTrade [price=" + price + ", size=" + size + ", exchangeId=" + exchangeId + ", tickId=" + tickId + ", timeStamp=" + timeStamp + ", volume=" + volume + ", volume24=" + volume24
-        + "]";
+    return "CoinsetterTrade [price=" + price + ", size=" + size + ", exchangeId=" + exchangeId + ", tickId=" + tickId + ", timeStamp=" + timeStamp
+        + ", volume=" + volume + ", volume24=" + volume24 + "]";
   }
 
 }

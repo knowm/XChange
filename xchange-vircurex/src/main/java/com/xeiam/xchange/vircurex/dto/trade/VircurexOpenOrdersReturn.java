@@ -19,8 +19,9 @@ public class VircurexOpenOrdersReturn {
   private final int status;
   private List<VircurexOpenOrder> openOrders;
 
-  public VircurexOpenOrdersReturn(@JsonProperty("numberorders") int orderCount, @JsonProperty("account") String userName, @JsonProperty("timestamp") String timestamp,
-      @JsonProperty("token") String token, @JsonProperty("status") int status, @JsonProperty("function") String function) {
+  public VircurexOpenOrdersReturn(@JsonProperty("numberorders") int orderCount, @JsonProperty("account") String userName,
+      @JsonProperty("timestamp") String timestamp, @JsonProperty("token") String token, @JsonProperty("status") int status,
+      @JsonProperty("function") String function) {
 
     this.orderCount = orderCount;
     this.userName = userName;

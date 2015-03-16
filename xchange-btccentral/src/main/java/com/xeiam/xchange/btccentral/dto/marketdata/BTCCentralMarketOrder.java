@@ -14,7 +14,8 @@ public class BTCCentralMarketOrder {
   private final BigDecimal price;
   private final BigDecimal amount;
 
-  public BTCCentralMarketOrder(@JsonProperty("currency") String currency, @JsonProperty("timestamp") long timestamp, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
+  public BTCCentralMarketOrder(@JsonProperty("currency") String currency, @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
 
     this.currency = currency;
     this.timestamp = timestamp;

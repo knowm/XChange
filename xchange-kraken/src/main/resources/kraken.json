@@ -1,0 +1,10 @@
+{
+   "currency_pairs":[
+      "XBT/EUR",
+      "XBT/USD",
+      "XBT/GBP",
+      "XBT/JPY",
+      "LTC/EUR",
+      "LTC/USD"
+   ]
+}

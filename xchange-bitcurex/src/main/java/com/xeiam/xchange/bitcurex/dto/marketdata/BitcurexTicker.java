@@ -21,11 +21,13 @@ public class BitcurexTicker {
   private final String market;
   private final BigDecimal total_volume;
 
-  public BitcurexTicker(@JsonProperty("average_price") BigDecimal average_price, @JsonProperty("total_spent") BigDecimal total_spent, @JsonProperty("best_bid") BigDecimal best_bid,
-      @JsonProperty("lowest_tx_price") BigDecimal lowest_tx_price, @JsonProperty("lowest_tx_spread") BigDecimal lowest_tx_spread, @JsonProperty("best_ask") BigDecimal best_ask,
-      @JsonProperty("price_change") BigDecimal price_change, @JsonProperty("last_tx_price") BigDecimal last_tx_price, @JsonProperty("currency") String currency,
-      @JsonProperty("highest_tx_price") BigDecimal highest_tx_price, @JsonProperty("highest_tx_spread") BigDecimal highest_tx_spread, @JsonProperty("curr") String curr,
-      @JsonProperty("market") String market, @JsonProperty("total_volume") BigDecimal total_volume) {
+  public BitcurexTicker(@JsonProperty("average_price") BigDecimal average_price, @JsonProperty("total_spent") BigDecimal total_spent,
+      @JsonProperty("best_bid") BigDecimal best_bid, @JsonProperty("lowest_tx_price") BigDecimal lowest_tx_price,
+      @JsonProperty("lowest_tx_spread") BigDecimal lowest_tx_spread, @JsonProperty("best_ask") BigDecimal best_ask,
+      @JsonProperty("price_change") BigDecimal price_change, @JsonProperty("last_tx_price") BigDecimal last_tx_price,
+      @JsonProperty("currency") String currency, @JsonProperty("highest_tx_price") BigDecimal highest_tx_price,
+      @JsonProperty("highest_tx_spread") BigDecimal highest_tx_spread, @JsonProperty("curr") String curr, @JsonProperty("market") String market,
+      @JsonProperty("total_volume") BigDecimal total_volume) {
 
     this.average_price = average_price;
     this.total_spent = total_spent;
@@ -116,9 +118,10 @@ public class BitcurexTicker {
   @Override
   public String toString() {
 
-    return "BitcurexTicker [average_price=" + average_price + ", total_spent=" + total_spent + ", best_bid=" + best_bid + ", lowest_tx_price=" + lowest_tx_price + ", lowest_tx_spread="
-        + lowest_tx_spread + ", best_ask=" + best_ask + ", price_change=" + price_change + ", last_tx_price=" + last_tx_price + ", currency=" + currency + ", highest_tx_price=" + highest_tx_price
-        + ", highest_tx_spread=" + highest_tx_spread + ", curr=" + curr + ", market=" + market + ", total_volume=" + total_volume + "]";
+    return "BitcurexTicker [average_price=" + average_price + ", total_spent=" + total_spent + ", best_bid=" + best_bid + ", lowest_tx_price="
+        + lowest_tx_price + ", lowest_tx_spread=" + lowest_tx_spread + ", best_ask=" + best_ask + ", price_change=" + price_change
+        + ", last_tx_price=" + last_tx_price + ", currency=" + currency + ", highest_tx_price=" + highest_tx_price + ", highest_tx_spread="
+        + highest_tx_spread + ", curr=" + curr + ", market=" + market + ", total_volume=" + total_volume + "]";
   }
 
 }

@@ -9,7 +9,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.kraken.KrakenExchange;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 import com.xeiam.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class KrakenTradesDemo {
 
@@ -33,7 +33,8 @@ public class KrakenTradesDemo {
     System.out.println("Trades(0): " + trades.getTrades().get(0).toString());
     System.out.println("Trades size: " + trades.getTrades().size());
 
-    // Get the latest trade data for BTC_USD for the past 12 hours (note: doesn't account for time zone differences, should use UTC instead)
+    // Get the latest trade data for BTC_USD for the past 12 hours (note:
+    // doesn't account for time zone differences, should use UTC instead)
     trades = marketDataService.getTrades(CurrencyPair.BTC_USD, (long) (System.nanoTime() - (12 * 60 * 60 * Math.pow(10, 9))));
     System.out.println(trades);
     System.out.println("Trades size: " + trades.getTrades().size());
@@ -58,5 +59,6 @@ public class KrakenTradesDemo {
     System.out.println(krakenPublicTrades.getTrades());
 
     System.out.println("Trades size: " + krakenPublicTrades.getTrades().size());
+
   }
 }

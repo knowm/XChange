@@ -18,7 +18,8 @@ public class ANXOrderResultWrapper {
    * @param anxOrderResult
    * @param error
    */
-  public ANXOrderResultWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXOrderResult anxOrderResult, @JsonProperty("error") String error) {
+  public ANXOrderResultWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXOrderResult anxOrderResult,
+      @JsonProperty("error") String error) {
 
     this.result = result;
     this.anxOrderResult = anxOrderResult;

@@ -12,7 +12,8 @@ public class CryptoTradeTransactions extends CryptoTradeBaseResponse {
 
   private final List<CryptoTradeTransaction> transactions;
 
-  private CryptoTradeTransactions(@JsonProperty("data") List<CryptoTradeTransaction> transactions, @JsonProperty("status") String status, @JsonProperty("error") String error) {
+  private CryptoTradeTransactions(@JsonProperty("data") List<CryptoTradeTransaction> transactions, @JsonProperty("status") String status,
+      @JsonProperty("error") String error) {
 
     super(status, error);
     this.transactions = transactions;
@@ -39,8 +40,8 @@ public class CryptoTradeTransactions extends CryptoTradeBaseResponse {
     private final String description;
     private final String status;
 
-    private CryptoTradeTransaction(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp,
-        @JsonProperty("pair") @JsonDeserialize(using = CurrencyPairDeserializer.class) String currency, @JsonProperty("type") String type, @JsonProperty("amount") BigDecimal amount,
+    private CryptoTradeTransaction(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp, @JsonProperty("pair") @JsonDeserialize(
+        using = CurrencyPairDeserializer.class) String currency, @JsonProperty("type") String type, @JsonProperty("amount") BigDecimal amount,
         @JsonProperty("rate") BigDecimal rate, @JsonProperty("desc") String description, @JsonProperty("status") String status) {
 
       this.id = id;
@@ -90,8 +91,8 @@ public class CryptoTradeTransactions extends CryptoTradeBaseResponse {
     @Override
     public String toString() {
 
-      return "CryptoTradeTransaction [id=" + id + ", timestamp=" + timestamp + ", currencyPair=" + currency + ", type=" + type + ", amount=" + amount + ", description=" + description + ", status="
-          + status + "]";
+      return "CryptoTradeTransaction [id=" + id + ", timestamp=" + timestamp + ", currencyPair=" + currency + ", type=" + type + ", amount=" + amount
+          + ", description=" + description + ", status=" + status + "]";
     }
 
   }

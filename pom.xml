@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.xeiam.xchange</groupId>
 	<artifactId>xchange-parent</artifactId>
-	<version>2.2.0-SNAPSHOT</version>
+	<version>3.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>XChange Parent</name>
-	<description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of cryptocurrency exchanges.</description>
+	<description>XChange is a Java library providing a simple and consistent API for interacting with a diverse set of cryptocurrency exchanges.
+    </description>
 
 	<url>http://xeiam.com</url>
 	<inceptionYear>2012</inceptionYear>
@@ -71,10 +71,12 @@
 		<module>xchange-bitcoinaverage</module>
 		<module>xchange-bitcoincharts</module>
 		<module>xchange-bitcoinium</module>
+		<module>xchange-bitcointoyou</module>
 		<module>xchange-bitcurex</module>
 		<module>xchange-bitfinex</module>
 		<module>xchange-bitkonan</module>
 		<module>xchange-bitmarket</module>
+		<module>xchange-bitso</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-bittrex</module>
 		<module>xchange-bitvc</module>
@@ -95,17 +97,16 @@
 		<module>xchange-cryptotrade</module>
 		<module>xchange-cryptonit</module>
 		<module>xchange-cryptsy</module>
+		<module>xchange-empoex</module>
 		<module>xchange-examples</module>
 		<module>xchange-hitbtc</module>
 		<module>xchange-itbit</module>
 		<module>xchange-kraken</module>
 		<module>xchange-lakebtc</module>
-                <module>xchange-mercadobitcoin</module>
-		<module>xchange-mintpal</module>
+		<module>xchange-mercadobitcoin</module>
 		<module>xchange-okcoin</module>
 		<module>xchange-openexchangerates</module>
 		<module>xchange-poloniex</module>
-		<module>xchange-vaultofsatoshi</module>
 		<module>xchange-vircurex</module>
 	</modules>
 
@@ -120,6 +121,20 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		<!-- For Quick FIX -->
+		<repository>
+			<id>MarketceteraRepo</id>
+			<url>http://repo.marketcetera.org/maven</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<!-- https://github.com/fatshotty/socket.io-java-client -->
+		<repository>
+			<id>keytwo.net</id>
+			<name>Keytwo.net Repository</name>
+			<url>http://audiobox.keytwo.net</url>
+		</repository>
 	</repositories>
 
 	<dependencyManagement>
@@ -129,7 +144,7 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.7.7</version>
+				<version>1.7.10</version>
 			</dependency>
 
 			<!-- SLF4J implementation for use in testing -->
@@ -140,6 +155,13 @@
 				<!-- Test scope prevents this implementation bleeding out to consuming 
 					applications -->
 				<scope>test</scope>
+			</dependency>
+
+			<!-- Rest client -->
+			<dependency>
+				<groupId>com.github.mmazi</groupId>
+				<artifactId>rescu</artifactId>
+				<version>1.7.2</version>
 			</dependency>
 
 			<!-- Charting -->
@@ -169,11 +191,44 @@
 				<version>1.50</version>
 			</dependency>
 
-			<!-- Rest client -->
+			<!--For String Joining, etc. -->
 			<dependency>
-				<groupId>com.github.mmazi</groupId>
-				<artifactId>rescu</artifactId>
-				<version>1.7.2-SNAPSHOT</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.3.2</version>
+			</dependency>
+
+			<!-- For Bridging/routing all JUL log records to the SLF4J API. -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jul-to-slf4j</artifactId>
+				<version>1.7.7</version>
+			</dependency>
+
+			<!-- For FIX API -->
+			<dependency>
+				<groupId>quickfixj</groupId>
+				<artifactId>quickfixj-core</artifactId>
+				<version>1.5.3-bd</version>
+			</dependency>
+			<dependency>
+				<groupId>quickfixj</groupId>
+				<artifactId>quickfixj-msg-fix44</artifactId>
+				<version>1.5.3-bd</version>
+			</dependency>
+
+			<!-- SocketIO -->
+			<dependency>
+				<groupId>com.github.nkzawa</groupId>
+				<artifactId>socket.io-client</artifactId>
+				<version>0.2.0</version>
+			</dependency>
+
+			<!-- For CoinsetterSocketIOService -->
+			<dependency>
+				<groupId>io.socket</groupId>
+				<artifactId>socket.io-client</artifactId>
+				<version>0.2.1</version>
 			</dependency>
 
 			<dependency>
@@ -192,7 +247,15 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- slf4j implementation for testing -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.10</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -231,6 +294,21 @@
 							</execution>
 						</executions>
 					</plugin>
+
+					<!-- Generates a Javadoc JAR during package -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
 				</plugins>
 			</build>
 		</profile>
@@ -271,12 +349,22 @@
 	</profiles>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>2.10.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
 			<!-- Ensure compilation is done under Java 6 in all environments -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.2</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -289,7 +377,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.2.1</version>
+				<version>2.4</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -300,19 +388,31 @@
 				</executions>
 			</plugin>
 
-			<!-- Generates a Javadoc JAR during package -->
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.18.1</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.18.1</version>
 				<executions>
 					<execution>
-						<id>attach-javadocs</id>
 						<goals>
-							<goal>jar</goal>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<skipTests>${skipTests}</skipTests>
+					<includes>
+						<include>**/*Integration.java</include>
+					</includes>
+				</configuration>
 			</plugin>
 
 			<!-- for deploying to Maven Central -->
@@ -331,6 +431,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<skipTests>true</skipTests>
 	</properties>
 
 </project>

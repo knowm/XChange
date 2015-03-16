@@ -1,12 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.xeiam.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>2.2.0-SNAPSHOT</version>
+		<version>3.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-examples</artifactId>
@@ -169,6 +168,12 @@
 			<artifactId>xchange-itbit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange LakeBTC exchange support -->
+		<dependency>
+			<groupId>com.xeiam.xchange</groupId>
+			<artifactId>xchange-lakebtc</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange Cryptsy exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
@@ -199,22 +204,10 @@
 			<artifactId>xchange-cryptonit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange MintPal exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-mintpal</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange Poloniex exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-poloniex</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- XChange Vault of Satoshi exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-vaultofsatoshi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange OkCoin exchange support -->
@@ -235,6 +228,24 @@
 			<artifactId>xchange-mercadobitcoin</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange BitcoinToYou exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-bitcointoyou</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+        <!-- XChange Bitbay exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-bitbay</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- XChange Bitso exchange support -->
+        <dependency>
+            <groupId>com.xeiam.xchange</groupId>
+            <artifactId>xchange-bitso</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -244,7 +255,6 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
-			<version>1.7.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.xeiam.xchart</groupId>

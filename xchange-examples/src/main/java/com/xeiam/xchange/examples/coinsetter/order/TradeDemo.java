@@ -13,7 +13,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.coinsetter.CoinsetterExamplesUtils;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 /**
  * Generic trade service demonstration.
@@ -31,7 +31,8 @@ public class TradeDemo {
     Exchange coinsetter = CoinsetterExamplesUtils.getExchange(username, password, ipAddress);
     PollingTradeService tradeService = coinsetter.getPollingTradeService();
 
-    String orderId = tradeService.placeLimitOrder(new LimitOrder(OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, null, null, new BigDecimal("0.01")));
+    String orderId = tradeService.placeLimitOrder(new LimitOrder(OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, null, null,
+        new BigDecimal("0.01")));
     log.info("limit order id: {}", orderId);
 
     OpenOrders openOrders = tradeService.getOpenOrders();

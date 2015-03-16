@@ -19,6 +19,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
  */
 public class BitKonanAdapters {
 
+  // TODO move to metadata
   private static final BigDecimal LOT_MULTIPLIER = new BigDecimal("100");
 
   /**
@@ -46,7 +47,8 @@ public class BitKonanAdapters {
     // no timestamp from BitKonan
     Date timestamp = null;
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
   }
 
   public static OrderBook adaptOrderBook(BitKonanOrderBook bitKonanOrderBook) {
@@ -55,10 +57,11 @@ public class BitKonanAdapters {
     List<LimitOrder> asks = adaptMarketOrderToLimitOrder(bitKonanOrderBook.getAsks(), OrderType.ASK, CurrencyPair.BTC_USD);
     List<LimitOrder> bids = adaptMarketOrderToLimitOrder(bitKonanOrderBook.getBids(), OrderType.BID, CurrencyPair.BTC_USD);
 
-    return new OrderBook(new Date(), asks, bids);
+    return new OrderBook(null, asks, bids);
   }
 
-  private static List<LimitOrder> adaptMarketOrderToLimitOrder(BitKonanOrderBookElement[] bitkonanOrders, OrderType orderType, CurrencyPair currencyPair) {
+  private static List<LimitOrder> adaptMarketOrderToLimitOrder(BitKonanOrderBookElement[] bitkonanOrders, OrderType orderType,
+      CurrencyPair currencyPair) {
 
     List<LimitOrder> orders = new ArrayList<LimitOrder>(bitkonanOrders.length);
 

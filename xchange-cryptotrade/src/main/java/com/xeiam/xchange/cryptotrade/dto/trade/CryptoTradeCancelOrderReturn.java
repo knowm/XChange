@@ -10,7 +10,8 @@ public class CryptoTradeCancelOrderReturn extends CryptoTradeBaseResponse {
 
   private final CryptoTradeCancelledOrderData cancelledOrderData;
 
-  private CryptoTradeCancelOrderReturn(@JsonProperty("data") CryptoTradeCancelledOrderData placedOrderData, @JsonProperty("status") String status, @JsonProperty("error") String error) {
+  private CryptoTradeCancelOrderReturn(@JsonProperty("data") CryptoTradeCancelledOrderData placedOrderData, @JsonProperty("status") String status,
+      @JsonProperty("error") String error) {
 
     super(status, error);
     this.cancelledOrderData = placedOrderData;
@@ -43,7 +44,8 @@ public class CryptoTradeCancelOrderReturn extends CryptoTradeBaseResponse {
     private final String orderStatus;
     private final Map<String, BigDecimal> funds;
 
-    private CryptoTradeCancelledOrderData(@JsonProperty("order_id") int orderId, @JsonProperty("orderstatus") String orderStatus, @JsonProperty("funds") Map<String, BigDecimal> funds) {
+    private CryptoTradeCancelledOrderData(@JsonProperty("order_id") int orderId, @JsonProperty("orderstatus") String orderStatus,
+        @JsonProperty("funds") Map<String, BigDecimal> funds) {
 
       this.orderStatus = orderStatus;
       this.orderId = orderId;

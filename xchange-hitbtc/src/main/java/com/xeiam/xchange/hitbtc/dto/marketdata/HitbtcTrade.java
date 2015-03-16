@@ -22,7 +22,8 @@ public class HitbtcTrade {
    * @param amount
    * @param tid
    */
-  public HitbtcTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("tid") String tid) {
+  public HitbtcTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("tid") String tid) {
 
     this.date = date;
     this.price = price;

@@ -26,8 +26,8 @@ public final class BitKonanTicker {
    * @param high
    * @param volume
    */
-  public BitKonanTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("last") BigDecimal last, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("high") BigDecimal high, @JsonProperty("volume") BigDecimal volume) {
+  public BitKonanTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("last") BigDecimal last,
+      @JsonProperty("low") BigDecimal low, @JsonProperty("high") BigDecimal high, @JsonProperty("volume") BigDecimal volume) {
 
     this.ask = ask;
     this.bid = bid;

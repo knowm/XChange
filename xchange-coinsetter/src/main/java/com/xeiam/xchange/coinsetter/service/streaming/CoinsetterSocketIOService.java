@@ -7,7 +7,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.java_websocket.WebSocket.READYSTATE;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterAdapters;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPair;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
@@ -30,11 +30,14 @@ public class CoinsetterSocketIOService extends CoinsetterSocketIOServiceRaw impl
   private volatile READYSTATE webSocketStatus = READYSTATE.NOT_YET_CONNECTED;
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
+   * @param coinsetterStreamingConfiguration
    */
-  public CoinsetterSocketIOService(ExchangeSpecification exchangeSpecification, CoinsetterStreamingConfiguration coinsetterStreamingConfiguration) {
+  public CoinsetterSocketIOService(Exchange exchange, CoinsetterStreamingConfiguration coinsetterStreamingConfiguration) {
 
-    super(exchangeSpecification, coinsetterStreamingConfiguration);
+    super(exchange, coinsetterStreamingConfiguration);
 
     super.addListener(new CoinsetterSocketAdapter() {
 

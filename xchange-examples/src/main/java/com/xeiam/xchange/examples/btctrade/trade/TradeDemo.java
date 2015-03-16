@@ -11,7 +11,7 @@ import com.xeiam.xchange.btctrade.service.polling.BTCTradeTradeServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 public class TradeDemo {
 
@@ -38,13 +38,15 @@ public class TradeDemo {
     PollingTradeService tradeService = exchange.getPollingTradeService();
 
     // Bid.
-    String orderId = tradeService.placeLimitOrder(new LimitOrder(OrderType.BID, MIN_AMOUNT_PER_ORDER.multiply(new BigDecimal("1000")), CurrencyPair.BTC_CNY, null, null, MIN_PRICE_IN_CNY));
+    String orderId = tradeService.placeLimitOrder(new LimitOrder(OrderType.BID, MIN_AMOUNT_PER_ORDER.multiply(new BigDecimal("1000")),
+        CurrencyPair.BTC_CNY, null, null, MIN_PRICE_IN_CNY));
 
     // Cancel.
     tradeService.cancelOrder(orderId);
 
     // Ask.
-    orderId = tradeService.placeLimitOrder(new LimitOrder(OrderType.ASK, MIN_AMOUNT_PER_ORDER, CurrencyPair.BTC_CNY, null, null, new BigDecimal(Integer.MAX_VALUE)));
+    orderId = tradeService.placeLimitOrder(new LimitOrder(OrderType.ASK, MIN_AMOUNT_PER_ORDER, CurrencyPair.BTC_CNY, null, null, new BigDecimal(
+        Integer.MAX_VALUE)));
 
     // Cancel.
     tradeService.cancelOrder(orderId);

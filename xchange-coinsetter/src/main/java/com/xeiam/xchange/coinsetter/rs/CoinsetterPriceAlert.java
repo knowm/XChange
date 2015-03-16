@@ -28,13 +28,15 @@ import com.xeiam.xchange.coinsetter.dto.pricealert.response.CoinsetterRemovePric
 public interface CoinsetterPriceAlert {
 
   @POST
-  CoinsetterPriceAlertResponse add(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, CoinsetterPriceAlertRequest request) throws CoinsetterException, IOException;
+  CoinsetterPriceAlertResponse add(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, CoinsetterPriceAlertRequest request)
+      throws CoinsetterException, IOException;
 
   @GET
   CoinsetterPriceAlertList list(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId) throws CoinsetterException, IOException;
 
   @DELETE
   @Path("{priceAlertId}")
-  CoinsetterRemovePriceAlertResponse remove(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, @PathParam("priceAlertId") UUID priceAlertId) throws CoinsetterException, IOException;
+  CoinsetterRemovePriceAlertResponse remove(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId,
+      @PathParam("priceAlertId") UUID priceAlertId) throws CoinsetterException, IOException;
 
 }

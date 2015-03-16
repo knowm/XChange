@@ -6,14 +6,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.campbx.dto.CampBXOrder;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
@@ -24,7 +20,10 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 /**
  * @author Matija Mazi
@@ -37,12 +36,12 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public CampBXTradeService(ExchangeSpecification exchangeSpecification) {
+  public CampBXTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -58,8 +57,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
       for (CampBXOrder cbo : myOpenOrders.getBuy()) {
         if (cbo.isError() || cbo.isInfo()) {
           logger.debug("Skipping non-order in Buy: " + cbo);
-        }
-        else {
+        } else {
           String id = composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID());
           BigDecimal price = cbo.getPrice();
           orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), CurrencyPair.BTC_USD, id, cbo.getOrderEntered(), price));
@@ -68,8 +66,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
       for (CampBXOrder cbo : myOpenOrders.getSell()) {
         if (cbo.isError() || cbo.isInfo()) {
           logger.debug("Skipping non-order in Sell: " + cbo);
-        }
-        else {
+        } else {
 
           String id = composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID());
           BigDecimal price = cbo.getPrice();
@@ -77,8 +74,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
         }
       }
       return new OpenOrders(orders);
-    }
-    else {
+    } else {
       throw new ExchangeException("Error calling getOpenOrders(): " + myOpenOrders.getError());
     }
   }
@@ -91,8 +87,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
 
     if (!campBXResponse.isError()) {
       return composeOrderId(campBXResponse.getSuccess(), marketOrder.getType());
-    }
-    else {
+    } else {
       throw new ExchangeException("Error calling placeMarketOrder(): " + campBXResponse.getError());
     }
   }
@@ -105,8 +100,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
 
     if (!campBXResponse.isError()) {
       return composeOrderId(campBXResponse.getSuccess(), limitOrder.getType());
-    }
-    else {
+    } else {
       throw new ExchangeException("Error calling placeLimitOrder(): " + campBXResponse.getError());
     }
   }
@@ -119,8 +113,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
 
     if (!campBXResponse.isError()) {
       return campBXResponse.isSuccess();
-    }
-    else {
+    } else {
       throw new ExchangeException("Error calling cancelOrder(): " + campBXResponse.getError());
     }
   }
@@ -143,15 +136,15 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
   }
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Piotr Ładyżyński
  */
-public abstract class BitKonanBaseResponse {
+public class BitKonanBaseResponse {
 
   @JsonProperty("code")
   private String code;

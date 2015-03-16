@@ -80,9 +80,8 @@ public class BitbayAdapters {
    */
   public static OrderBook adaptOrderBook(BitbayOrderBook bitbayOrderBook, CurrencyPair currencyPair) {
 
-    OrderBook orderBook =
-        new OrderBook(new Date(), transformArrayToLimitOrders(bitbayOrderBook.getAsks(), OrderType.ASK, currencyPair), transformArrayToLimitOrders(bitbayOrderBook.getBids(), OrderType.BID,
-            currencyPair));
+    OrderBook orderBook = new OrderBook(null, transformArrayToLimitOrders(bitbayOrderBook.getAsks(), OrderType.ASK, currencyPair),
+        transformArrayToLimitOrders(bitbayOrderBook.getBids(), OrderType.BID, currencyPair));
 
     return orderBook;
   }

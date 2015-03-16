@@ -21,8 +21,8 @@ public class CoinsetterOrderStatus {
   private final String symbol;
   private final String exchId;
 
-  public CoinsetterOrderStatus(UUID uuid, UUID customerUuid, BigDecimal filledQuantity, String orderType, String stage, BigDecimal requestedQuantity, BigDecimal requestedPrice, String side,
-      String symbol, String exchId) {
+  public CoinsetterOrderStatus(UUID uuid, UUID customerUuid, BigDecimal filledQuantity, String orderType, String stage, BigDecimal requestedQuantity,
+      BigDecimal requestedPrice, String side, String symbol, String exchId) {
 
     this.uuid = uuid;
     this.customerUuid = customerUuid;

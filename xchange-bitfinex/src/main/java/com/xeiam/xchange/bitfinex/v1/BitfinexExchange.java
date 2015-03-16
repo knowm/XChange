@@ -1,37 +1,27 @@
 package com.xeiam.xchange.bitfinex.v1;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexAccountService;
 import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexMarketDataService;
 import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexTradeService;
+import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the Bitfinex exchange API</li>
- * </ul>
- */
 public class BitfinexExchange extends BaseExchange implements Exchange {
 
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BitfinexExchange() {
-
-  }
+  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
 
-    this.pollingMarketDataService = new BitfinexMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new BitfinexAccountService(exchangeSpecification);
-    this.pollingTradeService = new BitfinexTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new BitfinexMarketDataService(this);
+    this.pollingAccountService = new BitfinexAccountService(this);
+    this.pollingTradeService = new BitfinexTradeService(this);
   }
 
   @Override
@@ -46,4 +36,11 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
 
     return exchangeSpecification;
   }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
+  }
+
 }

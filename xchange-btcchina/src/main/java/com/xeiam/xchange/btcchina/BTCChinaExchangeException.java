@@ -1,7 +1,7 @@
 package com.xeiam.xchange.btcchina;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.btcchina.dto.BTCChinaError;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 public class BTCChinaExchangeException extends ExchangeException {
 

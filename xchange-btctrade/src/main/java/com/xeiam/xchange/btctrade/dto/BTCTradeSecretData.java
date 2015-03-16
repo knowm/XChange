@@ -10,8 +10,8 @@ public class BTCTradeSecretData {
   private final String level;
   private final String expires;
 
-  public BTCTradeSecretData(@JsonProperty("secret") String secret, @JsonProperty("id") String id, @JsonProperty("uid") String uid, @JsonProperty("level") String level,
-      @JsonProperty("expires") String expires) {
+  public BTCTradeSecretData(@JsonProperty("secret") String secret, @JsonProperty("id") String id, @JsonProperty("uid") String uid,
+      @JsonProperty("level") String level, @JsonProperty("expires") String expires) {
 
     this.secret = secret;
     this.id = id;

@@ -8,5 +8,7 @@ import com.xeiam.xchange.utils.jackson.EnumIntDeserializer;
  */
 public class WithdrawalRequestStatusDeserializer extends EnumIntDeserializer<WithdrawalRequest.Status> {
 
-  public WithdrawalRequestStatusDeserializer() { super(WithdrawalRequest.Status.class); }
+  public WithdrawalRequestStatusDeserializer() {
+    super(WithdrawalRequest.Status.class);
+  }
 }

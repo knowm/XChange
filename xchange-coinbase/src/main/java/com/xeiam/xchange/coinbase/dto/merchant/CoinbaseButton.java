@@ -20,13 +20,14 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
   @JsonProperty("button")
   private final CoinbaseButtonInfo button;
 
-  private CoinbaseButton(@JsonProperty("button") final CoinbaseButtonInfo button, @JsonProperty("success") final boolean success, @JsonProperty("errors") final List<String> errors) {
+  private CoinbaseButton(@JsonProperty("button") final CoinbaseButtonInfo button, @JsonProperty("success") final boolean success,
+      @JsonProperty("errors") final List<String> errors) {
 
     super(success, errors);
     this.button = button;
   }
 
-  CoinbaseButton(final CoinbaseButtonInfo button) {
+  CoinbaseButton(CoinbaseButtonInfo button) {
 
     super(true);
     this.button = button;
@@ -238,12 +239,12 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
     private String price4;
     private String price5;
 
-    public CoinbaseButtonBuilder(final String name, final String currency, final String priceString) {
+    public CoinbaseButtonBuilder(String name, final String currency, final String priceString) {
 
       this(name, new CoinbaseMoney(currency, new BigDecimal(priceString)));
     }
 
-    public CoinbaseButtonBuilder(final String name, final CoinbaseMoney price) {
+    public CoinbaseButtonBuilder(String name, final CoinbaseMoney price) {
 
       this.name = name;
       this.price = price;
@@ -251,9 +252,9 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
 
     public CoinbaseButton buildButton() {
 
-      final CoinbaseButtonInfo buttonInfo =
-          new CoinbaseButtonInfo(name, price, type, description, null, custom, style, null, text, repeat, customSecure, callbackUrl, successUrl, cancelUrl, infoUrl, autoDirect, variablePrice,
-              choosePrice, includeAddress, includeEmail, price1, price2, price3, price4, price5);
+      final CoinbaseButtonInfo buttonInfo = new CoinbaseButtonInfo(name, price, type, description, null, custom, style, null, text, repeat,
+          customSecure, callbackUrl, successUrl, cancelUrl, infoUrl, autoDirect, variablePrice, choosePrice, includeAddress, includeEmail, price1,
+          price2, price3, price4, price5);
 
       return new CoinbaseButton(buttonInfo);
     }
@@ -283,7 +284,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return type;
     }
 
-    public CoinbaseButtonBuilder withType(final CoinbaseButtonType type) {
+    public CoinbaseButtonBuilder withType(CoinbaseButtonType type) {
 
       this.type = type;
       return this;
@@ -294,7 +295,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return description;
     }
 
-    public CoinbaseButtonBuilder withDescription(final String description) {
+    public CoinbaseButtonBuilder withDescription(String description) {
 
       this.description = description;
       return this;
@@ -305,7 +306,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return custom;
     }
 
-    public CoinbaseButtonBuilder withCustom(final String custom) {
+    public CoinbaseButtonBuilder withCustom(String custom) {
 
       this.custom = custom;
       return this;
@@ -316,7 +317,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return style;
     }
 
-    public CoinbaseButtonBuilder withStyle(final CoinbaseButtonStyle style) {
+    public CoinbaseButtonBuilder withStyle(CoinbaseButtonStyle style) {
 
       this.style = style;
       return this;
@@ -327,7 +328,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return text;
     }
 
-    public CoinbaseButtonBuilder withText(final String text) {
+    public CoinbaseButtonBuilder withText(String text) {
 
       this.text = text;
       return this;
@@ -338,7 +339,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return repeat;
     }
 
-    public CoinbaseButtonBuilder withRepeat(final CoinbaseRepeat repeat) {
+    public CoinbaseButtonBuilder withRepeat(CoinbaseRepeat repeat) {
 
       this.repeat = repeat;
       return this;
@@ -349,7 +350,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return customSecure;
     }
 
-    public CoinbaseButtonBuilder withCustomSecure(final boolean customSecure) {
+    public CoinbaseButtonBuilder withCustomSecure(boolean customSecure) {
 
       this.customSecure = customSecure;
       return this;
@@ -360,7 +361,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return callbackUrl;
     }
 
-    public CoinbaseButtonBuilder withCallbackUrl(final String callbackUrl) {
+    public CoinbaseButtonBuilder withCallbackUrl(String callbackUrl) {
 
       this.callbackUrl = callbackUrl;
       return this;
@@ -371,7 +372,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return successUrl;
     }
 
-    public CoinbaseButtonBuilder withSuccessUrl(final String successUrl) {
+    public CoinbaseButtonBuilder withSuccessUrl(String successUrl) {
 
       this.successUrl = successUrl;
       return this;
@@ -382,7 +383,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return cancelUrl;
     }
 
-    public CoinbaseButtonBuilder withCancelUrl(final String cancelUrl) {
+    public CoinbaseButtonBuilder withCancelUrl(String cancelUrl) {
 
       this.cancelUrl = cancelUrl;
       return this;
@@ -393,7 +394,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return infoUrl;
     }
 
-    public CoinbaseButtonBuilder withInfoUrl(final String infoUrl) {
+    public CoinbaseButtonBuilder withInfoUrl(String infoUrl) {
 
       this.infoUrl = infoUrl;
       return this;
@@ -404,7 +405,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return autoDirect;
     }
 
-    public CoinbaseButtonBuilder withAutoDirect(final boolean autoDirect) {
+    public CoinbaseButtonBuilder withAutoDirect(boolean autoDirect) {
 
       this.autoDirect = autoDirect;
       return this;
@@ -415,7 +416,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return variablePrice;
     }
 
-    public CoinbaseButtonBuilder withVariablePrice(final boolean variablePrice) {
+    public CoinbaseButtonBuilder withVariablePrice(boolean variablePrice) {
 
       this.variablePrice = variablePrice;
       return this;
@@ -426,7 +427,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return choosePrice;
     }
 
-    public CoinbaseButtonBuilder withChoosePrice(final boolean choosePrice) {
+    public CoinbaseButtonBuilder withChoosePrice(boolean choosePrice) {
 
       this.choosePrice = choosePrice;
       return this;
@@ -437,7 +438,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return includeAddress;
     }
 
-    public CoinbaseButtonBuilder withIncludeAddress(final boolean includeAddress) {
+    public CoinbaseButtonBuilder withIncludeAddress(boolean includeAddress) {
 
       this.includeAddress = includeAddress;
       return this;
@@ -448,7 +449,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
       return includeEmail;
     }
 
-    public CoinbaseButtonBuilder withIncludeEmail(final boolean includeEmail) {
+    public CoinbaseButtonBuilder withIncludeEmail(boolean includeEmail) {
 
       this.includeEmail = includeEmail;
       return this;
@@ -481,10 +482,11 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
 
     private static final int MAX_SUGGESTED_PRICES = 5;
 
-    public CoinbaseButtonBuilder withSuggestedPrices(final String... suggestedPrices) {
+    public CoinbaseButtonBuilder withSuggestedPrices(String... suggestedPrices) {
 
       if (suggestedPrices.length > MAX_SUGGESTED_PRICES)
-        throw new IllegalArgumentException("Only " + MAX_SUGGESTED_PRICES + " suggested prices are allowed. There was an attempt to add " + suggestedPrices.length + " prices.");
+        throw new IllegalArgumentException("Only " + MAX_SUGGESTED_PRICES + " suggested prices are allowed. There was an attempt to add "
+            + suggestedPrices.length + " prices.");
 
       switch (suggestedPrices.length) {
       case 5:
@@ -531,14 +533,18 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
     private final String price4;
     private final String price5;
 
-    private CoinbaseButtonInfo(@JsonProperty("name") final String name, @JsonProperty("price") @JsonDeserialize(using = CoinbaseCentsDeserializer.class) final CoinbaseMoney price,
-        @JsonProperty("type") final CoinbaseButtonType type, @JsonProperty("description") final String description, @JsonProperty("id") final String id, @JsonProperty("custom") final String custom,
-        @JsonProperty("style") final CoinbaseButtonStyle style, @JsonProperty("code") final String code, @JsonProperty("text") final String text, @JsonProperty("repeat") final CoinbaseRepeat repeat,
-        @JsonProperty("custom_secure") final boolean customSecure, @JsonProperty("callback_url") final String callbackUrl, @JsonProperty("success_url") final String successUrl,
-        @JsonProperty("cancel_url") final String cancelUrl, @JsonProperty("info_url") final String infoUrl, @JsonProperty("auto_redirect") final boolean autoDirect,
-        @JsonProperty("variable_price") final boolean variablePrice, @JsonProperty("choose_price") final boolean choosePrice, @JsonProperty("include_address") final boolean includeAddress,
-        @JsonProperty("include_email") final boolean includeEmail, @JsonProperty("price1") final String price1, @JsonProperty("price2") final String price2,
-        @JsonProperty("price3") final String price3, @JsonProperty("price4") final String price4, @JsonProperty("price5") final String price5) {
+    private CoinbaseButtonInfo(@JsonProperty("name") final String name, @JsonProperty("price") @JsonDeserialize(
+        using = CoinbaseCentsDeserializer.class) final CoinbaseMoney price, @JsonProperty("type") final CoinbaseButtonType type,
+        @JsonProperty("description") final String description, @JsonProperty("id") final String id, @JsonProperty("custom") final String custom,
+        @JsonProperty("style") final CoinbaseButtonStyle style, @JsonProperty("code") final String code, @JsonProperty("text") final String text,
+        @JsonProperty("repeat") final CoinbaseRepeat repeat, @JsonProperty("custom_secure") final boolean customSecure,
+        @JsonProperty("callback_url") final String callbackUrl, @JsonProperty("success_url") final String successUrl,
+        @JsonProperty("cancel_url") final String cancelUrl, @JsonProperty("info_url") final String infoUrl,
+        @JsonProperty("auto_redirect") final boolean autoDirect, @JsonProperty("variable_price") final boolean variablePrice,
+        @JsonProperty("choose_price") final boolean choosePrice, @JsonProperty("include_address") final boolean includeAddress,
+        @JsonProperty("include_email") final boolean includeEmail, @JsonProperty("price1") final String price1,
+        @JsonProperty("price2") final String price2, @JsonProperty("price3") final String price3, @JsonProperty("price4") final String price4,
+        @JsonProperty("price5") final String price5) {
 
       this.name = name;
       this.price = price;
@@ -732,10 +738,12 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
     @Override
     public String toString() {
 
-      return "CoinbaseButtonInfo [name=" + name + ", price=" + price + ", type=" + type + ", description=" + description + ", id=" + id + ", custom=" + custom + ", style=" + style + ", code=" + code
-          + ", text=" + text + ", repeat=" + repeat + ", customSecure=" + customSecure + ", callbackUrl=" + callbackUrl + ", successUrl=" + successUrl + ", cancelUrl=" + cancelUrl + ", infoUrl="
-          + infoUrl + ", autoDirect=" + autoReDirect + ", variablePrice=" + variablePrice + ", choosePrice=" + choosePrice + ", includeAddress=" + includeAddress + ", includeEmail=" + includeEmail
-          + ", price1=" + price1 + ", price2=" + price2 + ", price3=" + price3 + ", price4=" + price4 + ", price5=" + price5 + "]";
+      return "CoinbaseButtonInfo [name=" + name + ", price=" + price + ", type=" + type + ", description=" + description + ", id=" + id + ", custom="
+          + custom + ", style=" + style + ", code=" + code + ", text=" + text + ", repeat=" + repeat + ", customSecure=" + customSecure
+          + ", callbackUrl=" + callbackUrl + ", successUrl=" + successUrl + ", cancelUrl=" + cancelUrl + ", infoUrl=" + infoUrl + ", autoDirect="
+          + autoReDirect + ", variablePrice=" + variablePrice + ", choosePrice=" + choosePrice + ", includeAddress=" + includeAddress
+          + ", includeEmail=" + includeEmail + ", price1=" + price1 + ", price2=" + price2 + ", price3=" + price3 + ", price4=" + price4
+          + ", price5=" + price5 + "]";
     }
   }
 }

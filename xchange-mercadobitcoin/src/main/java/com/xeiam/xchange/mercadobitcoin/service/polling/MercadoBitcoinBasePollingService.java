@@ -1,39 +1,32 @@
 package com.xeiam.xchange.mercadobitcoin.service.polling;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.Currencies;
+import java.io.IOException;
+import java.util.List;
+
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
- * @author timmolter
  * @author Felipe Micaroni Lalli
  */
 public class MercadoBitcoinBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-  CurrencyPair.BTC_BRL, new CurrencyPair(Currencies.LTC, Currencies.BRL)
-
-  );
-
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
-  public MercadoBitcoinBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public MercadoBitcoinBasePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return CURRENCY_PAIRS;
+    return exchange.getMetaData().getCurrencyPairs();
   }
+
 }

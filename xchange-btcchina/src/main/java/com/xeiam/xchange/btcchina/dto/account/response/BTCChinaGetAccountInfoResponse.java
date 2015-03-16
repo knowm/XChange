@@ -16,7 +16,8 @@ public class BTCChinaGetAccountInfoResponse extends BTCChinaResponse<BTCChinaAcc
    * @param id
    * @param result
    */
-  public BTCChinaGetAccountInfoResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaAccountInfo result, @JsonProperty("error") BTCChinaError error) {
+  public BTCChinaGetAccountInfoResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaAccountInfo result,
+      @JsonProperty("error") BTCChinaError error) {
 
     super(id, result, error);
   }

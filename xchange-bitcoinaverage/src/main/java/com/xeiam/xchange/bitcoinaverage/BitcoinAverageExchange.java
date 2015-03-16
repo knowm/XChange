@@ -1,32 +1,20 @@
 package com.xeiam.xchange.bitcoinaverage;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoinaverage.service.polling.BitcoinAverageMarketDataService;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the BitcoinAverage API</li>
- * </ul>
- */
 public class BitcoinAverageExchange extends BaseExchange implements Exchange {
-
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BitcoinAverageExchange() {
-
-  }
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BitcoinAverageMarketDataService(exchangeSpecification);
+
+    this.pollingMarketDataService = new BitcoinAverageMarketDataService(this);
   }
 
   @Override
@@ -36,9 +24,16 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setSslUri("https://api.bitcoinaverage.com");
     exchangeSpecification.setHost("bitcoinaverage.com");
     exchangeSpecification.setPort(80);
-    exchangeSpecification.setExchangeName("BitcoinAverage");
-    exchangeSpecification.setExchangeDescription("BitcoinAverage provides a more accurate price of bitcoin using weighted average for multiple exchanges.");
+    exchangeSpecification.setExchangeName("Bitcoin Average");
+    exchangeSpecification
+        .setExchangeDescription("Bitcoin Average provides a more accurate price of bitcoin using weighted average for multiple exchanges.");
 
     return exchangeSpecification;
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // No private API implemented. Not needed for this exchange at the moment.
+    return null;
   }
 }

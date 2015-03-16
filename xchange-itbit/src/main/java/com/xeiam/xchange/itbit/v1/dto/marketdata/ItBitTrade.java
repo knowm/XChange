@@ -11,7 +11,8 @@ public class ItBitTrade {
   private final BigDecimal price;
   private final long tid;
 
-  public ItBitTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid) {
+  public ItBitTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("tid") long tid) {
 
     this.amount = amount;
     this.date = date;

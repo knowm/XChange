@@ -10,7 +10,7 @@ import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTrade;
 import com.xeiam.xchange.btctrade.service.polling.BTCTradeMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * Demonstrate requesting trades at BTCTrade.
@@ -50,14 +50,16 @@ public class TradesDemo {
     BTCTradeTrade[] trades = marketDataService.getBTCTradeTrades();
     System.out.println("Trades count: " + trades.length);
     for (BTCTradeTrade trade : trades) {
-      System.out.println(trade.getTid() + "\t" + new Date(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t" + trade.getAmount());
+      System.out.println(trade.getTid() + "\t" + new Date(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t"
+          + trade.getAmount());
     }
 
     // Get 500 trades which tid > 0
     trades = marketDataService.getBTCTradeTrades(0);
     System.out.println("Trades count: " + trades.length);
     for (BTCTradeTrade trade : trades) {
-      System.out.println(trade.getTid() + "\t" + new Date(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t" + trade.getAmount());
+      System.out.println(trade.getTid() + "\t" + new Date(trade.getDate() * 1000) + "\t" + trade.getType() + "\t" + trade.getPrice() + "\t"
+          + trade.getAmount());
     }
   }
 

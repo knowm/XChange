@@ -3,18 +3,14 @@ package com.xeiam.xchange.examples.btcchina.marketdata;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
- * @author timmolter
- *         Demonstrate requesting Trades at BTC China given a since as a timestamp
+ * @author timmolter Demonstrate requesting Trades at BTC China given a since as a timestamp
  */
 public class BTCChinaTradesDemo2 {
 
@@ -29,7 +25,7 @@ public class BTCChinaTradesDemo2 {
     generic();
   }
 
-  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void generic() throws IOException {
 
     // Get the latest trade data for BTC/CNY
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CNY);
@@ -37,7 +33,8 @@ public class BTCChinaTradesDemo2 {
     System.out.println(trades);
     System.out.println("NumTrades=" + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(CurrencyPair.BTC_CNY, trades.getTrades().get(trades.getTrades().size() - 3).getTimestamp().getTime() / 1000, 20, "time");
+    trades = marketDataService.getTrades(CurrencyPair.BTC_CNY, trades.getTrades().get(trades.getTrades().size() - 3).getTimestamp().getTime() / 1000,
+        20, "time");
 
     System.out.println(trades);
     System.out.println("NumTrades=" + trades.getTrades().size());

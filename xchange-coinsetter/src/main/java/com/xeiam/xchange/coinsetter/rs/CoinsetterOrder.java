@@ -29,20 +29,22 @@ public interface CoinsetterOrder {
 
   @POST
   @Path("order")
-  CoinsetterOrderResponse add(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, CoinsetterOrderRequest request) throws CoinsetterException, IOException;
-
-  @GET
-  @Path("order/{orderUuid}")
-  com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrder get(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, @PathParam("orderUuid") UUID orderUuid)
+  CoinsetterOrderResponse add(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, CoinsetterOrderRequest request)
       throws CoinsetterException, IOException;
 
   @GET
+  @Path("order/{orderUuid}")
+  com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrder get(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId,
+      @PathParam("orderUuid") UUID orderUuid) throws CoinsetterException, IOException;
+
+  @GET
   @Path("customer/account/{accountUuid}/order")
-  CoinsetterOrderList list(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, @PathParam("accountUuid") UUID accountUuid, @QueryParam("view") String view) throws CoinsetterException,
-      IOException;
+  CoinsetterOrderList list(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, @PathParam("accountUuid") UUID accountUuid,
+      @QueryParam("view") String view) throws CoinsetterException, IOException;
 
   @DELETE
   @Path("order/{orderUuid}")
-  CoinsetterOrderResponse cancel(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, @PathParam("orderUuid") UUID orderUuid) throws CoinsetterException, IOException;
+  CoinsetterOrderResponse cancel(@HeaderParam("coinsetter-client-session-id") UUID clientSessionId, @PathParam("orderUuid") UUID orderUuid)
+      throws CoinsetterException, IOException;
 
 }

@@ -23,7 +23,8 @@ public class BitfinexTradeDemo {
   private static void raw(Exchange bfx) throws IOException {
 
     BitfinexTradeServiceRaw tradeService = (BitfinexTradeServiceRaw) bfx.getPollingTradeService();
-    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("481.69")).tradableAmount(new BigDecimal("0.001")).build();
+    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("481.69"))
+        .tradableAmount(new BigDecimal("0.001")).build();
     tradeService.placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT, false);
   }
 }

@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.Socket;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
@@ -34,16 +34,18 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
 
   private READYSTATE webSocketStatus = READYSTATE.NOT_YET_CONNECTED;
 
-  public BTCChinaSocketIOService(ExchangeSpecification exchangeSpecification, BTCChinaStreamingConfiguration exchangeStreamingConfiguration) {
+  public BTCChinaSocketIOService(Exchange exchange, BTCChinaStreamingConfiguration exchangeStreamingConfiguration) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
-    final String uri = (String) exchangeSpecification.getExchangeSpecificParametersItem(BTCChinaExchange.WEBSOCKET_URI_KEY);
+    final String uri = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(BTCChinaExchange.WEBSOCKET_URI_KEY);
 
-    socket =
-        BTCChinaSocketIOClientBuilder.create().setUri(URI.create(uri)).setAccessKey(exchangeSpecification.getApiKey()).setSecretKey(exchangeSpecification.getSecretKey()).subscribeAccountInfo(
-            exchangeStreamingConfiguration.isSubscribeAccountInfo()).subscribeMarketData(exchangeStreamingConfiguration.getMarketDataCurrencyPairs()).subscribeGrouporder(
-            exchangeStreamingConfiguration.getGrouporderCurrencyPairs()).subscribeOrderFeed(exchangeStreamingConfiguration.getOrderFeedCurrencyPairs()).build();
+    socket = BTCChinaSocketIOClientBuilder.create().setUri(URI.create(uri)).setAccessKey(exchange.getExchangeSpecification().getApiKey())
+        .setSecretKey(exchange.getExchangeSpecification().getSecretKey())
+        .subscribeAccountInfo(exchangeStreamingConfiguration.isSubscribeAccountInfo())
+        .subscribeMarketData(exchangeStreamingConfiguration.getMarketDataCurrencyPairs())
+        .subscribeGrouporder(exchangeStreamingConfiguration.getGrouporderCurrencyPairs())
+        .subscribeOrderFeed(exchangeStreamingConfiguration.getOrderFeedCurrencyPairs()).build();
 
     listen();
   }

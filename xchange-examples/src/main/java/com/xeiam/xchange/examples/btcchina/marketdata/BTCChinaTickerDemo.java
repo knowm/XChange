@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.btcchina.BTCChinaExchange;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
@@ -15,11 +12,10 @@ import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.BasePollingService;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
- * @author ObsessiveOrange
- *         Demonstrate requesting Ticker at BTC China
+ * @author ObsessiveOrange Demonstrate requesting Ticker at BTC China
  */
 public class BTCChinaTickerDemo {
 
@@ -35,7 +31,7 @@ public class BTCChinaTickerDemo {
     raw();
   }
 
-  public static void generic() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void generic() throws IOException {
 
     // Get the latest ticker data showing BTC to CNY
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_LTC);
@@ -49,7 +45,7 @@ public class BTCChinaTickerDemo {
 
   }
 
-  public static void raw() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void raw() throws IOException {
 
     BTCChinaMarketDataServiceRaw marketDataServiceRaw = ((BTCChinaMarketDataServiceRaw) marketDataService);
 

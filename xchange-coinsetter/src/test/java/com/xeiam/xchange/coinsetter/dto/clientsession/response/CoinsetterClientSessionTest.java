@@ -16,7 +16,8 @@ public class CoinsetterClientSessionTest {
   @Test
   public void test() throws JsonParseException, JsonMappingException, IOException {
 
-    CoinsetterClientSession coinsetterClientSession = ObjectMapperHelper.readValue(getClass().getResource("login.json"), CoinsetterClientSession.class);
+    CoinsetterClientSession coinsetterClientSession = ObjectMapperHelper.readValue(getClass().getResource("login.json"),
+        CoinsetterClientSession.class);
     assertEquals(UUID.fromString("f7a5a8c3-23f9-4ca5-96bf-6f756c0d2155"), coinsetterClientSession.getUuid());
     assertEquals("ACTIVE", coinsetterClientSession.getCustomerStatus());
     assertEquals("ACTIVE", coinsetterClientSession.getCustomerPasswordStatus());

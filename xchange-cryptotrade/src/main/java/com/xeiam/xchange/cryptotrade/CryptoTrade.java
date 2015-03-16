@@ -22,11 +22,13 @@ public interface CryptoTrade {
 
   @GET
   @Path("depth/{ident}_{currency}")
-  CryptoTradeDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws CryptoTradeException, IOException;
+  CryptoTradeDepth getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws CryptoTradeException,
+      IOException;
 
   @GET
   @Path("getpair/{ident}_{currency}")
-  CryptoTradePair getPair(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws CryptoTradeException, IOException;
+  CryptoTradePair getPair(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws CryptoTradeException,
+      IOException;
 
   @GET
   @Path("getpairs")
@@ -34,7 +36,8 @@ public interface CryptoTrade {
 
   @GET
   @Path("ticker/{ident}_{currency}")
-  CryptoTradeTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws CryptoTradeException, IOException;
+  CryptoTradeTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws CryptoTradeException,
+      IOException;
 
   @GET
   @Path("tickers")
@@ -42,11 +45,12 @@ public interface CryptoTrade {
 
   @GET
   @Path("tradeshistory/{ident}_{currency}")
-  CryptoTradePublicTrades getTradeHistory(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws CryptoTradeException, IOException;
+  CryptoTradePublicTrades getTradeHistory(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)
+      throws CryptoTradeException, IOException;
 
   @GET
   @Path("tradeshistory/{ident}_{currency}/{since}")
-  CryptoTradePublicTrades getTradeHistory(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @PathParam("since") long sinceTimestamp) throws CryptoTradeException,
-      IOException;
+  CryptoTradePublicTrades getTradeHistory(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency,
+      @PathParam("since") long sinceTimestamp) throws CryptoTradeException, IOException;
 
 }

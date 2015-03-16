@@ -1,76 +1,53 @@
 package com.xeiam.xchange.anx.v2.service.polling;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.SynchronizedValueFactory;
+import si.mazi.rescu.HttpStatusIOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.anx.v2.dto.ANXException;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.FundsExceededException;
+import com.xeiam.xchange.exceptions.NonceException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-/**
- * <p>
- * Implementation of the market data service for ANX V2
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
- */
 public class ANXBasePollingService extends BaseExchangeService implements BasePollingService {
-
-  protected static final String PREFIX = "anx";
-  protected static final String KEY_ORDER_SIZE_MIN_DEFAULT = PREFIX + SUF_ORDER_SIZE_MIN_DEFAULT;
-  protected static final String KEY_ORDER_SIZE_SCALE_DEFAULT = PREFIX + SUF_ORDER_SIZE_SCALE_DEFAULT;
-  protected static final String PREKEY_ORDER_SIZE_MIN = PREFIX + IN_ORDER_SIZE_MIN;
-  protected static final String PREKEY_ORDER_SIZE_MAX = PREFIX + ".order.size.max.";
-  protected static final String KEY_ORDER_SIZE_MAX_DEFAULT = PREKEY_ORDER_SIZE_MAX + SUF_DEFAULT;
-  protected static final String KEY_ORDER_PRICE_SCALE_DEFAULT = PREFIX + SUF_ORDER_PRICE_SCALE_DEFAULT;
-  protected static final String KEY_ORDER_FEE_POLICY_MAKER = PREFIX + ".order.feePolicy.maker";
-  protected static final String KEY_ORDER_FEE_DISCOUNT = PREFIX + ".order.fee.makerDiscount";
-
-  static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
-
-    new CurrencyPair("BTC", "USD"),
-    new CurrencyPair("BTC", "HKD"),
-    new CurrencyPair("BTC", "EUR"),
-    new CurrencyPair("BTC", "CAD"),
-    new CurrencyPair("BTC", "AUD"),
-    new CurrencyPair("BTC", "SGD"),
-    new CurrencyPair("BTC", "JPY"),
-    new CurrencyPair("BTC", "CHF"),
-    new CurrencyPair("BTC", "GBP"),
-    new CurrencyPair("BTC", "NZD"),
-    new CurrencyPair("LTC", "BTC"),
-    new CurrencyPair("DOGE", "BTC"),
-    new CurrencyPair("STR", "BTC"),
-    new CurrencyPair("XRP", "BTC")
-
-  );
-
-  private final SynchronizedValueFactory<Long> nonceFactory;
 
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
+   * @param nonceFactory
    */
-  public ANXBasePollingService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  public ANXBasePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.nonceFactory = nonceFactory;
+    super(exchange);
+  }
+
+  protected RuntimeException handleHttpError(HttpStatusIOException exception) throws IOException {
+    if (exception.getHttpStatusCode() == 304) {
+      return new NonceException(exception.getHttpBody());
+    } else {
+      throw exception;
+    }
+  }
+
+  protected RuntimeException handleError(ANXException exception) {
+
+    if ("Insufficient Funds".equals(exception.getError())) {
+      return new FundsExceededException(exception.getError());
+    } else {
+      return new ExchangeException(exception.getError(), exception);
+    }
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return CURRENCY_PAIRS;
-  }
-
-  protected SynchronizedValueFactory<Long> getNonce() {
-
-    return nonceFactory;
+    return exchange.getMetaData().getCurrencyPairs();
   }
 
 }

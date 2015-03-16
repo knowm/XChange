@@ -13,7 +13,7 @@ import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanTicker;
 /**
  * @author Piotr Ładyżyński
  */
-@Path("/api/")
+@Path("api")
 @Produces(MediaType.APPLICATION_JSON)
 public interface BitKonan {
 

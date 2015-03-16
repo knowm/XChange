@@ -16,9 +16,10 @@ public class HitbtcOwnTrade {
   private final String side;
   private final BigDecimal execQuantity;
 
-  public HitbtcOwnTrade(@JsonProperty("tradeId") long tradeId, @JsonProperty("execPrice") BigDecimal execPrice, @JsonProperty("timestamp") long timestamp,
-      @JsonProperty("originalOrderId") long originalOrderId, @JsonProperty("fee") BigDecimal fee, @JsonProperty("clientOrderId") String clientOrderId, @JsonProperty("symbol") String symbol,
-      @JsonProperty("side") String side, @JsonProperty("execQuantity") BigDecimal execQuantity) {
+  public HitbtcOwnTrade(@JsonProperty("tradeId") long tradeId, @JsonProperty("execPrice") BigDecimal execPrice,
+      @JsonProperty("timestamp") long timestamp, @JsonProperty("originalOrderId") long originalOrderId, @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("clientOrderId") String clientOrderId, @JsonProperty("symbol") String symbol, @JsonProperty("side") String side,
+      @JsonProperty("execQuantity") BigDecimal execQuantity) {
 
     super();
     this.tradeId = tradeId;

@@ -21,7 +21,8 @@ public class CryptsyOrderBook {
    * Constructor
    */
   @JsonCreator
-  public CryptsyOrderBook(@JsonProperty("marketid") int marketId, @JsonProperty("buyorders") List<CryptsyBuyOrder> buyOrders, @JsonProperty("sellorders") List<CryptsySellOrder> sellOrders) {
+  public CryptsyOrderBook(@JsonProperty("marketid") int marketId, @JsonProperty("buyorders") List<CryptsyBuyOrder> buyOrders,
+      @JsonProperty("sellorders") List<CryptsySellOrder> sellOrders) {
 
     this.marketId = marketId;
     this.buyOrders = buyOrders;

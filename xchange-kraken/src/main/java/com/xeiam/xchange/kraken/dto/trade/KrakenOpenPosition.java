@@ -44,11 +44,12 @@ public class KrakenOpenPosition {
    * @param orderFlags
    * @param volumeInQuoteCurrency
    */
-  public KrakenOpenPosition(@JsonProperty("ordertxid") String orderTxId, @JsonProperty("pair") String assetPair, @JsonProperty("time") long tradeUnixTimestamp, @JsonProperty("type") KrakenType type,
-      @JsonProperty("ordertype") KrakenOrderType orderType, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee, @JsonProperty("vol") BigDecimal volume,
-      @JsonProperty("vol_closed") BigDecimal volumeClosed, @JsonProperty("margin") BigDecimal margin, @JsonProperty("volue") BigDecimal value, @JsonProperty("net") BigDecimal netDifference,
-      @JsonProperty("misc") String miscellaneous, @JsonProperty("oflags") @JsonDeserialize(using = KrakenOrderFlagsDeserializer.class) Set<KrakenOrderFlags> orderFlags,
-      @JsonProperty("viqc") BigDecimal volumeInQuoteCurrency) {
+  public KrakenOpenPosition(@JsonProperty("ordertxid") String orderTxId, @JsonProperty("pair") String assetPair,
+      @JsonProperty("time") long tradeUnixTimestamp, @JsonProperty("type") KrakenType type, @JsonProperty("ordertype") KrakenOrderType orderType,
+      @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee, @JsonProperty("vol") BigDecimal volume,
+      @JsonProperty("vol_closed") BigDecimal volumeClosed, @JsonProperty("margin") BigDecimal margin, @JsonProperty("volue") BigDecimal value,
+      @JsonProperty("net") BigDecimal netDifference, @JsonProperty("misc") String miscellaneous, @JsonProperty("oflags") @JsonDeserialize(
+          using = KrakenOrderFlagsDeserializer.class) Set<KrakenOrderFlags> orderFlags, @JsonProperty("viqc") BigDecimal volumeInQuoteCurrency) {
 
     this.orderTxId = orderTxId;
     this.assetPair = assetPair;
@@ -145,9 +146,10 @@ public class KrakenOpenPosition {
   @Override
   public String toString() {
 
-    return "KrakenOpenPosition [orderTxId=" + orderTxId + ", assetPair=" + assetPair + ", tradeUnixTimestamp=" + tradeUnixTimestamp + ", type=" + type + ", orderType=" + orderType + ", cost=" + cost
-        + ", fee=" + fee + ", volume=" + volume + ", volumeClosed=" + volumeClosed + ", margin=" + margin + ", value=" + value + ", netDifference=" + netDifference + ", miscellaneous="
-        + miscellaneous + ", orderFlags=" + orderFlags + ", volumeInQuoteCurrency=" + volumeInQuoteCurrency + "]";
+    return "KrakenOpenPosition [orderTxId=" + orderTxId + ", assetPair=" + assetPair + ", tradeUnixTimestamp=" + tradeUnixTimestamp + ", type="
+        + type + ", orderType=" + orderType + ", cost=" + cost + ", fee=" + fee + ", volume=" + volume + ", volumeClosed=" + volumeClosed
+        + ", margin=" + margin + ", value=" + value + ", netDifference=" + netDifference + ", miscellaneous=" + miscellaneous + ", orderFlags="
+        + orderFlags + ", volumeInQuoteCurrency=" + volumeInQuoteCurrency + "]";
   }
 
 }

@@ -48,7 +48,6 @@ public class BitcoiniumRealtimeTickerDemo {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
     // exchangeSpecification.setPlainTextUri("http://openexchangerates.org");
     exchangeSpecification.setApiKey("42djci5kmbtyzrvglfdw3e2dgmh5mr37");
-    exchangeSpecification.setPlainTextUri("http://173.10.241.154:9090");
     System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
@@ -92,8 +91,7 @@ public class BitcoiniumRealtimeTickerDemo {
             Series series = chartPanel.updateSeries(SERIES_NAME, xAxisData, yAxisData);
             System.out.println(series.getXData());
             System.out.println(series.getYData());
-          }
-          else {
+          } else {
             System.out.println("No new data.");
           }
         } catch (IOException e) {
@@ -112,7 +110,8 @@ public class BitcoiniumRealtimeTickerDemo {
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - BITSTAMP
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD", "THREE_HOURS");
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory(Currencies.BTC, "BITSTAMP_USD",
+        "THREE_HOURS");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 
@@ -131,7 +130,8 @@ public class BitcoiniumRealtimeTickerDemo {
     }
 
     // create chart
-    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time Bitstamp Price vs. Time").xAxisTitle("Time").yAxisTitle("Price").build();
+    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time Bitstamp Price vs. Time").xAxisTitle("Time")
+        .yAxisTitle("Price").build();
     chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
 
     // add series

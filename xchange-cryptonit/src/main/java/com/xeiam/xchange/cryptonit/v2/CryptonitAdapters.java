@@ -70,12 +70,11 @@ public final class CryptonitAdapters {
     Map<String, CryptonitOrder> orders = cryptonitOrders.getOrders();
     for (Map.Entry<String, CryptonitOrder> trade : orders.entrySet()) {
       if (orderType.equalsIgnoreCase("bid")) {
-        limitOrders.add(adaptDepth(trade.getValue().getAskAmount(), trade.getValue().getAskRate(), currencyPair, orderType, DateUtils.fromMillisUtc(trade.getValue().getCreated() * 1000L), String
-                .valueOf(trade.getKey())));
-      }
-      else {
-        limitOrders.add(adaptDepth(trade.getValue().getBidAmount(), trade.getValue().getBidRate(), currencyPair, orderType, DateUtils.fromMillisUtc(trade.getValue().getCreated() * 1000L), String
-                .valueOf(trade.getKey())));
+        limitOrders.add(adaptDepth(trade.getValue().getAskAmount(), trade.getValue().getAskRate(), currencyPair, orderType,
+                DateUtils.fromMillisUtc(trade.getValue().getCreated() * 1000L), String.valueOf(trade.getKey())));
+      } else {
+        limitOrders.add(adaptDepth(trade.getValue().getBidAmount(), trade.getValue().getBidRate(), currencyPair, orderType,
+            DateUtils.fromMillisUtc(trade.getValue().getCreated() * 1000L), String.valueOf(trade.getKey())));
       }
     }
     Collections.sort(limitOrders);

@@ -15,8 +15,7 @@ public class PoloniexTradeResponse {
   private final List<PoloniexPublicTrade> resultingTrades = new ArrayList<PoloniexPublicTrade>();
 
   @JsonCreator
-  public PoloniexTradeResponse(
-      @JsonProperty("orderNumber") Integer orderNumber,
+  public PoloniexTradeResponse(@JsonProperty("orderNumber") Integer orderNumber,
       @JsonProperty("resultingTrades") List<PoloniexPublicTrade> resultingTrades) {
 
     if (orderNumber == null) {

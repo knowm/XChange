@@ -13,7 +13,8 @@ import com.xeiam.xchange.btcchina.dto.trade.BTCChinaStopOrdersObject;
  */
 public class BTCChinaGetStopOrdersResponse extends BTCChinaResponse<BTCChinaStopOrdersObject> {
 
-  public BTCChinaGetStopOrdersResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaStopOrdersObject result, @JsonProperty("error") BTCChinaError error) {
+  public BTCChinaGetStopOrdersResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaStopOrdersObject result,
+      @JsonProperty("error") BTCChinaError error) {
 
     super(id, result, error);
   }

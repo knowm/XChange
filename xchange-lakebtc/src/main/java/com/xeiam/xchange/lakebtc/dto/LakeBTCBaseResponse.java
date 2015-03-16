@@ -3,7 +3,7 @@ package com.xeiam.xchange.lakebtc.dto;
 /**
  * @author kpysniak
  */
-public abstract class LakeBTCBaseResponse {
+public class LakeBTCBaseResponse {
 
   private final String error;
 

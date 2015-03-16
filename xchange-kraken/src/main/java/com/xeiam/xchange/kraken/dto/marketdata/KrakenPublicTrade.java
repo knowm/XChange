@@ -15,8 +15,8 @@ public class KrakenPublicTrade {
   private final KrakenOrderType orderType;
   private final String miscellaneous;
 
-  public KrakenPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("volume") BigDecimal volume, @JsonProperty("time") double time, @JsonProperty("type") KrakenType type,
-      @JsonProperty("orderType") KrakenOrderType orderType, @JsonProperty("miscellaneous") String miscellaneous) {
+  public KrakenPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("volume") BigDecimal volume, @JsonProperty("time") double time,
+      @JsonProperty("type") KrakenType type, @JsonProperty("orderType") KrakenOrderType orderType, @JsonProperty("miscellaneous") String miscellaneous) {
 
     this.price = price;
     this.volume = volume;
@@ -59,7 +59,8 @@ public class KrakenPublicTrade {
   @Override
   public String toString() {
 
-    return "KrakenPublicTrade [price=" + price + ", volume=" + volume + ", time=" + time + ", type=" + type + ", orderType=" + orderType + ", miscellaneous=" + miscellaneous + "]";
+    return "KrakenPublicTrade [price=" + price + ", volume=" + volume + ", time=" + time + ", type=" + type + ", orderType=" + orderType
+        + ", miscellaneous=" + miscellaneous + "]";
   }
 
 }

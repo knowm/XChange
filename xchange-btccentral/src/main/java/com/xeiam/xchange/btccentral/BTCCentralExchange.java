@@ -1,5 +1,7 @@
 package com.xeiam.xchange.btccentral;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -18,7 +20,8 @@ public class BTCCentralExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setHost("bitcoin-central.net");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitcoin-Central");
-    exchangeSpecification.setExchangeDescription("Bitcoin-Central is a Bitcoin exchange registered and maintained by a company based in Paris, France.");
+    exchangeSpecification
+        .setExchangeDescription("Bitcoin-Central is a Bitcoin exchange registered and maintained by a company based in Paris, France.");
 
     return exchangeSpecification;
   }
@@ -27,9 +30,14 @@ public class BTCCentralExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new BTCCentralMarketDataService(exchangeSpecification);
+    this.pollingMarketDataService = new BTCCentralMarketDataService(this);
     this.pollingTradeService = null;
     this.pollingAccountService = null;
   }
 
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // No private API implemented. Not needed for this exchange at the moment.
+    return null;
+  }
 }

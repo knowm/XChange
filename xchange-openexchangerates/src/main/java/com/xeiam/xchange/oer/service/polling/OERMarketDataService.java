@@ -4,16 +4,16 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.oer.OERAdapters;
 import com.xeiam.xchange.oer.dto.marketdata.OERRates;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * @author timmolter
@@ -22,12 +22,12 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Pol
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public OERMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public OERMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -57,7 +57,7 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Pol
     }
 
     // Adapt to XChange DTOs
-    return OERAdapters.adaptTicker(currencyPair, exchangeRate, cachedOERTickers.getTimestamp() * 1000L);
+    return OERAdapters.adaptTicker(currencyPair, exchangeRate, null);
   }
 
   @Override

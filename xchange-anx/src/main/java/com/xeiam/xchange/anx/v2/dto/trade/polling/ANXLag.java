@@ -20,7 +20,8 @@ public class ANXLag {
    * @param lagText
    * @param length
    */
-  public ANXLag(@JsonProperty("lag") long lag, @JsonProperty("lag_secs") double lagDecimal, @JsonProperty("lag_text") String lagText, @JsonProperty("length") int length) {
+  public ANXLag(@JsonProperty("lag") long lag, @JsonProperty("lag_secs") double lagDecimal, @JsonProperty("lag_text") String lagText,
+      @JsonProperty("length") int length) {
 
     this.lag = lag;
     this.lagDecimal = lagDecimal;

@@ -17,10 +17,12 @@ public class BitVcAccountInfo {
   private final BigDecimal loanLtc;
   private final String message;
 
-  public BitVcAccountInfo(@JsonProperty("available_cny") final BigDecimal availableCnyDisplay, @JsonProperty("available_btc") final BigDecimal availableBtcDisplay,
-      @JsonProperty("available_ltc") final BigDecimal availableLtcDisplay, @JsonProperty("frozen_cny") final BigDecimal frozenCnyDisplay,
-      @JsonProperty("frozen_btc") final BigDecimal frozenBtcDisplay, @JsonProperty("frozen_ltc") final BigDecimal frozenLtcDisplay, @JsonProperty("loan_cny") final BigDecimal loanCnyDisplay,
-      @JsonProperty("loan_btc") final BigDecimal loanBtcDisplay, @JsonProperty("loan_ltc") final BigDecimal loanLtcDisplay, @JsonProperty("message") final String message) {
+  public BitVcAccountInfo(@JsonProperty("available_cny") final BigDecimal availableCnyDisplay,
+      @JsonProperty("available_btc") final BigDecimal availableBtcDisplay, @JsonProperty("available_ltc") final BigDecimal availableLtcDisplay,
+      @JsonProperty("frozen_cny") final BigDecimal frozenCnyDisplay, @JsonProperty("frozen_btc") final BigDecimal frozenBtcDisplay,
+      @JsonProperty("frozen_ltc") final BigDecimal frozenLtcDisplay, @JsonProperty("loan_cny") final BigDecimal loanCnyDisplay,
+      @JsonProperty("loan_btc") final BigDecimal loanBtcDisplay, @JsonProperty("loan_ltc") final BigDecimal loanLtcDisplay,
+      @JsonProperty("message") final String message) {
 
     this.availableCny = availableCnyDisplay;
     this.availableBtc = availableBtcDisplay;

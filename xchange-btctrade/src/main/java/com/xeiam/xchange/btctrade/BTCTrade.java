@@ -11,6 +11,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.btctrade.dto.BTCTradeResult;
 import com.xeiam.xchange.btctrade.dto.BTCTradeSecretResponse;
@@ -84,7 +85,8 @@ public interface BTCTrade {
    */
   @POST
   @Path("balance")
-  public BTCTradeBalance getBalance(@FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
+  public BTCTradeBalance getBalance(@FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key,
+      @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Returns the deposit address.
@@ -96,7 +98,8 @@ public interface BTCTrade {
    */
   @POST
   @Path("wallet")
-  public BTCTradeWallet getWallet(@FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
+  public BTCTradeWallet getWallet(@FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key,
+      @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Return orders.
@@ -109,8 +112,9 @@ public interface BTCTrade {
    */
   @POST
   @Path("orders")
-  public BTCTradeOrder[] getOrders(@FormParam("since") long since, @FormParam("type") String type, @FormParam("nonce") long nonce, @FormParam("key") String key,
-      @FormParam("signature") ParamsDigest signature) throws IOException;
+  public BTCTradeOrder[] getOrders(@FormParam("since") long since, @FormParam("type") String type,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
+      throws IOException;
 
   /**
    * Returns order information.
@@ -122,7 +126,8 @@ public interface BTCTrade {
    */
   @POST
   @Path("fetch_order")
-  public BTCTradeOrder getOrder(@FormParam("id") String id, @FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
+  public BTCTradeOrder getOrder(@FormParam("id") String id, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key,
+      @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Cancels order.
@@ -134,7 +139,8 @@ public interface BTCTrade {
    */
   @POST
   @Path("cancel_order")
-  public BTCTradeResult cancelOrder(@FormParam("id") String id, @FormParam("nonce") long nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
+  public BTCTradeResult cancelOrder(@FormParam("id") String id, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Places a buy order.
@@ -147,8 +153,9 @@ public interface BTCTrade {
    */
   @POST
   @Path("buy")
-  public BTCTradePlaceOrderResult buy(@FormParam("amount") String amount, @FormParam("price") String price, @FormParam("nonce") long nonce, @FormParam("key") String key,
-      @FormParam("signature") ParamsDigest signature) throws IOException;
+  public BTCTradePlaceOrderResult buy(@FormParam("amount") String amount, @FormParam("price") String price,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
+      throws IOException;
 
   /**
    * Places a sell order.
@@ -161,7 +168,8 @@ public interface BTCTrade {
    */
   @POST
   @Path("sell")
-  public BTCTradePlaceOrderResult sell(@FormParam("amount") String amount, @FormParam("price") String price, @FormParam("nonce") long nonce, @FormParam("key") String key,
-      @FormParam("signature") ParamsDigest signature) throws IOException;
+  public BTCTradePlaceOrderResult sell(@FormParam("amount") String amount, @FormParam("price") String price,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
+      throws IOException;
 
 }

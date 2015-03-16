@@ -124,7 +124,8 @@ public class PoloniexOpenOrder {
   @Override
   public String toString() {
 
-    return "PoloniexOpenOrder [orderNumber=" + orderNumber + ", type=" + type + ", rate=" + rate + ", amount=" + amount + ", total=" + total + ", additionalProperties=" + additionalProperties + "]";
+    return "PoloniexOpenOrder [orderNumber=" + orderNumber + ", type=" + type + ", rate=" + rate + ", amount=" + amount + ", total=" + total
+        + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

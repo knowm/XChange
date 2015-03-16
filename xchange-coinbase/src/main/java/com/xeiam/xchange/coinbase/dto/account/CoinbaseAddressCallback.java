@@ -10,7 +10,7 @@ public class CoinbaseAddressCallback {
   @JsonProperty("address")
   private final CoinbaseCallbackUrlParam callbackUrlParam;
 
-  public CoinbaseAddressCallback(final String callbackUrl, final String label) {
+  public CoinbaseAddressCallback(String callbackUrl, final String label) {
 
     this.callbackUrlParam = new CoinbaseCallbackUrlParam(callbackUrl, label);
   }
@@ -23,7 +23,7 @@ public class CoinbaseAddressCallback {
     @JsonProperty("label")
     private final String label;
 
-    private CoinbaseCallbackUrlParam(final String callbackUrl, final String label) {
+    private CoinbaseCallbackUrlParam(String callbackUrl, String label) {
 
       this.callbackUrl = callbackUrl;
       this.label = label;

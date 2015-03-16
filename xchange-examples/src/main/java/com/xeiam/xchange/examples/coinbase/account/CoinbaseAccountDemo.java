@@ -23,7 +23,7 @@ import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * @author jamespedwards42
@@ -125,7 +125,8 @@ public class CoinbaseAccountDemo {
 
   private static void demoTransactions(CoinbaseAccountService accountService) throws IOException {
 
-    CoinbaseRequestMoneyRequest moneyRequest = CoinbaseTransaction.createMoneyRequest("xchange@demo.com", Currencies.BTC, new BigDecimal(".001")).withNotes("test");
+    CoinbaseRequestMoneyRequest moneyRequest = CoinbaseTransaction.createMoneyRequest("xchange@demo.com", Currencies.BTC, new BigDecimal(".001"))
+        .withNotes("test");
     CoinbaseTransaction pendingTransaction = accountService.requestMoneyCoinbaseRequest(moneyRequest);
     System.out.println(pendingTransaction);
 

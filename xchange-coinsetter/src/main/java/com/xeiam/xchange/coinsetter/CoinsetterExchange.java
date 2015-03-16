@@ -2,6 +2,8 @@ package com.xeiam.xchange.coinsetter;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -37,8 +39,8 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
   public static final String SESSION_KEY = "session";
 
   /**
-   * XChange do not support multiple sub account, so specify one account using to trade.
-   * If does not specified, the first one in from the account list will be used.
+   * XChange do not support multiple sub accounts, so specify one account using to trade. If does not specified, the first one in from the account
+   * list will be used.
    */
   public static final String ACCOUNT_UUID_KEY = "account";
 
@@ -46,14 +48,11 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new CoinsetterMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new CoinsetterAccountService(exchangeSpecification);
-    this.pollingTradeService = new CoinsetterTradeService(exchangeSpecification);
+    this.pollingMarketDataService = new CoinsetterMarketDataService(this);
+    this.pollingAccountService = new CoinsetterAccountService(this);
+    this.pollingTradeService = new CoinsetterTradeService(this);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
@@ -61,7 +60,8 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setSslUri("https://api.coinsetter.com/v1");
     exchangeSpecification.setHost("api.coinsetter.com");
     exchangeSpecification.setExchangeName("Coinsetter");
-    exchangeSpecification.setExchangeDescription("Coinsetter is a New York City based, venture capital funded bitcoin exchange that is dedicated to making bitcoin safe and reliable for active users.");
+    exchangeSpecification
+        .setExchangeDescription("Coinsetter is a New York City based, venture capital funded bitcoin exchange that is dedicated to making bitcoin safe and reliable for active users.");
     exchangeSpecification.setExchangeSpecificParametersItem(WEBSOCKET_URI_KEY, "https://plug.coinsetter.com:3000");
 
     // default heartbeat interval is 30 seconds.
@@ -81,15 +81,19 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
     if (configuration == null) {
       coinsetterStreamingConfiguration = new CoinsetterStreamingConfiguration();
       coinsetterStreamingConfiguration.addAllMarketDataEvents();
-    }
-    else if (configuration instanceof CoinsetterStreamingConfiguration) {
+    } else if (configuration instanceof CoinsetterStreamingConfiguration) {
       coinsetterStreamingConfiguration = (CoinsetterStreamingConfiguration) configuration;
-    }
-    else {
+    } else {
       throw new IllegalArgumentException("Coinsetter only supports CoinsetterStreamingConfiguration");
     }
 
-    return new CoinsetterSocketIOService(getExchangeSpecification(), coinsetterStreamingConfiguration);
+    return new CoinsetterSocketIOService(this, coinsetterStreamingConfiguration);
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // Coinsetter uses it's own session authentication scheme and does not use a nonce
+    return null;
   }
 
 }

@@ -22,7 +22,8 @@ public class BitMarketTrade {
    * @param amount
    * @param date
    */
-  public BitMarketTrade(@JsonProperty("tid") String tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date) {
+  public BitMarketTrade(@JsonProperty("tid") String tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("date") long date) {
 
     this.tid = tid;
     this.price = price;

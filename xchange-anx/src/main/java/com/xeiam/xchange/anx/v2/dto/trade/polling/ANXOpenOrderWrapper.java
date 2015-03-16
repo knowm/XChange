@@ -18,7 +18,8 @@ public class ANXOpenOrderWrapper {
    * @param anxOpenOrders
    * @param error
    */
-  public ANXOpenOrderWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXOpenOrder[] anxOpenOrders, @JsonProperty("error") String error) {
+  public ANXOpenOrderWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXOpenOrder[] anxOpenOrders,
+      @JsonProperty("error") String error) {
 
     this.result = result;
     this.anxOpenOrders = anxOpenOrders;

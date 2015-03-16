@@ -1,6 +1,6 @@
 package com.xeiam.xchange.btcchina.dto.trade;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,7 +10,8 @@ public class BTCChinaMarketDepth {
   private final BTCChinaMarketDepthOrder[] asks;
   private final long date;
 
-  public BTCChinaMarketDepth(@JsonProperty("bid") BTCChinaMarketDepthOrder[] bids, @JsonProperty("ask") BTCChinaMarketDepthOrder[] asks, @JsonProperty("date") long date) {
+  public BTCChinaMarketDepth(@JsonProperty("bid") BTCChinaMarketDepthOrder[] bids, @JsonProperty("ask") BTCChinaMarketDepthOrder[] asks,
+      @JsonProperty("date") long date) {
 
     this.bids = bids;
     this.asks = asks;
@@ -32,13 +33,10 @@ public class BTCChinaMarketDepth {
     return date;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public String toString() {
 
-    return ToStringBuilder.reflectionToString(this);
+    return "BTCChinaMarketDepth [bids=" + Arrays.toString(bids) + ", asks=" + Arrays.toString(asks) + ", date=" + date + "]";
   }
 
 }

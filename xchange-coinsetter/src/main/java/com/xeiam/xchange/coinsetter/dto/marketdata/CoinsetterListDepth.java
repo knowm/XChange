@@ -17,8 +17,8 @@ public class CoinsetterListDepth {
   private final int sequenceNumber;
   private final Long timeStamp;
 
-  public CoinsetterListDepth(@JsonProperty("asks") BigDecimal[][] asks, @JsonProperty("bids") BigDecimal[][] bids, @JsonProperty("exchangeId") String exchangeId,
-      @JsonProperty("sequenceNumber") int sequenceNumber, @JsonProperty("timeStamp") Long timeStamp) {
+  public CoinsetterListDepth(@JsonProperty("asks") BigDecimal[][] asks, @JsonProperty("bids") BigDecimal[][] bids,
+      @JsonProperty("exchangeId") String exchangeId, @JsonProperty("sequenceNumber") int sequenceNumber, @JsonProperty("timeStamp") Long timeStamp) {
 
     this.asks = asks;
     this.bids = bids;
@@ -55,8 +55,8 @@ public class CoinsetterListDepth {
   @Override
   public String toString() {
 
-    return "CoinsetterListDepth [asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + ", exchangeId=" + exchangeId + ", sequenceNumber=" + sequenceNumber + ", timeStamp=" + timeStamp
-        + "]";
+    return "CoinsetterListDepth [asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + ", exchangeId=" + exchangeId
+        + ", sequenceNumber=" + sequenceNumber + ", timeStamp=" + timeStamp + "]";
   }
 
 }

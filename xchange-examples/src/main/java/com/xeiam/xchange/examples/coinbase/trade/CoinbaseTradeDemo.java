@@ -7,7 +7,7 @@ import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseTradeService;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 /**
  * @author jamespedwards42

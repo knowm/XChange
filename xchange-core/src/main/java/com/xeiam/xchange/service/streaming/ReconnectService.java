@@ -47,8 +47,7 @@ public class ReconnectService {
         e.printStackTrace();
       }
       reconnect();
-    }
-    else if (exchangeEvent.getEventType() == ExchangeEventType.CONNECT) {
+    } else if (exchangeEvent.getEventType() == ExchangeEventType.CONNECT) {
       numConnectionAttempts = 0;
     }
 
@@ -57,7 +56,8 @@ public class ReconnectService {
   private void reconnect() {
 
     if (!streamingExchangeService.getWebSocketStatus().equals(READYSTATE.OPEN)) {
-      log.debug("ExchangeType Error. Attempting reconnect " + numConnectionAttempts + " of " + exchangeStreamingConfiguration.getMaxReconnectAttempts());
+      log.debug("ExchangeType Error. Attempting reconnect " + numConnectionAttempts + " of "
+          + exchangeStreamingConfiguration.getMaxReconnectAttempts());
 
       if (numConnectionAttempts >= exchangeStreamingConfiguration.getMaxReconnectAttempts()) {
         log.debug("Terminating reconnection attempts.");

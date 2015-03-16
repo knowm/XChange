@@ -8,7 +8,8 @@ public class BittrexDepthResponse {
   private final String message;
   private final BittrexDepth depth;
 
-  public BittrexDepthResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message, @JsonProperty("result") BittrexDepth depth) {
+  public BittrexDepthResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+      @JsonProperty("result") BittrexDepth depth) {
 
     this.success = success;
     this.message = message;

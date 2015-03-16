@@ -123,7 +123,8 @@ public final class BittrexAdapters {
 
     Date timestamp = BittrexUtils.toDate(bittrexTicker.getTimeStamp());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
   }
 
   public static AccountInfo adaptAccountInfo(List<BittrexBalance> balances) {

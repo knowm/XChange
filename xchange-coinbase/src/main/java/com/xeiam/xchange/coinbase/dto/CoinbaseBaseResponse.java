@@ -19,7 +19,7 @@ public class CoinbaseBaseResponse {
     this.errors = errors;
   }
 
-  protected CoinbaseBaseResponse(final boolean success) {
+  protected CoinbaseBaseResponse(boolean success) {
 
     this.success = success;
     this.errors = null;

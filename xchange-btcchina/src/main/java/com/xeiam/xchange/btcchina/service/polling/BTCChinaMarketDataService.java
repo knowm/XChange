@@ -5,9 +5,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
@@ -16,13 +14,10 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * Implementation of the market data service for BTCChina.
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
  *
  * @author ObsessiveOrange
  */
@@ -33,11 +28,11 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
    */
-  public BTCChinaMarketDataService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
+  public BTCChinaMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification, tonceFactory);
+    super(exchange);
   }
 
   @Override
@@ -59,8 +54,7 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
     if (args.length == 0) {
       btcChinaDepth = getBTCChinaOrderBook(market);
-    }
-    else {
+    } else {
       int limit = ((Number) args[0]).intValue();
       btcChinaDepth = getBTCChinaOrderBook(market, limit);
     }
@@ -74,10 +68,10 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
    *
    * @param currencyPair market symbol.
    * @param args 2 arguments:
-   *          <ol>
-   *          <li>the starting trade ID(exclusive), null means the latest trades;</li>
-   *          <li>the limit(number of records fetched, the range is [0,5000]), default is 100.</li>
-   *          <ol>
+   *        <ol>
+   *        <li>the starting trade ID(exclusive), null means the latest trades;</li>
+   *        <li>the limit(number of records fetched, the range is [0,5000]), default is 100.</li>
+   *        <ol>
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
@@ -93,17 +87,13 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
 
     if (since != null && limit != null && sinceType != null) {
       btcChinaTrades = getBTCChinaHistoryData(market, since.longValue(), limit.intValue(), sinceType);
-    }
-    else if (since != null && limit != null) {
+    } else if (since != null && limit != null) {
       btcChinaTrades = getBTCChinaHistoryData(market, since.longValue(), limit.intValue());
-    }
-    else if (since != null) {
+    } else if (since != null) {
       btcChinaTrades = getBTCChinaHistoryData(market, since.longValue());
-    }
-    else if (limit != null) {
+    } else if (limit != null) {
       btcChinaTrades = getBTCChinaHistoryData(market, limit.intValue());
-    }
-    else {
+    } else {
       btcChinaTrades = getBTCChinaHistoryData(market);
     }
 

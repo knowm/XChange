@@ -2,9 +2,7 @@ package com.xeiam.xchange.bitcoinium.service.polling;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcoinium.BitcoiniumAdapters;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
@@ -12,7 +10,9 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * <p>
@@ -26,12 +26,12 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BitcoiniumMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public BitcoiniumMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -53,12 +53,10 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
       Object arg0 = args[0];
       if (!(arg0 instanceof String)) {
         throw new ExchangeException("priceWindow argument must be a String!");
-      }
-      else {
+      } else {
         priceWindow = (String) arg0;
       }
-    }
-    else {
+    } else {
       throw new ExchangeException("Exactly 1 String arguments is necessary: the priceWindow!");
     }
 

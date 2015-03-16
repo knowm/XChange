@@ -1,14 +1,31 @@
 package com.xeiam.xchange.lakebtc;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.lakebtc.service.polling.LakeBTCAccountService;
 import com.xeiam.xchange.lakebtc.service.polling.LakeBTCMarketDataService;
+import com.xeiam.xchange.lakebtc.service.polling.LakeBTCTradeService;
+import com.xeiam.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 
 /**
  * @author kpysniak
  */
 public class LakeBTCExchange extends BaseExchange implements Exchange {
+
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentNanosecondTimeIncrementalNonceFactory();
+
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+
+    super.applySpecification(exchangeSpecification);
+
+    this.pollingMarketDataService = new LakeBTCMarketDataService(this);
+    this.pollingAccountService = new LakeBTCAccountService(this);
+    this.pollingTradeService = new LakeBTCTradeService(this);
+  }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
@@ -24,12 +41,8 @@ public class LakeBTCExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
+  public SynchronizedValueFactory<Long> getNonceFactory() {
 
-    super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new LakeBTCMarketDataService(exchangeSpecification);
-    this.pollingTradeService = null;
-    this.pollingAccountService = null;
+    return nonceFactory;
   }
-
 }

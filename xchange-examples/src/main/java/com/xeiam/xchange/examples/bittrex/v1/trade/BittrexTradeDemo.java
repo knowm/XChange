@@ -4,19 +4,16 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.bittrex.v1.service.polling.BittrexTradeServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.examples.bittrex.v1.BittrexExamplesUtils;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 public class BittrexTradeDemo {
 
-  public static void main(String[] args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public static void main(String[] args) throws IOException {
 
     Exchange exchange = BittrexExamplesUtils.getExchange();
 
@@ -30,7 +27,8 @@ public class BittrexTradeDemo {
   private static void generic(PollingTradeService tradeService) throws IOException {
 
     CurrencyPair pair = new CurrencyPair("ZET", "BTC");
-    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000")).tradableAmount(new BigDecimal("100")).build();
+    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000"))
+        .tradableAmount(new BigDecimal("100")).build();
 
     try {
       String uuid = tradeService.placeLimitOrder(limitOrder);
@@ -46,8 +44,7 @@ public class BittrexTradeDemo {
 
       if (cancelled) {
         System.out.println("Order successfully canceled.");
-      }
-      else {
+      } else {
         System.out.println("Order not successfully canceled.");
       }
 
@@ -64,7 +61,8 @@ public class BittrexTradeDemo {
   private static void raw(BittrexTradeServiceRaw tradeService) throws IOException {
 
     CurrencyPair pair = new CurrencyPair("ZET", "BTC");
-    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000")).tradableAmount(new BigDecimal("100")).build();
+    LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000"))
+        .tradableAmount(new BigDecimal("100")).build();
 
     try {
       String uuid = tradeService.placeBittrexLimitOrder(limitOrder);
@@ -80,8 +78,7 @@ public class BittrexTradeDemo {
 
       if (cancelled) {
         System.out.println("Order successfully canceled.");
-      }
-      else {
+      } else {
         System.out.println("Order not successfully canceled.");
       }
 

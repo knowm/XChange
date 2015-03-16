@@ -20,15 +20,16 @@ public class BTCChinaProfile extends LinkedHashMap<String, String> {
 
   /**
    * Constructor
-   * 
+   *
    * @param username
    * @param tradePasswordEnabled
    * @param otpEnabled
    * @param tradeFee
    * @param apiKeyPermission
    */
-  public BTCChinaProfile(@JsonProperty("username") String username, @JsonProperty("trade_password_enabled") Boolean tradePasswordEnabled, @JsonProperty("otp_enabled") Boolean otpEnabled,
-      @JsonProperty("trade_fee") BigDecimal tradeFee, @JsonProperty("api_key_permission") int apiKeyPermission) {
+  public BTCChinaProfile(@JsonProperty("username") String username, @JsonProperty("trade_password_enabled") Boolean tradePasswordEnabled,
+      @JsonProperty("otp_enabled") Boolean otpEnabled, @JsonProperty("trade_fee") BigDecimal tradeFee,
+      @JsonProperty("api_key_permission") int apiKeyPermission) {
 
     this.username = username;
     this.tradePasswordEnabled = tradePasswordEnabled;
@@ -71,41 +72,14 @@ public class BTCChinaProfile extends LinkedHashMap<String, String> {
     return new BigDecimal(get(String.format("daily_%s_limit", currency)));
   }
 
-  /**
-   * @deprecated Use {@link #getDailyLimit(String)} instead.
-   */
-  @Deprecated
-  public BigDecimal getDailyBtcLimit() {
-
-    return getDailyLimit("btc");
-  }
-
   public String getDepositAddress(String currency) {
 
     return get(String.format("%s_deposit_address", currency.toLowerCase()));
   }
 
-  /**
-   * @deprecated Use {@link #getDepositAddress(String)} instead.
-   */
-  @Deprecated
-  public String getBtcDepositAddress() {
-
-    return getDepositAddress("btc");
-  }
-
   public String getWithdrawalAddress(String currency) {
 
     return get(String.format("%s_withdrawal_address", currency.toLowerCase()));
-  }
-
-  /**
-   * @deprecated Use {@link #getWithdrawalAddress(String)} instead.
-   */
-  @Deprecated
-  public String getBtcWithdrawalAddress() {
-
-    return getWithdrawalAddress("btc");
   }
 
   public int getApiKeyPermission() {
@@ -116,7 +90,8 @@ public class BTCChinaProfile extends LinkedHashMap<String, String> {
   @Override
   public String toString() {
 
-    return String.format("Profile{username=%s, tradePasswordEnabled=%s, otpEnabled=%s, tradeFee=%s, apiKeyPermission=%d}", username, tradePasswordEnabled, otpEnabled, tradeFee, apiKeyPermission);
+    return String.format("Profile{username=%s, tradePasswordEnabled=%s, otpEnabled=%s, tradeFee=%s, apiKeyPermission=%d}", username,
+        tradePasswordEnabled, otpEnabled, tradeFee, apiKeyPermission);
   }
 
 }

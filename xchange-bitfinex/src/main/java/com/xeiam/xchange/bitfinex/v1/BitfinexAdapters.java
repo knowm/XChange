@@ -68,7 +68,8 @@ public final class BitfinexAdapters {
     OrdersContainer asksOrdersContainer = adaptOrders(btceDepth.getAsks(), currencyPair, OrderType.ASK);
     OrdersContainer bidsOrdersContainer = adaptOrders(btceDepth.getBids(), currencyPair, OrderType.BID);
 
-    return new OrderBook(new Date(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())), asksOrdersContainer.getLimitOrders(), bidsOrdersContainer.getLimitOrders());
+    return new OrderBook(new Date(Math.max(asksOrdersContainer.getTimestamp(), bidsOrdersContainer.getTimestamp())),
+        asksOrdersContainer.getLimitOrders(), bidsOrdersContainer.getLimitOrders());
   }
 
   public static OrdersContainer adaptOrders(BitfinexLevel[] bitfinexLevels, CurrencyPair currencyPair, OrderType orderType) {
@@ -80,7 +81,7 @@ public final class BitfinexAdapters {
       if (bitfinexLevel.getTimestamp().compareTo(maxTimestamp) > 0) {
         maxTimestamp = bitfinexLevel.getTimestamp();
       }
-      
+
       Date timestamp = convertBigDecimalTimestampToDate(bitfinexLevel.getTimestamp());
       limitOrders.add(adaptOrder(bitfinexLevel.getAmount(), bitfinexLevel.getPrice(), currencyPair, orderType, timestamp));
     }
@@ -134,8 +135,7 @@ public final class BitfinexAdapters {
       // Bid orderbook is reversed order. Insert at reversed indices
       if (orderType.equalsIgnoreCase("loan")) {
         loanOrders.add(0, adaptFixedRateLoanOrder(currency, order.getAmount(), order.getPeriod(), orderType, id, order.getRate()));
-      }
-      else {
+      } else {
         loanOrders.add(adaptFixedRateLoanOrder(currency, order.getAmount(), order.getPeriod(), orderType, id, order.getRate()));
       }
     }
@@ -143,7 +143,8 @@ public final class BitfinexAdapters {
     return loanOrders;
   }
 
-  public static FixedRateLoanOrder adaptFixedRateLoanOrder(String currency, BigDecimal amount, int dayPeriod, String direction, String id, BigDecimal rate) {
+  public static FixedRateLoanOrder adaptFixedRateLoanOrder(String currency, BigDecimal amount, int dayPeriod, String direction, String id,
+      BigDecimal rate) {
 
     OrderType orderType = direction.equalsIgnoreCase("loan") ? OrderType.BID : OrderType.ASK;
 
@@ -162,8 +163,7 @@ public final class BitfinexAdapters {
       // Bid orderbook is reversed order. Insert at reversed indices
       if (orderType.equalsIgnoreCase("loan")) {
         loanOrders.add(0, adaptFloatingRateLoanOrder(currency, order.getAmount(), order.getPeriod(), orderType, id, order.getRate()));
-      }
-      else {
+      } else {
         loanOrders.add(adaptFloatingRateLoanOrder(currency, order.getAmount(), order.getPeriod(), orderType, id, order.getRate()));
       }
     }
@@ -171,7 +171,8 @@ public final class BitfinexAdapters {
     return loanOrders;
   }
 
-  public static FloatingRateLoanOrder adaptFloatingRateLoanOrder(String currency, BigDecimal amount, int dayPeriod, String direction, String id, BigDecimal rate) {
+  public static FloatingRateLoanOrder adaptFloatingRateLoanOrder(String currency, BigDecimal amount, int dayPeriod, String direction, String id,
+      BigDecimal rate) {
 
     OrderType orderType = direction.equalsIgnoreCase("loan") ? OrderType.BID : OrderType.ASK;
 
@@ -213,7 +214,8 @@ public final class BitfinexAdapters {
 
     Date timestamp = DateUtils.fromMillisUtc((long) (bitfinexTicker.getTimestamp() * 1000L));
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
   }
 
   public static AccountInfo adaptAccountInfo(BitfinexBalancesResponse[] response) {
@@ -237,7 +239,8 @@ public final class BitfinexAdapters {
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       CurrencyPair currencyPair = adaptCurrencyPair(order.getSymbol());
       Date timestamp = convertBigDecimalTimestampToDate(order.getTimestamp());
-      limitOrders.add(new LimitOrder(orderType, order.getRemainingAmount(), currencyPair, String.valueOf(order.getId()), timestamp, order.getPrice()));
+      limitOrders
+          .add(new LimitOrder(orderType, order.getRemainingAmount(), currencyPair, String.valueOf(order.getId()), timestamp, order.getPrice()));
     }
 
     return new OpenOrders(limitOrders);
@@ -252,16 +255,16 @@ public final class BitfinexAdapters {
       OrderType orderType = trade.getType().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
       Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
       final BigDecimal fee = trade.getFeeAmount() == null ? null : trade.getFeeAmount().negate();
-      pastTrades.add(new UserTrade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), trade.getOrderId(), fee, trade.getFeeCurrency()));
+      pastTrades.add(new UserTrade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), trade.getOrderId(),
+          fee, trade.getFeeCurrency()));
     }
 
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
   }
-  
+
   private static Date convertBigDecimalTimestampToDate(BigDecimal timestamp) {
-      
-      BigDecimal timestampInMillis = timestamp.multiply(new BigDecimal("1000"));
-      return new Date(timestampInMillis.longValue());
+
+    BigDecimal timestampInMillis = timestamp.multiply(new BigDecimal("1000"));
+    return new Date(timestampInMillis.longValue());
   }
 }
-

@@ -11,7 +11,6 @@ import java.util.Map;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.coinfloor.dto.streaming.CoinfloorOrder;
 import com.xeiam.xchange.coinfloor.dto.streaming.account.CoinfloorAssetBalance;
 import com.xeiam.xchange.coinfloor.dto.streaming.account.CoinfloorBalances;
@@ -33,6 +32,7 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * @author obsessiveOrange
@@ -87,12 +87,12 @@ public class CoinfloorAdapters {
     OrderType type = null;
     if (order.getBaseQty().doubleValue() > 0) {
       type = OrderType.BID;
-    }
-    else if (order.getBaseQty().doubleValue() <= 0) {
+    } else if (order.getBaseQty().doubleValue() <= 0) {
       type = OrderType.ASK;
     }
 
-    return new LimitOrder(type, order.getBaseQty(), new CurrencyPair(baseCurrency, counterCurrency), String.valueOf(order.getId()), new Date(order.getTime()), order.getPrice());
+    return new LimitOrder(type, order.getBaseQty(), new CurrencyPair(baseCurrency, counterCurrency), String.valueOf(order.getId()), new Date(
+        order.getTime()), order.getPrice());
   }
 
   public Map<String, Object> adaptOpenOrders(String data) throws ExchangeException {
@@ -174,7 +174,8 @@ public class CoinfloorAdapters {
     return resultMap;
   }
 
-  // No meaningful generic form availiable - raw and generic output will be the same.
+  // No meaningful generic form availiable - raw and generic output will be the
+  // same.
   public Map<String, Object> adaptEstimateMarketOrder(String data) {
 
     Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -203,15 +204,17 @@ public class CoinfloorAdapters {
       throw new ExchangeException("JSON parse error", e);
     }
 
-    // String tradableIdentifier, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal volume, Date timestamp
-    // base & counter currencies hard coded in; no way to make it dynamic with return data - may change over time.
+    // String tradableIdentifier, BigDecimal last, BigDecimal bid, BigDecimal
+    // ask, BigDecimal high, BigDecimal low, BigDecimal volume, Date timestamp
+    // base & counter currencies hard coded in; no way to make it dynamic with
+    // return data - may change over time.
     BigDecimal last = rawRetObj.getLast();
     BigDecimal bid = rawRetObj.getBid();
     BigDecimal ask = rawRetObj.getAsk();
     BigDecimal low = rawRetObj.getLow();
     BigDecimal high = rawRetObj.getHigh();
-    Ticker genericTicker =
-        new Ticker.Builder().volume(rawRetObj.getVolume()).ask(ask).currencyPair(new CurrencyPair("BTC", "GBP")).bid(bid).high(high).low(low).last(last).build();
+    Ticker genericTicker = new Ticker.Builder().volume(rawRetObj.getVolume()).ask(ask).currencyPair(new CurrencyPair("BTC", "GBP")).bid(bid)
+        .high(high).low(low).last(last).build();
 
     synchronized (cachedDataSynchronizationObject) {
       cachedTicker = genericTicker;
@@ -236,7 +239,8 @@ public class CoinfloorAdapters {
     Ticker genericTicker;
 
     synchronized (cachedDataSynchronizationObject) {
-      // base & counter currencies hard coded in; no way to make it dynamic with return data - may change over time.
+      // base & counter currencies hard coded in; no way to make it dynamic with
+      // return data - may change over time.
       BigDecimal last = (rawRetObj.getLast().doubleValue() == 0 ? cachedTicker.getLast() : rawRetObj.getLast());
       BigDecimal bid = (rawRetObj.getBid().doubleValue() == 0 ? cachedTicker.getBid() : rawRetObj.getBid());
       BigDecimal ask = (rawRetObj.getAsk().doubleValue() == 0 ? cachedTicker.getAsk() : rawRetObj.getAsk());
@@ -244,9 +248,8 @@ public class CoinfloorAdapters {
       BigDecimal high = (rawRetObj.getHigh().doubleValue() == 0 ? cachedTicker.getHigh() : rawRetObj.getHigh());
       BigDecimal volume = (rawRetObj.getVolume().doubleValue() == 0 ? cachedTicker.getVolume() : rawRetObj.getVolume());
 
-      genericTicker =
-          new Ticker.Builder().currencyPair(new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString())).last(last).bid(bid).ask(ask).low(low)
-              .high(high).volume(volume).build();
+      genericTicker = new Ticker.Builder().currencyPair(new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString()))
+          .last(last).bid(bid).ask(ask).low(low).high(high).volume(volume).build();
       cachedTicker = genericTicker;
     }
 
@@ -278,14 +281,13 @@ public class CoinfloorAdapters {
         for (CoinfloorOrder order : orders) {
           if (order.getBaseQty().doubleValue() > 0) {
             bidList.add(adaptOrder(order));
-          }
-          else {
+          } else {
             askList.add(adaptOrder(order));
           }
         }
       }
 
-      orderbook = new OrderBook(new Date(), askList, bidList);
+      orderbook = new OrderBook(null, askList, bidList);
       cachedOrderBook = orderbook;
     }
     resultMap.put("generic", orderbook);
@@ -309,11 +311,10 @@ public class CoinfloorAdapters {
       List<LimitOrder> askList = (cachedOrderBook == null ? new ArrayList<LimitOrder>() : cachedOrderBook.getAsks());
       if (rawRetObj.getBaseQty().doubleValue() > 0) {
         bidList.add(adaptOrder(rawRetObj));
-      }
-      else {
+      } else {
         askList.add(adaptOrder(rawRetObj));
       }
-      cachedOrderBook = new OrderBook(new Date(), askList, bidList);
+      cachedOrderBook = new OrderBook(null, askList, bidList);
     }
 
     resultMap.put("generic", adaptOrder(rawRetObj));
@@ -343,8 +344,7 @@ public class CoinfloorAdapters {
             break;
           }
         }
-      }
-      else {
+      } else {
         for (int i = 0; i < askList.size(); i++) {
           if (askList.get(i).getId().equals(String.valueOf(rawRetObj.getId()))) {
             askList.remove(i);
@@ -352,7 +352,7 @@ public class CoinfloorAdapters {
           }
         }
       }
-      cachedOrderBook = new OrderBook(new Date(), askList, bidList);
+      cachedOrderBook = new OrderBook(null, askList, bidList);
     }
 
     resultMap.put("generic", adaptOrder(rawRetObj));
@@ -393,13 +393,13 @@ public class CoinfloorAdapters {
           }
         }
       }
-      cachedOrderBook = new OrderBook(new Date(), askList, bidList);
+      cachedOrderBook = new OrderBook(null, askList, bidList);
 
       OrderType type = (rawRetObj.getBidId() > rawRetObj.getAskId() ? OrderType.BID : OrderType.ASK);
       BigDecimal limitPrice = rawRetObj.getPrice();
 
-      trade =
-          new Trade(type, rawRetObj.getBaseQty(), new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString()), limitPrice, new Date(), String.valueOf(rawRetObj.getId()));
+      trade = new Trade(type, rawRetObj.getBaseQty(), new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString()),
+          limitPrice, null, String.valueOf(rawRetObj.getId()));
 
       List<Trade> newTradesList = (cachedTrades == null ? new ArrayList<Trade>() : cachedTrades.getTrades());
       newTradesList.add(trade);
@@ -434,8 +434,7 @@ public class CoinfloorAdapters {
         BigDecimal balance = rawRetObj.getBalance();
 
         newWallets.add(new Wallet(currency, balance));
-      }
-      else {
+      } else {
         List<Wallet> oldWallets = cachedAccountInfo.getWallets();
         for (Wallet wallet : oldWallets) {
           if (wallet.getCurrency().equals(rawRetObj.getAsset())) {
@@ -443,8 +442,7 @@ public class CoinfloorAdapters {
             BigDecimal balance = rawRetObj.getBalance();
 
             newWallets.add(new Wallet(currency, balance));
-          }
-          else {
+          } else {
             newWallets.add(wallet);
           }
         }
@@ -461,10 +459,9 @@ public class CoinfloorAdapters {
   }
 
   /**
-   * Experimental: USE WITH CAUTION.
-   * Adapters take every "BalancesUpdated" event, update local AccountInfo object with said new balance.
-   * This method will return that cached AccountInfo object.
-   * 
+   * Experimental: USE WITH CAUTION. Adapters take every "BalancesUpdated" event, update local AccountInfo object with said new balance. This method
+   * will return that cached AccountInfo object.
+   *
    * @return Trades object representing all OrdersMatched trades recieved.
    * @throws ExchangeException if getBalances method has not yet been called, or response has not been recieved.
    */
@@ -479,11 +476,9 @@ public class CoinfloorAdapters {
   }
 
   /**
-   * Experimental: USE WITH CAUTION.
-   * Adapters take every "OrderOpened," "OrdersMatched," or "OrderClosed" event, update local Orderbook object.
-   * This method will return that cached Orderbook object.
-   * Notes: Will not survive program restarts, instantiated upon class instantiation with NO WALLETS.
-   * 
+   * Experimental: USE WITH CAUTION. Adapters take every "OrderOpened," "OrdersMatched," or "OrderClosed" event, update local Orderbook object. This
+   * method will return that cached Orderbook object. Notes: Will not survive program restarts, instantiated upon class instantiation with NO WALLETS.
+   *
    * @return Trades object representing all OrdersMatched trades recieved.
    * @throws ExchangeException if watchOrders method has not been called.
    */
@@ -498,12 +493,10 @@ public class CoinfloorAdapters {
   }
 
   /**
-   * Experimental: USE WITH CAUTION.
-   * Adapters cache every "OrdersMatched" event, add the trade to a local Trades object.
-   * This method will return that cached Trades object.
-   * Notes: Will not survive program restarts, will only cache user's transactions, unless
-   * \tWatchOrders method is called, in which case it will cache ALL transctions happening on that market.
-   * 
+   * Experimental: USE WITH CAUTION. Adapters cache every "OrdersMatched" event, add the trade to a local Trades object. This method will return that
+   * cached Trades object. Notes: Will not survive program restarts, will only cache user's transactions, unless \tWatchOrders method is called, in
+   * which case it will cache ALL transctions happening on that market.
+   *
    * @return Trades object representing all OrdersMatched trades recieved.
    * @throws ExchangeException if watchOrders method has not been called, or no trades have occurred.
    */
@@ -518,12 +511,10 @@ public class CoinfloorAdapters {
   }
 
   /**
-   * Experimental: USE WITH CAUTION.
-   * Adapters cache every "OrdersMatched" event, add the trade to a local Trades object.
-   * This method will return that cached Trades object.
-   * Notes: Will not survive program restarts, will only cache user's transactions, unless
-   * \tWatchOrders method is called, in which case it will cache ALL transctions happening on that market.
-   * 
+   * Experimental: USE WITH CAUTION. Adapters cache every "OrdersMatched" event, add the trade to a local Trades object. This method will return that
+   * cached Trades object. Notes: Will not survive program restarts, will only cache user's transactions, unless \tWatchOrders method is called, in
+   * which case it will cache ALL transctions happening on that market.
+   *
    * @return Trades object representing all OrdersMatched trades recieved.
    * @throws ExchangeException if watchOrders method has not been called, or no trades have occurred.
    */

@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitbay;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -32,6 +34,12 @@ public class BitbayExchange extends BaseExchange implements Exchange {
     this.pollingMarketDataService = new BitbayMarketDataService(exchangeSpecification);
     this.pollingTradeService = new BitbayTradeService(exchangeSpecification);
     this.pollingAccountService = new BitbayAccountService(exchangeSpecification);
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    // No private API implemented. Not needed for this exchange at the moment.
+    return null;
   }
 
 }

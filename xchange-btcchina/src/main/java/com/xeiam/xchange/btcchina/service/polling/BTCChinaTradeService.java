@@ -6,15 +6,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.service.polling.trade.*;
-import com.xeiam.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.BTCChinaExchangeException;
 import com.xeiam.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
@@ -28,7 +23,14 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.service.polling.PollingTradeService;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsIdSpan;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * Implementation of the trade service for BTCChina.
@@ -44,11 +46,12 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
   /**
    * Constructor
+   *
+   * @param exchange
    */
-  public BTCChinaTradeService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> tonceFactory) {
+  public BTCChinaTradeService(Exchange exchange) {
 
-    super(exchangeSpecification, tonceFactory);
-
+    super(exchange);
   }
 
   @Override
@@ -78,8 +81,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
     if (marketOrder.getType() == OrderType.BID) {
       response = buy(null, amount, market);
-    }
-    else {
+    } else {
       response = sell(null, amount, market);
     }
 
@@ -96,8 +98,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
     if (limitOrder.getType() == OrderType.BID) {
       response = buy(price, amount, market);
-    }
-    else {
+    } else {
       response = sell(price, amount, market);
     }
 
@@ -116,8 +117,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
       if (e.getErrorCode() == -32026) {
         // Order already completed
         ret = false;
-      }
-      else {
+      } else {
         throw e;
       }
     }
@@ -129,12 +129,12 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
    * Gets trade history for user's account.
    *
    * @param args 2 optional arguments:
-   *          <ol>
-   *          <li>limit: limit the number of transactions, default value is 10 if null.</li>
-   *          <li>offset: start index used for pagination, default value is 0 if null.</li>
-   *          <li>since: to fetch the transactions from this point, which can either be an order id or a unix timestamp, default value is 0.</li>
-   *          <li>sincetype: specify the type of 'since' parameter, can either be 'id' or 'time'. default value is 'time'.</li>
-   *          </ol>
+   *        <ol>
+   *        <li>limit: limit the number of transactions, default value is 10 if null.</li>
+   *        <li>offset: start index used for pagination, default value is 0 if null.</li>
+   *        <li>since: to fetch the transactions from this point, which can either be an order id or a unix timestamp, default value is 0.</li>
+   *        <li>sincetype: specify the type of 'since' parameter, can either be 'id' or 'time'. default value is 'time'.</li>
+   *        </ol>
    */
   @Override
   public UserTrades getTradeHistory(Object... args) throws IOException {
@@ -156,17 +156,16 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   }
 
   /**
-   * Supported parameters:
-   * {@link TradeHistoryParamPaging}
-   * {@link TradeHistoryParamsTimeSpan#getStartTime()}
+   * Supported parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamsTimeSpan#getStartTime()}
    * {@link TradeHistoryParamsIdSpan#getStartId()} used only if startTime is not set
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
 
     String type = BTCChinaTransactionsRequest.TYPE_ALL;
-    if (params instanceof BTCChinaTradeHistoryParams)
+    if (params instanceof BTCChinaTradeHistoryParams) {
       type = ((BTCChinaTradeHistoryParams) params).type;
+    }
 
     Integer limit = null;
     Integer offset = null;
@@ -199,12 +198,13 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   }
 
   @Override
-  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
+  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new BTCChinaTradeHistoryParams();
   }
 
-  public static class BTCChinaTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsTimeSpan, TradeHistoryParamsIdSpan {
+  public static class BTCChinaTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsTimeSpan,
+      TradeHistoryParamsIdSpan {
 
     private String type = BTCChinaTransactionsRequest.TYPE_ALL;
     private Date startTime;
@@ -213,14 +213,15 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     public BTCChinaTradeHistoryParams() {
     }
 
-    public BTCChinaTradeHistoryParams(Integer pageLength, Integer pageNumber, String type, Date startTime, Integer startId ) {
+    public BTCChinaTradeHistoryParams(Integer pageLength, Integer pageNumber, String type, Date startTime, Integer startId) {
 
       super(pageLength, pageNumber);
       this.type = type;
       this.startTime = startTime;
 
-      if (startId != null)
+      if (startId != null) {
         setStartId(startId.toString());
+      }
     }
 
     @Override

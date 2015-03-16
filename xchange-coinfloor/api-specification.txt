@@ -1,0 +1,9 @@
+Coinfloor Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://coinfloor.co.uk/api
+

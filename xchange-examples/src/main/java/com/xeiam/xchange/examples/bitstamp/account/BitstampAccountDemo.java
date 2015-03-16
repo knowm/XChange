@@ -14,7 +14,7 @@ import com.xeiam.xchange.bitstamp.service.polling.BitstampAccountServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * <p>
@@ -74,7 +74,8 @@ public class BitstampAccountDemo {
       System.out.println(unconfirmedDeposit);
     }
 
-    BitstampWithdrawal withdrawResult = accountService.withdrawBitstampFunds(new BigDecimal(1).movePointLeft(4), "1PxYUsgKdw75sdLmM7HYP2p74LEq3mxM6L");
+    BitstampWithdrawal withdrawResult = accountService
+        .withdrawBitstampFunds(new BigDecimal(1).movePointLeft(4), "1PxYUsgKdw75sdLmM7HYP2p74LEq3mxM6L");
     System.out.println("BitstampBooleanResponse = " + withdrawResult);
   }
 }

@@ -2,8 +2,6 @@ package com.xeiam.xchange.btcchina.dto.account;
 
 import java.math.BigDecimal;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCChinaDeposit {
@@ -38,8 +36,8 @@ public class BTCChinaDeposit {
    */
   private final String status;
 
-  public BTCChinaDeposit(@JsonProperty("id") long id, @JsonProperty("address") String address, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("date") long date, @JsonProperty("status") String status) {
+  public BTCChinaDeposit(@JsonProperty("id") long id, @JsonProperty("address") String address, @JsonProperty("currency") String currency,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("status") String status) {
 
     this.id = id;
     this.address = address;
@@ -82,7 +80,8 @@ public class BTCChinaDeposit {
   @Override
   public String toString() {
 
-    return ToStringBuilder.reflectionToString(this);
+    return "BTCChinaDeposit [id=" + id + ", address=" + address + ", currency=" + currency + ", amount=" + amount + ", date=" + date + ", status="
+        + status + "]";
   }
 
 }

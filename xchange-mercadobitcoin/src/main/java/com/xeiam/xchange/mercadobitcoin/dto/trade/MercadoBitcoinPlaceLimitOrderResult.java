@@ -7,18 +7,18 @@ import java.util.Map;
  * @author Felipe Micaroni Lalli
  */
 public class MercadoBitcoinPlaceLimitOrderResult extends HashMap<String, MercadoBitcoinUserOrdersEntry> {
-    public MercadoBitcoinPlaceLimitOrderResult(int initialCapacity, float loadFactor) {
-        super(initialCapacity, loadFactor);
-    }
+  public MercadoBitcoinPlaceLimitOrderResult(int initialCapacity, float loadFactor) {
+    super(initialCapacity, loadFactor);
+  }
 
-    public MercadoBitcoinPlaceLimitOrderResult(int initialCapacity) {
-        super(initialCapacity);
-    }
+  public MercadoBitcoinPlaceLimitOrderResult(int initialCapacity) {
+    super(initialCapacity);
+  }
 
-    public MercadoBitcoinPlaceLimitOrderResult() {
-    }
+  public MercadoBitcoinPlaceLimitOrderResult() {
+  }
 
-    public MercadoBitcoinPlaceLimitOrderResult(Map<? extends String, ? extends MercadoBitcoinUserOrdersEntry> m) {
-        super(m);
-    }
+  public MercadoBitcoinPlaceLimitOrderResult(Map<? extends String, ? extends MercadoBitcoinUserOrdersEntry> m) {
+    super(m);
+  }
 }

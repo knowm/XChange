@@ -2,10 +2,7 @@ package com.xeiam.xchange.btccentral.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btccentral.BTCCentral;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralMarketDepth;
 import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTicker;
 import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTrade;
@@ -15,17 +12,14 @@ import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTrade;
  */
 public class BTCCentralMarketDataServiceRaw extends BTCCentralBasePollingService {
 
-  private final BTCCentral btcCentral;
-
   /**
-   * Constructor Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  protected BTCCentralMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  protected BTCCentralMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.btcCentral = RestProxyFactory.createProxy(BTCCentral.class, exchangeSpecification.getSslUri());
+    super(exchange);
   }
 
   public BTCCentralTicker getBTCCentralTicker() throws IOException {

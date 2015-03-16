@@ -26,11 +26,12 @@ public interface Bitcoinium {
 
   @GET
   @Path("orderbook")
-  public BitcoiniumOrderbook getDepth(@QueryParam("pair") String pair, @QueryParam("orderbookwindow") String orderbookwindow, @HeaderParam("X-BITCOINIUM-API-KEY") String apikey) throws IOException;
+  public BitcoiniumOrderbook getDepth(@QueryParam("pair") String pair, @QueryParam("orderbookwindow") String orderbookwindow,
+      @HeaderParam("X-BITCOINIUM-API-KEY") String apikey) throws IOException;
 
   @GET
   @Path("tickerhistory")
-  public BitcoiniumTickerHistory getTickerHistory(@QueryParam("pair") String pair, @QueryParam("historytimewindow") String historytimewindow, @HeaderParam("X-BITCOINIUM-API-KEY") String apikey)
-      throws IOException;
+  public BitcoiniumTickerHistory getTickerHistory(@QueryParam("pair") String pair, @QueryParam("historytimewindow") String historytimewindow,
+      @HeaderParam("X-BITCOINIUM-API-KEY") String apikey) throws IOException;
 
 }

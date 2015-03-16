@@ -17,7 +17,8 @@ public class BitfinexLevel {
    * @param amount
    * @param timestamp
    */
-  public BitfinexLevel(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") BigDecimal timestamp) {
+  public BitfinexLevel(@JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("timestamp") BigDecimal timestamp) {
 
     this.price = price;
     this.amount = amount;

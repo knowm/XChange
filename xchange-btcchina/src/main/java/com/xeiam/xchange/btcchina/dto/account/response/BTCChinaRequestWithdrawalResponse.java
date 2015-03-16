@@ -16,7 +16,8 @@ public class BTCChinaRequestWithdrawalResponse extends BTCChinaResponse<BTCChina
    * @param id
    * @param result
    */
-  public BTCChinaRequestWithdrawalResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaID result, @JsonProperty("error") BTCChinaError error) {
+  public BTCChinaRequestWithdrawalResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaID result,
+      @JsonProperty("error") BTCChinaError error) {
 
     super(id, result, error);
   }

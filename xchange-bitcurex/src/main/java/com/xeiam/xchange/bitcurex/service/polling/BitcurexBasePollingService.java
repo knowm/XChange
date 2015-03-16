@@ -1,9 +1,14 @@
 package com.xeiam.xchange.bitcurex.service.polling;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import si.mazi.rescu.RestProxyFactory;
+
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.bitcurex.Bitcurex;
+import com.xeiam.xchange.bitcurex.BitcurexAuthenticated;
+import com.xeiam.xchange.bitcurex.service.BitcurexDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
@@ -13,29 +18,30 @@ import com.xeiam.xchange.service.polling.BasePollingService;
  */
 public class BitcurexBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+  protected final BitcurexAuthenticated bitcurexAuthenticated;
+  protected final BitcurexDigest signatureCreator;
 
-  CurrencyPair.BTC_EUR,
-
-  CurrencyPair.BTC_PLN
-
-  );
+  protected final Bitcurex bitcurex;
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public BitcurexBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public BitcurexBasePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
+    this.bitcurex = RestProxyFactory.createProxy(Bitcurex.class, exchange.getExchangeSpecification().getSslUri());
+    this.signatureCreator = BitcurexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
+        .getApiKey());
+    this.bitcurexAuthenticated = RestProxyFactory.createProxy(BitcurexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
 
   }
 
   @Override
-  public List<CurrencyPair> getExchangeSymbols() {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return CURRENCY_PAIRS;
+    return exchange.getMetaData().getCurrencyPairs();
   }
 
 }

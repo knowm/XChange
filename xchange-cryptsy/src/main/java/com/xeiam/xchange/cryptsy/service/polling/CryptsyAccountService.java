@@ -3,11 +3,11 @@ package com.xeiam.xchange.cryptsy.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * @author ObsessiveOrange
@@ -16,12 +16,12 @@ public class CryptsyAccountService extends CryptsyAccountServiceRaw implements P
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public CryptsyAccountService(ExchangeSpecification exchangeSpecification) {
+  public CryptsyAccountService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override

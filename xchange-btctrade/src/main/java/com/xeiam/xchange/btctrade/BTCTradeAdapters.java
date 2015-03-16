@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import com.xeiam.xchange.ExchangeException;
 import com.xeiam.xchange.btctrade.dto.BTCTradeResult;
 import com.xeiam.xchange.btctrade.dto.account.BTCTradeBalance;
 import com.xeiam.xchange.btctrade.dto.account.BTCTradeWallet;
@@ -34,6 +33,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * Various adapters for converting from BTCTrade DTOs to XChange DTOs.
@@ -80,9 +80,8 @@ public final class BTCTradeAdapters {
 
   public static Ticker adaptTicker(BTCTradeTicker btcTradeTicker, CurrencyPair currencyPair) {
 
-    return new Ticker.Builder().currencyPair(currencyPair).high(btcTradeTicker.getHigh()).low(btcTradeTicker.getLow())
-            .bid(btcTradeTicker.getBuy()).ask(btcTradeTicker.getSell()).last(btcTradeTicker.getLast())
-            .volume(btcTradeTicker.getVol()).build();
+    return new Ticker.Builder().currencyPair(currencyPair).high(btcTradeTicker.getHigh()).low(btcTradeTicker.getLow()).bid(btcTradeTicker.getBuy())
+        .ask(btcTradeTicker.getSell()).last(btcTradeTicker.getLast()).volume(btcTradeTicker.getVol()).build();
   }
 
   public static OrderBook adaptOrderBook(BTCTradeDepth btcTradeDepth, CurrencyPair currencyPair) {
@@ -120,8 +119,8 @@ public final class BTCTradeAdapters {
 
   private static Trade adaptTrade(BTCTradeTrade btcTradeTrade, CurrencyPair currencyPair) {
 
-    return new Trade(adaptOrderType(btcTradeTrade.getType()), btcTradeTrade.getAmount(), currencyPair, btcTradeTrade.getPrice(), new Date(btcTradeTrade.getDate() * 1000), String.valueOf(btcTradeTrade
-        .getTid()));
+    return new Trade(adaptOrderType(btcTradeTrade.getType()), btcTradeTrade.getAmount(), currencyPair, btcTradeTrade.getPrice(), new Date(
+        btcTradeTrade.getDate() * 1000), String.valueOf(btcTradeTrade.getTid()));
   }
 
   private static OrderType adaptOrderType(String type) {
@@ -190,9 +189,9 @@ public final class BTCTradeAdapters {
     if (currencyPair == null) {
       // Unknown currency pair
       limitOrder = null;
-    }
-    else {
-      limitOrder = new LimitOrder(adaptOrderType(order.getType()), order.getAmountOutstanding(), currencyPair, order.getId(), adaptDatetime(order.getDatetime()), order.getPrice());
+    } else {
+      limitOrder = new LimitOrder(adaptOrderType(order.getType()), order.getAmountOutstanding(), currencyPair, order.getId(),
+          adaptDatetime(order.getDatetime()), order.getPrice());
     }
 
     return limitOrder;
@@ -219,7 +218,8 @@ public final class BTCTradeAdapters {
 
   private static UserTrade adaptTrade(BTCTradeOrder order, com.xeiam.xchange.btctrade.dto.trade.BTCTradeTrade trade, CurrencyPair currencyPair) {
 
-    return new UserTrade(adaptOrderType(order.getType()), trade.getAmount(), currencyPair, trade.getPrice(), adaptDatetime(trade.getDatetime()), trade.getTradeId(), order.getId(), null, null);
+    return new UserTrade(adaptOrderType(order.getType()), trade.getAmount(), currencyPair, trade.getPrice(), adaptDatetime(trade.getDatetime()),
+        trade.getTradeId(), order.getId(), null, null);
   }
 
 }

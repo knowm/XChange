@@ -5,8 +5,7 @@ import java.text.MessageFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Author: brox
- * Since: 2/7/14
+ * Author: brox Since: 2/7/14
  */
 public class CexIOBalanceInfo {
 
@@ -49,12 +48,14 @@ public class CexIOBalanceInfo {
    * @param balanceDRK
    * @param balanceEUR
    */
-  public CexIOBalanceInfo(@JsonProperty("error") String error, @JsonProperty("timestamp") long timestamp, @JsonProperty("username") String username, @JsonProperty("BTC") CexIOBalance balanceBTC,
-      @JsonProperty("LTC") CexIOBalance balanceLTC, @JsonProperty("NMC") CexIOBalance balanceNMC, @JsonProperty("IXC") CexIOBalance balanceIXC, @JsonProperty("DVC") CexIOBalance balanceDVC,
-      @JsonProperty("GHS") CexIOBalance balanceGHS, @JsonProperty("DRK") CexIOBalance balanceDRK, @JsonProperty("USD") CexIOBalance balanceUSD, @JsonProperty("EUR") CexIOBalance balanceEUR,
-      @JsonProperty("DOGE") CexIOBalance balanceDOGE, @JsonProperty("FTC") CexIOBalance balanceFTC, @JsonProperty("AUR") CexIOBalance balanceAUR, @JsonProperty("POT") CexIOBalance balancePOT,
-      @JsonProperty("ANC") CexIOBalance balanceANC, @JsonProperty("MEC") CexIOBalance balanceMEC, @JsonProperty("WDC") CexIOBalance balanceWDC, @JsonProperty("DGB") CexIOBalance balanceDGB,
-      @JsonProperty("USDE") CexIOBalance balanceUSDE, @JsonProperty("MYR") CexIOBalance balanceMYR) {
+  public CexIOBalanceInfo(@JsonProperty("error") String error, @JsonProperty("timestamp") long timestamp, @JsonProperty("username") String username,
+      @JsonProperty("BTC") CexIOBalance balanceBTC, @JsonProperty("LTC") CexIOBalance balanceLTC, @JsonProperty("NMC") CexIOBalance balanceNMC,
+      @JsonProperty("IXC") CexIOBalance balanceIXC, @JsonProperty("DVC") CexIOBalance balanceDVC, @JsonProperty("GHS") CexIOBalance balanceGHS,
+      @JsonProperty("DRK") CexIOBalance balanceDRK, @JsonProperty("USD") CexIOBalance balanceUSD, @JsonProperty("EUR") CexIOBalance balanceEUR,
+      @JsonProperty("DOGE") CexIOBalance balanceDOGE, @JsonProperty("FTC") CexIOBalance balanceFTC, @JsonProperty("AUR") CexIOBalance balanceAUR,
+      @JsonProperty("POT") CexIOBalance balancePOT, @JsonProperty("ANC") CexIOBalance balanceANC, @JsonProperty("MEC") CexIOBalance balanceMEC,
+      @JsonProperty("WDC") CexIOBalance balanceWDC, @JsonProperty("DGB") CexIOBalance balanceDGB, @JsonProperty("USDE") CexIOBalance balanceUSDE,
+      @JsonProperty("MYR") CexIOBalance balanceMYR) {
 
     this.error = error;
     this.timestamp = timestamp;
@@ -193,8 +194,10 @@ public class CexIOBalanceInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, LTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}, USD={9}, DRK={10}, EUR={11}]", error, timestamp,
-        username, balanceBTC, balanceLTC, balanceNMC, balanceIXC, balanceDVC, balanceGHS, balanceUSD, balanceDRK, balanceEUR);
+    return MessageFormat
+        .format(
+            "CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, LTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}, USD={9}, DRK={10}, EUR={11}]",
+            error, timestamp, username, balanceBTC, balanceLTC, balanceNMC, balanceIXC, balanceDVC, balanceGHS, balanceUSD, balanceDRK, balanceEUR);
   }
 
 }

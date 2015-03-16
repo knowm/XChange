@@ -5,46 +5,37 @@ import static com.xeiam.xchange.coinsetter.CoinsetterExchange.DEFAULT_EXCHANGE;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterAdapters;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterListDepth;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * Market data service.
  */
-public class CoinsetterMarketDataService extends CoinsetterBasePollingService implements PollingMarketDataService {
-
-  private final CoinsetterMarketDataServiceRaw marketDataServiceRaw;
+public class CoinsetterMarketDataService extends CoinsetterMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public CoinsetterMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public CoinsetterMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
-    marketDataServiceRaw = new CoinsetterMarketDataServiceRaw(exchangeSpecification);
+    super(exchange);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return CoinsetterAdapters.adaptTicker(marketDataServiceRaw.getCoinsetterTicker());
+    return CoinsetterAdapters.adaptTicker(getCoinsetterTicker());
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @param args [exchange, depth]
-   */
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
@@ -52,24 +43,19 @@ public class CoinsetterMarketDataService extends CoinsetterBasePollingService im
     final int argsLength = args.length;
 
     if (argsLength == 0) {
-      coinsetterListDepth = marketDataServiceRaw.getCoinsetterFullDepth();
-    }
-    else if (argsLength == 1) {
+      coinsetterListDepth = getCoinsetterFullDepth();
+    } else if (argsLength == 1) {
       String exchange = (String) args[0];
-      coinsetterListDepth = marketDataServiceRaw.getCoinsetterFullDepth(exchange == null ? DEFAULT_EXCHANGE : exchange);
-    }
-    else {
+      coinsetterListDepth = getCoinsetterFullDepth(exchange == null ? DEFAULT_EXCHANGE : exchange);
+    } else {
       String exchange = (String) args[0];
       Number depth = (Number) args[1];
-      coinsetterListDepth = marketDataServiceRaw.getCoinsetterListDepth(depth == null ? DEFAULT_DEPTH : depth.intValue(), exchange == null ? DEFAULT_EXCHANGE : exchange);
+      coinsetterListDepth = getCoinsetterListDepth(depth == null ? DEFAULT_DEPTH : depth.intValue(), exchange == null ? DEFAULT_EXCHANGE : exchange);
     }
 
     return CoinsetterAdapters.adaptOrderBook(coinsetterListDepth);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 

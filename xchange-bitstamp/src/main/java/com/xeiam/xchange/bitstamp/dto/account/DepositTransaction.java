@@ -6,7 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DepositTransaction {
 
-  public DepositTransaction(@JsonProperty("amount") BigDecimal amount, @JsonProperty("confirmations") Integer confirmations, @JsonProperty("address") String address) {
+  public DepositTransaction(@JsonProperty("amount") BigDecimal amount, @JsonProperty("confirmations") Integer confirmations,
+      @JsonProperty("address") String address) {
     this.amount = amount;
     this.confirmations = confirmations;
     this.address = address;

@@ -3,9 +3,7 @@ package com.xeiam.xchange.bittrex.v1.service.polling;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bittrex.v1.Bittrex;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexCurrenciesResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexCurrency;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexDepth;
@@ -17,35 +15,27 @@ import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTickerResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTickersResponse;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTrade;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTradesResponse;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
-/**
- * <p>
- * Implementation of the market data service for Bittrex
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
- */
-public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittrex> {
+public class BittrexMarketDataServiceRaw extends BittrexBasePollingService {
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   *
+   * @param exchange
    */
-  public BittrexMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BittrexMarketDataServiceRaw(Exchange exchange) {
 
-    super(Bittrex.class, exchangeSpecification);
+    super(exchange);
   }
 
   public BittrexCurrency[] getBittrexCurrencies() throws IOException {
 
-    BittrexCurrenciesResponse response = bittrex.getCurrencies();
+    BittrexCurrenciesResponse response = bittrexAuthenticated.getCurrencies();
 
     if (response.isSuccess()) {
       return response.getCurrencies();
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
 
@@ -53,12 +43,11 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
 
   public ArrayList<BittrexSymbol> getBittrexSymbols() throws IOException {
 
-    BittrexSymbolsResponse response = bittrex.getSymbols();
+    BittrexSymbolsResponse response = bittrexAuthenticated.getSymbols();
 
     if (response.isSuccess()) {
       return response.getSymbols();
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
 
@@ -66,12 +55,11 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
 
   public BittrexTicker getBittrexTicker(String pair) throws IOException {
 
-    BittrexTickerResponse response = bittrex.getTicker(pair);
+    BittrexTickerResponse response = bittrexAuthenticated.getTicker(pair);
 
     if (response.getSuccess()) {
       return response.getTicker();
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
 
@@ -79,12 +67,11 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
 
   public ArrayList<BittrexTicker> getBittrexTickers() throws IOException {
 
-    BittrexTickersResponse response = bittrex.getTickers();
+    BittrexTickersResponse response = bittrexAuthenticated.getTickers();
 
     if (response.isSuccess()) {
       return response.getTickers();
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
 
@@ -92,28 +79,26 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService<Bittr
 
   public BittrexDepth getBittrexOrderBook(String pair, int depth) throws IOException {
 
-    BittrexDepthResponse response = bittrex.getBook(pair, "both", depth);
+    BittrexDepthResponse response = bittrexAuthenticated.getBook(pair, "both", depth);
 
     if (response.getSuccess()) {
 
       BittrexDepth bittrexDepth = response.getDepth();
       return bittrexDepth;
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
   }
 
   public BittrexTrade[] getBittrexTrades(String pair, int count) throws IOException {
 
-    BittrexTradesResponse response = bittrex.getTrades(pair, count);
+    BittrexTradesResponse response = bittrexAuthenticated.getTrades(pair, count);
 
     if (response.getSuccess()) {
 
       BittrexTrade[] bittrexTrades = response.getTrades();
       return bittrexTrades;
-    }
-    else {
+    } else {
       throw new ExchangeException(response.getMessage());
     }
   }

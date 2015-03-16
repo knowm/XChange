@@ -26,8 +26,8 @@ public final class BTCChinaTrade {
    * @param tid
    * @param orderType
    */
-  public BTCChinaTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("tid") long tid,
-      @JsonProperty("type") String orderType) {
+  public BTCChinaTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("tid") long tid, @JsonProperty("type") String orderType) {
 
     this.amount = amount;
     this.date = date;

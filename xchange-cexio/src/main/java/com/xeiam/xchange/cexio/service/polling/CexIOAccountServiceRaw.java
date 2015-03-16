@@ -6,14 +6,13 @@ import java.util.Map;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cexio.CexIOAuthenticated;
-import com.xeiam.xchange.cexio.CexIOUtils;
 import com.xeiam.xchange.cexio.dto.account.CexIOBalanceInfo;
 import com.xeiam.xchange.cexio.dto.account.GHashIOHashrate;
 import com.xeiam.xchange.cexio.dto.account.GHashIOWorker;
 import com.xeiam.xchange.cexio.service.CexIODigest;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * @author timmolter
@@ -24,20 +23,22 @@ public class CexIOAccountServiceRaw extends CexIOBasePollingService {
   private ParamsDigest signatureCreator;
 
   /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  public CexIOAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public CexIOAccountServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.cexIOAuthenticated = RestProxyFactory.createProxy(CexIOAuthenticated.class, exchangeSpecification.getSslUri());
-    signatureCreator = CexIODigest.createInstance(exchangeSpecification.getSecretKey(), exchangeSpecification.getUserName(), exchangeSpecification.getApiKey());
+    super(exchange);
+    this.cexIOAuthenticated = RestProxyFactory.createProxy(CexIOAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    signatureCreator = CexIODigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
+        .getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
 
   public CexIOBalanceInfo getCexIOAccountInfo() throws IOException {
 
-    CexIOBalanceInfo info = cexIOAuthenticated.getBalance(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce());
+    CexIOBalanceInfo info = cexIOAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory());
     if (info.getError() != null) {
       throw new ExchangeException("Error getting balance. " + info.getError());
     }
@@ -47,12 +48,12 @@ public class CexIOAccountServiceRaw extends CexIOBasePollingService {
 
   public GHashIOHashrate getHashrate() throws IOException {
 
-    return cexIOAuthenticated.getHashrate(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce());
+    return cexIOAuthenticated.getHashrate(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
   }
 
   public Map<String, GHashIOWorker> getWorkers() throws IOException {
 
-    return cexIOAuthenticated.getWorkers(exchangeSpecification.getApiKey(), signatureCreator, CexIOUtils.nextNonce()).getWorkers();
+    return cexIOAuthenticated.getWorkers(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory()).getWorkers();
   }
 
 }

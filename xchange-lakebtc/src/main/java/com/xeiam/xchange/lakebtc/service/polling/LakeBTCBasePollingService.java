@@ -1,39 +1,64 @@
 package com.xeiam.xchange.lakebtc.service.polling;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.lakebtc.LakeBTC;
+import com.xeiam.xchange.lakebtc.LakeBTCAuthenticated;
+import com.xeiam.xchange.lakebtc.dto.LakeBTCResponse;
+import com.xeiam.xchange.lakebtc.service.LakeBTCDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author kpysniak
  */
 public class LakeBTCBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  public static final List<CurrencyPair> CURRENCY_PAIRS = Arrays.asList(
+  protected final LakeBTCAuthenticated lakeBTCAuthenticated;
+  protected final ParamsDigest signatureCreator;
 
-  CurrencyPair.BTC_USD, CurrencyPair.BTC_CNY
-
-  );
+  protected final LakeBTC lakeBTC;
 
   /**
-   * Constructor Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  protected LakeBTCBasePollingService(ExchangeSpecification exchangeSpecification) {
+  public LakeBTCBasePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
+
+    Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
+
+    this.lakeBTCAuthenticated = RestProxyFactory.createProxy(LakeBTCAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.signatureCreator = LakeBTCDigest.createInstance(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification()
+        .getSecretKey());
+
+    this.lakeBTC = RestProxyFactory.createProxy(LakeBTC.class, exchange.getExchangeSpecification().getSslUri());
+
+  }
+
+  @SuppressWarnings("rawtypes")
+  public static <T extends LakeBTCResponse> T checkResult(T returnObject) {
+
+    if (returnObject.getResult() == null) {
+      throw new ExchangeException("Null data returned");
+    }
+    return returnObject;
   }
 
   @Override
-  public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    return CURRENCY_PAIRS;
+    return exchange.getMetaData().getCurrencyPairs();
   }
+
 }

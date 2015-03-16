@@ -7,10 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitvc.BitVcAdapters;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcCancelOrderResult;
 import com.xeiam.xchange.bitvc.dto.trade.BitVcOrder;
@@ -20,27 +17,35 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class BitVcTradeService extends BitVcTradeServiceRaw implements PollingTradeService {
 
   private final Map<CurrencyPair, Integer> coinTypes;
   private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
 
-  public BitVcTradeService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   *
+   * @param tradeServiceRaw
+   */
+  public BitVcTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
+
     coinTypes = new HashMap<CurrencyPair, Integer>(2);
     coinTypes.put(CurrencyPair.BTC_CNY, 1);
     coinTypes.put(CurrencyPair.LTC_CNY, 2);
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws IOException {
 
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
-    for (CurrencyPair currencyPair : getExchangeSymbols()) {
+    for (CurrencyPair currencyPair : exchange.getMetaData().getCurrencyPairs()) {
       BitVcOrder[] orders = getBitVcOrders(coinTypes.get(currencyPair));
 
       for (int i = 0; i < orders.length; i++) {
@@ -56,16 +61,18 @@ public class BitVcTradeService extends BitVcTradeServiceRaw implements PollingTr
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    BitVcPlaceOrderResult result = placeBitVcMarketOrder(marketOrder.getType(), coinTypes.get(marketOrder.getCurrencyPair()), marketOrder.getTradableAmount());
+    BitVcPlaceOrderResult result = placeBitVcMarketOrder(marketOrder.getType(), coinTypes.get(marketOrder.getCurrencyPair()),
+        marketOrder.getTradableAmount());
     return BitVcAdapters.adaptPlaceOrderResult(result);
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    BitVcPlaceOrderResult result = placeBitVcLimitOrder(limitOrder.getType(), coinTypes.get(limitOrder.getCurrencyPair()), limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
+    BitVcPlaceOrderResult result = placeBitVcLimitOrder(limitOrder.getType(), coinTypes.get(limitOrder.getCurrencyPair()),
+        limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
     return BitVcAdapters.adaptPlaceOrderResult(result);
   }
 
@@ -75,16 +82,14 @@ public class BitVcTradeService extends BitVcTradeServiceRaw implements PollingTr
     final long id = Long.parseLong(orderId);
 
     BitVcCancelOrderResult result = null;
-    for (CurrencyPair currencyPair : getExchangeSymbols()) {
+    for (CurrencyPair currencyPair : exchange.getMetaData().getCurrencyPairs()) {
       result = cancelBitVcOrder(coinTypes.get(currencyPair), id);
 
       if (result.getCode() == 0) {
         break;
-      }
-      else if (result.getCode() == 26) { // Order does not exist
+      } else if (result.getCode() == 26) { // Order does not exist
         continue;
-      }
-      else {
+      } else {
         break;
       }
     }
@@ -98,15 +103,13 @@ public class BitVcTradeService extends BitVcTradeServiceRaw implements PollingTr
   }
 
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public com.xeiam.xchange.service.polling.trade.TradeHistoryParams createTradeHistoryParams() {
-
-    return null;
+  public TradeHistoryParams createTradeHistoryParams() {
+    throw new NotYetImplementedForExchangeException();
   }
 
 }

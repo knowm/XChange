@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import si.mazi.rescu.RestProxyFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcoinium.Bitcoinium;
 import com.xeiam.xchange.bitcoinium.BitcoiniumUtils;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
@@ -27,12 +27,12 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBasePollingService
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
    */
-  public BitcoiniumMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BitcoiniumMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.bitcoinium = RestProxyFactory.createProxy(Bitcoinium.class, exchangeSpecification.getSslUri());
+    super(exchange);
+    this.bitcoinium = RestProxyFactory.createProxy(Bitcoinium.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   /**
@@ -47,7 +47,7 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBasePollingService
     String pair = BitcoiniumUtils.createCurrencyPairString(tradableIdentifier, currency);
 
     // Request data
-    BitcoiniumTicker bitcoiniumTicker = bitcoinium.getTicker(pair, exchangeSpecification.getApiKey());
+    BitcoiniumTicker bitcoiniumTicker = bitcoinium.getTicker(pair, exchange.getExchangeSpecification().getApiKey());
 
     // Adapt to XChange DTOs
     return bitcoiniumTicker;
@@ -57,7 +57,8 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBasePollingService
    * @param tradableIdentifier
    * @param currency
    * @param exchange
-   * @param timeWindow - The time period of the requested ticker data. Value can be from set: { "10m", "1h", "3h", "12h", "24h", "3d", "7d", "30d", "2M" }
+   * @param timeWindow - The time period of the requested ticker data. Value can be from set: { "10m", "1h", "3h", "12h", "24h", "3d", "7d", "30d",
+   *        "2M" }
    * @return
    * @throws IOException
    */
@@ -68,7 +69,7 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBasePollingService
     verifyTimeWindow(timeWindow);
 
     // Request data
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoinium.getTickerHistory(pair, timeWindow, exchangeSpecification.getApiKey());
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoinium.getTickerHistory(pair, timeWindow, exchange.getExchangeSpecification().getApiKey());
 
     return bitcoiniumTickerHistory;
   }
@@ -77,7 +78,8 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBasePollingService
    * @param tradableIdentifier
    * @param currency
    * @param exchange
-   * @param orderbookwindow - The width of the Orderbook as a percentage plus and minus the current price. Value can be from set: { 2p, 5p, 10p, 20p, 50p, 100p }
+   * @param orderbookwindow - The width of the Orderbook as a percentage plus and minus the current price. Value can be from set: { 2p, 5p, 10p, 20p,
+   *        50p, 100p }
    * @return
    */
   public BitcoiniumOrderbook getBitcoiniumOrderbook(String tradableIdentifier, String currency, String orderbookwindow) throws IOException {
@@ -87,7 +89,7 @@ public class BitcoiniumMarketDataServiceRaw extends BitcoiniumBasePollingService
     verifyPriceWindow(orderbookwindow);
 
     // Request data
-    BitcoiniumOrderbook bitcoiniumDepth = bitcoinium.getDepth(pair, orderbookwindow, exchangeSpecification.getApiKey());
+    BitcoiniumOrderbook bitcoiniumDepth = bitcoinium.getDepth(pair, orderbookwindow, exchange.getExchangeSpecification().getApiKey());
 
     return bitcoiniumDepth;
   }

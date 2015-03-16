@@ -10,7 +10,8 @@ public class BTCChinaGetIcebergOrdersRequest extends BTCChinaRequest {
   public BTCChinaGetIcebergOrdersRequest(Integer limit, Integer offset, String market) {
 
     this.method = METHOD_NAME;
-    this.params = String.format("[%1$d,%2$d,\"%3$s\"]", limit == null ? 1000 : limit.intValue(), offset == null ? 0 : offset.intValue(), market == null ? BTCChinaExchange.DEFAULT_MARKET : market);
+    this.params = String.format("[%1$d,%2$d,\"%3$s\"]", limit == null ? 1000 : limit.intValue(), offset == null ? 0 : offset.intValue(),
+        market == null ? BTCChinaExchange.DEFAULT_MARKET : market);
   }
 
 }

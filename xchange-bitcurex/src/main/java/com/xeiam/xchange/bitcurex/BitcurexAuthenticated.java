@@ -10,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
 import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
 
@@ -19,5 +20,6 @@ public interface BitcurexAuthenticated {
 
   @POST
   @Path("getFunds")
-  public BitcurexFunds getFunds(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest signer, @FormParam("nonce") long nonce) throws IOException;
+  public BitcurexFunds getFunds(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 }

@@ -17,7 +17,8 @@ public class BTCChinaGetMarketDepthResponseTest {
   @Test
   public void testBTCChinaGetMarketDepthResponse() throws IOException {
 
-    BTCChinaGetMarketDepthResponse response = mapper.readValue(getClass().getResourceAsStream("getMarketDepth2.json"), BTCChinaGetMarketDepthResponse.class);
+    BTCChinaGetMarketDepthResponse response = mapper.readValue(getClass().getResourceAsStream("getMarketDepth2.json"),
+        BTCChinaGetMarketDepthResponse.class);
     assertEquals("1", response.getId());
 
     BTCChinaMarketDepthOrder[] bids = response.getResult().getMarketDepth().getBids();

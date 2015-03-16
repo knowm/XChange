@@ -60,9 +60,8 @@ public final class BTCChinaFIXAdapters {
 
   public static Ticker adaptUpdate(Ticker ticker, MarketDataIncrementalRefresh message) throws FieldNotFound {
 
-    Ticker.Builder tickerBuilder =
-        new Ticker.Builder().currencyPair(ticker.getCurrencyPair()).timestamp(ticker.getTimestamp()).bid(ticker.getBid()).ask(ticker.getAsk()).last(ticker.getLast())
-            .high(ticker.getHigh()).low(ticker.getLow()).volume(ticker.getVolume());
+    Ticker.Builder tickerBuilder = new Ticker.Builder().currencyPair(ticker.getCurrencyPair()).timestamp(ticker.getTimestamp()).bid(ticker.getBid())
+        .ask(ticker.getAsk()).last(ticker.getLast()).high(ticker.getHigh()).low(ticker.getLow()).volume(ticker.getVolume());
 
     int noMDEntries = message.getNoMDEntries().getValue();
     for (int i = 1; i <= noMDEntries; i++) {

@@ -1,5 +1,17 @@
 package com.xeiam.xchange.mercadobitcoin;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Test;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
@@ -16,20 +28,10 @@ import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
 import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
 import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * Tests the MercadoBitcoinAdapter class
+ *
  * @author Felipe Micaroni Lalli
  */
 public class MercadoBitcoinAdapterTest {
@@ -44,8 +46,7 @@ public class MercadoBitcoinAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     MercadoBitcoinOrderBook mercadoBitcoinOrderBook = mapper.readValue(is, MercadoBitcoinOrderBook.class);
 
-    Date now = new Date();
-    OrderBook orderBook = MercadoBitcoinAdapters.adaptOrderBook(mercadoBitcoinOrderBook, CurrencyPair.BTC_BRL, now.getTime());
+    OrderBook orderBook = MercadoBitcoinAdapters.adaptOrderBook(mercadoBitcoinOrderBook, CurrencyPair.BTC_BRL);
     assertThat(orderBook.getBids().size()).isEqualTo(127);
 
     // verify all fields filled
@@ -53,7 +54,6 @@ public class MercadoBitcoinAdapterTest {
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
     assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("0.16614"));
     assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_BRL);
-    assertThat(orderBook.getTimeStamp().equals(now));
   }
 
   @Test
@@ -104,12 +104,12 @@ public class MercadoBitcoinAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> mercadoBitcoinAccountInfo = mapper.readValue(is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo>>() {
-    });
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> mercadoBitcoinAccountInfo = mapper.readValue(is,
+        new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo>>() {
+        });
 
     AccountInfo accountInfo = MercadoBitcoinAdapters.adaptAccountInfo(mercadoBitcoinAccountInfo, "Nina Tufão & Bit");
     assertThat(accountInfo.getUsername()).isEqualTo("Nina Tufão & Bit");
-    assertThat(accountInfo.getTradingFee()).isNull();
     assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("BRL");
     assertThat(accountInfo.getWallets().get(0).getBalance()).isEqualTo(new BigDecimal("248.29516"));
     assertThat(accountInfo.getWallets().get(1).getCurrency()).isEqualTo("BTC");
@@ -126,8 +126,9 @@ public class MercadoBitcoinAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> apiResult = mapper.readValue(is, new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders>>() {
-    });
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> apiResult = mapper.readValue(is,
+        new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders>>() {
+        });
 
     List<LimitOrder> orders = MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currencies.LTC, Currencies.BRL), apiResult);
 

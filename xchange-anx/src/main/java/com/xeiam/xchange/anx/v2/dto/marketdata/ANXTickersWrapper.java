@@ -10,7 +10,8 @@ public class ANXTickersWrapper {
   private final Map<String, ANXTicker> anxTickers;
   private final String error;
 
-  public ANXTickersWrapper(@JsonProperty("result") String result, @JsonProperty("data") Map<String, ANXTicker> anxTickers, @JsonProperty("error") String error) {
+  public ANXTickersWrapper(@JsonProperty("result") String result, @JsonProperty("data") Map<String, ANXTicker> anxTickers,
+      @JsonProperty("error") String error) {
 
     this.result = result;
     this.anxTickers = anxTickers;

@@ -29,8 +29,9 @@ public class GHashIOHashrate {
    * @param prev1h
    * @param prev1d
    */
-  public GHashIOHashrate(@JsonProperty("last5m") BigDecimal last5m, @JsonProperty("last15m") BigDecimal last15m, @JsonProperty("last1h") BigDecimal last1h, @JsonProperty("last1d") BigDecimal last1d,
-      @JsonProperty("prev5m") BigDecimal prev5m, @JsonProperty("prev15m") BigDecimal prev15m, @JsonProperty("prev1h") BigDecimal prev1h, @JsonProperty("prev1d") BigDecimal prev1d) {
+  public GHashIOHashrate(@JsonProperty("last5m") BigDecimal last5m, @JsonProperty("last15m") BigDecimal last15m,
+      @JsonProperty("last1h") BigDecimal last1h, @JsonProperty("last1d") BigDecimal last1d, @JsonProperty("prev5m") BigDecimal prev5m,
+      @JsonProperty("prev15m") BigDecimal prev15m, @JsonProperty("prev1h") BigDecimal prev1h, @JsonProperty("prev1d") BigDecimal prev1d) {
 
     this.last5m = last5m;
     this.last15m = last15m;

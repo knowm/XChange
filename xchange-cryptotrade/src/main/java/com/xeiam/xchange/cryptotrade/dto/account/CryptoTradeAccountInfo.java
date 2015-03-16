@@ -10,7 +10,8 @@ public class CryptoTradeAccountInfo extends CryptoTradeBaseResponse {
 
   private final CryptoTradeAccountData accountData;
 
-  private CryptoTradeAccountInfo(@JsonProperty("data") CryptoTradeAccountData accountData, @JsonProperty("status") String status, @JsonProperty("error") String error) {
+  private CryptoTradeAccountInfo(@JsonProperty("data") CryptoTradeAccountData accountData, @JsonProperty("status") String status,
+      @JsonProperty("error") String error) {
 
     super(status, error);
     this.accountData = accountData;
@@ -55,8 +56,9 @@ public class CryptoTradeAccountInfo extends CryptoTradeBaseResponse {
     private final int transactionCount;
     private final long serverTimestamp;
 
-    private CryptoTradeAccountData(@JsonProperty("funds") Map<String, BigDecimal> funds, @JsonProperty("perms") CryptoTradeAccountPermissions permissions,
-        @JsonProperty("active_orders") int activeOrders, @JsonProperty("transactions_count") int transactionCount, @JsonProperty("server_timestamp") long serverTimestamp) {
+    private CryptoTradeAccountData(@JsonProperty("funds") Map<String, BigDecimal> funds,
+        @JsonProperty("perms") CryptoTradeAccountPermissions permissions, @JsonProperty("active_orders") int activeOrders,
+        @JsonProperty("transactions_count") int transactionCount, @JsonProperty("server_timestamp") long serverTimestamp) {
 
       this.funds = funds;
       this.permissions = permissions;
@@ -93,8 +95,8 @@ public class CryptoTradeAccountInfo extends CryptoTradeBaseResponse {
     @Override
     public String toString() {
 
-      return "CryptoTradeAccountData [funds=" + funds + ", permissions=" + permissions + ", activeOrders=" + activeOrders + ", transactionCount=" + transactionCount + ", serverTimestamp="
-          + serverTimestamp + "]";
+      return "CryptoTradeAccountData [funds=" + funds + ", permissions=" + permissions + ", activeOrders=" + activeOrders + ", transactionCount="
+          + transactionCount + ", serverTimestamp=" + serverTimestamp + "]";
     }
   }
 

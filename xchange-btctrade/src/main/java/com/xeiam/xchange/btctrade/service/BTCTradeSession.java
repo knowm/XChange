@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import si.mazi.rescu.ParamsDigest;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btctrade.BTCTradeAdapters;
 import com.xeiam.xchange.btctrade.dto.BTCTradeSecretData;
 import com.xeiam.xchange.btctrade.service.polling.BTCTradeSecretDataService;
@@ -21,10 +21,8 @@ import com.xeiam.xchange.btctrade.service.polling.BTCTradeSecretDataService;
  */
 public class BTCTradeSession {
 
-  private final ExchangeSpecification exchangeSpecification;
+  private final Exchange exchange;
   private final BTCTradeSecretDataService secretDataService;
-
-  private long lastNonce = 0L;
 
   private BTCTradeSecretData secretData;
   private long secretExpiresTime;
@@ -32,19 +30,19 @@ public class BTCTradeSession {
   private BTCTradeDigest signatureCreator;
 
   /**
-   * Constructor in package access level for {@link BTCTradeSessionFactory}.
+   * Constructor
    *
-   * @param exchangeSpecification the {@link ExchangeSpecification}.
+   * @param exchange
    */
-  BTCTradeSession(ExchangeSpecification exchangeSpecification) {
+  BTCTradeSession(Exchange exchange) {
 
-    this.exchangeSpecification = exchangeSpecification;
-    secretDataService = new BTCTradeSecretDataService(exchangeSpecification);
+    this.exchange = exchange;
+    secretDataService = new BTCTradeSecretDataService(exchange);
   }
 
-  public ExchangeSpecification getExchangeSpecification() {
+  public Exchange getExchange() {
 
-    return exchangeSpecification;
+    return exchange;
   }
 
   /**
@@ -54,22 +52,7 @@ public class BTCTradeSession {
    */
   public String getKey() {
 
-    return exchangeSpecification.getApiKey();
-  }
-
-  /**
-   * Returns the next nonce of the session.
-   *
-   * @return the next nonce of the session.
-   */
-  public synchronized long nextNonce() {
-
-    long newNonce = System.currentTimeMillis() * 1000;
-    while (newNonce <= lastNonce) {
-      newNonce++;
-    }
-    lastNonce = newNonce;
-    return newNonce;
+    return exchange.getExchangeSpecification().getApiKey();
   }
 
   public synchronized ParamsDigest getSignatureCreator() throws IOException {

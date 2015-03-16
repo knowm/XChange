@@ -1,10 +1,12 @@
 package com.xeiam.xchange.mercadobitcoin.service;
 
-import com.xeiam.xchange.service.BaseParamsDigest;
-import si.mazi.rescu.RestInvocation;
+import java.math.BigInteger;
 
 import javax.crypto.Mac;
-import java.math.BigInteger;
+
+import si.mazi.rescu.RestInvocation;
+
+import com.xeiam.xchange.service.BaseParamsDigest;
 
 /**
  * @author Felipe Micaroni Lalli
@@ -13,7 +15,7 @@ public class MercadoBitcoinDigest extends BaseParamsDigest {
 
   private final String method;
   private final String pin;
-  private final String tonce;
+  private final long tonce;
 
   /**
    * Constructor
@@ -21,7 +23,7 @@ public class MercadoBitcoinDigest extends BaseParamsDigest {
    * @param signCode (called "Codigo")
    * @param tonce See {@link com.xeiam.xchange.mercadobitcoin.MercadoBitcoinUtils#getTonce()}
    */
-  private MercadoBitcoinDigest(String method, String pin, String signCode, String tonce) {
+  private MercadoBitcoinDigest(String method, String pin, String signCode, long tonce) {
 
     super(signCode, HMAC_SHA_512);
     this.method = method;
@@ -29,7 +31,7 @@ public class MercadoBitcoinDigest extends BaseParamsDigest {
     this.tonce = tonce;
   }
 
-  public static MercadoBitcoinDigest createInstance(String method, String pin, String signCode, String tonce) {
+  public static MercadoBitcoinDigest createInstance(String method, String pin, String signCode, long tonce) {
 
     return signCode == null ? null : new MercadoBitcoinDigest(method, pin, signCode, tonce);
   }
@@ -44,6 +46,6 @@ public class MercadoBitcoinDigest extends BaseParamsDigest {
 
     hmac512.update(message.getBytes());
 
-    return String.format("%x", new BigInteger(1, hmac512.doFinal())).toLowerCase();
+    return String.format("%0128x", new BigInteger(1, hmac512.doFinal())).toLowerCase();
   }
 }

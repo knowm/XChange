@@ -45,12 +45,15 @@ public class CoinsetterFinancialTransaction {
    * @param transferTypeName Transfer type name
    * @param createDate Date/time of creation (format = "dd/MM/yyyy HH:mm:ss.SSS")
    */
-  public CoinsetterFinancialTransaction(@JsonProperty("uuid") UUID uuid, @JsonProperty("customerUuid") UUID customerUuid, @JsonProperty("accountUuid") UUID accountUuid,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("amountDemonination") String amountDenomination, @JsonProperty("originalAmount") BigDecimal originalAmount,
-      @JsonProperty("originalAmountdenomination") String originalAmountDenomination, @JsonProperty("orderId") UUID orderId, @JsonProperty("orderNumber") String orderNumber,
-      @JsonProperty("referenceNumber") String referenceNumber, @JsonProperty("transactionCategoryDescription") String transactionCategoryDescription,
-      @JsonProperty("transactionCategoryName") String transactionCategoryName, @JsonProperty("transferTypeDescription") String transferTypeDescription,
-      @JsonProperty("transferTypeName") String transferTypeName, @JsonProperty("createDate") @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss.SSS", timezone = "EST", locale = "us") Date createDate) {
+  public CoinsetterFinancialTransaction(@JsonProperty("uuid") UUID uuid, @JsonProperty("customerUuid") UUID customerUuid,
+      @JsonProperty("accountUuid") UUID accountUuid, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("amountDemonination") String amountDenomination, @JsonProperty("originalAmount") BigDecimal originalAmount,
+      @JsonProperty("originalAmountdenomination") String originalAmountDenomination, @JsonProperty("orderId") UUID orderId,
+      @JsonProperty("orderNumber") String orderNumber, @JsonProperty("referenceNumber") String referenceNumber,
+      @JsonProperty("transactionCategoryDescription") String transactionCategoryDescription,
+      @JsonProperty("transactionCategoryName") String transactionCategoryName,
+      @JsonProperty("transferTypeDescription") String transferTypeDescription, @JsonProperty("transferTypeName") String transferTypeName,
+      @JsonProperty("createDate") @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss.SSS", timezone = "EST", locale = "us") Date createDate) {
 
     super();
     this.uuid = uuid;
@@ -148,10 +151,11 @@ public class CoinsetterFinancialTransaction {
   @Override
   public String toString() {
 
-    return "CoinsetterFinancialTransaction [uuid=" + uuid + ", customerUuid=" + customerUuid + ", accountUuid=" + accountUuid + ", amount=" + amount + ", amountDenomination=" + amountDenomination
-        + ", originalAmount=" + originalAmount + ", originalAmountDenomination=" + originalAmountDenomination + ", orderId=" + orderId + ", orderNumber=" + orderNumber + ", referenceNumber="
-        + referenceNumber + ", transactionCategoryDescription=" + transactionCategoryDescription + ", transactionCategoryName=" + transactionCategoryName + ", transferTypeDescription="
-        + transferTypeDescription + ", transferTypeName=" + transferTypeName + ", createDate=" + createDate + "]";
+    return "CoinsetterFinancialTransaction [uuid=" + uuid + ", customerUuid=" + customerUuid + ", accountUuid=" + accountUuid + ", amount=" + amount
+        + ", amountDenomination=" + amountDenomination + ", originalAmount=" + originalAmount + ", originalAmountDenomination="
+        + originalAmountDenomination + ", orderId=" + orderId + ", orderNumber=" + orderNumber + ", referenceNumber=" + referenceNumber
+        + ", transactionCategoryDescription=" + transactionCategoryDescription + ", transactionCategoryName=" + transactionCategoryName
+        + ", transferTypeDescription=" + transferTypeDescription + ", transferTypeName=" + transferTypeName + ", createDate=" + createDate + "]";
   }
 
 }

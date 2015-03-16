@@ -29,8 +29,9 @@ public class CryptsyOrder {
    * @throws ParseException
    */
   @JsonCreator
-  public CryptsyOrder(@JsonProperty("id") Integer tradeId, @JsonProperty("tradeid") Integer tradeId2, @JsonProperty("initiate_ordertype") CryptsyOrderType type, @JsonProperty("datetime") String time,
-      @JsonProperty("tradeprice") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("total") BigDecimal total) throws ParseException {
+  public CryptsyOrder(@JsonProperty("id") Integer tradeId, @JsonProperty("tradeid") Integer tradeId2,
+      @JsonProperty("initiate_ordertype") CryptsyOrderType type, @JsonProperty("datetime") String time, @JsonProperty("tradeprice") BigDecimal price,
+      @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("total") BigDecimal total) throws ParseException {
 
     this.tradeId = tradeId == null ? tradeId2 : tradeId;
     this.type = type;

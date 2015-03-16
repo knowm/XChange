@@ -24,7 +24,7 @@ public class BTERTickers extends BTERBaseResponse {
 
   private final Map<CurrencyPair, BTERTicker> tickerMap;
 
-  private BTERTickers(final Map<CurrencyPair, BTERTicker> tickerMap, boolean result, String message) {
+  private BTERTickers(Map<CurrencyPair, BTERTicker> tickerMap, boolean result, String message) {
 
     super(result, message);
     this.tickerMap = tickerMap;

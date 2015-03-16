@@ -19,13 +19,14 @@ import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
 import org.bouncycastle.util.encoders.Base64;
 
-import com.xeiam.xchange.ExchangeException;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * @author obsessiveOrange
  */
 public class CoinfloorUtils {
 
+  // TODO move this to metadata and coinfloor.json
   public enum CoinfloorCurrency {
     BTC, GBP, EUR, USD, PLN
   }
@@ -79,16 +80,11 @@ public class CoinfloorUtils {
     }
   }
 
-  protected static String buildNonceString() {
-
-    long currentTime = System.currentTimeMillis();
-    return "::" + currentTime + ":";
-  }
-
   private static String bigIntegerToBase64(BigInteger bi) {
 
     byte[] bytes = bi.toByteArray();
-    return bytes[0] == 0 ? org.bouncycastle.util.encoders.Base64.toBase64String(bytes, 1, bytes.length - 1) : org.bouncycastle.util.encoders.Base64.toBase64String(bytes);
+    return bytes[0] == 0 ? org.bouncycastle.util.encoders.Base64.toBase64String(bytes, 1, bytes.length - 1) : org.bouncycastle.util.encoders.Base64
+        .toBase64String(bytes);
   }
 
   public static void checkSuccess(Map<String, Object> payload) {
@@ -104,8 +100,7 @@ public class CoinfloorUtils {
 
     if (currency.equals("BTC")) {
       return CoinfloorCurrency.BTC;
-    }
-    else if (currency.equals("GBP")) {
+    } else if (currency.equals("GBP")) {
       return CoinfloorCurrency.GBP;
     }
 
@@ -192,7 +187,7 @@ public class CoinfloorUtils {
 
   /**
    * Scale integer price results from API call to BigDecimal for local use.
-   * 
+   *
    * @param amountToScale The integer result recieved from API Call
    * @return BigDecimal representation of integer amount
    */
@@ -208,7 +203,7 @@ public class CoinfloorUtils {
 
   /**
    * Scale integer price results from API call to BigDecimal for local use.
-   * 
+   *
    * @param amountToScale The integer result recieved from API Call
    * @return BigDecimal representation of integer amount
    */

@@ -10,7 +10,8 @@ public class BittrexSymbolsResponse {
   private final String message;
   private final ArrayList<BittrexSymbol> symbols;
 
-  public BittrexSymbolsResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message, @JsonProperty("result") ArrayList<BittrexSymbol> symbols) {
+  public BittrexSymbolsResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
+      @JsonProperty("result") ArrayList<BittrexSymbol> symbols) {
 
     this.success = success;
     this.message = message;

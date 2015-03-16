@@ -27,9 +27,9 @@ public class CoinsetterFinancialTransactionDemo {
     String ipAddress = args[2];
 
     Exchange coinsetter = CoinsetterExamplesUtils.getExchange();
-    CoinsetterClientSessionServiceRaw clientSessionService = new CoinsetterClientSessionServiceRaw(coinsetter.getExchangeSpecification());
-    CoinsetterAccountServiceRaw accountService = new CoinsetterAccountServiceRaw(coinsetter.getExchangeSpecification());
-    CoinsetterFinancialTransactionServiceRaw financialTransactionService = new CoinsetterFinancialTransactionServiceRaw(coinsetter.getExchangeSpecification());
+    CoinsetterClientSessionServiceRaw clientSessionService = new CoinsetterClientSessionServiceRaw(coinsetter);
+    CoinsetterAccountServiceRaw accountService = (CoinsetterAccountServiceRaw) coinsetter.getPollingAccountService();
+    CoinsetterFinancialTransactionServiceRaw financialTransactionService = new CoinsetterFinancialTransactionServiceRaw(coinsetter);
 
     CoinsetterClientSession clientSession = clientSessionService.login(username, password, ipAddress);
     log.info("Client session: {}", clientSession);

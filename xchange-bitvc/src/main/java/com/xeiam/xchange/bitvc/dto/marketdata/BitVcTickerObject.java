@@ -13,8 +13,9 @@ public class BitVcTickerObject {
   private final BigDecimal buy;
   private final BigDecimal sell;
 
-  public BitVcTickerObject(@JsonProperty("high") final BigDecimal high, @JsonProperty("low") final BigDecimal low, @JsonProperty("last") final BigDecimal last,
-      @JsonProperty("vol") final BigDecimal vol, @JsonProperty("buy") final BigDecimal buy, @JsonProperty("sell") final BigDecimal sell) {
+  public BitVcTickerObject(@JsonProperty("high") final BigDecimal high, @JsonProperty("low") final BigDecimal low,
+      @JsonProperty("last") final BigDecimal last, @JsonProperty("vol") final BigDecimal vol, @JsonProperty("buy") final BigDecimal buy,
+      @JsonProperty("sell") final BigDecimal sell) {
 
     this.high = high;
     this.low = low;

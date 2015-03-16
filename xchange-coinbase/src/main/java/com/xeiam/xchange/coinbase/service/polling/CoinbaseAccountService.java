@@ -3,23 +3,28 @@ package com.xeiam.xchange.coinbase.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbase.CoinbaseAdapters;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddress;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseSendMoneyRequest;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * @author jamespedwards42
  */
 public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw implements PollingAccountService {
 
-  public CoinbaseAccountService(ExchangeSpecification exchangeSpecification) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public CoinbaseAccountService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -30,9 +35,9 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw impl
   }
 
   /**
-   * @return The Coinbase transaction id for the newly created withdrawal.
-   *         See {@link CoinbaseAccountServiceRaw#getCoinbaseTransaction(String transactionIdOrIdemField)} to retreive more information
-   *         about the transaction, including the blockchain transaction hash.
+   * @return The Coinbase transaction id for the newly created withdrawal. See
+   *         {@link CoinbaseAccountServiceRaw#getCoinbaseTransaction(String transactionIdOrIdemField)} to retreive more information about the
+   *         transaction, including the blockchain transaction hash.
    */
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {

@@ -18,7 +18,8 @@ public final class BitcoiniumTickerHistory {
    * @param bitcoiniumTicker
    * @param condensedTickers
    */
-  public BitcoiniumTickerHistory(@JsonProperty("ticker") BitcoiniumTicker bitcoiniumTicker, @JsonProperty("condensedTickers") BitcoiniumTicker[] condensedTickers) {
+  public BitcoiniumTickerHistory(@JsonProperty("ticker") BitcoiniumTicker bitcoiniumTicker,
+      @JsonProperty("condensedTickers") BitcoiniumTicker[] condensedTickers) {
 
     this.bitcoiniumTicker = bitcoiniumTicker;
     this.condensedTickers = condensedTickers;

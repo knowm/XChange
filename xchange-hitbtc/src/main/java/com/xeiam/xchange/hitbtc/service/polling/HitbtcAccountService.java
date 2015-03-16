@@ -3,20 +3,23 @@ package com.xeiam.xchange.hitbtc.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.hitbtc.HitbtcAdapters;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class HitbtcAccountService extends HitbtcAccountServiceRaw implements PollingAccountService {
 
-  public HitbtcAccountService(ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public HitbtcAccountService(Exchange exchange) {
 
-    super(exchangeSpecification, nonceFactory);
+    super(exchange);
   }
 
   @Override

@@ -25,8 +25,7 @@ public class BleutradeDepositAddress {
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
   /**
-   * @return
-   *         The Currency
+   * @return The Currency
    */
   @JsonProperty("Currency")
   public String getCurrency() {
@@ -35,8 +34,7 @@ public class BleutradeDepositAddress {
   }
 
   /**
-   * @param Currency
-   *          The Currency
+   * @param Currency The Currency
    */
   @JsonProperty("Currency")
   public void setCurrency(String Currency) {
@@ -45,8 +43,7 @@ public class BleutradeDepositAddress {
   }
 
   /**
-   * @return
-   *         The Address
+   * @return The Address
    */
   @JsonProperty("Address")
   public String getAddress() {
@@ -55,8 +52,7 @@ public class BleutradeDepositAddress {
   }
 
   /**
-   * @param Address
-   *          The Address
+   * @param Address The Address
    */
   @JsonProperty("Address")
   public void setAddress(String Address) {

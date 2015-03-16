@@ -1,5 +1,7 @@
 package com.xeiam.xchange.examples.mercadobitcoin.marketdata.ltc;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.Currencies;
@@ -7,13 +9,12 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinExchange;
 import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
-import com.xeiam.xchange.mercadobitcoin.service.polling.marketdata.MercadoBitcoinMarketDataServiceRaw;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
-
-import java.io.IOException;
+import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinMarketDataServiceRaw;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * Demonstrate requesting Depth at Mercado Bitcoin
+ * 
  * @author Copied from Bitstamp and adapted by Felipe Micaroni Lalli
  */
 public class DepthDemo {

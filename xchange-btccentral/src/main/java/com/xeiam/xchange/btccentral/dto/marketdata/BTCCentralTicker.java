@@ -36,8 +36,9 @@ public final class BTCCentralTicker {
    * @param variation
    * @param currency
    */
-  public BTCCentralTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("ask") BigDecimal ask, @JsonProperty("midpoint") BigDecimal midpoint, @JsonProperty("at") long at, @JsonProperty("price") BigDecimal price, @JsonProperty("vwap") BigDecimal vwap,
+  public BTCCentralTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("midpoint") BigDecimal midpoint,
+      @JsonProperty("at") long at, @JsonProperty("price") BigDecimal price, @JsonProperty("vwap") BigDecimal vwap,
       @JsonProperty("variation") BigDecimal variation, @JsonProperty("currency") String currency) {
 
     this.high = high;
@@ -112,7 +113,7 @@ public final class BTCCentralTicker {
   @Override
   public String toString() {
 
-    return "BTCCentralTicker{" + "high=" + high + ", low=" + low + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + ", midpoint=" + midpoint + ", at=" + at + ", price=" + price + ", vwap="
-        + vwap + ", variation=" + variation + ", currency='" + currency + '\'' + '}';
+    return "BTCCentralTicker{" + "high=" + high + ", low=" + low + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask + ", midpoint=" + midpoint
+        + ", at=" + at + ", price=" + price + ", vwap=" + vwap + ", variation=" + variation + ", currency='" + currency + '\'' + '}';
   }
 }

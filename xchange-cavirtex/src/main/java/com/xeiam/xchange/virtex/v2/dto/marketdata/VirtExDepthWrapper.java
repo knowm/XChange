@@ -17,7 +17,8 @@ public final class VirtExDepthWrapper {
    * @param message
    * @param apirate
    */
-  public VirtExDepthWrapper(@JsonProperty("orderbook") VirtExDepth depth, @JsonProperty("message") String message, @JsonProperty("status") String status, @JsonProperty("apirate") String apirate) {
+  public VirtExDepthWrapper(@JsonProperty("orderbook") VirtExDepth depth, @JsonProperty("message") String message,
+      @JsonProperty("status") String status, @JsonProperty("apirate") String apirate) {
 
     this.depth = depth;
     this.status = status;

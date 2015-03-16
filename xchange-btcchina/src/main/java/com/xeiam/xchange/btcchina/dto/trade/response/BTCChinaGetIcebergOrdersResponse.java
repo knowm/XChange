@@ -7,7 +7,8 @@ import com.xeiam.xchange.btcchina.dto.trade.BTCChinaIcebergOrdersObject;
 
 public class BTCChinaGetIcebergOrdersResponse extends BTCChinaResponse<BTCChinaIcebergOrdersObject> {
 
-  public BTCChinaGetIcebergOrdersResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaIcebergOrdersObject result, @JsonProperty("error") BTCChinaError error) {
+  public BTCChinaGetIcebergOrdersResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaIcebergOrdersObject result,
+      @JsonProperty("error") BTCChinaError error) {
 
     super(id, result, error);
   }

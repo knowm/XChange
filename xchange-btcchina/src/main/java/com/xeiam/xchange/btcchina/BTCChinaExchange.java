@@ -1,9 +1,10 @@
 package com.xeiam.xchange.btcchina;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btcchina.service.BTCChinaTonceFactory;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaAccountService;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataService;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaTradeService;
@@ -11,16 +12,11 @@ import com.xeiam.xchange.btcchina.service.streaming.BTCChinaSocketIOService;
 import com.xeiam.xchange.btcchina.service.streaming.BTCChinaStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+import com.xeiam.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 
-/**
- * <p>
- * Exchange implementation to provide the following to applications:
- * </p>
- * <ul>
- * <li>A wrapper for the BTCChina exchange API</li>
- * </ul>
- */
 public class BTCChinaExchange extends BaseExchange implements Exchange {
+
+  // move to metadata
 
   public static final String WEBSOCKET_URI_KEY = "websocket.uri";
 
@@ -37,23 +33,16 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
    */
   public static final int BTC_SCALE = 4;
 
-  private final BTCChinaTonceFactory tonceFactory = new BTCChinaTonceFactory();
-
-  /**
-   * Default constructor for ExchangeFactory
-   */
-  public BTCChinaExchange() {
-
-  }
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentNanosecondTimeIncrementalNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingTradeService = new BTCChinaTradeService(exchangeSpecification, tonceFactory);
-    this.pollingAccountService = new BTCChinaAccountService(exchangeSpecification, tonceFactory);
+    this.pollingTradeService = new BTCChinaTradeService(this);
+    this.pollingAccountService = new BTCChinaAccountService(this);
     exchangeSpecification.setSslUri("https://data.btcchina.com");
-    this.pollingMarketDataService = new BTCChinaMarketDataService(exchangeSpecification, tonceFactory);
+    this.pollingMarketDataService = new BTCChinaMarketDataService(this);
   }
 
   @Override
@@ -76,15 +65,19 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
 
     if (configuration == null) {
       btcchinaStreamingConfiguration = new BTCChinaStreamingConfiguration();
-    }
-    else if (configuration instanceof BTCChinaStreamingConfiguration) {
+    } else if (configuration instanceof BTCChinaStreamingConfiguration) {
       btcchinaStreamingConfiguration = (BTCChinaStreamingConfiguration) configuration;
-    }
-    else {
+    } else {
       throw new IllegalArgumentException("BTCChina only supports BTCChinaStreamingConfiguration");
     }
 
-    return new BTCChinaSocketIOService(getExchangeSpecification(), btcchinaStreamingConfiguration);
+    return new BTCChinaSocketIOService(this, btcchinaStreamingConfiguration);
+  }
+
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+
+    return nonceFactory;
   }
 
 }

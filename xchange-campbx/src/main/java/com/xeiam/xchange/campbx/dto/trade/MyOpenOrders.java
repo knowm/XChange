@@ -40,7 +40,8 @@ public final class MyOpenOrders extends CampBXResponse {
   @Override
   public String toString() {
 
-    return "MyOpenOrders [buy=" + buy + ", sell=" + sell + ", getSuccess()=" + getSuccess() + ", getInfo()=" + getInfo() + ", getError()=" + getError() + "]";
+    return "MyOpenOrders [buy=" + buy + ", sell=" + sell + ", getSuccess()=" + getSuccess() + ", getInfo()=" + getInfo() + ", getError()="
+        + getError() + "]";
   }
 
 }

@@ -28,7 +28,7 @@ public enum CoinbaseScope {
     private static final EnumFromStringHelper<CoinbaseScope> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseScope>(CoinbaseScope.class);
 
     @Override
-    public CoinbaseScope deserialize(final JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public CoinbaseScope deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jsonParser.getCodec();
       final JsonNode node = oc.readTree(jsonParser);

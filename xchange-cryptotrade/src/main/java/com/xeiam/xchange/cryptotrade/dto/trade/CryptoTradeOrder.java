@@ -20,9 +20,11 @@ public class CryptoTradeOrder {
   private final BigDecimal rate;
   private final String status;
 
-  private CryptoTradeOrder(@JsonProperty("id") long id, @JsonProperty("pair") @JsonDeserialize(using = CurrencyPairDeserializer.class) CurrencyPair currencyPair,
-      @JsonProperty("type") CryptoTradeOrderType type, @JsonProperty("rate") BigDecimal rate, @JsonProperty("status") String status, @JsonProperty("orderdate") long orderDate,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("initial_amount") BigDecimal initialAmount, @JsonProperty("remaining_amount") BigDecimal remainingAmount) {
+  private CryptoTradeOrder(@JsonProperty("id") long id,
+      @JsonProperty("pair") @JsonDeserialize(using = CurrencyPairDeserializer.class) CurrencyPair currencyPair,
+      @JsonProperty("type") CryptoTradeOrderType type, @JsonProperty("rate") BigDecimal rate, @JsonProperty("status") String status,
+      @JsonProperty("orderdate") long orderDate, @JsonProperty("amount") BigDecimal amount, @JsonProperty("initial_amount") BigDecimal initialAmount,
+      @JsonProperty("remaining_amount") BigDecimal remainingAmount) {
 
     this.id = id; // OrderInfo & OrderHistory
     this.orderDate = orderDate; // OrderInfo
@@ -83,7 +85,8 @@ public class CryptoTradeOrder {
   @Override
   public String toString() {
 
-    return "CryptoTradeOrder [id=" + getId() + ", orderdate=" + getOrderDate() + ", currencyPair=" + getCurrencyPair() + ", type=" + getType() + ", amount=" + getAmount() + ", initialAmount="
-        + getInitialAmount() + ", remainingAmount=" + getRemainingAmount() + ", rate=" + getRate() + ", status=" + getStatus() + "]";
+    return "CryptoTradeOrder [id=" + getId() + ", orderdate=" + getOrderDate() + ", currencyPair=" + getCurrencyPair() + ", type=" + getType()
+        + ", amount=" + getAmount() + ", initialAmount=" + getInitialAmount() + ", remainingAmount=" + getRemainingAmount() + ", rate=" + getRate()
+        + ", status=" + getStatus() + "]";
   }
 }

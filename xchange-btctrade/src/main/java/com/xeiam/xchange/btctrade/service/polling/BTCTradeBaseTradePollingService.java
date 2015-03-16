@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import si.mazi.rescu.ParamsDigest;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btctrade.service.BTCTradeDigest;
 import com.xeiam.xchange.btctrade.service.BTCTradeSession;
 import com.xeiam.xchange.btctrade.service.BTCTradeSessionFactory;
@@ -15,23 +15,16 @@ public class BTCTradeBaseTradePollingService extends BTCTradeBasePollingService 
   protected final BTCTradeSession session;
 
   /**
-   * @param exchangeSpecification
-   */
-  protected BTCTradeBaseTradePollingService(ExchangeSpecification exchangeSpecification) {
-
-    super(exchangeSpecification);
-    session = BTCTradeSessionFactory.INSTANCE.getSession(exchangeSpecification);
-    publicKey = session.getKey();
-  }
-
-  /**
-   * Returns the next nonce.
+   * Constructor
    *
-   * @return the next nonce.
+   * @param exchange
    */
-  public long nextNonce() {
+  protected BTCTradeBaseTradePollingService(Exchange exchange) {
 
-    return session.nextNonce();
+    super(exchange);
+
+    session = BTCTradeSessionFactory.INSTANCE.getSession(exchange);
+    publicKey = session.getKey();
   }
 
   /**

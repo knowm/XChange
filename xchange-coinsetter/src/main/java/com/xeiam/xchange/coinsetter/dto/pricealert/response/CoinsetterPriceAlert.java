@@ -29,8 +29,9 @@ public class CoinsetterPriceAlert {
    * @param symbol Ticker symbol
    * @param createDate The date the message was created
    */
-  public CoinsetterPriceAlert(@JsonProperty("uuid") UUID uuid, @JsonProperty("customerUuid") UUID customerUuid, @JsonProperty("type") String type, @JsonProperty("condition") String condition,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("symbol") String symbol, @JsonProperty("createDate") @JsonFormat(timezone = "EST") Date createDate) {
+  public CoinsetterPriceAlert(@JsonProperty("uuid") UUID uuid, @JsonProperty("customerUuid") UUID customerUuid, @JsonProperty("type") String type,
+      @JsonProperty("condition") String condition, @JsonProperty("price") BigDecimal price, @JsonProperty("symbol") String symbol,
+      @JsonProperty("createDate") @JsonFormat(timezone = "EST") Date createDate) {
 
     this.uuid = uuid;
     this.customerUuid = customerUuid;
@@ -79,8 +80,8 @@ public class CoinsetterPriceAlert {
   @Override
   public String toString() {
 
-    return "CoinsetterPriceAlert [uuid=" + uuid + ", customerUuid=" + customerUuid + ", type=" + type + ", condition=" + condition + ", price=" + price + ", symbol=" + symbol + ", createDate="
-        + createDate + "]";
+    return "CoinsetterPriceAlert [uuid=" + uuid + ", customerUuid=" + customerUuid + ", type=" + type + ", condition=" + condition + ", price="
+        + price + ", symbol=" + symbol + ", createDate=" + createDate + "]";
   }
 
 }

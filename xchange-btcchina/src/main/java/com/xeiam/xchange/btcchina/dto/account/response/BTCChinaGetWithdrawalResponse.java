@@ -7,7 +7,8 @@ import com.xeiam.xchange.btcchina.dto.account.BTCChinaWithdrawalObject;
 
 public class BTCChinaGetWithdrawalResponse extends BTCChinaResponse<BTCChinaWithdrawalObject> {
 
-  public BTCChinaGetWithdrawalResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaWithdrawalObject result, @JsonProperty("error") BTCChinaError error) {
+  public BTCChinaGetWithdrawalResponse(@JsonProperty("id") String id, @JsonProperty("result") BTCChinaWithdrawalObject result,
+      @JsonProperty("error") BTCChinaError error) {
 
     super(id, result, error);
   }

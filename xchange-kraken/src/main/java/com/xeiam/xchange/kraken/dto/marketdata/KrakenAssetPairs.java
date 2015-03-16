@@ -11,7 +11,7 @@ public class KrakenAssetPairs {
    * 
    * @param assetPairMap
    */
-  public KrakenAssetPairs(final Map<String, KrakenAssetPair> assetPairMap) {
+  public KrakenAssetPairs(Map<String, KrakenAssetPair> assetPairMap) {
 
     this.assetPairMap = assetPairMap;
   }

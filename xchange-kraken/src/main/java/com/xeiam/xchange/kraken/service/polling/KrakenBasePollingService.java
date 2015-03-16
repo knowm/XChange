@@ -1,21 +1,23 @@
 package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.kraken.Kraken;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.FrequencyLimitExceededException;
+import com.xeiam.xchange.exceptions.NonceException;
 import com.xeiam.xchange.kraken.KrakenAdapters;
+import com.xeiam.xchange.kraken.KrakenAuthenticated;
 import com.xeiam.xchange.kraken.dto.KrakenResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPairs;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssets;
@@ -27,49 +29,46 @@ import com.xeiam.xchange.kraken.service.KrakenDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeService implements BasePollingService {
+public class KrakenBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  protected static final String PREFIX = "kraken";
-  protected static final String KEY_ORDER_SIZE_MIN_DEFAULT = PREFIX + SUF_ORDER_SIZE_MIN_DEFAULT;
+  //  protected static final String PREFIX = "kraken";
+  //  protected static final String KEY_ORDER_SIZE_MIN_DEFAULT = PREFIX + SUF_ORDER_SIZE_MIN_DEFAULT;
 
-  private final Set<CurrencyPair> CURRENCY_PAIRS = new HashSet<CurrencyPair>();
   private final Set<String> FIAT_CURRENCIES = new HashSet<String>();
   private final Set<String> DIGITAL_CURRENCIES = new HashSet<String>();
 
-  protected T kraken;
+  protected KrakenAuthenticated kraken;
   protected ParamsDigest signatureCreator;
-  protected SynchronizedValueFactory<Long> nonce;
 
   /**
    * Constructor
    *
-   * @param exchangeSpecification
+   * @param exchange
    */
-  public KrakenBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification, SynchronizedValueFactory<Long> nonceFactory) {
+  public KrakenBasePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
-    kraken = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
-    signatureCreator = KrakenDigest.createInstance(exchangeSpecification.getSecretKey());
-    nonce = nonceFactory;
+    kraken = RestProxyFactory.createProxy(KrakenAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    signatureCreator = KrakenDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   @Override
-  public synchronized Collection<CurrencyPair> getExchangeSymbols() throws IOException {
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    if (CURRENCY_PAIRS.isEmpty()) {
-      final Set<String> krakenCurrencyPairs = getKrakenAssetPairs().getAssetPairMap().keySet();
-      for (final String krakenCurrencyPair : krakenCurrencyPairs) {
-        String krakenTradeCurrency = krakenCurrencyPair.substring(0, 4);
-        String krakenPriceCurrency = krakenCurrencyPair.substring(4);
+    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
 
-        String tradeCurrency = addCurrencyAndGetCode(krakenTradeCurrency);
-        String priceCurrency = addCurrencyAndGetCode(krakenPriceCurrency);
+    final Set<String> krakenCurrencyPairs = getKrakenAssetPairs().getAssetPairMap().keySet();
+    for (String krakenCurrencyPair : krakenCurrencyPairs) {
+      String krakenTradeCurrency = krakenCurrencyPair.substring(0, 4);
+      String krakenPriceCurrency = krakenCurrencyPair.substring(4);
 
-        CURRENCY_PAIRS.add(new CurrencyPair(tradeCurrency, priceCurrency));
-      }
+      String tradeCurrency = addCurrencyAndGetCode(krakenTradeCurrency);
+      String priceCurrency = addCurrencyAndGetCode(krakenPriceCurrency);
+
+      currencyPairs.add(new CurrencyPair(tradeCurrency, priceCurrency));
     }
-    return CURRENCY_PAIRS;
+    return currencyPairs;
   }
 
   private String addCurrencyAndGetCode(String krakenCurrencyString) {
@@ -77,8 +76,7 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
     String currencyCode = KrakenAdapters.adaptCurrency(krakenCurrencyString);
     if (krakenCurrencyString.startsWith("X")) {
       DIGITAL_CURRENCIES.add(currencyCode);
-    }
-    else {
+    } else {
       FIAT_CURRENCIES.add(currencyCode);
     }
 
@@ -103,8 +101,7 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
 
     if (FIAT_CURRENCIES.contains(currency)) {
       return "Z" + currency;
-    }
-    else if (DIGITAL_CURRENCIES.contains(currency)) {
+    } else if (DIGITAL_CURRENCIES.contains(currency)) {
       if (currency.equals(Currencies.BTC)) {
         return "XXBT";
       }
@@ -142,15 +139,21 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
   protected <R> R checkResult(KrakenResult<R> krakenResult) {
 
     if (!krakenResult.isSuccess()) {
-      throw new ExchangeException(Arrays.toString(krakenResult.getError()));
+      String[] errors = krakenResult.getError();
+      if (errors.length == 0) {
+        throw new ExchangeException("Missing error message");
+      }
+      String error = errors[0];
+      if ("EAPI:Invalid nonce".equals(error)) {
+        throw new NonceException(error);
+      } else if ("EGeneral:Temporary lockout".equals(error)) {
+        throw new FrequencyLimitExceededException(error);
+      }
+
+      throw new ExchangeException(Arrays.toString(errors));
     }
 
     return krakenResult.getResult();
-  }
-
-  protected SynchronizedValueFactory<Long> nextNonce() {
-
-    return nonce;
   }
 
   protected String createDelimitedString(String[] items) {
@@ -160,8 +163,7 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
       for (String item : items) {
         if (commaDelimitedString == null) {
           commaDelimitedString = new StringBuilder(item);
-        }
-        else {
+        } else {
           commaDelimitedString.append(",").append(item);
         }
       }
@@ -195,8 +197,7 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
         String krakenAssetPair = createKrakenCurrencyPair(currencyPair);
         if (delimitStringBuilder == null) {
           delimitStringBuilder = new StringBuilder(krakenAssetPair);
-        }
-        else {
+        } else {
           delimitStringBuilder.append(",").append(krakenAssetPair);
         }
       }
@@ -214,8 +215,7 @@ public class KrakenBasePollingService<T extends Kraken> extends BaseExchangeServ
       for (Object item : items) {
         if (delimitStringBuilder == null) {
           delimitStringBuilder = new StringBuilder(item.toString());
-        }
-        else {
+        } else {
           delimitStringBuilder.append(",").append(item.toString());
         }
       }

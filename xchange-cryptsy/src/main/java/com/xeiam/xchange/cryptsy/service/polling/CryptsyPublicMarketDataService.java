@@ -3,32 +3,28 @@ package com.xeiam.xchange.cryptsy.service.polling;
 import java.io.IOException;
 import java.util.Map;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
 import com.xeiam.xchange.cryptsy.CryptsyCurrencyUtils;
-import com.xeiam.xchange.cryptsy.CryptsyExchange;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicMarketData;
 import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicOrderbook;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class CryptsyPublicMarketDataService extends CryptsyPublicMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * Constructor
+   *
+   * @param exchange
    */
-  public CryptsyPublicMarketDataService(ExchangeSpecification exchangeSpecification) {
+  public CryptsyPublicMarketDataService(Exchange exchange) {
 
-    super(exchangeSpecification);
-  }
-
-  public CryptsyPublicMarketDataService() {
-
-    this(CryptsyExchange.getDefaultPublicExchangeSpecification());
+    super(exchange);
   }
 
   @Override

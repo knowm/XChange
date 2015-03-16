@@ -29,7 +29,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitfinex.v1.BitfinexExchange;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
 import com.xeiam.xchange.bitfinex.v1.service.polling.BitfinexMarketDataServiceRaw;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class LendDepthDemo {
 

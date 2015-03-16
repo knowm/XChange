@@ -3,13 +3,14 @@ package com.xeiam.xchange.bitfinex.v1.service.polling;
 import java.io.IOException;
 import java.util.Collection;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitfinex.v1.Bitfinex;
-import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitfinex.v1.dto.BitfinexException;
-import com.xeiam.xchange.bitfinex.v1.dto.marketdata.*;
-import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
+import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLend;
+import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
+import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
+import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * <p>
@@ -19,16 +20,16 @@ import com.xeiam.xchange.currency.CurrencyPair;
  * <li>Provides access to various market data values</li>
  * </ul>
  */
-public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService<Bitfinex> {
+public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService {
 
   /**
    * Constructor
    *
-   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param exchange
    */
-  public BitfinexMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  public BitfinexMarketDataServiceRaw(Exchange exchange) {
 
-    super(Bitfinex.class, exchangeSpecification);
+    super(exchange);
   }
 
   public BitfinexTicker getBitfinexTicker(String pair) throws IOException {
@@ -47,8 +48,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService<Bit
       BitfinexDepth bitfinexDepth;
       if (limitBids == null && limitAsks == null) {
         bitfinexDepth = bitfinex.getBook(pair);
-      }
-      else {
+      } else {
         bitfinexDepth = bitfinex.getBook(pair, limitBids, limitAsks);
       }
       return bitfinexDepth;

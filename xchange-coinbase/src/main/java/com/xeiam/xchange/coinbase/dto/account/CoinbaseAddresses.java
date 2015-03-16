@@ -26,8 +26,8 @@ public class CoinbaseAddresses extends CoinbasePagedResult {
 
   private final List<CoinbaseAddress> addresses;
 
-  private CoinbaseAddresses(@JsonProperty("addresses") final List<CoinbaseAddress> addresses, @JsonProperty("total_count") final int totalCount, @JsonProperty("num_pages") final int numPages,
-      @JsonProperty("current_page") final int currentPage) {
+  private CoinbaseAddresses(@JsonProperty("addresses") final List<CoinbaseAddress> addresses, @JsonProperty("total_count") final int totalCount,
+      @JsonProperty("num_pages") final int numPages, @JsonProperty("current_page") final int currentPage) {
 
     super(totalCount, numPages, currentPage);
     this.addresses = addresses;
@@ -54,7 +54,7 @@ public class CoinbaseAddresses extends CoinbasePagedResult {
       final JsonNode addressesArrayNode = node.path("addresses");
 
       final List<CoinbaseAddress> addresses = new ArrayList<CoinbaseAddress>();
-      for (final JsonNode addressNode : addressesArrayNode) {
+      for (JsonNode addressNode : addressesArrayNode) {
         addresses.add(getAddressFromNode(addressNode));
       }
 
@@ -65,7 +65,7 @@ public class CoinbaseAddresses extends CoinbasePagedResult {
       return new CoinbaseAddresses(addresses, totalCount, numPages, currentPage);
     }
 
-    private CoinbaseAddress getAddressFromNode(final JsonNode addressNode) throws InvalidFormatException {
+    private CoinbaseAddress getAddressFromNode(JsonNode addressNode) throws InvalidFormatException {
 
       final JsonNode nestedAddressNode = addressNode.path("address");
       final String address = nestedAddressNode.path("address").asText();

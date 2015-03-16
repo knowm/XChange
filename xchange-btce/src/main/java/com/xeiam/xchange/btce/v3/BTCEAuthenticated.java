@@ -37,28 +37,31 @@ public interface BTCEAuthenticated extends BTCE {
    * @param order sorting ASC or DESC default DESC
    * @param since When to start displaying? UNIX time default 0
    * @param end When to finish displaying? UNIX time default +inf
-   * @return {success=1, return={funds={usd=0, rur=0, eur=0, btc=0.1, ltc=0, nmc=0}, rights={info=1, trade=1, withdraw=1}, transaction_count=1, open_orders=0, server_time=1357678428}}
+   * @return {success=1, return={funds={usd=0, rur=0, eur=0, btc=0.1, ltc=0, nmc=0}, rights={info=1, trade=1, withdraw=1}, transaction_count=1,
+   *         open_orders=0, server_time=1357678428}}
    */
   @POST
   @Path("tapi")
   @FormParam("method")
-  BTCEAccountInfoReturn getInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Integer> nonce, @FormParam("from") Long from,
-      @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+  BTCEAccountInfoReturn getInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @FormParam("count") Long count,
+      @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
       @FormParam("end") Long end) throws IOException;
 
   /**
    * None of the parameters are obligatory (ie. all are nullable). Use this method instead of OrderList, which is deprecated.
-   * 
+   *
    * @param pair the pair to display the orders eg. btc_usd (default: all pairs)
    */
   @POST
   @Path("tapi")
   @FormParam("method")
-  BTCEOpenOrdersReturn ActiveOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Integer> nonce, @FormParam("pair") String pair) throws IOException;
+  BTCEOpenOrdersReturn ActiveOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("pair") String pair) throws IOException;
 
   /**
    * All parameters are obligatory (ie. none may be null).
-   * 
+   *
    * @param pair pair, eg. btc_usd
    * @param type The transaction type (buy or sell)
    * @param rate The price to buy/sell
@@ -67,17 +70,19 @@ public interface BTCEAuthenticated extends BTCE {
   @POST
   @Path("tapi")
   @FormParam("method")
-  BTCEPlaceOrderReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Integer> nonce, @FormParam("pair") String pair,
-      @FormParam("type") BTCEOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount) throws IOException;
+  BTCEPlaceOrderReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("pair") String pair, @FormParam("type") BTCEOrder.Type type,
+      @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount) throws IOException;
 
   @POST
   @Path("tapi")
   @FormParam("method")
-  BTCECancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Integer> nonce, @FormParam("order_id") Long orderId) throws IOException;
+  BTCECancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("order_id") Long orderId) throws IOException;
 
   /**
    * All parameters are nullable
-   * 
+   *
    * @param from The number of the transactions to start displaying with; default 0
    * @param count The number of transactions for displaying; default 1000
    * @param fromId The ID of the transaction to start displaying with; default 0
@@ -91,8 +96,9 @@ public interface BTCEAuthenticated extends BTCE {
   @POST
   @Path("tapi")
   @FormParam("method")
-  BTCETradeHistoryReturn TradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Integer> nonce, @FormParam("from") Long from,
-      @FormParam("count") Long count, @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+  BTCETradeHistoryReturn TradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @FormParam("count") Long count,
+      @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
       @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
 
   enum SortOrder {

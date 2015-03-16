@@ -19,7 +19,8 @@ public class CoinfloorEstimateMarketOrder {
   private final BigDecimal baseQty;
   private final BigDecimal counterQty;
 
-  public CoinfloorEstimateMarketOrder(@JsonProperty("tag") int tag, @JsonProperty("errorCode") int errorCode, @JsonProperty("quantity") int baseQty, @JsonProperty("total") int counterQty) {
+  public CoinfloorEstimateMarketOrder(@JsonProperty("tag") int tag, @JsonProperty("errorCode") int errorCode, @JsonProperty("quantity") int baseQty,
+      @JsonProperty("total") int counterQty) {
 
     this.tag = tag;
     this.errorCode = errorCode;
@@ -50,6 +51,7 @@ public class CoinfloorEstimateMarketOrder {
   @Override
   public String toString() {
 
-    return "CoinfloorEstimateMarketOrderReturn{tag='" + tag + "', errorcode='" + errorCode + "', baseQty='" + baseQty + "', counterQty='" + counterQty + "'}";
+    return "CoinfloorEstimateMarketOrderReturn{tag='" + tag + "', errorcode='" + errorCode + "', baseQty='" + baseQty + "', counterQty='"
+        + counterQty + "'}";
   }
 }

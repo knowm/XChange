@@ -3,24 +3,22 @@ package com.xeiam.xchange.vircurex.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.vircurex.VircurexAdapters;
 
 public class VircurexAccountService extends VircurexAccountServiceRaw implements PollingAccountService {
 
   /**
    * Constructor
-   * 
-   * @param exchangeSpecification
+   *
+   * @param exchange
    */
-  public VircurexAccountService(ExchangeSpecification exchangeSpecification) {
+  public VircurexAccountService(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
   }
 
   @Override
@@ -36,7 +34,7 @@ public class VircurexAccountService extends VircurexAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(String currecny, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(String currecny, BigDecimal amount, String address) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
 

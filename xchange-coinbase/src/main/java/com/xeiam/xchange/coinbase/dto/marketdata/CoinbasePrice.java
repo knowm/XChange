@@ -23,7 +23,7 @@ public class CoinbasePrice {
   private final CoinbaseMoney total;
   private final CoinbaseMoney subTotal;
 
-  private CoinbasePrice(final CoinbaseMoney coinbaseFee, final CoinbaseMoney bankFee, final CoinbaseMoney total, final CoinbaseMoney subTotal) {
+  private CoinbasePrice(CoinbaseMoney coinbaseFee, final CoinbaseMoney bankFee, final CoinbaseMoney total, final CoinbaseMoney subTotal) {
 
     this.coinbaseFee = coinbaseFee;
     this.bankFee = bankFee;

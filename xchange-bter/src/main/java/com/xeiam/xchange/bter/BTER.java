@@ -45,5 +45,6 @@ public interface BTER {
 
   @GET
   @Path("trade/{ident}_{currency}/{tradeId}")
-  BTERTradeHistory getTradeHistorySince(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @PathParam("tradeId") String tradeId) throws IOException;
+  BTERTradeHistory getTradeHistorySince(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency,
+      @PathParam("tradeId") String tradeId) throws IOException;
 }

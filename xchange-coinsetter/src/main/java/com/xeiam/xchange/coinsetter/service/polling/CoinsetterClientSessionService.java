@@ -13,22 +13,20 @@ import java.util.concurrent.locks.ReadWriteLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.CoinsetterResponse;
 import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccount;
 import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccountList;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
-import com.xeiam.xchange.service.BaseExchangeService;
 
 /**
  * Client session manager.
  */
-public class CoinsetterClientSessionService extends BaseExchangeService {
+public class CoinsetterClientSessionService extends CoinsetterClientSessionServiceRaw {
 
   private final Logger log = LoggerFactory.getLogger(CoinsetterClientSessionService.class);
 
-  private final CoinsetterClientSessionServiceRaw clientSessionServiceRaw;
   private final CoinsetterAccountServiceRaw accountServiceRaw;
   private final ReadWriteLock lock;
   private final long heartbeatInterval;
@@ -37,16 +35,19 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
   private volatile HeartbeatThread heartbeatThread;
 
   /**
-   * @param exchangeSpecification
+   * Constructor
+   *
+   * @param exchange
    */
-  public CoinsetterClientSessionService(ExchangeSpecification exchangeSpecification) {
+  public CoinsetterClientSessionService(Exchange exchange) {
 
-    super(exchangeSpecification);
-    clientSessionServiceRaw = new CoinsetterClientSessionServiceRaw(exchangeSpecification);
-    accountServiceRaw = new CoinsetterAccountServiceRaw(exchangeSpecification);
-    lock = (ReadWriteLock) exchangeSpecification.getExchangeSpecificParametersItem(SESSION_LOCK_KEY);
-    heartbeatInterval = (Long) exchangeSpecification.getExchangeSpecificParametersItem(SESSION_HEARTBEAT_INTERVAL_KEY);
-    heartbeatMaxFailureTimes = (Integer) exchangeSpecification.getExchangeSpecificParametersItem(SESSION_HEARTBEAT_MAX_FAILURE_TIMES_KEY);
+    super(exchange);
+
+    accountServiceRaw = new CoinsetterAccountServiceRaw(exchange);
+    lock = (ReadWriteLock) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_LOCK_KEY);
+    heartbeatInterval = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_HEARTBEAT_INTERVAL_KEY);
+    heartbeatMaxFailureTimes = (Integer) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(
+        SESSION_HEARTBEAT_MAX_FAILURE_TIMES_KEY);
   }
 
   public CoinsetterClientSession getSession() throws IOException {
@@ -68,7 +69,7 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
       heartbeatThread.interrupt();
     }
 
-    clientSessionServiceRaw.logout(readSession().getUuid());
+    logout(readSession().getUuid());
   }
 
   private CoinsetterClientSession readSession() {
@@ -76,7 +77,7 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
     final CoinsetterClientSession session;
     try {
       lock.readLock().lock();
-      session = (CoinsetterClientSession) exchangeSpecification.getExchangeSpecificParametersItem(SESSION_KEY);
+      session = (CoinsetterClientSession) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_KEY);
     } finally {
       lock.readLock().unlock();
     }
@@ -90,20 +91,21 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
       // Got the write lock, now no one else can got read lock or write lock.
 
       // Check if it is updated by someone else, before we got the write lock.
-      if ((CoinsetterClientSession) exchangeSpecification.getExchangeSpecificParametersItem(SESSION_KEY) == null) {
+      if ((CoinsetterClientSession) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_KEY) == null) {
         // It is still null, retrieve one from server.
 
         final CoinsetterClientSession session = login();
-        exchangeSpecification.setExchangeSpecificParametersItem(SESSION_KEY, session);
+        exchange.getExchangeSpecification().setExchangeSpecificParametersItem(SESSION_KEY, session);
 
-        final String heatbeatThreadName = String.format("Coinsetter-heatbeat-%s(%s)-%s", session.getUsername(), session.getCustomerUuid(), session.getUuid());
+        final String heatbeatThreadName = String.format("Coinsetter-heatbeat-%s(%s)-%s", session.getUsername(), session.getCustomerUuid(),
+            session.getUuid());
         heartbeatThread = new HeartbeatThread(heatbeatThreadName, session, heartbeatInterval, heartbeatMaxFailureTimes);
         heartbeatThread.start();
 
-        if (exchangeSpecification.getExchangeSpecificParametersItem(ACCOUNT_UUID_KEY) == null) {
+        if (exchange.getExchangeSpecification().getExchangeSpecificParametersItem(ACCOUNT_UUID_KEY) == null) {
           CoinsetterAccountList accountList = accountServiceRaw.list(session.getUuid());
           CoinsetterAccount account = accountList.getAccountList()[0];
-          exchangeSpecification.setExchangeSpecificParametersItem(ACCOUNT_UUID_KEY, account.getAccountUuid());
+          exchange.getExchangeSpecification().setExchangeSpecificParametersItem(ACCOUNT_UUID_KEY, account.getAccountUuid());
         }
       }
     } finally {
@@ -113,8 +115,9 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
 
   private CoinsetterClientSession login() throws IOException {
 
-    String ipAddress = (String) exchangeSpecification.getExchangeSpecificParametersItem(SESSION_IP_ADDRESS_KEY);
-    CoinsetterClientSession session = clientSessionServiceRaw.login(exchangeSpecification.getUserName(), exchangeSpecification.getPassword(), ipAddress);
+    String ipAddress = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_IP_ADDRESS_KEY);
+    CoinsetterClientSession session = login(exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getPassword(),
+        ipAddress);
     return session;
   }
 
@@ -140,7 +143,7 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
       do {
         try {
           Thread.sleep(heatbeatInterval);
-          heatbeatResponse = clientSessionServiceRaw.heartbeat(session.getUuid());
+          heatbeatResponse = heartbeat(session.getUuid());
           log.trace("heatbeat: {}", heatbeatResponse);
           tryTimes = 0;
         } catch (CoinsetterException e) {
@@ -152,13 +155,14 @@ public class CoinsetterClientSessionService extends BaseExchangeService {
           log.debug("Interrupted: {}", e.getMessage());
           this.interrupt();
         }
-      } while (!this.isInterrupted() && tryTimes < heartbeatMaxFailureTimes && heatbeatResponse != null && "SUCCESS".equals(heatbeatResponse.getRequestStatus()));
+      } while (!this.isInterrupted() && tryTimes < heartbeatMaxFailureTimes && heatbeatResponse != null
+          && "SUCCESS".equals(heatbeatResponse.getRequestStatus()));
 
       // Session logged out or session is invalid
       log.debug("Session logged out or session is invalid.");
       try {
         lock.writeLock().lock();
-        exchangeSpecification.setExchangeSpecificParametersItem(SESSION_KEY, null);
+        exchange.getExchangeSpecification().setExchangeSpecificParametersItem(SESSION_KEY, null);
       } finally {
         lock.writeLock().unlock();
       }
