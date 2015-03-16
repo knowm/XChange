@@ -17,8 +17,6 @@ target/
 javadoc/
 bin/
 log/
-classes/
-META-INF/
 
 # Misc.
 .DS_Store

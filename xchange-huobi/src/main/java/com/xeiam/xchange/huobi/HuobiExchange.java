@@ -27,6 +27,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.huobi.service.polling.HuobiAccountService;
 import com.xeiam.xchange.huobi.service.polling.HuobiMarketDataService;
 import com.xeiam.xchange.huobi.service.polling.HuobiTradeService;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * <p>
@@ -44,12 +45,17 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     super.applySpecification(exchangeSpecification);
 
     // Configure the basic services if configuration does not apply
-    this.pollingMarketDataService = new HuobiMarketDataService(exchangeSpecification);
-    this.pollingTradeService = new HuobiTradeService(exchangeSpecification);
-    this.pollingAccountService = new HuobiAccountService(exchangeSpecification);
+    this.pollingMarketDataService = new HuobiMarketDataService(this);
+    this.pollingTradeService = new HuobiTradeService(this);
+    this.pollingAccountService = new HuobiAccountService(this);
   }
 
-  @Override
+    @Override
+    public SynchronizedValueFactory<Long> getNonceFactory() {
+        return null;
+    }
+
+    @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());

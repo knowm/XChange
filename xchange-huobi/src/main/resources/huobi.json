@@ -1,14 +1,6 @@
 {
    "currency_pairs":[
-      "BTC/USD",
-      "BTC/EUR",
-      "LTC/BTC",
-      "LTC/USD",
-      "LTC/EUR",
-      "DOGE/BTC",
-      "XMR/BTC",
-      "BCN/BTC",
-      "XDN/BTC"
+      "BTC/CNY"
    ]  
 }
 

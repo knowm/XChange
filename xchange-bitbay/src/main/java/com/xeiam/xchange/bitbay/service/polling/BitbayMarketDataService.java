@@ -53,7 +53,7 @@ public class BitbayMarketDataService extends BitbayMarketDataServiceRaw implemen
     return BitbayAdapters.adaptTrades(getBitbayTrades(currencyPair, sinceTid), currencyPair);
   }
 
-    public MarketData getAllMarketData(CurrencyPair currencyPair) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public MarketData getAllMarketData(CurrencyPair currencyPair) throws IOException {
 
         BitbayMarketAll marketData = getBitbatAllMarketData(currencyPair);
 

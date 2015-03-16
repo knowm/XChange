@@ -24,6 +24,7 @@ package com.xeiam.xchange.huobi.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.huobi.Huobi;
 import com.xeiam.xchange.huobi.HuobiMarketTrade;
@@ -39,18 +40,13 @@ public class HuobiMarketDataServiceRaw extends HuobiBaseService {
   private final Huobi huobi;
   private final HuobiMarketTrade huobiMarketTrade;
 
-  /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
-   */
-  protected HuobiMarketDataServiceRaw(ExchangeSpecification exchangeSpecification) {
+  protected HuobiMarketDataServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
+    super(exchange);
 
-    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-    this.huobi = RestProxyFactory.createProxy(Huobi.class, exchangeSpecification.getSslUri());
-    this.huobiMarketTrade = RestProxyFactory.createProxy(HuobiMarketTrade.class, exchangeSpecification.getHost());
+    Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
+    this.huobi = RestProxyFactory.createProxy(Huobi.class, exchange.getExchangeSpecification().getSslUri());
+    this.huobiMarketTrade = RestProxyFactory.createProxy(HuobiMarketTrade.class, exchange.getExchangeSpecification().getHost());
   }
 
   public HuobiTickerWrapper getHuobiTicker(CurrencyPair currencyPair) throws IOException {

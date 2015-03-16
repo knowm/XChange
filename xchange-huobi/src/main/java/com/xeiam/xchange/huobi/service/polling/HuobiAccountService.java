@@ -23,35 +23,17 @@ package com.xeiam.xchange.huobi.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Collection;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.huobi.HuobiAdapters;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
-/**
- * <p>
- * XChange service to provide the following to {@link com.xeiam.xchange.Exchange}:
- * </p>
- * <ul>
- * <li>MtGox specific methods to handle account-related operations</li>
- * </ul>
- */
 public class HuobiAccountService extends HuobiAccountServiceRaw implements PollingAccountService {
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
-  public HuobiAccountService(ExchangeSpecification exchangeSpecification) {
+  public HuobiAccountService(Exchange exchange) {
 
-    super(exchangeSpecification);
+      super(exchange);
   }
 
   @Override
@@ -61,17 +43,13 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Polli
   }
 
     @Override
-    public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
         return null;
     }
 
     @Override
-    public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public String requestDepositAddress(String currency, String... args) throws IOException {
         return null;
     }
 
-    @Override
-    public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
-        return null;
-    }
 }

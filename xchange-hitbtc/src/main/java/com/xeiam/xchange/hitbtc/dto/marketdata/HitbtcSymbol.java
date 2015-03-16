@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcSymbol {
 
+  private final String symbol;
   private final String commodity;
   private final String currency;
   private final BigDecimal step;
@@ -21,10 +22,11 @@ public class HitbtcSymbol {
    * @param step granularity of price
    * @param lot lot
    */
-  public HitbtcSymbol(@JsonProperty("commodity") String commodity, @JsonProperty("currency") String currency, @JsonProperty("step") BigDecimal step,
+  public HitbtcSymbol(@JsonProperty("symbol") String symbol, @JsonProperty("commodity") String commodity, @JsonProperty("currency") String currency, @JsonProperty("step") BigDecimal step,
       @JsonProperty("lot") BigDecimal lot, @JsonProperty("takeLiquidityRate") BigDecimal takeLiquidityRate,
       @JsonProperty("provideLiquidityRate") BigDecimal provideLiquidityRate) {
 
+    this.symbol = symbol;
     this.commodity = commodity;
     this.currency = currency;
     this.step = step;
@@ -33,7 +35,11 @@ public class HitbtcSymbol {
     this.provideLiquidityRate = provideLiquidityRate;
   }
 
-  public String getCommodity() {
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public String getCommodity() {
 
     return commodity;
   }

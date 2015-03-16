@@ -24,9 +24,11 @@ package com.xeiam.xchange.huobi.service;
 import java.io.IOException;
 import java.util.*;
 
-import com.xeiam.xchange.ExchangeException;
+
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.huobi.dto.HuobiResponce;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
@@ -44,14 +46,9 @@ public class HuobiBaseService extends BaseExchangeService implements BasePolling
         CurrencyPair.LTC_CNY
     );
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification
-   */
-  public HuobiBaseService(ExchangeSpecification exchangeSpecification) {
+  public HuobiBaseService(Exchange exchange) {
 
-      super(exchangeSpecification);
+      super(exchange);
 
       HUOBI_ERRORS.put(1, "Server error");
       HUOBI_ERRORS.put(2, "Insufficient CNY");
@@ -96,9 +93,7 @@ public class HuobiBaseService extends BaseExchangeService implements BasePolling
     }
 
     @Override
-    public Collection<CurrencyPair> getExchangeSymbols() throws IOException {
-        HashSet<CurrencyPair> pairs = new HashSet<CurrencyPair>();
-        pairs.add(CurrencyPair.BTC_CNY);
-        return pairs;
+    public List<CurrencyPair> getExchangeSymbols() throws IOException {
+        return CURRENCY_PAIRS;
     }
 }

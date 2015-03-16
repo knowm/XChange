@@ -47,7 +47,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.huobi.HuobiAdapters;
 import com.xeiam.xchange.huobi.dto.marketdata.HuobiDepthWrapper;
@@ -56,26 +56,13 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.huobi.dto.marketdata.HuobiFullTrade;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
-/**
- * <p>
- * Implementation of the market data service for Mt Gox V2
- * </p>
- * <ul>
- * <li>Provides access to various market data values</li>
- * </ul>
- */
 public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements PollingMarketDataService {
 
-    /**
-    * Constructor
-    *
-    * @param exchangeSpecification
-    */
-    public HuobiMarketDataService(ExchangeSpecification exchangeSpecification) {
+    public HuobiMarketDataService(Exchange exchange) {
 
-        super(exchangeSpecification);
+        super(exchange);
     }
 
     @Override

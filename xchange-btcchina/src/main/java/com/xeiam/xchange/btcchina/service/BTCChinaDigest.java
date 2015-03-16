@@ -2,7 +2,6 @@ package com.xeiam.xchange.btcchina.service;
 
 import javax.crypto.Mac;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,10 +93,10 @@ public class BTCChinaDigest extends BaseParamsDigest {
         stripped[i] = "1";
       } else if (param.equals("false")) {
         // boolean: false
-        stripped[i] = StringUtils.EMPTY;
+        stripped[i] = "";
       }
       else if (param.equals("null")) {
-        stripped[i] = StringUtils.EMPTY;
+        stripped[i] = "";
       }
       else {
         // number, etc.

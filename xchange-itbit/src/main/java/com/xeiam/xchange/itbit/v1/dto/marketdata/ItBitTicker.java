@@ -7,7 +7,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 
 public class ItBitTicker {
 
-  private final CurrencyPair currencyPair;
+  private final String pair;
   private final BigDecimal bid;
   private final BigDecimal ask;
   private final double bidAmt;
@@ -22,14 +22,14 @@ public class ItBitTicker {
   private final double vwap24h;
   private final String timestamp;
 
-  public ItBitTicker(@JsonProperty("pair") CurrencyPair currencyPair, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
+  public ItBitTicker(@JsonProperty("pair") String pair, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
       @JsonProperty("bidAmt") double bidAmt, @JsonProperty("askAmt") double askAmt, @JsonProperty("lastPrice") BigDecimal lastPrice,
       @JsonProperty("lastAmt") double lastAmt, @JsonProperty("volume24h") BigDecimal volume24h, @JsonProperty("highToday") BigDecimal highToday,
       @JsonProperty("lowToday") BigDecimal lowToday, @JsonProperty("openToday") double openToday, @JsonProperty("vwapToday") double vwapToday,
       @JsonProperty("vwap24h") double vwap24h, @JsonProperty("servertimeUTC") String timestamp) {
 
     super();
-    this.currencyPair = currencyPair;
+    this.pair = pair;
     this.bid = bid;
     this.ask = ask;
     this.bidAmt = bidAmt;
@@ -45,9 +45,9 @@ public class ItBitTicker {
     this.timestamp = timestamp;
   }
 
-  public CurrencyPair getCurrencyPair() {
+  public String getPair() {
 
-    return currencyPair;
+    return pair;
   }
 
   public BigDecimal getBid() {
@@ -119,8 +119,8 @@ public class ItBitTicker {
   public String toString() {
 
     StringBuilder builder = new StringBuilder();
-    builder.append("ItBitTicker [currencyPair=");
-    builder.append(currencyPair);
+    builder.append("ItBitTicker [pair=");
+    builder.append(pair);
     builder.append(", bid=");
     builder.append(bid);
     builder.append(", ask=");

@@ -5,7 +5,7 @@ import com.xeiam.xchange.cryptonit.v2.CryptonitAdapters;
 import com.xeiam.xchange.cryptonit.v2.dto.account.CryptonitCoins;
 import com.xeiam.xchange.cryptonit.v2.dto.account.CryptonitFunds;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -15,12 +15,12 @@ import java.math.BigDecimal;
  */
 public class CryptonitAccountService extends CryptonitAccountServiceRaw implements PollingAccountService {
 
-    public CryptonitAccountService(ExchangeSpecification exchangeSpecification) {
-        super(exchangeSpecification);
+    public CryptonitAccountService(Exchange exchange) {
+        super(exchange);
     }
 
     @Override
-    public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public AccountInfo getAccountInfo() throws IOException {
 
         CryptonitFunds accountFunds = getAccountFunds();
         CryptonitCoins accountCoins = getAccountCoins();
@@ -29,12 +29,12 @@ public class CryptonitAccountService extends CryptonitAccountServiceRaw implemen
     }
 
     @Override
-    public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
         return null;
     }
 
     @Override
-    public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public String requestDepositAddress(String currency, String... args) throws IOException {
         return null;
     }
 }

@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.huobi.HuobiAuth;
@@ -41,30 +42,25 @@ public class HuobiTradeServiceRaw extends HuobiBaseService {
   private final HuobiAuth huobiAuth;
   private final HuobiDigest signatureCreator;
 
-  /**
-   * Initialize common properties from the exchange specification
-   * 
-   * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
-   */
-  protected HuobiTradeServiceRaw(ExchangeSpecification exchangeSpecification) {
+  protected HuobiTradeServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
+      super(exchange);
 
-    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-    this.huobiAuth = RestProxyFactory.createProxy(HuobiAuth.class, exchangeSpecification.getSslUri());
-    this.signatureCreator = HuobiDigest.createInstance(exchangeSpecification.getSecretKey());
+    Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
+    this.huobiAuth = RestProxyFactory.createProxy(HuobiAuth.class, exchange.getExchangeSpecification().getSslUri());
+    this.signatureCreator = HuobiDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   public HuobiOrder[] getHuobiOpenOrders() throws IOException {
 
-      HuobiOrder[] orders = huobiAuth.get_orders(exchangeSpecification.getApiKey(), new Date().getTime() / 1000, signatureCreator);
+      HuobiOrder[] orders = huobiAuth.get_orders(exchange.getExchangeSpecification().getApiKey(), new Date().getTime() / 1000, signatureCreator);
 //      checkResponce(orders);
       return orders;
   }
 
     public HuobiOrder getHuobiOrderInfo(LimitOrder limitOrder) throws IOException {
 
-        HuobiOrder order = huobiAuth.order_info(exchangeSpecification.getApiKey(), new Date().getTime() / 1000,
+        HuobiOrder order = huobiAuth.order_info(exchange.getExchangeSpecification().getApiKey(), new Date().getTime() / 1000,
                 limitOrder.getId(), signatureCreator);
         checkResponce(order);
         return order;
@@ -74,7 +70,7 @@ public class HuobiTradeServiceRaw extends HuobiBaseService {
 
       String method = limitOrder.getType() == Order.OrderType.BID ? "buy" : "sell";
 
-      HuobiExecutionReport huobiExecutionReport = huobiAuth.createNewOrder(exchangeSpecification.getApiKey(), new Date().getTime()/1000,
+      HuobiExecutionReport huobiExecutionReport = huobiAuth.createNewOrder(exchange.getExchangeSpecification().getApiKey(), new Date().getTime()/1000,
               limitOrder.getLimitPrice(), limitOrder.getTradableAmount(),
               method, signatureCreator);
 
@@ -84,7 +80,7 @@ public class HuobiTradeServiceRaw extends HuobiBaseService {
 
     public HuobiExecutionReport modifyHuobiLimitOrder(LimitOrder limitOrder) throws IOException {
 
-        HuobiExecutionReport huobiExecutionReport = huobiAuth.modify_order(exchangeSpecification.getApiKey(), new Date().getTime()/1000,
+        HuobiExecutionReport huobiExecutionReport = huobiAuth.modify_order(exchange.getExchangeSpecification().getApiKey(), new Date().getTime()/1000,
                 limitOrder.getId(), limitOrder.getLimitPrice(), limitOrder.getTradableAmount(),
                 signatureCreator);
 
@@ -94,7 +90,7 @@ public class HuobiTradeServiceRaw extends HuobiBaseService {
 
   public HuobiExecutionReport cancelHuobiOrder(String orderId) throws IOException {
 
-      HuobiExecutionReport huobiExecutionReport = huobiAuth.cancel_order(exchangeSpecification.getApiKey(), new Date().getTime() / 1000,
+      HuobiExecutionReport huobiExecutionReport = huobiAuth.cancel_order(exchange.getExchangeSpecification().getApiKey(), new Date().getTime() / 1000,
               orderId, signatureCreator);
 
       checkResponce(huobiExecutionReport);

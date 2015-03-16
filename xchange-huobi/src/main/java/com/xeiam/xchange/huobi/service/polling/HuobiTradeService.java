@@ -22,38 +22,27 @@
 package com.xeiam.xchange.huobi.service.polling;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.huobi.HuobiAdapters;
 import com.xeiam.xchange.huobi.dto.trade.polling.HuobiExecutionReport;
 import com.xeiam.xchange.huobi.dto.trade.polling.HuobiOrder;
-import com.xeiam.xchange.service.polling.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 /**
  * @author timmolter
  */
 public class HuobiTradeService extends HuobiTradeServiceRaw implements PollingTradeService {
 
-  /**
-   * Constructor
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   */
-  public HuobiTradeService(ExchangeSpecification exchangeSpecification) {
+  public HuobiTradeService(Exchange exchange) {
 
-    super(exchangeSpecification);
+      super(exchange);
   }
 
   @Override
@@ -86,7 +75,7 @@ public class HuobiTradeService extends HuobiTradeServiceRaw implements PollingTr
   }
 
     @Override
-    public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public boolean cancelOrder(String orderId) throws IOException {
         HuobiExecutionReport executionReport = cancelHuobiOrder(orderId);
 
         if (executionReport != null && "success".equals(executionReport.getResult())) {
@@ -107,12 +96,12 @@ public class HuobiTradeService extends HuobiTradeServiceRaw implements PollingTr
     }
 
     @Override
-    public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public UserTrades getTradeHistory(Object... arguments) throws IOException {
         throw new NotYetImplementedForExchangeException();
     }
 
     @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
         throw new NotYetImplementedForExchangeException();
     }
 

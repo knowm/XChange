@@ -178,12 +178,12 @@ public class CurrencyPair {
    * Parse currency pair from a string in the same format as returned by toString() method - ABC/XYZ
    */
   public CurrencyPair(String currencyPair) {
-    int split = currencyPair.indexOf("/");
+    int split = currencyPair.toUpperCase().indexOf("/");
     if (split < 1) {
       throw new IllegalArgumentException("Could not parse currency pair from '" + currencyPair + "'");
     }
-    String base = currencyPair.substring(0, split);
-    String counter = currencyPair.substring(split + 1);
+    String base = currencyPair.toUpperCase().substring(0, split);
+    String counter = currencyPair.toUpperCase().substring(split + 1);
 
     this.baseSymbol = base;
     this.counterSymbol = counter;

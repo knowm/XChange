@@ -1,18 +1,11 @@
 package com.xeiam.xchange.bitbay.service.polling;
 
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.NotAvailableFromExchangeException;
-import com.xeiam.xchange.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitbay.BitbayAdapters;
 import com.xeiam.xchange.bitbay.dto.account.BitbayAccount;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.PollingAccountService;
-import com.xeiam.xchange.service.polling.PollingMarketDataService;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -22,18 +15,12 @@ import java.math.BigDecimal;
  */
 public class BitbayAccountService extends BitbayAccountServiceRaw implements PollingAccountService {
 
-
-    /**
-     * Constructor Initialize common properties from the exchange specification
-     *
-     * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
-     */
-    public BitbayAccountService(ExchangeSpecification exchangeSpecification) {
-        super(exchangeSpecification);
+    public BitbayAccountService(Exchange exchange) {
+        super(exchange);
     }
 
     @Override
-    public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public AccountInfo getAccountInfo() throws IOException {
         BitbayAccount bitbayAccountInfo = getBitbayAccountInfo(null);
         if (bitbayAccountInfo.getSuccess() == null) {
             throw new ExchangeException(bitbayAccountInfo.getMessage());
@@ -42,12 +29,12 @@ public class BitbayAccountService extends BitbayAccountServiceRaw implements Pol
     }
 
     @Override
-    public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
         return null;
     }
 
     @Override
-    public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    public String requestDepositAddress(String currency, String... args) throws IOException {
         BitbayAccount bitbayAccountInfo = getBitbayAccountInfo(currency);
         return bitbayAccountInfo.getAddresses().get(currency);
     }

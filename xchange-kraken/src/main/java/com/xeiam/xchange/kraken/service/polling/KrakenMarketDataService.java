@@ -1,17 +1,12 @@
 package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.ExchangeException;
-import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;

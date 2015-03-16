@@ -15,9 +15,10 @@ public class CryptonitExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
-    this.pollingMarketDataService = new CryptonitMarketDataService(exchangeSpecification);
-    this.pollingAccountService = new CryptonitAccountService(exchangeSpecification);
-    this.pollingTradeService = new CryptonitTradeService(exchangeSpecification);
+
+    this.pollingMarketDataService = new CryptonitMarketDataService(this);
+    this.pollingAccountService = new CryptonitAccountService(this);
+    this.pollingTradeService = new CryptonitTradeService(this);
   }
 
   @Override
@@ -31,7 +32,7 @@ public class CryptonitExchange extends BaseExchange implements Exchange {
     exchangeSpecification
         .setExchangeDescription("Cryptonit is a cryptocurrency market owned and operated by UK based company Cryptonit Solutions Ltd.");
 
-    return exchangeSpecification;
+      return exchangeSpecification;
   }
 
   @Override

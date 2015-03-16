@@ -24,6 +24,7 @@ package com.xeiam.xchange.huobi.service.polling;
 import java.io.IOException;
 import java.util.Date;
 
+import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.huobi.Huobi;
 import com.xeiam.xchange.huobi.HuobiAuth;
 import com.xeiam.xchange.huobi.dto.account.polling.HuobiAccountInfo;
@@ -44,18 +45,18 @@ public class HuobiAccountServiceRaw extends HuobiBaseService {
    * 
    * @param exchangeSpecification The {@link com.xeiam.xchange.ExchangeSpecification}
    */
-  protected HuobiAccountServiceRaw(ExchangeSpecification exchangeSpecification) {
+  protected HuobiAccountServiceRaw(Exchange exchange) {
 
-    super(exchangeSpecification);
+      super(exchange);
 
-    Assert.notNull(exchangeSpecification.getSslUri(), "Exchange specification URI cannot be null");
-    this.huobiAuth = RestProxyFactory.createProxy(HuobiAuth.class, exchangeSpecification.getSslUri());
-    this.signatureCreator = HuobiDigest.createInstance(exchangeSpecification.getSecretKey());
+    Assert.notNull(exchange.getExchangeSpecification().getSslUri(), "Exchange specification URI cannot be null");
+    this.huobiAuth = RestProxyFactory.createProxy(HuobiAuth.class, exchange.getExchangeSpecification().getSslUri());
+    this.signatureCreator = HuobiDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   public HuobiAccountInfo getHuobiAccountInfo() throws IOException {
 
-      HuobiAccountInfo accountInfo = huobiAuth.get_account_info(exchangeSpecification.getApiKey(), new Date().getTime()/1000, signatureCreator);
+      HuobiAccountInfo accountInfo = huobiAuth.get_account_info(exchange.getExchangeSpecification().getApiKey(), new Date().getTime()/1000, signatureCreator);
       checkResponce(accountInfo);
       return accountInfo;
   }

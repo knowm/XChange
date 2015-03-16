@@ -17,19 +17,16 @@ import si.mazi.rescu.RestProxyFactory;
 /**
  * @author kpysniak
  */
-public class BitbayBasePollingService<T extends Bitbay> extends BaseExchangeService implements BasePollingService {
+public class BitbayBasePollingService extends BaseExchangeService implements BasePollingService {
 
   /**
    * Constructor
    *
    * @param exchange
    */
-  protected BitbayBasePollingService(Class<T> type, ExchangeSpecification exchangeSpecification) {
+  protected BitbayBasePollingService(Exchange exchange) {
 
-    super(exchangeSpecification);
-    this.bitbay = RestProxyFactory.createProxy(type, exchangeSpecification.getSslUri());
-    this.apiKey = exchangeSpecification.getApiKey();
-    this.signatureCreator = BitbayDigest.createInstance(exchangeSpecification.getSecretKey());
+      super(exchange);
   }
 
   @Override

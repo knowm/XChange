@@ -31,6 +31,8 @@ import com.xeiam.xchange.exceptions.NonceException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
+import javax.net.ssl.*;
+
 public class BTCEBasePollingService extends BaseExchangeService implements BasePollingService {
 
   //  protected static final String PREFIX = "btce";
@@ -52,7 +54,7 @@ public class BTCEBasePollingService extends BaseExchangeService implements BaseP
 
     super(exchange);
 
-    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), createSSLConfig());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
@@ -134,7 +136,7 @@ public class BTCEBasePollingService extends BaseExchangeService implements BaseP
         config.setSslSocketFactory(createSSLSocketFactory("/btce.cert"));
         config.setHostnameVerifier(new HostnameVerifier() {
             public boolean verify(String s, SSLSession sslSession) {
-                return exchangeSpecification.getHost().equals(s);
+                return exchange.getExchangeSpecification().getHost().equals(s);
             }
         });
         return config;

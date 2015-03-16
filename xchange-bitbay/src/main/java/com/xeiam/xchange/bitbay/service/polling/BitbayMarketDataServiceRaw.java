@@ -15,7 +15,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 /**
  * @author kpysniak
  */
-public class BitbayMarketDataServiceRaw extends BitbayBasePollingService<Bitbay> {
+public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
 
   private final Bitbay bitbay;
 

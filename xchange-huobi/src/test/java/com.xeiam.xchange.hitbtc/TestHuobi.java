@@ -28,7 +28,7 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.huobi.HuobiExchange;
 import com.xeiam.xchange.huobi.service.polling.HuobiTradeService;
-import com.xeiam.xchange.service.polling.PollingAccountService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import org.junit.Test;
 
 import java.io.IOException;

@@ -84,6 +84,19 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
   }
 
   @Override
+  public PollingMarketDataService getPollingMarketDataService() {
+
+    String apiKey = exchangeSpecification.getApiKey();
+
+    if (apiKey == null || apiKey.equals("")) {
+      return pollingPublicMarketDataService;
+    }
+    else {
+      return pollingMarketDataService;
+    }
+  }
+
+  @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;

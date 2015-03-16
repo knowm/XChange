@@ -15,24 +15,19 @@ import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitTicker;
 /**
  * @author veken0m
  */
-@Path("apiv2/rest")
+@Path("apiv2/rest/public")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Cryptonit {
 
   @GET
-  @Path("public/pairs.json")
+  @Path("pairs.json")
   public List<List<String>> getPairs() throws IOException;
 
   @GET
-  @Path("public/ccorder.json?bid_currency={bid_currency}&ask_currency={ask_currency}&ticker")
+  @Path("ccorder.json?bid_currency={bid_currency}&ask_currency={ask_currency}&ticker")
   public CryptonitTicker getTicker(@PathParam("bid_currency") String bid_currency, @PathParam("ask_currency") String ask_currency) throws IOException;
 
-  @GET
-  @Path("public/ccorder.json?bid_currency={bid_currency}&ask_currency={ask_currency}&type={type}&limit={limit}")
-  public CryptonitOrders getOrders(@PathParam("bid_currency") String bid_currency, @PathParam("ask_currency") String ask_currency, @PathParam("type") String type, @PathParam("limit") String limit)
-      throws IOException;
   @Path("ccorder.json?bid_currency={bid_currency}&ask_currency={ask_currency}&type={type}&limit={limit}")
   public CryptonitOrders getOrders(@PathParam("bid_currency") String bid_currency, @PathParam("ask_currency") String ask_currency,
       @PathParam("type") String type, @PathParam("limit") String limit) throws IOException;
-
 }
