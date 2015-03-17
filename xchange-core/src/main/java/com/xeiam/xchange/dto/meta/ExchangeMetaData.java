@@ -1,4 +1,4 @@
-package com.xeiam.xchange.dto;
+package com.xeiam.xchange.dto.meta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
  * @author timmolter
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MetaData extends SimpleMetaData{
+public class ExchangeMetaData extends SimpleMetaData {
 
   @JsonProperty("currency_pairs")
   private Map<CurrencyPair, MarketMetaData> currencyPairs;
@@ -62,17 +62,17 @@ public class MetaData extends SimpleMetaData{
    * @param fiatAmountMultiplier
    * @param cryptoAmountMultiplier
    */
-  public MetaData(@JsonProperty("currency_pairs") Map<CurrencyPair, MarketMetaData> currencyPairs,
-      Map<String, CurrencyMetaData> currency,
-      @JsonProperty("max_private_poll_rate_per_second") int maxPrivatePollRatePerSecond,
-      @JsonProperty("max_private_poll_rate_per_10_second") int maxPrivatePollRatePer10Second,
-      @JsonProperty("max_private_poll_rate_per_minute") int maxPrivatePollRatePerMinute,
-      @JsonProperty("max_private_poll_rate_per_hour") int maxPrivatePollRatePerHour,
-      @JsonProperty("max_public_poll_rate_per_second") int maxPublicPollRatePerSecond,
-      @JsonProperty("max_public_poll_rate_per_10_second") int maxPublicPollRatePer10Second,
-      @JsonProperty("max_public_poll_rate_per_minute") int maxPublicPollRatePerMinute,
-      @JsonProperty("max_public_poll_rate_per_hour") int maxPublicPollRatePerHour, @JsonProperty("fiat_amount_multiplier") int fiatAmountMultiplier,
-      @JsonProperty("crypto_amount_multiplier") int cryptoAmountMultiplier) {
+  public ExchangeMetaData(@JsonProperty("currency_pairs") Map<CurrencyPair, MarketMetaData> currencyPairs,
+                          Map<String, CurrencyMetaData> currency,
+                          @JsonProperty("max_private_poll_rate_per_second") int maxPrivatePollRatePerSecond,
+                          @JsonProperty("max_private_poll_rate_per_10_second") int maxPrivatePollRatePer10Second,
+                          @JsonProperty("max_private_poll_rate_per_minute") int maxPrivatePollRatePerMinute,
+                          @JsonProperty("max_private_poll_rate_per_hour") int maxPrivatePollRatePerHour,
+                          @JsonProperty("max_public_poll_rate_per_second") int maxPublicPollRatePerSecond,
+                          @JsonProperty("max_public_poll_rate_per_10_second") int maxPublicPollRatePer10Second,
+                          @JsonProperty("max_public_poll_rate_per_minute") int maxPublicPollRatePerMinute,
+                          @JsonProperty("max_public_poll_rate_per_hour") int maxPublicPollRatePerHour, @JsonProperty("fiat_amount_multiplier") int fiatAmountMultiplier,
+                          @JsonProperty("crypto_amount_multiplier") int cryptoAmountMultiplier) {
     super(new ArrayList<CurrencyPair>(currencyPairs.keySet()), maxPrivatePollRatePerSecond, maxPrivatePollRatePer10Second, maxPrivatePollRatePerMinute, maxPrivatePollRatePerHour, maxPublicPollRatePerSecond, maxPublicPollRatePer10Second, maxPublicPollRatePerMinute, maxPublicPollRatePerHour, fiatAmountMultiplier, cryptoAmountMultiplier);
     this.currencyPairs = currencyPairs;
     this.currency = currency;

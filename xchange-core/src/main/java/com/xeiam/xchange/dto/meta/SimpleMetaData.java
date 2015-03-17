@@ -1,4 +1,4 @@
-package com.xeiam.xchange.dto;
+package com.xeiam.xchange.dto.meta;
 
 import java.util.List;
 

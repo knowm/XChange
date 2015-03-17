@@ -3,24 +3,24 @@ package com.xeiam.xchange.anx.v2;
 import java.math.BigDecimal;
 import java.util.*;
 
-import com.xeiam.xchange.anx.v2.dto.ANXMarketMetaData;
-import com.xeiam.xchange.anx.v2.dto.ANXMetaData;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWallet;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXOrder;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTicker;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
+import com.xeiam.xchange.anx.v2.dto.meta.ANXMarketMetaData;
+import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResult;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.MarketMetaData;
-import com.xeiam.xchange.dto.MetaData;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.meta.ExchangeMetaData;
+import com.xeiam.xchange.dto.meta.MarketMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
@@ -265,13 +265,13 @@ public final class ANXAdapters {
     return SIDE_BID.equals(side) ? OrderType.BID : OrderType.ASK;
   }
 
-  public static MetaData adaptMetaData(ANXMetaData anx) {
+  public static ExchangeMetaData adaptMetaData(ANXMetaData anx) {
     HashMap<CurrencyPair, MarketMetaData> marketMetaDataMap = new HashMap<CurrencyPair, MarketMetaData>();
     for (Map.Entry<CurrencyPair, ANXMarketMetaData> e : anx.currencyPairs.entrySet()) {
       MarketMetaData meta = adaptMarketMetaData(anx, e.getValue());
       marketMetaDataMap.put(e.getKey(), meta);
     }
-    return new MetaData(marketMetaDataMap, anx.currencies, anx.maxPrivatePollRatePerSecond, anx.maxPrivatePollRatePer10Second, 0, anx.maxPrivatePollRatePerHour, anx.maxPublicPollRatePerSecond, 0, 0, 0, 0, 0);
+    return new ExchangeMetaData(marketMetaDataMap, anx.currencies, anx.maxPrivatePollRatePerSecond, anx.maxPrivatePollRatePer10Second, 0, anx.maxPrivatePollRatePerHour, anx.maxPublicPollRatePerSecond, 0, 0, 0, 0, 0);
   }
 
   private static MarketMetaData adaptMarketMetaData(ANXMetaData metaData, ANXMarketMetaData marketMetaData) {

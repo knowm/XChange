@@ -5,12 +5,12 @@ import java.math.RoundingMode;
 import java.util.*;
 import java.util.Map.Entry;
 
-import com.xeiam.xchange.btce.v3.dto.BTCEMetaData;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEPairInfo;
-import com.xeiam.xchange.dto.CurrencyMetaData;
-import com.xeiam.xchange.dto.MarketMetaData;
-import com.xeiam.xchange.dto.MetaData;
+import com.xeiam.xchange.btce.v3.dto.meta.BTCEMetaData;
+import com.xeiam.xchange.dto.meta.CurrencyMetaData;
+import com.xeiam.xchange.dto.meta.MarketMetaData;
+import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -210,7 +210,7 @@ public final class BTCEAdapters {
     return pairs;
   }
 
-  public static MetaData toMetaData(BTCEExchangeInfo btceExchangeInfo, BTCEMetaData btceMetaData) {
+  public static ExchangeMetaData toMetaData(BTCEExchangeInfo btceExchangeInfo, BTCEMetaData btceMetaData) {
     Map<CurrencyPair, MarketMetaData> currencyPairs = new HashMap<CurrencyPair, MarketMetaData>();
     Map<String, CurrencyMetaData> currencies = new HashMap<String, CurrencyMetaData>();
 
@@ -223,7 +223,7 @@ public final class BTCEAdapters {
       addCurrencyMetaData(pair.counterSymbol, currencies);
     }
 
-    return new MetaData(currencyPairs, currencies, 0, 0, 0, 0, 0, 10 / btceMetaData.publicInfoCacheSeconds, 0, 0, 0, 0);
+    return new ExchangeMetaData(currencyPairs, currencies, 0, 0, 0, 0, 0, 10 / btceMetaData.publicInfoCacheSeconds, 0, 0, 0, 0);
   }
 
   private static void addCurrencyMetaData(String symbol, Map<String, CurrencyMetaData> currencies) {

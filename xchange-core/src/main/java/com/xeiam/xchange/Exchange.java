@@ -2,7 +2,7 @@ package com.xeiam.xchange;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.dto.SimpleMetaData;
+import com.xeiam.xchange.dto.meta.SimpleMetaData;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;

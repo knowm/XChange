@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.anx.v2.dto.ANXMetaData;
+import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

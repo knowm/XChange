@@ -1,9 +1,9 @@
-package com.xeiam.xchange.btce.v3.dto;
+package com.xeiam.xchange.btce.v3.dto.meta;
 
 public class BTCEMetaData {
 
   /**
-   * The number of seconds the public data is cached for. No
+   * The number of seconds the public data is cached for.
    */
   public final int publicInfoCacheSeconds;
 

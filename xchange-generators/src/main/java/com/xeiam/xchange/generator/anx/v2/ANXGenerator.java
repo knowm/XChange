@@ -8,10 +8,10 @@ import java.util.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.xeiam.xchange.anx.v2.dto.ANXMarketMetaData;
-import com.xeiam.xchange.anx.v2.dto.ANXMetaData;
+import com.xeiam.xchange.anx.v2.dto.meta.ANXMarketMetaData;
+import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.CurrencyMetaData;
+import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 
 import static com.xeiam.xchange.currency.Currencies.*;
 import static com.xeiam.xchange.currency.CurrencyPair.DOGE_BTC;

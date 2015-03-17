@@ -7,7 +7,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.anx.v2.dto.ANXMetaData;
+import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import com.xeiam.xchange.anx.v2.service.polling.ANXAccountService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXMarketDataService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXTradeService;

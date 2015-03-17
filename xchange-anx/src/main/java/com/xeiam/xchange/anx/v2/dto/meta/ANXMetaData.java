@@ -1,11 +1,11 @@
-package com.xeiam.xchange.anx.v2.dto;
+package com.xeiam.xchange.anx.v2.dto.meta;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.CurrencyMetaData;
+import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 
 public class ANXMetaData {
   @JsonProperty("currencyPairs")

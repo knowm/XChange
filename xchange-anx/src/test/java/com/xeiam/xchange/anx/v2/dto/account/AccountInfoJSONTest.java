@@ -10,9 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.anx.v2.ANXExchange;
-import com.xeiam.xchange.anx.v2.dto.ANXMetaData;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWallet;
+import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import org.junit.Test;
 
 import static com.xeiam.xchange.currency.Currencies.*;

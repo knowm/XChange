@@ -1,4 +1,4 @@
-package com.xeiam.xchange.anx.v2.dto;
+package com.xeiam.xchange.anx.v2.dto.meta;
 
 import java.math.BigDecimal;
 
