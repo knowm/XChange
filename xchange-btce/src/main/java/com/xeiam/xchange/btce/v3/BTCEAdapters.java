@@ -223,7 +223,7 @@ public final class BTCEAdapters {
       addCurrencyMetaData(pair.counterSymbol, currencies);
     }
 
-    return new ExchangeMetaData(currencyPairs, currencies, 0, 0, 0, 0, 0, 10 / btceMetaData.publicInfoCacheSeconds, 0, 0, 0, 0);
+    return new ExchangeMetaData(currencyPairs, currencies, btceMetaData.publicInfoCacheSeconds);
   }
 
   private static void addCurrencyMetaData(String symbol, Map<String, CurrencyMetaData> currencies) {
@@ -241,6 +241,9 @@ public final class BTCEAdapters {
   }
 
   private static BigDecimal withScale(BigDecimal value, int priceScale) {
+    /*
+    * Last time I checked BTC-e returned an erroneous JSON result, where the minimum price for LTC/EUR was .0001 and the price scale was 3
+    */
     try {
       return value.setScale(priceScale, RoundingMode.UNNECESSARY);
     } catch (ArithmeticException e) {

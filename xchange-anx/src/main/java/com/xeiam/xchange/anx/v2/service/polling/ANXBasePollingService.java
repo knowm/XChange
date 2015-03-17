@@ -20,7 +20,6 @@ public class ANXBasePollingService extends BaseExchangeService implements BasePo
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
   public ANXBasePollingService(Exchange exchange) {
 

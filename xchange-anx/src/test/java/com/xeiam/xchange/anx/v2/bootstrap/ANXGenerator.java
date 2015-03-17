@@ -1,4 +1,4 @@
-package com.xeiam.xchange.generator.anx.v2;
+package com.xeiam.xchange.anx.v2.bootstrap;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -14,28 +14,15 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 
 import static com.xeiam.xchange.currency.Currencies.*;
-import static com.xeiam.xchange.currency.CurrencyPair.DOGE_BTC;
-import static com.xeiam.xchange.currency.CurrencyPair.LTC_BTC;
+import static com.xeiam.xchange.currency.CurrencyPair.*;
 import static java.lang.System.out;
 import static java.math.BigDecimal.ONE;
 
 public class ANXGenerator {
 
-  private static final String STR = "STR";
-  private static final String START = "START";
-  private static final String EGD = "EGD";
-  private static final String BGC = "BGC";
-  private static final String PPC = "PPC";
-
-  private static final CurrencyPair STR_BTC = new CurrencyPair(STR, BTC);
-  private static final CurrencyPair XRP_BTC = new CurrencyPair(XRP, BTC);
-
-  ObjectMapper mapper = new ObjectMapper();
-
-  {
-    mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-    mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-  }
+  static ObjectMapper mapper = new ObjectMapper()
+          .configure(SerializationFeature.INDENT_OUTPUT, true)
+          .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
   static Set<String> cryptos = new HashSet<String>(Arrays.asList(BTC, LTC, DOGE, STR, XRP, START, EGD));
   static String[] fiats = { USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY, CNY };
