@@ -1,7 +1,5 @@
 package com.xeiam.xchange.currency;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
@@ -17,7 +15,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * </p>
  */
 @JsonSerialize(using = CustomCurrencyPairSerializer.class)
-public class CurrencyPair implements Serializable {
+public class CurrencyPair {
 
   // Provide some standard major symbols
   public static final CurrencyPair EUR_USD = new CurrencyPair(Currencies.EUR, Currencies.USD);
