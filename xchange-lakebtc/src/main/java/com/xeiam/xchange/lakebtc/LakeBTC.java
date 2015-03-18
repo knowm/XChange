@@ -13,7 +13,7 @@ import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
 /**
  * @author kpysniak
  */
-@Path("/")
+@Path("api_v1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface LakeBTC {
 

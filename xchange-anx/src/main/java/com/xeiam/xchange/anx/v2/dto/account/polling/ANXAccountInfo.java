@@ -2,6 +2,7 @@ package com.xeiam.xchange.anx.v2.dto.account.polling;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.anx.v2.dto.ANXValue;
@@ -18,7 +19,7 @@ public final class ANXAccountInfo {
   private final String language;
   private final String created;
   private final String lastLogin;
-  private final Wallets wallets;
+  private final Map<String, ANXWallet> wallets;
   private final ANXValue monthlyVolume;
   private final BigDecimal tradeFee;
 
@@ -38,7 +39,7 @@ public final class ANXAccountInfo {
    */
   public ANXAccountInfo(@JsonProperty("Login") String login, @JsonProperty("Index") String index, @JsonProperty("Id") String id,
       @JsonProperty("Rights") List<String> rights, @JsonProperty("Language") String language, @JsonProperty("Created") String created,
-      @JsonProperty("Last_Login") String lastLogin, @JsonProperty("Wallets") Wallets wallets, @JsonProperty("Monthly_Volume") ANXValue monthlyVolume,
+      @JsonProperty("Last_Login") String lastLogin, @JsonProperty("Wallets") Map<String, ANXWallet> wallets, @JsonProperty("Monthly_Volume") ANXValue monthlyVolume,
       @JsonProperty("Trade_Fee") BigDecimal tradeFee) {
 
     this.login = login;
@@ -88,7 +89,7 @@ public final class ANXAccountInfo {
     return lastLogin;
   }
 
-  public Wallets getWallets() {
+  public Map<String, ANXWallet> getWallets() {
 
     return wallets;
   }

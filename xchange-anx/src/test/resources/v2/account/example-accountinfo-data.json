@@ -83,17 +83,17 @@
             },
             "Daily_Withdrawal_Limit": {
                 "currency": "NMC",
-                "display": "100.00000000 NMC",
-                "display_short": "100.00 NMC",
-                "value": "100.00000000",
-                "value_int": "10000000000"
+                "display": "10,000.00000000 NMC",
+                "display_short": "10,000.00 NMC",
+                "value": "10000.00000000",
+                "value_int": "1000000000000"
             },
             "Max_Withdraw": {
                 "currency": "NMC",
-                "display": "100.00000000 NMC",
-                "display_short": "100.00 NMC",
-                "value": "100.00000000",
-                "value_int": "10000000000"
+                "display": "10,000.00000000 NMC",
+                "display_short": "10,000.00 NMC",
+                "value": "10000.00000000",
+                "value_int": "1000000000000"
             }
         },
         "JPY": {
@@ -113,17 +113,17 @@
             },
             "Daily_Withdrawal_Limit": {
                 "currency": "JPY",
-                "display": "1,000,000.00000 JPY",
-                "display_short": "1,000,000.00 JPY",
-                "value": "1000000.00000",
-                "value_int": "100000000000"
+                "display": "100,000.00000 JPY",
+                "display_short": "100,000.00 JPY",
+                "value": "100000.00000",
+                "value_int": "10000000000"
             },
             "Max_Withdraw": {
                 "currency": "JPY",
-                "display": "1,000,000.00000 JPY",
-                "display_short": "1,000,000.00 JPY",
-                "value": "1000000.00000",
-                "value_int": "100000000000"
+                "display": "100,000.00000 JPY",
+                "display_short": "100,000.00 JPY",
+                "value": "100000.00000",
+                "value_int": "10000000000"
             }
         },
         "SGD": {
@@ -203,77 +203,17 @@
             },
             "Daily_Withdrawal_Limit": {
                 "currency": "DOGE",
-                "display": "100.00000000 DOGE",
-                "display_short": "100.00 DOGE",
-                "value": "100.00000000",
-                "value_int": "10000000000"
+                "display": "10,000,000.00000000 DOGE",
+                "display_short": "10,000,000.00 DOGE",
+                "value": "10000000.00000000",
+                "value_int": "1000000000000000"
             },
             "Max_Withdraw": {
                 "currency": "DOGE",
-                "display": "100.00000000 DOGE",
-                "display_short": "100.00 DOGE",
-                "value": "100.00000000",
-                "value_int": "10000000000"
-            }
-        },
-        "WDC": {
-            "Balance": {
-                "currency": "WDC",
-                "display": "100,000.00000000 WDC",
-                "display_short": "100,000.00 WDC",
-                "value": "100000.00000000",
-                "value_int": "10000000000000"
-            },
-            "Available_Balance": {
-                "currency": "WDC",
-                "display": "100,000.00000000 WDC",
-                "display_short": "100,000.00 WDC",
-                "value": "100000.00000000",
-                "value_int": "10000000000000"
-            },
-            "Daily_Withdrawal_Limit": {
-                "currency": "WDC",
-                "display": "0.00000000 WDC",
-                "display_short": "0.00 WDC",
-                "value": "0.00000000",
-                "value_int": "0"
-            },
-            "Max_Withdraw": {
-                "currency": "WDC",
-                "display": "0.00000000 WDC",
-                "display_short": "0.00 WDC",
-                "value": "0.00000000",
-                "value_int": "0"
-            }
-        },
-        "QRK": {
-            "Balance": {
-                "currency": "QRK",
-                "display": "100,000.00000000 QRK",
-                "display_short": "100,000.00 QRK",
-                "value": "100000.00000000",
-                "value_int": "10000000000000"
-            },
-            "Available_Balance": {
-                "currency": "QRK",
-                "display": "100,000.00000000 QRK",
-                "display_short": "100,000.00 QRK",
-                "value": "100000.00000000",
-                "value_int": "10000000000000"
-            },
-            "Daily_Withdrawal_Limit": {
-                "currency": "QRK",
-                "display": "0.00000000 QRK",
-                "display_short": "0.00 QRK",
-                "value": "0.00000000",
-                "value_int": "0"
-            },
-            "Max_Withdraw": {
-                "currency": "QRK",
-                "display": "0.00000000 QRK",
-                "display_short": "0.00 QRK",
-                "value": "0.00000000",
-                "value_int": "0"
+                "display": "10,000,000.00000000 DOGE",
+                "display_short": "10,000,000.00 DOGE",
+                "value": "10000000.00000000",
+                "value_int": "1000000000000000"
             }
         },
         "NZD": {
@@ -323,17 +263,17 @@
             },
             "Daily_Withdrawal_Limit": {
                 "currency": "LTC",
-                "display": "100.00000000 LTC",
-                "display_short": "100.00 LTC",
-                "value": "100.00000000",
-                "value_int": "10000000000"
+                "display": "500.00000000 LTC",
+                "display_short": "500.00 LTC",
+                "value": "500.00000000",
+                "value_int": "50000000000"
             },
             "Max_Withdraw": {
                 "currency": "LTC",
-                "display": "100.00000000 LTC",
-                "display_short": "100.00 LTC",
-                "value": "100.00000000",
-                "value_int": "10000000000"
+                "display": "500.00000000 LTC",
+                "display_short": "500.00 LTC",
+                "value": "500.00000000",
+                "value_int": "50000000000"
             }
         },
         "PPC": {
@@ -353,47 +293,17 @@
             },
             "Daily_Withdrawal_Limit": {
                 "currency": "PPC",
-                "display": "100.00000000 PPC",
-                "display_short": "100.00 PPC",
-                "value": "100.00000000",
-                "value_int": "10000000000"
+                "display": "10,000.00000000 PPC",
+                "display_short": "10,000.00 PPC",
+                "value": "10000.00000000",
+                "value_int": "1000000000000"
             },
             "Max_Withdraw": {
                 "currency": "PPC",
-                "display": "100.00000000 PPC",
-                "display_short": "100.00 PPC",
-                "value": "100.00000000",
-                "value_int": "10000000000"
-            }
-        },
-        "MSC": {
-            "Balance": {
-                "currency": "MSC",
-                "display": "100,000.00000000 MSC",
-                "display_short": "100,000.00 MSC",
-                "value": "100000.00000000",
-                "value_int": "10000000000000"
-            },
-            "Available_Balance": {
-                "currency": "MSC",
-                "display": "100,000.00000000 MSC",
-                "display_short": "100,000.00 MSC",
-                "value": "100000.00000000",
-                "value_int": "10000000000000"
-            },
-            "Daily_Withdrawal_Limit": {
-                "currency": "MSC",
-                "display": "100.00000000 MSC",
-                "display_short": "100.00 MSC",
-                "value": "100.00000000",
-                "value_int": "10000000000"
-            },
-            "Max_Withdraw": {
-                "currency": "MSC",
-                "display": "100.00000000 MSC",
-                "display_short": "100.00 MSC",
-                "value": "100.00000000",
-                "value_int": "10000000000"
+                "display": "10,000.00000000 PPC",
+                "display_short": "10,000.00 PPC",
+                "value": "10000.00000000",
+                "value_int": "1000000000000"
             }
         },
         "USD": {
@@ -413,17 +323,17 @@
             },
             "Daily_Withdrawal_Limit": {
                 "currency": "USD",
-                "display": "10,000.00000 USD",
-                "display_short": "10,000.00 USD",
-                "value": "10000.00000",
-                "value_int": "1000000000"
+                "display": "1,000.00000 USD",
+                "display_short": "1,000.00 USD",
+                "value": "1000.00000",
+                "value_int": "100000000"
             },
             "Max_Withdraw": {
                 "currency": "USD",
-                "display": "10,000.00000 USD",
-                "display_short": "10,000.00 USD",
-                "value": "10000.00000",
-                "value_int": "1000000000"
+                "display": "1,000.00000 USD",
+                "display_short": "1,000.00 USD",
+                "value": "1000.00000",
+                "value_int": "100000000"
             }
         },
         "CNY": {
@@ -443,47 +353,17 @@
             },
             "Daily_Withdrawal_Limit": {
                 "currency": "CNY",
-                "display": "20,000.00000 CNY",
-                "display_short": "20,000.00 CNY",
-                "value": "20000.00000",
-                "value_int": "2000000000"
+                "display": "10,000.00000 CNY",
+                "display_short": "10,000.00 CNY",
+                "value": "10000.00000",
+                "value_int": "1000000000"
             },
             "Max_Withdraw": {
                 "currency": "CNY",
-                "display": "20,000.00000 CNY",
-                "display_short": "20,000.00 CNY",
-                "value": "20000.00000",
-                "value_int": "2000000000"
-            }
-        },
-        "MEC": {
-            "Balance": {
-                "currency": "MEC",
-                "display": "100,000.00000000 MEC",
-                "display_short": "100,000.00 MEC",
-                "value": "100000.00000000",
-                "value_int": "10000000000000"
-            },
-            "Available_Balance": {
-                "currency": "MEC",
-                "display": "100,000.00000000 MEC",
-                "display_short": "100,000.00 MEC",
-                "value": "100000.00000000",
-                "value_int": "10000000000000"
-            },
-            "Daily_Withdrawal_Limit": {
-                "currency": "MEC",
-                "display": "0.00000000 MEC",
-                "display_short": "0.00 MEC",
-                "value": "0.00000000",
-                "value_int": "0"
-            },
-            "Max_Withdraw": {
-                "currency": "MEC",
-                "display": "0.00000000 MEC",
-                "display_short": "0.00 MEC",
-                "value": "0.00000000",
-                "value_int": "0"
+                "display": "10,000.00000 CNY",
+                "display_short": "10,000.00 CNY",
+                "value": "10000.00000",
+                "value_int": "1000000000"
             }
         },
         "HKD": {
@@ -503,17 +383,17 @@
             },
             "Daily_Withdrawal_Limit": {
                 "currency": "HKD",
-                "display": "100,000.00000 HKD",
-                "display_short": "100,000.00 HKD",
-                "value": "100000.00000",
-                "value_int": "10000000000"
+                "display": "7,950.00000 HKD",
+                "display_short": "7,950.00 HKD",
+                "value": "7950.00000",
+                "value_int": "795000000"
             },
             "Max_Withdraw": {
                 "currency": "HKD",
-                "display": "100,000.00000 HKD",
-                "display_short": "100,000.00 HKD",
-                "value": "100000.00000",
-                "value_int": "10000000000"
+                "display": "7,950.00000 HKD",
+                "display_short": "7,950.00 HKD",
+                "value": "7950.00000",
+                "value_int": "795000000"
             }
         },
         "CHF": {
@@ -593,77 +473,167 @@
             },
             "Daily_Withdrawal_Limit": {
                 "currency": "BTC",
-                "display": "100.00000000 BTC",
-                "display_short": "100.00 BTC",
-                "value": "100.00000000",
-                "value_int": "10000000000"
+                "display": "20.00000000 BTC",
+                "display_short": "20.00 BTC",
+                "value": "20.00000000",
+                "value_int": "2000000000"
             },
             "Max_Withdraw": {
                 "currency": "BTC",
-                "display": "100.00000000 BTC",
-                "display_short": "100.00 BTC",
-                "value": "100.00000000",
-                "value_int": "10000000000"
+                "display": "20.00000000 BTC",
+                "display_short": "20.00 BTC",
+                "value": "20.00000000",
+                "value_int": "2000000000"
             }
         },
-        "SBC": {
+        "BGC": {
             "Balance": {
-                "currency": "SBC",
-                "display": "100,000.00000000 SBC",
-                "display_short": "100,000.00 SBC",
+                "currency": "BGC",
+                "display": "100,000.00000000 BGC",
+                "display_short": "100,000.00 BGC",
                 "value": "100000.00000000",
                 "value_int": "10000000000000"
             },
             "Available_Balance": {
-                "currency": "SBC",
-                "display": "100,000.00000000 SBC",
-                "display_short": "100,000.00 SBC",
+                "currency": "BGC",
+                "display": "100,000.00000000 BGC",
+                "display_short": "100,000.00 BGC",
                 "value": "100000.00000000",
                 "value_int": "10000000000000"
             },
             "Daily_Withdrawal_Limit": {
-                "currency": "SBC",
-                "display": "0.00000000 SBC",
-                "display_short": "0.00 SBC",
+                "currency": "BGC",
+                "display": "0.00000000 BGC",
+                "display_short": "0.00 BGC",
                 "value": "0.00000000",
                 "value_int": "0"
             },
             "Max_Withdraw": {
-                "currency": "SBC",
-                "display": "0.00000000 SBC",
-                "display_short": "0.00 SBC",
+                "currency": "BGC",
+                "display": "0.00000000 BGC",
+                "display_short": "0.00 BGC",
                 "value": "0.00000000",
                 "value_int": "0"
             }
         },
-        "NXT": {
+        "XRP": {
             "Balance": {
-                "currency": "NXT",
-                "display": "100,000.00000000 NXT",
-                "display_short": "100,000.00 NXT",
+                "currency": "XRP",
+                "display": "100,000.00000000 XRP",
+                "display_short": "100,000.00 XRP",
                 "value": "100000.00000000",
                 "value_int": "10000000000000"
             },
             "Available_Balance": {
-                "currency": "NXT",
-                "display": "100,000.00000000 NXT",
-                "display_short": "100,000.00 NXT",
+                "currency": "XRP",
+                "display": "100,000.00000000 XRP",
+                "display_short": "100,000.00 XRP",
                 "value": "100000.00000000",
                 "value_int": "10000000000000"
             },
             "Daily_Withdrawal_Limit": {
-                "currency": "NXT",
-                "display": "0.00000000 NXT",
-                "display_short": "0.00 NXT",
-                "value": "0.00000000",
-                "value_int": "0"
+                "currency": "XRP",
+                "display": "500,000.00000000 XRP",
+                "display_short": "500,000.00 XRP",
+                "value": "500000.00000000",
+                "value_int": "50000000000000"
             },
             "Max_Withdraw": {
-                "currency": "NXT",
-                "display": "0.00000000 NXT",
-                "display_short": "0.00 NXT",
-                "value": "0.00000000",
-                "value_int": "0"
+                "currency": "XRP",
+                "display": "500,000.00000000 XRP",
+                "display_short": "500,000.00 XRP",
+                "value": "500000.00000000",
+                "value_int": "50000000000000"
+            }
+        },
+        "START": {
+            "Balance": {
+                "currency": "START",
+                "display": "100,000.00000000 START",
+                "display_short": "100,000.00 START",
+                "value": "100000.00000000",
+                "value_int": "10000000000000"
+            },
+            "Available_Balance": {
+                "currency": "START",
+                "display": "100,000.00000000 START",
+                "display_short": "100,000.00 START",
+                "value": "100000.00000000",
+                "value_int": "10000000000000"
+            },
+            "Daily_Withdrawal_Limit": {
+                "currency": "START",
+                "display": "50,000.00000000 START",
+                "display_short": "50,000.00 START",
+                "value": "50000.00000000",
+                "value_int": "5000000000000"
+            },
+            "Max_Withdraw": {
+                "currency": "START",
+                "display": "50,000.00000000 START",
+                "display_short": "50,000.00 START",
+                "value": "50000.00000000",
+                "value_int": "5000000000000"
+            }
+        },
+        "EGD": {
+            "Balance": {
+                "currency": "EGD",
+                "display": "100,000.00000000 EGD",
+                "display_short": "100,000.00 EGD",
+                "value": "100000.00000000",
+                "value_int": "10000000000000"
+            },
+            "Available_Balance": {
+                "currency": "EGD",
+                "display": "100,000.00000000 EGD",
+                "display_short": "100,000.00 EGD",
+                "value": "100000.00000000",
+                "value_int": "10000000000000"
+            },
+            "Daily_Withdrawal_Limit": {
+                "currency": "EGD",
+                "display": "80.00000000 EGD",
+                "display_short": "80.00 EGD",
+                "value": "80.00000000",
+                "value_int": "8000000000"
+            },
+            "Max_Withdraw": {
+                "currency": "EGD",
+                "display": "80.00000000 EGD",
+                "display_short": "80.00 EGD",
+                "value": "80.00000000",
+                "value_int": "8000000000"
+            }
+        },
+        "STR": {
+            "Balance": {
+                "currency": "STR",
+                "display": "100,000.00000000 STR",
+                "display_short": "100,000.00 STR",
+                "value": "100000.00000000",
+                "value_int": "10000000000000"
+            },
+            "Available_Balance": {
+                "currency": "STR",
+                "display": "100,000.00000000 STR",
+                "display_short": "100,000.00 STR",
+                "value": "100000.00000000",
+                "value_int": "10000000000000"
+            },
+            "Daily_Withdrawal_Limit": {
+                "currency": "STR",
+                "display": "400,000.00000000 STR",
+                "display_short": "400,000.00 STR",
+                "value": "400000.00000000",
+                "value_int": "40000000000000"
+            },
+            "Max_Withdraw": {
+                "currency": "STR",
+                "display": "400,000.00000000 STR",
+                "display_short": "400,000.00 STR",
+                "value": "400000.00000000",
+                "value_int": "40000000000000"
             }
         }
     }

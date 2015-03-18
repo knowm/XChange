@@ -101,4 +101,9 @@ public class OkCoinWebSocketService implements WebSocketService {
       throw new RuntimeException(e);
     }
   }
+
+  @Override
+  public void onDisconnect() {
+    putEvent(ExchangeEventType.DISCONNECT, new Object());
+  }
 }
