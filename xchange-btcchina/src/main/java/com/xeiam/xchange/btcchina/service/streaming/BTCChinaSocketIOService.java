@@ -81,6 +81,14 @@ public class BTCChinaSocketIOService extends BaseExchangeService implements Stre
    * {@inheritDoc}
    */
   @Override
+  public int countEventsAvailable() {
+    return consumerEventQueue.size();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void send(String msg) {
 
     // There's nothing to send for the current API!

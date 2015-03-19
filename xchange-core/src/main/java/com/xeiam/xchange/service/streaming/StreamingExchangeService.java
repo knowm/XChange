@@ -37,6 +37,16 @@ public interface StreamingExchangeService {
 
   /**
    * <p>
+   * Returns number of events in consumer event queue.
+   * </p>
+   *
+   * @return An int
+   */
+  int countEventsAvailable();
+
+
+  /**
+   * <p>
    * Sends a msg over the socket.
    * </p>
    */
