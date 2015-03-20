@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -54,8 +53,6 @@ public final class HuobiAdapters {
   public static OrderBook adaptOrderBook(HuobiDepth BitVcDepth, CurrencyPair currencyPair) {
 
     List<LimitOrder> asks = adaptOrderBook(BitVcDepth.getAsks(), ASK, currencyPair);
-    Collections.reverse(asks);
-
     List<LimitOrder> bids = adaptOrderBook(BitVcDepth.getBids(), BID, currencyPair);
 
     return new OrderBook(null, asks, bids);
