@@ -95,6 +95,14 @@ public abstract class BaseWebSocketExchangeService extends BaseExchangeService i
     return event;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public int countEventsAvailable() {
+    return consumerEventQueue.size();
+  }
+
   public synchronized ExchangeEvent checkNextEvent() throws InterruptedException {
 
     if (consumerEventQueue.isEmpty()) {
