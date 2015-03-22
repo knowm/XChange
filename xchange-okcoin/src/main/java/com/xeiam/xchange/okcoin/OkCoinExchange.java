@@ -29,7 +29,6 @@ public class OkCoinExchange extends BaseExchange {
     // set SSL URL and HOST accordingly
 
     if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)) {
-      exchangeSpecification.setExchangeName("OKCoin_COM");
       exchangeSpecification.setSslUri("https://www.okcoin.com/api");
       exchangeSpecification.setHost("www.okcoin.com");
       exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.com:10440/websocket/okcoinapi");
@@ -37,7 +36,6 @@ public class OkCoinExchange extends BaseExchange {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null
         && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
-      exchangeSpecification.setExchangeName("OKCoin_Futures_COM");
       this.pollingMarketDataService = new OkCoinFuturesMarketDataService(this);
       if (exchangeSpecification.getApiKey() != null) {
         this.pollingAccountService = new OkCoinFuturesAccountService(this);
@@ -58,7 +56,7 @@ public class OkCoinExchange extends BaseExchange {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.okcoin.cn/api");
     exchangeSpecification.setHost("www.okcoin.cn");
-    exchangeSpecification.setExchangeName("OKCoin_CN");
+    exchangeSpecification.setExchangeName("OKCoin");
     exchangeSpecification.setExchangeDescription("OKCoin is a globally oriented crypto-currency trading platform.");
 
     // set to true to automatically use the Intl_ parameters for ssluri and host
@@ -87,7 +85,11 @@ public class OkCoinExchange extends BaseExchange {
     if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false)) {
       return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_china";
     } else {
-      return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_intl";
+      if(exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)){
+        return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_futures";
+      }else{
+        return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_intl";
+      }
 
     }
   }
