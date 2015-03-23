@@ -85,7 +85,11 @@ public class OkCoinExchange extends BaseExchange {
     if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false)) {
       return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_china";
     } else {
-      return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_intl";
+      if(exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)){
+        return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_futures";
+      }else{
+        return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_intl";
+      }
 
     }
   }
