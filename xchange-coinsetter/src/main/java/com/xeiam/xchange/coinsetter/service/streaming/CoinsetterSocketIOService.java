@@ -11,10 +11,12 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterAdapters;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPair;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
+import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTrade;
 import com.xeiam.xchange.coinsetter.service.streaming.event.CoinsetterExchangeAdapter;
 import com.xeiam.xchange.coinsetter.service.streaming.event.CoinsetterSocketAdapter;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.service.streaming.DefaultExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
@@ -77,6 +79,13 @@ public class CoinsetterSocketIOService extends CoinsetterSocketIOServiceRaw impl
 
         OrderBook orderBook = CoinsetterAdapters.adaptOrderBook(depth);
         putEvent(new DefaultExchangeEvent(ExchangeEventType.DEPTH, null, orderBook));
+      }
+      
+      @Override
+      public void onLast(CoinsetterTrade last) {
+    	  
+    	  Trade trade = CoinsetterAdapters.adaptTrade(last);
+          putEvent(new DefaultExchangeEvent(ExchangeEventType.TRADE, null, trade));
       }
     });
   }
