@@ -30,6 +30,9 @@ public class CoinsetterSocketIOService extends CoinsetterSocketIOServiceRaw impl
   private final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>();
 
   private volatile READYSTATE webSocketStatus = READYSTATE.NOT_YET_CONNECTED;
+  
+  private OrderBook previousOrderBook = null;
+  private Trade previousTrade = null;
 
   /**
    * Constructor
@@ -78,14 +81,20 @@ public class CoinsetterSocketIOService extends CoinsetterSocketIOServiceRaw impl
       public void onDepth(CoinsetterPair[] depth) {
 
         OrderBook orderBook = CoinsetterAdapters.adaptOrderBook(depth);
-        putEvent(new DefaultExchangeEvent(ExchangeEventType.DEPTH, null, orderBook));
+        if (!orderBook.ordersEqual(previousOrderBook)) {
+          putEvent(new DefaultExchangeEvent(ExchangeEventType.DEPTH, null, orderBook));
+          previousOrderBook = orderBook;
+        }
       }
       
       @Override
       public void onLast(CoinsetterTrade last) {
     	  
     	  Trade trade = CoinsetterAdapters.adaptTrade(last);
-          putEvent(new DefaultExchangeEvent(ExchangeEventType.TRADE, null, trade));
+    	  if (!trade.equals(previousTrade)) {
+    	    putEvent(new DefaultExchangeEvent(ExchangeEventType.TRADE, null, trade));
+    	    previousTrade = trade;
+    	  }
       }
     });
   }
