@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class OkCoinTickerResponse {
 
   private final OkCoinTicker ticker;
+  
+  private long date;
 
   public OkCoinTickerResponse(@JsonProperty("ticker") OkCoinTicker ticker) {
 
@@ -14,6 +16,14 @@ public class OkCoinTickerResponse {
   public OkCoinTicker getTicker() {
 
     return ticker;
+  }
+
+  public long getDate() {
+    return date;
+  }
+
+  public void setDate(long date) {
+    this.date = date;
   }
 
 }

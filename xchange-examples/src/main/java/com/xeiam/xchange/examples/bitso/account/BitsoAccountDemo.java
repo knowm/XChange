@@ -23,7 +23,7 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
  * <li>Withdraw a small amount of BTC</li>
  * </ul>
  */
-public class BitsoAccountDemo {
+public class  BitsoAccountDemo {
 
   public static void main(String[] args) throws IOException {
 

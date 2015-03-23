@@ -117,6 +117,14 @@ public class BitstampPusherService extends BitstampBasePollingService implements
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Override
+  public int countEventsAvailable() {
+    return consumerEventQueue.size();
+  }
+
+    /**
    * <p>
    * Sends a msg over the socket.
    * </p>
