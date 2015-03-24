@@ -1,0 +1,10 @@
+ [
+     {
+         "currency": "BTC",
+         "balance": "0.00000000",
+     },
+     {
+         "currency": "EUR",
+         "balance": "0.00",
+     },
+ ]

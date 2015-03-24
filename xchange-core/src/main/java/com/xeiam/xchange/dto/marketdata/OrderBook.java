@@ -162,6 +162,25 @@ public final class OrderBook {
     return true;
   }
 
+  /**
+   * Identical to {@link #equals(Object) equals} method except that this ignores different timestamps. In other words, this version of equals returns
+   * true if the order internal to the OrderBooks are equal but their timestamps are unequal. It returns false if false if any order between the two
+   * are different.
+   * 
+   * @param ob
+   * @return
+   */
+  public boolean ordersEqual(OrderBook ob) {
+    Date timestamp = new Date();
+    if (this != null && ob != null) {
+      OrderBook thisOb = new OrderBook(timestamp, this.getAsks(), this.getBids());
+      OrderBook thatOb = new OrderBook(timestamp, ob.getAsks(), ob.getBids());
+      return thisOb.equals(thatOb);
+    } else {
+      return this.equals(ob);
+    }
+  }
+
   @Override
   public String toString() {
 

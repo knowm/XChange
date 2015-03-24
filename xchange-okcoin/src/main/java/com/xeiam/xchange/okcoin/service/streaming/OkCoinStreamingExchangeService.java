@@ -48,7 +48,15 @@ public class OkCoinStreamingExchangeService implements StreamingExchangeService 
     return eventQueue.take();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
+  public int countEventsAvailable() {
+    return eventQueue.size();
+  }
+
+    @Override
   public void send(String msg) {
   }
 

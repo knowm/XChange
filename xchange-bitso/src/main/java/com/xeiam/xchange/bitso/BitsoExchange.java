@@ -1,5 +1,6 @@
 package com.xeiam.xchange.bitso;
 
+import com.xeiam.xchange.bitso.service.polling.BitsoMarketDataService;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -20,6 +21,9 @@ public class BitsoExchange extends BaseExchange implements Exchange {
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
     super.applySpecification(exchangeSpecification);
+
+
+    this.pollingMarketDataService = new BitsoMarketDataService(this);
 
     this.pollingAccountService = new BitsoAccountService(this);
   }
