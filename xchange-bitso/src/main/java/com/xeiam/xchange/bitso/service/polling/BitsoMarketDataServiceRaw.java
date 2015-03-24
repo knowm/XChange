@@ -2,7 +2,7 @@ package com.xeiam.xchange.bitso.service.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitso.Bitso;
-import com.xeiam.xchange.bitso.marketdata.BitsoOrderBook;
+import com.xeiam.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import si.mazi.rescu.RestProxyFactory;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.xeiam.xchange.bitso.marketdata;
+package com.xeiam.xchange.bitso.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
