@@ -276,6 +276,12 @@
 			<artifactId>xchange-jubi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Taurus exchange support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-taurus</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
