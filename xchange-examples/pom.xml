@@ -198,6 +198,7 @@
 			<artifactId>xchange-hitbtc</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+               
 		<!-- XChange BTCCentral exchange support -->
 		<dependency>
 			<groupId>com.xeiam.xchange</groupId>
@@ -296,7 +297,11 @@
 			<groupId>com.xeiam.xchart</groupId>
 			<artifactId>xchart</artifactId>
 		</dependency>
-
+	 <dependency>
+	  <groupId>${project.groupId}</groupId>
+	  <artifactId>xchange-huobi</artifactId>
+	  <version>${project.version}</version>
+	 </dependency>
 	</dependencies>
 
 </project>

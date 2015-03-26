@@ -11,6 +11,9 @@ import com.xeiam.xchange.huobi.service.polling.GenericTradeService;
 import com.xeiam.xchange.huobi.service.polling.HuobiAccountService;
 import com.xeiam.xchange.huobi.service.polling.HuobiMarketDataService;
 import com.xeiam.xchange.huobi.service.polling.HuobiTradeServiceRaw;
+import com.xeiam.xchange.huobi.service.streaming.HuobiStreamingExchangeService;
+import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
+import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 /**
  * By default when instantiating this exchange market data and trading goes via Huobi.
@@ -33,6 +36,7 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
     if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)) {
       exchangeSpecification.setSslUri("https://api.bitvc.com");
+      exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "NOT IMPLEMENTED");
     }
 
     pollingMarketDataService = new HuobiMarketDataService(this);
@@ -63,7 +67,8 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     /* set to true if trade and account service should be from BitVc too */
     spec.setExchangeSpecificParametersItem(USE_BITVC, false);
     spec.setExchangeSpecificParametersItem(HUOBI_MARKET_DATA, "http://market.huobi.com/staticmarket");
-
+    spec.setExchangeSpecificParametersItem("Websocket_SslUri", "http://hq.huobi.com");
+    
     return spec;
   }
 
@@ -72,4 +77,15 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     // BitVC doesn't require a nonce for it's authenticated API
     return null;
   }
+  
+  @Override
+  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration){
+      if (! (Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC)){
+          return new HuobiStreamingExchangeService(getExchangeSpecification(),configuration);
+      }
+      else{
+          return super.getStreamingExchangeService(configuration);
+      }
+  }
 }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
