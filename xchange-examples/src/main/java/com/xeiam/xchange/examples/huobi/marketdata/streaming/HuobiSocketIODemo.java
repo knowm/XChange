@@ -1,4 +1,4 @@
-package com.xeiam.xchange.examples.okcoin.streaming;
+package com.xeiam.xchange.examples.huobi.marketdata.streaming;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -7,23 +7,23 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.okcoin.OkCoinExchange;
-import com.xeiam.xchange.okcoin.service.streaming.OkCoinExchangeStreamingConfiguration;
+import com.xeiam.xchange.huobi.HuobiExchange;
+import com.xeiam.xchange.huobi.service.streaming.HuobiExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 
-public class OkCoinSocketIODemo {
+public class HuobiSocketIODemo {
 
   public static void main(String[] args) throws InterruptedException {
 
-    ExchangeSpecification exSpec = new ExchangeSpecification(OkCoinExchange.class);
+    ExchangeSpecification exSpec = new ExchangeSpecification(HuobiExchange.class);
     exSpec.setSecretKey("aa");
     exSpec.setApiKey("bb");
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
-    final StreamingExchangeService service = exchange.getStreamingExchangeService(new OkCoinExchangeStreamingConfiguration());
+    final StreamingExchangeService service = exchange.getStreamingExchangeService(new HuobiExchangeStreamingConfiguration());
 
     Thread consumer = new Thread("consumer") {
 
