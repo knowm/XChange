@@ -1,4 +1,4 @@
-package com.xeiam.xchange.bitso.marketdata;
+package com.xeiam.xchange.bitso.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -62,7 +62,7 @@ public class BitsoTransaction {
     return new BigDecimal(x.equals(new BigDecimal(n)) ? n : n + 1);
   }
 
-  public BigDecimal calculateFeeUsd() {
+  public BigDecimal calculateFeeMxn() {
 
     return calculateFeeBtc().multiply(price);
   }

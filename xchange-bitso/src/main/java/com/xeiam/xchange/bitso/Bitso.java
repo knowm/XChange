@@ -1,8 +1,8 @@
 package com.xeiam.xchange.bitso;
 
-import com.xeiam.xchange.bitso.marketdata.BitsoOrderBook;
-import com.xeiam.xchange.bitso.marketdata.BitsoTicker;
-import com.xeiam.xchange.bitso.marketdata.BitsoTransaction;
+import com.xeiam.xchange.bitso.dto.marketdata.BitsoOrderBook;
+import com.xeiam.xchange.bitso.dto.marketdata.BitsoTicker;
+import com.xeiam.xchange.bitso.dto.marketdata.BitsoTransaction;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

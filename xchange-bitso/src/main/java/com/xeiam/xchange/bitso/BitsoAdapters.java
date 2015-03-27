@@ -8,13 +8,17 @@ import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.bitso.dto.account.BitsoBalance;
-import com.xeiam.xchange.bitso.marketdata.BitsoOrderBook;
+import com.xeiam.xchange.bitso.dto.marketdata.BitsoOrderBook;
+import com.xeiam.xchange.bitso.dto.trade.BitsoUserTransaction;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 public final class BitsoAdapters {
@@ -29,14 +33,6 @@ public final class BitsoAdapters {
     return new AccountInfo(userName, Arrays.asList(mxnWallet, btcWallet));
   }
 
-  /**
-   * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
-   *
-   * @param currencyPair (e.g. BTC/USD)
-   * @param currencyPair The currency (e.g. USD in BTC/USD)
-   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
-   * @return The XChange OrderBook
-   */
   public static OrderBook adaptOrderBook(BitsoOrderBook bitstampOrderBook, CurrencyPair currencyPair, int timeScale) {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitstampOrderBook.getAsks());
@@ -65,5 +61,39 @@ public final class BitsoAdapters {
     if (!argument) {
       throw new IllegalArgumentException(MessageFormat.format(msgPattern, msgArgs));
     }
+  }
+
+  /**
+   * Adapt the user's trades
+   *
+   * @param bitsoUserTransactions
+   * @return
+   */
+  public static UserTrades adaptTradeHistory(BitsoUserTransaction[] bitsoUserTransactions) {
+
+    List<UserTrade> trades = new ArrayList<UserTrade>();
+    long lastTradeId = 0;
+    for (BitsoUserTransaction bitstampUserTransaction : bitsoUserTransactions) {
+      if (bitstampUserTransaction.getType().equals(BitsoUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
+        Order.OrderType orderType = bitstampUserTransaction.getMxn().doubleValue() > 0.0 ? Order.OrderType.ASK : Order.OrderType.BID;
+        BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
+        BigDecimal price = bitstampUserTransaction.getPrice().abs();
+        Date timestamp = BitsoUtils.parseDate(bitstampUserTransaction.getDatetime());
+        long transactionId = bitstampUserTransaction.getId();
+        if (transactionId > lastTradeId) {
+          lastTradeId = transactionId;
+        }
+        final String tradeId = String.valueOf(transactionId);
+        final String orderId = String.valueOf(bitstampUserTransaction.getOrderId());
+        final BigDecimal feeAmount = bitstampUserTransaction.getFee();
+        final CurrencyPair currencyPair = new CurrencyPair(Currencies.BTC, Currencies.MXN);
+
+        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
+                currencyPair.counterSymbol);
+        trades.add(trade);
+      }
+    }
+
+    return new UserTrades(trades, lastTradeId, Trades.TradeSortType.SortByID);
   }
 }
