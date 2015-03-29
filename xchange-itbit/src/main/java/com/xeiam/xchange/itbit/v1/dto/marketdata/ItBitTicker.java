@@ -3,11 +3,10 @@ package com.xeiam.xchange.itbit.v1.dto.marketdata;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.currency.CurrencyPair;
 
 public class ItBitTicker {
 
-  private final CurrencyPair currencyPair;
+  private final String currencyPair;
   private final BigDecimal bid;
   private final BigDecimal ask;
   private final double bidAmt;
@@ -22,7 +21,7 @@ public class ItBitTicker {
   private final double vwap24h;
   private final String timestamp;
 
-  public ItBitTicker(@JsonProperty("pair") CurrencyPair currencyPair, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
+  public ItBitTicker(@JsonProperty("pair") String currencyPair, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
       @JsonProperty("bidAmt") double bidAmt, @JsonProperty("askAmt") double askAmt, @JsonProperty("lastPrice") BigDecimal lastPrice,
       @JsonProperty("lastAmt") double lastAmt, @JsonProperty("volume24h") BigDecimal volume24h, @JsonProperty("highToday") BigDecimal highToday,
       @JsonProperty("lowToday") BigDecimal lowToday, @JsonProperty("openToday") double openToday, @JsonProperty("vwapToday") double vwapToday,
@@ -45,7 +44,7 @@ public class ItBitTicker {
     this.timestamp = timestamp;
   }
 
-  public CurrencyPair getCurrencyPair() {
+  public String getCurrencyPair() {
 
     return currencyPair;
   }

@@ -146,13 +146,21 @@ public final class BTCTradeAdapters {
 
     checkException(balance);
 
-    List<Wallet> wallets = new ArrayList<Wallet>(4);
-    wallets.add(new Wallet(Currencies.BTC, balance.getBtcBalance().add(balance.getBtcReserved())));
-    wallets.add(new Wallet(Currencies.LTC, balance.getLtcBalance().add(balance.getLtcReserved())));
-    wallets.add(new Wallet(Currencies.DOGE, balance.getDogeBalance().add(balance.getDogeReserved())));
-    wallets.add(new Wallet("YBC", balance.getYbcBalance().add(balance.getYbcReserved())));
-    wallets.add(new Wallet(Currencies.CNY, balance.getCnyBalance().add(balance.getCnyReserved())));
+    List<Wallet> wallets = new ArrayList<Wallet>(5);
+    wallets.add(new Wallet(Currencies.BTC, nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved())));
+    wallets.add(new Wallet(Currencies.LTC, nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved())));
+    wallets.add(new Wallet(Currencies.DOGE, nullSafeSum(balance.getDogeBalance(), balance.getDogeReserved())));
+    wallets.add(new Wallet("YBC", nullSafeSum(balance.getYbcBalance(), balance.getYbcReserved())));
+    wallets.add(new Wallet(Currencies.CNY, nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved())));
     return new AccountInfo(null, wallets);
+  }
+
+  static BigDecimal nullSafeSum(BigDecimal a, BigDecimal b) {
+    return zeroIfNull(a).add(zeroIfNull(b));
+  }
+
+  static BigDecimal zeroIfNull(BigDecimal a) {
+    return a == null ? BigDecimal.ZERO : a;
   }
 
   public static String adaptDepositAddress(BTCTradeWallet wallet) {

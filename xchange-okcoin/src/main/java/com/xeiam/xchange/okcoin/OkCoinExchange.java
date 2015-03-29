@@ -10,9 +10,12 @@ import com.xeiam.xchange.okcoin.service.polling.OkCoinFuturesMarketDataService;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinFuturesTradeService;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinMarketDataService;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinTradeService;
+import com.xeiam.xchange.okcoin.service.streaming.OkCoinStreamingExchangeService;
+import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
+import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 public class OkCoinExchange extends BaseExchange {
-
+  
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
@@ -21,6 +24,14 @@ public class OkCoinExchange extends BaseExchange {
     if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false)
         && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
       throw new RuntimeException("Futures only available on international version. Set `Use_Intl` to true.");
+    }
+    
+    // set SSL URL and HOST accordingly
+
+    if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)) {
+      exchangeSpecification.setSslUri("https://www.okcoin.com/api");
+      exchangeSpecification.setHost("www.okcoin.com");
+      exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.com:10440/websocket/okcoinapi");
     }
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null
@@ -37,14 +48,6 @@ public class OkCoinExchange extends BaseExchange {
         this.pollingTradeService = new OkCoinTradeService(this);
       }
     }
-
-    // set SSL URL and HOST accordingly
-
-    if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)) {
-      exchangeSpecification.setSslUri("https://www.okcoin.com/api");
-      exchangeSpecification.setHost("www.okcoin.com");
-    }
-
   }
 
   @Override
@@ -60,7 +63,14 @@ public class OkCoinExchange extends BaseExchange {
     exchangeSpecification.setExchangeSpecificParametersItem("Use_Intl", false);
     exchangeSpecification.setExchangeSpecificParametersItem("Use_Futures", false);
 
+    exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.cn:10440/websocket/okcoinapi");
+    
     return exchangeSpecification;
+  }
+
+  @Override
+  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
+    return new OkCoinStreamingExchangeService(getExchangeSpecification(), configuration);
   }
 
   @Override
@@ -75,7 +85,11 @@ public class OkCoinExchange extends BaseExchange {
     if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false)) {
       return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_china";
     } else {
-      return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_intl";
+      if(exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)){
+        return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_futures";
+      }else{
+        return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_intl";
+      }
 
     }
   }

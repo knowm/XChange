@@ -21,6 +21,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -149,6 +150,12 @@ public final class CoinsetterAdapters {
 
     return new LimitOrder.Builder(adaptSide(order.getSide()), adaptCurrencyPair(order.getSymbol())).id(order.getUuid().toString())
         .timestamp(order.getCreateDate()).limitPrice(order.getRequestedPrice()).tradableAmount(order.getOpenQuantity()).build();
+  }
+
+  public static Trade adaptTrade(CoinsetterTrade last) {
+
+    return new Trade.Builder().type(null).currencyPair(CurrencyPair.BTC_USD).id(String.valueOf(last.getTickId())).price(last.getPrice())
+        .timestamp(new Date(last.getTimeStamp())).tradableAmount(last.getSize()).build();
   }
 
 }

@@ -1,0 +1,8 @@
+{
+   "currency_pairs":[
+      "BTC/USD",
+      "LTC/USD"    
+   ],
+   "max_public_poll_rate_per_second":20
+   
+}

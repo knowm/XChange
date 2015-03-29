@@ -1,0 +1,15 @@
+Btc38 Web Service API specification
+================================
+
+Public API:
+
+Documentation
+------
+http://www.btc38.com/help/document/2581.html
+
+Ticker
+------
+http://api.btc38.com/v1/ticker.php?c=all&mk_type=cny (For all currencies against CNY)
+http://api.btc38.com/v1/ticker.php?c=btc&mk_type=cny (Ticker for BTC against CNY. Some individual tickers will fail but will show up in the all markets ticker)
+
+
