@@ -7,83 +7,103 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OkCoinOrder {
 
-  private final long orderId;
+    private final long orderId;
 
-  private final int status;
+    private final int status;
 
-  private final String symbol;
+    private final String symbol;
 
-  private final String type;
+    private final String contract;
 
-  private final BigDecimal rate;
+    private final String type;
 
-  private final BigDecimal amount;
+    private final BigDecimal rate;
 
-  private final BigDecimal dealAmount;
+    private final BigDecimal amount;
 
-  private final BigDecimal avgRate;
+    private final BigDecimal dealAmount;
 
-  private final Date createDate;
+    private final BigDecimal unitAmount;
 
-  public OkCoinOrder(@JsonProperty("orders_id") final long orderId, @JsonProperty("status") final int status,
-      @JsonProperty("symbol") final String symbol, @JsonProperty("type") final String type, @JsonProperty("price") final BigDecimal rate,
-      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("deal_amount") final BigDecimal dealAmount,
-      @JsonProperty("avg_price") final BigDecimal avgRate, @JsonProperty("create_date") final Date createDate) {
+    private final BigDecimal fee;
 
-    this.orderId = orderId;
-    this.status = status;
-    this.symbol = symbol;
-    this.type = type;
-    this.rate = rate;
-    this.amount = amount;
-    this.dealAmount = dealAmount;
-    this.avgRate = avgRate;
-    this.createDate = createDate;
-  }
+    private final BigDecimal avgRate;
 
-  public long getOrderId() {
+    private final Date createDate;
 
-    return orderId;
-  }
+    public OkCoinOrder(@JsonProperty("order_id") final long orderId, @JsonProperty("status") final int status, @JsonProperty("symbol") final String symbol,
+            @JsonProperty("contract_name") final String contract, @JsonProperty("type") final String type, @JsonProperty("price") final BigDecimal rate,
+            @JsonProperty("amount") final BigDecimal amount, @JsonProperty("fee") final BigDecimal fee,
+            @JsonProperty("deal_amount") final BigDecimal dealAmount, @JsonProperty("unit_amount") final BigDecimal unitAmount,
+            @JsonProperty("price_avg") final BigDecimal avgRate, @JsonProperty("create_date") final Date createDate) {
 
-  public int getStatus() {
+        this.fee = fee;
+        this.contract = contract;
+        this.unitAmount = unitAmount;
+        this.orderId = orderId;
+        this.status = status;
+        this.symbol = symbol;
+        this.type = type;
+        this.rate = rate;
+        this.amount = amount;
+        this.dealAmount = dealAmount;
+        this.avgRate = avgRate;
+        this.createDate = createDate;
+    }
 
-    return status;
-  }
+    public long getOrderId() {
 
-  public String getSymbol() {
+        return orderId;
+    }
 
-    return symbol;
-  }
+    public String getContract() {
 
-  public String getType() {
+        return contract;
+    }
 
-    return type;
-  }
+    public BigDecimal getFee() {
 
-  public BigDecimal getRate() {
+        return fee;
+    }
 
-    return rate;
-  }
+    public int getStatus() {
 
-  public BigDecimal getAmount() {
+        return status;
+    }
 
-    return amount;
-  }
+    public String getSymbol() {
 
-  public BigDecimal getDealAmount() {
+        return symbol;
+    }
 
-    return dealAmount;
-  }
+    public String getType() {
 
-  public BigDecimal getAvgRate() {
+        return type;
+    }
 
-    return avgRate;
-  }
+    public BigDecimal getRate() {
 
-  public Date getCreateDate() {
+        return rate;
+    }
 
-    return createDate;
-  }
+    public BigDecimal getAmount() {
+
+        return amount;
+    }
+
+    public BigDecimal getDealAmount() {
+
+        return dealAmount;
+    }
+
+    public BigDecimal getAvgRate() {
+
+        return avgRate;
+    }
+
+    public Date getCreateDate() {
+
+        return createDate;
+    }
 
 }
