@@ -7,103 +7,103 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OkCoinOrder {
 
-    private final long orderId;
+  private final long orderId;
 
-    private final int status;
+  private final int status;
 
-    private final String symbol;
+  private final String symbol;
 
-    private final String contract;
+  private final String contract;
 
-    private final String type;
+  private final String type;
 
-    private final BigDecimal rate;
+  private final BigDecimal rate;
 
-    private final BigDecimal amount;
+  private final BigDecimal amount;
 
-    private final BigDecimal dealAmount;
+  private final BigDecimal dealAmount;
 
-    private final BigDecimal unitAmount;
+  private final BigDecimal unitAmount;
 
-    private final BigDecimal fee;
+  private final BigDecimal fee;
 
-    private final BigDecimal avgRate;
+  private final BigDecimal avgRate;
 
-    private final Date createDate;
+  private final Date createDate;
 
-    public OkCoinOrder(@JsonProperty("order_id") final long orderId, @JsonProperty("status") final int status, @JsonProperty("symbol") final String symbol,
-            @JsonProperty("contract_name") final String contract, @JsonProperty("type") final String type, @JsonProperty("price") final BigDecimal rate,
-            @JsonProperty("amount") final BigDecimal amount, @JsonProperty("fee") final BigDecimal fee,
-            @JsonProperty("deal_amount") final BigDecimal dealAmount, @JsonProperty("unit_amount") final BigDecimal unitAmount,
-            @JsonProperty("price_avg") final BigDecimal avgRate, @JsonProperty("create_date") final Date createDate) {
+  public OkCoinOrder(@JsonProperty("order_id") final long orderId, @JsonProperty("status") final int status,
+      @JsonProperty("symbol") final String symbol, @JsonProperty("contract_name") final String contract, @JsonProperty("type") final String type,
+      @JsonProperty("price") final BigDecimal rate, @JsonProperty("amount") final BigDecimal amount, @JsonProperty("fee") final BigDecimal fee,
+      @JsonProperty("deal_amount") final BigDecimal dealAmount, @JsonProperty("unit_amount") final BigDecimal unitAmount,
+      @JsonProperty("price_avg") final BigDecimal avgRate, @JsonProperty("create_date") final Date createDate) {
 
-        this.fee = fee;
-        this.contract = contract;
-        this.unitAmount = unitAmount;
-        this.orderId = orderId;
-        this.status = status;
-        this.symbol = symbol;
-        this.type = type;
-        this.rate = rate;
-        this.amount = amount;
-        this.dealAmount = dealAmount;
-        this.avgRate = avgRate;
-        this.createDate = createDate;
-    }
+    this.fee = fee;
+    this.contract = contract;
+    this.unitAmount = unitAmount;
+    this.orderId = orderId;
+    this.status = status;
+    this.symbol = symbol;
+    this.type = type;
+    this.rate = rate;
+    this.amount = amount;
+    this.dealAmount = dealAmount;
+    this.avgRate = avgRate;
+    this.createDate = createDate;
+  }
 
-    public long getOrderId() {
+  public long getOrderId() {
 
-        return orderId;
-    }
+    return orderId;
+  }
 
-    public String getContract() {
+  public String getContract() {
 
-        return contract;
-    }
+    return contract;
+  }
 
-    public BigDecimal getFee() {
+  public BigDecimal getFee() {
 
-        return fee;
-    }
+    return fee;
+  }
 
-    public int getStatus() {
+  public int getStatus() {
 
-        return status;
-    }
+    return status;
+  }
 
-    public String getSymbol() {
+  public String getSymbol() {
 
-        return symbol;
-    }
+    return symbol;
+  }
 
-    public String getType() {
+  public String getType() {
 
-        return type;
-    }
+    return type;
+  }
 
-    public BigDecimal getRate() {
+  public BigDecimal getRate() {
 
-        return rate;
-    }
+    return rate;
+  }
 
-    public BigDecimal getAmount() {
+  public BigDecimal getAmount() {
 
-        return amount;
-    }
+    return amount;
+  }
 
-    public BigDecimal getDealAmount() {
+  public BigDecimal getDealAmount() {
 
-        return dealAmount;
-    }
+    return dealAmount;
+  }
 
-    public BigDecimal getAvgRate() {
+  public BigDecimal getAvgRate() {
 
-        return avgRate;
-    }
+    return avgRate;
+  }
 
-    public Date getCreateDate() {
+  public Date getCreateDate() {
 
-        return createDate;
-    }
+    return createDate;
+  }
 
 }
