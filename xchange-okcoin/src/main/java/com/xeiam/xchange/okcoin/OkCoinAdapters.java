@@ -64,7 +64,7 @@ public final class OkCoinAdapters {
     long date = tickerResponse.getDate();
     return new Ticker.Builder().currencyPair(currencyPair).high(tickerResponse.getTicker().getHigh()).low(tickerResponse.getTicker().getLow())
         .bid(tickerResponse.getTicker().getBuy()).ask(tickerResponse.getTicker().getSell()).last(tickerResponse.getTicker().getLast())
-        .volume(tickerResponse.getTicker().getVol()).timestamp(new Date(date*1000L)).build();
+        .volume(tickerResponse.getTicker().getVol()).timestamp(new Date(date * 1000L)).build();
   }
 
   public static OrderBook adaptOrderBook(OkCoinDepth depth, CurrencyPair currencyPair) {
@@ -176,7 +176,7 @@ public final class OkCoinAdapters {
 
   public static OrderType adaptOrderType(String type) {
 
-    return type.equals("buy") || type.equals("buy_market") ? OrderType.BID : OrderType.ASK;
+    return type.equals("buy") || type.equals("buy_market") || type.equals("1") || type.equals("4") ? OrderType.BID : OrderType.ASK;
   }
 
   private static UserTrade adaptTrade(OkCoinOrder order) {
