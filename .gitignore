@@ -22,3 +22,6 @@ META-INF/
 
 # Misc.
 .DS_Store
+
+# externalized configuration file for keys
+exchangeConfiguration.json
