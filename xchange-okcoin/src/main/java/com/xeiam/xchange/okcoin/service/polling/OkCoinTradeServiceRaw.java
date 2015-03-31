@@ -11,7 +11,7 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradePollingService {
 
   /**
    * Constructor
-   *
+   * 
    * @param exchange
    */
   protected OkCoinTradeServiceRaw(Exchange exchange) {
@@ -58,10 +58,11 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradePollingService {
     return returnOrThrow(tradeResult);
   }
 
-  public OkCoinOrderResult getFuturesOrder(long orderId, String symbol, String currentPage, String pageLength, FuturesContract prompt)
+  public OkCoinOrderResult getFuturesOrder(long orderId, String symbol, String status, String currentPage, String pageLength, FuturesContract prompt)
       throws IOException {
 
-    OkCoinOrderResult orderResult = okCoin.getFuturesOrder(apikey, orderId, symbol, "0", currentPage, pageLength, prompt.getName(), signatureCreator);
+    OkCoinOrderResult orderResult = okCoin.getFuturesOrder(apikey, orderId, symbol, status, currentPage, pageLength, prompt.getName(),
+        signatureCreator);
     return returnOrThrow(orderResult);
   }
 }
