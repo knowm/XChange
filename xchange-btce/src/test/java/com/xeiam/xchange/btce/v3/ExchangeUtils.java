@@ -30,6 +30,10 @@ public class ExchangeUtils {
     ExchangeSpecification exSpec = new ExchangeSpecification(BTCEExchange.class);
     ObjectMapper mapper = new ObjectMapper();
     InputStream is = ExchangeUtils.class.getClassLoader().getResourceAsStream("v3/exchangeConfiguration.json");
+    if (is==null) {
+      logger.warn("No v3/exchangeConfiguration.json file found. Returning null exchange.");
+      return null;
+    }
     try {
       ExchangeConfiguration conf = mapper.readValue(is, ExchangeConfiguration.class);
       logger.debug(conf.toString());
@@ -38,8 +42,8 @@ public class ExchangeUtils {
       if (conf.secretKey != null) exSpec.setSecretKey(conf.secretKey);
       if (conf.sslUri != null) exSpec.setSslUri(conf.sslUri);
     } catch (Exception e) {
-      logger.error("An exception occured while loading the exchangeConfiguration.json file from the classpath. " +
-         "Return null exchange.", e);
+      logger.warn("An exception occured while loading the v3/exchangeConfiguration.json file from the classpath. " +
+         "Returning null exchange.", e);
       return null;
     }
 
