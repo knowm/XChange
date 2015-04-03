@@ -27,6 +27,8 @@ public class BTCEExchange extends BaseExchange implements Exchange {
     this.pollingMarketDataService = new BTCEMarketDataService(this);
     this.pollingAccountService = new BTCEAccountService(this);
     this.pollingTradeService = new BTCETradeService(this);
+
+    buildExchangeMetaData();
   }
 
   @Override
@@ -58,13 +60,20 @@ public class BTCEExchange extends BaseExchange implements Exchange {
     try {
       btceMetaData = mapper.readValue(is, BTCEMetaData.class);
       logger.debug(btceMetaData.toString());
+    } catch (Exception e) {
+      logger.warn("An exception occurred while loading the metadata file from the file. This may lead to unexpected results.", e);
+    }
+
+  }
+
+  protected void buildExchangeMetaData() {
+    try {
       BTCEMarketDataService marketDataService = (BTCEMarketDataService) pollingMarketDataService;
       BTCEExchangeInfo btceInfo = marketDataService.getBTCEInfo();
       metaData = BTCEAdapters.toMetaData(btceInfo, btceMetaData);
     } catch (Exception e) {
       logger.warn("An exception occurred while loading the metadata file from the file. This may lead to unexpected results.", e);
     }
-
   }
 
   public BTCEMetaData getBtceMetaData() {
