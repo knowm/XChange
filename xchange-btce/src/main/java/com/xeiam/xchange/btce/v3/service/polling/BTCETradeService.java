@@ -12,6 +12,7 @@ import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.btce.v3.service.polling.trade.params.BTCETradeHistoryParams;
+import com.xeiam.xchange.btce.v3.service.polling.trade.params.BTCETransHistoryParams;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -157,8 +158,8 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
       }
     }
 
-    if (params instanceof BTCETradeHistoryParams) {
-      sort = ((BTCETradeHistoryParams) params).getSortOrder();
+    if (params instanceof BTCETransHistoryParams) {
+      sort = ((BTCETransHistoryParams) params).getSortOrder();
     }
 
     Map<Long, BTCETradeHistoryResult> resultMap = getBTCETradeHistory(offset, count, startId, endId, sort, startTime, endTime, btcrPair);
