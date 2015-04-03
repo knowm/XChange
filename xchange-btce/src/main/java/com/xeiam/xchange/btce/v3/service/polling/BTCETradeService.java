@@ -158,7 +158,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     }
 
     if (params instanceof BTCETradeHistoryParams) {
-      sort = ((BTCETradeHistoryParams) params).sortOrder;
+      sort = ((BTCETradeHistoryParams) params).getSortOrder();
     }
 
     Map<Long, BTCETradeHistoryResult> resultMap = getBTCETradeHistory(offset, count, startId, endId, sort, startTime, endTime, btcrPair);
