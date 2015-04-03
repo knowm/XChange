@@ -11,6 +11,7 @@ import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
+import com.xeiam.xchange.btce.v3.service.polling.trade.params.BTCETradeHistoryParams;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -20,7 +21,6 @@ import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
@@ -182,79 +182,6 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new BTCETradeHistoryParams();
-  }
-
-  public static class BTCETradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan,
-      TradeHistoryParamCurrencyPair {
-
-    private CurrencyPair pair;
-    private BTCEAuthenticated.SortOrder sortOrder;
-    private String startId;
-    private String endId;
-    private Date startTime;
-    private Date endTime;
-
-    @Override
-    public void setCurrencyPair(CurrencyPair pair) {
-
-      this.pair = pair;
-    }
-
-    @Override
-    public CurrencyPair getCurrencyPair() {
-
-      return pair;
-    }
-
-    @Override
-    public void setStartId(String startId) {
-
-      this.startId = startId;
-    }
-
-    @Override
-    public String getStartId() {
-
-      return startId;
-    }
-
-    @Override
-    public void setEndId(String endId) {
-
-      this.endId = endId;
-    }
-
-    @Override
-    public String getEndId() {
-      return endId;
-    }
-
-    @Override
-    public void setStartTime(Date startTime) {
-
-      this.startTime = startTime;
-    }
-
-    @Override
-    public Date getStartTime() {
-      return startTime;
-    }
-
-    @Override
-    public void setEndTime(Date endTime) {
-
-      this.endTime = endTime;
-    }
-
-    @Override
-    public Date getEndTime() {
-      return endTime;
-    }
-
-    public void setSortOrder(BTCEAuthenticated.SortOrder sortOrder) {
-
-      this.sortOrder = sortOrder;
-    }
   }
 
 }
