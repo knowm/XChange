@@ -68,7 +68,6 @@ public class BTCETransHistoryResult {
 
   @Override
   public String toString() {
-
     return MessageFormat.format("BTCETransHistory[type={0}, amount={1}, currency=''{2}'', description=''{3}'', status={4}, timestamp={5}]",
        type, amount, currency, description, status, timestamp);
   }
@@ -77,7 +76,7 @@ public class BTCETransHistoryResult {
    * Type of transaction.
    */
   public static enum Type {
-    deposit, withdrawal
+    reserved0, BTC_deposit, BTC_withdrawal, reserved3, credit, payment, reserved6, reserved7, reserved8
   }
 
   /**

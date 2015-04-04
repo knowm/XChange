@@ -31,7 +31,7 @@ public class BTCETransHistoryJSONTest {
     Map.Entry<Long, BTCETransHistoryResult> firstEntry = result.entrySet().iterator().next();
     // Verify that the example data was unmarshalled correctly
     assertThat(firstEntry.getKey()).isEqualTo(1081672L);
-    assertThat(firstEntry.getValue().getType()).isEqualTo(BTCETransHistoryResult.Type.withdrawal);
+    assertThat(firstEntry.getValue().getType()).isEqualTo(BTCETransHistoryResult.Type.BTC_deposit);
     assertThat(firstEntry.getValue().getAmount()).isEqualTo(new BigDecimal("1.00000000"));
     assertThat(firstEntry.getValue().getCurrency()).isEqualTo("BTC");
     assertThat(firstEntry.getValue().getDescription()).isEqualTo("BTC Payment");
