@@ -2,6 +2,7 @@ package com.xeiam.xchange.coinmate;
 
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTicker;
+import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import java.io.IOException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,4 +26,8 @@ public interface Coinmate {
     @Path("orderBook")
     public CoinmateOrderBook getOrderBook(@QueryParam("currencyPair") String currencyPair, @QueryParam("groupByPriceLimit") boolean groupByPriceLimit) throws IOException;
     
+    @GET
+    @Path("transactions")
+    public CoinmateTransactions getTransactions(@QueryParam("minutesIntoHistory") int minutesIntoHistory) throws IOException;
+
 }

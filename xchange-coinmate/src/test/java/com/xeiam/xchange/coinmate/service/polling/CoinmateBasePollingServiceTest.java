@@ -6,6 +6,7 @@ import com.xeiam.xchange.coinmate.CoinmateExchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import static org.fest.assertions.api.Assertions.assertThat;
 import org.junit.Test;
@@ -34,5 +35,15 @@ public class CoinmateBasePollingServiceTest {
         OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
         System.out.println(orderBook.toString());
         assertThat(orderBook).isNotNull();
+    }
+    
+    @Test
+    public void tradesFetchTest() throws Exception {
+
+        Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+        PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+        Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
+        System.out.println(trades.getTrades().toString());
+        assertThat(trades).isNotNull();
     }
 }

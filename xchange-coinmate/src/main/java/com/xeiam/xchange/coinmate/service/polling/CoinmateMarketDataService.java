@@ -19,7 +19,8 @@ import java.io.IOException;
  * @author Martin Stachon
  */
 public class CoinmateMarketDataService extends CoinmateMarketDataServiceRaw implements PollingMarketDataService {
-
+    private final static int TRANSACTIONS_MINUTES_INTO_HISTORY = 60;
+    
     public CoinmateMarketDataService(Exchange exchange) {
         super(exchange);
     }
@@ -39,7 +40,7 @@ public class CoinmateMarketDataService extends CoinmateMarketDataServiceRaw impl
 
     @Override
     public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return CoinmateAdapters.adaptTrades(getCoinmateTransactions(TRANSACTIONS_MINUTES_INTO_HISTORY));
     }
 
 }

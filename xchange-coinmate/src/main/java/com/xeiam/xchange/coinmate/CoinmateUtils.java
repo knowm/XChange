@@ -12,5 +12,13 @@ public class CoinmateUtils {
 
         return currencyPair.baseSymbol.toUpperCase() + "_" + currencyPair.counterSymbol.toUpperCase();
     }
+    
+    public static CurrencyPair getPair(String currencyPair) {
+        if ("BTC_USD".equals(currencyPair)) {
+            return CurrencyPair.BTC_USD;
+        } else {
+            return null;
+        }
+    }
 
 }

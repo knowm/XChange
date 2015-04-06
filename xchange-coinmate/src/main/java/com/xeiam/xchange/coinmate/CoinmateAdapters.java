@@ -3,10 +3,14 @@ package com.xeiam.xchange.coinmate;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateOrderBookEntry;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTicker;
+import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTransactions;
+import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -55,6 +59,18 @@ public class CoinmateAdapters {
 
         Date date = new Date(); //TODO the api does not provide time
         return new OrderBook(date, asks, bids);
+    }
+    
+    public static Trades adaptTrades(CoinmateTransactions coinmateTransactions) {
+        List<Trade> trades = new ArrayList<Trade>(coinmateTransactions.getData().size());
+        
+        for (CoinmateTransactionsEntry coinmateEntry : coinmateTransactions.getData()) {
+            Trade trade = new Trade(null, coinmateEntry.getAmount(), CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()), coinmateEntry.getPrice(), new Date(coinmateEntry.getTimestamp()), coinmateEntry.getTransactionId());
+            trades.add(trade);
+        }
+        
+        //TODO correct sort order?
+        return new Trades(trades, Trades.TradeSortType.SortByID);
     }
 
 }
