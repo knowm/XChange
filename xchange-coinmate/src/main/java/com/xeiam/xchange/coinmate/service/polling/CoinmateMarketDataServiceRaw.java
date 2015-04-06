@@ -2,6 +2,7 @@ package com.xeiam.xchange.coinmate.service.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.Coinmate;
+import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import java.io.IOException;
 import si.mazi.rescu.RestProxyFactory;
@@ -20,8 +21,11 @@ public class CoinmateMarketDataServiceRaw extends CoinmateBasePollingService {
     }
 
     public CoinmateTicker getCoinmateTicker(String currencyPair) throws IOException {
-
         return coinmate.getTicker(currencyPair);
     }
 
+    
+    public CoinmateOrderBook getCoinmateOrderBook(String currencyPair, boolean groupByPriceLimit) throws IOException {
+        return coinmate.getOrderBook(currencyPair, groupByPriceLimit);
+    } 
 }
