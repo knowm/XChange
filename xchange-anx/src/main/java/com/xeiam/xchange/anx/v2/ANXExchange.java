@@ -18,10 +18,7 @@ public class ANXExchange extends BaseExchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     // Configure the basic services if configuration does not apply
     this.pollingMarketDataService = new ANXMarketDataService(this);
     this.pollingTradeService = new ANXTradeService(this);

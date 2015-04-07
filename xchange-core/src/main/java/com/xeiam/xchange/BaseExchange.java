@@ -2,9 +2,11 @@ package com.xeiam.xchange;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import com.xeiam.xchange.exceptions.ExchangeException;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,6 +101,13 @@ public abstract class BaseExchange implements Exchange {
           .warn("No \"exchange name\" found in the ExchangeSpecification. The name is used to load the meta data file from the classpath and may lead to unexpected results.");
     }
 
+    initServices();
+  }
+
+  protected void initServices() {
+  }
+
+  public void remoteInit() throws IOException, ExchangeException {
   }
 
   protected void loadMetaData(InputStream is) {

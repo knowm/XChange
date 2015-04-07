@@ -1,8 +1,11 @@
 package com.xeiam.xchange;
 
+import java.io.IOException;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.dto.meta.SimpleMetaData;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
@@ -107,4 +110,8 @@ public interface Exchange {
    */
   PollingAccountService getPollingAccountService();
 
+  /**
+   * Initialize this instance with the remote meta data. Most exchanges require this method to be called before {@link #getMetaData()}. Some exchanges require it before using some of their services.
+   */
+  void remoteInit() throws IOException, ExchangeException;
 }

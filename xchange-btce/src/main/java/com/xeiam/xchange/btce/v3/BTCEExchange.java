@@ -20,15 +20,10 @@ public class BTCEExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new BTCEMarketDataService(this);
     this.pollingAccountService = new BTCEAccountService(this);
     this.pollingTradeService = new BTCETradeService(this);
-
-    buildExchangeMetaData();
   }
 
   @Override
@@ -66,7 +61,8 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
   }
 
-  protected void buildExchangeMetaData() {
+  @Override
+  public void remoteInit() {
     try {
       BTCEMarketDataService marketDataService = (BTCEMarketDataService) pollingMarketDataService;
       BTCEExchangeInfo btceInfo = marketDataService.getBTCEInfo();
