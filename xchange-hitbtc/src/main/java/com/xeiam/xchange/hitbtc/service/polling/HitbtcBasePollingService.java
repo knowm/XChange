@@ -22,10 +22,6 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class HitbtcBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  //  protected static final String HITBTC = "hitbtc";
-  //  protected static final String HITBTC_ORDER_FEE_POLICY_MAKER = HITBTC + ".order.feePolicy.maker";
-  //  protected static final String HITBTC_ORDER_FEE_LISTING_DEFAULT = HITBTC + ORDER_FEE_LISTING + "default";
-
   protected final HitbtcAuthenticated hitbtc;
   protected final String apiKey;
   protected final ParamsDigest signatureCreator;

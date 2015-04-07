@@ -1,5 +1,12 @@
 package com.xeiam.xchange.hitbtc;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
+import com.xeiam.xchange.hitbtc.dto.meta.HitbtcMetaData;
+import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataServiceRaw;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -14,14 +21,32 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
+  private HitbtcMetaData hitbtcMetaData;
+
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new HitbtcMarketDataService(this);
     this.pollingTradeService = new HitbtcTradeService(this);
     this.pollingAccountService = new HitbtcAccountService(this);
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+
+    try {
+      hitbtcMetaData = mapper.readValue(is, HitbtcMetaData.class);
+      logger.debug(hitbtcMetaData.toString());
+    } catch (Exception e) {
+      logger.warn("An exception occurred while loading the metadata file from the file. This may lead to unexpected results.", e);
+    }
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+    HitbtcSymbols hitbtcSymbols = ((HitbtcMarketDataServiceRaw) pollingMarketDataService).getHitbtcSymbols();
+    metaData = HitbtcAdapters.adaptToExchangeMetaData(hitbtcSymbols, hitbtcMetaData);
   }
 
   @Override
