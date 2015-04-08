@@ -21,14 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate.service.polling;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.coinmate.Coinmate;
-import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
-import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTicker;
-import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTransactions;
+import com.xeiam.xchange.coinmate.CoinmateAuthenticated;
+import com.xeiam.xchange.coinmate.dto.account.CoinmateBalance;
+import com.xeiam.xchange.coinmate.service.CoinmateDigest;
+
+import com.xeiam.xchange.exceptions.ExchangeException;
 import java.io.IOException;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -36,26 +36,29 @@ import si.mazi.rescu.RestProxyFactory;
  *
  * @author Martin Stachon
  */
-public class CoinmateMarketDataServiceRaw extends CoinmateBasePollingService {
+public class CoinmateAccountServiceRaw extends CoinmateBasePollingService {
 
-    private final Coinmate coinmate;
+    private final CoinmateDigest signatureCreator;
+    private final CoinmateAuthenticated coinmateAuthenticated;
 
-    public CoinmateMarketDataServiceRaw(Exchange exchange) {
+    public CoinmateAccountServiceRaw(Exchange exchange) {
         super(exchange);
-        this.coinmate = RestProxyFactory.createProxy(Coinmate.class, exchange.getExchangeSpecification().getSslUri());
+
+        this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+        this.signatureCreator = CoinmateDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
+                .getUserName(), exchange.getExchangeSpecification().getApiKey());
     }
 
-    public CoinmateTicker getCoinmateTicker(String currencyPair) throws IOException {
-        return coinmate.getTicker(currencyPair);
-    }
+    public CoinmateBalance getCoinmateBalance() throws IOException {
 
-    
-    public CoinmateOrderBook getCoinmateOrderBook(String currencyPair, boolean groupByPriceLimit) throws IOException {
-        return coinmate.getOrderBook(currencyPair, groupByPriceLimit);
-    } 
-    
-    public CoinmateTransactions getCoinmateTransactions(int minutesIntoHistory) throws IOException {
-        return coinmate.getTransactions(minutesIntoHistory);
+        CoinmateBalance coinmateBalance = coinmateAuthenticated.getBalances(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+                exchange.getNonceFactory());
+
+        if (coinmateBalance.isError()) {
+            throw new ExchangeException("Error getting balance. " + coinmateBalance.getErrorMessage());
+        }
+
+        return coinmateBalance;
     }
 
 }

@@ -1,5 +1,31 @@
+/*
+ * The MIT License
+ *
+ * Copyright 2015 Coinmate.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package com.xeiam.xchange.coinmate;
 
+import com.xeiam.xchange.coinmate.dto.account.CoinmateBalance;
+import com.xeiam.xchange.coinmate.dto.account.CoinmateBalanceData;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateOrderBookEntry;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTicker;
@@ -7,15 +33,18 @@ import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -57,20 +86,32 @@ public class CoinmateAdapters {
         List<LimitOrder> asks = createOrders(coinmateOrderBook.getData().getAsks(), Order.OrderType.ASK, currencyPair);
         List<LimitOrder> bids = createOrders(coinmateOrderBook.getData().getBids(), Order.OrderType.BID, currencyPair);
 
-        Date date = new Date(); //TODO the api does not provide time
-        return new OrderBook(date, asks, bids);
+        return new OrderBook(null, asks, bids);
     }
-    
+
     public static Trades adaptTrades(CoinmateTransactions coinmateTransactions) {
         List<Trade> trades = new ArrayList<Trade>(coinmateTransactions.getData().size());
-        
+
         for (CoinmateTransactionsEntry coinmateEntry : coinmateTransactions.getData()) {
             Trade trade = new Trade(null, coinmateEntry.getAmount(), CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()), coinmateEntry.getPrice(), new Date(coinmateEntry.getTimestamp()), coinmateEntry.getTransactionId());
             trades.add(trade);
         }
-        
+
         //TODO correct sort order?
         return new Trades(trades, Trades.TradeSortType.SortByID);
+    }
+
+    public static AccountInfo adaptAccountInfo(CoinmateBalance coinmateBalance) {
+
+        List<Wallet> wallets = new ArrayList<Wallet>();
+        CoinmateBalanceData funds = coinmateBalance.getData();
+
+        for (String lcCurrency : funds.keySet()) {
+            String currency = lcCurrency.toUpperCase();
+
+            wallets.add(new Wallet(currency, funds.get(lcCurrency).getBalance()));
+        }
+        return new AccountInfo(null, wallets);
     }
 
 }

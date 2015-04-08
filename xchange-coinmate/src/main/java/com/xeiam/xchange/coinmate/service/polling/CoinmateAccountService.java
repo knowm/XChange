@@ -26,44 +26,38 @@ package com.xeiam.xchange.coinmate.service.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.CoinmateAdapters;
-import com.xeiam.xchange.coinmate.CoinmateUtils;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  *
  * @author Martin Stachon
  */
-public class CoinmateMarketDataService extends CoinmateMarketDataServiceRaw implements PollingMarketDataService {
-    private final static int TRANSACTIONS_MINUTES_INTO_HISTORY = 60;
-    
-    public CoinmateMarketDataService(Exchange exchange) {
+public class CoinmateAccountService extends CoinmateAccountServiceRaw implements PollingAccountService {
+
+    public CoinmateAccountService(Exchange exchange) {
         super(exchange);
     }
 
     @Override
-    public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        
-        return CoinmateAdapters.adaptTicker(getCoinmateTicker(CoinmateUtils.getPair(currencyPair)), currencyPair);
+    public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+        return CoinmateAdapters.adaptAccountInfo(getCoinmateBalance());
     }
 
     @Override
-    public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        
-        return CoinmateAdapters.adaptOrderBook(getCoinmateOrderBook(CoinmateUtils.getPair(currencyPair), true), currencyPair);
-        
+    public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        return CoinmateAdapters.adaptTrades(getCoinmateTransactions(TRANSACTIONS_MINUTES_INTO_HISTORY));
+    public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 
 }

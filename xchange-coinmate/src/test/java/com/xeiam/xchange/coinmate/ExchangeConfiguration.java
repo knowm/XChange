@@ -22,22 +22,16 @@
  * THE SOFTWARE.
  */
 
-package com.xeiam.xchange.coinmate.dto.marketdata;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.coinmate.dto.CoinmateBaseResponse;
+package com.xeiam.xchange.coinmate;
 
 /**
+ * Configuration of Coinmate exchange.
  *
- * @author Martin Stachon
  */
-public class CoinmateOrderBook extends CoinmateBaseResponse<CoinmateOrderBookData> {
+public class ExchangeConfiguration {
 
-    public CoinmateOrderBook(@JsonProperty("error") boolean error,
-            @JsonProperty("errorMessage") String errorMessage,
-            @JsonProperty("data") CoinmateOrderBookData data) {
-        
-        super(error, errorMessage, data);
-    }
-
+    public String privateApiKey;
+    public String publicApiKey;
+    public String clientId;
+    
 }

@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.xeiam.xchange.coinmate.dto.marketdata;
+package com.xeiam.xchange.coinmate.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.coinmate.dto.CoinmateBaseResponse;
@@ -31,13 +31,15 @@ import com.xeiam.xchange.coinmate.dto.CoinmateBaseResponse;
  *
  * @author Martin Stachon
  */
-public class CoinmateOrderBook extends CoinmateBaseResponse<CoinmateOrderBookData> {
+public class CoinmateBalance extends CoinmateBaseResponse<CoinmateBalanceData> {
 
-    public CoinmateOrderBook(@JsonProperty("error") boolean error,
+    public CoinmateBalance(@JsonProperty("error") boolean error,
             @JsonProperty("errorMessage") String errorMessage,
-            @JsonProperty("data") CoinmateOrderBookData data) {
+            @JsonProperty("data") CoinmateBalanceData data) {
         
         super(error, errorMessage, data);
     }
+    
+    
 
 }
