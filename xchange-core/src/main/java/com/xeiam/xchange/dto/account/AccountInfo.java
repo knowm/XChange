@@ -3,6 +3,7 @@ package com.xeiam.xchange.dto.account;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
@@ -68,6 +69,21 @@ public final class AccountInfo {
   public List<Wallet> getWallets() {
 
     return wallets;
+  }
+
+  /**
+   * Returns the wallet of the specified currency.
+   *
+   * @param currency one of the {@link Currencies}.
+   * @return the wallet of the specified currency, or a zero balance wallet if no wallet with such currency.
+   */
+  public Wallet getWallet(String currency) {
+    for (Wallet wallet : wallets) {
+      if (wallet.getCurrency().equals(currency)) {
+        return wallet;
+      }
+    }
+    return Wallet.zero(currency);
   }
 
   /**

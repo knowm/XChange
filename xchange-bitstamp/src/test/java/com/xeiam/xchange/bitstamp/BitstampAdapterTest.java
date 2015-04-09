@@ -45,8 +45,12 @@ public class BitstampAdapterTest {
     assertThat(accountInfo.getTradingFee()).isEqualTo(new BigDecimal("0.5000"));
     assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("USD");
     assertThat(accountInfo.getWallets().get(0).getBalance().toString()).isEqualTo("172.87");
+    assertThat(accountInfo.getWallets().get(0).getAvailable().toString()).isEqualTo("0.00");
+    assertThat(accountInfo.getWallets().get(0).getFrozen().toString()).isEqualTo("172.87");
     assertThat(accountInfo.getWallets().get(1).getCurrency()).isEqualTo("BTC");
     assertThat(accountInfo.getWallets().get(1).getBalance().toString()).isEqualTo("6.99990000");
+    assertThat(accountInfo.getWallets().get(1).getAvailable().toString()).isEqualTo("6.99990000");
+    assertThat(accountInfo.getWallets().get(1).getFrozen().toString()).isEqualTo("0");
   }
 
   @Test
