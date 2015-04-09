@@ -29,6 +29,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.coinmate.service.polling.CoinmateAccountService;
 import com.xeiam.xchange.coinmate.service.polling.CoinmateMarketDataService;
+import com.xeiam.xchange.coinmate.service.polling.CoinmateTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -52,7 +53,7 @@ public class CoinmateExchange extends BaseExchange implements Exchange {
         
         this.pollingMarketDataService = new CoinmateMarketDataService(this);
         this.pollingAccountService = new CoinmateAccountService(this);
-        this.pollingTradeService = null;
+        this.pollingTradeService = new CoinmateTradeService(this);
         
     }
     

@@ -21,40 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.xeiam.xchange.coinmate;
 
-import com.xeiam.xchange.coinmate.dto.account.CoinmateBalance;
+package com.xeiam.xchange.coinmate.service.polling;
+
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.coinmate.CoinmateAuthenticated;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+import com.xeiam.xchange.coinmate.service.CoinmateDigest;
 import java.io.IOException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  *
  * @author Martin Stachon
  */
-@Path("api")
-@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-@Produces(MediaType.APPLICATION_JSON)
-public interface CoinmateAuthenticated extends Coinmate {
+public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
+    
+    private final CoinmateDigest signatureCreator;
+    private final CoinmateAuthenticated coinmateAuthenticated;
 
-    @POST
-    @Path("balances")
-    public CoinmateBalance getBalances(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+    public CoinmateTradeServiceRaw(Exchange exchange) {
+        super(exchange);
+        
+        this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+        this.signatureCreator = CoinmateDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
+                .getUserName(), exchange.getExchangeSpecification().getApiKey());
+    }
+    
+    public CoinmateTransactionHistory getCoinmateTradeHistory(int offset, int limit, String sort) throws IOException {
+        return coinmateAuthenticated.getTransactionHistory(exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(),
+                offset, limit, sort);
+    }
 
-    @POST
-    @Path("transactionHistory")
-    public CoinmateTransactionHistory getTransactionHistory(@FormParam("clientId") String clientId,
-            @FormParam("signature") ParamsDigest signer,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-            @FormParam("offset") int offset,
-            @FormParam("limit") int limit,
-            @FormParam("sort") String sort) throws IOException;
 }

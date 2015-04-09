@@ -2,8 +2,9 @@ package com.xeiam.xchange.coinmate.service.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.ExchangeUtils;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.account.PollingAccountService;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.trade.UserTrades;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
@@ -15,20 +16,22 @@ import static org.junit.Assert.assertNotNull;
  * the classpath and contain valid api and secret keys.
  *
  */
-public class AccountInfoFetchIntegration {
+public class TradeServiceTest {
 
     @Test
-    public void fetchAccountInfoTest() throws Exception {
+    public void transactionHistoryTest() throws Exception {
         Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
         if (exchange == null) {
             return;  // forces pass if not configuration is available
         }
         assertNotNull(exchange);
-        PollingAccountService service = exchange.getPollingAccountService();
+        PollingTradeService service = exchange.getPollingTradeService();
         assertNotNull(service);
-        AccountInfo info = service.getAccountInfo();
-        assertNotNull(info);
-        System.out.println("Balance BTC: " + info.getBalance("BTC"));
-        System.out.println("Balance USD: " + info.getBalance("USD"));
+        UserTrades trades = service.getTradeHistory();
+        assertNotNull(trades);
+        System.out.println("Got " + trades.getUserTrades().size() + " trades.");
+        for (Trade trade : trades.getTrades()) {
+            System.out.println(trade.toString());
+        }
     }
 }

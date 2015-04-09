@@ -31,6 +31,8 @@ import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateOrderBookEntry;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistoryDataEntry;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -39,6 +41,8 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -112,6 +116,37 @@ public class CoinmateAdapters {
             wallets.add(new Wallet(currency, funds.get(lcCurrency).getBalance()));
         }
         return new AccountInfo(null, wallets);
+    }
+
+    public static UserTrades adaptTradeHistory(CoinmateTransactionHistory coinmateTradeHistory) {
+        List<UserTrade> trades = new ArrayList<UserTrade>(coinmateTradeHistory.getData().size());
+        
+        for (CoinmateTransactionHistoryDataEntry entry : coinmateTradeHistory.getData()) {
+            Order.OrderType orderType;
+            if (entry.getTransactionType().equals("BUY")) {
+                orderType = Order.OrderType.BID;
+            } else if (entry.getTransactionType().equals("SELL")) {
+                orderType = Order.OrderType.ASK;
+            } else {
+                // here we ignore the other types, such as withdrawal, voucher etc.
+                continue;
+            }
+            
+            UserTrade trade = new UserTrade(orderType,
+                    entry.getAmount(),
+                    CoinmateUtils.getPair(entry.getAmountCurrency()),
+                    entry.getPrice(),
+                    new Date(entry.getTimestamp()),
+                    Long.toString(entry.getTransactionId()),
+                    Long.toString(entry.getOrderId()),
+                    entry.getFee(),
+                    entry.getFeeCurrency()
+              );
+            trades.add(trade);
+            
+        }
+        
+        return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
     }
 
 }
