@@ -26,6 +26,10 @@ public final class Wallet {
   }
 
   private final String currency;
+  /**
+   * @deprecated
+   */
+  @Deprecated
   private final String description;
   private final BigDecimal balance;
   private final BigDecimal available;
@@ -73,14 +77,17 @@ public final class Wallet {
    *
    * @param description Optional description to distinguish same currency Wallets
    */
+  @Deprecated
   public Wallet(String currency, BigDecimal balance, String description) {
     this(currency, balance, balance, BigDecimal.ZERO, description);
   }
 
+  @Deprecated
   public Wallet(String currency, BigDecimal balance, BigDecimal available, String description) {
     this(currency, balance, available, balance.add(available.negate()), description);
   }
 
+  @Deprecated
   public Wallet(String currency, BigDecimal balance, BigDecimal available, BigDecimal frozen, String description) {
     this.currency = currency;
     this.balance = balance;
@@ -122,6 +129,10 @@ public final class Wallet {
     return frozen;
   }
 
+  /**
+   * @deprecated
+   */
+  @Deprecated
   public String getDescription() {
 
     return description;
