@@ -45,6 +45,13 @@ public final class AccountInfo {
   }
 
   /**
+   * @see #AccountInfo(String, BigDecimal, Iterable).
+   */
+  public AccountInfo(String username, Iterable<Wallet> wallets) {
+    this(username, null, wallets);
+  }
+
+  /**
    * @see #AccountInfo(String, BigDecimal, Map).
    */
   public AccountInfo(String username, Map<String, Wallet> wallets) {
@@ -67,6 +74,24 @@ public final class AccountInfo {
     this.wallets = wallets;
     this.walletsMap = new HashMap<String, Wallet>();
     for (Wallet wallet : wallets) {
+      this.walletsMap.put(wallet.getCurrency(), wallet);
+    }
+  }
+
+  /**
+   * Constructs an {@link AccountInfo}.
+   *
+   * @param username the user name.
+   * @param tradingFee the trading fee.
+   * @param wallets the wallets, the currencies of the wallets should not be duplicated.
+   */
+  public AccountInfo(String username, BigDecimal tradingFee, Iterable<Wallet> wallets) {
+    this.username = username;
+    this.tradingFee = tradingFee;
+    this.wallets = new ArrayList<Wallet>();
+    this.walletsMap = new HashMap<String, Wallet>();
+    for (Wallet wallet : wallets) {
+      this.wallets.add(wallet);
       this.walletsMap.put(wallet.getCurrency(), wallet);
     }
   }
