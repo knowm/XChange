@@ -1,0 +1,7 @@
+{
+  "currency_pairs":[
+    "XBT/USD"
+  ],
+  "max_public_poll_rate_per_minute":60
+
+}
