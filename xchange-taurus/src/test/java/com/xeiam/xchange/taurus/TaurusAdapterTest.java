@@ -18,6 +18,7 @@ import com.xeiam.xchange.taurus.dto.marketdata.TaurusOrderBook;
 import com.xeiam.xchange.taurus.dto.marketdata.TaurusTicker;
 import com.xeiam.xchange.taurus.dto.marketdata.TaurusTransaction;
 import com.xeiam.xchange.taurus.dto.trade.TaurusUserTransaction;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -49,6 +50,10 @@ public class TaurusAdapterTest {
     assertThat(accountInfo.getWallets().size()).isEqualTo(2);
     assertThat(accountInfo.getBalance("CAD")).isEqualTo(new BigDecimal("6.16"));
     assertThat(accountInfo.getBalance("BTC")).isEqualTo(new BigDecimal("0.02350921"));
+    assertThat(accountInfo.getWallet(Currencies.CAD).getAvailable()).isEqualTo(new BigDecimal("6.16"));
+    assertThat(accountInfo.getWallet(Currencies.CAD).getFrozen()).isEqualTo(new BigDecimal("0.00"));
+    assertThat(accountInfo.getWallet(Currencies.BTC).getAvailable()).isEqualTo(new BigDecimal("0.02350921"));
+    assertThat(accountInfo.getWallet(Currencies.BTC).getFrozen()).isEqualTo(new BigDecimal("0.00000000"));
   }
 
   @Test

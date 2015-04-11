@@ -32,8 +32,8 @@ public final class TaurusAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(TaurusBalance taurusBalance, String userName) {
-    Wallet cadWallet = new Wallet(Currencies.CAD, taurusBalance.getCadBalance());
-    Wallet btcWallet = new Wallet(Currencies.BTC, taurusBalance.getBtcBalance());
+    Wallet cadWallet = new Wallet(Currencies.CAD, taurusBalance.getCadBalance(), taurusBalance.getCadAvailable(), taurusBalance.getCadReserved());
+    Wallet btcWallet = new Wallet(Currencies.BTC, taurusBalance.getBtcBalance(), taurusBalance.getBtcAvailable(), taurusBalance.getBtcReserved());
 
     return new AccountInfo(userName, taurusBalance.getFee(), Arrays.asList(cadWallet, btcWallet));
   }

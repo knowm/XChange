@@ -105,8 +105,9 @@ public final class BittrexAdapters {
     long lastTradeId = 0;
     for (BittrexTrade trade : trades) {
       long tradeId = Long.valueOf(trade.getId());
-      if (tradeId > lastTradeId)
-        lastTradeId = tradeId;
+      if (tradeId > lastTradeId) {
+		lastTradeId = tradeId;
+	}
       tradesList.add(adaptTrade(trade, currencyPair));
     }
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
@@ -132,7 +133,10 @@ public final class BittrexAdapters {
     List<Wallet> wallets = new ArrayList<Wallet>(balances.size());
 
     for (BittrexBalance balance : balances) {
-      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAvailable()));
+      // FIXME: the second parameter should be balance.getBalance(),
+      // keep it balance.getAvailable() for safe reason,
+      // will be fixed in XChange 4.0.0.
+      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAvailable(), balance.getAvailable()));
     }
 
     return new AccountInfo(null, wallets);

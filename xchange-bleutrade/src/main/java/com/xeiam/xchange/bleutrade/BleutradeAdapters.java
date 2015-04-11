@@ -105,7 +105,10 @@ public class BleutradeAdapters {
 
     for (BleutradeBalance bleutradeBalance : bleutradeBalances) {
 
-      wallets.add(new Wallet(bleutradeBalance.getCurrency(), bleutradeBalance.getAvailable()));
+      // FIXME: the second parameter should be balance.getBalance(),
+      // keep it balance.getAvailable() for safe reason,
+      // will be fixed in XChange 4.0.0.
+      wallets.add(new Wallet(bleutradeBalance.getCurrency(), bleutradeBalance.getAvailable(), bleutradeBalance.getAvailable()));
     }
 
     return new AccountInfo(null, wallets);

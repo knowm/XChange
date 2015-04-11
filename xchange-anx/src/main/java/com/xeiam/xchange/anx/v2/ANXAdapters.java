@@ -103,9 +103,9 @@ public final class ANXAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
-    for (int i = 0; i < anxOpenOrders.length; i++) {
-      limitOrders.add(adaptOrder(anxOpenOrders[i].getAmount().getValue(), anxOpenOrders[i].getPrice().getValue(), anxOpenOrders[i].getItem(),
-          anxOpenOrders[i].getCurrency(), anxOpenOrders[i].getType(), anxOpenOrders[i].getOid(), new Date(anxOpenOrders[i].getDate())));
+    for (ANXOpenOrder anxOpenOrder : anxOpenOrders) {
+      limitOrders.add(adaptOrder(anxOpenOrder.getAmount().getValue(), anxOpenOrder.getPrice().getValue(), anxOpenOrder.getItem(),
+          anxOpenOrder.getCurrency(), anxOpenOrder.getType(), anxOpenOrder.getOid(), new Date(anxOpenOrder.getDate())));
     }
 
     return limitOrders;
@@ -122,7 +122,7 @@ public final class ANXAdapters {
     if (anxWallet == null) { // use the presence of a currency String to indicate existing wallet at ANX
       return null; // an account maybe doesn't contain a ANXWallet
     } else {
-      return new Wallet(anxWallet.getBalance().getCurrency(), anxWallet.getBalance().getValue());
+      return new Wallet(anxWallet.getBalance().getCurrency(), anxWallet.getBalance().getValue(), anxWallet.getAvailableBalance().getValue());
     }
 
   }
