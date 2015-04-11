@@ -31,8 +31,10 @@ import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateOrderBookEntry;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTransactions;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTransactionsEntry;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrdersEntry;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
-import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistoryDataEntry;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistoryEntry;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -41,6 +43,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
@@ -48,7 +51,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -121,7 +123,7 @@ public class CoinmateAdapters {
     public static UserTrades adaptTradeHistory(CoinmateTransactionHistory coinmateTradeHistory) {
         List<UserTrade> trades = new ArrayList<UserTrade>(coinmateTradeHistory.getData().size());
         
-        for (CoinmateTransactionHistoryDataEntry entry : coinmateTradeHistory.getData()) {
+        for (CoinmateTransactionHistoryEntry entry : coinmateTradeHistory.getData()) {
             Order.OrderType orderType;
             if (entry.getTransactionType().equals("BUY")) {
                 orderType = Order.OrderType.BID;
@@ -147,6 +149,39 @@ public class CoinmateAdapters {
         }
         
         return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
+    }
+    
+    public static OpenOrders adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders) throws CoinmateException {
+        
+        List<LimitOrder> ordersList = new ArrayList<LimitOrder>(coinmateOpenOrders.getData().size());
+        
+        for (CoinmateOpenOrdersEntry entry : coinmateOpenOrders.getData()) {
+            
+            Order.OrderType orderType;
+            //TODO 
+            if ("BUY".equals(entry.getType())) {
+                orderType = Order.OrderType.BID;
+            } else if ("SELL".equals(entry.getType())) {
+                orderType = Order.OrderType.ASK;
+            } else {
+                throw new CoinmateException("Unknown order type");
+            }
+            
+            // the api does not provide currency for open orders, so just assume the default BTC_USD pair
+            CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+            
+            LimitOrder limitOrder = new LimitOrder(
+                    orderType,
+                    entry.getAmount(),
+                    currencyPair,
+                    Long.toString(entry.getId()),
+                    new Date(entry.getTimestamp()),
+                    entry.getPrice());
+            
+            ordersList.add(limitOrder);
+        }
+        
+        return new OpenOrders(ordersList);
     }
 
 }

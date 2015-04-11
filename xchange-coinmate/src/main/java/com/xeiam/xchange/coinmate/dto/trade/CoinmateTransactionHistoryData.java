@@ -30,6 +30,6 @@ import java.util.ArrayList;
  *
  * @author Martin Stachon
  */
-public class CoinmateTransactionHistoryData extends ArrayList<CoinmateTransactionHistoryDataEntry> {
+public class CoinmateTransactionHistoryData extends ArrayList<CoinmateTransactionHistoryEntry> {
 
 }

@@ -26,6 +26,8 @@ package com.xeiam.xchange.coinmate.service.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.CoinmateAuthenticated;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import com.xeiam.xchange.coinmate.service.CoinmateDigest;
 import java.io.IOException;
@@ -49,8 +51,29 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
     }
     
     public CoinmateTransactionHistory getCoinmateTradeHistory(int offset, int limit, String sort) throws IOException {
-        return coinmateAuthenticated.getTransactionHistory(exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(),
+        CoinmateTransactionHistory tradeHistory = coinmateAuthenticated.getTransactionHistory(exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(),
                 offset, limit, sort);
+        
+        throwExceptionIfError(tradeHistory);
+        
+        return tradeHistory;
+    }
+    
+    public CoinmateOpenOrders getCoinmateOpenOrders(String currencyPair) throws IOException {
+        CoinmateOpenOrders openOrders = coinmateAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), currencyPair);
+        
+        throwExceptionIfError(openOrders);
+        
+        return openOrders;
+        
+    }
+    
+    public CoinmateCancelOrderResponse cancelCoinmateOrder(String orderId) throws IOException {
+        CoinmateCancelOrderResponse response = coinmateAuthenticated.cancelOder(exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), orderId);
+        
+        throwExceptionIfError(response);
+        
+        return response;
     }
 
 }

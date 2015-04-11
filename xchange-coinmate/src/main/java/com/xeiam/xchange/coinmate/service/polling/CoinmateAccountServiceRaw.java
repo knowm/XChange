@@ -54,9 +54,7 @@ public class CoinmateAccountServiceRaw extends CoinmateBasePollingService {
         CoinmateBalance coinmateBalance = coinmateAuthenticated.getBalances(exchange.getExchangeSpecification().getUserName(), signatureCreator,
                 exchange.getNonceFactory());
 
-        if (coinmateBalance.isError()) {
-            throw new ExchangeException("Error getting balance. " + coinmateBalance.getErrorMessage());
-        }
+        throwExceptionIfError(coinmateBalance);
 
         return coinmateBalance;
     }

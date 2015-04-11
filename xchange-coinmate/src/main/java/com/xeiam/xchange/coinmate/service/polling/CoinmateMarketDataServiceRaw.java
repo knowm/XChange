@@ -46,16 +46,28 @@ public class CoinmateMarketDataServiceRaw extends CoinmateBasePollingService {
     }
 
     public CoinmateTicker getCoinmateTicker(String currencyPair) throws IOException {
-        return coinmate.getTicker(currencyPair);
+        CoinmateTicker ticker = coinmate.getTicker(currencyPair);
+        
+        throwExceptionIfError(ticker);
+        
+        return ticker;
     }
 
     
     public CoinmateOrderBook getCoinmateOrderBook(String currencyPair, boolean groupByPriceLimit) throws IOException {
-        return coinmate.getOrderBook(currencyPair, groupByPriceLimit);
+        CoinmateOrderBook orderBook = coinmate.getOrderBook(currencyPair, groupByPriceLimit);
+        
+        throwExceptionIfError(orderBook);
+        
+        return orderBook;
     } 
     
     public CoinmateTransactions getCoinmateTransactions(int minutesIntoHistory) throws IOException {
-        return coinmate.getTransactions(minutesIntoHistory);
+        CoinmateTransactions transactions = coinmate.getTransactions(minutesIntoHistory);
+        
+        throwExceptionIfError(transactions);
+        
+        return transactions;
     }
 
 }

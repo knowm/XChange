@@ -26,6 +26,9 @@ package com.xeiam.xchange.coinmate.service.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.CoinmateAdapters;
+import com.xeiam.xchange.coinmate.CoinmateUtils;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -51,7 +54,11 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Pol
 
     @Override
     public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // BTC_USD by default
+        String currencyPair = CoinmateUtils.getPair(CurrencyPair.BTC_USD);
+        
+        CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPair);
+        return CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders);
     }
 
     @Override
@@ -66,7 +73,9 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Pol
 
     @Override
     public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        CoinmateCancelOrderResponse response = cancelCoinmateOrder(orderId);
+     
+        return response.getData();
     }
 
     @Override

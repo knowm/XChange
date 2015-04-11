@@ -24,6 +24,8 @@
 package com.xeiam.xchange.coinmate;
 
 import com.xeiam.xchange.coinmate.dto.account.CoinmateBalance;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import java.io.IOException;
 import javax.ws.rs.Consumes;
@@ -46,7 +48,8 @@ public interface CoinmateAuthenticated extends Coinmate {
 
     @POST
     @Path("balances")
-    public CoinmateBalance getBalances(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
+    public CoinmateBalance getBalances(@FormParam("clientId") String clientId,
+            @FormParam("signature") ParamsDigest signer,
             @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
     @POST
@@ -57,4 +60,19 @@ public interface CoinmateAuthenticated extends Coinmate {
             @FormParam("offset") int offset,
             @FormParam("limit") int limit,
             @FormParam("sort") String sort) throws IOException;
+    
+    @POST
+    @Path("openOrders")
+    public CoinmateOpenOrders getOpenOrders(@FormParam("clientId") String clientId,
+            @FormParam("signature") ParamsDigest signer,
+            @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+            @FormParam("currencyPair") String currencyPair) throws IOException;
+    
+    @POST
+    @Path("cancelOrder")
+    public CoinmateCancelOrderResponse cancelOder(@FormParam("clientId") String clientId,
+            @FormParam("signature") ParamsDigest signer,
+            @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+            @FormParam("orderId") String orderId ) throws IOException;
+    
 }

@@ -26,6 +26,7 @@ package com.xeiam.xchange.coinmate.dto.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.coinmate.dto.marketdata.OrderBookJSONTest;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -36,27 +37,24 @@ import org.junit.Test;
  *
  * @author Martin Stachon
  */
-public class BalanceJSONTest {
+public class OpenOrdersJSONTest {
 
+    
     @Test
-    public void testUnmarshal() throws IOException {
-
-        // Read in the JSON from the example resources
-        InputStream is = OrderBookJSONTest.class.getResourceAsStream("/account/example-balance.json");
+    public void testUnmarshall() throws IOException {
+        
+                // Read in the JSON from the example resources
+        InputStream is = OrderBookJSONTest.class.getResourceAsStream("/account/example-open-orders.json");
 
         ObjectMapper mapper = new ObjectMapper();
-        CoinmateBalance coinmateBalance = mapper.readValue(is, CoinmateBalance.class);
+        CoinmateOpenOrders coinmateOrders = mapper.readValue(is, CoinmateOpenOrders.class);
+        
 
         // Verify that the example data was unmarshalled correctly
-        assertThat(coinmateBalance.getData().get("USD").getCurrency()).isEqualTo("USD");
-        assertThat(coinmateBalance.getData().get("USD").getBalance()).isEqualTo(new BigDecimal("20925.48295"));
-        assertThat(coinmateBalance.getData().get("USD").getReserved()).isEqualTo(new BigDecimal("9.009"));
-        assertThat(coinmateBalance.getData().get("USD").getAvailable()).isEqualTo(new BigDecimal("20916.47395"));
-        
-        assertThat(coinmateBalance.getData().get("BTC").getCurrency()).isEqualTo("BTC");
-        assertThat(coinmateBalance.getData().get("BTC").getBalance()).isEqualTo(new BigDecimal("9934.56163999"));
-        assertThat(coinmateBalance.getData().get("BTC").getReserved()).isEqualTo(new BigDecimal("8.008"));
-        assertThat(coinmateBalance.getData().get("BTC").getAvailable()).isEqualTo(new BigDecimal("9926.55363999"));
+        assertThat(coinmateOrders.getData().get(0).getId()).isEqualTo(32780L);
+        assertThat(coinmateOrders.getData().get(0).getTimestamp()).isEqualTo(1404383652640L);
+        assertThat(coinmateOrders.getData().get(0).getType()).isEqualTo("BUY");
+        assertThat(coinmateOrders.getData().get(0).getPrice()).isEqualTo(new BigDecimal("1"));
+        assertThat(coinmateOrders.getData().get(0).getAmount()).isEqualTo(new BigDecimal("1"));
     }
-    
 }

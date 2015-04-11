@@ -31,7 +31,7 @@ import java.math.BigDecimal;
  *
  * @author Martin Stachon
  */
-public class CoinmateTransactionHistoryDataEntry {
+public class CoinmateTransactionHistoryEntry {
     
     private final long transactionId;
     private final long timestamp;
@@ -46,7 +46,7 @@ public class CoinmateTransactionHistoryDataEntry {
     private final String status;
     private final long orderId; // ?
 
-    public CoinmateTransactionHistoryDataEntry(@JsonProperty("transactionId") long transactionId,
+    public CoinmateTransactionHistoryEntry(@JsonProperty("transactionId") long transactionId,
             @JsonProperty("timestamp") long timestamp,
             @JsonProperty("transactionType") String transactionType,
             @JsonProperty("amount") BigDecimal amount,
