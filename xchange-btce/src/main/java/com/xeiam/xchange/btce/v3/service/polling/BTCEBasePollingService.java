@@ -21,9 +21,6 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class BTCEBasePollingService extends BaseExchangeService implements BasePollingService {
 
-  //  protected static final String PREFIX = "btce";
-  //  protected static final String KEY_ORDER_SIZE_SCALE_DEFAULT = PREFIX + SUF_ORDER_SIZE_SCALE_DEFAULT;
-
   private static final String ERR_MSG_NONCE = "invalid nonce parameter; on key:";
   private static final String ERR_MSG_FUNDS = "It is not enough ";
 

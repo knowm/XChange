@@ -138,4 +138,13 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     }
   }
 
+  @Override
+  public void verifyOrder(LimitOrder limitOrder) {
+    verifyOrder2(limitOrder);
+  }
+
+  @Override
+  public void verifyOrder(MarketOrder marketOrder) {
+    verifyOrder2(marketOrder);
+  }
 }

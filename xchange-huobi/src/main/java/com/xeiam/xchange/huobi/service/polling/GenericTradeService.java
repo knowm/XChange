@@ -20,15 +20,15 @@ import com.xeiam.xchange.huobi.dto.trade.HuobiCancelOrderResult;
 import com.xeiam.xchange.huobi.dto.trade.HuobiOrder;
 import com.xeiam.xchange.huobi.dto.trade.HuobiPlaceOrderResult;
 import com.xeiam.xchange.huobi.service.TradeServiceRaw;
+import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
-public class GenericTradeService implements PollingTradeService {
+public class GenericTradeService extends BaseExchangeService implements PollingTradeService {
 
   private final Map<CurrencyPair, Integer> coinTypes;
   private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
   private final TradeServiceRaw tradeServiceRaw;
-  private final Exchange exchange;
 
   /**
    * Constructor
@@ -37,7 +37,7 @@ public class GenericTradeService implements PollingTradeService {
    */
   public GenericTradeService(Exchange exchange, TradeServiceRaw tradeServiceRaw) {
 
-    this.exchange = exchange;
+    super(exchange);
     this.tradeServiceRaw = tradeServiceRaw;
 
     coinTypes = new HashMap<CurrencyPair, Integer>(2);

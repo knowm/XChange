@@ -8,10 +8,9 @@ import com.xeiam.xchange.btce.v3.BTCEExchange;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import com.xeiam.xchange.btce.v3.dto.meta.BTCEMetaData;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataService;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
-import com.xeiam.xchange.dto.meta.MarketMetaData;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
 
@@ -46,6 +45,8 @@ public class BTCEMetaDataDemo {
   private static void generic(Exchange exchange) throws IOException {
     ExchangeMetaData metaData = (ExchangeMetaData) exchange.getMetaData();
     System.out.println("BTCE generic meta data: " + metaData);
+
+    exchange.getPollingTradeService().verifyOrder(new MarketOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_EUR).tradableAmount(BigDecimal.ONE).build());
   }
 
 }
