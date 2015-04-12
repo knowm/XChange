@@ -32,4 +32,13 @@ public class MarketMetaData {
   public int getPriceScale() {
     return priceScale;
   }
+
+  @Override
+  public String toString() {
+    return "MarketMetaData{" +
+        "tradingFee=" + tradingFee +
+        ", minimumAmount=" + minimumAmount +
+        ", priceScale=" + priceScale +
+        '}';
+  }
 }

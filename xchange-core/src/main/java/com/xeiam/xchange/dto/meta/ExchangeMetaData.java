@@ -63,4 +63,13 @@ public class ExchangeMetaData extends SimpleMetaData {
   public Integer getMinPollDelay() {
     return minPollDelay;
   }
+
+  @Override
+  public String toString() {
+    return "ExchangeMetaData{" +
+        "currencyPairs=" + currencyPairs +
+        ", currency=" + currency +
+        ", minPollDelay=" + minPollDelay +
+        '}';
+  }
 }
