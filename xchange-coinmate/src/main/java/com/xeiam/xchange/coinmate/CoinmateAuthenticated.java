@@ -101,7 +101,7 @@ public interface CoinmateAuthenticated extends Coinmate {
   ) throws IOException;
 
   @POST
-  @Path("buyInsant")
+  @Path("buyInstant")
   public CoinmateTradeResponse buyInstant(@FormParam("clientId") String clientId,
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
@@ -114,7 +114,7 @@ public interface CoinmateAuthenticated extends Coinmate {
   public CoinmateTradeResponse sellInstant(@FormParam("clientId") String clientId,
       @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("total") BigDecimal total,
+      @FormParam("amount") BigDecimal amount,
       @FormParam("currencyPair") String currencyPair
   ) throws IOException;
 

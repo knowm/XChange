@@ -7,9 +7,16 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
+
+import java.math.BigDecimal;
+
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.trade.MarketOrder;
 
 /**
  * Integration tests for TradeService.
@@ -52,4 +59,55 @@ public class TradeServiceTest {
       System.out.println(order.toString());
     }
   }
+  
+  /*
+  @Test
+  public void marketBuyTest() throws Exception {
+    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
+    if (exchange == null) {
+      return;  // forces pass if not configuration is available
+    }
+    assertNotNull(exchange);
+    PollingTradeService service = exchange.getPollingTradeService();
+    assertNotNull(service);
+    service.placeMarketOrder(new MarketOrder(Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD));
+  }
+  
+  @Test
+  public void marketSellTest() throws Exception {
+    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
+    if (exchange == null) {
+      return;  // forces pass if not configuration is available
+    }
+    assertNotNull(exchange);
+    PollingTradeService service = exchange.getPollingTradeService();
+    assertNotNull(service);
+    service.placeMarketOrder(new MarketOrder(Order.OrderType.ASK, new BigDecimal("0.001"), CurrencyPair.BTC_USD));
+  }
+  
+  @Test
+  public void limitBuyTest() throws Exception {
+    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
+    if (exchange == null) {
+      return;  // forces pass if not configuration is available
+    }
+    assertNotNull(exchange);
+    PollingTradeService service = exchange.getPollingTradeService();
+    assertNotNull(service);
+    service.placeLimitOrder(new LimitOrder(Order.OrderType.BID, new BigDecimal("1.0"), CurrencyPair.BTC_USD, null, null, new BigDecimal("1.0")));
+  }
+  
+  @Test
+  public void limitSellTest() throws Exception {
+    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
+    if (exchange == null) {
+      return;  // forces pass if not configuration is available
+    }
+    assertNotNull(exchange);
+    PollingTradeService service = exchange.getPollingTradeService();
+    assertNotNull(service);
+    service.placeLimitOrder(new LimitOrder(Order.OrderType.ASK, new BigDecimal("1.0"), CurrencyPair.BTC_USD, null, null, new BigDecimal("10000.0")));
+  }
+  */
+  
 }
