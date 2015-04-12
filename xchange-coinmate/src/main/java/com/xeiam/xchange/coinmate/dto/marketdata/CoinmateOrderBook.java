@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -33,11 +32,11 @@ import com.xeiam.xchange.coinmate.dto.CoinmateBaseResponse;
  */
 public class CoinmateOrderBook extends CoinmateBaseResponse<CoinmateOrderBookData> {
 
-    public CoinmateOrderBook(@JsonProperty("error") boolean error,
-            @JsonProperty("errorMessage") String errorMessage,
-            @JsonProperty("data") CoinmateOrderBookData data) {
-        
-        super(error, errorMessage, data);
-    }
+  public CoinmateOrderBook(@JsonProperty("error") boolean error,
+      @JsonProperty("errorMessage") String errorMessage,
+      @JsonProperty("data") CoinmateOrderBookData data) {
+
+    super(error, errorMessage, data);
+  }
 
 }

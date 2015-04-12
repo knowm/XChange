@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,7 +38,7 @@ import org.junit.Test;
  * @author Martin Stachon
  */
 public class CoinmateAdapterTest {
-    
+
   @Test
   public void testTickerAdapter() throws IOException {
 

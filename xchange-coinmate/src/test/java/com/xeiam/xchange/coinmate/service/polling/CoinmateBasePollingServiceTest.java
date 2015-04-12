@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate.service.polling;
 
 import com.xeiam.xchange.Exchange;
@@ -41,33 +40,33 @@ import org.junit.Test;
  */
 public class CoinmateBasePollingServiceTest {
 
-    @Test
-    public void tickerFetchTest() throws Exception {
+  @Test
+  public void tickerFetchTest() throws Exception {
 
-        Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
-        PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-        Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
-        System.out.println(ticker.toString());
-        assertThat(ticker).isNotNull();
-    }
-    
-    @Test
-    public void orderBookFetchTest() throws Exception {
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
+    System.out.println(ticker.toString());
+    assertThat(ticker).isNotNull();
+  }
 
-        Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
-        PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-        OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
-        System.out.println(orderBook.toString());
-        assertThat(orderBook).isNotNull();
-    }
-    
-    @Test
-    public void tradesFetchTest() throws Exception {
+  @Test
+  public void orderBookFetchTest() throws Exception {
 
-        Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
-        PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-        Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
-        System.out.println(trades.getTrades().toString());
-        assertThat(trades).isNotNull();
-    }
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
+    System.out.println(orderBook.toString());
+    assertThat(orderBook).isNotNull();
+  }
+
+  @Test
+  public void tradesFetchTest() throws Exception {
+
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
+    System.out.println(trades.getTrades().toString());
+    assertThat(trades).isNotNull();
+  }
 }

@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate;
 
 import com.xeiam.xchange.coinmate.dto.account.CoinmateBalance;
@@ -58,130 +57,130 @@ import java.util.List;
  */
 public class CoinmateAdapters {
 
-    /**
-     * Adapts a CoinmateTicker to a Ticker Object
-     *
-     * @param coinmateTicker The exchange specific ticker
-     * @param currencyPair (e.g. BTC/USD)
-     * @return The ticker
-     */
-    public static Ticker adaptTicker(CoinmateTicker coinmateTicker, CurrencyPair currencyPair) {
+  /**
+   * Adapts a CoinmateTicker to a Ticker Object
+   *
+   * @param coinmateTicker The exchange specific ticker
+   * @param currencyPair (e.g. BTC/USD)
+   * @return The ticker
+   */
+  public static Ticker adaptTicker(CoinmateTicker coinmateTicker, CurrencyPair currencyPair) {
 
-        BigDecimal last = coinmateTicker.getData().getLast();
-        BigDecimal bid = coinmateTicker.getData().getBid();
-        BigDecimal ask = coinmateTicker.getData().getAsk();
-        BigDecimal high = coinmateTicker.getData().getHigh();
-        BigDecimal low = coinmateTicker.getData().getLow();
-        BigDecimal volume = coinmateTicker.getData().getAmount();
+    BigDecimal last = coinmateTicker.getData().getLast();
+    BigDecimal bid = coinmateTicker.getData().getBid();
+    BigDecimal ask = coinmateTicker.getData().getAsk();
+    BigDecimal high = coinmateTicker.getData().getHigh();
+    BigDecimal low = coinmateTicker.getData().getLow();
+    BigDecimal volume = coinmateTicker.getData().getAmount();
 
-        return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume)
-                .build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume)
+        .build();
+
+  }
+
+  public static List<LimitOrder> createOrders(List<CoinmateOrderBookEntry> coinmateOrders, Order.OrderType type, CurrencyPair currencyPair) {
+    List<LimitOrder> orders = new ArrayList<LimitOrder>(coinmateOrders.size());
+    for (CoinmateOrderBookEntry entry : coinmateOrders) {
+      LimitOrder order = new LimitOrder(type, entry.getAmount(), currencyPair, null, null, entry.getPrice());
+      orders.add(order);
+    }
+    return orders;
+  }
+
+  public static OrderBook adaptOrderBook(CoinmateOrderBook coinmateOrderBook, CurrencyPair currencyPair) {
+    List<LimitOrder> asks = createOrders(coinmateOrderBook.getData().getAsks(), Order.OrderType.ASK, currencyPair);
+    List<LimitOrder> bids = createOrders(coinmateOrderBook.getData().getBids(), Order.OrderType.BID, currencyPair);
+
+    return new OrderBook(null, asks, bids);
+  }
+
+  public static Trades adaptTrades(CoinmateTransactions coinmateTransactions) {
+    List<Trade> trades = new ArrayList<Trade>(coinmateTransactions.getData().size());
+
+    for (CoinmateTransactionsEntry coinmateEntry : coinmateTransactions.getData()) {
+      Trade trade = new Trade(null, coinmateEntry.getAmount(), CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()), coinmateEntry.getPrice(), new Date(coinmateEntry.getTimestamp()), coinmateEntry.getTransactionId());
+      trades.add(trade);
+    }
+
+    //TODO correct sort order?
+    return new Trades(trades, Trades.TradeSortType.SortByID);
+  }
+
+  public static AccountInfo adaptAccountInfo(CoinmateBalance coinmateBalance) {
+
+    List<Wallet> wallets = new ArrayList<Wallet>();
+    CoinmateBalanceData funds = coinmateBalance.getData();
+
+    for (String lcCurrency : funds.keySet()) {
+      String currency = lcCurrency.toUpperCase();
+
+      wallets.add(new Wallet(currency, funds.get(lcCurrency).getBalance()));
+    }
+    return new AccountInfo(null, wallets);
+  }
+
+  public static UserTrades adaptTradeHistory(CoinmateTransactionHistory coinmateTradeHistory) {
+    List<UserTrade> trades = new ArrayList<UserTrade>(coinmateTradeHistory.getData().size());
+
+    for (CoinmateTransactionHistoryEntry entry : coinmateTradeHistory.getData()) {
+      Order.OrderType orderType;
+      if (entry.getTransactionType().equals("BUY")) {
+        orderType = Order.OrderType.BID;
+      } else if (entry.getTransactionType().equals("SELL")) {
+        orderType = Order.OrderType.ASK;
+      } else {
+        // here we ignore the other types, such as withdrawal, voucher etc.
+        continue;
+      }
+
+      UserTrade trade = new UserTrade(orderType,
+          entry.getAmount(),
+          CoinmateUtils.getPair(entry.getAmountCurrency()),
+          entry.getPrice(),
+          new Date(entry.getTimestamp()),
+          Long.toString(entry.getTransactionId()),
+          Long.toString(entry.getOrderId()),
+          entry.getFee(),
+          entry.getFeeCurrency()
+      );
+      trades.add(trade);
 
     }
 
-    public static List<LimitOrder> createOrders(List<CoinmateOrderBookEntry> coinmateOrders, Order.OrderType type, CurrencyPair currencyPair) {
-        List<LimitOrder> orders = new ArrayList<LimitOrder>(coinmateOrders.size());
-        for (CoinmateOrderBookEntry entry : coinmateOrders) {
-            LimitOrder order = new LimitOrder(type, entry.getAmount(), currencyPair, null, null, entry.getPrice());
-            orders.add(order);
-        }
-        return orders;
+    return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  public static OpenOrders adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders) throws CoinmateException {
+
+    List<LimitOrder> ordersList = new ArrayList<LimitOrder>(coinmateOpenOrders.getData().size());
+
+    for (CoinmateOpenOrdersEntry entry : coinmateOpenOrders.getData()) {
+
+      Order.OrderType orderType;
+      //TODO 
+      if ("BUY".equals(entry.getType())) {
+        orderType = Order.OrderType.BID;
+      } else if ("SELL".equals(entry.getType())) {
+        orderType = Order.OrderType.ASK;
+      } else {
+        throw new CoinmateException("Unknown order type");
+      }
+
+      // the api does not provide currency for open orders, so just assume the default BTC_USD pair
+      CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+
+      LimitOrder limitOrder = new LimitOrder(
+          orderType,
+          entry.getAmount(),
+          currencyPair,
+          Long.toString(entry.getId()),
+          new Date(entry.getTimestamp()),
+          entry.getPrice());
+
+      ordersList.add(limitOrder);
     }
 
-    public static OrderBook adaptOrderBook(CoinmateOrderBook coinmateOrderBook, CurrencyPair currencyPair) {
-        List<LimitOrder> asks = createOrders(coinmateOrderBook.getData().getAsks(), Order.OrderType.ASK, currencyPair);
-        List<LimitOrder> bids = createOrders(coinmateOrderBook.getData().getBids(), Order.OrderType.BID, currencyPair);
-
-        return new OrderBook(null, asks, bids);
-    }
-
-    public static Trades adaptTrades(CoinmateTransactions coinmateTransactions) {
-        List<Trade> trades = new ArrayList<Trade>(coinmateTransactions.getData().size());
-
-        for (CoinmateTransactionsEntry coinmateEntry : coinmateTransactions.getData()) {
-            Trade trade = new Trade(null, coinmateEntry.getAmount(), CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()), coinmateEntry.getPrice(), new Date(coinmateEntry.getTimestamp()), coinmateEntry.getTransactionId());
-            trades.add(trade);
-        }
-
-        //TODO correct sort order?
-        return new Trades(trades, Trades.TradeSortType.SortByID);
-    }
-
-    public static AccountInfo adaptAccountInfo(CoinmateBalance coinmateBalance) {
-
-        List<Wallet> wallets = new ArrayList<Wallet>();
-        CoinmateBalanceData funds = coinmateBalance.getData();
-
-        for (String lcCurrency : funds.keySet()) {
-            String currency = lcCurrency.toUpperCase();
-
-            wallets.add(new Wallet(currency, funds.get(lcCurrency).getBalance()));
-        }
-        return new AccountInfo(null, wallets);
-    }
-
-    public static UserTrades adaptTradeHistory(CoinmateTransactionHistory coinmateTradeHistory) {
-        List<UserTrade> trades = new ArrayList<UserTrade>(coinmateTradeHistory.getData().size());
-        
-        for (CoinmateTransactionHistoryEntry entry : coinmateTradeHistory.getData()) {
-            Order.OrderType orderType;
-            if (entry.getTransactionType().equals("BUY")) {
-                orderType = Order.OrderType.BID;
-            } else if (entry.getTransactionType().equals("SELL")) {
-                orderType = Order.OrderType.ASK;
-            } else {
-                // here we ignore the other types, such as withdrawal, voucher etc.
-                continue;
-            }
-            
-            UserTrade trade = new UserTrade(orderType,
-                    entry.getAmount(),
-                    CoinmateUtils.getPair(entry.getAmountCurrency()),
-                    entry.getPrice(),
-                    new Date(entry.getTimestamp()),
-                    Long.toString(entry.getTransactionId()),
-                    Long.toString(entry.getOrderId()),
-                    entry.getFee(),
-                    entry.getFeeCurrency()
-              );
-            trades.add(trade);
-            
-        }
-        
-        return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
-    }
-    
-    public static OpenOrders adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders) throws CoinmateException {
-        
-        List<LimitOrder> ordersList = new ArrayList<LimitOrder>(coinmateOpenOrders.getData().size());
-        
-        for (CoinmateOpenOrdersEntry entry : coinmateOpenOrders.getData()) {
-            
-            Order.OrderType orderType;
-            //TODO 
-            if ("BUY".equals(entry.getType())) {
-                orderType = Order.OrderType.BID;
-            } else if ("SELL".equals(entry.getType())) {
-                orderType = Order.OrderType.ASK;
-            } else {
-                throw new CoinmateException("Unknown order type");
-            }
-            
-            // the api does not provide currency for open orders, so just assume the default BTC_USD pair
-            CurrencyPair currencyPair = CurrencyPair.BTC_USD;
-            
-            LimitOrder limitOrder = new LimitOrder(
-                    orderType,
-                    entry.getAmount(),
-                    currencyPair,
-                    Long.toString(entry.getId()),
-                    new Date(entry.getTimestamp()),
-                    entry.getPrice());
-            
-            ordersList.add(limitOrder);
-        }
-        
-        return new OpenOrders(ordersList);
-    }
+    return new OpenOrders(ordersList);
+  }
 
 }

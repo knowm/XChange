@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -32,17 +31,17 @@ import com.xeiam.xchange.currency.CurrencyPair;
  */
 public class CoinmateUtils {
 
-    public static String getPair(CurrencyPair currencyPair) {
+  public static String getPair(CurrencyPair currencyPair) {
 
-        return currencyPair.baseSymbol.toUpperCase() + "_" + currencyPair.counterSymbol.toUpperCase();
+    return currencyPair.baseSymbol.toUpperCase() + "_" + currencyPair.counterSymbol.toUpperCase();
+  }
+
+  public static CurrencyPair getPair(String currencyPair) {
+    if ("BTC_USD".equals(currencyPair)) {
+      return CurrencyPair.BTC_USD;
+    } else {
+      return null;
     }
-    
-    public static CurrencyPair getPair(String currencyPair) {
-        if ("BTC_USD".equals(currencyPair)) {
-            return CurrencyPair.BTC_USD;
-        } else {
-            return null;
-        }
-    }
+  }
 
 }

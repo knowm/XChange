@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate;
 
 /**
@@ -30,8 +29,8 @@ package com.xeiam.xchange.coinmate;
  */
 public class ExchangeConfiguration {
 
-    public String privateApiKey;
-    public String publicApiKey;
-    public String clientId;
-    
+  public String privateApiKey;
+  public String publicApiKey;
+  public String clientId;
+
 }

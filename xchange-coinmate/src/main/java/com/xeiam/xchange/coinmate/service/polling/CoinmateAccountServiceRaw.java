@@ -26,10 +26,12 @@ package com.xeiam.xchange.coinmate.service.polling;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.CoinmateAuthenticated;
 import com.xeiam.xchange.coinmate.dto.account.CoinmateBalance;
+import com.xeiam.xchange.coinmate.dto.account.CoinmateDepositAddresses;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import com.xeiam.xchange.coinmate.service.CoinmateDigest;
 
-import com.xeiam.xchange.exceptions.ExchangeException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import si.mazi.rescu.RestProxyFactory;
 
 /**
@@ -38,25 +40,43 @@ import si.mazi.rescu.RestProxyFactory;
  */
 public class CoinmateAccountServiceRaw extends CoinmateBasePollingService {
 
-    private final CoinmateDigest signatureCreator;
-    private final CoinmateAuthenticated coinmateAuthenticated;
+  private final CoinmateDigest signatureCreator;
+  private final CoinmateAuthenticated coinmateAuthenticated;
 
-    public CoinmateAccountServiceRaw(Exchange exchange) {
-        super(exchange);
+  public CoinmateAccountServiceRaw(Exchange exchange) {
+    super(exchange);
 
-        this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-        this.signatureCreator = CoinmateDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
-                .getUserName(), exchange.getExchangeSpecification().getApiKey());
-    }
+    this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.signatureCreator = CoinmateDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
+        .getUserName(), exchange.getExchangeSpecification().getApiKey());
+  }
 
-    public CoinmateBalance getCoinmateBalance() throws IOException {
+  public CoinmateBalance getCoinmateBalance() throws IOException {
 
-        CoinmateBalance coinmateBalance = coinmateAuthenticated.getBalances(exchange.getExchangeSpecification().getUserName(), signatureCreator,
-                exchange.getNonceFactory());
+    CoinmateBalance coinmateBalance = coinmateAuthenticated.getBalances(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+        exchange.getNonceFactory());
 
-        throwExceptionIfError(coinmateBalance);
+    throwExceptionIfError(coinmateBalance);
 
-        return coinmateBalance;
-    }
+    return coinmateBalance;
+  }
+
+  public CoinmateTradeResponse coinmateBitcoinWithdrawal(BigDecimal amount, String address) throws IOException {
+    CoinmateTradeResponse response = coinmateAuthenticated.bitcoinWithdrawal(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+        exchange.getNonceFactory(), amount, address);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+
+  public CoinmateDepositAddresses coinmateBitcoinDepositAddresses() throws IOException {
+    CoinmateDepositAddresses addresses = coinmateAuthenticated.bitcoinDepositAddresses(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+        exchange.getNonceFactory());
+
+    throwExceptionIfError(addresses);
+
+    return addresses;
+  }
 
 }

@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate.service;
 
 import java.math.BigInteger;
@@ -35,41 +34,41 @@ import com.xeiam.xchange.service.BaseParamsDigest;
 
 /**
  * This is based on BitstampDigest
+ *
  * @author Martin Stachon
  */
 public class CoinmateDigest extends BaseParamsDigest {
 
-    private final String clientId;
-    private final String publicApiKey;
+  private final String clientId;
+  private final String publicApiKey;
 
-    /**
-     * Constructor
-     *
-     * @param secretKeyBase64
-     * @param clientId
-     * @param publicApiKey @throws IllegalArgumentException if key is invalid (cannot
-     * be base-64-decoded or the decoded key is invalid).
-     */
-    private CoinmateDigest(String secretKeyBase64, String clientId, String publicApiKey) {
+  /**
+   * Constructor
+   *
+   * @param secretKeyBase64
+   * @param clientId
+   * @param publicApiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
+   */
+  private CoinmateDigest(String secretKeyBase64, String clientId, String publicApiKey) {
 
-        super(secretKeyBase64, HMAC_SHA_256);
-        this.clientId = clientId;
-        this.publicApiKey = publicApiKey;
-    }
+    super(secretKeyBase64, HMAC_SHA_256);
+    this.clientId = clientId;
+    this.publicApiKey = publicApiKey;
+  }
 
-    public static CoinmateDigest createInstance(String secretKeyBase64, String clientId, String publicApiKey) {
+  public static CoinmateDigest createInstance(String secretKeyBase64, String clientId, String publicApiKey) {
 
-        return secretKeyBase64 == null ? null : new CoinmateDigest(secretKeyBase64, clientId, publicApiKey);
-    }
+    return secretKeyBase64 == null ? null : new CoinmateDigest(secretKeyBase64, clientId, publicApiKey);
+  }
 
-    @Override
-    public String digestParams(RestInvocation restInvocation) {
+  @Override
+  public String digestParams(RestInvocation restInvocation) {
 
-        Mac mac256 = getMac();
-        mac256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes());
-        mac256.update(clientId.getBytes());
-        mac256.update(publicApiKey.getBytes());
+    Mac mac256 = getMac();
+    mac256.update(restInvocation.getParamValue(FormParam.class, "nonce").toString().getBytes());
+    mac256.update(clientId.getBytes());
+    mac256.update(publicApiKey.getBytes());
 
-        return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
-    }
+    return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
+  }
 }

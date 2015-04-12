@@ -14,43 +14,42 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Integration tests for TradeService.
  *
- * For these tests to function, a file 'exchangeConfiguration.json' must be on
- * the classpath and contain valid api and secret keys.
+ * For these tests to function, a file 'exchangeConfiguration.json' must be on the classpath and contain valid api and secret keys.
  *
  */
 public class TradeServiceTest {
 
-    @Test
-    public void transactionHistoryTest() throws Exception {
-        Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
-        if (exchange == null) {
-            return;  // forces pass if not configuration is available
-        }
-        assertNotNull(exchange);
-        PollingTradeService service = exchange.getPollingTradeService();
-        assertNotNull(service);
-        UserTrades trades = service.getTradeHistory();
-        assertNotNull(trades);
-        System.out.println("Got " + trades.getUserTrades().size() + " trades.");
-        for (Trade trade : trades.getTrades()) {
-            System.out.println(trade.toString());
-        }
+  @Test
+  public void transactionHistoryTest() throws Exception {
+    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
+    if (exchange == null) {
+      return;  // forces pass if not configuration is available
     }
-    
-    @Test
-    public void openOrdersTest() throws Exception {
-        Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
-        if (exchange == null) {
-            return;  // forces pass if not configuration is available
-        }
-        assertNotNull(exchange);
-        PollingTradeService service = exchange.getPollingTradeService();
-        assertNotNull(service);
-        OpenOrders orders = service.getOpenOrders();
-        assertNotNull(orders);
-        System.out.println("Got " + orders.getOpenOrders().size() + " orders.");
-        for (LimitOrder order : orders.getOpenOrders()) {
-            System.out.println(order.toString());
-        }
+    assertNotNull(exchange);
+    PollingTradeService service = exchange.getPollingTradeService();
+    assertNotNull(service);
+    UserTrades trades = service.getTradeHistory();
+    assertNotNull(trades);
+    System.out.println("Got " + trades.getUserTrades().size() + " trades.");
+    for (Trade trade : trades.getTrades()) {
+      System.out.println(trade.toString());
     }
+  }
+
+  @Test
+  public void openOrdersTest() throws Exception {
+    Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
+    if (exchange == null) {
+      return;  // forces pass if not configuration is available
+    }
+    assertNotNull(exchange);
+    PollingTradeService service = exchange.getPollingTradeService();
+    assertNotNull(service);
+    OpenOrders orders = service.getOpenOrders();
+    assertNotNull(orders);
+    System.out.println("Got " + orders.getOpenOrders().size() + " orders.");
+    for (LimitOrder order : orders.getOpenOrders()) {
+      System.out.println(order.toString());
+    }
+  }
 }

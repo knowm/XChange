@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate.service.polling;
 
 import com.xeiam.xchange.Exchange;
@@ -38,36 +37,35 @@ import si.mazi.rescu.RestProxyFactory;
  */
 public class CoinmateMarketDataServiceRaw extends CoinmateBasePollingService {
 
-    private final Coinmate coinmate;
+  private final Coinmate coinmate;
 
-    public CoinmateMarketDataServiceRaw(Exchange exchange) {
-        super(exchange);
-        this.coinmate = RestProxyFactory.createProxy(Coinmate.class, exchange.getExchangeSpecification().getSslUri());
-    }
+  public CoinmateMarketDataServiceRaw(Exchange exchange) {
+    super(exchange);
+    this.coinmate = RestProxyFactory.createProxy(Coinmate.class, exchange.getExchangeSpecification().getSslUri());
+  }
 
-    public CoinmateTicker getCoinmateTicker(String currencyPair) throws IOException {
-        CoinmateTicker ticker = coinmate.getTicker(currencyPair);
-        
-        throwExceptionIfError(ticker);
-        
-        return ticker;
-    }
+  public CoinmateTicker getCoinmateTicker(String currencyPair) throws IOException {
+    CoinmateTicker ticker = coinmate.getTicker(currencyPair);
 
-    
-    public CoinmateOrderBook getCoinmateOrderBook(String currencyPair, boolean groupByPriceLimit) throws IOException {
-        CoinmateOrderBook orderBook = coinmate.getOrderBook(currencyPair, groupByPriceLimit);
-        
-        throwExceptionIfError(orderBook);
-        
-        return orderBook;
-    } 
-    
-    public CoinmateTransactions getCoinmateTransactions(int minutesIntoHistory) throws IOException {
-        CoinmateTransactions transactions = coinmate.getTransactions(minutesIntoHistory);
-        
-        throwExceptionIfError(transactions);
-        
-        return transactions;
-    }
+    throwExceptionIfError(ticker);
+
+    return ticker;
+  }
+
+  public CoinmateOrderBook getCoinmateOrderBook(String currencyPair, boolean groupByPriceLimit) throws IOException {
+    CoinmateOrderBook orderBook = coinmate.getOrderBook(currencyPair, groupByPriceLimit);
+
+    throwExceptionIfError(orderBook);
+
+    return orderBook;
+  }
+
+  public CoinmateTransactions getCoinmateTransactions(int minutesIntoHistory) throws IOException {
+    CoinmateTransactions transactions = coinmate.getTransactions(minutesIntoHistory);
+
+    throwExceptionIfError(transactions);
+
+    return transactions;
+  }
 
 }

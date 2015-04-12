@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate.service.polling;
 
 import com.xeiam.xchange.Exchange;
@@ -39,19 +38,19 @@ import java.util.List;
  */
 public class CoinmateBasePollingService extends BasePollingExchangeService implements BasePollingService {
 
-    public CoinmateBasePollingService(Exchange exchange) {
-        super(exchange);
+  public CoinmateBasePollingService(Exchange exchange) {
+    super(exchange);
+  }
+
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+    return exchange.getMetaData().getCurrencyPairs();
+  }
+
+  protected static void throwExceptionIfError(CoinmateBaseResponse response) throws CoinmateException {
+    if (response.isError()) {
+      throw new CoinmateException(response.getErrorMessage());
     }
-    
-    @Override
-    public List<CurrencyPair> getExchangeSymbols() throws IOException {
-        return exchange.getMetaData().getCurrencyPairs();
-    }
-    
-    protected static void throwExceptionIfError(CoinmateBaseResponse response) throws CoinmateException {
-        if (response.isError()) {
-            throw new CoinmateException(response.getErrorMessage());
-        }
-    }
+  }
 
 }

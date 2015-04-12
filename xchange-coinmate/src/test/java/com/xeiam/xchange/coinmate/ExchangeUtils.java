@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,47 +34,45 @@ import java.io.InputStream;
 
 public class ExchangeUtils {
 
-    private final static Logger logger = LoggerFactory.getLogger(ExchangeUtils.class);
+  private final static Logger logger = LoggerFactory.getLogger(ExchangeUtils.class);
 
-    /**
-     * Create a Coinmate exchange using the keys provided in a
-     * exchangeConfiguration.json file on the classpath.
-     *
-     * See the sampleExchangeConfiguration.json file for format of required
-     * file.
-     *
-     * @return Create exchange or null if .json file was not on classpath.
-     */
-    public static Exchange createExchangeFromJsonConfiguration() {
+  /**
+   * Create a Coinmate exchange using the keys provided in a exchangeConfiguration.json file on the classpath.
+   *
+   * See the sampleExchangeConfiguration.json file for format of required file.
+   *
+   * @return Create exchange or null if .json file was not on classpath.
+   */
+  public static Exchange createExchangeFromJsonConfiguration() {
 
-        ExchangeSpecification exSpec = new ExchangeSpecification(CoinmateExchange.class);
-        ObjectMapper mapper = new ObjectMapper();
-        InputStream is = ExchangeUtils.class.getClassLoader().getResourceAsStream("exchangeConfiguration.json");
-        
-        if (is == null) {
-            logger.warn("No exchangeConfiguration.json file found. Returning null exchange.");
-            return null;
-        }
-        try {
-            ExchangeConfiguration conf = mapper.readValue(is, ExchangeConfiguration.class);
-            logger.debug(conf.toString());
+    ExchangeSpecification exSpec = new ExchangeSpecification(CoinmateExchange.class);
+    ObjectMapper mapper = new ObjectMapper();
+    InputStream is = ExchangeUtils.class.getClassLoader().getResourceAsStream("exchangeConfiguration.json");
 
-            if (conf.publicApiKey != null) {
-                exSpec.setApiKey(conf.publicApiKey);
-            }
-            if (conf.privateApiKey != null) {
-                exSpec.setSecretKey(conf.privateApiKey);
-            }
-            if (conf.clientId != null) {
-                exSpec.setUserName(conf.clientId);
-            }
-        } catch (Exception e) {
-            logger.warn("An exception occured while loading the exchangeConfiguration.json file from the classpath. "
-                    + "Returning null exchange.", e);
-            return null;
-        }
-
-        return ExchangeFactory.INSTANCE.createExchange(exSpec);
+    if (is == null) {
+      logger.warn("No exchangeConfiguration.json file found. Returning null exchange.");
+      return null;
     }
+    try {
+      ExchangeConfiguration conf = mapper.readValue(is, ExchangeConfiguration.class);
+      logger.debug(conf.toString());
+
+      if (conf.publicApiKey != null) {
+        exSpec.setApiKey(conf.publicApiKey);
+      }
+      if (conf.privateApiKey != null) {
+        exSpec.setSecretKey(conf.privateApiKey);
+      }
+      if (conf.clientId != null) {
+        exSpec.setUserName(conf.clientId);
+      }
+    } catch (Exception e) {
+      logger.warn("An exception occured while loading the exchangeConfiguration.json file from the classpath. "
+          + "Returning null exchange.", e);
+      return null;
+    }
+
+    return ExchangeFactory.INSTANCE.createExchange(exSpec);
+  }
 
 }

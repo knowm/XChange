@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -32,61 +31,59 @@ import java.math.BigDecimal;
  * @author Martin Stachon
  */
 public class CoinmateOpenOrdersEntry {
-    
-    private final long id;
-    private final long timestamp;
-    private final String type;
-    private final BigDecimal price;
-    private final BigDecimal amount;
-    
-    public CoinmateOpenOrdersEntry(@JsonProperty("id") long id,
-            @JsonProperty("timestamp") long timestamp,
-            @JsonProperty("type") String type,
-            @JsonProperty("price") BigDecimal price,
-            @JsonProperty("amount") BigDecimal amount) {
-        
-        this.id = id;
-        this.timestamp = timestamp; 
-        this.type = type;
-        this.price = price;
-        this.amount = amount;
-    }
 
-    /**
-     * @return the id
-     */
-    public long getId() {
-        return id;
-    }
+  private final long id;
+  private final long timestamp;
+  private final String type;
+  private final BigDecimal price;
+  private final BigDecimal amount;
 
-    /**
-     * @return the timestamp
-     */
-    public long getTimestamp() {
-        return timestamp;
-    }
+  public CoinmateOpenOrdersEntry(@JsonProperty("id") long id,
+      @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("type") String type,
+      @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount) {
 
-    /**
-     * @return the type
-     */
-    public String getType() {
-        return type;
-    }
+    this.id = id;
+    this.timestamp = timestamp;
+    this.type = type;
+    this.price = price;
+    this.amount = amount;
+  }
 
-    /**
-     * @return the price
-     */
-    public BigDecimal getPrice() {
-        return price;
-    }
+  /**
+   * @return the id
+   */
+  public long getId() {
+    return id;
+  }
 
-    /**
-     * @return the amount
-     */
-    public BigDecimal getAmount() {
-        return amount;
-    }
-    
-    
-    
+  /**
+   * @return the timestamp
+   */
+  public long getTimestamp() {
+    return timestamp;
+  }
+
+  /**
+   * @return the type
+   */
+  public String getType() {
+    return type;
+  }
+
+  /**
+   * @return the price
+   */
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  /**
+   * @return the amount
+   */
+  public BigDecimal getAmount() {
+    return amount;
+  }
+
 }

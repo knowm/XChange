@@ -21,43 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.xeiam.xchange.coinmate.dto;
+package com.xeiam.xchange.coinmate.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.coinmate.dto.CoinmateBaseResponse;
 
 /**
  *
  * @author Martin Stachon
- * @param <T>
  */
-public class CoinmateBaseResponse<T> {
+public class CoinmateTradeResponse extends CoinmateBaseResponse<Long> {
 
-  private final boolean error;
-  private final String errorMessage;
-  private final T data;
-
-  @JsonCreator
-  public CoinmateBaseResponse(@JsonProperty("error") boolean error,
+  public CoinmateTradeResponse(@JsonProperty("error") boolean error,
       @JsonProperty("errorMessage") String errorMessage,
-      @JsonProperty("data") T data) {
+      @JsonProperty("data") Long data) {
 
-    this.error = error;
-    this.errorMessage = errorMessage;
-    this.data = data;
-
-  }
-
-  public boolean isError() {
-    return error;
-  }
-
-  public String getErrorMessage() {
-    return errorMessage;
-  }
-
-  public T getData() {
-    return data;
+    super(error, errorMessage, data);
   }
 
 }

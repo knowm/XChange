@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate.dto.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,22 +38,20 @@ import org.junit.Test;
  */
 public class OpenOrdersJSONTest {
 
-    
-    @Test
-    public void testUnmarshall() throws IOException {
-        
-                // Read in the JSON from the example resources
-        InputStream is = OrderBookJSONTest.class.getResourceAsStream("/account/example-open-orders.json");
+  @Test
+  public void testUnmarshall() throws IOException {
 
-        ObjectMapper mapper = new ObjectMapper();
-        CoinmateOpenOrders coinmateOrders = mapper.readValue(is, CoinmateOpenOrders.class);
-        
+    // Read in the JSON from the example resources
+    InputStream is = OrderBookJSONTest.class.getResourceAsStream("/account/example-open-orders.json");
 
-        // Verify that the example data was unmarshalled correctly
-        assertThat(coinmateOrders.getData().get(0).getId()).isEqualTo(32780L);
-        assertThat(coinmateOrders.getData().get(0).getTimestamp()).isEqualTo(1404383652640L);
-        assertThat(coinmateOrders.getData().get(0).getType()).isEqualTo("BUY");
-        assertThat(coinmateOrders.getData().get(0).getPrice()).isEqualTo(new BigDecimal("1"));
-        assertThat(coinmateOrders.getData().get(0).getAmount()).isEqualTo(new BigDecimal("1"));
-    }
+    ObjectMapper mapper = new ObjectMapper();
+    CoinmateOpenOrders coinmateOrders = mapper.readValue(is, CoinmateOpenOrders.class);
+
+    // Verify that the example data was unmarshalled correctly
+    assertThat(coinmateOrders.getData().get(0).getId()).isEqualTo(32780L);
+    assertThat(coinmateOrders.getData().get(0).getTimestamp()).isEqualTo(1404383652640L);
+    assertThat(coinmateOrders.getData().get(0).getType()).isEqualTo("BUY");
+    assertThat(coinmateOrders.getData().get(0).getPrice()).isEqualTo(new BigDecimal("1"));
+    assertThat(coinmateOrders.getData().get(0).getAmount()).isEqualTo(new BigDecimal("1"));
+  }
 }

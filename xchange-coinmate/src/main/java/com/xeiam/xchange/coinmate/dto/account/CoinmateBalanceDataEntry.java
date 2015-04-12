@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -32,50 +31,49 @@ import java.math.BigDecimal;
  * @author Martin Stachon
  */
 public class CoinmateBalanceDataEntry {
-    private final String currency;
-    private final BigDecimal balance;
-    private final BigDecimal reserved;
-    private final BigDecimal available;
-    
-    public CoinmateBalanceDataEntry(@JsonProperty("currency") String currency,
-            @JsonProperty("balance") BigDecimal balance,
-            @JsonProperty("reserved") BigDecimal reserved,
-            @JsonProperty("available") BigDecimal available) {
-        
-        this.currency = currency;
-        this.balance = balance;
-        this.reserved = reserved;
-        this.available = available;
-    }
 
-    /**
-     * @return the currency
-     */
-    public String getCurrency() {
-        return currency;
-    }
+  private final String currency;
+  private final BigDecimal balance;
+  private final BigDecimal reserved;
+  private final BigDecimal available;
 
-    /**
-     * @return the balance
-     */
-    public BigDecimal getBalance() {
-        return balance;
-    }
+  public CoinmateBalanceDataEntry(@JsonProperty("currency") String currency,
+      @JsonProperty("balance") BigDecimal balance,
+      @JsonProperty("reserved") BigDecimal reserved,
+      @JsonProperty("available") BigDecimal available) {
 
-    /**
-     * @return the reserved
-     */
-    public BigDecimal getReserved() {
-        return reserved;
-    }
+    this.currency = currency;
+    this.balance = balance;
+    this.reserved = reserved;
+    this.available = available;
+  }
 
-    /**
-     * @return the available
-     */
-    public BigDecimal getAvailable() {
-        return available;
-    }
-    
-    
+  /**
+   * @return the currency
+   */
+  public String getCurrency() {
+    return currency;
+  }
+
+  /**
+   * @return the balance
+   */
+  public BigDecimal getBalance() {
+    return balance;
+  }
+
+  /**
+   * @return the reserved
+   */
+  public BigDecimal getReserved() {
+    return reserved;
+  }
+
+  /**
+   * @return the available
+   */
+  public BigDecimal getAvailable() {
+    return available;
+  }
 
 }

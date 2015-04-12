@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate;
 
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
@@ -42,16 +41,16 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON)
 public interface Coinmate {
 
-    @GET
-    @Path("ticker")
-    public CoinmateTicker getTicker(@QueryParam("currencyPair") String currencyPair) throws IOException;
+  @GET
+  @Path("ticker")
+  public CoinmateTicker getTicker(@QueryParam("currencyPair") String currencyPair) throws IOException;
 
-    @GET
-    @Path("orderBook")
-    public CoinmateOrderBook getOrderBook(@QueryParam("currencyPair") String currencyPair, @QueryParam("groupByPriceLimit") boolean groupByPriceLimit) throws IOException;
-    
-    @GET
-    @Path("transactions")
-    public CoinmateTransactions getTransactions(@QueryParam("minutesIntoHistory") int minutesIntoHistory) throws IOException;
+  @GET
+  @Path("orderBook")
+  public CoinmateOrderBook getOrderBook(@QueryParam("currencyPair") String currencyPair, @QueryParam("groupByPriceLimit") boolean groupByPriceLimit) throws IOException;
+
+  @GET
+  @Path("transactions")
+  public CoinmateTransactions getTransactions(@QueryParam("minutesIntoHistory") int minutesIntoHistory) throws IOException;
 
 }

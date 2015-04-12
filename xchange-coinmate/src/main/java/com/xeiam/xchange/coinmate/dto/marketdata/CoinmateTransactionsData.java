@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate.dto.marketdata;
 
 import java.util.ArrayList;
@@ -31,8 +30,8 @@ import java.util.ArrayList;
  * @author Martin Stachon
  */
 public class CoinmateTransactionsData extends ArrayList<CoinmateTransactionsEntry> {
-    
-    public CoinmateTransactionsData() {
-        super();
-    }
+
+  public CoinmateTransactionsData() {
+    super();
+  }
 }

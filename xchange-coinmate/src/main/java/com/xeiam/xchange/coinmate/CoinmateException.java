@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate;
 
 import com.xeiam.xchange.exceptions.ExchangeException;
@@ -32,8 +31,8 @@ import com.xeiam.xchange.exceptions.ExchangeException;
  */
 public class CoinmateException extends ExchangeException {
 
-    public CoinmateException(String errorMessage) {
-        super(errorMessage);
-    }
+  public CoinmateException(String errorMessage) {
+    super(errorMessage);
+  }
 
 }

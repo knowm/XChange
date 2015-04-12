@@ -21,11 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package com.xeiam.xchange.coinmate.service.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.CoinmateAdapters;
+import com.xeiam.xchange.coinmate.dto.account.CoinmateDepositAddresses;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
@@ -40,24 +41,32 @@ import java.math.BigDecimal;
  */
 public class CoinmateAccountService extends CoinmateAccountServiceRaw implements PollingAccountService {
 
-    public CoinmateAccountService(Exchange exchange) {
-        super(exchange);
-    }
+  public CoinmateAccountService(Exchange exchange) {
+    super(exchange);
+  }
 
-    @Override
-    public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        return CoinmateAdapters.adaptAccountInfo(getCoinmateBalance());
-    }
+  @Override
+  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return CoinmateAdapters.adaptAccountInfo(getCoinmateBalance());
+  }
 
-    @Override
-    public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  @Override
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    CoinmateTradeResponse response = coinmateBitcoinWithdrawal(amount, address);
 
-    @Override
-    public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    return Long.toString(response.getData());
+  }
 
+  @Override
+  public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    CoinmateDepositAddresses addresses = coinmateBitcoinDepositAddresses();
+
+    if (addresses.getData().isEmpty()) {
+      return null;
+    } else {
+      // here we return only the first address
+      return addresses.getData().get(0);
+    }
+  }
 
 }
