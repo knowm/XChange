@@ -8,9 +8,9 @@
 		<version>3.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>xchange-bitcoin</artifactId>
+	<artifactId>xchange-bitcoinde</artifactId>
 
-	<name>XChange Bitcoin</name>
+	<name>XChange Bitcoin.de</name>
 	<description>XChange implementation for Bitcoin.de exchange.</description>
 
 	<url>http://xeiam.com</url>
