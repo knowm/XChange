@@ -135,7 +135,7 @@ public class CoinmateAdapters {
 
       UserTrade trade = new UserTrade(orderType,
           entry.getAmount(),
-          CoinmateUtils.getPair(entry.getAmountCurrency()),
+          CoinmateUtils.getPair(entry.getAmountCurrency()+"_"+entry.getPriceCurrency()),
           entry.getPrice(),
           new Date(entry.getTimestamp()),
           Long.toString(entry.getTransactionId()),
