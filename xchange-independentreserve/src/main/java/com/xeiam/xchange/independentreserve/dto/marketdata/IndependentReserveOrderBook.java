@@ -1,7 +1,8 @@
 package com.xeiam.xchange.independentreserve.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.DateTime;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.xeiam.xchange.utils.DateUtils;
 
 import java.util.List;
 
@@ -21,9 +22,9 @@ public class IndependentReserveOrderBook {
                                        @JsonProperty("SellOrders") List<OrderBookOrder> sellOrders,
                                        @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode,
                                        @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode,
-                                       @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc) {
+                                       @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc) throws InvalidFormatException {
         this.buyOrders = buyOrders;
-        this.createdTimestampUtc = new DateTime(createdTimestampUtc).getMillis();
+        this.createdTimestampUtc = DateUtils.fromISO8601DateString(createdTimestampUtc).getTime();
         this.sellOrders = sellOrders;
         this.primaryCurrencyCode = primaryCurrencyCode;
         this.secondaryCurrencyCode = secondaryCurrencyCode;
