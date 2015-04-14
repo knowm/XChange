@@ -1,19 +1,21 @@
 package com.xeiam.xchange.bitcoinde;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeOrderBook;
-import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeTrade;
 import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeRate;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -33,10 +35,28 @@ public final class BitcoindeAdapters {
 	 * @param date the date of 
 	 * @return The XChange OrderBook
 	 */
-	public static OrderBook adaptOrderBook(BitcoindeOrderBook bitcoindeOrderBook, CurrencyPair currencyPair, Date date) {
+	public static OrderBook adaptOrderBook(BitcoindeOrderBook bitcoindeOrderBook, CurrencyPair currencyPair) {
 		List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitcoindeOrderBook.getAsks());
 		List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitcoindeOrderBook.getBids());
-		return new OrderBook(date, asks, bids);
+		return new OrderBook(null, asks, bids);
+	}
+
+	/**
+	 * Create a list of orders from a list of asks or bids.
+	 */
+	public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, BigDecimal[][] orders) {
+		List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+		for (BigDecimal[] order : orders) {
+			limitOrders.add(createOrder(currencyPair, order, orderType));
+		}
+		return limitOrders;
+	}
+
+	/**
+	 * Create an individual order.
+	 */
+	public static LimitOrder createOrder(CurrencyPair currencyPair, BigDecimal[] priceAndAmount, Order.OrderType orderType) {
+		return new LimitOrder(orderType, priceAndAmount[1], currencyPair, "", null, priceAndAmount[0]);
 	}
 
 	/**
@@ -46,9 +66,8 @@ public final class BitcoindeAdapters {
 	 * @return The XChange Ticker
 	 */
 	public static Ticker adaptTicker(BitcoindeRate bitcoindeRate, CurrencyPair currencyPair) {
-		BigDecimal last = bitcoindeRate.getRate_weighted();
-		Date timestamp = new Date(bitstampTicker.getTimestamp() * 1000L);
-		return new Ticker.Builder().currencyPair(currencyPair).last(last).timestamp(timestamp).build();
+		BigDecimal last = new BigDecimal(bitcoindeRate.getRate_weighted());
+		return new Ticker.Builder().currencyPair(currencyPair).last(last).build();
 	}
 
 	/**
@@ -65,7 +84,7 @@ public final class BitcoindeAdapters {
 			if (tid > lastTradeId) {
 				lastTradeId = tid;
 			}
-			trades.add(new Trade(null, new BigDecimal(bitcoindeTrade.getAmount()), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tid)));
+			trades.add(new Trade(null, new BigDecimal(bitcoindeTrade.getAmount()), currencyPair, bitcoindeTrade.getPrice(), DateUtils.fromMillisUtc(bitcoindeTrade.getDate() * 1000L), String.valueOf(tid)));
 		}
 		return new Trades(trades, lastTradeId, TradeSortType.SortByID);
 	}
