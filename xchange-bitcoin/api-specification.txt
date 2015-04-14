@@ -1,9 +1,0 @@
-   Bitcoin.de Specifications
-==============================
-From their API page:  "Access to the API is limited to two calls every 60 seconds. Tradehistory and orderbook are updated every 60 seconds."
-An API key is required for access, API keys are open to anybody with an account. Create one on their API page (linked below).
-
-Links:
-	[1] https://www.bitcoin.de/en
-	[2] https://www.bitcoin.de/de/api/marketplace
-
