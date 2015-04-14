@@ -116,6 +116,7 @@
 		<module>xchange-yacuna</module>
 		<module>xchange-jubi</module>
 		<module>xchange-coinbaseex</module>
+                <module>xchange-coinmate</module>
 	</modules>
 
 	<repositories>
