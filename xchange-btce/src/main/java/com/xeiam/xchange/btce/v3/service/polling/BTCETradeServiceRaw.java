@@ -8,14 +8,7 @@ import java.util.Map;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderReturn;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCEOpenOrdersReturn;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderReturn;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
+import com.xeiam.xchange.btce.v3.dto.trade.*;
 
 /**
  * Author: brox Since: 2014-02-13
@@ -60,7 +53,7 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService {
 
     String pair = order.getPair().toLowerCase();
     BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, exchange.getNonceFactory(), pair, order.getType(), order.getRate(),
-        order.getAmount());
+       order.getAmount());
     checkResult(ret);
     return ret.getReturnValue();
   }
@@ -106,6 +99,35 @@ public class BTCETradeServiceRaw extends BTCEBasePollingService {
 
   public BTCEExchangeInfo getExchangeInfo() throws IOException {
     return btce.getInfo();
+  }
+
+  /**
+   * Get Map of transaction history from BTCE exchange.
+   *
+   * All parameters are nullable
+   *
+   * @param from The number of the transactions to start displaying with; default 0
+   * @param count The number of transactions for displaying; default 1000
+   * @param fromId The ID of the transaction to start displaying with; default 0
+   * @param endId The ID of the transaction to finish displaying with; default +inf
+   * @param order sorting ASC or DESC; default DESC
+   * @param since When to start displaying; UNIX time default 0
+   * @param end When to finish displaying; UNIX time default +inf
+   * @return Map of transaction id's to transaction history results.
+   */
+  public Map<Long, BTCETransHistoryResult> getBTCETransHistory(Long from, Long count, Long fromId, Long endId, BTCEAuthenticated.SortOrder order,
+                                                               Long since, Long end) throws IOException {
+
+    BTCETransHistoryReturn btceTransHistory = btce.TransHistory(apiKey, signatureCreator, exchange.getNonceFactory(), from, count, fromId, endId,
+       order, since, end);
+    String error = btceTransHistory.getError();
+    // BTC-e returns this error if it finds no trades matching the criteria
+    if (MSG_NO_TRADES.equals(error)) {
+      return Collections.emptyMap();
+    }
+
+    checkResult(btceTransHistory);
+    return btceTransHistory.getReturnValue();
   }
 
 }

@@ -29,7 +29,6 @@ public class AccountInfoFetchIntegration {
   public void fetchAccountInfoTest() throws Exception {
     Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
     if (exchange==null) return;  // forces pass if not configuration is available
-    assertNotNull(exchange);
     PollingAccountService service = exchange.getPollingAccountService();
     assertNotNull(service);
     AccountInfo info = service.getAccountInfo();

@@ -120,6 +120,12 @@
 			<artifactId>xchange-coinbase</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Coinbase (Exchange) support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-coinbaseex</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange BitcoinAverage support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId> 
@@ -174,6 +180,12 @@
 			<artifactId>xchange-itbit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+        <!-- XChange IndependentReserve exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-independentreserve</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<!-- XChange LakeBTC exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId> 
