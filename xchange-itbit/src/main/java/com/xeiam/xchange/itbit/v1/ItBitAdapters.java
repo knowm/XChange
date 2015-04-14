@@ -115,7 +115,7 @@ public final class ItBitAdapters {
       for (int j = 0; j < balances.length; j++) {
         ItBitAccountBalance itBitAccountBalance = balances[j];
 
-        Wallet wallet = new Wallet(itBitAccountBalance.getCurrency(), itBitAccountBalance.getTotalBalance(), itBitAccountInfoReturn.getName());
+        Wallet wallet = new Wallet(itBitAccountBalance.getCurrency(), itBitAccountBalance.getTotalBalance(), itBitAccountBalance.getAvailableBalance(), itBitAccountInfoReturn.getName());
         wallets.add(wallet);
       }
     }

@@ -61,9 +61,7 @@ public final class HuobiAdapters {
   private static List<LimitOrder> adaptOrderBook(BigDecimal[][] orders, OrderType type, CurrencyPair currencyPair) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
-    for (int i = 0; i < orders.length; i++) {
-      BigDecimal[] order = orders[i];
-
+    for (BigDecimal[] order : orders) {
       LimitOrder limitOrder = new LimitOrder(type, order[1], currencyPair, null, null, order[0]);
       limitOrders.add(limitOrder);
     }
@@ -79,8 +77,8 @@ public final class HuobiAdapters {
   private static List<Trade> adaptTrades(HuobiTradeObject[] trades, CurrencyPair currencyPair) {
 
     List<Trade> tradeList = new ArrayList<Trade>(trades.length);
-    for (int i = 0; i < trades.length; i++) {
-      tradeList.add(adaptTrade(trades[i], currencyPair));
+    for (HuobiTradeObject trade : trades) {
+      tradeList.add(adaptTrade(trade, currencyPair));
     }
     return tradeList;
   }
@@ -134,8 +132,16 @@ public final class HuobiAdapters {
     Wallet btcLoan = new Wallet(BTC, a.getLoanBtcDisplay(), "loan");
     Wallet ltcLoan = new Wallet(LTC, a.getLoanLtcDisplay(), "loan");
 
-    List<Wallet> wallets = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan);
+    Wallet cnyWallet = adaptWallet(CNY, a.getAvailableCnyDisplay(), a.getFrozenCnyDisplay(), a.getLoanCnyDisplay());
+    Wallet btcWallet = adaptWallet(BTC, a.getAvailableBtcDisplay(), a.getFrozenBtcDisplay(), a.getLoanBtcDisplay());
+    Wallet ltcWallet = adaptWallet(LTC, a.getAvailableLtcDisplay(), a.getFrozenLtcDisplay(), a.getLoanLtcDisplay());
+
+    List<Wallet> wallets = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan, cnyWallet, btcWallet, ltcWallet);
     return new AccountInfo(null, wallets);
+  }
+
+  public static Wallet adaptWallet(String currency, BigDecimal available, BigDecimal frozen, BigDecimal loan) {
+    return new Wallet(currency, available.add(frozen), available, frozen);
   }
 
   public static String adaptPlaceOrderResult(HuobiPlaceOrderResult result) {
@@ -150,8 +156,8 @@ public final class HuobiAdapters {
   public static List<LimitOrder> adaptOpenOrders(HuobiOrder[] orders, CurrencyPair currencyPair) {
 
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>(orders.length);
-    for (int i = 0; i < orders.length; i++) {
-      openOrders.add(adaptOpenOrder(orders[i], currencyPair));
+    for (HuobiOrder order : orders) {
+      openOrders.add(adaptOpenOrder(order, currencyPair));
     }
     return openOrders;
   }

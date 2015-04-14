@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
-import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeServiceRaw;
+import com.xeiam.xchange.btce.v3.service.polling.trade.params.BTCETradeHistoryParams;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
@@ -27,7 +27,7 @@ public class BTCEUserTradeHistoryDemo {
 
     PollingTradeService tradeService = exchange.getPollingTradeService();
     try {
-      BTCETradeService.BTCETradeHistoryParams params = new BTCETradeService.BTCETradeHistoryParams();
+      BTCETradeHistoryParams params = new BTCETradeHistoryParams();
       params.setCurrencyPair(CurrencyPair.BTC_USD);
       UserTrades trades = tradeService.getTradeHistory(params);
 
