@@ -4,6 +4,7 @@ package com.xeiam.xchange.independentreserve;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.independentreserve.service.polling.IndependentReserveAccountService;
 import com.xeiam.xchange.independentreserve.service.polling.IndependentReserveMarketDataService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -23,7 +24,7 @@ public class IndependentReserveExchange extends BaseExchange implements Exchange
 
         this.pollingMarketDataService = new IndependentReserveMarketDataService(this);
         //this.pollingTradeService = new BitstampTradeService(this);
-        //this.pollingAccountService = new BitstampAccountService(this);
+        this.pollingAccountService = new IndependentReserveAccountService(this);
     }
 
     @Override

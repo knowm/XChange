@@ -2,8 +2,12 @@ package com.xeiam.xchange.independentreserve;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveAccount;
+import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import com.xeiam.xchange.independentreserve.dto.marketdata.IndependentReserveOrderBook;
 import com.xeiam.xchange.independentreserve.dto.marketdata.OrderBookOrder;
 
@@ -21,7 +25,6 @@ public class IndependentReserveAdapters {
 
 
     public static OrderBook adaptOrderBook(IndependentReserveOrderBook independentReserveOrderBook) {
-        System.out.println(independentReserveOrderBook);
         List<LimitOrder> bids = adaptOrders(independentReserveOrderBook.getBuyOrders(),
                 Order.OrderType.BID,
                 new CurrencyPair(independentReserveOrderBook.getPrimaryCurrencyCode(), independentReserveOrderBook.getSecondaryCurrencyCode()));
@@ -40,5 +43,14 @@ public class IndependentReserveAdapters {
             orders.add(limitOrder);
         }
         return orders;
+    }
+
+    public static AccountInfo adaptAccountInfo(IndependentReserveBalance independentReserveBalance, String userName) {
+        List<Wallet> wallets = new ArrayList<Wallet>();
+
+        for (IndependentReserveAccount balanceAccount : independentReserveBalance.getIndependentReserveAccounts()) {
+            wallets.add(new Wallet(balanceAccount.getCurrencyCode(), balanceAccount.getTotalBalance()));
+        }
+        return new AccountInfo(userName, wallets);
     }
 }
