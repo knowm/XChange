@@ -10,6 +10,8 @@ package com.xeiam.xchange.exceptions;
  */
 public class ExchangeException extends RuntimeException {
 
+  private static final long serialVersionUID = 2015041101L;
+
   /**
    * Constructs an <code>ExchangeException</code> with the specified detail message.
    * 
