@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author matthewdowney
  */
-public class BitMarketTrade {
+public class BitcoindeTrade {
 
 	private final long date;
 	private final BigDecimal price;
@@ -21,7 +21,7 @@ public class BitMarketTrade {
 	 * @param amount
 	 * @param date
 	 */
-	public BitMarketTrade(@JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") String amount,
+	public BitcoindeTrade(@JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") String amount,
 			@JsonProperty("date") long date) {
 		this.tid = tid;
 		this.price = price;

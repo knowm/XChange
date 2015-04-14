@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author matthewdowney
  */
-public class BitMarketOrderBook {
+public class BitcoindeOrderBook {
 
 	private final BigDecimal[][] asks;
 	private final BigDecimal[][] bids;
@@ -17,7 +17,7 @@ public class BitMarketOrderBook {
 	 * @param asks
 	 * @param bids
 	 */
-	public BitMarketOrderBook(@JsonProperty("asks") BigDecimal[][] asks, @JsonProperty("bids") BigDecimal[][] bids) {
+	public BitcoindeOrderBook(@JsonProperty("asks") BigDecimal[][] asks, @JsonProperty("bids") BigDecimal[][] bids) {
 		this.asks = asks;
 		this.bids = bids;
 	}
