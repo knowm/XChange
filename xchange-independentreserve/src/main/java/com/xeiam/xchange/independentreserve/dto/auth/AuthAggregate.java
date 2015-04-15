@@ -1,5 +1,11 @@
 package com.xeiam.xchange.independentreserve.dto.auth;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * Author: Kamil Zbikowski
  * Date: 4/13/15
@@ -9,9 +15,13 @@ public class AuthAggregate {
     private String signature;
     private final Long nonce;
 
+
+    protected Map<String, String> parameters;
+
     public AuthAggregate(String apiKey, Long nonce) {
         this.apiKey = apiKey;
         this.nonce = nonce;
+        this.parameters = new LinkedHashMap<String, String>();
     }
 
     public String getApiKey() {
@@ -28,5 +38,15 @@ public class AuthAggregate {
 
     public void setSignature(String signature) {
         this.signature = signature;
+    }
+
+    @JsonAnyGetter
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
+
+    @JsonAnySetter
+    public void setParameters(Map<String, String> parameters) {
+        this.parameters = parameters;
     }
 }

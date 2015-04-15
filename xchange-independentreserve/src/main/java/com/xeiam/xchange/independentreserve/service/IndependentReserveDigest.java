@@ -1,5 +1,6 @@
 package com.xeiam.xchange.independentreserve.service;
 
+import com.sun.deploy.util.StringUtils;
 import com.xeiam.xchange.independentreserve.util.ExchangeEndpoint;
 import com.xeiam.xchange.service.BaseParamsDigest;
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import si.mazi.rescu.RestInvocation;
 
 import javax.crypto.Mac;
 import java.math.BigInteger;
+import java.util.*;
 
 /**
  * Author: Kamil Zbikowski
@@ -36,7 +38,7 @@ public class IndependentReserveDigest extends BaseParamsDigest {
         throw new IllegalStateException("For Independent Reserve one should use digestParamsToString method instead");
     }
 
-    public String digestParamsToString(ExchangeEndpoint endpoint, Long nonce, String... parameters){
+    public String digestParamsToString(ExchangeEndpoint endpoint, Long nonce, Map<String, String> parameters){
         Mac mac256 = getMac();
 
         String url = ExchangeEndpoint.getUrlBasingOnEndpoint(sslUri, endpoint)+",";
@@ -51,8 +53,17 @@ public class IndependentReserveDigest extends BaseParamsDigest {
         logger.debug("digestParamsToString: nonce: {}",namedNonce);
         mac256.update(namedNonce.getBytes());
 
-        for(String parameter : parameters){
-            mac256.update(parameter.getBytes());
+        if(parameters != null) {
+            List<String> namedParameters = new ArrayList<String>();
+            for (Map.Entry<String, String> parameter : parameters.entrySet()) {
+                String namedParameter = parameter.getKey() + "=" + parameter.getValue();
+                namedParameters.add(namedParameter);
+            }
+            String joinedNamedParameters = StringUtils.join(namedParameters, ",");
+            if (!joinedNamedParameters.equals("")) {
+                joinedNamedParameters=","+joinedNamedParameters;
+                mac256.update(joinedNamedParameters.getBytes());
+            }
         }
         return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
     }
