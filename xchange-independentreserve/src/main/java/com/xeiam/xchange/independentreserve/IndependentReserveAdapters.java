@@ -5,11 +5,14 @@ import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveAccount;
 import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import com.xeiam.xchange.independentreserve.dto.marketdata.IndependentReserveOrderBook;
 import com.xeiam.xchange.independentreserve.dto.marketdata.OrderBookOrder;
+import com.xeiam.xchange.independentreserve.dto.trade.IndependentReserveOpenOrdersResponse;
+import com.xeiam.xchange.independentreserve.dto.trade.IndependentReserveOpenOrder;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,5 +55,29 @@ public class IndependentReserveAdapters {
             wallets.add(new Wallet(balanceAccount.getCurrencyCode(), balanceAccount.getTotalBalance()));
         }
         return new AccountInfo(userName, wallets);
+    }
+
+    public static OpenOrders adaptOpenOrders(IndependentReserveOpenOrdersResponse independentReserveOrders) {
+        List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+        List<IndependentReserveOpenOrder> independentReserveOrdersList = independentReserveOrders.getIndependentReserveOrders();
+        for(IndependentReserveOpenOrder order : independentReserveOrdersList){
+            String orderType = order.getOrderType();
+            Order.OrderType type;
+
+            if(orderType.equals("LimitOffer")){
+                type = Order.OrderType.ASK;
+            }else if(orderType.equals("LimitBid")){
+                type = Order.OrderType.BID;
+            }else{
+                throw new IllegalStateException("Unknown order found in Independent Reserve");
+            }
+            LimitOrder limitOrder = new LimitOrder(type, order.getOutstanding(),
+                    CurrencyPair.BTC_USD,
+                    order.getOrderGuid(),
+                    order.getCreatedTimestampUtc(),
+                    order.getPrice());
+            limitOrders.add(limitOrder);
+        }
+        return new OpenOrders(limitOrders);
     }
 }

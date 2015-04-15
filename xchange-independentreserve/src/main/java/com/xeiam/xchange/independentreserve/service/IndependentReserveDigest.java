@@ -8,6 +8,9 @@ import si.mazi.rescu.RestInvocation;
 
 import javax.crypto.Mac;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Author: Kamil Zbikowski
@@ -36,7 +39,7 @@ public class IndependentReserveDigest extends BaseParamsDigest {
         throw new IllegalStateException("For Independent Reserve one should use digestParamsToString method instead");
     }
 
-    public String digestParamsToString(ExchangeEndpoint endpoint, Long nonce, String... parameters){
+    public String digestParamsToString(ExchangeEndpoint endpoint, Long nonce, Map<String, String> parameters){
         Mac mac256 = getMac();
 
         String url = ExchangeEndpoint.getUrlBasingOnEndpoint(sslUri, endpoint)+",";
@@ -51,8 +54,21 @@ public class IndependentReserveDigest extends BaseParamsDigest {
         logger.debug("digestParamsToString: nonce: {}",namedNonce);
         mac256.update(namedNonce.getBytes());
 
-        for(String parameter : parameters){
-            mac256.update(parameter.getBytes());
+        if(parameters != null) {
+            List<String> namedParameters = new ArrayList<String>();
+            for (Map.Entry<String, String> parameter : parameters.entrySet()) {
+                String namedParameter = parameter.getKey() + "=" + parameter.getValue();
+                namedParameters.add(namedParameter);
+            }
+            String joinedNamedParameters="";
+            for(String namedParameter : namedParameters){
+                joinedNamedParameters += namedParameter + ",";
+            }
+            joinedNamedParameters = joinedNamedParameters.substring(0,joinedNamedParameters.length()-1);
+            if (!joinedNamedParameters.equals("")) {
+                joinedNamedParameters=","+joinedNamedParameters;
+                mac256.update(joinedNamedParameters.getBytes());
+            }
         }
         return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
     }
