@@ -1,6 +1,5 @@
 package com.xeiam.xchange.independentreserve.service;
 
-import com.sun.deploy.util.StringUtils;
 import com.xeiam.xchange.independentreserve.util.ExchangeEndpoint;
 import com.xeiam.xchange.service.BaseParamsDigest;
 import org.slf4j.Logger;
@@ -9,7 +8,9 @@ import si.mazi.rescu.RestInvocation;
 
 import javax.crypto.Mac;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Author: Kamil Zbikowski
@@ -59,7 +60,11 @@ public class IndependentReserveDigest extends BaseParamsDigest {
                 String namedParameter = parameter.getKey() + "=" + parameter.getValue();
                 namedParameters.add(namedParameter);
             }
-            String joinedNamedParameters = StringUtils.join(namedParameters, ",");
+            String joinedNamedParameters="";
+            for(String namedParameter : namedParameters){
+                joinedNamedParameters += namedParameter + ",";
+            }
+            joinedNamedParameters = joinedNamedParameters.substring(0,joinedNamedParameters.length()-1);
             if (!joinedNamedParameters.equals("")) {
                 joinedNamedParameters=","+joinedNamedParameters;
                 mac256.update(joinedNamedParameters.getBytes());
