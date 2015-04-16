@@ -4,15 +4,16 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.*;
 import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveAccount;
 import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import com.xeiam.xchange.independentreserve.dto.marketdata.IndependentReserveOrderBook;
 import com.xeiam.xchange.independentreserve.dto.marketdata.OrderBookOrder;
 import com.xeiam.xchange.independentreserve.dto.trade.IndependentReserveOpenOrdersResponse;
 import com.xeiam.xchange.independentreserve.dto.trade.IndependentReserveOpenOrder;
+import com.xeiam.xchange.independentreserve.dto.trade.IndependentReserveTrade;
+import com.xeiam.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,5 +80,35 @@ public class IndependentReserveAdapters {
             limitOrders.add(limitOrder);
         }
         return new OpenOrders(limitOrders);
+    }
+
+    public static UserTrades adaptTradeHistory(IndependentReserveTradeHistoryResponse independentReserveTradeHistoryResponse) {
+        List<UserTrade> userTrades = new ArrayList<UserTrade>();
+        for(IndependentReserveTrade trade : independentReserveTradeHistoryResponse.getIndependentReserveTrades()){
+            Order.OrderType type;
+            String orderType = trade.getOrderType();
+            if(orderType.equals("LimitOffer") || orderType.equals("MarketOffer")){
+                type = Order.OrderType.ASK;
+            }else if(orderType.equals("LimitBid") || orderType.equals("MarketBid")){
+                type = Order.OrderType.BID;
+            }else{
+                throw new IllegalStateException("Unknown order found in Independent Reserve");
+            }
+
+            CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+
+            if(!trade.getPrimaryCurrencyCode().equals("Xbt") || !trade.getSecondaryCurrencyCode().equals("Usd") ){
+                throw new IllegalArgumentException("IndependentReserveOpenOrderRequest - unknown value of currency code. Base was: " +
+                        trade.getPrimaryCurrencyCode() + " counter was " + trade.getSecondaryCurrencyCode());
+            }
+
+            UserTrade ut = new UserTrade(type, trade.getVolumeTraded(),
+                    currencyPair, trade.getPrice(),
+                    trade.getOrderTimestampUtc(), trade.getTradeGuid(),
+                    trade.getOrderGuid(), null,null);
+
+            userTrades.add(ut);
+        }
+        return new UserTrades(userTrades, Trades.TradeSortType.SortByTimestamp);
     }
 }

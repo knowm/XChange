@@ -31,6 +31,11 @@ public interface IndependentReserveAuthenticated {
     public IndependentReserveOpenOrdersResponse getOpenOrders(IndependentReserveOpenOrderRequest independentReserveOpenOrderRequest) throws IndependentReserveHttpStatusException, IOException;
 
     @POST
+    @Path("GetTrades")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public IndependentReserveTradeHistoryResponse getTradeHistory(IndependentReserveTradeServiceRequest independentReserveTradeServiceRequest) throws IndependentReserveHttpStatusException, IOException;
+
+    @POST
     @Path("PlaceLimitOrder")
     @Consumes(MediaType.APPLICATION_JSON)
     public IndependentReservePlaceLimitOrderResponse placeLimitOrder(IndependentReservePlaceLimitOrderRequest independentReservePlaceLimitOrderRequest) throws IndependentReserveHttpStatusException, IOException;
