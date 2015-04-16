@@ -1,9 +1,9 @@
 package com.xeiam.xchange.dto;
 
-import com.xeiam.xchange.currency.CurrencyPair;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * Data object representing an order
@@ -16,7 +16,7 @@ public class Order {
      * Buying order (you're making an offer)
      */
     BID,
-      type, /**
+    /**
      * Selling order (you're asking for offers)
      */
     ASK
