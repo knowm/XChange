@@ -100,7 +100,8 @@ public class IndependentReserveTradeServiceRaw  extends IndependentReserveBasePo
         IndependentReserveCancelOrderResponse independentReserveCancelOrderResponse = independentReserveAuthenticated.cancelOrder(independentReserveCancelOrderRequest);
 
         if(independentReserveCancelOrderResponse.getStatus() != null){
-            return independentReserveCancelOrderResponse.getStatus().equals("Cancelled");
+            return independentReserveCancelOrderResponse.getStatus().equals("Cancelled") || independentReserveCancelOrderResponse.getStatus().equals("PartiallyFilledAndCancelled")
+                    || independentReserveCancelOrderResponse.getStatus().equals("Expired") || independentReserveCancelOrderResponse.getStatus().equals("Expired") ;
         }else{
             return false;
         }
