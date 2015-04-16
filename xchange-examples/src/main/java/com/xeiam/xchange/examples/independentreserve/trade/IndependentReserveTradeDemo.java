@@ -5,6 +5,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.examples.independentreserve.IndependentReserveDemoUtils;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
@@ -39,6 +40,9 @@ public class IndependentReserveTradeDemo {
         System.out.println("Canceling returned " + cancelResult);
 
         printOpenOrders(tradeService);
+
+        UserTrades tradeHistory = tradeService.getTradeHistory();
+        System.out.println("Trade history: " + tradeHistory.toString());
     }
 
     private static void printOpenOrders(PollingTradeService tradeService) throws IOException {

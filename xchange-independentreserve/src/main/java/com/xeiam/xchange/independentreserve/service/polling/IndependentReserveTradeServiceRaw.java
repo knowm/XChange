@@ -17,7 +17,7 @@ import java.math.BigDecimal;
  * Date: 4/13/15
  */
 public class IndependentReserveTradeServiceRaw  extends IndependentReserveBasePollingService {
-    private final String OPEN_ORDER_PAGE_SIZE = "50";
+    private final String TRADE_HISTORY_PAGE_SIZE = "50";
     private final IndependentReserveDigest signatureCreator;
     private final IndependentReserveAuthenticated independentReserveAuthenticated;
 
@@ -53,7 +53,7 @@ public class IndependentReserveTradeServiceRaw  extends IndependentReserveBasePo
                 currencyPair.baseSymbol,
                 currencyPair.counterSymbol,
                 pageNumber.toString(),
-                OPEN_ORDER_PAGE_SIZE);
+                TRADE_HISTORY_PAGE_SIZE);
 
         independentReserveOpenOrderRequest.setSignature(signatureCreator.digestParamsToString(ExchangeEndpoint.GET_OPEN_ORDERS,
                 nonce, independentReserveOpenOrderRequest.getParameters()));
@@ -99,7 +99,27 @@ public class IndependentReserveTradeServiceRaw  extends IndependentReserveBasePo
 
         IndependentReserveCancelOrderResponse independentReserveCancelOrderResponse = independentReserveAuthenticated.cancelOrder(independentReserveCancelOrderRequest);
 
-        return independentReserveCancelOrderResponse.getStatus().equals("Cancelled") ? true : false;
+        return independentReserveCancelOrderResponse.getStatus().equals("Cancelled");
+    }
+
+    public IndependentReserveTradeHistoryResponse getIndependentReserveTradeHistory(Integer pageNumber) throws IOException {
+        if(pageNumber <= 0){
+            throw new IllegalArgumentException("Page number in IndependentReserve should be positive.");
+        }
+        Long nonce = exchange.getNonceFactory().createValue();
+        String apiKey = exchange.getExchangeSpecification().getApiKey();
+
+        IndependentReserveTradeHistoryRequest independentReserveTradeHistoryRequest = new IndependentReserveTradeHistoryRequest(apiKey,
+                nonce,
+                pageNumber.toString(),
+                TRADE_HISTORY_PAGE_SIZE);
+
+        independentReserveTradeHistoryRequest.setSignature(signatureCreator.digestParamsToString(ExchangeEndpoint.GET_TRADES,
+                nonce, independentReserveTradeHistoryRequest.getParameters()));
+
+        IndependentReserveTradeHistoryResponse trades = independentReserveAuthenticated.getTradeHistory(independentReserveTradeHistoryRequest);
+
+        return trades;
     }
 
 }

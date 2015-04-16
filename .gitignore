@@ -22,6 +22,7 @@ META-INF/
 
 # Misc.
 .DS_Store
+xchange-examples/src/main/java/com/xeiam/xchange/examples/independentreserve/IndependentReserveDemoUtils.java
 
 # externalized configuration file for keys
 exchangeConfiguration.json
