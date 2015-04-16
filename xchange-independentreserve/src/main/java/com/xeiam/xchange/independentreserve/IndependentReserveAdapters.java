@@ -98,7 +98,7 @@ public class IndependentReserveAdapters {
             CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
             if(!trade.getPrimaryCurrencyCode().equals("Xbt") || !trade.getSecondaryCurrencyCode().equals("Usd") ){
-                throw new IllegalArgumentException("IndependentReserveOpenOrderRequest - unknown value of currency code. Base was: " +
+                throw new IllegalArgumentException("IndependentReserveTradeHistoryRequest - unknown value of currency code. Base was: " +
                         trade.getPrimaryCurrencyCode() + " counter was " + trade.getSecondaryCurrencyCode());
             }
 

@@ -33,7 +33,7 @@ public interface IndependentReserveAuthenticated {
     @POST
     @Path("GetTrades")
     @Consumes(MediaType.APPLICATION_JSON)
-    public IndependentReserveTradeHistoryResponse getTradeHistory(IndependentReserveTradeServiceRequest independentReserveTradeServiceRequest) throws IndependentReserveHttpStatusException, IOException;
+    public IndependentReserveTradeHistoryResponse getTradeHistory(IndependentReserveTradeHistoryRequest independentReserveTradeHistoryRequest) throws IndependentReserveHttpStatusException, IOException;
 
     @POST
     @Path("PlaceLimitOrder")

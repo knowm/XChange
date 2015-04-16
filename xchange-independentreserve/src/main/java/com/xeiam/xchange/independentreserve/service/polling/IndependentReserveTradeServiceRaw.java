@@ -109,15 +109,15 @@ public class IndependentReserveTradeServiceRaw  extends IndependentReserveBasePo
         Long nonce = exchange.getNonceFactory().createValue();
         String apiKey = exchange.getExchangeSpecification().getApiKey();
 
-        IndependentReserveTradeServiceRequest independentReserveTradeServiceRequest = new IndependentReserveTradeServiceRequest(apiKey,
+        IndependentReserveTradeHistoryRequest independentReserveTradeHistoryRequest = new IndependentReserveTradeHistoryRequest(apiKey,
                 nonce,
                 pageNumber.toString(),
                 TRADE_HISTORY_PAGE_SIZE);
 
-        independentReserveTradeServiceRequest.setSignature(signatureCreator.digestParamsToString(ExchangeEndpoint.GET_TRADES,
-                nonce, independentReserveTradeServiceRequest.getParameters()));
+        independentReserveTradeHistoryRequest.setSignature(signatureCreator.digestParamsToString(ExchangeEndpoint.GET_TRADES,
+                nonce, independentReserveTradeHistoryRequest.getParameters()));
 
-        IndependentReserveTradeHistoryResponse trades = independentReserveAuthenticated.getTradeHistory(independentReserveTradeServiceRequest);
+        IndependentReserveTradeHistoryResponse trades = independentReserveAuthenticated.getTradeHistory(independentReserveTradeHistoryRequest);
 
         return trades;
     }
