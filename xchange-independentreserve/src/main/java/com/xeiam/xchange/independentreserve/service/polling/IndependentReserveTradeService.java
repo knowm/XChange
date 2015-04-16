@@ -56,8 +56,9 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
 
     @Override
     public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        return null;
+        return IndependentReserveAdapters.adaptTradeHistory(getIndependentReserveTradeHistory(1));
     }
+
 
     @Override
     public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
