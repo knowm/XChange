@@ -99,7 +99,11 @@ public class IndependentReserveTradeServiceRaw  extends IndependentReserveBasePo
 
         IndependentReserveCancelOrderResponse independentReserveCancelOrderResponse = independentReserveAuthenticated.cancelOrder(independentReserveCancelOrderRequest);
 
-        return independentReserveCancelOrderResponse.getStatus().equals("Cancelled");
+        if(independentReserveCancelOrderResponse.getStatus() != null){
+            return independentReserveCancelOrderResponse.getStatus().equals("Cancelled");
+        }else{
+            return false;
+        }
     }
 
     public IndependentReserveTradeHistoryResponse getIndependentReserveTradeHistory(Integer pageNumber) throws IOException {
