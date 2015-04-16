@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public enum KrakenOrderFlags {
 
-  VIQC, PLBC, NOMPP;
+  VIQC, FCIB, FCIQ, NOMPP;
 
   @Override
   public String toString() {

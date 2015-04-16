@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
-import junit.framework.Assert;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -122,10 +120,15 @@ public class BTCTradeAdaptersTest {
     AccountInfo accountInfo = BTCTradeAdapters.adaptAccountInfo(balance);
     assertNull(accountInfo.getUsername());
     assertEquals(new BigDecimal(3), accountInfo.getBalance(Currencies.BTC));
+    assertEquals(new BigDecimal(2), accountInfo.getWallet(Currencies.BTC).getFrozen());
     assertEquals(new BigDecimal("7"), accountInfo.getBalance(Currencies.LTC));
+    assertEquals(new BigDecimal(4), accountInfo.getWallet(Currencies.LTC).getFrozen());
     assertEquals(new BigDecimal("11"), accountInfo.getBalance(Currencies.DOGE));
+    assertEquals(new BigDecimal(6), accountInfo.getWallet(Currencies.DOGE).getFrozen());
     assertEquals(new BigDecimal("15"), accountInfo.getBalance("YBC"));
+    assertEquals(new BigDecimal(8), accountInfo.getWallet("YBC").getFrozen());
     assertEquals(new BigDecimal("19"), accountInfo.getBalance(Currencies.CNY));
+    assertEquals(new BigDecimal(10), accountInfo.getWallet(Currencies.CNY).getFrozen());
   }
 
   @Test

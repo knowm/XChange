@@ -27,8 +27,8 @@ public final class BitsoAdapters {
 
   public static AccountInfo adaptAccountInfo(BitsoBalance bitsoBalance, String userName) {
     // Adapt to XChange DTOs
-    Wallet mxnWallet = new Wallet(Currencies.MXN, bitsoBalance.getMxnBalance());
-    Wallet btcWallet = new Wallet(Currencies.BTC, bitsoBalance.getBtcBalance());
+    Wallet mxnWallet = new Wallet(Currencies.MXN, bitsoBalance.getMxnBalance(), bitsoBalance.getMxnAvailable(), bitsoBalance.getMxnReserved());
+    Wallet btcWallet = new Wallet(Currencies.BTC, bitsoBalance.getBtcBalance(), bitsoBalance.getBtcAvailable(), bitsoBalance.getBtcReserved());
 
     return new AccountInfo(userName, Arrays.asList(mxnWallet, btcWallet));
   }

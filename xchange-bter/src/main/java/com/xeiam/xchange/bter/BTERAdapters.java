@@ -133,8 +133,9 @@ public final class BTERAdapters {
       String tradeIdString = trade.getTradeId();
       if (!tradeIdString.isEmpty()) {
         long tradeId = Long.valueOf(tradeIdString);
-        if (tradeId > lastTradeId)
-          lastTradeId = tradeId;
+        if (tradeId > lastTradeId) {
+			lastTradeId = tradeId;
+		}
       }
       Trade adaptedTrade = adaptTrade(trade, currencyPair);
       tradeList.add(adaptedTrade);
@@ -149,7 +150,11 @@ public final class BTERAdapters {
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
       String currency = funds.getKey().toUpperCase();
       BigDecimal amount = funds.getValue();
-      wallets.add(new Wallet(currency, amount));
+      BigDecimal locked = bterAccountInfo.getLockedFunds().get(currency);
+
+      // FIXME: the second parameter should be amount + locked.
+      // keep it as amount for safe reason, will be fixed in XChange 4.0.0.
+      wallets.add(new Wallet(currency, amount, amount, locked == null ? BigDecimal.ZERO : locked));
     }
 
     return new AccountInfo("", wallets);

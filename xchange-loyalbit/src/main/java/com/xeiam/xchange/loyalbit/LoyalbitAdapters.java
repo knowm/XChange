@@ -40,8 +40,10 @@ public final class LoyalbitAdapters {
   private LoyalbitAdapters() { }
 
   public static AccountInfo adaptAccountInfo(LoyalbitBalance loyalbitBalance, String userName) {
-    Wallet usdWallet = new Wallet(Currencies.USD, loyalbitBalance.getAvailableUsd());
-    Wallet btcWallet = new Wallet(Currencies.BTC, loyalbitBalance.getAvailableBtc());
+    // FIXME: the second parameter should be sum of (available, reservedOrder, reservedWithdraw)
+    // keep it as available for safe reason, will be fixed in XChange 4.0.0
+    Wallet usdWallet = new Wallet(Currencies.USD, loyalbitBalance.getAvailableUsd(), loyalbitBalance.getAvailableUsd(), loyalbitBalance.getReservedOrderUsd());
+    Wallet btcWallet = new Wallet(Currencies.BTC, loyalbitBalance.getAvailableBtc(), loyalbitBalance.getAvailableBtc(), loyalbitBalance.getReservedOrderBtc());
 
     return new AccountInfo(userName, loyalbitBalance.getFee(), Arrays.asList(usdWallet, btcWallet));
   }
