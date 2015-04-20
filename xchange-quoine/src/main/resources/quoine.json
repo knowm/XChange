@@ -1,0 +1,13 @@
+{
+   "currency_pairs":[
+      "BTC/USD",
+      "BTC/EUR",
+      "BTC/JPY",
+      "BTC/SGD",
+      "BTC/HKD",
+      "BTC/IDR",
+      "BTC/AUD",
+      "BTC/PHP"
+   ]
+   
+}
