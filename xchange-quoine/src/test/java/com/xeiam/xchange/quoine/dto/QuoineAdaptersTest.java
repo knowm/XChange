@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.quoine.QuoineAdapters;
-import com.xeiam.xchange.quoine.dto.marketdata.QuoineTicker;
+import com.xeiam.xchange.quoine.dto.marketdata.QuoineProduct;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineTickerJSONTest;
 
 public class QuoineAdaptersTest {
@@ -25,7 +25,7 @@ public class QuoineAdaptersTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    QuoineTicker quoineTicker = mapper.readValue(is, QuoineTicker.class);
+    QuoineProduct quoineTicker = mapper.readValue(is, QuoineProduct.class);
     Ticker ticker = QuoineAdapters.adaptTicker(quoineTicker, CurrencyPair.BTC_USD);
 
     // Verify that the example data was unmarshalled correctly

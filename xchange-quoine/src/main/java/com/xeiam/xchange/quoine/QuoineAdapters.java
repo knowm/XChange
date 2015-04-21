@@ -2,11 +2,11 @@ package com.xeiam.xchange.quoine;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.quoine.dto.marketdata.QuoineTicker;
+import com.xeiam.xchange.quoine.dto.marketdata.QuoineProduct;
 
 public class QuoineAdapters {
 
-  public static Ticker adaptTicker(QuoineTicker quoineTicker, CurrencyPair currencyPair) {
+  public static Ticker adaptTicker(QuoineProduct quoineTicker, CurrencyPair currencyPair) {
 
     Ticker.Builder builder = new Ticker.Builder();
     builder.ask(quoineTicker.getMarketAsk());

@@ -23,7 +23,7 @@ public class QuoineTickerJSONTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    QuoineTicker quoineTicker = mapper.readValue(is, QuoineTicker.class);
+    QuoineProduct quoineTicker = mapper.readValue(is, QuoineProduct.class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(quoineTicker.getId()).isEqualTo(1);

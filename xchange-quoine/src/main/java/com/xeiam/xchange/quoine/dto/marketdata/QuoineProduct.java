@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author timmolter
  */
-public class QuoineTicker {
+public class QuoineProduct {
 
   @JsonProperty("id")
   private final int id;
@@ -83,7 +83,7 @@ public class QuoineTicker {
    * @param cashSpotBid
    * @param lastTradedPrice
    */
-  public QuoineTicker(@JsonProperty("id") int id, @JsonProperty("product_type") String productType, @JsonProperty("code") String code,
+  public QuoineProduct(@JsonProperty("id") int id, @JsonProperty("product_type") String productType, @JsonProperty("code") String code,
       @JsonProperty("name") String name, @JsonProperty("market_ask") BigDecimal marketAsk, @JsonProperty("market_bid") BigDecimal marketBid,
       @JsonProperty("indicator") int indicator, @JsonProperty("currency_pair_id") String currencyPairId, @JsonProperty("currency") String currency,
       @JsonProperty("currency_pair_code") String currencyPairCode, @JsonProperty("symbol") String symbol,
