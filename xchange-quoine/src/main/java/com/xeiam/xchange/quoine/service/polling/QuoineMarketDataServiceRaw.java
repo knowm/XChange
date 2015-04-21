@@ -3,6 +3,7 @@ package com.xeiam.xchange.quoine.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineProduct;
 
 public class QuoineMarketDataServiceRaw extends QuoineBasePollingService {
@@ -25,6 +26,11 @@ public class QuoineMarketDataServiceRaw extends QuoineBasePollingService {
   public QuoineProduct[] getQuoineProducts() throws IOException {
 
     return quoine.getQuoineProducts();
+  }
+
+  public QuoineOrderBook getOrderBook(int id) throws IOException {
+
+    return quoine.getOrderBook(id);
   }
 
 }

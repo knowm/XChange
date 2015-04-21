@@ -10,6 +10,7 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.quoine.QuoineAdapters;
 import com.xeiam.xchange.quoine.QuoineUtils;
+import com.xeiam.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineProduct;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
@@ -35,7 +36,8 @@ public class QuoineMarketDataService extends QuoineMarketDataServiceRaw implemen
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    QuoineOrderBook quoineOrderBook = getOrderBook(QuoineUtils.toID(currencyPair));
+    return QuoineAdapters.adaptOrderBook(quoineOrderBook, currencyPair);
   }
 
   @Override

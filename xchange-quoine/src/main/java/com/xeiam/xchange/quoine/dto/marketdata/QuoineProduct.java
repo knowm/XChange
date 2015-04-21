@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author timmolter
  */
-public class QuoineProduct {
+public final class QuoineProduct {
 
   @JsonProperty("id")
   private final int id;

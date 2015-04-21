@@ -6,6 +6,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineProduct;
 
 @Path("/")
@@ -19,4 +20,8 @@ public interface Quoine {
   @GET
   @Path("products")
   QuoineProduct[] getQuoineProducts();
+
+  @GET
+  @Path("products/{product_id}/price_levels")
+  QuoineOrderBook getOrderBook(@PathParam("product_id") int currencyPairCode);
 }
