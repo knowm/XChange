@@ -16,7 +16,7 @@ public final class QuoineUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.baseSymbol.toLowerCase() + currencyPair.counterSymbol.toLowerCase();
+    return currencyPair.baseSymbol + currencyPair.counterSymbol;
   }
 
 }

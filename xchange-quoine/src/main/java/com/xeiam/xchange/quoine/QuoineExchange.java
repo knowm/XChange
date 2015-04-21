@@ -21,7 +21,7 @@ public class QuoineExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://api.quoine.com/");
+    exchangeSpecification.setSslUri("https://api.quoine.com");
     exchangeSpecification.setExchangeName("Quoine");
     return exchangeSpecification;
   }
