@@ -17,9 +17,16 @@ public class BitcoindeTickerIntegration {
   @Test
   public void bitcoindeTickerTest() throws IOException {
 
+    /*
+     * Get the API key from an environmental variable,
+     * on *nix run $ export BITCOINDE_API_KEY=myapikey123
+     * to set this variable.
+     */
+    final String API_KEY = System.getenv("BITCOINDE_API_KEY");
+
     /* configure the exchange to use our api key */
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoindeExchange.class.getName());
-    exchangeSpecification.setApiKey("8b32fbcbe9b285b9d14df89d89d245fc");
+    exchangeSpecification.setApiKey(API_KEY);
 
     /* create the exchange object */
     Exchange bitcoindeExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);

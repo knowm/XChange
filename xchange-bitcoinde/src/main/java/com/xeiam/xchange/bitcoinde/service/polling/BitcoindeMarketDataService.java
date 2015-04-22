@@ -15,8 +15,6 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
  */
 public class BitcoindeMarketDataService extends BitcoindeMarketDataServiceRaw implements PollingMarketDataService {
 
-  Exchange exchange;
-
   /**
    * Constructor
    * 
@@ -25,29 +23,23 @@ public class BitcoindeMarketDataService extends BitcoindeMarketDataServiceRaw im
   public BitcoindeMarketDataService(Exchange exchange) {
 
     super(exchange);
-    this.exchange = exchange;
-  }
-
-  public void setApiKey(String key) {
-
-    this.exchange.getExchangeSpecification().setApiKey(key);
   }
 
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitcoindeAdapters.adaptTicker(getBitcoindeRate(exchange.getExchangeSpecification().getApiKey()), currencyPair);
+    return BitcoindeAdapters.adaptTicker(getBitcoindeRate(), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitcoindeAdapters.adaptOrderBook(getBitcoindeOrderBook(exchange.getExchangeSpecification().getApiKey()), currencyPair);
+    return BitcoindeAdapters.adaptOrderBook(getBitcoindeOrderBook(), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitcoindeAdapters.adaptTrades(getBitcoindeTrades(exchange.getExchangeSpecification().getApiKey()), currencyPair);
+    return BitcoindeAdapters.adaptTrades(getBitcoindeTrades(), currencyPair);
   }
 }

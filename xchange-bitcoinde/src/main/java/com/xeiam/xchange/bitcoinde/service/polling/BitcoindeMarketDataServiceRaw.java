@@ -25,22 +25,25 @@ public class BitcoindeMarketDataServiceRaw extends BitcoindeBasePollingService {
   public BitcoindeMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitcoinde = RestProxyFactory.createProxy(Bitcoinde.class, exchange.getExchangeSpecification().getSslUri());
+    System.out.println(exchange.getExchangeSpecification().getSslUri() + exchange.getExchangeSpecification().getApiKey() + "/");
+    this.bitcoinde = RestProxyFactory.createProxy(Bitcoinde.class, exchange.getExchangeSpecification().getSslUri() + exchange.getExchangeSpecification().getApiKey() + "/");
   }
 
-  public BitcoindeRate getBitcoindeRate(String key) throws IOException {
+  public BitcoindeRate getBitcoindeRate() throws IOException {
 
-    return bitcoinde.getRate(key);
+    if (bitcoinde == null)
+      System.out.println("You're null!");
+    return bitcoinde.getRate();
   }
 
-  public BitcoindeOrderBook getBitcoindeOrderBook(String key) throws IOException {
+  public BitcoindeOrderBook getBitcoindeOrderBook() throws IOException {
 
-    return bitcoinde.getOrderBook(key);
+    return bitcoinde.getOrderBook();
   }
 
-  public BitcoindeTrade[] getBitcoindeTrades(String key) throws IOException {
+  public BitcoindeTrade[] getBitcoindeTrades() throws IOException {
 
-    return bitcoinde.getTrades(key);
+    return bitcoinde.getTrades();
   }
 
 }
