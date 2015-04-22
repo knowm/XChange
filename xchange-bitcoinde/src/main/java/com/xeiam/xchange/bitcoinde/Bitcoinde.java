@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -19,15 +20,15 @@ import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeTrade;
 public interface Bitcoinde {
 
 	@GET
-	@Path("rate.json")
-	public BitcoindeRate getRate() throws IOException;
+	@Path("{key}/rate.json")
+	public BitcoindeRate getRate(@PathParam("key") String key) throws IOException;
 
 	@GET
-	@Path("orderbook.json")
-	public BitcoindeOrderBook getOrderBook() throws IOException;
+	@Path("{key}/orderbook.json")
+	public BitcoindeOrderBook getOrderBook(@PathParam("key") String key) throws IOException;
 
 	@GET
-	@Path("trades.json")
-	public BitcoindeTrade[] getTrades() throws IOException;
+	@Path("{key}/trades.json")
+	public BitcoindeTrade[] getTrades(@PathParam("key") String key) throws IOException;
 }
 
