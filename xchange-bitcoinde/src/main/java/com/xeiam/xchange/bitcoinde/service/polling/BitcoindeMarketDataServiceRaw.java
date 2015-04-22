@@ -25,7 +25,6 @@ public class BitcoindeMarketDataServiceRaw extends BitcoindeBasePollingService {
   public BitcoindeMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    System.out.println(exchange.getExchangeSpecification().getSslUri() + exchange.getExchangeSpecification().getApiKey() + "/");
     this.bitcoinde = RestProxyFactory.createProxy(Bitcoinde.class, exchange.getExchangeSpecification().getSslUri() + exchange.getExchangeSpecification().getApiKey() + "/");
   }
 
