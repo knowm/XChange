@@ -8,46 +8,50 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BitcoindeTrade {
 
-	private final long date;
-	private final BigDecimal price;
-	private final String amount;
-	private final long tid;
+  private final long date;
+  private final BigDecimal price;
+  private final String amount;
+  private final long tid;
 
-	/** 
-	 * Constructor
-	 * 
-	 * @param tid
-	 * @param price
-	 * @param amount
-	 * @param date
-	 */
-	public BitcoindeTrade(@JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") String amount,
-			@JsonProperty("date") long date) {
-		this.tid = tid;
-		this.price = price;
-		this.amount = amount;
-		this.date = date;
-	}
+  /**
+   * Constructor
+   * 
+   * @param tid
+   * @param price
+   * @param amount
+   * @param date
+   */
+  public BitcoindeTrade(@JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") String amount, @JsonProperty("date") long date) {
 
-	public long getTid() {
-		return tid;
-	}
+    this.tid = tid;
+    this.price = price;
+    this.amount = amount;
+    this.date = date;
+  }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+  public long getTid() {
 
-	public String getAmount() {
-		return amount;
-	}
+    return tid;
+  }
 
-	public long getDate() {
-		return date;
-	}
+  public BigDecimal getPrice() {
 
-	@Override
-	public String toString() {
-		return "BitcoindeTrade{" + "date=" + date + ", price=" + price + ", amount='" + amount + "', date=" + date + '}';
-	}
+    return price;
+  }
+
+  public String getAmount() {
+
+    return amount;
+  }
+
+  public long getDate() {
+
+    return date;
+  }
+
+  @Override
+  public String toString() {
+
+    return "BitcoindeTrade{" + "date=" + date + ", price=" + price + ", amount='" + amount + "', date=" + date + '}';
+  }
 }
-

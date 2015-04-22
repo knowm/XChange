@@ -16,19 +16,20 @@ import com.xeiam.xchange.service.polling.BasePollingService;
  */
 public class BitcoindeBasePollingService extends BaseExchangeService implements BasePollingService {
 
-	protected final Bitcoinde bitcoinde;
+  protected final Bitcoinde bitcoinde;
 
-	/**
-	 * Constructor
-	 */
-	protected BitcoindeBasePollingService(Exchange exchange) {
-		super(exchange);
-		this.bitcoinde = RestProxyFactory.createProxy(Bitcoinde.class, exchange.getExchangeSpecification().getSslUri());
-	}
+  /**
+   * Constructor
+   */
+  protected BitcoindeBasePollingService(Exchange exchange) {
 
-	@Override
-	public List<CurrencyPair> getExchangeSymbols() throws IOException {
-		return exchange.getMetaData().getCurrencyPairs();
-	}
+    super(exchange);
+    this.bitcoinde = RestProxyFactory.createProxy(Bitcoinde.class, exchange.getExchangeSpecification().getSslUri());
+  }
+
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+
+    return exchange.getMetaData().getCurrencyPairs();
+  }
 }
-

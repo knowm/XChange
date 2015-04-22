@@ -18,20 +18,20 @@ import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeTrade;
  */
 public class BitcoindeTradeTest {
 
-	@Test
-	public void testBitcoindeTrade() throws JsonParseException, JsonMappingException, IOException {
+  @Test
+  public void testBitcoindeTrade() throws JsonParseException, JsonMappingException, IOException {
 
-		// Read in the JSON from the example resources
-		InputStream is = BitcoindeTradeTest.class.getResourceAsStream("/trades.json");
+    // Read in the JSON from the example resources
+    InputStream is = BitcoindeTradeTest.class.getResourceAsStream("/trades.json");
 
-		// Use Jackson to parse it
-		ObjectMapper mapper = new ObjectMapper();
-		BitcoindeTrade[] bitcoindeTrade = mapper.readValue(is, BitcoindeTrade[].class);
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitcoindeTrade[] bitcoindeTrade = mapper.readValue(is, BitcoindeTrade[].class);
 
-		// Make sure trade values are correct
-		assertEquals(bitcoindeTrade[0].getDate(), 1428255708L);
-		assertEquals(bitcoindeTrade[0].getPrice(), new BigDecimal("236.61"));
-		assertEquals(bitcoindeTrade[0].getAmount(), "0.78054655");
-		assertEquals(bitcoindeTrade[0].getTid(), 1210152L);
-	}
+    // Make sure trade values are correct
+    assertEquals(bitcoindeTrade[0].getDate(), 1428255708L);
+    assertEquals(bitcoindeTrade[0].getPrice(), new BigDecimal("236.61"));
+    assertEquals(bitcoindeTrade[0].getAmount(), "0.78054655");
+    assertEquals(bitcoindeTrade[0].getTid(), 1210152L);
+  }
 }

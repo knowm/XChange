@@ -18,19 +18,19 @@ import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeRate;
  */
 public class BitcoindeRateTest {
 
-	@Test
-	public void testBitcoindeRate() throws JsonParseException, JsonMappingException, IOException {
+  @Test
+  public void testBitcoindeRate() throws JsonParseException, JsonMappingException, IOException {
 
-		// Read in the JSON from the example resources
-		InputStream is = BitcoindeRateTest.class.getResourceAsStream("/rate.json");
+    // Read in the JSON from the example resources
+    InputStream is = BitcoindeRateTest.class.getResourceAsStream("/rate.json");
 
-		// Use Jackson to parse it
-		ObjectMapper mapper = new ObjectMapper();
-		BitcoindeRate bitcoindeRate = mapper.readValue(is, BitcoindeRate.class);
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitcoindeRate bitcoindeRate = mapper.readValue(is, BitcoindeRate.class);
 
-		// Make sure we get what we're expecting
-		assertEquals(bitcoindeRate.getRate_weighted(), "225.18347646");
-		assertEquals(bitcoindeRate.getRate_weighted_12h(), "224.91338164");
-		assertEquals(bitcoindeRate.getRate_weighted_3h(), "225.18347646");
-	}
+    // Make sure we get what we're expecting
+    assertEquals(bitcoindeRate.getRate_weighted(), "225.18347646");
+    assertEquals(bitcoindeRate.getRate_weighted_12h(), "224.91338164");
+    assertEquals(bitcoindeRate.getRate_weighted_3h(), "225.18347646");
+  }
 }

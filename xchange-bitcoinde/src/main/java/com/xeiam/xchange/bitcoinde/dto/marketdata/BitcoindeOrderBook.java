@@ -9,42 +9,45 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BitcoindeOrderBook {
 
-	private final BigDecimal[][] asks;
-	private final BigDecimal[][] bids;
+  private final BigDecimal[][] asks;
+  private final BigDecimal[][] bids;
 
-	/** 
-	 * Constructor.
-	 * @param asks
-	 * @param bids
-	 */
-	public BitcoindeOrderBook(@JsonProperty("asks") BigDecimal[][] asks, @JsonProperty("bids") BigDecimal[][] bids) {
-		this.asks = asks;
-		this.bids = bids;
-	}
+  /**
+   * Constructor.
+   * 
+   * @param asks
+   * @param bids
+   */
+  public BitcoindeOrderBook(@JsonProperty("asks") BigDecimal[][] asks, @JsonProperty("bids") BigDecimal[][] bids) {
 
-	public BigDecimal[][] getAsks() {
-		return asks;
-	}
+    this.asks = asks;
+    this.bids = bids;
+  }
 
-	public BigDecimal[][] getBids() {
-		return bids;
-	}
+  public BigDecimal[][] getAsks() {
 
-	@Override
-	public String toString() {
-		StringBuilder asksBuilder = new StringBuilder();
-		StringBuilder bidsBuilder = new StringBuilder();
+    return asks;
+  }
 
-		for (BigDecimal[] ask : getAsks()) {
-			asksBuilder.append(Arrays.toString(ask) + ";");
-		}
+  public BigDecimal[][] getBids() {
 
-		for (BigDecimal[] bid : getBids()) {
-			bidsBuilder.append(Arrays.toString(bid) + ";");
-		}
+    return bids;
+  }
 
-		return "BitcoindeOrderBook{" + "asks=" + asksBuilder + ", bids=" + bidsBuilder + '}';
-	}
+  @Override
+  public String toString() {
+
+    StringBuilder asksBuilder = new StringBuilder();
+    StringBuilder bidsBuilder = new StringBuilder();
+
+    for (BigDecimal[] ask : getAsks()) {
+      asksBuilder.append(Arrays.toString(ask) + ";");
+    }
+
+    for (BigDecimal[] bid : getBids()) {
+      bidsBuilder.append(Arrays.toString(bid) + ";");
+    }
+
+    return "BitcoindeOrderBook{" + "asks=" + asksBuilder + ", bids=" + bidsBuilder + '}';
+  }
 }
-
-

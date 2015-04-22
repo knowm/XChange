@@ -18,22 +18,22 @@ import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeOrderBook;
  */
 public class BitcoindeOrderBookTest {
 
-	@Test
-	public void testBitcoindeOrderBook() throws JsonParseException, JsonMappingException, IOException {
+  @Test
+  public void testBitcoindeOrderBook() throws JsonParseException, JsonMappingException, IOException {
 
-		// Read in the JSON from the example resources
-		InputStream is = BitcoindeOrderBookTest.class.getResourceAsStream("/orderbook.json");
+    // Read in the JSON from the example resources
+    InputStream is = BitcoindeOrderBookTest.class.getResourceAsStream("/orderbook.json");
 
-		// Use Jackson to parse it
-		ObjectMapper mapper = new ObjectMapper();
-		BitcoindeOrderBook bitcoindeOrderBook = mapper.readValue(is, BitcoindeOrderBook.class);
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitcoindeOrderBook bitcoindeOrderBook = mapper.readValue(is, BitcoindeOrderBook.class);
 
-		// Make sure asks are correct
-		assertEquals(bitcoindeOrderBook.getAsks()[0][0], new BigDecimal("335"));
-		assertEquals(bitcoindeOrderBook.getAsks()[0][1], new BigDecimal("3.98"));
+    // Make sure asks are correct
+    assertEquals(bitcoindeOrderBook.getAsks()[0][0], new BigDecimal("335"));
+    assertEquals(bitcoindeOrderBook.getAsks()[0][1], new BigDecimal("3.98"));
 
-		// Make sure bids are correct
-		assertEquals(bitcoindeOrderBook.getBids()[0][0], new BigDecimal("200"));
-		assertEquals(bitcoindeOrderBook.getBids()[0][1], new BigDecimal("10"));
-	}
+    // Make sure bids are correct
+    assertEquals(bitcoindeOrderBook.getBids()[0][0], new BigDecimal("200"));
+    assertEquals(bitcoindeOrderBook.getBids()[0][1], new BigDecimal("10"));
+  }
 }
