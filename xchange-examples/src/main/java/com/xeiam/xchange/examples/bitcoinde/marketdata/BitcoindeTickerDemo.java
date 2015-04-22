@@ -24,7 +24,7 @@ public class BitcoindeTickerDemo {
         /* create a data service from the exchange */
         PollingMarketDataService marketDataService = bitcoindeExchange.getPollingMarketDataService();
 
-        /* display our ticker data */
+        /* get our ticker data */
         Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
         System.out.println(ticker.toString());
 	}
