@@ -28,7 +28,7 @@ public class OrderBookDemo {
     PollingMarketDataService quoineMarketDataService = quoineExchange.getPollingMarketDataService();
 
     // Get the latest full order book data for NMC/XRP
-    OrderBook orderBook = quoineMarketDataService.getOrderBook(CurrencyPair.BTC_IDR);
+    OrderBook orderBook = quoineMarketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook.toString());
     System.out.println("full orderbook size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
   }

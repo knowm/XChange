@@ -3,13 +3,19 @@ package com.xeiam.xchange.quoine;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.quoine.dto.account.FiatAccount;
+import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineProduct;
 
@@ -54,4 +60,25 @@ public class QuoineAdapters {
       throw new IllegalArgumentException(MessageFormat.format(msgPattern, msgArgs));
     }
   }
+
+  public static AccountInfo adaptAccountinfo(QuoineAccountInfo quoineAccountInfo) {
+
+    Map<String, Wallet> wallets = new HashMap<String, Wallet>();
+
+    // Adapt to XChange DTOs
+    Wallet btcWallet = new Wallet(quoineAccountInfo.getBitcoinAccount().getCurrency(), quoineAccountInfo.getBitcoinAccount().getBalance(),
+        quoineAccountInfo.getBitcoinAccount().getFreeBalance(), quoineAccountInfo.getBitcoinAccount().getBalance()
+        .subtract(quoineAccountInfo.getBitcoinAccount().getFreeBalance()));
+    wallets.put(quoineAccountInfo.getBitcoinAccount().getCurrency(), btcWallet);
+
+    for (FiatAccount fiatAccount : quoineAccountInfo.getFiatAccounts()) {
+      Wallet fiatWallet = new Wallet(fiatAccount.getCurrency(), fiatAccount.getBalance(), fiatAccount.getFreeBalance(), fiatAccount.getBalance()
+          .subtract(fiatAccount.getFreeBalance()));
+      wallets.put(fiatAccount.getCurrency(), fiatWallet);
+    }
+
+    return new AccountInfo(null, wallets);
+
+  }
+
 }

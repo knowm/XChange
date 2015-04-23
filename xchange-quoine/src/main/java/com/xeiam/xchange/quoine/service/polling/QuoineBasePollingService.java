@@ -8,12 +8,17 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.quoine.QuoineAuthenticated;
+import com.xeiam.xchange.quoine.QuoineExchange;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class QuoineBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected QuoineAuthenticated quoine;
+
+  protected final String device;
+  protected final String userID;
+  protected final String userToken;
 
   /**
    * Constructor
@@ -25,6 +30,9 @@ public class QuoineBasePollingService extends BaseExchangeService implements Bas
     super(exchange);
 
     quoine = RestProxyFactory.createProxy(QuoineAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    device = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(QuoineExchange.KEY_DEVICE_NAME);
+    userID = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(QuoineExchange.KEY_USER_ID);
+    userToken = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(QuoineExchange.KEY_USER_TOKEN);
   }
 
   @Override
