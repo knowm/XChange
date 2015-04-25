@@ -3,10 +3,13 @@ package com.xeiam.xchange.quoine.service.polling;
 import java.io.IOException;
 import java.util.List;
 
+import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.NonceException;
 import com.xeiam.xchange.quoine.QuoineAuthenticated;
 import com.xeiam.xchange.quoine.QuoineExchange;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -39,6 +42,14 @@ public class QuoineBasePollingService extends BaseExchangeService implements Bas
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
     return exchange.getMetaData().getCurrencyPairs();
+  }
+
+  protected RuntimeException handleHttpError(HttpStatusIOException exception) throws IOException {
+    if (exception.getHttpStatusCode() == 304) {
+      return new NonceException(exception.getHttpBody());
+    } else {
+      throw new ExchangeException(exception.getHttpBody(), exception);
+    }
   }
 
 }

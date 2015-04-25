@@ -7,6 +7,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.quoine.service.polling.QuoineAccountService;
 import com.xeiam.xchange.quoine.service.polling.QuoineMarketDataService;
+import com.xeiam.xchange.quoine.service.polling.QuoineTradeService;
 
 public class QuoineExchange extends BaseExchange implements Exchange {
 
@@ -21,7 +22,7 @@ public class QuoineExchange extends BaseExchange implements Exchange {
 
     this.pollingMarketDataService = new QuoineMarketDataService(this);
     this.pollingAccountService = new QuoineAccountService(this);
-
+    this.pollingTradeService = new QuoineTradeService(this);
   }
 
   @Override
