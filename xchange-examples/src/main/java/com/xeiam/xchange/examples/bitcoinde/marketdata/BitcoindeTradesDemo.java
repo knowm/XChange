@@ -14,7 +14,7 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class BitcoindeTradesDemo {
 
-  public void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
     /* get the api key from args */
     if (args.length != 1) {
@@ -37,17 +37,20 @@ public class BitcoindeTradesDemo {
     raw((BitcoindeMarketDataServiceRaw) marketDataService);
   }
 
-  public void generic(PollingMarketDataService marketDataService) throws IOException {
+  public static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     /* get Trades data */
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
     System.out.println(trades.toString());
   }
 
-  public void raw(BitcoindeMarketDataServiceRaw marketDataService) throws IOException {
+  public static void raw(BitcoindeMarketDataServiceRaw marketDataService) throws IOException {
 
     /* get BitcoindeTrades data */
     BitcoindeTrade[] bitcoindeTrades = marketDataService.getBitcoindeTrades();
-    System.out.println(bitcoindeTrades);
+    
+    /* print each trade object */
+    for (BitcoindeTrade bitcoindeTrade : bitcoindeTrades)
+	    System.out.println(bitcoindeTrade);
   }
 }

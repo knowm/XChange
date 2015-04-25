@@ -14,7 +14,7 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class BitcoindeTickerDemo {
 
-  public void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
     /* get the api key from args */
     if (args.length != 1) {
@@ -33,21 +33,17 @@ public class BitcoindeTickerDemo {
     /* create a data service from the exchange */
     PollingMarketDataService marketDataService = bitcoindeExchange.getPollingMarketDataService();
 
-    generic(marketDataService);
+    /* We can't get a real ticker since Bitcoin.de doesn't
+     * support it, but we can get an exchange rate. Use a 
+     * BitcoindeRate object for this.
+     */
     raw((BitcoindeMarketDataServiceRaw) marketDataService);
 
   }
 
-  public void generic(PollingMarketDataService marketDataService) throws IOException {
+  public static void raw(BitcoindeMarketDataServiceRaw marketDataService) throws IOException {
 
-    /* get Ticker data */
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
-    System.out.println(ticker.toString());
-  }
-
-  public void raw(BitcoindeMarketDataServiceRaw marketDataService) throws IOException {
-
-    /* get BitcoindeRate data (Bitcoinde does not provide a ticker, only and exchange rate) */
+    /* get BitcoindeRate data */
     BitcoindeRate bitcoindeRate = marketDataService.getBitcoindeRate();
     System.out.println(bitcoindeRate.toString());
   }
