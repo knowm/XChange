@@ -6,18 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class QuoineNewOrderRequest {
 
-  //  example:
-  //{
-  //  order: {
-  //    order_type: "limit",
-  //    product_code: "CASH",
-  //    currency_pair_code: "BTCJPY",
-  //    side: "sell",
-  //    quantity: 5.0,
-  //    price: 500
-  //  }
-  //}
-
   @JsonProperty("order_type")
   private final String orderType;//  Values: limit, market or range.
 

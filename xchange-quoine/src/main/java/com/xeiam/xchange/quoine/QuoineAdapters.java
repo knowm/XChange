@@ -3,21 +3,26 @@ package com.xeiam.xchange.quoine;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.quoine.dto.account.FiatAccount;
 import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineProduct;
+import com.xeiam.xchange.quoine.dto.trade.Model;
+import com.xeiam.xchange.quoine.dto.trade.QuoineOrdersList;
 
 public class QuoineAdapters {
 
@@ -81,4 +86,29 @@ public class QuoineAdapters {
 
   }
 
+  public static OpenOrders adapteOpenOrders(QuoineOrdersList quoineOrdersList) {
+
+    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    for (Model model : quoineOrdersList.getModels()) {
+      if (model.getStatus().equals("live")) {
+
+        // currencey pair
+        String baseSymbol = model.getCurrencyPairCode().substring(0, 3);
+        String counterSymbol = model.getCurrencyPairCode().substring(3, 6);
+        CurrencyPair currencyPair = new CurrencyPair(baseSymbol, counterSymbol);
+
+        // OrderType
+        OrderType orderType = model.getSide().equals("sell") ? OrderType.ASK : OrderType.BID;
+
+        // Timestamp
+        Date timestamp = new Date(model.getCreatedAt().longValue() * 1000L);
+
+        LimitOrder limitOrder = new LimitOrder(orderType, model.getQuantity(), currencyPair, model.getId(), timestamp, model.getPrice());
+
+        openOrders.add(limitOrder);
+      }
+    }
+
+    return new OpenOrders(openOrders);
+  }
 }
