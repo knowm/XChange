@@ -26,7 +26,9 @@ public class OkCoinFuturesMarketDataService extends OkCoinMarketDataServiceRaw i
 
     if (exchange.getExchangeSpecification().getExchangeSpecificParameters().containsKey("Futures_Contract")) {
       futuresContract = (FuturesContract) exchange.getExchangeSpecification().getExchangeSpecificParameters().get("Futures_Contract");
-    } else {
+    } else if (exchange.getExchangeSpecification().getExchangeSpecificParameters().containsKey("Futures_Contract_String")) {
+      futuresContract = FuturesContract.valueOf((String)exchange.getExchangeSpecification().getExchangeSpecificParameters().get("Futures_Contract_String"));
+    } else { 
       futuresContract = null;
     }
   }
