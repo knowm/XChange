@@ -66,7 +66,7 @@ public final class BitcoindeAdapters {
    */
   public static LimitOrder createOrder(CurrencyPair currencyPair, BigDecimal[] priceAndAmount, Order.OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount[1], currencyPair, "", null, priceAndAmount[0]);
+    return new LimitOrder(orderType, priceAndAmount[1], currencyPair, null, null, priceAndAmount[0]);
   }
 
   /**
