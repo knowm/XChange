@@ -1,0 +1,8 @@
+{
+   "currency_pairs":[
+      "BTC/USD",
+      "BTC/CAD"
+   ],
+   "max_public_poll_rate_per_second": 1,
+   "max_private_poll_rate_per_second": 1
+}
