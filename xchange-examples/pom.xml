@@ -84,6 +84,12 @@
 			<artifactId>xchange-bitcoincharts</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Bitcoinde support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId> 
+			<artifactId>xchange-bitcoinde</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange BTC China support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId> 
