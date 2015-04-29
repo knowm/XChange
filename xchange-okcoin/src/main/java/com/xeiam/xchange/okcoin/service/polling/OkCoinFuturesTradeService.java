@@ -27,26 +27,23 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements PollingTradeService {
 
   private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
-
   private final Logger log = LoggerFactory.getLogger(OkCoinFuturesTradeService.class);
-
-  private FuturesContract futuresContract = FuturesContract.NextWeek;
+  
+  private final int leverRate;
+  private final FuturesContract futuresContract;
 
   /**
    * Constructor
    *
    * @param exchange
    */
-  public OkCoinFuturesTradeService(Exchange exchange) {
+  public OkCoinFuturesTradeService(Exchange exchange, FuturesContract futuresContract, int leverRate) {
 
     super(exchange);
+    
+    this.leverRate = leverRate;
+    this.futuresContract = futuresContract;
 
-    if (exchange.getExchangeSpecification().getExchangeSpecificParameters().containsKey("Futures_Contract")) {
-      futuresContract = (FuturesContract) exchange.getExchangeSpecification().getExchangeSpecificParameters().get("Futures_Contract");
-      log.info("Using futures contract " + futuresContract);
-    } else {
-      log.info("Using default futures contract " + futuresContract);
-    }
   }
 
   @Override
@@ -59,7 +56,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
       log.debug("Getting order: {}", symbol);
-      OkCoinOrderResult orderResult = getFuturesOrder(-1, OkCoinAdapters.adaptSymbol(symbol), "1", "50", futuresContract);
+      OkCoinOrderResult orderResult = getFuturesOrder(-1, OkCoinAdapters.adaptSymbol(symbol), "0", "50", futuresContract);
       if (orderResult.getOrders().length > 0) {
         orderResults.add(orderResult);
       }
@@ -76,7 +73,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()), marketOrder.getType() == OrderType.BID ? "1" : "2", "0",
-        marketOrder.getTradableAmount().toPlainString(), futuresContract, 1).getOrderId();
+        marketOrder.getTradableAmount().toPlainString(), futuresContract, 1, leverRate).getOrderId();
     return String.valueOf(orderId);
   }
 
@@ -84,7 +81,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "1" : "2",
-        limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString(), futuresContract, 0).getOrderId();
+        limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
     return String.valueOf(orderId);
   }
 
