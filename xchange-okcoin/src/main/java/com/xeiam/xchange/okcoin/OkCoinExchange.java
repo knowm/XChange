@@ -15,7 +15,7 @@ import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 public class OkCoinExchange extends BaseExchange {
-  
+
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
@@ -25,7 +25,7 @@ public class OkCoinExchange extends BaseExchange {
         && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
       throw new RuntimeException("Futures only available on international version. Set `Use_Intl` to true.");
     }
-    
+
     // set SSL URL and HOST accordingly
 
     if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)) {
@@ -36,10 +36,12 @@ public class OkCoinExchange extends BaseExchange {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null
         && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
-      this.pollingMarketDataService = new OkCoinFuturesMarketDataService(this);
+      FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
+    
+      this.pollingMarketDataService = new OkCoinFuturesMarketDataService(this, contract);
       if (exchangeSpecification.getApiKey() != null) {
         this.pollingAccountService = new OkCoinFuturesAccountService(this);
-        this.pollingTradeService = new OkCoinFuturesTradeService(this);
+        this.pollingTradeService = new OkCoinFuturesTradeService(this, contract, futuresLeverageOfConfig(exchangeSpecification));
       }
     } else {
       this.pollingMarketDataService = new OkCoinMarketDataService(this);
@@ -48,6 +50,31 @@ public class OkCoinExchange extends BaseExchange {
         this.pollingTradeService = new OkCoinTradeService(this);
       }
     }
+  }
+
+  /** Extract futures leverage used by spec */
+  private static int futuresLeverageOfConfig(ExchangeSpecification exchangeSpecification) {
+    if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Leverage")) {
+      return (Integer) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Leverage");
+    } else {
+      // default choice of 10x leverage is "safe" choice and default by OkCoin.
+      return 10;
+    }
+  }
+  
+  /** Extract contract used by spec */
+  private static FuturesContract futuresContractOfConfig(ExchangeSpecification exchangeSpecification) {
+    FuturesContract contract;
+
+    if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
+      contract = (FuturesContract)exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract");
+    } else if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract_String")) {
+      contract = FuturesContract.valueOf((String)exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract_String"));
+    } else { 
+      throw new RuntimeException("`Futures_Contract` or `Futures_Contract_String` not defined in exchange specific parameters.");
+    }
+
+    return contract;
   }
 
   @Override
@@ -64,7 +91,7 @@ public class OkCoinExchange extends BaseExchange {
     exchangeSpecification.setExchangeSpecificParametersItem("Use_Futures", false);
 
     exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.cn:10440/websocket/okcoinapi");
-    
+
     return exchangeSpecification;
   }
 
