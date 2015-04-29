@@ -1,37 +1,56 @@
 package com.xeiam.xchange.okcoin.dto.account;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class OkCoinFunds {
 
-  private final Map<String, BigDecimal> free;
-  private final Map<String, BigDecimal> freezed;
-  private final Map<String, BigDecimal> borrow;
 
-  public OkCoinFunds(@JsonProperty("free") final Map<String, BigDecimal> free, @JsonProperty("freezed") final Map<String, BigDecimal> freezed,
-      @JsonProperty(value = "borrow", required = false) final Map<String, BigDecimal> borrow) {
+public class OkcoinFuturesFundsCross {
 
-    this.free = free;
-    this.freezed = freezed;
-    this.borrow = borrow == null ? Collections.<String, BigDecimal> emptyMap() : borrow;
+  private final BigDecimal accountRights;
+  private final int keepDeposits;
+  private final BigDecimal profitReal;
+  private final BigDecimal profitUnreal;
+  private final int riskRate;
+
+  public OkcoinFuturesFundsCross(@JsonProperty("account_rights") BigDecimal accountRights, @JsonProperty("keep_desposit") int keepDeposits, @JsonProperty("profit_real") BigDecimal profitReal,
+      @JsonProperty("profit_unreal") BigDecimal profitUnreal, @JsonProperty("risk_rate") int riskRate) {
+  
+    this.accountRights = accountRights;
+    this.keepDeposits = keepDeposits;
+    this.profitReal = profitReal;
+    this.profitUnreal = profitUnreal;
+    this.riskRate = riskRate;
+
+  }
+  
+  public BigDecimal getAccountRights() {
+  
+    return accountRights;
   }
 
-  public Map<String, BigDecimal> getFree() {
-
-    return free;
+  
+  public int getKeepDeposits() {
+  
+    return keepDeposits;
   }
 
-  public Map<String, BigDecimal> getFreezed() {
-
-    return freezed;
+  
+  public BigDecimal getProfitReal() {
+  
+    return profitReal;
   }
 
-  public Map<String, BigDecimal> getBorrow() {
+  
+  public BigDecimal getProfitUnreal() {
+  
+    return profitUnreal;
+  }
 
-    return borrow;
+  
+  public int getRiskRate() {
+  
+    return riskRate;
   }
 }
