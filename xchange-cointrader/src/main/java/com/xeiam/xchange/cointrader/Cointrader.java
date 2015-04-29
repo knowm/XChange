@@ -1,6 +1,5 @@
 package com.xeiam.xchange.cointrader;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -11,7 +10,6 @@ import com.xeiam.xchange.cointrader.dto.marketdata.CointraderOrderBook;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 @Path("api4")
-@Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public interface Cointrader {
 
