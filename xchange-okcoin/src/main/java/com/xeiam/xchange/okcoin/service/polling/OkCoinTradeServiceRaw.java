@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.okcoin.FuturesContract;
+import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinPositionResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinTradeResult;
@@ -12,7 +13,7 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradePollingService {
 
   /**
    * Constructor
-   *
+   * 
    * @param exchange
    */
   protected OkCoinTradeServiceRaw(Exchange exchange) {
@@ -59,11 +60,11 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradePollingService {
     return returnOrThrow(tradeResult);
   }
 
-  public OkCoinOrderResult getFuturesOrder(long orderId, String symbol, String currentPage, String pageLength, FuturesContract contract)
+  public OkCoinFuturesOrderResult getFuturesOrder(long orderId, String symbol, String currentPage, String pageLength, FuturesContract contract)
       throws IOException {
 
-    OkCoinOrderResult orderResult = okCoin.getFuturesOrder(apikey, orderId, symbol, "1", currentPage, pageLength, contract.getName(), signatureCreator);
-    return returnOrThrow(orderResult);
+    OkCoinFuturesOrderResult futuresOrder = okCoin.getFuturesOrder(apikey, orderId, symbol, "1", currentPage, pageLength, contract.getName(), signatureCreator);
+    return returnOrThrow(futuresOrder);
   }
   
   public OkCoinPositionResult getFuturesPosition(String symbol, FuturesContract contract) throws IOException {

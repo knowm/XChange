@@ -17,6 +17,7 @@ import com.xeiam.xchange.okcoin.dto.account.OkCoinUserInfo;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinDepth;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTickerResponse;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTrade;
+import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinPositionResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinTradeResult;
@@ -100,7 +101,7 @@ public interface OkCoin {
 
   @POST
   @Path("future_order_info.do")
-  OkCoinOrderResult getFuturesOrder(@FormParam("api_key") String api_key, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
+  OkCoinFuturesOrderResult getFuturesOrder(@FormParam("api_key") String api_key, @FormParam("order_id") long orderId, @FormParam("symbol") String symbol,
       @FormParam("status") String status, @FormParam("current_page") String currentPage, @FormParam("page_length") String pageLength,
       @FormParam("contract_type") String contract, @FormParam("sign") ParamsDigest sign) throws IOException;
 

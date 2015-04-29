@@ -48,6 +48,10 @@ public class ANXAdapterTest {
 
     AccountInfo accountInfo = ANXAdapters.adaptAccountInfo(anxAccountInfo);
     assertThat(accountInfo.getUsername()).isEqualTo("test@anxpro.com");
+
+    assertThat(accountInfo.getWallet(Currencies.DOGE).getBalance()).isEqualTo(new BigDecimal("9999781.09457936"));
+    assertThat(accountInfo.getWallet(Currencies.DOGE).getAvailable()).isEqualTo(new BigDecimal("9914833.52608521"));
+    assertThat(accountInfo.getWallet(Currencies.DOGE).getFrozen()).isEqualTo(new BigDecimal("84947.56849415"));
   }
 
   @Test
@@ -144,9 +148,9 @@ public class ANXAdapterTest {
     List<Wallet> wallets = ANXAdapters.adaptWallets(anxAccountInfo.getWallets());
     Assert.assertEquals(21, wallets.size());
 
-    Assert.assertTrue(wallets.contains(new Wallet(Currencies.CAD, new BigDecimal("100000.00000"))));
-    Assert.assertTrue(wallets.contains(new Wallet(Currencies.BTC, new BigDecimal("100000.01988000"))));
-    Assert.assertTrue(wallets.contains(new Wallet(Currencies.DOGE, new BigDecimal("9999781.09457936"))));
+    Assert.assertTrue(wallets.contains(new Wallet(Currencies.CAD, new BigDecimal("100000.00000"), new BigDecimal("100000.00000"))));
+    Assert.assertTrue(wallets.contains(new Wallet(Currencies.BTC, new BigDecimal("100000.01988000"), new BigDecimal("100000.01988000"))));
+    Assert.assertTrue(wallets.contains(new Wallet(Currencies.DOGE, new BigDecimal("9999781.09457936"), new BigDecimal("9914833.52608521"))));
   }
 
   @Test
