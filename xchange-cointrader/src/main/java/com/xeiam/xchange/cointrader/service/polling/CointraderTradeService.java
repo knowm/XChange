@@ -20,8 +20,6 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamCurrencyPair;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsIdSpan;
@@ -102,7 +100,6 @@ public class CointraderTradeService extends CointraderTradeServiceRaw implements
         sinceTradeId = Long.valueOf(startId);
       }
     }
-    CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair)params).getCurrencyPair();
     return CointraderAdapters.adaptTradeHistory(getCointraderUserTransactions(currencyPair, offset, limit, sinceTradeId));
   }
 
@@ -111,7 +108,7 @@ public class CointraderTradeService extends CointraderTradeServiceRaw implements
     return new HistoryParams();
   }
 
-  public static class HistoryParams extends DefaultTradeHistoryParamCurrencyPair implements TradeHistoryParamPaging, TradeHistoryParamsIdSpan {
+  public static class HistoryParams implements TradeHistoryParamPaging, TradeHistoryParamsIdSpan {
     private Integer pageLength;
     private Integer pageNumber;
     private Integer startId;

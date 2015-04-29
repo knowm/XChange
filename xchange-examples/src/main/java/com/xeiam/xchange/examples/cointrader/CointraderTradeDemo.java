@@ -51,7 +51,6 @@ public class CointraderTradeDemo {
     System.out.println("Market Order return value: " + buyMarketOrderId);
 
     CointraderTradeService.HistoryParams params = (CointraderTradeService.HistoryParams) tradeService.createTradeHistoryParams();
-    params.setCurrencyPair(CurrencyPair.BTC_USD);
     params.setPageLength(1);
     params.setPageNumber(2);
 //    params.setStartId("33373");
