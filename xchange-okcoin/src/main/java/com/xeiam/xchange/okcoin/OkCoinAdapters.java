@@ -27,7 +27,10 @@ import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFunds;
+import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesInfoCross;
+import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinUserInfo;
+import com.xeiam.xchange.okcoin.dto.account.OkcoinFuturesFundsCross;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinDepth;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTickerResponse;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTrade;
@@ -35,6 +38,8 @@ import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrder;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrderResult;
 
 public final class OkCoinAdapters {
+
+  private static final Wallet emptyCnyWallet = new Wallet(CNY, BigDecimal.ZERO);
 
   private OkCoinAdapters() {
 
@@ -89,7 +94,7 @@ public final class OkCoinAdapters {
 
   public static AccountInfo adaptAccountInfo(OkCoinUserInfo userInfo) {
 
-    OkCoinFunds funds = userInfo.getInfo().getFunds();
+    OkCoinFunds funds = userInfo.getInfo().getFunds(); 
 
     // depending on china or international version
     boolean is_cny = funds.getFree().containsKey("cny");
@@ -116,6 +121,17 @@ public final class OkCoinAdapters {
     List<Wallet> wallets = Arrays.asList(base, btc, ltc, baseLoan, btcLoan, ltcLoan);
 
     return new AccountInfo(null, wallets);
+  }
+  
+  public static AccountInfo adaptAccountInfoFutures(OkCoinFuturesUserInfoCross futureUserInfo) {
+    OkCoinFuturesInfoCross info = futureUserInfo.getInfo();
+    OkcoinFuturesFundsCross btcFunds = info.getBtcFunds();
+    OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
+    
+    Wallet btcWallet = new Wallet(BTC, btcFunds.getAccountRights().add(btcFunds.getProfitReal()).add(btcFunds.getProfitUnreal()));
+    Wallet ltcWallet = new Wallet(LTC, ltcFunds.getAccountRights().add(ltcFunds.getProfitReal()).add(ltcFunds.getProfitUnreal()));
+
+    return new AccountInfo(null, Arrays.asList(emptyCnyWallet, btcWallet, ltcWallet));
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {
@@ -176,7 +192,7 @@ public final class OkCoinAdapters {
 
   public static OrderType adaptOrderType(String type) {
 
-    return type.equals("buy") || type.equals("buy_market") ? OrderType.BID : OrderType.ASK;
+    return type.equals("buy") || type.equals("buy_market") || type.equals("1") ? OrderType.BID : OrderType.ASK;
   }
 
   private static UserTrade adaptTrade(OkCoinOrder order) {
@@ -184,4 +200,6 @@ public final class OkCoinAdapters {
     return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getAvgRate(),
         order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, null);
   }
+
+
 }
