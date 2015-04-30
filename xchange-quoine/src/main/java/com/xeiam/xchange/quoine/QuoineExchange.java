@@ -29,7 +29,7 @@ public class QuoineExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://quoine-stag4.herokuapp.com");
+    exchangeSpecification.setSslUri("https://api.quoine.com");
     exchangeSpecification.setExchangeName("Quoine");
     return exchangeSpecification;
   }
