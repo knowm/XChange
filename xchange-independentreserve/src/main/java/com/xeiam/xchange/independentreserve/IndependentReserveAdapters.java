@@ -32,7 +32,7 @@ public class IndependentReserveAdapters {
         List<LimitOrder> bids = adaptOrders(independentReserveOrderBook.getBuyOrders(),
                 Order.OrderType.BID,
                 new CurrencyPair(independentReserveOrderBook.getPrimaryCurrencyCode(), independentReserveOrderBook.getSecondaryCurrencyCode()));
-        List<LimitOrder> asks = adaptOrders(independentReserveOrderBook.getBuyOrders(),
+        List<LimitOrder> asks = adaptOrders(independentReserveOrderBook.getSellOrders(),
                 Order.OrderType.ASK,
                 new CurrencyPair(independentReserveOrderBook.getPrimaryCurrencyCode(), independentReserveOrderBook.getSecondaryCurrencyCode()));
         Date timestamp = new Date(independentReserveOrderBook.getCreatedTimestampUtc());
