@@ -30,8 +30,6 @@ public class BitcoindeMarketDataServiceRaw extends BitcoindeBasePollingService {
 
   public BitcoindeRate getBitcoindeRate() throws IOException {
 
-    if (bitcoinde == null)
-      System.out.println("You're null!");
     return bitcoinde.getRate();
   }
 
