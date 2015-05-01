@@ -3,6 +3,7 @@ package com.xeiam.xchange.bitcoinde.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,6 +14,7 @@ public class BitcoindeOrderBook {
 
   private final BigDecimal[][] asks;
   private final BigDecimal[][] bids;
+  private final Date timeStamp = null;
 
   /**
    * Constructor.
@@ -56,6 +58,10 @@ public class BitcoindeOrderBook {
   public BigDecimal[][] getBids() {
 
     return bids;
+  }
+  
+  public Date getTimeStamp() {
+    return this.timeStamp;
   }
 
   @Override

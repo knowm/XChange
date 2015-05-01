@@ -46,7 +46,7 @@ public final class BitcoindeAdapters {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitcoindeOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitcoindeOrderBook.getBids());
-    return new OrderBook(null, asks, bids);
+    return new OrderBook(bitcoindeOrderBook.getTimeStamp(), asks, bids);
   }
 
   /**
