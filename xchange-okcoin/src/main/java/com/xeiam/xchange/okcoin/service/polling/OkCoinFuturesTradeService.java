@@ -71,21 +71,37 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-    FuturesContract futuresContract = FuturesContract.ThisWeek;
-    //TODO: update limit order to support setting of futures contract
+
     long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()), marketOrder.getType() == OrderType.BID ? "1" : "2", "0",
         marketOrder.getTradableAmount().toPlainString(), futuresContract, 1, leverRate).getOrderId();
     return String.valueOf(orderId);
   }
+  
+  /** Liquidate long or short contract (depending on market order order type) using a market order */
+  public String liquidateMarketOrder(MarketOrder marketOrder) throws IOException {
+
+    long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()), marketOrder.getType() == OrderType.BID ? "3" : "4", "0",
+        marketOrder.getTradableAmount().toPlainString(), futuresContract, 1, leverRate).getOrderId();
+    return String.valueOf(orderId);
+  }
+
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-    FuturesContract futuresContract = FuturesContract.ThisWeek;
-    //TODO: update limit order to support setting of futures contract
+
     long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "1" : "2",
         limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
     return String.valueOf(orderId);
   }
+  
+  /** Liquidate long or short contract using a limit order */
+  public String liquidateLimitOrder(LimitOrder limitOrder) throws IOException {
+
+    long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "3" : "4",
+        limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
+    return String.valueOf(orderId);
+  }
+
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
@@ -123,11 +139,11 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   public UserTrades getTradeHistory(Object... arguments) throws IOException {
 
     CurrencyPair currencyPair = arguments.length > 0 ? (CurrencyPair) arguments[0] : CurrencyPair.BTC_USD;
-    FuturesContract futuresContract = arguments.length > 0 ? (FuturesContract) arguments[1] : FuturesContract.ThisWeek;
+    FuturesContract reqFuturesContract = arguments.length > 0 ? (FuturesContract) arguments[1] : futuresContract;
 
     Integer page = arguments.length > 1 ? (Integer) arguments[2] : 0;
 
-    OkCoinFuturesOrderResult orderHistory = getFuturesOrder(1, OkCoinAdapters.adaptSymbol(currencyPair), page.toString(), "50", futuresContract);
+    OkCoinFuturesOrderResult orderHistory = getFuturesOrder(1, OkCoinAdapters.adaptSymbol(currencyPair), page.toString(), "50", reqFuturesContract);
     return OkCoinAdapters.adaptTradesFutures(orderHistory);
   }
 
