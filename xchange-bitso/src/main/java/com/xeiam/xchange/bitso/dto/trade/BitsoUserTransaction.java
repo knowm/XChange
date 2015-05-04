@@ -1,11 +1,10 @@
 package com.xeiam.xchange.bitso.dto.trade;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.bitso.util.BitsoTransactionTypeDeserializer;
-
-
-import java.math.BigDecimal;
 
 /**
  * @author Piotr Ładyżyński
@@ -20,7 +19,7 @@ public final class BitsoUserTransaction {
   private final BigDecimal mxn;
   private final BigDecimal btc;
   /** price, has the reciprocal sign compared to 'mxn' value */
-  private final BigDecimal btc_mxn;
+  private final BigDecimal rate;
   private final BigDecimal fee;
 
   /**
@@ -32,12 +31,12 @@ public final class BitsoUserTransaction {
    * @param type
    * @param mxn
    * @param btc
-   * @param btc_mxn
+   * @param rate
    * @param fee
    */
   public BitsoUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id, @JsonProperty("order_id") String order_id,
                               @JsonProperty("type") @JsonDeserialize(using = BitsoTransactionTypeDeserializer.class) TransactionType type,
-                              @JsonProperty("mxn") BigDecimal mxn, @JsonProperty("btc") BigDecimal btc, @JsonProperty("btc_mxn") BigDecimal btc_mxn,
+                              @JsonProperty("mxn") BigDecimal mxn, @JsonProperty("btc") BigDecimal btc, @JsonProperty("rate") BigDecimal rate,
                               @JsonProperty("fee") BigDecimal fee) {
 
     this.datetime = datetime;
@@ -46,7 +45,7 @@ public final class BitsoUserTransaction {
     this.type = type;
     this.mxn = mxn;
     this.btc = btc;
-    this.btc_mxn = btc_mxn;
+    this.rate = rate;
     this.fee = fee;
   }
 
@@ -97,7 +96,7 @@ public final class BitsoUserTransaction {
 
   public BigDecimal getPrice() {
 
-    return btc_mxn;
+    return rate;
   }
 
   public BigDecimal getFee() {
@@ -112,9 +111,7 @@ public final class BitsoUserTransaction {
   }
 
   public enum TransactionType {
-    deposit, withdrawal, trade, rippleWithdrawal, rippleDeposit, type5_reseverd, type6_reseved, type7_reserved /*
-                                                                                                                * reseved so parsing won 't break in
-                                                                                                                * case Bitso adds new types
-                                                                                                                */
+    deposit, withdrawal, trade, type3_reserved, type4_reserved, type5_reseverd, type6_reseved, type7_reserved
+    // reseved so parsing won 't break in case Bitso adds new types
   }
 }

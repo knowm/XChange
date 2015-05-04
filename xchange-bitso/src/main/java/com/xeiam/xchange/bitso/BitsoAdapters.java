@@ -63,19 +63,14 @@ public final class BitsoAdapters {
     }
   }
 
-  /**
-   * Adapt the user's trades
-   *
-   * @param bitsoUserTransactions
-   * @return
-   */
   public static UserTrades adaptTradeHistory(BitsoUserTransaction[] bitsoUserTransactions) {
 
     List<UserTrade> trades = new ArrayList<UserTrade>();
     long lastTradeId = 0;
     for (BitsoUserTransaction bitstampUserTransaction : bitsoUserTransactions) {
       if (bitstampUserTransaction.getType().equals(BitsoUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
-        Order.OrderType orderType = bitstampUserTransaction.getMxn().doubleValue() > 0.0 ? Order.OrderType.ASK : Order.OrderType.BID;
+        boolean sell = bitstampUserTransaction.getMxn().doubleValue() > 0.0;
+        Order.OrderType orderType = sell ? Order.OrderType.ASK : Order.OrderType.BID;
         BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
         BigDecimal price = bitstampUserTransaction.getPrice().abs();
         Date timestamp = BitsoUtils.parseDate(bitstampUserTransaction.getDatetime());
@@ -88,8 +83,8 @@ public final class BitsoAdapters {
         final BigDecimal feeAmount = bitstampUserTransaction.getFee();
         final CurrencyPair currencyPair = new CurrencyPair(Currencies.BTC, Currencies.MXN);
 
-        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-                currencyPair.counterSymbol);
+        String feeCurrency = sell ? currencyPair.counterSymbol : currencyPair.baseSymbol;
+        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount, feeCurrency);
         trades.add(trade);
       }
     }
