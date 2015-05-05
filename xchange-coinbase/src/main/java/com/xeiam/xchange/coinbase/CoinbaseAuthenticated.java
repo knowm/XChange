@@ -48,7 +48,6 @@ public interface CoinbaseAuthenticated extends Coinbase {
 
   @GET
   @Path("users")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseUsers getUsers(@HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
       @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
@@ -66,13 +65,11 @@ public interface CoinbaseAuthenticated extends Coinbase {
 
   @GET
   @Path("account/balance")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseMoney getBalance(@HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
       @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
   @GET
   @Path("account/receive_address")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseAddress getReceiveAddress(@HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
       @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
@@ -84,39 +81,33 @@ public interface CoinbaseAuthenticated extends Coinbase {
 
   @GET
   @Path("account_changes")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseAccountChanges getAccountChanges(@QueryParam("page") Integer page, @HeaderParam("ACCESS_KEY") String apiKey,
       @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer, @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
   @GET
   @Path("addresses")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseAddresses getAddresses(@QueryParam("page") Integer page, @QueryParam("limit") Integer limit, @QueryParam("query") String query,
       @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
       @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
   @GET
   @Path("contacts")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseContacts getContacts(@QueryParam("page") Integer page, @QueryParam("num_pages") Integer limit, @QueryParam("query") String query,
       @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
       @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
   @GET
   @Path("transfers")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseTransfers getTransfers(@QueryParam("page") Integer page, @QueryParam("limit") Integer limit, @HeaderParam("ACCESS_KEY") String apiKey,
       @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer, @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
   @GET
   @Path("transactions")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseTransactions getTransactions(@QueryParam("page") Integer page, @HeaderParam("ACCESS_KEY") String apiKey,
       @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer, @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
   @GET
   @Path("transactions/{transactionId}")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseTransaction getTransactionDetails(@PathParam("transactionId") String transactionId, @HeaderParam("ACCESS_KEY") String apiKey,
       @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer, @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
@@ -158,13 +149,11 @@ public interface CoinbaseAuthenticated extends Coinbase {
 
   @GET
   @Path("orders")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseOrders getOrders(@QueryParam("page") Integer page, @HeaderParam("ACCESS_KEY") String apiKey,
       @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer, @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
   @GET
   @Path("orders/{orderId}")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseOrder getOrder(@PathParam("orderId") String orderId, @HeaderParam("ACCESS_KEY") String apiKey,
       @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer, @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
@@ -182,27 +171,23 @@ public interface CoinbaseAuthenticated extends Coinbase {
 
   @GET
   @Path("recurring_payments")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseRecurringPayments getRecurringPayments(@QueryParam("page") Integer page, @QueryParam("limit") Integer limit,
       @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
       @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
   @GET
   @Path("recurring_payments/{recurringPaymentId}")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseRecurringPayment getRecurringPayment(@PathParam("recurringPaymentId") String recurringPaymentId, @HeaderParam("ACCESS_KEY") String apiKey,
       @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer, @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
   @GET
   @Path("subscribers")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseSubscriptions getsSubscriptions(@QueryParam("page") Integer page, @QueryParam("limit") Integer limit,
       @HeaderParam("ACCESS_KEY") String apiKey, @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer,
       @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
   @GET
   @Path("subscribers/{subscriptionId}")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CoinbaseSubscription getsSubscription(@PathParam("subscriptionId") String subscriptionId, @HeaderParam("ACCESS_KEY") String apiKey,
       @HeaderParam("ACCESS_SIGNATURE") ParamsDigest signer, @HeaderParam("ACCESS_NONCE") SynchronizedValueFactory<Long> nonce) throws IOException, CoinbaseException;
 
