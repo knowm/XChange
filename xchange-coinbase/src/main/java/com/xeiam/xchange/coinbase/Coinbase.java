@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.coinbase.dto.CoinbaseException;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseToken;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
@@ -28,36 +29,36 @@ public interface Coinbase {
 
   @GET
   @Path("currencies")
-  List<CoinbaseCurrency> getCurrencies() throws IOException;
+  List<CoinbaseCurrency> getCurrencies() throws IOException, CoinbaseException;
 
   @GET
   @Path("currencies/exchange_rates")
-  Map<String, BigDecimal> getCurrencyExchangeRates() throws IOException;
+  Map<String, BigDecimal> getCurrencyExchangeRates() throws IOException, CoinbaseException;
 
   @GET
   @Path("prices/buy")
-  CoinbasePrice getBuyPrice(@QueryParam("qty") BigDecimal quantity, @QueryParam("currency") String currency) throws IOException;
+  CoinbasePrice getBuyPrice(@QueryParam("qty") BigDecimal quantity, @QueryParam("currency") String currency) throws IOException, CoinbaseException;
 
   @GET
   @Path("prices/sell")
-  CoinbasePrice getSellPrice(@QueryParam("qty") BigDecimal quantity, @QueryParam("currency") String currency) throws IOException;
+  CoinbasePrice getSellPrice(@QueryParam("qty") BigDecimal quantity, @QueryParam("currency") String currency) throws IOException, CoinbaseException;
 
   @GET
   @Path("prices/spot_rate")
-  CoinbaseMoney getSpotRate(@QueryParam("currency") String currency) throws IOException;
+  CoinbaseMoney getSpotRate(@QueryParam("currency") String currency) throws IOException, CoinbaseException;
 
   @GET
   @Produces(MediaType.TEXT_PLAIN)
   @Path("prices/historical")
-  String getHistoricalSpotRates(@QueryParam("page") Integer page) throws IOException;
+  String getHistoricalSpotRates(@QueryParam("page") Integer page) throws IOException, CoinbaseException;
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Path("users")
-  CoinbaseUser createUser(CoinbaseUser user) throws IOException;
+  CoinbaseUser createUser(CoinbaseUser user) throws IOException, CoinbaseException;
 
   @POST
   @Path("tokens")
-  CoinbaseToken createToken() throws IOException;
+  CoinbaseToken createToken() throws IOException, CoinbaseException;
 
 }
