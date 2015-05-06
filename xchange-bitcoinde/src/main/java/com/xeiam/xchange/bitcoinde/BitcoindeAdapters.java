@@ -46,7 +46,7 @@ public final class BitcoindeAdapters {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitcoindeOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitcoindeOrderBook.getBids());
-    return new OrderBook(null, asks, bids);
+    return new OrderBook(bitcoindeOrderBook.getTimeStamp(), asks, bids);
   }
 
   /**
@@ -56,7 +56,7 @@ public final class BitcoindeAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (BigDecimal[] order : orders) {
-      limitOrders.add(createOrder(currencyPair, order, orderType));
+      limitOrders.add(createOrder(currencyPair, order, orderType, null, null));
     }
     return limitOrders;
   }
@@ -64,9 +64,9 @@ public final class BitcoindeAdapters {
   /**
    * Create an individual order.
    */
-  public static LimitOrder createOrder(CurrencyPair currencyPair, BigDecimal[] priceAndAmount, Order.OrderType orderType) {
-
-    return new LimitOrder(orderType, priceAndAmount[1], currencyPair, "", null, priceAndAmount[0]);
+  public static LimitOrder createOrder(CurrencyPair currencyPair, BigDecimal[] priceAndAmount, Order.OrderType orderType, String orderId, Date timeStamp) {
+    
+    return new LimitOrder(orderType, priceAndAmount[1], currencyPair, orderId, timeStamp, priceAndAmount[0]);
   }
 
   /**

@@ -29,11 +29,11 @@ public class BitcoindeOrderBookTest {
     BitcoindeOrderBook bitcoindeOrderBook = mapper.readValue(is, BitcoindeOrderBook.class);
 
     // Make sure asks are correct
-    assertEquals(bitcoindeOrderBook.getAsks()[0][0], new BigDecimal("335"));
-    assertEquals(bitcoindeOrderBook.getAsks()[0][1], new BigDecimal("3.98"));
+    assertEquals(bitcoindeOrderBook.getAsks()[0][0], new BigDecimal("224.9"));
+    assertEquals(bitcoindeOrderBook.getAsks()[0][1], new BigDecimal("2.48889"));
 
     // Make sure bids are correct
-    assertEquals(bitcoindeOrderBook.getBids()[0][0], new BigDecimal("200"));
-    assertEquals(bitcoindeOrderBook.getBids()[0][1], new BigDecimal("10"));
+    assertEquals(bitcoindeOrderBook.getBids()[0][0], new BigDecimal("222.5"));
+    assertEquals(bitcoindeOrderBook.getBids()[0][1], new BigDecimal("0.35"));
   }
 }

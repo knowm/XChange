@@ -8,6 +8,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
@@ -28,7 +29,7 @@ public class BitcoindeMarketDataService extends BitcoindeMarketDataServiceRaw im
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitcoindeAdapters.adaptTicker(getBitcoindeRate(), currencyPair);
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override

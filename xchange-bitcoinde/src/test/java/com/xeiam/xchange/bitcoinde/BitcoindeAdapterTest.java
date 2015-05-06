@@ -37,9 +37,9 @@ public class BitcoindeAdapterTest {
     OrderBook orderBook = BitcoindeAdapters.adaptOrderBook(bitcoindeOrderBook, CurrencyPair.BTC_EUR);
 
     // verify all fields are filled correctly
-    assertThat(orderBook.getBids().get(0).getLimitPrice().toString()).isEqualTo("200");
+    assertThat(orderBook.getBids().get(0).getLimitPrice().toString()).isEqualTo("222.5");
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
-    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("10"));
+    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("0.35"));
     assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
   }
 

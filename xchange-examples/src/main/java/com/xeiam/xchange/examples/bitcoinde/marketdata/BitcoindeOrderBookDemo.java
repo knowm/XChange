@@ -14,7 +14,7 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class BitcoindeOrderBookDemo {
 
-  public void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
     /* get the api key from args */
     if (args.length != 1) {
@@ -38,14 +38,14 @@ public class BitcoindeOrderBookDemo {
 
   }
 
-  public void generic(PollingMarketDataService marketDataService) throws IOException {
+  public static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     /* get OrderBook data */
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_EUR);
     System.out.println(orderBook.toString());
   }
 
-  public void raw(BitcoindeMarketDataServiceRaw marketDataService) throws IOException {
+  public static void raw(BitcoindeMarketDataServiceRaw marketDataService) throws IOException {
 
     /* get BitcoindeOrderBook data */
     BitcoindeOrderBook bitcoindeOrderBook = marketDataService.getBitcoindeOrderBook();
