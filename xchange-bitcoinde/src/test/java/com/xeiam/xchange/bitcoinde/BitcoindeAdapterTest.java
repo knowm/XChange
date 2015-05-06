@@ -36,10 +36,12 @@ public class BitcoindeAdapterTest {
     // Create a generic OrderBook object from a Bitcoinde specific OrderBook
     OrderBook orderBook = BitcoindeAdapters.adaptOrderBook(bitcoindeOrderBook, CurrencyPair.BTC_EUR);
 
+System.out.println(orderBook.getBids().get(0).getLimitPrice().toString());
+System.out.println(orderBook.getBids().get(0).getTradableAmount());
     // verify all fields are filled correctly
-    assertThat(orderBook.getBids().get(0).getLimitPrice().toString()).isEqualTo("200");
+    assertThat(orderBook.getBids().get(0).getLimitPrice().toString()).isEqualTo("222.5");
     assertThat(orderBook.getBids().get(0).getType()).isEqualTo(OrderType.BID);
-    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("10"));
+    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("0.35"));
     assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_EUR);
   }
 
