@@ -54,7 +54,7 @@ public class IndependentReserveDigest extends BaseParamsDigest {
         logger.debug("digestParamsToString: nonce: {}",namedNonce);
         mac256.update(namedNonce.getBytes());
 
-        if(parameters != null) {
+        if(parameters != null && parameters.size() > 0) {
             List<String> namedParameters = new ArrayList<String>();
             for (Map.Entry<String, String> parameter : parameters.entrySet()) {
                 String namedParameter = parameter.getKey() + "=" + parameter.getValue();

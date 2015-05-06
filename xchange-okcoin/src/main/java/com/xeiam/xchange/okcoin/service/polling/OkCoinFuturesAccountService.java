@@ -24,7 +24,7 @@ public class OkCoinFuturesAccountService extends OkCoinAccountServiceRaw impleme
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return OkCoinAdapters.adaptAccountInfo(getFutureUserInfo());
+    return OkCoinAdapters.adaptAccountInfoFutures(getFutureUserInfo());
   }
 
   @Override

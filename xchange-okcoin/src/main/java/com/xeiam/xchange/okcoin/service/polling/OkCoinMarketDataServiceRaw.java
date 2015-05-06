@@ -1,7 +1,6 @@
 package com.xeiam.xchange.okcoin.service.polling;
 
 import java.io.IOException;
-import java.util.Map;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -27,7 +26,6 @@ public class OkCoinMarketDataServiceRaw extends OkCoinBasePollingService {
 
     super(exchange);
 
-    Map<String, Object> specific = exchange.getExchangeSpecification().getExchangeSpecificParameters();
     okCoin = RestProxyFactory.createProxy(OkCoin.class, exchange.getExchangeSpecification().getSslUri());
   }
 

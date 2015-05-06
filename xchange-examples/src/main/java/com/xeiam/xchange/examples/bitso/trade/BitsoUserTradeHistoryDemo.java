@@ -1,13 +1,13 @@
 package com.xeiam.xchange.examples.bitso.trade;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitso.dto.trade.BitsoUserTransaction;
 import com.xeiam.xchange.bitso.service.polling.BitsoTradeServiceRaw;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.bitso.BitsoDemoUtils;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-
-import java.io.IOException;
 
 /**
  * <p>
@@ -25,7 +25,7 @@ public class BitsoUserTradeHistoryDemo {
     Exchange bitso = BitsoDemoUtils.createExchange();
     PollingTradeService tradeService = bitso.getPollingTradeService();
 
-    //generic(tradeService);
+    generic(tradeService);
     raw((BitsoTradeServiceRaw) tradeService);
   }
 

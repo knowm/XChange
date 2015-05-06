@@ -301,13 +301,17 @@
 			<artifactId>xchange-taurus</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-        <!-- XChange Taurus exchange support -->
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>xchange-quoine</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-quoine</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-cointrader</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
