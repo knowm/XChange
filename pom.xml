@@ -71,6 +71,7 @@
 		<module>xchange-bitbay</module>
 		<module>xchange-bitcoinaverage</module>
 		<module>xchange-bitcoincharts</module>
+		<module>xchange-bitcoinde</module>
 		<module>xchange-bitcoinium</module>
 		<module>xchange-bitcointoyou</module>
 		<module>xchange-bitcurex</module>
