@@ -9,13 +9,13 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoinde.BitcoindeExchange;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
-public class BitcoindeTickerIntegration {
+public class BitcoindeOrderBookIntegration {
 
   @Test
-  public void bitcoindeTickerTest() throws IOException {
+  public void bitcoindeOrderBookTest() throws IOException {
 
     /*
      * Get the API key from an environmental variable,
@@ -38,9 +38,9 @@ public class BitcoindeTickerIntegration {
     /* create a data service from the exchange */
     PollingMarketDataService marketDataService = bitcoindeExchange.getPollingMarketDataService();
 
-    /* display our ticker data */
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
-    System.out.println(ticker.toString());
+    /* display the first ask of our OrderBook */
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_EUR);
+    System.out.println(orderBook.getAsks().get(0));
   }
 
 }
