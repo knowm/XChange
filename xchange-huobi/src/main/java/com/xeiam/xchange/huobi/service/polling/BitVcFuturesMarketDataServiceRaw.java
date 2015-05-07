@@ -46,7 +46,7 @@ public class BitVcFuturesMarketDataServiceRaw extends HuobiBasePollingService {
     return bitvc.getTrades(symbol, contract.getName());
   }
 
-  public BitVcExchangeRate getExchangeRate() throws IOException {
+  public BitVcExchangeRate getBitVcExchangeRate() throws IOException {
 
     return bitvc.getExchangeRate();
   }
