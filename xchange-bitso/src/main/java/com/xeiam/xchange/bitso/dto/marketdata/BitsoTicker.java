@@ -1,8 +1,12 @@
 package com.xeiam.xchange.bitso.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+import java.util.Date;
+
+import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author Piotr Ładyżyński
@@ -16,22 +20,12 @@ public class BitsoTicker {
   private final BigDecimal volume;
   private final BigDecimal bid;
   private final BigDecimal ask;
-  private final long timestamp;
+  private final Date timestamp;
 
-  /**
-   * Constructor
-   * 
-   * @param last
-   * @param high
-   * @param low
-   * @param vwap
-   * @param volume
-   * @param bid
-   * @param ask
-   */
   public BitsoTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
                      @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid,
-                     @JsonProperty("ask") BigDecimal ask, @JsonProperty("timestamp") long timestamp) {
+                     @JsonProperty("ask") BigDecimal ask,
+                     @JsonProperty("timestamp") @JsonDeserialize(using = TimestampDeserializer.class) Date timestamp) {
 
     this.last = last;
     this.high = high;
@@ -79,7 +73,7 @@ public class BitsoTicker {
     return ask;
   }
 
-  public long getTimestamp() {
+  public Date getTimestamp() {
 
     return timestamp;
   }
