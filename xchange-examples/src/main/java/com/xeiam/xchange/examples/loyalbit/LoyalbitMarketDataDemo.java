@@ -11,7 +11,7 @@ import com.xeiam.xchange.loyalbit.dto.marketdata.LoyalbitOrderBook;
 import com.xeiam.xchange.loyalbit.service.polling.LoyalbitMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
-public class LoyalbitDepthDemo {
+public class LoyalbitMarketDataDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -26,6 +26,9 @@ public class LoyalbitDepthDemo {
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService loyalbitMarketDataService = loyalbitExchange.getPollingMarketDataService();
+
+    // Get the ticker
+    System.out.println("Ticker: " + loyalbitMarketDataService.getTicker(CurrencyPair.BTC_USD));
 
     // Get the latest full order book data for NMC/XRP
     OrderBook orderBook = loyalbitMarketDataService.getOrderBook(CurrencyPair.BTC_EUR);
@@ -42,6 +45,9 @@ public class LoyalbitDepthDemo {
 
     // Interested in the public polling market data feed (no authentication)
     LoyalbitMarketDataServiceRaw loyalbitMarketDataService = (LoyalbitMarketDataServiceRaw) loyalbitExchange.getPollingMarketDataService();
+
+    // Get the ticker
+    System.out.println("Ticker: " + loyalbitMarketDataService.getLoyalbitTicker());
 
     // Get the latest full order book data
     LoyalbitOrderBook depth = loyalbitMarketDataService.getLoyalbitOrderBook();
