@@ -132,8 +132,8 @@ public final class OkCoinAdapters {
     OkcoinFuturesFundsCross btcFunds = info.getBtcFunds();
     OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
 
-    Wallet btcWallet = new Wallet(BTC, btcFunds.getAccountRights().add(btcFunds.getProfitReal()).add(btcFunds.getProfitUnreal()));
-    Wallet ltcWallet = new Wallet(LTC, ltcFunds.getAccountRights().add(ltcFunds.getProfitReal()).add(ltcFunds.getProfitUnreal()));
+    Wallet btcWallet = new Wallet(BTC, btcFunds.getAccountRights());
+    Wallet ltcWallet = new Wallet(LTC, ltcFunds.getAccountRights());
 
     return new AccountInfo(null, Arrays.asList(emptyUsdWallet, btcWallet, ltcWallet));
   }
