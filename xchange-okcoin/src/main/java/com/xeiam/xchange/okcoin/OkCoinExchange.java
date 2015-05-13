@@ -55,7 +55,7 @@ public class OkCoinExchange extends BaseExchange {
   /** Extract futures leverage used by spec */
   private static int futuresLeverageOfConfig(ExchangeSpecification exchangeSpecification) {
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Leverage")) {
-      return (Integer) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Leverage");
+      return Integer.valueOf((String) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Leverage"));
     } else {
       // default choice of 10x leverage is "safe" choice and default by OkCoin.
       return 10;
