@@ -63,7 +63,7 @@ public class OkCoinExchange extends BaseExchange {
   }
   
   /** Extract contract used by spec */
-  private static FuturesContract futuresContractOfConfig(ExchangeSpecification exchangeSpecification) {
+  public static FuturesContract futuresContractOfConfig(ExchangeSpecification exchangeSpecification) {
     FuturesContract contract;
 
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
