@@ -2,6 +2,7 @@ package com.xeiam.xchange.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -89,14 +90,16 @@ public final class UserTrade extends Trade {
     private String orderId;
     private BigDecimal feeAmount;
     private String feeCurrency;
+    private Map<String, Object> additionalData;
 
     public Builder() {
 
     }
 
     public static Builder from(UserTrade trade) {
-      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice()).timestamp(trade.getTimestamp())
-          .id(trade.getId()).orderId(trade.getOrderId()).feeAmount(trade.getFeeAmount()).feeCurrency(trade.getFeeCurrency());
+      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair())
+          .price(trade.getPrice()).timestamp(trade.getTimestamp()).id(trade.getId()).orderId(trade.getOrderId()).feeAmount(trade.getFeeAmount())
+          .feeCurrency(trade.getFeeCurrency()).additionalData(trade.getAdditionalData());
     }
 
     public Builder type(OrderType type) {
@@ -153,9 +156,17 @@ public final class UserTrade extends Trade {
       return this;
     }
 
+    public Builder additionalData(Map<String, Object> additionalData) {
+
+      this.additionalData = additionalData;
+      return this;
+    }
+
     public UserTrade build() {
 
-      return new UserTrade(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
+      UserTrade trade = new UserTrade(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
+      trade.setAdditionalData(additionalData);
+      return trade;
     }
   }
 }

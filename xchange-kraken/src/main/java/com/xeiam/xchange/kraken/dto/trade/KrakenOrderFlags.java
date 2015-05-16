@@ -12,10 +12,14 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xeiam.xchange.dto.Order.IOrderFlags;
 
-public enum KrakenOrderFlags {
+public enum KrakenOrderFlags implements IOrderFlags {
 
-  VIQC, FCIB, FCIQ, NOMPP;
+  VIQC, // volume in quote currency
+  FCIB, // prefer fee in base currency
+  FCIQ, // prefer fee in quote currency
+  NOMPP; // no market price protection
 
   @Override
   public String toString() {

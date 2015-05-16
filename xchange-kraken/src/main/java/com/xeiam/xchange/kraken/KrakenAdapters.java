@@ -215,8 +215,10 @@ public class KrakenAdapters {
     BigDecimal averagePrice = krakenTrade.getAverageClosePrice();
     BigDecimal price = (averagePrice == null) ? krakenTrade.getPrice() : averagePrice;
 
-    return new UserTrade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, tradeId,
-        krakenTrade.getOrderTxId(), krakenTrade.getFee(), transactionCurrency);
+    UserTrade userTrade = new UserTrade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp,
+        tradeId, krakenTrade.getOrderTxId(), krakenTrade.getFee(), transactionCurrency);
+    userTrade.putAdditionalData("cost", krakenTrade.getCost());
+    return userTrade;
   }
 
   public static OrderType adaptOrderType(KrakenType krakenType) {

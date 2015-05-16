@@ -136,8 +136,8 @@ public class KrakenAdaptersTest {
 
     AccountInfo info = KrakenAdapters.adaptBalance(krakenBalance.getResult(), null);
 
-    assertThat(info.getBalance(Currencies.EUR)).isEqualTo(new BigDecimal("1.0539"));
-    assertThat(info.getBalance(Currencies.BTC)).isEqualTo(new BigDecimal("0.4888583300"));
+    assertThat(info.getWallet(Currencies.EUR).getBalance()).isEqualTo(new BigDecimal("1.0539"));
+    assertThat(info.getWallet(Currencies.BTC).getBalance()).isEqualTo(new BigDecimal("0.4888583300"));
 
   }
 
@@ -210,5 +210,6 @@ public class KrakenAdaptersTest {
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
     assertThat(trade.getFeeAmount()).isEqualTo(new BigDecimal("0.03208"));
     assertThat(trade.getFeeCurrency()).isEqualTo(Currencies.LTC);
+    assertThat(trade.getAdditionalData("cost")).isEqualTo(new BigDecimal("16.03781"));
   }
 }
