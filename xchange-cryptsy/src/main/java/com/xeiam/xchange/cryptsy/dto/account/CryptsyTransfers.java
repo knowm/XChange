@@ -34,8 +34,8 @@ public class CryptsyTransfers {
    * @param funds The funds
    * @throws ParseException
    */
-  public CryptsyTransfers(@JsonProperty("currency") String currency, @JsonProperty("request_timeStamp") String req_timeStamp,
-      @JsonProperty("processed") int processed, @JsonProperty("processed_timeStamp") String proc_timeStamp, @JsonProperty("from") String from,
+  public CryptsyTransfers(@JsonProperty("currency") String currency, @JsonProperty("request_timestamp") String req_timeStamp,
+      @JsonProperty("processed") int processed, @JsonProperty("processed_timestamp") String proc_timeStamp, @JsonProperty("from") String from,
       @JsonProperty("to") String to, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("direction") CryptsyTrfDirection direction)
       throws ParseException {
 

@@ -2,6 +2,8 @@ package com.xeiam.xchange.dto.marketdata;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -40,6 +42,11 @@ public class Trade {
    * The trade id
    */
   protected final String id;
+
+  /**
+   * Additional exchange specific data that might be of interest
+   */
+  private final Map<String, Object> additionalData = new HashMap<String, Object>();
 
   /**
    * This constructor is called to create a public Trade object in
@@ -94,6 +101,26 @@ public class Trade {
     return id;
   }
 
+  public Object getAdditionalData(String key) {
+    return additionalData.get(key);
+  }
+
+  public void putAdditionalData(String key, Object value) {
+    additionalData.put(key, value);
+  }
+
+  public Map<String, Object> getAdditionalData() {
+    return additionalData;
+  }
+
+  public Trade setAdditionalData(Map<String, Object> value) {
+    additionalData.clear();
+    if (value != null) {
+      additionalData.putAll(value);
+    }
+    return this;
+  }
+
   @Override
   public boolean equals(Object o) {
 
@@ -127,14 +154,15 @@ public class Trade {
     private BigDecimal price;
     private Date timestamp;
     private String id;
+    private Map<String, Object> additionalData;
 
     public Builder() {
 
     }
 
     public static Builder from(Trade trade) {
-      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice()).timestamp(trade.getTimestamp())
-          .id(trade.getId());
+      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair())
+          .price(trade.getPrice()).timestamp(trade.getTimestamp()).id(trade.getId()).additionalData(trade.getAdditionalData());
     }
 
     public Builder type(OrderType type) {
@@ -173,9 +201,15 @@ public class Trade {
       return this;
     }
 
+    public Builder additionalData(Map<String, Object> additionalData) {
+
+      this.additionalData = additionalData;
+      return this;
+    }
+
     public Trade build() {
 
-      return new Trade(type, tradableAmount, currencyPair, price, timestamp, id);
+      return new Trade(type, tradableAmount, currencyPair, price, timestamp, id).setAdditionalData(additionalData);
     }
   }
 }
