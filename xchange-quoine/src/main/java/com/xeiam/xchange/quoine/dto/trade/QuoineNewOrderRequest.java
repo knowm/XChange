@@ -23,6 +23,9 @@ public class QuoineNewOrderRequest {
 
   @JsonProperty("price")
   private final BigDecimal price; //  Price of BTC you want to trade.
+  
+  @JsonProperty("leverage_level")
+  private final int leverageLevel;
 
   /**
    * Constructor
@@ -39,6 +42,7 @@ public class QuoineNewOrderRequest {
     this.side = side;
     this.quantity = quantity;
     this.price = price;
+    this.leverageLevel = 2;
   }
 
   public String getOrderType() {
@@ -63,6 +67,10 @@ public class QuoineNewOrderRequest {
 
   public BigDecimal getPrice() {
     return price;
+  }
+  
+  public int getLeverageLevel() {
+	return leverageLevel;
   }
 
   @Override
