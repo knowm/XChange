@@ -19,6 +19,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.quoine.dto.account.FiatAccount;
 import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
+import com.xeiam.xchange.quoine.dto.account.QuoineTradingAccountInfo;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineProduct;
 import com.xeiam.xchange.quoine.dto.trade.Model;
@@ -64,6 +65,25 @@ public class QuoineAdapters {
     if (!argument) {
       throw new IllegalArgumentException(MessageFormat.format(msgPattern, msgArgs));
     }
+  }
+  
+  public static AccountInfo adaptTradingAccountInfo(QuoineTradingAccountInfo[] quoineAccountInfo) {
+	  Map<String, Wallet> wallets = new HashMap<String, Wallet>(quoineAccountInfo.length);
+	  
+	  // btc position is sum of all positions in margin. Asuming all currencies are using the same margin level.
+	  BigDecimal btcPosition = BigDecimal.ZERO;
+	  
+	  for(int i = 0; i < quoineAccountInfo.length; i++) {
+		  QuoineTradingAccountInfo info = quoineAccountInfo[i];
+		  
+		  wallets.put(info.getCollateralCurrency(), new Wallet(info.getCollateralCurrency(), info.getFreeMargin()));
+		  
+		  btcPosition = btcPosition.add(info.getPosition());
+	  }
+	  
+	  wallets.put("BTC", new Wallet("BTC", btcPosition));
+	  
+	  return new AccountInfo(null, wallets);
   }
 
   public static AccountInfo adaptAccountinfo(QuoineAccountInfo quoineAccountInfo) {

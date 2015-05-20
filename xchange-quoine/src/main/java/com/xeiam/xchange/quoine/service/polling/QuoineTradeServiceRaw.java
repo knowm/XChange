@@ -26,10 +26,6 @@ public class QuoineTradeServiceRaw extends QuoineBasePollingService {
     super(exchange);
   }
 
-  //  public BitstampOrder[] getBitstampOpenOrders() throws IOException {
-  //
-  //    return bitstampAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
-  //  }
 
   public QuoineOrderResponse placeLimitOrder(CurrencyPair currencyPair, String type, BigDecimal tradableAmount, BigDecimal price) throws IOException {
 

@@ -20,14 +20,19 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
  */
 public class QuoineTradeService extends QuoineTradeServiceRaw implements PollingTradeService {
 
+  private final boolean useMargin;	
+	
   /**
    * Constructor
    *
    * @param exchange
    */
-  public QuoineTradeService(Exchange exchange) {
+  public QuoineTradeService(Exchange exchange, boolean useMargin) {
 
     super(exchange);
+    
+    // TODO: pass through to NewOrder object creation
+    this.useMargin = useMargin;
   }
 
   @Override
