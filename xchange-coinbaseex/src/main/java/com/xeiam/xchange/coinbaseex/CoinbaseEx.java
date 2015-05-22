@@ -1,17 +1,21 @@
 package com.xeiam.xchange.coinbaseex;
 
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProduct;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
+import java.io.IOException;
+import java.util.List;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.List;
+
+import si.mazi.rescu.ParamsDigest;
+
+import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProduct;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
 
 /**
  * Created by Yingzhe on 3/31/2015.
@@ -33,6 +37,13 @@ public interface CoinbaseEx {
   CoinbaseExProductStats getProductStats(@PathParam("baseCurrency")String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
 
   @GET
-  @Path("products/{baseCurrency}-{targetCurrency}/book")
-  CoinbaseExProductBook getProductOrderBook(@PathParam("baseCurrency")String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
+  @Path("products/{baseCurrency}-{targetCurrency}/book?level={level}")
+  CoinbaseExProductBook getProductOrderBook(@PathParam("baseCurrency")String baseCurrency, @PathParam("targetCurrency") String targetCurrency, @PathParam("level") String level) throws IOException;
+  
+  /** Authenticated calls */
+  
+  @GET
+  @Path("accounts")
+  void getAccounts(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, 
+		  @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
 }
