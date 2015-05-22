@@ -8,6 +8,7 @@ import si.mazi.rescu.HttpStatusIOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.quoine.QuoineUtils;
+import com.xeiam.xchange.quoine.dto.trade.QuoineNewMarginOrderRequest;
 import com.xeiam.xchange.quoine.dto.trade.QuoineNewOrderRequest;
 import com.xeiam.xchange.quoine.dto.trade.QuoineOrderDetailsResponse;
 import com.xeiam.xchange.quoine.dto.trade.QuoineOrderResponse;
@@ -18,19 +19,30 @@ import com.xeiam.xchange.quoine.dto.trade.QuoineOrdersList;
  */
 public class QuoineTradeServiceRaw extends QuoineBasePollingService {
 
+  private boolean useMargin;
+  private int leverageLevel;  
+  
   /**
    * @param exchange
    */
-  public QuoineTradeServiceRaw(Exchange exchange) {
+  public QuoineTradeServiceRaw(Exchange exchange, boolean useMargin) {
 
     super(exchange);
+    
+    this.useMargin = useMargin;
+    
+    if(useMargin) {
+    	leverageLevel = (Integer) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("Leverage_Level");
+    } else {
+    	leverageLevel = 0;
+    }
   }
-
 
   public QuoineOrderResponse placeLimitOrder(CurrencyPair currencyPair, String type, BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
-    QuoineNewOrderRequest quoineNewOrderRequest = new QuoineNewOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount,
-        price);
+    QuoineNewOrderRequest quoineNewOrderRequest = useMargin ? 
+    		new QuoineNewMarginOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount, price, leverageLevel) :
+    		new QuoineNewOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount, price);
     try {
       return quoine.placeOrder(device, userID, userToken, quoineNewOrderRequest);
     } catch (HttpStatusIOException e) {
@@ -40,8 +52,9 @@ public class QuoineTradeServiceRaw extends QuoineBasePollingService {
 
   public QuoineOrderResponse placeMarketOrder(CurrencyPair currencyPair, String type, BigDecimal tradableAmount) throws IOException {
 
-    QuoineNewOrderRequest quoineNewOrderRequest = new QuoineNewOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount,
-        null);
+    QuoineNewOrderRequest quoineNewOrderRequest = useMargin ?
+    		new QuoineNewMarginOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount, null, leverageLevel) :
+    		new QuoineNewOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount, null);
     try {
       return quoine.placeOrder(device, userID, userToken, quoineNewOrderRequest);
     } catch (HttpStatusIOException e) {
@@ -72,27 +85,4 @@ public class QuoineTradeServiceRaw extends QuoineBasePollingService {
       throw handleHttpError(e);
     }
   }
-  //  public BitstampOrder buyBitStampOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
-  //
-  //    return bitstampAuthenticated.buy(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount,
-  //        price);
-  //  }
-  //
-  //  public boolean cancelBitstampOrder(int orderId) throws IOException {
-  //
-  //    return bitstampAuthenticated.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), orderId);
-  //  }
-  //
-  //  public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions) throws IOException {
-  //
-  //    return bitstampAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-  //        numberOfTransactions);
-  //  }
-  //
-  //  public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, Long offset, String sort) throws IOException {
-  //
-  //    return bitstampAuthenticated.getUserTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-  //        numberOfTransactions, offset, sort);
-  //  }
-
 }
