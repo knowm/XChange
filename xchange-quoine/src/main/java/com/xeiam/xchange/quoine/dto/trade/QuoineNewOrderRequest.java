@@ -23,7 +23,7 @@ public class QuoineNewOrderRequest {
 
   @JsonProperty("price")
   private final BigDecimal price; //  Price of BTC you want to trade.
-
+  
   /**
    * Constructor
    *
@@ -64,7 +64,7 @@ public class QuoineNewOrderRequest {
   public BigDecimal getPrice() {
     return price;
   }
-
+  
   @Override
   public String toString() {
     return "QuoineNewOrderRequest [orderType=" + orderType + ", productCode=" + productCode + ", currencyPairCode=" + currencyPairCode + ", side="

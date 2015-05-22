@@ -19,10 +19,12 @@ public class QuoineExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
+    
+    boolean useMargin = (Boolean) exchangeSpecification.getExchangeSpecificParametersItem("Use_Margin");
 
     this.pollingMarketDataService = new QuoineMarketDataService(this);
-    this.pollingAccountService = new QuoineAccountService(this);
-    this.pollingTradeService = new QuoineTradeService(this);
+    this.pollingAccountService = new QuoineAccountService(this, useMargin);
+    this.pollingTradeService = new QuoineTradeService(this, useMargin);
   }
 
   @Override
@@ -31,6 +33,7 @@ public class QuoineExchange extends BaseExchange implements Exchange {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://api.quoine.com");
     exchangeSpecification.setExchangeName("Quoine");
+    exchangeSpecification.setExchangeSpecificParametersItem("Use_Margin", false);
     return exchangeSpecification;
   }
 
