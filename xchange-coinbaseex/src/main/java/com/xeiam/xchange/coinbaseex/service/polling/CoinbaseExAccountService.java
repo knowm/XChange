@@ -26,7 +26,7 @@ public class CoinbaseExAccountService extends CoinbaseExAccountServiceRaw implem
 	NotYetImplementedForExchangeException, IOException {
 
 		this.getCoinbaseExAccountInfo();
-		
+		// TODO: return adapted
 		return null;
 	}
 
@@ -34,7 +34,6 @@ public class CoinbaseExAccountService extends CoinbaseExAccountServiceRaw implem
 	public String withdrawFunds(String currency, BigDecimal amount, String address)
 			throws ExchangeException, NotAvailableFromExchangeException,
 			NotYetImplementedForExchangeException, IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -42,7 +41,6 @@ public class CoinbaseExAccountService extends CoinbaseExAccountServiceRaw implem
 	public String requestDepositAddress(String currency, String... args)
 			throws ExchangeException, NotAvailableFromExchangeException,
 			NotYetImplementedForExchangeException, IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
