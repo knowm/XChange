@@ -40,8 +40,9 @@ public class CoinbaseExMarketDataService extends CoinbaseExMarketDataServiceRaw 
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
-    throw new NotYetImplementedForExchangeException();
+	  
+	  return CoinbaseExAdapters.adaptOrderBook(getCoinbaseExProductOrderBook(currencyPair, 2), currencyPair);
+    
   }
 
   @Override

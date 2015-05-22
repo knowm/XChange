@@ -46,8 +46,13 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
       return null;
     }
 
-    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol, "1");
     return book;
+  }
+  
+  public CoinbaseExProductBook getCoinbaseExProductOrderBook(CurrencyPair currencyPair, int level) throws IOException {
+	    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol, String.valueOf(level));
+	    return book;  
   }
 
   private boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
