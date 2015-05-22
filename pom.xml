@@ -429,7 +429,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<skipTests>${skipTests}</skipTests>
+					<skipTests>${skipIntegrationTests}</skipTests>
 					<includes>
 						<include>**/*Integration.java</include>
 					</includes>
@@ -452,7 +452,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<skipTests>true</skipTests>
+		<skipIntegrationTests>true</skipIntegrationTests>
 	</properties>
 
 </project>
