@@ -5,31 +5,6 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author timmolter
- * 
- * {
-    "id": "2133",
-    "leverage_level": 2,
-    "max_leverage_level": 4,
-    "current_leverage_level": 2,
-    "equity": 326.91881,
-    "margin": 10.5102,
-    "free_margin": 316.40861,
-    "trader_id": 4621,
-    "status": "active",
-    "product_code": "CASH",
-    "currency_pair_code": "BTCEUR",
-    "pnl": -0.025,
-    "position": -0.1,
-    "balance": 326.94381,
-    "updated_at": "2015-05-20T08:33:41+00:00",
-    "pusher_channel": "user_4621_cash_btceur_trading_account",
-    "margin_percent": 0.3,
-    "collateral": 0.0,
-    "collateral_currency": "EUR"
-}
- */
 public final class QuoineTradingAccountInfo {
 	private final String id;
 	private final int leverageLevel;
