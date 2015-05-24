@@ -3,6 +3,8 @@ package com.xeiam.xchange.bitmarket.service.polling;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitmarket.BitMarketAdapters;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfo;
+import com.xeiam.xchange.bitmarket.dto.account.BitMarketDepositResponse;
+import com.xeiam.xchange.bitmarket.dto.account.BitMarketWithdrawResponse;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
@@ -25,17 +27,21 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
   @Override public AccountInfo getAccountInfo()
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    BitMarketAccountInfo accountInfo = getBitMarketAccountInfo();
+    BitMarketAccountInfo accountInfo = getBitMarketAccountInfo().getData();
     return BitMarketAdapters.adaptAccountInfo(accountInfo.getBalance(), exchange.getExchangeSpecification().getUserName());
   }
 
-  @Override public String withdrawFunds(String s, BigDecimal bigDecimal, String s1)
+  @Override public String withdrawFunds(String currency, BigDecimal amount, String address)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
+
+    BitMarketWithdrawResponse response = withdrawFromBitMarket(currency, amount, address);
+    return response.getData();
   }
 
-  @Override public String requestDepositAddress(String s, String... strings)
+  @Override public String requestDepositAddress(String currency, String... strings)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
+
+    BitMarketDepositResponse response = depositToBitMarket(currency);
+    return response.getData();
   }
 }
