@@ -16,17 +16,13 @@ import com.xeiam.xchange.currency.CurrencyPair;
  */
 public class BitMarketDataServiceRaw extends BitMarketBasePollingService {
 
-  private final BitMarket bitMarket;
-
   /**
    * Constructor
    *
    * @param exchange
    */
   protected BitMarketDataServiceRaw(Exchange exchange) {
-
     super(exchange);
-    this.bitMarket = RestProxyFactory.createProxy(BitMarket.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public BitMarketTicker getBitMarketTicker(CurrencyPair currencyPair) throws IOException {

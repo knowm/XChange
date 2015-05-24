@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitmarket;
 
+import com.xeiam.xchange.bitmarket.service.polling.BitMarketAccountService;
+import com.xeiam.xchange.utils.nonce.CurrentTime1000NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -8,9 +10,11 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitmarket.service.polling.BitMarketDataService;
 
 /**
- * @author kpysniak
+ * @author kpysniak, kfonal
  */
 public class BitMarketExchange extends BaseExchange implements Exchange {
+
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
@@ -19,14 +23,14 @@ public class BitMarketExchange extends BaseExchange implements Exchange {
 
     this.pollingMarketDataService = new BitMarketDataService(this);
     this.pollingTradeService = null;
-    this.pollingAccountService = null;
+    this.pollingAccountService = new BitMarketAccountService(this);
   }
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://www.bitmarket.pl/json");
+    exchangeSpecification.setSslUri("https://www.bitmarket.pl/");
     exchangeSpecification.setHost("www.bitmarket.pl");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitmarket");
@@ -37,8 +41,7 @@ public class BitMarketExchange extends BaseExchange implements Exchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-    // No private API implemented. Not needed for this exchange at the moment.
-    return null;
+    return nonceFactory;
   }
 
 }
