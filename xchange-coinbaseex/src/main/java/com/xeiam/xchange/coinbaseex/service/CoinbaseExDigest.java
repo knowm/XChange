@@ -1,7 +1,6 @@
 package com.xeiam.xchange.coinbaseex.service;
 
 import java.io.IOException;
-import java.math.BigInteger;
 
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
@@ -14,7 +13,7 @@ import com.xeiam.xchange.service.BaseParamsDigest;
 
 public class CoinbaseExDigest extends BaseParamsDigest {
 
-	private CoinbaseExDigest(String secretKey) {
+	private CoinbaseExDigest(byte[] secretKey) {
 
 		super(secretKey, HMAC_SHA_256);
 	}
@@ -27,8 +26,7 @@ public class CoinbaseExDigest extends BaseParamsDigest {
 		} catch (IOException e) {
 			throw new RuntimeException("Cannot decode secret key");
 		}
-
-		return secretKey == null ? null : new CoinbaseExDigest(new String(decodedSecretKey));
+		return secretKey == null ? null : new CoinbaseExDigest(decodedSecretKey);
 	}
 
 	@Override
@@ -37,17 +35,12 @@ public class CoinbaseExDigest extends BaseParamsDigest {
 		String message =   
 				restInvocation.getParamValue(HeaderParam.class, "CB-ACCESS-TIMESTAMP").toString() +
 				restInvocation.getHttpMethod() + 
-				"/" + restInvocation.getMethodPath();
+				"/" + restInvocation.getMethodPath() + (restInvocation.getRequestBody() != null ? restInvocation.getRequestBody() : "");
 
-		if(restInvocation.getRequestBody() != null) {
-			message += restInvocation.getRequestBody();
-		}
-
-		//		message = "1GET/accounts";
-
+		
 		Mac mac256 = getMac();
 		mac256.update(message.getBytes());
-
-		return Base64.encodeBytes(new BigInteger(1, mac256.doFinal()).toByteArray());
+		
+		return Base64.encodeBytes(mac256.doFinal());
 	}
 }
