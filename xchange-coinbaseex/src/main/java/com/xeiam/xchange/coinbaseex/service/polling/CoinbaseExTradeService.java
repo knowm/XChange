@@ -30,7 +30,7 @@ public class CoinbaseExTradeService extends CoinbaseExTradeServiceRaw implements
 	NotYetImplementedForExchangeException, IOException {
 
 		CoinbaseExOrder[] coinbaseExOpenOrders = getCoinbaseExOpenOrders();
-		
+
 		return CoinbaseExAdapters.adaptOpenOrders(coinbaseExOpenOrders);
 	}
 
@@ -38,8 +38,7 @@ public class CoinbaseExTradeService extends CoinbaseExTradeServiceRaw implements
 	public String placeMarketOrder(MarketOrder marketOrder)
 			throws ExchangeException, NotAvailableFromExchangeException,
 			NotYetImplementedForExchangeException, IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotAvailableFromExchangeException();
 	}
 
 	@Override
@@ -48,7 +47,7 @@ public class CoinbaseExTradeService extends CoinbaseExTradeServiceRaw implements
 	NotYetImplementedForExchangeException, IOException {
 
 		CoinbaseExIdResponse response = placeCoinbaseExLimitOrder(limitOrder);
-		
+
 		return response.getId(); 
 	}
 
@@ -57,28 +56,23 @@ public class CoinbaseExTradeService extends CoinbaseExTradeServiceRaw implements
 	NotAvailableFromExchangeException,
 	NotYetImplementedForExchangeException, IOException {
 
-		cancelCoinbaseExOrder(orderId);
-		
-		return false;
+		return cancelCoinbaseExOrder(orderId);
 	}
 
 	@Override
 	public UserTrades getTradeHistory(Object... arguments)
 			throws ExchangeException, NotAvailableFromExchangeException,
 			NotYetImplementedForExchangeException, IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotYetImplementedForExchangeException();
 	}
 
 	@Override
 	public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotYetImplementedForExchangeException();
 	}
 
 	@Override
 	public TradeHistoryParams createTradeHistoryParams() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
