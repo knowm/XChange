@@ -4,18 +4,17 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbaseex.CoinbaseEx;
+import com.xeiam.xchange.coinbaseex.dto.account.CoinbaseExAccount;
 
 
 public class CoinbaseExAccountServiceRaw extends CoinbaseExBasePollingService<CoinbaseEx> {
 
-  public CoinbaseExAccountServiceRaw(Exchange exchange) {
+	public CoinbaseExAccountServiceRaw(Exchange exchange) {
 
-    super(CoinbaseEx.class, exchange);
-  }
+		super(CoinbaseEx.class, exchange);
+	}
 
-  public void getCoinbaseExAccountInfo() throws IOException {
-	  coinbaseEx.getAccounts(apiKey, digest, String.valueOf(getTimestamp()), passphrase);
-	  
-	  return;
-  }
+	public CoinbaseExAccount[]  getCoinbaseExAccountInfo() throws IOException {
+		return coinbaseEx.getAccounts(apiKey, digest, getTimestamp(), passphrase);
+	}
 }

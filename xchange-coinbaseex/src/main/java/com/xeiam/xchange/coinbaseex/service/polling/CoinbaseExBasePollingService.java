@@ -26,7 +26,7 @@ public class CoinbaseExBasePollingService<T extends CoinbaseEx> extends BaseExch
   
   protected CoinbaseExBasePollingService(Class<T> type, Exchange exchange) {
 
-    super(exchange);
+    super(exchange); 
     this.coinbaseEx = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
     this.digest = CoinbaseExDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     
@@ -40,7 +40,7 @@ public class CoinbaseExBasePollingService<T extends CoinbaseEx> extends BaseExch
     return exchange.getMetaData().getCurrencyPairs();
   }
   
-  protected long getTimestamp() {
-	  return System.currentTimeMillis() / 1000;
+  protected String getTimestamp() {
+	  return String.format("%.3f", System.currentTimeMillis() / 1000.0);
   }  
 }
