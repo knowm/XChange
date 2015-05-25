@@ -1,25 +1,32 @@
 package com.xeiam.xchange.coinbaseex;
 
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBookEntry;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Yingzhe on 4/6/2015.
- */
-public class CoinbaseExAdapters {
+import com.xeiam.xchange.coinbaseex.dto.account.CoinbaseExAccount;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBookEntry;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
+import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExOrder;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.Wallet;
 
+
+public class CoinbaseExAdapters {
+	// TODO: timezone might be off, needs to be converted
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS+00");
+	
 	public static Ticker adaptTicker(CoinbaseExProductTicker ticker, CoinbaseExProductStats stats, CoinbaseExProductBook book, CurrencyPair currencyPair) {
 
 		BigDecimal last = ticker != null ? ticker.getPrice() : null;
@@ -52,5 +59,41 @@ public class CoinbaseExAdapters {
 
 		return allLevels;
 
+	}
+
+	public static AccountInfo adaptAccountInfo(CoinbaseExAccount[] coinbaseExAccountInfo) {
+		List<Wallet> wallets = new ArrayList<Wallet>(coinbaseExAccountInfo.length);
+
+		for(int i = 0; i < coinbaseExAccountInfo.length; i++) {
+			CoinbaseExAccount account = coinbaseExAccountInfo[i];
+
+			wallets.add(new Wallet(account.getCurrency(), account.getBalance(), account.getAvailable(), account.getHold()));	
+		}
+
+		return new AccountInfo(coinbaseExAccountInfo[0].getProfile_id(), wallets);
+	}
+
+	public static OpenOrders adaptOpenOrders(CoinbaseExOrder[] coinbaseExOpenOrders) {
+		List<LimitOrder> orders = new ArrayList<LimitOrder>(coinbaseExOpenOrders.length);
+
+		for(int i = 0; i < coinbaseExOpenOrders.length; i++) {
+			CoinbaseExOrder order = coinbaseExOpenOrders[i];
+
+			OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
+			CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace("-", "/"));
+
+			Date createdAt;
+			try {
+				createdAt = dateFormat.parse(order.getCreatedAt());
+			} catch (ParseException e) {
+				// TODO error?
+				continue;
+			}
+
+			orders.add(new LimitOrder(type, order.getSize(), currencyPair, order.getId(), createdAt, order.getPrice()));
+
+		}
+
+		return new OpenOrders(orders);
 	}
 }
