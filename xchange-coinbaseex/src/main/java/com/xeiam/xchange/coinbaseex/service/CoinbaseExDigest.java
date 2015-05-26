@@ -2,11 +2,9 @@ package com.xeiam.xchange.coinbaseex.service;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
-import javax.xml.bind.DatatypeConverter;
 
 import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.utils.Base64;
