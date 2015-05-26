@@ -1,7 +1,6 @@
 package com.xeiam.xchange.coinbaseex.service;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
