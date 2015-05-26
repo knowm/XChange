@@ -40,6 +40,7 @@ public class CoinbaseExDigest extends BaseParamsDigest {
 				"/" + restInvocation.getMethodPath() + (restInvocation.getRequestBody() != null ? restInvocation.getRequestBody() : "");
 
 		Mac mac256 = getMac();
+		
 		try {
 			mac256.update(message.getBytes("UTF-8"));
 		} catch (IllegalStateException | UnsupportedEncodingException e) {
