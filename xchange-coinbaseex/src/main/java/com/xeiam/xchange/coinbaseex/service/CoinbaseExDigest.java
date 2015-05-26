@@ -43,7 +43,7 @@ public class CoinbaseExDigest extends BaseParamsDigest {
 		
 		try {
 			mac256.update(message.getBytes("UTF-8"));
-		} catch (IllegalStateException | UnsupportedEncodingException e) {
+		} catch (Exception e) {
 			throw new ExchangeException("Digest encoding exception", e);
 		}
 
