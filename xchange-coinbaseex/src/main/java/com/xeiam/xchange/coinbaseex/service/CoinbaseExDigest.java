@@ -1,13 +1,17 @@
 package com.xeiam.xchange.coinbaseex.service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
+import javax.xml.bind.DatatypeConverter;
 
 import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.utils.Base64;
 
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.BaseParamsDigest;
 
 
@@ -24,7 +28,7 @@ public class CoinbaseExDigest extends BaseParamsDigest {
 		try {			
 			decodedSecretKey = Base64.decode(secretKey);
 		} catch (IOException e) {
-			throw new RuntimeException("Cannot decode secret key");
+			throw new ExchangeException("Cannot decode secret key");
 		}
 		return secretKey == null ? null : new CoinbaseExDigest(decodedSecretKey);
 	}
@@ -37,10 +41,13 @@ public class CoinbaseExDigest extends BaseParamsDigest {
 				restInvocation.getHttpMethod() + 
 				"/" + restInvocation.getMethodPath() + (restInvocation.getRequestBody() != null ? restInvocation.getRequestBody() : "");
 
-		
 		Mac mac256 = getMac();
-		mac256.update(message.getBytes());
-		
+		try {
+			mac256.update(message.getBytes("UTF-8"));
+		} catch (IllegalStateException | UnsupportedEncodingException e) {
+			throw new ExchangeException("Digest encoding exception", e);
+		}
+
 		return Base64.encodeBytes(mac256.doFinal());
 	}
 }
