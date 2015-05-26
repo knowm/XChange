@@ -41,6 +41,6 @@ public class CoinbaseExBasePollingService<T extends CoinbaseEx> extends BaseExch
   }
   
   protected String getTimestamp() {
-	  return String.format("%.3f", System.currentTimeMillis() / 1000.0);
+	  return String.valueOf(System.currentTimeMillis() / 1000);
   }  
 }
