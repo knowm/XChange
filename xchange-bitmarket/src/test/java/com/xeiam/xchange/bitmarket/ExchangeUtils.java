@@ -26,6 +26,7 @@ public class ExchangeUtils {
       props.load(is);
       logger.debug(props.toString());
 
+      //exSpec.setSslUri("https://www.test.bitmarket.pl/");
       if (props.getProperty("api-key") != null) exSpec.setApiKey(props.getProperty("api-key"));
       if (props.getProperty("secret-key") != null) exSpec.setSecretKey(props.getProperty("secret-key"));
     } catch (Exception e) {

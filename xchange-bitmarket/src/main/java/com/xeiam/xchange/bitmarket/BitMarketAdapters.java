@@ -7,7 +7,10 @@ import com.xeiam.xchange.bitmarket.dto.account.BitMarketBalance;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrder;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -15,6 +18,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
@@ -103,5 +107,30 @@ public class BitMarketAdapters {
 
     Trades trades = new Trades(tradeList, Trades.TradeSortType.SortByTimestamp);
     return trades;
+  }
+
+  public static OpenOrders adaptOpenOrders(Map<String, Map<String, List<BitMarketOrder>>> ordersMap) {
+
+    List<LimitOrder> orders = new ArrayList<LimitOrder>();
+
+    for (Map.Entry<String, Map<String, List<BitMarketOrder>>> rootEntry : ordersMap.entrySet()) {
+      for (Map.Entry<String, List<BitMarketOrder>> entry : rootEntry.getValue().entrySet()) {
+        for (BitMarketOrder bitMarketOrder : entry.getValue()) {
+          orders.add(createOrder(bitMarketOrder));
+        }
+      }
+    }
+
+    return new OpenOrders(orders);
+  }
+
+  private static LimitOrder createOrder(BitMarketOrder bitMarketOrder) {
+    return new LimitOrder(
+        bitMarketOrder.getType(),
+        bitMarketOrder.getAmount(),
+        bitMarketOrder.getCurrencyPair(),
+        String.valueOf(bitMarketOrder.getId()),
+        bitMarketOrder.getTimestamp(),
+        bitMarketOrder.getRate());
   }
 }
