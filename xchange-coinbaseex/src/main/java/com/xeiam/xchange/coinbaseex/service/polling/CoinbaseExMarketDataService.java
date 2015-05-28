@@ -47,7 +47,9 @@ public class CoinbaseExMarketDataService extends CoinbaseExMarketDataServiceRaw 
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
-    throw new NotYetImplementedForExchangeException();
+	  
+	  return CoinbaseExAdapters.adaptTrades(getCoinbaseExTrades(currencyPair, 100), currencyPair);
   }
+
+
 }

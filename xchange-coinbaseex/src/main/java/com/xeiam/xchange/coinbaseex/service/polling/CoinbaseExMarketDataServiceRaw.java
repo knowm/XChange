@@ -7,6 +7,7 @@ import com.xeiam.xchange.coinbaseex.CoinbaseEx;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
@@ -53,6 +54,12 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
 	    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol, String.valueOf(level));
 	    return book;  
   }
+  
+  public CoinbaseExTrade[] getCoinbaseExTrades(CurrencyPair currencyPair, int limit) throws IOException {
+	  
+	  return this.coinbaseEx.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol, String.valueOf(limit));
+		
+	}
 
   private boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
 

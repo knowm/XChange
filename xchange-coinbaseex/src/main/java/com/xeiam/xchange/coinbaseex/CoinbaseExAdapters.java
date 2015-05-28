@@ -6,27 +6,47 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.xeiam.xchange.coinbaseex.dto.account.CoinbaseExAccount;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBookEntry;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExTrade;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 
 public class CoinbaseExAdapters {
-	// TODO: timezone might be off, needs to be converted
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS+00");
-	
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+	static {
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+	}
+
+	private CoinbaseExAdapters() {
+
+	}
+
+	private static Date parseDate(String rawDate) {
+		try {
+			return dateFormat.parse(rawDate.substring(0, 23));
+		} catch (ParseException e) {
+			return null;
+		}
+	}
+
 	public static Ticker adaptTicker(CoinbaseExProductTicker ticker, CoinbaseExProductStats stats, CoinbaseExProductBook book, CurrencyPair currencyPair) {
 
 		BigDecimal last = ticker != null ? ticker.getPrice() : null;
@@ -82,18 +102,28 @@ public class CoinbaseExAdapters {
 			OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
 			CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace("-", "/"));
 
-			Date createdAt;
-			try {
-				createdAt = dateFormat.parse(order.getCreatedAt());
-			} catch (ParseException e) {
-				// TODO error?
-				continue;
-			}
+			Date createdAt = parseDate(order.getCreatedAt());
 
 			orders.add(new LimitOrder(type, order.getSize(), currencyPair, order.getId(), createdAt, order.getPrice()));
 
 		}
 
 		return new OpenOrders(orders);
+	}
+
+	public static Trades adaptTrades(CoinbaseExTrade[] coinbaseExTrades, CurrencyPair currencyPair) {
+		List<Trade> trades = new ArrayList<Trade>(coinbaseExTrades.length);
+
+		for(int i = 0; i < coinbaseExTrades.length; i++) {
+			CoinbaseExTrade trade = coinbaseExTrades[i];
+
+			// yes, sell means buy for Coinbase reported trades..
+			OrderType type = trade.getSide().equals("sell") ? OrderType.BID : OrderType.ASK;
+
+			Trade t = new Trade(type, trade.getSize(), currencyPair, trade.getPrice(), parseDate(trade.getTimestamp()), String.valueOf(trade.getTradeId()));
+			trades.add(t);
+		}
+
+		return new Trades(trades, TradeSortType.SortByID);
 	}
 }
