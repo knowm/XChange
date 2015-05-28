@@ -20,6 +20,7 @@ import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProduct;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExTrade;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExIdResponse;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExOrder;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExPlaceOrder;
@@ -45,6 +46,11 @@ public interface CoinbaseEx {
   @Path("products/{baseCurrency}-{targetCurrency}/book?level={level}")
   CoinbaseExProductBook getProductOrderBook(@PathParam("baseCurrency")String baseCurrency, @PathParam("targetCurrency") String targetCurrency, @PathParam("level") String level) throws IOException;
   
+  @GET
+  @Path("products/{baseCurrency}-{targetCurrency}/trades?limit={limit}")
+  CoinbaseExTrade[] getTrades(@PathParam("baseCurrency")String baseCurrency, @PathParam("targetCurrency") String targetCurrency, @PathParam("limit") String limit) throws IOException;
+
+  
   /** Authenticated calls */
   
   @GET
@@ -69,5 +75,6 @@ public interface CoinbaseEx {
   @Consumes(MediaType.TEXT_PLAIN)
   void cancelOrder(@PathParam("id") String id, @HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, 
 		  @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
+  
   
 }
