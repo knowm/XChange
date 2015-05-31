@@ -25,8 +25,6 @@ public class BitcoinChartsBasePollingService extends BaseExchangeService impleme
 
   @Override
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    // TODO call the public API and parse out the symbols.
     return exchange.getMetaData().getCurrencyPairs();
   }
 
