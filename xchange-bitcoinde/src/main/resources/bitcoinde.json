@@ -1,7 +1,6 @@
 {
-	"currency_pairs":[
-		"BTC/EUR"
-	],
-	"max_private_poll_rate_per_minute":2
-         
+    "currencyPairs": {
+        "BTC/EUR": {}
+    },
+    "minPollDelay": 30
 }

@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitcoinde;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -40,5 +42,10 @@ public class BitcoindeExchange extends BaseExchange implements Exchange {
     // No private API implemented. Not needed for this exchange at the
     // moment.
     return null;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 }

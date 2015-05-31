@@ -7,6 +7,7 @@ import com.xeiam.xchange.ExchangeSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -25,7 +26,7 @@ public class ExchangeUtils {
    *
    * @return Create exchange or null if .json file was not on classpath.
    */
-  public static Exchange createExchangeFromJsonConfiguration() {
+  public static Exchange createExchangeFromJsonConfiguration() throws IOException {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(BTCEExchange.class);
     ObjectMapper mapper = new ObjectMapper();
@@ -47,7 +48,9 @@ public class ExchangeUtils {
       return null;
     }
 
-    return ExchangeFactory.INSTANCE.createExchange(exSpec);
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
+    exchange.remoteInit();
+    return exchange;
   }
 
 }
