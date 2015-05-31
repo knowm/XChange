@@ -10,9 +10,10 @@ public class BitcoinAverageMetaDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange anx = ExchangeFactory.INSTANCE.createExchange(BitcoinAverageExchange.class.getName());
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitcoinAverageExchange.class.getName());
+    exchange.remoteInit();
 
-    System.out.println(anx.getMetaData().toString());
+    System.out.println(exchange.getMetaData().toString());
 
   }
 

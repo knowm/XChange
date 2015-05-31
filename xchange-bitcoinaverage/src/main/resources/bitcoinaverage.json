@@ -1,28 +1,3 @@
 {
-   "currency_pairs":[
-      "BTC/AUD",
-      "BTC/BRL",
-      "BTC/CAD",
-      "BTC/CNY",
-      "BTC/CZK",
-      "BTC/EUR",
-      "BTC/GBP",
-      "BTC/ILS",
-      "BTC/JPY",
-      "BTC/NOK",
-      "BTC/NZD",
-      "BTC/PLN",
-      "BTC/RUB",
-      "BTC/SEK",
-      "BTC/USD",
-      "BTC/SGD",
-      "BTC/CHF",
-      "BTC/TRY",
-      "BTC/HKD",
-      "BTC/RON",
-      "BTC/MXN",
-      "BTC/IDR",
-      "BTC/ZAR"
-   ]
+   "priceScale":2
 }
-

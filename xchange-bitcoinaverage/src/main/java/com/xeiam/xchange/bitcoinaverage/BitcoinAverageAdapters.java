@@ -2,10 +2,18 @@ package com.xeiam.xchange.bitcoinaverage;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
+import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTickers;
+import com.xeiam.xchange.bitcoinaverage.dto.meta.BitcoinAverageMetaData;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.meta.ExchangeMetaData;
+import com.xeiam.xchange.dto.meta.MarketMetaData;
+
+import static com.xeiam.xchange.currency.Currencies.BTC;
 
 /**
  * Various adapters for converting from BitcoinAverage DTOs to XChange DTOs
@@ -21,7 +29,7 @@ public final class BitcoinAverageAdapters {
 
   /**
    * Adapts a BitcoinAverageTicker to a Ticker Object
-   * 
+   *
    * @param bitcoinAverageTicker
    * @param currency
    * @param tradableIdentifier
@@ -38,4 +46,10 @@ public final class BitcoinAverageAdapters {
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume).timestamp(timestamp).build();
   }
 
+  public static ExchangeMetaData adaptMetaData(BitcoinAverageTickers tickers, BitcoinAverageMetaData bAMetaData) {
+    Map<CurrencyPair, MarketMetaData> currencyPairs = new HashMap<CurrencyPair, MarketMetaData>();
+    for (String currency : tickers.getTickers().keySet())
+      currencyPairs.put(new CurrencyPair(BTC, currency), new MarketMetaData(null, null, bAMetaData.priceScale));
+    return new ExchangeMetaData(currencyPairs, null, 0);
+  }
 }

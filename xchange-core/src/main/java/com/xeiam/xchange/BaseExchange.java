@@ -109,6 +109,7 @@ public abstract class BaseExchange implements Exchange {
   }
 
   public void remoteInit() throws IOException, ExchangeException {
+    logger.debug("No remote initialization for {}", exchangeSpecification.getExchangeName());
   }
 
   protected void loadMetaData(InputStream is) {
