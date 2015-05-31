@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitbay;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -40,4 +42,8 @@ public class BitbayExchange extends BaseExchange implements Exchange {
     return null;
   }
 
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
 }

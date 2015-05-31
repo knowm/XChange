@@ -2,7 +2,6 @@ package com.xeiam.xchange.btce.v3;
 
 import java.io.InputStream;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -49,16 +48,7 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void loadMetaData(InputStream is) {
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-
-    try {
-      btceMetaData = mapper.readValue(is, BTCEMetaData.class);
-      logger.debug(btceMetaData.toString());
-    } catch (Exception e) {
-      logger.warn("An exception occurred while loading the metadata file from the file. This may lead to unexpected results.", e);
-    }
-
+    btceMetaData = loadMetaData(is, BTCEMetaData.class);
   }
 
   @Override

@@ -1,14 +1,12 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.BTCEReturn;
 import com.xeiam.xchange.btce.v3.service.BTCEHmacPostBodyDigest;
@@ -44,12 +42,7 @@ public class BTCEBasePollingService extends BaseExchangeService implements BaseP
 
   @Override
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-
-    currencyPairs.addAll(BTCEAdapters.adaptCurrencyPairs(btce.getInfo().getPairs().keySet()));
-
-    return currencyPairs;
+    return exchange.getMetaData().getCurrencyPairs();
   }
 
   protected void checkResult(BTCEReturn<?> result) {

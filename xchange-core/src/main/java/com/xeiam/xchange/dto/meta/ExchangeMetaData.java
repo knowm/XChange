@@ -23,13 +23,10 @@ import com.xeiam.xchange.currency.CurrencyPair;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ExchangeMetaData extends SimpleMetaData {
 
-  @JsonProperty("currency_pairs")
   private Map<CurrencyPair, MarketMetaData> currencyPairs;
 
-  @JsonProperty("currency")
   private Map<String, CurrencyMetaData> currency;
 
-  @JsonProperty("min_poll_delay")
   private final Integer minPollDelay;
 
   /**
@@ -37,7 +34,8 @@ public class ExchangeMetaData extends SimpleMetaData {
    * @param currency       Map of currency -> {@link CurrencyMetaData}
    * @param minPollDelay   Minimum time between remote (polling) requests required by the exchange
    */
-  public ExchangeMetaData(Map<CurrencyPair, MarketMetaData> currencyPairs, Map<String, CurrencyMetaData> currency, Integer minPollDelay) {
+  public ExchangeMetaData(@JsonProperty("currencyPair") Map<CurrencyPair, MarketMetaData> currencyPairs, @JsonProperty("currency") Map<String, CurrencyMetaData> currency,
+      @JsonProperty("minPollDelay") Integer minPollDelay) {
 
     // superclass and the call to super c-tor kept only for compatibility during the transition from SimpleMetaData to ExchangeMetaData
     super(new ArrayList<CurrencyPair>(currencyPairs.keySet()), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);

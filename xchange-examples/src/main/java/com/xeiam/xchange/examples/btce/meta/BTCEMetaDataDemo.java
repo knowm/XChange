@@ -24,8 +24,6 @@ public class BTCEMetaDataDemo {
     BTCEExchange btce = (BTCEExchange) BTCEExamplesUtils.createExchange();
     rawLocal(btce);
 
-    btce.remoteInit();
-
     rawRemote(btce);
 
     generic(btce);

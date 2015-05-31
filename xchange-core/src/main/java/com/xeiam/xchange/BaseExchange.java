@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -111,17 +112,27 @@ public abstract class BaseExchange implements Exchange {
   }
 
   protected void loadMetaData(InputStream is) {
+    metaData = loadMetaData(is, SimpleMetaData.class);
+  }
+
+  protected <T> T loadMetaData(InputStream is, Class<T> type) {
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
     try {
-      metaData = mapper.readValue(is, SimpleMetaData.class);
-      logger.debug(metaData.toString());
+      T result = mapper.readValue(is, type);
+      logger.debug(result.toString());
+      return result;
     } catch (Exception e) {
       logger.warn(
           "An exception occured while loading the metadata file from the file system. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
           e);
+      return null;
     }
+  }
+
+  protected void loadExchangeMetaData(InputStream is) {
+    metaData = loadMetaData(is, ExchangeMetaData.class);
   }
 
   public String getMetaDataFileName(ExchangeSpecification exchangeSpecification) {
