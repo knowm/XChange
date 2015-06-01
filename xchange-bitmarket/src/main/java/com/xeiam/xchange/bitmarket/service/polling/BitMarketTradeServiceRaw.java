@@ -52,7 +52,7 @@ public class BitMarketTradeServiceRaw extends BitMarketBasePollingService {
 
   public BitMarketCancelResponse cancelBitMarketOrder(String id) throws IOException, ExchangeException {
 
-    BitMarketCancelResponse response = bitMarketAuthenticated.cancel(apiKey, sign, exchange.getNonceFactory(), Long.getLong(id));
+    BitMarketCancelResponse response = bitMarketAuthenticated.cancel(apiKey, sign, exchange.getNonceFactory(), Long.parseLong(id));
 
     if (!response.getSuccess()) {
       throw new ExchangeException(String.format("%d: %s", response.getError(), response.getErrorMsg()));
