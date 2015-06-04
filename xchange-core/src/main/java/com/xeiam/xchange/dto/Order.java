@@ -2,6 +2,8 @@ package com.xeiam.xchange.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 
@@ -21,6 +23,9 @@ public class Order {
      */
     ASK
   }
+
+  public interface IOrderFlags {
+  };
 
   /**
    * Order type i.e. bid or ask
@@ -46,6 +51,11 @@ public class Order {
    * The timestamp on the order
    */
   private final Date timestamp;
+
+  /**
+   * Any applicable order flags
+   */
+  private final Set<IOrderFlags> flags = new HashSet<IOrderFlags>();
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -95,6 +105,21 @@ public class Order {
   public Date getTimestamp() {
 
     return timestamp;
+  }
+
+  public Set<IOrderFlags> getOrderFlags() {
+    return flags;
+  }
+
+  public void addOrderFlag(IOrderFlags flag) {
+    flags.add(flag);
+  }
+
+  public void setOrderFlags(Set<IOrderFlags> flags) {
+    this.flags.clear();
+    if (flags != null) {
+      this.flags.addAll(flags);
+    }
   }
 
   @Override

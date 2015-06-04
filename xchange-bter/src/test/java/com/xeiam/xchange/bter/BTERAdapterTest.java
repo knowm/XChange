@@ -17,7 +17,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bter.BTERAdapters;
 import com.xeiam.xchange.bter.dto.account.BTERFunds;
 import com.xeiam.xchange.bter.dto.marketdata.BTERCurrencyPairs;
 import com.xeiam.xchange.bter.dto.marketdata.BTERDepth;
@@ -115,6 +114,11 @@ public class BTERAdapterTest {
 
     assertThat(accountInfo.getWallets()).hasSize(4);
     assertThat(accountInfo.getBalance(Currencies.BTC)).isEqualTo("0.00010165");
+
+    assertThat(accountInfo.getWallet(Currencies.BTC).getAvailable()).isEqualTo(new BigDecimal("0.00010165"));
+    assertThat(accountInfo.getWallet(Currencies.BTC).getFrozen()).isEqualTo(BigDecimal.ZERO);
+    assertThat(accountInfo.getWallet(Currencies.LTC).getAvailable()).isEqualTo(new BigDecimal("0.00166859"));
+    assertThat(accountInfo.getWallet(Currencies.LTC).getFrozen()).isEqualTo(new BigDecimal("0.384"));
   }
 
   @Test

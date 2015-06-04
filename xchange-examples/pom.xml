@@ -84,6 +84,12 @@
 			<artifactId>xchange-bitcoincharts</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- XChange Bitcoinde support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId> 
+			<artifactId>xchange-bitcoinde</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<!-- XChange BTC China support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId> 
@@ -118,6 +124,12 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId> 
 			<artifactId>xchange-coinbase</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- XChange Coinbase (Exchange) support -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-coinbaseex</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange BitcoinAverage support -->
@@ -174,6 +186,12 @@
 			<artifactId>xchange-itbit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+        <!-- XChange IndependentReserve exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-independentreserve</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<!-- XChange LakeBTC exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId> 
@@ -281,6 +299,16 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-taurus</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-quoine</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-cointrader</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

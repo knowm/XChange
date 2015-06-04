@@ -20,15 +20,11 @@ public class OkCoinFuturesMarketDataService extends OkCoinMarketDataServiceRaw i
    *
    * @param exchange
    */
-  public OkCoinFuturesMarketDataService(Exchange exchange) {
+  public OkCoinFuturesMarketDataService(Exchange exchange, FuturesContract futuresContract) {
 
     super(exchange);
-
-    if (exchange.getExchangeSpecification().getExchangeSpecificParameters().containsKey("Futures_Contract")) {
-      futuresContract = (FuturesContract) exchange.getExchangeSpecification().getExchangeSpecificParameters().get("Futures_Contract");
-    } else {
-      futuresContract = null;
-    }
+    
+    this.futuresContract = futuresContract;
   }
 
   @Override

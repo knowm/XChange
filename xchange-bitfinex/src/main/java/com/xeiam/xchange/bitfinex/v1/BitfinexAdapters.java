@@ -224,7 +224,7 @@ public final class BitfinexAdapters {
 
     for (BitfinexBalancesResponse balance : response) {
       if ("exchange".equals(balance.getType())) {
-        wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount()));
+        wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getAvailable()));
       }
     }
 

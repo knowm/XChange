@@ -7,6 +7,7 @@ import org.java_websocket.WebSocket.READYSTATE;
 
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.okcoin.OkCoinExchange;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
@@ -16,26 +17,29 @@ public class OkCoinStreamingExchangeService implements StreamingExchangeService 
   private final WebSocketBase socketBase;
   private final BlockingQueue<ExchangeEvent> eventQueue = new LinkedBlockingQueue<ExchangeEvent>();
   private final OkCoinExchangeStreamingConfiguration exchangeStreamingConfiguration;
+  private final ChannelProvider channelProvider;
 
   public OkCoinStreamingExchangeService(ExchangeSpecification exchangeSpecification, ExchangeStreamingConfiguration exchangeStreamingConfiguration) {    
     this.exchangeStreamingConfiguration = (OkCoinExchangeStreamingConfiguration) exchangeStreamingConfiguration;
-    
+
     String sslUri = (String)exchangeSpecification.getExchangeSpecificParametersItem("Websocket_SslUri");
-    
-    WebSocketService socketService = new OkCoinWebSocketService(eventQueue, this.exchangeStreamingConfiguration.getMarketDataCurrencyPairs());
+    boolean useFutures = (Boolean) exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures");
+
+    channelProvider = useFutures ? new FuturesChannelProvider(OkCoinExchange.futuresContractOfConfig(exchangeSpecification)) : 
+      new SpotChannelProvider();
+
+    WebSocketService socketService = new OkCoinWebSocketService(eventQueue, channelProvider, this.exchangeStreamingConfiguration.getMarketDataCurrencyPairs());
     socketBase = new WebSocketBase(sslUri, socketService);
   }
-  
+
   @Override
   public void connect() {
-    socketBase.start();
+    socketBase.start(); 
 
     for(CurrencyPair currencyPair : exchangeStreamingConfiguration.getMarketDataCurrencyPairs()) {
-      String pair = currencyPair.baseSymbol.toLowerCase() + currencyPair.counterSymbol.toLowerCase();
-      
-      socketBase.addChannel("ok_" + pair + "_ticker");
-      socketBase.addChannel("ok_" + pair + "_depth");
-      socketBase.addChannel("ok_" + pair + "_trades_v1");
+      socketBase.addChannel(channelProvider.getTicker(currencyPair));
+      socketBase.addChannel(channelProvider.getDepth(currencyPair));
+      socketBase.addChannel(channelProvider.getTrades(currencyPair));
     }    
   }
 
@@ -56,7 +60,7 @@ public class OkCoinStreamingExchangeService implements StreamingExchangeService 
     return eventQueue.size();
   }
 
-    @Override
+  @Override
   public void send(String msg) {
   }
 
