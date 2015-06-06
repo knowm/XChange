@@ -9,12 +9,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class OkcoinFuturesFundsCross {
 
   private final BigDecimal accountRights;
-  private final int keepDeposits;
+  private final BigDecimal keepDeposits;
   private final BigDecimal profitReal;
   private final BigDecimal profitUnreal;
   private final int riskRate;
 
-  public OkcoinFuturesFundsCross(@JsonProperty("account_rights") BigDecimal accountRights, @JsonProperty("keep_desposit") int keepDeposits, @JsonProperty("profit_real") BigDecimal profitReal,
+  public OkcoinFuturesFundsCross(@JsonProperty("account_rights") BigDecimal accountRights, @JsonProperty("keep_deposit") BigDecimal keepDeposits, @JsonProperty("profit_real") BigDecimal profitReal,
       @JsonProperty("profit_unreal") BigDecimal profitUnreal, @JsonProperty("risk_rate") int riskRate) {
   
     this.accountRights = accountRights;
@@ -31,7 +31,7 @@ public class OkcoinFuturesFundsCross {
   }
 
   
-  public int getKeepDeposits() {
+  public BigDecimal getKeepDeposits() {
   
     return keepDeposits;
   }

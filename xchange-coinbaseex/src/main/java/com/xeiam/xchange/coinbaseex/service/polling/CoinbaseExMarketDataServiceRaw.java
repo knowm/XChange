@@ -1,14 +1,14 @@
 package com.xeiam.xchange.coinbaseex.service.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbaseex.CoinbaseEx;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProduct;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
-
-import java.io.IOException;
 
 /**
  * Created by Yingzhe on 4/6/2015.
@@ -46,9 +46,20 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
       return null;
     }
 
-    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol, "1");
     return book;
   }
+  
+  public CoinbaseExProductBook getCoinbaseExProductOrderBook(CurrencyPair currencyPair, int level) throws IOException {
+	    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol, String.valueOf(level));
+	    return book;  
+  }
+  
+  public CoinbaseExTrade[] getCoinbaseExTrades(CurrencyPair currencyPair, int limit) throws IOException {
+	  
+	  return this.coinbaseEx.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol, String.valueOf(limit));
+		
+	}
 
   private boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
 

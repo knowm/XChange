@@ -14,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
+import com.xeiam.xchange.quoine.dto.account.QuoineTradingAccountInfo;
 import com.xeiam.xchange.quoine.dto.trade.QuoineNewOrderRequest;
 import com.xeiam.xchange.quoine.dto.trade.QuoineOrderDetailsResponse;
 import com.xeiam.xchange.quoine.dto.trade.QuoineOrderResponse;
@@ -28,6 +29,11 @@ public interface QuoineAuthenticated extends Quoine {
   public QuoineAccountInfo getAccountInfo(@HeaderParam("X-Quoine-Device") String device, @HeaderParam("X-Quoine-User-Id") String userID,
       @HeaderParam("X-Quoine-User-Token") String userToken) throws IOException;
 
+  @GET
+  @Path("trading_accounts")
+  public QuoineTradingAccountInfo[] getTradingAccountInfo(@HeaderParam("X-Quoine-Device") String device, @HeaderParam("X-Quoine-User-Id") String userID,
+      @HeaderParam("X-Quoine-User-Token") String userToken) throws IOException;
+  
   @POST
   @Path("orders")
   @Consumes(MediaType.APPLICATION_JSON)

@@ -66,6 +66,8 @@ public class CurrencyPair {
 
   public static final CurrencyPair XDC_BTC = new CurrencyPair(Currencies.XDC, Currencies.BTC);
 
+  public static final CurrencyPair XRP_BTC = new CurrencyPair(Currencies.XRP, Currencies.BTC);
+
   public static final CurrencyPair LTC_USD = new CurrencyPair(Currencies.LTC, Currencies.USD);
   public static final CurrencyPair LTC_KRW = new CurrencyPair(Currencies.LTC, Currencies.KRW);
   public static final CurrencyPair LTC_CNY = new CurrencyPair(Currencies.LTC, Currencies.CNY);

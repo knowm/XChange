@@ -1,12 +1,13 @@
 package com.xeiam.xchange.kraken.dto.trade;
 
 import java.math.BigDecimal;
-import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order.IOrderFlags;
 
 public class KrakenStandardOrder {
 
@@ -18,7 +19,7 @@ public class KrakenStandardOrder {
   private final BigDecimal volume;
   private final String leverage;
   private final String positionTxId;
-  private final Set<KrakenOrderFlags> orderFlags;
+  private final Set<IOrderFlags> orderFlags;
   private final String startTime;
   private final String expireTime;
   private final String userRefId;
@@ -26,8 +27,8 @@ public class KrakenStandardOrder {
   private final Map<String, String> closeOrder;
 
   private KrakenStandardOrder(CurrencyPair currencyPair, KrakenType type, KrakenOrderType orderType, String price, String secondaryPrice,
-      BigDecimal volume, String leverage, String positionTxId, Set<KrakenOrderFlags> orderFlags, String startTime, String expireTime,
-      String userRefId, boolean validateOnly, Map<String, String> closeOrder) {
+      BigDecimal volume, String leverage, String positionTxId, Set<IOrderFlags> orderFlags, String startTime, String expireTime, String userRefId,
+      boolean validateOnly, Map<String, String> closeOrder) {
 
     this.currencyPair = currencyPair;
     this.type = type;
@@ -85,7 +86,7 @@ public class KrakenStandardOrder {
     return positionTxId;
   }
 
-  public Set<KrakenOrderFlags> getOrderFlags() {
+  public Set<IOrderFlags> getOrderFlags() {
 
     return orderFlags;
   }
@@ -202,7 +203,7 @@ public class KrakenStandardOrder {
     private final BigDecimal volume;
     private String leverage;
     private String positionTxId;
-    private Set<KrakenOrderFlags> orderFlags;
+    private final Set<IOrderFlags> orderFlags;
     private String startTime;
     private String expireTime;
     private String userRefId;
@@ -215,7 +216,7 @@ public class KrakenStandardOrder {
       this.type = type;
       this.orderType = orderType;
       this.volume = volume;
-      this.orderFlags = EnumSet.noneOf(KrakenOrderFlags.class);
+      this.orderFlags = new HashSet<IOrderFlags>();
       this.startTime = "0";
       this.positionTxId = "0";
       this.validateOnly = false;
@@ -245,9 +246,13 @@ public class KrakenStandardOrder {
       return this;
     }
 
-    public KrakenOrderBuilder withOrderFlags(Set<KrakenOrderFlags> orderFlags) {
+    public KrakenOrderBuilder withOrderFlags(Set<IOrderFlags> flags) {
 
-      this.orderFlags.addAll(orderFlags);
+      if (flags == null) {
+        orderFlags.clear();
+      } else {
+        orderFlags.addAll(flags);
+      }
       return this;
     }
 
@@ -339,7 +344,7 @@ public class KrakenStandardOrder {
       return positionTxId;
     }
 
-    public Set<KrakenOrderFlags> getOrderFlags() {
+    public Set<IOrderFlags> getOrderFlags() {
 
       return orderFlags;
     }

@@ -13,6 +13,7 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order.IOrderFlags;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.FrequencyLimitExceededException;
 import com.xeiam.xchange.exceptions.NonceException;
@@ -25,6 +26,7 @@ import com.xeiam.xchange.kraken.dto.marketdata.KrakenServerTime;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
+import com.xeiam.xchange.kraken.dto.trade.KrakenOrderFlags;
 import com.xeiam.xchange.kraken.service.KrakenDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
@@ -207,17 +209,22 @@ public class KrakenBasePollingService extends BaseExchangeService implements Bas
     return assetPairsString;
   }
 
-  protected String delimitSet(Set<?> items) {
+  protected String delimitSet(Set<IOrderFlags> items) {
 
     String delimitedSetString = null;
     if (items != null && !items.isEmpty()) {
       StringBuilder delimitStringBuilder = null;
       for (Object item : items) {
-        if (delimitStringBuilder == null) {
-          delimitStringBuilder = new StringBuilder(item.toString());
-        } else {
-          delimitStringBuilder.append(",").append(item.toString());
+        if (item instanceof KrakenOrderFlags) {
+          if (delimitStringBuilder == null) {
+            delimitStringBuilder = new StringBuilder(item.toString());
+          } else {
+            delimitStringBuilder.append(",").append(item.toString());
+          }
         }
+      }
+      if (delimitStringBuilder != null) {
+        delimitedSetString = delimitStringBuilder.toString();
       }
     }
     return delimitedSetString;

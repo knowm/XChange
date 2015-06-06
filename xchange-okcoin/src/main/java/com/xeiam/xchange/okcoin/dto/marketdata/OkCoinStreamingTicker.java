@@ -13,9 +13,13 @@ public class OkCoinStreamingTicker {
   private final BigDecimal last;
   private final String vol;
   private final long timestamp;
+  private final BigDecimal unitAmount;
+  private final String contractId;
+  private final int holdAmount;
 
   public OkCoinStreamingTicker(@JsonProperty("high") final BigDecimal high, @JsonProperty("low") final BigDecimal low, @JsonProperty("buy") final BigDecimal buy, @JsonProperty("sell") final BigDecimal sell,
-      @JsonProperty("last") final BigDecimal last, @JsonProperty("vol") final String vol, @JsonProperty("timestamp") long timestamp) {
+      @JsonProperty("last") final BigDecimal last, @JsonProperty("vol") final String vol, @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("hold_amount") int holdAmount, @JsonProperty("unitAmount") final BigDecimal unitAmount, @JsonProperty("contractId") String contractId) {
 
     this.high = high;
     this.low = low;
@@ -23,7 +27,10 @@ public class OkCoinStreamingTicker {
     this.sell = sell;
     this.last = last;
     this.vol = vol;
+    this.holdAmount = holdAmount;
     this.timestamp = timestamp;
+    this.unitAmount = unitAmount;
+    this.contractId = contractId;
   }
 
   /**
@@ -32,6 +39,24 @@ public class OkCoinStreamingTicker {
   public BigDecimal getHigh() {
 
     return high;
+  }
+
+  
+  public BigDecimal getUnitAmount() {
+  
+    return unitAmount;
+  }
+
+  
+  public String getContractId() {
+  
+    return contractId;
+  }
+
+  
+  public int getHoldAmount() {
+  
+    return holdAmount;
   }
 
   /**

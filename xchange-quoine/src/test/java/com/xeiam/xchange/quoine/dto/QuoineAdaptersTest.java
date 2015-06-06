@@ -97,8 +97,9 @@ public class QuoineAdaptersTest {
 
     // Verify that the example data was unmarshalled correctly
     assertThat(accountInfo.getWallets().size()).isEqualTo(6);
-    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("JPY");
-    assertThat(accountInfo.getWallets().get(0).getBalance()).isEqualTo(new BigDecimal("12546.36144"));
+    System.out.println(accountInfo.getWallet("JPY").toString());
+    assertThat(accountInfo.getWallet("JPY").getCurrency()).isEqualTo("JPY");
+    assertThat(accountInfo.getWallet("JPY").getBalance()).isEqualTo(new BigDecimal("12546.36144"));
   }
 
 }

@@ -1,24 +1,24 @@
 package com.xeiam.xchange.examples.bitso.marketdata;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitso.BitsoExchange;
 import com.xeiam.xchange.bitso.dto.marketdata.BitsoOrderBook;
+import com.xeiam.xchange.bitso.dto.marketdata.BitsoTicker;
 import com.xeiam.xchange.bitso.service.polling.BitsoMarketDataServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
-
-import java.io.IOException;
 
 /**
  * Demonstrate requesting Depth at Bitso
  * @author Piotr Ładyżyński
  */
-public class DepthDemo {
-
-
+public class BitsoMarketDataDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -34,6 +34,8 @@ public class DepthDemo {
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
+    Ticker ticker = marketDataService.getTicker(new CurrencyPair(Currencies.BTC, Currencies.MXN));
+    System.out.println("Ticker: " + ticker);
 
     // Get the latest order book data for BTCMXN
     OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(Currencies.BTC, Currencies.MXN));
@@ -50,6 +52,8 @@ public class DepthDemo {
   }
 
   private static void raw(BitsoMarketDataServiceRaw marketDataService) throws IOException {
+    BitsoTicker ticker = marketDataService.getBitsoTicker();
+    System.out.println("Ticker: " + ticker);
 
     // Get the latest order book data for BTCMXN
     BitsoOrderBook orderBook = marketDataService.getBitsoOrderBook();

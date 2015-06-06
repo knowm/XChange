@@ -41,7 +41,7 @@ import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrderResult;
 
 public final class OkCoinAdapters {
 
-  private static final Wallet emptyCnyWallet = new Wallet(CNY, BigDecimal.ZERO);
+  private static final Wallet emptyUsdWallet = new Wallet(USD, BigDecimal.ZERO);
 
   private OkCoinAdapters() {
 
@@ -132,10 +132,10 @@ public final class OkCoinAdapters {
     OkcoinFuturesFundsCross btcFunds = info.getBtcFunds();
     OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
 
-    Wallet btcWallet = new Wallet(BTC, btcFunds.getAccountRights().add(btcFunds.getProfitReal()).add(btcFunds.getProfitUnreal()));
-    Wallet ltcWallet = new Wallet(LTC, ltcFunds.getAccountRights().add(ltcFunds.getProfitReal()).add(ltcFunds.getProfitUnreal()));
+    Wallet btcWallet = new Wallet(BTC, btcFunds.getAccountRights());
+    Wallet ltcWallet = new Wallet(LTC, ltcFunds.getAccountRights());
 
-    return new AccountInfo(null, Arrays.asList(emptyCnyWallet, btcWallet, ltcWallet));
+    return new AccountInfo(null, Arrays.asList(emptyUsdWallet, btcWallet, ltcWallet));
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {
