@@ -118,6 +118,7 @@
 		<module>xchange-openexchangerates</module>
 		<module>xchange-poloniex</module>
 		<module>xchange-quoine</module>
+		<module>xchange-ripple</module>
 		<module>xchange-taurus</module>
 		<module>xchange-vircurex</module>
 		<module>xchange-yacuna</module>
