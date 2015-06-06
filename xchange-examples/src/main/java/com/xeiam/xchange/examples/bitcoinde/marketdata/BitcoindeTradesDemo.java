@@ -1,6 +1,7 @@
 package com.xeiam.xchange.examples.bitcoinde.marketdata;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -9,6 +10,7 @@ import com.xeiam.xchange.bitcoinde.BitcoindeExchange;
 import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeTrade;
 import com.xeiam.xchange.bitcoinde.service.polling.BitcoindeMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
@@ -41,7 +43,12 @@ public class BitcoindeTradesDemo {
 
     /* get Trades data */
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
-    System.out.println(trades.toString());
+    List<Trade> allTrades = trades.getTrades();
+    System.out.println("Number trades received: " + allTrades.size());
+    for (Trade t : allTrades ){
+    	System.out.println(t);
+    }
+    
   }
 
   public static void raw(BitcoindeMarketDataServiceRaw marketDataService) throws IOException {
