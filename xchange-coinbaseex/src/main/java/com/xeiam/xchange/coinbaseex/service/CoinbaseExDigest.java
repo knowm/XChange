@@ -20,14 +20,17 @@ public class CoinbaseExDigest extends BaseParamsDigest {
 	}
 
 	public static CoinbaseExDigest createInstance(String secretKey) {
-
+	  
+	  if (secretKey == null) {
+	    return null;
+	  }
 		byte[] decodedSecretKey = null;
 		try {			
 			decodedSecretKey = Base64.decode(secretKey);
 		} catch (IOException e) {
 			throw new ExchangeException("Cannot decode secret key");
 		}
-		return secretKey == null ? null : new CoinbaseExDigest(decodedSecretKey);
+		return new CoinbaseExDigest(decodedSecretKey);
 	}
 
 	@Override
