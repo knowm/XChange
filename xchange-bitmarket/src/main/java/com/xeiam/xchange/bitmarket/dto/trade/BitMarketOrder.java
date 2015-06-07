@@ -1,6 +1,7 @@
 package com.xeiam.xchange.bitmarket.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.bitmarket.BitMarketUtils;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 
@@ -48,20 +49,7 @@ public class BitMarketOrder {
     this.type = type;
     this.time = time;
     this.timestamp = new Date(time * 1000);
-
-    if (market.equals("BTCPLN")) {
-      currencyPair = CurrencyPair.BTC_PLN;
-    } else if (market.equals("BTCEUR")) {
-      currencyPair = CurrencyPair.BTC_EUR;
-    } else if (market.equals("LTCPLN")) {
-      currencyPair = new CurrencyPair("LTC", "PLN");
-    } else if (market.equals("LTCBTC")) {
-      currencyPair = CurrencyPair.LTC_BTC;
-    } else if (market.equals("LiteMineXBTC")) {
-      currencyPair = new CurrencyPair("LiteMineX", "BTC");
-    } else {
-      currencyPair = null;
-    }
+    this.currencyPair = BitMarketUtils.BitMarketCurrencyPairToCurrencyPair(market);
   }
 
   public long getId() {
@@ -84,9 +72,7 @@ public class BitMarketOrder {
     return fiat;
   }
 
-  public Order.OrderType getType() {
-    return type.equals("buy") ? Order.OrderType.ASK : Order.OrderType.BID;
-  }
+  public Order.OrderType getType() { return BitMarketUtils.BitMarketOrderTypeToOrderType(type); }
 
   public long getTime(){
     return time;

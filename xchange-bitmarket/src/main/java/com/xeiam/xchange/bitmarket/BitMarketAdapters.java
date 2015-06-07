@@ -7,8 +7,11 @@ import com.xeiam.xchange.bitmarket.dto.account.BitMarketBalance;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrade;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrades;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrder;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
+import com.xeiam.xchange.bitmarket.service.polling.params.BitMarketHistoryParams;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -17,9 +20,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.*;
 
 /**
  * @author kpysniak, kfonal
@@ -132,5 +133,28 @@ public class BitMarketAdapters {
         String.valueOf(bitMarketOrder.getId()),
         bitMarketOrder.getTimestamp(),
         bitMarketOrder.getRate());
+  }
+
+  public static UserTrades adaptTradeHistory(BitMarketHistoryTrades historyTrades) {
+    List<UserTrade> trades = new ArrayList<UserTrade>();
+
+    for (BitMarketHistoryTrade trade : historyTrades.getTrades()) {
+      trades.add(createHistoryTrade(trade));
+    }
+
+    return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  private static UserTrade createHistoryTrade(BitMarketHistoryTrade trade) {
+    return new UserTrade(
+        BitMarketUtils.BitMarketOrderTypeToOrderType(trade.getType()),
+        trade.getAmountCrypto(),
+        new CurrencyPair(trade.getCurrencyCrypto(), trade.getCurrencyFiat()),
+        trade.getRate(),
+        trade.getTimestamp(),
+        String.valueOf(trade.getId()),
+        null,
+        null,
+        null);
   }
 }

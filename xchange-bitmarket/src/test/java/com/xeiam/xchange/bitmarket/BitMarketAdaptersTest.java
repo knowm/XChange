@@ -2,11 +2,17 @@ package com.xeiam.xchange.bitmarket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrade;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrades;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -57,5 +63,29 @@ public class BitMarketAdaptersTest {
     assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo(new BigDecimal("3000.0000"));
     assertThat(orders.getOpenOrders().get(1).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_PLN);
     assertThat(orders.getOpenOrders().get(1).getTradableAmount()).isEqualTo(new BigDecimal("0.08000000"));
+  }
+
+  @Test
+  public void testTradeHistoryAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BitMarketAdaptersTest.class.getResourceAsStream("/trade/example-history-trades-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitMarketHistoryTradesResponse response = mapper.readValue(is, BitMarketHistoryTradesResponse.class);
+
+    // Verify that the example data was unmarshalled correctly
+    UserTrades trades = BitMarketAdapters.adaptTradeHistory(response.getData());
+
+    assertThat(trades.getUserTrades().size()).isEqualTo(5);
+
+    UserTrade trade = trades.getUserTrades().get(4);
+
+    assertThat(trade.getTradableAmount()).isEqualTo(new BigDecimal("1.08260046"));
+    assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_PLN);
+    assertThat(trade.getPrice()).isEqualTo(new BigDecimal("877.0000"));
+    assertThat(trade.getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(trade.getId()).isEqualTo("389406");
   }
 }
