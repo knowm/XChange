@@ -9,12 +9,14 @@ import java.util.List;
 
 import com.xeiam.xchange.bitso.dto.account.BitsoBalance;
 import com.xeiam.xchange.bitso.dto.marketdata.BitsoOrderBook;
+import com.xeiam.xchange.bitso.dto.marketdata.BitsoTicker;
 import com.xeiam.xchange.bitso.dto.trade.BitsoUserTransaction;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
@@ -25,10 +27,25 @@ public final class BitsoAdapters {
 
   private BitsoAdapters() { }
 
+  public static Ticker adaptTicker(BitsoTicker t, CurrencyPair currencyPair) {
+
+    return new Ticker.Builder()
+        .currencyPair(currencyPair)
+        .last(t.getLast())
+        .bid(t.getBid())
+        .ask(t.getAsk())
+        .high(t.getHigh())
+        .low(t.getLow())
+        .vwap(t.getVwap())
+        .volume(t.getVolume())
+        .timestamp(t.getTimestamp())
+        .build();
+  }
+
   public static AccountInfo adaptAccountInfo(BitsoBalance bitsoBalance, String userName) {
     // Adapt to XChange DTOs
-    Wallet mxnWallet = new Wallet(Currencies.MXN, bitsoBalance.getMxnBalance());
-    Wallet btcWallet = new Wallet(Currencies.BTC, bitsoBalance.getBtcBalance());
+    Wallet mxnWallet = new Wallet(Currencies.MXN, bitsoBalance.getMxnBalance(), bitsoBalance.getMxnAvailable(), bitsoBalance.getMxnReserved());
+    Wallet btcWallet = new Wallet(Currencies.BTC, bitsoBalance.getBtcBalance(), bitsoBalance.getBtcAvailable(), bitsoBalance.getBtcReserved());
 
     return new AccountInfo(userName, Arrays.asList(mxnWallet, btcWallet));
   }
@@ -63,19 +80,14 @@ public final class BitsoAdapters {
     }
   }
 
-  /**
-   * Adapt the user's trades
-   *
-   * @param bitsoUserTransactions
-   * @return
-   */
   public static UserTrades adaptTradeHistory(BitsoUserTransaction[] bitsoUserTransactions) {
 
     List<UserTrade> trades = new ArrayList<UserTrade>();
     long lastTradeId = 0;
     for (BitsoUserTransaction bitstampUserTransaction : bitsoUserTransactions) {
       if (bitstampUserTransaction.getType().equals(BitsoUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
-        Order.OrderType orderType = bitstampUserTransaction.getMxn().doubleValue() > 0.0 ? Order.OrderType.ASK : Order.OrderType.BID;
+        boolean sell = bitstampUserTransaction.getMxn().doubleValue() > 0.0;
+        Order.OrderType orderType = sell ? Order.OrderType.ASK : Order.OrderType.BID;
         BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
         BigDecimal price = bitstampUserTransaction.getPrice().abs();
         Date timestamp = BitsoUtils.parseDate(bitstampUserTransaction.getDatetime());
@@ -88,8 +100,8 @@ public final class BitsoAdapters {
         final BigDecimal feeAmount = bitstampUserTransaction.getFee();
         final CurrencyPair currencyPair = new CurrencyPair(Currencies.BTC, Currencies.MXN);
 
-        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-                currencyPair.counterSymbol);
+        String feeCurrency = sell ? currencyPair.counterSymbol : currencyPair.baseSymbol;
+        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount, feeCurrency);
         trades.add(trade);
       }
     }

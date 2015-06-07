@@ -1,0 +1,9 @@
+Quoine Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://www.quoine.com/api
+

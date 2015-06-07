@@ -20,6 +20,7 @@ import com.xeiam.xchange.bitcointoyou.dto.marketdata.BitcoinToYouOrderBook;
 import com.xeiam.xchange.bitcointoyou.dto.marketdata.BitcoinToYouTicker;
 import com.xeiam.xchange.bitcointoyou.dto.marketdata.BitcoinToYouTransaction;
 import com.xeiam.xchange.bitcointoyou.dto.trade.BitcoinToYouOrder;
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -115,6 +116,10 @@ public class BitcoinToYouAdapterTest {
     assertThat(accountInfo.getWallets().get(1).getBalance()).isEqualTo(new BigDecimal("2.15868664"));
     assertThat(accountInfo.getWallets().get(2).getCurrency()).isEqualTo("LTC");
     assertThat(accountInfo.getWallets().get(2).getBalance()).isEqualTo(new BigDecimal("12.68654019"));
+
+    assertThat(accountInfo.getWallet(Currencies.BRL).getBalance()).isEqualTo(new BigDecimal("17628.7309736"));
+    assertThat(accountInfo.getWallet(Currencies.BRL).getAvailable()).isEqualTo(new BigDecimal("17628.7309736"));
+    assertThat(accountInfo.getWallet(Currencies.BRL).getFrozen()).isEqualTo(BigDecimal.ZERO);
   }
 
   @Test

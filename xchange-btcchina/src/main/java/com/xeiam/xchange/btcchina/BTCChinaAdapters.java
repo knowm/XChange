@@ -172,7 +172,9 @@ public final class BTCChinaAdapters {
 
       // add frozen amount, subtract loaned amount
       BigDecimal cash = balanceAmount.add(frozenAmount).subtract(loanAmount);
-      wallets.add(new Wallet(entry.getValue().getCurrency(), cash));
+      // FIXME: the second parameter should be balanceAmount,
+      // keep it as cash for safe reason, this will be fixed in XChagne 4.0.0
+      wallets.add(new Wallet(entry.getValue().getCurrency(), cash, cash, frozenAmount));
     }
     return wallets;
 

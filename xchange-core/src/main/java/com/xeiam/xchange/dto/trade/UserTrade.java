@@ -2,6 +2,7 @@ package com.xeiam.xchange.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -36,7 +37,7 @@ public final class UserTrade extends Trade {
    * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param price The price (either the bid or the ask)
-   * @param timestamp The timestamp when the order was placed. Exchange matching is usually price first then timestamp asc to clear older orders
+   * @param timestamp The timestamp of the trade
    * @param id The id of the trade
    * @param orderId The id of the order responsible for execution of this trade
    * @param feeAmount The fee that was charged by the exchange for this trade
@@ -89,14 +90,16 @@ public final class UserTrade extends Trade {
     private String orderId;
     private BigDecimal feeAmount;
     private String feeCurrency;
+    private Map<String, Object> additionalData;
 
     public Builder() {
 
     }
 
     public static Builder from(UserTrade trade) {
-      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice()).timestamp(trade.getTimestamp())
-          .id(trade.getId()).orderId(trade.getOrderId()).feeAmount(trade.getFeeAmount()).feeCurrency(trade.getFeeCurrency());
+      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair())
+          .price(trade.getPrice()).timestamp(trade.getTimestamp()).id(trade.getId()).orderId(trade.getOrderId()).feeAmount(trade.getFeeAmount())
+          .feeCurrency(trade.getFeeCurrency()).additionalData(trade.getAdditionalData());
     }
 
     public Builder type(OrderType type) {
@@ -153,9 +156,17 @@ public final class UserTrade extends Trade {
       return this;
     }
 
+    public Builder additionalData(Map<String, Object> additionalData) {
+
+      this.additionalData = additionalData;
+      return this;
+    }
+
     public UserTrade build() {
 
-      return new UserTrade(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
+      UserTrade trade = new UserTrade(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
+      trade.setAdditionalData(additionalData);
+      return trade;
     }
   }
 }
