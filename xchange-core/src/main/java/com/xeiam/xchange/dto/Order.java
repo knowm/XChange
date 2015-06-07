@@ -2,7 +2,9 @@ package com.xeiam.xchange.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -56,6 +58,12 @@ public class Order {
    * Any applicable order flags
    */
   private final Set<IOrderFlags> flags = new HashSet<IOrderFlags>();
+  
+  /**
+   * Additional exchange specific data for use on order entry, order history, 
+   * order book depth etc. 
+   */
+  private final Map<String, Object> additionalData = new HashMap<String, Object>();
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -120,6 +128,26 @@ public class Order {
     if (flags != null) {
       this.flags.addAll(flags);
     }
+  }
+
+  public Object getAdditionalData(String key) {
+    return additionalData.get(key);
+  }
+
+  public void putAdditionalData(String key, Object value) {
+    additionalData.put(key, value);
+  }
+
+  public Map<String, Object> getAdditionalData() {
+    return additionalData;
+  }
+
+  public Order setAdditionalData(Map<String, Object> values) {
+    additionalData.clear();
+    if (values != null) {
+      additionalData.putAll(values);
+    }
+    return this;
   }
 
   @Override

@@ -3,11 +3,18 @@ package com.xeiam.xchange.ripple;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
+import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.ripple.dto.account.RippleAccount;
+import com.xeiam.xchange.ripple.dto.account.RippleBalance;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrder;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrderBook;
 
@@ -23,7 +30,31 @@ public abstract class RippleAdapters {
   }
 
   /**
-   * Adapts a Ripple OrderBook to an XChange OrderBook Object
+   * Adapts a Ripple Account to an XChange AccountInfo object.
+   * <p>
+   * Counterparties are mapped since there is not other way of the application receiving this information.
+   */
+  public static AccountInfo adaptAccountInfo(final RippleAccount account, String username) {
+    // Adapt account balances to XChange wallets
+    final Map<String, Wallet> wallets = new TreeMap<String, Wallet>();
+    for (final RippleBalance balance : account.getBalances()) {
+      final String currency;
+      if (balance.getCurrency().equals(Currencies.XRP)) {
+        currency = balance.getCurrency();
+      } else {
+        currency = String.format("%s.%s", balance.getCurrency(), balance.getCounterparty());
+      }
+      final Wallet wallet = new Wallet(currency, balance.getValue());
+      wallets.put(wallet.getCurrency(), wallet);
+    }
+    return new AccountInfo(username, BigDecimal.ZERO, wallets);
+  }
+
+  /**
+   * Adapts a Ripple OrderBook to an XChange OrderBook object.
+   * <p>
+   * Counterparties are not mapped since the application calling this should know and keep track of the counterparties it is using in the polling
+   * thread.
    */
   public static OrderBook adaptOrderBook(final RippleOrderBook rippleOrderBook, final CurrencyPair currencyPair) {
     final String orderBook = rippleOrderBook.getOrderBook(); // e.g. XRP/BTC+rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B
@@ -57,13 +88,13 @@ public abstract class RippleAdapters {
       // amount of base currency
       final BigDecimal tradableAmount;
       if (orderType == OrderType.BID) {
-        tradableAmount = new BigDecimal(ripple.getTakerPaysFunded().getValue());
+        tradableAmount = ripple.getTakerPaysFunded().getValue();
       } else {
-        tradableAmount = new BigDecimal(ripple.getTakerGetsFunded().getValue());
+        tradableAmount = ripple.getTakerGetsFunded().getValue();
       }
 
       // price in counter currency
-      final BigDecimal price = new BigDecimal(ripple.getPrice().getValue());
+      final BigDecimal price = ripple.getPrice().getValue();
 
       final LimitOrder xchangeOrder = new LimitOrder(orderType, tradableAmount, currencyPair, Integer.toString(ripple.getSequence()), null, price);
       limitOrders.add(xchangeOrder);

@@ -1,7 +1,11 @@
-package com.xeiam.xchange.ripple.dto.marketdata;
+package com.xeiam.xchange.ripple.dto;
+
+import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 @JsonPropertyOrder({ "currency", "counterparty", "value" })
 public final class RippleAmount {
@@ -11,35 +15,30 @@ public final class RippleAmount {
   @JsonProperty("counterparty")
   private String counterparty;
   @JsonProperty("value")
-  private String value;
+  private BigDecimal value;
 
-  @JsonProperty("currency")
   public String getCurrency() {
     return currency;
   }
 
-  @JsonProperty("currency")
   public void setCurrency(final String currency) {
     this.currency = currency;
   }
 
-  @JsonProperty("counterparty")
   public String getCounterparty() {
     return counterparty;
   }
 
-  @JsonProperty("counterparty")
   public void setCounterparty(final String counterparty) {
     this.counterparty = counterparty;
   }
 
-  @JsonProperty("value")
-  public String getValue() {
+  @JsonSerialize(using=ToStringSerializer.class)
+  public BigDecimal getValue() {
     return value;
   }
 
-  @JsonProperty("value")
-  public void setValue(final String value) {
+  public void setValue(final BigDecimal value) {
     this.value = value;
   }
 
