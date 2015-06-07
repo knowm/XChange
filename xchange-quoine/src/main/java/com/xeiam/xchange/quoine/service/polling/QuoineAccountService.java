@@ -8,6 +8,7 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.quoine.QuoineAdapters;
 import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
+import com.xeiam.xchange.quoine.dto.account.QuoineTradingAccountInfo;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
@@ -20,32 +21,40 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
  */
 public class QuoineAccountService extends QuoineAccountServiceRaw implements PollingAccountService {
 
-  /**
-   * Constructor
-   */
-  public QuoineAccountService(BaseExchange baseExchange) {
+	private final boolean useMargin;	
 
-    super(baseExchange);
-  }
+	/**
+	 * Constructor
+	 */
+	public QuoineAccountService(BaseExchange baseExchange, boolean useMargin) {
 
-  @Override
-  public AccountInfo getAccountInfo() throws IOException {
+		super(baseExchange);
 
-    QuoineAccountInfo quoineAccountInfo = getQuoineAccountInfo();
+		this.useMargin = useMargin;
+	}
 
-    return QuoineAdapters.adaptAccountinfo(quoineAccountInfo);
-  }
+	@Override
+	public AccountInfo getAccountInfo() throws IOException {
+		if(useMargin) {
+			QuoineTradingAccountInfo[] quoineTradingAccountInfo = getQuoineTradingAccountInfo();    
+			return QuoineAdapters.adaptTradingAccountInfo(quoineTradingAccountInfo);    
 
-  @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+		} else {
+			QuoineAccountInfo quoineAccountInfo = getQuoineAccountInfo();
+			return QuoineAdapters.adaptAccountinfo(quoineAccountInfo);
+		}
+	}
 
-    throw new NotAvailableFromExchangeException();
-  }
+	@Override
+	public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-  @Override
-  public String requestDepositAddress(String currency, String... args) throws IOException {
+		throw new NotAvailableFromExchangeException();
+	}
 
-    throw new NotAvailableFromExchangeException();
-  }
+	@Override
+	public String requestDepositAddress(String currency, String... args) throws IOException {
+
+		throw new NotAvailableFromExchangeException();
+	}
 
 }

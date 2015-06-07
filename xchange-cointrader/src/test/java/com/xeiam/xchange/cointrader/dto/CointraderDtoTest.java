@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.junit.Test;
 
@@ -92,7 +93,7 @@ public class CointraderDtoTest {
   }
 
   private Date getDate(String dateStr) throws ParseException {
-    return new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy").parse(dateStr);
+    return new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US).parse(dateStr);
   }
 
   private static <E> E parse(String filename, Class<E> type) throws java.io.IOException {

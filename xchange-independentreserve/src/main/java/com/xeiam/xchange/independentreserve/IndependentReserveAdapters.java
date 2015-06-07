@@ -104,7 +104,7 @@ public class IndependentReserveAdapters {
 
             UserTrade ut = new UserTrade(type, trade.getVolumeTraded(),
                     currencyPair, trade.getPrice(),
-                    trade.getOrderTimestampUtc(), trade.getTradeGuid(),
+                    trade.getTradeTimestampUtc(), trade.getTradeGuid(),
                     trade.getOrderGuid(), null,null);
 
             userTrades.add(ut);

@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class IndependentReserveTrade {
     private final String tradeGuid;
-    private final String tradeTimestampUtc;
+    private final Date tradeTimestampUtc;
     private final String orderGuid;
     private final String orderType;
     private final Date orderTimestampUtc;
@@ -21,7 +21,7 @@ public class IndependentReserveTrade {
     private final String secondaryCurrencyCode;
 
     public IndependentReserveTrade(@JsonProperty("OrderGuid") String orderGuid,@JsonProperty("TradeGuid") String tradeGuid,
-                                   @JsonProperty("TradeTimestampUtc") String tradeTimestampUtc,
+                                   @JsonProperty("TradeTimestampUtc") Date tradeTimestampUtc,
                                    @JsonProperty("OrderType") String orderType, @JsonProperty("OrderTimestampUtc") Date orderTimestampUtc,
                                    @JsonProperty("VolumeTraded") BigDecimal volumeTraded,
                                    @JsonProperty("Price") BigDecimal price, @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode,
@@ -65,7 +65,7 @@ public class IndependentReserveTrade {
         return tradeGuid;
     }
 
-    public String getTradeTimestampUtc() {
+    public Date getTradeTimestampUtc() {
         return tradeTimestampUtc;
     }
 

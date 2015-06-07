@@ -57,7 +57,7 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Pol
     }
 
     // Adapt to XChange DTOs
-    return OERAdapters.adaptTicker(currencyPair, exchangeRate, null);
+    return OERAdapters.adaptTicker(currencyPair, exchangeRate);
   }
 
   @Override

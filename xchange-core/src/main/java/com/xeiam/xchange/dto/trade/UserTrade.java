@@ -37,7 +37,7 @@ public final class UserTrade extends Trade {
    * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param price The price (either the bid or the ask)
-   * @param timestamp The timestamp when the order was placed. Exchange matching is usually price first then timestamp asc to clear older orders
+   * @param timestamp The timestamp of the trade
    * @param id The id of the trade
    * @param orderId The id of the order responsible for execution of this trade
    * @param feeAmount The fee that was charged by the exchange for this trade
