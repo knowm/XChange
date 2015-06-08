@@ -1,23 +1,29 @@
 package com.xeiam.xchange.bitmarket;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+import com.xeiam.xchange.bitmarket.dto.account.BitMarketBalance;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrade;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrades;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrder;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
+import com.xeiam.xchange.bitmarket.service.polling.params.BitMarketHistoryParams;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.*;
 
 /**
- * @author kpysniak
+ * @author kpysniak, kfonal
  */
 public class BitMarketAdapters {
 
@@ -26,6 +32,28 @@ public class BitMarketAdapters {
    */
   private BitMarketAdapters() {
 
+  }
+
+  /**
+   * Adapts BitMarketBalance to AccountInfo
+   *
+   * @param balance
+   * @param username
+   * @return
+   */
+  public static AccountInfo adaptAccountInfo(BitMarketBalance balance, String username){
+
+    Map<String, Wallet> wallets = new HashMap<String, Wallet>();
+
+    for (Map.Entry<String, BigDecimal> entry : balance.getAvailable().entrySet()) {
+      BigDecimal frozen = balance.getBlocked().containsKey(entry.getKey()) ?
+          balance.getBlocked().get(entry.getKey()) :
+          new BigDecimal("0");
+      BigDecimal available = entry.getValue();
+      wallets.put(entry.getKey(), new Wallet(entry.getKey(), available.add(frozen), available, frozen));
+    }
+
+    return new AccountInfo(username, wallets);
   }
 
   /**
@@ -80,5 +108,56 @@ public class BitMarketAdapters {
 
     Trades trades = new Trades(tradeList, Trades.TradeSortType.SortByTimestamp);
     return trades;
+  }
+
+  public static OpenOrders adaptOpenOrders(Map<String, Map<String, List<BitMarketOrder>>> ordersMap) {
+
+    List<LimitOrder> orders = new ArrayList<LimitOrder>();
+
+    for (Map.Entry<String, Map<String, List<BitMarketOrder>>> rootEntry : ordersMap.entrySet()) {
+      for (Map.Entry<String, List<BitMarketOrder>> entry : rootEntry.getValue().entrySet()) {
+        for (BitMarketOrder bitMarketOrder : entry.getValue()) {
+          orders.add(createOrder(bitMarketOrder));
+        }
+      }
+    }
+
+    return new OpenOrders(orders);
+  }
+
+  private static LimitOrder createOrder(BitMarketOrder bitMarketOrder) {
+
+    return new LimitOrder(
+        bitMarketOrder.getType(),
+        bitMarketOrder.getAmount(),
+        bitMarketOrder.getCurrencyPair(),
+        String.valueOf(bitMarketOrder.getId()),
+        bitMarketOrder.getTimestamp(),
+        bitMarketOrder.getRate());
+  }
+
+  public static UserTrades adaptTradeHistory(BitMarketHistoryTrades historyTrades) {
+
+    List<UserTrade> trades = new ArrayList<UserTrade>();
+
+    for (BitMarketHistoryTrade trade : historyTrades.getTrades()) {
+      trades.add(createHistoryTrade(trade));
+    }
+
+    return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  private static UserTrade createHistoryTrade(BitMarketHistoryTrade trade) {
+
+    return new UserTrade(
+        BitMarketUtils.BitMarketOrderTypeToOrderType(trade.getType()),
+        trade.getAmountCrypto(),
+        new CurrencyPair(trade.getCurrencyCrypto(), trade.getCurrencyFiat()),
+        trade.getRate(),
+        trade.getTimestamp(),
+        String.valueOf(trade.getId()),
+        null,
+        null,
+        null);
   }
 }
