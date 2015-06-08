@@ -23,6 +23,7 @@ public class BitMarketOrdersResponse extends BitMarketBaseResponse<Map<String, M
    */
   public BitMarketOrdersResponse(@JsonProperty("success") boolean success, @JsonProperty("data") Map<String, Map<String, List<BitMarketOrder>>> data,
       @JsonProperty("limit") BitMarketAPILimit limit, @JsonProperty("error") int error, @JsonProperty("errorMsg") String errorMsg) {
+
     super(success, data, limit, error, errorMsg);
   }
 }

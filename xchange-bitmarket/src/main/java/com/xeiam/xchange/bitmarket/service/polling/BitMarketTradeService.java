@@ -61,6 +61,7 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements P
 
   @Override public UserTrades getTradeHistory(Object... objects)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     BitMarketHistoryParams params = new BitMarketHistoryParams();
 
     try {

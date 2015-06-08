@@ -17,16 +17,6 @@ import static org.junit.Assert.assertNotNull;
  * @author kfonal
  */
 public class AccountInfoFetchIntegration {
-  static {
-    HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
-      public boolean verify(String hostname, SSLSession session) {
-        // ip address of the service URL(like.23.28.244.244)
-        if (hostname.equals("www.test.bitmarket.pl"))
-          return true;
-        return false;
-      }
-    });
-  }
 
   private Exchange exchange;
 

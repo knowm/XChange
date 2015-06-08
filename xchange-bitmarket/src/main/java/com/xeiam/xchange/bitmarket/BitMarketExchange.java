@@ -42,6 +42,7 @@ public class BitMarketExchange extends BaseExchange implements Exchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
+
     return nonceFactory;
   }
 

@@ -20,6 +20,7 @@ public class BitMarketWithdrawResponse extends BitMarketBaseResponse<String> {
    */
   public BitMarketWithdrawResponse(@JsonProperty("success") boolean success, @JsonProperty("data") String data,
       @JsonProperty("limit") BitMarketAPILimit limit, @JsonProperty("error") int error, @JsonProperty("errorMsg") String errorMsg) {
+
     super(success, data, limit, error, errorMsg);
   }
 }

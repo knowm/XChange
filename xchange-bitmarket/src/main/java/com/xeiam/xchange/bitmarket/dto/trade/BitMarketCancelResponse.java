@@ -21,6 +21,7 @@ public class BitMarketCancelResponse extends BitMarketBaseResponse<BitMarketBala
    */
   public BitMarketCancelResponse(@JsonProperty("success") boolean success, @JsonProperty("data") BitMarketBalance data,
       @JsonProperty("limit") BitMarketAPILimit limit, @JsonProperty("error") int error, @JsonProperty("errorMsg") String errorMsg) {
+
     super(success, data, limit, error, errorMsg);
   }
 }

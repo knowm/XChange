@@ -41,6 +41,7 @@ public class BitMarketOrder {
       @JsonProperty("fiat") BigDecimal fiat,
       @JsonProperty("type") String type,
       @JsonProperty("time") long time) {
+
     this.id = id;
     this.market = market;
     this.amount = amount;

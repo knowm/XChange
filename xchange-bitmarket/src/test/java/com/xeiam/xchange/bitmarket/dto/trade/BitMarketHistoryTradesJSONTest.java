@@ -16,6 +16,7 @@ public class BitMarketHistoryTradesJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
+
     // Read in the JSON from the example resources
     InputStream is = BitMarketHistoryTradesJSONTest.class.getResourceAsStream("/trade/example-history-trades-data.json");
 

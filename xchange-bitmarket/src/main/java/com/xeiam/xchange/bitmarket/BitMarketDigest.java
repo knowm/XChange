@@ -33,9 +33,5 @@ public class BitMarketDigest extends BaseParamsDigest {
     } catch (UnsupportedEncodingException e) {
       throw new RuntimeException("Illegal encoding, check the code.", e);
     }
-    //mac.update(restInvocation.getParamValue(FormParam.class, "method").toString().getBytes());
-    //mac.update(restInvocation.getParamValue(FormParam.class, "tonce").toString().getBytes());
-
-    //return String.format("%0128x", new BigInteger(1, mac.doFinal())).toUpperCase();
   }
 }

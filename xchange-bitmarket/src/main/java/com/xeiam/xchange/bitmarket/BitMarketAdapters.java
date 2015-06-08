@@ -126,6 +126,7 @@ public class BitMarketAdapters {
   }
 
   private static LimitOrder createOrder(BitMarketOrder bitMarketOrder) {
+
     return new LimitOrder(
         bitMarketOrder.getType(),
         bitMarketOrder.getAmount(),
@@ -136,6 +137,7 @@ public class BitMarketAdapters {
   }
 
   public static UserTrades adaptTradeHistory(BitMarketHistoryTrades historyTrades) {
+
     List<UserTrade> trades = new ArrayList<UserTrade>();
 
     for (BitMarketHistoryTrade trade : historyTrades.getTrades()) {
@@ -146,6 +148,7 @@ public class BitMarketAdapters {
   }
 
   private static UserTrade createHistoryTrade(BitMarketHistoryTrade trade) {
+
     return new UserTrade(
         BitMarketUtils.BitMarketOrderTypeToOrderType(trade.getType()),
         trade.getAmountCrypto(),
