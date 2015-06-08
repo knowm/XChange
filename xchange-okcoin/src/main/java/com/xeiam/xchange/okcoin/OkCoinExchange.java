@@ -37,7 +37,7 @@ public class OkCoinExchange extends BaseExchange {
     if (exchangeSpecification.getExchangeSpecificParameters() != null
         && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
       FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
-    
+
       this.pollingMarketDataService = new OkCoinFuturesMarketDataService(this, contract);
       if (exchangeSpecification.getApiKey() != null) {
         this.pollingAccountService = new OkCoinFuturesAccountService(this);
@@ -61,16 +61,17 @@ public class OkCoinExchange extends BaseExchange {
       return 10;
     }
   }
-  
+
   /** Extract contract used by spec */
   public static FuturesContract futuresContractOfConfig(ExchangeSpecification exchangeSpecification) {
     FuturesContract contract;
 
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
-      contract = (FuturesContract)exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract");
+      contract = (FuturesContract) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract");
     } else if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract_String")) {
-      contract = FuturesContract.valueOf((String)exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract_String"));
-    } else { 
+      contract = FuturesContract.valueOfIgnoreCase(FuturesContract.class,
+          (String) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract_String"));
+    } else {
       throw new RuntimeException("`Futures_Contract` or `Futures_Contract_String` not defined in exchange specific parameters.");
     }
 
@@ -112,9 +113,9 @@ public class OkCoinExchange extends BaseExchange {
     if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(false)) {
       return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_china";
     } else {
-      if(exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)){
+      if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
         return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_futures";
-      }else{
+      } else {
         return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "") + "_intl";
       }
 
