@@ -12,6 +12,8 @@ import com.xeiam.xchange.kraken.dto.account.KrakenLedger;
 import com.xeiam.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
 import com.xeiam.xchange.kraken.dto.account.KrakenTradeVolume;
 import com.xeiam.xchange.kraken.dto.account.LedgerType;
+import com.xeiam.xchange.kraken.dto.account.Withdraw;
+import com.xeiam.xchange.kraken.dto.account.WithdrawInfo;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenDepositMethodsResults;
@@ -19,6 +21,8 @@ import com.xeiam.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
+import com.xeiam.xchange.kraken.dto.account.results.WithdrawInfoResult;
+import com.xeiam.xchange.kraken.dto.account.results.WithdrawResult;
 
 /**
  * @author jamespedwards42
@@ -51,8 +55,8 @@ public class KrakenAccountServiceRaw extends KrakenBasePollingService {
 
 	public KrakenDepositAddress[] getDepositAddresses(String currency, String method, boolean newAddress)
 			throws IOException {
-		KrakenDepositAddressResult depositAddressesResult = kraken.getDepositAddresses(null, currency, method, exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-				exchange.getNonceFactory());
+		KrakenDepositAddressResult depositAddressesResult = kraken.getDepositAddresses(null, currency, method, exchange
+				.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
 		return checkResult(depositAddressesResult);
 	}
 
@@ -60,6 +64,20 @@ public class KrakenAccountServiceRaw extends KrakenBasePollingService {
 		KrakenDepositMethodsResults depositMethods = kraken.getDepositMethods(assetPairs, assets, exchange
 				.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
 		return checkResult(depositMethods);
+	}
+
+	public WithdrawInfo getWithdrawInfo(String assetPairs, String assets, String key, BigDecimal amount)
+			throws IOException {
+		WithdrawInfoResult withdrawInfoResult = kraken.getWithdrawInfo(assetPairs, assets, key, amount, exchange
+				.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+		return checkResult(withdrawInfoResult);
+	}
+	
+	public Withdraw withdraw(String assetPairs, String assets, String key, BigDecimal amount)
+			throws IOException {
+		WithdrawResult withdrawResult = kraken.withdraw(assetPairs, assets, key, amount,  exchange
+				.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+		return checkResult(withdrawResult);
 	}
 
 	/**
@@ -144,10 +162,8 @@ public class KrakenAccountServiceRaw extends KrakenBasePollingService {
 	}
 
 	public KrakenTradeVolume getTradeVolume(CurrencyPair... currencyPairs) throws IOException {
-
 		KrakenTradeVolumeResult result = kraken.tradeVolume(delimitAssetPairs(currencyPairs), exchange
 				.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
-
 		return checkResult(result);
 	}
 }

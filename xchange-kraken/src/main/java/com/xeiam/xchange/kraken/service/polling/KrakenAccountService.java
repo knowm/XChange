@@ -2,14 +2,11 @@ package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.kraken.dto.account.KrakenDepositAddress;
-import com.xeiam.xchange.kraken.dto.account.KrakenDepositMethods;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class KrakenAccountService extends KrakenAccountServiceRaw implements PollingAccountService {
@@ -32,7 +29,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Pol
 
 	@Override
 	public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
-		 throw new NotAvailableFromExchangeException();
+		return withdraw(null, currency, address, amount).getRefid();
 	}
 
 	@Override
@@ -41,4 +38,9 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Pol
 		return KrakenAdapters.adaptKrakenDepositAddress(depositAddresses);
 	}
 
+	// public WithdrawInfo[] getWithdrawInfo(String assetPairs, String assets,
+	// String key, BigDecimal amount)
+	// throws IOException {
+	// return getWithdrawInfo(assetPairs, assets, key, amount);
+	// }
 }

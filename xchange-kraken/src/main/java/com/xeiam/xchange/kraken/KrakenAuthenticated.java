@@ -1,6 +1,7 @@
 package com.xeiam.xchange.kraken;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -21,6 +22,8 @@ import com.xeiam.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
+import com.xeiam.xchange.kraken.dto.account.results.WithdrawInfoResult;
+import com.xeiam.xchange.kraken.dto.account.results.WithdrawResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenCancelOrderResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenClosedOrdersResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
@@ -168,5 +171,28 @@ public interface KrakenAuthenticated extends Kraken {
 		  	@HeaderParam("API-Sign") ParamsDigest signer, 
       		@FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
-  
+  @POST
+  @Path("private/WithdrawInfo")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  public WithdrawInfoResult getWithdrawInfo(
+		  	@FormParam("aclass") String assetPairs,
+		  	@FormParam("asset") String assets,
+		  	@FormParam("key") String key,
+		  	@FormParam("amount") BigDecimal amount,
+		  	@HeaderParam("API-Key") String apiKey,
+		  	@HeaderParam("API-Sign") ParamsDigest signer, 
+    		@FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
+  @POST
+  @Path("private/Withdraw")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  public WithdrawResult withdraw(
+		  	@FormParam("aclass") String assetPairs,
+		  	@FormParam("asset") String assets,
+		  	@FormParam("key") String key,
+		  	@FormParam("amount") BigDecimal amount,
+		  	@HeaderParam("API-Key") String apiKey,
+		  	@HeaderParam("API-Sign") ParamsDigest signer, 
+    		@FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
 }
