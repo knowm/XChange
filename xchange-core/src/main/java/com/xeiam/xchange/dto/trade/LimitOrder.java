@@ -2,6 +2,8 @@ package com.xeiam.xchange.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -89,6 +91,7 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
     String id;
     Date timestamp;
     BigDecimal limitPrice;
+    Map<String, Object> additionalData = new HashMap<String, Object>();
 
     public Builder(OrderType orderType, CurrencyPair currencyPair) {
 
@@ -102,7 +105,8 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
     }
 
     public static Builder from(Order o) {
-      return new Builder(o.getType(), o.getCurrencyPair()).tradableAmount(o.getTradableAmount()).timestamp(o.getTimestamp()).id(o.getId());
+      return new Builder(o.getType(), o.getCurrencyPair()).tradableAmount(o.getTradableAmount()).timestamp(o.getTimestamp()).id(o.getId())
+          .additionalData(o.getAdditionalData());
     }
 
     public Builder orderType(OrderType orderType) {
@@ -138,6 +142,11 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
     public Builder limitPrice(BigDecimal limitPrice) {
 
       this.limitPrice = limitPrice;
+      return this;
+    }
+
+    private Builder additionalData(Map<String, Object> additionalData) {
+      this.additionalData.putAll(additionalData);
       return this;
     }
 

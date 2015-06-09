@@ -40,7 +40,7 @@ public class RippleOrderEntryResponseBody extends RippleOrderEntryRequestBody {
 
   @Override
   public String toString() {
-    return String.format("%s [type=%s, taker_pays=%s, taker_gets=%s, account=%s fee=%s, sequence=%s]", getClass().getSimpleName(), getType(), getTakerPays(),
+    return String.format("%s [type=%s, taker_pays=%s, taker_gets=%s, account=%s fee=%s, sequence=%d]", getClass().getSimpleName(), getType(), getTakerPays(),
         getTakerGets(), account, fee, sequence);
   }
 }

@@ -16,12 +16,11 @@ public class RippleExchange extends BaseExchange implements Exchange {
 
   public static final String REST_API_RIPPLE_LABS = "https://api.ripple.com/";
 
-  public static final String REST_API_LOCALHOST_SSL = "https://localhost:5990/";
   public static final String REST_API_LOCALHOST_PLAIN_TEXT = "http://localhost:5990/";
-  
+
   public static final String DATA_BASE_COUNTERPARTY = "baseCounterparty";
   public static final String DATA_COUNTER_COUNTERPARTY = "counterCounterparty";
-  
+
   private static final String README = "https://github.com/timmolter/XChange/tree/develop/xchange-ripple";
 
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
@@ -32,7 +31,7 @@ public class RippleExchange extends BaseExchange implements Exchange {
 
     if (specification.getSecretKey() != null && specification.getSecretKey().length() > 0 && specification.getSslUri().equals(REST_API_RIPPLE_LABS)
         && Boolean.parseBoolean(specification.getParameter(TRUST_API_RIPPLE_COM).toString()) == false) {
-      throw new IllegalStateException(String.format("Server %s has not been trusted - see %s for details", REST_API_RIPPLE_LABS, README));
+      throw new IllegalStateException(String.format("server %s has not been trusted - see %s for details", REST_API_RIPPLE_LABS, README));
     }
 
     this.pollingMarketDataService = new RippleMarketDataService(this);

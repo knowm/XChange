@@ -20,10 +20,10 @@ public class RippleBasePollingService extends BaseExchangeService implements Bas
   public RippleBasePollingService(final Exchange exchange) {
     super(exchange);
     final String uri;
-    if (exchange.getExchangeSpecification().getSslUri() != null) {
+    if (exchange.getExchangeSpecification().getSslUri() != null && exchange.getExchangeSpecification().getSslUri().length() > 0) {
       // by default use an SSL encrypted connection if it is configured 
       uri = exchange.getExchangeSpecification().getSslUri();
-    } else if (exchange.getExchangeSpecification().getPlainTextUri() != null) {
+    } else if (exchange.getExchangeSpecification().getPlainTextUri() != null && exchange.getExchangeSpecification().getPlainTextUri().length() > 0) {
       // otherwise try a plain text connection
       uri = exchange.getExchangeSpecification().getPlainTextUri();
     } else {
@@ -37,5 +37,4 @@ public class RippleBasePollingService extends BaseExchangeService implements Bas
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
     return exchange.getMetaData().getCurrencyPairs();
   }
-
 }

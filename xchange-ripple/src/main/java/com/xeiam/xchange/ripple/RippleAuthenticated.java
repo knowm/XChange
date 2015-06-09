@@ -8,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.ripple.dto.RippleException;
@@ -29,8 +30,8 @@ public interface RippleAuthenticated {
   @POST
   @Path("accounts/{address}/orders")
   @Consumes(MediaType.APPLICATION_JSON)
-  public RippleOrderEntryResponse orderEntry(@PathParam("address") final String address, final RippleOrderEntryRequest request) throws IOException,
-      RippleException;
+  public RippleOrderEntryResponse orderEntry(@PathParam("address") final String address, @QueryParam("validated") final boolean validated,
+      final RippleOrderEntryRequest request) throws IOException, RippleException;
 
   /**
    * Cancel an order
@@ -39,6 +40,6 @@ public interface RippleAuthenticated {
   @Path("accounts/{address}/orders/{orderId}")
   @Consumes(MediaType.APPLICATION_JSON)
   public RippleOrderCancelResponse orderCancel(@PathParam("address") final String address, @PathParam("orderId") final long orderId,
-      final RippleOrderCancelRequest request) throws IOException, RippleException;
+      @QueryParam("validated") final boolean validated, final RippleOrderCancelRequest request) throws IOException, RippleException;
 
 }

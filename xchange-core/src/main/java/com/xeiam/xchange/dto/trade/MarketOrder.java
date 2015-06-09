@@ -2,6 +2,8 @@ package com.xeiam.xchange.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -56,6 +58,7 @@ public final class MarketOrder extends Order {
     CurrencyPair currencyPair;
     String id;
     Date timestamp;
+    Map<String, Object> additionalData = new HashMap<String, Object>();
 
     public Builder(OrderType orderType, CurrencyPair currencyPair) {
 
@@ -64,7 +67,8 @@ public final class MarketOrder extends Order {
     }
 
     public static Builder from(Order o) {
-      return new Builder(o.getType(), o.getCurrencyPair()).tradableAmount(o.getTradableAmount()).timestamp(o.getTimestamp()).id(o.getId());
+      return new Builder(o.getType(), o.getCurrencyPair()).tradableAmount(o.getTradableAmount()).timestamp(o.getTimestamp()).id(o.getId())
+          .additionalData(o.getAdditionalData());
     }
 
     public Builder orderType(OrderType orderType) {
@@ -94,6 +98,11 @@ public final class MarketOrder extends Order {
     public Builder timestamp(Date timestamp) {
 
       this.timestamp = timestamp;
+      return this;
+    }
+
+    private Builder additionalData(Map<String, Object> additionalData) {
+      this.additionalData.putAll(additionalData);
       return this;
     }
 

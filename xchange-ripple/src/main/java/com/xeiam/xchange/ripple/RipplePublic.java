@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import com.xeiam.xchange.ripple.dto.RippleException;
 import com.xeiam.xchange.ripple.dto.account.RippleAccount;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrderBook;
+import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
 
 /**
  * Returns public information that is stored in the ledger - secret not needed.
@@ -28,7 +29,7 @@ public interface RipplePublic {
   @GET
   @Path("accounts/{address}/order_book/{base}/{counter}")
   public RippleOrderBook getOrderBook(@PathParam("address") final String address, @PathParam("base") final String base,
-      @PathParam("counter") final String counter, @QueryParam("limit") String limit) throws IOException, RippleException;
+      @PathParam("counter") final String counter, @QueryParam("limit") final String limit) throws IOException, RippleException;
 
   /**
    * Returns the account information for this address. This is public information in the ledger (secret not needed).
@@ -42,5 +43,5 @@ public interface RipplePublic {
    */
   @GET
   @Path("accounts/{address}/orders")
-  public RippleAccount getOpenOrders(@PathParam("address") final String address) throws IOException, RippleException;
+  public RippleAccountOrders openAccountOrders(@PathParam("address") final String address) throws IOException, RippleException;
 }

@@ -8,7 +8,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 
-public class RippleTrustTest {
+public class RippleServerTrustTest {
 
   /**
    * Make sure it is possible to create a default public query only Ripple connection without a secret key.
@@ -23,7 +23,7 @@ public class RippleTrustTest {
 
   /**
    * It should not be possible to initialise a RippleExchange with URL https://api.ripple.com/ using a secret key if trust has not been explicitly
-   * enabled.
+   * enabled - an IllegalStateException should be thrown when attempting to create the exchange.
    */
   @Test(expected = IllegalStateException.class)
   public void safetyNetTest() {

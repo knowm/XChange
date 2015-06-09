@@ -18,6 +18,9 @@ public class RippleAccountService extends RippleAccountServiceRaw implements Pol
     super(exchange);
   }
 
+  /**
+   * A wallet's currency will be prefixed with the issuing counterparty address for all currencies other than XRP.
+   */
   @Override
   public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     final RippleAccount account = getRippleAccount();
