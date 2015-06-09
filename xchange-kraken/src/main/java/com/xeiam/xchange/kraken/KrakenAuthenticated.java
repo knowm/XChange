@@ -15,6 +15,8 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.kraken.dto.account.results.KrakenBalanceResult;
+import com.xeiam.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
+import com.xeiam.xchange.kraken.dto.account.results.KrakenDepositMethodsResults;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenQueryLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
@@ -144,4 +146,27 @@ public interface KrakenAuthenticated extends Kraken {
   public KrakenTradeVolumeResult tradeVolume(@FormParam("pair") String assetPairs, @HeaderParam("API-Key") String apiKey,
       @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
+  @POST
+  @Path("private/DepositAddresses")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  public KrakenDepositAddressResult getDepositAddresses(
+		  	@FormParam("aclass") String assetPairs,
+		  	@FormParam("asset") String assets,
+		  	@FormParam("method") String method,
+//		  	@FormParam("new") boolean newAddress,
+		  	@HeaderParam("API-Key") String apiKey,
+		  	@HeaderParam("API-Sign") ParamsDigest signer, 
+      		@FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
+  @POST
+  @Path("private/DepositMethods")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  public KrakenDepositMethodsResults getDepositMethods(
+		  	@FormParam("aclass") String assetPairs,
+		  	@FormParam("asset") String assets,
+		  	@HeaderParam("API-Key") String apiKey,
+		  	@HeaderParam("API-Sign") ParamsDigest signer, 
+      		@FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
+  
 }

@@ -72,7 +72,7 @@ public class KrakenBasePollingService extends BaseExchangeService implements Bas
     }
     return currencyPairs;
   }
-
+  
   private String addCurrencyAndGetCode(String krakenCurrencyString) {
 
     String currencyCode = KrakenAdapters.adaptCurrency(krakenCurrencyString);
