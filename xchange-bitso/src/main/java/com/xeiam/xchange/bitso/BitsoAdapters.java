@@ -10,6 +10,7 @@ import java.util.List;
 import com.xeiam.xchange.bitso.dto.account.BitsoBalance;
 import com.xeiam.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import com.xeiam.xchange.bitso.dto.marketdata.BitsoTicker;
+import com.xeiam.xchange.bitso.dto.marketdata.BitsoTransaction;
 import com.xeiam.xchange.bitso.dto.trade.BitsoUserTransaction;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -17,11 +18,14 @@ import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.utils.DateUtils;
 
 public final class BitsoAdapters {
 
@@ -72,6 +76,30 @@ public final class BitsoAdapters {
 
     return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
   }
+  
+  /**
+   * Adapts a Transaction[] to a Trades Object
+   *
+   * @param transactions The Bitso transactions
+   * @param currencyPair (e.g. BTC/MXN)
+   * @return The XChange Trades
+   */
+  public static Trades adaptTrades(BitsoTransaction[] transactions, CurrencyPair currencyPair) {
+
+    List<Trade> trades = new ArrayList<Trade>();
+    long lastTradeId = 0;
+    for (BitsoTransaction tx : transactions) {
+      final long tradeId = tx.getTid();
+      if (tradeId > lastTradeId) {
+        lastTradeId = tradeId;
+      }
+      trades
+          .add(new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
+    }
+
+    return new Trades(trades, lastTradeId, TradeSortType.SortByID);
+  }
+
 
   public static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
 
