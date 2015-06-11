@@ -1,6 +1,24 @@
 package com.xeiam.xchange.okcoin;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class OkCoinUtils {
+
+  public static Long toEpoch(Date dateTime, String timeZone) {
+    //Epoch of midnight in local time zone
+    Calendar timeOffset = Calendar.getInstance(TimeZone.getTimeZone(timeZone));
+    timeOffset.set(Calendar.MILLISECOND, 0);
+    timeOffset.set(Calendar.SECOND, 0);
+    timeOffset.set(Calendar.MINUTE, 0);
+    timeOffset.set(Calendar.HOUR_OF_DAY, 0);
+
+    long midnightOffSet = timeOffset.getTime().getTime();
+    long localTimestamp = dateTime.getTime();
+
+    return timeOffset == null ? null : midnightOffSet + localTimestamp;
+  }
 
   public static String getErrorMessage(int errorCode) {
 
@@ -40,65 +58,62 @@ public class OkCoinUtils {
       return "Order price differs from current market price too much";
     case (10216):
       return "Non-public API";
-
-    /** Futures error codes */
-    case(20001):    
+    case (20001):
       return "User does not exist";
-    case(20002):    
+    case (20002):
       return "Account frozen";
-    case(20003):    
+    case (20003):
       return "Account frozen due to liquidation";
-    case(20004):    
+    case (20004):
       return "Futures account frozen";
-    case(20005):    
+    case (20005):
       return "User futures account does not exist";
-    case(20006):    
+    case (20006):
       return "Required field missing";
-    case(20007):    
+    case (20007):
       return "Illegal parameter";
-    case(20008):    
+    case (20008):
       return "Futures account balance is too low";
-    case(20009):    
+    case (20009):
       return "Future contract status error";
-    case(20010):    
+    case (20010):
       return "Risk rate ratio does not exist";
-    case(20011):    
+    case (20011):
       return "Risk rate higher than 90% before opening position";
-    case(20012):    
+    case (20012):
       return "Risk rate higher than 90% after opening position";
-    case(20013):    
+    case (20013):
       return "Temporally no counter party price";
-    case(20014):    
+    case (20014):
       return "System error";
-    case(20015):    
+    case (20015):
       return "Order does not exist";
-    case(20016):    
+    case (20016):
       return "Close amount bigger than your open positions";
-    case(20017):    
+    case (20017):
       return "Not authorized/illegal operation";
-    case(20018):    
+    case (20018):
       return "Order price differ more than 5% from the price in the last minute";
-    case(20019):    
+    case (20019):
       return "IP restricted from accessing the resource";
-    case(20020):    
+    case (20020):
       return "secretKey does not exist";
-    case(20021):    
+    case (20021):
       return "Index information does not exist";
-    case(20022):    
+    case (20022):
       return "Wrong API interface (Cross margin mode shall call cross margin API, fixed margin mode shall call fixed margin API)";
-    case(20023):    
+    case (20023):
       return "Account in fixed-margin mode";
-    case(20024):    
+    case (20024):
       return "Signature does not match";
-    case(20025):    
+    case (20025):
       return "Leverage rate error";
-    case(20026):    
+    case (20026):
       return "API Permission Error";
-    case(20027):    
+    case (20027):
       return "no transaction record";
-    case(20028):    
+    case (20028):
       return "no such contract";
-
     default:
       return "Unknown error";
     }

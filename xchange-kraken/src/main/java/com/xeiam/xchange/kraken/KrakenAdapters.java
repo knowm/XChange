@@ -24,6 +24,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.kraken.dto.account.KrakenDepositAddress;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrade;
@@ -226,6 +227,10 @@ public class KrakenAdapters {
     return krakenType.equals(KrakenType.BUY) ? OrderType.BID : OrderType.ASK;
   }
 
+  public static String adaptKrakenDepositAddress(KrakenDepositAddress[] krakenDepositAddress) {
+	  return krakenDepositAddress[0].getAddress();
+  }
+  
   public static String adaptOrderId(KrakenOrderResponse orderResponse) {
 
     List<String> orderIds = orderResponse.getTransactionIds();

@@ -165,6 +165,7 @@ public class Currencies {
   public static final String SOS = "SOS"; // "Somali Shilling",
   public static final String SRD = "SRD"; // "Surinamese Dollar",
   public static final String STD = "STD"; // "São Tomé and Príncipe Dobra",
+  public static final String STR = "STR"; // "Stellar",
   public static final String SVC = "SVC"; // "Salvadoran Colón",
   public static final String SYP = "SYP"; // "Syrian Pound",
   public static final String SZL = "SZL"; // "Swazi Lilangeni",

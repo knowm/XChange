@@ -34,6 +34,6 @@ public class BitsoMarketDataService extends BitsoMarketDataServiceRaw implements
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+    return BitsoAdapters.adaptTrades(getBitsoTransactions(args), currencyPair);
   }
 }
