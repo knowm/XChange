@@ -62,7 +62,7 @@ public abstract class Assert {
    * @param input The input under test
    * @param message The message for any exception
    */
-  public static void hasSize(Collection input, int length, String message) {
+  public static void hasSize(Collection<?> input, int length, String message) {
 
     notNull(input, message);
     if (input.size() != length) {

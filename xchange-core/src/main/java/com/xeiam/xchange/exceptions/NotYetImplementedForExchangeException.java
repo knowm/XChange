@@ -10,6 +10,8 @@ package com.xeiam.xchange.exceptions;
  */
 public class NotYetImplementedForExchangeException extends RuntimeException {
 
+  private static final long serialVersionUID = 2015041101L;
+
   /**
    * Constructor
    *

@@ -10,6 +10,8 @@ package com.xeiam.xchange.exceptions;
  */
 public class NotAvailableFromExchangeException extends RuntimeException {
 
+  private static final long serialVersionUID = 2015041101L;
+
   /**
    * Constructor
    * 

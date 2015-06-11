@@ -62,7 +62,7 @@ public class ExchangeSpecification {
    *
    * @param exchangeClass The exchange class
    */
-  public ExchangeSpecification(Class exchangeClass) {
+  public ExchangeSpecification(Class<? extends Exchange> exchangeClass) {
 
     this.exchangeClassName = exchangeClass.getCanonicalName();
   }
