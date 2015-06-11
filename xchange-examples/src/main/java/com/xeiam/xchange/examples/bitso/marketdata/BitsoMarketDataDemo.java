@@ -1,6 +1,7 @@
 package com.xeiam.xchange.examples.bitso.marketdata;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -12,6 +13,7 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
@@ -34,11 +36,12 @@ public class BitsoMarketDataDemo {
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair(Currencies.BTC, Currencies.MXN));
+	CurrencyPair cp = new CurrencyPair(Currencies.BTC, Currencies.MXN);
+    Ticker ticker = marketDataService.getTicker(cp);
     System.out.println("Ticker: " + ticker);
 
     // Get the latest order book data for BTCMXN
-    OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(Currencies.BTC, Currencies.MXN));
+    OrderBook orderBook = marketDataService.getOrderBook(cp);
 
     System.out.println("Current Order Book size for BTC / MXN: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
@@ -49,6 +52,14 @@ public class BitsoMarketDataDemo {
     System.out.println("Last Bid: " + orderBook.getBids().get(orderBook.getBids().size() - 1).toString());
 
     System.out.println(orderBook.toString());
+    
+    // Get trades within the last hour
+    Object[] args = {"hour"};
+    List<Trade> trades = marketDataService.getTrades(cp, args).getTrades();
+    System.out.println("Number Trades within last hour: " + trades.size());
+    for (Trade t : trades) {
+		System.out.println("     " + t);
+	}
   }
 
   private static void raw(BitsoMarketDataServiceRaw marketDataService) throws IOException {
