@@ -11,6 +11,6 @@ public class AuthUtils {
    */
   public static String getBasicAuth(String user, final String pass) {
 
-    return "Basic " + Base64.encodeBytes((user + ":" + pass).getBytes());
+    return "Basic " + net.iharder.Base64.encodeBytes((user + ":" + pass).getBytes());
   }
 }
