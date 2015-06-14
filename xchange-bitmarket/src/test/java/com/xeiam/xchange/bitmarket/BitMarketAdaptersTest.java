@@ -2,10 +2,7 @@ package com.xeiam.xchange.bitmarket;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrade;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrades;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
+import com.xeiam.xchange.bitmarket.dto.trade.*;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -70,13 +67,15 @@ public class BitMarketAdaptersTest {
 
     // Read in the JSON from the example resources
     InputStream is = BitMarketAdaptersTest.class.getResourceAsStream("/trade/example-history-trades-data.json");
+    InputStream is2 = BitMarketAdaptersTest.class.getResourceAsStream("/trade/example-history-operations-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
     BitMarketHistoryTradesResponse response = mapper.readValue(is, BitMarketHistoryTradesResponse.class);
+    BitMarketHistoryOperationsResponse response2 = mapper.readValue(is2, BitMarketHistoryOperationsResponse.class);
 
     // Verify that the example data was unmarshalled correctly
-    UserTrades trades = BitMarketAdapters.adaptTradeHistory(response.getData());
+    UserTrades trades = BitMarketAdapters.adaptTradeHistory(response.getData(), response2.getData());
 
     assertThat(trades.getUserTrades().size()).isEqualTo(5);
 
@@ -87,5 +86,7 @@ public class BitMarketAdaptersTest {
     assertThat(trade.getPrice()).isEqualTo(new BigDecimal("877.0000"));
     assertThat(trade.getType()).isEqualTo(Order.OrderType.BID);
     assertThat(trade.getId()).isEqualTo("389406");
+    assertThat(trade.getFeeAmount()).isEqualTo(new BigDecimal("0.30312011"));
+    assertThat(trade.getFeeCurrency()).isEqualTo(Currencies.PLN);
   }
 }

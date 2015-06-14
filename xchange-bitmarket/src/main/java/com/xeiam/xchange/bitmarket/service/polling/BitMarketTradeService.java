@@ -2,9 +2,7 @@ package com.xeiam.xchange.bitmarket.service.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitmarket.BitMarketAdapters;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketTradeResponse;
+import com.xeiam.xchange.bitmarket.dto.trade.*;
 import com.xeiam.xchange.bitmarket.service.polling.params.BitMarketHistoryParams;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -76,7 +74,8 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements P
   @Override public UserTrades getTradeHistory(TradeHistoryParams tradeHistoryParams) throws IOException {
 
     BitMarketHistoryTradesResponse response = getBitMarketTradeHistory(tradeHistoryParams);
-    return BitMarketAdapters.adaptTradeHistory(response.getData());
+    BitMarketHistoryOperationsResponse response2 = getBitMarketOperationHistory(tradeHistoryParams);
+    return BitMarketAdapters.adaptTradeHistory(response.getData(), response2.getData());
   }
 
   @Override public TradeHistoryParams createTradeHistoryParams() {

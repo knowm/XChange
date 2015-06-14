@@ -7,10 +7,7 @@ import com.xeiam.xchange.bitmarket.dto.account.BitMarketBalance;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrade;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrades;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrder;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
+import com.xeiam.xchange.bitmarket.dto.trade.*;
 import com.xeiam.xchange.bitmarket.service.polling.params.BitMarketHistoryParams;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -136,18 +133,34 @@ public class BitMarketAdapters {
         bitMarketOrder.getRate());
   }
 
-  public static UserTrades adaptTradeHistory(BitMarketHistoryTrades historyTrades) {
+  public static UserTrades adaptTradeHistory(BitMarketHistoryTrades historyTrades, BitMarketHistoryOperations historyOperations) {
 
     List<UserTrade> trades = new ArrayList<UserTrade>();
 
     for (BitMarketHistoryTrade trade : historyTrades.getTrades()) {
-      trades.add(createHistoryTrade(trade));
+      trades.add(createHistoryTrade(trade, historyOperations));
     }
 
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
-  private static UserTrade createHistoryTrade(BitMarketHistoryTrade trade) {
+  private static UserTrade createHistoryTrade(BitMarketHistoryTrade trade, BitMarketHistoryOperations operations) {
+
+    //deduce commission currency
+    String commissionCurrency = BitMarketUtils.BitMarketOrderTypeToOrderType(trade.getType()) == OrderType.ASK ?
+        trade.getCurrencyCrypto() :
+        trade.getCurrencyFiat();
+
+    //find in history operations - the operation which time match to time of given trade
+    BitMarketHistoryOperation tradeOperation = null;
+    for (BitMarketHistoryOperation operation : operations.getOperations()) {
+      if (operation.getType().equals("trade") &&
+          operation.getCurrency().equals(commissionCurrency) &&
+          operation.getTime() == trade.getTime()) {
+        tradeOperation = operation;
+        break; //first matching history operation is taking into consideration only
+      }
+    }
 
     return new UserTrade(
         BitMarketUtils.BitMarketOrderTypeToOrderType(trade.getType()),
@@ -156,8 +169,8 @@ public class BitMarketAdapters {
         trade.getRate(),
         trade.getTimestamp(),
         String.valueOf(trade.getId()),
-        null,
-        null,
-        null);
+        tradeOperation != null ? String.valueOf(tradeOperation.getId()) : null,
+        tradeOperation != null ? tradeOperation.getCommission() : null,
+        commissionCurrency);
   }
 }
