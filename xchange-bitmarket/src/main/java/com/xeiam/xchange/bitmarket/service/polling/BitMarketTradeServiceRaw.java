@@ -2,11 +2,9 @@ package com.xeiam.xchange.bitmarket.service.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitmarket.BitMarketUtils;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketCancelResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketTradeResponse;
+import com.xeiam.xchange.bitmarket.dto.trade.*;
 import com.xeiam.xchange.bitmarket.service.polling.params.BitMarketHistoryParams;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -16,6 +14,7 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamOffset;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by krzysztoffonal on 25/05/15.
@@ -98,5 +97,60 @@ public class BitMarketTradeServiceRaw extends BitMarketBasePollingService {
     }
 
     return response;
+  }
+
+  public BitMarketHistoryOperationsResponse getBitMarketOperationHistory(TradeHistoryParams params) throws IOException, ExchangeException {
+
+    //default values
+    CurrencyPair currencyPair = CurrencyPair.BTC_PLN;
+    int count = 1000;
+    long offset = 0;
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = ((TradeHistoryParamCurrencyPair)params).getCurrencyPair();
+    }
+
+    if (params instanceof TradeHistoryParamOffset) {
+      offset = ((TradeHistoryParamOffset)params).getOffset();
+    }
+
+    if (params instanceof BitMarketHistoryParams) {
+      count = ((BitMarketHistoryParams)params).getCount();
+    }
+
+    BitMarketHistoryOperationsResponse response = bitMarketAuthenticated.history(apiKey,
+        sign,
+        exchange.getNonceFactory(),
+        currencyPair.baseSymbol,
+        count,
+        offset);
+
+    BitMarketHistoryOperationsResponse response2 = bitMarketAuthenticated.history(apiKey,
+        sign,
+        exchange.getNonceFactory(),
+        currencyPair.counterSymbol,
+        count,
+        offset);
+
+    if (!response.getSuccess() || !response2.getSuccess()) {
+      throw new ExchangeException(String.format("%d: %s", response.getError(), response.getErrorMsg()));
+    }
+
+    //combine results from both historic operations - for base and coiunter currency
+    int combinedTotal = response.getData().getTotal() + response2.getData().getTotal();
+    ArrayList<BitMarketHistoryOperation> combinedOperations = new ArrayList<BitMarketHistoryOperation>(combinedTotal);
+    combinedOperations.addAll(response.getData().getOperations());
+    combinedOperations.addAll(response2.getData().getOperations());
+
+    BitMarketHistoryOperationsResponse combinedResponse = new BitMarketHistoryOperationsResponse(true,
+        new BitMarketHistoryOperations(combinedTotal,
+            response.getData().getStart(),
+            response.getData().getCount() * 2,
+            combinedOperations),
+        response2.getLimit(),
+        0,
+        null);
+
+    return combinedResponse;
   }
 }
