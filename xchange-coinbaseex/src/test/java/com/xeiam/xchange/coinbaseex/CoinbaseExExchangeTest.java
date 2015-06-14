@@ -11,10 +11,10 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 public class CoinbaseExExchangeTest {
 
-    @Test
-    public void coinbaseShouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {
-        ExchangeFactory.INSTANCE.createExchange(CoinbaseExExchange.class.getCanonicalName());
-    }
+  @Test
+  public void coinbaseShouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {
+    ExchangeFactory.INSTANCE.createExchange(CoinbaseExExchange.class.getCanonicalName());
+  }
 
   @Test
   public void testCoinbaseCurrencies() throws IOException {
