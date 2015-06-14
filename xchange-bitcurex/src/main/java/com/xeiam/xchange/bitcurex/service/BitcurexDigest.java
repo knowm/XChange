@@ -6,7 +6,7 @@ import javax.xml.bind.DatatypeConverter;
 import si.mazi.rescu.RestInvocation;
 
 import com.xeiam.xchange.service.BaseParamsDigest;
-import com.xeiam.xchange.utils.Base64;
+import net.iharder.Base64;
 
 public class BitcurexDigest extends BaseParamsDigest {
 
