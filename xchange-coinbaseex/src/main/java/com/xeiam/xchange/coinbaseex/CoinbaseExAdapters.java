@@ -9,11 +9,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import com.xeiam.xchange.coinbaseex.dto.account.CoinbaseExAccount;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBookEntry;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExTrade;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.*;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -126,4 +122,13 @@ public class CoinbaseExAdapters {
 
 		return new Trades(trades, TradeSortType.SortByID);
 	}
+
+  public static List<CurrencyPair> adaptProductsToSupportedExchangeSymbols(List<CoinbaseExProduct> products) {
+    List<CurrencyPair> result = new ArrayList<CurrencyPair>();
+    for (CoinbaseExProduct product : products) {
+      result.add(new CurrencyPair(product.getBaseCurrency(), product.getTargetCurrency()));
+    }
+
+    return result;
+  }
 }
