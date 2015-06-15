@@ -21,7 +21,7 @@ public class CoinbaseExExchangeTest {
     CoinbaseExExchange exchange = new CoinbaseExExchange();
     exchange.applySpecification(exchange.getDefaultExchangeSpecification());
 
-    assertThat(exchange.getPollingMarketDataService().getExchangeSymbols()).isEqualTo(
+    assertThat(exchange.getPollingMarketDataService().getExchangeSymbols()).containsAll(
         Arrays.asList(new CurrencyPair("BTC/USD"), new CurrencyPair("BTC/GBP"), new CurrencyPair("BTC/EUR"))
     );
   }
