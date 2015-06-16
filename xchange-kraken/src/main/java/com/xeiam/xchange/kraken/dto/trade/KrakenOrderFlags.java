@@ -15,7 +15,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public enum KrakenOrderFlags {
 
-  VIQC, PLBC, NOMPP;
+  /*
+    viqc = volume in quote currency
+    fcib = prefer fee in base currency (default if selling)
+    fciq = prefer fee in quote currency (default if buying)
+    nompp = no market price protection
+   */
+
+  VIQC, FCIB, FCIQ, NOMPP;
 
   @Override
   public String toString() {
@@ -44,8 +51,12 @@ public enum KrakenOrderFlags {
       String orderFlagsString = node.textValue();
       Set<KrakenOrderFlags> orderFlags = EnumSet.noneOf(KrakenOrderFlags.class);
       if (!orderFlagsString.isEmpty()) {
-        for (String orderFlag : orderFlagsString.split(","))
-          orderFlags.add(fromString(orderFlag));
+        for (String orderFlag : orderFlagsString.split(",")) {
+          KrakenOrderFlags flag = fromString(orderFlag);
+          if (flag != null) {
+            orderFlags.add(flag);
+          }
+        }
       }
       return orderFlags;
     }

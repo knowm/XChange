@@ -60,6 +60,9 @@ public class KrakenBasePollingService extends BaseExchangeService implements Bas
 
     final Set<String> krakenCurrencyPairs = getKrakenAssetPairs().getAssetPairMap().keySet();
     for (String krakenCurrencyPair : krakenCurrencyPairs) {
+      if (krakenCurrencyPair.endsWith(".d")) {
+        continue;
+      }
       String krakenTradeCurrency = krakenCurrencyPair.substring(0, 4);
       String krakenPriceCurrency = krakenCurrencyPair.substring(4);
 

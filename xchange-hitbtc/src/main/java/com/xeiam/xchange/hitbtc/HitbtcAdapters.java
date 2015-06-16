@@ -216,12 +216,7 @@ public class HitbtcAdapters {
 
   public static String createOrderId(Order order, long nonce) {
 
-    if (order.getId() == null || "".equals(order.getId())) {
-      // encoding side in client order id
       return order.getType().name().substring(0, 1) + DELIM + adaptCurrencyPair(order.getCurrencyPair()) + DELIM + nonce;
-    } else {
-      return order.getId();
-    }
   }
 
   public static OrderType readOrderType(String orderId) {

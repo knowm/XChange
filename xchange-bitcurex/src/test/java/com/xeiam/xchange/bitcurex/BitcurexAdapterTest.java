@@ -10,11 +10,10 @@ import java.util.List;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitcurex.BitcurexAdapters;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexAccountJSONTest;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexDepthJSONTest;
-import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
+import com.xeiam.xchange.bitcurex.dto.marketdata.account.BitcurexFunds;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTickerJSONTest;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;

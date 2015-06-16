@@ -151,8 +151,9 @@ public class KrakenAdapters {
   public static String adaptCurrency(String krakenCurrencyCode) {
 
     String currencyCode = (krakenCurrencyCode.length() == 4) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
-    currencyCode = (currencyCode.equals("XDG")) ? Currencies.DOGE : currencyCode;
-    return (currencyCode.equals("XBT")) ? Currencies.BTC : currencyCode;
+      return currencyCode;
+//    currencyCode = (currencyCode.equals("XDG")) ? Currencies.DOGE : currencyCode;
+//    return (currencyCode.equals("XBT")) ? Currencies.BTC : currencyCode;
   }
 
   public static CurrencyPair adaptCurrencyPair(String krakenCurrencyPair) {

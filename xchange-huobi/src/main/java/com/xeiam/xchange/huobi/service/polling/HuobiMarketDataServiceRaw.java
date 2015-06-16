@@ -64,13 +64,13 @@ public class HuobiMarketDataServiceRaw extends HuobiBaseService {
   public HuobiFullTrade[] getHuobiTrades(CurrencyPair currencyPair, Long sincetid) throws IOException {
 
       HuobiFullTrade[] trades = null;
-/* TODO
+
       if (sincetid == null) {
           trades = huobiMarketTrade.getLastTrades("trades");
       } else {
           trades = huobiMarketTrade.getTradesSince("trades", sincetid);
       }
-*/
+
       return trades;
   }
 }

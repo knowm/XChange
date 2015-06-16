@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
+import com.xeiam.xchange.bitcurex.dto.marketdata.account.BitcurexFunds;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
 import com.xeiam.xchange.currency.Currencies;
@@ -135,14 +135,14 @@ public final class BitcurexAdapters {
 
     // Adapt to XChange DTOs
     List<Wallet> wallets = new ArrayList<Wallet>(2);
-    wallets.add(new Wallet(Currencies.BTC, funds.getBtcs()));
+    wallets.add(new Wallet(Currencies.BTC, funds.getBtc()));
 
-    BigDecimal eur = funds.getEurs();
+    BigDecimal eur = funds.getEur();
     if (eur != null) {
       wallets.add(new Wallet(Currencies.EUR, eur));
     }
 
-    BigDecimal pln = funds.getPlns();
+    BigDecimal pln = funds.getPln();
     if (pln != null) {
       wallets.add(new Wallet(Currencies.PLN, pln));
     }

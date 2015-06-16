@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitmarket;
 
+import com.xeiam.xchange.bitmarket.service.polling.BitMarketAccountService;
+import com.xeiam.xchange.bitmarket.service.polling.BitMarketTradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -18,8 +20,8 @@ public class BitMarketExchange extends BaseExchange implements Exchange {
     super.applySpecification(exchangeSpecification);
 
     this.pollingMarketDataService = new BitMarketDataService(this);
-    this.pollingTradeService = null;
-    this.pollingAccountService = null;
+    this.pollingTradeService = new BitMarketTradeService(this);
+    this.pollingAccountService = new BitMarketAccountService(this);
   }
 
   @Override

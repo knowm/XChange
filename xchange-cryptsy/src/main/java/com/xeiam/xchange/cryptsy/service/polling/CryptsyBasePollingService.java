@@ -73,6 +73,12 @@ public class CryptsyBasePollingService extends BaseExchangeService implements Ba
       CryptsyCurrencyUtils.marketIds_CurrencyPairs.put(marketId, currencyPair);
       CryptsyCurrencyUtils.currencyPairs_MarketIds.put(currencyPair, marketId);
       currencyPairs.add(currencyPair);
+
+
+//      System.out.println("put(new CurrencyPair(\""+ currencyPair.baseSymbol + "\", \""+ currencyPair.counterSymbol + "\"), "+ marketId +");");
+
+      System.out.println("put("+ marketId +", new CurrencyPair(\""+ currencyPair.baseSymbol + "\", \""+ currencyPair.counterSymbol + "\"));");
+
     }
 
     return currencyPairs;
