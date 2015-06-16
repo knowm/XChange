@@ -3,10 +3,7 @@ package com.xeiam.xchange.bitmarket;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketDepositResponse;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketWithdrawResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketCancelResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketTradeResponse;
+import com.xeiam.xchange.bitmarket.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -75,6 +72,15 @@ public interface BitMarketAuthenticated {
       @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("tonce") SynchronizedValueFactory<Long> timestamp,
       @FormParam("market") String market,
+      @FormParam("count") int count,
+      @FormParam("start") long start) throws IOException;
+
+  @POST
+  @FormParam("method")
+  public BitMarketHistoryOperationsResponse history(@HeaderParam("API-Key") String apiKey,
+      @HeaderParam("API-Hash") ParamsDigest sign,
+      @FormParam("tonce") SynchronizedValueFactory<Long> timestamp,
+      @FormParam("currency") String currency,
       @FormParam("count") int count,
       @FormParam("start") long start) throws IOException;
 }
