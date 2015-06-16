@@ -3,10 +3,11 @@ package com.xeiam.xchange.clevercoin.dto.account;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import si.mazi.rescu.serialization.jackson.serializers.SqlTimeDeserializer;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.clevercoin.util.WithdrawalRequestStatusDeserializer;
 import com.xeiam.xchange.clevercoin.util.WithdrawalRequestTypeDeserializer;
-import com.xeiam.xchange.utils.jackson.SqlTimeDeserializer;
 
 public class WithdrawalRequest {
 
