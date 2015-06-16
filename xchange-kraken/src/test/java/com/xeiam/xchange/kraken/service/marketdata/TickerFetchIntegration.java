@@ -21,7 +21,7 @@ public class TickerFetchIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
+    Ticker ticker = marketDataService.getTicker(new CurrencyPair("XBT", "USD"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }

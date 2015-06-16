@@ -135,14 +135,14 @@ public final class BitcurexAdapters {
 
     // Adapt to XChange DTOs
     List<Wallet> wallets = new ArrayList<Wallet>(2);
-    wallets.add(new Wallet(Currencies.BTC, funds.getBtc()));
+    wallets.add(new Wallet(Currencies.BTC, funds.getBtcs()));
 
-    BigDecimal eur = funds.getEur();
+    BigDecimal eur = funds.getEurs();
     if (eur != null) {
       wallets.add(new Wallet(Currencies.EUR, eur));
     }
 
-    BigDecimal pln = funds.getPln();
+    BigDecimal pln = funds.getPlns();
     if (pln != null) {
       wallets.add(new Wallet(Currencies.PLN, pln));
     }

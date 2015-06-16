@@ -61,8 +61,13 @@ public class CurrencyPair {
   public static final CurrencyPair BTC_XRP = new CurrencyPair(Currencies.BTC, Currencies.XRP);
   public static final CurrencyPair BTC_NMC = new CurrencyPair(Currencies.BTC, Currencies.NMC);
   public static final CurrencyPair BTC_XVN = new CurrencyPair(Currencies.BTC, Currencies.XVN);
+  public static final CurrencyPair BTC_IDR = new CurrencyPair(Currencies.BTC, Currencies.IDR);
+  public static final CurrencyPair BTC_PHP = new CurrencyPair(Currencies.BTC, Currencies.PHP);
+  public static final CurrencyPair BTC_STR = new CurrencyPair(Currencies.BTC, Currencies.STR);
 
   public static final CurrencyPair XDC_BTC = new CurrencyPair(Currencies.XDC, Currencies.BTC);
+
+  public static final CurrencyPair XRP_BTC = new CurrencyPair(Currencies.XRP, Currencies.BTC);
 
   public static final CurrencyPair LTC_USD = new CurrencyPair(Currencies.LTC, Currencies.USD);
   public static final CurrencyPair LTC_KRW = new CurrencyPair(Currencies.LTC, Currencies.KRW);
@@ -154,6 +159,9 @@ public class CurrencyPair {
   public static final CurrencyPair UTC_EUR = new CurrencyPair(Currencies.UTC, Currencies.EUR);
   public static final CurrencyPair UTC_BTC = new CurrencyPair(Currencies.UTC, Currencies.BTC);
   public static final CurrencyPair UTC_LTC = new CurrencyPair(Currencies.UTC, Currencies.LTC);
+  //
+  public static final CurrencyPair XBT_USD = new CurrencyPair(Currencies.XBT, Currencies.LTC);
+
 
   public final String baseSymbol;
   public final String counterSymbol;

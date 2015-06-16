@@ -80,11 +80,17 @@ public abstract class BaseExchange implements Exchange {
           metaData = mapper.readValue(is, MetaData.class);
           logger.debug(metaData.toString());
         } catch (Exception e) {
-          logger.warn("An exception occured while loading the metadata file from the classpath. This may lead to unexpected results.", e);
+          logger
+          .warn(
+              "An exception occured while loading the metadata file from the classpath. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
+              e);
         }
 
       } catch (FileNotFoundException e) {
-        logger.warn("An exception occured while loading the metadata file from the file system. This may lead to unexpected results.", e);
+        logger
+        .warn(
+            "An exception occured while loading the metadata file from the file system. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
+            e);
 
       }
 
@@ -99,7 +105,10 @@ public abstract class BaseExchange implements Exchange {
         metaData = mapper.readValue(is, MetaData.class);
         logger.debug(metaData.toString());
       } catch (Exception e) {
-        logger.warn("An exception occured while loading the metadata file from the classpath. This may lead to unexpected results.", e);
+        logger
+        .warn(
+            "An exception occured while loading the metadata file from the classpath. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
+            e);
       }
     } else {
       logger

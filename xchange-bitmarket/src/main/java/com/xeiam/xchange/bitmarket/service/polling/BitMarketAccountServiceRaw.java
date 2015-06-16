@@ -1,35 +1,56 @@
 package com.xeiam.xchange.bitmarket.service.polling;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitmarket.BitMarketAuth;
 import com.xeiam.xchange.bitmarket.dto.BitMarketBaseResponse;
-import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccount;
-import com.xeiam.xchange.bitmarket.service.BitMarketDigest;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
+import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfo;
+import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
+import com.xeiam.xchange.bitmarket.dto.account.BitMarketDepositResponse;
+import com.xeiam.xchange.bitmarket.dto.account.BitMarketWithdrawResponse;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 import java.io.IOException;
-import java.util.Date;
+import java.math.BigDecimal;
 
 /**
- * @author yarkh
+ * @author kfonal
  */
 public class BitMarketAccountServiceRaw extends BitMarketBasePollingService {
 
-  protected BitMarketAuth bitMarketAuth;
-  protected final ParamsDigest signatureCreator;
-  protected final String apiKey;
-
-  protected BitMarketAccountServiceRaw(Exchange exchange) {
-
-      super(exchange);
-      this.bitMarketAuth = RestProxyFactory.createProxy(BitMarketAuth.class, exchange.getExchangeSpecification().getSslUri());
-      this.apiKey = exchange.getExchangeSpecification().getApiKey();
-      this.signatureCreator = BitMarketDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+  public BitMarketAccountServiceRaw(Exchange exchange) {
+    super(exchange);
   }
 
-    protected BitMarketBaseResponse<BitMarketAccount> getBitMarketAccountInfo() throws IOException {
-      return bitMarketAuth.info(new Date().getTime()/1000, apiKey, signatureCreator);
+  public BitMarketAccountInfoResponse getBitMarketAccountInfo() throws IOException, ExchangeException {
+
+    BitMarketAccountInfoResponse response = bitMarketAuthenticated.info(apiKey, sign, exchange.getNonceFactory());
+
+    if (!response.getSuccess()) {
+      throw new ExchangeException(String.format("%d: %s", response.getError(), response.getErrorMsg()));
     }
 
+    return response;
+  }
+
+  public BitMarketWithdrawResponse withdrawFromBitMarket(String currency, BigDecimal amount, String address) throws IOException, ExchangeException {
+
+    BitMarketWithdrawResponse response = bitMarketAuthenticated.withdraw(
+        apiKey, sign, exchange.getNonceFactory(), currency, amount, address);
+
+    if (!response.getSuccess()) {
+      throw new ExchangeException(String.format("%d: %s", response.getError(), response.getErrorMsg()));
+    }
+
+    return response;
+  }
+
+  public BitMarketDepositResponse depositToBitMarket(String currency) throws IOException, ExchangeException {
+
+    BitMarketDepositResponse response = bitMarketAuthenticated.deposit(apiKey, sign, exchange.getNonceFactory(), currency);
+
+    if (!response.getSuccess()) {
+      throw new ExchangeException(String.format("%d: %s", response.getError(), response.getErrorMsg()));
+    }
+
+    return response;
+  }
 }

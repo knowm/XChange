@@ -127,7 +127,7 @@ public class  WebSocketBase {
    * @param symbol
    * @param orderId
    */
-  public void cancleOrder(String apiKey, String secretKey, String symbol,
+  public void cancelOrder(String apiKey, String secretKey, String symbol,
       Long orderId) {
     log.debug("apiKey=" + apiKey + ", secretKey=" + secretKey + ", symbol="
         + symbol + ", orderId=" + orderId);

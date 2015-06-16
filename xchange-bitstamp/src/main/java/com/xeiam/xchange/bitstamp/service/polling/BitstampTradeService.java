@@ -27,6 +27,7 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 /**
  * @author Matija Mazi
  */
+// TODO Convert BitstampExceptions to ExchangeException at the Raw level. Do not leak them out of this class.
 public class BitstampTradeService extends BitstampTradeServiceRaw implements PollingTradeService {
 
   /**

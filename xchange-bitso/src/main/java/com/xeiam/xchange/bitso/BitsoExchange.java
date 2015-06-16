@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitso;
 
+import com.xeiam.xchange.bitso.service.polling.BitsoMarketDataService;
+import com.xeiam.xchange.bitso.service.polling.BitsoTradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -11,7 +13,7 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 /**
- * @author Matija Mazi
+ * @author Matija Mazi, Piotr Ładyżyński
  */
 public class BitsoExchange extends BaseExchange implements Exchange {
 
@@ -21,7 +23,11 @@ public class BitsoExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
     super.applySpecification(exchangeSpecification);
 
+
+    this.pollingMarketDataService = new BitsoMarketDataService(this);
     this.pollingAccountService = new BitsoAccountService(this);
+    this.pollingTradeService = new BitsoTradeService(this);
+
   }
 
   @Override

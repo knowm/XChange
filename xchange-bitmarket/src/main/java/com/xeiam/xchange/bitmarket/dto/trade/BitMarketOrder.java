@@ -1,42 +1,47 @@
 package com.xeiam.xchange.bitmarket.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.bitmarket.BitMarketUtils;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Yaroslav
- * Date: 24/04/15
- * Time: 15:18
+ * @author kfonal
  */
 public class BitMarketOrder {
 
-  /*
-id - market order identifier.
-market - market where the order has been made.
-amount - cryptocurrency amount.
-rate - exchange rate.
-fiat - fiat amount after exchange.
-type - order type ("buy" or "sell").
-time - order creation time.
-   */
-
-  private final String id;
+  private final long id;
   private final String market;
   private final BigDecimal amount;
   private final BigDecimal rate;
   private final BigDecimal fiat;
   private final String type;
-  private final Long time;
+  private final long time;
+  private final CurrencyPair currencyPair;
+  private final Date timestamp;
 
-  public BitMarketOrder(@JsonProperty("id") String id,
-                        @JsonProperty("market") String market,
-                        @JsonProperty("amount") BigDecimal amount,
-                        @JsonProperty("rate") BigDecimal rate,
-                        @JsonProperty("fiat") BigDecimal fiat,
-                        @JsonProperty("type") String type,
-                        @JsonProperty("time") Long time) {
+  /**
+   * Constructor
+   *
+   * @param id
+   * @param market
+   * @param amount
+   * @param rate
+   * @param fiat
+   * @param type
+   * @param time
+   */
+  public BitMarketOrder(@JsonProperty("id") long id,
+      @JsonProperty("market") String market,
+      @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("fiat") BigDecimal fiat,
+      @JsonProperty("type") String type,
+      @JsonProperty("time") long time) {
+
     this.id = id;
     this.market = market;
     this.amount = amount;
@@ -44,9 +49,11 @@ time - order creation time.
     this.fiat = fiat;
     this.type = type;
     this.time = time;
+    this.timestamp = new Date(time * 1000);
+    this.currencyPair = BitMarketUtils.BitMarketCurrencyPairToCurrencyPair(market);
   }
 
-  public String getId() {
+  public long getId() {
     return id;
   }
 
@@ -66,11 +73,17 @@ time - order creation time.
     return fiat;
   }
 
-  public String getType() {
-    return type;
+  public Order.OrderType getType() { return BitMarketUtils.BitMarketOrderTypeToOrderType(type); }
+
+  public long getTime(){
+    return time;
   }
 
-  public Long getTime() {
-    return time;
+  public Date getTimestamp() {
+    return timestamp;
+  }
+
+  public CurrencyPair getCurrencyPair() {
+    return currencyPair;
   }
 }

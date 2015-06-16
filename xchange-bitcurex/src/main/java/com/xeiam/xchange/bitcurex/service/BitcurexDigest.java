@@ -9,7 +9,7 @@ import javax.ws.rs.core.UriBuilder;
 import si.mazi.rescu.RestInvocation;
 
 import com.xeiam.xchange.service.BaseParamsDigest;
-import com.xeiam.xchange.utils.Base64;
+import net.iharder.Base64;
 
 import java.lang.reflect.Field;
 import java.math.BigInteger;

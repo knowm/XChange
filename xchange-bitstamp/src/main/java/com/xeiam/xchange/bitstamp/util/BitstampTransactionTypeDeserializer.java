@@ -1,7 +1,8 @@
 package com.xeiam.xchange.bitstamp.util;
 
+import si.mazi.rescu.serialization.jackson.serializers.EnumIntDeserializer;
+
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
-import com.xeiam.xchange.utils.jackson.EnumIntDeserializer;
 
 /**
  * @author Matija Mazi

@@ -92,7 +92,7 @@ public class BTCChinaApplication extends MessageCracker implements Application {
     log.debug("{}", message);
 
     setTicker(BTCChinaFIXAdapters.adaptTicker(message));
-    onTicker(ticker);
+    onTicker(ticker, sessionId);
   }
 
   @Override
@@ -101,21 +101,33 @@ public class BTCChinaApplication extends MessageCracker implements Application {
     log.debug("{}", message);
 
     setTicker(BTCChinaFIXAdapters.adaptUpdate(getTicker(), message));
-    onTicker(ticker);
+    onTicker(ticker, sessionId);
   }
 
   public void onMessage(AccountInfoResponse message, SessionID sessionId) throws FieldNotFound {
 
     log.debug("{}", message);
 
-    onAccountInfo(message.getAccReqID().getValue(), BTCChinaFIXAdapters.adaptAccountInfo(message));
+    onAccountInfo(message.getAccReqID().getValue(), BTCChinaFIXAdapters.adaptAccountInfo(message), sessionId);
   }
 
   /**
    * Callback of ticker refreshed.
    *
    * @param ticker the refreshed ticker.
+   * @param sessionId the FIX session ID.
    */
+  protected void onTicker(Ticker ticker, SessionID sessionId) {
+    onTicker(ticker);
+  }
+
+  /**
+   * Callback of ticker refreshed.
+   *
+   * @param ticker the refreshed ticker.
+   * @deprecated Use {@link #onTicker(Ticker, SessionID)} instead.
+   */
+  @Deprecated
   protected void onTicker(Ticker ticker) {
   }
 
@@ -125,6 +137,18 @@ public class BTCChinaApplication extends MessageCracker implements Application {
    * @param accReqId the account request ID as assigned in the request.
    * @param accountInfo the account info.
    */
+  protected void onAccountInfo(String accReqId, AccountInfo accountInfo, SessionID sessionId) {
+    this.onAccountInfo(accReqId, accountInfo);
+  }
+
+  /**
+   * Callback of account info got from server.
+   *
+   * @param accReqId the account request ID as assigned in the request.
+   * @param accountInfo the account info.
+   * @deprecated Use {@link #onAccountInfo(String, AccountInfo, SessionID)} instead.
+   */
+  @Deprecated
   protected void onAccountInfo(String accReqId, AccountInfo accountInfo) {
   }
 

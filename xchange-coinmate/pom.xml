@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.xeiam.xchange</groupId>
+        <artifactId>xchange-parent</artifactId>
+        <version>3.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>xchange-coinmate</artifactId>
+
+    <name>XChange Coinmate</name>
+    <description>XChange implementation for the Coinmate Exchange</description>
+
+    <url>http://coinmate.io</url>
+    <inceptionYear>2015</inceptionYear>
+
+    <organization>
+        <name>Coinmate</name>
+        <url>http://coinmate.io</url>
+    </organization>
+
+    <!-- Parent provides default configuration for dependencies -->
+    <dependencies>
+
+        <dependency>
+            <groupId>com.xeiam.xchange</groupId>
+            <artifactId>xchange-core</artifactId>
+            <version>3.0.1-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

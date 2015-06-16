@@ -12,8 +12,9 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xeiam.xchange.dto.Order.IOrderFlags;
 
-public enum KrakenOrderFlags {
+public enum KrakenOrderFlags implements IOrderFlags {
 
   /*
     viqc = volume in quote currency

@@ -908,27 +908,6 @@ public final class CryptsyCurrencyUtils {
       put(new CurrencyPair("FRC", "BTC"), 39);
       put(new CurrencyPair("NBL", "BTC"), 32);
       put(new CurrencyPair("RDD", "USD"), 262);
-      put(new CurrencyPair("SXC", "BTC"), 153);
-      put(new CurrencyPair("DBL", "LTC"), 46);
-      put(new CurrencyPair("VRC", "LTC"), 215);
-      put(new CurrencyPair("BTB", "BTC"), 23);
-      put(new CurrencyPair("CAT", "BTC"), 136);
-      put(new CurrencyPair("ZEIT", "LTC"), 176);
-      put(new CurrencyPair("ZCC", "BTC"), 140);
-      put(new CurrencyPair("DOGE", "XRP"), 311);
-      put(new CurrencyPair("GLD", "XRP"), 413);
-      put(new CurrencyPair("ICB", "XRP"), 397);
-      put(new CurrencyPair("XRP", "USD"), 442);
-      put(new CurrencyPair("ANC", "XRP"), 317);
-      put(new CurrencyPair("SHLD", "BTC"), 248);
-      put(new CurrencyPair("JBS", "BTC"), 290);
-      put(new CurrencyPair("KDC", "BTC"), 178);
-      put(new CurrencyPair("MEOW", "XRP"), 434);
-      put(new CurrencyPair("ORB", "XRP"), 419);
-      put(new CurrencyPair("BEN", "BTC"), 157);
-      put(new CurrencyPair("EAC", "BTC"), 139);
-      put(new CurrencyPair("RZR", "XRP"), 353);
-      put(new CurrencyPair("MAX", "BTC"), 152);
     }
   };
 

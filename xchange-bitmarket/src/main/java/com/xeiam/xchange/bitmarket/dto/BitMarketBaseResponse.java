@@ -1,55 +1,64 @@
 package com.xeiam.xchange.bitmarket.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author kpysniak
+ * @author kpysniak, kfonal
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BitMarketBaseResponse<T> {
 
-
-  private final Boolean success;
+  private final boolean success;
   private final T data;
-  private final String error;
+  private final int error;
   private final String errorMsg;
-  private final Long time;
-  private final BitMarketRequestLimit limit;
+  private final BitMarketAPILimit limit;
 
-  public BitMarketBaseResponse(@JsonProperty("success") Boolean success,
-                               @JsonProperty("data") T data,
-                               @JsonProperty("error") String error,
-                               @JsonProperty("errorMsg") String errorMsg,
-                               @JsonProperty("time") Long time,
-                               @JsonProperty("limit") BitMarketRequestLimit limit) {
+  /**
+   * Constructor
+   *
+   * @param success
+   * @param data
+   * @param limit
+   * @param error
+   * @param errorMsg
+   */
+  public BitMarketBaseResponse(@JsonProperty("success") boolean success,
+      @JsonProperty("data") T data,
+      @JsonProperty("limit") BitMarketAPILimit limit,
+      @JsonProperty("error") int error,
+      @JsonProperty("errorMsg") String errorMsg) {
+
     this.success = success;
     this.data = data;
+    this.limit = limit;
     this.error = error;
     this.errorMsg = errorMsg;
-    this.time = time;
-    this.limit = limit;
   }
 
-  public Boolean isSuccess() {
+  public boolean getSuccess() {
+
     return success;
   }
 
   public T getData() {
+
     return data;
   }
 
-  public String getError() {
+  public BitMarketAPILimit getLimit(){
+
+    return limit;
+  }
+
+  public int getError() {
+
     return error;
   }
 
   public String getErrorMsg() {
+
     return errorMsg;
-  }
-
-  public Long getTime() {
-    return time;
-  }
-
-  public BitMarketRequestLimit getLimit() {
-    return limit;
   }
 }

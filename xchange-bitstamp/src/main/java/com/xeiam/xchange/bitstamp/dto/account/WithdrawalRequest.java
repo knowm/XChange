@@ -3,10 +3,11 @@ package com.xeiam.xchange.bitstamp.dto.account;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import si.mazi.rescu.serialization.jackson.serializers.SqlTimeDeserializer;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.xeiam.xchange.bitstamp.util.WithdrawalRequestStatusDeserializer;
 import com.xeiam.xchange.bitstamp.util.WithdrawalRequestTypeDeserializer;
-import com.xeiam.xchange.utils.jackson.SqlTimeDeserializer;
 
 public class WithdrawalRequest {
 

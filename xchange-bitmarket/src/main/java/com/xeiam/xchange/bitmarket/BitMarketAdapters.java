@@ -3,26 +3,24 @@ package com.xeiam.xchange.bitmarket;
 import java.math.BigDecimal;
 import java.util.*;
 
-import com.xeiam.xchange.bitmarket.dto.BitMarketBaseResponse;
-import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccount;
+import com.xeiam.xchange.bitmarket.dto.account.BitMarketBalance;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrder;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.bitmarket.dto.trade.*;
+import com.xeiam.xchange.bitmarket.service.polling.params.BitMarketHistoryParams;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.*;
 
 /**
- * @author kpysniak
+ * @author kpysniak, kfonal
  */
 public class BitMarketAdapters {
 
@@ -31,6 +29,28 @@ public class BitMarketAdapters {
    */
   private BitMarketAdapters() {
 
+  }
+
+  /**
+   * Adapts BitMarketBalance to AccountInfo
+   *
+   * @param balance
+   * @param username
+   * @return
+   */
+  public static AccountInfo adaptAccountInfo(BitMarketBalance balance, String username){
+
+    Map<String, Wallet> wallets = new HashMap<String, Wallet>();
+
+    for (Map.Entry<String, BigDecimal> entry : balance.getAvailable().entrySet()) {
+      BigDecimal frozen = balance.getBlocked().containsKey(entry.getKey()) ?
+          balance.getBlocked().get(entry.getKey()) :
+          new BigDecimal("0");
+      BigDecimal available = entry.getValue();
+      wallets.put(entry.getKey(), new Wallet(entry.getKey(), available.add(frozen), available, frozen));
+    }
+
+    return new AccountInfo(username, wallets);
   }
 
   /**
@@ -75,51 +95,82 @@ public class BitMarketAdapters {
 
     List<Trade> tradeList = new ArrayList<Trade>();
 
-    if (bitMarketTrades != null) {
-      for (BitMarketTrade bitMarketTrade : bitMarketTrades) {
-        Trade trade = new Trade(OrderType.BID, bitMarketTrade.getAmount(), currencyPair, bitMarketTrade.getPrice(), new Date(bitMarketTrade.getDate()*1000),
-              bitMarketTrade.getTid());
-        tradeList.add(trade);
-      }
+    for (BitMarketTrade bitMarketTrade : bitMarketTrades) {
+
+      Trade trade = new Trade(OrderType.BID, bitMarketTrade.getAmount(), currencyPair, bitMarketTrade.getPrice(), new Date(bitMarketTrade.getDate()),
+          bitMarketTrade.getTid());
+
+      tradeList.add(trade);
     }
 
     Trades trades = new Trades(tradeList, Trades.TradeSortType.SortByTimestamp);
     return trades;
   }
 
-  public static AccountInfo adaptAccountInfo(BitMarketAccount bitMarketAccount) {
+  public static OpenOrders adaptOpenOrders(Map<String, Map<String, List<BitMarketOrder>>> ordersMap) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<LimitOrder> orders = new ArrayList<LimitOrder>();
 
-    for (Map.Entry<String, BigDecimal> entry : bitMarketAccount.getBalances().getAvailable().entrySet()) {
-      wallets.add(new Wallet(entry.getKey(), entry.getValue(), "Available"));
-    }
-
-    /*
-    for (Map.Entry<String, BigDecimal> entry : bitMarketAccount.getBalances().getBlocked().entrySet()) {
-      Wallet wallet = new Wallet(entry.getKey(), entry.getValue(), "Blocked");
-    }
-    */
-    return new AccountInfo(null, bitMarketAccount.getAccount().getCommissionTaker(), wallets);
-  }
-
-  public static List<LimitOrder> adaptOrders(Map<String, BitMarketOrdersResponse> ordersResponseMap) {
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-    for (BitMarketOrdersResponse ordersResponse : ordersResponseMap.values()) {
-      for (BitMarketOrder bitMarketOrder : ordersResponse.getBuy()) {
-        limitOrders.add(adaptOrder(bitMarketOrder));
-      }
-
-      for (BitMarketOrder bitMarketOrder : ordersResponse.getSell()) {
-        limitOrders.add(adaptOrder(bitMarketOrder));
+    for (Map.Entry<String, Map<String, List<BitMarketOrder>>> rootEntry : ordersMap.entrySet()) {
+      for (Map.Entry<String, List<BitMarketOrder>> entry : rootEntry.getValue().entrySet()) {
+        for (BitMarketOrder bitMarketOrder : entry.getValue()) {
+          orders.add(createOrder(bitMarketOrder));
+        }
       }
     }
-    return limitOrders;
-  }
-  public static LimitOrder adaptOrder(BitMarketOrder bitMarketOrder) {
 
-    OrderType orderType = "sell".equalsIgnoreCase(bitMarketOrder.getType()) ? OrderType.ASK : OrderType.BID;
-    CurrencyPair pair = new CurrencyPair(bitMarketOrder.getMarket().substring(0, 3), bitMarketOrder.getMarket().substring(3,6));
-    return new LimitOrder(orderType, bitMarketOrder.getAmount(), pair, bitMarketOrder.getId(), new Date(bitMarketOrder.getTime()*1000), bitMarketOrder.getRate());
+    return new OpenOrders(orders);
+  }
+
+  private static LimitOrder createOrder(BitMarketOrder bitMarketOrder) {
+
+    return new LimitOrder(
+        bitMarketOrder.getType(),
+        bitMarketOrder.getAmount(),
+        bitMarketOrder.getCurrencyPair(),
+        String.valueOf(bitMarketOrder.getId()),
+        bitMarketOrder.getTimestamp(),
+        bitMarketOrder.getRate());
+  }
+
+  public static UserTrades adaptTradeHistory(BitMarketHistoryTrades historyTrades, BitMarketHistoryOperations historyOperations) {
+
+    List<UserTrade> trades = new ArrayList<UserTrade>();
+
+    for (BitMarketHistoryTrade trade : historyTrades.getTrades()) {
+      trades.add(createHistoryTrade(trade, historyOperations));
+    }
+
+    return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  private static UserTrade createHistoryTrade(BitMarketHistoryTrade trade, BitMarketHistoryOperations operations) {
+
+    //deduce commission currency
+    String commissionCurrency = BitMarketUtils.BitMarketOrderTypeToOrderType(trade.getType()) == OrderType.ASK ?
+        trade.getCurrencyCrypto() :
+        trade.getCurrencyFiat();
+
+    //find in history operations - the operation which time match to time of given trade
+    BitMarketHistoryOperation tradeOperation = null;
+    for (BitMarketHistoryOperation operation : operations.getOperations()) {
+      if (operation.getType().equals("trade") &&
+          operation.getCurrency().equals(commissionCurrency) &&
+          operation.getTime() == trade.getTime()) {
+        tradeOperation = operation;
+        break; //first matching history operation is taking into consideration only
+      }
+    }
+
+    return new UserTrade(
+        BitMarketUtils.BitMarketOrderTypeToOrderType(trade.getType()),
+        trade.getAmountCrypto(),
+        new CurrencyPair(trade.getCurrencyCrypto(), trade.getCurrencyFiat()),
+        trade.getRate(),
+        trade.getTimestamp(),
+        String.valueOf(trade.getId()),
+        tradeOperation != null ? String.valueOf(tradeOperation.getId()) : null,
+        tradeOperation != null ? tradeOperation.getCommission() : null,
+        commissionCurrency);
   }
 }

@@ -13,8 +13,9 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 /**
@@ -91,13 +92,24 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    Integer page = null;
+    Integer limit = null;
+    if (params instanceof TradeHistoryParamPaging) {
+      page = ((TradeHistoryParamPaging) params).getPageNumber() + 1;
+      limit = ((TradeHistoryParamPaging) params).getPageLength();
+    }
+
+    final CoinbaseTransfers transfers = super.getCoinbaseTransfers(page, limit);
+    return CoinbaseAdapters.adaptTrades(transfers);
   }
 
   @Override
-  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
+  public TradeHistoryParams createTradeHistoryParams() {
 
-    throw new NotYetImplementedForExchangeException();
+    DefaultTradeHistoryParamPaging params = new DefaultTradeHistoryParamPaging();
+    params.setPageNumber(1);
+    params.setPageLength(100);
+    return params;
   }
 
 }

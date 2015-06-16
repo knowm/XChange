@@ -76,7 +76,7 @@ public class KrakenAdaptersTest {
 
     Set<CurrencyPair> pairs = KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
     assertThat(pairs).hasSize(21);
-    assertThat(pairs.contains(CurrencyPair.BTC_USD)).isTrue();
+    assertThat(pairs.contains(CurrencyPair.XBT_USD)).isTrue();
   }
 
   @Test
@@ -137,7 +137,7 @@ public class KrakenAdaptersTest {
     AccountInfo info = KrakenAdapters.adaptBalance(krakenBalance.getResult(), null);
 
     assertThat(info.getBalance(Currencies.EUR)).isEqualTo(new BigDecimal("1.0539"));
-    assertThat(info.getBalance(Currencies.BTC)).isEqualTo(new BigDecimal("0.4888583300"));
+    assertThat(info.getBalance(Currencies.XBT)).isEqualTo(new BigDecimal("0.4888583300"));
 
   }
 
@@ -180,7 +180,7 @@ public class KrakenAdaptersTest {
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
     assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("500.00000");
     assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("1.00000000");
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().baseSymbol).isEqualTo(Currencies.BTC);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().baseSymbol).isEqualTo(Currencies.XBT);
     assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counterSymbol).isEqualTo(Currencies.EUR);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
   }
@@ -205,7 +205,7 @@ public class KrakenAdaptersTest {
     assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD");
     assertThat(trade.getPrice()).isEqualTo(new BigDecimal("32.07562"));
     assertThat(trade.getTradableAmount()).isEqualTo("0.50000000");
-    assertThat(trade.getCurrencyPair().baseSymbol).isEqualTo(Currencies.BTC);
+    assertThat(trade.getCurrencyPair().baseSymbol).isEqualTo(Currencies.XBT);
     assertThat(trade.getCurrencyPair().counterSymbol).isEqualTo(Currencies.LTC);
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
     assertThat(trade.getFeeAmount()).isEqualTo(new BigDecimal("0.03208"));

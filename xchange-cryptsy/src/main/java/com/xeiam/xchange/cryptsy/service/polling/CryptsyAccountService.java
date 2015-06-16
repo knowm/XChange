@@ -14,31 +14,32 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
  */
 public class CryptsyAccountService extends CryptsyAccountServiceRaw implements PollingAccountService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
-  public CryptsyAccountService(Exchange exchange) {
+    /**
+     * Constructor
+     *
+     * @param exchange
+     */
+    public CryptsyAccountService(Exchange exchange) {
 
-    super(exchange);
-  }
+        super(exchange);
+    }
 
-  @Override
-  public AccountInfo getAccountInfo() throws IOException, ExchangeException {
+    @Override
+    public AccountInfo getAccountInfo() throws IOException, ExchangeException {
 
-    return CryptsyAdapters.adaptAccountInfo(getCryptsyAccountInfo());
-  }
+        return CryptsyAdapters.adaptAccountInfo(getCryptsyAccountInfo());
+    }
 
-  @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException, ExchangeException {
+    @Override
+    public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException,
+            ExchangeException {
 
-    return makeCryptsyWithdrawal(address, amount).getReturnValue();
-  }
+        return makeCryptsyWithdrawal(address, amount).getReturnValue();
+    }
 
-  @Override
-  public String requestDepositAddress(String currency, String... args) throws IOException, ExchangeException {
-
-    return generateNewCryptsyDepositAddress(null, currency).getReturnValue().getAddress();
-  }
+    @Override
+    public String requestDepositAddress(String currency, String... args) throws IOException, ExchangeException {
+        return getCurrentCryptsyDepositAddresses().getReturnValue().get(currency);
+        // return generateNewCryptsyDepositAddress(null, currency).getReturnValue().getAddress();
+    }
 }

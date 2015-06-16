@@ -4,12 +4,13 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
+import com.xeiam.xchange.btce.v3.service.polling.trade.params.BTCETradeHistoryParams;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.examples.hitbtc.HitbtcExampleUtils;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcTradeServiceRaw;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 
 public class HitbtcTradingDemo {
 
@@ -24,8 +25,7 @@ public class HitbtcTradingDemo {
 
   private static void generic(PollingTradeService tradeService) throws IOException {
 
-    BTCETradeService.BTCETradeHistoryParams params = new BTCETradeService.BTCETradeHistoryParams();
-    //params.setCurrencyPair(CurrencyPair.BTC_EUR);
+    DefaultTradeHistoryParamPaging params = new DefaultTradeHistoryParamPaging();
     UserTrades accountInfo = tradeService.getTradeHistory(params);
     System.out.println(accountInfo);
   }

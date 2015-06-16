@@ -115,7 +115,7 @@ public final class ItBitAdapters {
       for (int j = 0; j < balances.length; j++) {
         ItBitAccountBalance itBitAccountBalance = balances[j];
 
-        Wallet wallet = new Wallet(itBitAccountBalance.getCurrency(), itBitAccountBalance.getTotalBalance(), itBitAccountInfoReturn.getName());
+        Wallet wallet = new Wallet(itBitAccountBalance.getCurrency(), itBitAccountBalance.getTotalBalance(), itBitAccountBalance.getAvailableBalance(), itBitAccountInfoReturn.getName());
         wallets.add(wallet);
       }
     }
@@ -171,7 +171,7 @@ public final class ItBitAdapters {
     BigDecimal low = itBitTicker.getLowToday();
     BigDecimal last = itBitTicker.getLastPrice();
     BigDecimal volume = itBitTicker.getVolume24h();
-    Date timestamp = parseDate(itBitTicker.getTimestamp());
+    Date timestamp = itBitTicker.getTimestamp() != null ? parseDate(itBitTicker.getTimestamp()) : null;
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();

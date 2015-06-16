@@ -11,15 +11,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.btce.v3.dto.trade.*;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfoReturn;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderReturn;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCEOpenOrdersReturn;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderReturn;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
 
 /**
  * @author Matija Mazi
@@ -100,6 +96,27 @@ public interface BTCEAuthenticated extends BTCE {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @FormParam("count") Long count,
       @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
       @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
+
+  /**
+   * POST to retrieve transaction history from BTCE exchange.
+   * All parameters are nullable
+   *
+   * @param from The number of the transactions to start displaying with; default 0
+   * @param count The number of transactions for displaying; default 1000
+   * @param fromId The ID of the transaction to start displaying with; default 0
+   * @param endId The ID of the transaction to finish displaying with; default +inf
+   * @param order sorting ASC or DESC; default DESC
+   * @param since When to start displaying; UNIX time default 0
+   * @param end When to finish displaying; UNIX time default +inf
+   * @return JSON like {success=1, return={tradeId={type=sell, amount=1.00000000, currency="BTC", status=2, description="BTC Payment", timestamp=1234}}}
+   */
+  @POST
+  @Path("tapi")
+  @FormParam("method")
+  BTCETransHistoryReturn TransHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+                                      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @FormParam("count") Long count,
+                                      @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+                                      @FormParam("end") Long end) throws IOException;
 
   enum SortOrder {
     ASC, DESC

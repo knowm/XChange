@@ -5,8 +5,11 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.junit.Test;
 
@@ -96,6 +99,11 @@ public class CryptsyAccountJsonTest {
     assertEquals(transfer.getQuantity(), new BigDecimal("0.00022557"));
     assertEquals(transfer.getRecipient(), "B00191301");
     assertEquals(transfer.getTransferDirection(), CryptsyTrfDirection.out);
+    
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    format.setTimeZone(TimeZone.getTimeZone("US/Eastern"));
+    assertEquals("2014-05-19 09:31:52", format.format(transfer.getRequestTimestamp()));
+    assertEquals("2014-05-19 09:31:53", format.format(transfer.getProcessedTimestamp()));
   }
 
   @Test

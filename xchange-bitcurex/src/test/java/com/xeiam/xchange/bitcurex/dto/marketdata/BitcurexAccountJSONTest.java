@@ -24,9 +24,9 @@ public class BitcurexAccountJSONTest {
     BitcurexFunds bitcurexFunds = mapper.readValue(is, BitcurexFunds.class);
 
     // Verify that the example data was unmarshalled correctly
-//    assertThat(bitcurexFunds.ge().equals("1ABcdEfgKEqBPMQ6D2ocuYNJNsXgKPcfV7"));
-    assertThat(bitcurexFunds.getBtc().compareTo(new BigDecimal("2.59033845")) == 0);
-    assertThat(bitcurexFunds.getEur().compareTo(new BigDecimal("6160.06838790")) == 0);
+    assertThat(bitcurexFunds.getAddress().equals("1ABcdEfgKEqBPMQ6D2ocuYNJNsXgKPcfV7"));
+    assertThat(bitcurexFunds.getBtcs().compareTo(new BigDecimal("2.59033845")) == 0);
+    assertThat(bitcurexFunds.getEurs().compareTo(new BigDecimal("6160.06838790")) == 0);
   }
 
   @Test
@@ -40,9 +40,8 @@ public class BitcurexAccountJSONTest {
     BitcurexFunds bitcurexFunds = mapper.readValue(is, BitcurexFunds.class);
 
     // Verify that the example data was unmarshalled correctly
-//    assertThat(bitcurexFunds.getAddress().equals("1ABcdEfgKEqBPMQ6D2ocuYNJNsXgKPcfV7"));
-    assertThat(bitcurexFunds.getBtc().compareTo(new BigDecimal("2.59033845")) == 0);
-    assertThat(bitcurexFunds.getPln().compareTo(new BigDecimal("6160.06838790")) == 0);
+    assertThat(bitcurexFunds.getAddress().equals("1ABcdEfgKEqBPMQ6D2ocuYNJNsXgKPcfV7"));
+    assertThat(bitcurexFunds.getBtcs().compareTo(new BigDecimal("2.59033845")) == 0);
+    assertThat(bitcurexFunds.getPlns().compareTo(new BigDecimal("6160.06838790")) == 0);
   }
-
 }

@@ -6,56 +6,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitcurexFunds {
 
-  private final BigDecimal eur;
-  private final BigDecimal pln;
-  private final BigDecimal btc;
-  private final BigDecimal usd;
-  private final BigDecimal fee;
+    private final BigDecimal eurs;
+    private final BigDecimal plns;
+    private final BigDecimal btcs;
+    private final String address;
+    private final String error;
 
-  public BitcurexFunds(@JsonProperty("eur") BigDecimal eur,
-                       @JsonProperty("pln") BigDecimal pln,
-                       @JsonProperty("btc") BigDecimal btc,
-                       @JsonProperty("usd") BigDecimal usd,
-                       @JsonProperty("fee") BigDecimal fee) {
+    public BitcurexFunds(@JsonProperty("eurs") BigDecimal eurs, @JsonProperty("plns") BigDecimal plns, @JsonProperty("btcs") BigDecimal btcs,
+                         @JsonProperty("address") String address, @JsonProperty("error") String error) {
 
-    this.eur = eur;
-    this.pln = pln;
-    this.btc = btc;
-    this.usd = usd;
-    this.fee = fee;
-  }
+        this.eurs = eurs;
+        this.plns = plns;
+        this.btcs = btcs;
+        this.address = address;
+        this.error = error;
+    }
 
-  public BigDecimal getEur() {
+    public BigDecimal getEurs() {
+        return eurs;
+    }
 
-    return eur;
-  }
+    public BigDecimal getPlns() {
+        return plns;
+    }
 
-  public BigDecimal getPln() {
+    public BigDecimal getBtcs() {
+        return btcs;
+    }
 
-    return pln;
-  }
+    public String getAddress() {
+        return address;
+    }
 
-  public BigDecimal getBtc() {
-
-    return btc;
-  }
-
-  public BigDecimal getUsd() {
-    return usd;
-  }
-
-  public BigDecimal getFee() {
-    return fee;
-  }
-
-  @Override
-  public String toString() {
-    return "BitcurexFunds{" +
-        "eur=" + eur +
-        ", pln=" + pln +
-        ", btc=" + btc +
-        ", usd=" + usd +
-        ", fee=" + fee +
-        '}';
-  }
+    public String getError() {
+        return error;
+    }
 }

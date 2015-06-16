@@ -1,53 +1,156 @@
 package com.xeiam.xchange.bitmarket.service.polling;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitmarket.BitMarketAuth;
-import com.xeiam.xchange.bitmarket.dto.BitMarketBaseResponse;
-import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccount;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrderResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
-import com.xeiam.xchange.bitmarket.service.BitMarketDigest;
+import com.xeiam.xchange.bitmarket.BitMarketUtils;
+import com.xeiam.xchange.bitmarket.dto.trade.*;
+import com.xeiam.xchange.bitmarket.service.polling.params.BitMarketHistoryParams;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
+import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamOffset;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
+import java.util.ArrayList;
 
 /**
- * @author yarkh
+ * Created by krzysztoffonal on 25/05/15.
  */
 public class BitMarketTradeServiceRaw extends BitMarketBasePollingService {
-
-  protected BitMarketAuth bitMarketAuth;
-  protected final ParamsDigest signatureCreator;
-  protected final String apiKey;
-
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
   protected BitMarketTradeServiceRaw(Exchange exchange) {
-
-      super(exchange);
-      this.bitMarketAuth = RestProxyFactory.createProxy(BitMarketAuth.class, exchange.getExchangeSpecification().getSslUri());
-      this.apiKey = exchange.getExchangeSpecification().getApiKey();
-      this.signatureCreator = BitMarketDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+    super(exchange);
   }
 
-  protected BitMarketBaseResponse<Map<String, BitMarketOrdersResponse>> getBitMarketOrders(String market) throws IOException {
-    return bitMarketAuth.orders(market, new Date().getTime() / 1000, apiKey, signatureCreator);
-  }
+  public BitMarketOrdersResponse getBitMarketOpenOrders() throws IOException, ExchangeException {
 
-    protected BitMarketBaseResponse<BitMarketOrderResponse> sendBitMarketOrder(LimitOrder limitOrder) throws IOException {
+    BitMarketOrdersResponse response = bitMarketAuthenticated.orders(apiKey, sign, exchange.getNonceFactory());
 
-      String type = limitOrder.getType() == Order.OrderType.BID? "buy" : "sell";
-
-      return bitMarketAuth.trade(limitOrder.getCurrencyPair().baseSymbol + limitOrder.getCurrencyPair().counterSymbol,
-          type, limitOrder.getTradableAmount(), limitOrder.getLimitPrice(),
-          new Date().getTime()/1000, apiKey, signatureCreator);
+    if (!response.getSuccess()) {
+      throw new ExchangeException(String.format("%d: %s", response.getError(), response.getErrorMsg()));
     }
 
-  protected BitMarketBaseResponse<BitMarketOrderResponse> cancelBitMarketOrder(String id) throws IOException {
-    return bitMarketAuth.cancel(id, new Date().getTime() / 1000, apiKey, signatureCreator);
+    return response;
   }
 
+  public BitMarketTradeResponse placeBitMarketOrder(LimitOrder order) throws IOException, ExchangeException {
+
+    String market = order.getCurrencyPair().toString().replace("/", "");
+    String type = order.getType() == Order.OrderType.ASK ? "buy" : "sell";
+
+    BitMarketTradeResponse response = bitMarketAuthenticated.trade(apiKey, sign, exchange.getNonceFactory(),
+        market, type, order.getTradableAmount(), order.getLimitPrice());
+
+    if (!response.getSuccess()) {
+      throw new ExchangeException(String.format("%d: %s", response.getError(), response.getErrorMsg()));
+    }
+
+    return response;
+  }
+
+  public BitMarketCancelResponse cancelBitMarketOrder(String id) throws IOException, ExchangeException {
+
+    BitMarketCancelResponse response = bitMarketAuthenticated.cancel(apiKey, sign, exchange.getNonceFactory(), Long.parseLong(id));
+
+    if (!response.getSuccess()) {
+      throw new ExchangeException(String.format("%d: %s", response.getError(), response.getErrorMsg()));
+    }
+
+    return response;
+  }
+
+  public BitMarketHistoryTradesResponse getBitMarketTradeHistory(TradeHistoryParams params) throws IOException, ExchangeException {
+
+    //default values
+    String currencyPair = "BTCPLN";
+    int count = 1000;
+    long offset = 0;
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = BitMarketUtils.CurrencyPairToBitMarketCurrencyPair(((TradeHistoryParamCurrencyPair)params).getCurrencyPair());
+    }
+
+    if (params instanceof TradeHistoryParamOffset) {
+      offset = ((TradeHistoryParamOffset)params).getOffset();
+    }
+
+    if (params instanceof BitMarketHistoryParams) {
+      count = ((BitMarketHistoryParams)params).getCount();
+    }
+
+    BitMarketHistoryTradesResponse response = bitMarketAuthenticated.trades(apiKey,
+        sign,
+        exchange.getNonceFactory(),
+        currencyPair,
+        count,
+        offset);
+
+    if (!response.getSuccess()) {
+      throw new ExchangeException(String.format("%d: %s", response.getError(), response.getErrorMsg()));
+    }
+
+    return response;
+  }
+
+  public BitMarketHistoryOperationsResponse getBitMarketOperationHistory(TradeHistoryParams params) throws IOException, ExchangeException {
+
+    //default values
+    CurrencyPair currencyPair = CurrencyPair.BTC_PLN;
+    int count = 1000;
+    long offset = 0;
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = ((TradeHistoryParamCurrencyPair)params).getCurrencyPair();
+    }
+
+    if (params instanceof TradeHistoryParamOffset) {
+      offset = ((TradeHistoryParamOffset)params).getOffset();
+    }
+
+    if (params instanceof BitMarketHistoryParams) {
+      count = ((BitMarketHistoryParams)params).getCount();
+    }
+
+    BitMarketHistoryOperationsResponse response = bitMarketAuthenticated.history(apiKey,
+        sign,
+        exchange.getNonceFactory(),
+        currencyPair.baseSymbol,
+        count,
+        offset);
+
+    BitMarketHistoryOperationsResponse response2 = bitMarketAuthenticated.history(apiKey,
+        sign,
+        exchange.getNonceFactory(),
+        currencyPair.counterSymbol,
+        count,
+        offset);
+
+    if (!response.getSuccess() || !response2.getSuccess()) {
+      throw new ExchangeException(String.format("%d: %s", response.getError(), response.getErrorMsg()));
+    }
+
+    //combine results from both historic operations - for base and coiunter currency
+    int combinedTotal = response.getData().getTotal() + response2.getData().getTotal();
+    ArrayList<BitMarketHistoryOperation> combinedOperations = new ArrayList<BitMarketHistoryOperation>(combinedTotal);
+    combinedOperations.addAll(response.getData().getOperations());
+    combinedOperations.addAll(response2.getData().getOperations());
+
+    BitMarketHistoryOperationsResponse combinedResponse = new BitMarketHistoryOperationsResponse(true,
+        new BitMarketHistoryOperations(combinedTotal,
+            response.getData().getStart(),
+            response.getData().getCount() * 2,
+            combinedOperations),
+        response2.getLimit(),
+        0,
+        null);
+
+    return combinedResponse;
+  }
 }
