@@ -1,8 +1,9 @@
 package com.xeiam.xchange.empoex.service;
 
+import net.iharder.Base64;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.utils.Base64;
 
 public class EmpoExPayloadDigest implements ParamsDigest {
 
