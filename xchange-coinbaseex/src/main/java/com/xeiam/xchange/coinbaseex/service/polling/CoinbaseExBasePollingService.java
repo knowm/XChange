@@ -2,6 +2,7 @@ package com.xeiam.xchange.coinbaseex.service.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbaseex.CoinbaseEx;
+import com.xeiam.xchange.coinbaseex.CoinbaseExAdapters;
 import com.xeiam.xchange.coinbaseex.service.CoinbaseExDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -36,8 +37,7 @@ public class CoinbaseExBasePollingService<T extends CoinbaseEx> extends BaseExch
 
   @Override
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    return exchange.getMetaData().getCurrencyPairs();
+    return CoinbaseExAdapters.adaptProductsToSupportedExchangeSymbols(coinbaseEx.getProducts());
   }
   
   protected String getTimestamp() {

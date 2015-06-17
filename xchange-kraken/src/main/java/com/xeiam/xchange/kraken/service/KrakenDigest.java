@@ -7,8 +7,9 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
 
+import net.iharder.Base64;
+
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.utils.Base64;
 
 import com.xeiam.xchange.service.BaseParamsDigest;
 

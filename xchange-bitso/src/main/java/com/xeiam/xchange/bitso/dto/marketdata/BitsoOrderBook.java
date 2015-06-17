@@ -1,9 +1,11 @@
 package com.xeiam.xchange.bitso.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.util.List;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Piotr Ładyżyński
@@ -24,6 +26,9 @@ public class BitsoOrderBook  {
   public BitsoOrderBook(@JsonProperty("timestamp") Long timestamp, @JsonProperty("bids") List<List<BigDecimal>> bids,
                            @JsonProperty("asks") List<List<BigDecimal>> asks) {
 
+    if (asks == null) {
+      throw new ExceptionalReturnContentException("No asks in response.");
+    }
     this.bids = bids;
     this.asks = asks;
     this.timestamp = timestamp;
