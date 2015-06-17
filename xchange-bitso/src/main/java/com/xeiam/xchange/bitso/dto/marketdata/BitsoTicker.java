@@ -3,6 +3,7 @@ package com.xeiam.xchange.bitso.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import si.mazi.rescu.ExceptionalReturnContentException;
 import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,6 +28,9 @@ public class BitsoTicker {
                      @JsonProperty("ask") BigDecimal ask,
                      @JsonProperty("timestamp") @JsonDeserialize(using = TimestampDeserializer.class) Date timestamp) {
 
+    if (last == null) {
+      throw new ExceptionalReturnContentException("No last in response.");
+    }
     this.last = last;
     this.high = high;
     this.low = low;
