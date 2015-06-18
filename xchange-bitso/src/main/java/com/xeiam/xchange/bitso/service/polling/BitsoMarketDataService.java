@@ -35,6 +35,17 @@ public class BitsoMarketDataService extends BitsoMarketDataServiceRaw implements
     super(exchange);
   }
   
+  /**
+   * This function takes as its first argument a 'PollingFunction' interface.  That interface has one method 'doPolling'
+   * which will be called to return the specified type.  If an error is received whose message matches the input 
+   * expectedErrorMessage, then the call to doPolling will be retried at most maxNumRetries times, waiting 
+   * waitTimeInSeconds seconds between each retry.  
+   * @param pFunc Interface containing the method to call.
+   * @param maxNumRetries Maximum number of times to retry the pFunc.doPolling() method before giving up
+   * @param waitTimeInSeconds Number of seconds to wait in between each retry
+   * @param expectedErrorMessage The message of the exception that is expected in order to want to retry
+   * @return T The type returned by pFunc.doPolling() 
+   */
   private <T> T retry(PollingFunction<T> pFunc, int maxNumRetries, int waitTimeInSeconds, String expectedErrorMessage) {
     T obj = null;
     
