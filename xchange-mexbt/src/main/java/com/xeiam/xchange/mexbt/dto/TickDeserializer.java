@@ -27,7 +27,7 @@ public class TickDeserializer extends JsonDeserializer<Date> {
    */
   @Override
   public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-    long tick = jp.getValueAsLong();
+    long tick = jp.getLongValue();
     return new Date((tick - 621355968000000000L) / 10000);
   }
 

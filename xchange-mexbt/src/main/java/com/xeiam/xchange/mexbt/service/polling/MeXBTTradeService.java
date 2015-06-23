@@ -42,7 +42,8 @@ public class MeXBTTradeService extends MeXBTTradeServiceRaw implements PollingTr
    */
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, IOException {
-    return createOrder(toCurrencyPair(marketOrder.getCurrencyPair()), toSide(marketOrder.getType()), 1, marketOrder.getTradableAmount(), null).getServerOrderId();
+    long serverOrderId = createOrder(toCurrencyPair(marketOrder.getCurrencyPair()), toSide(marketOrder.getType()), 1, marketOrder.getTradableAmount(), null).getServerOrderId();
+    return String.valueOf(serverOrderId);
   }
 
   /**
@@ -50,7 +51,8 @@ public class MeXBTTradeService extends MeXBTTradeServiceRaw implements PollingTr
    */
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, IOException {
-    return createOrder(toCurrencyPair(limitOrder.getCurrencyPair()), toSide(limitOrder.getType()), 0, limitOrder.getTradableAmount(), limitOrder.getLimitPrice()).getServerOrderId();
+    long serverOrderId = createOrder(toCurrencyPair(limitOrder.getCurrencyPair()), toSide(limitOrder.getType()), 0, limitOrder.getTradableAmount(), limitOrder.getLimitPrice()).getServerOrderId();
+    return String.valueOf(serverOrderId);
   }
 
   /**

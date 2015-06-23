@@ -9,17 +9,17 @@ import com.xeiam.xchange.mexbt.dto.TickDeserializer;
 
 public class MeXBTServerOrderIdResponse extends MeXBTResponse {
 
-  private final String serverOrderId;
+  private final long serverOrderId;
   private final Date dateTimeUtc;
 
-  public MeXBTServerOrderIdResponse(@JsonProperty("isAccepted") boolean isAccepted, @JsonProperty("rejectReason") String rejectReason, @JsonProperty("serverOrderId") String serverOrderId,
+  public MeXBTServerOrderIdResponse(@JsonProperty("isAccepted") boolean isAccepted, @JsonProperty("rejectReason") String rejectReason, @JsonProperty("serverOrderId") long serverOrderId,
       @JsonProperty("dateTimeUtc") @JsonDeserialize(using = TickDeserializer.class) Date dateTimeUtc) {
     super(isAccepted, rejectReason);
     this.serverOrderId = serverOrderId;
     this.dateTimeUtc = dateTimeUtc;
   }
 
-  public String getServerOrderId() {
+  public long getServerOrderId() {
     return serverOrderId;
   }
 
