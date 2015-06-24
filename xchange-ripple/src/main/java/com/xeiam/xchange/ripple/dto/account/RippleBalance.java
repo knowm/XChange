@@ -47,7 +47,6 @@ public final class RippleBalance {
 
   @Override
   public String toString() {
-    return String.format("Balance [value=%s, currency=%s, counterparty=%s]", //
-        currency, counterparty, value);
+    return String.format("%s [currency=%s, counterparty=%s, value=%s]", getClass().getSimpleName(), currency, counterparty, value);
   }
 }

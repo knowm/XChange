@@ -1,5 +1,10 @@
 package com.xeiam.xchange.ripple;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -22,6 +27,8 @@ public class RippleExchange extends BaseExchange implements Exchange {
   public static final String DATA_COUNTER_COUNTERPARTY = "counterCounterparty";
 
   private static final String README = "https://github.com/timmolter/XChange/tree/develop/xchange-ripple";
+
+  public static final String ROUNDING_SCALE = "rounding.scale";
 
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
@@ -49,11 +56,26 @@ public class RippleExchange extends BaseExchange implements Exchange {
     // By default only use https://api.ripple.com/ for queries that do not require authentication, i.e. do not send secret key to Ripple labs servers. 
     specification.setExchangeSpecificParametersItem(TRUST_API_RIPPLE_COM, false);
 
+    // Round to 10 decimal places on BigDecimal division
+    specification.setExchangeSpecificParametersItem(ROUNDING_SCALE, 10);
+
     return specification;
   }
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return nonceFactory;
+  }
+
+  /**
+   * Converts a datetime string as returned from the Ripple REST API into a java date object. The string is the UTC time in format
+   * yyyy-MM-dd'T'hh:mm:ss.SSS'Z' e.g. 2015-06-13T11:45:20.102Z
+   * 
+   * @throws ParseException
+   */
+  public static Date ToDate(final String datetime) throws ParseException {
+    final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
+    format.setTimeZone(TimeZone.getTimeZone("UTC"));
+    return format.parse(datetime);
   }
 }

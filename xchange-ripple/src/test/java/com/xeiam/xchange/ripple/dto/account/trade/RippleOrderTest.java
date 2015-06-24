@@ -4,19 +4,23 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.ripple.RippleExchange;
+import com.xeiam.xchange.ripple.dto.RippleAmount;
 import com.xeiam.xchange.ripple.dto.account.RippleAccount;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrdersBody;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderCancelResponse;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderEntryResponse;
-import com.xeiam.xchange.ripple.dto.trade.RippleOrderEntryResponseBody;
+import com.xeiam.xchange.ripple.dto.trade.RippleOrderDetails;
+import com.xeiam.xchange.ripple.dto.trade.RippleOrderResponseBody;
 
 public class RippleOrderTest {
-  
+
   @Test
   public void orderEntryResponseUnmarshalTest() throws IOException {
     // Read in the JSON from the example resources
@@ -27,10 +31,10 @@ public class RippleOrderTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(response.isSuccess()).isEqualTo(true);
     assertThat(response.getHash()).isEqualTo("71AE74B03DE3B9A06C559AD4D173A362D96B7D2A5AA35F56B9EF21543D627F34");
-    assertThat(response.getLedger()).isEqualTo("9592219");
+    assertThat(response.getLedger()).isEqualTo(9592219);
     assertThat(response.getState()).isEqualTo("validated");
 
-    final RippleOrderEntryResponseBody order = response.getOrder();
+    final RippleOrderResponseBody order = response.getOrder();
     assertThat(order.getAccount()).isEqualTo("sn3nxiW7v8KXzPzAqzyHXbSSKNuN9");
     assertThat(order.getFee()).isEqualTo("0.012");
     assertThat(order.getType()).isEqualTo("sell");
@@ -55,9 +59,9 @@ public class RippleOrderTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(response.isSuccess()).isEqualTo(true);
     assertThat(response.getHash()).isEqualTo("71AE74B03DE3B9A06C559AD4D173A362D96B7D2A5AA35F56B9EF21543D627F34");
-    assertThat(response.getLedger()).isEqualTo("9592219");
+    assertThat(response.getLedger()).isEqualTo(9592219);
     assertThat(response.getState()).isEqualTo("validated");
-    
+
     assertThat(response.getOrder().getAccount()).isEqualTo("sn3nxiW7v8KXzPzAqzyHXbSSKNuN9");
     assertThat(response.getOrder().getFee()).isEqualTo("0.012");
     assertThat(response.getOrder().getOfferSequence()).isEqualTo(99);
@@ -74,20 +78,20 @@ public class RippleOrderTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(response.isSuccess()).isEqualTo(true);
     assertThat(response.isValidated()).isEqualTo(true);
-    assertThat(response.getLedger()).isEqualTo("11561783");
-    
-    final RippleAccountOrdersBody firstOrder = response.getOrders().get(0);
-    assertThat(firstOrder.getType()).isEqualTo("buy");
-    assertThat(firstOrder.getSequence()).isEqualTo(11);
-    assertThat(firstOrder.getPassive()).isEqualTo(false);
+    assertThat(response.getLedger()).isEqualTo(11561783);
 
-    assertThat(firstOrder.getTakerGets().getCurrency()).isEqualTo("CAD");
-    assertThat(firstOrder.getTakerGets().getCounterparty()).isEqualTo("rLr7umFScvEZnj3AJzzZjm25yCZYh3tMwc");
-    assertThat(firstOrder.getTakerGets().getValue()).isEqualTo("11205.2494363431");
+    final RippleAccountOrdersBody thirdOrder = response.getOrders().get(2);
+    assertThat(thirdOrder.getType()).isEqualTo("buy");
+    assertThat(thirdOrder.getSequence()).isEqualTo(11);
+    assertThat(thirdOrder.getPassive()).isEqualTo(false);
 
-    assertThat(firstOrder.getTakerPays().getCurrency()).isEqualTo("USD");
-    assertThat(firstOrder.getTakerPays().getCounterparty()).isEqualTo("rDZBotqkN4MywSxm9HDtX4m7V6SRkFo7By");
-    assertThat(firstOrder.getTakerPays().getValue()).isEqualTo("9933.731769807718");
+    assertThat(thirdOrder.getTakerGets().getCurrency()).isEqualTo("CAD");
+    assertThat(thirdOrder.getTakerGets().getCounterparty()).isEqualTo("rLr7umFScvEZnj3AJzzZjm25yCZYh3tMwc");
+    assertThat(thirdOrder.getTakerGets().getValue()).isEqualTo("11205.2494363431");
+
+    assertThat(thirdOrder.getTakerPays().getCurrency()).isEqualTo("USD");
+    assertThat(thirdOrder.getTakerPays().getCounterparty()).isEqualTo("rDZBotqkN4MywSxm9HDtX4m7V6SRkFo7By");
+    assertThat(thirdOrder.getTakerPays().getValue()).isEqualTo("9933.731769807718");
 
     final RippleAccountOrdersBody lastOrder = response.getOrders().get(response.getOrders().size() - 1);
     assertThat(lastOrder.getType()).isEqualTo("sell");
@@ -101,5 +105,47 @@ public class RippleOrderTest {
     assertThat(lastOrder.getTakerPays().getCurrency()).isEqualTo("CAD");
     assertThat(lastOrder.getTakerPays().getCounterparty()).isEqualTo("rLr7umFScvEZnj3AJzzZjm25yCZYh3tMwc");
     assertThat(lastOrder.getTakerPays().getValue()).isEqualTo("2");
+  }
+
+  @Test
+  public void orderDetailsUnmarshalTest() throws IOException, ParseException {
+    // Read in the JSON from the example resources
+    final InputStream is = RippleAccount.class.getResourceAsStream("/trade/example-order-details.json");
+    final ObjectMapper mapper = new ObjectMapper();
+    final RippleOrderDetails response = mapper.readValue(is, RippleOrderDetails.class);
+
+    // Verify that the example data was unmarshalled correctly
+    assertThat(response.isSuccess()).isEqualTo(true);
+    assertThat(response.getHash()).isEqualTo("793D253739246B820A3E1DD4B38717FBDEEFE718501F5987E8B930E711C20C32");
+    assertThat(response.getLedger()).isEqualTo(14024458);
+    assertThat(response.isValidated()).isEqualTo(true);
+
+    assertThat(response.getTimestamp()).isEqualTo(RippleExchange.ToDate("2015-06-13T11:24:40.000Z"));
+    assertThat(response.getFee()).isEqualTo("0.012");
+    assertThat(response.getAction()).isEqualTo("order_cancel");
+    assertThat(response.getDirection()).isEqualTo("outgoing");
+
+    final RippleOrderResponseBody order = response.getOrder();
+    assertThat(order.getAccount()).isEqualTo("rDqQUzKUXWgcJbzwjrGw1fZvGEN5dffQYr");
+    assertThat(order.getType()).isEqualTo("cancel");
+    assertThat(order.getSequence()).isEqualTo(80);
+    assertThat(order.getCancelSequence()).isEqualTo(79);
+
+    final RippleAmount balanceChanges = response.getBalanceChanges().get(0);
+    assertThat(balanceChanges.getCounterparty()).isEqualTo("");
+    assertThat(balanceChanges.getCurrency()).isEqualTo("XRP");
+    assertThat(balanceChanges.getValue()).isEqualTo("-0.012");
+
+    final RippleOrderResponseBody orderChanges = response.getOrderChanges().get(0);
+    assertThat(orderChanges.getSequence()).isEqualTo(79);
+    assertThat(orderChanges.getStatus()).isEqualTo("canceled");
+
+    assertThat(orderChanges.getTakerPays().getCurrency()).isEqualTo("BTC");
+    assertThat(orderChanges.getTakerPays().getCounterparty()).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    assertThat(orderChanges.getTakerPays().getValue()).isEqualTo("0");
+
+    assertThat(orderChanges.getTakerGets().getCurrency()).isEqualTo("XRP");
+    assertThat(orderChanges.getTakerGets().getCounterparty()).isEqualTo("");
+    assertThat(orderChanges.getTakerGets().getValue()).isEqualTo("0");
   }
 }

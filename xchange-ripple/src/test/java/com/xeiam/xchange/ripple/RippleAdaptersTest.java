@@ -9,21 +9,25 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.ripple.dto.account.RippleAccount;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrderBook;
+import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
 import com.xeiam.xchange.ripple.service.polling.params.RippleMarketDataParams;
 
 public class RippleAdaptersTest {
 
   @Test
-  public void testAccountAdapter() throws IOException {
+  public void addaptAccountInfoTest() throws IOException {
     // Read in the JSON from the example resources
     final InputStream is = RippleAdaptersTest.class.getResourceAsStream("/account/example-account.json");
 
@@ -53,7 +57,7 @@ public class RippleAdaptersTest {
   }
 
   @Test
-  public void testOrderBookAdapter() throws IOException {
+  public void adaptOrderBookTest() throws IOException {
     // Read in the JSON from the example resources
     final InputStream is = RippleAdaptersTest.class.getResourceAsStream("/marketdata/example-order-book.json");
     final CurrencyPair currencyPair = CurrencyPair.XRP_BTC;
@@ -76,15 +80,49 @@ public class RippleAdaptersTest {
     assertThat(lastBid.getAdditionalData(RippleExchange.DATA_COUNTER_COUNTERPARTY)).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
     assertThat(lastBid.getType()).isEqualTo(OrderType.BID);
     assertThat(lastBid.getId()).isEqualTo("1303704");
-    assertThat(lastBid.getTradableAmount()).isEqualTo(new BigDecimal("66314.537782"));
-    assertThat(lastBid.getLimitPrice()).isEqualTo(new BigDecimal("0.00003317721777288062"));
+    assertThat(lastBid.getTradableAmount()).isEqualTo("66314.537782");
+    assertThat(lastBid.getLimitPrice()).isEqualTo("0.00003317721777288062");
 
     final LimitOrder firstAsk = orderBook.getAsks().get(0);
     assertThat(firstAsk.getCurrencyPair()).isEqualTo(currencyPair);
     assertThat(firstAsk.getAdditionalData(RippleExchange.DATA_COUNTER_COUNTERPARTY)).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
     assertThat(firstAsk.getType()).isEqualTo(OrderType.ASK);
     assertThat(firstAsk.getId()).isEqualTo("1011310");
-    assertThat(firstAsk.getTradableAmount()).isEqualTo(new BigDecimal("35447.914936"));
-    assertThat(firstAsk.getLimitPrice()).isEqualTo(new BigDecimal("0.00003380846624897726"));
+    assertThat(firstAsk.getTradableAmount()).isEqualTo("35447.914936");
+    assertThat(firstAsk.getLimitPrice()).isEqualTo("0.00003380846624897726");
+  }
+
+  @Test
+  public void adaptOpenOrdersTest() throws JsonParseException, JsonMappingException, IOException {
+
+    final RippleExchange exchange = new RippleExchange();
+    final Integer scale = (Integer) exchange.getDefaultExchangeSpecification().getExchangeSpecificParametersItem(RippleExchange.ROUNDING_SCALE);
+
+    // Read in the JSON from the example resources
+    final InputStream is = RippleAccount.class.getResourceAsStream("/trade/example-account-orders.json");
+    final ObjectMapper mapper = new ObjectMapper();
+    final RippleAccountOrders response = mapper.readValue(is, RippleAccountOrders.class);
+
+    // Convert to XChange orders
+    final OpenOrders orders = RippleAdapters.adaptOpenOrders(response, scale);
+    assertThat(orders.getOpenOrders()).hasSize(12);
+
+    final LimitOrder firstOrder = orders.getOpenOrders().get(0);
+    assertThat(firstOrder.getAdditionalData(RippleExchange.DATA_COUNTER_COUNTERPARTY)).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    assertThat(firstOrder.getCurrencyPair()).isEqualTo(CurrencyPair.XRP_BTC);
+    assertThat(firstOrder.getId()).isEqualTo("5");
+    assertThat(firstOrder.getLimitPrice()).isEqualTo("0.00003226");
+    assertThat(firstOrder.getTimestamp()).isNull();
+    assertThat(firstOrder.getTradableAmount()).isEqualTo("1");
+    assertThat(firstOrder.getType()).isEqualTo(OrderType.BID);
+
+    final LimitOrder secondOrder = orders.getOpenOrders().get(1);
+    assertThat(secondOrder.getAdditionalData(RippleExchange.DATA_COUNTER_COUNTERPARTY)).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    assertThat(secondOrder.getCurrencyPair()).isEqualTo(CurrencyPair.XRP_BTC);
+    assertThat(secondOrder.getId()).isEqualTo("7");
+    assertThat(secondOrder.getLimitPrice()).isEqualTo("123.12345678");
+    assertThat(secondOrder.getTimestamp()).isNull();
+    assertThat(secondOrder.getTradableAmount()).isEqualTo("123.123456");
+    assertThat(secondOrder.getType()).isEqualTo(OrderType.ASK);
   }
 }

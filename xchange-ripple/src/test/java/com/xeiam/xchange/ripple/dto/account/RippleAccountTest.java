@@ -14,23 +14,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RippleAccountTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  public void unmarshalTest() throws IOException {
     // Read in the JSON from the example resources
     final InputStream is = RippleAccount.class.getResourceAsStream("/account/example-account.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleAccount account = mapper.readValue(is, RippleAccount.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(account.getLedger()).isEqualTo("13895887");
-    assertThat(account.getValidated()).isEqualTo(true);
+    assertThat(account.getLedger()).isEqualTo(13895887);
+    assertThat(account.isValidated()).isEqualTo(true);
     assertThat(account.isSuccess()).isEqualTo(true);
 
     // check balances are correct
     final List<RippleBalance> balances = account.getBalances();
     assertThat(balances).hasSize(3);
-    
+
     final Iterator<RippleBalance> iterator = balances.iterator();
-    
+
     final RippleBalance balance1 = iterator.next();
     assertThat(balance1.getValue()).isEqualTo("861.401578");
     assertThat(balance1.getCurrency()).isEqualTo("XRP");

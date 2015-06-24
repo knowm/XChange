@@ -6,6 +6,36 @@
       {
          "type":"buy",
          "taker_gets":{
+            "currency":"BTC",
+            "value":"0.00003226",
+            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+         },
+         "taker_pays":{
+            "currency":"XRP",
+            "value":"1",
+            "counterparty":""
+         },
+         "sequence":5,
+         "passive":false
+      },
+      {
+         "type":"sell",
+         "taker_gets":{
+            "currency":"XRP",
+            "value":"123.123456",
+            "counterparty":""
+         },
+         "taker_pays":{
+            "currency":"BTC",
+            "value":"15159.38551342023",
+            "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+         },
+         "sequence":7,
+         "passive":false
+      },
+      {
+         "type":"buy",
+         "taker_gets":{
             "currency":"CAD",
             "counterparty":"rLr7umFScvEZnj3AJzzZjm25yCZYh3tMwc",
             "value":"11205.2494363431"

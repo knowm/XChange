@@ -3,43 +3,11 @@ package com.xeiam.xchange.ripple.dto.trade;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.ripple.dto.RippleCommon;
 
-public class RippleAccountOrders {
-  @JsonProperty("success")
-  private boolean success;
-
-  @JsonProperty("ledger")
-  private String ledger;
-
-  @JsonProperty("validated")
-  private boolean validated;
-
+public class RippleAccountOrders extends RippleCommon {
   @JsonProperty("orders")
   private List<RippleAccountOrdersBody> orders;
-
-  public boolean isSuccess() {
-    return success;
-  }
-
-  public void setSuccess(final boolean value) {
-    success = value;
-  }
-
-  public String getLedger() {
-    return ledger;
-  }
-
-  public void setLedger(final String value) {
-    ledger = value;
-  }
-
-  public boolean isValidated() {
-    return validated;
-  }
-
-  public void setValidated(final boolean value) {
-    validated = value;
-  }
 
   public List<RippleAccountOrdersBody> getOrders() {
     return orders;

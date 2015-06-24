@@ -14,7 +14,7 @@ import com.xeiam.xchange.ripple.dto.RippleAmount;
 public class RippleOrderBookTest {
 
   @Test
-  public void testUnmarshal() throws IOException {
+  public void unmarshalTest() throws IOException {
     // Read in the JSON from the example resources
     final InputStream is = RippleOrderBookTest.class.getResourceAsStream("/marketdata/example-order-book.json");
     final ObjectMapper mapper = new ObjectMapper();
@@ -22,8 +22,8 @@ public class RippleOrderBookTest {
 
     // Verify that the example data was unmarshalled correctly
     assertThat(orderBook.getOrderBook()).isEqualTo("XRP/BTC+rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
-    assertThat(orderBook.getLedger()).isEqualTo("13796967");
-    assertThat(orderBook.getValidated()).isEqualTo(true);
+    assertThat(orderBook.getLedger()).isEqualTo(13796967);
+    assertThat(orderBook.isValidated()).isEqualTo(true);
     assertThat(orderBook.isSuccess()).isEqualTo(true);
 
     // check number of bid orders and values in first order

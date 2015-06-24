@@ -13,6 +13,8 @@ import com.xeiam.xchange.ripple.dto.RippleException;
 import com.xeiam.xchange.ripple.dto.account.RippleAccount;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrderBook;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
+import com.xeiam.xchange.ripple.dto.trade.RippleNotifications;
+import com.xeiam.xchange.ripple.dto.trade.RippleOrderDetails;
 
 /**
  * Returns public information that is stored in the ledger - secret not needed.
@@ -44,4 +46,23 @@ public interface RipplePublic {
   @GET
   @Path("accounts/{address}/orders")
   public RippleAccountOrders openAccountOrders(@PathParam("address") final String address) throws IOException, RippleException;
+
+  /**
+   * Returns the account information for this address.
+   */
+  @GET
+  @Path("accounts/{address}/orders/{hash}")
+  public RippleOrderDetails orderDetails(@PathParam("address") final String address, @PathParam("hash") final String hash) throws IOException,
+      RippleException;
+
+  /**
+   * Returns notifications for this address.
+   */
+  @GET
+  @Path("accounts/{address}/notifications")
+  public RippleNotifications notifications(@PathParam("address") final String address, @QueryParam("exclude_failed") final Boolean excludeFailed,
+      @QueryParam("earliest_first") final Boolean earliestFirst, @QueryParam("results_per_page") final Integer resultsPerPage,
+      @QueryParam("page") final Integer page, @QueryParam("start_ledger") final Long startLedger, @QueryParam("end_ledger") final Long endLedger)
+      throws IOException, RippleException;
+
 }

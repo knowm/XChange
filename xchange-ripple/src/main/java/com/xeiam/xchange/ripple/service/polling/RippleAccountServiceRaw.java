@@ -12,7 +12,7 @@ public class RippleAccountServiceRaw extends RippleBasePollingService {
   }
 
   public RippleAccount getRippleAccount() throws IOException {
-    final RippleAccount rippleAccount= ripplePublic.getAccounts(exchange.getExchangeSpecification().getApiKey());
+    final RippleAccount rippleAccount = ripplePublic.getAccounts(exchange.getExchangeSpecification().getApiKey());
     return rippleAccount;
   }
 }

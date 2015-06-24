@@ -4,21 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.ripple.dto.RippleCommon;
 
-public final class RippleOrderBook {
+public final class RippleOrderBook extends RippleCommon {
 
   @JsonProperty("order_book")
   private String orderBook;
-  @JsonProperty("ledger")
-  private String ledger;
-  @JsonProperty("validated")
-  private Boolean validated;
   @JsonProperty("bids")
   private List<RippleOrder> bids = new ArrayList<RippleOrder>();
   @JsonProperty("asks")
   private List<RippleOrder> asks = new ArrayList<RippleOrder>();
-  @JsonProperty("success")
-  private Boolean success;
 
   public String getOrderBook() {
     return orderBook;
@@ -26,22 +21,6 @@ public final class RippleOrderBook {
 
   public void setOrderBook(final String orderBook) {
     this.orderBook = orderBook;
-  }
-
-  public String getLedger() {
-    return ledger;
-  }
-
-  public void setLedger(final String ledger) {
-    this.ledger = ledger;
-  }
-
-  public Boolean getValidated() {
-    return validated;
-  }
-
-  public void setValidated(final Boolean validated) {
-    this.validated = validated;
   }
 
   public List<RippleOrder> getBids() {
@@ -60,17 +39,9 @@ public final class RippleOrderBook {
     this.asks = asks;
   }
 
-  public Boolean isSuccess() {
-    return success;
-  }
-
-  public void setSuccess(final Boolean success) {
-    this.success = success;
-  }
-
   @Override
   public String toString() {
-    return String.format("OrderBook [order_book=%s, ledger=%s, validated=%s, success=%s, bids=%s, asks=%s]", //
-        orderBook, ledger, validated, success, bids, asks);
+    return String.format("OrderBook [ledger=%s, validated=%b, success=%b, order_book=%s, bids=%s, asks=%s]", ledger, validated, success, orderBook,
+        bids, asks);
   }
 }
