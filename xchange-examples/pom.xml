@@ -335,6 +335,26 @@
 			<artifactId>xchange-huobi</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-mexbt</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- JSR 356: Java API for WebSocket - Reference Implementation -->
+		<dependency>
+			<groupId>org.glassfish.tyrus</groupId>
+			<artifactId>tyrus-container-grizzly-client</artifactId>
+			<version>1.10</version>
+		</dependency>
+
+		<!-- JSR 353: Java API for JSON Processing - Reference Implementation -->
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.json</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+
 	</dependencies>
 
 </project>
