@@ -49,8 +49,8 @@ public interface CleverCoinAuthenticated extends CleverCoin {
 		  @FormParam("price") BigDecimal price)
       throws CleverCoinException, IOException;
   
-  @GET
-  @Path("orders/limited/cancel")
+  @DELETE
+  @Path("orders/limited")
   public CleverCoinCancelOrder cancelOrder(@HeaderParam("X-CleverAPI-Key") String apiKey, @HeaderParam("X-CleverAPI-Signature") ParamsDigest signer,
 		  @HeaderParam("X-CleverAPI-Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("orderID") int orderId)
       throws CleverCoinException, IOException;
