@@ -6,6 +6,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitso.Bitso;
+import com.xeiam.xchange.bitso.dto.BitsoException;
 import com.xeiam.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import com.xeiam.xchange.bitso.dto.marketdata.BitsoTicker;
 import com.xeiam.xchange.bitso.dto.marketdata.BitsoTransaction;
@@ -23,11 +24,11 @@ public class BitsoMarketDataServiceRaw  extends BitsoBasePollingService {
     this.bitso = RestProxyFactory.createProxy(Bitso.class, exchange.getExchangeSpecification().getSslUri());
   }
 
-  public BitsoOrderBook getBitsoOrderBook() throws IOException {
+  public BitsoOrderBook getBitsoOrderBook() throws IOException, BitsoException {
     return bitso.getOrderBook();
   }
   
-  public BitsoTransaction[] getBitsoTransactions(Object... args) throws IOException {
+  public BitsoTransaction[] getBitsoTransactions(Object... args) throws IOException, BitsoException {
 
 	    BitsoTransaction[] transactions = null;
 
@@ -47,7 +48,7 @@ public class BitsoMarketDataServiceRaw  extends BitsoBasePollingService {
 	  }
 
 
-  public BitsoTicker getBitsoTicker() throws IOException {
+  public BitsoTicker getBitsoTicker() throws IOException, BitsoException {
     return bitso.getTicker();
   }
 }

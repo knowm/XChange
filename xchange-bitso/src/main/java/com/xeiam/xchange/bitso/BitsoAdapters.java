@@ -54,11 +54,11 @@ public final class BitsoAdapters {
     return new AccountInfo(userName, Arrays.asList(mxnWallet, btcWallet));
   }
 
-  public static OrderBook adaptOrderBook(BitsoOrderBook bitstampOrderBook, CurrencyPair currencyPair, int timeScale) {
+  public static OrderBook adaptOrderBook(BitsoOrderBook bitsoOrderBook, CurrencyPair currencyPair, int timeScale) {
 
-    List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitstampOrderBook.getAsks());
-    List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitstampOrderBook.getBids());
-    Date date = new Date(bitstampOrderBook.getTimestamp() * timeScale); // polled order books provide a timestamp in seconds, stream in ms
+    List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitsoOrderBook.getAsks());
+    List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitsoOrderBook.getBids());
+    Date date = new Date(bitsoOrderBook.getTimestamp() * timeScale); // polled order books provide a timestamp in seconds, stream in ms
     return new OrderBook(date, asks, bids);
   }
 
@@ -112,20 +112,20 @@ public final class BitsoAdapters {
 
     List<UserTrade> trades = new ArrayList<UserTrade>();
     long lastTradeId = 0;
-    for (BitsoUserTransaction bitstampUserTransaction : bitsoUserTransactions) {
-      if (bitstampUserTransaction.getType().equals(BitsoUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
-        boolean sell = bitstampUserTransaction.getMxn().doubleValue() > 0.0;
+    for (BitsoUserTransaction bitsoUserTransaction : bitsoUserTransactions) {
+      if (bitsoUserTransaction.getType().equals(BitsoUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
+        boolean sell = bitsoUserTransaction.getMxn().doubleValue() > 0.0;
         Order.OrderType orderType = sell ? Order.OrderType.ASK : Order.OrderType.BID;
-        BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
-        BigDecimal price = bitstampUserTransaction.getPrice().abs();
-        Date timestamp = BitsoUtils.parseDate(bitstampUserTransaction.getDatetime());
-        long transactionId = bitstampUserTransaction.getId();
+        BigDecimal tradableAmount = bitsoUserTransaction.getBtc();
+        BigDecimal price = bitsoUserTransaction.getPrice().abs();
+        Date timestamp = BitsoUtils.parseDate(bitsoUserTransaction.getDatetime());
+        long transactionId = bitsoUserTransaction.getId();
         if (transactionId > lastTradeId) {
           lastTradeId = transactionId;
         }
         final String tradeId = String.valueOf(transactionId);
-        final String orderId = String.valueOf(bitstampUserTransaction.getOrderId());
-        final BigDecimal feeAmount = bitstampUserTransaction.getFee();
+        final String orderId = String.valueOf(bitsoUserTransaction.getOrderId());
+        final BigDecimal feeAmount = bitsoUserTransaction.getFee();
         final CurrencyPair currencyPair = new CurrencyPair(Currencies.BTC, Currencies.MXN);
 
         String feeCurrency = sell ? currencyPair.counterSymbol : currencyPair.baseSymbol;
