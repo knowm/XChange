@@ -2,7 +2,6 @@ package com.xeiam.xchange.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -11,7 +10,7 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 /**
  * Data object representing a user trade
  */
-public final class UserTrade extends Trade {
+public class UserTrade extends Trade {
 
   /**
    * The id of the order responsible for execution of this trade
@@ -79,94 +78,59 @@ public final class UserTrade extends Trade {
         "]";
   }
 
-  public static class Builder {
+  public static class Builder extends Trade.Builder {
 
-    private OrderType type;
-    private BigDecimal tradableAmount;
-    private CurrencyPair currencyPair;
-    private BigDecimal price;
-    private Date timestamp;
-    private String id;
-    private String orderId;
-    private BigDecimal feeAmount;
-    private String feeCurrency;
-    private Map<String, Object> additionalData;
-
-    public Builder() {
-
-    }
+    protected String orderId;
+    protected BigDecimal feeAmount;
+    protected String feeCurrency;
 
     public static Builder from(UserTrade trade) {
       return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair())
           .price(trade.getPrice()).timestamp(trade.getTimestamp()).id(trade.getId()).orderId(trade.getOrderId()).feeAmount(trade.getFeeAmount())
-          .feeCurrency(trade.getFeeCurrency()).additionalData(trade.getAdditionalData());
+          .feeCurrency(trade.getFeeCurrency());
     }
 
     public Builder type(OrderType type) {
-
-      this.type = type;
-      return this;
+      return (Builder) super.type(type);
     }
 
     public Builder tradableAmount(BigDecimal tradableAmount) {
-
-      this.tradableAmount = tradableAmount;
-      return this;
+      return (Builder) super.tradableAmount(tradableAmount);
     }
 
     public Builder currencyPair(CurrencyPair currencyPair) {
-
-      this.currencyPair = currencyPair;
-      return this;
+      return (Builder) super.currencyPair(currencyPair);
     }
 
     public Builder price(BigDecimal price) {
-
-      this.price = price;
-      return this;
+      return (Builder) super.price(price);
     }
 
     public Builder timestamp(Date timestamp) {
-
-      this.timestamp = timestamp;
-      return this;
+      return (Builder) super.timestamp(timestamp);
     }
 
     public Builder id(String id) {
-
-      this.id = id;
-      return this;
+      return (Builder) super.id(id);
     }
 
     public Builder orderId(String orderId) {
-
       this.orderId = orderId;
       return this;
     }
 
     public Builder feeAmount(BigDecimal feeAmount) {
-
       this.feeAmount = feeAmount;
       return this;
     }
 
     public Builder feeCurrency(String feeCurrency) {
-
       this.feeCurrency = feeCurrency;
       return this;
     }
 
-    public Builder additionalData(Map<String, Object> additionalData) {
-
-      this.additionalData = additionalData;
-      return this;
-    }
-
     public UserTrade build() {
-
-      UserTrade trade = new UserTrade(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
-      trade.setAdditionalData(additionalData);
-      return trade;
+      return new UserTrade(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
     }
   }
 }

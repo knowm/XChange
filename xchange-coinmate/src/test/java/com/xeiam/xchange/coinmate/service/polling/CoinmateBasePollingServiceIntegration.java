@@ -38,7 +38,7 @@ import org.junit.Test;
  *
  * @author Martin Stachon
  */
-public class CoinmateBasePollingServiceTest {
+public class CoinmateBasePollingServiceIntegration {
 
   @Test
   public void tickerFetchTest() throws Exception {

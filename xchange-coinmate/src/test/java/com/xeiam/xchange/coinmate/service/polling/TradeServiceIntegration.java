@@ -24,7 +24,7 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
  * For these tests to function, a file 'exchangeConfiguration.json' must be on the classpath and contain valid api and secret keys.
  *
  */
-public class TradeServiceTest {
+public class TradeServiceIntegration {
 
   @Test
   public void transactionHistoryTest() throws Exception {
