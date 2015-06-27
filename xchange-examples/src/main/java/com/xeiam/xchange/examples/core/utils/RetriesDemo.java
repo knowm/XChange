@@ -2,7 +2,6 @@ package com.xeiam.xchange.examples.core.utils;
 
 import java.io.IOException;
 import java.util.concurrent.Callable;
-import java.util.function.Predicate;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -14,10 +13,11 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
-import com.xeiam.xchange.utils.Retries;
+import com.xeiam.xchange.utils.retries.IPredicate;
+import com.xeiam.xchange.utils.retries.Retries;
 
 public class RetriesDemo {
-  public static final Predicate<Exception> TOO_FREQUENT_REQUESTS = new Predicate<Exception>() {
+  public static final IPredicate<Exception> TOO_FREQUENT_REQUESTS = new IPredicate<Exception>() {
     @Override
     public boolean test(Exception e) {
       return e.getMessage().contains("{code=200, message=Too many requests}");

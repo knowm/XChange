@@ -1,11 +1,9 @@
-package com.xeiam.xchange.utils;
+package com.xeiam.xchange.utils.retries;
 
 import java.util.concurrent.Callable;
-import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 
 public class Retries {
 
@@ -16,6 +14,7 @@ public class Retries {
 	 * the exception thrown is the right kind. The retries back off
 	 * exponentially. For examples: @see
 	 * {@link com.xeiam.xchange.examples.core.utils.RetriesDemo}
+	 * 
 	 * @author Matija Mazi and Bryan Hernandez
 	 * 
 	 * @param nAttempts
@@ -27,9 +26,10 @@ public class Retries {
 	 *            A callable or lambda expression that contains the code that
 	 *            will be tried and retried, if necessary.
 	 * @param retryableException
-	 *            A Predicate that will be used to check if the exception caught
-	 *            is retryable, which can be any complex criteria that the user
-	 *            defines.  public boolean test(Exception e) must be overriden.
+	 *            An instance of
+	 *            {@link com.xeiam.xchange.utils.retries.IPredicate} that will
+	 *            be used to check if the exception caught is retryable, which
+	 *            can be any complex criteria that the user defines.
 	 * @return
 	 * @throws Exception
 	 *             If the exception isn't retryable, it's immediately thrown
@@ -37,7 +37,7 @@ public class Retries {
 	 *             after the allowed number of retries is exhausted.
 	 */
 	public static <V> V callWithRetries(int nAttempts, int initialRetrySec, Callable<V> action,
-			Predicate<Exception> retryableException) throws Exception {
+			IPredicate<Exception> retryableException) throws Exception {
 		int retryDelaySec = initialRetrySec;
 		for (int attemptsLeftAfterThis = nAttempts - 1; attemptsLeftAfterThis >= 0; attemptsLeftAfterThis--) {
 			try {
