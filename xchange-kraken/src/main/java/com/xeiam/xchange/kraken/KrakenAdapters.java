@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -34,6 +35,7 @@ import com.xeiam.xchange.kraken.dto.trade.KrakenOrderDescription;
 import com.xeiam.xchange.kraken.dto.trade.KrakenOrderResponse;
 import com.xeiam.xchange.kraken.dto.trade.KrakenTrade;
 import com.xeiam.xchange.kraken.dto.trade.KrakenType;
+import com.xeiam.xchange.kraken.dto.trade.KrakenUserTrade;
 
 public class KrakenAdapters {
 
@@ -131,11 +133,11 @@ public class KrakenAdapters {
 
   public static AccountInfo adaptBalance(Map<String, BigDecimal> krakenBalance, String username) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    Map<String, Wallet> wallets = new ConcurrentHashMap<String, Wallet>();
     for (Entry<String, BigDecimal> balancePair : krakenBalance.entrySet()) {
       String currency = adaptCurrency(balancePair.getKey());
       Wallet wallet = new Wallet(currency, balancePair.getValue());
-      wallets.add(wallet);
+      wallets.put(currency, wallet);
     }
     return new AccountInfo(username, wallets);
   }
@@ -205,7 +207,7 @@ public class KrakenAdapters {
     return new UserTrades(trades, TradeSortType.SortByID);
   }
 
-  public static UserTrade adaptTrade(KrakenTrade krakenTrade, String tradeId) {
+  public static KrakenUserTrade adaptTrade(KrakenTrade krakenTrade, String tradeId) {
 
     OrderType orderType = adaptOrderType(krakenTrade.getType());
     BigDecimal tradableAmount = krakenTrade.getVolume();
@@ -216,10 +218,8 @@ public class KrakenAdapters {
     BigDecimal averagePrice = krakenTrade.getAverageClosePrice();
     BigDecimal price = (averagePrice == null) ? krakenTrade.getPrice() : averagePrice;
 
-    UserTrade userTrade = new UserTrade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp,
-        tradeId, krakenTrade.getOrderTxId(), krakenTrade.getFee(), transactionCurrency);
-    userTrade.putAdditionalData("cost", krakenTrade.getCost());
-    return userTrade;
+    return new KrakenUserTrade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, tradeId,
+        krakenTrade.getOrderTxId(), krakenTrade.getFee(), transactionCurrency, krakenTrade.getCost());
   }
 
   public static OrderType adaptOrderType(KrakenType krakenType) {
