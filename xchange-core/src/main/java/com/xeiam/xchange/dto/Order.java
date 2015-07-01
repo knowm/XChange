@@ -2,9 +2,7 @@ package com.xeiam.xchange.dto;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -58,12 +56,6 @@ public class Order {
    * Any applicable order flags
    */
   private final Set<IOrderFlags> flags = new HashSet<IOrderFlags>();
-  
-  /**
-   * Additional exchange specific data for use on order entry, order history, 
-   * order book depth etc. 
-   */
-  private final Map<String, Object> additionalData = new HashMap<String, Object>();
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -130,26 +122,6 @@ public class Order {
     }
   }
 
-  public Object getAdditionalData(String key) {
-    return additionalData.get(key);
-  }
-
-  public void putAdditionalData(String key, Object value) {
-    additionalData.put(key, value);
-  }
-
-  public Map<String, Object> getAdditionalData() {
-    return additionalData;
-  }
-
-  public Order setAdditionalData(Map<String, Object> values) {
-    additionalData.clear();
-    if (values != null) {
-      additionalData.putAll(values);
-    }
-    return this;
-  }
-
   @Override
   public String toString() {
 
@@ -195,5 +167,67 @@ public class Order {
       return false;
     }
     return true;
+  }
+
+  public static class Builder {
+
+    protected OrderType orderType;
+    protected BigDecimal tradableAmount;
+    protected CurrencyPair currencyPair;
+    protected String id;
+    protected Date timestamp;
+
+    protected final Set<IOrderFlags> flags = new HashSet<IOrderFlags>();
+
+    public Builder(OrderType orderType, CurrencyPair currencyPair) {
+      this.orderType = orderType;
+      this.currencyPair = currencyPair;
+    }
+
+    public static Builder from(Order order) {
+      return new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount()).timestamp(order.getTimestamp())
+          .id(order.getId()).flags(order.getOrderFlags());
+    }
+
+    public Builder orderType(OrderType orderType) {
+      this.orderType = orderType;
+      return this;
+    }
+
+    public Builder tradableAmount(BigDecimal tradableAmount) {
+      this.tradableAmount = tradableAmount;
+      return this;
+    }
+
+    public Builder currencyPair(CurrencyPair currencyPair) {
+      this.currencyPair = currencyPair;
+      return this;
+    }
+
+    public Builder id(String id) {
+      this.id = id;
+      return this;
+    }
+
+    public Builder timestamp(Date timestamp) {
+      this.timestamp = timestamp;
+      return this;
+    }
+    
+    public Builder flags(Set<IOrderFlags> flags) {
+      this.flags.addAll(flags);
+      return this;
+    }
+    
+    public Builder flag(IOrderFlags flag) {
+      this.flags.add(flag);
+      return this;
+    }
+
+    public Order build() {
+      Order order = new Order(orderType, tradableAmount, currencyPair, id, timestamp);
+      order.setOrderFlags(flags);
+      return order;
+    }
   }
 }

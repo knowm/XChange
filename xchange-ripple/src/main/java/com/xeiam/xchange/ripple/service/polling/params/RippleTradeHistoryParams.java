@@ -10,13 +10,13 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsAll;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
 
-public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging, TradeHistoryParamsTimeSpan {
+/**
+ * The complete set of parameters that a Ripple trade history query will consider.
+ */
+public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging, TradeHistoryParamsTimeSpan,
+    RippleTradeHistoryAccount, RippleTradeHistoryHashLimit, RippleTradeHistoryCount, RippleTradeHistoryPreferredCurrencies {
 
   public static final int DEFAULT_PAGE_LENGTH = 20;
-
-  public static final int DEFAULT_TRADE_COUNT_LIMIT = 10;
-
-  public static final int DEFAULT_API_CALL_COUNT = 100;
 
   private final TradeHistoryParamsAll all = new TradeHistoryParamsAll();
 
@@ -24,10 +24,10 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
   private String hashLimit = null;
 
   private int tradeCount = 0;
-  private int tradeCountLimit = DEFAULT_TRADE_COUNT_LIMIT;
+  private int tradeCountLimit = RippleTradeHistoryCount.DEFAULT_TRADE_COUNT_LIMIT;
 
   private int apiCallCount = 0;
-  private int apiCallCountLimit = DEFAULT_API_CALL_COUNT;
+  private int apiCallCountLimit = RippleTradeHistoryCount.DEFAULT_API_CALL_COUNT;
 
   private Collection<String> preferredBaseCurrency = new HashSet<String>();
   private Collection<String> preferredCounterCurrency = new HashSet<String>();
@@ -36,74 +36,92 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
     setPageLength(DEFAULT_PAGE_LENGTH);
   }
 
+  @Override
   public void setAccount(final String value) {
     account = value;
   }
 
+  @Override
   public String getAccount() {
     return account;
   }
 
+  @Override
   public void setHashLimit(final String value) {
     hashLimit = value;
   }
 
+  @Override
   public String getHashLimit() {
     return hashLimit;
   }
 
+  @Override
   public void resetApiCallCount() {
     apiCallCount = 0;
   }
 
+  @Override
   public void incrementApiCallCount() {
     apiCallCount++;
   }
 
+  @Override
   public int getApiCallCount() {
     return apiCallCount;
   }
 
+  @Override
   public void setApiCallCountLimit(final int value) {
     apiCallCountLimit = value;
   }
 
+  @Override
   public int getApiCallCountLimit() {
     return apiCallCountLimit;
   }
 
+  @Override
   public void resetTradeCount() {
     tradeCount = 0;
   }
 
+  @Override
   public void incrementTradeCount() {
     tradeCount++;
   }
 
+  @Override
   public int getTradeCount() {
     return tradeCount;
   }
 
+  @Override
   public void setTradeCountLimit(final int value) {
     tradeCountLimit = value;
   }
 
+  @Override
   public int getTradeCountLimit() {
     return tradeCountLimit;
   }
 
+  @Override
   public void addPreferredBaseCurrency(final String value) {
     preferredBaseCurrency.add(value);
   }
 
+  @Override
   public Collection<String> getPreferredBaseCurrency() {
     return preferredBaseCurrency;
   }
 
+  @Override
   public void addPreferredCounterCurrency(final String value) {
     preferredCounterCurrency.add(value);
   }
 
+  @Override
   public Collection<String> getPreferredCounterCurrency() {
     return preferredCounterCurrency;
   }

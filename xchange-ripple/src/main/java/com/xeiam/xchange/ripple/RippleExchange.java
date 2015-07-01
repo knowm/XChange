@@ -23,9 +23,6 @@ public class RippleExchange extends BaseExchange implements Exchange {
 
   public static final String REST_API_LOCALHOST_PLAIN_TEXT = "http://localhost:5990/";
 
-  public static final String DATA_BASE_COUNTERPARTY = "baseCounterparty";
-  public static final String DATA_COUNTER_COUNTERPARTY = "counterCounterparty";
-
   private static final String README = "https://github.com/timmolter/XChange/tree/develop/xchange-ripple";
 
   public static final String ROUNDING_SCALE = "rounding.scale";

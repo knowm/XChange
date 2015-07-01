@@ -22,6 +22,7 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.ripple.dto.account.RippleAccount;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrderBook;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
+import com.xeiam.xchange.ripple.dto.trade.RippleLimitOrder;
 import com.xeiam.xchange.ripple.service.polling.params.RippleMarketDataParams;
 
 public class RippleAdaptersTest {
@@ -76,16 +77,18 @@ public class RippleAdaptersTest {
     assertThat(orderBook.getAsks()).hasSize(10);
 
     final LimitOrder lastBid = orderBook.getBids().get(9);
+    assertThat(lastBid).isInstanceOf(RippleLimitOrder.class);
     assertThat(lastBid.getCurrencyPair()).isEqualTo(currencyPair);
-    assertThat(lastBid.getAdditionalData(RippleExchange.DATA_COUNTER_COUNTERPARTY)).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    assertThat(((RippleLimitOrder) lastBid).getCounterCounterparty()).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
     assertThat(lastBid.getType()).isEqualTo(OrderType.BID);
     assertThat(lastBid.getId()).isEqualTo("1303704");
     assertThat(lastBid.getTradableAmount()).isEqualTo("66314.537782");
     assertThat(lastBid.getLimitPrice()).isEqualTo("0.00003317721777288062");
 
     final LimitOrder firstAsk = orderBook.getAsks().get(0);
+    assertThat(firstAsk).isInstanceOf(RippleLimitOrder.class);
     assertThat(firstAsk.getCurrencyPair()).isEqualTo(currencyPair);
-    assertThat(firstAsk.getAdditionalData(RippleExchange.DATA_COUNTER_COUNTERPARTY)).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    assertThat(((RippleLimitOrder) firstAsk).getCounterCounterparty()).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
     assertThat(firstAsk.getType()).isEqualTo(OrderType.ASK);
     assertThat(firstAsk.getId()).isEqualTo("1011310");
     assertThat(firstAsk.getTradableAmount()).isEqualTo("35447.914936");
@@ -108,8 +111,9 @@ public class RippleAdaptersTest {
     assertThat(orders.getOpenOrders()).hasSize(12);
 
     final LimitOrder firstOrder = orders.getOpenOrders().get(0);
-    assertThat(firstOrder.getAdditionalData(RippleExchange.DATA_COUNTER_COUNTERPARTY)).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    assertThat(firstOrder).isInstanceOf(RippleLimitOrder.class);
     assertThat(firstOrder.getCurrencyPair()).isEqualTo(CurrencyPair.XRP_BTC);
+    assertThat(((RippleLimitOrder) firstOrder).getCounterCounterparty()).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
     assertThat(firstOrder.getId()).isEqualTo("5");
     assertThat(firstOrder.getLimitPrice()).isEqualTo("0.00003226");
     assertThat(firstOrder.getTimestamp()).isNull();
@@ -117,8 +121,9 @@ public class RippleAdaptersTest {
     assertThat(firstOrder.getType()).isEqualTo(OrderType.BID);
 
     final LimitOrder secondOrder = orders.getOpenOrders().get(1);
-    assertThat(secondOrder.getAdditionalData(RippleExchange.DATA_COUNTER_COUNTERPARTY)).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    assertThat(secondOrder).isInstanceOf(RippleLimitOrder.class);
     assertThat(secondOrder.getCurrencyPair()).isEqualTo(CurrencyPair.XRP_BTC);
+    assertThat(((RippleLimitOrder) secondOrder).getCounterCounterparty()).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
     assertThat(secondOrder.getId()).isEqualTo("7");
     assertThat(secondOrder.getLimitPrice()).isEqualTo("123.12345678");
     assertThat(secondOrder.getTimestamp()).isNull();

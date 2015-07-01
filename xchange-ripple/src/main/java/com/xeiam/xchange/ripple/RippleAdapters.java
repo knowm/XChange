@@ -29,9 +29,11 @@ import com.xeiam.xchange.ripple.dto.marketdata.RippleOrder;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrderBook;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrdersBody;
+import com.xeiam.xchange.ripple.dto.trade.RippleLimitOrder;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderDetails;
+import com.xeiam.xchange.ripple.dto.trade.RippleUserTrade;
 import com.xeiam.xchange.ripple.service.polling.params.RippleMarketDataParams;
-import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryParams;
+import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryPreferredCurrencies;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 import com.xeiam.xchange.utils.jackson.CurrencyPairDeserializer;
@@ -76,7 +78,8 @@ public abstract class RippleAdapters {
    * Counterparties are not mapped since the application calling this should know and keep track of the counterparties it is using in the polling
    * thread.
    */
-  public static OrderBook adaptOrderBook(final RippleOrderBook rippleOrderBook, final RippleMarketDataParams params, final CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(final RippleOrderBook rippleOrderBook, final RippleMarketDataParams params,
+      final CurrencyPair currencyPair) {
     final String orderBook = rippleOrderBook.getOrderBook(); // e.g. XRP/BTC+rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B
     final String[] splitPair = orderBook.split("/");
 
@@ -99,8 +102,8 @@ public abstract class RippleAdapters {
     final String[] counterSplit = splitPair[1].split("\\+");
     final String counterSymbol = counterSplit[0];
     if (counterSymbol.equals(currencyPair.counterSymbol) == false) {
-      throw new IllegalStateException(String.format("counter symbol in Ripple order book %s does not match requested base %s", orderBook,
-          currencyPair));
+      throw new IllegalStateException(
+          String.format("counter symbol in Ripple order book %s does not match requested base %s", orderBook, currencyPair));
     }
     final String counterCounterparty;
     if (counterSymbol.equals(Currencies.XRP)) {
@@ -139,13 +142,8 @@ public abstract class RippleAdapters {
       // price in counter currency
       final BigDecimal price = rippleOrder.getPrice().getValue();
 
-      final LimitOrder order = new LimitOrder(orderType, tradableAmount, currencyPair, Integer.toString(rippleOrder.getSequence()), null, price);
-      if (baseCounterparty.length() > 0) {
-        order.putAdditionalData(RippleExchange.DATA_BASE_COUNTERPARTY, baseCounterparty);
-      }
-      if (counterCounterparty.length() > 0) {
-        order.putAdditionalData(RippleExchange.DATA_COUNTER_COUNTERPARTY, counterCounterparty);
-      }
+      final RippleLimitOrder order = new RippleLimitOrder(orderType, tradableAmount, currencyPair, Integer.toString(rippleOrder.getSequence()), null,
+          price, baseCounterparty, counterCounterparty);
       limitOrders.add(order);
     }
     return limitOrders;
@@ -182,14 +180,9 @@ public abstract class RippleAdapters {
       final BigDecimal price = counterAmount.getValue().divide(baseAmount.getValue(), scale, RoundingMode.HALF_UP).stripTrailingZeros();
       final CurrencyPair pair = new CurrencyPair(baseSymbol, counterSymbol);
 
-      final LimitOrder xchangeOrder = new LimitOrder.Builder(orderType, pair).id(Long.toString(order.getSequence())).limitPrice(price)
-          .timestamp(null).tradableAmount(baseAmount.getValue()).build();
-      if (baseSymbol.equals(Currencies.XRP) == false) {
-        xchangeOrder.putAdditionalData(RippleExchange.DATA_BASE_COUNTERPARTY, baseAmount.getCounterparty());
-      }
-      if (counterSymbol.equals(Currencies.XRP) == false) {
-        xchangeOrder.putAdditionalData(RippleExchange.DATA_COUNTER_COUNTERPARTY, counterAmount.getCounterparty());
-      }
+      final RippleLimitOrder xchangeOrder = (RippleLimitOrder) new RippleLimitOrder.Builder(orderType, pair)
+          .baseCounterparty(baseAmount.getCounterparty()).counterCounterparty(counterAmount.getCounterparty()).id(Long.toString(order.getSequence()))
+          .limitPrice(price).timestamp(null).tradableAmount(baseAmount.getValue()).build();
       list.add(xchangeOrder);
     }
 
@@ -211,8 +204,8 @@ public abstract class RippleAdapters {
     // Check if TradeHistoryParams expressed a preference, otherwise arrange the currencies in the order they are supplied.  
 
     final Collection<String> preferredBase, preferredCounter;
-    if (params instanceof RippleTradeHistoryParams) {
-      final RippleTradeHistoryParams rippleParams = (RippleTradeHistoryParams) params;
+    if (params instanceof RippleTradeHistoryPreferredCurrencies) {
+      final RippleTradeHistoryPreferredCurrencies rippleParams = (RippleTradeHistoryPreferredCurrencies) params;
       preferredBase = rippleParams.getPreferredBaseCurrency();
       preferredCounter = rippleParams.getPreferredCounterCurrency();
     } else {
@@ -268,16 +261,16 @@ public abstract class RippleAdapters {
 
     final String orderId = Long.toString(info.getOrder().getSequence());
 
-    final UserTrade trade = new UserTrade.Builder().currencyPair(currencyPair).id(info.getHash()).orderId(orderId).price(price.abs())
-        .timestamp(info.getTimestamp()).tradableAmount(quantity.abs()).type(type).build();
+    final RippleUserTrade.Builder builder = (RippleUserTrade.Builder) new RippleUserTrade.Builder().currencyPair(currencyPair).id(info.getHash())
+        .orderId(orderId).price(price.abs()).timestamp(info.getTimestamp()).tradableAmount(quantity.abs()).type(type);
     if (base.getCounterparty().length() > 0) {
-      trade.putAdditionalData(RippleExchange.DATA_BASE_COUNTERPARTY, base.getCounterparty());
+      builder.baseCounterparty(base.getCounterparty());
     }
     if (counter.getCounterparty().length() > 0) {
-      trade.putAdditionalData(RippleExchange.DATA_COUNTER_COUNTERPARTY, counter.getCounterparty());
+      builder.baseCounterparty(counter.getCounterparty());
     }
 
-    return trade;
+    return builder.build();
   }
 
   public static UserTrades adaptTrades(final Collection<RippleOrderDetails> tradesForAccount, final TradeHistoryParams params) {

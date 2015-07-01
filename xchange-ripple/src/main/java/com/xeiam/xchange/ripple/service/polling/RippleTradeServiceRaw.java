@@ -12,12 +12,11 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.ripple.RippleExchange;
 import com.xeiam.xchange.ripple.dto.RippleAmount;
 import com.xeiam.xchange.ripple.dto.RippleException;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
+import com.xeiam.xchange.ripple.dto.trade.RippleLimitOrder;
 import com.xeiam.xchange.ripple.dto.trade.RippleNotifications;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderCancelRequest;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderCancelResponse;
@@ -26,7 +25,8 @@ import com.xeiam.xchange.ripple.dto.trade.RippleOrderEntryRequest;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderEntryResponse;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderDetails;
 import com.xeiam.xchange.ripple.dto.trade.RippleNotifications.RippleNotification;
-import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryParams;
+import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryCount;
+import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryHashLimit;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
@@ -43,7 +43,7 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
     super(exchange);
   }
 
-  public String placeOrder(final LimitOrder order, final boolean validate) throws RippleException, IOException {
+  public String placeOrder(final RippleLimitOrder order, final boolean validate) throws RippleException, IOException {
     final RippleOrderEntryRequest entry = new RippleOrderEntryRequest();
     entry.setSecret(exchange.getExchangeSpecification().getSecretKey());
 
@@ -67,10 +67,9 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
     baseAmount.setValue(order.getTradableAmount());
     if (baseAmount.getCurrency().equals(Currencies.XRP) == false) {
       // not XRP - need a counterparty for this currency
-      final Object counterparty = order.getAdditionalData(RippleExchange.DATA_BASE_COUNTERPARTY);
-      if (counterparty == null) {
-        throw new ExchangeException(String.format("additional data field %s must be populated for currency %s",
-            RippleExchange.DATA_BASE_COUNTERPARTY, baseAmount.getCurrency()));
+      final String counterparty = order.getBaseCounterparty();
+      if (counterparty.isEmpty()) {
+        throw new ExchangeException(String.format("base counterparty must be populated for currency %s", baseAmount.getCurrency()));
       }
       baseAmount.setCounterparty(counterparty.toString());
     }
@@ -79,10 +78,9 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
     counterAmount.setValue(order.getTradableAmount().multiply(order.getLimitPrice()));
     if (counterAmount.getCurrency().equals(Currencies.XRP) == false) {
       // not XRP - need a counterparty for this currency
-      final Object counterparty = order.getAdditionalData(RippleExchange.DATA_COUNTER_COUNTERPARTY);
-      if (counterparty == null) {
-        throw new ExchangeException(String.format("additional data field %s must be populated for currency %s",
-            RippleExchange.DATA_COUNTER_COUNTERPARTY, counterAmount.getCurrency()));
+      final String counterparty = order.getCounterCounterparty();
+      if (counterparty.isEmpty()) {
+        throw new ExchangeException(String.format("counter counterparty must be populated for currency %s", counterAmount.getCurrency()));
       }
       counterAmount.setCounterparty(counterparty.toString());
     }
@@ -95,8 +93,8 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
     final RippleOrderCancelRequest cancel = new RippleOrderCancelRequest();
     cancel.setSecret(exchange.getExchangeSpecification().getSecretKey());
 
-    final RippleOrderCancelResponse response = rippleAuthenticated.orderCancel(exchange.getExchangeSpecification().getApiKey(),
-        Long.valueOf(orderId), validate, cancel);
+    final RippleOrderCancelResponse response = rippleAuthenticated.orderCancel(exchange.getExchangeSpecification().getApiKey(), Long.valueOf(orderId),
+        validate, cancel);
     return response.isSuccess();
   }
 
@@ -143,13 +141,17 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
       startTime = endTime = null;
     }
 
-    final String hashLimit;
-    final RippleTradeHistoryParams rippleParams;
-    if (params instanceof RippleTradeHistoryParams) {
-      rippleParams = (RippleTradeHistoryParams) params;
-      hashLimit = rippleParams.getHashLimit();
+    final RippleTradeHistoryCount rippleCount;
+    if (params instanceof RippleTradeHistoryCount) {
+      rippleCount = (RippleTradeHistoryCount) params;
     } else {
-      rippleParams = null;
+      rippleCount = null;
+    }
+
+    final String hashLimit;
+    if (params instanceof RippleTradeHistoryHashLimit) {
+      hashLimit = ((RippleTradeHistoryHashLimit) params).getHashLimit();
+    } else {
       hashLimit = null;
     }
 
@@ -157,8 +159,8 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
 
     final RippleNotifications notifications = ripplePublic.notifications(account, EXCLUDE_FAILED, EARLIEST_FIRST, pageLength, pageNumber,
         START_LEDGER, END_LEDGER);
-    if (rippleParams != null) {
-      rippleParams.incrementApiCallCount();
+    if (rippleCount != null) {
+      rippleCount.incrementApiCallCount();
     }
     if (notifications.getNotifications().isEmpty()) {
       return trades;
@@ -168,15 +170,15 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
     // in order to consider the most recent first, loop through using a reverse order iterator.
     final ListIterator<RippleNotification> iterator = notifications.getNotifications().listIterator(notifications.getNotifications().size());
     while (iterator.hasPrevious()) {
-      if (rippleParams != null) {
-        if (rippleParams.getTradeCount() >= rippleParams.getTradeCountLimit()) {
+      if (rippleCount != null) {
+        if (rippleCount.getTradeCount() >= rippleCount.getTradeCountLimit()) {
           return trades; // found enough trades
         }
-        if (rippleParams.getApiCallCount() >= rippleParams.getApiCallCountLimit()) {
+        if (rippleCount.getApiCallCount() >= rippleCount.getApiCallCountLimit()) {
           return trades; // reached the query limit
         }
       }
-      
+
       final RippleNotification notification = iterator.previous();
       if (endTime != null && notification.getTimestamp().after(endTime)) {
         // this trade is more recent than the end time - ignore it
@@ -189,8 +191,8 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
 
       if (notification.getType().equals("order")) {
         final RippleOrderDetails orderDetails = ripplePublic.orderDetails(account, notification.getHash());
-        if (rippleParams != null) {
-          rippleParams.incrementApiCallCount();
+        if (rippleCount != null) {
+          rippleCount.incrementApiCallCount();
         }
 
         final List<RippleAmount> balanceChanges = orderDetails.getBalanceChanges();
@@ -202,8 +204,8 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
             || (currencyFilter.contains(balanceChanges.get(0).getCurrency()) && currencyFilter.contains(balanceChanges.get(1).getCurrency()))) {
           // no currency filter has been applied || currency filter match
           trades.add(orderDetails);
-          if (rippleParams != null) {
-            rippleParams.incrementTradeCount();
+          if (rippleCount != null) {
+            rippleCount.incrementTradeCount();
           }
         }
 
