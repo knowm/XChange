@@ -14,7 +14,7 @@ import com.xeiam.xchange.dto.Order;
  * </p>
  * <strong>Use market orders with caution, and review {@link LimitOrder} in case it is more suitable.</strong>
  */
-public final class MarketOrder extends Order {
+public class MarketOrder extends Order {
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -45,62 +45,44 @@ public final class MarketOrder extends Order {
    * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
    */
   public MarketOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair) {
-
     super(type, tradableAmount, currencyPair, "", null);
   }
 
-  public static class Builder {
-
-    OrderType orderType;
-    BigDecimal tradableAmount;
-    CurrencyPair currencyPair;
-    String id;
-    Date timestamp;
+  public static class Builder extends Order.Builder {
 
     public Builder(OrderType orderType, CurrencyPair currencyPair) {
-
-      this.orderType = orderType;
-      this.currencyPair = currencyPair;
+      super(orderType, currencyPair);
     }
 
-    public static Builder from(Order o) {
-      return new Builder(o.getType(), o.getCurrencyPair()).tradableAmount(o.getTradableAmount()).timestamp(o.getTimestamp()).id(o.getId());
+    public static Builder from(Order order) {
+      return (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount()).timestamp(order.getTimestamp())
+          .id(order.getId()).flags(order.getOrderFlags());
     }
 
     public Builder orderType(OrderType orderType) {
-
-      this.orderType = orderType;
-      return this;
+      return (Builder) super.orderType(orderType);
     }
 
     public Builder tradableAmount(BigDecimal tradableAmount) {
-
-      this.tradableAmount = tradableAmount;
-      return this;
+      return (Builder) super.tradableAmount(tradableAmount);
     }
 
     public Builder currencyPair(CurrencyPair currencyPair) {
-
-      this.currencyPair = currencyPair;
-      return this;
+      return (Builder) super.currencyPair(currencyPair);
     }
 
     public Builder id(String id) {
-
-      this.id = id;
-      return this;
+      return (Builder) super.id(id);
     }
 
     public Builder timestamp(Date timestamp) {
-
-      this.timestamp = timestamp;
-      return this;
+      return (Builder) super.timestamp(timestamp);
     }
 
     public MarketOrder build() {
-
-      return new MarketOrder(orderType, tradableAmount, currencyPair, id, timestamp);
+      MarketOrder order = new MarketOrder(orderType, tradableAmount, currencyPair, id, timestamp);
+      order.setOrderFlags(flags);
+      return order;
     }
   }
-
 }

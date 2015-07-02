@@ -16,12 +16,12 @@ import com.xeiam.xchange.dto.Order;
  * all orders should be limit orders to protect yourself.
  * </p>
  */
-public final class LimitOrder extends Order implements Comparable<LimitOrder> {
+public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
   /**
    * The limit price
    */
-  private final BigDecimal limitPrice;
+  protected final BigDecimal limitPrice;
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -81,70 +81,48 @@ public final class LimitOrder extends Order implements Comparable<LimitOrder> {
     return super.equals(obj);
   }
 
-  public static class Builder {
+  public static class Builder extends Order.Builder {
 
-    OrderType orderType;
-    BigDecimal tradableAmount;
-    CurrencyPair currencyPair;
-    String id;
-    Date timestamp;
-    BigDecimal limitPrice;
+    protected BigDecimal limitPrice;
 
     public Builder(OrderType orderType, CurrencyPair currencyPair) {
-
-      this.orderType = orderType;
-      this.currencyPair = currencyPair;
+      super(orderType, currencyPair);
     }
 
     public static Builder from(LimitOrder order) {
-
-      return from((Order) order).limitPrice(order.getLimitPrice());
-    }
-
-    public static Builder from(Order o) {
-      return new Builder(o.getType(), o.getCurrencyPair()).tradableAmount(o.getTradableAmount()).timestamp(o.getTimestamp()).id(o.getId());
+      return (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount()).timestamp(order.getTimestamp())
+          .id(order.getId()).limitPrice(order.getLimitPrice()).flags(order.getOrderFlags());
     }
 
     public Builder orderType(OrderType orderType) {
-
-      this.orderType = orderType;
-      return this;
+      return (Builder) super.orderType(orderType);
     }
 
     public Builder tradableAmount(BigDecimal tradableAmount) {
-
-      this.tradableAmount = tradableAmount;
-      return this;
+      return (Builder) super.tradableAmount(tradableAmount);
     }
 
     public Builder currencyPair(CurrencyPair currencyPair) {
-
-      this.currencyPair = currencyPair;
-      return this;
+      return (Builder) super.currencyPair(currencyPair);
     }
 
     public Builder id(String id) {
-
-      this.id = id;
-      return this;
+      return (Builder) super.id(id);
     }
 
     public Builder timestamp(Date timestamp) {
-
-      this.timestamp = timestamp;
-      return this;
+      return (Builder) super.timestamp(timestamp);
     }
 
     public Builder limitPrice(BigDecimal limitPrice) {
-
       this.limitPrice = limitPrice;
       return this;
     }
 
     public LimitOrder build() {
-
-      return new LimitOrder(orderType, tradableAmount, currencyPair, id, timestamp, limitPrice);
+      LimitOrder order = new LimitOrder(orderType, tradableAmount, currencyPair, id, timestamp, limitPrice);
+      order.setOrderFlags(flags);
+      return order;
     }
-
   }
 }

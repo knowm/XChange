@@ -2,23 +2,17 @@ package com.xeiam.xchange.ripple.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.ripple.Ripple;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrderBook;
 import com.xeiam.xchange.ripple.service.polling.params.RippleMarketDataParams;
 
 public class RippleMarketDataServiceRaw extends RippleBasePollingService {
 
-  private final Ripple ripple;
-
   public RippleMarketDataServiceRaw(final Exchange exchange) {
     super(exchange);
-    this.ripple = RestProxyFactory.createProxy(Ripple.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public RippleOrderBook getRippleOrderBook(final CurrencyPair pair, final RippleMarketDataParams params) throws IOException {
@@ -44,6 +38,6 @@ public class RippleMarketDataServiceRaw extends RippleBasePollingService {
       counter = String.format("%s+%s", pair.counterSymbol, params.getCounterCounterparty());
     }
 
-    return ripple.getOrderBook(params.getAddress(), base, counter, params.getLimit());
+    return ripplePublic.getOrderBook(params.getAddress(), base, counter, params.getLimit());
   }
 }

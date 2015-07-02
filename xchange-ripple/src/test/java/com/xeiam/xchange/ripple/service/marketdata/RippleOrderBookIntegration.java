@@ -8,8 +8,10 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.ripple.RippleExchange;
 import com.xeiam.xchange.ripple.dto.RippleException;
+import com.xeiam.xchange.ripple.dto.trade.RippleLimitOrder;
 import com.xeiam.xchange.ripple.service.polling.params.RippleMarketDataParams;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
@@ -39,7 +41,15 @@ public class RippleOrderBookIntegration {
     final OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.XRP_BTC, params);
     assertThat(orderBook).isNotNull();
     assertThat(orderBook.getBids()).hasSize(depthLimit);
+    for (final LimitOrder order : orderBook.getBids()) {
+      assertThat(order).isInstanceOf(RippleLimitOrder.class);
+      assertThat(((RippleLimitOrder) order).getCounterCounterparty()).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    }
     assertThat(orderBook.getAsks()).hasSize(depthLimit);
+    for (final LimitOrder order : orderBook.getAsks()) {
+      assertThat(order).isInstanceOf(RippleLimitOrder.class);
+      assertThat(((RippleLimitOrder) order).getCounterCounterparty()).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    }
     System.out.println(orderBook);
   }
 
