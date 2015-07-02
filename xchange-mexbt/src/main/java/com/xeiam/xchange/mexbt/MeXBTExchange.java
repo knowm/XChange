@@ -12,7 +12,7 @@ import com.xeiam.xchange.mexbt.service.streaming.MeXBTExchangeStreamingConfigura
 import com.xeiam.xchange.mexbt.service.streaming.MeXBTStreamingService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
-import com.xeiam.xchange.utils.nonce.CurrentTime1000NonceFactory;
+import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 public class MeXBTExchange extends BaseExchange implements Exchange {
 
@@ -20,7 +20,7 @@ public class MeXBTExchange extends BaseExchange implements Exchange {
   public static final String WSS_TICKER_URI_KEY = "wss.ticker";
   public static final String WSS_TRADES_AND_ORDERS_URI_KEY = "wss.trades-and-orders";
 
-  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
+  private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
