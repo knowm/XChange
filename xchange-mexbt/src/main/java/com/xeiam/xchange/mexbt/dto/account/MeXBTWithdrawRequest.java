@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.xeiam.xchange.mexbt.dto.BigDecimalAsStringSerializer;
 import com.xeiam.xchange.mexbt.dto.MeXBTInsRequest;
 import com.xeiam.xchange.mexbt.service.MeXBTDigest;
 
@@ -18,6 +20,7 @@ public class MeXBTWithdrawRequest extends MeXBTInsRequest {
     this.sendToAddress = sendToAddress;
   }
 
+  @JsonSerialize(using = BigDecimalAsStringSerializer.class )
   public BigDecimal getAmount() {
     return amount;
   }
