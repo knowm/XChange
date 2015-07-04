@@ -11,9 +11,6 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
-/**
- * @author Piotr Ładyżyński
- */
 public class BitKonanMarketDataService extends BitKonanMarketDataServiceRaw implements PollingMarketDataService {
 
   /**
@@ -29,21 +26,13 @@ public class BitKonanMarketDataService extends BitKonanMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    if (currencyPair.equals(CurrencyPair.BTC_USD)) {
-      return BitKonanAdapters.adaptTicker(getBitKonanTickerBTC(), currencyPair);
-    } else {
-      throw new NotYetImplementedForExchangeException();
-    }
+      return BitKonanAdapters.adaptTicker(getBitKonanTicker(currencyPair.baseSymbol.toLowerCase()), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    if (currencyPair.equals(CurrencyPair.BTC_USD)) {
-      return BitKonanAdapters.adaptOrderBook(getBitKonanOrderBookBTC());
-    } else {
-      throw new NotYetImplementedForExchangeException();
-    }
+      return BitKonanAdapters.adaptOrderBook(getBitKonanOrderBook(currencyPair.baseSymbol.toLowerCase()), currencyPair);
   }
 
   @Override

@@ -14,13 +14,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
-/**
- * @author Piotr Ładyżyński
- */
 public class BitKonanAdapters {
-
-  // TODO move to metadata
-  private static final BigDecimal LOT_MULTIPLIER = new BigDecimal("100");
 
   /**
    * Singleton
@@ -45,17 +39,16 @@ public class BitKonanAdapters {
     BigDecimal last = bitKonanTicker.getLast();
     BigDecimal volume = bitKonanTicker.getVolume();
     // no timestamp from BitKonan
-    Date timestamp = null;
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume)
         .build();
   }
 
-  public static OrderBook adaptOrderBook(BitKonanOrderBook bitKonanOrderBook) {
+  public static OrderBook adaptOrderBook(BitKonanOrderBook bitKonanOrderBook, CurrencyPair pair) {
 
     // only BTCUSD available at BitKonan
-    List<LimitOrder> asks = adaptMarketOrderToLimitOrder(bitKonanOrderBook.getAsks(), OrderType.ASK, CurrencyPair.BTC_USD);
-    List<LimitOrder> bids = adaptMarketOrderToLimitOrder(bitKonanOrderBook.getBids(), OrderType.BID, CurrencyPair.BTC_USD);
+    List<LimitOrder> asks = adaptMarketOrderToLimitOrder(bitKonanOrderBook.getAsks(), OrderType.ASK, pair);
+    List<LimitOrder> bids = adaptMarketOrderToLimitOrder(bitKonanOrderBook.getBids(), OrderType.BID, pair);
 
     return new OrderBook(null, asks, bids);
   }
@@ -70,7 +63,7 @@ public class BitKonanAdapters {
       BigDecimal price = bitKonanOrderBookElement.getPrice();
       BigDecimal amount = bitKonanOrderBookElement.getVolume();
 
-      LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, null, new Date(), price);
+      LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, null, null, price);
       orders.add(limitOrder);
     }
 
