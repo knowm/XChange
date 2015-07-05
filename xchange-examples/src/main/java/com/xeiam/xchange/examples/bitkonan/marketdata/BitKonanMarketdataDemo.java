@@ -8,6 +8,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
+import com.xeiam.xchange.utils.CertHelper;
 
 /**
  * <p>
@@ -23,6 +24,7 @@ public class BitKonanMarketdataDemo {
 
   public static void main(String[] args) throws Exception {
 
+    CertHelper.trustAllCerts();
     setUpExchange();
     requestAndPrintOrderBook(bitKonanMarketDataService);
     requestAndPrintLatestTicker(bitKonanMarketDataService);
@@ -36,15 +38,18 @@ public class BitKonanMarketdataDemo {
   }
 
   public static void requestAndPrintOrderBook(PollingMarketDataService marketDataService) throws IOException {
+    for (CurrencyPair pair : bitKonanExchange.getMetaData().getCurrencyPairs()) {
+      OrderBook orderBook = marketDataService.getOrderBook(pair);
+      System.out.println(orderBook.toString());
 
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
-    System.out.println(orderBook.toString());
+    }
   }
 
   public static void requestAndPrintLatestTicker(PollingMarketDataService marketDataService) throws IOException {
-
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
-    System.out.println(ticker.toString());
+    for (CurrencyPair pair : bitKonanExchange.getMetaData().getCurrencyPairs()) {
+      Ticker ticker = marketDataService.getTicker(pair);
+      System.out.println(ticker.toString());
+    }
   }
 
 }
