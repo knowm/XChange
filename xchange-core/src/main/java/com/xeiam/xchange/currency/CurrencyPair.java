@@ -113,7 +113,6 @@ public class CurrencyPair implements Comparable<CurrencyPair>{
   public static final CurrencyPair BTC_XDC = new CurrencyPair(Currencies.BTC, Currencies.XDC);
   public static final CurrencyPair BTC_PPC = new CurrencyPair(Currencies.BTC, Currencies.PPC);
   public static final CurrencyPair STR_BTC = new CurrencyPair(Currencies.STR, Currencies.BTC);
-  public static final CurrencyPair XRP_BTC = new CurrencyPair(Currencies.XRP, Currencies.BTC);
 
   // LTC
   public static final CurrencyPair LTC_HKD = new CurrencyPair(Currencies.LTC, Currencies.HKD);
