@@ -25,8 +25,7 @@ public class MeXBTExchange extends BaseExchange implements Exchange {
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new MeXBTMarketDataService(this);
     if (exchangeSpecification.getApiKey() != null && exchangeSpecification.getUserName() != null) {
       this.pollingAccountService = new MeXBTAccountService(this);

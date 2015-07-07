@@ -48,10 +48,7 @@ public class CoinmateExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new CoinmateMarketDataService(this);
     this.pollingAccountService = new CoinmateAccountService(this);
     this.pollingTradeService = new CoinmateTradeService(this);

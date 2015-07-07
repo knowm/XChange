@@ -40,11 +40,6 @@ public class BTCEBasePollingService extends BaseExchangeService implements BaseP
     this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
   protected void checkResult(BTCEReturn<?> result) {
     String error = result.getError();
 

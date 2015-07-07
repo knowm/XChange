@@ -17,10 +17,7 @@ public class BTERExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new BTERPollingMarketDataService(this);
     this.pollingAccountService = new BTERPollingAccountService(this);
     this.pollingTradeService = new BTERPollingTradeService(this);

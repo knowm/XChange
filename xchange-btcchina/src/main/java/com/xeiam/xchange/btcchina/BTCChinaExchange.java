@@ -38,11 +38,11 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentNanosecondTimeIncrementalNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingTradeService = new BTCChinaTradeService(this);
     this.pollingAccountService = new BTCChinaAccountService(this);
+
+    // TODO use exchangeSpecificParameters
     exchangeSpecification.setSslUri("https://data.btcchina.com");
     this.pollingMarketDataService = new BTCChinaMarketDataService(this);
   }

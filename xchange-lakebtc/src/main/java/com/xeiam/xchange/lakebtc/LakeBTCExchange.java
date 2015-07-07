@@ -20,10 +20,7 @@ public class LakeBTCExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentNanosecondTimeIncrementalNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new LakeBTCMarketDataService(this);
     this.pollingAccountService = new LakeBTCAccountService(this);
     this.pollingTradeService = new LakeBTCTradeService(this);

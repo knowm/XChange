@@ -18,10 +18,7 @@ public class PoloniexExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new PoloniexMarketDataService(this);
     this.pollingAccountService = new PoloniexAccountService(this);
     this.pollingTradeService = new PoloniexTradeService(this);

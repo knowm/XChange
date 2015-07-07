@@ -44,9 +44,7 @@ public class CampBXExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new CampBXMarketDataService(this);
     this.pollingTradeService = new CampBXTradeService(this);
     this.pollingAccountService = new CampBXAccountService(this);

@@ -1,6 +1,5 @@
 package com.xeiam.xchange.coinsetter;
 
-import java.io.InputStream;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -46,9 +45,7 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
   public static final String ACCOUNT_UUID_KEY = "account";
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new CoinsetterMarketDataService(this);
     this.pollingAccountService = new CoinsetterAccountService(this);
     this.pollingTradeService = new CoinsetterTradeService(this);
@@ -66,9 +63,9 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeSpecificParametersItem(WEBSOCKET_URI_KEY, "https://plug.coinsetter.com:3000");
 
     // default heartbeat interval is 30 seconds.
-    exchangeSpecification.setExchangeSpecificParametersItem(SESSION_HEARTBEAT_INTERVAL_KEY, new Long(30000L));
+    exchangeSpecification.setExchangeSpecificParametersItem(SESSION_HEARTBEAT_INTERVAL_KEY, 30000L);
 
-    exchangeSpecification.setExchangeSpecificParametersItem(SESSION_HEARTBEAT_MAX_FAILURE_TIMES_KEY, new Integer(3));
+    exchangeSpecification.setExchangeSpecificParametersItem(SESSION_HEARTBEAT_MAX_FAILURE_TIMES_KEY, 3);
     exchangeSpecification.setExchangeSpecificParametersItem(SESSION_IP_ADDRESS_KEY, "0.0.0.0");
     exchangeSpecification.setExchangeSpecificParametersItem(SESSION_LOCK_KEY, new ReentrantReadWriteLock());
     return exchangeSpecification;

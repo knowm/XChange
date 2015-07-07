@@ -12,9 +12,7 @@ import com.xeiam.xchange.cryptonit.v2.service.polling.CryptonitMarketDataService
 public class CryptonitExchange extends BaseExchange implements Exchange {
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new CryptonitMarketDataService(this);
   }
 

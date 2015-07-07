@@ -24,10 +24,7 @@ public class BitstampExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new BitstampMarketDataService(this);
     this.pollingTradeService = new BitstampTradeService(this);
     this.pollingAccountService = new BitstampAccountService(this);

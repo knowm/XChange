@@ -20,9 +20,7 @@ public class LoyalbitExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new LoyalbitMarketDataService(this);
     this.pollingTradeService = new LoyalbitTradeService(this);
     this.pollingAccountService = new LoyalbitAccountService(this);

@@ -17,10 +17,7 @@ public class BittrexExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new BittrexMarketDataService(this);
     this.pollingAccountService = new BittrexAccountService(this);
     this.pollingTradeService = new BittrexTradeService(this);

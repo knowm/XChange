@@ -1,7 +1,5 @@
 package com.xeiam.xchange.bitbay;
 
-import java.io.InputStream;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -28,12 +26,8 @@ public class BitbayExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new BitbayMarketDataService(this);
-    this.pollingTradeService = null;
-    this.pollingAccountService = null;
   }
 
   @Override

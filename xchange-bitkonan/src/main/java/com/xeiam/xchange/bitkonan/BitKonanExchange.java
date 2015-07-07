@@ -12,9 +12,7 @@ import com.xeiam.xchange.bitkonan.service.polling.BitKonanMarketDataService;
 public class BitKonanExchange extends BaseExchange implements Exchange {
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new BitKonanMarketDataService(this);
   }
 

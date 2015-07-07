@@ -1,13 +1,6 @@
 package com.xeiam.xchange.hitbtc.service.polling;
 
-import java.io.IOException;
-import java.util.List;
-
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.FundsExceededException;
 import com.xeiam.xchange.exceptions.NonceException;
@@ -17,6 +10,8 @@ import com.xeiam.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import com.xeiam.xchange.hitbtc.service.HitbtcHmacDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
 
 public class HitbtcBasePollingService extends BaseExchangeService implements BasePollingService {
 
@@ -37,11 +32,6 @@ public class HitbtcBasePollingService extends BaseExchangeService implements Bas
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     String apiKey = exchange.getExchangeSpecification().getSecretKey();
     this.signatureCreator = apiKey != null && !apiKey.isEmpty() ? HitbtcHmacDigest.createInstance(apiKey) : null;
-  }
-
-  @Override
-  public synchronized List<CurrencyPair> getExchangeSymbols() throws IOException {
-    return exchange.getMetaData().getCurrencyPairs();
   }
 
   protected void checkRejected(HitbtcExecutionReport executionReport) {

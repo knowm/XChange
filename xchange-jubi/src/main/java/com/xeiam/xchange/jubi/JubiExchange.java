@@ -1,16 +1,11 @@
 package com.xeiam.xchange.jubi;
 
-import java.io.InputStream;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.jubi.service.polling.JubiMarketDataService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * Created by Yingzhe on 3/16/2015.
- */
 public class JubiExchange extends BaseExchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
@@ -20,9 +15,7 @@ public class JubiExchange extends BaseExchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new JubiMarketDataService(this);
   }
 

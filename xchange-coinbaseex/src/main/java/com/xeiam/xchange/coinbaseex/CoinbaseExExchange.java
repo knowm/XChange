@@ -14,10 +14,7 @@ public class CoinbaseExExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new CoinbaseExMarketDataService(this);
     this.pollingAccountService = new CoinbaseExAccountService(this);
     this.pollingTradeService = new CoinbaseExTradeService(this);

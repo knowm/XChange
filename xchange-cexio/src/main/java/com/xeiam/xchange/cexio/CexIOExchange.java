@@ -17,10 +17,7 @@ public class CexIOExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2014NonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new CexIOMarketDataService(this);
     this.pollingAccountService = new CexIOAccountService(this);
     this.pollingTradeService = new CexIOTradeService(this);

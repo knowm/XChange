@@ -32,10 +32,7 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
   protected PollingMarketDataService pollingPublicMarketDataService;
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new CryptsyMarketDataService(this);
     this.pollingAccountService = new CryptsyAccountService(this);
     this.pollingTradeService = new CryptsyTradeService(this);

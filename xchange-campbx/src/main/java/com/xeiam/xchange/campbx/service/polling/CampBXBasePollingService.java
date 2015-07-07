@@ -28,11 +28,4 @@ public class CampBXBasePollingService extends BaseExchangeService implements Bas
     super(exchange);
     this.campBX = RestProxyFactory.createProxy(CampBX.class, exchange.getExchangeSpecification().getSslUri());
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

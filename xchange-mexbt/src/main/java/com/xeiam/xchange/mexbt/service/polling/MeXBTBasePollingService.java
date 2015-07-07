@@ -13,13 +13,4 @@ public class MeXBTBasePollingService extends BaseExchangeService implements Base
   protected MeXBTBasePollingService(Exchange exchange) {
     super(exchange);
   }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

@@ -22,11 +22,4 @@ public class VirtexBasePollingService extends BaseExchangeService implements Bas
 
     super(exchange);
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

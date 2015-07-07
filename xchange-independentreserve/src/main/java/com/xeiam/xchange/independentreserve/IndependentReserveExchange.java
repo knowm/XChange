@@ -9,19 +9,12 @@ import com.xeiam.xchange.independentreserve.service.polling.IndependentReserveTr
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * Author: Kamil Zbikowski
- * Date: 4/9/15
- */
 public class IndependentReserveExchange extends BaseExchange implements Exchange {
 
     private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
     @Override
-    public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-        super.applySpecification(exchangeSpecification);
-
+    protected void initServices() {
         this.pollingMarketDataService = new IndependentReserveMarketDataService(this);
         this.pollingTradeService = new IndependentReserveTradeService(this);
         this.pollingAccountService = new IndependentReserveAccountService(this);

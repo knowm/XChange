@@ -17,10 +17,7 @@ public class ItBitExchange extends BaseExchange implements Exchange {
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new ItBitMarketDataService(this);
     this.pollingAccountService = new ItBitAccountService(this);
     this.pollingTradeService = new ItBitTradeService(this);

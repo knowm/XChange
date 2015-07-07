@@ -19,10 +19,7 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
   private BitcoinAverageMetaData bitcoinAverageMetaData;
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new BitcoinAverageMarketDataService(this);
   }
 

@@ -14,9 +14,7 @@ public class YacunaExchange extends BaseExchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new YacunaMarketDataService(this);
   }
 

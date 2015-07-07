@@ -1,20 +1,15 @@
 package com.xeiam.xchange.virtex.v2;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.virtex.v2.service.polling.VirtExMarketDataService;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class VirtExExchange extends BaseExchange implements Exchange {
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new VirtExMarketDataService(this);
   }
 

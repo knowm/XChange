@@ -1,7 +1,5 @@
 package com.xeiam.xchange.mercadobitcoin;
 
-import java.io.InputStream;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -32,9 +30,7 @@ public class MercadoBitcoinExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new MercadoBitcoinMarketDataService(this);
     this.pollingAccountService = new MercadoBitcoinAccountService(this);
     this.pollingTradeService = new MercadoBitcoinTradeService(this);

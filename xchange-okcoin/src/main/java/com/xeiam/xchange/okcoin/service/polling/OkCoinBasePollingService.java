@@ -24,11 +24,4 @@ public class OkCoinBasePollingService extends BasePollingExchangeService impleme
     useIntl = (Boolean) exchange.getExchangeSpecification().getExchangeSpecificParameters().get("Use_Intl");
 
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() {
-
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

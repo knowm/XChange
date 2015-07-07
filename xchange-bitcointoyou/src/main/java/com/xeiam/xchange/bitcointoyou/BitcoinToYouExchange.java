@@ -31,9 +31,7 @@ public class BitcoinToYouExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new BitcoinToYouMarketDataService(this);
     this.pollingAccountService = new BitcoinToYouAccountService(this);
     this.pollingTradeService = new BitcoinToYouTradeService(this);

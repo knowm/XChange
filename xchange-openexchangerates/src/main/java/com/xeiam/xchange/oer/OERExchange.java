@@ -12,9 +12,7 @@ import com.xeiam.xchange.oer.service.polling.OERMarketDataService;
 public class OERExchange extends BaseExchange implements Exchange {
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new OERMarketDataService(this);
   }
 

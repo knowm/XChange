@@ -18,10 +18,7 @@ public class QuoineExchange extends BaseExchange implements Exchange {
   public static final String KEY_USER_TOKEN = "KEY_USER_TOKEN";
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-    
+  protected void initServices() {
     boolean useMargin = (Boolean) exchangeSpecification.getExchangeSpecificParametersItem("Use_Margin");
 
     this.pollingMarketDataService = new QuoineMarketDataService(this);

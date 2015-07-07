@@ -17,10 +17,7 @@ public class BleutradeExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new BleutradeMarketDataService(this);
     this.pollingAccountService = new BleutradeAccountService(this);
     this.pollingTradeService = new BleutradeTradeService(this);

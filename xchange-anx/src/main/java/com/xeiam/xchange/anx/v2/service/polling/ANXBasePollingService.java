@@ -1,18 +1,15 @@
 package com.xeiam.xchange.anx.v2.service.polling;
 
 import java.io.IOException;
-import java.util.List;
-
-import si.mazi.rescu.HttpStatusIOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.anx.v2.dto.ANXException;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.FundsExceededException;
 import com.xeiam.xchange.exceptions.NonceException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+import si.mazi.rescu.HttpStatusIOException;
 
 public class ANXBasePollingService extends BaseExchangeService implements BasePollingService {
 
@@ -42,11 +39,4 @@ public class ANXBasePollingService extends BaseExchangeService implements BasePo
       return new ExchangeException(exception.getError(), exception);
     }
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

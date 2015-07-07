@@ -20,10 +20,7 @@ public class CleverCoinExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new CleverCoinMarketDataService(this);
     this.pollingTradeService = new CleverCoinTradeService(this);
     this.pollingAccountService = new CleverCoinAccountService(this);
