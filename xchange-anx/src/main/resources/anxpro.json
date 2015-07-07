@@ -1,5 +1,5 @@
 {
-  "currencyPairs": {
+  "currencyPair": {
     "BTC/AUD": {
       "minimumAmount": 0.01000000,
       "maximumAmount": 100000.00000000,

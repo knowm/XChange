@@ -1,5 +1,7 @@
 package com.xeiam.xchange.huobi;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -113,5 +115,10 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     else{
       return super.getStreamingExchangeService(configuration);
     }
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 }

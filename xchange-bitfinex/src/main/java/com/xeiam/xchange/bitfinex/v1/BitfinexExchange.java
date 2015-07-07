@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitfinex.v1;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -43,4 +45,8 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
     return nonceFactory;
   }
 
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
 }

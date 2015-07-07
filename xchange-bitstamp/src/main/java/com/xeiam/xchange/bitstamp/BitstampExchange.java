@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitstamp;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -59,4 +61,8 @@ public class BitstampExchange extends BaseExchange implements Exchange {
     return nonceFactory;
   }
 
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
 }

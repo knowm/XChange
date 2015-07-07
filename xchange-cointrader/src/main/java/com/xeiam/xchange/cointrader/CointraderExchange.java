@@ -1,5 +1,7 @@
 package com.xeiam.xchange.cointrader;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -43,4 +45,8 @@ public class CointraderExchange extends BaseExchange implements Exchange {
     throw new UnsupportedOperationException("No nonce factory is used.");
   }
 
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
 }

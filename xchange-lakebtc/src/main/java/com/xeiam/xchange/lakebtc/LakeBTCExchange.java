@@ -1,5 +1,7 @@
 package com.xeiam.xchange.lakebtc;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -44,5 +46,10 @@ public class LakeBTCExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 }

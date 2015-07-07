@@ -1,5 +1,7 @@
 package com.xeiam.xchange.btccentral;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -39,5 +41,10 @@ public class BTCCentralExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
     // No private API implemented. Not needed for this exchange at the moment.
     return null;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 }

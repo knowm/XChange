@@ -1,10 +1,23 @@
 {
-   "currency_pairs":[
-      "XBT/EUR",
-      "XBT/USD",
-      "XBT/GBP",
-      "XBT/JPY",
-      "LTC/EUR",
-      "LTC/USD"
-   ]
+  "currencyPair": {
+    "XBT/EUR": {
+      "priceScale": 5
+    },
+    "XBT/USD": {
+      "priceScale": 5
+    },
+    "XBT/GBP": {
+      "priceScale": 5
+    },
+    "XBT/JPY": {
+      "priceScale": 3
+    },
+    "LTC/EUR": {
+      "priceScale": 5
+    },
+    "LTC/USD": {
+      "priceScale": 5
+    }
+  },
+  "currency": {}
 }

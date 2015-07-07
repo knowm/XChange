@@ -1,5 +1,6 @@
 package com.xeiam.xchange.coinsetter;
 
+import java.io.InputStream;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -96,4 +97,8 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
     return null;
   }
 
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
 }

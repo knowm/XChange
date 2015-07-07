@@ -1,5 +1,7 @@
 package com.xeiam.xchange.coinbase;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -45,4 +47,8 @@ public class CoinbaseExchange extends BaseExchange implements Exchange {
     return nonceFactory;
   }
 
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
 }

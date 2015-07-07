@@ -1,5 +1,7 @@
 package com.xeiam.xchange.taurus;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -42,5 +44,10 @@ public class TaurusExchange extends BaseExchange implements Exchange {
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return nonceFactory;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 }

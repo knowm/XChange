@@ -245,7 +245,7 @@ public class HitbtcAdapters {
       marketMetaDataMap.put(pair, meta);
     }
 
-    return new ExchangeMetaData(marketMetaDataMap, hitbtcMetaData.currencies, hitbtcMetaData.minPollDelay);
+    return new ExchangeMetaData(marketMetaDataMap, hitbtcMetaData.currency, hitbtcMetaData.minPollDelay);
   }
 
 }

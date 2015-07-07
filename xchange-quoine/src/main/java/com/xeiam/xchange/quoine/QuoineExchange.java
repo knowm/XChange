@@ -1,5 +1,7 @@
 package com.xeiam.xchange.quoine;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -42,5 +44,10 @@ public class QuoineExchange extends BaseExchange implements Exchange {
 
     // not used by this exchange
     return null;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 }

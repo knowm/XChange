@@ -8,8 +8,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 
 public class ANXMetaData {
-  @JsonProperty("currencyPairs")
-  public Map<CurrencyPair, ANXMarketMetaData> currencyPairs;
+  @JsonProperty("currencyPair")
+  public Map<CurrencyPair, ANXMarketMetaData> currencyPair;
 
   @JsonProperty("currencies")
   public Map<String, CurrencyMetaData> currencies;
@@ -35,9 +35,9 @@ public class ANXMetaData {
   public ANXMetaData() {
   }
 
-  public ANXMetaData(Map<CurrencyPair, ANXMarketMetaData> currencyPairs, Map<String, CurrencyMetaData> currencies, BigDecimal makerTradingFee, BigDecimal takerTradingFee,
+  public ANXMetaData(Map<CurrencyPair, ANXMarketMetaData> currencyPair, Map<String, CurrencyMetaData> currencies, BigDecimal makerTradingFee, BigDecimal takerTradingFee,
       int maxPrivatePollRatePerSecond, int maxPrivatePollRatePer10Second, int maxPrivatePollRatePerHour, int maxPublicPollRatePerSecond) {
-    this.currencyPairs = currencyPairs;
+    this.currencyPair = currencyPair;
     this.currencies = currencies;
     this.makerTradingFee = makerTradingFee;
     this.takerTradingFee = takerTradingFee;

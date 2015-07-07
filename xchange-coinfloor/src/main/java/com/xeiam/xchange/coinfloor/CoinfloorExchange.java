@@ -1,5 +1,7 @@
 package com.xeiam.xchange.coinfloor;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -45,5 +47,10 @@ public class CoinfloorExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
     // Coinfloor uses it's own custom request factory for making authenticated API calls
     return null;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 }

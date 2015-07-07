@@ -1,5 +1,7 @@
 package com.xeiam.xchange.jubi;
 
+import java.io.InputStream;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.jubi.service.polling.JubiMarketDataService;
@@ -40,5 +42,10 @@ public class JubiExchange extends BaseExchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 }

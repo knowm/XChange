@@ -1,8 +1,12 @@
 {
-   "currency_pairs":[
-      "BTC/USD",
-      "LTC/USD"    
-   ],
-   "max_public_poll_rate_per_second":20
-   
+  "currencyPair": {
+    "BTC/USD": {
+      "priceScale": 2
+    },
+    "LTC/USD": {
+      "priceScale": 2
+    }
+  },
+  "currency": {},
+  "max_public_poll_rate_per_second": 20
 }

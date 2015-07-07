@@ -1,5 +1,7 @@
 package com.xeiam.xchange.cryptonit.v2;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -34,5 +36,10 @@ public class CryptonitExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
     // No private API implemented. Not needed for this exchange at the moment.
     return null;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 }

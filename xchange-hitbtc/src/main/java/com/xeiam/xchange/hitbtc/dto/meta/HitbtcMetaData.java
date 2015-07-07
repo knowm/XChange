@@ -7,7 +7,7 @@ import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 
 public class HitbtcMetaData {
   @JsonProperty
-  public Map<String, CurrencyMetaData> currencies;
+  public Map<String, CurrencyMetaData> currency;
 
   @JsonProperty
   public int minPollDelay;

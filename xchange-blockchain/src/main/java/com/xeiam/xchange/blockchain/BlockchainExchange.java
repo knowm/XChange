@@ -1,5 +1,7 @@
 package com.xeiam.xchange.blockchain;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -35,4 +37,8 @@ public class BlockchainExchange extends BaseExchange implements Exchange {
     return null;
   }
 
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
 }

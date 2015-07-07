@@ -1,5 +1,8 @@
 package com.xeiam.xchange.bitcointoyou;
 
+import java.io.InputStream;
+
+import com.xeiam.xchange.bitcointoyou.dto.meta.BitcoinToYouExchangeMetaData;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -26,7 +29,8 @@ public class BitcoinToYouExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("BitcoinToYou");
     exchangeSpecification
-        .setExchangeDescription("BitcoinToYou is a Bitcoin and Litecoin exchange registered in Brazil. From site description (in Portuguese): Compre e venda Bitcoin com segurança e facilidade. Somos líderes no Brasil, mais de 7000 clientes!");
+        .setExchangeDescription(
+            "BitcoinToYou is a Bitcoin and Litecoin exchange registered in Brazil. From site description (in Portuguese): Compre e venda Bitcoin com segurança e facilidade. Somos líderes no Brasil, mais de 7000 clientes!");
     return exchangeSpecification;
   }
 
@@ -39,10 +43,20 @@ public class BitcoinToYouExchange extends BaseExchange implements Exchange {
     this.pollingTradeService = new BitcoinToYouTradeService(this);
   }
 
+  private BitcoinToYouExchangeMetaData bitcoinToYouExchangeMetaData;
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
+
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
   }
 
+  public BitcoinToYouExchangeMetaData getBitcoinToYouExchangeMetaData() {
+    return bitcoinToYouExchangeMetaData;
+  }
 }

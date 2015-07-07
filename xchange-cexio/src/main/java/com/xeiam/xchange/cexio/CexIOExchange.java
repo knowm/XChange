@@ -1,5 +1,7 @@
 package com.xeiam.xchange.cexio;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -10,9 +12,6 @@ import com.xeiam.xchange.cexio.service.polling.CexIOMarketDataService;
 import com.xeiam.xchange.cexio.service.polling.CexIOTradeService;
 import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
 
-/**
- * @Author brox
- */
 public class CexIOExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2014NonceFactory();
@@ -44,5 +43,10 @@ public class CexIOExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 }

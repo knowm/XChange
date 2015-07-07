@@ -1,5 +1,6 @@
 package com.xeiam.xchange.cryptsy;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,5 +97,10 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 }

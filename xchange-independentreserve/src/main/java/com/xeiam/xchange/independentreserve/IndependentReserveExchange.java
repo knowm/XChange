@@ -1,6 +1,8 @@
 package com.xeiam.xchange.independentreserve;
 
 
+import java.io.InputStream;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -46,5 +48,10 @@ public class IndependentReserveExchange extends BaseExchange implements Exchange
     public SynchronizedValueFactory<Long> getNonceFactory() {
 
         return nonceFactory;
+    }
+
+    @Override
+    protected void loadMetaData(InputStream is) {
+        loadExchangeMetaData(is);
     }
 }

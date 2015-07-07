@@ -1,5 +1,7 @@
 package com.xeiam.xchange.btc38;
 
+import java.io.InputStream;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;

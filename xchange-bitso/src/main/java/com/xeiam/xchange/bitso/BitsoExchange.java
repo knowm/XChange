@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitso;
 
+import java.io.InputStream;
+
 import com.xeiam.xchange.bitso.service.polling.BitsoMarketDataService;
 import com.xeiam.xchange.bitso.service.polling.BitsoTradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -46,4 +48,8 @@ public class BitsoExchange extends BaseExchange implements Exchange {
     return nonceFactory;
   }
 
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
 }

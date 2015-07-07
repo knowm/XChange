@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitcoinium;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -27,6 +29,11 @@ public class BitcoiniumExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeDescription("Bitcoinium Web Service provides compact and filtered data from various bitcoin exchanges");
 
     return exchangeSpecification;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 
   @Override

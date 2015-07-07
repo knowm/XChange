@@ -241,7 +241,7 @@ public final class ANXAdapters {
 
     BigDecimal tradedCurrencyFillAmount = aNXTradeResult.getTradedCurrencyFillAmount();
     CurrencyPair currencyPair = adaptCurrencyPair(aNXTradeResult.getCurrencyPair());
-    int priceScale = meta.currencyPairs.get(currencyPair).priceScale;
+    int priceScale = meta.currencyPair.get(currencyPair).priceScale;
     BigDecimal price = aNXTradeResult.getSettlementCurrencyFillAmount().divide(tradedCurrencyFillAmount, priceScale, BigDecimal.ROUND_HALF_EVEN);
     OrderType type = adaptSide(aNXTradeResult.getSide());
     // for fees, getWalletHistory should be used.
@@ -267,7 +267,7 @@ public final class ANXAdapters {
 
   public static ExchangeMetaData adaptMetaData(ANXMetaData anx) {
     HashMap<CurrencyPair, MarketMetaData> marketMetaDataMap = new HashMap<CurrencyPair, MarketMetaData>();
-    for (Map.Entry<CurrencyPair, ANXMarketMetaData> e : anx.currencyPairs.entrySet()) {
+    for (Map.Entry<CurrencyPair, ANXMarketMetaData> e : anx.currencyPair.entrySet()) {
       MarketMetaData meta = adaptMarketMetaData(anx, e.getValue());
       marketMetaDataMap.put(e.getKey(), meta);
     }

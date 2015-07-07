@@ -1,5 +1,7 @@
 package com.xeiam.xchange.btcchina;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -80,4 +82,8 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
     return nonceFactory;
   }
 
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
 }

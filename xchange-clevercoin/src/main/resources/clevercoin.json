@@ -1,7 +1,9 @@
 {
-   "currency_pairs":[
-      "BTC/EUR"
-   ],
-   "max_public_poll_rate_per_minute":180
-   
+  "currencyPair": {
+    "BTC/EUR": {
+      "priceScale": 2
+    }
+  },
+  "currency": {},
+  "max_public_poll_rate_per_minute": 180
 }

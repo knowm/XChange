@@ -1,7 +1,19 @@
 {
-   "currency_pairs":[
-      "BTC/BRL",
-      "LTC/BRL"
-   ],
-   "max_public_poll_rate_per_minute":6
+  "currencyPair": {
+    "BTC/BRL": {
+      "priceScale": 10
+    },
+    "LTC/BRL": {
+      "priceScale": 10
+    }
+  },
+  "currency": {
+    "BTC": {
+      "scale": 8
+    },
+    "LTC": {
+      "scale": 8
+    }
+  },
+  "max_public_poll_rate_per_minute": 6
 }

@@ -1,6 +1,10 @@
 {
-    "currencyPairs": {
-        "BTC/EUR": {}
-    },
-    "minPollDelay": 30
+  "currencyPair": {
+    "BTC/EUR": {
+      "priceScale": 2,
+      "tradingFee": 0.5
+    }
+  },
+  "currency":{},
+  "minPollDelay": 30
 }

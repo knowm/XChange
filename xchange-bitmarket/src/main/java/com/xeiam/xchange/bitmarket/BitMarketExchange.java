@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitmarket;
 
+import java.io.InputStream;
+
 import com.xeiam.xchange.bitmarket.service.polling.BitMarketAccountService;
 import com.xeiam.xchange.bitmarket.service.polling.BitMarketTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTime1000NonceFactory;
@@ -46,4 +48,8 @@ public class BitMarketExchange extends BaseExchange implements Exchange {
     return nonceFactory;
   }
 
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
 }
