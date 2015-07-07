@@ -1,6 +1,11 @@
 {
-   "currency_pairs":[
-      "BTC/MXN",
-      "BTC/USD"
-   ]
+  "currencyPair": {
+    "BTC/MXN": {
+      "priceScale": 2
+    },
+    "BTC/USD": {
+      "priceScale": 2
+    }
+  },
+  "currency": {}
 }

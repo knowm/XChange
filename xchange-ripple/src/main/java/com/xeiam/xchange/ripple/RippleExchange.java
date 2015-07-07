@@ -1,5 +1,6 @@
 package com.xeiam.xchange.ripple;
 
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -74,5 +75,10 @@ public class RippleExchange extends BaseExchange implements Exchange {
     final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'");
     format.setTimeZone(TimeZone.getTimeZone("UTC"));
     return format.parse(datetime);
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
   }
 }

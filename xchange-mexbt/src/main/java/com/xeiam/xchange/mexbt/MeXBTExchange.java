@@ -1,5 +1,7 @@
 package com.xeiam.xchange.mexbt;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -64,4 +66,8 @@ public class MeXBTExchange extends BaseExchange implements Exchange {
     }
   }
 
+  @Override
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
 }
