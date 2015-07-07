@@ -38,6 +38,5 @@
     "USD": {
       "scale": 2
     }
-  },
-  "minPollDelay": 0
+  }
 }

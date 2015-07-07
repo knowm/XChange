@@ -96,9 +96,4 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
     // Coinsetter uses it's own session authentication scheme and does not use a nonce
     return null;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import com.xeiam.xchange.currency.Currencies;
@@ -12,7 +11,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
-import com.xeiam.xchange.dto.meta.SimpleMetaData;
 
 /**
  * Various adapters for converting from BitcoinCharts DTOs to XChange DTOs
@@ -53,7 +51,7 @@ public final class BitcoinChartsAdapters {
     return null;
   }
 
-  public static ExchangeMetaData adaptMetaData(SimpleMetaData simpleMetaData, BitcoinChartsTicker[] tickers) {
+  public static ExchangeMetaData adaptMetaData(ExchangeMetaData exchangeMetaData, BitcoinChartsTicker[] tickers) {
     Map<CurrencyPair, MarketMetaData> pairs = new HashMap<CurrencyPair, MarketMetaData>();
 
     for (BitcoinChartsTicker ticker : tickers) {
@@ -62,7 +60,8 @@ public final class BitcoinChartsAdapters {
       pairs.put(new CurrencyPair(Currencies.BTC, ticker.getSymbol()), new MarketMetaData(null, null, scale));
     }
 
-    return new ExchangeMetaData(pairs, null, (int) TimeUnit.MINUTES.toMillis(60 / simpleMetaData.getMaxPublicPollRatePerHour()));
+    return new ExchangeMetaData(pairs, exchangeMetaData.getCurrencyMetaDataMap(), exchangeMetaData.getPublicRateLimits(), exchangeMetaData.getPrivateRateLimits(),
+        exchangeMetaData.isShareRateLimits());
   }
 
   private static <T> T firstNonNull(T... objects) {

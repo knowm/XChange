@@ -43,9 +43,4 @@ public class BitcoindeExchange extends BaseExchange implements Exchange {
     // moment.
     return null;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

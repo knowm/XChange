@@ -8,7 +8,6 @@ import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWallet;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXOrder;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTicker;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
-import com.xeiam.xchange.anx.v2.dto.meta.ANXMarketMetaData;
 import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResult;
@@ -19,8 +18,6 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.meta.ExchangeMetaData;
-import com.xeiam.xchange.dto.meta.MarketMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
@@ -241,7 +238,7 @@ public final class ANXAdapters {
 
     BigDecimal tradedCurrencyFillAmount = aNXTradeResult.getTradedCurrencyFillAmount();
     CurrencyPair currencyPair = adaptCurrencyPair(aNXTradeResult.getCurrencyPair());
-    int priceScale = meta.currencyPair.get(currencyPair).priceScale;
+    int priceScale = meta.currencyPair.get(currencyPair).getPriceScale();
     BigDecimal price = aNXTradeResult.getSettlementCurrencyFillAmount().divide(tradedCurrencyFillAmount, priceScale, BigDecimal.ROUND_HALF_EVEN);
     OrderType type = adaptSide(aNXTradeResult.getSide());
     // for fees, getWalletHistory should be used.
@@ -263,18 +260,5 @@ public final class ANXAdapters {
   private static OrderType adaptSide(String side) {
 
     return SIDE_BID.equals(side) ? OrderType.BID : OrderType.ASK;
-  }
-
-  public static ExchangeMetaData adaptMetaData(ANXMetaData anx) {
-    HashMap<CurrencyPair, MarketMetaData> marketMetaDataMap = new HashMap<CurrencyPair, MarketMetaData>();
-    for (Map.Entry<CurrencyPair, ANXMarketMetaData> e : anx.currencyPair.entrySet()) {
-      MarketMetaData meta = adaptMarketMetaData(anx, e.getValue());
-      marketMetaDataMap.put(e.getKey(), meta);
-    }
-    return new ExchangeMetaData(marketMetaDataMap, anx.currencies, 1000 / Math.min(anx.maxPrivatePollRatePerSecond, anx.maxPublicPollRatePerSecond));
-  }
-
-  private static MarketMetaData adaptMarketMetaData(ANXMetaData metaData, ANXMarketMetaData marketMetaData) {
-    return new MarketMetaData(metaData.takerTradingFee, marketMetaData.minimumAmount, marketMetaData.priceScale);
   }
 }

@@ -43,9 +43,4 @@ public class JubiExchange extends BaseExchange {
 
     return nonceFactory;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

@@ -45,9 +45,4 @@ public class TaurusExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return nonceFactory;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

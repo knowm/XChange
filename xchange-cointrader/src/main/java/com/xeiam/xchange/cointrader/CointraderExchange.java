@@ -44,9 +44,4 @@ public class CointraderExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
     throw new UnsupportedOperationException("No nonce factory is used.");
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

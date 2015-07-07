@@ -48,9 +48,4 @@ public class CoinfloorExchange extends BaseExchange implements Exchange {
     // Coinfloor uses it's own custom request factory for making authenticated API calls
     return null;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

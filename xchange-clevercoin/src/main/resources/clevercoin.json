@@ -5,5 +5,11 @@
     }
   },
   "currency": {},
-  "max_public_poll_rate_per_minute": 180
+  "privateRateLimits": [
+    {
+      "calls": 180,
+      "timeUnit": "minutes"
+    }
+  ],
+  "sharedRateLimits": true
 }

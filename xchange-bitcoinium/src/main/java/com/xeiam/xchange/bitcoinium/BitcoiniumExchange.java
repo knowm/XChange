@@ -32,11 +32,6 @@ public class BitcoiniumExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
-
-  @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
     // No private API implemented. Not needed for this exchange at the moment.
     return null;

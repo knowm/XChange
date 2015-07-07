@@ -5,18 +5,12 @@ import java.math.RoundingMode;
 import java.util.*;
 import java.util.Map.Entry;
 
+import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEPairInfo;
-import com.xeiam.xchange.btce.v3.dto.meta.BTCEMetaData;
-import com.xeiam.xchange.dto.meta.CurrencyMetaData;
-import com.xeiam.xchange.dto.meta.MarketMetaData;
-import com.xeiam.xchange.dto.meta.ExchangeMetaData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETicker;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
+import com.xeiam.xchange.btce.v3.dto.meta.BTCEMetaData;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -26,12 +20,13 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.meta.CurrencyMetaData;
+import com.xeiam.xchange.dto.meta.ExchangeMetaData;
+import com.xeiam.xchange.dto.meta.MarketMetaData;
+import com.xeiam.xchange.dto.trade.*;
 import com.xeiam.xchange.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Various adapters for converting from BTCE DTOs to XChange DTOs
@@ -223,7 +218,7 @@ public final class BTCEAdapters {
       addCurrencyMetaData(pair.counterSymbol, currencies);
     }
 
-    return new ExchangeMetaData(currencyPairs, currencies, btceMetaData.publicInfoCacheSeconds);
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
   }
 
   private static void addCurrencyMetaData(String symbol, Map<String, CurrencyMetaData> currencies) {

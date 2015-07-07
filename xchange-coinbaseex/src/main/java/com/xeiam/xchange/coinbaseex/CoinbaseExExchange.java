@@ -1,7 +1,5 @@
 package com.xeiam.xchange.coinbaseex;
 
-import java.io.InputStream;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -9,12 +7,8 @@ import com.xeiam.xchange.coinbaseex.service.polling.CoinbaseExAccountService;
 import com.xeiam.xchange.coinbaseex.service.polling.CoinbaseExMarketDataService;
 import com.xeiam.xchange.coinbaseex.service.polling.CoinbaseExTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * Created by Yingzhe on 4/1/2015.
- */
 public class CoinbaseExExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
@@ -45,10 +39,5 @@ public class CoinbaseExExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
-  }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
   }
 }

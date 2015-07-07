@@ -2,15 +2,14 @@ package com.xeiam.xchange;
 
 import java.io.IOException;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.dto.meta.SimpleMetaData;
+import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * <p>
@@ -35,7 +34,7 @@ public interface Exchange {
    *
    * @return
    */
-  SimpleMetaData getMetaData();
+  ExchangeMetaData getMetaData();
 
   /**
    * The nonce factory used to create a nonce value. Allows services to accept a placeholder that is replaced with generated value just before message

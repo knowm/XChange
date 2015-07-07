@@ -6,27 +6,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.exceptions.ExchangeException;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.dto.meta.SimpleMetaData;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class BaseExchange implements Exchange {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   protected ExchangeSpecification exchangeSpecification;
-  protected SimpleMetaData metaData;
+  protected ExchangeMetaData metaData;
 
   protected PollingMarketDataService pollingMarketDataService;
   protected PollingTradeService pollingTradeService;
@@ -113,7 +111,7 @@ public abstract class BaseExchange implements Exchange {
   }
 
   protected void loadMetaData(InputStream is) {
-    metaData = loadMetaData(is, SimpleMetaData.class);
+    loadExchangeMetaData(is);
   }
 
   protected <T> T loadMetaData(InputStream is, Class<T> type) {
@@ -148,7 +146,7 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public SimpleMetaData getMetaData() {
+  public ExchangeMetaData getMetaData() {
     return metaData;
   }
 

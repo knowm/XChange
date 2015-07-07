@@ -116,9 +116,4 @@ public class HuobiExchange extends BaseExchange implements Exchange {
       return super.getStreamingExchangeService(configuration);
     }
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

@@ -67,7 +67,7 @@ public class AccountInfoJSONTest {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
     ANXMetaData anxMetaData = ((ANXExchange) exchange).getANXMetaData();
 
-    assertEquals(wallets.keySet(), anxMetaData.currencies.keySet());
+    assertEquals(wallets.keySet(), anxMetaData.getCurrencyMetaDataMap().keySet());
 
   }
 }

@@ -47,9 +47,4 @@ public class LakeBTCExchange extends BaseExchange implements Exchange {
 
     return nonceFactory;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

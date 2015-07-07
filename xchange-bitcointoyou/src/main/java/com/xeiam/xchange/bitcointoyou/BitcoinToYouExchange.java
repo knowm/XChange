@@ -1,10 +1,5 @@
 package com.xeiam.xchange.bitcointoyou;
 
-import java.io.InputStream;
-
-import com.xeiam.xchange.bitcointoyou.dto.meta.BitcoinToYouExchangeMetaData;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -12,6 +7,7 @@ import com.xeiam.xchange.bitcointoyou.service.polling.BitcoinToYouAccountService
 import com.xeiam.xchange.bitcointoyou.service.polling.BitcoinToYouMarketDataService;
 import com.xeiam.xchange.bitcointoyou.service.polling.BitcoinToYouTradeService;
 import com.xeiam.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Felipe Micaroni Lalli
@@ -43,20 +39,9 @@ public class BitcoinToYouExchange extends BaseExchange implements Exchange {
     this.pollingTradeService = new BitcoinToYouTradeService(this);
   }
 
-  private BitcoinToYouExchangeMetaData bitcoinToYouExchangeMetaData;
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
-
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
-  }
-
-  public BitcoinToYouExchangeMetaData getBitcoinToYouExchangeMetaData() {
-    return bitcoinToYouExchangeMetaData;
   }
 }

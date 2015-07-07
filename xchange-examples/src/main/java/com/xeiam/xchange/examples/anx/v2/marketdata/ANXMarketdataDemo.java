@@ -42,11 +42,11 @@ public class ANXMarketdataDemo {
     ANXMarketDataServiceRaw marketDataServiceRaw = (ANXMarketDataServiceRaw) marketDataService;
 
     // Get all tickers
-    Map<String, ANXTicker> tickers = marketDataServiceRaw.getANXTickers(anx.getMetaData().getCurrencyPairs());
+    Map<String, ANXTicker> tickers = marketDataServiceRaw.getANXTickers(anx.getMetaData().getMarketMetaDataMap().keySet());
     System.out.println(tickers);
 
     // Get all orderbooks
-    Map<String, ANXDepth> orderbooks = marketDataServiceRaw.getANXFullOrderBooks(anx.getMetaData().getCurrencyPairs());
+    Map<String, ANXDepth> orderbooks = marketDataServiceRaw.getANXFullOrderBooks(anx.getMetaData().getMarketMetaDataMap().keySet());
     System.out.println(orderbooks);
 
   }

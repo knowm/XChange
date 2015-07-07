@@ -1,10 +1,8 @@
 package com.xeiam.xchange.dto.meta;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -16,38 +14,36 @@ import com.xeiam.xchange.currency.CurrencyPair;
  * have. Examples include currency pairs, max polling rates, scaling factors, etc.
  *
  * <p>
- * Note that this class extends SimpleMetaData (formerly named MetaData) as a temporary measure.
- * SimpleMetaData is used both as a generic JSON-mapped object and the type returned to users.
  * This class is used only in the API by the classes that merge metadata stored in custom JSON file and online info from the remote exchange.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class ExchangeMetaData extends SimpleMetaData {
+public class ExchangeMetaData {
 
   private Map<CurrencyPair, MarketMetaData> currencyPairs;
 
   private Map<String, CurrencyMetaData> currency;
 
-  private final Integer minPollDelay;
+  private Set<RateLimit> publicRateLimits;
+  private Set<RateLimit> privateRateLimits;
+
+  /**
+   * If true, both public and private calls use single rate limit policy, which is described in {@link #privateRateLimits}.
+   */
+  private boolean shareRateLimits = true;
 
   /**
    * @param currencyPairs  Map of {@link CurrencyPair} -> {@link MarketMetaData}
    * @param currency       Map of currency -> {@link CurrencyMetaData}
-   * @param minPollDelay   Minimum time between remote (polling) requests required by the exchange
    */
   public ExchangeMetaData(@JsonProperty("currencyPair") Map<CurrencyPair, MarketMetaData> currencyPairs, @JsonProperty("currency") Map<String, CurrencyMetaData> currency,
-      @JsonProperty("minPollDelay") Integer minPollDelay) {
-
-    // superclass and the call to super c-tor kept only for compatibility during the transition from SimpleMetaData to ExchangeMetaData
-    super(new ArrayList<CurrencyPair>(currencyPairs.keySet()), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+      @JsonProperty("publicRateLimits") Set<RateLimit> publicRateLimits, @JsonProperty("privateRateLimits") Set<RateLimit> privateRateLimits, @JsonProperty("shareRateLimits") Boolean shareRateLimits) {
 
     this.currencyPairs = currencyPairs;
     this.currency = currency;
-    this.minPollDelay = minPollDelay;
-  }
 
-  @JsonIgnore
-  public List<CurrencyPair> getCurrencyPairs() {
-    return super.getCurrencyPairs();
+    this.publicRateLimits = publicRateLimits;
+    this.privateRateLimits = privateRateLimits;
+
+    this.shareRateLimits = shareRateLimits != null ? shareRateLimits : false;
   }
 
   public Map<CurrencyPair, MarketMetaData>getMarketMetaDataMap(){
@@ -58,8 +54,16 @@ public class ExchangeMetaData extends SimpleMetaData {
     return currency;
   }
 
-  public Integer getMinPollDelay() {
-    return minPollDelay;
+  public Set<RateLimit> getPublicRateLimits() {
+    return publicRateLimits;
+  }
+
+  public Set<RateLimit> getPrivateRateLimits() {
+    return privateRateLimits;
+  }
+
+  public boolean isShareRateLimits() {
+    return shareRateLimits;
   }
 
   @Override
@@ -67,7 +71,6 @@ public class ExchangeMetaData extends SimpleMetaData {
     return "ExchangeMetaData{" +
         "currencyPairs=" + currencyPairs +
         ", currency=" + currency +
-        ", minPollDelay=" + minPollDelay +
         '}';
   }
 }

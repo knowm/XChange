@@ -42,9 +42,4 @@ public class BTCCentralExchange extends BaseExchange implements Exchange {
     // No private API implemented. Not needed for this exchange at the moment.
     return null;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

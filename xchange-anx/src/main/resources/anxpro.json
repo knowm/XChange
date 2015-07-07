@@ -128,7 +128,7 @@
       "priceScale": 8
     }
   },
-  "currencies": {
+  "currency": {
     "AUD": {
       "scale": 2
     },
@@ -195,8 +195,24 @@
   },
   "makerTradingFee": 0.003,
   "takerTradingFee": 0.006,
-  "max_private_poll_rate_per_second": 30,
-  "max_private_poll_rate_per_10_second": 60,
-  "max_private_poll_rate_per_hour": 50000,
-  "max_public_poll_rate_per_second": 5
+  "privateRateLimits": [
+    {
+      "calls": 30,
+      "timeUnit": "seconds"
+    },
+    {
+      "calls": 60,
+      "timeSpan": 10,
+      "timeUnit": "seconds"
+    },
+    {
+      "calls": 50000,
+      "timeUnit": "hours"
+    }
+  ],
+  "publicRateLimits": [
+    {
+      "calls": 5
+    }
+  ]
 }

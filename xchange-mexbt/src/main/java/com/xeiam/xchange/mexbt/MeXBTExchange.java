@@ -65,9 +65,4 @@ public class MeXBTExchange extends BaseExchange implements Exchange {
       return new MeXBTStreamingService(this, (MeXBTExchangeStreamingConfiguration) configuration);
     }
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

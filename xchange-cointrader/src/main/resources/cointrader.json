@@ -8,6 +8,10 @@
     }
   },
   "currency": {},
-  "max_public_poll_rate_per_second": 1,
-  "max_private_poll_rate_per_second": 1
+  "privateRateLimits": [
+    {
+      "calls": 1
+    }
+  ],
+  "sharedRateLimits": true
 }

@@ -8,6 +8,5 @@
     "USD": {"scale": 8},
     "XDN": {"scale": 8},
     "XMR": {"scale": 8}
-  },
-  "minPollDelay": 100
+  }
 }

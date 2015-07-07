@@ -95,8 +95,8 @@ public class ANXGenerator {
     for (CurrencyPair pair : pairs) {
       handleCurrencyPair(map, pair);
     }
-
-    ANXMetaData metaData = new ANXMetaData(map, currencyMap, fee.divide(new BigDecimal(2), RoundingMode.UNNECESSARY), fee, 30, 60, 50000, 5);
+    // TODO add RateLimits, fees
+    ANXMetaData metaData = new ANXMetaData(map, currencyMap, null, null, null, null, null);
 
     mapper.writeValue(out, metaData);
     out.println();
@@ -107,7 +107,7 @@ public class ANXGenerator {
     int amountScale = amountScale(currencyPair);
     BigDecimal minimumAmount = scaled(minAmount.get(currencyPair.baseSymbol), amountScale);
     BigDecimal maximumAmount = scaled(maxAmount.get(currencyPair.baseSymbol), amountScale);
-    ANXMarketMetaData mmd = new ANXMarketMetaData(minimumAmount, maximumAmount, priceScale(currencyPair));
+    ANXMarketMetaData mmd = new ANXMarketMetaData(fee, minimumAmount, maximumAmount, priceScale(currencyPair));
     map.put(currencyPair, mmd);
   }
 

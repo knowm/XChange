@@ -11,5 +11,11 @@
     }
   },
   "currency": {},
-  "max_public_poll_rate_per_second": 1
+  "privateRateLimits": [
+    {
+      "calls": 1,
+      "timeUnit": "seconds"
+    }
+  ],
+  "sharedRateLimits": true
 }

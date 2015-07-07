@@ -2,17 +2,15 @@ package com.xeiam.xchange.anx.v2.dto.meta;
 
 import java.math.BigDecimal;
 
-public class ANXMarketMetaData {
-  public BigDecimal minimumAmount;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.dto.meta.MarketMetaData;
+
+public class ANXMarketMetaData extends MarketMetaData{
   public BigDecimal maximumAmount;
-  public int priceScale;
 
-  public ANXMarketMetaData() {
-  }
+  public ANXMarketMetaData(@JsonProperty("tradingFee") BigDecimal tradingFee, @JsonProperty("minAmount") BigDecimal minimumAmount, @JsonProperty("maxAmount") BigDecimal maximumAmount, @JsonProperty("priceScale") int priceScale) {
+    super(tradingFee, minimumAmount, priceScale);
 
-  public ANXMarketMetaData(BigDecimal minimumAmount, BigDecimal maximumAmount, int priceScale) {
-    this.minimumAmount = minimumAmount;
     this.maximumAmount = maximumAmount;
-    this.priceScale = priceScale;
   }
 }

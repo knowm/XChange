@@ -57,9 +57,4 @@ public class CampBXExchange extends BaseExchange implements Exchange {
     // CampBX doesn't use a none on their authenticated API
     return null;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

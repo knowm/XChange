@@ -123,9 +123,4 @@ public class OkCoinExchange extends BaseExchange {
 
     }
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

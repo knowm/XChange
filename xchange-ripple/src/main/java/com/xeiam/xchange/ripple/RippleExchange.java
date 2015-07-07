@@ -76,9 +76,4 @@ public class RippleExchange extends BaseExchange implements Exchange {
     format.setTimeZone(TimeZone.getTimeZone("UTC"));
     return format.parse(datetime);
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

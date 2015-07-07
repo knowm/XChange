@@ -1,12 +1,15 @@
 package com.xeiam.xchange.service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
-import com.xeiam.xchange.dto.meta.SimpleMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 
@@ -29,17 +32,17 @@ public abstract class BaseExchangeService {
   }
 
   public void verifyOrder(LimitOrder limitOrder) {
-    verifyOrder(limitOrder, exchange.getMetaData());
+    ExchangeMetaData exchangeMetaData = exchange.getMetaData();
+    verifyOrder(limitOrder, exchangeMetaData);
+    BigDecimal price = limitOrder.getLimitPrice().stripTrailingZeros();
+
+    if (price.scale() > exchangeMetaData.getMarketMetaDataMap().get(limitOrder.getCurrencyPair()).getPriceScale()) {
+      throw new IllegalArgumentException("Unsupported price scale " + price.scale());
+    }
   }
 
   public void verifyOrder(MarketOrder marketOrder) {
     verifyOrder(marketOrder, exchange.getMetaData());
-  }
-
-  final protected void verifyOrder(Order order, SimpleMetaData metaData) {
-    if (!metaData.getCurrencyPairs().contains(order.getCurrencyPair())) {
-      throw new IllegalArgumentException("Invalid CurrencyPair");
-    }
   }
 
   final protected void verifyOrder(Order order, ExchangeMetaData exchangeMetaData) {
@@ -61,22 +64,7 @@ public abstract class BaseExchangeService {
     }
   }
 
-  // these two methods are for SimpleMetaData/ExchangeMetaData transition. Until all exchanges return ExchangeMetaData
-  // we provide support for both, where SimpleMetaData is the default.
-
-  protected void verifyOrder2(LimitOrder order) {
-    ExchangeMetaData exchangeMetaData = (ExchangeMetaData) exchange.getMetaData();
-    verifyOrder(order, exchangeMetaData);
-
-    BigDecimal price = order.getLimitPrice().stripTrailingZeros();
-
-    if (price.scale() > exchangeMetaData.getMarketMetaDataMap().get(order.getCurrencyPair()).getPriceScale()) {
-      throw new IllegalArgumentException("Unsupported price scale " + price.scale());
-    }
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+    return new ArrayList<CurrencyPair>(exchange.getMetaData().getMarketMetaDataMap().keySet());
   }
-
-  protected void verifyOrder2(MarketOrder order) {
-    verifyOrder(order, (ExchangeMetaData) exchange.getMetaData());
-  }
-
 }

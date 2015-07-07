@@ -45,14 +45,13 @@ public class ANXExchange extends BaseExchange {
 
   private ANXMetaData anxMetaData;
 
-  public ANXMetaData getANXMetaData(){
+  public ANXMetaData getANXMetaData() {
     return anxMetaData;
   }
 
   @Override
   protected void loadMetaData(InputStream is) {
     anxMetaData = loadMetaData(is, ANXMetaData.class);
-    if (anxMetaData != null)
-      metaData = ANXAdapters.adaptMetaData(anxMetaData);
+    metaData = anxMetaData;
   }
 }

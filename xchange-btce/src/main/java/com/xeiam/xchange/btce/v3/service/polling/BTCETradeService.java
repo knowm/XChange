@@ -236,14 +236,4 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
     return resultMap;
   }
-
-  @Override
-  public void verifyOrder(LimitOrder limitOrder) {
-    verifyOrder2(limitOrder);
-  }
-
-  @Override
-  public void verifyOrder(MarketOrder marketOrder) {
-    verifyOrder2(marketOrder);
-  }
 }

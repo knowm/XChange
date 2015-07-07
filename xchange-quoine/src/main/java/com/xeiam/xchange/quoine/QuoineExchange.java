@@ -45,9 +45,4 @@ public class QuoineExchange extends BaseExchange implements Exchange {
     // not used by this exchange
     return null;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

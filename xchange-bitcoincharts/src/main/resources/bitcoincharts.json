@@ -1,3 +1,8 @@
 {
-   "max_public_poll_rate_per_hour":4
+   "privateRateLimits": [
+      {
+         "calls": 4,
+         "timeUnit": "hours"
+      }
+   ]
 }

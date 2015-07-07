@@ -70,9 +70,4 @@ public class CoinmateExchange extends BaseExchange implements Exchange {
 
     return exchangeSpecification;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

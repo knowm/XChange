@@ -41,9 +41,4 @@ public class EmpoExExchange extends BaseExchange implements Exchange {
     // This exchange doesn't use nones for authentication
     return null;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

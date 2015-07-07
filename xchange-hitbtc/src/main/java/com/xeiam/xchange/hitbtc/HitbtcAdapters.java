@@ -1,11 +1,7 @@
 package com.xeiam.xchange.hitbtc;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -18,18 +14,9 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.*;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrade;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
+import com.xeiam.xchange.hitbtc.dto.marketdata.*;
 import com.xeiam.xchange.hitbtc.dto.meta.HitbtcMetaData;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
@@ -245,7 +232,7 @@ public class HitbtcAdapters {
       marketMetaDataMap.put(pair, meta);
     }
 
-    return new ExchangeMetaData(marketMetaDataMap, hitbtcMetaData.currency, hitbtcMetaData.minPollDelay);
+    return new ExchangeMetaData(marketMetaDataMap, hitbtcMetaData.currency, null, null, null);
   }
 
 }

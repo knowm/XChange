@@ -5,6 +5,19 @@
       "tradingFee": 0.5
     }
   },
-  "currency":{},
-  "minPollDelay": 30
+  "currency": {},
+  "publicRateLimits": [
+    {
+      "calls": 2,
+      "timeSpan": 1,
+      "timeUnit": "minutes"
+    }
+  ],
+  "privateRateLimits": [
+    {
+      "calls": 1,
+      "timeSpan": 1,
+      "timeUnit": "minutes"
+    }
+  ]
 }

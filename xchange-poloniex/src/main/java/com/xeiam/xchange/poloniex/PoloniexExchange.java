@@ -1,9 +1,5 @@
 package com.xeiam.xchange.poloniex;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -11,6 +7,7 @@ import com.xeiam.xchange.poloniex.service.polling.PoloniexAccountService;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexMarketDataService;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexTradeService;
 import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Zach Holmes
@@ -48,10 +45,4 @@ public class PoloniexExchange extends BaseExchange implements Exchange {
 
     return nonceFactory;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
-
 }

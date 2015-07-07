@@ -44,9 +44,4 @@ public class BittrexExchange extends BaseExchange implements Exchange {
 
     return nonceFactory;
   }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
-  }
 }

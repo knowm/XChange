@@ -1,7 +1,5 @@
 package com.xeiam.xchange.yacuna;
 
-import java.io.InputStream;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
@@ -38,10 +36,5 @@ public class YacunaExchange extends BaseExchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
-  }
-
-  @Override
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
   }
 }

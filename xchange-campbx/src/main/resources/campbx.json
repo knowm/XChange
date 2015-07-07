@@ -5,5 +5,10 @@
     }
   },
   "currency": {},
-  "max_public_poll_rate_per_second": 2
+  "privateRateLimits": [
+    {
+      "calls": 2
+    }
+  ],
+  "sharedRateLimits": true
 }
