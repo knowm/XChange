@@ -1,0 +1,51 @@
+{
+  "transactions": [
+    {
+      "transactionId": 42239,
+      "transactionTime": "1435917440",
+      "askOrderID": "BK11432053513",
+      "bidOrderID": "BK11431968068",
+      "price": 1960,
+      "quantity": 0.08,
+      "currencyPair": "BTCHKD",
+      "way": "Ask",
+      "feeRate": 0.0015
+    },   
+    {
+      "transactionId": 24581,
+      "transactionTime": "1435552601",
+      "askOrderID": "BK11431862068",
+      "bidOrderID": "BK11431862063",
+      "price": 125,
+      "quantity": 0.5,
+      "currencyPair": "BTCUSD",
+      "way": "Bid",
+      "feeRate": 0.0015
+    },
+    {
+      "transactionId": 24579,
+      "transactionTime": "1435552557",
+      "askOrderID": "BK11431862066",
+      "bidOrderID": "BK11431862067",
+      "price": 150,
+      "quantity": 0.222,
+      "currencyPair": "BTCUSD",
+      "way": "Ask",
+      "feeRate": 0.0015
+    },
+    {
+      "transactionId": 24579,
+      "transactionTime": "1435552557",
+      "askOrderID": "BK11431862066",
+      "bidOrderID": "BK11431862067",
+      "price": 150,
+      "quantity": 0.222,
+      "currencyPair": "BTCUSD",
+      "way": "Bid",
+      "feeRate": 0.0015
+    }   
+  ],
+  "responseStatus": {
+    "message": "OK"
+  }
+}

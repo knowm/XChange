@@ -265,6 +265,14 @@
 				<artifactId>base64</artifactId>
 				<version>2.3.8</version>
 			</dependency>
+			
+			<!-- For Base64 encoding in Gatecoin API -->
+			<dependency>
+			   <groupId>org.apache-extras.camel-extra</groupId>
+			   <artifactId>camel-example-rcode</artifactId>
+		       <version>2.12.3</version>
+			   <type>jar</type>
+	    	</dependency>
 
 		</dependencies>
 	</dependencyManagement>

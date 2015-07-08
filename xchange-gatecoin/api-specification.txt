@@ -1,0 +1,23 @@
+Gatecoin Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://www.gatecoin.com/api/
+
+Ticker
+------
+https://www.gatecoin.com/api/public/liveticker
+
+Orders
+------
+https://www.gatecoin.com/api/Public/MarketDepth/BTCUSD
+
+Trades
+------
+https://www.gatecoin.com/api/Public/Transactions/BTCUSD
+
+REQUEST LIMITS
+------
