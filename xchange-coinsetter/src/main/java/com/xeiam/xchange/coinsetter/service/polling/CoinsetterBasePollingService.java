@@ -1,19 +1,16 @@
 package com.xeiam.xchange.coinsetter.service.polling;
 
-import static com.xeiam.xchange.coinsetter.CoinsetterExchange.ACCOUNT_UUID_KEY;
-
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static com.xeiam.xchange.coinsetter.CoinsetterExchange.ACCOUNT_UUID_KEY;
 
 /**
  * Polling service.
@@ -50,11 +47,4 @@ public class CoinsetterBasePollingService extends BaseExchangeService implements
 
     return (UUID) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(ACCOUNT_UUID_KEY);
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

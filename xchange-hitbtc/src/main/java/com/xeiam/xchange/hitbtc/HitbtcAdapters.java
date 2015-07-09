@@ -1,11 +1,7 @@
 package com.xeiam.xchange.hitbtc;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -16,39 +12,20 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.meta.ExchangeMetaData;
+import com.xeiam.xchange.dto.meta.MarketMetaData;
+import com.xeiam.xchange.dto.trade.*;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrade;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
+import com.xeiam.xchange.hitbtc.dto.marketdata.*;
+import com.xeiam.xchange.hitbtc.dto.meta.HitbtcMetaData;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
+
+import static com.xeiam.xchange.currency.Currencies.DOGE;
 
 public class HitbtcAdapters {
 
   public static final char DELIM = '_';
-
-  // TODO move this to metadata
-  private static Map<String, BigDecimal> LOT_SIZES = new HashMap<String, BigDecimal>();
-  static {
-
-    LOT_SIZES.put("BTCUSD", new BigDecimal("0.01"));
-    LOT_SIZES.put("BTCEUR", new BigDecimal("0.01"));
-    LOT_SIZES.put("LTCBTC", new BigDecimal("0.1"));
-    LOT_SIZES.put("LTCUSD", new BigDecimal("0.1"));
-    LOT_SIZES.put("LTCEUR", new BigDecimal("0.1"));
-    LOT_SIZES.put("DOGEBTC", new BigDecimal("1000"));
-    LOT_SIZES.put("XMRBTC", new BigDecimal("0.01"));
-    LOT_SIZES.put("BCNBTC", new BigDecimal("100"));
-    LOT_SIZES.put("XDNBTC", new BigDecimal("100"));
-  }
 
   /**
    * Singleton
@@ -70,9 +47,9 @@ public class HitbtcAdapters {
 
   public static CurrencyPair adaptSymbol(String symbolString) {
 
-    if (symbolString.startsWith("DOGE")) {
+    if (symbolString.startsWith(DOGE)) {
       String counterSymbol = symbolString.substring(4);
-      return new CurrencyPair("DOGE", counterSymbol);
+      return new CurrencyPair(DOGE, counterSymbol);
     } else {
       String base = symbolString.substring(0, 3);
       String counterSymbol = symbolString.substring(3);
@@ -177,7 +154,7 @@ public class HitbtcAdapters {
     return side.equals("buy") ? OrderType.BID : OrderType.ASK;
   }
 
-  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw) {
+  public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw, ExchangeMetaData metaData) {
 
     List<UserTrade> trades = new ArrayList<UserTrade>(tradeHistoryRaw.length);
     for (int i = 0; i < tradeHistoryRaw.length; i++) {
@@ -186,8 +163,12 @@ public class HitbtcAdapters {
 
       CurrencyPair pair = adaptSymbol(t.getSymbol());
 
-      UserTrade trade = new UserTrade(type, t.getExecQuantity().multiply(LOT_SIZES.get(t.getSymbol())), pair, t.getExecPrice(), new Date(
-          t.getTimestamp()), Long.toString(t.getTradeId()), t.getClientOrderId(), t.getFee(), pair.counterSymbol);
+      // minimumAmount is equal to lot size
+      BigDecimal tradableAmount = t.getExecQuantity().multiply(metaData.getMarketMetaDataMap().get(pair).getMinimumAmount());
+      Date timestamp = new Date(t.getTimestamp());
+      String id = Long.toString(t.getTradeId());
+
+      UserTrade trade = new UserTrade(type, tradableAmount, pair, t.getExecPrice(), timestamp, id, t.getClientOrderId(), t.getFee(), pair.counterSymbol);
 
       trades.add(trade);
     }
@@ -239,6 +220,19 @@ public class HitbtcAdapters {
   public static String getSide(OrderType type) {
 
     return type == OrderType.BID ? "buy" : "sell";
+  }
+
+  public static ExchangeMetaData adaptToExchangeMetaData(HitbtcSymbols symbols, HitbtcMetaData hitbtcMetaData) {
+
+    Map<CurrencyPair, MarketMetaData> marketMetaDataMap = new HashMap<CurrencyPair, MarketMetaData>();
+    for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
+      CurrencyPair pair = adaptSymbol(symbol);
+      MarketMetaData meta = new MarketMetaData(symbol.getTakeLiquidityRate(), symbol.getLot(), symbol.getStep().scale());
+
+      marketMetaDataMap.put(pair, meta);
+    }
+
+    return new ExchangeMetaData(marketMetaDataMap, hitbtcMetaData.currency, null, null, null);
   }
 
 }

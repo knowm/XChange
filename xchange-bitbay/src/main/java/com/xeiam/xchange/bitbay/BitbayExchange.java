@@ -26,12 +26,8 @@ public class BitbayExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new BitbayMarketDataService(this);
-    this.pollingTradeService = null;
-    this.pollingAccountService = null;
   }
 
   @Override
@@ -39,5 +35,4 @@ public class BitbayExchange extends BaseExchange implements Exchange {
     // No private API implemented. Not needed for this exchange at the moment.
     return null;
   }
-
 }

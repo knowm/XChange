@@ -37,9 +37,4 @@ public class IndependentReserveMarketDataService extends IndependentReserveMarke
     public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
         return null;
     }
-
-    @Override
-    public List<CurrencyPair> getExchangeSymbols() throws IOException {
-        return null;
-    }
 }

@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * </p>
  */
 @JsonSerialize(using = CustomCurrencyPairSerializer.class)
-public class CurrencyPair {
+public class CurrencyPair implements Comparable<CurrencyPair>{
 
   // Provide some standard major symbols
   public static final CurrencyPair EUR_USD = new CurrencyPair(Currencies.EUR, Currencies.USD);
@@ -112,6 +112,7 @@ public class CurrencyPair {
   // BTC
   public static final CurrencyPair BTC_XDC = new CurrencyPair(Currencies.BTC, Currencies.XDC);
   public static final CurrencyPair BTC_PPC = new CurrencyPair(Currencies.BTC, Currencies.PPC);
+  public static final CurrencyPair STR_BTC = new CurrencyPair(Currencies.STR, Currencies.BTC);
 
   // LTC
   public static final CurrencyPair LTC_HKD = new CurrencyPair(Currencies.LTC, Currencies.HKD);
@@ -239,5 +240,10 @@ public class CurrencyPair {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public int compareTo(CurrencyPair o) {
+    return (baseSymbol.compareTo(o.baseSymbol) << 16) + counterSymbol.compareTo(o.counterSymbol);
   }
 }

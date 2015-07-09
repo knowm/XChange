@@ -2,6 +2,7 @@ package com.xeiam.xchange.bitcoinde.dto.marketdata;
 
 import java.io.IOException;
 
+import org.junit.Assume;
 import org.junit.Test;
 
 import com.xeiam.xchange.Exchange;
@@ -23,10 +24,10 @@ public class BitcoindeOrderBookIntegration {
      * to set this variable.
      */
     final String API_KEY = System.getenv("BITCOINDE_API_KEY");
-    if (API_KEY == null || API_KEY == "") { // if the environmental variable isn't set
-	    System.err.println("Error: please set the environmental variable BITCOINDE_API_KEY equal to your API key before running this integration test. Try $ export BITCOINDE_API_KEY=myapikey123");
-	    System.exit(1);
-    }
+    Assume.assumeFalse(
+        "Error: please set the environmental variable BITCOINDE_API_KEY equal to your API key before running this integration test. Try $ export BITCOINDE_API_KEY=myapikey123",
+        API_KEY == null || "".equals(API_KEY)
+    );
 
     /* configure the exchange to use our api key */
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoindeExchange.class.getName());

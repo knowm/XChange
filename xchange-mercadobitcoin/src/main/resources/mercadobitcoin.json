@@ -1,9 +1,23 @@
 {
-   "currency_pairs":[
-      "BTC/BRL",
-      "LTC/BRL"
-   ],
-   "max_private_poll_rate_per_minute":60,
-   "max_public_poll_rate_per_minute":1
-   
+  "currencyPair": {
+    "BTC/BRL": {
+      "priceScale": 8
+    },
+    "LTC/BRL": {
+      "priceScale": 8
+    }
+  },
+  "currency": {},
+  "privateRateLimits":[
+    {
+      "calls":60,
+      "timeUnit":"minutes"
+    }
+  ],
+  "publicRateLimits":[
+    {
+      "calls":1,
+      "timeUnit":"minutes"
+    }
+  ]
 }

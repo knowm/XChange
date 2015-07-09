@@ -54,11 +54,4 @@ public class LakeBTCBasePollingService extends BaseExchangeService implements Ba
     }
     return returnObject;
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitso;
 
+import java.io.InputStream;
+
 import com.xeiam.xchange.bitso.service.polling.BitsoMarketDataService;
 import com.xeiam.xchange.bitso.service.polling.BitsoTradeService;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -20,14 +22,10 @@ public class BitsoExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-    super.applySpecification(exchangeSpecification);
-
-
+  protected void initServices() {
     this.pollingMarketDataService = new BitsoMarketDataService(this);
     this.pollingAccountService = new BitsoAccountService(this);
     this.pollingTradeService = new BitsoTradeService(this);
-
   }
 
   @Override
@@ -45,5 +43,4 @@ public class BitsoExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return nonceFactory;
   }
-
 }

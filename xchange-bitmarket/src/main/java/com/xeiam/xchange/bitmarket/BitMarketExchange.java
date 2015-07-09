@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitmarket;
 
+import java.io.InputStream;
+
 import com.xeiam.xchange.bitmarket.service.polling.BitMarketAccountService;
 import com.xeiam.xchange.bitmarket.service.polling.BitMarketTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTime1000NonceFactory;
@@ -18,10 +20,7 @@ public class BitMarketExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new BitMarketDataService(this);
     this.pollingTradeService = new BitMarketTradeService(this);
     this.pollingAccountService = new BitMarketAccountService(this);
@@ -45,5 +44,4 @@ public class BitMarketExchange extends BaseExchange implements Exchange {
 
     return nonceFactory;
   }
-
 }

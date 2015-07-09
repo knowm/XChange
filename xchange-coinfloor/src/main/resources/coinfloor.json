@@ -1,8 +1,17 @@
 {
-   "currency_pairs":[
-      "BTC/GBP",
-      "BTC/USD",
-      "BTC/EUR",
-      "BTC/PLN"
-   ]
+  "currencyPair": {
+    "BTC/GBP": {
+      "priceScale": 2
+    },
+    "BTC/USD": {
+      "priceScale": 2
+    },
+    "BTC/EUR": {
+      "priceScale": 2
+    },
+    "BTC/PLN": {
+      "priceScale": 2
+    }
+  },
+  "currency":{}
 }

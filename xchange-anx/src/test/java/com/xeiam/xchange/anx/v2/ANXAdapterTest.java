@@ -8,7 +8,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -34,6 +38,14 @@ import com.xeiam.xchange.dto.trade.Wallet;
  * Tests the ANXAdapter class
  */
 public class ANXAdapterTest {
+
+  static ANXMetaData metaData;
+
+  @BeforeClass
+  public static void initMetaData() {
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
+    metaData = ((ANXExchange) exchange).getANXMetaData();
+  }
 
   @Test
   public void testAccountInfoAdapter() throws IOException {

@@ -23,6 +23,8 @@
  */
 package com.xeiam.xchange.coinmate;
 
+import java.io.InputStream;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -46,10 +48,7 @@ public class CoinmateExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new CoinmateMarketDataService(this);
     this.pollingAccountService = new CoinmateAccountService(this);
     this.pollingTradeService = new CoinmateTradeService(this);
@@ -68,5 +67,4 @@ public class CoinmateExchange extends BaseExchange implements Exchange {
 
     return exchangeSpecification;
   }
-
 }

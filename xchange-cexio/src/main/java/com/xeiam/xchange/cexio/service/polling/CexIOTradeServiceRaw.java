@@ -1,13 +1,8 @@
 package com.xeiam.xchange.cexio.service.polling;
 
-import static com.xeiam.xchange.dto.Order.OrderType.BID;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cexio.CexIOAuthenticated;
@@ -17,6 +12,10 @@ import com.xeiam.xchange.cexio.service.CexIODigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.exceptions.ExchangeException;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+
+import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
 /**
  * @author timmolter
@@ -63,7 +62,7 @@ public class CexIOTradeServiceRaw extends CexIOBasePollingService {
 
     List<CexIOOrder> cexIOOrderList = new ArrayList<CexIOOrder>();
 
-    for (CurrencyPair currencyPair : exchange.getMetaData().getCurrencyPairs()) {
+    for (CurrencyPair currencyPair : exchange.getMetaData().getMarketMetaDataMap().keySet()) {
       cexIOOrderList.addAll(getCexIOOpenOrders(currencyPair));
     }
     return cexIOOrderList;

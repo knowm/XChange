@@ -7,21 +7,14 @@ import com.xeiam.xchange.coinbaseex.service.polling.CoinbaseExAccountService;
 import com.xeiam.xchange.coinbaseex.service.polling.CoinbaseExMarketDataService;
 import com.xeiam.xchange.coinbaseex.service.polling.CoinbaseExTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * Created by Yingzhe on 4/1/2015.
- */
 public class CoinbaseExExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new CoinbaseExMarketDataService(this);
     this.pollingAccountService = new CoinbaseExAccountService(this);
     this.pollingTradeService = new CoinbaseExTradeService(this);

@@ -1,13 +1,15 @@
 package com.xeiam.xchange;
 
-import si.mazi.rescu.SynchronizedValueFactory;
+import java.io.IOException;
 
-import com.xeiam.xchange.dto.MetaData;
+import com.xeiam.xchange.dto.meta.ExchangeMetaData;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * <p>
@@ -32,7 +34,7 @@ public interface Exchange {
    *
    * @return
    */
-  MetaData getMetaData();
+  ExchangeMetaData getMetaData();
 
   /**
    * The nonce factory used to create a nonce value. Allows services to accept a placeholder that is replaced with generated value just before message
@@ -107,4 +109,8 @@ public interface Exchange {
    */
   PollingAccountService getPollingAccountService();
 
+  /**
+   * Initialize this instance with the remote meta data. Most exchanges require this method to be called before {@link #getMetaData()}. Some exchanges require it before using some of their services.
+   */
+  void remoteInit() throws IOException, ExchangeException;
 }

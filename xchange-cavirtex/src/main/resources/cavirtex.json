@@ -1,8 +1,21 @@
 {
-   "currency_pairs":[
-      "BTC/CAD",
-      "LTC/CAD",
-      "BTC/LTC"
-   ],
-   "max_public_poll_rate_per_second":1
+  "currencyPair": {
+    "BTC/CAD": {
+      "priceScale": 5
+    },
+    "LTC/CAD": {
+      "priceScale": 5
+    },
+    "BTC/LTC": {
+      "priceScale": 5
+    }
+  },
+  "currency": {},
+  "privateRateLimits": [
+    {
+      "calls": 1,
+      "timeUnit": "seconds"
+    }
+  ],
+  "sharedRateLimits": true
 }

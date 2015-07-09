@@ -42,11 +42,6 @@ public class CoinmateBasePollingService extends BasePollingExchangeService imple
     super(exchange);
   }
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
   protected static void throwExceptionIfError(CoinmateBaseResponse response) throws CoinmateException {
     if (response.isError()) {
       throw new CoinmateException(response.getErrorMessage());

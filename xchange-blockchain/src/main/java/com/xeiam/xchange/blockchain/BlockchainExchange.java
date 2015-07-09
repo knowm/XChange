@@ -1,5 +1,7 @@
 package com.xeiam.xchange.blockchain;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -24,15 +26,8 @@ public class BlockchainExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-  }
-
-  @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
     // No private API implemented. Not needed for this exchange at the moment.
     return null;
   }
-
 }

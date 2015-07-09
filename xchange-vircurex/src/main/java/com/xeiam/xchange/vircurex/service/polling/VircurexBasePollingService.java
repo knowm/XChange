@@ -1,19 +1,11 @@
 package com.xeiam.xchange.vircurex.service.polling;
 
-import java.io.IOException;
-import java.util.List;
-
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 import com.xeiam.xchange.vircurex.VircurexAuthenticated;
+import si.mazi.rescu.RestProxyFactory;
 
-/**
- * @author timmolter
- */
 public class VircurexBasePollingService extends BaseExchangeService implements BasePollingService {
 
   protected VircurexAuthenticated vircurexAuthenticated;
@@ -28,11 +20,4 @@ public class VircurexBasePollingService extends BaseExchangeService implements B
     super(exchange);
     this.vircurexAuthenticated = RestProxyFactory.createProxy(VircurexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

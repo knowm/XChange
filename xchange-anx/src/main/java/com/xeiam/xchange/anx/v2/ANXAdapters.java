@@ -1,16 +1,14 @@
 package com.xeiam.xchange.anx.v2;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWallet;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXOrder;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTicker;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
+import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResult;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -32,7 +30,6 @@ import com.xeiam.xchange.utils.DateUtils;
 public final class ANXAdapters {
 
   private static final String SIDE_BID = "bid";
-  private static final int PRICE_SCALE = 8;
   private static final int PERCENT_DECIMAL_SHIFT = 2;
 
   /**
@@ -226,23 +223,23 @@ public final class ANXAdapters {
     return new CurrencyPair(tradeCurrency, priceCurrency);
   }
 
-  public static UserTrades adaptUserTrades(ANXTradeResult[] anxTradeResults) {
+  public static UserTrades adaptUserTrades(ANXTradeResult[] anxTradeResults, ANXMetaData meta) {
 
     List<UserTrade> trades = new ArrayList<UserTrade>(anxTradeResults.length);
     for (ANXTradeResult tradeResult : anxTradeResults) {
-      trades.add(adaptUserTrade(tradeResult));
+      trades.add(adaptUserTrade(tradeResult, meta));
     }
 
     long lastId = trades.size() > 0 ? anxTradeResults[0].getTimestamp().getTime() : 0L;
     return new UserTrades(trades, lastId, TradeSortType.SortByTimestamp);
   }
 
-  // TODO Is using PRICE_SCALE here correct?
-  private static UserTrade adaptUserTrade(ANXTradeResult aNXTradeResult) {
+  private static UserTrade adaptUserTrade(ANXTradeResult aNXTradeResult, ANXMetaData meta) {
 
     BigDecimal tradedCurrencyFillAmount = aNXTradeResult.getTradedCurrencyFillAmount();
     CurrencyPair currencyPair = adaptCurrencyPair(aNXTradeResult.getCurrencyPair());
-    BigDecimal price = aNXTradeResult.getSettlementCurrencyFillAmount().divide(tradedCurrencyFillAmount, PRICE_SCALE, BigDecimal.ROUND_HALF_EVEN);
+    int priceScale = meta.currencyPair.get(currencyPair).getPriceScale();
+    BigDecimal price = aNXTradeResult.getSettlementCurrencyFillAmount().divide(tradedCurrencyFillAmount, priceScale, BigDecimal.ROUND_HALF_EVEN);
     OrderType type = adaptSide(aNXTradeResult.getSide());
     // for fees, getWalletHistory should be used.
     return new UserTrade(type, tradedCurrencyFillAmount, currencyPair, price, aNXTradeResult.getTimestamp(), aNXTradeResult.getTradeId(),
@@ -264,5 +261,4 @@ public final class ANXAdapters {
 
     return SIDE_BID.equals(side) ? OrderType.BID : OrderType.ASK;
   }
-
 }

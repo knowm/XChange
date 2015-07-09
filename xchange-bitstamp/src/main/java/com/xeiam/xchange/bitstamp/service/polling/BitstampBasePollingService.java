@@ -22,11 +22,4 @@ public class BitstampBasePollingService extends BaseExchangeService implements B
 
     super(exchange);
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

@@ -1,5 +1,9 @@
 package com.xeiam.xchange.bitcoincharts;
 
+import java.io.IOException;
+
+import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -17,9 +21,7 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new BitcoinChartsMarketDataService(this);
   }
 
@@ -40,5 +42,11 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
     // No private API implemented. Not needed for this exchange at the moment.
     return null;
+  }
+
+  @Override
+  public void remoteInit() throws IOException, ExchangeException {
+    BitcoinChartsTicker[] tickers = ((BitcoinChartsMarketDataService) pollingMarketDataService).getBitcoinChartsTickers();
+    metaData = BitcoinChartsAdapters.adaptMetaData(metaData, tickers);
   }
 }

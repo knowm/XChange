@@ -22,6 +22,7 @@ public class TickerFetchIntegration {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoinChartsExchange.class.getName());
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
+    exchange.remoteInit();
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "bitstampUSD"));
     System.out.println(ticker.toString());

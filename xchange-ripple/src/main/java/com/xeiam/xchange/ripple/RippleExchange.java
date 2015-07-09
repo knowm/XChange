@@ -1,5 +1,6 @@
 package com.xeiam.xchange.ripple;
 
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

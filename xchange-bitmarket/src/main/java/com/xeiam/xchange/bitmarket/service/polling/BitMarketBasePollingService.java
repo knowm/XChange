@@ -35,11 +35,4 @@ public class BitMarketBasePollingService extends BaseExchangeService implements 
     sign = BitMarketDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     apiKey = exchange.getExchangeSpecification().getApiKey();
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

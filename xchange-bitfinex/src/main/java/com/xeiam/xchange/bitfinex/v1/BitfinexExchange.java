@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitfinex.v1;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -15,10 +17,7 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new BitfinexMarketDataService(this);
     this.pollingAccountService = new BitfinexAccountService(this);
     this.pollingTradeService = new BitfinexTradeService(this);
@@ -42,5 +41,4 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
 
     return nonceFactory;
   }
-
 }

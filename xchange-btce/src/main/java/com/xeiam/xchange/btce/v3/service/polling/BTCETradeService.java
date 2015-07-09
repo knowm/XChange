@@ -236,5 +236,4 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
     return resultMap;
   }
-
 }

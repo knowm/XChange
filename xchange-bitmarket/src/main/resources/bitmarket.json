@@ -1,9 +1,17 @@
 {
-   "currency_pairs":[
-      "BTC/PLN",
-      "BTC/EUR",
-      "LTC/PLN",
-      "LTC/BTC"
-   ]
-   
+  "currencyPair": {
+    "BTC/PLN": {
+      "priceScale": 8
+    },
+    "BTC/EUR": {
+      "priceScale": 8
+    },
+    "LTC/PLN": {
+      "priceScale": 8
+    },
+    "LTC/BTC": {
+      "priceScale": 8
+    }
+  },
+  "currency": {}
 }

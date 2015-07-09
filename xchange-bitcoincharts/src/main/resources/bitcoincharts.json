@@ -1,21 +1,8 @@
 {
-   "currency_pairs":[
-      "BTC/1coinUSD",
-      "BTC/anxhkUSD",
-      "BTC/bitbayUSD",
-      "BTC/bitfinexUSD",
-      "BTC/bitkonanUSD",
-      "BTC/bitstampUSD",
-      "BTC/btceUSD",
-      "BTC/cbxUSD",
-      "BTC/cotrUSD",
-      "BTC/hitbtcUSD",
-      "BTC/itbitUSD",
-      "BTC/krakenUSD",
-      "BTC/lakeUSD",
-      "BTC/localbtcUSD",
-      "BTC/rockUSD",
-      "BTC/vcxUSD"
-   ],
-   "max_public_poll_rate_per_hour":4
+   "privateRateLimits": [
+      {
+         "calls": 4,
+         "timeUnit": "hours"
+      }
+   ]
 }

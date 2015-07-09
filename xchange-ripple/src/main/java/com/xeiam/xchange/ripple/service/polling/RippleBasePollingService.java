@@ -32,9 +32,4 @@ public class RippleBasePollingService extends BaseExchangeService implements Bas
     ripplePublic = RestProxyFactory.createProxy(RipplePublic.class, uri);
     rippleAuthenticated = RestProxyFactory.createProxy(RippleAuthenticated.class, uri);
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-    return exchange.getMetaData().getCurrencyPairs();
-  }
 }

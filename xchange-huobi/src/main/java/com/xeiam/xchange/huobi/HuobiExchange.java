@@ -1,5 +1,7 @@
 package com.xeiam.xchange.huobi;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;

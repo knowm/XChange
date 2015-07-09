@@ -1,5 +1,12 @@
 {
-   "currency_pairs":[
-      "BTC/EUR"
-   ]
+  "currencyPair": {
+    "BTC/EUR": {
+      "priceScale": 8
+    }
+  },
+  "currency": {
+    "BTC": {
+      "scale": 8
+    }
+  }
 }

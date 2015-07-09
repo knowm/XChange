@@ -135,4 +135,14 @@ public interface PollingTradeService extends BasePollingService {
    */
   public TradeHistoryParams createTradeHistoryParams();
 
+  /**
+   * Verify the order against the exchange meta data. Most implementations will require that {@link com.xeiam.xchange.Exchange#remoteInit()}  be called before this method
+   */
+  void verifyOrder(LimitOrder limitOrder);
+
+  /**
+   * Verify the order against the exchange meta data. Most implementations will require that {@link com.xeiam.xchange.Exchange#remoteInit()}  be called before this method
+   */
+  void verifyOrder(MarketOrder marketOrder);
+
 }

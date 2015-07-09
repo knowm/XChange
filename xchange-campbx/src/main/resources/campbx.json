@@ -1,6 +1,14 @@
 {
-   "currency_pairs":[
-      "BTC/USD"
-   ],
-   "max_public_poll_rate_per_second":2
+  "currencyPair": {
+    "BTC/USD": {
+      "priceScale": 2
+    }
+  },
+  "currency": {},
+  "privateRateLimits": [
+    {
+      "calls": 2
+    }
+  ],
+  "sharedRateLimits": true
 }

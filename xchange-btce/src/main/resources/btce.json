@@ -1,23 +1,4 @@
 {
-   "currency_pairs":[
-      "BTC/USD",
-      "BTC/RUR",
-      "BTC/EUR",
-      "LTC/BTC",
-      "LTC/USD",
-      "LTC/RUR",
-      "LTC/EUR",
-      "NMC/BTC",
-      "NMC/USD",
-      "USD/RUR",
-      "EUR/USD",
-      "EUR/RUR",
-      "NVC/BTC",
-      "NVC/USD",
-      "TRC/BTC",
-      "PPC/BTC",
-      "PPC/USD",
-      "FTC/BTC",
-      "XPM/BTC"
-   ]
+  "publicInfoCacheSeconds": 2,
+  "amountScale": 8
 }

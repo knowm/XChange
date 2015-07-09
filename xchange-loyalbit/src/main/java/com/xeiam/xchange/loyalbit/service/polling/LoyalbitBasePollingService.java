@@ -13,10 +13,4 @@ public class LoyalbitBasePollingService extends BaseExchangeService implements B
   public LoyalbitBasePollingService(Exchange exchange) {
     super(exchange);
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }
