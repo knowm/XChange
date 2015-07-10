@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * </p>
  */
 @JsonSerialize(using = CustomCurrencyPairSerializer.class)
-public class CurrencyPair {
+public class CurrencyPair implements Comparable<CurrencyPair>{
 
   // Provide some standard major symbols
   public static final CurrencyPair EUR_USD = new CurrencyPair(Currencies.EUR, Currencies.USD);
@@ -44,6 +44,7 @@ public class CurrencyPair {
   public static final CurrencyPair BTC_CNY = new CurrencyPair(Currencies.BTC, Currencies.CNY);
   public static final CurrencyPair BTC_DKK = new CurrencyPair(Currencies.BTC, Currencies.DKK);
   public static final CurrencyPair BTC_HKD = new CurrencyPair(Currencies.BTC, Currencies.HKD);
+  public static final CurrencyPair BTC_MXN = new CurrencyPair(Currencies.BTC, Currencies.MXN);
   public static final CurrencyPair BTC_NZD = new CurrencyPair(Currencies.BTC, Currencies.NZD);
   public static final CurrencyPair BTC_PLN = new CurrencyPair(Currencies.BTC, Currencies.PLN);
   public static final CurrencyPair BTC_RUB = new CurrencyPair(Currencies.BTC, Currencies.RUB);
@@ -61,8 +62,13 @@ public class CurrencyPair {
   public static final CurrencyPair BTC_XRP = new CurrencyPair(Currencies.BTC, Currencies.XRP);
   public static final CurrencyPair BTC_NMC = new CurrencyPair(Currencies.BTC, Currencies.NMC);
   public static final CurrencyPair BTC_XVN = new CurrencyPair(Currencies.BTC, Currencies.XVN);
+  public static final CurrencyPair BTC_IDR = new CurrencyPair(Currencies.BTC, Currencies.IDR);
+  public static final CurrencyPair BTC_PHP = new CurrencyPair(Currencies.BTC, Currencies.PHP);
+  public static final CurrencyPair BTC_STR = new CurrencyPair(Currencies.BTC, Currencies.STR);
 
   public static final CurrencyPair XDC_BTC = new CurrencyPair(Currencies.XDC, Currencies.BTC);
+
+  public static final CurrencyPair XRP_BTC = new CurrencyPair(Currencies.XRP, Currencies.BTC);
 
   public static final CurrencyPair LTC_USD = new CurrencyPair(Currencies.LTC, Currencies.USD);
   public static final CurrencyPair LTC_KRW = new CurrencyPair(Currencies.LTC, Currencies.KRW);
@@ -106,6 +112,7 @@ public class CurrencyPair {
   // BTC
   public static final CurrencyPair BTC_XDC = new CurrencyPair(Currencies.BTC, Currencies.XDC);
   public static final CurrencyPair BTC_PPC = new CurrencyPair(Currencies.BTC, Currencies.PPC);
+  public static final CurrencyPair STR_BTC = new CurrencyPair(Currencies.STR, Currencies.BTC);
 
   // LTC
   public static final CurrencyPair LTC_HKD = new CurrencyPair(Currencies.LTC, Currencies.HKD);
@@ -233,5 +240,10 @@ public class CurrencyPair {
       return false;
     }
     return true;
+  }
+
+  @Override
+  public int compareTo(CurrencyPair o) {
+    return (baseSymbol.compareTo(o.baseSymbol) << 16) + counterSymbol.compareTo(o.counterSymbol);
   }
 }

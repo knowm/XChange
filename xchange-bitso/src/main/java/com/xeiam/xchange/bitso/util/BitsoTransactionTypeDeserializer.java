@@ -1,8 +1,9 @@
 package com.xeiam.xchange.bitso.util;
 
 
+import si.mazi.rescu.serialization.jackson.serializers.EnumIntDeserializer;
+
 import com.xeiam.xchange.bitso.dto.trade.BitsoUserTransaction;
-import com.xeiam.xchange.utils.jackson.EnumIntDeserializer;
 
 /**
  * @author Piotr Ładyżyński

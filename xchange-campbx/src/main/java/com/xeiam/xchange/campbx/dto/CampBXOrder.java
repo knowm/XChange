@@ -3,10 +3,11 @@ package com.xeiam.xchange.campbx.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import si.mazi.rescu.serialization.jackson.serializers.SqlTimeDeserializer;
+import si.mazi.rescu.serialization.jackson.serializers.YesNoBooleanDeserializerImpl;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.utils.jackson.SqlTimeDeserializer;
-import com.xeiam.xchange.utils.jackson.YesNoBooleanDeserializerImpl;
 
 /**
  * @author Matija Mazi

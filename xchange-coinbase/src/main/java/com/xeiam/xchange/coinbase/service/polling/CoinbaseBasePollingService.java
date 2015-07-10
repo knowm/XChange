@@ -3,9 +3,6 @@ package com.xeiam.xchange.coinbase.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbase.CoinbaseAuthenticated;
 import com.xeiam.xchange.coinbase.dto.CoinbaseBaseResponse;
@@ -13,10 +10,11 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseToken;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseCurrency;
 import com.xeiam.xchange.coinbase.service.CoinbaseDigest;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author jamespedwards42
@@ -104,11 +102,4 @@ public class CoinbaseBasePollingService extends BaseExchangeService implements B
 
     return response;
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

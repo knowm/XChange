@@ -1,0 +1,22 @@
+{
+  "ledger": 13895887,
+  "validated": true,
+  "balances": [
+    {
+      "value": "861.401578",
+      "currency": "XRP",
+      "counterparty": ""
+    },
+    {
+      "value": "0.038777349225374",
+      "currency": "BTC",
+      "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+    },
+    {
+      "value": "10",
+      "currency": "USD",
+      "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+    }
+  ],
+  "success": true
+}

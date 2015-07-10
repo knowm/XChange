@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitcoinium;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -10,9 +12,7 @@ import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataService;
 public class BitcoiniumExchange extends BaseExchange implements Exchange {
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new BitcoiniumMarketDataService(this);
   }
 

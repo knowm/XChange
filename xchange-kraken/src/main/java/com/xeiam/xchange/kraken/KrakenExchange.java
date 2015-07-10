@@ -1,5 +1,7 @@
 package com.xeiam.xchange.kraken;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -18,10 +20,7 @@ public class KrakenExchange extends BaseExchange implements Exchange {
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new KrakenMarketDataService(this);
     this.pollingTradeService = new KrakenTradeService(this);
     this.pollingAccountService = new KrakenAccountService(this);

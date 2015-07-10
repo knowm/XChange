@@ -1,11 +1,7 @@
 package com.xeiam.xchange.huobi.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -20,15 +16,15 @@ import com.xeiam.xchange.huobi.dto.trade.HuobiCancelOrderResult;
 import com.xeiam.xchange.huobi.dto.trade.HuobiOrder;
 import com.xeiam.xchange.huobi.dto.trade.HuobiPlaceOrderResult;
 import com.xeiam.xchange.huobi.service.TradeServiceRaw;
+import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
-public class GenericTradeService implements PollingTradeService {
+public class GenericTradeService extends BaseExchangeService implements PollingTradeService {
 
   private final Map<CurrencyPair, Integer> coinTypes;
   private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
   private final TradeServiceRaw tradeServiceRaw;
-  private final Exchange exchange;
 
   /**
    * Constructor
@@ -37,7 +33,7 @@ public class GenericTradeService implements PollingTradeService {
    */
   public GenericTradeService(Exchange exchange, TradeServiceRaw tradeServiceRaw) {
 
-    this.exchange = exchange;
+    super(exchange);
     this.tradeServiceRaw = tradeServiceRaw;
 
     coinTypes = new HashMap<CurrencyPair, Integer>(2);
@@ -49,7 +45,7 @@ public class GenericTradeService implements PollingTradeService {
   public OpenOrders getOpenOrders() throws IOException {
 
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
-    for (CurrencyPair currencyPair : exchange.getMetaData().getCurrencyPairs()) {
+    for (CurrencyPair currencyPair : exchange.getMetaData().getMarketMetaDataMap().keySet()) {
       HuobiOrder[] orders = tradeServiceRaw.getOrders(coinTypes.get(currencyPair));
 
       for (int i = 0; i < orders.length; i++) {
@@ -67,8 +63,7 @@ public class GenericTradeService implements PollingTradeService {
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    HuobiPlaceOrderResult result = tradeServiceRaw.placeMarketOrder(marketOrder.getType(), coinTypes.get(marketOrder.getCurrencyPair()),
-        marketOrder.getTradableAmount());
+    HuobiPlaceOrderResult result = tradeServiceRaw.placeMarketOrder(marketOrder.getType(), coinTypes.get(marketOrder.getCurrencyPair()), marketOrder.getTradableAmount());
     return HuobiAdapters.adaptPlaceOrderResult(result);
   }
 
@@ -86,7 +81,7 @@ public class GenericTradeService implements PollingTradeService {
     final long id = Long.parseLong(orderId);
 
     HuobiCancelOrderResult result = null;
-    for (CurrencyPair currencyPair : exchange.getMetaData().getCurrencyPairs()) {
+    for (CurrencyPair currencyPair : exchange.getMetaData().getMarketMetaDataMap().keySet()) {
       result = tradeServiceRaw.cancelOrder(coinTypes.get(currencyPair), id);
 
       if (result.getCode() == 0) {
@@ -114,10 +109,5 @@ public class GenericTradeService implements PollingTradeService {
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-    return exchange.getMetaData().getCurrencyPairs();
   }
 }

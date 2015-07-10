@@ -1,15 +1,10 @@
 package com.xeiam.xchange.btctrade.service.polling;
 
-import java.io.IOException;
-import java.util.List;
-
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btctrade.BTCTrade;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+import si.mazi.rescu.RestProxyFactory;
 
 public class BTCTradeBasePollingService extends BaseExchangeService implements BasePollingService {
 
@@ -40,11 +35,4 @@ public class BTCTradeBasePollingService extends BaseExchangeService implements B
     }
     return since;
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

@@ -42,9 +42,4 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
     public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
         return null;
     }
-
-    @Override
-    public List<CurrencyPair> getExchangeSymbols() throws IOException {
-        return null;
-    }
 }

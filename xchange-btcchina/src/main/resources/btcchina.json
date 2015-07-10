@@ -1,5 +1,8 @@
 {
-   "currency_pairs":[
-      "BTC/CNY"
-   ]
+  "currencyPair": {
+    "BTC/CNY": {
+      "priceScale": 2
+    }
+  },
+  "currency": {}
 }

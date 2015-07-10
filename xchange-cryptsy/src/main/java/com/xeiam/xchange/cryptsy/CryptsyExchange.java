@@ -1,5 +1,6 @@
 package com.xeiam.xchange.cryptsy;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,10 +32,7 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
   protected PollingMarketDataService pollingPublicMarketDataService;
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new CryptsyMarketDataService(this);
     this.pollingAccountService = new CryptsyAccountService(this);
     this.pollingTradeService = new CryptsyTradeService(this);
@@ -81,6 +79,15 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
 
   public PollingMarketDataService getPollingPublicMarketDataService() {
     return pollingPublicMarketDataService;
+  }
+  
+  @Override
+  public PollingMarketDataService getPollingMarketDataService() {
+    if (exchangeSpecification != null && exchangeSpecification.getApiKey() != null) {
+      return pollingMarketDataService;
+    } else {
+      return pollingPublicMarketDataService;
+    }
   }
 
   @Override

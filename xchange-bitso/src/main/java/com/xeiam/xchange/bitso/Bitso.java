@@ -1,15 +1,17 @@
 package com.xeiam.xchange.bitso;
 
-import com.xeiam.xchange.bitso.dto.marketdata.BitsoOrderBook;
-import com.xeiam.xchange.bitso.dto.marketdata.BitsoTicker;
-import com.xeiam.xchange.bitso.dto.marketdata.BitsoTransaction;
+import java.io.IOException;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
+
+import com.xeiam.xchange.bitso.dto.BitsoException;
+import com.xeiam.xchange.bitso.dto.marketdata.BitsoOrderBook;
+import com.xeiam.xchange.bitso.dto.marketdata.BitsoTicker;
+import com.xeiam.xchange.bitso.dto.marketdata.BitsoTransaction;
 
 /**
  * @author Piotr Ładyżyński
@@ -23,24 +25,24 @@ public interface Bitso {
    */
   @GET
   @Path("order_book/")
-  public BitsoOrderBook getOrderBook() throws IOException;
+  public BitsoOrderBook getOrderBook() throws BitsoException, IOException;
 
   @GET
   @Path("ticker/")
-  public BitsoTicker getTicker() throws IOException;
+  public BitsoTicker getTicker() throws BitsoException, IOException;
 
   /**
    * Returns descending list of transactions.
    */
   @GET
   @Path("transactions/")
-  public BitsoTransaction[] getTransactions() throws IOException;
+  public BitsoTransaction[] getTransactions() throws BitsoException, IOException;
 
   /**
    * Returns descending list of transactions.
    */
   @GET
   @Path("transactions/")
-  public BitsoTransaction[] getTransactions(@QueryParam("time") String time) throws IOException;
+  public BitsoTransaction[] getTransactions(@QueryParam("time") String time) throws BitsoException, IOException;
 
 }

@@ -1,16 +1,11 @@
 package com.xeiam.xchange.clevercoin.service;
 
-import java.lang.annotation.Annotation;
 import java.math.BigInteger;
-import java.util.Map;
 
 import javax.crypto.Mac;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.HeaderParam;
 
-import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.utils.Base64;
 
 import com.xeiam.xchange.service.BaseParamsDigest;
 

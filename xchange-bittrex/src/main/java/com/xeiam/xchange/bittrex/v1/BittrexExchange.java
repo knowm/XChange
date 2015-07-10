@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bittrex.v1;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -15,10 +17,7 @@ public class BittrexExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new BittrexMarketDataService(this);
     this.pollingAccountService = new BittrexAccountService(this);
     this.pollingTradeService = new BittrexTradeService(this);

@@ -13,97 +13,76 @@ public class OkCoinOrder {
 
   private final String symbol;
 
-  private final String contract;
-
   private final String type;
-
-  private final BigDecimal rate;
 
   private final BigDecimal amount;
 
   private final BigDecimal dealAmount;
 
-  private final BigDecimal unitAmount;
-
-  private final BigDecimal fee;
-
-  private final BigDecimal avgRate;
-
   private final Date createDate;
 
-  public OkCoinOrder(@JsonProperty("order_id") final long orderId, @JsonProperty("status") final int status,
-      @JsonProperty("symbol") final String symbol, @JsonProperty("contract_name") final String contract, @JsonProperty("type") final String type,
-      @JsonProperty("price") final BigDecimal rate, @JsonProperty("amount") final BigDecimal amount, @JsonProperty("fee") final BigDecimal fee,
-      @JsonProperty("deal_amount") final BigDecimal dealAmount, @JsonProperty("unit_amount") final BigDecimal unitAmount,
-      @JsonProperty("price_avg") final BigDecimal avgRate, @JsonProperty("create_date") final Date createDate) {
+  private final BigDecimal price;
 
-    this.fee = fee;
-    this.contract = contract;
-    this.unitAmount = unitAmount;
+  public OkCoinOrder(@JsonProperty("order_id") final long orderId, @JsonProperty("status") final int status,
+      @JsonProperty("symbol") final String symbol, @JsonProperty("type") final String type, @JsonProperty("price") final BigDecimal price,
+      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("deal_amount") final BigDecimal dealAmount,
+      @JsonProperty("create_date") final Date createDate) {
+
     this.orderId = orderId;
     this.status = status;
     this.symbol = symbol;
     this.type = type;
-    this.rate = rate;
     this.amount = amount;
     this.dealAmount = dealAmount;
-    this.avgRate = avgRate;
+    this.price = price;
     this.createDate = createDate;
   }
+
 
   public long getOrderId() {
 
     return orderId;
   }
 
-  public String getContract() {
-
-    return contract;
-  }
-
-  public BigDecimal getFee() {
-
-    return fee;
-  }
 
   public int getStatus() {
 
     return status;
   }
 
+
   public String getSymbol() {
 
     return symbol;
   }
+
 
   public String getType() {
 
     return type;
   }
 
-  public BigDecimal getRate() {
-
-    return rate;
-  }
 
   public BigDecimal getAmount() {
 
     return amount;
   }
 
+
   public BigDecimal getDealAmount() {
 
     return dealAmount;
   }
 
-  public BigDecimal getAvgRate() {
-
-    return avgRate;
-  }
 
   public Date getCreateDate() {
 
     return createDate;
   }
 
+
+  public BigDecimal getPrice() {
+
+    return price;
+  }
 }

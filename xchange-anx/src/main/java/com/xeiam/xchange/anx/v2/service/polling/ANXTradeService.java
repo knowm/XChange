@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
+import com.xeiam.xchange.anx.v2.ANXExchange;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResultWrapper;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -105,7 +106,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
       throw new IllegalStateException(error);
     }
 
-    return ANXAdapters.adaptUserTrades(rawTrades.getAnxTradeResults());
+    return ANXAdapters.adaptUserTrades(rawTrades.getAnxTradeResults(), ((ANXExchange) exchange).getANXMetaData());
   }
 
   /**
@@ -129,5 +130,4 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
 
     return new DefaultTradeHistoryParamsTimeSpan();
   }
-
 }

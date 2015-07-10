@@ -1,5 +1,11 @@
 package com.xeiam.xchange.hitbtc;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
+import com.xeiam.xchange.hitbtc.dto.meta.HitbtcMetaData;
+import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataServiceRaw;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -14,14 +20,24 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
+  private HitbtcMetaData hitbtcMetaData;
+
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new HitbtcMarketDataService(this);
     this.pollingTradeService = new HitbtcTradeService(this);
     this.pollingAccountService = new HitbtcAccountService(this);
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    hitbtcMetaData = loadMetaData(is, HitbtcMetaData.class);
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+    HitbtcSymbols hitbtcSymbols = ((HitbtcMarketDataServiceRaw) pollingMarketDataService).getHitbtcSymbols();
+    metaData = HitbtcAdapters.adaptToExchangeMetaData(hitbtcSymbols, hitbtcMetaData);
   }
 
   @Override

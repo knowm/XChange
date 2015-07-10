@@ -1,0 +1,13 @@
+{
+   "currencyPair": {
+      "BTC/USD":{"priceScale":2},
+      "BTC/EUR":{"priceScale":5},
+      "BTC/JPY":{"priceScale":5},
+      "BTC/SGD":{"priceScale":5},
+      "BTC/HKD":{"priceScale":5},
+      "BTC/IDR":{"priceScale":2},
+      "BTC/AUD":{"priceScale":5},
+      "BTC/PHP":{"priceScale":5}
+   },
+   "currency":{}
+}

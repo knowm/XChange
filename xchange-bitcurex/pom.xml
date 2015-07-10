@@ -30,6 +30,11 @@
 			<version>3.0.1-SNAPSHOT</version>
 		</dependency>
 
+		<dependency>
+			<groupId>net.iharder</groupId>
+			<artifactId>base64</artifactId>
+		</dependency>
+
 	</dependencies>
 
 </project>

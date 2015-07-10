@@ -51,7 +51,7 @@ public class Trade {
    * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param price The price (either the bid or the ask)
-   * @param timestamp The timestamp when the order was placed. Exchange matching is usually price first then timestamp asc to clear older orders
+   * @param timestamp The timestamp of the trade
    * @param id The id of the trade
    */
   public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
@@ -121,20 +121,16 @@ public class Trade {
 
   public static class Builder {
 
-    private OrderType type;
-    private BigDecimal tradableAmount;
-    private CurrencyPair currencyPair;
-    private BigDecimal price;
-    private Date timestamp;
-    private String id;
-
-    public Builder() {
-
-    }
+    protected OrderType type;
+    protected BigDecimal tradableAmount;
+    protected CurrencyPair currencyPair;
+    protected BigDecimal price;
+    protected Date timestamp;
+    protected String id;
 
     public static Builder from(Trade trade) {
-      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice()).timestamp(trade.getTimestamp())
-          .id(trade.getId());
+      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair())
+          .price(trade.getPrice()).timestamp(trade.getTimestamp()).id(trade.getId());
     }
 
     public Builder type(OrderType type) {

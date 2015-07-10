@@ -5,7 +5,12 @@ package com.xeiam.xchange.independentreserve.util;
  * Date: 4/13/15
  */
 public enum ExchangeEndpoint {
-    GET_ACCOUNTS("GetAccounts");
+    GET_ACCOUNTS("GetAccounts"),
+    GET_OPEN_ORDERS("GetOpenOrders"),
+    PLACE_LIMIT_ORDER("PlaceLimitOrder"),
+    CANCEL_ORDER("CancelOrder"),
+    GET_TRADES("GetTrades");
+
 
     private String endpointName;
 

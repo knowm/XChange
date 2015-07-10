@@ -13,8 +13,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.okcoin.OkCoinAdapters;
+import com.xeiam.xchange.okcoin.OkCoinStreamingUtils;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinDepth;
+import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinStreamingDepth;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinStreamingTicker;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
@@ -25,9 +28,11 @@ public class OkCoinWebSocketService implements WebSocketService {
   private final JsonFactory jsonFactory = new JsonFactory();
   private final BlockingQueue<ExchangeEvent> eventQueue;
   private final CurrencyPair[] currencyPairs;
+  private final ChannelProvider channelProvider;
 
-  public OkCoinWebSocketService(BlockingQueue<ExchangeEvent> eventQueue, CurrencyPair[] currencyPairs) {
+  public OkCoinWebSocketService(BlockingQueue<ExchangeEvent> eventQueue, ChannelProvider channelProvider, CurrencyPair[] currencyPairs) {
     this.eventQueue = eventQueue; 
+    this.channelProvider = channelProvider;
     this.currencyPairs = currencyPairs;
   }
 
@@ -41,7 +46,7 @@ public class OkCoinWebSocketService implements WebSocketService {
         Iterator<JsonNode> iterator = readTree.iterator();
         while(iterator.hasNext()) {
           JsonNode node = iterator.next();
-          
+
           // parse any requested channels
           for(int i = 0; i < currencyPairs.length; i++) {
             parseMarketData(node, currencyPairs[i]);
@@ -57,31 +62,33 @@ public class OkCoinWebSocketService implements WebSocketService {
       e.printStackTrace();
     }
   }
-  
+
   /** Parse depth, trades, and ticker for a given currency pair */
   private void parseMarketData(JsonNode node, CurrencyPair currencyPair) throws JsonParseException, JsonMappingException, IOException {
-    String basename = currencyPair.baseSymbol.toLowerCase() + currencyPair.counterSymbol.toLowerCase();
-    
-    if(node.get("channel").textValue().equals("ok_" + basename + "_depth")) {                
+    if(node.has("errorcode")) {
+      throw new ExchangeException(OkCoinStreamingUtils.getErrorMessage(node.get("errorcode").asInt()));
+    }
+
+    if(node.get("channel").textValue().equals(channelProvider.getDepth(currencyPair))) {                
       parseDepth(node, currencyPair);
-      
-    } else if(node.get("channel").textValue().equals("ok_" + basename + "_trades_v1")) {
+
+    } else if(node.get("channel").textValue().equals(channelProvider.getTrades(currencyPair))) {
       parseTrades(node, currencyPair);
-      
-    } else if(node.get("channel").textValue().equals("ok_" + basename + "_ticker")) {
+
+    } else if(node.get("channel").textValue().equals(channelProvider.getTicker(currencyPair))) {
       parseTicker(node, currencyPair);
     }
   }
 
   private void parseTicker(JsonNode node, CurrencyPair currencyPair) throws IOException, JsonParseException, JsonMappingException {
-    
+
     OkCoinStreamingTicker ticker = mapper.readValue(node.get("data").toString(), OkCoinStreamingTicker.class);    
     putEvent(ExchangeEventType.TICKER, OkCoinJsonAdapters.adaptTicker(ticker, currencyPair));
   }
 
   private void parseDepth(JsonNode node, CurrencyPair currencyPair) throws IOException, JsonParseException, JsonMappingException {
 
-    OkCoinDepth depth = mapper.readValue(node.get("data").toString(), OkCoinDepth.class);    
+    OkCoinDepth depth = mapper.readValue(node.get("data").toString(), OkCoinStreamingDepth.class);    
     putEvent(ExchangeEventType.DEPTH, OkCoinAdapters.adaptOrderBook(depth, currencyPair));
   }
 
@@ -93,7 +100,7 @@ public class OkCoinWebSocketService implements WebSocketService {
       putEvent(ExchangeEventType.TRADE, OkCoinJsonAdapters.adaptTrade(trade, currencyPair));                  
     }
   }
-  
+
   private void putEvent(ExchangeEventType eventType, Object payload) {
     try {
       eventQueue.put(new OkCoinExchangeEvent(eventType, payload));

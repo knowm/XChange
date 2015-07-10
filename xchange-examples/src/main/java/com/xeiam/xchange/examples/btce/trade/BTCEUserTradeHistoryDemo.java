@@ -16,8 +16,6 @@ import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 public class BTCEUserTradeHistoryDemo {
 
   public static void main(String[] args) throws IOException {
-
-    // TODO: The APIKey does not have the correct permissions
     Exchange btce = BTCEExamplesUtils.createExchange();
     generic(btce);
     raw(btce);

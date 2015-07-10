@@ -1,9 +1,32 @@
 {
-   "currency_pairs":[
-      "BTC/BTCCHINA_CNY",
-      "BTC/BITSTAMP_USD",
-      "BTC/BITFINEX_USD",
-      "BTC/BTCE_USD",
-      "BTC/KRAKEN_EUR"
-   ]
+  "currencyPair": {
+    "BTC/BTCCHINA_CNY": {
+      "priceScale": 2
+    },
+    "BTC/BITSTAMP_USD": {
+      "priceScale": 2
+    },
+    "BTC/BITFINEX_USD": {
+      "priceScale": 2
+    },
+    "BTC/BTCE_USD": {
+      "priceScale": 2
+    },
+    "BTC/KRAKEN_EUR": {
+      "priceScale": 2
+    }
+  },
+  "currency": {},
+  "privateRateLimits": [
+    {
+      "calls": 1,
+      "timeSpan": 10,
+      "timeUnit": "seconds"
+    },
+    {
+      "calls": 1,
+      "timeUnit": "days"
+    }
+  ],
+  "sharedRateLimits": true
 }

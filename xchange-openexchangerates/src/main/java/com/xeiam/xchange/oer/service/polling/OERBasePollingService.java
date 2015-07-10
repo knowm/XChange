@@ -17,12 +17,4 @@ public class OERBasePollingService extends BaseExchangeService implements BasePo
 
     super(exchange);
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    // TODO call the public API and parse out the symbols.
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

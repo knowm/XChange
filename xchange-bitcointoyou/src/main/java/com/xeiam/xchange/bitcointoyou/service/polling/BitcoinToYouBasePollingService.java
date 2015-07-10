@@ -31,11 +31,4 @@ public class BitcoinToYouBasePollingService extends BaseExchangeService implemen
     this.bitcoinToYouAuthenticated = RestProxyFactory.createProxy(BitcoinToYouAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.bitcoinToYou = RestProxyFactory.createProxy(BitcoinToYou.class, exchange.getExchangeSpecification().getSslUri());
   }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    return exchange.getMetaData().getCurrencyPairs();
-  }
-
 }

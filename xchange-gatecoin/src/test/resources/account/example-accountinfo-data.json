@@ -1,0 +1,106 @@
+{
+  "balances": [
+    {
+      "currency": "BTC",
+      "balance": 2.94137538,
+      "availableBalance": 2.94137538,
+      "pendingIncoming": 0,
+      "pendingOutgoing": 0,
+      "openOrder": 0,
+      "isDigital": true
+    },
+    {
+      "currency": "AUD",
+      "balance": 0,
+      "availableBalance": 0,
+      "pendingIncoming": 0,
+      "pendingOutgoing": 0,
+      "openOrder": 0,
+      "isDigital": false
+    },
+    {
+      "currency": "CAD",
+      "balance": 0,
+      "availableBalance": 0,
+      "pendingIncoming": 0,
+      "pendingOutgoing": 0,
+      "openOrder": 0,
+      "isDigital": false
+    },
+    {
+      "currency": "CHF",
+      "balance": 0,
+      "availableBalance": 0,
+      "pendingIncoming": 0,
+      "pendingOutgoing": 0,
+      "openOrder": 0,
+      "isDigital": false
+    },
+    {
+      "currency": "EUR",
+      "balance": 2377.83,
+      "availableBalance": 2377.83,
+      "pendingIncoming": 0,
+      "pendingOutgoing": 0,
+      "openOrder": 0,
+      "isDigital": false
+    },
+    {
+      "currency": "GBP",
+      "balance": 0,
+      "availableBalance": 0,
+      "pendingIncoming": 0,
+      "pendingOutgoing": 0,
+      "openOrder": 0,
+      "isDigital": false
+    },
+    {
+      "currency": "HKD",
+      "balance": 5347.31,
+      "availableBalance": 5347.31,
+      "pendingIncoming": 0,
+      "pendingOutgoing": 0,
+      "openOrder": 0,
+      "isDigital": false
+    },
+    {
+      "currency": "JPY",
+      "balance": 0,
+      "availableBalance": 0,
+      "pendingIncoming": 0,
+      "pendingOutgoing": 0,
+      "openOrder": 0,
+      "isDigital": false
+    },
+    {
+      "currency": "NZD",
+      "balance": 0,
+      "availableBalance": 0,
+      "pendingIncoming": 0,
+      "pendingOutgoing": 0,
+      "openOrder": 0,
+      "isDigital": false
+    },
+    {
+      "currency": "SGD",
+      "balance": 0,
+      "availableBalance": 0,
+      "pendingIncoming": 0,
+      "pendingOutgoing": 0,
+      "openOrder": 0,
+      "isDigital": false
+    },
+    {
+      "currency": "USD",
+      "balance": 9899.29,
+      "availableBalance": 9599.29,
+      "pendingIncoming": 0,
+      "pendingOutgoing": -300,
+      "openOrder": 0,
+      "isDigital": false
+    }
+  ],
+  "responseStatus": {
+    "message": "OK"
+  }
+}

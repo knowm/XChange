@@ -6,7 +6,6 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -14,7 +13,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.taurus.dto.TaurusBaseResponse;
 import com.xeiam.xchange.utils.jackson.CurrencyPairDeserializer;
-import com.xeiam.xchange.utils.jackson.SqlTimeDeserializer;
 import com.xeiam.xchange.utils.jackson.SqlUtcTimeDeserializer;
 
 /**

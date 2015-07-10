@@ -1,15 +1,11 @@
 package com.xeiam.xchange.yacuna;
 
 import com.xeiam.xchange.BaseExchange;
-import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 import com.xeiam.xchange.yacuna.service.polling.YacunaMarketDataService;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-/**
- * Created by Yingzhe on 12/27/2014.
- */
 public class YacunaExchange extends BaseExchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
@@ -18,9 +14,7 @@ public class YacunaExchange extends BaseExchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new YacunaMarketDataService(this);
   }
 

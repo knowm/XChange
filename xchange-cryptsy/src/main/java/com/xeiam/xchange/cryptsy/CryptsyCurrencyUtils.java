@@ -257,6 +257,7 @@ public final class CryptsyCurrencyUtils {
       put(1, new CurrencyPair("LTC", "USD"));
       put(294, new CurrencyPair("LTCD", "BTC"));
       put(262, new CurrencyPair("RDD", "USD"));
+      put(478, new CurrencyPair("BTC", "EUR"));
     }
   };
 
@@ -507,6 +508,7 @@ public final class CryptsyCurrencyUtils {
       put(new CurrencyPair("FTC", "USD"), 6);
       put(new CurrencyPair("LTC", "USD"), 1);
       put(new CurrencyPair("RDD", "USD"), 262);
+      put(new CurrencyPair("BTC", "EUR"), 478);
     }
   };
 

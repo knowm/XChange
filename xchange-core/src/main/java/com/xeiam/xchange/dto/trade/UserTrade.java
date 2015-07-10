@@ -10,7 +10,7 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 /**
  * Data object representing a user trade
  */
-public final class UserTrade extends Trade {
+public class UserTrade extends Trade {
 
   /**
    * The id of the order responsible for execution of this trade
@@ -36,7 +36,7 @@ public final class UserTrade extends Trade {
    * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param price The price (either the bid or the ask)
-   * @param timestamp The timestamp when the order was placed. Exchange matching is usually price first then timestamp asc to clear older orders
+   * @param timestamp The timestamp of the trade
    * @param id The id of the trade
    * @param orderId The id of the order responsible for execution of this trade
    * @param feeAmount The fee that was charged by the exchange for this trade
@@ -78,83 +78,58 @@ public final class UserTrade extends Trade {
         "]";
   }
 
-  public static class Builder {
+  public static class Builder extends Trade.Builder {
 
-    private OrderType type;
-    private BigDecimal tradableAmount;
-    private CurrencyPair currencyPair;
-    private BigDecimal price;
-    private Date timestamp;
-    private String id;
-    private String orderId;
-    private BigDecimal feeAmount;
-    private String feeCurrency;
-
-    public Builder() {
-
-    }
+    protected String orderId;
+    protected BigDecimal feeAmount;
+    protected String feeCurrency;
 
     public static Builder from(UserTrade trade) {
-      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair()).price(trade.getPrice()).timestamp(trade.getTimestamp())
-          .id(trade.getId()).orderId(trade.getOrderId()).feeAmount(trade.getFeeAmount()).feeCurrency(trade.getFeeCurrency());
+      return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair())
+          .price(trade.getPrice()).timestamp(trade.getTimestamp()).id(trade.getId()).orderId(trade.getOrderId()).feeAmount(trade.getFeeAmount())
+          .feeCurrency(trade.getFeeCurrency());
     }
 
     public Builder type(OrderType type) {
-
-      this.type = type;
-      return this;
+      return (Builder) super.type(type);
     }
 
     public Builder tradableAmount(BigDecimal tradableAmount) {
-
-      this.tradableAmount = tradableAmount;
-      return this;
+      return (Builder) super.tradableAmount(tradableAmount);
     }
 
     public Builder currencyPair(CurrencyPair currencyPair) {
-
-      this.currencyPair = currencyPair;
-      return this;
+      return (Builder) super.currencyPair(currencyPair);
     }
 
     public Builder price(BigDecimal price) {
-
-      this.price = price;
-      return this;
+      return (Builder) super.price(price);
     }
 
     public Builder timestamp(Date timestamp) {
-
-      this.timestamp = timestamp;
-      return this;
+      return (Builder) super.timestamp(timestamp);
     }
 
     public Builder id(String id) {
-
-      this.id = id;
-      return this;
+      return (Builder) super.id(id);
     }
 
     public Builder orderId(String orderId) {
-
       this.orderId = orderId;
       return this;
     }
 
     public Builder feeAmount(BigDecimal feeAmount) {
-
       this.feeAmount = feeAmount;
       return this;
     }
 
     public Builder feeCurrency(String feeCurrency) {
-
       this.feeCurrency = feeCurrency;
       return this;
     }
 
     public UserTrade build() {
-
       return new UserTrade(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
     }
   }

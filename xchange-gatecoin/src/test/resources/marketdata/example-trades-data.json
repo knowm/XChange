@@ -1,0 +1,21 @@
+{
+  "transactions": [
+    {
+      "transactionId": 1392484,
+      "transactionTime": "1435630071",
+      "price": 229.29,
+      "quantity": 0.07,
+      "currencyPair": "BTCEUR"
+    },
+    {
+      "transactionId": 1392449,
+      "transactionTime": "1435629740",
+      "price": 229.39,
+      "quantity": 0.23,
+      "currencyPair": "BTCEUR"
+    }
+  ],
+  "responseStatus": {
+    "message": "OK"
+  }
+}

@@ -6,9 +6,6 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanOrderBook;
 import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanTicker;
 
-/**
- * @author Piotr Ładyżyński
- */
 public class BitKonanMarketDataServiceRaw extends BitKonanBasePollingService {
 
   /**
@@ -21,14 +18,16 @@ public class BitKonanMarketDataServiceRaw extends BitKonanBasePollingService {
     super(exchange);
   }
 
-  public BitKonanTicker getBitKonanTickerBTC() throws IOException {
-
-    return bitKonan.getBitKonanTickerBTC();
+  public BitKonanTicker getBitKonanTicker(String base) throws IOException {
+    if ("btc".equals(base))
+      return bitKonan.getBitKonanTickerBTC();
+    else
+      return bitKonan.getBitKonanTicker(base);
   }
 
-  public BitKonanOrderBook getBitKonanOrderBookBTC() throws IOException {
+  public BitKonanOrderBook getBitKonanOrderBook(String base) throws IOException {
 
-    return bitKonan.getBitKonanOrderBookBTC();
+    return bitKonan.getBitKonanOrderBook(base);
   }
 
 }

@@ -7,6 +7,7 @@ import si.mazi.rescu.RestProxyFactory;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.loyalbit.Loyalbit;
 import com.xeiam.xchange.loyalbit.dto.marketdata.LoyalbitOrderBook;
+import com.xeiam.xchange.loyalbit.dto.marketdata.LoyalbitTicker;
 
 public class LoyalbitMarketDataServiceRaw extends LoyalbitBasePollingService {
 
@@ -19,5 +20,9 @@ public class LoyalbitMarketDataServiceRaw extends LoyalbitBasePollingService {
 
   public LoyalbitOrderBook getLoyalbitOrderBook() throws IOException {
     return loyalbit.getOrderBook();
+  }
+
+  public LoyalbitTicker getLoyalbitTicker() throws IOException {
+    return loyalbit.getTicker();
   }
 }

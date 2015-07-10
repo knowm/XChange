@@ -39,11 +39,11 @@ public class IndependentReserveAccountServiceRaw extends IndependentReserveBaseP
         String apiKey = exchange.getExchangeSpecification().getApiKey();
         AuthAggregate authAggregate = new AuthAggregate(apiKey, nonce);
         
-        authAggregate.setSignature(signatureCreator.digestParamsToString(ExchangeEndpoint.GET_ACCOUNTS,nonce));
+        authAggregate.setSignature(signatureCreator.digestParamsToString(ExchangeEndpoint.GET_ACCOUNTS,nonce, authAggregate.getParameters()));
         IndependentReserveBalance independentReserveBalance = independentReserveAuthenticated.getBalance(
                 authAggregate);
         if (independentReserveBalance == null) {
-            throw new ExchangeException("Error getting balance. " + independentReserveBalance);
+            throw new ExchangeException("Error getting balance");
         }
         return independentReserveBalance;
     }

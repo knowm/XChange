@@ -1,67 +1,218 @@
 {
-   "currency_pairs":[
-      "BTC/USD",
-      "BTC/HKD",
-      "BTC/EUR",
-      "BTC/CAD",
-      "BTC/AUD",
-      "BTC/SGD",
-      "BTC/JPY",
-      "BTC/CHF",
-      "BTC/GBP",
-      "BTC/NZD",
-      "LTC/BTC",
-      "LTC/USD",
-      "LTC/HKD",
-      "LTC/EUR",
-      "LTC/CAD",
-      "LTC/AUD",
-      "LTC/SGD",
-      "LTC/JPY",
-      "LTC/CHF",
-      "LTC/GBP",
-      "LTC/NZD",
-      "DOGE/BTC",
-      "DOGE/USD",
-      "DOGE/HKD",
-      "DOGE/EUR",
-      "DOGE/CAD",
-      "DOGE/AUD",
-      "DOGE/SGD",
-      "DOGE/JPY",
-      "DOGE/CHF",
-      "DOGE/GBP",
-      "DOGE/NZD",
-      "STR/BTC",
-      "STR/LTC",
-      "STR/USD",
-      "STR/HKD",
-      "STR/EUR",
-      "STR/CAD",
-      "STR/AUD",
-      "STR/SGD",
-      "STR/JPY",
-      "STR/CHF",
-      "STR/GBP",
-      "STR/NZD",
-      "XRP/BTC",
-      "XRP/LTC",
-      "XRP/USD",
-      "XRP/HKD",
-      "XRP/EUR",
-      "XRP/CAD",
-      "XRP/AUD",
-      "XRP/SGD",
-      "XRP/JPY",
-      "XRP/CHF",
-      "XRP/GBP",
-      "XRP/NZD"
-   ],
-   "max_private_poll_rate_per_second":30,
-   "max_private_poll_rate_per_10_second":60,
-   "max_private_poll_rate_per_hour":50000,
-   "max_public_poll_rate_per_second":5,
-   "fiat_amount_multiplier":2,
-   "crypto_amount_multiplier":8
-   
+  "currencyPair": {
+    "BTC/AUD": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000,
+      "priceScale": 5
+    },
+    "BTC/CAD": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000,
+      "priceScale": 5
+    },
+    "BTC/CNY": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000,
+      "priceScale": 5
+    },
+    "BTC/EUR": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000,
+      "priceScale": 5
+    },
+    "BTC/GBP": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000,
+      "priceScale": 5
+    },
+    "BTC/HKD": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000,
+      "priceScale": 5
+    },
+    "BTC/JPY": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000,
+      "priceScale": 5
+    },
+    "BTC/NZD": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000,
+      "priceScale": 5
+    },
+    "BTC/SGD": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000,
+      "priceScale": 5
+    },
+    "BTC/USD": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000,
+      "priceScale": 5
+    },
+    "DOGE/BTC": {
+      "minimumAmount": 10000.00000000,
+      "maximumAmount": 10000000000.00000000,
+      "priceScale": 8
+    },
+    "EGD/AUD": {
+      "priceScale": 8
+    },
+    "EGD/CAD": {
+      "priceScale": 8
+    },
+    "EGD/CNY": {
+      "priceScale": 8
+    },
+    "EGD/EUR": {
+      "priceScale": 8
+    },
+    "EGD/GBP": {
+      "priceScale": 8
+    },
+    "EGD/HKD": {
+      "priceScale": 8
+    },
+    "EGD/JPY": {
+      "priceScale": 8
+    },
+    "EGD/NZD": {
+      "priceScale": 8
+    },
+    "EGD/SGD": {
+      "priceScale": 8
+    },
+    "EGD/USD": {
+      "priceScale": 8
+    },
+    "LTC/BTC": {
+      "minimumAmount": 0.10000000,
+      "maximumAmount": 10000000.00000000,
+      "priceScale": 5
+    },
+    "START/AUD": {
+      "priceScale": 8
+    },
+    "START/CAD": {
+      "priceScale": 8
+    },
+    "START/EUR": {
+      "priceScale": 8
+    },
+    "START/GBP": {
+      "priceScale": 8
+    },
+    "START/HKD": {
+      "priceScale": 8
+    },
+    "START/JPY": {
+      "priceScale": 8
+    },
+    "START/NZD": {
+      "priceScale": 8
+    },
+    "START/SGD": {
+      "priceScale": 8
+    },
+    "START/USD": {
+      "priceScale": 8
+    },
+    "STR/BTC": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000,
+      "priceScale": 8
+    },
+    "XRP/BTC": {
+      "minimumAmount": 0.01000000,
+      "maximumAmount": 100000.00000000,
+      "priceScale": 8
+    }
+  },
+  "currency": {
+    "AUD": {
+      "scale": 2
+    },
+    "BGC": {
+      "scale": 8
+    },
+    "BTC": {
+      "scale": 8
+    },
+    "CAD": {
+      "scale": 2
+    },
+    "CHF": {
+      "scale": 2
+    },
+    "CNY": {
+      "scale": 8
+    },
+    "DOGE": {
+      "scale": 8
+    },
+    "EGD": {
+      "scale": 8
+    },
+    "EUR": {
+      "scale": 2
+    },
+    "GBP": {
+      "scale": 2
+    },
+    "HKD": {
+      "scale": 2
+    },
+    "JPY": {
+      "scale": 2
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "NMC": {
+      "scale": 8
+    },
+    "NZD": {
+      "scale": 2
+    },
+    "PPC": {
+      "scale": 8
+    },
+    "SGD": {
+      "scale": 2
+    },
+    "START": {
+      "scale": 8
+    },
+    "STR": {
+      "scale": 8
+    },
+    "USD": {
+      "scale": 2
+    },
+    "XRP": {
+      "scale": 8
+    }
+  },
+  "makerTradingFee": 0.003,
+  "takerTradingFee": 0.006,
+  "privateRateLimits": [
+    {
+      "calls": 30,
+      "timeUnit": "seconds"
+    },
+    {
+      "calls": 60,
+      "timeSpan": 10,
+      "timeUnit": "seconds"
+    },
+    {
+      "calls": 50000,
+      "timeUnit": "hours"
+    }
+  ],
+  "publicRateLimits": [
+    {
+      "calls": 5
+    }
+  ]
 }

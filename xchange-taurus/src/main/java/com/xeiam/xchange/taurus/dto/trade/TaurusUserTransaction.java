@@ -5,7 +5,6 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.xeiam.xchange.utils.jackson.SqlTimeDeserializer;
 import com.xeiam.xchange.utils.jackson.SqlUtcTimeDeserializer;
 
 /**

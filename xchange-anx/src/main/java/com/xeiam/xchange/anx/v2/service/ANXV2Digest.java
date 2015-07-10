@@ -4,8 +4,9 @@ import java.io.IOException;
 
 import javax.crypto.Mac;
 
+import net.iharder.Base64;
+
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.utils.Base64;
 
 import com.xeiam.xchange.service.BaseParamsDigest;
 

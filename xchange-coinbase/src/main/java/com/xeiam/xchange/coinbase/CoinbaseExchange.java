@@ -1,5 +1,7 @@
 package com.xeiam.xchange.coinbase;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -18,10 +20,7 @@ public class CoinbaseExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new CoinbaseMarketDataService(this);
     this.pollingAccountService = new CoinbaseAccountService(this);
     this.pollingTradeService = new CoinbaseTradeService(this);
@@ -44,5 +43,4 @@ public class CoinbaseExchange extends BaseExchange implements Exchange {
 
     return nonceFactory;
   }
-
 }

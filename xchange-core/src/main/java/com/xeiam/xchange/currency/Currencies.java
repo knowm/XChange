@@ -28,6 +28,7 @@ public class Currencies {
   public static final String BAM = "BAM"; // "Bosnia-Herzegovina Convertible Mark",
   public static final String BBD = "BBD"; // "Barbadian Dollar",
   public static final String BDT = "BDT"; // "Bangladeshi Taka",
+  public static final String BGC = "BGC"; // "Aten 'Black Gold' Coin"
   public static final String BGN = "BGN"; // "Bulgarian Lev",
   public static final String BHD = "BHD"; // "Bahraini Dinar",
   public static final String BIF = "BIF"; // "Burundian Franc",
@@ -63,6 +64,7 @@ public class Currencies {
   public static final String DRK = "DRK"; // "Darkcoin",
   public static final String DZD = "DZD"; // "Algerian Dinar",
   public static final String EEK = "EEK"; // "Estonian Kroon",
+  public static final String EGD = "EGD"; // egoldcoin
   public static final String EGP = "EGP"; // "Egyptian Pound",
   public static final String ETB = "ETB"; // "Ethiopian Birr",
   public static final String EUR = "EUR"; // "Euro",
@@ -164,7 +166,9 @@ public class Currencies {
   public static final String SLL = "SLL"; // "Sierra Leonean Leone",
   public static final String SOS = "SOS"; // "Somali Shilling",
   public static final String SRD = "SRD"; // "Surinamese Dollar",
+  public static final String START = "START"; //startcoin
   public static final String STD = "STD"; // "São Tomé and Príncipe Dobra",
+  public static final String STR = "STR"; // "Stellar",
   public static final String SVC = "SVC"; // "Salvadoran Colón",
   public static final String SYP = "SYP"; // "Syrian Pound",
   public static final String SZL = "SZL"; // "Swazi Lilangeni",

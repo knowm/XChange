@@ -15,7 +15,7 @@ import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
 /**
  * @author kpysniak
  */
-@Path("/")
+@Path("json")
 @Produces(MediaType.APPLICATION_JSON)
 public interface BitMarket {
 

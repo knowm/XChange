@@ -1,9 +1,12 @@
 package com.xeiam.xchange.anx.v2;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import com.xeiam.xchange.anx.v2.service.polling.ANXAccountService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXMarketDataService;
 import com.xeiam.xchange.anx.v2.service.polling.ANXTradeService;
@@ -14,10 +17,7 @@ public class ANXExchange extends BaseExchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     // Configure the basic services if configuration does not apply
     this.pollingMarketDataService = new ANXMarketDataService(this);
     this.pollingTradeService = new ANXTradeService(this);
@@ -43,4 +43,15 @@ public class ANXExchange extends BaseExchange {
     return nonceFactory;
   }
 
+  private ANXMetaData anxMetaData;
+
+  public ANXMetaData getANXMetaData() {
+    return anxMetaData;
+  }
+
+  @Override
+  protected void loadMetaData(InputStream is) {
+    anxMetaData = loadMetaData(is, ANXMetaData.class);
+    metaData = anxMetaData;
+  }
 }

@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitkonan;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -7,15 +9,10 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitkonan.service.polling.BitKonanMarketDataService;
 
-/**
- * @author Piotr Ładyżyński
- */
 public class BitKonanExchange extends BaseExchange implements Exchange {
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new BitKonanMarketDataService(this);
   }
 

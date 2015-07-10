@@ -1,28 +1,78 @@
 {
-   "currency_pairs":[
-      "BTC/USD",
-      "BTC/EUR",
-      "ANC/BTC",
-      "AUR/BTC",
-      "BC/BTC",
-      "DGC/BTC",
-      "DOGE/BTC",
-      "DVC/BTC",
-      "FRC/BTC",
-      "FTC/BTC",
-      "IOC/BTC",
-      "IXC/BTC",
-      "LTC/BTC",
-      "NMC/BTC",
-      "PPC/BTC",
-      "QRK/BTC",
-      "TRC/BTC",
-      "VTC/BTC",
-      "WC/BTC",
-      "WDC/BTC",
-      "XPM/BTC",
-      "ZET/BTC"
-   ],
-   "max_public_poll_rate_per_minute":12
-   
+  "currencyPairs": {
+    "BTC/USD": {
+      "priceScale": 8
+    },
+    "BTC/EUR": {
+      "priceScale": 8
+    },
+    "ANC/BTC": {
+      "priceScale": 8
+    },
+    "AUR/BTC": {
+      "priceScale": 8
+    },
+    "BC/BTC": {
+      "priceScale": 8
+    },
+    "DGC/BTC": {
+      "priceScale": 8
+    },
+    "DOGE/BTC": {
+      "priceScale": 8
+    },
+    "DVC/BTC": {
+      "priceScale": 8
+    },
+    "FRC/BTC": {
+      "priceScale": 8
+    },
+    "FTC/BTC": {
+      "priceScale": 8
+    },
+    "IOC/BTC": {
+      "priceScale": 8
+    },
+    "IXC/BTC": {
+      "priceScale": 8
+    },
+    "LTC/BTC": {
+      "priceScale": 8
+    },
+    "NMC/BTC": {
+      "priceScale": 8
+    },
+    "PPC/BTC": {
+      "priceScale": 8
+    },
+    "QRK/BTC": {
+      "priceScale": 8
+    },
+    "TRC/BTC": {
+      "priceScale": 8
+    },
+    "VTC/BTC": {
+      "priceScale": 8
+    },
+    "WC/BTC": {
+      "priceScale": 8
+    },
+    "WDC/BTC": {
+      "priceScale": 8
+    },
+    "XPM/BTC": {
+      "priceScale": 8
+    },
+    "ZET/BTC": {
+      "priceScale": 8
+    }
+  },
+  "currency": {},
+  "privateRateLimits": [
+    {
+      "calls": 12,
+      "timeUnit": "minutes"
+    }
+  ],
+  "sharedRateLimits": true
 }

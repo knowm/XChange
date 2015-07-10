@@ -1,9 +1,0 @@
-{  
-   "status":"success",
-   "data":{  
-      "label":"esl_ltc",
-      "type":"security_pair",
-      "min_amount":"0.1",
-      "decimal_places":"8"
-   }
-}

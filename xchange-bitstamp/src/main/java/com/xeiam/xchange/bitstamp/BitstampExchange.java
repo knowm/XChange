@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitstamp;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -22,10 +24,7 @@ public class BitstampExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new BitstampMarketDataService(this);
     this.pollingTradeService = new BitstampTradeService(this);
     this.pollingAccountService = new BitstampAccountService(this);
@@ -58,5 +57,4 @@ public class BitstampExchange extends BaseExchange implements Exchange {
 
     return nonceFactory;
   }
-
 }

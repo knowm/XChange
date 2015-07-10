@@ -1,0 +1,23 @@
+{
+  "currencyPair": {
+    "BTC/EUR": {
+      "priceScale": 2,
+      "tradingFee": 0.5
+    }
+  },
+  "currency": {},
+  "publicRateLimits": [
+    {
+      "calls": 2,
+      "timeSpan": 1,
+      "timeUnit": "minutes"
+    }
+  ],
+  "privateRateLimits": [
+    {
+      "calls": 1,
+      "timeSpan": 1,
+      "timeUnit": "minutes"
+    }
+  ]
+}

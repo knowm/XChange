@@ -37,9 +37,13 @@ public class BitcoinChartsMarketDataService extends BitcoinChartsBasePollingServ
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     // Request data
-    BitcoinChartsTicker[] bitcoinChartsTickers = bitcoinCharts.getMarketData();
+    BitcoinChartsTicker[] bitcoinChartsTickers = getBitcoinChartsTickers();
 
     return BitcoinChartsAdapters.adaptTicker(bitcoinChartsTickers, currencyPair);
+  }
+
+  public BitcoinChartsTicker[] getBitcoinChartsTickers() throws IOException {
+    return bitcoinCharts.getMarketData();
   }
 
   @Override

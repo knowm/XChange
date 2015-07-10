@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitkonan.BitKonanAdapters;
 import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanMarketDataJsonTest;
 import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanOrderBook;
 import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanTicker;
@@ -18,9 +17,6 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
-/**
- * @author Piotr Ładyżyński
- */
 public class BitKonanAdapterTest {
 
   @Test
@@ -54,7 +50,7 @@ public class BitKonanAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitKonanOrderBook orderBook = mapper.readValue(is, BitKonanOrderBook.class);
 
-    OrderBook adaptedOrderBook = BitKonanAdapters.adaptOrderBook(orderBook);
+    OrderBook adaptedOrderBook = BitKonanAdapters.adaptOrderBook(orderBook, CurrencyPair.BTC_USD);
 
     List<LimitOrder> asks = adaptedOrderBook.getAsks();
     assertThat(asks.size()).isEqualTo(10);

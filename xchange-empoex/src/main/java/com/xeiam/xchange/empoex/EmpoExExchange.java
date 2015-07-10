@@ -1,5 +1,7 @@
 package com.xeiam.xchange.empoex;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -12,10 +14,7 @@ import com.xeiam.xchange.empoex.service.polling.EmpoExTradeService;
 public class EmpoExExchange extends BaseExchange implements Exchange {
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new EmpoExMarketDataService(this);
     this.pollingAccountService = new EmpoExAccountService(this);
     this.pollingTradeService = new EmpoExTradeService(this);

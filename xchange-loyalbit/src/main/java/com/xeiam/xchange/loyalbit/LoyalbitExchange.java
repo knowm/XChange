@@ -1,5 +1,7 @@
 package com.xeiam.xchange.loyalbit;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -18,9 +20,7 @@ public class LoyalbitExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new LoyalbitMarketDataService(this);
     this.pollingTradeService = new LoyalbitTradeService(this);
     this.pollingAccountService = new LoyalbitAccountService(this);
@@ -40,5 +40,4 @@ public class LoyalbitExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return nonceFactory;
   }
-
 }

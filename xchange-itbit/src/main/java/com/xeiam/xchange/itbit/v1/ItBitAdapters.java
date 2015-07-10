@@ -171,7 +171,7 @@ public final class ItBitAdapters {
     BigDecimal low = itBitTicker.getLowToday();
     BigDecimal last = itBitTicker.getLastPrice();
     BigDecimal volume = itBitTicker.getVolume24h();
-    Date timestamp = parseDate(itBitTicker.getTimestamp());
+    Date timestamp = itBitTicker.getTimestamp() != null ? parseDate(itBitTicker.getTimestamp()) : null;
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();

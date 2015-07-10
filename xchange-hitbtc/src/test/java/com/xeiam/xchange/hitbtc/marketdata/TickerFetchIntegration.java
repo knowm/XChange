@@ -20,6 +20,7 @@ public class TickerFetchIntegration {
   public void tickerFetchTest() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(HitbtcExchange.class.getName());
+    exchange.remoteInit();
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
     System.out.println(ticker.toString());

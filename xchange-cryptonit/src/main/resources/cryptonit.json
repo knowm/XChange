@@ -1,6 +1,11 @@
 {
-   "currency_pairs":[
-      "BTC/USD",
-      "LTC/USD"
-   ]
+  "currencyPair": {
+    "BTC/USD": {
+      "priceScale": 8
+    },
+    "LTC/USD": {
+      "priceScale": 8
+    }
+  },
+  "currency": {}
 }

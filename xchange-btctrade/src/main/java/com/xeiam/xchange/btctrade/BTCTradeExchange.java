@@ -1,5 +1,7 @@
 package com.xeiam.xchange.btctrade;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -15,10 +17,7 @@ public class BTCTradeExchange extends BaseExchange implements Exchange {
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentNanosecondTimeIncrementalNonceFactory();
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
-
+  protected void initServices() {
     this.pollingMarketDataService = new BTCTradeMarketDataService(this);
     if (exchangeSpecification.getApiKey() != null) {
       this.pollingAccountService = new BTCTradeAccountService(this);

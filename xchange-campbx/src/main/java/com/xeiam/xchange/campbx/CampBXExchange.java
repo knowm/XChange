@@ -1,5 +1,7 @@
 package com.xeiam.xchange.campbx;
 
+import java.io.InputStream;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
@@ -42,9 +44,7 @@ public class CampBXExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-
-    super.applySpecification(exchangeSpecification);
+  protected void initServices() {
     this.pollingMarketDataService = new CampBXMarketDataService(this);
     this.pollingTradeService = new CampBXTradeService(this);
     this.pollingAccountService = new CampBXAccountService(this);

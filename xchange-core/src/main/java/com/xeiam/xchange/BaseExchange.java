@@ -2,27 +2,29 @@ package com.xeiam.xchange;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.dto.MetaData;
+import com.xeiam.xchange.dto.meta.ExchangeMetaData;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class BaseExchange implements Exchange {
 
-  private final Logger logger = LoggerFactory.getLogger(BaseExchange.class);
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   protected ExchangeSpecification exchangeSpecification;
-  protected MetaData metaData;
+  protected ExchangeMetaData metaData;
 
   protected PollingMarketDataService pollingMarketDataService;
   protected PollingTradeService pollingTradeService;
@@ -71,41 +73,65 @@ public abstract class BaseExchange implements Exchange {
 
     if (this.exchangeSpecification.getMetaDataJsonFileOverride() != null) {// load the metadata from the file system
 
+      InputStream is = null;
       try {
-        InputStream is = new FileInputStream(this.exchangeSpecification.getMetaDataJsonFileOverride());
-        // Use Jackson to parse it
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-          metaData = mapper.readValue(is, MetaData.class);
-          logger.debug(metaData.toString());
-        } catch (Exception e) {
-          logger.warn("An exception occured while loading the metadata file from the classpath. This may lead to unexpected results.", e);
-        }
-
+        is = new FileInputStream(this.exchangeSpecification.getMetaDataJsonFileOverride());
+        loadMetaData(is);
       } catch (FileNotFoundException e) {
-        logger.warn("An exception occured while loading the metadata file from the file system. This may lead to unexpected results.", e);
-
+        logger.warn(
+            "An exception occured while loading the metadata file from the classpath. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
+            e);
+      } finally {
+        IOUtils.closeQuietly(is);
       }
 
     } else if (this.exchangeSpecification.getExchangeName() != null) { // load the metadata from the classpath
 
-      InputStream is = BaseExchangeService.class.getClassLoader().getResourceAsStream(getMetaDataFileName(exchangeSpecification) + ".json");
-
-      // Use Jackson to parse it
-      ObjectMapper mapper = new ObjectMapper();
-
+      InputStream is = null;
       try {
-        metaData = mapper.readValue(is, MetaData.class);
-        logger.debug(metaData.toString());
-      } catch (Exception e) {
-        logger.warn("An exception occured while loading the metadata file from the classpath. This may lead to unexpected results.", e);
+        is = BaseExchangeService.class.getClassLoader().getResourceAsStream(getMetaDataFileName(exchangeSpecification) + ".json");
+        loadMetaData(is);
+      } finally {
+        IOUtils.closeQuietly(is);
       }
+
     } else {
       logger
           .warn("No \"exchange name\" found in the ExchangeSpecification. The name is used to load the meta data file from the classpath and may lead to unexpected results.");
     }
 
+    initServices();
+  }
+
+  protected void initServices() {
+  }
+
+  public void remoteInit() throws IOException, ExchangeException {
+    logger.debug("No remote initialization for {}", exchangeSpecification.getExchangeName());
+  }
+
+  protected void loadMetaData(InputStream is) {
+    loadExchangeMetaData(is);
+  }
+
+  protected <T> T loadMetaData(InputStream is, Class<T> type) {
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+
+    try {
+      T result = mapper.readValue(is, type);
+      logger.debug(result.toString());
+      return result;
+    } catch (Exception e) {
+      logger.warn(
+          "An exception occured while loading the metadata file from the file system. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
+          e);
+      return null;
+    }
+  }
+
+  protected void loadExchangeMetaData(InputStream is) {
+    metaData = loadMetaData(is, ExchangeMetaData.class);
   }
 
   public String getMetaDataFileName(ExchangeSpecification exchangeSpecification) {
@@ -120,7 +146,7 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public MetaData getMetaData() {
+  public ExchangeMetaData getMetaData() {
     return metaData;
   }
 

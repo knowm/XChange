@@ -1,0 +1,15 @@
+{
+  "currencyPair": {
+    "BTC/USD": {
+      "priceScale": 2
+    }
+  },
+  "currency": {
+    "BTC": {
+      "scale": 8
+    },
+    "USD": {
+      "scale": 2
+    }
+  }
+}

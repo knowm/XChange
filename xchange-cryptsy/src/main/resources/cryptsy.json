@@ -1,6 +1,21 @@
 {
-   "currency_pairs":[
-      "BTC/USD",
-      "DOGE/USD"
-   ]
+  "currencyPair": {
+    "BTC/USD": {
+      "priceScale": 8
+    },
+    "DOGE/USD": {
+      "priceScale": 8
+    }
+  },
+  "currency": {
+    "BTC": {
+      "scale": 8
+    },
+    "DOGE": {
+      "scale": 8
+    },
+    "USD": {
+      "scale": 8
+    }
+  }
 }
