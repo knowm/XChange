@@ -10,5 +10,5 @@
       "calls": 2
     }
   ],
-  "sharedRateLimits": true
+  "shareRateLimits": true
 }
