@@ -49,7 +49,9 @@ import com.xeiam.xchange.dto.trade.Wallet;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -108,13 +110,17 @@ public class CoinmateAdapters {
 
   public static AccountInfo adaptAccountInfo(CoinmateBalance coinmateBalance) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    Map<String, Wallet> wallets = new HashMap<String, Wallet>();
     CoinmateBalanceData funds = coinmateBalance.getData();
 
     for (String lcCurrency : funds.keySet()) {
       String currency = lcCurrency.toUpperCase();
-
-      wallets.add(new Wallet(currency, funds.get(lcCurrency).getBalance()));
+      Wallet wallet = new Wallet(currency,
+              funds.get(lcCurrency).getBalance(),
+              funds.get(lcCurrency).getAvailable(),
+              funds.get(lcCurrency).getReserved());
+      
+      wallets.put(currency, wallet);
     }
     return new AccountInfo(null, wallets);
   }
