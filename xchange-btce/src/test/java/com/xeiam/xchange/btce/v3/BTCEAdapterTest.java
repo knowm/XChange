@@ -11,8 +11,6 @@ import java.util.List;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v3.BTCEAdapters;
-import com.xeiam.xchange.btce.v3.BTCEUtils;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepth;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthJSONTest;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
@@ -46,7 +44,7 @@ public class BTCEAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCEDepthWrapper bTCEDepthWrapper = mapper.readValue(is, BTCEDepthWrapper.class);
 
-    BTCEDepth depthRaw = bTCEDepthWrapper.getDepth(BTCEUtils.getPair(CurrencyPair.BTC_USD));
+    BTCEDepth depthRaw = bTCEDepthWrapper.getDepth(BTCEAdapters.getPair(CurrencyPair.BTC_USD));
     List<LimitOrder> asks = BTCEAdapters.adaptOrders(depthRaw.getAsks(), CurrencyPair.BTC_USD, "ask", "");
 
     // verify all fields filled
@@ -76,7 +74,7 @@ public class BTCEAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCETradesWrapper bTCETradesWrapper = mapper.readValue(is, BTCETradesWrapper.class);
 
-    Trades trades = BTCEAdapters.adaptTrades(bTCETradesWrapper.getTrades(com.xeiam.xchange.btce.v3.BTCEUtils.getPair(CurrencyPair.BTC_USD)),
+    Trades trades = BTCEAdapters.adaptTrades(bTCETradesWrapper.getTrades(BTCEAdapters.getPair(CurrencyPair.BTC_USD)),
         CurrencyPair.BTC_USD);
     // System.out.println(trades.getTrades().size());
     assertThat(trades.getTrades().size() == 150);
@@ -103,8 +101,8 @@ public class BTCEAdapterTest {
     BTCETickerWrapper bTCETickerWrapper = mapper.readValue(is, BTCETickerWrapper.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(bTCETickerWrapper.getTicker(BTCEUtils.getPair(CurrencyPair.BTC_USD)).getLast()).isEqualTo(new BigDecimal("757"));
-    Ticker ticker = BTCEAdapters.adaptTicker(bTCETickerWrapper.getTicker(BTCEUtils.getPair(CurrencyPair.BTC_USD)), CurrencyPair.BTC_USD);
+    assertThat(bTCETickerWrapper.getTicker(BTCEAdapters.getPair(CurrencyPair.BTC_USD)).getLast()).isEqualTo(new BigDecimal("757"));
+    Ticker ticker = BTCEAdapters.adaptTicker(bTCETickerWrapper.getTicker(BTCEAdapters.getPair(CurrencyPair.BTC_USD)), CurrencyPair.BTC_USD);
 
     assertThat(ticker.getLast().toString()).isEqualTo("757");
     assertThat(ticker.getLow().toString()).isEqualTo("655");

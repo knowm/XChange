@@ -17,6 +17,8 @@ import com.xeiam.xchange.utils.nonce.TimestampIncrementingNonceFactory;
 public class BTCEExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
+  private BTCEMetaData btceMetaData;
+  private BTCEExchangeInfo btceExchangeInfo;
 
   @Override
   protected void initServices() {
@@ -44,8 +46,6 @@ public class BTCEExchange extends BaseExchange implements Exchange {
     return nonceFactory;
   }
 
-  private BTCEMetaData btceMetaData;
-
   @Override
   protected void loadMetaData(InputStream is) {
     btceMetaData = loadMetaData(is, BTCEMetaData.class);
@@ -55,8 +55,8 @@ public class BTCEExchange extends BaseExchange implements Exchange {
   public void remoteInit() {
     try {
       BTCEMarketDataService marketDataService = (BTCEMarketDataService) pollingMarketDataService;
-      BTCEExchangeInfo btceInfo = marketDataService.getBTCEInfo();
-      metaData = BTCEAdapters.toMetaData(btceInfo, btceMetaData);
+      btceExchangeInfo = marketDataService.getBTCEInfo();
+      metaData = BTCEAdapters.toMetaData(btceExchangeInfo, btceMetaData);
     } catch (Exception e) {
       logger.warn("An exception occurred while loading the metadata file from the file. This may lead to unexpected results.", e);
     }
@@ -64,5 +64,9 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
   public BTCEMetaData getBtceMetaData() {
     return btceMetaData;
+  }
+
+  public BTCEExchangeInfo getBtceExchangeInfo() {
+    return btceExchangeInfo;
   }
 }
