@@ -6,6 +6,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.anx.v2.ANXExchange;
+import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 
 public class ANXMetaDataDemo {
 
@@ -13,7 +14,10 @@ public class ANXMetaDataDemo {
 
     // Use the factory to get ANX exchange API using default settings
     Exchange anx = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
-    System.out.println(anx.getMetaData().toString());
+    ExchangeMetaData metaData = anx.getMetaData();
+    System.out.println(metaData.toString());
+    System.out.println("private poll delay ms: " + ExchangeMetaData.getPollDelayMillis(metaData.getPrivateRateLimits()));
+    System.out.println("public  poll delay ms: " + ExchangeMetaData.getPollDelayMillis(metaData.getPublicRateLimits()));
 
     ExchangeSpecification exSpec = new ExchangeSpecification(ANXExchange.class);
     exSpec.setMetaDataJsonFileOverride("/tmp/anxpro.json");
