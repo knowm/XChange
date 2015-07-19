@@ -11,12 +11,11 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.ripple.RippleExchange;
 import com.xeiam.xchange.ripple.dto.RippleAmount;
-import com.xeiam.xchange.ripple.dto.account.RippleAccount;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrdersBody;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderCancelResponse;
-import com.xeiam.xchange.ripple.dto.trade.RippleOrderEntryResponse;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderDetails;
+import com.xeiam.xchange.ripple.dto.trade.RippleOrderEntryResponse;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderResponseBody;
 
 public class RippleOrderTest {
@@ -24,7 +23,7 @@ public class RippleOrderTest {
   @Test
   public void orderEntryResponseUnmarshalTest() throws IOException {
     // Read in the JSON from the example resources
-    final InputStream is = RippleAccount.class.getResourceAsStream("/trade/example-order-entry-response.json");
+    final InputStream is = getClass().getResourceAsStream("/trade/example-order-entry-response.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleOrderEntryResponse response = mapper.readValue(is, RippleOrderEntryResponse.class);
 
@@ -52,7 +51,7 @@ public class RippleOrderTest {
   @Test
   public void orderCancelResponseUnmarshalTest() throws IOException {
     // Read in the JSON from the example resources
-    final InputStream is = RippleAccount.class.getResourceAsStream("/trade/example-order-cancel-response.json");
+    final InputStream is = getClass().getResourceAsStream("/trade/example-order-cancel-response.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleOrderCancelResponse response = mapper.readValue(is, RippleOrderCancelResponse.class);
 
@@ -71,7 +70,7 @@ public class RippleOrderTest {
   @Test
   public void accountOrdersUnmarshalTest() throws IOException {
     // Read in the JSON from the example resources
-    final InputStream is = RippleAccount.class.getResourceAsStream("/trade/example-account-orders.json");
+    final InputStream is = getClass().getResourceAsStream("/trade/example-account-orders.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleAccountOrders response = mapper.readValue(is, RippleAccountOrders.class);
 
@@ -110,7 +109,7 @@ public class RippleOrderTest {
   @Test
   public void orderDetailsUnmarshalTest() throws IOException, ParseException {
     // Read in the JSON from the example resources
-    final InputStream is = RippleAccount.class.getResourceAsStream("/trade/example-order-details.json");
+    final InputStream is = getClass().getResourceAsStream("/trade/example-order-details.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleOrderDetails response = mapper.readValue(is, RippleOrderDetails.class);
 

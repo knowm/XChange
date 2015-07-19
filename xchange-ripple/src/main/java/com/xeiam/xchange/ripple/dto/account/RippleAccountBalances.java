@@ -6,7 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.ripple.dto.RippleCommon;
 
-public final class RippleAccount extends RippleCommon {
+public final class RippleAccountBalances extends RippleCommon {
 
   @JsonProperty("balances")
   private List<RippleBalance> balances = new ArrayList<RippleBalance>();
