@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
-import com.xeiam.xchange.btce.v3.BTCEUtils;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
@@ -32,11 +31,11 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
+    String pairs = BTCEAdapters.getPair(currencyPair);
     BTCETickerWrapper btceTickerWrapper = getBTCETicker(pairs);
 
     // Adapt to XChange DTOs
-    return BTCEAdapters.adaptTicker(btceTickerWrapper.getTicker(BTCEUtils.getPair(currencyPair)), currencyPair);
+    return BTCEAdapters.adaptTicker(btceTickerWrapper.getTicker(BTCEAdapters.getPair(currencyPair)), currencyPair);
   }
 
   /**
@@ -51,7 +50,7 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
+    String pairs = BTCEAdapters.getPair(currencyPair);
     BTCEDepthWrapper btceDepthWrapper = null;
 
     if (args.length > 0) {
@@ -66,8 +65,8 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
     }
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(BTCEUtils.getPair(currencyPair)).getAsks(), currencyPair, "ask", "");
-    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(BTCEUtils.getPair(currencyPair)).getBids(), currencyPair, "bid", "");
+    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(BTCEAdapters.getPair(currencyPair)).getAsks(), currencyPair, "ask", "");
+    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(BTCEAdapters.getPair(currencyPair)).getBids(), currencyPair, "bid", "");
 
     return new OrderBook(null, asks, bids);
   }
@@ -85,7 +84,7 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    String pairs = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair);
+    String pairs = BTCEAdapters.getPair(currencyPair);
     int numberOfItems = -1;
     try {
       numberOfItems = (Integer) args[0];
@@ -95,9 +94,9 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
     BTCETrade[] bTCETrades = null;
 
     if (numberOfItems == -1) {
-      bTCETrades = getBTCETrades(pairs, FULL_SIZE).getTrades(com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair));
+      bTCETrades = getBTCETrades(pairs, FULL_SIZE).getTrades(BTCEAdapters.getPair(currencyPair));
     } else {
-      bTCETrades = getBTCETrades(pairs, numberOfItems).getTrades(com.xeiam.xchange.btce.v3.BTCEUtils.getPair(currencyPair));
+      bTCETrades = getBTCETrades(pairs, numberOfItems).getTrades(BTCEAdapters.getPair(currencyPair));
     }
 
     return BTCEAdapters.adaptTrades(bTCETrades, currencyPair);

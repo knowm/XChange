@@ -10,7 +10,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 /**
  * Data object representing an order
  */
-public class Order {
+public abstract class Order {
 
   public enum OrderType {
 
@@ -169,7 +169,7 @@ public class Order {
     return true;
   }
 
-  public static class Builder {
+  public abstract static class Builder {
 
     protected OrderType orderType;
     protected BigDecimal tradableAmount;
@@ -179,14 +179,9 @@ public class Order {
 
     protected final Set<IOrderFlags> flags = new HashSet<IOrderFlags>();
 
-    public Builder(OrderType orderType, CurrencyPair currencyPair) {
+    protected Builder(OrderType orderType, CurrencyPair currencyPair) {
       this.orderType = orderType;
       this.currencyPair = currencyPair;
-    }
-
-    public static Builder from(Order order) {
-      return new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount()).timestamp(order.getTimestamp())
-          .id(order.getId()).flags(order.getOrderFlags());
     }
 
     public Builder orderType(OrderType orderType) {
@@ -222,12 +217,6 @@ public class Order {
     public Builder flag(IOrderFlags flag) {
       this.flags.add(flag);
       return this;
-    }
-
-    public Order build() {
-      Order order = new Order(orderType, tradableAmount, currencyPair, id, timestamp);
-      order.setOrderFlags(flags);
-      return order;
     }
   }
 }
