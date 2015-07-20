@@ -28,5 +28,5 @@
       "timeUnit": "days"
     }
   ],
-  "sharedRateLimits": true
+  "shareRateLimits": true
 }

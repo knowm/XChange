@@ -246,4 +246,14 @@ public final class BTCEAdapters {
       return value.setScale(priceScale, RoundingMode.CEILING);
     }
   }
+
+  public static String getPair(CurrencyPair currencyPair) {
+    return currencyPair.baseSymbol.toLowerCase() + "_" + currencyPair.counterSymbol.toLowerCase();
+  }
+
+  public static LimitOrder createLimitOrder(MarketOrder marketOrder, BTCEExchangeInfo btceExchangeInfo) {
+    BTCEPairInfo btcePairInfo = btceExchangeInfo.getPairs().get(getPair(marketOrder.getCurrencyPair()));
+    BigDecimal limitPrice = marketOrder.getType() == OrderType.BID ? btcePairInfo.getMaxPrice() : btcePairInfo.getMinPrice();
+    return LimitOrder.Builder.from(marketOrder).limitPrice(limitPrice).build();
+  }
 }

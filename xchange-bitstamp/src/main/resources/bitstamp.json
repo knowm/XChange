@@ -18,5 +18,5 @@
       "timeUnit": "minutes"
     }
   ],
-  "sharedRateLimits": true
+  "shareRateLimits": true
 }
