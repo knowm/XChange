@@ -47,10 +47,10 @@ public class BalanceJSONTest {
     CoinmateBalance coinmateBalance = mapper.readValue(is, CoinmateBalance.class);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(coinmateBalance.getData().get("USD").getCurrency()).isEqualTo("USD");
-    assertThat(coinmateBalance.getData().get("USD").getBalance()).isEqualTo(new BigDecimal("20925.48295"));
-    assertThat(coinmateBalance.getData().get("USD").getReserved()).isEqualTo(new BigDecimal("9.009"));
-    assertThat(coinmateBalance.getData().get("USD").getAvailable()).isEqualTo(new BigDecimal("20916.47395"));
+    assertThat(coinmateBalance.getData().get("EUR").getCurrency()).isEqualTo("EUR");
+    assertThat(coinmateBalance.getData().get("EUR").getBalance()).isEqualTo(new BigDecimal("20925.48295"));
+    assertThat(coinmateBalance.getData().get("EUR").getReserved()).isEqualTo(new BigDecimal("9.009"));
+    assertThat(coinmateBalance.getData().get("EUR").getAvailable()).isEqualTo(new BigDecimal("20916.47395"));
 
     assertThat(coinmateBalance.getData().get("BTC").getCurrency()).isEqualTo("BTC");
     assertThat(coinmateBalance.getData().get("BTC").getBalance()).isEqualTo(new BigDecimal("9934.56163999"));

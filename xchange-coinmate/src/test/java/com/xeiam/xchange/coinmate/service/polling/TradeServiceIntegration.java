@@ -70,11 +70,13 @@ public class TradeServiceIntegration {
     assertNotNull(exchange);
     PollingTradeService service = exchange.getPollingTradeService();
     assertNotNull(service);
-    service.placeMarketOrder(new MarketOrder(Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD));
+    String id = service.placeMarketOrder(new MarketOrder(Order.OrderType.BID, new BigDecimal("0.1"), CurrencyPair.BTC_EUR));
+    System.out.println("Market buy order id = " + id);
   }
   */
   
-  /*
+  
+  
   @Test
   public void marketSellTest() throws Exception {
     Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
@@ -84,9 +86,9 @@ public class TradeServiceIntegration {
     assertNotNull(exchange);
     PollingTradeService service = exchange.getPollingTradeService();
     assertNotNull(service);
-    service.placeMarketOrder(new MarketOrder(Order.OrderType.ASK, new BigDecimal("0.001"), CurrencyPair.BTC_USD));
+    service.placeMarketOrder(new MarketOrder(Order.OrderType.ASK, new BigDecimal("0.001"), CurrencyPair.BTC_EUR));
   }
-  */
+  
   
   /*
   @Test
@@ -98,7 +100,7 @@ public class TradeServiceIntegration {
     assertNotNull(exchange);
     PollingTradeService service = exchange.getPollingTradeService();
     assertNotNull(service);
-    String id = service.placeLimitOrder(new LimitOrder(Order.OrderType.BID, new BigDecimal("1.0"), CurrencyPair.BTC_USD, null, null, new BigDecimal("1.0")));
+    String id = service.placeLimitOrder(new LimitOrder(Order.OrderType.BID, new BigDecimal("1.0"), CurrencyPair.BTC_EUR, null, null, new BigDecimal("1.0")));
     System.out.println("Limit buy order id = " + id);
   }
   */
@@ -114,7 +116,7 @@ public class TradeServiceIntegration {
     assertNotNull(exchange);
     PollingTradeService service = exchange.getPollingTradeService();
     assertNotNull(service);
-    String id = service.placeLimitOrder(new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.0"), CurrencyPair.BTC_USD, null, null, new BigDecimal("10000.0")));
+    String id = service.placeLimitOrder(new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.0"), CurrencyPair.BTC_EUR, null, null, new BigDecimal("10000.0")));
     System.out.println("Limit sell order id = " + id);
   }
   */

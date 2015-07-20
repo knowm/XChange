@@ -56,8 +56,8 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Pol
 
     @Override
     public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        // BTC_USD by default
-        String currencyPair = CoinmateUtils.getPair(CurrencyPair.BTC_USD);
+        // BTC_EUR by default
+        String currencyPair = CoinmateUtils.getPair(CoinmateAdapters.COINMATE_DEFAULT_PAIR);
         
         CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPair);
         return CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders);

@@ -37,8 +37,8 @@ public class CoinmateUtils {
   }
 
   public static CurrencyPair getPair(String currencyPair) {
-    if ("BTC_USD".equals(currencyPair)) {
-      return CurrencyPair.BTC_USD;
+    if ("BTC_EUR".equals(currencyPair)) {
+      return CurrencyPair.BTC_EUR;
     } else {
       return null;
     }

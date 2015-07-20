@@ -49,7 +49,7 @@ public class CoinmateAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CoinmateTicker bitstampTicker = mapper.readValue(is, CoinmateTicker.class);
 
-    Ticker ticker = CoinmateAdapters.adaptTicker(bitstampTicker, CurrencyPair.BTC_USD);
+    Ticker ticker = CoinmateAdapters.adaptTicker(bitstampTicker, CoinmateAdapters.COINMATE_DEFAULT_PAIR);
 
     assertThat(ticker.getLast().toString()).isEqualTo("254.08");
     assertThat(ticker.getBid().toString()).isEqualTo("252.93");

@@ -33,9 +33,9 @@ public class AccountInfoFetchIntegration {
     System.out.println("Balance BTC: " + info.getWallet("BTC").getBalance());
     System.out.println("Available BTC: " + info.getWallet("BTC").getAvailable());
     System.out.println("Reserved BTC: " + info.getWallet("BTC").getFrozen());
-    System.out.println("Balance USD: " + info.getWallet("USD").getBalance());
-    System.out.println("Available USD: " + info.getWallet("USD").getAvailable());
-    System.out.println("Reserved USD: " + info.getWallet("USD").getFrozen());
+    System.out.println("Balance EUR: " + info.getWallet("EUR").getBalance());
+    System.out.println("Available EUR: " + info.getWallet("EUR").getAvailable());
+    System.out.println("Reserved EUR: " + info.getWallet("EUR").getFrozen());
   }
   
   @Test
