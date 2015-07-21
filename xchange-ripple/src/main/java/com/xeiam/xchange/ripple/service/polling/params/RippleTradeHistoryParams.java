@@ -36,7 +36,6 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
     setPageLength(DEFAULT_PAGE_LENGTH);
   }
 
-  @Override
   public void setAccount(final String value) {
     account = value;
   }
@@ -46,7 +45,6 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
     return account;
   }
 
-  @Override
   public void setHashLimit(final String value) {
     hashLimit = value;
   }
@@ -71,7 +69,6 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
     return apiCallCount;
   }
 
-  @Override
   public void setApiCallCountLimit(final int value) {
     apiCallCountLimit = value;
   }
@@ -96,7 +93,6 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
     return tradeCount;
   }
 
-  @Override
   public void setTradeCountLimit(final int value) {
     tradeCountLimit = value;
   }
@@ -106,7 +102,6 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
     return tradeCountLimit;
   }
 
-  @Override
   public void addPreferredBaseCurrency(final String value) {
     preferredBaseCurrency.add(value);
   }
@@ -116,7 +111,6 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
     return preferredBaseCurrency;
   }
 
-  @Override
   public void addPreferredCounterCurrency(final String value) {
     preferredCounterCurrency.add(value);
   }
