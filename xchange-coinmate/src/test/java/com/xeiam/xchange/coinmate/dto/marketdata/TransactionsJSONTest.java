@@ -50,6 +50,6 @@ public class TransactionsJSONTest {
     assertThat(coinmateTransactions.getData().get(0).getTransactionId()).isEqualTo("33737");
     assertThat(coinmateTransactions.getData().get(0).getPrice()).isEqualTo(new BigDecimal("256.51"));
     assertThat(coinmateTransactions.getData().get(0).getAmount()).isEqualTo(new BigDecimal("0.20128269"));
-    assertThat(coinmateTransactions.getData().get(0).getCurrencyPair()).isEqualTo("BTC_USD");
+    assertThat(coinmateTransactions.getData().get(0).getCurrencyPair()).isEqualTo("BTC_EUR");
   }
 }

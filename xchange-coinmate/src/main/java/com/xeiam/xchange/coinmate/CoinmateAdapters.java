@@ -59,6 +59,8 @@ import java.util.Map;
  */
 public class CoinmateAdapters {
 
+  public static final CurrencyPair COINMATE_DEFAULT_PAIR = CurrencyPair.BTC_EUR;  
+    
   /**
    * Adapts a CoinmateTicker to a Ticker Object
    *
@@ -172,8 +174,8 @@ public class CoinmateAdapters {
         throw new CoinmateException("Unknown order type");
       }
 
-      // the api does not provide currency for open orders, so just assume the default BTC_USD pair
-      CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+      // the api does not provide currency for open orders, so just assume the default pair
+      CurrencyPair currencyPair = COINMATE_DEFAULT_PAIR;
 
       LimitOrder limitOrder = new LimitOrder(
           orderType,

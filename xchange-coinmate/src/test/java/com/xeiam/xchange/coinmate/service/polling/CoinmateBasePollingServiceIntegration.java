@@ -45,7 +45,7 @@ public class CoinmateBasePollingServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
+    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "EUR"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
@@ -55,7 +55,7 @@ public class CoinmateBasePollingServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_EUR);
     System.out.println(orderBook.toString());
     assertThat(orderBook).isNotNull();
   }
@@ -65,7 +65,7 @@ public class CoinmateBasePollingServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
     System.out.println(trades.getTrades().toString());
     assertThat(trades).isNotNull();
   }
