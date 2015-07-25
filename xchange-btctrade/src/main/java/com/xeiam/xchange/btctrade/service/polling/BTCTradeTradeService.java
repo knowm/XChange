@@ -1,6 +1,7 @@
 package com.xeiam.xchange.btctrade.service.polling;
 
 import java.io.IOException;
+import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btctrade.BTCTradeAdapters;
@@ -13,9 +14,11 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import com.xeiam.xchange.utils.DateUtils;
 
 public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements PollingTradeService {
 
@@ -64,7 +67,19 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
   public UserTrades getTradeHistory(Object... arguments) throws IOException {
 
     long since = arguments.length > 0 ? toLong(arguments[0]) : 0L;
+    return getTradeHistory(new DefaultTradeHistoryParamsTimeSpan(DateUtils.fromUnixTime(since)));
+  }
 
+  /**
+   * Optional parameters: start time (default 0 = all) of {@link TradeHistoryParamsTimeSpan}
+   * <p/>
+   * Required parameters: none
+   * <p/>
+   * Note this method makes 1+N remote calls, where N is the number of returned trades
+   */
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    long since = DateUtils.toUnixTime(((TradeHistoryParamsTimeSpan) params).getStartTime());
     BTCTradeOrder[] orders = getBTCTradeOrders(since, "all");
     BTCTradeOrder[] orderDetails = new BTCTradeOrder[orders.length];
 
@@ -75,16 +90,12 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
     return BTCTradeAdapters.adaptTrades(orders, orderDetails);
   }
 
+  /**
+   * @return an instance of {@link TradeHistoryParamsTimeSpan}
+   */
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws NotYetImplementedForExchangeException {
-
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
-
-    throw new NotYetImplementedForExchangeException();
+  public TradeHistoryParams createTradeHistoryParams() {
+    return new DefaultTradeHistoryParamsTimeSpan(new Date(0));
   }
 
 }

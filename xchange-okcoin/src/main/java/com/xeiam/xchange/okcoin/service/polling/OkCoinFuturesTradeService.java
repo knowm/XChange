@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +18,6 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.okcoin.FuturesContract;
 import com.xeiam.xchange.okcoin.OkCoinAdapters;
 import com.xeiam.xchange.okcoin.OkCoinUtils;
@@ -29,19 +30,19 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
   private final Logger log = LoggerFactory.getLogger(OkCoinFuturesTradeService.class);
-  
+
   private final int leverRate;
   private final FuturesContract futuresContract;
 
   /**
    * Constructor
-   * 
+   *
    * @param exchange
    */
   public OkCoinFuturesTradeService(Exchange exchange, FuturesContract futuresContract, int leverRate) {
 
     super(exchange);
-    
+
     this.leverRate = leverRate;
     this.futuresContract = futuresContract;
   }
@@ -76,7 +77,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
         marketOrder.getTradableAmount().toPlainString(), futuresContract, 1, leverRate).getOrderId();
     return String.valueOf(orderId);
   }
-  
+
   /** Liquidate long or short contract (depending on market order order type) using a market order */
   public String liquidateMarketOrder(MarketOrder marketOrder) throws IOException {
 
@@ -93,7 +94,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
         limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
     return String.valueOf(orderId);
   }
-  
+
   /** Liquidate long or short contract using a limit order */
   public String liquidateLimitOrder(LimitOrder limitOrder) throws IOException {
 
@@ -137,20 +138,34 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   @Override
   public UserTrades getTradeHistory(Object... arguments) throws IOException {
+    OkCoinFuturesTradeHistoryParams params = createTradeHistoryParams();
 
-    CurrencyPair currencyPair = arguments.length > 0 ? (CurrencyPair) arguments[0] : CurrencyPair.BTC_USD;
-    FuturesContract reqFuturesContract = arguments.length > 0 ? (FuturesContract) arguments[1] : futuresContract;
+    if (arguments.length >= 0)
+      params.setCurrencyPair((CurrencyPair) arguments[0]);
 
-    Integer page = arguments.length > 1 ? (Integer) arguments[2] : 0;
+    if (arguments.length > 0)
+      params.setFuturesContract((FuturesContract) arguments[1]);
 
-    OkCoinFuturesOrderResult orderHistory = getFuturesOrder(1, OkCoinAdapters.adaptSymbol(currencyPair), page.toString(), "50", reqFuturesContract);
-    return OkCoinAdapters.adaptTradesFutures(orderHistory);
+    if (arguments.length > 1)
+      params.setPageNumber((Integer) arguments[2]);
+
+    return getTradeHistory(params);
   }
 
+  /**
+   * Parameters: see {@link OkCoinFuturesTradeService.OkCoinFuturesTradeHistoryParams}
+   */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    OkCoinFuturesTradeHistoryParams myParams = (OkCoinFuturesTradeHistoryParams) params;
+    long orderId = myParams.getOrderId() != null ? Long.valueOf(myParams.getOrderId()) : -1;
+    CurrencyPair currencyPair = myParams.getCurrencyPair();
+    String page = myParams.getPageNumber().toString();
+    String pageLength = myParams.getPageLength().toString();
+    FuturesContract reqFuturesContract = myParams.futuresContract;
 
-    throw new NotYetImplementedForExchangeException();
+    OkCoinFuturesOrderResult orderHistory = getFuturesOrder(orderId, OkCoinAdapters.adaptSymbol(currencyPair), page, pageLength, reqFuturesContract);
+    return OkCoinAdapters.adaptTradesFutures(orderHistory);
   }
 
   public List<FuturesContract> getExchangeContracts() {
@@ -158,9 +173,64 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-
-    throw new NotYetImplementedForExchangeException();
+  public OkCoinFuturesTradeHistoryParams createTradeHistoryParams() {
+    return new OkCoinFuturesTradeHistoryParams(50, 0, CurrencyPair.BTC_USD, futuresContract, null);
   }
 
+  // TODO if Futures ever get a generic interface, move this interface to xchange-core
+  public interface TradeHistoryParamFuturesContract extends TradeHistoryParams {
+    FuturesContract getFuturesContract();
+
+    void setFuturesContract(FuturesContract futuresContract);
+
+    String getOrderId();
+
+    void setOrderId(String orderId);
+  }
+
+  final public static class OkCoinFuturesTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair, TradeHistoryParamFuturesContract {
+    private CurrencyPair currencyPair;
+    private FuturesContract futuresContract;
+    private String orderId;
+
+    public OkCoinFuturesTradeHistoryParams() {
+    }
+
+    public OkCoinFuturesTradeHistoryParams(Integer pageLength, Integer pageNumber, CurrencyPair currencyPair, FuturesContract futuresContract, String orderId) {
+      super(pageLength, pageNumber);
+      this.currencyPair = currencyPair;
+      this.futuresContract = futuresContract;
+      this.orderId = orderId;
+    }
+
+    @Override
+    public void setCurrencyPair(CurrencyPair pair) {
+      this.currencyPair = pair;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
+    }
+
+    @Override
+    public FuturesContract getFuturesContract() {
+      return futuresContract;
+    }
+
+    @Override
+    public void setFuturesContract(FuturesContract futuresContract) {
+      this.futuresContract = futuresContract;
+    }
+
+    @Override
+    public String getOrderId() {
+      return orderId;
+    }
+
+    @Override
+    public void setOrderId(String orderId) {
+      this.orderId = orderId;
+    }
+  }
 }

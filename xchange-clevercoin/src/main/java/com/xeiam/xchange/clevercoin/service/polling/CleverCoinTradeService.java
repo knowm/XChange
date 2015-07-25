@@ -21,9 +21,7 @@ import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.params.*;
 
 /**
  * @author Karsten Nilsen
@@ -91,8 +89,10 @@ public class CleverCoinTradeService extends CleverCoinTradeServiceRaw implements
         numberOfTransactions = ((Number) args[0]).intValue();
       }
     }
-    
-    return CleverCoinAdapters.adaptTradeHistory(getCleverCoinUserTransactions(numberOfTransactions));
+
+    TradeHistoryParamPaging params=createTradeHistoryParams();
+    params.setPageLength(numberOfTransactions);
+    return getTradeHistory(params);
   }
 
   /**
@@ -100,14 +100,13 @@ public class CleverCoinTradeService extends CleverCoinTradeServiceRaw implements
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
-    return CleverCoinAdapters.adaptTradeHistory(getCleverCoinUserTransactions(100));
+    Integer count = ((TradeHistoryParamPaging) params).getPageLength();
+    return CleverCoinAdapters.adaptTradeHistory(getCleverCoinUserTransactions(count));
   }
 
   @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-
-    return new DefaultTradeHistoryParamPaging(1000);
+  public TradeHistoryParamPaging createTradeHistoryParams() {
+    return new DefaultTradeHistoryParamPaging(100);
   }
 
 }
