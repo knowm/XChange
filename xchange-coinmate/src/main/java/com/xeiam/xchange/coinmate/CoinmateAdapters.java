@@ -46,6 +46,8 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -191,4 +193,14 @@ public class CoinmateAdapters {
     return new OpenOrders(ordersList);
   }
 
+  public static String adaptOrder(TradeHistoryParamsSorted.Order order) {
+    switch (order) {
+    case asc:
+      return "ASC";
+    case desc:
+      return "DESC";
+    default:
+      throw new IllegalArgumentException();
+    }
+  }
 }
