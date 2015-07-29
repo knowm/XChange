@@ -1,4 +1,15 @@
 
+## Ripple Fees
+
+There are two types of fee:
+
+* **Transaction fee** is a network charge levied in XRP. This is taken from the account balance for each order or trade transaction as described
+[here](https://wiki.ripple.com/Transaction_Fee). This fee is put into the UserTrade fee fields. 
+ 
+* **Transfer fee** charged by the issuer levied in the currency of traded instrument. Whoever sends an asset pays the fee, the receiver does not 
+incur a charge. Not all issuers will set a fee, so some transfers may to fee free. A description of their transfer fee can be found 
+[here](https://wiki.ripple.com/Transit_Fee). These fees are stored in RippleUserTrade object transfer fee fields. 
+
 ## Ripple REST API Server
 
 Ripple Labs **strongly** advise not to use [https://api.ripple.com/](https://api.ripple.com/) for any requests that require sending a secret key. 
@@ -48,15 +59,13 @@ in the XChange specification, e.g.
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(specification);
 ```
 
-## Limitations
-
-#### Order Entry
+## Order Entry
 
 If the account does not have sufficient balance to fully execute an order, a partial (unfunded) order will be entered into the market as described 
 [here](https://wiki.ripple.com/Unfunded_offers). This detail is not included in the response message so is not possible to immediately identify at  
 the point of order entry. If identification of unfunded orders is important they can be found using an order book poll.    
 
-#### Trade History
+## Trade History
 
 The trade history query relies on querying notifications, and then for every order type querying the corresponding hash. This has the potential to 
 generate a large number of API calls and be slow. A [RippleTradeHistoryParams](src/main/java/com/xeiam/xchange/ripple/service/polling/params/RippleTradeHistoryParams.java)

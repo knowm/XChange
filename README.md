@@ -90,7 +90,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    3.0.1-SNAPSHOT
+    3.1.0-SNAPSHOT
     
 ## Building with Maven
 

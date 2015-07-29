@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.ripple.RippleExchange;
-import com.xeiam.xchange.ripple.dto.account.RippleAccount;
 import com.xeiam.xchange.ripple.dto.trade.RippleNotifications;
 import com.xeiam.xchange.ripple.dto.trade.RippleNotifications.RippleNotification;
 
@@ -19,7 +18,7 @@ public class RippleNotificationTest {
   @Test
   public void orderEntryResponseUnmarshalTest() throws IOException, ParseException {
     // Read in the JSON from the example resources
-    final InputStream is = RippleAccount.class.getResourceAsStream("/trade/example-notifications.json");
+    final InputStream is = getClass().getResourceAsStream("/trade/example-notifications.json");
     final ObjectMapper mapper = new ObjectMapper();
     final RippleNotifications response = mapper.readValue(is, RippleNotifications.class);
 
@@ -39,9 +38,8 @@ public class RippleNotificationTest {
     assertThat(lastNotification.getTransactionUrl()).isEqualTo(
         "api.ripple.com/v1/accounts/rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B/orders/BFFD04119882BF26B68E27090EE44C0074EAAFA92E0248C979511808193522D5");
     assertThat(lastNotification.getPreviousHash()).isEqualTo("F2DCD35FB1D2E9951B56BD773D67345C4955CB41D8A43DB3D2BF5AE9E2F831C6");
-    assertThat(lastNotification.getPreviousNotificationUrl())
-        .isEqualTo(
-            "api.ripple.com/v1/accounts/rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B/notifications/F2DCD35FB1D2E9951B56BD773D67345C4955CB41D8A43DB3D2BF5AE9E2F831C6");
+    assertThat(lastNotification.getPreviousNotificationUrl()).isEqualTo(
+        "api.ripple.com/v1/accounts/rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B/notifications/F2DCD35FB1D2E9951B56BD773D67345C4955CB41D8A43DB3D2BF5AE9E2F831C6");
     assertThat(lastNotification.getNextHash()).isEqualTo("");
     assertThat(lastNotification.getNextNotificationUrl()).isEqualTo("");
   }

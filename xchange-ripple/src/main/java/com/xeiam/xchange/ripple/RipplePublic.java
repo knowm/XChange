@@ -10,11 +10,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.ripple.dto.RippleException;
-import com.xeiam.xchange.ripple.dto.account.RippleAccount;
+import com.xeiam.xchange.ripple.dto.account.RippleAccountBalances;
+import com.xeiam.xchange.ripple.dto.account.RippleAccountSettings;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrderBook;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
 import com.xeiam.xchange.ripple.dto.trade.RippleNotifications;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderDetails;
+import com.xeiam.xchange.ripple.dto.trade.RippleTransactionFee;
 
 /**
  * Returns public information that is stored in the ledger - secret not needed.
@@ -34,11 +36,18 @@ public interface RipplePublic {
       @PathParam("counter") final String counter, @QueryParam("limit") final String limit) throws IOException, RippleException;
 
   /**
-   * Returns the account information for this address. This is public information in the ledger (secret not needed).
+   * Returns the account balances for this address. This is public information in the ledger (secret not needed).
    */
   @GET
   @Path("accounts/{address}/balances")
-  public RippleAccount getAccounts(@PathParam("address") final String address) throws IOException, RippleException;
+  public RippleAccountBalances getAccountBalances(@PathParam("address") final String address) throws IOException, RippleException;
+
+  /**
+   * Returns the account settings for this address. This is public information in the ledger (secret not needed).
+   */
+  @GET
+  @Path("accounts/{address}/settings")
+  public RippleAccountSettings getAccountSettings(@PathParam("address") final String address) throws IOException, RippleException;
 
   /**
    * Returns the account information for this address.
@@ -52,8 +61,8 @@ public interface RipplePublic {
    */
   @GET
   @Path("accounts/{address}/orders/{hash}")
-  public RippleOrderDetails orderDetails(@PathParam("address") final String address, @PathParam("hash") final String hash) throws IOException,
-      RippleException;
+  public RippleOrderDetails orderDetails(@PathParam("address") final String address, @PathParam("hash") final String hash)
+      throws IOException, RippleException;
 
   /**
    * Returns notifications for this address.
@@ -63,6 +72,12 @@ public interface RipplePublic {
   public RippleNotifications notifications(@PathParam("address") final String address, @QueryParam("exclude_failed") final Boolean excludeFailed,
       @QueryParam("earliest_first") final Boolean earliestFirst, @QueryParam("results_per_page") final Integer resultsPerPage,
       @QueryParam("page") final Integer page, @QueryParam("start_ledger") final Long startLedger, @QueryParam("end_ledger") final Long endLedger)
-      throws IOException, RippleException;
+          throws IOException, RippleException;
 
+  /**
+   * Fetch the network transaction fee.
+   */
+  @GET
+  @Path("transaction-fee")
+  public RippleTransactionFee getTransactionFee();
 }

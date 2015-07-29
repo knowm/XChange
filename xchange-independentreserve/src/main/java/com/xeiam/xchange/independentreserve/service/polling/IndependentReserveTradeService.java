@@ -11,14 +11,12 @@ import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.independentreserve.IndependentReserveAdapters;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 import java.io.IOException;
 
-/**
- * Author: Kamil Zbikowski
- * Date: 4/13/15
- */
 public class IndependentReserveTradeService extends IndependentReserveTradeServiceRaw implements PollingTradeService{
 
     public IndependentReserveTradeService(Exchange exchange) {
@@ -56,17 +54,20 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
 
     @Override
     public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        return IndependentReserveAdapters.adaptTradeHistory(getIndependentReserveTradeHistory(1));
+        return getTradeHistory(createTradeHistoryParams());
     }
 
-
+    /**
+     * Optional parameters: {@link TradeHistoryParamPaging#getPageNumber()} indexed from 0
+     */
     @Override
     public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-        return null;
+        int pageNumber = ((TradeHistoryParamPaging) params).getPageNumber() + 1;
+        return IndependentReserveAdapters.adaptTradeHistory(getIndependentReserveTradeHistory(pageNumber));
     }
 
     @Override
-    public TradeHistoryParams createTradeHistoryParams() {
-        return null;
+    public TradeHistoryParamPaging createTradeHistoryParams() {
+        return new DefaultTradeHistoryParamPaging(null, 0);
     }
 }

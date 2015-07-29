@@ -1,0 +1,22 @@
+{
+  "settings": {
+    "account": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q",
+    "transfer_rate": 1002000000,
+    "password_spent": false,
+    "require_destination_tag": true,
+    "require_authorization": false,
+    "disallow_xrp": true,
+    "disable_master": false,
+    "no_freeze": false,
+    "global_freeze": false,
+    "default_ripple": true,
+    "transaction_sequence": "331",
+    "email_hash": "E99857D015E4C4472FCBFA3AD259D017",
+    "wallet_locator": "",
+    "wallet_size": "",
+    "message_key": "",
+    "domain": "snapswap.vc",
+    "signers": ""
+  },
+  "success": true
+}

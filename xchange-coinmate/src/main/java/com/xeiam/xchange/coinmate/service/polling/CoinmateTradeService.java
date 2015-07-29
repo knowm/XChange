@@ -31,7 +31,6 @@ import com.xeiam.xchange.coinmate.CoinmateUtils;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -41,7 +40,10 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPagingSorted;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
+
 import java.io.IOException;
 
 /**
@@ -102,18 +104,21 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Pol
 
     @Override
     public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        return getTradeHistory((TradeHistoryParams) null);
+        return getTradeHistory(createTradeHistoryParams());
     }
 
     @Override
     public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-        return CoinmateAdapters.adaptTradeHistory(getCoinmateTradeHistory(0, 100, "ASC"));
+        DefaultTradeHistoryParamPagingSorted myParams = (DefaultTradeHistoryParamPagingSorted) params;
+        return CoinmateAdapters.adaptTradeHistory(getCoinmateTradeHistory(myParams.getPageNumber(), myParams.getPageLength(), CoinmateAdapters.adaptOrder(myParams.getOrder())));
     }
 
     @Override
     public TradeHistoryParams createTradeHistoryParams() {
-        //TODO
-        return null;
+        DefaultTradeHistoryParamPagingSorted params = new DefaultTradeHistoryParamPagingSorted(100);
+        params.setPageNumber(0);
+        params.setOrder(TradeHistoryParamsSorted.Order.asc);
+        return params;
     }
 
 }
