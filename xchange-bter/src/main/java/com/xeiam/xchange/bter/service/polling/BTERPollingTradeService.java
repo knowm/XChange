@@ -76,11 +76,9 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
       throw new IOException("You must supply a CurrencyPair!");
     } else {
       if (args[0] instanceof CurrencyPair) {
-
-        List<BTERTrade> userTrades = super.getBTERTradeHistory((CurrencyPair) args[0]).getTrades();
-
-        return BTERAdapters.adaptUserTrades(userTrades);
-
+        TradeHistoryParamCurrencyPair params = createTradeHistoryParams();
+        params.setCurrencyPair((CurrencyPair) args[0]);
+        return getTradeHistory(params);
       } else {
 
         throw new IOException("You must supply a CurrencyPair!");
@@ -102,7 +100,7 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
   }
 
   @Override
-  public TradeHistoryParams createTradeHistoryParams() {
+  public TradeHistoryParamCurrencyPair createTradeHistoryParams() {
 
     return new DefaultTradeHistoryParamCurrencyPair();
   }

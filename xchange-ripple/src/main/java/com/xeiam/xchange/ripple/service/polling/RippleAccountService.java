@@ -9,7 +9,7 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.ripple.RippleAdapters;
-import com.xeiam.xchange.ripple.dto.account.RippleAccount;
+import com.xeiam.xchange.ripple.dto.account.RippleAccountBalances;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class RippleAccountService extends RippleAccountServiceRaw implements PollingAccountService {
@@ -23,7 +23,7 @@ public class RippleAccountService extends RippleAccountServiceRaw implements Pol
    */
   @Override
   public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    final RippleAccount account = getRippleAccount();
+    final RippleAccountBalances account = getRippleAccountBalances();
     final String username = exchange.getExchangeSpecification().getApiKey();
     return RippleAdapters.adaptAccountInfo(account, username);
   }

@@ -3,7 +3,6 @@ package com.xeiam.xchange.ripple.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -17,6 +16,7 @@ import com.xeiam.xchange.ripple.dto.trade.RippleLimitOrder;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderDetails;
 import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryAccount;
 import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryCount;
+import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryHashLimit;
 import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
@@ -27,13 +27,16 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
 
   private static final boolean VALIDATE_ALL_REQUESTS = true;
 
+  private final RippleExchange ripple;
+
   /**
    * Empty placeholder trade history parameter object.
    */
   private final RippleTradeHistoryParams defaultTradeHistoryParams = createTradeHistoryParams();
 
-  public RippleTradeService(final Exchange exchange) {
+  public RippleTradeService(final RippleExchange exchange) {
     super(exchange);
+    ripple = exchange;
   }
 
   /**
@@ -42,8 +45,7 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
    */
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return RippleAdapters.adaptOpenOrders(getOpenAccountOrders(),
-        (Integer) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(RippleExchange.ROUNDING_SCALE));
+    return RippleAdapters.adaptOpenOrders(getOpenAccountOrders(), ripple.getRoundingScale());
   }
 
   @Override
@@ -76,7 +78,7 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
    * {@link RippleTradeHistoryCount#DEFAULT_TRADE_COUNT_LIMIT} trades. If an account enters many orders and receives few executions then it is likely
    * that this query will return no trades. See {@link #getTradeHistory(TradeHistoryParams)} for details of how to structure the query to fit your use
    * case.
-   * 
+   *
    * @param arguments these are ignored.
    */
 
@@ -102,7 +104,7 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
    * <li><b>TradeHistoryParamsTimeSpan</b> set the {@link TradeHistoryParamsTimeSpan#setStartTime(java.util.Date)} to limit the number of trades
    * searched for to those done since the given start time.</li> TradeHistoryParamsTimeSpan
    * </ul>
-   * 
+   *
    * @param params Can optionally implement {@RippleTradeHistoryAccount}, {@RippleTradeHistoryCount}, {@RippleTradeHistoryHashLimit},
    *        {@RippleTradeHistoryPreferredCurrencies}, {@link TradeHistoryParamPaging}, {@TradeHistoryParamCurrencyPair},
    *        {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
@@ -116,7 +118,7 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
     }
 
     final String account;
-    if(params instanceof RippleTradeHistoryAccount) {
+    if (params instanceof RippleTradeHistoryAccount) {
       final RippleTradeHistoryAccount rippleAccount = (RippleTradeHistoryAccount) params;
       if (rippleAccount.getAccount() != null) {
         account = rippleAccount.getAccount();
@@ -126,9 +128,9 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
     } else {
       account = defaultTradeHistoryParams.getAccount();
     }
-    
+
     final List<RippleOrderDetails> trades = getTradesForAccount(params, account);
-    return RippleAdapters.adaptTrades(trades, params);
+    return RippleAdapters.adaptTrades(trades, params, (RippleAccountService) exchange.getPollingAccountService(), ripple.getRoundingScale());
   }
 
   @Override

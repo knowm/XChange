@@ -1,11 +1,13 @@
 package com.xeiam.xchange.ripple;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +25,8 @@ import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.ripple.dto.RippleAmount;
-import com.xeiam.xchange.ripple.dto.account.RippleAccount;
+import com.xeiam.xchange.ripple.dto.account.ITransferFeeSource;
+import com.xeiam.xchange.ripple.dto.account.RippleAccountBalances;
 import com.xeiam.xchange.ripple.dto.account.RippleBalance;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrder;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrderBook;
@@ -32,6 +35,8 @@ import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrdersBody;
 import com.xeiam.xchange.ripple.dto.trade.RippleLimitOrder;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderDetails;
 import com.xeiam.xchange.ripple.dto.trade.RippleUserTrade;
+import com.xeiam.xchange.ripple.service.polling.RippleAccountService;
+import com.xeiam.xchange.ripple.service.polling.RippleTradeServiceRaw;
 import com.xeiam.xchange.ripple.service.polling.params.RippleMarketDataParams;
 import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryPreferredCurrencies;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
@@ -56,7 +61,7 @@ public abstract class RippleAdapters {
    * <p>
    * Counterparties are added to symbol since there is no other way of the application receiving this information.
    */
-  public static AccountInfo adaptAccountInfo(final RippleAccount account, String username) {
+  public static AccountInfo adaptAccountInfo(final RippleAccountBalances account, final String username) {
     // Adapt account balances to XChange wallets
     final Map<String, Wallet> wallets = new TreeMap<String, Wallet>();
     for (final RippleBalance balance : account.getBalances()) {
@@ -168,7 +173,7 @@ public abstract class RippleAdapters {
         baseAmount = order.getTakerPays();
         orderType = OrderType.BID;
       } else {
-        // selling: we receive counter and pay with base, taker receives base and pays with counter 
+        // selling: we receive counter and pay with base, taker receives base and pays with counter
         baseAmount = order.getTakerGets();
         counterAmount = order.getTakerPays();
         orderType = OrderType.ASK;
@@ -177,6 +182,7 @@ public abstract class RippleAdapters {
       final String baseSymbol = baseAmount.getCurrency();
       final String counterSymbol = counterAmount.getCurrency();
 
+      // need to provide rounding scale to prevent ArithmeticException
       final BigDecimal price = counterAmount.getValue().divide(baseAmount.getValue(), scale, RoundingMode.HALF_UP).stripTrailingZeros();
       final CurrencyPair pair = new CurrencyPair(baseSymbol, counterSymbol);
 
@@ -189,20 +195,30 @@ public abstract class RippleAdapters {
     return new OpenOrders(list);
   }
 
-  public static UserTrade adaptTrade(final RippleOrderDetails info, final TradeHistoryParams params) {
-    // The order{} section of the body cannot be used to determine trade facts e.g. if the order was to sell BTC.Bitstamp and buy  
-    // BTC.SnapSwap, and traded via XRP, and our trade was one of the XRP legs, all we'd see would be the taker getting and paying BTC.
+  public static UserTrade adaptTrade(final RippleOrderDetails info, final TradeHistoryParams params, final ITransferFeeSource transferFeeSource,
+      final int scale) throws IOException {
 
-    // Details in the balance_changes{} and order_changes{} blocks are relative to the perspective account, i.e. the Ripple account address used in the URI. 
+    // The order{} section of the body cannot be used to determine trade facts e.g. if the order was to sell BTC.Bitstamp and buy
+    // BTC.SnapSwap, and traded via XRP, and our trade was one of the XRP legs, all we'd see would be the taker getting and paying BTC.
+    //
+    // Details in the balance_changes{} and order_changes{} blocks are relative to the perspective account, i.e. the Ripple account address used in the URI.
 
     final List<RippleAmount> balanceChanges = info.getBalanceChanges();
-    if (balanceChanges.size() != 2) {
-      throw new IllegalArgumentException("balance changes section should contains 2 currency amounts but found " + balanceChanges.size());
+    final Iterator<RippleAmount> iterator = balanceChanges.iterator();
+    while (iterator.hasNext()) {
+      final RippleAmount amount = iterator.next();
+      if (amount.getCurrency().equals(Currencies.XRP) && info.getFee().equals(amount.getValue().negate())) {
+        // XRP balance change is just the fee - it should not be part of the currency pair considerations
+        iterator.remove();
+      }
     }
 
-    // There is no way of telling the original entered base or counter currency - Ripple just provides 2 currency adjustments. 
-    // Check if TradeHistoryParams expressed a preference, otherwise arrange the currencies in the order they are supplied.  
+    if (balanceChanges.size() != 2) {
+      throw new IllegalArgumentException("balance changes section should contains 2 currency amounts but found " + balanceChanges);
+    }
 
+    // There is no way of telling the original entered base or counter currency - Ripple just provides 2 currency adjustments.
+    // Check if TradeHistoryParams expressed a preference, otherwise arrange the currencies in the order they are supplied.
     final Collection<String> preferredBase, preferredCounter;
     if (params instanceof RippleTradeHistoryPreferredCurrencies) {
       final RippleTradeHistoryPreferredCurrencies rippleParams = (RippleTradeHistoryPreferredCurrencies) params;
@@ -226,7 +242,7 @@ public abstract class RippleAdapters {
       counter = balanceChanges.get(1);
       base = balanceChanges.get(0);
 
-    } else if (params instanceof TradeHistoryParamCurrencyPair && ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
+    } else if ((params instanceof TradeHistoryParamCurrencyPair) && (((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null)) {
       // Searching for a specific currency pair - use this direction
       final CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
       if (pair.baseSymbol.equals(balanceChanges.get(0).getCurrency()) && pair.counterSymbol.equals(balanceChanges.get(1).getCurrency())) {
@@ -236,7 +252,7 @@ public abstract class RippleAdapters {
         base = balanceChanges.get(1);
         counter = balanceChanges.get(0);
       } else {
-        // Unexpected: this should have been filtered out in RippleTradeServiceRaw.getTradesForAccount(..) method. 
+        // Unexpected: this should have been filtered out in RippleTradeServiceRaw.getTradesForAccount(..) method.
         throw new IllegalStateException(String.format("trade history param currency filter specified %s but trade query returned %s and %s", pair,
             balanceChanges.get(0).getCurrency(), balanceChanges.get(1).getCurrency()));
       }
@@ -256,27 +272,78 @@ public abstract class RippleAdapters {
     final String currencyPairString = base.getCurrency() + "/" + counter.getCurrency();
     final CurrencyPair currencyPair = CurrencyPairDeserializer.getCurrencyPairFromString(currencyPairString);
 
-    final BigDecimal quantity = base.getValue();
-    final BigDecimal price = counter.getValue().divide(quantity, 10, RoundingMode.HALF_UP);
+    // Ripple has 2 types of fee.
+    //
+    // (a) Transaction fee is a network charge levied in XRP.
+    // https://wiki.ripple.com/Transaction_Fee
+    //
+    // (b) Transfer fee charged by the issuer levied in the currency of traded instrument. Whoever
+    // sends an asset that has a transfer fee pays the fee, the receiver does not incur a charge.
+    // https://wiki.ripple.com/Transit_Fee
+    // https://ripple.com/knowledge_center/transfer-fees/
+
+    final BigDecimal baseTransferFee = RippleTradeServiceRaw.getExpectedTransferFee(transferFeeSource, base.getCounterparty(), base.getCurrency(),
+        base.getValue(), type);
+    base.setValue(base.getValue().abs().subtract(baseTransferFee));
+
+    final OrderType counterDirection;
+    if (type == OrderType.BID) {
+      counterDirection = OrderType.ASK;
+    } else {
+      counterDirection = OrderType.BID;
+    }
+    final BigDecimal counterTransferFee = RippleTradeServiceRaw.getExpectedTransferFee(transferFeeSource, counter.getCounterparty(),
+        counter.getCurrency(), counter.getValue(), counterDirection);
+    counter.setValue(counter.getValue().abs().subtract(counterTransferFee));
+
+    // Account for transaction fee in quantities
+    final BigDecimal transactionFee = info.getFee();
+    final BigDecimal quantity;
+    if (base.getCurrency().equals(Currencies.XRP)) {
+      if (type == OrderType.BID) {
+        quantity = base.getValue().add(transactionFee);
+      } else { // OrderType.ASK
+        quantity = base.getValue().subtract(transactionFee);
+      }
+    } else {
+      quantity = base.getValue();
+    }
+
+    final BigDecimal counterAmount;
+    if (counter.getCurrency().equals(Currencies.XRP)) {
+      if (type == OrderType.ASK) {
+        counterAmount = counter.getValue().add(transactionFee);
+      } else { // OrderType.BID
+        counterAmount = counter.getValue().subtract(transactionFee);
+      }
+    } else {
+      counterAmount = counter.getValue();
+    }
+
+    // need to provide rounding scale to prevent ArithmeticException
+    final BigDecimal price = counterAmount.divide(quantity, scale, RoundingMode.HALF_UP);
 
     final String orderId = Long.toString(info.getOrder().getSequence());
 
-    final RippleUserTrade.Builder builder = (RippleUserTrade.Builder) new RippleUserTrade.Builder().currencyPair(currencyPair).id(info.getHash())
-        .orderId(orderId).price(price.abs()).timestamp(info.getTimestamp()).tradableAmount(quantity.abs()).type(type);
+    final RippleUserTrade.Builder builder = (RippleUserTrade.Builder) new RippleUserTrade.Builder().currencyPair(currencyPair)
+        .feeAmount(transactionFee).feeCurrency(Currencies.XRP).id(info.getHash()).orderId(orderId).price(price.stripTrailingZeros()).timestamp(info.getTimestamp())
+        .tradableAmount(quantity.stripTrailingZeros()).type(type);
+    builder.baseTransferFee(baseTransferFee.abs());
+    builder.counterTransferFee(counterTransferFee.abs());
     if (base.getCounterparty().length() > 0) {
       builder.baseCounterparty(base.getCounterparty());
     }
     if (counter.getCounterparty().length() > 0) {
-      builder.baseCounterparty(counter.getCounterparty());
+      builder.counterCounterparty(counter.getCounterparty());
     }
-
     return builder.build();
   }
 
-  public static UserTrades adaptTrades(final Collection<RippleOrderDetails> tradesForAccount, final TradeHistoryParams params) {
+  public static UserTrades adaptTrades(final Collection<RippleOrderDetails> tradesForAccount, final TradeHistoryParams params,
+      final RippleAccountService accountService, final int roundingScale) throws IOException {
     final List<UserTrade> trades = new ArrayList<UserTrade>();
     for (final RippleOrderDetails orderDetails : tradesForAccount) {
-      trades.add(adaptTrade(orderDetails, params));
+      trades.add(adaptTrade(orderDetails, params, accountService, roundingScale));
     }
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
