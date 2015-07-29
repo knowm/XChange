@@ -11,6 +11,9 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -43,6 +46,8 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
   private static final Boolean EARLIEST_FIRST = false;
   private static final Long START_LEDGER = null;
   private static final Long END_LEDGER = null;
+
+  private final Logger logger = LoggerFactory.getLogger(getClass());
 
   private final Map<String, Map<String, RippleOrderDetails>> orderDetailsStore = new ConcurrentHashMap<String, Map<String, RippleOrderDetails>>();
 
@@ -130,7 +135,19 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
       }
     }
 
-    final RippleOrderDetails orderDetails = ripplePublic.orderDetails(account, hash);
+    final RippleOrderDetails orderDetails;
+    try {
+      orderDetails = ripplePublic.orderDetails(account, hash);
+    } catch (final RippleException e) {
+      if (e.getHttpStatusCode() == 500 && e.getErrorType().equals("transaction")) {
+        // Do not let an individual transaction parsing bug in the Ripple REST service cause a total trade   
+        // history failure. See https://github.com/ripple/ripple-rest/issues/384 as an example of this situation. 
+        logger.error("exception reading order transaction[{}] for account[{}]", hash, account, e);
+        return null;
+      } else {
+        throw e;
+      }
+    }
     if (ripple.isStoreOrderDetails()) {
       orderDetailsStore.get(account).put(hash, orderDetails);
     }
@@ -197,10 +214,10 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
     final ListIterator<RippleNotification> iterator = notifications.getNotifications().listIterator(notifications.getNotifications().size());
     while (iterator.hasPrevious()) {
       if (rippleCount != null) {
-        if (rippleCount.getTradeCount() >= rippleCount.getTradeCountLimit()) {
+        if (rippleCount.getTradeCountLimit() > 0 && rippleCount.getTradeCount() >= rippleCount.getTradeCountLimit()) {
           return trades; // found enough trades
         }
-        if (rippleCount.getApiCallCount() >= rippleCount.getApiCallCountLimit()) {
+        if (rippleCount.getApiCallCountLimit() > 0 && rippleCount.getApiCallCount() >= rippleCount.getApiCallCountLimit()) {
           return trades; // reached the query limit
         }
       }
@@ -219,6 +236,9 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
         final RippleOrderDetails orderDetails = getOrderDetails(account, notification.getHash());
         if (rippleCount != null) {
           rippleCount.incrementApiCallCount();
+        }
+        if (orderDetails == null) {
+          continue;
         }
 
         final List<RippleAmount> balanceChanges = orderDetails.getBalanceChanges();
