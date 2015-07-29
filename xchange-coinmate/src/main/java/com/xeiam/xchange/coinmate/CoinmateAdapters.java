@@ -134,9 +134,10 @@ public class CoinmateAdapters {
 
     for (CoinmateTransactionHistoryEntry entry : coinmateTradeHistory.getData()) {
       Order.OrderType orderType;
-      if (entry.getTransactionType().equals("BUY")) {
+      String transactionType = entry.getTransactionType();
+      if (transactionType.equals("BUY") || transactionType.equals("QUICK_BUY")) {
         orderType = Order.OrderType.BID;
-      } else if (entry.getTransactionType().equals("SELL")) {
+      } else if (transactionType.equals("SELL") || transactionType.equals("QUICK_SELL")) {
         orderType = Order.OrderType.ASK;
       } else {
         // here we ignore the other types, such as withdrawal, voucher etc.
