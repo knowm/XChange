@@ -13,6 +13,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
  {"success": false, "error_type": "invalid_request", 
  "message": "Invalid parameter: counter. Must be a currency string in the form currency+counterparty", "error": "restINVALID_PARAMETER"}
+ 
+ {"success": false, "error": "Cannot read property 'currency' of undefined", "error_type": "transaction"}
+ 
  */
 
 @SuppressWarnings("serial")
@@ -38,5 +41,10 @@ public class RippleException extends HttpStatusExceptionSupport {
 
   public String getErrorType() {
     return errorType;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("%s errorType[%s] error[%s] message[%s]", super.toString(), errorType, error, message);
   }
 }
