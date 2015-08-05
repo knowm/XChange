@@ -1,0 +1,25 @@
+{
+  "currencyPair": {
+    "BTC/EUR": {},
+    "BTC/USD": {},
+    "BTC/XRP": {},
+    "LTC/EUR": {},
+    "LTC/BTC": {},
+    "EUR/XRP": {},
+    "USD/XRP": {},
+    "LTC/USD": {},
+    "NMC/BTC": {},
+    "PPC/EUR": {},
+    "EUR/DOG": {},
+    "PPC/BTC": {}
+  },
+  "currency": {},
+  "privateRateLimits": [
+    {
+      "calls": 1,
+      "timeSpan": 1,
+      "timeUnit": "SECONDS"
+    }
+  ],
+  "shareRateLimits": true
+}
