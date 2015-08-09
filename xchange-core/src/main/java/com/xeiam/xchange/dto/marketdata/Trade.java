@@ -32,7 +32,7 @@ public class Trade {
   protected final BigDecimal price;
 
   /**
-   * The timestamp of the trade
+   * The timestamp of the trade provided by the remote server, null if none provided.
    */
   protected final Date timestamp;
 
