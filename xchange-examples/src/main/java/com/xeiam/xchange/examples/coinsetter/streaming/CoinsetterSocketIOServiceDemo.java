@@ -17,7 +17,7 @@ public class CoinsetterSocketIOServiceDemo {
 
   private static final Logger log = LoggerFactory.getLogger(CoinsetterSocketIOServiceDemo.class);
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws Exception {
 
     // Bridge/route all JUL log records to the SLF4J API.
     SLF4JBridgeHandler.removeHandlersForRootLogger();

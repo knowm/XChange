@@ -16,7 +16,7 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
  */
 public class StreamingDemo {
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws Exception {
 
     // Use the factory to get Bitstamp exchange API using default settings
     Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());

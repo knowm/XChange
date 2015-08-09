@@ -16,7 +16,7 @@ public class BTCChinaSocketIOServiceDemo {
 
   private static final Logger log = LoggerFactory.getLogger(BTCChinaSocketIOServiceDemo.class);
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws Exception {
 
     final BTCChinaStreamingConfiguration configuration = new BTCChinaStreamingConfiguration(true, true, true, true, CurrencyPair.BTC_CNY,
         CurrencyPair.LTC_CNY, CurrencyPair.LTC_BTC);

@@ -3,7 +3,6 @@ package com.xeiam.xchange.examples.coinfloor;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -34,14 +33,14 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
  * retrival by the cancel-all-orders part of this program. This is vastly different from the polling services, where data retrieved is returned
  * directly from the method. This CoinfloorStreamingExchangeService allows for the same retrival methods as the polling services. Please see
  * CoinfloorDemo2 for example code implementing that route of data retrival. (Note: It is possible to mix both.)
- * 
+ *
  * @author obsessiveOrange
  */
 public class CoinfloorDemo {
 
   public static BlockingQueue<CoinfloorExchangeEvent> secondaryQueue = new LinkedBlockingQueue<CoinfloorExchangeEvent>();
 
-  public static void main(String[] args) throws InterruptedException, ExecutionException {
+  public static void main(String[] args) throws Exception {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(CoinfloorExchange.class);
     exSpec.setUserName("163");
@@ -110,8 +109,8 @@ public class CoinfloorDemo {
     TimeUnit.MILLISECONDS.sleep(1000);
 
     // get user's current open orders, cancel all of them.
-    CoinfloorOpenOrders openOrders = (CoinfloorOpenOrders) ((CoinfloorStreamingExchangeService) streamingExchangeService).getOrders().getPayloadItem(
-        "raw");
+    CoinfloorOpenOrders openOrders = (CoinfloorOpenOrders) ((CoinfloorStreamingExchangeService) streamingExchangeService).getOrders()
+        .getPayloadItem("raw");
     for (CoinfloorOrder order : openOrders.getOrders()) {
       ((CoinfloorStreamingExchangeService) streamingExchangeService).cancelOrder(order.getId());
       TimeUnit.MILLISECONDS.sleep(1000);
@@ -161,7 +160,7 @@ public class CoinfloorDemo {
 
     /**
      * Constructor
-     * 
+     *
      * @param streamingExchangeService
      */
     public MarketDataRunnable(StreamingExchangeService streamingExchangeService, BlockingQueue<CoinfloorExchangeEvent> secondaryQueue) {

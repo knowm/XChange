@@ -11,9 +11,10 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 public class WebSocketDemo {
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws Exception {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(MeXBTExchange.class.getName());
-    final StreamingExchangeService streamingExchangeService = exchange.getStreamingExchangeService(new MeXBTExchangeStreamingConfiguration(true, new String[] { "BTCUSD" }));
+    final StreamingExchangeService streamingExchangeService = exchange
+        .getStreamingExchangeService(new MeXBTExchangeStreamingConfiguration(true, new String[] { "BTCUSD" }));
     streamingExchangeService.connect();
 
     new Thread() {
