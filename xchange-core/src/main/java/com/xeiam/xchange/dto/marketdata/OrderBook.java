@@ -14,14 +14,25 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
  */
 public final class OrderBook {
 
+  /**
+   * the timestamp of the orderbook according to the exchange's server, null if not provided
+   */
   private Date timeStamp;
+
+  /**
+   * the asks
+   */
   private final List<LimitOrder> asks;
+
+  /**
+   * the bids
+   */
   private final List<LimitOrder> bids;
 
   /**
    * Constructor
    *
-   * @param timeStamp The timeStamp of the OrderBook or of the latest Update
+   * @param timeStamp - the timestamp of the orderbook according to the exchange's server, null if not provided
    * @param asks The ASK orders
    * @param bids The BID orders
    */
@@ -166,7 +177,7 @@ public final class OrderBook {
    * Identical to {@link #equals(Object) equals} method except that this ignores different timestamps. In other words, this version of equals returns
    * true if the order internal to the OrderBooks are equal but their timestamps are unequal. It returns false if false if any order between the two
    * are different.
-   * 
+   *
    * @param ob
    * @return
    */

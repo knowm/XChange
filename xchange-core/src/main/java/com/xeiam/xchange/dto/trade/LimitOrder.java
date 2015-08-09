@@ -28,7 +28,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param tradableAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
-   * @param timestamp a Date object representing the order's timestamp
+   * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
    * @param limitPrice In a BID this is the highest acceptable price, in an ASK this is the lowest acceptable price
    */
   public LimitOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice) {
@@ -99,22 +99,27 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
       return builder;
     }
 
+    @Override
     public Builder orderType(OrderType orderType) {
       return (Builder) super.orderType(orderType);
     }
 
+    @Override
     public Builder tradableAmount(BigDecimal tradableAmount) {
       return (Builder) super.tradableAmount(tradableAmount);
     }
 
+    @Override
     public Builder currencyPair(CurrencyPair currencyPair) {
       return (Builder) super.currencyPair(currencyPair);
     }
 
+    @Override
     public Builder id(String id) {
       return (Builder) super.id(id);
     }
 
+    @Override
     public Builder timestamp(Date timestamp) {
       return (Builder) super.timestamp(timestamp);
     }

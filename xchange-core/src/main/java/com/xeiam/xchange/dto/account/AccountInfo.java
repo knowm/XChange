@@ -23,11 +23,13 @@ public final class AccountInfo {
   private final String username;
   // TODO get rid of this field?
   private final BigDecimal tradingFee;
+
   /**
    * @deprecated Use {@link #walletsMap} instead, this field will be deleted in XChange 4.0.0.
    */
   @Deprecated
   private final List<Wallet> wallets;
+
   /**
    * TODO: from XChange 4.0.0, rename to wallets.
    */

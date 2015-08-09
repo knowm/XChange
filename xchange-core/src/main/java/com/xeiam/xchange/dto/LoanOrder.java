@@ -36,10 +36,20 @@ public class LoanOrder {
   private final String id;
 
   /**
-   * The timestamp on the order
+   * The timestamp on the order according to the exchange's server, null if not provided
    */
   private final Date timestamp;
 
+  /**
+   * Constructor
+   *
+   * @param type
+   * @param currency
+   * @param tradableAmount
+   * @param dayPeriod
+   * @param id
+   * @param timestamp - The timestamp on the order according to the exchange's server, null if not provided
+   */
   public LoanOrder(OrderType type, String currency, BigDecimal tradableAmount, int dayPeriod, String id, Date timestamp) {
 
     this.type = type;
@@ -104,37 +114,50 @@ public class LoanOrder {
   @Override
   public boolean equals(Object obj) {
 
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     LoanOrder other = (LoanOrder) obj;
     if (currency == null) {
-      if (other.currency != null)
+      if (other.currency != null) {
         return false;
-    } else if (!currency.equals(other.currency))
+      }
+    } else if (!currency.equals(other.currency)) {
       return false;
-    if (dayPeriod != other.dayPeriod)
+    }
+    if (dayPeriod != other.dayPeriod) {
       return false;
+    }
     if (id == null) {
-      if (other.id != null)
+      if (other.id != null) {
         return false;
-    } else if (!id.equals(other.id))
+      }
+    } else if (!id.equals(other.id)) {
       return false;
+    }
     if (timestamp == null) {
-      if (other.timestamp != null)
+      if (other.timestamp != null) {
         return false;
-    } else if (!timestamp.equals(other.timestamp))
+      }
+    } else if (!timestamp.equals(other.timestamp)) {
       return false;
+    }
     if (tradableAmount == null) {
-      if (other.tradableAmount != null)
+      if (other.tradableAmount != null) {
         return false;
-    } else if (!tradableAmount.equals(other.tradableAmount))
+      }
+    } else if (!tradableAmount.equals(other.tradableAmount)) {
       return false;
-    if (type != other.type)
+    }
+    if (type != other.type) {
       return false;
+    }
     return true;
   }
 

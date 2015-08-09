@@ -3,9 +3,13 @@ package com.xeiam.xchange.dto.meta;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CurrencyMetaData {
+
   @JsonProperty
   public int scale;
 
+  /**
+   * Constructor
+   */
   public CurrencyMetaData() {
   }
 
@@ -15,8 +19,6 @@ public class CurrencyMetaData {
 
   @Override
   public String toString() {
-    return "CurrencyMetaData{" +
-        "scale=" + scale +
-        '}';
+    return "CurrencyMetaData{" + "scale=" + scale + '}';
   }
 }

@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * Describe a call rate limit as a number of calls per some time span.
  */
 public class RateLimit {
+
   @JsonProperty
   public int calls = 1;
 
@@ -24,6 +25,9 @@ public class RateLimit {
   @JsonProperty
   public int timeSpan = 1;
 
+  /**
+   * Constructor
+   */
   public RateLimit() {
   }
 
@@ -34,7 +38,8 @@ public class RateLimit {
   }
 
   /**
-   * @return this rate limit as a number of milliseconds required between any two remote calls, assuming the client makes consecutive calls without any bursts or breaks for an infinite period of time.
+   * @return this rate limit as a number of milliseconds required between any two remote calls, assuming the client makes consecutive calls without
+   *         any bursts or breaks for an infinite period of time.
    */
   @JsonIgnore
   public long getPollDelayMillis() {

@@ -34,6 +34,12 @@ public final class OpenLoanOrders {
   private final List<FixedRateLoanOrder> openFixedRateLoanOrders;
   private final List<FloatingRateLoanOrder> openFloatingRateLoanOrders;
 
+  /**
+   * Constructor
+   *
+   * @param openFixedRateLoanOrders
+   * @param openFloatingRateLoanOrders
+   */
   public OpenLoanOrders(List<FixedRateLoanOrder> openFixedRateLoanOrders, List<FloatingRateLoanOrder> openFloatingRateLoanOrders) {
 
     this.openFixedRateLoanOrders = openFixedRateLoanOrders;

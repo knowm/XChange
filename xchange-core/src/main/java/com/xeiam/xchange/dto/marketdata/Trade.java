@@ -32,7 +32,7 @@ public class Trade {
   protected final BigDecimal price;
 
   /**
-   * The timestamp of the trade provided by the remote server, null if none provided.
+   * The timestamp of the trade according to the exchange's server, null if not provided
    */
   protected final Date timestamp;
 
@@ -51,7 +51,7 @@ public class Trade {
    * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
    * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param price The price (either the bid or the ask)
-   * @param timestamp The timestamp of the trade
+   * @param timestamp The timestamp of the trade according to the exchange's server, null if not provided
    * @param id The id of the trade
    */
   public Trade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id) {
