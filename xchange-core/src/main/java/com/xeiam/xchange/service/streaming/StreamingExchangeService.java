@@ -16,8 +16,10 @@ public interface StreamingExchangeService {
    * <p>
    * Opens the connection to the upstream server for this instance.
    * </p>
+   * 
+   * @throws Exception
    */
-  void connect();
+  void connect() throws Exception;
 
   /**
    * <p>
@@ -39,11 +41,10 @@ public interface StreamingExchangeService {
    * <p>
    * Returns number of events in consumer event queue.
    * </p>
-   *
+   * 
    * @return An int
    */
   int countEventsAvailable();
-
 
   /**
    * <p>

@@ -34,7 +34,7 @@ public class ReconnectService {
     this.exchangeStreamingConfiguration = exchangeStreamingConfiguration;
   }
 
-  public void intercept(ExchangeEvent exchangeEvent) {
+  public void intercept(ExchangeEvent exchangeEvent) throws Exception {
 
     reconnectTask.cancel();
     reconnectTask = new ReconnectTask();
@@ -47,17 +47,17 @@ public class ReconnectService {
         e.printStackTrace();
       }
       reconnect();
-    } else if (exchangeEvent.getEventType() == ExchangeEventType.CONNECT) {
+    }
+    else if (exchangeEvent.getEventType() == ExchangeEventType.CONNECT) {
       numConnectionAttempts = 0;
     }
 
   }
 
-  private void reconnect() {
+  private void reconnect() throws Exception {
 
     if (!streamingExchangeService.getWebSocketStatus().equals(READYSTATE.OPEN)) {
-      log.debug("ExchangeType Error. Attempting reconnect " + numConnectionAttempts + " of "
-          + exchangeStreamingConfiguration.getMaxReconnectAttempts());
+      log.debug("ExchangeType Error. Attempting reconnect " + numConnectionAttempts + " of " + exchangeStreamingConfiguration.getMaxReconnectAttempts());
 
       if (numConnectionAttempts >= exchangeStreamingConfiguration.getMaxReconnectAttempts()) {
         log.debug("Terminating reconnection attempts.");
@@ -80,7 +80,12 @@ public class ReconnectService {
       if (!streamingExchangeService.getWebSocketStatus().equals(READYSTATE.OPEN)) {
         log.debug("Time out!");
         timer.purge();
-        reconnect();
+        try {
+          reconnect();
+        } catch (Exception e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
       }
       timer.purge();
       timer.schedule(new ReconnectTask(), exchangeStreamingConfiguration.getTimeoutInMs());

@@ -38,8 +38,7 @@ public class WebSocketEventProducer extends WebSocketClient {
    * @param headers
    * @throws URISyntaxException
    */
-  public WebSocketEventProducer(String url, ExchangeEventListener exchangeEventListener, Map<String, String> headers,
-      ReconnectService reconnectService) throws URISyntaxException {
+  public WebSocketEventProducer(String url, ExchangeEventListener exchangeEventListener, Map<String, String> headers, ReconnectService reconnectService) throws URISyntaxException {
 
     super(new URI(url), new Draft_17(), headers, 0);
     this.exchangeEventListener = exchangeEventListener;
@@ -56,7 +55,12 @@ public class WebSocketEventProducer extends WebSocketClient {
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.CONNECT, "connected");
 
     if (reconnectService != null) { // logic here to intercept errors and reconnect..
-      reconnectService.intercept(exchangeEvent);
+      try {
+        reconnectService.intercept(exchangeEvent);
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
 
     exchangeEventListener.handleEvent(exchangeEvent);
@@ -73,7 +77,12 @@ public class WebSocketEventProducer extends WebSocketClient {
     ExchangeEvent exchangeEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, message);
 
     if (reconnectService != null) { // logic here to intercept errors and reconnect..
-      reconnectService.intercept(exchangeEvent);
+      try {
+        reconnectService.intercept(exchangeEvent);
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
 
     exchangeEventListener.handleEvent(exchangeEvent);
@@ -116,7 +125,12 @@ public class WebSocketEventProducer extends WebSocketClient {
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.DISCONNECT, "disconnected");
 
     if (reconnectService != null) { // logic here to intercept errors and reconnect..
-      reconnectService.intercept(exchangeEvent);
+      try {
+        reconnectService.intercept(exchangeEvent);
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
 
     exchangeEventListener.handleEvent(exchangeEvent);
@@ -132,7 +146,12 @@ public class WebSocketEventProducer extends WebSocketClient {
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.ERROR, ex.getMessage());
 
     if (reconnectService != null) { // logic here to intercept errors and reconnect..
-      reconnectService.intercept(exchangeEvent);
+      try {
+        reconnectService.intercept(exchangeEvent);
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
 
     exchangeEventListener.handleEvent(exchangeEvent);
