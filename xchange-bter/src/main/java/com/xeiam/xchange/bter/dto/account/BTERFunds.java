@@ -1,6 +1,7 @@
 package com.xeiam.xchange.bter.dto.account;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,7 +14,7 @@ public class BTERFunds extends BTERBaseResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param aResult
    * @param theAvailableFunds
    * @param theLockedFunds
@@ -23,8 +24,9 @@ public class BTERFunds extends BTERBaseResponse {
       @JsonProperty("message") final String message) {
 
     super(result, message);
-    availableFunds = theAvailableFunds;
-    lockedFunds = theLockedFunds;
+
+    availableFunds = theAvailableFunds == null ? new HashMap<String, BigDecimal>() : theAvailableFunds;
+    lockedFunds = theLockedFunds == null ? new HashMap<String, BigDecimal>() : theLockedFunds;
 
   }
 
