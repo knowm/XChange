@@ -23,18 +23,17 @@
  */
 package com.xeiam.xchange.coinmate.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.coinmate.dto.CoinmateBaseResponse;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.coinmate.dto.CoinmateBaseResponse;
+
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateDepositAddresses extends CoinmateBaseResponse<ArrayList<String>> {
 
-  public CoinmateDepositAddresses(@JsonProperty("error") boolean error,
-      @JsonProperty("errorMessage") String errorMessage,
+  public CoinmateDepositAddresses(@JsonProperty("error") boolean error, @JsonProperty("errorMessage") String errorMessage,
       @JsonProperty("data") ArrayList<String> data) {
 
     super(error, errorMessage, data);

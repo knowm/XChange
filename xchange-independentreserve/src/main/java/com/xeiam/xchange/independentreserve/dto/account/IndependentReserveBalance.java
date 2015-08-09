@@ -1,22 +1,21 @@
 package com.xeiam.xchange.independentreserve.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
- * Author: Kamil Zbikowski
- * Date: 4/10/15
+ * Author: Kamil Zbikowski Date: 4/10/15
  */
 public class IndependentReserveBalance {
-    private final List<IndependentReserveAccount> independentReserveAccounts;
+  private final List<IndependentReserveAccount> independentReserveAccounts;
 
-    @JsonCreator
-    public IndependentReserveBalance(List<IndependentReserveAccount> independentReserveAccounts) {
-        this.independentReserveAccounts = independentReserveAccounts;
-    }
+  @JsonCreator
+  public IndependentReserveBalance(List<IndependentReserveAccount> independentReserveAccounts) {
+    this.independentReserveAccounts = independentReserveAccounts;
+  }
 
-    public List<IndependentReserveAccount> getIndependentReserveAccounts() {
-        return independentReserveAccounts;
-    }
+  public List<IndependentReserveAccount> getIndependentReserveAccounts() {
+    return independentReserveAccounts;
+  }
 }

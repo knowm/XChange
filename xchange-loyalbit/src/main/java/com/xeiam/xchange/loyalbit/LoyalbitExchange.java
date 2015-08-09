@@ -1,9 +1,5 @@
 package com.xeiam.xchange.loyalbit;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -11,6 +7,8 @@ import com.xeiam.xchange.loyalbit.service.polling.LoyalbitAccountService;
 import com.xeiam.xchange.loyalbit.service.polling.LoyalbitMarketDataService;
 import com.xeiam.xchange.loyalbit.service.polling.LoyalbitTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Matija Mazi

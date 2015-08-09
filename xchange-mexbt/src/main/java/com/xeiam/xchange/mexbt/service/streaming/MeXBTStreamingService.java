@@ -27,7 +27,7 @@ public class MeXBTStreamingService implements StreamingExchangeService {
   private final BlockingQueue<ExchangeEvent> exchangeEvents = new LinkedBlockingQueue<ExchangeEvent>();
   private final Exchange exchange;
   private final MeXBTTickerClientEndpoint tickerClientEndpoint;
-  private final Map<String, MeXBTTradesAndOrdersClientEndpoint> tradesAndOrdersClientEndpoints ;
+  private final Map<String, MeXBTTradesAndOrdersClientEndpoint> tradesAndOrdersClientEndpoints;
   private Session tickerSession;
   private final Map<String, Session> tradesAndOrdersSessions;
 
@@ -58,7 +58,8 @@ public class MeXBTStreamingService implements StreamingExchangeService {
     final URI wssTickerUri, wssTradesAndOrdersUri;
     try {
       wssTickerUri = new URI((String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(MeXBTExchange.WSS_TICKER_URI_KEY));
-      wssTradesAndOrdersUri = new URI((String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(MeXBTExchange.WSS_TRADES_AND_ORDERS_URI_KEY));
+      wssTradesAndOrdersUri = new URI(
+          (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(MeXBTExchange.WSS_TRADES_AND_ORDERS_URI_KEY));
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
     }

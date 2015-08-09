@@ -1,9 +1,9 @@
 package com.xeiam.xchange.yacuna.dto.marketdata;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Date;
 
 /**
  * Created by Yingzhe on 12/26/2014.
@@ -48,6 +48,7 @@ public class YacunaTickerOverallStatistics {
   @Override
   public String toString() {
 
-    return String.format("YacunaTickerOverallStatistics[timestamp: %s, buyPricePair: %s, sellPricePair: %s, lastPricePair: %s]", timestamp, buyPricePair, sellPricePair, lastPricePair);
+    return String.format("YacunaTickerOverallStatistics[timestamp: %s, buyPricePair: %s, sellPricePair: %s, lastPricePair: %s]", timestamp,
+        buyPricePair, sellPricePair, lastPricePair);
   }
 }

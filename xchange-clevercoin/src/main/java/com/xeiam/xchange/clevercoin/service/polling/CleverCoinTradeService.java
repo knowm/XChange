@@ -21,7 +21,9 @@ import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.params.*;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 /**
  * @author Karsten Nilsen
@@ -64,7 +66,7 @@ public class CleverCoinTradeService extends CleverCoinTradeServiceRaw implements
 
     CleverCoinOpenOrder cleverCoinOrder;
     String orderType = (limitOrder.getType() == BID ? "bid" : "ask");
-    cleverCoinOrder= createCleverCoinOrder(orderType, limitOrder.getTradableAmount(),limitOrder.getLimitPrice());
+    cleverCoinOrder = createCleverCoinOrder(orderType, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
     if (cleverCoinOrder.getErrorMessage() != null) {
       throw new ExchangeException(cleverCoinOrder.getErrorMessage());
     }
@@ -90,7 +92,7 @@ public class CleverCoinTradeService extends CleverCoinTradeServiceRaw implements
       }
     }
 
-    TradeHistoryParamPaging params=createTradeHistoryParams();
+    TradeHistoryParamPaging params = createTradeHistoryParams();
     params.setPageLength(numberOfTransactions);
     return getTradeHistory(params);
   }

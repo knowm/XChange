@@ -8,8 +8,6 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpread;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenSpreads;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
 
 public class KrakenSpreadsJSONTest {

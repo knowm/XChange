@@ -23,18 +23,19 @@
  */
 package com.xeiam.xchange.coinmate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTicker;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.Ticker;
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import static org.fest.assertions.api.Assertions.assertThat;
+
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTicker;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateAdapterTest {

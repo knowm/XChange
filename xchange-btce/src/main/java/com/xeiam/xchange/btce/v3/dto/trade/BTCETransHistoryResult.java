@@ -1,14 +1,12 @@
 package com.xeiam.xchange.btce.v3.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
- * @author Peter N. Steinmetz
- *         Date: 3/30/15
- *         Time: 3:19 PM
+ * @author Peter N. Steinmetz Date: 3/30/15 Time: 3:19 PM
  */
 public class BTCETransHistoryResult {
 
@@ -18,7 +16,6 @@ public class BTCETransHistoryResult {
   private final String description;
   private final Status status;
   private final Long timestamp;
-
 
   /**
    * Constructor
@@ -30,9 +27,8 @@ public class BTCETransHistoryResult {
    * @param status
    * @param timestamp
    */
-  public BTCETransHistoryResult(@JsonProperty("type") Type type, @JsonProperty("amount") BigDecimal amount,
-                                @JsonProperty("currency") String currency, @JsonProperty("desc") String description,
-                                @JsonProperty("status") Status status, @JsonProperty("timestamp") Long timestamp) {
+  public BTCETransHistoryResult(@JsonProperty("type") Type type, @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency,
+      @JsonProperty("desc") String description, @JsonProperty("status") Status status, @JsonProperty("timestamp") Long timestamp) {
 
     this.type = type;
     this.amount = amount;
@@ -68,8 +64,8 @@ public class BTCETransHistoryResult {
 
   @Override
   public String toString() {
-    return MessageFormat.format("BTCETransHistory[type={0}, amount={1}, currency=''{2}'', description=''{3}'', status={4}, timestamp={5}]",
-       type, amount, currency, description, status, timestamp);
+    return MessageFormat.format("BTCETransHistory[type={0}, amount={1}, currency=''{2}'', description=''{3}'', status={4}, timestamp={5}]", type,
+        amount, currency, description, status, timestamp);
   }
 
   /**

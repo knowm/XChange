@@ -5,46 +5,42 @@ import java.io.IOException;
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
 
-import net.iharder.Base64;
-
-import si.mazi.rescu.RestInvocation;
-
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.BaseParamsDigest;
 
+import net.iharder.Base64;
+import si.mazi.rescu.RestInvocation;
 
 public class CoinbaseExDigest extends BaseParamsDigest {
 
-	private CoinbaseExDigest(byte[] secretKey) {
+  private CoinbaseExDigest(byte[] secretKey) {
 
-		super(secretKey, HMAC_SHA_256);
-	}
+    super(secretKey, HMAC_SHA_256);
+  }
 
-	public static CoinbaseExDigest createInstance(String secretKey) {
+  public static CoinbaseExDigest createInstance(String secretKey) {
 
-		try {
-			return secretKey == null ? null : new CoinbaseExDigest(Base64.decode(secretKey));
-		} catch (IOException e) {
-			throw new ExchangeException("Cannot decode secret key");
-		}
-	}
+    try {
+      return secretKey == null ? null : new CoinbaseExDigest(Base64.decode(secretKey));
+    } catch (IOException e) {
+      throw new ExchangeException("Cannot decode secret key");
+    }
+  }
 
-	@Override
-	public String digestParams(RestInvocation restInvocation) {
+  @Override
+  public String digestParams(RestInvocation restInvocation) {
 
-		String message =   
-				restInvocation.getParamValue(HeaderParam.class, "CB-ACCESS-TIMESTAMP").toString() +
-				restInvocation.getHttpMethod() + 
-				"/" + restInvocation.getMethodPath() + (restInvocation.getRequestBody() != null ? restInvocation.getRequestBody() : "");
+    String message = restInvocation.getParamValue(HeaderParam.class, "CB-ACCESS-TIMESTAMP").toString() + restInvocation.getHttpMethod() + "/"
+        + restInvocation.getMethodPath() + (restInvocation.getRequestBody() != null ? restInvocation.getRequestBody() : "");
 
-		Mac mac256 = getMac();
-		
-		try {
-			mac256.update(message.getBytes("UTF-8"));
-		} catch (Exception e) {
-			throw new ExchangeException("Digest encoding exception", e);
-		}
+    Mac mac256 = getMac();
 
-		return Base64.encodeBytes(mac256.doFinal());
-	}
+    try {
+      mac256.update(message.getBytes("UTF-8"));
+    } catch (Exception e) {
+      throw new ExchangeException("Digest encoding exception", e);
+    }
+
+    return Base64.encodeBytes(mac256.doFinal());
+  }
 }

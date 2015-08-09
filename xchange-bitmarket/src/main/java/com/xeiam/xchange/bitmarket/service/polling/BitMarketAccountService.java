@@ -1,5 +1,8 @@
 package com.xeiam.xchange.bitmarket.service.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitmarket.BitMarketAdapters;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfo;
@@ -11,9 +14,6 @@ import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 /**
  * @author kfonal
  */
@@ -24,21 +24,24 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
     super(exchange);
   }
 
-  @Override public AccountInfo getAccountInfo()
+  @Override
+  public AccountInfo getAccountInfo()
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     BitMarketAccountInfo accountInfo = getBitMarketAccountInfo().getData();
     return BitMarketAdapters.adaptAccountInfo(accountInfo.getBalance(), exchange.getExchangeSpecification().getUserName());
   }
 
-  @Override public String withdrawFunds(String currency, BigDecimal amount, String address)
+  @Override
+  public String withdrawFunds(String currency, BigDecimal amount, String address)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     BitMarketWithdrawResponse response = withdrawFromBitMarket(currency, amount, address);
     return response.getData();
   }
 
-  @Override public String requestDepositAddress(String currency, String... strings)
+  @Override
+  public String requestDepositAddress(String currency, String... strings)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     BitMarketDepositResponse response = depositToBitMarket(currency);

@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -47,6 +45,7 @@ public class PlaceLimitOrderJSONTest {
     try {
       mapper.readValue(is, TaurusOrder.class);
       assertThat(false).isTrue();
-    } catch (JsonMappingException ignore) { }
+    } catch (JsonMappingException ignore) {
+    }
   }
 }

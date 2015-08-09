@@ -7,9 +7,9 @@ import com.xeiam.xchange.huobi.dto.streaming.request.AbstractSymbolIdListRequest
  */
 public class ReqSymbolDetailRequest extends AbstractSymbolIdListRequest {
 
-	public ReqSymbolDetailRequest(int version, String... symbolIdList) {
-		super(version, "reqSymbolDetail");
-		setSymbolIdList(symbolIdList);
-	}
+  public ReqSymbolDetailRequest(int version, String... symbolIdList) {
+    super(version, "reqSymbolDetail");
+    setSymbolIdList(symbolIdList);
+  }
 
 }

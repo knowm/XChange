@@ -2,13 +2,13 @@ package com.xeiam.xchange.bitcoinde.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcoinde.Bitcoinde;
 import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeOrderBook;
 import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeRate;
 import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeTrade;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author matthewdowney
@@ -25,7 +25,8 @@ public class BitcoindeMarketDataServiceRaw extends BitcoindeBasePollingService {
   public BitcoindeMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitcoinde = RestProxyFactory.createProxy(Bitcoinde.class, exchange.getExchangeSpecification().getSslUri() + exchange.getExchangeSpecification().getApiKey() + "/");
+    this.bitcoinde = RestProxyFactory.createProxy(Bitcoinde.class,
+        exchange.getExchangeSpecification().getSslUri() + exchange.getExchangeSpecification().getApiKey() + "/");
   }
 
   public BitcoindeRate getBitcoindeRate() throws IOException {

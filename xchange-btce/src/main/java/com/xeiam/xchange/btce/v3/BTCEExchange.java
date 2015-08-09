@@ -2,8 +2,6 @@ package com.xeiam.xchange.btce.v3;
 
 import java.io.InputStream;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -13,6 +11,8 @@ import com.xeiam.xchange.btce.v3.service.polling.BTCEAccountService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
 import com.xeiam.xchange.utils.nonce.TimestampIncrementingNonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BTCEExchange extends BaseExchange implements Exchange {
 

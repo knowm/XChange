@@ -110,7 +110,7 @@ public class CryptsyTradeHistory {
   public String toString() {
 
     return "CryptsyTrade[" + "Market ID='" + marketId + "',Trade ID='" + tradeId + "',Type='" + type + "',Timestamp='" + timeStamp + "',Price='"
-        + price + "',Quantity='" + quantity + "',Total='" + total + "',Fee='" + fee + "',InitiatingOrderType='" + init_type + "',Order ID='"
-        + orderId + "']";
+        + price + "',Quantity='" + quantity + "',Total='" + total + "',Fee='" + fee + "',InitiatingOrderType='" + init_type + "',Order ID='" + orderId
+        + "']";
   }
 }

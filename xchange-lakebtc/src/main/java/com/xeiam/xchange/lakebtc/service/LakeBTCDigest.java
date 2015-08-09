@@ -6,12 +6,12 @@ import javax.crypto.spec.SecretKeySpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import si.mazi.rescu.BasicAuthCredentials;
-import si.mazi.rescu.RestInvocation;
-
 import com.xeiam.xchange.lakebtc.LakeBTCUtil;
 import com.xeiam.xchange.lakebtc.dto.LakeBTCRequest;
 import com.xeiam.xchange.service.BaseParamsDigest;
+
+import si.mazi.rescu.BasicAuthCredentials;
+import si.mazi.rescu.RestInvocation;
 
 /**
  * User: cristian.lucaci Date: 10/3/2014 Time: 5:03 PM

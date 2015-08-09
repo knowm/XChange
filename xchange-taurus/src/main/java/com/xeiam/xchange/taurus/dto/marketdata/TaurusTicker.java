@@ -22,8 +22,8 @@ public final class TaurusTicker {
   private final Date timestamp;
 
   public TaurusTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-                      @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid,
-                      @JsonProperty("ask") BigDecimal ask, @JsonProperty("timestamp") @JsonDeserialize(using = UnixTimestampDeserializer.class) Date timestamp) {
+      @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask, @JsonProperty("timestamp") @JsonDeserialize(using = UnixTimestampDeserializer.class) Date timestamp) {
     this.last = last;
     this.high = high;
     this.low = low;
@@ -68,8 +68,8 @@ public final class TaurusTicker {
 
   @Override
   public String toString() {
-    return "TaurusTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid
-        + ", ask=" + ask + "]";
+    return "TaurusTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid + ", ask="
+        + ask + "]";
   }
 
 }

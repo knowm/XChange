@@ -8,11 +8,8 @@ public class LoyalbitSubmitOrderResponse extends LoyalbitBaseResponse {
   @JsonProperty("order_id")
   private Long orderId;
 
-  public LoyalbitSubmitOrderResponse(
-      @JsonProperty("status") Integer status,
-      @JsonProperty("message") String message,
-      @JsonProperty("order_id") Long orderId
-  ) {
+  public LoyalbitSubmitOrderResponse(@JsonProperty("status") Integer status, @JsonProperty("message") String message,
+      @JsonProperty("order_id") Long orderId) {
     super(status, message);
     this.orderId = orderId;
   }

@@ -10,9 +10,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanOrderBook;
-import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanOrderBookElement;
-import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanTicker;
 
 /**
  * @author Piotr Ładyżyński

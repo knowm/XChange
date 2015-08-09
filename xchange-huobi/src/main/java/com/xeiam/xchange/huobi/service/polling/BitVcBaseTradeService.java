@@ -1,10 +1,10 @@
 package com.xeiam.xchange.huobi.service.polling;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.huobi.BitVc;
 import com.xeiam.xchange.huobi.service.HuobiDigest;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class BitVcBaseTradeService extends HuobiBasePollingService {
 

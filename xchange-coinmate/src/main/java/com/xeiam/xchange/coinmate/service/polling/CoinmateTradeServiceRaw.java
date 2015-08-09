@@ -23,19 +23,20 @@
  */
 package com.xeiam.xchange.coinmate.service.polling;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.coinmate.CoinmateAuthenticated;
-import com.xeiam.xchange.coinmate.dto.trade.CoinmateTradeResponse;
-import com.xeiam.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
-import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
-import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
-import com.xeiam.xchange.coinmate.service.CoinmateDigest;
 import java.io.IOException;
 import java.math.BigDecimal;
+
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.coinmate.CoinmateAuthenticated;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateTradeResponse;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+import com.xeiam.xchange.coinmate.service.CoinmateDigest;
+
 import si.mazi.rescu.RestProxyFactory;
 
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
@@ -47,13 +48,13 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
     super(exchange);
 
     this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = CoinmateDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
-        .getUserName(), exchange.getExchangeSpecification().getApiKey());
+    this.signatureCreator = CoinmateDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
+        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
 
   public CoinmateTransactionHistory getCoinmateTradeHistory(int offset, int limit, String sort) throws IOException {
-    CoinmateTransactionHistory tradeHistory = coinmateAuthenticated.getTransactionHistory(exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(),
-        offset, limit, sort);
+    CoinmateTransactionHistory tradeHistory = coinmateAuthenticated.getTransactionHistory(exchange.getExchangeSpecification().getUserName(),
+        signatureCreator, exchange.getNonceFactory(), offset, limit, sort);
 
     throwExceptionIfError(tradeHistory);
 
@@ -61,7 +62,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateOpenOrders getCoinmateOpenOrders(String currencyPair) throws IOException {
-    CoinmateOpenOrders openOrders = coinmateAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), currencyPair);
+    CoinmateOpenOrders openOrders = coinmateAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+        exchange.getNonceFactory(), currencyPair);
 
     throwExceptionIfError(openOrders);
 
@@ -70,7 +72,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateCancelOrderResponse cancelCoinmateOrder(String orderId) throws IOException {
-    CoinmateCancelOrderResponse response = coinmateAuthenticated.cancelOder(exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), orderId);
+    CoinmateCancelOrderResponse response = coinmateAuthenticated.cancelOder(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+        exchange.getNonceFactory(), orderId);
 
     throwExceptionIfError(response);
 
@@ -78,7 +81,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateTradeResponse buyCoinmateLimit(BigDecimal amount, BigDecimal price, String currencyPair) throws IOException {
-    CoinmateTradeResponse response = coinmateAuthenticated.buyLimit(exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), amount, price, currencyPair);
+    CoinmateTradeResponse response = coinmateAuthenticated.buyLimit(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+        exchange.getNonceFactory(), amount, price, currencyPair);
 
     throwExceptionIfError(response);
 
@@ -86,7 +90,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateTradeResponse sellCoinmateLimit(BigDecimal amount, BigDecimal price, String currencyPair) throws IOException {
-    CoinmateTradeResponse response = coinmateAuthenticated.sellLimit(exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), amount, price, currencyPair);
+    CoinmateTradeResponse response = coinmateAuthenticated.sellLimit(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+        exchange.getNonceFactory(), amount, price, currencyPair);
 
     throwExceptionIfError(response);
 
@@ -94,7 +99,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateTradeResponse buyCoinmateInstant(BigDecimal total, String currencyPair) throws IOException {
-    CoinmateTradeResponse response = coinmateAuthenticated.buyInstant(exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), total, currencyPair);
+    CoinmateTradeResponse response = coinmateAuthenticated.buyInstant(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+        exchange.getNonceFactory(), total, currencyPair);
 
     throwExceptionIfError(response);
 
@@ -102,7 +108,8 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateTradeResponse sellCoinmateInstant(BigDecimal total, String currencyPair) throws IOException {
-    CoinmateTradeResponse response = coinmateAuthenticated.sellInstant(exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), total, currencyPair);
+    CoinmateTradeResponse response = coinmateAuthenticated.sellInstant(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+        exchange.getNonceFactory(), total, currencyPair);
 
     throwExceptionIfError(response);
 

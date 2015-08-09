@@ -15,6 +15,17 @@ import java.math.BigDecimal;
  */
 public final class Wallet {
 
+  private final String currency;
+
+  /**
+   * @deprecated
+   */
+  @Deprecated
+  private final String description;
+  private final BigDecimal balance;
+  private final BigDecimal available;
+  private final BigDecimal frozen;
+
   /**
    * Returns a wallet with zero balances.
    *
@@ -24,16 +35,6 @@ public final class Wallet {
   public static Wallet zero(String currency) {
     return new Wallet(currency, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
   }
-
-  private final String currency;
-  /**
-   * @deprecated
-   */
-  @Deprecated
-  private final String description;
-  private final BigDecimal balance;
-  private final BigDecimal available;
-  private final BigDecimal frozen;
 
   /**
    * Constructs a wallet, the {@link #available} will be the same as the <code>balance</code>, and the {@link #frozen} is zero.
@@ -141,7 +142,8 @@ public final class Wallet {
   @Override
   public String toString() {
 
-    return "Wallet [currency=" + currency + ", balance=" + balance + ", available=" + available + ", frozen=" + frozen + ", description=" + description + "]";
+    return "Wallet [currency=" + currency + ", balance=" + balance + ", available=" + available + ", frozen=" + frozen + ", description="
+        + description + "]";
   }
 
   @Override

@@ -17,7 +17,7 @@ public class BitVcFuturesTicker {
 
   public BitVcFuturesTicker(@JsonProperty("high") final BigDecimal high, @JsonProperty("low") final BigDecimal low,
       @JsonProperty("last") final BigDecimal last, @JsonProperty("vol") final BigDecimal vol, @JsonProperty("buy") final BigDecimal buy,
-      @JsonProperty("sell") final BigDecimal sell, @JsonProperty("contract_type") String contractType, @JsonProperty("contract_id") int contractId ) { 
+      @JsonProperty("sell") final BigDecimal sell, @JsonProperty("contract_type") String contractType, @JsonProperty("contract_id") int contractId) {
     this.high = high;
     this.low = low;
     this.last = last;
@@ -28,49 +28,41 @@ public class BitVcFuturesTicker {
     this.contractId = contractId;
   }
 
-  
   public BigDecimal getHigh() {
-  
+
     return high;
   }
 
-  
   public BigDecimal getLow() {
-  
+
     return low;
   }
 
-  
   public BigDecimal getLast() {
-  
+
     return last;
   }
 
-  
   public BigDecimal getVol() {
-  
+
     return vol;
   }
 
-  
   public BigDecimal getBuy() {
-  
+
     return buy;
   }
 
-  
   public BigDecimal getSell() {
-  
+
     return sell;
   }
-  
-  
+
   public String getContractType() {
 
     return contractType;
   }
-  
-  
+
   public int getContractId() {
 
     return contractId;

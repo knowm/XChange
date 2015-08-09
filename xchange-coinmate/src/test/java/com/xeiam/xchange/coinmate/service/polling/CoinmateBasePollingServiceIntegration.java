@@ -23,6 +23,10 @@
  */
 package com.xeiam.xchange.coinmate.service.polling;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import org.junit.Test;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.coinmate.CoinmateExchange;
@@ -31,11 +35,8 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
-import static org.fest.assertions.api.Assertions.assertThat;
-import org.junit.Test;
 
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateBasePollingServiceIntegration {

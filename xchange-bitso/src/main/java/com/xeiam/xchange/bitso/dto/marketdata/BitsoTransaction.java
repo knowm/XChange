@@ -1,8 +1,8 @@
 package com.xeiam.xchange.bitso.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Piotr Ładyżyński
@@ -23,7 +23,7 @@ public class BitsoTransaction {
    * @param amount BTC amount
    */
   public BitsoTransaction(@JsonProperty("date") long date, @JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price,
-                          @JsonProperty("amount") BigDecimal amount) {
+      @JsonProperty("amount") BigDecimal amount) {
 
     this.date = date;
     this.tid = tid;

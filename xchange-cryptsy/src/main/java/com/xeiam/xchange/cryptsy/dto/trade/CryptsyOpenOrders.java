@@ -39,8 +39,8 @@ public class CryptsyOpenOrders {
    */
   public CryptsyOpenOrders(@JsonProperty("marketid") int marketId, @JsonProperty("ordertype") CryptsyOrderType type,
       @JsonProperty("orderid") int orderId, @JsonProperty("created") String timeStamp, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("quantity") BigDecimal quantityRem, @JsonProperty("total") BigDecimal total, @JsonProperty("orig_quantity") BigDecimal quantityOrg)
-      throws ParseException {
+      @JsonProperty("quantity") BigDecimal quantityRem, @JsonProperty("total") BigDecimal total,
+      @JsonProperty("orig_quantity") BigDecimal quantityOrg) throws ParseException {
 
     this.marketId = marketId;
     this.orderId = orderId;

@@ -1,11 +1,11 @@
 package com.xeiam.xchange.kraken.service.polling;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -46,7 +46,7 @@ public class KrakenBasePollingServiceTest {
     Collection<String> flagsAsStrings = Arrays.asList(service.delimitSet(flags).split(","));
     assertThat(flagsAsStrings.size()).isEqualTo(3);
     assertThat(flagsAsStrings.size()).isEqualTo(flags.size());
-    for(IOrderFlags flag : flags) {
+    for (IOrderFlags flag : flags) {
       assertThat(flagsAsStrings).contains(flag.toString());
     }
   }

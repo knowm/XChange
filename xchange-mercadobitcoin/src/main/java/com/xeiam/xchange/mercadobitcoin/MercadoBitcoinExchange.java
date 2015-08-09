@@ -1,7 +1,5 @@
 package com.xeiam.xchange.mercadobitcoin;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -9,6 +7,8 @@ import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinAccountSer
 import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinMarketDataService;
 import com.xeiam.xchange.mercadobitcoin.service.polling.MercadoBitcoinTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTime1000NonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Felipe Micaroni Lalli

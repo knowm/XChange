@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.taurus.dto.trade.TaurusOrder;
-import com.xeiam.xchange.taurus.service.polling.TaurusTradeServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.taurus.TaurusDemoUtils;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.taurus.dto.trade.TaurusOrder;
+import com.xeiam.xchange.taurus.service.polling.TaurusTradeServiceRaw;
 
 /**
  * <p>

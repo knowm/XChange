@@ -10,15 +10,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalancesResponse;
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexDepositAddressResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexCancelOrderResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrdersResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexTradeHistoryResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexTradeResponse;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("v1.1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -51,13 +51,13 @@ public interface BittrexAuthenticated extends Bittrex {
   @Path("market/buymarket")
   BittrexTradeResponse buymarket(@QueryParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("market") String market, @QueryParam("quantity") String quantity)
-      throws IOException;
+          throws IOException;
 
   @GET
   @Path("market/sellmarket")
   BittrexTradeResponse sellmarket(@QueryParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("market") String market, @QueryParam("quantity") String quantity)
-      throws IOException;
+          throws IOException;
 
   @GET
   @Path("market/cancel")

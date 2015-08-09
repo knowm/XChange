@@ -38,8 +38,8 @@ public class OrderBookTest {
   public void testUpdateAddOrder() {
 
     Date timeStamp = new Date(0);
-    OrderBookUpdate lowerBidUpdate = new OrderBookUpdate(OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD,
-        BigDecimal.TEN.subtract(BigDecimal.ONE), timeStamp, BigDecimal.ONE);
+    OrderBookUpdate lowerBidUpdate = new OrderBookUpdate(OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_USD, BigDecimal.TEN.subtract(BigDecimal.ONE),
+        timeStamp, BigDecimal.ONE);
     orderBook.update(lowerBidUpdate);
     assertThat(orderBook.getBids().size()).isEqualTo(2);
   }

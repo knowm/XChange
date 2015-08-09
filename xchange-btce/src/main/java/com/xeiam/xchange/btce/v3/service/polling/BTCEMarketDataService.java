@@ -65,8 +65,10 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements P
     }
 
     // Adapt to XChange DTOs
-    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(BTCEAdapters.getPair(currencyPair)).getAsks(), currencyPair, "ask", "");
-    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(BTCEAdapters.getPair(currencyPair)).getBids(), currencyPair, "bid", "");
+    List<LimitOrder> asks = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(BTCEAdapters.getPair(currencyPair)).getAsks(), currencyPair, "ask",
+        "");
+    List<LimitOrder> bids = BTCEAdapters.adaptOrders(btceDepthWrapper.getDepth(BTCEAdapters.getPair(currencyPair)).getBids(), currencyPair, "bid",
+        "");
 
     return new OrderBook(null, asks, bids);
   }

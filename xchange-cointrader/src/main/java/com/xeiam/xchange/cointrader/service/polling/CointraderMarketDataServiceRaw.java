@@ -3,12 +3,12 @@ package com.xeiam.xchange.cointrader.service.polling;
 import java.io.IOException;
 import java.util.Map;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cointrader.Cointrader;
 import com.xeiam.xchange.cointrader.dto.marketdata.CointraderOrderBook;
 import com.xeiam.xchange.cointrader.dto.marketdata.CointraderTicker;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class CointraderMarketDataServiceRaw extends CointraderBasePollingService {
 
@@ -24,10 +24,8 @@ public class CointraderMarketDataServiceRaw extends CointraderBasePollingService
     return tck.get(currencyPair);
   }
 
-  public CointraderOrderBook getCointraderOrderBook(Cointrader.Pair currencyPair, Integer limit, Cointrader.OrderBookType type)
-      throws IOException {
+  public CointraderOrderBook getCointraderOrderBook(Cointrader.Pair currencyPair, Integer limit, Cointrader.OrderBookType type) throws IOException {
     return type == null ? cointrader.getOrderBook(currencyPair)
-        : limit == null ? cointrader.getOrderBook(currencyPair, type)
-        : cointrader.getOrderBook(currencyPair, limit, type);
+        : limit == null ? cointrader.getOrderBook(currencyPair, type) : cointrader.getOrderBook(currencyPair, limit, type);
   }
 }

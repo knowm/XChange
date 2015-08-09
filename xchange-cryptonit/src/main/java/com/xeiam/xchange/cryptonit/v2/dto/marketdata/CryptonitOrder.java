@@ -35,8 +35,8 @@ public final class CryptonitOrder {
    */
   public CryptonitOrder(@JsonProperty("type") String type, @JsonProperty("bid_currency") String bid_currency,
       @JsonProperty("ask_currency") String ask_currency, @JsonProperty("bid_amount") BigDecimal bid_amount,
-      @JsonProperty("ask_amount") BigDecimal ask_amount, @JsonProperty("ask_rate") BigDecimal ask_rate,
-      @JsonProperty("bid_rate") BigDecimal bid_rate, @JsonProperty("created") long created, @JsonProperty("filled") long filled) {
+      @JsonProperty("ask_amount") BigDecimal ask_amount, @JsonProperty("ask_rate") BigDecimal ask_rate, @JsonProperty("bid_rate") BigDecimal bid_rate,
+      @JsonProperty("created") long created, @JsonProperty("filled") long filled) {
 
     this.type = type;
     this.bid_currency = bid_currency;

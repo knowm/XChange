@@ -5,8 +5,6 @@ import static com.xeiam.xchange.coinsetter.CoinsetterExchange.DEPTH_FORMAT_LIST;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterLast;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterListDepth;
@@ -14,6 +12,8 @@ import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterPairedDepth;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterQuote;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
 import com.xeiam.xchange.coinsetter.rs.CoinsetterMarketData;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * Market data raw service.

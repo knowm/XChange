@@ -1,13 +1,11 @@
 package com.xeiam.xchange.bitkonan;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitkonan.service.polling.BitKonanMarketDataService;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitKonanExchange extends BaseExchange implements Exchange {
 

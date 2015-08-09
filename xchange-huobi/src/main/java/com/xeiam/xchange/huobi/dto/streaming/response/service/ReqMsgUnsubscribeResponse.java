@@ -8,9 +8,8 @@ import com.xeiam.xchange.huobi.dto.streaming.response.payload.VoidPayload;
  */
 public class ReqMsgUnsubscribeResponse extends ReqResponse<VoidPayload> {
 
-	public ReqMsgUnsubscribeResponse(int version, String msgType, int retCode,
-			String retMsg) {
-		super(version, msgType, retCode, retMsg);
-	}
+  public ReqMsgUnsubscribeResponse(int version, String msgType, int retCode, String retMsg) {
+    super(version, msgType, retCode, retMsg);
+  }
 
 }

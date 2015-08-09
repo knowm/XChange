@@ -37,19 +37,25 @@ public class BitMarketHistoryParams implements TradeHistoryParamCurrencyPair, Tr
     this.count = count;
   }
 
-  @Override public void setCurrencyPair(CurrencyPair currencyPair) {
+  @Override
+  public void setCurrencyPair(CurrencyPair currencyPair) {
     this.currencyPair = currencyPair;
   }
 
-  @Override public CurrencyPair getCurrencyPair() {
+  @Override
+  public CurrencyPair getCurrencyPair() {
     return currencyPair;
   }
 
-  @Override public void setOffset(Long offset) {
+  @Override
+  public void setOffset(Long offset) {
     this.offset = offset;
   }
 
-  @Override public Long getOffset() { return offset; }
+  @Override
+  public Long getOffset() {
+    return offset;
+  }
 
   public void setCount(Integer count) {
     this.count = count;

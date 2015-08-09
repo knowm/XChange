@@ -56,7 +56,7 @@ public interface CoinsetterMarketData {
 
   @GET
   @Path("quote")
-  public CoinsetterQuote getQuote(@QueryParam("quantity") BigDecimal quantity, @QueryParam("symbol") String symbol) throws CoinsetterException,
-      IOException;
+  public CoinsetterQuote getQuote(@QueryParam("quantity") BigDecimal quantity, @QueryParam("symbol") String symbol)
+      throws CoinsetterException, IOException;
 
 }

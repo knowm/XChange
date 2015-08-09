@@ -7,7 +7,7 @@ class SpotChannelProvider implements ChannelProvider {
   private static String pairToString(CurrencyPair currencyPair) {
     return currencyPair.baseSymbol.toLowerCase() + currencyPair.counterSymbol.toLowerCase();
   }
-  
+
   @Override
   public String getTicker(CurrencyPair currencyPair) {
     return "ok_" + pairToString(currencyPair) + "_ticker";

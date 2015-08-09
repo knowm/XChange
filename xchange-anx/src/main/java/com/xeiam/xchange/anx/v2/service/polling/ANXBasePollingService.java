@@ -9,6 +9,7 @@ import com.xeiam.xchange.exceptions.FundsExceededException;
 import com.xeiam.xchange.exceptions.NonceException;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+
 import si.mazi.rescu.HttpStatusIOException;
 
 public class ANXBasePollingService extends BaseExchangeService implements BasePollingService {

@@ -11,8 +11,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.therock.dto.TheRockException;
 import com.xeiam.xchange.therock.dto.account.TheRockBalance;
 import com.xeiam.xchange.therock.dto.account.TheRockBalances;
@@ -20,6 +18,8 @@ import com.xeiam.xchange.therock.dto.account.TheRockWithdrawal;
 import com.xeiam.xchange.therock.dto.account.TheRockWithdrawalResponse;
 import com.xeiam.xchange.therock.dto.trade.TheRockOrder;
 import com.xeiam.xchange.therock.service.TheRockDigest;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("v1")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -30,38 +30,24 @@ public interface TheRockAuthenticated {
 
   @POST
   @Path("funds/{fund_id}/orders")
-  TheRockOrder placeOrder(
-      @PathParam("fund_id") TheRock.Pair currencyPair,
-      @HeaderParam("X-TRT-KEY") String publicKey,
-      @HeaderParam("X-TRT-SIGN") TheRockDigest signer,
-      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory,
-      TheRockOrder order
-  ) throws TheRockException, IOException;
+  TheRockOrder placeOrder(@PathParam("fund_id") TheRock.Pair currencyPair, @HeaderParam("X-TRT-KEY") String publicKey,
+      @HeaderParam("X-TRT-SIGN") TheRockDigest signer, @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, TheRockOrder order)
+          throws TheRockException, IOException;
 
   @POST
   @Path("atms/withdraw")
-  TheRockWithdrawalResponse withdraw(
-      @HeaderParam("X-TRT-KEY") String publicKey,
-      @HeaderParam("X-TRT-SIGN") TheRockDigest signer,
-      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory,
-      TheRockWithdrawal withdrawal
-  ) throws TheRockException, IOException;
+  TheRockWithdrawalResponse withdraw(@HeaderParam("X-TRT-KEY") String publicKey, @HeaderParam("X-TRT-SIGN") TheRockDigest signer,
+      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, TheRockWithdrawal withdrawal) throws TheRockException, IOException;
 
   @GET
   @Path("balances/{currency}")
-  TheRockBalance balance(
-      @HeaderParam("X-TRT-KEY") String publicKey,
-      @HeaderParam("X-TRT-SIGN") TheRockDigest signer,
-      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory,
-      @PathParam("currency") String currency
-  ) throws TheRockException, IOException;
+  TheRockBalance balance(@HeaderParam("X-TRT-KEY") String publicKey, @HeaderParam("X-TRT-SIGN") TheRockDigest signer,
+      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, @PathParam("currency") String currency)
+          throws TheRockException, IOException;
 
   @GET
   @Path("balances")
-  TheRockBalances balances(
-      @HeaderParam("X-TRT-KEY") String publicKey,
-      @HeaderParam("X-TRT-SIGN") TheRockDigest signer,
-      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory
-  ) throws TheRockException, IOException;
+  TheRockBalances balances(@HeaderParam("X-TRT-KEY") String publicKey, @HeaderParam("X-TRT-SIGN") TheRockDigest signer,
+      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory) throws TheRockException, IOException;
 
 }

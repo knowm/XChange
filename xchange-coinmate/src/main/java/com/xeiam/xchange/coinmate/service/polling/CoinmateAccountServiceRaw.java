@@ -23,6 +23,9 @@
  */
 package com.xeiam.xchange.coinmate.service.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.CoinmateAuthenticated;
 import com.xeiam.xchange.coinmate.dto.account.CoinmateBalance;
@@ -30,12 +33,9 @@ import com.xeiam.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import com.xeiam.xchange.coinmate.service.CoinmateDigest;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import si.mazi.rescu.RestProxyFactory;
 
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateAccountServiceRaw extends CoinmateBasePollingService {
@@ -47,8 +47,8 @@ public class CoinmateAccountServiceRaw extends CoinmateBasePollingService {
     super(exchange);
 
     this.coinmateAuthenticated = RestProxyFactory.createProxy(CoinmateAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = CoinmateDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
-        .getUserName(), exchange.getExchangeSpecification().getApiKey());
+    this.signatureCreator = CoinmateDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
+        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
 
   public CoinmateBalance getCoinmateBalance() throws IOException {
@@ -71,8 +71,8 @@ public class CoinmateAccountServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateDepositAddresses coinmateBitcoinDepositAddresses() throws IOException {
-    CoinmateDepositAddresses addresses = coinmateAuthenticated.bitcoinDepositAddresses(exchange.getExchangeSpecification().getUserName(), signatureCreator,
-        exchange.getNonceFactory());
+    CoinmateDepositAddresses addresses = coinmateAuthenticated.bitcoinDepositAddresses(exchange.getExchangeSpecification().getUserName(),
+        signatureCreator, exchange.getNonceFactory());
 
     throwExceptionIfError(addresses);
 

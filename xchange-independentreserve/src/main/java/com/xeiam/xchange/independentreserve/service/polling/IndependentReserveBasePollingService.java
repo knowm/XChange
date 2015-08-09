@@ -5,17 +5,16 @@ import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
 /**
- * Author: Kamil Zbikowski
- * Date: 4/9/15
+ * Author: Kamil Zbikowski Date: 4/9/15
  */
 public class IndependentReserveBasePollingService extends BaseExchangeService implements BasePollingService {
 
-    /**
-     * Constructor
-     *
-     * @param exchange
-     */
-    protected IndependentReserveBasePollingService(Exchange exchange) {
-        super(exchange);
-    }
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  protected IndependentReserveBasePollingService(Exchange exchange) {
+    super(exchange);
+  }
 }

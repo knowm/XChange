@@ -132,8 +132,8 @@ public final class QuoineOrderDetailsResponse {
   public String toString() {
     return "OrderDetailsResponse [id=" + id + ", orderType=" + orderType + ", quantity=" + quantity + ", currencyPairCode=" + currencyPairCode
         + ", side=" + side + ", leverageLevel=" + leverageLevel + ", productCode=" + productCode + ", filledQuantity=" + filledQuantity + ", price="
-        + price + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", status=" + status + ", orderFee=" + orderFee + ", settings="
-        + settings + ", executions=" + Arrays.toString(executions) + "]";
+        + price + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", status=" + status + ", orderFee=" + orderFee + ", settings=" + settings
+        + ", executions=" + Arrays.toString(executions) + "]";
   }
 
 }

@@ -89,9 +89,8 @@ public class RippleOrderDetails extends RippleCommon {
 
   @Override
   public String toString() {
-    return String
-        .format(
-            "%s [hash=%s, ledger=%d, validated=%s, success=%s timestamp=%s, fee=%s, action=%s, direction=%s, order=%s, balance_changes=%s order_changes=%s]",
-            getClass().getSimpleName(), hash, ledger, validated, success, timestamp, fee, action, direction, order, balanceChanges, orderChanges);
+    return String.format(
+        "%s [hash=%s, ledger=%d, validated=%s, success=%s timestamp=%s, fee=%s, action=%s, direction=%s, order=%s, balance_changes=%s order_changes=%s]",
+        getClass().getSimpleName(), hash, ledger, validated, success, timestamp, fee, action, direction, order, balanceChanges, orderChanges);
   }
 }

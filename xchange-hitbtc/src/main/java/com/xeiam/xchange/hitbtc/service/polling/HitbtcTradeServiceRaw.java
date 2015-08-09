@@ -24,6 +24,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
 
   // TODO move this to metadata
   private static Map<CurrencyPair, BigDecimal> LOT_SIZES = new HashMap<CurrencyPair, BigDecimal>();
+
   static {
 
     LOT_SIZES.put(new CurrencyPair("BTC/USD"), new BigDecimal("0.01"));

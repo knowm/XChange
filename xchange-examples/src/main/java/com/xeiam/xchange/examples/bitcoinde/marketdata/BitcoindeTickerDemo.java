@@ -8,8 +8,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoinde.BitcoindeExchange;
 import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeRate;
 import com.xeiam.xchange.bitcoinde.service.polling.BitcoindeMarketDataServiceRaw;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class BitcoindeTickerDemo {
@@ -33,9 +31,8 @@ public class BitcoindeTickerDemo {
     /* create a data service from the exchange */
     PollingMarketDataService marketDataService = bitcoindeExchange.getPollingMarketDataService();
 
-    /* We can't get a real ticker since Bitcoin.de doesn't
-     * support it, but we can get an exchange rate. Use a 
-     * BitcoindeRate object for this.
+    /*
+     * We can't get a real ticker since Bitcoin.de doesn't support it, but we can get an exchange rate. Use a BitcoindeRate object for this.
      */
     raw((BitcoindeMarketDataServiceRaw) marketDataService);
 

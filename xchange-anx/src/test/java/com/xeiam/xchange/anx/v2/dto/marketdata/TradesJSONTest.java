@@ -9,8 +9,6 @@ import java.util.List;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
-import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
 
 public class TradesJSONTest {
 

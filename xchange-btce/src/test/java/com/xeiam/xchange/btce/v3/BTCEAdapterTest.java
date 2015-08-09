@@ -74,8 +74,7 @@ public class BTCEAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BTCETradesWrapper bTCETradesWrapper = mapper.readValue(is, BTCETradesWrapper.class);
 
-    Trades trades = BTCEAdapters.adaptTrades(bTCETradesWrapper.getTrades(BTCEAdapters.getPair(CurrencyPair.BTC_USD)),
-        CurrencyPair.BTC_USD);
+    Trades trades = BTCEAdapters.adaptTrades(bTCETradesWrapper.getTrades(BTCEAdapters.getPair(CurrencyPair.BTC_USD)), CurrencyPair.BTC_USD);
     // System.out.println(trades.getTrades().size());
     assertThat(trades.getTrades().size() == 150);
 

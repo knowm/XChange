@@ -12,15 +12,7 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btce.v3.dto.BTCEReturn;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderReturn;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCEOpenOrdersReturn;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderReturn;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult.Type;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
 
 /**
  * Test BTCETradeData JSON parsing

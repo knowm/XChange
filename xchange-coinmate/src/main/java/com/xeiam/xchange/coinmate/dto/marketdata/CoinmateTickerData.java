@@ -23,12 +23,12 @@
  */
 package com.xeiam.xchange.coinmate.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateTickerData {
@@ -41,12 +41,8 @@ public class CoinmateTickerData {
   private final BigDecimal ask;
 
   @JsonCreator
-  public CoinmateTickerData(@JsonProperty("last") BigDecimal last,
-      @JsonProperty("high") BigDecimal high,
-      @JsonProperty("low") BigDecimal low,
-      @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("ask") BigDecimal ask) {
+  public CoinmateTickerData(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask) {
 
     this.last = last;
     this.high = high;

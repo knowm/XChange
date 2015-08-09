@@ -6,13 +6,13 @@ import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.taurus.Taurus;
 import com.xeiam.xchange.taurus.TaurusExchange;
 import com.xeiam.xchange.taurus.dto.marketdata.TaurusTransaction;
 import com.xeiam.xchange.taurus.service.polling.TaurusMarketDataServiceRaw;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * Demonstrate requesting Trades at Taurus

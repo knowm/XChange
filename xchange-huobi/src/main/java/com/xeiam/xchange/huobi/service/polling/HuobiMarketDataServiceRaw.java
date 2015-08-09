@@ -2,14 +2,14 @@ package com.xeiam.xchange.huobi.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.huobi.BitVc;
 import com.xeiam.xchange.huobi.HuobiExchange;
 import com.xeiam.xchange.huobi.dto.marketdata.HuobiDepth;
 import com.xeiam.xchange.huobi.dto.marketdata.HuobiOrderBookTAS;
 import com.xeiam.xchange.huobi.dto.marketdata.HuobiTicker;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class HuobiMarketDataServiceRaw extends HuobiBasePollingService {
 

@@ -27,7 +27,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- *
  * @author Martin Stachon
  * @param <T>
  */
@@ -38,9 +37,7 @@ public class CoinmateBaseResponse<T> {
   private final T data;
 
   @JsonCreator
-  public CoinmateBaseResponse(@JsonProperty("error") boolean error,
-      @JsonProperty("errorMessage") String errorMessage,
-      @JsonProperty("data") T data) {
+  public CoinmateBaseResponse(@JsonProperty("error") boolean error, @JsonProperty("errorMessage") String errorMessage, @JsonProperty("data") T data) {
 
     this.error = error;
     this.errorMessage = errorMessage;

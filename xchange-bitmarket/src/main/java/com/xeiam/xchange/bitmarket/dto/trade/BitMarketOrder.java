@@ -1,12 +1,12 @@
 package com.xeiam.xchange.bitmarket.dto.trade;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.bitmarket.BitMarketUtils;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * @author kfonal
@@ -34,12 +34,8 @@ public class BitMarketOrder {
    * @param type
    * @param time
    */
-  public BitMarketOrder(@JsonProperty("id") long id,
-      @JsonProperty("market") String market,
-      @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("fiat") BigDecimal fiat,
-      @JsonProperty("type") String type,
+  public BitMarketOrder(@JsonProperty("id") long id, @JsonProperty("market") String market, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("rate") BigDecimal rate, @JsonProperty("fiat") BigDecimal fiat, @JsonProperty("type") String type,
       @JsonProperty("time") long time) {
 
     this.id = id;
@@ -73,9 +69,11 @@ public class BitMarketOrder {
     return fiat;
   }
 
-  public Order.OrderType getType() { return BitMarketUtils.BitMarketOrderTypeToOrderType(type); }
+  public Order.OrderType getType() {
+    return BitMarketUtils.BitMarketOrderTypeToOrderType(type);
+  }
 
-  public long getTime(){
+  public long getTime() {
     return time;
   }
 

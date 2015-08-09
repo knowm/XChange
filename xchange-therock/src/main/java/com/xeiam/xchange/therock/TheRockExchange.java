@@ -1,7 +1,5 @@
 package com.xeiam.xchange.therock;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -9,6 +7,8 @@ import com.xeiam.xchange.therock.service.polling.TheRockAccountService;
 import com.xeiam.xchange.therock.service.polling.TheRockMarketDataService;
 import com.xeiam.xchange.therock.service.polling.TheRockTradeService;
 import com.xeiam.xchange.utils.nonce.TimestampIncrementingNonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Matija Mazi

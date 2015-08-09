@@ -23,11 +23,11 @@
  */
 package com.xeiam.xchange.coinmate.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateOrderBookData {
@@ -35,8 +35,7 @@ public class CoinmateOrderBookData {
   private final List<CoinmateOrderBookEntry> asks;
   private final List<CoinmateOrderBookEntry> bids;
 
-  public CoinmateOrderBookData(@JsonProperty("asks") List<CoinmateOrderBookEntry> asks,
-      @JsonProperty("bids") List<CoinmateOrderBookEntry> bids) {
+  public CoinmateOrderBookData(@JsonProperty("asks") List<CoinmateOrderBookEntry> asks, @JsonProperty("bids") List<CoinmateOrderBookEntry> bids) {
 
     this.asks = asks;
     this.bids = bids;

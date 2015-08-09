@@ -26,7 +26,6 @@ package com.xeiam.xchange.coinmate;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateException extends ExchangeException {

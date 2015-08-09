@@ -56,9 +56,11 @@ public class TheRockWithdrawal {
 
   @Override
   public String toString() {
-    return String.format("TheRockWithdrawal{currency='%s', withdrawMethod='%s', destinationAddress='%s', amount=%s}",
-        currency, withdrawMethod == null ? "<defualt>" : withdrawMethod, destinationAddress, amount);
+    return String.format("TheRockWithdrawal{currency='%s', withdrawMethod='%s', destinationAddress='%s', amount=%s}", currency,
+        withdrawMethod == null ? "<defualt>" : withdrawMethod, destinationAddress, amount);
   }
 
-  public enum Method { RIPPLE }
+  public enum Method {
+    RIPPLE
+  }
 }

@@ -14,7 +14,8 @@ public class MeXBTServerOrderIdResponseTest {
 
   @Test
   public void testMeXBTOrderCreation() throws JsonParseException, JsonMappingException, IOException {
-    MeXBTServerOrderIdResponse meXBTServerOrderIdResponse = new ObjectMapper().readValue(MeXBTServerOrderIdResponseTest.class.getResource("server-order-id.json"), MeXBTServerOrderIdResponse.class);
+    MeXBTServerOrderIdResponse meXBTServerOrderIdResponse = new ObjectMapper()
+        .readValue(MeXBTServerOrderIdResponseTest.class.getResource("server-order-id.json"), MeXBTServerOrderIdResponse.class);
     assertEquals(95084849L, meXBTServerOrderIdResponse.getServerOrderId());
     assertEquals(1435078107139L, meXBTServerOrderIdResponse.getDateTimeUtc().getTime());
   }

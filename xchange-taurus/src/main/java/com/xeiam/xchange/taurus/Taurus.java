@@ -32,5 +32,7 @@ public interface Taurus {
   @Path("transactions/")
   TaurusTransaction[] getTransactions(@QueryParam("time") Time time) throws IOException;
 
-  enum Time { hour, minute }
+  enum Time {
+    hour, minute
+  }
 }

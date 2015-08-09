@@ -9,14 +9,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
 /**
- * A single tick represents one hundred nanoseconds or one ten-millionth of a
- * second. There are 10,000 ticks in a millisecond, or 10 million ticks in a
- * second.
- *
- * A tick represents the number of 100-nanosecond intervals that have elapsed
- * since 12:00:00 midnight, January 1, 0001 (0:00:00 UTC on January 1, 0001, in
- * the Gregorian calendar). It does not include the number of ticks that are
- * attributable to leap seconds.
+ * A single tick represents one hundred nanoseconds or one ten-millionth of a second. There are 10,000 ticks in a millisecond, or 10 million ticks in
+ * a second. A tick represents the number of 100-nanosecond intervals that have elapsed since 12:00:00 midnight, January 1, 0001 (0:00:00 UTC on
+ * January 1, 0001, in the Gregorian calendar). It does not include the number of ticks that are attributable to leap seconds.
  *
  * @see <a href="https://msdn.microsoft.com/en-us/library/system.datetime.ticks(v=vs.110).aspx">DateTime.Ticks Property</a>
  */

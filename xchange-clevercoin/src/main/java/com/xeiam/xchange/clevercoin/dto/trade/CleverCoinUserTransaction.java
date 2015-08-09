@@ -33,15 +33,16 @@ public final class CleverCoinUserTransaction {
    * @param btc
    * @param btc_eur
    */
-  public CleverCoinUserTransaction(@JsonProperty("time") long datetime, @JsonProperty("transactionId") long transactionId, @JsonProperty("order") long orderId,
-      @JsonProperty("type") String type, @JsonProperty("volume") BigDecimal btc, @JsonProperty("price") BigDecimal btc_eur ) {
+  public CleverCoinUserTransaction(@JsonProperty("time") long datetime, @JsonProperty("transactionId") long transactionId,
+      @JsonProperty("order") long orderId, @JsonProperty("type") String type, @JsonProperty("volume") BigDecimal btc,
+      @JsonProperty("price") BigDecimal btc_eur) {
 
     this.datetime = datetime;
     this.transactionId = transactionId;
     this.orderId = orderId;
     this.type = type;
     MathContext mc = new MathContext(10);
-    this.eur = btc.multiply(btc_eur,mc);
+    this.eur = btc.multiply(btc_eur, mc);
     this.btc = btc;
     this.btc_eur = btc_eur;
   }
@@ -78,7 +79,7 @@ public final class CleverCoinUserTransaction {
 
   public boolean isMarketTrade() {
 
-    return (type == "sell" || type== "buy");
+    return (type == "sell" || type == "buy");
   }
 
   public BigDecimal getEur() {
@@ -90,10 +91,10 @@ public final class CleverCoinUserTransaction {
 
     return btc;
   }
- 
+
   @JsonIgnore
   public Date getTime() {
-	  
+
     return new Date((long) (this.getDatetime() * 1000L));
   }
 

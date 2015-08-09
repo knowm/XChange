@@ -3,14 +3,14 @@ package com.xeiam.xchange.bitso.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitso.BitsoAuthenticated;
 import com.xeiam.xchange.bitso.dto.account.BitsoBalance;
 import com.xeiam.xchange.bitso.dto.account.BitsoDepositAddress;
 import com.xeiam.xchange.bitso.service.BitsoDigest;
 import com.xeiam.xchange.exceptions.ExchangeException;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class BitsoAccountServiceRaw extends BitsoBasePollingService {
 
@@ -21,8 +21,8 @@ public class BitsoAccountServiceRaw extends BitsoBasePollingService {
     super(exchange);
 
     this.bitsoAuthenticated = RestProxyFactory.createProxy(BitsoAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = BitsoDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
-        .getUserName(), exchange.getExchangeSpecification().getApiKey());
+    this.signatureCreator = BitsoDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
+        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
 
   public BitsoBalance getBitsoBalance() throws IOException {
@@ -57,18 +57,15 @@ public class BitsoAccountServiceRaw extends BitsoBasePollingService {
   }
 
   /**
-   * Withdraws funds to Ripple and associates the receiving Ripple address with the Bitso account
-   * for deposits.
-   *
-   * NOTE: The Ripple address associated to your account for deposits will be updated accordingly!
-   * Please ensure that any subsequent Ripple funding emanates from this address.
+   * Withdraws funds to Ripple and associates the receiving Ripple address with the Bitso account for deposits. NOTE: The Ripple address associated to
+   * your account for deposits will be updated accordingly! Please ensure that any subsequent Ripple funding emanates from this address.
    *
    * @return true if withdrawal was successful.
    */
   public boolean withdrawToRipple(BigDecimal amount, String currency, String rippleAddress) throws IOException {
 
-    final String result = bitsoAuthenticated.withdrawToRipple(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-        amount, currency, rippleAddress);
+    final String result = bitsoAuthenticated.withdrawToRipple(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory(), amount, currency, rippleAddress);
     return "ok".equals(result);
   }
 }

@@ -1,14 +1,14 @@
 package com.xeiam.xchange.bitmarket.service.account;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitmarket.ExchangeUtils;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.service.polling.account.PollingAccountService;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.bitmarket.ExchangeUtils;
+import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
  * @author kfonal
@@ -27,7 +27,7 @@ public class DepositFetchIntegration {
   public void fetchDepositTest() throws Exception {
 
     if (exchange.getExchangeSpecification().getApiKey() == null || exchange.getExchangeSpecification().getSecretKey() == null) {
-      return;  // forces pass if there is no keys passed
+      return; // forces pass if there is no keys passed
     }
 
     PollingAccountService service = exchange.getPollingAccountService();

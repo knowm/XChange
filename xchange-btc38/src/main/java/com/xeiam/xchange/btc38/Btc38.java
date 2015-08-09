@@ -1,11 +1,15 @@
 package com.xeiam.xchange.btc38;
 
-import com.xeiam.xchange.btc38.dto.marketdata.Btc38TickerReturn;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.Map;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import com.xeiam.xchange.btc38.dto.marketdata.Btc38TickerReturn;
 
 /**
  * Created by Yingzhe on 12/17/2014.
@@ -15,8 +19,7 @@ import java.util.Map;
 public interface Btc38 {
 
   /**
-   * Gets all tickers from Btc38 for a particular target currency
-   * URL: http://api.btc38.com/v1/ticker.php?c=all&mk_type=cny
+   * Gets all tickers from Btc38 for a particular target currency URL: http://api.btc38.com/v1/ticker.php?c=all&mk_type=cny
    * 
    * @param marketType Target currency
    * @return Map of tickers

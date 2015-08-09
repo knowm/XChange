@@ -1,11 +1,11 @@
 package com.xeiam.xchange.bitmarket.dto.trade;
 
+import java.util.List;
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.bitmarket.dto.BitMarketAPILimit;
 import com.xeiam.xchange.bitmarket.dto.BitMarketBaseResponse;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author kfonal

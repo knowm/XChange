@@ -1,10 +1,10 @@
 package com.xeiam.xchange.bitso;
 
-import com.xeiam.xchange.exceptions.ExchangeException;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * A central place for shared Bitso properties

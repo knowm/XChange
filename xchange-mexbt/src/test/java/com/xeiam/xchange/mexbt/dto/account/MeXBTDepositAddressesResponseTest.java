@@ -14,8 +14,8 @@ public class MeXBTDepositAddressesResponseTest {
 
   @Test
   public void testMeXBTDepositAddressesResponse() throws JsonParseException, JsonMappingException, IOException {
-    MeXBTDepositAddressesResponse depositAddressesResponse = new ObjectMapper().readValue(MeXBTDepositAddressesResponseTest.class.getResource("deposit-addresses.json"),
-        MeXBTDepositAddressesResponse.class);
+    MeXBTDepositAddressesResponse depositAddressesResponse = new ObjectMapper()
+        .readValue(MeXBTDepositAddressesResponseTest.class.getResource("deposit-addresses.json"), MeXBTDepositAddressesResponse.class);
     MeXBTDepositAddress[] addresses = depositAddressesResponse.getAddresses();
     assertEquals(2, addresses.length);
     assertEquals("BTC", addresses[0].getName());

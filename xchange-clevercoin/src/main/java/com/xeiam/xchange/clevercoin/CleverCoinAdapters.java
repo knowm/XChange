@@ -3,7 +3,6 @@ package com.xeiam.xchange.clevercoin;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import com.xeiam.xchange.clevercoin.dto.marketdata.CleverCoinOrderBook;
 import com.xeiam.xchange.clevercoin.dto.marketdata.CleverCoinTicker;
 import com.xeiam.xchange.clevercoin.dto.marketdata.CleverCoinTransaction;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinUserTransaction;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -48,14 +46,13 @@ public final class CleverCoinAdapters {
    * @return The account info
    */
   public static AccountInfo adaptAccountInfo(CleverCoinBalance[] cleverCoinBalance, String userName) {
-	  
-	    List<Wallet> wallets = new ArrayList<Wallet>();
-	    
-	    for (CleverCoinBalance currencybalance : cleverCoinBalance) {
-	        wallets.add(new Wallet(currencybalance.getCurrency(), currencybalance.getBalance()));
-	      }
-	    
-	
+
+    List<Wallet> wallets = new ArrayList<Wallet>();
+
+    for (CleverCoinBalance currencybalance : cleverCoinBalance) {
+      wallets.add(new Wallet(currencybalance.getCurrency(), currencybalance.getBalance()));
+    }
+
     // Adapt to XChange DTOs
     //Wallet usdWallet = new Wallet(Currencies.USD, cleverCoinBalance.getUsdBalance());
     //Wallet btcWallet = new Wallet(Currencies.BTC, cleverCoinBalance.getBtcBalance());
@@ -171,23 +168,23 @@ public final class CleverCoinAdapters {
     List<UserTrade> trades = new ArrayList<UserTrade>();
     long lastTradeId = 0;
     for (CleverCoinUserTransaction cleverCoinUserTransaction : cleverCoinUserTransactions) {
-    	if (cleverCoinUserTransaction.getType().equals("buy") || cleverCoinUserTransaction.getType().equals("sell")  ) { // skip account deposits and withdrawals.
-    		OrderType orderType = (cleverCoinUserTransaction.getType().equals("sell") ? OrderType.ASK : OrderType.BID);
-	        BigDecimal tradableAmount = cleverCoinUserTransaction.getBtc();
-	        BigDecimal price = cleverCoinUserTransaction.getPrice().abs();
-	        Date timestamp = cleverCoinUserTransaction.getTime();
-	        long transactionId = cleverCoinUserTransaction.getId();
-	        if (transactionId > lastTradeId) {
-	          lastTradeId = transactionId;
-	        }
-	        final String tradeId = String.valueOf(transactionId);
-	        final String orderId = String.valueOf(cleverCoinUserTransaction.getOrderId());
-	        final BigDecimal feeAmount = new BigDecimal(0);
-	        final CurrencyPair currencyPair = CurrencyPair.BTC_EUR;
-	        
-	        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-	            currencyPair.counterSymbol);
-	        trades.add(trade);
+      if (cleverCoinUserTransaction.getType().equals("buy") || cleverCoinUserTransaction.getType().equals("sell")) { // skip account deposits and withdrawals.
+        OrderType orderType = (cleverCoinUserTransaction.getType().equals("sell") ? OrderType.ASK : OrderType.BID);
+        BigDecimal tradableAmount = cleverCoinUserTransaction.getBtc();
+        BigDecimal price = cleverCoinUserTransaction.getPrice().abs();
+        Date timestamp = cleverCoinUserTransaction.getTime();
+        long transactionId = cleverCoinUserTransaction.getId();
+        if (transactionId > lastTradeId) {
+          lastTradeId = transactionId;
+        }
+        final String tradeId = String.valueOf(transactionId);
+        final String orderId = String.valueOf(cleverCoinUserTransaction.getOrderId());
+        final BigDecimal feeAmount = new BigDecimal(0);
+        final CurrencyPair currencyPair = CurrencyPair.BTC_EUR;
+
+        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
+            currencyPair.counterSymbol);
+        trades.add(trade);
       }
     }
     return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);

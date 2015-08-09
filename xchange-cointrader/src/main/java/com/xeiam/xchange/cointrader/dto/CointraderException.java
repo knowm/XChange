@@ -1,8 +1,8 @@
 package com.xeiam.xchange.cointrader.dto;
 
-import si.mazi.rescu.HttpStatusExceptionSupport;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class CointraderException extends HttpStatusExceptionSupport {
 

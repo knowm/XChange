@@ -1,8 +1,8 @@
 package com.xeiam.xchange.taurus.dto;
 
-import si.mazi.rescu.HttpStatusExceptionSupport;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class TaurusException extends HttpStatusExceptionSupport {
   public TaurusException(@JsonProperty("error") Object error) {

@@ -26,7 +26,6 @@ package com.xeiam.xchange.coinmate;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateUtils {

@@ -15,6 +15,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.btcchina.service.fix.field.Amount;
+import com.xeiam.xchange.btcchina.service.fix.field.Balance;
+import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+
 import quickfix.ConfigError;
 import quickfix.DataDictionary;
 import quickfix.FieldNotFound;
@@ -23,13 +30,6 @@ import quickfix.InvalidMessage;
 import quickfix.field.Currency;
 import quickfix.fix44.MarketDataIncrementalRefresh;
 import quickfix.fix44.MarketDataSnapshotFullRefresh;
-
-import com.xeiam.xchange.btcchina.service.fix.field.Amount;
-import com.xeiam.xchange.btcchina.service.fix.field.Balance;
-import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.marketdata.Ticker;
 
 public class BTCChinaFIXAdaptersTest {
 

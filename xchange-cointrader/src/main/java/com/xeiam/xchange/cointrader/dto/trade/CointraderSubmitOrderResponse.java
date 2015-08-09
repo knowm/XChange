@@ -5,9 +5,7 @@ import com.xeiam.xchange.cointrader.dto.CointraderBaseResponse;
 
 public class CointraderSubmitOrderResponse extends CointraderBaseResponse<CointraderSubmitOrderResponse.OrderData> {
 
-  public CointraderSubmitOrderResponse(
-      @JsonProperty("success") Boolean success,
-      @JsonProperty("message") String message,
+  public CointraderSubmitOrderResponse(@JsonProperty("success") Boolean success, @JsonProperty("message") String message,
       @JsonProperty("data") OrderData data) {
     super(success, message, data);
   }

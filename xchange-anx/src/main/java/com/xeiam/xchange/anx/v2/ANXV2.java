@@ -14,9 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.anx.v2.dto.ANXException;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXAccountInfoWrapper;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXBitcoinDepositAddressWrapper;
@@ -32,6 +29,9 @@ import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXLagWrapper;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrderWrapper;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOrderResultWrapper;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResultWrapper;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("api/2")
 @Produces(MediaType.APPLICATION_JSON)
@@ -52,13 +52,13 @@ public interface ANXV2 {
 
   @GET
   @Path("{ident}{currency}/money/depth/fetch")
-  ANXDepthWrapper getPartialDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws ANXException,
-      IOException;
+  ANXDepthWrapper getPartialDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)
+      throws ANXException, IOException;
 
   @GET
   @Path("{ident}{currency}/money/depth/full")
-  ANXDepthWrapper getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws ANXException,
-      IOException;
+  ANXDepthWrapper getFullDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency)
+      throws ANXException, IOException;
 
   @GET
   @Path("{ident}{currency}/money/depth/full")
@@ -124,8 +124,8 @@ public interface ANXV2 {
   @Path("money/trade/list")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXTradeResultWrapper getExecutedTrades(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @FormParam("to") Long to) throws ANXException,
-      IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @FormParam("to") Long to)
+          throws ANXException, IOException;
 
   /**
    * Status of the order
@@ -144,8 +144,8 @@ public interface ANXV2 {
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXOrderResultWrapper getOrderResult(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("baseCurrency") String baseCurrency,
-      @PathParam("counterCurrency") String counterCurrency, @FormParam("order") String order, @FormParam("type") String type) throws ANXException,
-      IOException;
+      @PathParam("counterCurrency") String counterCurrency, @FormParam("order") String order, @FormParam("type") String type)
+          throws ANXException, IOException;
 
   /**
    * @param postBodySignatureCreator
@@ -192,5 +192,5 @@ public interface ANXV2 {
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("page") Integer page)
-      throws ANXException, IOException;
+          throws ANXException, IOException;
 }

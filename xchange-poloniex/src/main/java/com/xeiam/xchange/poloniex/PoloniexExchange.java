@@ -7,6 +7,7 @@ import com.xeiam.xchange.poloniex.service.polling.PoloniexAccountService;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexMarketDataService;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexTradeService;
 import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**

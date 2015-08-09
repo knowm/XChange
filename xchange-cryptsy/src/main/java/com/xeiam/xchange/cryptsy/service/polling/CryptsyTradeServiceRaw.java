@@ -108,8 +108,8 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService {
   public CryptsyPlaceOrderReturn placeCryptsyLimitOrder(int marketID, CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price)
       throws IOException, ExchangeException {
 
-    return checkResult(cryptsyAuthenticated.createorder(apiKey, signatureCreator, exchange.getNonceFactory(), marketID, orderType.toString(), quantity,
-        price));
+    return checkResult(
+        cryptsyAuthenticated.createorder(apiKey, signatureCreator, exchange.getNonceFactory(), marketID, orderType.toString(), quantity, price));
   }
 
   /**
@@ -164,10 +164,11 @@ public class CryptsyTradeServiceRaw extends CryptsyBasePollingService {
    *         error.
    * @throws IOException
    */
-  public CryptsyCalculatedFeesReturn calculateCryptsyFees(CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException,
-      ExchangeException {
+  public CryptsyCalculatedFeesReturn calculateCryptsyFees(CryptsyOrderType orderType, BigDecimal quantity, BigDecimal price)
+      throws IOException, ExchangeException {
 
-    return checkResult(cryptsyAuthenticated.calculatefees(apiKey, signatureCreator, exchange.getNonceFactory(), orderType.toString(), quantity, price));
+    return checkResult(
+        cryptsyAuthenticated.calculatefees(apiKey, signatureCreator, exchange.getNonceFactory(), orderType.toString(), quantity, price));
   }
 
 }

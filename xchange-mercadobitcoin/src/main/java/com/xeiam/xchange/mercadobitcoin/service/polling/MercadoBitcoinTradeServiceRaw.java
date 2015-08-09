@@ -6,8 +6,6 @@ import java.math.BigDecimal;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinAuthenticated;
@@ -16,6 +14,8 @@ import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinCancelOrderResul
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import com.xeiam.xchange.mercadobitcoin.service.MercadoBitcoinDigest;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author Felipe Micaroni Lalli
@@ -36,8 +36,8 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBasePollingServ
   public MercadoBitcoinTradeServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.mercadoBitcoinAuthenticated = RestProxyFactory.createProxy(MercadoBitcoinAuthenticated.class, exchange.getExchangeSpecification()
-        .getSslUri());
+    this.mercadoBitcoinAuthenticated = RestProxyFactory.createProxy(MercadoBitcoinAuthenticated.class,
+        exchange.getExchangeSpecification().getSslUri());
   }
 
   public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> getMercadoBitcoinUserOrders(@Nonnull String pair, @Nullable String type,
@@ -46,11 +46,11 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBasePollingServ
     String method = GET_ORDER_LIST;
     long tonce = exchange.getNonceFactory().createValue();
 
-    MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(), exchange
-        .getExchangeSpecification().getSecretKey(), tonce);
+    MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(),
+        exchange.getExchangeSpecification().getSecretKey(), tonce);
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> userOrders = mercadoBitcoinAuthenticated.getOrderList(exchange
-        .getExchangeSpecification().getApiKey(), signatureCreator, method, tonce, pair, type, status, fromId, endId, since, end);
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> userOrders = mercadoBitcoinAuthenticated.getOrderList(
+        exchange.getExchangeSpecification().getApiKey(), signatureCreator, method, tonce, pair, type, status, fromId, endId, since, end);
 
     if (userOrders.getSuccess() == 0) {
       throw new ExchangeException("Error getting user orders: " + userOrders.getError());
@@ -65,11 +65,11 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBasePollingServ
     String method = TRADE;
     long tonce = exchange.getNonceFactory().createValue();
 
-    MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(), exchange
-        .getExchangeSpecification().getSecretKey(), tonce);
+    MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(),
+        exchange.getExchangeSpecification().getSecretKey(), tonce);
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> newOrder = mercadoBitcoinAuthenticated.placeLimitOrder(exchange
-        .getExchangeSpecification().getApiKey(), signatureCreator, method, tonce, pair, type, volume, price);
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> newOrder = mercadoBitcoinAuthenticated
+        .placeLimitOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, method, tonce, pair, type, volume, price);
 
     if (newOrder.getSuccess() == 0) {
       throw new ExchangeException("Error creating a new order: " + newOrder.getError());
@@ -90,11 +90,11 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBasePollingServ
     String method = CANCEL_ORDER;
     long tonce = exchange.getNonceFactory().createValue();
 
-    MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(), exchange
-        .getExchangeSpecification().getSecretKey(), tonce);
+    MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(),
+        exchange.getExchangeSpecification().getSecretKey(), tonce);
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> result = mercadoBitcoinAuthenticated.cancelOrder(exchange
-        .getExchangeSpecification().getApiKey(), signatureCreator, method, tonce, pair, orderId);
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> result = mercadoBitcoinAuthenticated
+        .cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, method, tonce, pair, orderId);
 
     if (result.getSuccess() == 0) {
       throw new ExchangeException("Error canceling a new order: " + result.getError());

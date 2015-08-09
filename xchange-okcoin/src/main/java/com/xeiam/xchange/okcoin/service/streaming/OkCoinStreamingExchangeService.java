@@ -12,35 +12,35 @@ import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
-
 public class OkCoinStreamingExchangeService implements StreamingExchangeService {
   private final WebSocketBase socketBase;
   private final BlockingQueue<ExchangeEvent> eventQueue = new LinkedBlockingQueue<ExchangeEvent>();
   private final OkCoinExchangeStreamingConfiguration exchangeStreamingConfiguration;
   private final ChannelProvider channelProvider;
 
-  public OkCoinStreamingExchangeService(ExchangeSpecification exchangeSpecification, ExchangeStreamingConfiguration exchangeStreamingConfiguration) {    
+  public OkCoinStreamingExchangeService(ExchangeSpecification exchangeSpecification, ExchangeStreamingConfiguration exchangeStreamingConfiguration) {
     this.exchangeStreamingConfiguration = (OkCoinExchangeStreamingConfiguration) exchangeStreamingConfiguration;
 
-    String sslUri = (String)exchangeSpecification.getExchangeSpecificParametersItem("Websocket_SslUri");
+    String sslUri = (String) exchangeSpecification.getExchangeSpecificParametersItem("Websocket_SslUri");
     boolean useFutures = (Boolean) exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures");
 
-    channelProvider = useFutures ? new FuturesChannelProvider(OkCoinExchange.futuresContractOfConfig(exchangeSpecification)) : 
-      new SpotChannelProvider();
+    channelProvider = useFutures ? new FuturesChannelProvider(OkCoinExchange.futuresContractOfConfig(exchangeSpecification))
+        : new SpotChannelProvider();
 
-    WebSocketService socketService = new OkCoinWebSocketService(eventQueue, channelProvider, this.exchangeStreamingConfiguration.getMarketDataCurrencyPairs());
+    WebSocketService socketService = new OkCoinWebSocketService(eventQueue, channelProvider,
+        this.exchangeStreamingConfiguration.getMarketDataCurrencyPairs());
     socketBase = new WebSocketBase(sslUri, socketService);
   }
 
   @Override
   public void connect() {
-    socketBase.start(); 
+    socketBase.start();
 
-    for(CurrencyPair currencyPair : exchangeStreamingConfiguration.getMarketDataCurrencyPairs()) {
+    for (CurrencyPair currencyPair : exchangeStreamingConfiguration.getMarketDataCurrencyPairs()) {
       socketBase.addChannel(channelProvider.getTicker(currencyPair));
       socketBase.addChannel(channelProvider.getDepth(currencyPair));
       socketBase.addChannel(channelProvider.getTrades(currencyPair));
-    }    
+    }
   }
 
   @Override
@@ -67,5 +67,5 @@ public class OkCoinStreamingExchangeService implements StreamingExchangeService 
   @Override
   public READYSTATE getWebSocketStatus() {
     return READYSTATE.OPEN;
-  }  
+  }
 }

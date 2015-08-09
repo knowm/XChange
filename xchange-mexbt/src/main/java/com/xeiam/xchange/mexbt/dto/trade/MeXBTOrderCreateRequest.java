@@ -2,10 +2,10 @@ package com.xeiam.xchange.mexbt.dto.trade;
 
 import java.math.BigDecimal;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.mexbt.dto.MeXBTInsRequest;
 import com.xeiam.xchange.mexbt.service.MeXBTDigest;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class MeXBTOrderCreateRequest extends MeXBTInsRequest {
 
@@ -14,7 +14,8 @@ public class MeXBTOrderCreateRequest extends MeXBTInsRequest {
   private final BigDecimal qty;
   private final BigDecimal px;
 
-  public MeXBTOrderCreateRequest(String apiKey, SynchronizedValueFactory<Long> nonceFactory, MeXBTDigest meXBTDigest, String ins, String side, int orderType, BigDecimal qty, BigDecimal px) {
+  public MeXBTOrderCreateRequest(String apiKey, SynchronizedValueFactory<Long> nonceFactory, MeXBTDigest meXBTDigest, String ins, String side,
+      int orderType, BigDecimal qty, BigDecimal px) {
     super(apiKey, nonceFactory, meXBTDigest, ins);
     this.side = side;
     this.orderType = orderType;

@@ -185,11 +185,11 @@ public class KrakenTrade {
   @Override
   public String toString() {
 
-    return "KrakenTrade [orderTxId=" + orderTxId + ", assetPair=" + assetPair + ", unixTimestamp=" + unixTimestamp + ", type=" + type
-        + ", orderType=" + orderType + ", price=" + price + ", cost=" + cost + ", fee=" + fee + ", volume=" + volume + ", margin=" + margin
-        + ", miscellaneous=" + miscellaneous + ", closing=" + closing + ", positionStatus=" + positionStatus + ", averageClosePrice="
-        + averageClosePrice + ", closeCost=" + closeCost + ", closeFee=" + closeFee + ", closeVolume=" + closeVolume + ", closeMargin=" + closeMargin
-        + ", netDifference=" + netDifference + ", tradeIds=" + tradeIds + "]";
+    return "KrakenTrade [orderTxId=" + orderTxId + ", assetPair=" + assetPair + ", unixTimestamp=" + unixTimestamp + ", type=" + type + ", orderType="
+        + orderType + ", price=" + price + ", cost=" + cost + ", fee=" + fee + ", volume=" + volume + ", margin=" + margin + ", miscellaneous="
+        + miscellaneous + ", closing=" + closing + ", positionStatus=" + positionStatus + ", averageClosePrice=" + averageClosePrice + ", closeCost="
+        + closeCost + ", closeFee=" + closeFee + ", closeVolume=" + closeVolume + ", closeMargin=" + closeMargin + ", netDifference=" + netDifference
+        + ", tradeIds=" + tradeIds + "]";
   }
 
 }

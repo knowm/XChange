@@ -124,7 +124,7 @@ public class BitstampPusherService extends BitstampBasePollingService implements
     return consumerEventQueue.size();
   }
 
-    /**
+  /**
    * <p>
    * Sends a msg over the socket.
    * </p>

@@ -42,7 +42,7 @@ public class CryptsyMarketData {
       @JsonProperty("current_volume") BigDecimal volume24h, @JsonProperty("current_volume_btc") BigDecimal volumeBTC,
       @JsonProperty("current_volume_usd") BigDecimal volumeUSD, @JsonProperty("last_trade") BigDecimal last,
       @JsonProperty("high_trade") BigDecimal high, @JsonProperty("low_trade") BigDecimal low, @JsonProperty("created") String created)
-      throws ParseException {
+          throws ParseException {
 
     this.marketId = marketId;
     this.label = label;
@@ -127,9 +127,9 @@ public class CryptsyMarketData {
   @Override
   public String toString() {
 
-    return "CryptsyMarketData [Market ID='" + marketId + "',Label='" + label + "',Primary Currency Code='" + priCurrCode
-        + "',Primary Currency Name='" + priCurrName + "',Secondary Currency Code='" + secCurrCode + "',Secondary Currency Name='" + secCurrName
-        + "',24h Volume='" + volume24h + "',Last='" + last + "',High='" + high + "',Low='" + low + "',Created='" + created + "]";
+    return "CryptsyMarketData [Market ID='" + marketId + "',Label='" + label + "',Primary Currency Code='" + priCurrCode + "',Primary Currency Name='"
+        + priCurrName + "',Secondary Currency Code='" + secCurrCode + "',Secondary Currency Name='" + secCurrName + "',24h Volume='" + volume24h
+        + "',Last='" + last + "',High='" + high + "',Low='" + low + "',Created='" + created + "]";
   }
 
 }

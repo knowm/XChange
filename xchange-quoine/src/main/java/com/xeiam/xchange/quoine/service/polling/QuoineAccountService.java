@@ -21,40 +21,40 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
  */
 public class QuoineAccountService extends QuoineAccountServiceRaw implements PollingAccountService {
 
-	private final boolean useMargin;	
+  private final boolean useMargin;
 
-	/**
-	 * Constructor
-	 */
-	public QuoineAccountService(BaseExchange baseExchange, boolean useMargin) {
+  /**
+   * Constructor
+   */
+  public QuoineAccountService(BaseExchange baseExchange, boolean useMargin) {
 
-		super(baseExchange);
+    super(baseExchange);
 
-		this.useMargin = useMargin;
-	}
+    this.useMargin = useMargin;
+  }
 
-	@Override
-	public AccountInfo getAccountInfo() throws IOException {
-		if(useMargin) {
-			QuoineTradingAccountInfo[] quoineTradingAccountInfo = getQuoineTradingAccountInfo();    
-			return QuoineAdapters.adaptTradingAccountInfo(quoineTradingAccountInfo);    
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
+    if (useMargin) {
+      QuoineTradingAccountInfo[] quoineTradingAccountInfo = getQuoineTradingAccountInfo();
+      return QuoineAdapters.adaptTradingAccountInfo(quoineTradingAccountInfo);
 
-		} else {
-			QuoineAccountInfo quoineAccountInfo = getQuoineAccountInfo();
-			return QuoineAdapters.adaptAccountinfo(quoineAccountInfo);
-		}
-	}
+    } else {
+      QuoineAccountInfo quoineAccountInfo = getQuoineAccountInfo();
+      return QuoineAdapters.adaptAccountinfo(quoineAccountInfo);
+    }
+  }
 
-	@Override
-	public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  @Override
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-		throw new NotAvailableFromExchangeException();
-	}
+    throw new NotAvailableFromExchangeException();
+  }
 
-	@Override
-	public String requestDepositAddress(String currency, String... args) throws IOException {
+  @Override
+  public String requestDepositAddress(String currency, String... args) throws IOException {
 
-		throw new NotAvailableFromExchangeException();
-	}
+    throw new NotAvailableFromExchangeException();
+  }
 
 }

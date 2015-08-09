@@ -1,12 +1,12 @@
 package com.xeiam.xchange.ripple.service.polling;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ripple.RipplePublic;
 import com.xeiam.xchange.ripple.RippleAuthenticated;
+import com.xeiam.xchange.ripple.RipplePublic;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class RippleBasePollingService extends BaseExchangeService implements BasePollingService {
 

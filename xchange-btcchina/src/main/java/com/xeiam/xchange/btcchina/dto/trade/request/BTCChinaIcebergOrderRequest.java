@@ -21,9 +21,9 @@ public class BTCChinaIcebergOrderRequest extends BTCChinaRequest {
       String market) {
 
     this.method = method;
-    this.params = String.format("[%1$s,%2$s,%3$s,%4$s,\"%5$s\"]", price == null ? "null" : price.stripTrailingZeros().toPlainString(), amount
-        .stripTrailingZeros().toPlainString(), disclosedAmount.stripTrailingZeros().toPlainString(), variance.stripTrailingZeros().toPlainString(),
-        market == null ? BTCChinaExchange.DEFAULT_MARKET : market);
+    this.params = String.format("[%1$s,%2$s,%3$s,%4$s,\"%5$s\"]", price == null ? "null" : price.stripTrailingZeros().toPlainString(),
+        amount.stripTrailingZeros().toPlainString(), disclosedAmount.stripTrailingZeros().toPlainString(),
+        variance.stripTrailingZeros().toPlainString(), market == null ? BTCChinaExchange.DEFAULT_MARKET : market);
   }
 
 }

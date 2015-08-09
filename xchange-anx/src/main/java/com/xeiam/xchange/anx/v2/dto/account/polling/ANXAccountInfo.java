@@ -39,8 +39,8 @@ public final class ANXAccountInfo {
    */
   public ANXAccountInfo(@JsonProperty("Login") String login, @JsonProperty("Index") String index, @JsonProperty("Id") String id,
       @JsonProperty("Rights") List<String> rights, @JsonProperty("Language") String language, @JsonProperty("Created") String created,
-      @JsonProperty("Last_Login") String lastLogin, @JsonProperty("Wallets") Map<String, ANXWallet> wallets, @JsonProperty("Monthly_Volume") ANXValue monthlyVolume,
-      @JsonProperty("Trade_Fee") BigDecimal tradeFee) {
+      @JsonProperty("Last_Login") String lastLogin, @JsonProperty("Wallets") Map<String, ANXWallet> wallets,
+      @JsonProperty("Monthly_Volume") ANXValue monthlyVolume, @JsonProperty("Trade_Fee") BigDecimal tradeFee) {
 
     this.login = login;
     this.index = index;

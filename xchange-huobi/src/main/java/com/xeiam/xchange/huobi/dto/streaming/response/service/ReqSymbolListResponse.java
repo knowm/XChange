@@ -8,9 +8,8 @@ import com.xeiam.xchange.huobi.dto.streaming.response.payload.ReqSymbolListPaylo
  */
 public class ReqSymbolListResponse extends ReqResponse<ReqSymbolListPayload> {
 
-	public ReqSymbolListResponse(int version, String msgType, int retCode,
-			String retMsg) {
-		super(version, msgType, retCode, retMsg);
-	}
+  public ReqSymbolListResponse(int version, String msgType, int retCode, String retMsg) {
+    super(version, msgType, retCode, retMsg);
+  }
 
 }

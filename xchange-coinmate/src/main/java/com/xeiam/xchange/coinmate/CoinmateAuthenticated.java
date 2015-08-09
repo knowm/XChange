@@ -23,25 +23,27 @@
  */
 package com.xeiam.xchange.coinmate;
 
-import com.xeiam.xchange.coinmate.dto.account.CoinmateBalance;
-import com.xeiam.xchange.coinmate.dto.account.CoinmateDepositAddresses;
-import com.xeiam.xchange.coinmate.dto.trade.CoinmateTradeResponse;
-import com.xeiam.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
-import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
-import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import java.io.IOException;
 import java.math.BigDecimal;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import com.xeiam.xchange.coinmate.dto.account.CoinmateBalance;
+import com.xeiam.xchange.coinmate.dto.account.CoinmateDepositAddresses;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateTradeResponse;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
- *
  * @author Martin Stachon
  */
 @Path("api")
@@ -52,86 +54,59 @@ public interface CoinmateAuthenticated extends Coinmate {
   // acount info
   @POST
   @Path("balances")
-  public CoinmateBalance getBalances(@FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer,
+  public CoinmateBalance getBalances(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   // trade
   @POST
   @Path("transactionHistory")
-  public CoinmateTransactionHistory getTransactionHistory(@FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("offset") int offset,
-      @FormParam("limit") int limit,
+  public CoinmateTransactionHistory getTransactionHistory(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("offset") int offset, @FormParam("limit") int limit,
       @FormParam("sort") String sort) throws IOException;
 
   @POST
   @Path("openOrders")
-  public CoinmateOpenOrders getOpenOrders(@FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("currencyPair") String currencyPair) throws IOException;
+  public CoinmateOpenOrders getOpenOrders(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair) throws IOException;
 
   @POST
   @Path("cancelOrder")
-  public CoinmateCancelOrderResponse cancelOder(@FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("orderId") String orderId) throws IOException;
+  public CoinmateCancelOrderResponse cancelOder(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderId") String orderId) throws IOException;
 
   @POST
   @Path("buyLimit")
-  public CoinmateTradeResponse buyLimit(@FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("price") BigDecimal price,
-      @FormParam("currencyPair") String currencyPair
-  ) throws IOException;
+  public CoinmateTradeResponse buyLimit(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price,
+      @FormParam("currencyPair") String currencyPair) throws IOException;
 
   @POST
   @Path("sellLimit")
-  public CoinmateTradeResponse sellLimit(@FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("price") BigDecimal price,
-      @FormParam("currencyPair") String currencyPair
-  ) throws IOException;
+  public CoinmateTradeResponse sellLimit(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price,
+      @FormParam("currencyPair") String currencyPair) throws IOException;
 
   @POST
   @Path("buyInstant")
-  public CoinmateTradeResponse buyInstant(@FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("total") BigDecimal total,
-      @FormParam("currencyPair") String currencyPair
-  ) throws IOException;
+  public CoinmateTradeResponse buyInstant(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("total") BigDecimal total, @FormParam("currencyPair") String currencyPair)
+          throws IOException;
 
   @POST
   @Path("sellInstant")
-  public CoinmateTradeResponse sellInstant(@FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("currencyPair") String currencyPair
-  ) throws IOException;
+  public CoinmateTradeResponse sellInstant(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("currencyPair") String currencyPair) throws IOException;
 
   // withdrawal and deposits
   @POST
   @Path("bitcoinWithdrawal")
-  public CoinmateTradeResponse bitcoinWithdrawal(@FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("address") String address
-  ) throws IOException;
+  public CoinmateTradeResponse bitcoinWithdrawal(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
+          throws IOException;
 
   @POST
   @Path("bitcoinDepositAddresses")
-  public CoinmateDepositAddresses bitcoinDepositAddresses(@FormParam("clientId") String clientId,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce
-  ) throws IOException;
+  public CoinmateDepositAddresses bitcoinDepositAddresses(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 }

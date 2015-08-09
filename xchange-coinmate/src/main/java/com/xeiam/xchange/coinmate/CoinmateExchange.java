@@ -23,8 +23,6 @@
  */
 package com.xeiam.xchange.coinmate;
 
-import java.io.InputStream;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -32,10 +30,10 @@ import com.xeiam.xchange.coinmate.service.polling.CoinmateAccountService;
 import com.xeiam.xchange.coinmate.service.polling.CoinmateMarketDataService;
 import com.xeiam.xchange.coinmate.service.polling.CoinmateTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateExchange extends BaseExchange implements Exchange {

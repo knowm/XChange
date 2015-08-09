@@ -15,7 +15,8 @@ public class YacunaTicker {
   private final YacunaTickerDailyStatistics dailyStatistics;
 
   public YacunaTicker(@JsonProperty("currencyCode1") String targetCurrency, @JsonProperty("currencyCode2") String baseCurrency,
-      @JsonProperty("marketStatistics") YacunaTickerOverallStatistics overallStatistics, @JsonProperty("market24hStatistics") YacunaTickerDailyStatistics dailyStatistics) {
+      @JsonProperty("marketStatistics") YacunaTickerOverallStatistics overallStatistics,
+      @JsonProperty("market24hStatistics") YacunaTickerDailyStatistics dailyStatistics) {
 
     this.targetCurrency = targetCurrency;
     this.baseCurrency = baseCurrency;
@@ -46,6 +47,7 @@ public class YacunaTicker {
   @Override
   public String toString() {
 
-    return String.format("YacunaTicker[baseCurrency: %s, targetCurrency: %s, overallStatistics: %s, dailyStatistics: %s]", baseCurrency, targetCurrency, overallStatistics, dailyStatistics);
+    return String.format("YacunaTicker[baseCurrency: %s, targetCurrency: %s, overallStatistics: %s, dailyStatistics: %s]", baseCurrency,
+        targetCurrency, overallStatistics, dailyStatistics);
   }
 }

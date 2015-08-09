@@ -39,7 +39,6 @@ public class CleverCoinTradeDemo {
 
     printOpenOrders(tradeService);
 
-
     // place a limit buy order
     LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal(".01"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("9999.00"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
@@ -50,7 +49,8 @@ public class CleverCoinTradeDemo {
     // Cancel the added order
     boolean cancelResult = tradeService.cancelOrder(limitOrderReturnValue);
     System.out.println("Canceling returned " + cancelResult);
-    if (true) return;
+    if (true)
+      return;
 
     printOpenOrders(tradeService);
 
@@ -71,12 +71,11 @@ public class CleverCoinTradeDemo {
 
     printRawOpenOrders(tradeService);
 
-
     // Cancel the added order
     System.out.println(order.getOrderId());
-    
-	 CleverCoinCancelOrder cancelResult = tradeService.cancelCleverCoinOrder(Integer.valueOf(order.getOrderId()));
-	 System.out.println("Canceling returned: " + cancelResult.getResult());   
+
+    CleverCoinCancelOrder cancelResult = tradeService.cancelCleverCoinOrder(Integer.valueOf(order.getOrderId()));
+    System.out.println("Canceling returned: " + cancelResult.getResult());
     printRawOpenOrders(tradeService);
   }
 

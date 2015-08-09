@@ -2,13 +2,13 @@ package com.xeiam.xchange.mexbt.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.mexbt.MeXBT;
 import com.xeiam.xchange.mexbt.dto.marketdata.MeXBTOrderBook;
 import com.xeiam.xchange.mexbt.dto.marketdata.MeXBTTicker;
 import com.xeiam.xchange.mexbt.dto.marketdata.MeXBTTrade;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class MeXBTMarketDataServiceRaw extends MeXBTBasePollingService {
 

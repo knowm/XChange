@@ -1,9 +1,43 @@
 package com.xeiam.xchange.anx.v2.bootstrap;
 
+import static com.xeiam.xchange.currency.Currencies.AUD;
+import static com.xeiam.xchange.currency.Currencies.BGC;
+import static com.xeiam.xchange.currency.Currencies.BTC;
+import static com.xeiam.xchange.currency.Currencies.CAD;
+import static com.xeiam.xchange.currency.Currencies.CHF;
+import static com.xeiam.xchange.currency.Currencies.CNY;
+import static com.xeiam.xchange.currency.Currencies.DOGE;
+import static com.xeiam.xchange.currency.Currencies.EGD;
+import static com.xeiam.xchange.currency.Currencies.EUR;
+import static com.xeiam.xchange.currency.Currencies.GBP;
+import static com.xeiam.xchange.currency.Currencies.HKD;
+import static com.xeiam.xchange.currency.Currencies.JPY;
+import static com.xeiam.xchange.currency.Currencies.LTC;
+import static com.xeiam.xchange.currency.Currencies.NMC;
+import static com.xeiam.xchange.currency.Currencies.NZD;
+import static com.xeiam.xchange.currency.Currencies.PPC;
+import static com.xeiam.xchange.currency.Currencies.SGD;
+import static com.xeiam.xchange.currency.Currencies.START;
+import static com.xeiam.xchange.currency.Currencies.STR;
+import static com.xeiam.xchange.currency.Currencies.USD;
+import static com.xeiam.xchange.currency.Currencies.XRP;
+import static com.xeiam.xchange.currency.CurrencyPair.DOGE_BTC;
+import static com.xeiam.xchange.currency.CurrencyPair.LTC_BTC;
+import static com.xeiam.xchange.currency.CurrencyPair.STR_BTC;
+import static com.xeiam.xchange.currency.CurrencyPair.XRP_BTC;
+import static java.lang.System.out;
+import static java.math.BigDecimal.ONE;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,16 +47,10 @@ import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 
-import static com.xeiam.xchange.currency.Currencies.*;
-import static com.xeiam.xchange.currency.CurrencyPair.*;
-import static java.lang.System.out;
-import static java.math.BigDecimal.ONE;
-
 public class ANXGenerator {
 
-  static ObjectMapper mapper = new ObjectMapper()
-          .configure(SerializationFeature.INDENT_OUTPUT, true)
-          .setSerializationInclusion(JsonInclude.Include.NON_NULL);
+  static ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT, true)
+      .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
   static Set<String> cryptos = new HashSet<String>(Arrays.asList(BTC, LTC, DOGE, STR, XRP, START, EGD));
   static String[] fiats = { USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY, CNY };

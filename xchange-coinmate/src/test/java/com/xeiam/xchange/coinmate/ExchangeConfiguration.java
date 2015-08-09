@@ -25,7 +25,6 @@ package com.xeiam.xchange.coinmate;
 
 /**
  * Configuration of Coinmate exchange.
- *
  */
 public class ExchangeConfiguration {
 

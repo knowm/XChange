@@ -3,11 +3,11 @@ package com.xeiam.xchange.bitso.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
+import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
 
 /**
  * @author Piotr Ładyżyński
@@ -24,9 +24,8 @@ public class BitsoTicker {
   private final Date timestamp;
 
   public BitsoTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-                     @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid,
-                     @JsonProperty("ask") BigDecimal ask,
-                     @JsonProperty("timestamp") @JsonDeserialize(using = TimestampDeserializer.class) Date timestamp) {
+      @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("volume") BigDecimal volume, @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("ask") BigDecimal ask, @JsonProperty("timestamp") @JsonDeserialize(using = TimestampDeserializer.class) Date timestamp) {
 
     if (last == null) {
       throw new ExceptionalReturnContentException("No last in response.");
@@ -59,7 +58,7 @@ public class BitsoTicker {
 
   public BigDecimal getVwap() {
 
-	return vwap;
+    return vwap;
   }
 
   public BigDecimal getVolume() {
@@ -85,8 +84,8 @@ public class BitsoTicker {
   @Override
   public String toString() {
 
-    return "BitsoTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid
-        + ", ask=" + ask + ", timestamp=" + timestamp + "]";
+    return "BitsoTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask
+        + ", timestamp=" + timestamp + "]";
   }
 
 }

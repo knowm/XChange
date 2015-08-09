@@ -29,54 +29,31 @@ public interface CointraderAuthenticated {
 
   @POST
   @Path("account/balance")
-  CointraderBalanceResponse getBalance(
-      @HeaderParam("X-Auth") String publicKey,
-      @HeaderParam("X-Auth-Hash") CointraderDigest signer,
-      CointraderRequest req
-  ) throws CointraderException, IOException;
+  CointraderBalanceResponse getBalance(@HeaderParam("X-Auth") String publicKey, @HeaderParam("X-Auth-Hash") CointraderDigest signer,
+      CointraderRequest req) throws CointraderException, IOException;
 
   @POST
   @Path("/order/{currency_pair}/buy")
-  CointraderSubmitOrderResponse placeBuyOrder(
-      @HeaderParam("X-Auth") String publicKey,
-      @HeaderParam("X-Auth-Hash") CointraderDigest signer,
-      @PathParam("currency_pair") Cointrader.Pair currencyPair,
-      CointraderOrderRequest order
-  ) throws CointraderException, IOException;
+  CointraderSubmitOrderResponse placeBuyOrder(@HeaderParam("X-Auth") String publicKey, @HeaderParam("X-Auth-Hash") CointraderDigest signer,
+      @PathParam("currency_pair") Cointrader.Pair currencyPair, CointraderOrderRequest order) throws CointraderException, IOException;
 
   @POST
   @Path("/order/{currency_pair}/sell")
-  CointraderSubmitOrderResponse placeSellOrder(
-      @HeaderParam("X-Auth") String publicKey,
-      @HeaderParam("X-Auth-Hash") CointraderDigest signer,
-      @PathParam("currency_pair") Cointrader.Pair currencyPair,
-      CointraderOrderRequest order
-  ) throws CointraderException, IOException;
+  CointraderSubmitOrderResponse placeSellOrder(@HeaderParam("X-Auth") String publicKey, @HeaderParam("X-Auth-Hash") CointraderDigest signer,
+      @PathParam("currency_pair") Cointrader.Pair currencyPair, CointraderOrderRequest order) throws CointraderException, IOException;
 
   @POST
   @Path("order/{currency_pair}/list")
-  CointraderOpenOrdersResponse getOpenOrders(
-      @HeaderParam("X-Auth") String publicKey,
-      @HeaderParam("X-Auth-Hash") CointraderDigest signer,
-      @PathParam("currency_pair") Cointrader.Pair currencyPair,
-      CointraderRequest req
-  ) throws CointraderException, IOException;
+  CointraderOpenOrdersResponse getOpenOrders(@HeaderParam("X-Auth") String publicKey, @HeaderParam("X-Auth-Hash") CointraderDigest signer,
+      @PathParam("currency_pair") Cointrader.Pair currencyPair, CointraderRequest req) throws CointraderException, IOException;
 
   @POST
   @Path("order/{currency_pair}/cancel")
-  CointraderBaseResponse deleteOrder(
-      @HeaderParam("X-Auth") String publicKey,
-      @HeaderParam("X-Auth-Hash") CointraderDigest signer,
-      @PathParam("currency_pair") Cointrader.Pair currencyPair,
-      CointraderCancelOrderRequest req
-  ) throws CointraderException, IOException;
+  CointraderBaseResponse deleteOrder(@HeaderParam("X-Auth") String publicKey, @HeaderParam("X-Auth-Hash") CointraderDigest signer,
+      @PathParam("currency_pair") Cointrader.Pair currencyPair, CointraderCancelOrderRequest req) throws CointraderException, IOException;
 
   @POST
   @Path("account/tradehistory/{currency_pair}")
-  CointraderTradeHistoryResponse getTradeHistory(
-      @HeaderParam("X-Auth") String publicKey,
-      @HeaderParam("X-Auth-Hash") CointraderDigest signer,
-      @PathParam("currency_pair") Cointrader.Pair currencyPair,
-      CointraderTradeHistoryRequest req
-  ) throws CointraderException, IOException;
+  CointraderTradeHistoryResponse getTradeHistory(@HeaderParam("X-Auth") String publicKey, @HeaderParam("X-Auth-Hash") CointraderDigest signer,
+      @PathParam("currency_pair") Cointrader.Pair currencyPair, CointraderTradeHistoryRequest req) throws CointraderException, IOException;
 }

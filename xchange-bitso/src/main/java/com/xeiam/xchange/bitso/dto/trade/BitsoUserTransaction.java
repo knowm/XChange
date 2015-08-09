@@ -35,9 +35,9 @@ public final class BitsoUserTransaction {
    * @param fee
    */
   public BitsoUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id, @JsonProperty("order_id") String order_id,
-                              @JsonProperty("type") @JsonDeserialize(using = BitsoTransactionTypeDeserializer.class) TransactionType type,
-                              @JsonProperty("mxn") BigDecimal mxn, @JsonProperty("btc") BigDecimal btc, @JsonProperty("rate") BigDecimal rate,
-                              @JsonProperty("fee") BigDecimal fee) {
+      @JsonProperty("type") @JsonDeserialize(using = BitsoTransactionTypeDeserializer.class) TransactionType type,
+      @JsonProperty("mxn") BigDecimal mxn, @JsonProperty("btc") BigDecimal btc, @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("fee") BigDecimal fee) {
 
     this.datetime = datetime;
     this.id = id;

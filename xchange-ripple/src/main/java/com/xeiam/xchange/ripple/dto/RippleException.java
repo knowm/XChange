@@ -1,8 +1,8 @@
 package com.xeiam.xchange.ripple.dto;
 
-import si.mazi.rescu.HttpStatusExceptionSupport;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 /* Examples of rejects observed: 
 

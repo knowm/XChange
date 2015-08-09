@@ -13,8 +13,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
-import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 
 public class BitfinexTradeDataJSONTest {
 

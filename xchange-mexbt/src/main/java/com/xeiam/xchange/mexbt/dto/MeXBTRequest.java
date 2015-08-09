@@ -1,8 +1,8 @@
 package com.xeiam.xchange.mexbt.dto;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.mexbt.service.MeXBTDigest;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class MeXBTRequest {
 

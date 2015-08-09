@@ -1,14 +1,12 @@
 package com.xeiam.xchange.coinbaseex.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Yingzhe on 4/4/2015.
@@ -20,7 +18,8 @@ public class CoinbaseExProductTicker {
   private final BigDecimal size;
   private Date time;
 
-  public CoinbaseExProductTicker(@JsonProperty("trade_id") String tradeId, @JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size, @JsonProperty("time") String time) {
+  public CoinbaseExProductTicker(@JsonProperty("trade_id") String tradeId, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("size") BigDecimal size, @JsonProperty("time") String time) {
 
     this.tradeId = tradeId;
     this.price = price;

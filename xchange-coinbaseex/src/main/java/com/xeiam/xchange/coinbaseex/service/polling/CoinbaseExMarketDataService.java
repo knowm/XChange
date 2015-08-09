@@ -1,5 +1,7 @@
 package com.xeiam.xchange.coinbaseex.service.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbaseex.CoinbaseExAdapters;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
@@ -13,8 +15,6 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
-
-import java.io.IOException;
 
 /**
  * Created by Yingzhe on 4/6/2015.
@@ -39,17 +39,18 @@ public class CoinbaseExMarketDataService extends CoinbaseExMarketDataServiceRaw 
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-	  
-	  return CoinbaseExAdapters.adaptOrderBook(getCoinbaseExProductOrderBook(currencyPair, 2), currencyPair);
-    
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
+    return CoinbaseExAdapters.adaptOrderBook(getCoinbaseExProductOrderBook(currencyPair, 2), currencyPair);
+
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-	  
-	  return CoinbaseExAdapters.adaptTrades(getCoinbaseExTrades(currencyPair, 100), currencyPair);
-  }
+  public Trades getTrades(CurrencyPair currencyPair, Object... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
+    return CoinbaseExAdapters.adaptTrades(getCoinbaseExTrades(currencyPair, 100), currencyPair);
+  }
 
 }

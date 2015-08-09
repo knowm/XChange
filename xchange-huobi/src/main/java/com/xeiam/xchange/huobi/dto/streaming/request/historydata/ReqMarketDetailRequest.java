@@ -7,8 +7,8 @@ import com.xeiam.xchange.huobi.dto.streaming.request.AbstractSymbolIdRequest;
  */
 public class ReqMarketDetailRequest extends AbstractSymbolIdRequest {
 
-	public ReqMarketDetailRequest(int version, String symbolId) {
-		super(version, "reqMarketDetail", symbolId);
-	}
+  public ReqMarketDetailRequest(int version, String symbolId) {
+    super(version, "reqMarketDetail", symbolId);
+  }
 
 }

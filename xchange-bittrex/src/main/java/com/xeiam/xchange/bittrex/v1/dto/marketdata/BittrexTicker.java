@@ -187,8 +187,8 @@ public class BittrexTicker {
   public String toString() {
 
     return "BittrexTicker [ask=" + ask + ", baseVolume=" + baseVolume + ", bid=" + bid + ", created=" + created + ", displayMarketName="
-        + displayMarketName + ", high=" + high + ", last=" + last + ", low=" + low + ", marketName=" + marketName + ", openBuyOrders="
-        + openBuyOrders + ", openSellOrders=" + openSellOrders + ", prevDay=" + prevDay + ", timeStamp=" + timeStamp + ", volume=" + volume + "]";
+        + displayMarketName + ", high=" + high + ", last=" + last + ", low=" + low + ", marketName=" + marketName + ", openBuyOrders=" + openBuyOrders
+        + ", openSellOrders=" + openSellOrders + ", prevDay=" + prevDay + ", timeStamp=" + timeStamp + ", volume=" + volume + "]";
   }
 
 }

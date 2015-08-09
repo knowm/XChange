@@ -15,7 +15,8 @@ public class MeXBTUserTradeResponseTest {
 
   @Test
   public void testMeXBTTradeResponse() throws JsonParseException, JsonMappingException, IOException {
-    MeXBTTradeResponse tradeResponse = new ObjectMapper().readValue(MeXBTUserTradeResponseTest.class.getResource("trades.json"), MeXBTTradeResponse.class);
+    MeXBTTradeResponse tradeResponse = new ObjectMapper().readValue(MeXBTUserTradeResponseTest.class.getResource("trades.json"),
+        MeXBTTradeResponse.class);
     assertEquals(1373525041121L, tradeResponse.getDateTimeUtc().getTime());
     assertEquals("BTCUSD", tradeResponse.getIns());
     assertEquals(0, tradeResponse.getStartIndex());

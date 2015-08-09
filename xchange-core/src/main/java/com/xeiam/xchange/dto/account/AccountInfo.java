@@ -32,6 +32,8 @@ public final class AccountInfo {
 
   /**
    * TODO: from XChange 4.0.0, rename to wallets.
+   * <p>
+   * The keys represent the currency of the wallet.
    */
   private final Map<String, Wallet> walletsMap;
 

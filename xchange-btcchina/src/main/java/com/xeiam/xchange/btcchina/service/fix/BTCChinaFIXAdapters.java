@@ -12,6 +12,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import com.xeiam.xchange.btcchina.BTCChinaAdapters;
+import com.xeiam.xchange.btcchina.service.fix.field.Amount;
+import com.xeiam.xchange.btcchina.service.fix.field.Balance;
+import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.trade.Wallet;
+
 import quickfix.FieldNotFound;
 import quickfix.Group;
 import quickfix.Message;
@@ -24,14 +32,6 @@ import quickfix.field.MDEntryType;
 import quickfix.field.NoMDEntries;
 import quickfix.fix44.MarketDataIncrementalRefresh;
 import quickfix.fix44.MarketDataSnapshotFullRefresh;
-
-import com.xeiam.xchange.btcchina.BTCChinaAdapters;
-import com.xeiam.xchange.btcchina.service.fix.field.Amount;
-import com.xeiam.xchange.btcchina.service.fix.field.Balance;
-import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
  * Various adapters for converting from {@link Message} to XChange DTOs.

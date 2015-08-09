@@ -1,10 +1,7 @@
 package com.xeiam.xchange.cryptsy;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
@@ -15,6 +12,8 @@ import com.xeiam.xchange.cryptsy.service.polling.CryptsyPublicMarketDataService;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyTradeService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author ObsessiveOrange
@@ -80,7 +79,7 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
   public PollingMarketDataService getPollingPublicMarketDataService() {
     return pollingPublicMarketDataService;
   }
-  
+
   @Override
   public PollingMarketDataService getPollingMarketDataService() {
     if (exchangeSpecification != null && exchangeSpecification.getApiKey() != null) {

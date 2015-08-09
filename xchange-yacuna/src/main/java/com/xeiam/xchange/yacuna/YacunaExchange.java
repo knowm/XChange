@@ -4,11 +4,13 @@ import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 import com.xeiam.xchange.yacuna.service.polling.YacunaMarketDataService;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class YacunaExchange extends BaseExchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+
   public YacunaExchange() {
 
   }

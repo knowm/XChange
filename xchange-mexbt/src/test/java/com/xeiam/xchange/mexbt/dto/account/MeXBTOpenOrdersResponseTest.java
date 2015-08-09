@@ -15,7 +15,8 @@ public class MeXBTOpenOrdersResponseTest {
 
   @Test
   public void testMeXBTOpenOrdersResponse() throws JsonParseException, JsonMappingException, IOException {
-    MeXBTOpenOrdersResponse openOrdersResponse = new ObjectMapper().readValue(MeXBTOpenOrdersResponseTest.class.getResource("orders.json"), MeXBTOpenOrdersResponse.class);
+    MeXBTOpenOrdersResponse openOrdersResponse = new ObjectMapper().readValue(MeXBTOpenOrdersResponseTest.class.getResource("orders.json"),
+        MeXBTOpenOrdersResponse.class);
     assertEquals(1415353755380L, openOrdersResponse.getDateTimeUtc().getTime());
     MeXBTOpenOrdersInfo[] openOrdersInfo = openOrdersResponse.getOpenOrdersInfo();
     assertEquals("BTCMXN", openOrdersInfo[0].getIns());

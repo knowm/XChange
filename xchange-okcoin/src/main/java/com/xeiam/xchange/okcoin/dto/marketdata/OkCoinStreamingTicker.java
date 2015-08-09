@@ -17,9 +17,10 @@ public class OkCoinStreamingTicker {
   private final String contractId;
   private final int holdAmount;
 
-  public OkCoinStreamingTicker(@JsonProperty("high") final BigDecimal high, @JsonProperty("low") final BigDecimal low, @JsonProperty("buy") final BigDecimal buy, @JsonProperty("sell") final BigDecimal sell,
-      @JsonProperty("last") final BigDecimal last, @JsonProperty("vol") final String vol, @JsonProperty("timestamp") long timestamp,
-      @JsonProperty("hold_amount") int holdAmount, @JsonProperty("unitAmount") final BigDecimal unitAmount, @JsonProperty("contractId") String contractId) {
+  public OkCoinStreamingTicker(@JsonProperty("high") final BigDecimal high, @JsonProperty("low") final BigDecimal low,
+      @JsonProperty("buy") final BigDecimal buy, @JsonProperty("sell") final BigDecimal sell, @JsonProperty("last") final BigDecimal last,
+      @JsonProperty("vol") final String vol, @JsonProperty("timestamp") long timestamp, @JsonProperty("hold_amount") int holdAmount,
+      @JsonProperty("unitAmount") final BigDecimal unitAmount, @JsonProperty("contractId") String contractId) {
 
     this.high = high;
     this.low = low;
@@ -41,21 +42,18 @@ public class OkCoinStreamingTicker {
     return high;
   }
 
-  
   public BigDecimal getUnitAmount() {
-  
+
     return unitAmount;
   }
 
-  
   public String getContractId() {
-  
+
     return contractId;
   }
 
-  
   public int getHoldAmount() {
-  
+
     return holdAmount;
   }
 
@@ -98,10 +96,10 @@ public class OkCoinStreamingTicker {
 
     return vol;
   }
-  
+
   /**
    * @return the timestamp
-   */  
+   */
   public long getTimestamp() {
     return timestamp;
   }

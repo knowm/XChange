@@ -5,8 +5,6 @@ public class BitcoinAverageMetaData {
 
   @Override
   public String toString() {
-    return "BitcoinAverageMetaData{" +
-        "priceScale=" + priceScale +
-        '}';
+    return "BitcoinAverageMetaData{" + "priceScale=" + priceScale + '}';
   }
 }

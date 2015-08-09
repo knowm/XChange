@@ -1,9 +1,5 @@
 package com.xeiam.xchange.bter;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -11,6 +7,8 @@ import com.xeiam.xchange.bter.service.polling.BTERPollingAccountService;
 import com.xeiam.xchange.bter.service.polling.BTERPollingMarketDataService;
 import com.xeiam.xchange.bter.service.polling.BTERPollingTradeService;
 import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BTERExchange extends BaseExchange implements Exchange {
 

@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTicker;
 
 /**
  * Test ANXTicker JSON parsing

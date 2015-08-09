@@ -5,9 +5,9 @@ import java.math.BigInteger;
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
 
-import si.mazi.rescu.RestInvocation;
-
 import com.xeiam.xchange.service.BaseParamsDigest;
+
+import si.mazi.rescu.RestInvocation;
 
 /**
  * Author: brox Since: 2/7/14 9:42 PM

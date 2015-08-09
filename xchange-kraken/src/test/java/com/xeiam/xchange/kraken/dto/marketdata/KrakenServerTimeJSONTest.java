@@ -9,7 +9,6 @@ import java.util.Locale;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenServerTime;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
 import com.xeiam.xchange.utils.DateUtils;
 

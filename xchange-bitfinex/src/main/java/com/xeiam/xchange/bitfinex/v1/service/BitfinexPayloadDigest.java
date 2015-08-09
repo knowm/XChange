@@ -1,7 +1,6 @@
 package com.xeiam.xchange.bitfinex.v1.service;
 
 import net.iharder.Base64;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 

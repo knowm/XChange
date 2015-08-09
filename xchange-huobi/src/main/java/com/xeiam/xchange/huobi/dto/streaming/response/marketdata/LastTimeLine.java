@@ -7,9 +7,8 @@ import com.xeiam.xchange.huobi.dto.streaming.response.marketdata.payload.LastTim
  */
 public class LastTimeLine extends Message<LastTimeLinePayload> {
 
-	public LastTimeLine(int version, String msgType, String symbolId,
-			LastTimeLinePayload payload) {
-		super(version, msgType, symbolId, payload);
-	}
+  public LastTimeLine(int version, String msgType, String symbolId, LastTimeLinePayload payload) {
+    super(version, msgType, symbolId, payload);
+  }
 
 }

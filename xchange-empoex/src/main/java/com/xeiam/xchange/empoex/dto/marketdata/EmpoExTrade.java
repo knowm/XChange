@@ -122,8 +122,8 @@ public class EmpoExTrade {
 
   @Override
   public String toString() {
-    return "EmpoExTrade [type=" + type + ", date=" + date + ", amount=" + amount + ", price=" + price + ", total=" + total
-        + ", additionalProperties=" + additionalProperties + "]";
+    return "EmpoExTrade [type=" + type + ", date=" + date + ", amount=" + amount + ", price=" + price + ", total=" + total + ", additionalProperties="
+        + additionalProperties + "]";
   }
 
 }

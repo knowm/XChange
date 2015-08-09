@@ -1,16 +1,14 @@
 package com.xeiam.xchange.bitmarket;
 
-import java.io.InputStream;
-
-import com.xeiam.xchange.bitmarket.service.polling.BitMarketAccountService;
-import com.xeiam.xchange.bitmarket.service.polling.BitMarketTradeService;
-import com.xeiam.xchange.utils.nonce.CurrentTime1000NonceFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitmarket.service.polling.BitMarketAccountService;
 import com.xeiam.xchange.bitmarket.service.polling.BitMarketDataService;
+import com.xeiam.xchange.bitmarket.service.polling.BitMarketTradeService;
+import com.xeiam.xchange.utils.nonce.CurrentTime1000NonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author kpysniak, kfonal

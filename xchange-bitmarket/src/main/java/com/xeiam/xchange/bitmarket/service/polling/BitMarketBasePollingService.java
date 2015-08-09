@@ -1,15 +1,12 @@
 package com.xeiam.xchange.bitmarket.service.polling;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitmarket.BitMarket;
 import com.xeiam.xchange.bitmarket.BitMarketAuthenticated;
 import com.xeiam.xchange.bitmarket.BitMarketDigest;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -22,6 +19,7 @@ public class BitMarketBasePollingService extends BaseExchangeService implements 
   protected final BitMarketAuthenticated bitMarketAuthenticated;
   protected final ParamsDigest sign;
   protected final String apiKey;
+
   /**
    * Constructor
    *

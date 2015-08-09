@@ -1,17 +1,18 @@
 package com.xeiam.xchange.jubi.dto;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.jubi.JubiAdapters;
-import com.xeiam.xchange.jubi.dto.marketdata.JubiTicker;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.jubi.JubiAdapters;
+import com.xeiam.xchange.jubi.dto.marketdata.JubiTicker;
 
 /**
  * Created by Yingzhe on 3/17/2015.

@@ -6,6 +6,10 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.xml.bind.DatatypeConverter;
 
+import com.xeiam.xchange.btcchina.BTCChinaUtils;
+import com.xeiam.xchange.btcchina.service.fix.field.AccReqID;
+import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoRequest;
+
 import quickfix.field.Account;
 import quickfix.field.ClOrdID;
 import quickfix.field.MassStatusReqID;
@@ -22,10 +26,6 @@ import quickfix.fix44.NewOrderSingle;
 import quickfix.fix44.OrderCancelRequest;
 import quickfix.fix44.OrderMassStatusRequest;
 import quickfix.fix44.OrderStatusRequest;
-
-import com.xeiam.xchange.btcchina.BTCChinaUtils;
-import com.xeiam.xchange.btcchina.service.fix.field.AccReqID;
-import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoRequest;
 
 public final class BTCChinaTradeRequest {
 
@@ -47,8 +47,8 @@ public final class BTCChinaTradeRequest {
   public static NewOrderSingle createNewOrderSingle(long nonce, String accessKey, String secretKey, String clOrdId, char side, char ordType,
       BigDecimal orderQty, BigDecimal price, String symbol) {
 
-    String methodString = String.format("method=%s&params=%s,%s,%s", side == Side.BUY ? "buyOrder3" : "sellOrder3", price == null ? "" : price
-        .stripTrailingZeros().toPlainString(), orderQty.stripTrailingZeros().toPlainString(), symbol);
+    String methodString = String.format("method=%s&params=%s,%s,%s", side == Side.BUY ? "buyOrder3" : "sellOrder3",
+        price == null ? "" : price.stripTrailingZeros().toPlainString(), orderQty.stripTrailingZeros().toPlainString(), symbol);
     String account = getAccountString(nonce, accessKey, secretKey, methodString);
 
     NewOrderSingle message = new NewOrderSingle(new ClOrdID(clOrdId), new Side(side), new TransactTime(), new OrdType(ordType));

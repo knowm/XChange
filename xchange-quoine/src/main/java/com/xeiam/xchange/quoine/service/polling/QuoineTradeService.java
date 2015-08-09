@@ -19,7 +19,7 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
  * @author Matija Mazi
  */
 public class QuoineTradeService extends QuoineTradeServiceRaw implements PollingTradeService {
-		
+
   /**
    * Constructor
    *
@@ -40,16 +40,16 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements Polling
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    QuoineOrderResponse quoinePlaceOrderResponse = placeMarketOrder(marketOrder.getCurrencyPair(), marketOrder.getType() == OrderType.ASK ? "sell"
-        : "buy", marketOrder.getTradableAmount());
+    QuoineOrderResponse quoinePlaceOrderResponse = placeMarketOrder(marketOrder.getCurrencyPair(),
+        marketOrder.getType() == OrderType.ASK ? "sell" : "buy", marketOrder.getTradableAmount());
     return quoinePlaceOrderResponse.getId();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    QuoineOrderResponse quoinePlaceOrderResponse = placeLimitOrder(limitOrder.getCurrencyPair(), limitOrder.getType() == OrderType.ASK ? "sell"
-        : "buy", limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    QuoineOrderResponse quoinePlaceOrderResponse = placeLimitOrder(limitOrder.getCurrencyPair(),
+        limitOrder.getType() == OrderType.ASK ? "sell" : "buy", limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
     return quoinePlaceOrderResponse.getId();
   }
 

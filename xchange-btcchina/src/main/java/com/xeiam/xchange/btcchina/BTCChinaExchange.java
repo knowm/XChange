@@ -1,9 +1,5 @@
 package com.xeiam.xchange.btcchina;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -15,6 +11,8 @@ import com.xeiam.xchange.btcchina.service.streaming.BTCChinaStreamingConfigurati
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 import com.xeiam.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BTCChinaExchange extends BaseExchange implements Exchange {
 

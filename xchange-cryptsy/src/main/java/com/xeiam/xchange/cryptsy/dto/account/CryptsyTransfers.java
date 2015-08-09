@@ -37,7 +37,7 @@ public class CryptsyTransfers {
   public CryptsyTransfers(@JsonProperty("currency") String currency, @JsonProperty("request_timestamp") String req_timeStamp,
       @JsonProperty("processed") int processed, @JsonProperty("processed_timestamp") String proc_timeStamp, @JsonProperty("from") String from,
       @JsonProperty("to") String to, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("direction") CryptsyTrfDirection direction)
-      throws ParseException {
+          throws ParseException {
 
     this.currency = currency;
     this.req_timeStamp = req_timeStamp == null ? null : CryptsyUtils.convertDateTime(req_timeStamp);

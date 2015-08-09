@@ -7,10 +7,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
- * This class is loaded during creation of the Exchange and is
- * intended to hold both data that is readily available from an HTTP API request at an exchange extended by semi-static data that is not available from an HTTP API,
- * but is still important information to
- * have. Examples include currency pairs, max polling rates, scaling factors, etc.
+ * This class is loaded during creation of the Exchange and is intended to hold both data that is readily available from an HTTP API request at an
+ * exchange extended by semi-static data that is not available from an HTTP API, but is still important information to have. Examples include currency
+ * pairs, max polling rates, scaling factors, etc.
  * <p/>
  * This class is used only in the API by the classes that merge metadata stored in custom JSON file and online info from the remote exchange.
  */
@@ -30,11 +29,11 @@ public class ExchangeMetaData {
 
   /**
    * @param currencyPairs Map of {@link CurrencyPair} -> {@link MarketMetaData}
-   * @param currency      Map of currency -> {@link CurrencyMetaData}
+   * @param currency Map of currency -> {@link CurrencyMetaData}
    */
-  public ExchangeMetaData(@JsonProperty("currencyPair") Map<CurrencyPair, MarketMetaData> currencyPairs, @JsonProperty("currency") Map<String, CurrencyMetaData> currency,
-      @JsonProperty("publicRateLimits") Set<RateLimit> publicRateLimits, @JsonProperty("privateRateLimits") Set<RateLimit> privateRateLimits,
-      @JsonProperty("shareRateLimits") Boolean shareRateLimits) {
+  public ExchangeMetaData(@JsonProperty("currencyPair") Map<CurrencyPair, MarketMetaData> currencyPairs,
+      @JsonProperty("currency") Map<String, CurrencyMetaData> currency, @JsonProperty("publicRateLimits") Set<RateLimit> publicRateLimits,
+      @JsonProperty("privateRateLimits") Set<RateLimit> privateRateLimits, @JsonProperty("shareRateLimits") Boolean shareRateLimits) {
 
     this.currencyPairs = currencyPairs;
     this.currency = currency;
@@ -66,8 +65,8 @@ public class ExchangeMetaData {
   }
 
   /**
-   * @return minimum number of milliseconds required between any two remote calls, assuming the client makes consecutive calls without any bursts or breaks for an infinite period of time. Returns null
-   * if the rateLimits collection is null or empty
+   * @return minimum number of milliseconds required between any two remote calls, assuming the client makes consecutive calls without any bursts or
+   *         breaks for an infinite period of time. Returns null if the rateLimits collection is null or empty
    */
   public static Long getPollDelayMillis(Set<RateLimit> rateLimits) {
     if (rateLimits == null || rateLimits.isEmpty())
@@ -82,9 +81,6 @@ public class ExchangeMetaData {
 
   @Override
   public String toString() {
-    return "ExchangeMetaData{" +
-        "currencyPairs=" + currencyPairs +
-        ", currency=" + currency +
-        '}';
+    return "ExchangeMetaData{" + "currencyPairs=" + currencyPairs + ", currency=" + currency + '}';
   }
 }

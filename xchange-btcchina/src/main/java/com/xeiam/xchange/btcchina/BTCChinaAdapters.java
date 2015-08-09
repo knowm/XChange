@@ -135,7 +135,8 @@ public final class BTCChinaAdapters {
     BigDecimal volume = ticker.getVol();
     Date date = adaptDate(ticker.getDate());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).vwap(vwap).bid(buy).ask(sell).volume(volume).timestamp(date).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).vwap(vwap).bid(buy).ask(sell).volume(volume).timestamp(date)
+        .build();
   }
 
   public static Map<CurrencyPair, Ticker> adaptTickers(BTCChinaTicker btcChinaTicker) {
@@ -154,8 +155,8 @@ public final class BTCChinaAdapters {
   public static AccountInfo adaptAccountInfo(BTCChinaResponse<BTCChinaAccountInfo> response) {
 
     BTCChinaAccountInfo result = response.getResult();
-    return new AccountInfo(result.getProfile().getUsername(), result.getProfile().getTradeFee(), BTCChinaAdapters.adaptWallets(result.getBalances(),
-        result.getFrozens(), result.getLoans()));
+    return new AccountInfo(result.getProfile().getUsername(), result.getProfile().getTradeFee(),
+        BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens(), result.getLoans()));
   }
 
   public static List<Wallet> adaptWallets(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens, Map<String, BTCChinaValue> loans) {

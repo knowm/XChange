@@ -62,8 +62,8 @@ public class BTERTradeDemo {
 
   private static void raw(BTERPollingTradeServiceRaw tradeService) throws IOException, InterruptedException {
 
-    String placedOrderId = tradeService.placeBTERLimitOrder(CurrencyPair.LTC_BTC, BTEROrderType.SELL, new BigDecimal("0.0265"), new BigDecimal(
-        "0.384"));
+    String placedOrderId = tradeService.placeBTERLimitOrder(CurrencyPair.LTC_BTC, BTEROrderType.SELL, new BigDecimal("0.0265"),
+        new BigDecimal("0.384"));
     System.out.println(placedOrderId);
 
     Thread.sleep(2000); // wait for BTER's back-end to propagate the order

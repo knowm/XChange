@@ -36,8 +36,8 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
   public BitfinexMarginInfosResponse[] getBitfinexMarginInfos() throws IOException {
 
     try {
-      BitfinexMarginInfosResponse[] marginInfos = bitfinex.marginInfos(apiKey, payloadCreator, signatureCreator, new BitfinexMarginInfosRequest(
-          String.valueOf(exchange.getNonceFactory().createValue())));
+      BitfinexMarginInfosResponse[] marginInfos = bitfinex.marginInfos(apiKey, payloadCreator, signatureCreator,
+          new BitfinexMarginInfosRequest(String.valueOf(exchange.getNonceFactory().createValue())));
       return marginInfos;
     } catch (BitfinexException e) {
       throw new ExchangeException(e.getMessage());

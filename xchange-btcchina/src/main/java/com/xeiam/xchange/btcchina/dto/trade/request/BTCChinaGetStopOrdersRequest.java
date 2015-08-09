@@ -29,9 +29,9 @@ public class BTCChinaGetStopOrdersRequest extends BTCChinaRequest {
   public BTCChinaGetStopOrdersRequest(String status, String type, BigDecimal stopPrice, Integer limit, Integer offset, String market) {
 
     this.method = METHOD_NAME;
-    this.params = String.format("[%s,%s,%s,%d,%d,%s]", status == null ? "" : status, type == null ? "" : type, stopPrice == null ? "" : stopPrice
-        .stripTrailingZeros().toPlainString(), limit == null ? 1000 : limit.intValue(), offset == null ? 0 : offset.intValue(),
-        market == null ? BTCChinaExchange.DEFAULT_MARKET : market);
+    this.params = String.format("[%s,%s,%s,%d,%d,%s]", status == null ? "" : status, type == null ? "" : type,
+        stopPrice == null ? "" : stopPrice.stripTrailingZeros().toPlainString(), limit == null ? 1000 : limit.intValue(),
+        offset == null ? 0 : offset.intValue(), market == null ? BTCChinaExchange.DEFAULT_MARKET : market);
   }
 
 }

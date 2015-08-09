@@ -5,9 +5,9 @@ import java.math.BigInteger;
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
 
-import si.mazi.rescu.RestInvocation;
-
 import com.xeiam.xchange.service.BaseParamsDigest;
+
+import si.mazi.rescu.RestInvocation;
 
 /**
  * @author Karsten Nilsen
@@ -35,19 +35,18 @@ public class CleverCoinDigest extends BaseParamsDigest {
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
-	
-    
-   Mac mac256 = getMac();
-   mac256.update(restInvocation.getParamValue(HeaderParam.class, "X-CleverAPI-Nonce").toString().getBytes());
-   mac256.update(restInvocation.getParamValue(HeaderParam.class, "X-CleverAPI-Key").toString().getBytes());
-   mac256.update(restInvocation.getPath().getBytes());
-   // Check if there are GET parameters, if so complete it with the query string
-   if (restInvocation.getQueryString().toString().length() != 0) {
-	   mac256.update("?".getBytes());
-	   mac256.update(restInvocation.getQueryString().getBytes());
-   }
 
-   //return mac256.doFinal().toString();
+    Mac mac256 = getMac();
+    mac256.update(restInvocation.getParamValue(HeaderParam.class, "X-CleverAPI-Nonce").toString().getBytes());
+    mac256.update(restInvocation.getParamValue(HeaderParam.class, "X-CleverAPI-Key").toString().getBytes());
+    mac256.update(restInvocation.getPath().getBytes());
+    // Check if there are GET parameters, if so complete it with the query string
+    if (restInvocation.getQueryString().toString().length() != 0) {
+      mac256.update("?".getBytes());
+      mac256.update(restInvocation.getQueryString().getBytes());
+    }
+
+    //return mac256.doFinal().toString();
     return String.format("%064x", new BigInteger(1, mac256.doFinal())).toUpperCase();
   }
 }

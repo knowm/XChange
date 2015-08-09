@@ -11,11 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.account.KrakenLedger;
-import com.xeiam.xchange.kraken.dto.account.KrakenTradeBalanceInfo;
-import com.xeiam.xchange.kraken.dto.account.KrakenTradeVolume;
-import com.xeiam.xchange.kraken.dto.account.KrakenVolumeFee;
-import com.xeiam.xchange.kraken.dto.account.LedgerType;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;

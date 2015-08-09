@@ -36,6 +36,7 @@ public enum KrakenType {
   }
 
   private static final Map<String, KrakenType> fromString = new HashMap<String, KrakenType>();
+
   static {
     for (KrakenType type : values())
       fromString.put(type.toString(), type);

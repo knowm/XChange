@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import si.mazi.rescu.HttpStatusIOException;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.anx.v2.ANXV2;
 import com.xeiam.xchange.anx.v2.dto.ANXException;
@@ -21,6 +18,9 @@ import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTickersWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.Assert;
+
+import si.mazi.rescu.HttpStatusIOException;
+import si.mazi.rescu.RestProxyFactory;
 
 public class ANXMarketDataServiceRaw extends ANXBasePollingService {
 

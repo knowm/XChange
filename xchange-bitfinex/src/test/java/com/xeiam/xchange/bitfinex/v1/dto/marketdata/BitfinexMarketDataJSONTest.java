@@ -11,8 +11,6 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitfinex.v1.BitfinexAdapters;
-import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
-import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 

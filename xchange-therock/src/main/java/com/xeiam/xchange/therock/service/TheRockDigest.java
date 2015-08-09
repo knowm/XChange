@@ -7,10 +7,10 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.HeaderParam;
 
+import com.xeiam.xchange.therock.TheRockAuthenticated;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
-
-import com.xeiam.xchange.therock.TheRockAuthenticated;
 
 public class TheRockDigest implements ParamsDigest {
 

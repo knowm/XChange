@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +22,8 @@ import com.xeiam.xchange.okcoin.OkCoinUtils;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements PollingTradeService {
@@ -86,7 +86,6 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     return String.valueOf(orderId);
   }
 
-
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
@@ -102,7 +101,6 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
         limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
     return String.valueOf(orderId);
   }
-
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
@@ -188,7 +186,8 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     void setOrderId(String orderId);
   }
 
-  final public static class OkCoinFuturesTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair, TradeHistoryParamFuturesContract {
+  final public static class OkCoinFuturesTradeHistoryParams extends DefaultTradeHistoryParamPaging
+      implements TradeHistoryParamCurrencyPair, TradeHistoryParamFuturesContract {
     private CurrencyPair currencyPair;
     private FuturesContract futuresContract;
     private String orderId;
@@ -196,7 +195,8 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     public OkCoinFuturesTradeHistoryParams() {
     }
 
-    public OkCoinFuturesTradeHistoryParams(Integer pageLength, Integer pageNumber, CurrencyPair currencyPair, FuturesContract futuresContract, String orderId) {
+    public OkCoinFuturesTradeHistoryParams(Integer pageLength, Integer pageNumber, CurrencyPair currencyPair, FuturesContract futuresContract,
+        String orderId) {
       super(pageLength, pageNumber);
       this.currencyPair = currencyPair;
       this.futuresContract = futuresContract;

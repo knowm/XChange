@@ -3,9 +3,9 @@ package com.xeiam.xchange.therock.dto;
 import java.util.List;
 import java.util.Map;
 
-import si.mazi.rescu.HttpStatusExceptionSupport;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class TheRockException extends HttpStatusExceptionSupport {
 

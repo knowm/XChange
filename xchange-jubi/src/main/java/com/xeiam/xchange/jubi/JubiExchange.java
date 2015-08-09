@@ -4,6 +4,7 @@ import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.jubi.service.polling.JubiMarketDataService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class JubiExchange extends BaseExchange {

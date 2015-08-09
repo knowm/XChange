@@ -137,11 +137,10 @@ public class RippleNotifications extends RippleCommon {
 
     @Override
     public String toString() {
-      return String
-          .format(
-              "%s [account=%s, type=%s, direction=%s, state=%s, result=%s, ledger=%s, hash=%s, timestamp=%s, transactionURL=%s, previousHash=%s, previousNotificationUrl=%s, nextHash=%s, nextNotificationUrl=%s]",
-              getClass().getSimpleName(), account, type, direction, state, result, ledger, hash, timestamp, transactionURL, previousHash,
-              previousNotificationUrl, nextHash, nextNotificationUrl);
+      return String.format(
+          "%s [account=%s, type=%s, direction=%s, state=%s, result=%s, ledger=%s, hash=%s, timestamp=%s, transactionURL=%s, previousHash=%s, previousNotificationUrl=%s, nextHash=%s, nextNotificationUrl=%s]",
+          getClass().getSimpleName(), account, type, direction, state, result, ledger, hash, timestamp, transactionURL, previousHash,
+          previousNotificationUrl, nextHash, nextNotificationUrl);
     }
 
   }

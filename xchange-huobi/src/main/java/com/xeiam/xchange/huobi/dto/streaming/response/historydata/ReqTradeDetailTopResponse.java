@@ -6,12 +6,10 @@ import com.xeiam.xchange.huobi.dto.streaming.response.payload.ReqTradeDetailTopP
 /**
  * Response of top trade details.
  */
-public class ReqTradeDetailTopResponse extends
-		ReqResponse<ReqTradeDetailTopPayload> {
+public class ReqTradeDetailTopResponse extends ReqResponse<ReqTradeDetailTopPayload> {
 
-	public ReqTradeDetailTopResponse(int version, String msgType, int retCode,
-			String retMsg) {
-		super(version, msgType, retCode, retMsg);
-	}
+  public ReqTradeDetailTopResponse(int version, String msgType, int retCode, String retMsg) {
+    super(version, msgType, retCode, retMsg);
+  }
 
 }

@@ -7,9 +7,8 @@ import com.xeiam.xchange.huobi.dto.streaming.response.marketdata.payload.MarketD
  */
 public class MarketDepthDiff extends Message<MarketDepthDiffPayload> {
 
-	public MarketDepthDiff(int version, String msgType, String symbolId,
-			MarketDepthDiffPayload payload) {
-		super(version, msgType, symbolId, payload);
-	}
+  public MarketDepthDiff(int version, String msgType, String symbolId, MarketDepthDiffPayload payload) {
+    super(version, msgType, symbolId, payload);
+  }
 
 }

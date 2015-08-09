@@ -36,7 +36,8 @@ public class CointraderTradeService extends CointraderTradeServiceRaw implements
     CurrencyPair cp = null;
     try {
       cp = (CurrencyPair) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(CointraderExchange.CURRENCY_PAIR);
-    } catch (ClassCastException ignored) { }
+    } catch (ClassCastException ignored) {
+    }
     if (cp == null) {
       throw new IllegalArgumentException("The CURRENCY_PAIR exchange-specific parameter must be set in the exchange specification.");
     }
@@ -55,8 +56,7 @@ public class CointraderTradeService extends CointraderTradeServiceRaw implements
   }
 
   private String placeOrder(CurrencyPair currencyPair, Order.OrderType type, BigDecimal amount, BigDecimal price) throws IOException {
-    CointraderSubmitOrderResponse cointraderOrder = BID.equals(type)
-        ? placeCointraderBuyOrder(currencyPair, amount, price)
+    CointraderSubmitOrderResponse cointraderOrder = BID.equals(type) ? placeCointraderBuyOrder(currencyPair, amount, price)
         : placeCointraderSellOrder(currencyPair, amount, price);
     return Long.toString(cointraderOrder.getData().getId());
   }

@@ -21,7 +21,8 @@ public class TheRockOrder {
   private TheRock.Pair fundId;
   private String status;
 
-  protected TheRockOrder() { }
+  protected TheRockOrder() {
+  }
 
   public TheRockOrder(TheRock.Pair fundId, Side side, Type type, BigDecimal amount, BigDecimal price) {
     this.fundId = fundId;
@@ -65,10 +66,15 @@ public class TheRockOrder {
 
   @Override
   public String toString() {
-    return String.format("TheRockOrder{id=%d, side=%s, type=%s, amount=%s, amountUnfilled=%s, price=%s, fundId=%s, status='%s'}",
-        id, side, type, amount, amountUnfilled, price, fundId, status);
+    return String.format("TheRockOrder{id=%d, side=%s, type=%s, amount=%s, amountUnfilled=%s, price=%s, fundId=%s, status='%s'}", id, side, type,
+        amount, amountUnfilled, price, fundId, status);
   }
 
-  public enum Side { buy, sell }
-  public enum Type { market, limit }
+  public enum Side {
+    buy, sell
+  }
+
+  public enum Type {
+    market, limit
+  }
 }

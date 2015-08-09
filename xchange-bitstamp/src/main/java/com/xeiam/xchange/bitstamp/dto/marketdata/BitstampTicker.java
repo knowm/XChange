@@ -61,7 +61,7 @@ public final class BitstampTicker {
 
   public BigDecimal getVwap() {
 
-	return vwap;
+    return vwap;
   }
 
   public BigDecimal getVolume() {
@@ -87,8 +87,8 @@ public final class BitstampTicker {
   @Override
   public String toString() {
 
-    return "BitstampTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid
-        + ", ask=" + ask + ", timestamp=" + timestamp + "]";
+    return "BitstampTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid + ", ask="
+        + ask + ", timestamp=" + timestamp + "]";
   }
 
 }

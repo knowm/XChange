@@ -8,6 +8,12 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.btcchina.service.fix.BTCChinaApplication;
+import com.xeiam.xchange.btcchina.service.fix.fix44.BTCChinaMessageFactory;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+
 import quickfix.ConfigError;
 import quickfix.DoNotSend;
 import quickfix.FileLogFactory;
@@ -20,12 +26,6 @@ import quickfix.SessionID;
 import quickfix.SessionNotFound;
 import quickfix.SessionSettings;
 import quickfix.SocketInitiator;
-
-import com.xeiam.xchange.btcchina.service.fix.BTCChinaApplication;
-import com.xeiam.xchange.btcchina.service.fix.fix44.BTCChinaMessageFactory;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.marketdata.Ticker;
 
 public class BTCChinaClient {
 

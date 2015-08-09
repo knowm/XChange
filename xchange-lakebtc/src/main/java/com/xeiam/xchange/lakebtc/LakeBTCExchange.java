@@ -1,9 +1,5 @@
 package com.xeiam.xchange.lakebtc;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -11,6 +7,8 @@ import com.xeiam.xchange.lakebtc.service.polling.LakeBTCAccountService;
 import com.xeiam.xchange.lakebtc.service.polling.LakeBTCMarketDataService;
 import com.xeiam.xchange.lakebtc.service.polling.LakeBTCTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author kpysniak

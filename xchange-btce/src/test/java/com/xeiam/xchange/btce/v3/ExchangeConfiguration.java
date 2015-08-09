@@ -3,9 +3,7 @@ package com.xeiam.xchange.btce.v3;
 /**
  * Configuration for a BTC-E exchange.
  *
- * @author Peter N. Steinmetz
- *         Date: 3/30/15
- *         Time: 4:07 PM
+ * @author Peter N. Steinmetz Date: 3/30/15 Time: 4:07 PM
  */
 public class ExchangeConfiguration {
   public String secretKey;

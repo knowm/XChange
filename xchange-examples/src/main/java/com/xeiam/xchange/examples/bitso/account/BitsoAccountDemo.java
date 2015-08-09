@@ -23,7 +23,7 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
  * <li>Withdraw a small amount of BTC</li>
  * </ul>
  */
-public class  BitsoAccountDemo {
+public class BitsoAccountDemo {
 
   public static void main(String[] args) throws IOException {
 
@@ -55,8 +55,7 @@ public class  BitsoAccountDemo {
     BitsoDepositAddress depositAddress = accountService.getBitsoBitcoinDepositAddress();
     System.out.println("Bitcoin deposit address: " + depositAddress);
 
-    String withdrawResult = accountService
-        .withdrawBitsoFunds(new BigDecimal(1).movePointLeft(4), "1PxYUsgKdw75sdLmM7HYP2p74LEq3mxM6L");
+    String withdrawResult = accountService.withdrawBitsoFunds(new BigDecimal(1).movePointLeft(4), "1PxYUsgKdw75sdLmM7HYP2p74LEq3mxM6L");
     System.out.println("Bitso withdrawal response = " + withdrawResult);
   }
 }

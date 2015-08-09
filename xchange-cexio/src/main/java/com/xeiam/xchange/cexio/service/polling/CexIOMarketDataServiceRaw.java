@@ -2,14 +2,14 @@ package com.xeiam.xchange.cexio.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cexio.CexIO;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIODepth;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTicker;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author timmolter

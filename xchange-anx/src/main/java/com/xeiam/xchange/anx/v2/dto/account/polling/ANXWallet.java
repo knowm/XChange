@@ -70,8 +70,8 @@ public final class ANXWallet {
   @Override
   public String toString() {
 
-    return "ANXWallet [balance=" + balance + ", dailyWithdrawLimit=" + dailyWithdrawLimit + ", maxWithdraw=" + maxWithdraw
-        + ", monthlyWithdrawLimit=" + monthlyWithdrawLimit + ", operations=" + operations + "]";
+    return "ANXWallet [balance=" + balance + ", dailyWithdrawLimit=" + dailyWithdrawLimit + ", maxWithdraw=" + maxWithdraw + ", monthlyWithdrawLimit="
+        + monthlyWithdrawLimit + ", operations=" + operations + "]";
   }
 
 }

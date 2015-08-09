@@ -44,13 +44,12 @@ public class BitVcFuturesTrade {
 
     return type;
   }
-  
+
   public Date getDate() {
 
     return date;
   }
-  
-  
+
   public String getId() {
 
     return id;

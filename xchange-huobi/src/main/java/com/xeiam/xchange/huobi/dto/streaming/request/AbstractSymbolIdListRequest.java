@@ -5,18 +5,18 @@ package com.xeiam.xchange.huobi.dto.streaming.request;
  */
 public abstract class AbstractSymbolIdListRequest extends Request {
 
-	private String[] symbolIdList;
+  private String[] symbolIdList;
 
-	public AbstractSymbolIdListRequest(int version, String msgType) {
-		super(version, msgType);
-	}
+  public AbstractSymbolIdListRequest(int version, String msgType) {
+    super(version, msgType);
+  }
 
-	public String[] getSymbolIdList() {
-		return symbolIdList;
-	}
+  public String[] getSymbolIdList() {
+    return symbolIdList;
+  }
 
-	public void setSymbolIdList(String[] symbolIdList) {
-		this.symbolIdList = symbolIdList;
-	}
+  public void setSymbolIdList(String[] symbolIdList) {
+    this.symbolIdList = symbolIdList;
+  }
 
 }

@@ -25,13 +25,15 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
 
   @Override
   public String placeMarketOrder(MarketOrder order) throws IOException, TheRockException {
-    final TheRockOrder placedOrder = placeOrder(order.getCurrencyPair(), order.getTradableAmount(), null, TheRockAdapters.adaptSide(order.getType()), TheRockOrder.Type.market);
+    final TheRockOrder placedOrder = placeOrder(order.getCurrencyPair(), order.getTradableAmount(), null, TheRockAdapters.adaptSide(order.getType()),
+        TheRockOrder.Type.market);
     return placedOrder.getId().toString();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder order) throws IOException, TheRockException {
-    final TheRockOrder placedOrder = placeOrder(order.getCurrencyPair(), order.getTradableAmount(), order.getLimitPrice(), TheRockAdapters.adaptSide(order.getType()), TheRockOrder.Type.limit);
+    final TheRockOrder placedOrder = placeOrder(order.getCurrencyPair(), order.getTradableAmount(), order.getLimitPrice(),
+        TheRockAdapters.adaptSide(order.getType()), TheRockOrder.Type.limit);
     return placedOrder.getId().toString();
   }
 

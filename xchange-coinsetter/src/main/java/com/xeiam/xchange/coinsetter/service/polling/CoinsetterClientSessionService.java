@@ -46,8 +46,8 @@ public class CoinsetterClientSessionService extends CoinsetterClientSessionServi
     accountServiceRaw = new CoinsetterAccountServiceRaw(exchange);
     lock = (ReadWriteLock) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_LOCK_KEY);
     heartbeatInterval = (Long) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(SESSION_HEARTBEAT_INTERVAL_KEY);
-    heartbeatMaxFailureTimes = (Integer) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(
-        SESSION_HEARTBEAT_MAX_FAILURE_TIMES_KEY);
+    heartbeatMaxFailureTimes = (Integer) exchange.getExchangeSpecification()
+        .getExchangeSpecificParametersItem(SESSION_HEARTBEAT_MAX_FAILURE_TIMES_KEY);
   }
 
   public CoinsetterClientSession getSession() throws IOException {

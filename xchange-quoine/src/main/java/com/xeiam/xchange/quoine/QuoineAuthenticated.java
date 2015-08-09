@@ -31,9 +31,9 @@ public interface QuoineAuthenticated extends Quoine {
 
   @GET
   @Path("trading_accounts")
-  public QuoineTradingAccountInfo[] getTradingAccountInfo(@HeaderParam("X-Quoine-Device") String device, @HeaderParam("X-Quoine-User-Id") String userID,
-      @HeaderParam("X-Quoine-User-Token") String userToken) throws IOException;
-  
+  public QuoineTradingAccountInfo[] getTradingAccountInfo(@HeaderParam("X-Quoine-Device") String device,
+      @HeaderParam("X-Quoine-User-Id") String userID, @HeaderParam("X-Quoine-User-Token") String userToken) throws IOException;
+
   @POST
   @Path("orders")
   @Consumes(MediaType.APPLICATION_JSON)

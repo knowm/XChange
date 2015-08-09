@@ -3,8 +3,6 @@ package com.xeiam.xchange.mercadobitcoin.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -14,6 +12,8 @@ import com.xeiam.xchange.mercadobitcoin.MercadoBitcoin;
 import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
 import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
 import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author Felipe Micaroni Lalli

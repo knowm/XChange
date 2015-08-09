@@ -42,7 +42,8 @@ public class ItBitAccountServiceRaw extends ItBitBasePollingService {
 
   public ItBitAccountInfoReturn getItBitAccountInfo(String walletId) throws IOException {
 
-    ItBitAccountInfoReturn itBitAccountInfoReturn = itBitAuthenticated.getWallet(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId);
+    ItBitAccountInfoReturn itBitAccountInfoReturn = itBitAuthenticated.getWallet(signatureCreator, new Date().getTime(), exchange.getNonceFactory(),
+        walletId);
     return itBitAccountInfoReturn;
   }
 }

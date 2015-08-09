@@ -53,8 +53,8 @@ public class EmpoExTradeServiceRaw extends EmpoExBasePollingService {
   public String buy(LimitOrder limitOrder) throws IOException {
 
     try {
-      EmpoExOrderResponse response = empoExAuthenticated.buy(apiKey, EmpoExUtils.toPairString(limitOrder.getCurrencyPair()), limitOrder.getTradableAmount()
-          .toPlainString(), limitOrder.getLimitPrice().toPlainString());
+      EmpoExOrderResponse response = empoExAuthenticated.buy(apiKey, EmpoExUtils.toPairString(limitOrder.getCurrencyPair()),
+          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
       if (response.getSuccess()) {
         return response.getOrderId();
       } else {
@@ -68,8 +68,8 @@ public class EmpoExTradeServiceRaw extends EmpoExBasePollingService {
   public String sell(LimitOrder limitOrder) throws IOException {
 
     try {
-      EmpoExOrderResponse response = empoExAuthenticated.sell(apiKey, EmpoExUtils.toPairString(limitOrder.getCurrencyPair()), limitOrder.getTradableAmount()
-          .toPlainString(), limitOrder.getLimitPrice().toPlainString());
+      EmpoExOrderResponse response = empoExAuthenticated.sell(apiKey, EmpoExUtils.toPairString(limitOrder.getCurrencyPair()),
+          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
       if (response.getSuccess()) {
         return response.getOrderId();
       } else {

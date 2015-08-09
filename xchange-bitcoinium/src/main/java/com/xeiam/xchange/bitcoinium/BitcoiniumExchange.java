@@ -1,13 +1,11 @@
 package com.xeiam.xchange.bitcoinium;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataService;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitcoiniumExchange extends BaseExchange implements Exchange {
 

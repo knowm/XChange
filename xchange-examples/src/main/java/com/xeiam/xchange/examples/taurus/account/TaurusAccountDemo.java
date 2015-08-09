@@ -57,8 +57,7 @@ public class TaurusAccountDemo {
     String depositAddress = accountService.getTaurusBitcoinDepositAddress();
     System.out.println("TaurusDepositAddress address: " + depositAddress);
 
-    String withdrawResult = accountService
-        .withdrawTaurusFunds(new BigDecimal(1).movePointLeft(4), "1MqzGxp6fPdkCyEHe3hZK7rgnSSzHABh7f");
+    String withdrawResult = accountService.withdrawTaurusFunds(new BigDecimal(1).movePointLeft(4), "1MqzGxp6fPdkCyEHe3hZK7rgnSSzHABh7f");
     System.out.println("TaurusBooleanResponse = " + withdrawResult);
   }
 }

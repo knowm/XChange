@@ -6,8 +6,8 @@ import com.xeiam.xchange.kraken.dto.account.Withdraw;
 
 public class WithdrawResult extends KrakenResult<Withdraw> {
 
-	public WithdrawResult(@JsonProperty("result") Withdraw result, @JsonProperty("error") String[] error) {
-		super(result, error);
-	}
+  public WithdrawResult(@JsonProperty("result") Withdraw result, @JsonProperty("error") String[] error) {
+    super(result, error);
+  }
 
 }

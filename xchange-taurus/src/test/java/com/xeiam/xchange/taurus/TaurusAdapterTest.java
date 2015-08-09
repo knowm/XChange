@@ -6,18 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.taurus.dto.account.TaurusBalance;
-import com.xeiam.xchange.taurus.dto.marketdata.TaurusOrderBook;
-import com.xeiam.xchange.taurus.dto.marketdata.TaurusTicker;
-import com.xeiam.xchange.taurus.dto.marketdata.TaurusTransaction;
-import com.xeiam.xchange.taurus.dto.trade.TaurusUserTransaction;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -25,8 +18,13 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
-import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
+import com.xeiam.xchange.taurus.dto.account.TaurusBalance;
+import com.xeiam.xchange.taurus.dto.marketdata.TaurusOrderBook;
+import com.xeiam.xchange.taurus.dto.marketdata.TaurusTicker;
+import com.xeiam.xchange.taurus.dto.marketdata.TaurusTransaction;
+import com.xeiam.xchange.taurus.dto.trade.TaurusUserTransaction;
 
 /**
  * Tests the TaurusAdapter class
@@ -43,7 +41,7 @@ public class TaurusAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     TaurusBalance taurusBalance = mapper.readValue(is, TaurusBalance.class);
 
-//    {"btc_available":"0.02350921","btc_reserved":"0.00000000","btc_balance":"0.02350921", "cad_available":"6.16","cad_reserved":"0.00","cad_balance":"6.16","fee":"0.5000"}
+    //    {"btc_available":"0.02350921","btc_reserved":"0.00000000","btc_balance":"0.02350921", "cad_available":"6.16","cad_reserved":"0.00","cad_balance":"6.16","fee":"0.5000"}
     AccountInfo accountInfo = TaurusAdapters.adaptAccountInfo(taurusBalance, "Joe Mama");
     assertThat(accountInfo.getUsername()).isEqualTo("Joe Mama");
     assertThat(accountInfo.getTradingFee()).isEqualTo(new BigDecimal("0.5000"));
@@ -80,7 +78,7 @@ public class TaurusAdapterTest {
     assertThat(orderBook.getBids().get(3).getTradableAmount()).isEqualTo("0.47300000");
     assertThat(orderBook.getBids().get(3).getType()).isEqualTo(OrderType.BID);
 
-//    ["318.00", "0.68500000"]
+    //    ["318.00", "0.68500000"]
     assertThat(orderBook.getAsks().get(0).getLimitPrice()).isEqualTo("318.00");
     assertThat(orderBook.getAsks().get(0).getTradableAmount()).isEqualTo("0.68500000");
     assertThat(orderBook.getAsks().get(0).getType()).isEqualTo(OrderType.ASK);

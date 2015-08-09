@@ -4,6 +4,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 import com.xeiam.xchange.vircurex.VircurexAuthenticated;
+
 import si.mazi.rescu.RestProxyFactory;
 
 public class VircurexBasePollingService extends BaseExchangeService implements BasePollingService {

@@ -68,8 +68,8 @@ public final class MeXBTAdapters {
   }
 
   public static Trade adaptTrade(CurrencyPair currencyPair, MeXBTTrade meXBTTrade) {
-    return new Trade.Builder().currencyPair(currencyPair).id(String.valueOf(meXBTTrade.getTid())).timestamp(meXBTTrade.getDate()).tradableAmount(meXBTTrade.getAmount()).price(meXBTTrade.getPrice())
-        .build();
+    return new Trade.Builder().currencyPair(currencyPair).id(String.valueOf(meXBTTrade.getTid())).timestamp(meXBTTrade.getDate())
+        .tradableAmount(meXBTTrade.getAmount()).price(meXBTTrade.getPrice()).build();
   }
 
   public static Trades adaptTrades(CurrencyPair currencyPair, MeXBTTrade[] meXBTTrades) {
@@ -81,8 +81,8 @@ public final class MeXBTAdapters {
   }
 
   public static Ticker adaptTicker(CurrencyPair currencyPair, MeXBTTicker meXBTTicker) {
-    return new Ticker.Builder().currencyPair(currencyPair).last(meXBTTicker.getLast()).bid(meXBTTicker.getBid()).ask(meXBTTicker.getAsk()).high(meXBTTicker.getHigh()).low(meXBTTicker.getLow())
-        .volume(meXBTTicker.getVolume24Hour()).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(meXBTTicker.getLast()).bid(meXBTTicker.getBid()).ask(meXBTTicker.getAsk())
+        .high(meXBTTicker.getHigh()).low(meXBTTicker.getLow()).volume(meXBTTicker.getVolume24Hour()).build();
   }
 
   public static AccountInfo adaptAccountInfo(String username, MeXBTBalanceResponse balanceResponse) {
@@ -120,20 +120,21 @@ public final class MeXBTAdapters {
     List<UserTrade> userTrades = new ArrayList<UserTrade>(tradeResponse.getTrades().length);
     CurrencyPair currencyPair = adaptCurrencyPair(tradeResponse.getIns());
     for (MeXBTUserTrade t : tradeResponse.getTrades()) {
-      UserTrade userTrade = new UserTrade.Builder().currencyPair(currencyPair).id(String.valueOf(t.getTid())).price(t.getPx()).tradableAmount(t.getQty()).timestamp(t.getTime()).build();
+      UserTrade userTrade = new UserTrade.Builder().currencyPair(currencyPair).id(String.valueOf(t.getTid())).price(t.getPx())
+          .tradableAmount(t.getQty()).timestamp(t.getTime()).build();
       userTrades.add(userTrade);
     }
     return new UserTrades(userTrades, TradeSortType.SortByID);
   }
 
   public static LimitOrder adaptOrder(String ins, MeXBTStreamingTradeOrOrder too) {
-    return new LimitOrder.Builder(adaptSide(too.getSide()), adaptCurrencyPair(ins)).id(String.valueOf(too.getId())).timestamp(too.getTimestamp()).limitPrice(too.getPrice())
-        .tradableAmount(too.getQuantity()).build();
+    return new LimitOrder.Builder(adaptSide(too.getSide()), adaptCurrencyPair(ins)).id(String.valueOf(too.getId())).timestamp(too.getTimestamp())
+        .limitPrice(too.getPrice()).tradableAmount(too.getQuantity()).build();
   }
 
   public static Trade adaptTrade(String ins, MeXBTStreamingTradeOrOrder too) {
-    return new Trade.Builder().currencyPair(adaptCurrencyPair(ins)).id(String.valueOf(too.getId())).timestamp(too.getTimestamp()).price(too.getPrice()).tradableAmount(too.getQuantity())
-        .type(adaptSide(too.getSide())).build();
+    return new Trade.Builder().currencyPair(adaptCurrencyPair(ins)).id(String.valueOf(too.getId())).timestamp(too.getTimestamp())
+        .price(too.getPrice()).tradableAmount(too.getQuantity()).type(adaptSide(too.getSide())).build();
   }
 
 }

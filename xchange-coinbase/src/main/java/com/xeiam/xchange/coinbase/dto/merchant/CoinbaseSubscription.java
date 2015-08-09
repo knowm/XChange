@@ -59,9 +59,10 @@ public class CoinbaseSubscription {
     private final String custom;
     private final CoinbaseButton button;
 
-    private CoinbaseSubscriptionInfo(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(
-        using = ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("status") final CoinbaseRecurringPaymentStatus status,
-        @JsonProperty("custom") final String custom, @JsonProperty("button") final CoinbaseButtonInfo button) {
+    private CoinbaseSubscriptionInfo(@JsonProperty("id") final String id,
+        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
+        @JsonProperty("status") final CoinbaseRecurringPaymentStatus status, @JsonProperty("custom") final String custom,
+        @JsonProperty("button") final CoinbaseButtonInfo button) {
 
       this.id = id;
       this.createdAt = createdAt;

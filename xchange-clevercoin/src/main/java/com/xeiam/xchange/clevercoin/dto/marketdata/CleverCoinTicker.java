@@ -61,7 +61,7 @@ public final class CleverCoinTicker {
 
   public BigDecimal getPrevious() {
 
-	return previous;
+    return previous;
   }
 
   public BigDecimal getVolume() {

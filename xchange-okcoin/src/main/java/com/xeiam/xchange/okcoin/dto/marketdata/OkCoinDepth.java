@@ -12,7 +12,8 @@ public class OkCoinDepth {
   private final BigDecimal[][] bids;
   private final Date timestamp;
 
-  public OkCoinDepth(@JsonProperty("asks") final BigDecimal[][] asks, @JsonProperty("bids") final BigDecimal[][] bids, @JsonProperty(required=false, value="timestamp") Date timestamp) {
+  public OkCoinDepth(@JsonProperty("asks") final BigDecimal[][] asks, @JsonProperty("bids") final BigDecimal[][] bids,
+      @JsonProperty(required = false, value = "timestamp") Date timestamp) {
 
     this.asks = asks;
     this.bids = bids;
@@ -28,8 +29,7 @@ public class OkCoinDepth {
 
     return bids;
   }
-  
-  
+
   public Date getTimestamp() {
     return timestamp;
   }

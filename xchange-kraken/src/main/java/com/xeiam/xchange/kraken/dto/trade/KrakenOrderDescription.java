@@ -93,9 +93,9 @@ public class KrakenOrderDescription {
   @Override
   public String toString() {
 
-    return "KrakenOrderDescription [assetPair=" + assetPair + ", type=" + type + ", orderType=" + orderType + ", price=" + price
-        + ", secondaryPrice=" + secondaryPrice + ", leverage=" + leverage + ", positionTxId=" + positionTxId + ", orderDescription="
-        + orderDescription + ", closeDescription=" + closeDescription + "]";
+    return "KrakenOrderDescription [assetPair=" + assetPair + ", type=" + type + ", orderType=" + orderType + ", price=" + price + ", secondaryPrice="
+        + secondaryPrice + ", leverage=" + leverage + ", positionTxId=" + positionTxId + ", orderDescription=" + orderDescription
+        + ", closeDescription=" + closeDescription + "]";
   }
 
 }

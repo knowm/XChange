@@ -13,13 +13,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("v1")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -61,8 +61,8 @@ public interface ItBitAuthenticated extends ItBit {
   @Path("wallets/{walletId}/orders")
   @Consumes(MediaType.APPLICATION_JSON)
   ItBitOrder postOrder(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
-      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId, ItBitPlaceOrderRequest request)
-      throws IOException;
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId,
+      ItBitPlaceOrderRequest request) throws IOException;
 
   /** Returns empty body, return object is always null */
   @DELETE
@@ -76,7 +76,7 @@ public interface ItBitAuthenticated extends ItBit {
   @Path("wallets/{walletId}/cryptocurrency_withdrawals")
   @Consumes(MediaType.APPLICATION_JSON)
   ItBitOrder requestWithdrawal(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
-      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId, ItBitPlaceOrderRequest request)
-      throws IOException;
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId,
+      ItBitPlaceOrderRequest request) throws IOException;
 
 }

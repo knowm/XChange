@@ -367,9 +367,10 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Get the override file for generating the {@link com.xeiam.xchange.dto.meta.ExchangeMetaData} object. By default, the {@link com.xeiam.xchange.dto.meta.ExchangeMetaData} object is loaded at startup from a json file
-   * on the classpath with the same name as the name of the exchange as defined in {@link ExchangeSpecification}. With this parameter, you can
-   * override that file with a file of your choice located outside of the classpath.
+   * Get the override file for generating the {@link com.xeiam.xchange.dto.meta.ExchangeMetaData} object. By default, the
+   * {@link com.xeiam.xchange.dto.meta.ExchangeMetaData} object is loaded at startup from a json file on the classpath with the same name as the name
+   * of the exchange as defined in {@link ExchangeSpecification}. With this parameter, you can override that file with a file of your choice located
+   * outside of the classpath.
    *
    * @return
    */
@@ -379,9 +380,10 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Set the override file for generating the {@link com.xeiam.xchange.dto.meta.ExchangeMetaData} object. By default, the {@link com.xeiam.xchange.dto.meta.ExchangeMetaData} object is loaded at startup from a json file
-   * on the classpath with the same name as the name of the exchange as defined in {@link ExchangeSpecification}. With this parameter, you can
-   * override that file with a file of your choice located outside of the classpath.
+   * Set the override file for generating the {@link com.xeiam.xchange.dto.meta.ExchangeMetaData} object. By default, the
+   * {@link com.xeiam.xchange.dto.meta.ExchangeMetaData} object is loaded at startup from a json file on the classpath with the same name as the name
+   * of the exchange as defined in {@link ExchangeSpecification}. With this parameter, you can override that file with a file of your choice located
+   * outside of the classpath.
    *
    * @return
    */

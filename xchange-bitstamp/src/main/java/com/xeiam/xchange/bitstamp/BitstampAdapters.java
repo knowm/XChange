@@ -50,8 +50,10 @@ public final class BitstampAdapters {
   public static AccountInfo adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
 
     // Adapt to XChange DTOs
-    Wallet usdWallet = new Wallet(Currencies.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(), bitstampBalance.getUsdReserved());
-    Wallet btcWallet = new Wallet(Currencies.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(), bitstampBalance.getBtcReserved());
+    Wallet usdWallet = new Wallet(Currencies.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(),
+        bitstampBalance.getUsdReserved());
+    Wallet btcWallet = new Wallet(Currencies.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),
+        bitstampBalance.getBtcReserved());
 
     return new AccountInfo(userName, bitstampBalance.getFee(), Arrays.asList(usdWallet, btcWallet));
   }
@@ -150,8 +152,8 @@ public final class BitstampAdapters {
     BigDecimal volume = bitstampTicker.getVolume();
     Date timestamp = new Date(bitstampTicker.getTimestamp() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume).timestamp(timestamp)
-        .build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume)
+        .timestamp(timestamp).build();
 
   }
 

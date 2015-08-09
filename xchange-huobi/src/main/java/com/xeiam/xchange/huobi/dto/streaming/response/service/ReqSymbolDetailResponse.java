@@ -8,10 +8,9 @@ import com.xeiam.xchange.huobi.dto.streaming.response.payload.ReqSymbolDetailPay
  */
 public class ReqSymbolDetailResponse extends ReqResponse<ReqSymbolDetailPayload> {
 
-	public ReqSymbolDetailResponse(int version, String msgType, int retCode,
-			String retMsg, ReqSymbolDetailPayload payload) {
-		super(version, msgType, retCode, retMsg);
-		setPayload(payload);
-	}
+  public ReqSymbolDetailResponse(int version, String msgType, int retCode, String retMsg, ReqSymbolDetailPayload payload) {
+    super(version, msgType, retCode, retMsg);
+    setPayload(payload);
+  }
 
 }

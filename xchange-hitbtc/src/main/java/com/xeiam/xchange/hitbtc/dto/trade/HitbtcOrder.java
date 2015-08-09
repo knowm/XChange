@@ -25,8 +25,8 @@ public class HitbtcOrder {
       @JsonProperty("lastTimestamp") long lastTimestamp, @JsonProperty("orderPrice") BigDecimal orderPrice,
       @JsonProperty("orderQuantity") BigDecimal orderQuantity, @JsonProperty("avgPrice") BigDecimal avgPrice,
       @JsonProperty("quantityLeaves") BigDecimal quantityLeaves, @JsonProperty("type") String type, @JsonProperty("timeInForce") String timeInForce,
-      @JsonProperty("cumQuantity") BigDecimal cumQuantity, @JsonProperty("clientOrderId") String clientOrderId,
-      @JsonProperty("symbol") String symbol, @JsonProperty("side") String side, @JsonProperty("execQuantity") BigDecimal execQuantity) {
+      @JsonProperty("cumQuantity") BigDecimal cumQuantity, @JsonProperty("clientOrderId") String clientOrderId, @JsonProperty("symbol") String symbol,
+      @JsonProperty("side") String side, @JsonProperty("execQuantity") BigDecimal execQuantity) {
 
     super();
     this.orderId = orderId;

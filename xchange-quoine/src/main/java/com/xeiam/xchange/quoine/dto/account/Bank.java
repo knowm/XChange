@@ -74,8 +74,8 @@ public final class Bank {
 
   @Override
   public String toString() {
-    return "Bank [name=" + name + ", branch=" + branch + ", accType=" + accType + ", accName=" + accName + ", bankAddress=" + bankAddress
-        + ", swift=" + swift + ", bankAccountNumbers=" + Arrays.toString(bankAccountNumbers) + "]";
+    return "Bank [name=" + name + ", branch=" + branch + ", accType=" + accType + ", accName=" + accName + ", bankAddress=" + bankAddress + ", swift="
+        + swift + ", bankAccountNumbers=" + Arrays.toString(bankAccountNumbers) + "]";
   }
 
 }

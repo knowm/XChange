@@ -7,11 +7,8 @@ public class CointraderTradeHistoryResponse extends CointraderBaseResponse<Coint
 
   private final Integer totalCount;
 
-  protected CointraderTradeHistoryResponse(
-      @JsonProperty("success") Boolean success,
-      @JsonProperty("message") String message,
-      @JsonProperty("data") CointraderUserTrade[] data,
-      @JsonProperty("totalCount") Integer totalCount) {
+  protected CointraderTradeHistoryResponse(@JsonProperty("success") Boolean success, @JsonProperty("message") String message,
+      @JsonProperty("data") CointraderUserTrade[] data, @JsonProperty("totalCount") Integer totalCount) {
     super(success || "No Past Trades Found".equals(message), message, data);
     this.totalCount = totalCount;
   }

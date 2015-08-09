@@ -7,11 +7,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.taurus.dto.account.TaurusBalance;
-import com.xeiam.xchange.taurus.dto.marketdata.TaurusOrderBook;
-import com.xeiam.xchange.taurus.dto.marketdata.TaurusTicker;
-import com.xeiam.xchange.taurus.dto.marketdata.TaurusTransaction;
-import com.xeiam.xchange.taurus.dto.trade.TaurusUserTransaction;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -25,6 +20,11 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.taurus.dto.account.TaurusBalance;
+import com.xeiam.xchange.taurus.dto.marketdata.TaurusOrderBook;
+import com.xeiam.xchange.taurus.dto.marketdata.TaurusTicker;
+import com.xeiam.xchange.taurus.dto.marketdata.TaurusTransaction;
+import com.xeiam.xchange.taurus.dto.trade.TaurusUserTransaction;
 
 public final class TaurusAdapters {
 
@@ -85,9 +85,8 @@ public final class TaurusAdapters {
 
   public static Ticker adaptTicker(TaurusTicker tt, CurrencyPair currencyPair) {
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(tt.getLast()).bid(tt.getBid()).ask(tt.getAsk())
-        .high(tt.getHigh()).low(tt.getLow()).vwap(tt.getVwap()).volume(tt.getVolume()).timestamp(tt.getTimestamp())
-        .build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(tt.getLast()).bid(tt.getBid()).ask(tt.getAsk()).high(tt.getHigh()).low(tt.getLow())
+        .vwap(tt.getVwap()).volume(tt.getVolume()).timestamp(tt.getTimestamp()).build();
   }
 
   public static UserTrades adaptTradeHistory(TaurusUserTransaction[] taurusUserTransactions) {

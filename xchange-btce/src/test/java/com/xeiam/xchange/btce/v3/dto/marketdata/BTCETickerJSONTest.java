@@ -38,7 +38,8 @@ public class BTCETickerJSONTest {
 
     SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
-    String dateString = f.format(DateUtils.fromMillisUtc(bTCETickerWrapper.getTicker(BTCEAdapters.getPair(CurrencyPair.BTC_USD)).getUpdated() * 1000L));
+    String dateString = f
+        .format(DateUtils.fromMillisUtc(bTCETickerWrapper.getTicker(BTCEAdapters.getPair(CurrencyPair.BTC_USD)).getUpdated() * 1000L));
     System.out.println(dateString);
     assertThat(dateString).isEqualTo("2013-11-23 11:13:39");
   }

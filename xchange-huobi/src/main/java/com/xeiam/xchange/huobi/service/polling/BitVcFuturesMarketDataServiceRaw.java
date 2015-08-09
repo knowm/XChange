@@ -2,8 +2,6 @@ package com.xeiam.xchange.huobi.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.huobi.BitVcFutures;
 import com.xeiam.xchange.huobi.FuturesContract;
@@ -11,6 +9,8 @@ import com.xeiam.xchange.huobi.dto.marketdata.futures.BitVcExchangeRate;
 import com.xeiam.xchange.huobi.dto.marketdata.futures.BitVcFuturesDepth;
 import com.xeiam.xchange.huobi.dto.marketdata.futures.BitVcFuturesTicker;
 import com.xeiam.xchange.huobi.dto.marketdata.futures.BitVcFuturesTrade;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class BitVcFuturesMarketDataServiceRaw extends HuobiBasePollingService {
 
@@ -21,7 +21,7 @@ public class BitVcFuturesMarketDataServiceRaw extends HuobiBasePollingService {
    * Constructor
    *
    * @param exchange
-   * @param contract 
+   * @param contract
    */
   public BitVcFuturesMarketDataServiceRaw(Exchange exchange, FuturesContract contract) {
 

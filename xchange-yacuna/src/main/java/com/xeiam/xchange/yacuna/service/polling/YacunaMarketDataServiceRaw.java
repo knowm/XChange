@@ -1,13 +1,13 @@
 package com.xeiam.xchange.yacuna.service.polling;
 
+import java.io.IOException;
+import java.util.List;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.yacuna.Yacuna;
 import com.xeiam.xchange.yacuna.dto.marketdata.YacunaTicker;
 import com.xeiam.xchange.yacuna.dto.marketdata.YacunaTickerReturn;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by Yingzhe on 12/27/2014.
@@ -32,6 +32,7 @@ public class YacunaMarketDataServiceRaw extends YacunaBasePollingService<Yacuna>
     }
 
     YacunaTickerReturn tickerReturn = this.yacuna.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
-    return tickerReturn != null && tickerReturn.getTickerList() != null && tickerReturn.getTickerList().size() == 1 ? tickerReturn.getTickerList().get(0) : null;
+    return tickerReturn != null && tickerReturn.getTickerList() != null && tickerReturn.getTickerList().size() == 1
+        ? tickerReturn.getTickerList().get(0) : null;
   }
 }

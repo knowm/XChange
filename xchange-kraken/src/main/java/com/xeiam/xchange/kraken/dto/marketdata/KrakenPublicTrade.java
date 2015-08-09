@@ -16,7 +16,8 @@ public class KrakenPublicTrade {
   private final String miscellaneous;
 
   public KrakenPublicTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("volume") BigDecimal volume, @JsonProperty("time") double time,
-      @JsonProperty("type") KrakenType type, @JsonProperty("orderType") KrakenOrderType orderType, @JsonProperty("miscellaneous") String miscellaneous) {
+      @JsonProperty("type") KrakenType type, @JsonProperty("orderType") KrakenOrderType orderType,
+      @JsonProperty("miscellaneous") String miscellaneous) {
 
     this.price = price;
     this.volume = volume;

@@ -53,7 +53,7 @@ public class CointraderTradeDemo {
     CointraderTradeService.HistoryParams params = (CointraderTradeService.HistoryParams) tradeService.createTradeHistoryParams();
     params.setPageLength(1);
     params.setPageNumber(2);
-//    params.setStartId("33373");
+    //    params.setStartId("33373");
     final UserTrades tradeHistory = tradeService.getTradeHistory(params);
 
     System.out.println("Trade history: " + tradeHistory);

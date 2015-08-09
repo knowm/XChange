@@ -12,9 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenDepositMethodsResults;
@@ -33,6 +30,9 @@ import com.xeiam.xchange.kraken.dto.trade.results.KrakenQueryOrderResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenQueryTradeResult;
 import com.xeiam.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
+
 @Path("0")
 @Produces(MediaType.APPLICATION_JSON)
 public interface KrakenAuthenticated extends Kraken {
@@ -48,7 +48,7 @@ public interface KrakenAuthenticated extends Kraken {
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public KrakenTradeBalanceInfoResult tradeBalance(@FormParam("aclass") String assetClass, @FormParam("asset") String asset,
       @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-      throws IOException;
+          throws IOException;
 
   @POST
   @Path("private/Ledgers")
@@ -82,7 +82,7 @@ public interface KrakenAuthenticated extends Kraken {
       @FormParam("oflags") String orderFlags, @FormParam("starttm") String startTime, @FormParam("expiretm") String expireTime,
       @FormParam("userref") String userRefId, @FormParam("validate") boolean validateOnly, @FormParam("close") Map<String, String> closeOrder,
       @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-      throws IOException;
+          throws IOException;
 
   @POST
   @Path("private/CancelOrder")
@@ -95,7 +95,7 @@ public interface KrakenAuthenticated extends Kraken {
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public KrakenOpenOrdersResult openOrders(@FormParam("trades") boolean includeTrades, @FormParam("userref") String userReferenceId,
       @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-      throws IOException;
+          throws IOException;
 
   @POST
   @Path("private/ClosedOrders")
@@ -103,7 +103,7 @@ public interface KrakenAuthenticated extends Kraken {
   public KrakenClosedOrdersResult closedOrders(@FormParam("trades") boolean includeTrades, @FormParam("userref") String userReferenceId,
       @FormParam("start") String start, @FormParam("end") String end, @FormParam("ofs") String offset, @FormParam("closetime") String closeTime,
       @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-      throws IOException;
+          throws IOException;
 
   @POST
   @Path("private/QueryOrders")
@@ -134,14 +134,14 @@ public interface KrakenAuthenticated extends Kraken {
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public KrakenQueryTradeResult queryTrades(@FormParam("trades") boolean includeTrades, @FormParam("txid") String transactionIds,
       @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-      throws IOException;
+          throws IOException;
 
   @POST
   @Path("private/OpenPositions")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public KrakenOpenPositionsResult openPositions(@FormParam("txid") String transactionIds, @FormParam("docalcs") boolean doCalcs,
       @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-      throws IOException;
+          throws IOException;
 
   @POST
   @Path("private/TradeVolume")
@@ -152,47 +152,31 @@ public interface KrakenAuthenticated extends Kraken {
   @POST
   @Path("private/DepositAddresses")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public KrakenDepositAddressResult getDepositAddresses(
-		  	@FormParam("aclass") String assetPairs,
-		  	@FormParam("asset") String assets,
-		  	@FormParam("method") String method,
-//		  	@FormParam("new") boolean newAddress,
-		  	@HeaderParam("API-Key") String apiKey,
-		  	@HeaderParam("API-Sign") ParamsDigest signer, 
-      		@FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  public KrakenDepositAddressResult getDepositAddresses(@FormParam("aclass") String assetPairs, @FormParam("asset") String assets,
+      @FormParam("method") String method,
+      //		  	@FormParam("new") boolean newAddress,
+      @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+          throws IOException;
 
   @POST
   @Path("private/DepositMethods")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public KrakenDepositMethodsResults getDepositMethods(
-		  	@FormParam("aclass") String assetPairs,
-		  	@FormParam("asset") String assets,
-		  	@HeaderParam("API-Key") String apiKey,
-		  	@HeaderParam("API-Sign") ParamsDigest signer, 
-      		@FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  public KrakenDepositMethodsResults getDepositMethods(@FormParam("aclass") String assetPairs, @FormParam("asset") String assets,
+      @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
+          throws IOException;
 
   @POST
   @Path("private/WithdrawInfo")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public WithdrawInfoResult getWithdrawInfo(
-		  	@FormParam("aclass") String assetPairs,
-		  	@FormParam("asset") String assets,
-		  	@FormParam("key") String key,
-		  	@FormParam("amount") BigDecimal amount,
-		  	@HeaderParam("API-Key") String apiKey,
-		  	@HeaderParam("API-Sign") ParamsDigest signer, 
-    		@FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  public WithdrawInfoResult getWithdrawInfo(@FormParam("aclass") String assetPairs, @FormParam("asset") String assets, @FormParam("key") String key,
+      @FormParam("amount") BigDecimal amount, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("private/Withdraw")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public WithdrawResult withdraw(
-		  	@FormParam("aclass") String assetPairs,
-		  	@FormParam("asset") String assets,
-		  	@FormParam("key") String key,
-		  	@FormParam("amount") BigDecimal amount,
-		  	@HeaderParam("API-Key") String apiKey,
-		  	@HeaderParam("API-Sign") ParamsDigest signer, 
-    		@FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  public WithdrawResult withdraw(@FormParam("aclass") String assetPairs, @FormParam("asset") String assets, @FormParam("key") String key,
+      @FormParam("amount") BigDecimal amount, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
 }

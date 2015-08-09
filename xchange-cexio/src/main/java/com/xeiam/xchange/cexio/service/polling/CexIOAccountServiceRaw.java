@@ -3,9 +3,6 @@ package com.xeiam.xchange.cexio.service.polling;
 import java.io.IOException;
 import java.util.Map;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cexio.CexIOAuthenticated;
 import com.xeiam.xchange.cexio.dto.account.CexIOBalanceInfo;
@@ -13,6 +10,9 @@ import com.xeiam.xchange.cexio.dto.account.GHashIOHashrate;
 import com.xeiam.xchange.cexio.dto.account.GHashIOWorker;
 import com.xeiam.xchange.cexio.service.CexIODigest;
 import com.xeiam.xchange.exceptions.ExchangeException;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author timmolter
@@ -31,8 +31,8 @@ public class CexIOAccountServiceRaw extends CexIOBasePollingService {
 
     super(exchange);
     this.cexIOAuthenticated = RestProxyFactory.createProxy(CexIOAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    signatureCreator = CexIODigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
-        .getUserName(), exchange.getExchangeSpecification().getApiKey());
+    signatureCreator = CexIODigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
+        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
 
   public CexIOBalanceInfo getCexIOAccountInfo() throws IOException {

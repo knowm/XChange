@@ -5,7 +5,7 @@ import com.xeiam.xchange.okcoin.FuturesContract;
 
 class FuturesChannelProvider implements ChannelProvider {
   private final String contractName;
-  
+
   FuturesChannelProvider(FuturesContract contract) {
     contractName = contract.getName();
   }
@@ -13,10 +13,10 @@ class FuturesChannelProvider implements ChannelProvider {
   private static String pairToString(CurrencyPair currencyPair) {
     return currencyPair.baseSymbol.toLowerCase() + currencyPair.counterSymbol.toLowerCase();
   }
-  
+
   @Override
   public String getTicker(CurrencyPair currencyPair) {
-    return "ok_" + pairToString(currencyPair) + "_future_ticker_" + contractName; 
+    return "ok_" + pairToString(currencyPair) + "_future_ticker_" + contractName;
   }
 
   @Override

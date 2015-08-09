@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bitcoinaverage;
 
+import static com.xeiam.xchange.currency.Currencies.BTC;
+
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Date;
@@ -14,8 +16,6 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
-
-import static com.xeiam.xchange.currency.Currencies.BTC;
 
 /**
  * Various adapters for converting from BitcoinAverage DTOs to XChange DTOs
@@ -50,6 +50,6 @@ public final class BitcoinAverageAdapters {
     Map<CurrencyPair, MarketMetaData> currencyPairs = new HashMap<CurrencyPair, MarketMetaData>();
     for (String currency : tickers.getTickers().keySet())
       currencyPairs.put(new CurrencyPair(BTC, currency), new MarketMetaData(null, null, bAMetaData.priceScale));
-    return new ExchangeMetaData(currencyPairs, Collections.<String, CurrencyMetaData>emptyMap(), null, null, null);
+    return new ExchangeMetaData(currencyPairs, Collections.<String, CurrencyMetaData> emptyMap(), null, null, null);
   }
 }

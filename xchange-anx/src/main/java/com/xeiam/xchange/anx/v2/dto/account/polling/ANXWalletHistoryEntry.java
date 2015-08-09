@@ -86,8 +86,8 @@ public final class ANXWalletHistoryEntry {
   @Override
   public String toString() {
 
-    return "ANXWalletHistoryEntry{" + "index=" + index + ", date=" + date + ", type=" + type + ", value=" + value + ", balance=" + balance
-        + ", info=" + info + ", link=" + link + ", trade=" + trade + '}';
+    return "ANXWalletHistoryEntry{" + "index=" + index + ", date=" + date + ", type=" + type + ", value=" + value + ", balance=" + balance + ", info="
+        + info + ", link=" + link + ", trade=" + trade + '}';
   }
 
   public static class ANXWalletHistoryEntryTrade {

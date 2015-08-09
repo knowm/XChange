@@ -17,7 +17,8 @@ public final class CleverCoinCancelOrder {
    * 
    * @param result
    */
-  public CleverCoinCancelOrder(@JsonProperty("result") String result, @JsonProperty("error") @JsonDeserialize(using = CleverCoinErrorDeserializer.class) String errorMessage) {
+  public CleverCoinCancelOrder(@JsonProperty("result") String result,
+      @JsonProperty("error") @JsonDeserialize(using = CleverCoinErrorDeserializer.class) String errorMessage) {
 
     this.result = result;
     this.errorMessage = errorMessage;

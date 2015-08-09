@@ -2,12 +2,12 @@ package com.xeiam.xchange.loyalbit.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.loyalbit.Loyalbit;
 import com.xeiam.xchange.loyalbit.dto.marketdata.LoyalbitOrderBook;
 import com.xeiam.xchange.loyalbit.dto.marketdata.LoyalbitTicker;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class LoyalbitMarketDataServiceRaw extends LoyalbitBasePollingService {
 

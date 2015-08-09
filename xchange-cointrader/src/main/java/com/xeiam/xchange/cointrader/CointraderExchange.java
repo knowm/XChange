@@ -1,15 +1,13 @@
 package com.xeiam.xchange.cointrader;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cointrader.service.polling.CointraderAccountService;
 import com.xeiam.xchange.cointrader.service.polling.CointraderMarketDataService;
 import com.xeiam.xchange.cointrader.service.polling.CointraderTradeService;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Matija Mazi
@@ -33,7 +31,7 @@ public class CointraderExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://www.cointrader.net");
-//    exchangeSpecification.setSslUri("https://sandbox.cointrader.net");
+    //    exchangeSpecification.setSslUri("https://sandbox.cointrader.net");
     exchangeSpecification.setHost("www.cointrader.net");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Cointrader");

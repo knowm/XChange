@@ -69,6 +69,6 @@ public class HitbtcSymbol {
     return "HitbtcSymbol{" + "symbol='" + commodity + '/' + currency + '\'' + ", step=" + step + ", lot=" + lot + ", takeRate=" + takeLiquidityRate
         + ", lot=" + lot
 
-        + '}';
+    + '}';
   }
 }

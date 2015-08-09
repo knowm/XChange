@@ -13,14 +13,8 @@ public class LoyalbitTicker {
   public final BigDecimal low;
   public final BigDecimal volume;
 
-  public LoyalbitTicker(
-      @JsonProperty("last") BigDecimal last,
-      @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("high") BigDecimal high,
-      @JsonProperty("low") BigDecimal low,
-      @JsonProperty("volume") BigDecimal volume
-  ) {
+  public LoyalbitTicker(@JsonProperty("last") BigDecimal last, @JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid,
+      @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume) {
     this.last = last;
     this.ask = ask;
     this.bid = bid;
@@ -31,7 +25,6 @@ public class LoyalbitTicker {
 
   @Override
   public String toString() {
-    return String.format("LoyalbitTicker{last=%s, ask=%s, bid=%s, high=%s, low=%s, volume=%s}",
-        last, ask, bid, high, low, volume);
+    return String.format("LoyalbitTicker{last=%s, ask=%s, bid=%s, high=%s, low=%s, volume=%s}", last, ask, bid, high, low, volume);
   }
 }

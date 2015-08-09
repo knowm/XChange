@@ -1,5 +1,12 @@
 package com.xeiam.xchange.bitso.service.polling;
 
+import static com.xeiam.xchange.dto.Order.OrderType.BID;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitso.BitsoAdapters;
 import com.xeiam.xchange.bitso.dto.BitsoException;
@@ -17,13 +24,6 @@ import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
 /**
  * @author Piotr Ładyżyński
@@ -50,8 +50,8 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements PollingTr
       OrderType orderType = bitsoOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
       String id = bitsoOrder.getId();
       BigDecimal price = bitsoOrder.getPrice();
-      limitOrders.add(new LimitOrder(orderType, bitsoOrder.getAmount(), new CurrencyPair(Currencies.BTC, Currencies.MXN),
-              id, bitsoOrder.getTime(), price));
+      limitOrders
+          .add(new LimitOrder(orderType, bitsoOrder.getAmount(), new CurrencyPair(Currencies.BTC, Currencies.MXN), id, bitsoOrder.getTime(), price));
     }
     return new OpenOrders(limitOrders);
   }

@@ -7,21 +7,21 @@ import com.xeiam.xchange.huobi.dto.streaming.request.AbstractSymbolIdRequest;
  */
 public class ReqTradeDetailTopRequest extends AbstractSymbolIdRequest {
 
-	private int count;
+  private int count;
 
-	public ReqTradeDetailTopRequest(int version, String symbolId) {
-		super(version, "reqTradeDetailTop", symbolId);
-	}
+  public ReqTradeDetailTopRequest(int version, String symbolId) {
+    super(version, "reqTradeDetailTop", symbolId);
+  }
 
-	/**
-	 * @return 获取明细条数，缺省50条
-	 */
-	public int getCount() {
-		return count;
-	}
+  /**
+   * @return 获取明细条数，缺省50条
+   */
+  public int getCount() {
+    return count;
+  }
 
-	public void setCount(int count) {
-		this.count = count;
-	}
+  public void setCount(int count) {
+    this.count = count;
+  }
 
 }

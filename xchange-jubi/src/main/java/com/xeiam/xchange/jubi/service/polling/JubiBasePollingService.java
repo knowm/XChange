@@ -8,6 +8,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.jubi.Jubi;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+
 import si.mazi.rescu.RestProxyFactory;
 
 public class JubiBasePollingService<T extends Jubi> extends BaseExchangeService implements BasePollingService {

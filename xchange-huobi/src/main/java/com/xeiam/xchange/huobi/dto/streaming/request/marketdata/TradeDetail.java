@@ -5,8 +5,8 @@ package com.xeiam.xchange.huobi.dto.streaming.request.marketdata;
  */
 public class TradeDetail extends AbstractPush {
 
-	public TradeDetail(String symbolId, PushType pushType) {
-		super(symbolId, pushType);
-	}
+  public TradeDetail(String symbolId, PushType pushType) {
+    super(symbolId, pushType);
+  }
 
 }

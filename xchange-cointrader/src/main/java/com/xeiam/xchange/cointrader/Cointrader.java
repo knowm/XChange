@@ -19,33 +19,24 @@ public interface Cointrader {
 
   @GET
   @Path("stats/{type}/{currencyPair}")
-  CointraderTicker.Response getTicker(
-      @PathParam("currencyPair") Pair currencyPair,
-      @PathParam("type") CointraderTicker.Type type
-  );
+  CointraderTicker.Response getTicker(@PathParam("currencyPair") Pair currencyPair, @PathParam("type") CointraderTicker.Type type);
 
   @GET
   @Path("stats/orders/{currencyPair}/{type}/{limit}")
-  CointraderOrderBook getOrderBook(
-      @PathParam("currencyPair") Pair currencyPair,
-      @PathParam("limit") Integer limit,
-      @PathParam("type") OrderBookType type
-  );
+  CointraderOrderBook getOrderBook(@PathParam("currencyPair") Pair currencyPair, @PathParam("limit") Integer limit,
+      @PathParam("type") OrderBookType type);
 
   @GET
   @Path("stats/orders/{currencyPair}/{type}")
-  CointraderOrderBook getOrderBook(
-      @PathParam("currencyPair") Pair currencyPair,
-      @PathParam("type") OrderBookType type
-  );
+  CointraderOrderBook getOrderBook(@PathParam("currencyPair") Pair currencyPair, @PathParam("type") OrderBookType type);
 
   @GET
   @Path("stats/orders/{currencyPair}")
-  CointraderOrderBook getOrderBook(
-      @PathParam("currencyPair") Pair currencyPair
-  );
+  CointraderOrderBook getOrderBook(@PathParam("currencyPair") Pair currencyPair);
 
-  enum OrderBookType { buy, sell, all }
+  enum OrderBookType {
+    buy, sell, all
+  }
 
   class Pair {
     private CurrencyPair pair;
@@ -71,7 +62,8 @@ public interface Cointrader {
       return Objects.hash(pair);
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
       return String.format("%s%s", pair.baseSymbol, pair.counterSymbol);
     }
   }

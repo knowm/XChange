@@ -7,10 +7,8 @@ import com.google.gson.annotations.SerializedName;
  */
 public enum PushType {
 
-	@SerializedName("pushLong")
-	PUSH_LONG,
+  @SerializedName("pushLong") PUSH_LONG,
 
-	@SerializedName("pushShort")
-	PUSH_SHORT;
+  @SerializedName("pushShort") PUSH_SHORT;
 
 }

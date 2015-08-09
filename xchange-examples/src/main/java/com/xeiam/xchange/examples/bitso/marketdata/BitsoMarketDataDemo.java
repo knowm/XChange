@@ -18,6 +18,7 @@ import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
  * Demonstrate requesting Depth at Bitso
+ * 
  * @author Piotr Ładyżyński
  */
 public class BitsoMarketDataDemo {
@@ -36,7 +37,7 @@ public class BitsoMarketDataDemo {
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
-	CurrencyPair cp = new CurrencyPair(Currencies.BTC, Currencies.MXN);
+    CurrencyPair cp = new CurrencyPair(Currencies.BTC, Currencies.MXN);
     Ticker ticker = marketDataService.getTicker(cp);
     System.out.println("Ticker: " + ticker);
 
@@ -52,14 +53,14 @@ public class BitsoMarketDataDemo {
     System.out.println("Last Bid: " + orderBook.getBids().get(orderBook.getBids().size() - 1).toString());
 
     System.out.println(orderBook.toString());
-    
+
     // Get trades within the last hour
-    Object[] args = {"hour"};
+    Object[] args = { "hour" };
     List<Trade> trades = marketDataService.getTrades(cp, args).getTrades();
     System.out.println("Number Trades within last hour: " + trades.size());
     for (Trade t : trades) {
-		System.out.println("     " + t);
-	}
+      System.out.println("     " + t);
+    }
   }
 
   private static void raw(BitsoMarketDataServiceRaw marketDataService) throws IOException {

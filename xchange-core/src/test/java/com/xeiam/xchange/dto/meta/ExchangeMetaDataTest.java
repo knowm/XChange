@@ -1,12 +1,12 @@
 package com.xeiam.xchange.dto.meta;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.HashSet;
 
 import org.junit.Test;
-
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.Assert.assertEquals;
 
 public class ExchangeMetaDataTest {
 
@@ -33,7 +33,8 @@ public class ExchangeMetaDataTest {
    */
   @Test
   public void testGetPollDelayMillisMulti() {
-    assertEquals(1000L, (long) ExchangeMetaData.getPollDelayMillis(new HashSet<RateLimit>(Arrays.asList(new RateLimit(2, 1, SECONDS), new RateLimit(1, 1, SECONDS)))));
+    assertEquals(1000L, (long) ExchangeMetaData
+        .getPollDelayMillis(new HashSet<RateLimit>(Arrays.asList(new RateLimit(2, 1, SECONDS), new RateLimit(1, 1, SECONDS)))));
   }
 
   /**

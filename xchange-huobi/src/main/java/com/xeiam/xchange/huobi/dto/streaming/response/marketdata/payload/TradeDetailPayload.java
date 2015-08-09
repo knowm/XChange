@@ -9,14 +9,11 @@ import com.xeiam.xchange.huobi.dto.streaming.response.payload.ReqTradeDetailTopP
 /**
  * Payload of {@link TradeDetail}.
  */
-public class TradeDetailPayload extends ReqTradeDetailTopPayload implements
-		com.xeiam.xchange.huobi.dto.streaming.dto.TradeDetail {
+public class TradeDetailPayload extends ReqTradeDetailTopPayload implements com.xeiam.xchange.huobi.dto.streaming.dto.TradeDetail {
 
-	public TradeDetailPayload(String symbolId, long[] tradeId,
-			BigDecimal[] price, long[] time, BigDecimal[] amount,
-			int[] direction, Orders[] topAsks, Orders[] topBids) {
-		super(symbolId, tradeId, price, time, amount, direction, topAsks,
-				topBids);
-	}
+  public TradeDetailPayload(String symbolId, long[] tradeId, BigDecimal[] price, long[] time, BigDecimal[] amount, int[] direction, Orders[] topAsks,
+      Orders[] topBids) {
+    super(symbolId, tradeId, price, time, amount, direction, topAsks, topBids);
+  }
 
 }

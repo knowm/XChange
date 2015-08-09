@@ -27,23 +27,28 @@ import com.xeiam.xchange.loyalbit.dto.trade.LoyalbitUserTransaction;
 public final class LoyalbitAdapters {
 
   public static final Comparator<LimitOrder> ASK_COMPARATOR = new Comparator<LimitOrder>() {
-    @Override public int compare(LimitOrder o1, LimitOrder o2) {
+    @Override
+    public int compare(LimitOrder o1, LimitOrder o2) {
       return o1.getLimitPrice().compareTo(o2.getLimitPrice());
     }
   };
   public static final Comparator<LimitOrder> BID_COMPARATOR = new Comparator<LimitOrder>() {
-    @Override public int compare(LimitOrder o1, LimitOrder o2) {
+    @Override
+    public int compare(LimitOrder o1, LimitOrder o2) {
       return o2.getLimitPrice().compareTo(o1.getLimitPrice());
     }
   };
 
-  private LoyalbitAdapters() { }
+  private LoyalbitAdapters() {
+  }
 
   public static AccountInfo adaptAccountInfo(LoyalbitBalance loyalbitBalance, String userName) {
     // FIXME: the second parameter should be sum of (available, reservedOrder, reservedWithdraw)
     // keep it as available for safe reason, will be fixed in XChange 4.0.0
-    Wallet usdWallet = new Wallet(Currencies.USD, loyalbitBalance.getAvailableUsd(), loyalbitBalance.getAvailableUsd(), loyalbitBalance.getReservedOrderUsd());
-    Wallet btcWallet = new Wallet(Currencies.BTC, loyalbitBalance.getAvailableBtc(), loyalbitBalance.getAvailableBtc(), loyalbitBalance.getReservedOrderBtc());
+    Wallet usdWallet = new Wallet(Currencies.USD, loyalbitBalance.getAvailableUsd(), loyalbitBalance.getAvailableUsd(),
+        loyalbitBalance.getReservedOrderUsd());
+    Wallet btcWallet = new Wallet(Currencies.BTC, loyalbitBalance.getAvailableBtc(), loyalbitBalance.getAvailableBtc(),
+        loyalbitBalance.getReservedOrderBtc());
 
     return new AccountInfo(userName, loyalbitBalance.getFee(), Arrays.asList(usdWallet, btcWallet));
   }

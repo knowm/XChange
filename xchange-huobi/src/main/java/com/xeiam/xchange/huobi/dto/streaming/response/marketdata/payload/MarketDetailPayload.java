@@ -12,20 +12,12 @@ import com.xeiam.xchange.huobi.dto.streaming.response.payload.Trades;
  */
 public class MarketDetailPayload extends ReqMarketDetailPayload {
 
-	public MarketDetailPayload(String symbolId, BigDecimal priceNew,
-			BigDecimal priceOpen, BigDecimal priceHigh, BigDecimal priceLow,
-			BigDecimal priceLast, int level, BigDecimal amount,
-			BigDecimal totalAmount, String amp, Trades trades, Orders bids,
-			Orders asks, BigDecimal commissionRatio, BigDecimal poor,
-			BigDecimal updownVolume, BigDecimal updownRatio,
-			BigDecimal priceAverage, BigDecimal volumeRatio,
-			BigDecimal turnVolume, BigDecimal turnoverRate,
-			BigDecimal outerDisc, BigDecimal innerDisc, BigDecimal totalVolume) {
-		super(symbolId, priceNew, priceOpen, priceHigh, priceLow, priceLast,
-				level, amount, totalAmount, amp, trades, bids, asks,
-				commissionRatio, poor, updownVolume, updownRatio, priceAverage,
-				volumeRatio, turnVolume, turnoverRate, outerDisc, innerDisc,
-				totalVolume);
-	}
+  public MarketDetailPayload(String symbolId, BigDecimal priceNew, BigDecimal priceOpen, BigDecimal priceHigh, BigDecimal priceLow,
+      BigDecimal priceLast, int level, BigDecimal amount, BigDecimal totalAmount, String amp, Trades trades, Orders bids, Orders asks,
+      BigDecimal commissionRatio, BigDecimal poor, BigDecimal updownVolume, BigDecimal updownRatio, BigDecimal priceAverage, BigDecimal volumeRatio,
+      BigDecimal turnVolume, BigDecimal turnoverRate, BigDecimal outerDisc, BigDecimal innerDisc, BigDecimal totalVolume) {
+    super(symbolId, priceNew, priceOpen, priceHigh, priceLow, priceLast, level, amount, totalAmount, amp, trades, bids, asks, commissionRatio, poor,
+        updownVolume, updownRatio, priceAverage, volumeRatio, turnVolume, turnoverRate, outerDisc, innerDisc, totalVolume);
+  }
 
 }

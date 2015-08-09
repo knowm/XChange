@@ -1,9 +1,9 @@
 package com.xeiam.xchange.bitmarket.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kfonal
@@ -32,14 +32,9 @@ public class BitMarketHistoryTrade {
    * @param rate
    * @param time
    */
-  public BitMarketHistoryTrade(@JsonProperty("id") long id,
-      @JsonProperty("type") String type,
-      @JsonProperty("amountCrypto") BigDecimal amountCrypto,
-      @JsonProperty("currencyCrypto") String currencyCrypto,
-      @JsonProperty("amountFiat") BigDecimal amountFiat,
-      @JsonProperty("currencyFiat") String currencyFiat,
-      @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("time") long time) {
+  public BitMarketHistoryTrade(@JsonProperty("id") long id, @JsonProperty("type") String type, @JsonProperty("amountCrypto") BigDecimal amountCrypto,
+      @JsonProperty("currencyCrypto") String currencyCrypto, @JsonProperty("amountFiat") BigDecimal amountFiat,
+      @JsonProperty("currencyFiat") String currencyFiat, @JsonProperty("rate") BigDecimal rate, @JsonProperty("time") long time) {
 
     this.id = id;
     this.type = type;
@@ -52,21 +47,39 @@ public class BitMarketHistoryTrade {
     this.timestamp = new Date(time * 1000);
   }
 
-  public long getId() { return id; }
+  public long getId() {
+    return id;
+  }
 
-  public String getType() { return type; }
+  public String getType() {
+    return type;
+  }
 
-  public BigDecimal getAmountCrypto() { return amountCrypto; }
+  public BigDecimal getAmountCrypto() {
+    return amountCrypto;
+  }
 
-  public String getCurrencyCrypto() { return currencyCrypto; }
+  public String getCurrencyCrypto() {
+    return currencyCrypto;
+  }
 
-  public BigDecimal getAmountFiat() { return amountFiat; }
+  public BigDecimal getAmountFiat() {
+    return amountFiat;
+  }
 
-  public String getCurrencyFiat() { return currencyFiat; }
+  public String getCurrencyFiat() {
+    return currencyFiat;
+  }
 
-  public BigDecimal getRate() { return rate; }
+  public BigDecimal getRate() {
+    return rate;
+  }
 
-  public long getTime() { return time; }
+  public long getTime() {
+    return time;
+  }
 
-  public Date getTimestamp() { return timestamp; }
+  public Date getTimestamp() {
+    return timestamp;
+  }
 }

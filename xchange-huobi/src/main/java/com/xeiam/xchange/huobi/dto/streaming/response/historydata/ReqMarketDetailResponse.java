@@ -8,9 +8,8 @@ import com.xeiam.xchange.huobi.dto.streaming.response.payload.ReqMarketDetailPay
  */
 public class ReqMarketDetailResponse extends ReqResponse<ReqMarketDetailPayload> {
 
-	public ReqMarketDetailResponse(int version, String msgType, int retCode,
-			String retMsg) {
-		super(version, msgType, retCode, retMsg);
-	}
+  public ReqMarketDetailResponse(int version, String msgType, int retCode, String retMsg) {
+    super(version, msgType, retCode, retMsg);
+  }
 
 }

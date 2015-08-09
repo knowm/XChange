@@ -43,8 +43,8 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
 
     MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersBitcoinResult = getMercadoBitcoinUserOrders("btc_brl", null, "active", null,
         null, null, null);
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersLitecoinResult = getMercadoBitcoinUserOrders("ltc_brl", null, "active",
-        null, null, null, null);
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersLitecoinResult = getMercadoBitcoinUserOrders("ltc_brl", null, "active", null,
+        null, null, null);
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 

@@ -2,12 +2,12 @@ package com.xeiam.xchange.btctrade.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.ParamsDigest;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btctrade.service.BTCTradeDigest;
 import com.xeiam.xchange.btctrade.service.BTCTradeSession;
 import com.xeiam.xchange.btctrade.service.BTCTradeSessionFactory;
+
+import si.mazi.rescu.ParamsDigest;
 
 public class BTCTradeBaseTradePollingService extends BTCTradeBasePollingService {
 

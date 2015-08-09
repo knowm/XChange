@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
@@ -17,6 +15,8 @@ import com.xeiam.xchange.bitstamp.dto.account.DepositTransaction;
 import com.xeiam.xchange.bitstamp.dto.account.WithdrawalRequest;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
 import com.xeiam.xchange.exceptions.ExchangeException;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author gnandiga
@@ -36,8 +36,8 @@ public class BitstampAccountServiceRaw extends BitstampBasePollingService {
     super(exchange);
 
     this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = BitstampDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
-        .getUserName(), exchange.getExchangeSpecification().getApiKey());
+    this.signatureCreator = BitstampDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
+        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
 
   public BitstampBalance getBitstampBalance() throws IOException {
@@ -89,15 +89,15 @@ public class BitstampAccountServiceRaw extends BitstampBasePollingService {
 
   public List<DepositTransaction> getUnconfirmedDeposits() throws IOException {
 
-    final List<DepositTransaction> response = Arrays.asList(bitstampAuthenticated.getUnconfirmedDeposits(exchange.getExchangeSpecification()
-        .getApiKey(), signatureCreator, exchange.getNonceFactory()));
+    final List<DepositTransaction> response = Arrays.asList(
+        bitstampAuthenticated.getUnconfirmedDeposits(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory()));
     return response;
   }
 
   public List<WithdrawalRequest> getWithdrawalRequests() throws IOException {
 
-    final List<WithdrawalRequest> response = Arrays.asList(bitstampAuthenticated.getWithdrawalRequests(exchange.getExchangeSpecification()
-        .getApiKey(), signatureCreator, exchange.getNonceFactory()));
+    final List<WithdrawalRequest> response = Arrays.asList(
+        bitstampAuthenticated.getWithdrawalRequests(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory()));
     return response;
   }
 

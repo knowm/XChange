@@ -100,11 +100,7 @@ public class BTCChinaTradeStat {
     }
 
     int bidCount = 0, askCount = 0;
-    BigDecimal
-      totalBid = BigDecimal.ZERO,
-      totalAsk = BigDecimal.ZERO,
-      totalBidTradable = BigDecimal.ZERO,
-      totalAskTradable = BigDecimal.ZERO;
+    BigDecimal totalBid = BigDecimal.ZERO, totalAsk = BigDecimal.ZERO, totalBidTradable = BigDecimal.ZERO, totalAskTradable = BigDecimal.ZERO;
 
     for (UserTrade trade : trades) {
       switch (trade.getType()) {
@@ -123,8 +119,10 @@ public class BTCChinaTradeStat {
       }
     }
 
-    BigDecimal avgBid = totalBidTradable.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : totalBid.divide(totalBidTradable, 8, RoundingMode.HALF_EVEN);
-    BigDecimal avgAsk = totalAskTradable.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO : totalAsk.divide(totalAskTradable, 8, RoundingMode.HALF_EVEN);
+    BigDecimal avgBid = totalBidTradable.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO
+        : totalBid.divide(totalBidTradable, 8, RoundingMode.HALF_EVEN);
+    BigDecimal avgAsk = totalAskTradable.compareTo(BigDecimal.ZERO) == 0 ? BigDecimal.ZERO
+        : totalAsk.divide(totalAskTradable, 8, RoundingMode.HALF_EVEN);
 
     log.info("bid trade count: {}, ask trade count: {}", bidCount, askCount);
     log.info("Total bid: {}, tradable: {}, avg: {}", totalBid, totalBidTradable, avgBid);

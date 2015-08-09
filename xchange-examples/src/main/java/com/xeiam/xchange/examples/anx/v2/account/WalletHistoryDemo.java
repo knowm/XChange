@@ -2,9 +2,6 @@ package com.xeiam.xchange.examples.anx.v2.account;
 
 import java.io.IOException;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.anx.v2.ANXV2;
 import com.xeiam.xchange.anx.v2.dto.ANXException;
@@ -13,6 +10,9 @@ import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWalletHistoryWrapper;
 import com.xeiam.xchange.anx.v2.service.ANXV2Digest;
 import com.xeiam.xchange.examples.anx.v2.ANXExamplesUtils;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * Demo requesting wallethistory at ANX

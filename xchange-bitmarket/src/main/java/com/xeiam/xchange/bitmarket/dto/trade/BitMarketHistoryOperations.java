@@ -1,8 +1,8 @@
 package com.xeiam.xchange.bitmarket.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kfonal
@@ -22,9 +22,7 @@ public class BitMarketHistoryOperations {
    * @param count
    * @param operations
    */
-  public BitMarketHistoryOperations(@JsonProperty("total") int total,
-      @JsonProperty("start") int start,
-      @JsonProperty("count") int count,
+  public BitMarketHistoryOperations(@JsonProperty("total") int total, @JsonProperty("start") int start, @JsonProperty("count") int count,
       @JsonProperty("results") List<BitMarketHistoryOperation> operations) {
 
     this.total = total;

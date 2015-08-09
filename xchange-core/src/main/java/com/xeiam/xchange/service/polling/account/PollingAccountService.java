@@ -48,8 +48,8 @@ public interface PollingAccountService extends BasePollingService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException;
+  public String withdrawFunds(String currency, BigDecimal amount, String address)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Request a digital currency address to fund this account. Allows to fund the exchange account with digital currency from an external address
@@ -63,8 +63,8 @@ public interface PollingAccountService extends BasePollingService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException;
+  public String requestDepositAddress(String currency, String... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   // TODO: Transaction history (deposits, withrawals, etc.)
 }

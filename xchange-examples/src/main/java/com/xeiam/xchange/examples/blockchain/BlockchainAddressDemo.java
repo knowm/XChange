@@ -2,14 +2,14 @@ package com.xeiam.xchange.examples.blockchain;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.blockchain.Blockchain;
 import com.xeiam.xchange.blockchain.BlockchainExchange;
 import com.xeiam.xchange.blockchain.dto.BitcoinAddress;
 import com.xeiam.xchange.blockchain.dto.BitcoinAddresses;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author timmolter

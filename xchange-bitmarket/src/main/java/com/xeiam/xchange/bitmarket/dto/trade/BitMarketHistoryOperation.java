@@ -1,8 +1,8 @@
 package com.xeiam.xchange.bitmarket.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kfonal
@@ -28,12 +28,8 @@ public class BitMarketHistoryOperation {
    * @param commission
    * @param type
    */
-  public BitMarketHistoryOperation(@JsonProperty("id") long id,
-      @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("currency") String currency,
-      @JsonProperty("time") long time,
-      @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("commission") BigDecimal commission,
+  public BitMarketHistoryOperation(@JsonProperty("id") long id, @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency,
+      @JsonProperty("time") long time, @JsonProperty("rate") BigDecimal rate, @JsonProperty("commission") BigDecimal commission,
       @JsonProperty("type") String type) {
 
     this.id = id;
@@ -45,17 +41,31 @@ public class BitMarketHistoryOperation {
     this.type = type;
   }
 
-  public long getId() { return id; }
+  public long getId() {
+    return id;
+  }
 
-  public BigDecimal getAmount() { return amount; }
+  public BigDecimal getAmount() {
+    return amount;
+  }
 
-  public String getCurrency() { return currency; }
+  public String getCurrency() {
+    return currency;
+  }
 
-  public long getTime() { return time; }
+  public long getTime() {
+    return time;
+  }
 
-  public BigDecimal getRate() { return rate; }
+  public BigDecimal getRate() {
+    return rate;
+  }
 
-  public BigDecimal getCommission() { return commission; }
+  public BigDecimal getCommission() {
+    return commission;
+  }
 
-  public String getType() { return type; }
+  public String getType() {
+    return type;
+  }
 }

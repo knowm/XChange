@@ -25,16 +25,8 @@ public class LoyalbitMarketDataService extends LoyalbitMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
     LoyalbitTicker t = getLoyalbitTicker();
-    return new Ticker.Builder()
-        .currencyPair(currencyPair)
-        .last(t.last)
-        .bid(t.bid)
-        .ask(t.ask)
-        .high(t.high)
-        .low(t.low)
-        .volume(t.volume)
-        .timestamp(new Date())
-        .build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(t.last).bid(t.bid).ask(t.ask).high(t.high).low(t.low).volume(t.volume)
+        .timestamp(new Date()).build();
   }
 
   @Override

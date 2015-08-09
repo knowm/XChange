@@ -28,14 +28,10 @@ public final class TaurusOrder extends TaurusBaseResponse {
   private final Status status;
   private final CurrencyPair book;
 
-  public TaurusOrder(@JsonProperty("id") String id,
-                     @JsonProperty("datetime") @JsonDeserialize(using = SqlUtcTimeDeserializer.class) Date datetime,
-                     @JsonProperty("type") Order.OrderType type,
-                     @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
-                     @JsonProperty("status") Status status,
-                     @JsonProperty("error") Object error,
-                     @JsonProperty("book") @JsonDeserialize(using = CurrencyPairDeserializer.class) CurrencyPair book
-  ) {
+  public TaurusOrder(@JsonProperty("id") String id, @JsonProperty("datetime") @JsonDeserialize(using = SqlUtcTimeDeserializer.class) Date datetime,
+      @JsonProperty("type") Order.OrderType type, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("status") Status status, @JsonProperty("error") Object error,
+      @JsonProperty("book") @JsonDeserialize(using = CurrencyPairDeserializer.class) CurrencyPair book) {
     super(error);
     this.id = id;
     this.datetime = datetime;
@@ -75,17 +71,23 @@ public final class TaurusOrder extends TaurusBaseResponse {
   }
 
   @JsonDeserialize(using = StatusDeserializer.class)
-  public enum Status { cancelled, active, partiallyFilled, complete, unknown }
+  public enum Status {
+    cancelled, active, partiallyFilled, complete, unknown
+  }
 
   /** (-1 - cancelled; 0 - active; 1 - partially filled; 2 - complete) */
   public static class StatusDeserializer extends JsonDeserializer<Status> {
     @Override
     public Status deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
       switch (jp.getValueAsInt()) {
-        case -1: return Status.cancelled;
-        case  0: return Status.active;
-        case  1: return Status.partiallyFilled;
-        case  2: return Status.complete;         
+      case -1:
+        return Status.cancelled;
+      case 0:
+        return Status.active;
+      case 1:
+        return Status.partiallyFilled;
+      case 2:
+        return Status.complete;
       }
       return Status.unknown;
     }

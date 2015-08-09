@@ -30,7 +30,7 @@ public class OpenOrdersJSONTest {
 
     assertThat(orders.length).isEqualTo(1);
 
-//    [{"amount":"0.01000000","datetime":"2015-03-25 09:31:36","id":"musi0joa54mzpj0vvpo811mr53g6cj4zewieg7plccl2wlxrbm0cnm3tqkz3343i","price":"400.00","status":"0","type":"1"}]
+    //    [{"amount":"0.01000000","datetime":"2015-03-25 09:31:36","id":"musi0joa54mzpj0vvpo811mr53g6cj4zewieg7plccl2wlxrbm0cnm3tqkz3343i","price":"400.00","status":"0","type":"1"}]
     // Verify that the example data was unmarshalled correctly
     assertThat(orders[0].getId()).isEqualTo("musi0joa54mzpj0vvpo811mr53g6cj4zewieg7plccl2wlxrbm0cnm3tqkz3343i");
     assertThat(orders[0].getPrice()).isEqualTo(new BigDecimal("400.00"));

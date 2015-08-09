@@ -42,7 +42,8 @@ public class MeXBTTradeService extends MeXBTTradeServiceRaw implements PollingTr
    */
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, IOException {
-    long serverOrderId = createOrder(toCurrencyPair(marketOrder.getCurrencyPair()), toSide(marketOrder.getType()), 1, marketOrder.getTradableAmount(), null).getServerOrderId();
+    long serverOrderId = createOrder(toCurrencyPair(marketOrder.getCurrencyPair()), toSide(marketOrder.getType()), 1, marketOrder.getTradableAmount(),
+        null).getServerOrderId();
     return String.valueOf(serverOrderId);
   }
 
@@ -51,7 +52,8 @@ public class MeXBTTradeService extends MeXBTTradeServiceRaw implements PollingTr
    */
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, IOException {
-    long serverOrderId = createOrder(toCurrencyPair(limitOrder.getCurrencyPair()), toSide(limitOrder.getType()), 0, limitOrder.getTradableAmount(), limitOrder.getLimitPrice()).getServerOrderId();
+    long serverOrderId = createOrder(toCurrencyPair(limitOrder.getCurrencyPair()), toSide(limitOrder.getType()), 0, limitOrder.getTradableAmount(),
+        limitOrder.getLimitPrice()).getServerOrderId();
     return String.valueOf(serverOrderId);
   }
 
@@ -76,7 +78,8 @@ public class MeXBTTradeService extends MeXBTTradeServiceRaw implements PollingTr
    * {@inheritDoc}
    */
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public UserTrades getTradeHistory(Object... arguments)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -86,7 +89,8 @@ public class MeXBTTradeService extends MeXBTTradeServiceRaw implements PollingTr
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     MeXBTTradeHistoryParams meXBTTradeHistoryParams = (MeXBTTradeHistoryParams) params;
-    return adaptUserTrades(getTrades(toCurrencyPair(meXBTTradeHistoryParams.getCurrencyPair()), meXBTTradeHistoryParams.getOffset(), meXBTTradeHistoryParams.getCount()));
+    return adaptUserTrades(getTrades(toCurrencyPair(meXBTTradeHistoryParams.getCurrencyPair()), meXBTTradeHistoryParams.getOffset(),
+        meXBTTradeHistoryParams.getCount()));
   }
 
   /**
@@ -97,7 +101,8 @@ public class MeXBTTradeService extends MeXBTTradeServiceRaw implements PollingTr
     return new MeXBTTradeHistoryParams();
   }
 
-  public static class MeXBTTradeHistoryParams extends DefaultTradeHistoryParamCurrencyPair implements TradeHistoryParamCurrencyPair, TradeHistoryParamOffset {
+  public static class MeXBTTradeHistoryParams extends DefaultTradeHistoryParamCurrencyPair
+      implements TradeHistoryParamCurrencyPair, TradeHistoryParamOffset {
 
     private long startIndex;
     private int count;

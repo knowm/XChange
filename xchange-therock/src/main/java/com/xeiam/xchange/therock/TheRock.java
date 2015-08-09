@@ -32,7 +32,9 @@ public interface TheRock {
       this.pair = pair;
     }
 
-    public Pair(String pair) { this(CurrencyPairDeserializer.getCurrencyPairFromString(pair)); }
+    public Pair(String pair) {
+      this(CurrencyPairDeserializer.getCurrencyPairFromString(pair));
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -40,8 +42,13 @@ public interface TheRock {
     }
 
     @Override
-    public int hashCode() { return Objects.hash(pair); }
+    public int hashCode() {
+      return Objects.hash(pair);
+    }
 
-    @Override public String toString() { return String.format("%s%s", pair.baseSymbol, pair.counterSymbol); }
+    @Override
+    public String toString() {
+      return String.format("%s%s", pair.baseSymbol, pair.counterSymbol);
+    }
   }
 }

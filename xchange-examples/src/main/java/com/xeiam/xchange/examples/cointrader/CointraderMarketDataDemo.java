@@ -44,10 +44,12 @@ public class CointraderMarketDataDemo {
     CointraderMarketDataServiceRaw cointraderMarketDataService = (CointraderMarketDataServiceRaw) cointraderExchange.getPollingMarketDataService();
 
     // Get the weekly ticker
-    System.out.println("Ticker: " + cointraderMarketDataService.getCointraderTicker(new Cointrader.Pair(CurrencyPair.BTC_USD), CointraderTicker.Type.weekly));
+    System.out.println(
+        "Ticker: " + cointraderMarketDataService.getCointraderTicker(new Cointrader.Pair(CurrencyPair.BTC_USD), CointraderTicker.Type.weekly));
 
     // Get the latest full order book data
-    CointraderOrderBook depth = cointraderMarketDataService.getCointraderOrderBook(new Cointrader.Pair(CurrencyPair.BTC_USD), 10, Cointrader.OrderBookType.all);
+    CointraderOrderBook depth = cointraderMarketDataService.getCointraderOrderBook(new Cointrader.Pair(CurrencyPair.BTC_USD), 10,
+        Cointrader.OrderBookType.all);
     System.out.println(depth.toString());
     System.out.println("offers: " + (depth.getData().size()));
   }

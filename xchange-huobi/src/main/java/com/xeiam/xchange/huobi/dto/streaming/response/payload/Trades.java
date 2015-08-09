@@ -8,34 +8,33 @@ import com.xeiam.xchange.huobi.dto.streaming.response.marketdata.payload.MarketD
  * Trades for {@link MarketDetailPayload} and {@link ReqMarketDetailPayload}.
  */
 public class Trades {
-	private final BigDecimal[] price;
-	private final long[] time;
-	private final BigDecimal[] amount;
-	private final int[] direction;
+  private final BigDecimal[] price;
+  private final long[] time;
+  private final BigDecimal[] amount;
+  private final int[] direction;
 
-	public Trades(BigDecimal[] price, long[] time, BigDecimal[] amount,
-			int[] direction) {
-		super();
-		this.price = price;
-		this.time = time;
-		this.amount = amount;
-		this.direction = direction;
-	}
+  public Trades(BigDecimal[] price, long[] time, BigDecimal[] amount, int[] direction) {
+    super();
+    this.price = price;
+    this.time = time;
+    this.amount = amount;
+    this.direction = direction;
+  }
 
-	public BigDecimal[] getPrice() {
-		return price;
-	}
+  public BigDecimal[] getPrice() {
+    return price;
+  }
 
-	public long[] getTime() {
-		return time;
-	}
+  public long[] getTime() {
+    return time;
+  }
 
-	public BigDecimal[] getAmount() {
-		return amount;
-	}
+  public BigDecimal[] getAmount() {
+    return amount;
+  }
 
-	public int[] getDirection() {
-		return direction;
-	}
+  public int[] getDirection() {
+    return direction;
+  }
 
 }

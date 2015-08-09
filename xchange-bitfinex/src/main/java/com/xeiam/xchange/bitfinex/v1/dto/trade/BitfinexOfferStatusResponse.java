@@ -103,8 +103,8 @@ public class BitfinexOfferStatusResponse {
   public String toString() {
 
     return "BitfinexOfferStatusResponse [id=" + id + ", currency=" + currency + ", rate=" + rate + ", period=" + period + ", direction=" + direction
-        + ", type=" + type + ", timestamp=" + timestamp + ", isLive=" + isLive + ", isCancelled=" + isCancelled + ", originalAmount="
-        + originalAmount + ", remainingAmount=" + remainingAmount + ", executedAmount=" + executedAmount + "]";
+        + ", type=" + type + ", timestamp=" + timestamp + ", isLive=" + isLive + ", isCancelled=" + isCancelled + ", originalAmount=" + originalAmount
+        + ", remainingAmount=" + remainingAmount + ", executedAmount=" + executedAmount + "]";
   }
 
 }

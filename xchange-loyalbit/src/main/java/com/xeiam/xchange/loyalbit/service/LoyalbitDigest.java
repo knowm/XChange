@@ -5,10 +5,10 @@ import java.io.IOException;
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
 
-import si.mazi.rescu.RestInvocation;
-
 import com.xeiam.xchange.service.BaseParamsDigest;
+
 import net.iharder.Base64;
+import si.mazi.rescu.RestInvocation;
 
 public class LoyalbitDigest extends BaseParamsDigest {
 

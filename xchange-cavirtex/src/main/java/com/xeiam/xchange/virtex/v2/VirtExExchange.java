@@ -4,6 +4,7 @@ import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.virtex.v2.service.polling.VirtExMarketDataService;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class VirtExExchange extends BaseExchange implements Exchange {

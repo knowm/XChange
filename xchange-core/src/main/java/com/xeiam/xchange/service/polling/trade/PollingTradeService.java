@@ -51,8 +51,8 @@ public interface PollingTradeService extends BasePollingService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException,
-  NotYetImplementedForExchangeException, IOException;
+  public String placeMarketOrder(MarketOrder marketOrder)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Place a limit order
@@ -65,8 +65,8 @@ public interface PollingTradeService extends BasePollingService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException,
-  NotYetImplementedForExchangeException, IOException;
+  public String placeLimitOrder(LimitOrder limitOrder)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * cancels order with matching orderId
@@ -79,8 +79,8 @@ public interface PollingTradeService extends BasePollingService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-  IOException;
+  public boolean cancelOrder(String orderId)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * gets trade history for user's account
@@ -95,8 +95,8 @@ public interface PollingTradeService extends BasePollingService {
    * @deprecated in favour of {@link #getTradeHistory(TradeHistoryParams)}
    */
   @Deprecated
-  public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException,
-  NotYetImplementedForExchangeException, IOException;
+  public UserTrades getTradeHistory(Object... arguments)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Fetch the history of user trades.
@@ -138,12 +138,14 @@ public interface PollingTradeService extends BasePollingService {
   public TradeHistoryParams createTradeHistoryParams();
 
   /**
-   * Verify the order against the exchange meta data. Most implementations will require that {@link com.xeiam.xchange.Exchange#remoteInit()}  be called before this method
+   * Verify the order against the exchange meta data. Most implementations will require that {@link com.xeiam.xchange.Exchange#remoteInit()} be called
+   * before this method
    */
   void verifyOrder(LimitOrder limitOrder);
 
   /**
-   * Verify the order against the exchange meta data. Most implementations will require that {@link com.xeiam.xchange.Exchange#remoteInit()}  be called before this method
+   * Verify the order against the exchange meta data. Most implementations will require that {@link com.xeiam.xchange.Exchange#remoteInit()} be called
+   * before this method
    */
   void verifyOrder(MarketOrder marketOrder);
 

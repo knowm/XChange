@@ -47,7 +47,7 @@ public class TradesDemo {
   private static void raw(CleverCoinMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the latest trade data for BTC/EUR
-	CleverCoinTransaction[] trades = marketDataService.getCleverCoinTransactions();
+    CleverCoinTransaction[] trades = marketDataService.getCleverCoinTransactions();
     System.out.println("Trades, default. Size= " + trades.length);
 
     trades = marketDataService.getCleverCoinTransactions();

@@ -6,7 +6,8 @@ import com.xeiam.xchange.loyalbit.LoyalbitExchange;
 
 public class LoyalbitExampleUtils {
 
-  private LoyalbitExampleUtils() { }
+  private LoyalbitExampleUtils() {
+  }
 
   public static Exchange createTestExchange() {
     Exchange loyalbitExchange = ExchangeFactory.INSTANCE.createExchange(LoyalbitExchange.class.getName());

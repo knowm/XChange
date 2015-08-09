@@ -91,8 +91,8 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Pol
         Date arg = (Date) args[0];
         sinceTimeStamp = arg.getTime();
       } else {
-        throw new IllegalArgumentException("Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was "
-            + args[0].getClass() + ")");
+        throw new IllegalArgumentException(
+            "Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
       }
     }
 

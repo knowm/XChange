@@ -1,11 +1,11 @@
 package com.xeiam.xchange.bitbay;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitbay.service.polling.BitbayMarketDataService;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author kpysniak

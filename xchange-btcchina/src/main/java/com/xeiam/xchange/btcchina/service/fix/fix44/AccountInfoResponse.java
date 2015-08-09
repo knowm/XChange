@@ -1,12 +1,12 @@
 package com.xeiam.xchange.btcchina.service.fix.fix44;
 
+import com.xeiam.xchange.btcchina.service.fix.field.AccReqID;
+import com.xeiam.xchange.btcchina.service.fix.field.Balance;
+
 import quickfix.FieldNotFound;
 import quickfix.field.Account;
 import quickfix.field.MsgType;
 import quickfix.fix44.Message;
-
-import com.xeiam.xchange.btcchina.service.fix.field.AccReqID;
-import com.xeiam.xchange.btcchina.service.fix.field.Balance;
 
 public class AccountInfoResponse extends Message {
 

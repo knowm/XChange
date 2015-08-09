@@ -3,10 +3,10 @@ package com.xeiam.xchange.bitcurex.service;
 import javax.crypto.Mac;
 import javax.xml.bind.DatatypeConverter;
 
-import si.mazi.rescu.RestInvocation;
-
 import com.xeiam.xchange.service.BaseParamsDigest;
+
 import net.iharder.Base64;
+import si.mazi.rescu.RestInvocation;
 
 public class BitcurexDigest extends BaseParamsDigest {
 

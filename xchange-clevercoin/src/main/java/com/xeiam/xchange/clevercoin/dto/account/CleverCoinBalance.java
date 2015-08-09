@@ -11,7 +11,7 @@ public final class CleverCoinBalance {
 
   private final String currency;
   private final BigDecimal balance;
-  
+
   private final String error;
 
   /**
@@ -20,10 +20,9 @@ public final class CleverCoinBalance {
    * @param currency
    * @param btcBalance
    * @param eurBalance
-   
    */
   public CleverCoinBalance(@JsonProperty("currency") String currency, @JsonProperty("balance") BigDecimal balance,
-		  @JsonProperty("error") String error) {
+      @JsonProperty("error") String error) {
 
     this.currency = currency;
     this.balance = balance;
@@ -48,7 +47,6 @@ public final class CleverCoinBalance {
   @Override
   public String toString() {
 
-    return String.format("Balance{currency=%s, balance=%s}",
-        currency, balance);
+    return String.format("Balance{currency=%s, balance=%s}", currency, balance);
   }
 }

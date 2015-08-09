@@ -91,8 +91,8 @@ public class CoinfloorAdapters {
       type = OrderType.ASK;
     }
 
-    return new LimitOrder(type, order.getBaseQty(), new CurrencyPair(baseCurrency, counterCurrency), String.valueOf(order.getId()), new Date(
-        order.getTime()), order.getPrice());
+    return new LimitOrder(type, order.getBaseQty(), new CurrencyPair(baseCurrency, counterCurrency), String.valueOf(order.getId()),
+        new Date(order.getTime()), order.getPrice());
   }
 
   public Map<String, Object> adaptOpenOrders(String data) throws ExchangeException {
@@ -398,8 +398,8 @@ public class CoinfloorAdapters {
       OrderType type = (rawRetObj.getBidId() > rawRetObj.getAskId() ? OrderType.BID : OrderType.ASK);
       BigDecimal limitPrice = rawRetObj.getPrice();
 
-      trade = new Trade(type, rawRetObj.getBaseQty(), new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString()),
-          limitPrice, null, String.valueOf(rawRetObj.getId()));
+      trade = new Trade(type, rawRetObj.getBaseQty(), new CurrencyPair(rawRetObj.getBase().toString(), rawRetObj.getCounter().toString()), limitPrice,
+          null, String.valueOf(rawRetObj.getId()));
 
       List<Trade> newTradesList = (cachedTrades == null ? new ArrayList<Trade>() : cachedTrades.getTrades());
       newTradesList.add(trade);
