@@ -175,7 +175,7 @@
 			<dependency>
 				<groupId>com.github.mmazi</groupId>
 				<artifactId>rescu</artifactId>
-				<version>1.7.2</version>
+				<version>1.8.1</version>
 			</dependency>
 
 			<!-- Charting -->
