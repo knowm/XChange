@@ -102,7 +102,8 @@
 		<module>xchange-cryptonit</module>
 		<module>xchange-cryptsy</module>
 		<module>xchange-empoex</module>
-		<module>xchange-examples</module>
+        <module>xchange-examples</module>
+        <module>xchange-gatecoin</module>
 		<module>xchange-hitbtc</module>
 		<module>xchange-itbit</module>
 		<module>xchange-independentreserve</module>
