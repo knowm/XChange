@@ -22,7 +22,6 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("v1")
-@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
 public interface ItBitAuthenticated extends ItBit {
 
@@ -32,7 +31,6 @@ public interface ItBitAuthenticated extends ItBit {
 
   @GET
   @Path("wallets?userId={userId}")
-  @Consumes(MediaType.APPLICATION_JSON)
   ItBitAccountInfoReturn[] getInfo(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
       @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("userId") String userId) throws IOException;
 
