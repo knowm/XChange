@@ -66,6 +66,8 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
   public static final CurrencyPair BTC_PHP = new CurrencyPair(Currencies.BTC, Currencies.PHP);
   public static final CurrencyPair BTC_STR = new CurrencyPair(Currencies.BTC, Currencies.STR);
 
+  public static final CurrencyPair ETH_BTC = new CurrencyPair(Currencies.ETH, Currencies.BTC);
+
   public static final CurrencyPair XDC_BTC = new CurrencyPair(Currencies.XDC, Currencies.BTC);
 
   public static final CurrencyPair XRP_BTC = new CurrencyPair(Currencies.XRP, Currencies.BTC);

@@ -67,6 +67,7 @@ public class Currencies {
   public static final String EGD = "EGD"; // egoldcoin
   public static final String EGP = "EGP"; // "Egyptian Pound",
   public static final String ETB = "ETB"; // "Ethiopian Birr",
+  public static final String ETH = "ETH"; // "Ether",
   public static final String EUR = "EUR"; // "Euro",
   public static final String FJD = "FJD"; // "Fijian Dollar",
   public static final String FKP = "FKP"; // "Falkland Islands Pound",
