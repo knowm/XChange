@@ -240,6 +240,7 @@ public class HitbtcAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(HitbtcSymbols symbols, HitbtcMetaData hitbtcMetaData) {
 
     Map<CurrencyPair, MarketMetaData> marketMetaDataMap = new HashMap<CurrencyPair, MarketMetaData>();
+    if (symbols != null)
     for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
       CurrencyPair pair = adaptSymbol(symbol);
       MarketMetaData meta = new MarketMetaData(symbol.getTakeLiquidityRate(), symbol.getLot(), symbol.getStep().scale());
