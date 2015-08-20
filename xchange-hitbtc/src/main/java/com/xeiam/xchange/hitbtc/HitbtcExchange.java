@@ -32,6 +32,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
   @Override
   protected void loadMetaData(InputStream is) {
     hitbtcMetaData = loadMetaData(is, HitbtcMetaData.class);
+    metaData = HitbtcAdapters.adaptToExchangeMetaData(null, hitbtcMetaData);
   }
 
   @Override

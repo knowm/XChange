@@ -2,13 +2,11 @@ package com.xeiam.xchange.btce.v3;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
+import com.xeiam.xchange.dto.meta.RateLimit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -219,21 +217,23 @@ public final class BTCEAdapters {
     Map<CurrencyPair, MarketMetaData> currencyPairs = new HashMap<CurrencyPair, MarketMetaData>();
     Map<String, CurrencyMetaData> currencies = new HashMap<String, CurrencyMetaData>();
 
+    if (btceExchangeInfo != null)
     for (Entry<String, BTCEPairInfo> e : btceExchangeInfo.getPairs().entrySet()) {
       CurrencyPair pair = adaptCurrencyPair(e.getKey());
       MarketMetaData marketMetaData = toMarketMetaData(e.getValue(), btceMetaData);
       currencyPairs.put(pair, marketMetaData);
 
-      addCurrencyMetaData(pair.baseSymbol, currencies);
-      addCurrencyMetaData(pair.counterSymbol, currencies);
+      addCurrencyMetaData(pair.baseSymbol, currencies, btceMetaData);
+      addCurrencyMetaData(pair.counterSymbol, currencies, btceMetaData);
     }
 
-    return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
+    HashSet<RateLimit> publicRateLimits = new HashSet<>(Collections.singleton(new RateLimit(btceMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)));
+    return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, Collections.<RateLimit>emptySet(), false);
   }
 
-  private static void addCurrencyMetaData(String symbol, Map<String, CurrencyMetaData> currencies) {
+  private static void addCurrencyMetaData(String symbol, Map<String, CurrencyMetaData> currencies, BTCEMetaData btceMetaData) {
     if (!currencies.containsKey(symbol)) {
-      currencies.put(symbol, new CurrencyMetaData(8));
+      currencies.put(symbol, new CurrencyMetaData(btceMetaData.amountScale));
     }
   }
 

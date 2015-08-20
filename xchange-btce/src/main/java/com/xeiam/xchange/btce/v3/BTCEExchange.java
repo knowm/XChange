@@ -49,6 +49,7 @@ public class BTCEExchange extends BaseExchange implements Exchange {
   @Override
   protected void loadMetaData(InputStream is) {
     btceMetaData = loadMetaData(is, BTCEMetaData.class);
+    metaData = BTCEAdapters.toMetaData(null, btceMetaData);
   }
 
   @Override
