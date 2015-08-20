@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
@@ -27,9 +28,9 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
     walletId = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get("walletId");
   }
 
-  public ItBitOrder[] getItBitOpenOrders() throws IOException {
+  public ItBitOrder[] getItBitOpenOrders(CurrencyPair currencyPair) throws IOException {
 
-    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), "XBTUSD", "1", "1000",
+    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), currencyPair.baseSymbol+currencyPair.counterSymbol, "1", "1000",
         "open", walletId);
 
     return orders;
