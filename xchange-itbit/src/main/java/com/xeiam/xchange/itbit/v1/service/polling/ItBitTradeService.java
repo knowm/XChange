@@ -39,7 +39,7 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
 		orders.addAll(Arrays.asList(getItBitOpenOrders(currencyPair)));
 	}
 	ItBitOrder[] empty = {};
-    return ItBitAdapters.adaptPrivateOrders(orders.isEmpty()? empty : (ItBitOrder[]) orders.toArray());
+    return ItBitAdapters.adaptPrivateOrders(orders.isEmpty()? empty : Arrays.copyOf(orders.toArray(), orders.size(), ItBitOrder[].class));
   }
 
   @Override
