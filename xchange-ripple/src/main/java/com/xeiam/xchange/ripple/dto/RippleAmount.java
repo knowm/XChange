@@ -12,8 +12,10 @@ public final class RippleAmount {
 
   @JsonProperty("currency")
   private String currency;
+
   @JsonProperty("counterparty")
   private String counterparty;
+
   @JsonProperty("value")
   private BigDecimal value;
 
@@ -21,16 +23,23 @@ public final class RippleAmount {
     return currency;
   }
 
-  public void setCurrency(final String currency) {
-    this.currency = currency;
+  public void setCurrency(final String value) {
+    currency = value;
   }
 
   public String getCounterparty() {
     return counterparty;
   }
 
-  public void setCounterparty(final String counterparty) {
-    this.counterparty = counterparty;
+  public void setCounterparty(final String value) {
+    counterparty = value;
+  }
+
+  // issuer is the old term for counterparty
+  // still used in the payment json as of v1.8.1
+  @JsonProperty("issuer")
+  public void setIssuer(final String value) {
+    counterparty = value;
   }
 
   @JsonSerialize(using = ToStringSerializer.class)

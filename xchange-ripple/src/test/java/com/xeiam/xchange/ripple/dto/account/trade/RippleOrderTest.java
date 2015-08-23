@@ -14,7 +14,7 @@ import com.xeiam.xchange.ripple.dto.RippleAmount;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrdersBody;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderCancelResponse;
-import com.xeiam.xchange.ripple.dto.trade.RippleOrderDetails;
+import com.xeiam.xchange.ripple.dto.trade.RippleOrderTransaction;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderEntryResponse;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderResponseBody;
 
@@ -107,11 +107,11 @@ public class RippleOrderTest {
   }
 
   @Test
-  public void orderDetailsUnmarshalTest() throws IOException, ParseException {
+  public void orderTransactionUnmarshalTest() throws IOException, ParseException {
     // Read in the JSON from the example resources
     final InputStream is = getClass().getResourceAsStream("/trade/example-order-details.json");
     final ObjectMapper mapper = new ObjectMapper();
-    final RippleOrderDetails response = mapper.readValue(is, RippleOrderDetails.class);
+    final RippleOrderTransaction response = mapper.readValue(is, RippleOrderTransaction.class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(response.isSuccess()).isEqualTo(true);

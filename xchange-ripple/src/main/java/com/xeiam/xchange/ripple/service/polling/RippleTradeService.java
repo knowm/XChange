@@ -12,8 +12,8 @@ import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.ripple.RippleAdapters;
 import com.xeiam.xchange.ripple.RippleExchange;
+import com.xeiam.xchange.ripple.dto.trade.IRippleTradeTransaction;
 import com.xeiam.xchange.ripple.dto.trade.RippleLimitOrder;
-import com.xeiam.xchange.ripple.dto.trade.RippleOrderDetails;
 import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryAccount;
 import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryCount;
 import com.xeiam.xchange.ripple.service.polling.params.RippleTradeHistoryHashLimit;
@@ -24,8 +24,6 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
 
 public class RippleTradeService extends RippleTradeServiceRaw implements PollingTradeService {
-
-  private static final boolean VALIDATE_ALL_REQUESTS = true;
 
   private final RippleExchange ripple;
 
@@ -61,7 +59,7 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
   public String placeLimitOrder(final LimitOrder order)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (order instanceof RippleLimitOrder) {
-      return placeOrder((RippleLimitOrder) order, VALIDATE_ALL_REQUESTS);
+      return placeOrder((RippleLimitOrder) order, ripple.validateOrderRequests());
     } else {
       throw new IllegalArgumentException("order must be of type: " + RippleLimitOrder.class.getName());
     }
@@ -70,7 +68,7 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
   @Override
   public boolean cancelOrder(final String orderId)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return cancelOrder(orderId, VALIDATE_ALL_REQUESTS);
+    return cancelOrder(orderId, ripple.validateOrderRequests());
   }
 
   /**
@@ -129,7 +127,7 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
       account = defaultTradeHistoryParams.getAccount();
     }
 
-    final List<RippleOrderDetails> trades = getTradesForAccount(params, account);
+    final List<IRippleTradeTransaction> trades = getTradesForAccount(params, account);
     return RippleAdapters.adaptTrades(trades, params, (RippleAccountService) exchange.getPollingAccountService(), ripple.getRoundingScale());
   }
 

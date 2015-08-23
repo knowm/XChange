@@ -15,7 +15,8 @@ import com.xeiam.xchange.ripple.dto.account.RippleAccountSettings;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrderBook;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
 import com.xeiam.xchange.ripple.dto.trade.RippleNotifications;
-import com.xeiam.xchange.ripple.dto.trade.RippleOrderDetails;
+import com.xeiam.xchange.ripple.dto.trade.RippleOrderTransaction;
+import com.xeiam.xchange.ripple.dto.trade.RipplePaymentTransaction;
 import com.xeiam.xchange.ripple.dto.trade.RippleTransactionFee;
 
 /**
@@ -57,11 +58,19 @@ public interface RipplePublic {
   public RippleAccountOrders openAccountOrders(@PathParam("address") final String address) throws IOException, RippleException;
 
   /**
-   * Returns the account information for this address.
+   * Returns detailed information about this order transaction.
    */
   @GET
   @Path("accounts/{address}/orders/{hash}")
-  public RippleOrderDetails orderDetails(@PathParam("address") final String address, @PathParam("hash") final String hash)
+  public RippleOrderTransaction orderTransaction(@PathParam("address") final String address, @PathParam("hash") final String hash)
+      throws IOException, RippleException;
+
+  /**
+   * Returns detailed information about this payment transaction.
+   */
+  @GET
+  @Path("accounts/{address}/payments/{hash}")
+  public RipplePaymentTransaction paymentTransaction(@PathParam("address") final String address, @PathParam("hash") final String hash)
       throws IOException, RippleException;
 
   /**
