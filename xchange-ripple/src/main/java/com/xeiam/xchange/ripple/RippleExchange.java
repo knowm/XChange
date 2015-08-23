@@ -25,7 +25,9 @@ public class RippleExchange extends BaseExchange implements Exchange {
 
   public static final String PARAMETER_TRUST_API_RIPPLE_COM = "trust.api.ripple.com";
 
-  public static final String PARAMETER_STORE_ORDER_DETAILS = "store.order.details";
+  public static final String PARAMETER_STORE_TRADE_TRANSACTION_DETAILS = "store.trade.transaction.details";
+
+  public static final String PARAMETER_VALIDATE_ORDER_REQUESTS = "validate.order.requests";
 
   public static final String PARAMETER_ROUNDING_SCALE = "rounding.scale";
 
@@ -59,7 +61,10 @@ public class RippleExchange extends BaseExchange implements Exchange {
     specification.setExchangeSpecificParametersItem(PARAMETER_TRUST_API_RIPPLE_COM, false);
 
     // Do not cache order detail queries by default to avoid running out of memory
-    specification.setExchangeSpecificParametersItem(PARAMETER_STORE_ORDER_DETAILS, false);
+    specification.setExchangeSpecificParametersItem(PARAMETER_STORE_TRADE_TRANSACTION_DETAILS, false);
+
+    // Wait for ledger consensus before confirming successful order entry or cancel
+    specification.setExchangeSpecificParametersItem(PARAMETER_VALIDATE_ORDER_REQUESTS, true);
 
     // Round to this decimal places on BigDecimal division
     specification.setExchangeSpecificParametersItem(PARAMETER_ROUNDING_SCALE, DEFAULT_ROUNDING_SCALE);
@@ -82,8 +87,12 @@ public class RippleExchange extends BaseExchange implements Exchange {
     return (Integer) specification.getExchangeSpecificParametersItem(RippleExchange.PARAMETER_ROUNDING_SCALE);
   }
 
-  public boolean isStoreOrderDetails() {
-    return (Boolean) getExchangeSpecification().getExchangeSpecificParametersItem(PARAMETER_STORE_ORDER_DETAILS);
+  public boolean validateOrderRequests() {
+    return (Boolean) getExchangeSpecification().getExchangeSpecificParametersItem(PARAMETER_VALIDATE_ORDER_REQUESTS);
+  }
+
+  public boolean isStoreTradeTransactionDetails() {
+    return (Boolean) getExchangeSpecification().getExchangeSpecificParametersItem(PARAMETER_STORE_TRADE_TRANSACTION_DETAILS);
   }
 
   public void clearOrderDetailsCache() {

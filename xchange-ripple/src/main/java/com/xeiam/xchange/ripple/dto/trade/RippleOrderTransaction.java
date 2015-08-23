@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.ripple.dto.RippleAmount;
 import com.xeiam.xchange.ripple.dto.RippleCommon;
 
-public class RippleOrderDetails extends RippleCommon {
+public class RippleOrderTransaction extends RippleCommon implements IRippleTradeTransaction {
 
   @JsonProperty("timestamp")
   public Date timestamp;
@@ -85,6 +85,15 @@ public class RippleOrderDetails extends RippleCommon {
 
   public void setOrderChanges(final List<RippleOrderResponseBody> value) {
     orderChanges = value;
+  }
+
+  @Override
+  public long getOrderId() {
+    if (orderChanges.size() == 1) {
+      return orderChanges.get(0).getSequence();
+    } else {
+      return 0; // cannot identify a single order
+    }
   }
 
   @Override

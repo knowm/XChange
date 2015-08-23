@@ -23,13 +23,13 @@ import com.xeiam.xchange.ripple.RippleExchange;
 import com.xeiam.xchange.ripple.dto.RippleAmount;
 import com.xeiam.xchange.ripple.dto.RippleException;
 import com.xeiam.xchange.ripple.dto.account.ITransferFeeSource;
+import com.xeiam.xchange.ripple.dto.trade.IRippleTradeTransaction;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
 import com.xeiam.xchange.ripple.dto.trade.RippleLimitOrder;
 import com.xeiam.xchange.ripple.dto.trade.RippleNotifications;
 import com.xeiam.xchange.ripple.dto.trade.RippleNotifications.RippleNotification;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderCancelRequest;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderCancelResponse;
-import com.xeiam.xchange.ripple.dto.trade.RippleOrderDetails;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderEntryRequest;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderEntryRequestBody;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderEntryResponse;
@@ -49,7 +49,7 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private final Map<String, Map<String, RippleOrderDetails>> orderDetailsStore = new ConcurrentHashMap<String, Map<String, RippleOrderDetails>>();
+  private final Map<String, Map<String, IRippleTradeTransaction>> rawTradeStore = new ConcurrentHashMap<String, Map<String, IRippleTradeTransaction>>();
 
   public RippleTradeServiceRaw(final Exchange exchange) {
     super(exchange);
@@ -122,39 +122,48 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
   /**
    * Retrieve order details from local store if they have been previously stored otherwise query external server.
    */
-  public RippleOrderDetails getOrderDetails(final String account, final String hash) throws RippleException, IOException {
+  public IRippleTradeTransaction getTrade(final String account, final RippleNotification notification) throws RippleException, IOException {
     final RippleExchange ripple = (RippleExchange) exchange;
-    if (ripple.isStoreOrderDetails()) {
-      Map<String, RippleOrderDetails> cache = orderDetailsStore.get(account);
+    if (ripple.isStoreTradeTransactionDetails()) {
+      Map<String, IRippleTradeTransaction> cache = rawTradeStore.get(account);
       if (cache == null) {
-        cache = new ConcurrentHashMap<String, RippleOrderDetails>();
-        orderDetailsStore.put(account, cache);
+        cache = new ConcurrentHashMap<String, IRippleTradeTransaction>();
+        rawTradeStore.put(account, cache);
       }
-      if (cache.containsKey(hash)) {
-        return cache.get(hash);
+      if (cache.containsKey(notification.getHash())) {
+        return cache.get(notification.getHash());
       }
     }
 
-    final RippleOrderDetails orderDetails;
+    final IRippleTradeTransaction trade;
     try {
-      orderDetails = ripplePublic.orderDetails(account, hash);
+      if (notification.getType().equals("order")) {
+        trade = ripplePublic.orderTransaction(account, notification.getHash());
+      } else if (notification.getType().equals("payment")) {
+        trade = ripplePublic.paymentTransaction(account, notification.getHash());
+      } else {
+        throw new IllegalArgumentException(String.format("unexpected notification %s type for transaction[%s] and account[%s]",
+            notification.getType(), notification.getHash(), notification.getAccount()));
+      }
+
     } catch (final RippleException e) {
       if (e.getHttpStatusCode() == 500 && e.getErrorType().equals("transaction")) {
         // Do not let an individual transaction parsing bug in the Ripple REST service cause a total trade   
         // history failure. See https://github.com/ripple/ripple-rest/issues/384 as an example of this situation. 
-        logger.error("exception reading order transaction[{}] for account[{}]", hash, account, e);
+        logger.error("exception reading {} transaction[{}] for account[{}]", notification.getType(), notification.getHash(), account, e);
         return null;
       } else {
         throw e;
       }
     }
-    if (ripple.isStoreOrderDetails()) {
-      orderDetailsStore.get(account).put(hash, orderDetails);
+    if (ripple.isStoreTradeTransactionDetails()) {
+      rawTradeStore.get(account).put(notification.getHash(), trade);
     }
-    return orderDetails;
+    return trade;
   }
 
-  public List<RippleOrderDetails> getTradesForAccount(final TradeHistoryParams params, final String account) throws RippleException, IOException {
+  public List<IRippleTradeTransaction> getTradesForAccount(final TradeHistoryParams params, final String account)
+      throws RippleException, IOException {
     final Integer pageLength;
     final Integer pageNumber;
     if (params instanceof TradeHistoryParamPaging) {
@@ -198,7 +207,7 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
       hashLimit = null;
     }
 
-    final List<RippleOrderDetails> trades = new ArrayList<RippleOrderDetails>();
+    final List<IRippleTradeTransaction> trades = new ArrayList<IRippleTradeTransaction>();
 
     final RippleNotifications notifications = ripplePublic.notifications(account, EXCLUDE_FAILED, EARLIEST_FIRST, pageLength, pageNumber,
         START_LEDGER, END_LEDGER);
@@ -233,35 +242,41 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
       }
 
       if (notification.getType().equals("order")) {
-        final RippleOrderDetails orderDetails = getOrderDetails(account, notification.getHash());
+        // standard on single order book trade
+      } else if (notification.getType().equals("payment") && notification.getDirection().equals("passthrough")) {
+        // indirect trade passing through this order book
+      } else {
+        continue; // not a trade related notification
+      }
+
+      final IRippleTradeTransaction trade = getTrade(account, notification);
+      if (rippleCount != null) {
+        rippleCount.incrementApiCallCount();
+      }
+      if (trade == null) {
+        continue;
+      }
+
+      final List<RippleAmount> balanceChanges = trade.getBalanceChanges();
+      if (balanceChanges.size() < 2 || balanceChanges.size() > 3) {
+        continue; // this is not a trade - a trade will change 2 or 3 (including XRP fee) currency balances
+      }
+
+      if (currencyFilter.isEmpty()
+          || (currencyFilter.contains(balanceChanges.get(0).getCurrency()) && currencyFilter.contains(balanceChanges.get(1).getCurrency()))) {
+        // no currency filter has been applied || currency filter match
+        trades.add(trade);
         if (rippleCount != null) {
-          rippleCount.incrementApiCallCount();
+          rippleCount.incrementTradeCount();
         }
-        if (orderDetails == null) {
-          continue;
-        }
+      }
 
-        final List<RippleAmount> balanceChanges = orderDetails.getBalanceChanges();
-        if (balanceChanges.size() != 2) {
-          continue; // this is not a trade - a trade will change 2 currency balances
-        }
-
-        if (currencyFilter.isEmpty()
-            || (currencyFilter.contains(balanceChanges.get(0).getCurrency()) && currencyFilter.contains(balanceChanges.get(1).getCurrency()))) {
-          // no currency filter has been applied || currency filter match
-          trades.add(orderDetails);
-          if (rippleCount != null) {
-            rippleCount.incrementTradeCount();
-          }
-        }
-
-        if (orderDetails.getHash().equals(hashLimit)) {
-          return trades; // found the last required trade - stop searching
-        }
+      if (trade.getHash().equals(hashLimit)) {
+        return trades; // found the last required trade - stop searching
       }
     }
 
-    if ((params instanceof TradeHistoryParamPaging) && ((hashLimit != null) || (startTime != null))) {
+    if (params instanceof TradeHistoryParamPaging && (hashLimit != null || startTime != null)) {
       // Still looking for trades, if query was complete it would have returned in the
       // loop above. Increment the page number and search next set of notifications.
       final TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
@@ -276,6 +291,7 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
     }
 
     return trades;
+
   }
 
   /**
@@ -345,9 +361,9 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
    * Clear any stored order details to allow memory to be released.
    */
   public void clearOrderDetailsStore() {
-    for (final Map<String, RippleOrderDetails> cache : orderDetailsStore.values()) {
+    for (final Map<String, IRippleTradeTransaction> cache : rawTradeStore.values()) {
       cache.clear();
     }
-    orderDetailsStore.clear();
+    rawTradeStore.clear();
   }
 }
