@@ -6,6 +6,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.hitbtc.dto.HitbtcException;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
+import com.xeiam.xchange.hitbtc.dto.account.HitbtcDepositAddressResponse;
 
 public class HitbtcAccountServiceRaw extends HitbtcBasePollingService {
 
@@ -34,6 +35,16 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService {
     try {
       HitbtcBalanceResponse hitbtcBalanceResponse = hitbtc.getHitbtcBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
       return hitbtcBalanceResponse;
+    } catch (HitbtcException e) {
+      throw handleException(e);
+    }
+  }
+
+  public String getDepositAddress(String currency) throws IOException {
+
+    try {
+      HitbtcDepositAddressResponse hitbtcDepositAddressResponse  = hitbtc.getHitbtcDepositAddress(currency, signatureCreator, exchange.getNonceFactory(), apiKey);
+      return hitbtcDepositAddressResponse.getAddress();
     } catch (HitbtcException e) {
       throw handleException(e);
     }
