@@ -11,8 +11,6 @@ import java.util.Map.Entry;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
-import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
 
 /**
  * @author Benedikt Bünz Test BTCETradeHistoryReturn JSON parsing

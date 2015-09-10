@@ -1,8 +1,8 @@
 package com.xeiam.xchange.yacuna.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Yingzhe on 12/26/2014.

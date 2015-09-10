@@ -36,10 +36,10 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService {
    * account.
    *
    * @param limitOrder
-   * @return boolean Used to determine if the order request was submitted successfully.
+   * @return String order id of submitted request.
    * @throws IOException
    */
-  public boolean placeBTERLimitOrder(LimitOrder limitOrder) throws IOException {
+  public String placeBTERLimitOrder(LimitOrder limitOrder) throws IOException {
 
     BTEROrderType type = (limitOrder.getType() == Order.OrderType.BID) ? BTEROrderType.BUY : BTEROrderType.SELL;
 
@@ -58,15 +58,15 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService {
    * @param orderType
    * @param rate
    * @param amount
-   * @return boolean Used to determine if the order request was submitted successfully.
+   * @return String order id of submitted request.
    * @throws IOException
    */
-  public boolean placeBTERLimitOrder(CurrencyPair currencyPair, BTEROrderType orderType, BigDecimal rate, BigDecimal amount) throws IOException {
+  public String placeBTERLimitOrder(CurrencyPair currencyPair, BTEROrderType orderType, BigDecimal rate, BigDecimal amount) throws IOException {
 
     String pair = String.format("%s_%s", currencyPair.baseSymbol, currencyPair.counterSymbol).toLowerCase();
     BTERPlaceOrderReturn orderId = bter.placeOrder(pair, orderType, rate, amount, apiKey, signatureCreator, exchange.getNonceFactory());
 
-    return handleResponse(orderId).isResult();
+    return handleResponse(orderId).getOrderId();
   }
 
   public boolean cancelOrder(String orderId) throws IOException {

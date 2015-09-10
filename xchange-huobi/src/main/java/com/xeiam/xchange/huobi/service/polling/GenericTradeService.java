@@ -1,7 +1,11 @@
 package com.xeiam.xchange.huobi.service.polling;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -63,7 +67,8 @@ public class GenericTradeService extends BaseExchangeService implements PollingT
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    HuobiPlaceOrderResult result = tradeServiceRaw.placeMarketOrder(marketOrder.getType(), coinTypes.get(marketOrder.getCurrencyPair()), marketOrder.getTradableAmount());
+    HuobiPlaceOrderResult result = tradeServiceRaw.placeMarketOrder(marketOrder.getType(), coinTypes.get(marketOrder.getCurrencyPair()),
+        marketOrder.getTradableAmount());
     return HuobiAdapters.adaptPlaceOrderResult(result);
   }
 

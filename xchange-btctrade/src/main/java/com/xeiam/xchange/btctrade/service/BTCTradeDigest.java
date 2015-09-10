@@ -7,10 +7,10 @@ import java.util.Map;
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
 
+import com.xeiam.xchange.service.BaseParamsDigest;
+
 import si.mazi.rescu.Params;
 import si.mazi.rescu.RestInvocation;
-
-import com.xeiam.xchange.service.BaseParamsDigest;
 
 public class BTCTradeDigest extends BaseParamsDigest {
 

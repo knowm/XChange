@@ -39,9 +39,8 @@ public class VircurexOpenOrdersDeserializer extends JsonDeserializer<VircurexOpe
       }
     }
 
-    VircurexOpenOrdersReturn openOrdersReturn = new VircurexOpenOrdersReturn(jsonNodes.get("numberorders").asInt(),
-        jsonNodes.get("account").asText(), jsonNodes.get("timestamp").asText(), jsonNodes.get("token").asText(), jsonNodes.get("status").asInt(),
-        jsonNodes.get("function").asText());
+    VircurexOpenOrdersReturn openOrdersReturn = new VircurexOpenOrdersReturn(jsonNodes.get("numberorders").asInt(), jsonNodes.get("account").asText(),
+        jsonNodes.get("timestamp").asText(), jsonNodes.get("token").asText(), jsonNodes.get("status").asInt(), jsonNodes.get("function").asText());
 
     if (openOrdersList.size() > 0) {
       openOrdersReturn.setOpenOrders(openOrdersList);

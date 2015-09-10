@@ -7,26 +7,26 @@ import java.math.BigDecimal;
  */
 public class Update {
 
-	private final BigDecimal[] price;
-	private final BigDecimal[] amount;
-	private final int[] row;
+  private final BigDecimal[] price;
+  private final BigDecimal[] amount;
+  private final int[] row;
 
-	public Update(BigDecimal[] price, BigDecimal[] amount, int[] row) {
-		this.price = price;
-		this.amount = amount;
-		this.row = row;
-	}
+  public Update(BigDecimal[] price, BigDecimal[] amount, int[] row) {
+    this.price = price;
+    this.amount = amount;
+    this.row = row;
+  }
 
-	public BigDecimal[] getPrice() {
-		return price;
-	}
+  public BigDecimal[] getPrice() {
+    return price;
+  }
 
-	public BigDecimal[] getAmount() {
-		return amount;
-	}
+  public BigDecimal[] getAmount() {
+    return amount;
+  }
 
-	public int[] getRow() {
-		return row;
-	}
+  public int[] getRow() {
+    return row;
+  }
 
 }

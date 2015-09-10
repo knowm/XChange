@@ -30,6 +30,7 @@ public enum LedgerType {
   }
 
   private static final Map<String, LedgerType> fromString = new HashMap<String, LedgerType>();
+
   static {
     for (LedgerType ledgerType : values())
       fromString.put(ledgerType.toString(), ledgerType);

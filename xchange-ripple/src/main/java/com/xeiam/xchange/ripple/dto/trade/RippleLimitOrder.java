@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
 public class RippleLimitOrder extends LimitOrder {
@@ -35,11 +36,21 @@ public class RippleLimitOrder extends LimitOrder {
       super(type, currencyPair);
     }
 
-    public static Builder from(final RippleLimitOrder order) {
-      final Builder builder = new Builder(order.getType(), order.getCurrencyPair()).baseCounterparty(order.getBaseCounterparty())
-          .counterCounterparty(order.getCounterCounterparty());
+    public static Builder from(final Order order) {
+      final Builder builder = new Builder(order.getType(), order.getCurrencyPair());
       builder.id(order.getId()).orderType(order.getType()).tradableAmount(order.getTradableAmount()).currencyPair(order.getCurrencyPair())
-          .limitPrice(order.getLimitPrice()).timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags());
+          .timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags());
+
+      if (order instanceof LimitOrder) {
+        final LimitOrder limitOrder = (LimitOrder) order;
+        builder.limitPrice(limitOrder.getLimitPrice());
+      }
+
+      if (order instanceof RippleLimitOrder) {
+        final RippleLimitOrder ripple = (RippleLimitOrder) order;
+        builder.baseCounterparty(ripple.getBaseCounterparty()).counterCounterparty(ripple.getCounterCounterparty());
+      }
+
       return builder;
     }
 

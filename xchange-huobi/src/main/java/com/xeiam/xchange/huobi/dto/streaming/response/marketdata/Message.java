@@ -8,16 +8,16 @@ import com.xeiam.xchange.huobi.dto.streaming.response.payload.Payload;
  */
 public abstract class Message<T extends Payload> extends Response<T> {
 
-	private final String symbolId;
+  private final String symbolId;
 
-	public Message(int version, String msgType, String symbolId, T payload) {
-		super(version, msgType);
-		this.symbolId = symbolId;
-		setPayload(payload);
-	}
+  public Message(int version, String msgType, String symbolId, T payload) {
+    super(version, msgType);
+    this.symbolId = symbolId;
+    setPayload(payload);
+  }
 
-	public String getSymbolId() {
-		return symbolId;
-	}
+  public String getSymbolId() {
+    return symbolId;
+  }
 
 }

@@ -17,7 +17,7 @@ public class BitVcFuturesMarketDataService extends BitVcFuturesMarketDataService
    * Constructor
    *
    * @param exchange
-   * @param contract 
+   * @param contract
    */
   public BitVcFuturesMarketDataService(Exchange exchange, FuturesContract contract) {
 

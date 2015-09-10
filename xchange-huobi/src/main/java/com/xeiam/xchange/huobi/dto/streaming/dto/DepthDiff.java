@@ -4,15 +4,20 @@ import com.xeiam.xchange.huobi.dto.streaming.response.marketdata.payload.Update;
 
 public interface DepthDiff {
 
-	long getVersion();
-	long getVersionOld();
+  long getVersion();
 
-	Update getBidInsert();
-	int[] getBidDelete();
-	Update getBidUpdate();
+  long getVersionOld();
 
-	Update getAskInsert();
-	int[] getAskDelete();
-	Update getAskUpdate();
+  Update getBidInsert();
+
+  int[] getBidDelete();
+
+  Update getBidUpdate();
+
+  Update getAskInsert();
+
+  int[] getAskDelete();
+
+  Update getAskUpdate();
 
 }

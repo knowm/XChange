@@ -19,8 +19,7 @@ public class BitMarketTrade {
    * @param order
    * @param balance
    */
-  public BitMarketTrade(@JsonProperty("id") long id,
-      @JsonProperty("order") BitMarketOrder order,
+  public BitMarketTrade(@JsonProperty("id") long id, @JsonProperty("order") BitMarketOrder order,
       @JsonProperty("balances") BitMarketBalance balance) {
 
     this.id = id;

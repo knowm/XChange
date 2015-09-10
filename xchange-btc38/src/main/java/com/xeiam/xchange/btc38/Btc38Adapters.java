@@ -1,10 +1,10 @@
 package com.xeiam.xchange.btc38;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.btc38.dto.marketdata.Btc38Ticker;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-
-import java.math.BigDecimal;
 
 /**
  * Created by Yingzhe on 12/18/2014.

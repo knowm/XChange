@@ -1,8 +1,8 @@
 package com.xeiam.xchange.jubi.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Yingzhe on 3/16/2015.
@@ -26,8 +26,8 @@ public class JubiTicker {
    * @param last Last price
    * @param vol Volume
    */
-  public JubiTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell,
-      @JsonProperty("last") BigDecimal last, @JsonProperty("vol") BigDecimal vol) {
+  public JubiTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("buy") BigDecimal buy,
+      @JsonProperty("sell") BigDecimal sell, @JsonProperty("last") BigDecimal last, @JsonProperty("vol") BigDecimal vol) {
 
     this.high = high;
     this.low = low;

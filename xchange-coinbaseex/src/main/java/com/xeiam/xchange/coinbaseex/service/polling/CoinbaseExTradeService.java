@@ -16,63 +16,56 @@ import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
-
 public class CoinbaseExTradeService extends CoinbaseExTradeServiceRaw implements PollingTradeService {
 
-	public CoinbaseExTradeService(Exchange exchange) {
+  public CoinbaseExTradeService(Exchange exchange) {
 
-		super(exchange);
-	}
+    super(exchange);
+  }
 
-	@Override
-	public OpenOrders getOpenOrders() throws ExchangeException,
-	NotAvailableFromExchangeException,
-	NotYetImplementedForExchangeException, IOException {
+  @Override
+  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-		CoinbaseExOrder[] coinbaseExOpenOrders = getCoinbaseExOpenOrders();
+    CoinbaseExOrder[] coinbaseExOpenOrders = getCoinbaseExOpenOrders();
 
-		return CoinbaseExAdapters.adaptOpenOrders(coinbaseExOpenOrders);
-	}
+    return CoinbaseExAdapters.adaptOpenOrders(coinbaseExOpenOrders);
+  }
 
-	@Override
-	public String placeMarketOrder(MarketOrder marketOrder)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotAvailableFromExchangeException();
-	}
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
+  }
 
-	@Override
-	public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException,
-	NotAvailableFromExchangeException,
-	NotYetImplementedForExchangeException, IOException {
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-		CoinbaseExIdResponse response = placeCoinbaseExLimitOrder(limitOrder);
+    CoinbaseExIdResponse response = placeCoinbaseExLimitOrder(limitOrder);
 
-		return response.getId(); 
-	}
+    return response.getId();
+  }
 
-	@Override
-	public boolean cancelOrder(String orderId) throws ExchangeException,
-	NotAvailableFromExchangeException,
-	NotYetImplementedForExchangeException, IOException {
+  @Override
+  public boolean cancelOrder(String orderId)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-		return cancelCoinbaseExOrder(orderId);
-	}
+    return cancelCoinbaseExOrder(orderId);
+  }
 
-	@Override
-	public UserTrades getTradeHistory(Object... arguments)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotYetImplementedForExchangeException();
-	}
+  @Override
+  public UserTrades getTradeHistory(Object... arguments)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-	@Override
-	public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-		throw new NotYetImplementedForExchangeException();
-	}
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-	@Override
-	public TradeHistoryParams createTradeHistoryParams() {
-		return null;
-	}
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+    return null;
+  }
 }

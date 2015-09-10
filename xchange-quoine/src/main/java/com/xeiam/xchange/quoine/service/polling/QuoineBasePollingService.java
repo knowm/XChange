@@ -8,6 +8,7 @@ import com.xeiam.xchange.quoine.QuoineAuthenticated;
 import com.xeiam.xchange.quoine.QuoineExchange;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.RestProxyFactory;
 

@@ -370,12 +370,13 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
     private final String transactionHash;
     private final String idempotencyKey;
 
-    private CoinbaseTransactionInfoResult(@JsonProperty("id") final String id, @JsonProperty("created_at") @JsonDeserialize(
-        using = ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("amount") final CoinbaseMoney amount,
-        @JsonProperty("request") final boolean request, @JsonProperty("status") final CoinbaseTransactionStatus status,
-        @JsonProperty("sender") final CoinbaseUserInfo sender, @JsonProperty("recipient") final CoinbaseUserInfo recipient,
-        @JsonProperty("recipient_address") final String recipientAddress, @JsonProperty("notes") final String notes,
-        @JsonProperty("hsh") final String transactionHash, @JsonProperty("idem") final String idempotencyKey) {
+    private CoinbaseTransactionInfoResult(@JsonProperty("id") final String id,
+        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt,
+        @JsonProperty("amount") final CoinbaseMoney amount, @JsonProperty("request") final boolean request,
+        @JsonProperty("status") final CoinbaseTransactionStatus status, @JsonProperty("sender") final CoinbaseUserInfo sender,
+        @JsonProperty("recipient") final CoinbaseUserInfo recipient, @JsonProperty("recipient_address") final String recipientAddress,
+        @JsonProperty("notes") final String notes, @JsonProperty("hsh") final String transactionHash,
+        @JsonProperty("idem") final String idempotencyKey) {
 
       this.id = id;
       this.createdAt = createdAt;

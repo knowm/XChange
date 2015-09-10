@@ -38,8 +38,8 @@ public interface PollingMarketDataService extends BasePollingService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException;
+  Ticker getTicker(CurrencyPair currencyPair, Object... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * <p>
@@ -55,8 +55,8 @@ public interface PollingMarketDataService extends BasePollingService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException;
+  OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * <p>
@@ -72,7 +72,7 @@ public interface PollingMarketDataService extends BasePollingService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException;
+  Trades getTrades(CurrencyPair currencyPair, Object... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
 }

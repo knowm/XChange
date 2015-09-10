@@ -6,12 +6,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import si.mazi.rescu.BasicAuthCredentials;
-import si.mazi.rescu.RestInvocation;
-
 import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.BTCChinaRequest;
 import com.xeiam.xchange.service.BaseParamsDigest;
+
+import si.mazi.rescu.BasicAuthCredentials;
+import si.mazi.rescu.RestInvocation;
 
 /**
  * @author David Yam
@@ -59,8 +59,8 @@ public class BTCChinaDigest extends BaseParamsDigest {
     final String method = request.getMethod();
     final String params = stripParams(request.getParams());
 
-    String signature = String.format("tonce=%s&accesskey=%s&requestmethod=%s&id=%d&method=%s&params=%s", tonce, exchangeAccessKey, "post", id,
-        method, params);
+    String signature = String.format("tonce=%s&accesskey=%s&requestmethod=%s&id=%d&method=%s&params=%s", tonce, exchangeAccessKey, "post", id, method,
+        params);
     log.debug("signature message: {}", signature);
 
     Mac mac = getMac();

@@ -8,8 +8,7 @@ import com.xeiam.xchange.utils.DateUtils;
 
 /**
  * <p>
- * A class encapsulating the information a "Ticker" can contain.
- * Some fields can be empty if not provided by the exchange.
+ * A class encapsulating the information a "Ticker" can contain. Some fields can be empty if not provided by the exchange.
  * </p>
  * <p>
  * A ticker contains data representing the latest trade.
@@ -25,11 +24,14 @@ public final class Ticker {
   private final BigDecimal low;
   private final BigDecimal vwap;
   private final BigDecimal volume;
+  /**
+   * the timestamp of the ticker according to the exchange's server, null if not provided
+   */
   private final Date timestamp;
 
   /**
    * Constructor
-   * 
+   *
    * @param currencyPair The tradable identifier (e.g. BTC in BTC/USD)
    * @param last
    * @param bid
@@ -37,10 +39,10 @@ public final class Ticker {
    * @param high
    * @param low
    * @param volume 24h volume
-   * @param timestamp
+   * @param timestamp - the timestamp of the ticker according to the exchange's server, null if not provided
    */
-  private Ticker(CurrencyPair currencyPair, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal vwap, BigDecimal volume,
-      Date timestamp) {
+  private Ticker(CurrencyPair currencyPair, BigDecimal last, BigDecimal bid, BigDecimal ask, BigDecimal high, BigDecimal low, BigDecimal vwap,
+      BigDecimal volume, Date timestamp) {
 
     this.currencyPair = currencyPair;
     this.last = last;
@@ -101,8 +103,8 @@ public final class Ticker {
   @Override
   public String toString() {
 
-    return "Ticker [currencyPair=" + currencyPair + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low
-        + ",avg=" + vwap + ", volume=" + volume + ", timestamp=" + DateUtils.toMillisNullSafe(timestamp) + "]";
+    return "Ticker [currencyPair=" + currencyPair + ", last=" + last + ", bid=" + bid + ", ask=" + ask + ", high=" + high + ", low=" + low + ",avg="
+        + vwap + ", volume=" + volume + ", timestamp=" + DateUtils.toMillisNullSafe(timestamp) + "]";
   }
 
   /**

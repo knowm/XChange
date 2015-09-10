@@ -1,15 +1,13 @@
 package com.xeiam.xchange.quoine;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.quoine.service.polling.QuoineAccountService;
 import com.xeiam.xchange.quoine.service.polling.QuoineMarketDataService;
 import com.xeiam.xchange.quoine.service.polling.QuoineTradeService;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class QuoineExchange extends BaseExchange implements Exchange {
 

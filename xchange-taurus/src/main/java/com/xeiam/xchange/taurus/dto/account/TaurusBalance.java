@@ -2,8 +2,6 @@ package com.xeiam.xchange.taurus.dto.account;
 
 import java.math.BigDecimal;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.taurus.dto.TaurusBaseResponse;
 
@@ -21,9 +19,9 @@ public final class TaurusBalance extends TaurusBaseResponse {
   private final BigDecimal fee;
 
   public TaurusBalance(@JsonProperty("cad_balance") BigDecimal cadBalance, @JsonProperty("btc_balance") BigDecimal btcBalance,
-                       @JsonProperty("cad_reserved") BigDecimal cadReserved, @JsonProperty("btc_reserved") BigDecimal btcReserved,
-                       @JsonProperty("cad_available") BigDecimal cadAvailable, @JsonProperty("btc_available") BigDecimal btcAvailable,
-                       @JsonProperty("fee") BigDecimal fee, @JsonProperty("error") String error) {
+      @JsonProperty("cad_reserved") BigDecimal cadReserved, @JsonProperty("btc_reserved") BigDecimal btcReserved,
+      @JsonProperty("cad_available") BigDecimal cadAvailable, @JsonProperty("btc_available") BigDecimal btcAvailable,
+      @JsonProperty("fee") BigDecimal fee, @JsonProperty("error") String error) {
     super(error);
     this.cadBalance = cadBalance;
     this.btcBalance = btcBalance;

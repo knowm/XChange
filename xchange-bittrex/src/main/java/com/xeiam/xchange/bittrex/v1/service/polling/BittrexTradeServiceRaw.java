@@ -34,8 +34,8 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService {
 
     if (marketOrder.getType() == OrderType.BID) {
 
-      BittrexTradeResponse response = bittrexAuthenticated.buymarket(apiKey, signatureCreator, exchange.getNonceFactory(), pair, marketOrder.getTradableAmount()
-          .toPlainString());
+      BittrexTradeResponse response = bittrexAuthenticated.buymarket(apiKey, signatureCreator, exchange.getNonceFactory(), pair,
+          marketOrder.getTradableAmount().toPlainString());
 
       if (response.getSuccess()) {
         return response.getResult().getUuid();
@@ -45,8 +45,8 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService {
 
     } else {
 
-      BittrexTradeResponse response = bittrexAuthenticated.sellmarket(apiKey, signatureCreator, exchange.getNonceFactory(), pair, marketOrder.getTradableAmount()
-          .toPlainString());
+      BittrexTradeResponse response = bittrexAuthenticated.sellmarket(apiKey, signatureCreator, exchange.getNonceFactory(), pair,
+          marketOrder.getTradableAmount().toPlainString());
 
       if (response.getSuccess()) {
         return response.getResult().getUuid();
@@ -62,8 +62,8 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService {
     String pair = BittrexUtils.toPairString(limitOrder.getCurrencyPair());
 
     if (limitOrder.getType() == OrderType.BID) {
-      BittrexTradeResponse response = bittrexAuthenticated.buylimit(apiKey, signatureCreator, exchange.getNonceFactory(), pair, limitOrder.getTradableAmount()
-          .toPlainString(), limitOrder.getLimitPrice().toPlainString());
+      BittrexTradeResponse response = bittrexAuthenticated.buylimit(apiKey, signatureCreator, exchange.getNonceFactory(), pair,
+          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
 
       if (response.getSuccess()) {
         return response.getResult().getUuid();
@@ -72,8 +72,8 @@ public class BittrexTradeServiceRaw extends BittrexBasePollingService {
       }
 
     } else {
-      BittrexTradeResponse response = bittrexAuthenticated.selllimit(apiKey, signatureCreator, exchange.getNonceFactory(), pair, limitOrder.getTradableAmount()
-          .toPlainString(), limitOrder.getLimitPrice().toPlainString());
+      BittrexTradeResponse response = bittrexAuthenticated.selllimit(apiKey, signatureCreator, exchange.getNonceFactory(), pair,
+          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
 
       if (response.getSuccess()) {
         return response.getResult().getUuid();

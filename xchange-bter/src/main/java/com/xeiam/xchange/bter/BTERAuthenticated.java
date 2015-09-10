@@ -11,15 +11,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.bter.dto.BTEROrderType;
 import com.xeiam.xchange.bter.dto.account.BTERFunds;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
 import com.xeiam.xchange.bter.dto.trade.BTEROrderStatus;
 import com.xeiam.xchange.bter.dto.trade.BTERPlaceOrderReturn;
 import com.xeiam.xchange.bter.dto.trade.BTERTradeHistoryReturn;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("api/1")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

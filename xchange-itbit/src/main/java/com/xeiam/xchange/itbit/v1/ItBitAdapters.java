@@ -115,7 +115,8 @@ public final class ItBitAdapters {
       for (int j = 0; j < balances.length; j++) {
         ItBitAccountBalance itBitAccountBalance = balances[j];
 
-        Wallet wallet = new Wallet(itBitAccountBalance.getCurrency(), itBitAccountBalance.getTotalBalance(), itBitAccountBalance.getAvailableBalance(), itBitAccountInfoReturn.getName());
+        Wallet wallet = new Wallet(itBitAccountBalance.getCurrency(), itBitAccountBalance.getTotalBalance(),
+            itBitAccountBalance.getAvailableBalance(), itBitAccountInfoReturn.getName());
         wallets.add(wallet);
       }
     }
@@ -156,8 +157,8 @@ public final class ItBitAdapters {
       CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
       Date timestamp = parseDate(itBitOrder.getCreatedTime());
 
-      trades.add(new UserTrade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), timestamp, itBitOrder.getId(), itBitOrder
-          .getId(), null, null));
+      trades.add(new UserTrade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), timestamp, itBitOrder.getId(),
+          itBitOrder.getId(), null, null));
     }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);

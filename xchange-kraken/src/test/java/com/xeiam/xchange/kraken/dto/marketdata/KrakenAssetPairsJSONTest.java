@@ -12,8 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssetPair;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenFee;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 
 public class KrakenAssetPairsJSONTest {

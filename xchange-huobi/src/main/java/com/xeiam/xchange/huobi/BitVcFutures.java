@@ -28,14 +28,14 @@ public interface BitVcFutures {
   @GET
   @Path("trades_{symbol}_{contract}.js")
   public BitVcFuturesTrade[] getTrades(@PathParam("symbol") String symbol, @PathParam("contract") String contract) throws IOException;
-  
+
   /** Non-XChange compatible methods */
-  
-/*  @GET
-  @Path("index_price_{symbol}")
-  public BitVcIndex getIndex(@PathParam("symbol") String symbol) throws IOException;
-*/
- 
+
+  /*
+   * @GET
+   * @Path("index_price_{symbol}") public BitVcIndex getIndex(@PathParam("symbol") String symbol) throws IOException;
+   */
+
   @GET
   @Path("exchange_rate.js")
   public BitVcExchangeRate getExchangeRate() throws IOException;

@@ -18,7 +18,7 @@ import io.netty.util.CharsetUtil;
 
 public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> {
   private final Logger log = LoggerFactory.getLogger(WebSocketClientHandler.class);
-  
+
   private final WebSocketClientHandshaker handshaker;
   private ChannelPromise handshakeFuture;
   private MonitorTask moniter;
@@ -65,8 +65,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
     if (msg instanceof FullHttpResponse) {
       FullHttpResponse response = (FullHttpResponse) msg;
       throw new IllegalStateException(
-          "Unexpected FullHttpResponse (getStatus=" + response.getStatus() +
-          ", content=" + response.content().toString(CharsetUtil.UTF_8) + ')');
+          "Unexpected FullHttpResponse (getStatus=" + response.getStatus() + ", content=" + response.content().toString(CharsetUtil.UTF_8) + ')');
     }
 
     WebSocketFrame frame = (WebSocketFrame) msg;
@@ -90,5 +89,5 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
       handshakeFuture.setFailure(cause);
     }
     ctx.close();
-  }   
+  }
 }

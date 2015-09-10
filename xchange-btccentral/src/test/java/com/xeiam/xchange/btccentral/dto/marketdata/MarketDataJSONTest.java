@@ -11,9 +11,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralMarketDepth;
-import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTicker;
-import com.xeiam.xchange.btccentral.dto.marketdata.BTCCentralTrade;
 
 /**
  * @author ObsessiveOrange

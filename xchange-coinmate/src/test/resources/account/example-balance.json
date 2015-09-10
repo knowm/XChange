@@ -2,8 +2,8 @@
     "error": false,
     "errorMessage": null,
     "data": {
-        "USD": {
-            "currency": "USD",
+        "EUR": {
+            "currency": "EUR",
             "balance": 20925.48295,
             "reserved": 9.009,
             "available": 20916.47395

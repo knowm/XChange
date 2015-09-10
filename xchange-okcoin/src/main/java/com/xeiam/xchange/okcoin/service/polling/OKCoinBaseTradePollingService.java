@@ -1,13 +1,16 @@
 package com.xeiam.xchange.okcoin.service.polling;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.FrequencyLimitExceededException;
+import com.xeiam.xchange.exceptions.NonceException;
 import com.xeiam.xchange.okcoin.OkCoin;
 import com.xeiam.xchange.okcoin.OkCoinDigest;
 import com.xeiam.xchange.okcoin.OkCoinUtils;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinErrorResult;
+import java.util.Arrays;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class OKCoinBaseTradePollingService extends OkCoinBasePollingService {
 
@@ -40,4 +43,6 @@ public class OKCoinBaseTradePollingService extends OkCoinBasePollingService {
       throw new ExchangeException(OkCoinUtils.getErrorMessage(t.getErrorCode()));
     }
   }
+  
+
 }

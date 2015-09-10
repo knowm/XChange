@@ -18,6 +18,7 @@ public final class QuoineUtils {
   }
 
   private static Map<CurrencyPair, Integer> CURRENCY_PAIR_2_ID_MAP = new HashMap<CurrencyPair, Integer>();
+
   static {
 
     CURRENCY_PAIR_2_ID_MAP.put(CurrencyPair.BTC_USD, 1);

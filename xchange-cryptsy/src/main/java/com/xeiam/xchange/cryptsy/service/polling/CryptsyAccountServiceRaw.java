@@ -68,8 +68,8 @@ public class CryptsyAccountServiceRaw extends CryptsyBasePollingService {
    *         error.
    * @throws IOException
    */
-  public CryptsyNewAddressReturn generateNewCryptsyDepositAddress(@Nullable Integer currencyID, @Nullable String currencyCode) throws IOException,
-      ExchangeException {
+  public CryptsyNewAddressReturn generateNewCryptsyDepositAddress(@Nullable Integer currencyID, @Nullable String currencyCode)
+      throws IOException, ExchangeException {
 
     if (currencyID == null && currencyCode == null) {
       throw new ExchangeException("Either currencyID or currencyCode must be supplied. Both cannot be null");

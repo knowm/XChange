@@ -22,12 +22,12 @@ public class HuobiOrder {
   private final long orderTime;
 
   /**
-   * 0 = Unfilled,　1 = Partially filled,　2 = Finished,　3 = Cancelled.
+   * 0 = Unfilled, 1 = Partially filled, 2 = Finished, 3 = Cancelled.
    */
 
-  public HuobiOrder(@JsonProperty("id") final long id, @JsonProperty("type") final int type,
-      @JsonProperty("order_price") final BigDecimal orderPrice, @JsonProperty("order_amount") final BigDecimal orderAmount,
-      @JsonProperty("processed_amount") final BigDecimal processedAmount, @JsonProperty("order_time") final long orderTime) {
+  public HuobiOrder(@JsonProperty("id") final long id, @JsonProperty("type") final int type, @JsonProperty("order_price") final BigDecimal orderPrice,
+      @JsonProperty("order_amount") final BigDecimal orderAmount, @JsonProperty("processed_amount") final BigDecimal processedAmount,
+      @JsonProperty("order_time") final long orderTime) {
 
     this.id = id;
     this.type = type;

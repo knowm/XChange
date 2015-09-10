@@ -3,8 +3,6 @@ package com.xeiam.xchange.coinsetter.service.polling;
 import java.io.IOException;
 import java.util.UUID;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.pricealert.request.CoinsetterPriceAlertRequest;
@@ -12,6 +10,8 @@ import com.xeiam.xchange.coinsetter.dto.pricealert.response.CoinsetterPriceAlert
 import com.xeiam.xchange.coinsetter.dto.pricealert.response.CoinsetterPriceAlertResponse;
 import com.xeiam.xchange.coinsetter.dto.pricealert.response.CoinsetterRemovePriceAlertResponse;
 import com.xeiam.xchange.service.BaseExchangeService;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * Price alert raw service.

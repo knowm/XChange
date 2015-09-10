@@ -1,8 +1,8 @@
 package com.xeiam.xchange.coinbaseex.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Yingzhe on 4/1/2015.
@@ -16,8 +16,9 @@ public class CoinbaseExProduct {
   private final BigDecimal baseMaxSize;
   private final BigDecimal quoteIncrement;
 
-  public CoinbaseExProduct(@JsonProperty("id") String id, @JsonProperty("base_currency") String baseCurrency, @JsonProperty("quote_currency") String targetCurrency,
-      @JsonProperty("base_min_size") BigDecimal baseMinSize, @JsonProperty("base_max_size") BigDecimal baseMaxSize, @JsonProperty("quote_increment") BigDecimal quoteIncrement) {
+  public CoinbaseExProduct(@JsonProperty("id") String id, @JsonProperty("base_currency") String baseCurrency,
+      @JsonProperty("quote_currency") String targetCurrency, @JsonProperty("base_min_size") BigDecimal baseMinSize,
+      @JsonProperty("base_max_size") BigDecimal baseMaxSize, @JsonProperty("quote_increment") BigDecimal quoteIncrement) {
 
     this.id = id;
     this.baseCurrency = baseCurrency;

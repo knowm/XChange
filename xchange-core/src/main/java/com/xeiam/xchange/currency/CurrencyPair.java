@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
  * </p>
  */
 @JsonSerialize(using = CustomCurrencyPairSerializer.class)
-public class CurrencyPair implements Comparable<CurrencyPair>{
+public class CurrencyPair implements Comparable<CurrencyPair> {
 
   // Provide some standard major symbols
   public static final CurrencyPair EUR_USD = new CurrencyPair(Currencies.EUR, Currencies.USD);
@@ -65,6 +65,8 @@ public class CurrencyPair implements Comparable<CurrencyPair>{
   public static final CurrencyPair BTC_IDR = new CurrencyPair(Currencies.BTC, Currencies.IDR);
   public static final CurrencyPair BTC_PHP = new CurrencyPair(Currencies.BTC, Currencies.PHP);
   public static final CurrencyPair BTC_STR = new CurrencyPair(Currencies.BTC, Currencies.STR);
+
+  public static final CurrencyPair ETH_BTC = new CurrencyPair(Currencies.ETH, Currencies.BTC);
 
   public static final CurrencyPair XDC_BTC = new CurrencyPair(Currencies.XDC, Currencies.BTC);
 

@@ -1,17 +1,16 @@
 package com.xeiam.xchange.btce.v3.service.polling.trade.params;
 
+import java.util.Date;
+
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsIdSpan;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
 
-import java.util.Date;
-
 /**
  * Transaction History paging params which combine id and time parameters and sort order.
- * @author Peter N. Steinmetz
- *         Date: 4/3/15
- *         Time: 8:29 AM
+ * 
+ * @author Peter N. Steinmetz Date: 4/3/15 Time: 8:29 AM
  */
 public class BTCETransHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan {
   private BTCEAuthenticated.SortOrder sortOrder;

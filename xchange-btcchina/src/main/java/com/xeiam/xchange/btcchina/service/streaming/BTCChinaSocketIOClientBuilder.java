@@ -16,8 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.nkzawa.emitter.Emitter;
@@ -27,6 +25,8 @@ import com.xeiam.xchange.btcchina.BTCChinaUtils;
 import com.xeiam.xchange.btcchina.dto.trade.streaming.request.BTCChinaPayload;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BTCChinaSocketIOClientBuilder {
 

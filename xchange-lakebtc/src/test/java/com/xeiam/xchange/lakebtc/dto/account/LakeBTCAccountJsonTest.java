@@ -8,9 +8,6 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.lakebtc.dto.account.LakeBTCAccount;
-import com.xeiam.xchange.lakebtc.dto.account.LakeBTCBalance;
-import com.xeiam.xchange.lakebtc.dto.account.LakeBTCProfile;
 
 /**
  * Created by cristian.lucaci on 12/19/2014.

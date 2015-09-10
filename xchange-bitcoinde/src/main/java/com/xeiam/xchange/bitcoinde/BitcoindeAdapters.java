@@ -31,15 +31,11 @@ public final class BitcoindeAdapters {
   }
 
   /**
-   * Adapt a com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeOrderBook
-   * object to an OrderBook object.
+   * Adapt a com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeOrderBook object to an OrderBook object.
    * 
-   * @param bitcoindeOrderBook
-   *          the exchange specific OrderBook object
-   * @param currencyPair
-   *          (e.g. BTC/USD)
-   * @param date
-   *          the date of
+   * @param bitcoindeOrderBook the exchange specific OrderBook object
+   * @param currencyPair (e.g. BTC/USD)
+   * @param date the date of
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(BitcoindeOrderBook bitcoindeOrderBook, CurrencyPair currencyPair) {
@@ -64,19 +60,17 @@ public final class BitcoindeAdapters {
   /**
    * Create an individual order.
    */
-  public static LimitOrder createOrder(CurrencyPair currencyPair, BigDecimal[] priceAndAmount, Order.OrderType orderType, String orderId, Date timeStamp) {
-    
+  public static LimitOrder createOrder(CurrencyPair currencyPair, BigDecimal[] priceAndAmount, Order.OrderType orderType, String orderId,
+      Date timeStamp) {
+
     return new LimitOrder(orderType, priceAndAmount[1], currencyPair, orderId, timeStamp, priceAndAmount[0]);
   }
 
   /**
-   * Adapt a com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeRate object
-   * to a Ticker object.
+   * Adapt a com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeRate object to a Ticker object.
    * 
-   * @param bitcoindeRate
-   *          The exchange specific rate
-   * @param currencyPair
-   *          (e.g. BTC/USD)
+   * @param bitcoindeRate The exchange specific rate
+   * @param currencyPair (e.g. BTC/USD)
    * @return The XChange Ticker
    */
   public static Ticker adaptTicker(BitcoindeRate bitcoindeRate, CurrencyPair currencyPair) {
@@ -86,13 +80,10 @@ public final class BitcoindeAdapters {
   }
 
   /**
-   * Adapt a com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeTrade[]
-   * object to a Trades object.
+   * Adapt a com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeTrade[] object to a Trades object.
    * 
-   * @param bitcoindeTrades
-   *          Exchange specific trades
-   * @param currencyPair
-   *          (e.g. BTC/USD)
+   * @param bitcoindeTrades Exchange specific trades
+   * @param currencyPair (e.g. BTC/USD)
    * @return The XChange Trades
    */
   public static Trades adaptTrades(BitcoindeTrade[] bitcoindeTrades, CurrencyPair currencyPair) {
@@ -104,7 +95,8 @@ public final class BitcoindeAdapters {
       if (tid > lastTradeId) {
         lastTradeId = tid;
       }
-      trades.add(new Trade(null, new BigDecimal(bitcoindeTrade.getAmount()), currencyPair, bitcoindeTrade.getPrice(), DateUtils.fromMillisUtc(bitcoindeTrade.getDate() * 1000L), String.valueOf(tid)));
+      trades.add(new Trade(null, new BigDecimal(bitcoindeTrade.getAmount()), currencyPair, bitcoindeTrade.getPrice(),
+          DateUtils.fromMillisUtc(bitcoindeTrade.getDate() * 1000L), String.valueOf(tid)));
     }
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }

@@ -4,9 +4,9 @@ import java.math.BigInteger;
 
 import javax.crypto.Mac;
 
-import si.mazi.rescu.RestInvocation;
-
 import com.xeiam.xchange.service.BaseParamsDigest;
+
+import si.mazi.rescu.RestInvocation;
 
 /**
  * @author Felipe Micaroni Lalli

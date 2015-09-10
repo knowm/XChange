@@ -1,8 +1,8 @@
 package com.xeiam.xchange.coinbaseex.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by Yingzhe on 4/6/2015.
@@ -13,7 +13,8 @@ public class CoinbaseExProductBook {
   private final CoinbaseExProductBookEntry[] bids;
   private final CoinbaseExProductBookEntry[] asks;
 
-  public CoinbaseExProductBook(@JsonProperty("sequence") Long sequence, @JsonProperty("bids") Object[][] bids, @JsonProperty("asks") Object[][] asks) {
+  public CoinbaseExProductBook(@JsonProperty("sequence") Long sequence, @JsonProperty("bids") Object[][] bids,
+      @JsonProperty("asks") Object[][] asks) {
 
     this.sequence = sequence;
 
@@ -22,8 +23,7 @@ public class CoinbaseExProductBook {
       for (int i = 0; i < bids.length; i++) {
         this.bids[i] = convertToBookEntry(bids[i]);
       }
-    }
-    else {
+    } else {
       this.bids = null;
     }
 
@@ -32,8 +32,7 @@ public class CoinbaseExProductBook {
       for (int i = 0; i < asks.length; i++) {
         this.asks[i] = convertToBookEntry(asks[i]);
       }
-    }
-    else {
+    } else {
       this.asks = null;
     }
   }
@@ -75,7 +74,7 @@ public class CoinbaseExProductBook {
     if (dataObject != null && dataObject.length == 3) {
       BigDecimal price = new BigDecimal((String) dataObject[0]);
       BigDecimal volume = new BigDecimal((String) dataObject[1]);
-      int numberOfOrders = (Integer)dataObject[2];
+      int numberOfOrders = (Integer) dataObject[2];
       return new CoinbaseExProductBookEntry(price, volume, numberOfOrders);
     }
     return null;

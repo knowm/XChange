@@ -1,5 +1,7 @@
 package com.xeiam.xchange.jubi.service.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -12,8 +14,6 @@ import com.xeiam.xchange.jubi.JubiAdapters;
 import com.xeiam.xchange.jubi.dto.marketdata.JubiTicker;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
-import java.io.IOException;
-
 /**
  * Created by Yingzhe on 3/17/2015.
  */
@@ -25,7 +25,8 @@ public class JubiMarketDataService extends JubiMarketDataServiceRaw implements P
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Request data
     JubiTicker jubiTicker = getJubiTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
@@ -35,13 +36,15 @@ public class JubiMarketDataService extends JubiMarketDataServiceRaw implements P
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotYetImplementedForExchangeException();
   }

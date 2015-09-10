@@ -1,9 +1,5 @@
 package com.xeiam.xchange.cexio;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -11,6 +7,8 @@ import com.xeiam.xchange.cexio.service.polling.CexIOAccountService;
 import com.xeiam.xchange.cexio.service.polling.CexIOMarketDataService;
 import com.xeiam.xchange.cexio.service.polling.CexIOTradeService;
 import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CexIOExchange extends BaseExchange implements Exchange {
 

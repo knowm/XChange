@@ -19,6 +19,15 @@ public final class LoanOrderBook {
   private final List<FloatingRateLoanOrder> floatingRateAsks;
   private final List<FloatingRateLoanOrder> floatingRateBids;
 
+  /**
+   * Constructor
+   *
+   * @param timestamp
+   * @param fixedRateAsks
+   * @param fixedRateBids
+   * @param floatingRateAsks
+   * @param floatingRateBids
+   */
   public LoanOrderBook(Date timestamp, List<FixedRateLoanOrder> fixedRateAsks, List<FixedRateLoanOrder> fixedRateBids,
       List<FloatingRateLoanOrder> floatingRateAsks, List<FloatingRateLoanOrder> floatingRateBids) {
 

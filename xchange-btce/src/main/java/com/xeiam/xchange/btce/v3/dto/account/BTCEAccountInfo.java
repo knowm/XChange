@@ -64,8 +64,8 @@ public class BTCEAccountInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("BTCEAccountInfo[transactionCount={0}, openOrders={1}, serverTime={2}, rights={3}, funds=''{4}''']",
-        transactionCount, openOrders, serverTime, rights, funds);
+    return MessageFormat.format("BTCEAccountInfo[transactionCount={0}, openOrders={1}, serverTime={2}, rights={3}, funds=''{4}''']", transactionCount,
+        openOrders, serverTime, rights, funds);
   }
 
   public static class Rights {

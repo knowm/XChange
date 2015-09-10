@@ -2,8 +2,6 @@ package com.xeiam.xchange.coinsetter;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -14,6 +12,8 @@ import com.xeiam.xchange.coinsetter.service.streaming.CoinsetterSocketIOService;
 import com.xeiam.xchange.coinsetter.service.streaming.CoinsetterStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Coinsetter exchange.
@@ -58,8 +58,8 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setSslUri("https://api.coinsetter.com/v1");
     exchangeSpecification.setHost("api.coinsetter.com");
     exchangeSpecification.setExchangeName("Coinsetter");
-    exchangeSpecification
-        .setExchangeDescription("Coinsetter is a New York City based, venture capital funded bitcoin exchange that is dedicated to making bitcoin safe and reliable for active users.");
+    exchangeSpecification.setExchangeDescription(
+        "Coinsetter is a New York City based, venture capital funded bitcoin exchange that is dedicated to making bitcoin safe and reliable for active users.");
     exchangeSpecification.setExchangeSpecificParametersItem(WEBSOCKET_URI_KEY, "https://plug.coinsetter.com:3000");
 
     // default heartbeat interval is 30 seconds.

@@ -6,13 +6,20 @@ import com.xeiam.xchange.huobi.dto.streaming.response.payload.Orders;
 
 public interface TradeDetail {
 
-	String getSymbolId();
-	long[] getTradeId();
-	BigDecimal[] getPrice();
-	long[] getTime();
-	BigDecimal[] getAmount();
-	int[] getDirection();
-	Orders[] getTopAsks();
-	Orders[] getTopBids();
+  String getSymbolId();
+
+  long[] getTradeId();
+
+  BigDecimal[] getPrice();
+
+  long[] getTime();
+
+  BigDecimal[] getAmount();
+
+  int[] getDirection();
+
+  Orders[] getTopAsks();
+
+  Orders[] getTopBids();
 
 }

@@ -1,14 +1,14 @@
 package com.xeiam.xchange.bitmarket;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
+import java.io.InputStream;
+import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.InputStream;
-import java.util.Properties;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
 
 /**
  * @author by kfonal
@@ -26,11 +26,12 @@ public class ExchangeUtils {
       props.load(is);
       logger.debug(props.toString());
 
-      if (props.getProperty("api-key") != null) exSpec.setApiKey(props.getProperty("api-key"));
-      if (props.getProperty("secret-key") != null) exSpec.setSecretKey(props.getProperty("secret-key"));
+      if (props.getProperty("api-key") != null)
+        exSpec.setApiKey(props.getProperty("api-key"));
+      if (props.getProperty("secret-key") != null)
+        exSpec.setSecretKey(props.getProperty("secret-key"));
     } catch (Exception e) {
-      logger.warn("An exception occured while loading the v3/exchangeConfiguration.json file from the classpath. " +
-          "Returning null exchange.", e);
+      logger.warn("An exception occured while loading the v3/exchangeConfiguration.json file from the classpath. " + "Returning null exchange.", e);
       return null;
     }
 

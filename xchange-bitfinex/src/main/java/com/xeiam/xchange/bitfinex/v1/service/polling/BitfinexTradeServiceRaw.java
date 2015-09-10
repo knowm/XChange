@@ -45,8 +45,8 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
   public BitfinexOrderStatusResponse[] getBitfinexOpenOrders() throws IOException {
 
     try {
-      BitfinexOrderStatusResponse[] activeOrders = bitfinex.activeOrders(apiKey, payloadCreator, signatureCreator, new BitfinexNonceOnlyRequest(
-          "/v1/orders", String.valueOf(exchange.getNonceFactory().createValue())));
+      BitfinexOrderStatusResponse[] activeOrders = bitfinex.activeOrders(apiKey, payloadCreator, signatureCreator,
+          new BitfinexNonceOnlyRequest("/v1/orders", String.valueOf(exchange.getNonceFactory().createValue())));
       return activeOrders;
     } catch (BitfinexException e) {
       throw new ExchangeException(e.getMessage());
@@ -56,8 +56,8 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
   public BitfinexOfferStatusResponse[] getBitfinexOpenOffers() throws IOException {
 
     try {
-      BitfinexOfferStatusResponse[] activeOffers = bitfinex.activeOffers(apiKey, payloadCreator, signatureCreator, new BitfinexNonceOnlyRequest(
-          "/v1/offers", String.valueOf(exchange.getNonceFactory().createValue())));
+      BitfinexOfferStatusResponse[] activeOffers = bitfinex.activeOffers(apiKey, payloadCreator, signatureCreator,
+          new BitfinexNonceOnlyRequest("/v1/offers", String.valueOf(exchange.getNonceFactory().createValue())));
       return activeOffers;
     } catch (BitfinexException e) {
       throw new ExchangeException(e.getMessage());
@@ -72,8 +72,8 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
 
     try {
       BitfinexOrderStatusResponse newOrder = bitfinex.newOrder(apiKey, payloadCreator, signatureCreator,
-          new BitfinexNewOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), pair, marketOrder.getTradableAmount(),
-              BigDecimal.ONE, "bitfinex", type, orderType));
+          new BitfinexNewOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), pair, marketOrder.getTradableAmount(), BigDecimal.ONE,
+              "bitfinex", type, orderType));
       return newOrder;
     } catch (BitfinexException e) {
       throw new ExchangeException(e.getMessage());
@@ -109,12 +109,9 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
     String direction = loanOrder.getType() == OrderType.BID ? "loan" : "lend";
 
     try {
-      BitfinexOfferStatusResponse newOrderResponse = bitfinex.newOffer(
-          apiKey,
-          payloadCreator,
-          signatureCreator,
-          new BitfinexNewOfferRequest(String.valueOf(exchange.getNonceFactory().createValue()), loanOrder.getCurrency(), loanOrder
-              .getTradableAmount(), loanOrder.getRate(), loanOrder.getDayPeriod(), direction));
+      BitfinexOfferStatusResponse newOrderResponse = bitfinex.newOffer(apiKey, payloadCreator, signatureCreator,
+          new BitfinexNewOfferRequest(String.valueOf(exchange.getNonceFactory().createValue()), loanOrder.getCurrency(),
+              loanOrder.getTradableAmount(), loanOrder.getRate(), loanOrder.getDayPeriod(), direction));
       return newOrderResponse;
     } catch (BitfinexException e) {
       throw new ExchangeException(e.getMessage());
@@ -127,12 +124,9 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
     String direction = loanOrder.getType() == OrderType.BID ? "loan" : "lend";
 
     try {
-      BitfinexOfferStatusResponse newOrderResponse = bitfinex.newOffer(
-          apiKey,
-          payloadCreator,
-          signatureCreator,
-          new BitfinexNewOfferRequest(String.valueOf(exchange.getNonceFactory().createValue()), loanOrder.getCurrency(), loanOrder
-              .getTradableAmount(), new BigDecimal("0.0"), loanOrder.getDayPeriod(), direction));
+      BitfinexOfferStatusResponse newOrderResponse = bitfinex.newOffer(apiKey, payloadCreator, signatureCreator,
+          new BitfinexNewOfferRequest(String.valueOf(exchange.getNonceFactory().createValue()), loanOrder.getCurrency(),
+              loanOrder.getTradableAmount(), new BigDecimal("0.0"), loanOrder.getDayPeriod(), direction));
       return newOrderResponse;
     } catch (BitfinexException e) {
       throw new ExchangeException(e.getMessage());
@@ -157,8 +151,8 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
   public BitfinexOfferStatusResponse cancelBitfinexOffer(String offerId) throws IOException {
 
     try {
-      BitfinexOfferStatusResponse cancelResponse = bitfinex.cancelOffer(apiKey, payloadCreator, signatureCreator, new BitfinexCancelOfferRequest(
-          String.valueOf(exchange.getNonceFactory().createValue()), Integer.valueOf(offerId)));
+      BitfinexOfferStatusResponse cancelResponse = bitfinex.cancelOffer(apiKey, payloadCreator, signatureCreator,
+          new BitfinexCancelOfferRequest(String.valueOf(exchange.getNonceFactory().createValue()), Integer.valueOf(offerId)));
       return cancelResponse;
     } catch (BitfinexException e) {
       throw new ExchangeException(e.getMessage());

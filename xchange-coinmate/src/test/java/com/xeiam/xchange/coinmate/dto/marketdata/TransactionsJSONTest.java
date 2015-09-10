@@ -23,15 +23,17 @@
  */
 package com.xeiam.xchange.coinmate.dto.marketdata;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import static org.fest.assertions.api.Assertions.assertThat;
+
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
- *
  * @author Martin Stachon
  */
 public class TransactionsJSONTest {
@@ -50,6 +52,6 @@ public class TransactionsJSONTest {
     assertThat(coinmateTransactions.getData().get(0).getTransactionId()).isEqualTo("33737");
     assertThat(coinmateTransactions.getData().get(0).getPrice()).isEqualTo(new BigDecimal("256.51"));
     assertThat(coinmateTransactions.getData().get(0).getAmount()).isEqualTo(new BigDecimal("0.20128269"));
-    assertThat(coinmateTransactions.getData().get(0).getCurrencyPair()).isEqualTo("BTC_USD");
+    assertThat(coinmateTransactions.getData().get(0).getCurrencyPair()).isEqualTo("BTC_EUR");
   }
 }

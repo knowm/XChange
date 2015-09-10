@@ -2,11 +2,11 @@ package com.xeiam.xchange.coinsetter.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.rs.CoinsetterPing;
 import com.xeiam.xchange.service.BaseExchangeService;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * Ping service.

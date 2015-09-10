@@ -1,19 +1,18 @@
 package com.xeiam.xchange.btce.v3.dto.trade;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * @author Peter N. Steinmetz
- *         Date: 4/2/15
- *         Time: 3:44 PM
+ * @author Peter N. Steinmetz Date: 4/2/15 Time: 3:44 PM
  */
 public class BTCETransHistoryJSONTest {
 

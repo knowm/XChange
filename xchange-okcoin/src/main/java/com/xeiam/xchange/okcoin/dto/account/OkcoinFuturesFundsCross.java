@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
-
 public class OkcoinFuturesFundsCross {
 
   private final BigDecimal accountRights;
@@ -14,9 +12,10 @@ public class OkcoinFuturesFundsCross {
   private final BigDecimal profitUnreal;
   private final int riskRate;
 
-  public OkcoinFuturesFundsCross(@JsonProperty("account_rights") BigDecimal accountRights, @JsonProperty("keep_deposit") BigDecimal keepDeposits, @JsonProperty("profit_real") BigDecimal profitReal,
-      @JsonProperty("profit_unreal") BigDecimal profitUnreal, @JsonProperty("risk_rate") int riskRate) {
-  
+  public OkcoinFuturesFundsCross(@JsonProperty("account_rights") BigDecimal accountRights, @JsonProperty("keep_deposit") BigDecimal keepDeposits,
+      @JsonProperty("profit_real") BigDecimal profitReal, @JsonProperty("profit_unreal") BigDecimal profitUnreal,
+      @JsonProperty("risk_rate") int riskRate) {
+
     this.accountRights = accountRights;
     this.keepDeposits = keepDeposits;
     this.profitReal = profitReal;
@@ -24,33 +23,29 @@ public class OkcoinFuturesFundsCross {
     this.riskRate = riskRate;
 
   }
-  
+
   public BigDecimal getAccountRights() {
-  
+
     return accountRights;
   }
 
-  
   public BigDecimal getKeepDeposits() {
-  
+
     return keepDeposits;
   }
 
-  
   public BigDecimal getProfitReal() {
-  
+
     return profitReal;
   }
 
-  
   public BigDecimal getProfitUnreal() {
-  
+
     return profitUnreal;
   }
 
-  
   public int getRiskRate() {
-  
+
     return riskRate;
   }
 }

@@ -2,7 +2,6 @@ package com.xeiam.xchange.bitkonan;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.bitkonan.dto.marketdata.BitKonanOrderBook;
@@ -40,8 +39,7 @@ public class BitKonanAdapters {
     BigDecimal volume = bitKonanTicker.getVolume();
     // no timestamp from BitKonan
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume)
-        .build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).build();
   }
 
   public static OrderBook adaptOrderBook(BitKonanOrderBook bitKonanOrderBook, CurrencyPair pair) {

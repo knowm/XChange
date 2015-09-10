@@ -1,10 +1,5 @@
 package com.xeiam.xchange.coinsetter.service.streaming;
 
-import io.socket.IOAcknowledge;
-import io.socket.IOCallback;
-import io.socket.SocketIO;
-import io.socket.SocketIOException;
-
 import java.net.MalformedURLException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -21,6 +16,11 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterExchange;
 import com.xeiam.xchange.coinsetter.service.streaming.event.CoinsetterSocketListener;
 import com.xeiam.xchange.service.BaseExchangeService;
+
+import io.socket.IOAcknowledge;
+import io.socket.IOCallback;
+import io.socket.SocketIO;
+import io.socket.SocketIOException;
 
 /**
  * Coinsetter Websockets API implementation, fires socket events.

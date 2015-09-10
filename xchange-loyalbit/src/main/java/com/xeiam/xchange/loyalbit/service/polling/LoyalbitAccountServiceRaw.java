@@ -2,12 +2,12 @@ package com.xeiam.xchange.loyalbit.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.loyalbit.LoyalbitAuthenticated;
 import com.xeiam.xchange.loyalbit.dto.account.LoyalbitBalance;
 import com.xeiam.xchange.loyalbit.service.LoyalbitDigest;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class LoyalbitAccountServiceRaw extends LoyalbitBasePollingService {
 
@@ -24,15 +24,11 @@ public class LoyalbitAccountServiceRaw extends LoyalbitBasePollingService {
     super(exchange);
 
     this.loyalbitAuthenticated = RestProxyFactory.createProxy(LoyalbitAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = LoyalbitDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
-        .getUserName(), exchange.getExchangeSpecification().getApiKey());
+    this.signatureCreator = LoyalbitDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
+        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
 
   public LoyalbitBalance getLoyalbitBalance() throws IOException {
-    return loyalbitAuthenticated.getBalance(
-        exchange.getExchangeSpecification().getApiKey(),
-        exchange.getNonceFactory(),
-        signatureCreator
-    );
+    return loyalbitAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), exchange.getNonceFactory(), signatureCreator);
   }
 }

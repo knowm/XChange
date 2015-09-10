@@ -9,8 +9,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-
 import com.xeiam.xchange.bitfinex.v1.dto.BitfinexException;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
@@ -30,6 +28,8 @@ import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
+
+import si.mazi.rescu.ParamsDigest;
 
 @Path("v1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -98,8 +98,8 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @POST
   @Path("credits")
   BitfinexCreditResponse[] activeCredits(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexActiveCreditsRequest activeCreditsRequest) throws IOException,
-      BitfinexException;
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexActiveCreditsRequest activeCreditsRequest)
+          throws IOException, BitfinexException;
 
   @POST
   @Path("margin_infos")

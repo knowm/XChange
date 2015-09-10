@@ -3,11 +3,11 @@ package com.xeiam.xchange.poloniex.dto.trade;
 import java.util.ArrayList;
 import java.util.List;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 public class PoloniexTradeResponse {
 

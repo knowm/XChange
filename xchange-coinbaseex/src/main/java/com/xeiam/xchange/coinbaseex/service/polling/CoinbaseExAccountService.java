@@ -11,32 +11,28 @@ import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
-
 public class CoinbaseExAccountService extends CoinbaseExAccountServiceRaw implements PollingAccountService {
 
-	public CoinbaseExAccountService(Exchange exchange) {
+  public CoinbaseExAccountService(Exchange exchange) {
 
-		super(exchange);
-	}
+    super(exchange);
+  }
 
-	@Override
-	public AccountInfo getAccountInfo() throws ExchangeException,
-	NotAvailableFromExchangeException,
-	NotYetImplementedForExchangeException, IOException {
-		return CoinbaseExAdapters.adaptAccountInfo(getCoinbaseExAccountInfo());
-	}
+  @Override
+  public AccountInfo getAccountInfo()
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return CoinbaseExAdapters.adaptAccountInfo(getCoinbaseExAccountInfo());
+  }
 
-	@Override
-	public String withdrawFunds(String currency, BigDecimal amount, String address)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotYetImplementedForExchangeException();
-	}
+  @Override
+  public String withdrawFunds(String currency, BigDecimal amount, String address)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-	@Override
-	public String requestDepositAddress(String currency, String... args)
-			throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotYetImplementedForExchangeException();
-	}
+  @Override
+  public String requestDepositAddress(String currency, String... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 }

@@ -26,7 +26,6 @@ package com.xeiam.xchange.coinmate.dto.trade;
 import java.util.ArrayList;
 
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateOpenOrdersData extends ArrayList<CoinmateOpenOrdersEntry> {

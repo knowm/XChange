@@ -144,8 +144,8 @@ class CoinbaseAccountServiceRaw extends CoinbaseBasePollingService {
   /**
    * Authenticated resource that generates a new Bitcoin receive address for the user.
    *
-   * @see <a
-   *      href="https://coinbase.com/api/doc/1.0/accounts/generate_receive_address.html">coinbase.com/api/doc/1.0/accounts/generate_receive_address.html</a>
+   * @see <a href="https://coinbase.com/api/doc/1.0/accounts/generate_receive_address.html">coinbase.com/api/doc/1.0/accounts/generate_receive_address
+   *      .html</a>
    * @return The user’s newly generated and current {@code CoinbaseAddress}.
    * @throws IOException
    */
@@ -157,8 +157,8 @@ class CoinbaseAccountServiceRaw extends CoinbaseBasePollingService {
   /**
    * Authenticated resource that generates a new Bitcoin receive address for the user.
    *
-   * @see <a
-   *      href="https://coinbase.com/api/doc/1.0/accounts/generate_receive_address.html">coinbase.com/api/doc/1.0/accounts/generate_receive_address.html</a>
+   * @see <a href="https://coinbase.com/api/doc/1.0/accounts/generate_receive_address.html">coinbase.com/api/doc/1.0/accounts/generate_receive_address
+   *      .html</a>
    * @param callbackUrl Optional Callback URL to receive instant payment notifications whenever funds arrive to this address.
    * @param label Optional text label for the address which can be used to filter against when calling {@link #getCoinbaseAddresses}.
    * @return The user’s newly generated and current {@code CoinbaseAddress}.
@@ -287,8 +287,8 @@ class CoinbaseAccountServiceRaw extends CoinbaseBasePollingService {
    */
   public CoinbaseTransaction requestMoneyCoinbaseRequest(CoinbaseRequestMoneyRequest transactionRequest) throws IOException {
 
-    final CoinbaseTransaction pendingTransaction = coinbase.requestMoney(new CoinbaseTransaction(transactionRequest), exchange
-        .getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    final CoinbaseTransaction pendingTransaction = coinbase.requestMoney(new CoinbaseTransaction(transactionRequest),
+        exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return handleResponse(pendingTransaction);
   }
 
@@ -302,8 +302,8 @@ class CoinbaseAccountServiceRaw extends CoinbaseBasePollingService {
    */
   public CoinbaseTransaction sendMoneyCoinbaseRequest(CoinbaseSendMoneyRequest transactionRequest) throws IOException {
 
-    final CoinbaseTransaction pendingTransaction = coinbase.sendMoney(new CoinbaseTransaction(transactionRequest), exchange
-        .getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    final CoinbaseTransaction pendingTransaction = coinbase.sendMoney(new CoinbaseTransaction(transactionRequest),
+        exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return handleResponse(pendingTransaction);
   }
 
@@ -326,8 +326,8 @@ class CoinbaseAccountServiceRaw extends CoinbaseBasePollingService {
    * Authenticated resource which lets a user complete a money request. Money requests can only be completed by the sender (not the recipient).
    * Remember that the sender in this context is the user who is sending money (not sending the request itself).
    *
-   * @see <a
-   *      href="https://coinbase.com/api/doc/1.0/transactions/complete_request.html">coinbase.com/api/doc/1.0/transactions/complete_request.html</a>
+   * @see <a href="https://coinbase.com/api/doc/1.0/transactions/complete_request.html">coinbase.com/api/doc/1.0/transactions/complete_request.html
+   *      </a>
    * @param transactionId
    * @return The {@code CoinbaseTransaction} representing the completed {@code CoinbaseSendMoneyRequest}.
    * @throws IOException
@@ -484,8 +484,8 @@ class CoinbaseAccountServiceRaw extends CoinbaseBasePollingService {
    */
   public CoinbaseRecurringPayment getCoinbaseRecurringPayment(String recurringPaymentId) throws IOException {
 
-    final CoinbaseRecurringPayment recurringPayment = coinbase.getRecurringPayment(recurringPaymentId, exchange.getExchangeSpecification()
-        .getApiKey(), signatureCreator, exchange.getNonceFactory());
+    final CoinbaseRecurringPayment recurringPayment = coinbase.getRecurringPayment(recurringPaymentId,
+        exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     return recurringPayment;
   }
 

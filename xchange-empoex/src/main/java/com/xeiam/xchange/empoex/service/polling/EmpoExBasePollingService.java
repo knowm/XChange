@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.empoex.EmpoEx;
@@ -17,6 +14,9 @@ import com.xeiam.xchange.empoex.service.EmpoExHmacPostBodyDigest;
 import com.xeiam.xchange.empoex.service.EmpoExPayloadDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
 
 public class EmpoExBasePollingService extends BaseExchangeService implements BasePollingService {
 

@@ -38,8 +38,8 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
 
   public PoloniexUserTrade[] returnTradeHistory(CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {
 
-    return poloniexAuthenticated.returnTradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexUtils.toPairString(currencyPair), startTime,
-        endTime);
+    return poloniexAuthenticated.returnTradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexUtils.toPairString(currencyPair),
+        startTime, endTime);
   }
 
   public HashMap<String, PoloniexUserTrade[]> returnTradeHistory(Long startTime, Long endTime) throws IOException {
@@ -51,8 +51,9 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
   public PoloniexTradeResponse buy(LimitOrder limitOrder) throws IOException {
 
     try {
-      PoloniexTradeResponse response = poloniexAuthenticated.buy(apiKey, signatureCreator, exchange.getNonceFactory(), limitOrder.getTradableAmount()
-          .toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils.toPairString(limitOrder.getCurrencyPair()));
+      PoloniexTradeResponse response = poloniexAuthenticated.buy(apiKey, signatureCreator, exchange.getNonceFactory(),
+          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
+          PoloniexUtils.toPairString(limitOrder.getCurrencyPair()));
       return response;
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError());
@@ -62,8 +63,9 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
   public PoloniexTradeResponse sell(LimitOrder limitOrder) throws IOException {
 
     try {
-      PoloniexTradeResponse response = poloniexAuthenticated.sell(apiKey, signatureCreator, exchange.getNonceFactory(), limitOrder.getTradableAmount()
-          .toPlainString(), limitOrder.getLimitPrice().toPlainString(), PoloniexUtils.toPairString(limitOrder.getCurrencyPair()));
+      PoloniexTradeResponse response = poloniexAuthenticated.sell(apiKey, signatureCreator, exchange.getNonceFactory(),
+          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
+          PoloniexUtils.toPairString(limitOrder.getCurrencyPair()));
       return response;
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError());

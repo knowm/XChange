@@ -41,8 +41,8 @@ public class Btc38Ticker {
    * @param sell Sell price
    * @param vol Volume
    */
-  public Btc38Ticker(@JsonProperty("buy") BigDecimal buy, @JsonProperty("high") BigDecimal high, @JsonProperty("last") BigDecimal last, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("sell") BigDecimal sell, @JsonProperty("vol") BigDecimal vol) {
+  public Btc38Ticker(@JsonProperty("buy") BigDecimal buy, @JsonProperty("high") BigDecimal high, @JsonProperty("last") BigDecimal last,
+      @JsonProperty("low") BigDecimal low, @JsonProperty("sell") BigDecimal sell, @JsonProperty("vol") BigDecimal vol) {
 
     this.buy = buy;
     this.high = high;

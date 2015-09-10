@@ -7,9 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -30,6 +27,9 @@ import com.xeiam.xchange.kraken.dto.trade.KrakenOrderFlags;
 import com.xeiam.xchange.kraken.service.KrakenDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
 
 public class KrakenBasePollingService extends BaseExchangeService implements BasePollingService {
 
@@ -72,7 +72,7 @@ public class KrakenBasePollingService extends BaseExchangeService implements Bas
     }
     return currencyPairs;
   }
-  
+
   private String addCurrencyAndGetCode(String krakenCurrencyString) {
 
     String currencyCode = KrakenAdapters.adaptCurrency(krakenCurrencyString);

@@ -18,11 +18,8 @@ public class TaurusOrderBook {
 
   private Date timestamp;
 
-  public TaurusOrderBook(
-      @JsonProperty("bids") List<List<BigDecimal>> bids,
-      @JsonProperty("asks") List<List<BigDecimal>> asks,
-      @JsonProperty("timestamp") @JsonDeserialize(using = UnixTimestampDeserializer.class) Date timestamp
-  ) {
+  public TaurusOrderBook(@JsonProperty("bids") List<List<BigDecimal>> bids, @JsonProperty("asks") List<List<BigDecimal>> asks,
+      @JsonProperty("timestamp") @JsonDeserialize(using = UnixTimestampDeserializer.class) Date timestamp) {
     this.bids = bids;
     this.asks = asks;
     this.timestamp = timestamp;

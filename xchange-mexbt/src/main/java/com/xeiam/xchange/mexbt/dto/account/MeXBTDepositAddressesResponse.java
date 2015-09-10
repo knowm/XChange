@@ -7,7 +7,8 @@ public class MeXBTDepositAddressesResponse extends MeXBTResponse {
 
   private final MeXBTDepositAddress[] addresses;
 
-  public MeXBTDepositAddressesResponse(@JsonProperty("isAccepted") boolean isAccepted, @JsonProperty("rejectReason") String rejectReason, @JsonProperty("addresses") MeXBTDepositAddress[] addresses) {
+  public MeXBTDepositAddressesResponse(@JsonProperty("isAccepted") boolean isAccepted, @JsonProperty("rejectReason") String rejectReason,
+      @JsonProperty("addresses") MeXBTDepositAddress[] addresses) {
     super(isAccepted, rejectReason);
     this.addresses = addresses;
   }

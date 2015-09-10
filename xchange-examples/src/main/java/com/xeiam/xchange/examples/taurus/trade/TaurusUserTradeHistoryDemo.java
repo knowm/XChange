@@ -3,14 +3,14 @@ package com.xeiam.xchange.examples.taurus.trade;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.examples.taurus.TaurusDemoUtils;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
 import com.xeiam.xchange.taurus.dto.trade.TaurusUserTransaction;
 import com.xeiam.xchange.taurus.service.polling.TaurusTradeServiceRaw;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.examples.taurus.TaurusDemoUtils;
-import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 /**
  * <p>
@@ -43,7 +43,7 @@ public class TaurusUserTradeHistoryDemo {
     // returned. It is recommended to use the raw service demonstrated below
     // if you want to use this feature.
     final TradeHistoryParams params = tradeService.createTradeHistoryParams();
-    ((TradeHistoryParamPaging)params).setPageLength(3);
+    ((TradeHistoryParamPaging) params).setPageLength(3);
     Trades tradesLimitedTo3 = tradeService.getTradeHistory(params);
     System.out.println(tradesLimitedTo3);
   }

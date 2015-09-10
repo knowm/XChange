@@ -103,9 +103,10 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
       throw new ExchangeException("Username (UserID) must be the string representation of a integer or long value.");
     }
 
-    RequestFactory.CoinfloorAuthenticationRequest authVars = new RequestFactory.CoinfloorAuthenticationRequest(Long.valueOf(exchange
-        .getExchangeSpecification().getUserName()), (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("cookie"),
-        exchange.getExchangeSpecification().getPassword(), exchangeEventListener.getServerNonce());
+    RequestFactory.CoinfloorAuthenticationRequest authVars = new RequestFactory.CoinfloorAuthenticationRequest(
+        Long.valueOf(exchange.getExchangeSpecification().getUserName()),
+        (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("cookie"), exchange.getExchangeSpecification().getPassword(),
+        exchangeEventListener.getServerNonce());
 
     doNewRequest(authVars, ExchangeEventType.AUTHENTICATION);
 

@@ -14,22 +14,22 @@ import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
-
 public class OkCoinIntlSocketIODemo {
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws Exception {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(OkCoinExchange.class);
     exSpec.setSecretKey("aa");
     exSpec.setApiKey("bb");
-    
+
     //Force intl
-    exSpec.setExchangeSpecificParametersItem("Use_Intl", true);     
+    exSpec.setExchangeSpecificParametersItem("Use_Intl", true);
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
-    
+
     //Forcing the currency pair is required for Intl
-    final StreamingExchangeService service = exchange.getStreamingExchangeService(new OkCoinExchangeStreamingConfiguration(new CurrencyPair[]{ CurrencyPair.BTC_USD }));
+    final StreamingExchangeService service = exchange
+        .getStreamingExchangeService(new OkCoinExchangeStreamingConfiguration(new CurrencyPair[] { CurrencyPair.BTC_USD }));
 
     Thread consumer = new Thread("consumer") {
 
@@ -40,16 +40,16 @@ public class OkCoinIntlSocketIODemo {
           try {
             ExchangeEvent event = service.getNextEvent();
 
-            if(event != null) {
-              System.out.println("---> "  + event.getPayload() + " " + event.getEventType());
-              
-              if(event.getEventType().equals(ExchangeEventType.TICKER)) {
+            if (event != null) {
+              System.out.println("---> " + event.getPayload() + " " + event.getEventType());
+
+              if (event.getEventType().equals(ExchangeEventType.TICKER)) {
                 Ticker ticker = (Ticker) event.getPayload();
-                
+
                 long x = (new Date()).getTime() - ticker.getTimestamp().getTime();
                 System.out.println("Delay " + x);
               }
-              
+
             }
 
           } catch (InterruptedException e) {
@@ -75,6 +75,5 @@ public class OkCoinIntlSocketIODemo {
     // Interrupt consumer to exit.
     consumer.interrupt();
   }
-
 
 }

@@ -23,15 +23,17 @@
  */
 package com.xeiam.xchange.coinmate.dto.marketdata;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import static org.fest.assertions.api.Assertions.assertThat;
+
 import org.junit.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
- *
  * @author Martin Stachon
  */
 public class OrderBookJSONTest {

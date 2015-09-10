@@ -1,21 +1,14 @@
 package com.xeiam.xchange.bitmarket.service.trade;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitmarket.ExchangeUtils;
-import com.xeiam.xchange.bitmarket.service.polling.params.BitMarketHistoryParams;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import static junit.framework.TestCase.assertNotNull;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import static junit.framework.TestCase.assertNotNull;
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.bitmarket.ExchangeUtils;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 /**
  * @author kfonal
@@ -33,7 +26,7 @@ public class OpenOrdersFetchIntegration {
   public void fetchOpenOrdersTest() throws Exception {
 
     if (exchange.getExchangeSpecification().getApiKey() == null || exchange.getExchangeSpecification().getSecretKey() == null) {
-      return;  // forces pass if there is no keys passed
+      return; // forces pass if there is no keys passed
     }
 
     PollingTradeService service = exchange.getPollingTradeService();

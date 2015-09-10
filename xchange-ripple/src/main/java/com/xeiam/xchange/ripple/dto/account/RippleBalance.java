@@ -15,32 +15,26 @@ public final class RippleBalance {
   @JsonProperty("counterparty")
   private String counterparty;
 
-  @JsonProperty("value")
   public BigDecimal getValue() {
     return value;
   }
 
-  @JsonProperty("value")
   public void setValue(final BigDecimal value) {
     this.value = value;
   }
 
-  @JsonProperty("currency")
   public String getCurrency() {
     return currency;
   }
 
-  @JsonProperty("currency")
   public void setCurrency(final String value) {
     currency = value;
   }
 
-  @JsonProperty("counterparty")
   public String getCounterparty() {
     return counterparty;
   }
 
-  @JsonProperty("counterparty")
   public void setCounterparty(final String value) {
     counterparty = value;
   }

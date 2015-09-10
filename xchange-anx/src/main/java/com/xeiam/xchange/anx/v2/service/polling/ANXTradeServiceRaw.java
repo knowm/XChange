@@ -3,9 +3,6 @@ package com.xeiam.xchange.anx.v2.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.HttpStatusIOException;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXV2;
@@ -20,6 +17,9 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.utils.Assert;
+
+import si.mazi.rescu.HttpStatusIOException;
+import si.mazi.rescu.RestProxyFactory;
 
 public class ANXTradeServiceRaw extends ANXBasePollingService {
 
@@ -69,8 +69,8 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
   public ANXGenericResponse placeANXMarketOrder(MarketOrder marketOrder) throws IOException {
 
     try {
-      ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange
-          .getNonceFactory(), marketOrder.getCurrencyPair().baseSymbol, marketOrder.getCurrencyPair().counterSymbol,
+      ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+          exchange.getNonceFactory(), marketOrder.getCurrencyPair().baseSymbol, marketOrder.getCurrencyPair().counterSymbol,
           marketOrder.getType().equals(Order.OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount(), null);
       return anxGenericResponse;
     } catch (ANXException e) {

@@ -8,12 +8,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-
 import com.xeiam.xchange.huobi.dto.account.HuobiAccountInfo;
 import com.xeiam.xchange.huobi.dto.trade.HuobiCancelOrderResult;
 import com.xeiam.xchange.huobi.dto.trade.HuobiOrder;
 import com.xeiam.xchange.huobi.dto.trade.HuobiPlaceOrderResult;
+
+import si.mazi.rescu.ParamsDigest;
 
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
@@ -40,5 +40,5 @@ public interface Huobi {
   @POST
   public HuobiCancelOrderResult cancelOrder(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType,
       @FormParam("created") long created, @FormParam("id") long id, @FormParam("method") String method, @FormParam("sign") ParamsDigest sign)
-      throws IOException;
+          throws IOException;
 }

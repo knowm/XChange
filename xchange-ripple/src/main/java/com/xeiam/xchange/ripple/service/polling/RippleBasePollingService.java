@@ -1,16 +1,12 @@
 package com.xeiam.xchange.ripple.service.polling;
 
-import java.io.IOException;
-import java.util.List;
-
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.ripple.RipplePublic;
 import com.xeiam.xchange.ripple.RippleAuthenticated;
+import com.xeiam.xchange.ripple.RipplePublic;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class RippleBasePollingService extends BaseExchangeService implements BasePollingService {
 

@@ -17,10 +17,9 @@ public abstract class Order {
     /**
      * Buying order (you're making an offer)
      */
-    BID,
-    /**
-     * Selling order (you're asking for offers)
-     */
+    BID, /**
+          * Selling order (you're asking for offers)
+          */
     ASK
   }
 
@@ -48,7 +47,7 @@ public abstract class Order {
   private final String id;
 
   /**
-   * The timestamp on the order
+   * The timestamp on the order according to the exchange's server, null if not provided
    */
   private final Date timestamp;
 
@@ -62,7 +61,7 @@ public abstract class Order {
    * @param tradableAmount The amount to trade
    * @param CurrencyPair currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
-   * @param timestamp the absolute time for this order
+   * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
    */
   public Order(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp) {
 
@@ -125,8 +124,8 @@ public abstract class Order {
   @Override
   public String toString() {
 
-    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", id=" + id + ", timestamp="
-        + timestamp + "]";
+    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", id=" + id + ", timestamp=" + timestamp
+        + "]";
   }
 
   @Override
@@ -208,12 +207,12 @@ public abstract class Order {
       this.timestamp = timestamp;
       return this;
     }
-    
+
     public Builder flags(Set<IOrderFlags> flags) {
       this.flags.addAll(flags);
       return this;
     }
-    
+
     public Builder flag(IOrderFlags flag) {
       this.flags.add(flag);
       return this;

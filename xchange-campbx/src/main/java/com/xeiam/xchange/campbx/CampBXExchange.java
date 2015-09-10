@@ -1,15 +1,13 @@
 package com.xeiam.xchange.campbx;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.campbx.service.polling.CampBXAccountService;
 import com.xeiam.xchange.campbx.service.polling.CampBXMarketDataService;
 import com.xeiam.xchange.campbx.service.polling.CampBXTradeService;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * Exchange for CampBX.

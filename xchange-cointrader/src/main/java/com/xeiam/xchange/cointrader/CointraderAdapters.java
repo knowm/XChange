@@ -25,17 +25,20 @@ import com.xeiam.xchange.dto.trade.Wallet;
 public final class CointraderAdapters {
 
   public static final Comparator<LimitOrder> ASK_COMPARATOR = new Comparator<LimitOrder>() {
-    @Override public int compare(LimitOrder o1, LimitOrder o2) {
+    @Override
+    public int compare(LimitOrder o1, LimitOrder o2) {
       return o1.getLimitPrice().compareTo(o2.getLimitPrice());
     }
   };
   public static final Comparator<LimitOrder> BID_COMPARATOR = new Comparator<LimitOrder>() {
-    @Override public int compare(LimitOrder o1, LimitOrder o2) {
+    @Override
+    public int compare(LimitOrder o1, LimitOrder o2) {
       return o2.getLimitPrice().compareTo(o1.getLimitPrice());
     }
   };
 
-  private CointraderAdapters() { }
+  private CointraderAdapters() {
+  }
 
   public static AccountInfo adaptAccountInfo(Map<String, CointraderBalance> balances, String userName) {
     HashMap<String, Wallet> wallets = new HashMap<String, Wallet>();
@@ -78,15 +81,9 @@ public final class CointraderAdapters {
 
   public static UserTrade adaptTrade(CointraderUserTrade cointraderUserTrade) {
     CurrencyPair currencyPair = cointraderUserTrade.getCurrencyPair();
-    return new UserTrade(
-        adaptOrderType(cointraderUserTrade.getType()),
-        cointraderUserTrade.getQuantity(),
-        currencyPair,
-        cointraderUserTrade.getPrice().abs(),
-        cointraderUserTrade.getExecuted(),
-        String.valueOf(cointraderUserTrade.getTradeId()),
-        String.valueOf(cointraderUserTrade.getOrderId()),
-        cointraderUserTrade.getFee(),
+    return new UserTrade(adaptOrderType(cointraderUserTrade.getType()), cointraderUserTrade.getQuantity(), currencyPair,
+        cointraderUserTrade.getPrice().abs(), cointraderUserTrade.getExecuted(), String.valueOf(cointraderUserTrade.getTradeId()),
+        String.valueOf(cointraderUserTrade.getOrderId()), cointraderUserTrade.getFee(),
         cointraderUserTrade.getType() == CointraderOrder.Type.Buy ? currencyPair.counterSymbol : currencyPair.baseSymbol);
   }
 

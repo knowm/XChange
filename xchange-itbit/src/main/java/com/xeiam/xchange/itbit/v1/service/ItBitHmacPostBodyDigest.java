@@ -7,11 +7,10 @@ import java.util.Map;
 
 import javax.crypto.Mac;
 
-import net.iharder.Base64;
-
-import si.mazi.rescu.RestInvocation;
-
 import com.xeiam.xchange.service.BaseParamsDigest;
+
+import net.iharder.Base64;
+import si.mazi.rescu.RestInvocation;
 
 public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
 

@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCTradeResponse;
 
 /**
  * Created by cristian.lucaci on 12/19/2014.

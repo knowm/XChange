@@ -15,9 +15,9 @@ public class MeXBTTradeResponse extends MeXBTResponse {
   private final int count;
   private final MeXBTUserTrade[] trades;
 
-  public MeXBTTradeResponse(@JsonProperty("isAccepted") boolean isAccepted, @JsonProperty("rejectReason") String rejectReason, @JsonProperty("dateTimeUtc") @JsonDeserialize(
-      using = TickDeserializer.class) Date dateTimeUtc, @JsonProperty("ins") String ins, @JsonProperty("startIndex") long startIndex, @JsonProperty("count") int count,
-      @JsonProperty("trades") MeXBTUserTrade[] trades) {
+  public MeXBTTradeResponse(@JsonProperty("isAccepted") boolean isAccepted, @JsonProperty("rejectReason") String rejectReason,
+      @JsonProperty("dateTimeUtc") @JsonDeserialize(using = TickDeserializer.class) Date dateTimeUtc, @JsonProperty("ins") String ins,
+      @JsonProperty("startIndex") long startIndex, @JsonProperty("count") int count, @JsonProperty("trades") MeXBTUserTrade[] trades) {
     super(isAccepted, rejectReason);
     this.dateTimeUtc = dateTimeUtc;
     this.ins = ins;

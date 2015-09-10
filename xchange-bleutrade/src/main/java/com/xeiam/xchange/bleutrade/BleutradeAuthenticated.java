@@ -2,7 +2,6 @@ package com.xeiam.xchange.bleutrade;
 
 import java.io.IOException;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
@@ -10,15 +9,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalanceReturn;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalancesReturn;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeDepositAddressReturn;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeCancelOrderReturn;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrdersReturn;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("v2")
 @Produces(MediaType.APPLICATION_JSON)

@@ -2,14 +2,14 @@ package com.xeiam.xchange.bitbay.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitbay.Bitbay;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayOrderBook;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTicker;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author kpysniak

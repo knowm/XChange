@@ -20,7 +20,8 @@ public class ANXTradesWrapper {
    * @param anxTrades
    * @param error
    */
-  public ANXTradesWrapper(@JsonProperty("result") String result, @JsonProperty("data") List<ANXTrade> anxTrades, @JsonProperty("error") String error) {
+  public ANXTradesWrapper(@JsonProperty("result") String result, @JsonProperty("data") List<ANXTrade> anxTrades,
+      @JsonProperty("error") String error) {
 
     this.result = result;
     this.anxTrades = anxTrades;

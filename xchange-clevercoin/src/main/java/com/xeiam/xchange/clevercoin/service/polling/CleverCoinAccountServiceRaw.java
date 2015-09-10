@@ -2,21 +2,16 @@ package com.xeiam.xchange.clevercoin.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-
-import si.mazi.rescu.RestProxyFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.clevercoin.CleverCoinAuthenticated;
 import com.xeiam.xchange.clevercoin.dto.account.CleverCoinBalance;
 import com.xeiam.xchange.clevercoin.dto.account.CleverCoinDepositAddress;
-import com.xeiam.xchange.clevercoin.dto.account.CleverCoinRippleDepositAddress;
 import com.xeiam.xchange.clevercoin.dto.account.CleverCoinWithdrawal;
-import com.xeiam.xchange.clevercoin.dto.account.DepositTransaction;
-import com.xeiam.xchange.clevercoin.dto.account.WithdrawalRequest;
 import com.xeiam.xchange.clevercoin.service.CleverCoinDigest;
 import com.xeiam.xchange.exceptions.ExchangeException;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author Karsten Nilsen & Konstantin Indjov
@@ -36,18 +31,18 @@ public class CleverCoinAccountServiceRaw extends CleverCoinBasePollingService {
     super(exchange);
 
     this.CleverCoinAuthenticated = RestProxyFactory.createProxy(CleverCoinAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = CleverCoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getApiKey());
+    this.signatureCreator = CleverCoinDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
+        exchange.getExchangeSpecification().getApiKey());
   }
 
   public CleverCoinBalance[] getCleverCoinBalance() throws IOException {
 
-    return CleverCoinAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory());
+    return CleverCoinAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
   }
 
   public CleverCoinWithdrawal withdrawCleverCoinFunds(BigDecimal amount, final String address) throws IOException {
-	
-	// amount = amount including the 0.0001 BTC network fee
+
+    // amount = amount including the 0.0001 BTC network fee
     final CleverCoinWithdrawal response = CleverCoinAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
         exchange.getNonceFactory(), amount, address);
 

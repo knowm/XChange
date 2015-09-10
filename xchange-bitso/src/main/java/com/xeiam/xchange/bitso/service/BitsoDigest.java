@@ -5,9 +5,9 @@ import java.math.BigInteger;
 import javax.crypto.Mac;
 import javax.ws.rs.FormParam;
 
-import si.mazi.rescu.RestInvocation;
-
 import com.xeiam.xchange.service.BaseParamsDigest;
+
+import si.mazi.rescu.RestInvocation;
 
 public class BitsoDigest extends BaseParamsDigest {
 

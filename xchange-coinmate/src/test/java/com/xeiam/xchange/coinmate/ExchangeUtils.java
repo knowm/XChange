@@ -23,23 +23,23 @@
  */
 package com.xeiam.xchange.coinmate;
 
+import java.io.InputStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.InputStream;
 
 public class ExchangeUtils {
 
   private final static Logger logger = LoggerFactory.getLogger(ExchangeUtils.class);
 
   /**
-   * Create a Coinmate exchange using the keys provided in a exchangeConfiguration.json file on the classpath.
-   *
-   * See the sampleExchangeConfiguration.json file for format of required file.
+   * Create a Coinmate exchange using the keys provided in a exchangeConfiguration.json file on the classpath. See the
+   * sampleExchangeConfiguration.json file for format of required file.
    *
    * @return Create exchange or null if .json file was not on classpath.
    */
@@ -67,8 +67,7 @@ public class ExchangeUtils {
         exSpec.setUserName(conf.clientId);
       }
     } catch (Exception e) {
-      logger.warn("An exception occured while loading the exchangeConfiguration.json file from the classpath. "
-          + "Returning null exchange.", e);
+      logger.warn("An exception occured while loading the exchangeConfiguration.json file from the classpath. " + "Returning null exchange.", e);
       return null;
     }
 

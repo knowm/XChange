@@ -38,48 +38,40 @@ public class OkCoinOrder {
     this.createDate = createDate;
   }
 
-
   public long getOrderId() {
 
     return orderId;
   }
-
 
   public int getStatus() {
 
     return status;
   }
 
-
   public String getSymbol() {
 
     return symbol;
   }
-
 
   public String getType() {
 
     return type;
   }
 
-
   public BigDecimal getAmount() {
 
     return amount;
   }
-
 
   public BigDecimal getDealAmount() {
 
     return dealAmount;
   }
 
-
   public Date getCreateDate() {
 
     return createDate;
   }
-
 
   public BigDecimal getPrice() {
 

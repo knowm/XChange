@@ -23,16 +23,17 @@
  */
 package com.xeiam.xchange.coinmate.service.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.Coinmate;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateOrderBook;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import com.xeiam.xchange.coinmate.dto.marketdata.CoinmateTransactions;
-import java.io.IOException;
+
 import si.mazi.rescu.RestProxyFactory;
 
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateMarketDataServiceRaw extends CoinmateBasePollingService {

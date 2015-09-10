@@ -3,9 +3,9 @@ package com.xeiam.xchange.bitstamp.dto;
 import java.util.Collection;
 import java.util.Map;
 
-import si.mazi.rescu.HttpStatusExceptionSupport;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class BitstampException extends HttpStatusExceptionSupport {
 

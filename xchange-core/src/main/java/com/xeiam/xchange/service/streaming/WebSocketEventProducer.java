@@ -56,7 +56,12 @@ public class WebSocketEventProducer extends WebSocketClient {
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.CONNECT, "connected");
 
     if (reconnectService != null) { // logic here to intercept errors and reconnect..
-      reconnectService.intercept(exchangeEvent);
+      try {
+        reconnectService.intercept(exchangeEvent);
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
 
     exchangeEventListener.handleEvent(exchangeEvent);
@@ -73,7 +78,12 @@ public class WebSocketEventProducer extends WebSocketClient {
     ExchangeEvent exchangeEvent = new DefaultExchangeEvent(ExchangeEventType.MESSAGE, message);
 
     if (reconnectService != null) { // logic here to intercept errors and reconnect..
-      reconnectService.intercept(exchangeEvent);
+      try {
+        reconnectService.intercept(exchangeEvent);
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
 
     exchangeEventListener.handleEvent(exchangeEvent);
@@ -116,7 +126,12 @@ public class WebSocketEventProducer extends WebSocketClient {
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.DISCONNECT, "disconnected");
 
     if (reconnectService != null) { // logic here to intercept errors and reconnect..
-      reconnectService.intercept(exchangeEvent);
+      try {
+        reconnectService.intercept(exchangeEvent);
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
 
     exchangeEventListener.handleEvent(exchangeEvent);
@@ -132,7 +147,12 @@ public class WebSocketEventProducer extends WebSocketClient {
     ExchangeEvent exchangeEvent = new JsonWrappedExchangeEvent(ExchangeEventType.ERROR, ex.getMessage());
 
     if (reconnectService != null) { // logic here to intercept errors and reconnect..
-      reconnectService.intercept(exchangeEvent);
+      try {
+        reconnectService.intercept(exchangeEvent);
+      } catch (Exception e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
 
     exchangeEventListener.handleEvent(exchangeEvent);

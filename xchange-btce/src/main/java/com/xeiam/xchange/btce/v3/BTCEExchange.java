@@ -2,8 +2,6 @@ package com.xeiam.xchange.btce.v3;
 
 import java.io.InputStream;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -14,9 +12,13 @@ import com.xeiam.xchange.btce.v3.service.polling.BTCEMarketDataService;
 import com.xeiam.xchange.btce.v3.service.polling.BTCETradeService;
 import com.xeiam.xchange.utils.nonce.TimestampIncrementingNonceFactory;
 
+import si.mazi.rescu.SynchronizedValueFactory;
+
 public class BTCEExchange extends BaseExchange implements Exchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
+  private BTCEMetaData btceMetaData;
+  private BTCEExchangeInfo btceExchangeInfo;
 
   @Override
   protected void initServices() {
@@ -44,19 +46,18 @@ public class BTCEExchange extends BaseExchange implements Exchange {
     return nonceFactory;
   }
 
-  private BTCEMetaData btceMetaData;
-
   @Override
   protected void loadMetaData(InputStream is) {
     btceMetaData = loadMetaData(is, BTCEMetaData.class);
+    metaData = BTCEAdapters.toMetaData(null, btceMetaData);
   }
 
   @Override
   public void remoteInit() {
     try {
       BTCEMarketDataService marketDataService = (BTCEMarketDataService) pollingMarketDataService;
-      BTCEExchangeInfo btceInfo = marketDataService.getBTCEInfo();
-      metaData = BTCEAdapters.toMetaData(btceInfo, btceMetaData);
+      btceExchangeInfo = marketDataService.getBTCEInfo();
+      metaData = BTCEAdapters.toMetaData(btceExchangeInfo, btceMetaData);
     } catch (Exception e) {
       logger.warn("An exception occurred while loading the metadata file from the file. This may lead to unexpected results.", e);
     }
@@ -64,5 +65,9 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
   public BTCEMetaData getBtceMetaData() {
     return btceMetaData;
+  }
+
+  public BTCEExchangeInfo getBtceExchangeInfo() {
+    return btceExchangeInfo;
   }
 }

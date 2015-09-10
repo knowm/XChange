@@ -12,9 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.cryptsy.dto.CryptsyGenericReturn;
 import com.xeiam.xchange.cryptsy.dto.account.CryptsyAccountInfoReturn;
 import com.xeiam.xchange.cryptsy.dto.account.CryptsyDepositAddressReturn;
@@ -31,6 +28,9 @@ import com.xeiam.xchange.cryptsy.dto.trade.CryptsyCancelOrderReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyOpenOrdersReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyPlaceOrderReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author ObsessiveOrange

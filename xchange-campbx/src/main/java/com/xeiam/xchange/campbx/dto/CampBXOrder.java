@@ -3,11 +3,11 @@ package com.xeiam.xchange.campbx.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import si.mazi.rescu.serialization.jackson.serializers.SqlTimeDeserializer;
-import si.mazi.rescu.serialization.jackson.serializers.YesNoBooleanDeserializerImpl;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import si.mazi.rescu.serialization.jackson.serializers.SqlTimeDeserializer;
+import si.mazi.rescu.serialization.jackson.serializers.YesNoBooleanDeserializerImpl;
 
 /**
  * @author Matija Mazi
@@ -162,9 +162,8 @@ public class CampBXOrder extends CampBXResponse {
   @Override
   public String toString() {
 
-    return String
-        .format(
-            "CampBXOrder{orderEntered=%s, orderExpiry=%s, orderType='%s', marginPercent='%s', quantity=%s, price=%s, stopLoss='%s', fillType='%s', darkPool='%s', orderID='%s'}",
-            orderEntered, orderExpiry, orderType, marginPercent, quantity, price, stopLoss, fillType, darkPool, orderID);
+    return String.format(
+        "CampBXOrder{orderEntered=%s, orderExpiry=%s, orderType='%s', marginPercent='%s', quantity=%s, price=%s, stopLoss='%s', fillType='%s', darkPool='%s', orderID='%s'}",
+        orderEntered, orderExpiry, orderType, marginPercent, quantity, price, stopLoss, fillType, darkPool, orderID);
   }
 }

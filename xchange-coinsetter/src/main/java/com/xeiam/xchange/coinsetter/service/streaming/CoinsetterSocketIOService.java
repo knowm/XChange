@@ -1,7 +1,5 @@
 package com.xeiam.xchange.coinsetter.service.streaming;
 
-import io.socket.SocketIOException;
-
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -22,6 +20,8 @@ import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
+import io.socket.SocketIOException;
+
 /**
  * Coinsetter streaming service implementation over Websockets API.
  */
@@ -30,7 +30,7 @@ public class CoinsetterSocketIOService extends CoinsetterSocketIOServiceRaw impl
   private final BlockingQueue<ExchangeEvent> consumerEventQueue = new LinkedBlockingQueue<ExchangeEvent>();
 
   private volatile READYSTATE webSocketStatus = READYSTATE.NOT_YET_CONNECTED;
-  
+
   private OrderBook previousOrderBook = null;
   private Trade previousTrade = null;
 
@@ -86,15 +86,15 @@ public class CoinsetterSocketIOService extends CoinsetterSocketIOServiceRaw impl
           previousOrderBook = orderBook;
         }
       }
-      
+
       @Override
       public void onLast(CoinsetterTrade last) {
-    	  
-    	  Trade trade = CoinsetterAdapters.adaptTrade(last);
-    	  if (!trade.equals(previousTrade)) {
-    	    putEvent(new DefaultExchangeEvent(ExchangeEventType.TRADE, null, trade));
-    	    previousTrade = trade;
-    	  }
+
+        Trade trade = CoinsetterAdapters.adaptTrade(last);
+        if (!trade.equals(previousTrade)) {
+          putEvent(new DefaultExchangeEvent(ExchangeEventType.TRADE, null, trade));
+          previousTrade = trade;
+        }
       }
     });
   }

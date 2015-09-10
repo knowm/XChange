@@ -106,8 +106,8 @@ public final class BittrexAdapters {
     for (BittrexTrade trade : trades) {
       long tradeId = Long.valueOf(trade.getId());
       if (tradeId > lastTradeId) {
-		lastTradeId = tradeId;
-	}
+        lastTradeId = tradeId;
+      }
       tradesList.add(adaptTrade(trade, currencyPair));
     }
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);

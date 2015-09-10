@@ -11,7 +11,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
-import com.xeiam.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
 
 /**
  * Test Mercado Bitcoin Account Info JSON parsing

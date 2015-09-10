@@ -53,14 +53,14 @@ public class KrakenOrder {
    * @param closeTimestamp
    * @param closeReason
    */
-  public KrakenOrder(@JsonProperty("refid") String refId, @JsonProperty("userref") String userRefId,
-      @JsonProperty("status") KrakenOrderStatus status, @JsonProperty("opentm") double openTimestamp, @JsonProperty("starttm") double startTimestamp,
-      @JsonProperty("expiretm") double expireTimestamp, @JsonProperty("descr") KrakenOrderDescription orderDescription,
-      @JsonProperty("vol") BigDecimal volume, @JsonProperty("vol_exec") BigDecimal volumeExecuted, @JsonProperty("cost") BigDecimal cost,
-      @JsonProperty("fee") BigDecimal fee, @JsonProperty("price") BigDecimal price, @JsonProperty("stopprice") BigDecimal stopPrice,
-      @JsonProperty("limitprice") BigDecimal limitPrice, @JsonProperty("misc") String misc, @JsonProperty("oflags") @JsonDeserialize(
-          using = KrakenOrderFlagsDeserializer.class) Set<KrakenOrderFlags> orderFLags, @JsonProperty("trades") List<String> tradeIds,
-      @JsonProperty("closetm") double closeTimestamp, @JsonProperty("reason") String closeReason) {
+  public KrakenOrder(@JsonProperty("refid") String refId, @JsonProperty("userref") String userRefId, @JsonProperty("status") KrakenOrderStatus status,
+      @JsonProperty("opentm") double openTimestamp, @JsonProperty("starttm") double startTimestamp, @JsonProperty("expiretm") double expireTimestamp,
+      @JsonProperty("descr") KrakenOrderDescription orderDescription, @JsonProperty("vol") BigDecimal volume,
+      @JsonProperty("vol_exec") BigDecimal volumeExecuted, @JsonProperty("cost") BigDecimal cost, @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("stopprice") BigDecimal stopPrice, @JsonProperty("limitprice") BigDecimal limitPrice,
+      @JsonProperty("misc") String misc,
+      @JsonProperty("oflags") @JsonDeserialize(using = KrakenOrderFlagsDeserializer.class) Set<KrakenOrderFlags> orderFLags,
+      @JsonProperty("trades") List<String> tradeIds, @JsonProperty("closetm") double closeTimestamp, @JsonProperty("reason") String closeReason) {
 
     this.refId = refId;
     this.userRefId = userRefId;

@@ -1,12 +1,11 @@
 package com.xeiam.xchange.jubi.service.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.jubi.Jubi;
 import com.xeiam.xchange.jubi.dto.marketdata.JubiTicker;
-
-import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by Yingzhe on 3/17/2015.

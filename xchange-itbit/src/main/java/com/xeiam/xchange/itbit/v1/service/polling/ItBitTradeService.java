@@ -1,6 +1,9 @@
 package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -10,6 +13,7 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.itbit.v1.ItBitAdapters;
+import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
@@ -30,8 +34,12 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    return ItBitAdapters.adaptPrivateOrders(getItBitOpenOrders());
+	List<ItBitOrder> orders = new ArrayList<>();
+	for (CurrencyPair currencyPair : getExchangeSymbols()) {
+		orders.addAll(Arrays.asList(getItBitOpenOrders(currencyPair)));
+	}
+	ItBitOrder[] empty = {};
+    return ItBitAdapters.adaptPrivateOrders(orders.isEmpty()? empty : Arrays.copyOf(orders.toArray(), orders.size(), ItBitOrder[].class));
   }
 
   @Override

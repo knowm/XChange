@@ -66,7 +66,7 @@ public class CleverCoinTradeService extends CleverCoinTradeServiceRaw implements
 
     CleverCoinOpenOrder cleverCoinOrder;
     String orderType = (limitOrder.getType() == BID ? "bid" : "ask");
-    cleverCoinOrder= createCleverCoinOrder(orderType, limitOrder.getTradableAmount(),limitOrder.getLimitPrice());
+    cleverCoinOrder = createCleverCoinOrder(orderType, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
     if (cleverCoinOrder.getErrorMessage() != null) {
       throw new ExchangeException(cleverCoinOrder.getErrorMessage());
     }
@@ -91,8 +91,10 @@ public class CleverCoinTradeService extends CleverCoinTradeServiceRaw implements
         numberOfTransactions = ((Number) args[0]).intValue();
       }
     }
-    
-    return CleverCoinAdapters.adaptTradeHistory(getCleverCoinUserTransactions(numberOfTransactions));
+
+    TradeHistoryParamPaging params = createTradeHistoryParams();
+    params.setPageLength(numberOfTransactions);
+    return getTradeHistory(params);
   }
 
   /**
@@ -100,14 +102,13 @@ public class CleverCoinTradeService extends CleverCoinTradeServiceRaw implements
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
-    return CleverCoinAdapters.adaptTradeHistory(getCleverCoinUserTransactions(100));
+    Integer count = ((TradeHistoryParamPaging) params).getPageLength();
+    return CleverCoinAdapters.adaptTradeHistory(getCleverCoinUserTransactions(count));
   }
 
   @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-
-    return new DefaultTradeHistoryParamPaging(1000);
+  public TradeHistoryParamPaging createTradeHistoryParams() {
+    return new DefaultTradeHistoryParamPaging(100);
   }
 
 }

@@ -24,14 +24,15 @@
 
 package com.xeiam.xchange.coinmate.service.polling;
 
+import java.io.IOException;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.CoinmateAdapters;
 import com.xeiam.xchange.coinmate.CoinmateException;
 import com.xeiam.xchange.coinmate.CoinmateUtils;
-import com.xeiam.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
-import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -41,79 +42,87 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPagingSorted;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
-import java.io.IOException;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
 
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateTradeService extends CoinmateTradeServiceRaw implements PollingTradeService {
 
-    public CoinmateTradeService(Exchange exchange) {
-        super(exchange);
+  public CoinmateTradeService(Exchange exchange) {
+    super(exchange);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    // BTC_EUR by default
+    String currencyPair = CoinmateUtils.getPair(CoinmateAdapters.COINMATE_DEFAULT_PAIR);
+
+    CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPair);
+    return CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders);
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    CoinmateTradeResponse response;
+
+    if (marketOrder.getType().equals(Order.OrderType.ASK)) {
+      response = sellCoinmateInstant(marketOrder.getTradableAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
+    } else if (marketOrder.getType().equals(Order.OrderType.BID)) {
+      response = buyCoinmateInstant(marketOrder.getTradableAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()));
+    } else {
+      throw new CoinmateException("Unknown order type");
     }
 
-    @Override
-    public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        // BTC_USD by default
-        String currencyPair = CoinmateUtils.getPair(CurrencyPair.BTC_USD);
-        
-        CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPair);
-        return CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders);
+    return Long.toString(response.getData());
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    CoinmateTradeResponse response;
+
+    if (limitOrder.getType().equals(Order.OrderType.ASK)) {
+      response = sellCoinmateLimit(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
+    } else if (limitOrder.getType().equals(Order.OrderType.BID)) {
+      response = buyCoinmateLimit(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()));
+    } else {
+      throw new CoinmateException("Unknown order type");
     }
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        CoinmateTradeResponse response;
-                
-        if (marketOrder.getType().equals(Order.OrderType.ASK)) {
-            response = sellCoinmateInstant(marketOrder.getTradableAmount(), CoinmateUtils.getPair(marketOrder.getCurrencyPair()) );
-        } else if (marketOrder.getType().equals(Order.OrderType.BID)) {
-            response = buyCoinmateInstant(marketOrder.getTradableAmount(),  CoinmateUtils.getPair(marketOrder.getCurrencyPair()) );
-        } else {
-            throw new CoinmateException("Unknown order type");
-        }
-            
-        return Long.toString(response.getData());
-    }
+    return Long.toString(response.getData());
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        CoinmateTradeResponse response;
-                
-        if (limitOrder.getType().equals(Order.OrderType.ASK)) {
-            response = sellCoinmateLimit(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()) );
-        } else if (limitOrder.getType().equals(Order.OrderType.BID)) {
-            response = buyCoinmateLimit(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), CoinmateUtils.getPair(limitOrder.getCurrencyPair()) );
-        } else {
-            throw new CoinmateException("Unknown order type");
-        }
-            
-        return Long.toString(response.getData());
-    }
+  @Override
+  public boolean cancelOrder(String orderId)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    CoinmateCancelOrderResponse response = cancelCoinmateOrder(orderId);
 
-    @Override
-    public boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        CoinmateCancelOrderResponse response = cancelCoinmateOrder(orderId);
-     
-        return response.getData();
-    }
+    return response.getData();
+  }
 
-    @Override
-    public UserTrades getTradeHistory(Object... arguments) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        return getTradeHistory((TradeHistoryParams) null);
-    }
+  @Override
+  public UserTrades getTradeHistory(Object... arguments)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getTradeHistory(createTradeHistoryParams());
+  }
 
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-        return CoinmateAdapters.adaptTradeHistory(getCoinmateTradeHistory(0, 100, "ASC"));
-    }
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    DefaultTradeHistoryParamPagingSorted myParams = (DefaultTradeHistoryParamPagingSorted) params;
+    return CoinmateAdapters.adaptTradeHistory(
+        getCoinmateTradeHistory(myParams.getPageNumber(), myParams.getPageLength(), CoinmateAdapters.adaptOrder(myParams.getOrder())));
+  }
 
-    @Override
-    public TradeHistoryParams createTradeHistoryParams() {
-        //TODO
-        return null;
-    }
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+    DefaultTradeHistoryParamPagingSorted params = new DefaultTradeHistoryParamPagingSorted(100);
+    params.setPageNumber(0);
+    params.setOrder(TradeHistoryParamsSorted.Order.asc);
+    return params;
+  }
 
 }

@@ -15,7 +15,8 @@ public class MeXBTBalanceResponseTest {
 
   @Test
   public void testMeXBTBalanceResponse() throws JsonParseException, JsonMappingException, IOException {
-    MeXBTBalanceResponse balance = new ObjectMapper().readValue(MeXBTBalanceResponseTest.class.getResource("balance.json"), MeXBTBalanceResponse.class);
+    MeXBTBalanceResponse balance = new ObjectMapper().readValue(MeXBTBalanceResponseTest.class.getResource("balance.json"),
+        MeXBTBalanceResponse.class);
     MeXBTBalance[] currencies = balance.getCurrencies();
     assertEquals(2, currencies.length);
     assertEquals("BTC", currencies[0].getName());

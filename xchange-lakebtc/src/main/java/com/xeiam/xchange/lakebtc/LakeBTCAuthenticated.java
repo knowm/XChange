@@ -9,9 +9,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.lakebtc.dto.LakeBTCRequest;
 import com.xeiam.xchange.lakebtc.dto.account.LakeBTCAccountInfoResponse;
 import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCBuyOrderRequest;
@@ -23,6 +20,9 @@ import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCOrdersResponse;
 import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCSellOrderRequest;
 import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCTradeResponse;
 import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCTradesRequest;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * User: cristian.lucaci Date: 10/3/2014 Time: 5:04 PM

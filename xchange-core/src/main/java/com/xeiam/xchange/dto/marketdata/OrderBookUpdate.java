@@ -19,7 +19,7 @@ public final class OrderBookUpdate {
 
   /**
    * Build an order book update.
-   * 
+   *
    * @param type the order type (BID/ASK)
    * @param volume volume in the tradable currency
    * @param tradableIdentifier the tradable identifier (e.g. BTC in BTC/USD)
@@ -28,9 +28,10 @@ public final class OrderBookUpdate {
    * @param timestamp the timestamp for the update
    * @param totalVolume the total volume in the order
    */
-  // todo: document the distinction between volume and total volume, and which currencies they are in respectively
-  // todo: document which currency the limitPrice is in
-  public OrderBookUpdate(OrderType type, BigDecimal volume, CurrencyPair currencyPair, BigDecimal limitPrice, Date timestamp, BigDecimal totalVolume) {
+  // TODO document the distinction between volume and total volume, and which currencies they are in respectively
+  // TODO document which currency the limitPrice is in
+  public OrderBookUpdate(OrderType type, BigDecimal volume, CurrencyPair currencyPair, BigDecimal limitPrice, Date timestamp,
+      BigDecimal totalVolume) {
 
     this.limitOrder = new LimitOrder(type, volume, currencyPair, "", timestamp, limitPrice);
     this.totalVolume = totalVolume;
@@ -38,7 +39,7 @@ public final class OrderBookUpdate {
 
   /**
    * Get the order limit.
-   * 
+   *
    * @return the order limit
    */
   public LimitOrder getLimitOrder() {
@@ -48,7 +49,7 @@ public final class OrderBookUpdate {
 
   /**
    * Get the total volume.
-   * 
+   *
    * @return the total volume
    */
   public BigDecimal getTotalVolume() {

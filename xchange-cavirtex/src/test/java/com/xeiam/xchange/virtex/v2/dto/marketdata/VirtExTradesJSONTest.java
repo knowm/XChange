@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExTrade;
-import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExTradesWrapper;
 
 /**
  * Test VirtExTrade[] JSON parsing

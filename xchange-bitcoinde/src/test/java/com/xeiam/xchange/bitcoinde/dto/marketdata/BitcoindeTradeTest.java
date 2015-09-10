@@ -11,7 +11,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeTrade;
 
 /**
  * @author matthewdowney

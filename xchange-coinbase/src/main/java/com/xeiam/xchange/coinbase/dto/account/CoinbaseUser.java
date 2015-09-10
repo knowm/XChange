@@ -224,10 +224,10 @@ public class CoinbaseUser extends CoinbaseBaseResponse {
         @JsonProperty("referrer_id") final String referrerId, @JsonProperty("time_zone") final String timeZone,
         @JsonProperty("balance") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final CoinbaseMoney balance,
         @JsonProperty("native_currency") final String nativeCurrency, @JsonProperty("buy_level") final CoinbaseBuySellLevel buyLevel,
-        @JsonProperty("sell_level") final CoinbaseBuySellLevel sellLevel, @JsonProperty("buy_limit") @JsonDeserialize(
-            using = CoinbaseMoneyDeserializer.class) final CoinbaseMoney buyLimit, @JsonProperty("sell_limit") @JsonDeserialize(
-            using = CoinbaseMoneyDeserializer.class) final CoinbaseMoney sellLimit, @JsonProperty("pin") final String pin,
-        @JsonProperty("merchant") final CoinbaseMerchant merchant) {
+        @JsonProperty("sell_level") final CoinbaseBuySellLevel sellLevel,
+        @JsonProperty("buy_limit") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final CoinbaseMoney buyLimit,
+        @JsonProperty("sell_limit") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final CoinbaseMoney sellLimit,
+        @JsonProperty("pin") final String pin, @JsonProperty("merchant") final CoinbaseMerchant merchant) {
 
       this.id = id;
       this.email = email;

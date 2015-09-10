@@ -23,7 +23,7 @@ public class OkCoinFuturesMarketDataService extends OkCoinMarketDataServiceRaw i
   public OkCoinFuturesMarketDataService(Exchange exchange, FuturesContract futuresContract) {
 
     super(exchange);
-    
+
     this.futuresContract = futuresContract;
   }
 

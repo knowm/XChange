@@ -8,20 +8,20 @@ import com.xeiam.xchange.huobi.dto.streaming.request.AbstractSymbolIdRequest;
  */
 public class ReqMarketDepthRequest extends AbstractSymbolIdRequest {
 
-	private final Percent percent;
+  private final Percent percent;
 
-	/**
-	 * @param version 终端版本
-	 * @param symbolId 交易代码
-	 * @param percent 行情深度的百分比，缺省10%
-	 */
-	public ReqMarketDepthRequest(int version, String symbolId, Percent percent) {
-		super(version, "reqMarketDepth", symbolId);
-		this.percent = percent;
-	}
+  /**
+   * @param version 终端版本
+   * @param symbolId 交易代码
+   * @param percent 行情深度的百分比，缺省10%
+   */
+  public ReqMarketDepthRequest(int version, String symbolId, Percent percent) {
+    super(version, "reqMarketDepth", symbolId);
+    this.percent = percent;
+  }
 
-	public Percent getPercent() {
-		return percent;
-	}
+  public Percent getPercent() {
+    return percent;
+  }
 
 }

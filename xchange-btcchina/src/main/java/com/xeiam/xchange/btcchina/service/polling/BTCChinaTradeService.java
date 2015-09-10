@@ -203,8 +203,8 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     return new BTCChinaTradeHistoryParams();
   }
 
-  public static class BTCChinaTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsTimeSpan,
-      TradeHistoryParamsIdSpan {
+  public static class BTCChinaTradeHistoryParams extends DefaultTradeHistoryParamPaging
+      implements TradeHistoryParamsTimeSpan, TradeHistoryParamsIdSpan {
 
     private String type = BTCChinaTransactionsRequest.TYPE_ALL;
     private Date startTime;

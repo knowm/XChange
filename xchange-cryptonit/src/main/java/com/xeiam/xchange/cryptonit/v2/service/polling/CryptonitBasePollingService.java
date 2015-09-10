@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptonit.v2.Cryptonit;
 import com.xeiam.xchange.cryptonit.v2.CryptonitAdapters;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class CryptonitBasePollingService extends BaseExchangeService implements BasePollingService {
 

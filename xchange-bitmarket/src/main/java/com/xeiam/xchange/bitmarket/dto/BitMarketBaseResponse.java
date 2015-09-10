@@ -24,11 +24,8 @@ public class BitMarketBaseResponse<T> {
    * @param error
    * @param errorMsg
    */
-  public BitMarketBaseResponse(@JsonProperty("success") boolean success,
-      @JsonProperty("data") T data,
-      @JsonProperty("limit") BitMarketAPILimit limit,
-      @JsonProperty("error") int error,
-      @JsonProperty("errorMsg") String errorMsg) {
+  public BitMarketBaseResponse(@JsonProperty("success") boolean success, @JsonProperty("data") T data, @JsonProperty("limit") BitMarketAPILimit limit,
+      @JsonProperty("error") int error, @JsonProperty("errorMsg") String errorMsg) {
 
     this.success = success;
     this.data = data;
@@ -47,7 +44,7 @@ public class BitMarketBaseResponse<T> {
     return data;
   }
 
-  public BitMarketAPILimit getLimit(){
+  public BitMarketAPILimit getLimit() {
 
     return limit;
   }

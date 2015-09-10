@@ -5,15 +5,15 @@ package com.xeiam.xchange.huobi.dto.streaming.request;
  */
 public abstract class AbstractSymbolIdRequest extends Request {
 
-	private final String symbolId;
+  private final String symbolId;
 
-	public AbstractSymbolIdRequest(int version, String msgType, String symbolId) {
-		super(version, msgType);
-		this.symbolId = symbolId;
-	}
+  public AbstractSymbolIdRequest(int version, String msgType, String symbolId) {
+    super(version, msgType);
+    this.symbolId = symbolId;
+  }
 
-	public String getSymbolId() {
-		return symbolId;
-	}
+  public String getSymbolId() {
+    return symbolId;
+  }
 
 }

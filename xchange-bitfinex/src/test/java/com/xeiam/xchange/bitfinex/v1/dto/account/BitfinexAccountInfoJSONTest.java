@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 
 /**
  * Test BTCEDepth JSON parsing

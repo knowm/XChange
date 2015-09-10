@@ -3,33 +3,34 @@ package com.xeiam.xchange.loyalbit.dto.account;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 /**
  * @author Matija Mazi
  */
 public class LoyalbitBalance {
 
-  @JsonProperty("available_usd") BigDecimal availableUsd;
-  @JsonProperty("available_btc") BigDecimal availableBtc;
-  @JsonProperty("reserved_order_usd") BigDecimal reservedOrderUsd;
-  @JsonProperty("reserved_order_btc") BigDecimal reservedOrderBtc;
-  @JsonProperty("reserved_withdraw_usd") BigDecimal reservedWithdrawUsd;
-  @JsonProperty("reserved_withdraw_btc") BigDecimal reservedWithdrawBtc;
-  @JsonProperty("fee") BigDecimal fee;
+  @JsonProperty("available_usd")
+  BigDecimal availableUsd;
+  @JsonProperty("available_btc")
+  BigDecimal availableBtc;
+  @JsonProperty("reserved_order_usd")
+  BigDecimal reservedOrderUsd;
+  @JsonProperty("reserved_order_btc")
+  BigDecimal reservedOrderBtc;
+  @JsonProperty("reserved_withdraw_usd")
+  BigDecimal reservedWithdrawUsd;
+  @JsonProperty("reserved_withdraw_btc")
+  BigDecimal reservedWithdrawBtc;
+  @JsonProperty("fee")
+  BigDecimal fee;
 
-  public LoyalbitBalance(
-      @JsonProperty("available_usd") BigDecimal availableUsd,
-      @JsonProperty("available_btc") BigDecimal availableBtc,
-      @JsonProperty("reserved_order_usd") BigDecimal reservedOrderUsd,
-      @JsonProperty("reserved_order_btc") BigDecimal reservedOrderBtc,
-      @JsonProperty("reserved_withdraw_usd") BigDecimal reservedWithdrawUsd,
-      @JsonProperty("reserved_withdraw_btc") BigDecimal reservedWithdrawBtc,
-      @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("status") Integer status
-  ) throws ExceptionalReturnContentException {
+  public LoyalbitBalance(@JsonProperty("available_usd") BigDecimal availableUsd, @JsonProperty("available_btc") BigDecimal availableBtc,
+      @JsonProperty("reserved_order_usd") BigDecimal reservedOrderUsd, @JsonProperty("reserved_order_btc") BigDecimal reservedOrderBtc,
+      @JsonProperty("reserved_withdraw_usd") BigDecimal reservedWithdrawUsd, @JsonProperty("reserved_withdraw_btc") BigDecimal reservedWithdrawBtc,
+      @JsonProperty("fee") BigDecimal fee, @JsonProperty("status") Integer status) throws ExceptionalReturnContentException {
     if (Objects.equals(status, 0)) {
       throw new ExceptionalReturnContentException("Status indicates failure: " + status);
     }
@@ -72,7 +73,8 @@ public class LoyalbitBalance {
 
   @Override
   public String toString() {
-    return String.format("LoyalbitBalance{availableUsd=%s, availableBtc=%s, reservedOrderUsd=%s, reservedOrderBtc=%s, reservedWithdrawUsd=%s, reservedWithdrawBtc=%s, fee=%s}",
+    return String.format(
+        "LoyalbitBalance{availableUsd=%s, availableBtc=%s, reservedOrderUsd=%s, reservedOrderBtc=%s, reservedWithdrawUsd=%s, reservedWithdrawBtc=%s, fee=%s}",
         availableUsd, availableBtc, reservedOrderUsd, reservedOrderBtc, reservedWithdrawUsd, reservedWithdrawBtc, fee);
   }
 }

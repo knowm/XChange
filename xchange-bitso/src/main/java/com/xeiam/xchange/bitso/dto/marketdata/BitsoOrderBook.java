@@ -3,14 +3,14 @@ package com.xeiam.xchange.bitso.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.List;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 /**
  * @author Piotr Ładyżyński
  */
-public class BitsoOrderBook  {
+public class BitsoOrderBook {
 
   private final Long timestamp;
   private final List<List<BigDecimal>> bids;
@@ -24,7 +24,7 @@ public class BitsoOrderBook  {
    * @param asks
    */
   public BitsoOrderBook(@JsonProperty("timestamp") Long timestamp, @JsonProperty("bids") List<List<BigDecimal>> bids,
-                           @JsonProperty("asks") List<List<BigDecimal>> asks) {
+      @JsonProperty("asks") List<List<BigDecimal>> asks) {
 
     if (asks == null) {
       throw new ExceptionalReturnContentException("No asks in response.");
@@ -59,6 +59,5 @@ public class BitsoOrderBook  {
 
     return "BitsoOrderBook [timestamp=" + timestamp + ", bids=" + bids + ", asks=" + asks + "]";
   }
-
 
 }

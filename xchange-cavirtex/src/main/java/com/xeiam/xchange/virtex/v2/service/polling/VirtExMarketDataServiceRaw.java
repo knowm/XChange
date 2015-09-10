@@ -3,14 +3,14 @@ package com.xeiam.xchange.virtex.v2.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.virtex.v2.VirtEx;
 import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExDepth;
 import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExTicker;
 import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExTrade;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class VirtExMarketDataServiceRaw extends VirtexBasePollingService {
 

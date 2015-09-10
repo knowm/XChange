@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
 
 /**
  * Test CryptonitDepth JSON parsing

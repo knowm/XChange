@@ -72,8 +72,8 @@ public class BTCChinaJSONObjectAdapters {
     JSONObject orderJsonObject = jsonObject.getJSONObject("order");
     return new BTCChinaOrder(BTCChinaAdapters.adaptOrderType(orderJsonObject.getString("type")), new BigDecimal(orderJsonObject.getString("amount")),
         BTCChinaAdapters.adaptCurrencyPair(orderJsonObject.getString("market")), String.valueOf(orderJsonObject.getLong("id")),
-        BTCChinaAdapters.adaptDate(orderJsonObject.getLong("date")), new BigDecimal(orderJsonObject.getString("price")), new BigDecimal(
-            orderJsonObject.getString("amount_original")), BTCChinaAdapters.adaptOrderStatus(orderJsonObject.getString("status")));
+        BTCChinaAdapters.adaptDate(orderJsonObject.getLong("date")), new BigDecimal(orderJsonObject.getString("price")),
+        new BigDecimal(orderJsonObject.getString("amount_original")), BTCChinaAdapters.adaptOrderStatus(orderJsonObject.getString("status")));
   }
 
   public static BTCChinaBalance adaptBalance(JSONObject jsonObject) {
@@ -130,8 +130,8 @@ public class BTCChinaJSONObjectAdapters {
       String price = groupedOrder.getString("price");
       // String type = groupedOrder.getString("type");
       String totalamount = groupedOrder.getString("totalamount");
-      asks.add(new LimitOrder.Builder(OrderType.ASK, currencyPair).limitPrice(new BigDecimal(price)).tradableAmount(new BigDecimal(totalamount))
-          .build());
+      asks.add(
+          new LimitOrder.Builder(OrderType.ASK, currencyPair).limitPrice(new BigDecimal(price)).tradableAmount(new BigDecimal(totalamount)).build());
     }
 
     for (int i = 0; i < bidLength; i++) {
@@ -139,8 +139,8 @@ public class BTCChinaJSONObjectAdapters {
       String price = groupedOrder.getString("price");
       // String type = groupedOrder.getString("type");
       String totalamount = groupedOrder.getString("totalamount");
-      bids.add(new LimitOrder.Builder(OrderType.BID, currencyPair).limitPrice(new BigDecimal(price)).tradableAmount(new BigDecimal(totalamount))
-          .build());
+      bids.add(
+          new LimitOrder.Builder(OrderType.BID, currencyPair).limitPrice(new BigDecimal(price)).tradableAmount(new BigDecimal(totalamount)).build());
     }
 
     return new OrderBook(null, asks, bids);

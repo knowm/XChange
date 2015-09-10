@@ -85,7 +85,8 @@ public class CoinsetterTradeService extends CoinsetterOrderServiceRaw implements
 
     CoinsetterClientSession session = getSession();
     CoinsetterOrderRequest request = new CoinsetterOrderRequest(session.getCustomerUuid(), getAccountUuid(),
-        CoinsetterAdapters.adaptSymbol(currencyPair), CoinsetterAdapters.adaptSide(orderType), price == null ? "MARKET" : "LIMIT", quantity, 2, price);
+        CoinsetterAdapters.adaptSymbol(currencyPair), CoinsetterAdapters.adaptSide(orderType), price == null ? "MARKET" : "LIMIT", quantity, 2,
+        price);
     return add(getSession().getUuid(), request).getUuid().toString();
   }
 

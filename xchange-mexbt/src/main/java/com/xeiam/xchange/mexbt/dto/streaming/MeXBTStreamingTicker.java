@@ -22,11 +22,13 @@ public class MeXBTStreamingTicker {
   private final long buyOrderCount;
   private final long sellOrderCount;
 
-  public MeXBTStreamingTicker(@JsonProperty("messageType") String messageType, @JsonProperty("prodPair") String prodPair, @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("last") BigDecimal last, @JsonProperty("volume") BigDecimal volume, @JsonProperty("volume24hrs") BigDecimal volume24hrs,
+  public MeXBTStreamingTicker(@JsonProperty("messageType") String messageType, @JsonProperty("prodPair") String prodPair,
+      @JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("last") BigDecimal last,
+      @JsonProperty("volume") BigDecimal volume, @JsonProperty("volume24hrs") BigDecimal volume24hrs,
       @JsonProperty("volume24hrsProduct2") BigDecimal volume24hrsProduct2, @JsonProperty("Total24HrQtyTraded") BigDecimal total24HrQtyTraded,
-      @JsonProperty("Total24HrProduct2Traded") BigDecimal total24HrProduct2Traded, @JsonProperty("Total24HrNumTrades") long total24HrNumTrades, @JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("ask") BigDecimal ask, @JsonProperty("buyOrderCount") long buyOrderCount, @JsonProperty("sellOrderCount") long sellOrderCount) {
+      @JsonProperty("Total24HrProduct2Traded") BigDecimal total24HrProduct2Traded, @JsonProperty("Total24HrNumTrades") long total24HrNumTrades,
+      @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("buyOrderCount") long buyOrderCount,
+      @JsonProperty("sellOrderCount") long sellOrderCount) {
     this.messageType = messageType;
     this.prodPair = prodPair;
     this.high = high;

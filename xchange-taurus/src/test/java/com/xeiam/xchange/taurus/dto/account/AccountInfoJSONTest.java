@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.taurus.dto.account.TaurusBalance;
 
 /**
  * Test Taurus Full Depth JSON parsing
@@ -27,7 +26,7 @@ public class AccountInfoJSONTest {
     TaurusBalance taurusBalance = mapper.readValue(is, TaurusBalance.class);
 
     // Verify that the example data was unmarshalled correctly
-//    {"btc_available":"0.02350921","btc_reserved":"0.00000000","btc_balance":"0.02350921","cad_available":"6.16","cad_reserved":"0.00","cad_balance":"6.16","fee":"0.5000"}
+    //    {"btc_available":"0.02350921","btc_reserved":"0.00000000","btc_balance":"0.02350921","cad_available":"6.16","cad_reserved":"0.00","cad_balance":"6.16","fee":"0.5000"}
     assertThat(taurusBalance.getBtcAvailable()).isEqualTo(new BigDecimal("0.02350921"));
     assertThat(taurusBalance.getBtcReserved()).isEqualTo(new BigDecimal("0.00000000"));
     assertThat(taurusBalance.getBtcBalance()).isEqualTo(new BigDecimal("0.02350921"));

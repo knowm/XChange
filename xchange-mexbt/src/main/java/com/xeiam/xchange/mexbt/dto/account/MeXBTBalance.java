@@ -11,7 +11,8 @@ public class MeXBTBalance {
   private final BigDecimal hold;
   private final long tradeCount;
 
-  public MeXBTBalance(@JsonProperty("name") String name, @JsonProperty("balance") BigDecimal balance, @JsonProperty("hold") BigDecimal hold, @JsonProperty("tradeCount") long tradeCount) {
+  public MeXBTBalance(@JsonProperty("name") String name, @JsonProperty("balance") BigDecimal balance, @JsonProperty("hold") BigDecimal hold,
+      @JsonProperty("tradeCount") long tradeCount) {
     this.name = name;
     this.balance = balance;
     this.hold = hold;

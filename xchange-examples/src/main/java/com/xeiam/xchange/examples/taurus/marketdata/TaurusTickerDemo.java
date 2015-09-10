@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.taurus.TaurusExchange;
-import com.xeiam.xchange.taurus.dto.marketdata.TaurusTicker;
-import com.xeiam.xchange.taurus.service.polling.TaurusMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
+import com.xeiam.xchange.taurus.TaurusExchange;
+import com.xeiam.xchange.taurus.dto.marketdata.TaurusTicker;
+import com.xeiam.xchange.taurus.service.polling.TaurusMarketDataServiceRaw;
 
 /**
  * Demonstrate requesting Ticker at Taurus. You can access both the raw data from Taurus or the XChange generic DTO data format.

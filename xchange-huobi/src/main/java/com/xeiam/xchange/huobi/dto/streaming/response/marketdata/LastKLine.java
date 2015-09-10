@@ -7,9 +7,8 @@ import com.xeiam.xchange.huobi.dto.streaming.response.marketdata.payload.LastKLi
  */
 public class LastKLine extends Message<LastKLinePayload> {
 
-	public LastKLine(int version, String msgType, String symbolId,
-			LastKLinePayload payload) {
-		super(version, msgType, symbolId, payload);
-	}
+  public LastKLine(int version, String msgType, String symbolId, LastKLinePayload payload) {
+    super(version, msgType, symbolId, payload);
+  }
 
 }

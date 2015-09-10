@@ -59,7 +59,7 @@ public class RippleServerTrustTest {
     final ExchangeSpecification specification = new ExchangeSpecification(RippleExchange.class.getName());
     specification.setSslUri(RippleExchange.REST_API_RIPPLE_LABS);
     specification.setSecretKey("s****************************");
-    specification.setExchangeSpecificParametersItem(RippleExchange.TRUST_API_RIPPLE_COM, true);
+    specification.setExchangeSpecificParametersItem(RippleExchange.PARAMETER_TRUST_API_RIPPLE_COM, true);
 
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(specification);
 

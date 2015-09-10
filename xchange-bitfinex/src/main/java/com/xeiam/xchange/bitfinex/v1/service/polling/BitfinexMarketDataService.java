@@ -127,8 +127,8 @@ public class BitfinexMarketDataService extends BitfinexMarketDataServiceRaw impl
         Date arg = (Date) args[0];
         lastTradeTime = arg.getTime() / 1000; // divide by 1000 to convert to unix timestamp (seconds)
       } else {
-        throw new IllegalArgumentException("Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was "
-            + args[0].getClass() + ")");
+        throw new IllegalArgumentException(
+            "Extra argument #1, the last trade time, must be a Date or Long (millisecond timestamp) (was " + args[0].getClass() + ")");
       }
     }
     BitfinexTrade[] trades = getBitfinexTrades(BitfinexUtils.toPairString(currencyPair), lastTradeTime);

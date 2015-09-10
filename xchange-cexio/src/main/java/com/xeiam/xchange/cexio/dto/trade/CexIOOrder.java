@@ -102,8 +102,8 @@ public class CexIOOrder {
   @Override
   public String toString() {
 
-    return errorMessage != null ? errorMessage : String.format("Order{id=%s, time=%s, type=%s, price=%s, amount=%s, pending=%s}", id, time, type,
-        price, amount, pending);
+    return errorMessage != null ? errorMessage
+        : String.format("Order{id=%s, time=%s, type=%s, price=%s, amount=%s, pending=%s}", id, time, type, price, amount, pending);
   }
 
   public static enum Type {

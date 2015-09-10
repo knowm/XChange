@@ -96,7 +96,7 @@ public final class OkCoinAdapters {
 
   public static AccountInfo adaptAccountInfo(OkCoinUserInfo userInfo) {
 
-    OkCoinFunds funds = userInfo.getInfo().getFunds(); 
+    OkCoinFunds funds = userInfo.getInfo().getFunds();
 
     // depending on china or international version
     boolean is_cny = funds.getFree().containsKey("cny");
@@ -105,18 +105,18 @@ public final class OkCoinAdapters {
     Wallet baseLoan = null;
 
     if (is_cny) {
-      base = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(getOrZero("cny", funds.getBorrow())), funds.getFree().get("cny"), funds.getFreezed().get("cny"), "available");
+      base = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(getOrZero("cny", funds.getBorrow())),
+          funds.getFree().get("cny"), funds.getFreezed().get("cny"), "available");
       baseLoan = new Wallet(CNY, getOrZero("cny", funds.getBorrow()), "loan");
     } else {
-      base = new Wallet(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())), funds.getFree().get("usd"), funds.getFreezed().get("usd"), "available");
+      base = new Wallet(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())),
+          funds.getFree().get("usd"), funds.getFreezed().get("usd"), "available");
       baseLoan = new Wallet(USD, getOrZero("usd", funds.getBorrow()), "loan");
     }
     Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(getOrZero("btc", funds.getBorrow())),
-        funds.getFree().get("btc"), funds.getFreezed().get("btc"),
-        "available");
+        funds.getFree().get("btc"), funds.getFreezed().get("btc"), "available");
     Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(getOrZero("ltc", funds.getBorrow())),
-        funds.getFree().get("ltc"), funds.getFreezed().get("ltc"),
-        "available");
+        funds.getFree().get("ltc"), funds.getFreezed().get("ltc"), "available");
 
     // loaned wallets
     Wallet btcLoan = new Wallet(BTC, getOrZero("btc", funds.getBorrow()), "loan");
@@ -227,7 +227,6 @@ public final class OkCoinAdapters {
     return new LimitOrder(adaptOrderType(order.getType()), order.getAmount().subtract(order.getDealAmount()), adaptSymbol(order.getSymbol()),
         String.valueOf(order.getOrderId()), order.getCreatedDate(), order.getPrice());
   }
-
 
   public static OrderType adaptOrderType(String type) {
 

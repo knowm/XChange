@@ -1,9 +1,5 @@
 package com.xeiam.xchange.bleutrade;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -11,6 +7,8 @@ import com.xeiam.xchange.bleutrade.service.polling.BleutradeAccountService;
 import com.xeiam.xchange.bleutrade.service.polling.BleutradeMarketDataService;
 import com.xeiam.xchange.bleutrade.service.polling.BleutradeTradeService;
 import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BleutradeExchange extends BaseExchange implements Exchange {
 

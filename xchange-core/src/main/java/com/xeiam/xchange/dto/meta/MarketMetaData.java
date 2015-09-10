@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MarketMetaData {
+
   /**
    * Trading fee (fraction)
    */
@@ -17,7 +18,15 @@ public class MarketMetaData {
 
   private final int priceScale;
 
-  public MarketMetaData(@JsonProperty("tradingFee") BigDecimal tradingFee, @JsonProperty("minAmount") BigDecimal minimumAmount, @JsonProperty("priceScale") int priceScale) {
+  /**
+   * Constructor
+   *
+   * @param tradingFee
+   * @param minimumAmount
+   * @param priceScale
+   */
+  public MarketMetaData(@JsonProperty("tradingFee") BigDecimal tradingFee, @JsonProperty("minAmount") BigDecimal minimumAmount,
+      @JsonProperty("priceScale") int priceScale) {
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
     this.priceScale = priceScale;
@@ -37,10 +46,6 @@ public class MarketMetaData {
 
   @Override
   public String toString() {
-    return "MarketMetaData{" +
-        "tradingFee=" + tradingFee +
-        ", minimumAmount=" + minimumAmount +
-        ", priceScale=" + priceScale +
-        '}';
+    return "MarketMetaData{" + "tradingFee=" + tradingFee + ", minimumAmount=" + minimumAmount + ", priceScale=" + priceScale + '}';
   }
 }

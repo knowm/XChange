@@ -4,16 +4,20 @@ import java.math.BigDecimal;
 
 public interface Depth {
 
-	String getSymbolId();
-	long getTime();
-	long getVersion();
+  String getSymbolId();
 
-	BigDecimal[] getBidPrice();
-	BigDecimal[] getBidAmount();
+  long getTime();
 
-	BigDecimal[] getAskPrice();
-	BigDecimal[] getAskAmount();
+  long getVersion();
 
-	void merge(DepthDiff diff);
+  BigDecimal[] getBidPrice();
+
+  BigDecimal[] getBidAmount();
+
+  BigDecimal[] getAskPrice();
+
+  BigDecimal[] getAskAmount();
+
+  void merge(DepthDiff diff);
 
 }

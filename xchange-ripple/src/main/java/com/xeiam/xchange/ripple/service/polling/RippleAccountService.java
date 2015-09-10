@@ -9,7 +9,7 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.ripple.RippleAdapters;
-import com.xeiam.xchange.ripple.dto.account.RippleAccount;
+import com.xeiam.xchange.ripple.dto.account.RippleAccountBalances;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class RippleAccountService extends RippleAccountServiceRaw implements PollingAccountService {
@@ -22,21 +22,22 @@ public class RippleAccountService extends RippleAccountServiceRaw implements Pol
    * A wallet's currency will be prefixed with the issuing counterparty address for all currencies other than XRP.
    */
   @Override
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    final RippleAccount account = getRippleAccount();
+  public AccountInfo getAccountInfo()
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    final RippleAccountBalances account = getRippleAccountBalances();
     final String username = exchange.getExchangeSpecification().getApiKey();
     return RippleAdapters.adaptAccountInfo(account, username);
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(String currency, BigDecimal amount, String address)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... args) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public String requestDepositAddress(String currency, String... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

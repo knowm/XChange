@@ -26,7 +26,6 @@ package com.xeiam.xchange.coinmate.dto.account;
 import java.util.HashMap;
 
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateBalanceData extends HashMap<String, CoinmateBalanceDataEntry> {

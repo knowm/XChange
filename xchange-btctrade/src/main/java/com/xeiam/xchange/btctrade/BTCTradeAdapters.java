@@ -119,8 +119,8 @@ public final class BTCTradeAdapters {
 
   private static Trade adaptTrade(BTCTradeTrade btcTradeTrade, CurrencyPair currencyPair) {
 
-    return new Trade(adaptOrderType(btcTradeTrade.getType()), btcTradeTrade.getAmount(), currencyPair, btcTradeTrade.getPrice(), new Date(
-        btcTradeTrade.getDate() * 1000), String.valueOf(btcTradeTrade.getTid()));
+    return new Trade(adaptOrderType(btcTradeTrade.getType()), btcTradeTrade.getAmount(), currencyPair, btcTradeTrade.getPrice(),
+        new Date(btcTradeTrade.getDate() * 1000), String.valueOf(btcTradeTrade.getTid()));
   }
 
   private static OrderType adaptOrderType(String type) {
@@ -147,11 +147,16 @@ public final class BTCTradeAdapters {
     checkException(balance);
 
     List<Wallet> wallets = new ArrayList<Wallet>(5);
-    wallets.add(new Wallet(Currencies.BTC, nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved()), zeroIfNull(balance.getBtcBalance()), zeroIfNull(balance.getBtcReserved())));
-    wallets.add(new Wallet(Currencies.LTC, nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved()), zeroIfNull(balance.getLtcBalance()), zeroIfNull(balance.getLtcReserved())));
-    wallets.add(new Wallet(Currencies.DOGE, nullSafeSum(balance.getDogeBalance(), balance.getDogeReserved()), zeroIfNull(balance.getDogeBalance()), zeroIfNull(balance.getDogeReserved())));
-    wallets.add(new Wallet("YBC", nullSafeSum(balance.getYbcBalance(), balance.getYbcReserved()), zeroIfNull(balance.getYbcBalance()), zeroIfNull(balance.getYbcReserved())));
-    wallets.add(new Wallet(Currencies.CNY, nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved()), zeroIfNull(balance.getCnyBalance()), zeroIfNull(balance.getCnyReserved())));
+    wallets.add(new Wallet(Currencies.BTC, nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved()), zeroIfNull(balance.getBtcBalance()),
+        zeroIfNull(balance.getBtcReserved())));
+    wallets.add(new Wallet(Currencies.LTC, nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved()), zeroIfNull(balance.getLtcBalance()),
+        zeroIfNull(balance.getLtcReserved())));
+    wallets.add(new Wallet(Currencies.DOGE, nullSafeSum(balance.getDogeBalance(), balance.getDogeReserved()), zeroIfNull(balance.getDogeBalance()),
+        zeroIfNull(balance.getDogeReserved())));
+    wallets.add(new Wallet("YBC", nullSafeSum(balance.getYbcBalance(), balance.getYbcReserved()), zeroIfNull(balance.getYbcBalance()),
+        zeroIfNull(balance.getYbcReserved())));
+    wallets.add(new Wallet(Currencies.CNY, nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved()), zeroIfNull(balance.getCnyBalance()),
+        zeroIfNull(balance.getCnyReserved())));
     return new AccountInfo(null, wallets);
   }
 

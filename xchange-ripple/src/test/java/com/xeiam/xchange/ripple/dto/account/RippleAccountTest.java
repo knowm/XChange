@@ -14,11 +14,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class RippleAccountTest {
 
   @Test
-  public void unmarshalTest() throws IOException {
+  public void unmarshalBalancesTest() throws IOException {
     // Read in the JSON from the example resources
-    final InputStream is = RippleAccount.class.getResourceAsStream("/account/example-account.json");
+    final InputStream is = getClass().getResourceAsStream("/account/example-account-balances.json");
     final ObjectMapper mapper = new ObjectMapper();
-    final RippleAccount account = mapper.readValue(is, RippleAccount.class);
+    final RippleAccountBalances account = mapper.readValue(is, RippleAccountBalances.class);
 
     // Verify that the example data was unmarshalled correctly
     assertThat(account.getLedger()).isEqualTo(13895887);
@@ -45,5 +45,33 @@ public class RippleAccountTest {
     assertThat(balance3.getValue()).isEqualTo("10");
     assertThat(balance3.getCurrency()).isEqualTo("USD");
     assertThat(balance3.getCounterparty()).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+  }
+
+  @Test
+  public void unmarshalSettingsTest() throws IOException {
+    // Read in the JSON from the example resources
+    final InputStream is = getClass().getResourceAsStream("/account/example-account-settings-rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B.json");
+    final ObjectMapper mapper = new ObjectMapper();
+    final RippleSettings settings = mapper.readValue(is, RippleAccountSettings.class).getSettings();
+
+    // Verify that the example data was unmarshalled correctly
+    assertThat(settings.getAccount()).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    assertThat(settings.getTransferRate()).isEqualTo(1002000000);
+    assertThat(settings.getTransferFeeRate()).isEqualTo("0.002");
+    assertThat(settings.isPasswordSpent()).isFalse();
+    assertThat(settings.isRequireDestinationTag()).isTrue();
+    assertThat(settings.isRequireAuthorization()).isFalse();
+    assertThat(settings.isDisallowXRP()).isFalse();
+    assertThat(settings.isDisableMaster()).isFalse();
+    assertThat(settings.isNoFreeze()).isFalse();
+    assertThat(settings.isGlobalFreeze()).isFalse();
+    assertThat(settings.isDefaultRipple()).isTrue();
+    assertThat(settings.getTransactionSequence()).isEqualTo("2279");
+    assertThat(settings.getEmailHash()).isEqualTo("5B33B93C7FFE384D53450FC666BB11FB");
+    assertThat(settings.getWalletLocator()).isEqualTo("");
+    assertThat(settings.getWalletSize()).isEqualTo("");
+    assertThat(settings.getMessageKey()).isEqualTo("");
+    assertThat(settings.getDomain()).isEqualTo("bitstamp.net");
+    assertThat(settings.getSigners()).isEqualTo("");
   }
 }

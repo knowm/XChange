@@ -8,22 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamOffset;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
-import com.xeiam.xchange.taurus.TaurusAdapters;
-import com.xeiam.xchange.taurus.dto.TaurusException;
-import com.xeiam.xchange.taurus.dto.trade.TaurusOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamOffset;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
+import com.xeiam.xchange.taurus.TaurusAdapters;
+import com.xeiam.xchange.taurus.dto.TaurusException;
+import com.xeiam.xchange.taurus.dto.trade.TaurusOrder;
 
 /**
  * @author Matija Mazi
@@ -56,8 +56,7 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements Polling
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, TaurusException {
-    TaurusOrder taurusOrder = limitOrder.getType() == BID
-        ? buyTaurusOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice())
+    TaurusOrder taurusOrder = limitOrder.getType() == BID ? buyTaurusOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice())
         : sellTaurusOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
 
     return taurusOrder.getId();

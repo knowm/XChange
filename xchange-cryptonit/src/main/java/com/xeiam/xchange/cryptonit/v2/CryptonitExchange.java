@@ -1,13 +1,11 @@
 package com.xeiam.xchange.cryptonit.v2;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptonit.v2.service.polling.CryptonitMarketDataService;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CryptonitExchange extends BaseExchange implements Exchange {
 

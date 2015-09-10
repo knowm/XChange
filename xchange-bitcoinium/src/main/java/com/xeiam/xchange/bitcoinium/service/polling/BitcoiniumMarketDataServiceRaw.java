@@ -2,8 +2,6 @@ package com.xeiam.xchange.bitcoinium.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcoinium.Bitcoinium;
 import com.xeiam.xchange.bitcoinium.BitcoiniumUtils;
@@ -11,6 +9,8 @@ import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
 import com.xeiam.xchange.utils.Assert;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * <p>

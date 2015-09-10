@@ -8,7 +8,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 
 public class CointraderExampleUtils {
 
-  private CointraderExampleUtils() { }
+  private CointraderExampleUtils() {
+  }
 
   public static Exchange createTestExchange() {
     Exchange cointraderExchange = ExchangeFactory.INSTANCE.createExchange(CointraderExchange.class.getName());

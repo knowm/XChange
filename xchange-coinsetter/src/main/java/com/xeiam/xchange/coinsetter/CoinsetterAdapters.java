@@ -133,8 +133,8 @@ public final class CoinsetterAdapters {
 
   public static AccountInfo adaptAccountInfo(String username, CoinsetterAccount account) {
 
-    return new AccountInfo(username, Arrays.asList(new Wallet(Currencies.BTC, account.getBtcBalance()),
-        new Wallet(Currencies.USD, account.getUsdBalance())));
+    return new AccountInfo(username,
+        Arrays.asList(new Wallet(Currencies.BTC, account.getBtcBalance()), new Wallet(Currencies.USD, account.getUsdBalance())));
   }
 
   public static OpenOrders adaptOpenOrders(CoinsetterOrderList orderList) {

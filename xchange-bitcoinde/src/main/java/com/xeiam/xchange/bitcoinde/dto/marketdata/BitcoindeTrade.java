@@ -1,6 +1,7 @@
 package com.xeiam.xchange.bitcoinde.dto.marketdata;
 
 import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -21,7 +22,8 @@ public class BitcoindeTrade {
    * @param amount
    * @param date
    */
-  public BitcoindeTrade(@JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") String amount, @JsonProperty("date") long date) {
+  public BitcoindeTrade(@JsonProperty("tid") long tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") String amount,
+      @JsonProperty("date") long date) {
 
     this.tid = tid;
     this.price = price;

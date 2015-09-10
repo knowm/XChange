@@ -1,13 +1,8 @@
 package com.xeiam.xchange.coinbaseex;
 
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.CurrencyPair;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.Arrays;
-
-import static org.fest.assertions.api.Assertions.assertThat;
+import com.xeiam.xchange.ExchangeFactory;
 
 public class CoinbaseExExchangeTest {
 

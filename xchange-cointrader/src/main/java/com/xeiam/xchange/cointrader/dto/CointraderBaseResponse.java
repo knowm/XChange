@@ -2,9 +2,9 @@ package com.xeiam.xchange.cointrader.dto;
 
 import java.util.Objects;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 public class CointraderBaseResponse<D> {
 
@@ -12,11 +12,7 @@ public class CointraderBaseResponse<D> {
   private final String message;
   private final D data;
 
-  protected CointraderBaseResponse(
-      @JsonProperty("success") Boolean success,
-      @JsonProperty("message") String message,
-      @JsonProperty("data") D data
-  ) {
+  protected CointraderBaseResponse(@JsonProperty("success") Boolean success, @JsonProperty("message") String message, @JsonProperty("data") D data) {
     if (!Objects.equals(success, Boolean.TRUE)) {
       throw new ExceptionalReturnContentException(message);
     }

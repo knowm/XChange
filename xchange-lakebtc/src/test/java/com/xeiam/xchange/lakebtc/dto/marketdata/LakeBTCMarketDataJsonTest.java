@@ -9,9 +9,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
-import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
-import com.xeiam.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
 
 public class LakeBTCMarketDataJsonTest {
 

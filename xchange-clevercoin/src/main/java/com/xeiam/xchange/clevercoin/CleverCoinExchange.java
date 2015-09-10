@@ -1,9 +1,5 @@
 package com.xeiam.xchange.clevercoin;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -11,6 +7,8 @@ import com.xeiam.xchange.clevercoin.service.polling.CleverCoinAccountService;
 import com.xeiam.xchange.clevercoin.service.polling.CleverCoinMarketDataService;
 import com.xeiam.xchange.clevercoin.service.polling.CleverCoinTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Karsten Nilsen

@@ -28,15 +28,15 @@ public class RetriesDemo {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitsoExchange.class.getName());
     PollingMarketDataService service = exchange.getPollingMarketDataService();
     CurrencyPair cp = new CurrencyPair("BTC", "MXN");
-    
+
     try {
       getMarketDataTooFastWithoutRetries(service, cp);
     } catch (BitsoException e) {
       System.out.println(e);
     }
-    
+
     System.out.println("======================");
-    
+
     getMarketDataTooFastWithRetries(service, cp);
 
   }
@@ -65,10 +65,8 @@ public class RetriesDemo {
     for (int i = 0; i < 50; i++) {
       OrderBook ob = Retries.callWithRetries(10, 1, orderBookAction, TOO_FREQUENT_REQUESTS);
       /*
-       * Use Java 8 lambda expression to avoid all the boilerplate code with a Callable:
-       * 
-       * OrderBook ob = Retries.callWithRetries(10, 1, () -> service.getOrderBook(cp), TOO_FREQUENT_REQUESTS);
-       * 
+       * Use Java 8 lambda expression to avoid all the boilerplate code with a Callable: OrderBook ob = Retries.callWithRetries(10, 1, () ->
+       * service.getOrderBook(cp), TOO_FREQUENT_REQUESTS);
        */
       System.out.println(ob);
 

@@ -69,7 +69,7 @@ public class BTCCentralTrade {
   @Override
   public String toString() {
 
-    return "BTCCentralTrade{" + "uuid=" + uuid + ", traded_btc=" + traded_btc + ", traded_currency=" + traded_currency + ", created_at='"
-        + created_at + '\'' + ", currency='" + currency + '\'' + ", price=" + price + ", created_at_int=" + created_at_int + '}';
+    return "BTCCentralTrade{" + "uuid=" + uuid + ", traded_btc=" + traded_btc + ", traded_currency=" + traded_currency + ", created_at='" + created_at
+        + '\'' + ", currency='" + currency + '\'' + ", price=" + price + ", created_at_int=" + created_at_int + '}';
   }
 }

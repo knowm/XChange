@@ -1,18 +1,14 @@
 package com.xeiam.xchange.bitso;
 
-import java.io.InputStream;
-
-import com.xeiam.xchange.bitso.service.polling.BitsoMarketDataService;
-import com.xeiam.xchange.bitso.service.polling.BitsoTradeService;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitso.service.polling.BitsoAccountService;
-import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
-import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+import com.xeiam.xchange.bitso.service.polling.BitsoMarketDataService;
+import com.xeiam.xchange.bitso.service.polling.BitsoTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Matija Mazi, Piotr Ładyżyński

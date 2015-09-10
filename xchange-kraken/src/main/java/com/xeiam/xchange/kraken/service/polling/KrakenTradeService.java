@@ -59,9 +59,8 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   }
 
   /**
-   * @param params Can optionally implement {@link TradeHistoryParamOffset} and
-   *          {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams
-   *          types will be ignored.
+   * @param params Can optionally implement {@link TradeHistoryParamOffset} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types
+   *        will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {

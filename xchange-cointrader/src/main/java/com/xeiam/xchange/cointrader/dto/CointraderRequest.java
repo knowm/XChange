@@ -15,7 +15,8 @@ public class CointraderRequest {
   @JsonIgnore(true)
   private static long lastNonceTs = 0;
 
-  @JsonProperty private String t;
+  @JsonProperty
+  private String t;
 
   public CointraderRequest() {
     long nextNonceTs = getCurrentTimestamp();

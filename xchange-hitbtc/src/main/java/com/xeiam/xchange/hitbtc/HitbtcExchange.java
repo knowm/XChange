@@ -3,18 +3,18 @@ package com.xeiam.xchange.hitbtc;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
-import com.xeiam.xchange.hitbtc.dto.meta.HitbtcMetaData;
-import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataServiceRaw;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
+import com.xeiam.xchange.hitbtc.dto.meta.HitbtcMetaData;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcAccountService;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataService;
+import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataServiceRaw;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class HitbtcExchange extends BaseExchange implements Exchange {
 
@@ -32,6 +32,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
   @Override
   protected void loadMetaData(InputStream is) {
     hitbtcMetaData = loadMetaData(is, HitbtcMetaData.class);
+    metaData = HitbtcAdapters.adaptToExchangeMetaData(null, hitbtcMetaData);
   }
 
   @Override

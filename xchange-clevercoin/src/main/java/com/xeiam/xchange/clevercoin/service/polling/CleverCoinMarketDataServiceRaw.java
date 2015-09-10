@@ -2,14 +2,14 @@ package com.xeiam.xchange.clevercoin.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.clevercoin.CleverCoin;
 import com.xeiam.xchange.clevercoin.dto.marketdata.CleverCoinOrderBook;
 import com.xeiam.xchange.clevercoin.dto.marketdata.CleverCoinTicker;
 import com.xeiam.xchange.clevercoin.dto.marketdata.CleverCoinTransaction;
 import com.xeiam.xchange.exceptions.ExchangeException;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author gnandiga

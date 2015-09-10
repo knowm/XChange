@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import com.xeiam.xchange.huobi.HuobiExchange;
 
-
 public class ExchangeSpecificParamsTest {
 
   @Test
@@ -44,7 +43,7 @@ public class ExchangeSpecificParamsTest {
     bfxSpec.setExchangeSpecificParametersItem(HuobiExchange.HUOBI_MARKET_DATA, "http://market.huobi.com/");
 
     exchange.applySpecification(bfxSpec);
- 
+
     assertEquals(exchange.getExchangeSpecification().getExchangeSpecificParametersItem(HuobiExchange.HUOBI_MARKET_DATA), "http://market.huobi.com/");
 
   }

@@ -6,8 +6,8 @@ import com.xeiam.xchange.kraken.dto.account.KrakenDepositAddress;
 
 public class KrakenDepositAddressResult extends KrakenResult<KrakenDepositAddress[]> {
 
-	public KrakenDepositAddressResult(@JsonProperty("result") KrakenDepositAddress[] result, @JsonProperty("error") String[] error) {
-		super(result, error);
-	}
+  public KrakenDepositAddressResult(@JsonProperty("result") KrakenDepositAddress[] result, @JsonProperty("error") String[] error) {
+    super(result, error);
+  }
 
 }

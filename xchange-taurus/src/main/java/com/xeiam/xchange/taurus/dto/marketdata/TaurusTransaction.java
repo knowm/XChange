@@ -25,9 +25,8 @@ public class TaurusTransaction {
    * @param price BTC price
    * @param amount BTC amount
    */
-  public TaurusTransaction(@JsonProperty("date") @JsonDeserialize(using = UnixTimestampDeserializer.class) Date date,
-                           @JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price,
-                           @JsonProperty("amount") BigDecimal amount) {
+  public TaurusTransaction(@JsonProperty("date") @JsonDeserialize(using = UnixTimestampDeserializer.class) Date date, @JsonProperty("tid") int tid,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
     this.date = date;
     this.tid = tid;
     this.price = price;

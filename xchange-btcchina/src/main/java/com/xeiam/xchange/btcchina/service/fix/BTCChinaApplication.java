@@ -5,6 +5,14 @@ import java.math.BigDecimal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.btcchina.BTCChinaAdapters;
+import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoRequest;
+import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
+
 import quickfix.Application;
 import quickfix.DoNotSend;
 import quickfix.FieldNotFound;
@@ -23,14 +31,6 @@ import quickfix.fix44.OrderCancelRequest;
 import quickfix.fix44.OrderMassStatusRequest;
 import quickfix.fix44.OrderStatusRequest;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.btcchina.BTCChinaAdapters;
-import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoRequest;
-import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 
 /**
  * {@link Application} implementation for BTCChina.

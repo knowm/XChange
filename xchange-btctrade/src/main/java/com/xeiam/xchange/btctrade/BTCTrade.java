@@ -10,9 +10,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.btctrade.dto.BTCTradeResult;
 import com.xeiam.xchange.btctrade.dto.BTCTradeSecretResponse;
 import com.xeiam.xchange.btctrade.dto.account.BTCTradeBalance;
@@ -22,6 +19,9 @@ import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTicker;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTrade;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradeOrder;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradePlaceOrderResult;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -114,7 +114,7 @@ public interface BTCTrade {
   @Path("orders")
   public BTCTradeOrder[] getOrders(@FormParam("since") long since, @FormParam("type") String type,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
-      throws IOException;
+          throws IOException;
 
   /**
    * Returns order information.
@@ -155,7 +155,7 @@ public interface BTCTrade {
   @Path("buy")
   public BTCTradePlaceOrderResult buy(@FormParam("amount") String amount, @FormParam("price") String price,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
-      throws IOException;
+          throws IOException;
 
   /**
    * Places a sell order.
@@ -170,6 +170,6 @@ public interface BTCTrade {
   @Path("sell")
   public BTCTradePlaceOrderResult sell(@FormParam("amount") String amount, @FormParam("price") String price,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
-      throws IOException;
+          throws IOException;
 
 }

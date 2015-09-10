@@ -43,6 +43,5 @@ public interface CleverCoin {
   @GET
   @Path("transactions")
   public CleverCoinTransaction[] getTransactions(@QueryParam("since") String since) throws IOException;
-  
 
 }

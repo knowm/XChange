@@ -1,7 +1,5 @@
 package com.xeiam.xchange.coinsetter.service.streaming;
 
-import io.socket.IOAcknowledge;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +19,8 @@ import com.xeiam.xchange.coinsetter.service.streaming.event.CoinsetterExchangeLi
 import com.xeiam.xchange.coinsetter.service.streaming.event.CoinsetterSocketAdapter;
 import com.xeiam.xchange.coinsetter.service.streaming.event.CoinsetterSocketListener;
 import com.xeiam.xchange.service.BaseExchangeService;
+
+import io.socket.IOAcknowledge;
 
 /**
  * Coinsetter Websockets API implementation, fires Coinsetter exchange raw DTO events.

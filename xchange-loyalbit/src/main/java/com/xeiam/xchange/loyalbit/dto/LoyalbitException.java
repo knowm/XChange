@@ -1,8 +1,8 @@
 package com.xeiam.xchange.loyalbit.dto;
 
-import si.mazi.rescu.HttpStatusExceptionSupport;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class LoyalbitException extends HttpStatusExceptionSupport {
 

@@ -9,7 +9,8 @@ public class MeXBTUserInfoResponse extends MeXBTResponse {
 
   private final Map<String, String>[] userInfoKVP;
 
-  public MeXBTUserInfoResponse(@JsonProperty("isAccepted") boolean isAccepted, @JsonProperty("rejectReason") String rejectReason, @JsonProperty("userInfoKVP") Map<String, String>[] userInfoKVP) {
+  public MeXBTUserInfoResponse(@JsonProperty("isAccepted") boolean isAccepted, @JsonProperty("rejectReason") String rejectReason,
+      @JsonProperty("userInfoKVP") Map<String, String>[] userInfoKVP) {
     super(isAccepted, rejectReason);
     this.userInfoKVP = userInfoKVP;
   }

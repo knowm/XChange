@@ -31,7 +31,8 @@ public class BTCEMetaDataDemo {
 
   private static void rawLocal(BTCEExchange exchange) throws IOException {
     BTCEMetaData btceMetaData = exchange.getBtceMetaData();
-    System.out.println("BTCE local meta data: amountScale=" + btceMetaData.amountScale + " public data TTL seconds" + btceMetaData.publicInfoCacheSeconds);
+    System.out
+        .println("BTCE local meta data: amountScale=" + btceMetaData.amountScale + " public data TTL seconds" + btceMetaData.publicInfoCacheSeconds);
   }
 
   private static void rawRemote(Exchange btce) throws IOException {
@@ -44,7 +45,8 @@ public class BTCEMetaDataDemo {
     ExchangeMetaData metaData = (ExchangeMetaData) exchange.getMetaData();
     System.out.println("BTCE generic meta data: " + metaData);
 
-    exchange.getPollingTradeService().verifyOrder(new MarketOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_EUR).tradableAmount(BigDecimal.ONE).build());
+    exchange.getPollingTradeService()
+        .verifyOrder(new MarketOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_EUR).tradableAmount(BigDecimal.ONE).build());
   }
 
 }

@@ -6,12 +6,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeOrderBook;
-import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeTrade;
 import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeRate;
+import com.xeiam.xchange.bitcoinde.dto.marketdata.BitcoindeTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;

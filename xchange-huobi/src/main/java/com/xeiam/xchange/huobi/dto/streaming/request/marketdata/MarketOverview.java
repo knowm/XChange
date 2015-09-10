@@ -5,8 +5,8 @@ package com.xeiam.xchange.huobi.dto.streaming.request.marketdata;
  */
 public class MarketOverview extends AbstractPush {
 
-	public MarketOverview(String symbolId, PushType pushType) {
-		super(symbolId, pushType);
-	}
+  public MarketOverview(String symbolId, PushType pushType) {
+    super(symbolId, pushType);
+  }
 
 }

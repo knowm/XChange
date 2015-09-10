@@ -2,14 +2,13 @@ package com.xeiam.xchange.taurus.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.taurus.Taurus;
 import com.xeiam.xchange.taurus.dto.marketdata.TaurusOrderBook;
 import com.xeiam.xchange.taurus.dto.marketdata.TaurusTicker;
 import com.xeiam.xchange.taurus.dto.marketdata.TaurusTransaction;
-import com.xeiam.xchange.exceptions.ExchangeException;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class TaurusMarketDataServiceRaw extends TaurusBasePollingService {
 

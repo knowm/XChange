@@ -91,7 +91,8 @@ public class MeXBTAdaptersTest {
 
   @Test
   public void testAdaptAccountInfo() throws JsonParseException, JsonMappingException, IOException {
-    MeXBTBalanceResponse balanceResponse = new ObjectMapper().readValue(MeXBTBalanceResponseTest.class.getResource("balance.json"), MeXBTBalanceResponse.class);
+    MeXBTBalanceResponse balanceResponse = new ObjectMapper().readValue(MeXBTBalanceResponseTest.class.getResource("balance.json"),
+        MeXBTBalanceResponse.class);
     AccountInfo accountInfo = MeXBTAdapters.adaptAccountInfo("john.doe@example.org", balanceResponse);
     assertEquals("john.doe@example.org", accountInfo.getUsername());
     assertEquals(new BigDecimal("482198.87"), accountInfo.getWallet(Currencies.BTC).getAvailable());
@@ -102,7 +103,8 @@ public class MeXBTAdaptersTest {
 
   @Test
   public void testAdaptOpenOrders() throws JsonParseException, JsonMappingException, IOException {
-    MeXBTOpenOrdersResponse openOrdersResponse = new ObjectMapper().readValue(MeXBTOpenOrdersResponseTest.class.getResource("orders.json"), MeXBTOpenOrdersResponse.class);
+    MeXBTOpenOrdersResponse openOrdersResponse = new ObjectMapper().readValue(MeXBTOpenOrdersResponseTest.class.getResource("orders.json"),
+        MeXBTOpenOrdersResponse.class);
     OpenOrders openOrders = MeXBTAdapters.adaptOpenOrders(openOrdersResponse);
     LimitOrder limitOrder = openOrders.getOpenOrders().get(0);
     assertEquals("63710062", limitOrder.getId());
@@ -114,7 +116,8 @@ public class MeXBTAdaptersTest {
 
   @Test
   public void testAdaptUserTrades() throws JsonParseException, JsonMappingException, IOException {
-    MeXBTTradeResponse tradeResponse = new ObjectMapper().readValue(MeXBTUserTradeResponseTest.class.getResource("trades.json"), MeXBTTradeResponse.class);
+    MeXBTTradeResponse tradeResponse = new ObjectMapper().readValue(MeXBTUserTradeResponseTest.class.getResource("trades.json"),
+        MeXBTTradeResponse.class);
     UserTrades userTrades = MeXBTAdapters.adaptUserTrades(tradeResponse);
     UserTrade t = userTrades.getUserTrades().get(0);
     assertEquals("0", t.getId());

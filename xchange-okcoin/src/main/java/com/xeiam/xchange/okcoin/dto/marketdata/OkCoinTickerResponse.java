@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class OkCoinTickerResponse {
 
   private final OkCoinTicker ticker;
-  
+
   private long date;
 
   public OkCoinTickerResponse(@JsonProperty("ticker") OkCoinTicker ticker) {

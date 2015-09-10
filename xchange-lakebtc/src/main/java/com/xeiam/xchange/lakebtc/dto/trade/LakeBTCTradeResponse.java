@@ -16,8 +16,8 @@ public class LakeBTCTradeResponse {
   private final long at;
   private final String id;
 
-  public LakeBTCTradeResponse(@JsonProperty("type") String type, @JsonProperty("currency") String currency,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("total") BigDecimal total, @JsonProperty("at") long at) {
+  public LakeBTCTradeResponse(@JsonProperty("type") String type, @JsonProperty("currency") String currency, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("total") BigDecimal total, @JsonProperty("at") long at) {
     this.type = type;
     this.currency = currency;
     this.amount = amount;

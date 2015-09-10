@@ -8,6 +8,6 @@ import com.xeiam.xchange.huobi.dto.streaming.response.payload.Payload;
  */
 public interface ResponseListener {
 
-	void onResponse(Response<? extends Payload> response);
+  void onResponse(Response<? extends Payload> response);
 
 }

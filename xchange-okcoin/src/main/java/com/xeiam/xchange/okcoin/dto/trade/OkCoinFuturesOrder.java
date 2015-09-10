@@ -21,21 +21,11 @@ public class OkCoinFuturesOrder {
   private final BigDecimal unitAmount;
   private final int leverRate;
 
-
-  public OkCoinFuturesOrder(
-      @JsonProperty("amount") BigDecimal amount, 
-      @JsonProperty("contact_name") String contractName, 
-      @JsonProperty("created_date") Date createdDate, 
-      @JsonProperty("deal_amount") BigDecimal dealAmount, 
-      @JsonProperty("fee") BigDecimal fee, 
-      @JsonProperty("order_id") String orderId, 
-      @JsonProperty("price") BigDecimal price, 
-      @JsonProperty("avg_price") BigDecimal avgPrice, 
-      @JsonProperty("status") int status,
-      @JsonProperty("symbol") String symbol, 
-      @JsonProperty("type") String type, 
-      @JsonProperty("unit_amount") BigDecimal unitAmount, 
-      @JsonProperty("lever_rate") int leverRate) {
+  public OkCoinFuturesOrder(@JsonProperty("amount") BigDecimal amount, @JsonProperty("contact_name") String contractName,
+      @JsonProperty("created_date") Date createdDate, @JsonProperty("deal_amount") BigDecimal dealAmount, @JsonProperty("fee") BigDecimal fee,
+      @JsonProperty("order_id") String orderId, @JsonProperty("price") BigDecimal price, @JsonProperty("avg_price") BigDecimal avgPrice,
+      @JsonProperty("status") int status, @JsonProperty("symbol") String symbol, @JsonProperty("type") String type,
+      @JsonProperty("unit_amount") BigDecimal unitAmount, @JsonProperty("lever_rate") int leverRate) {
 
     this.amount = amount;
     this.contractName = contractName;
@@ -52,91 +42,65 @@ public class OkCoinFuturesOrder {
     this.leverRate = leverRate;
   }
 
-
-
   public BigDecimal getAmount() {
 
     return amount;
   }
-
-
 
   public String getContractName() {
 
     return contractName;
   }
 
-
-
   public Date getCreatedDate() {
 
     return createdDate;
   }
-
-
 
   public BigDecimal getDealAmount() {
 
     return dealAmount;
   }
 
-
-
   public BigDecimal getFee() {
 
     return fee;
   }
-
-
 
   public String getOrderId() {
 
     return orderId;
   }
 
-
-
   public BigDecimal getPrice() {
 
     return price;
   }
-
-
 
   public BigDecimal getAvgPrice() {
 
     return avgPrice;
   }
 
-
-
   public int getStatus() {
 
     return status;
   }
-
-
 
   public String getSymbol() {
 
     return symbol;
   }
 
-
-
   public String getType() {
 
     return type;
   }
 
-
-
   public BigDecimal getUnitAmount() {
 
     return unitAmount;
   }
-
-
 
   public int getLeverRate() {
 

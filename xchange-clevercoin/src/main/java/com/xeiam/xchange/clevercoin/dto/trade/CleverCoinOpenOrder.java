@@ -17,7 +17,8 @@ public final class CleverCoinOpenOrder {
    * 
    * @param result
    */
-  public CleverCoinOpenOrder(@JsonProperty("orderID") String orderId, @JsonProperty("error") @JsonDeserialize(using = CleverCoinErrorDeserializer.class) String errorMessage) {
+  public CleverCoinOpenOrder(@JsonProperty("orderID") String orderId,
+      @JsonProperty("error") @JsonDeserialize(using = CleverCoinErrorDeserializer.class) String errorMessage) {
 
     this.orderId = orderId;
     this.errorMessage = errorMessage;

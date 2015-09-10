@@ -8,9 +8,8 @@ import com.xeiam.xchange.huobi.dto.streaming.response.payload.ReqKLinePayload;
  */
 public class ReqKLineResponse extends ReqResponse<ReqKLinePayload> {
 
-	public ReqKLineResponse(int version, String msgType, int retCode,
-			String retMsg) {
-		super(version, msgType, retCode, retMsg);
-	}
+  public ReqKLineResponse(int version, String msgType, int retCode, String retMsg) {
+    super(version, msgType, retCode, retMsg);
+  }
 
 }

@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 
 /**
  * Test BitcoinAverageTicker JSON parsing

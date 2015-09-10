@@ -7,10 +7,10 @@ import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.xeiam.xchange.utils.DigestUtils;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
-
-import com.xeiam.xchange.utils.DigestUtils;
 
 public class HitbtcHmacDigest implements ParamsDigest {
 

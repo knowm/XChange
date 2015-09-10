@@ -277,8 +277,8 @@ public class BleutradeTicker {
   public String toString() {
 
     return "BleutradeTicker [MarketName=" + MarketName + ", PrevDay=" + PrevDay + ", High=" + High + ", Low=" + Low + ", Last=" + Last + ", Average="
-        + Average + ", Volume=" + Volume + ", BaseVolume=" + BaseVolume + ", TimeStamp=" + TimeStamp + ", Bid=" + Bid + ", Ask=" + Ask
-        + ", IsActive=" + IsActive + ", additionalProperties=" + additionalProperties + "]";
+        + Average + ", Volume=" + Volume + ", BaseVolume=" + BaseVolume + ", TimeStamp=" + TimeStamp + ", Bid=" + Bid + ", Ask=" + Ask + ", IsActive="
+        + IsActive + ", additionalProperties=" + additionalProperties + "]";
   }
 
 }

@@ -9,8 +9,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExTicker;
-import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExTickerWrapper;
 
 /**
  * Test VirtExTicker JSON parsing

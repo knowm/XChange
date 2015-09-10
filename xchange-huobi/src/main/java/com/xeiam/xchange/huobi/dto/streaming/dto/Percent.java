@@ -7,22 +7,16 @@ import com.google.gson.annotations.SerializedName;
  */
 public enum Percent {
 
-	@SerializedName("10")
-	PERCENT10,
+  @SerializedName("10") PERCENT10,
 
-	@SerializedName("20")
-	PERCENT20,
+  @SerializedName("20") PERCENT20,
 
-	@SerializedName("50")
-	PERCENT50,
+  @SerializedName("50") PERCENT50,
 
-	@SerializedName("80")
-	PERCENT80,
+  @SerializedName("80") PERCENT80,
 
-	@SerializedName("100")
-	PERCENT100,
+  @SerializedName("100") PERCENT100,
 
-	@SerializedName("top")
-	PERCENT_TOP;
+  @SerializedName("top") PERCENT_TOP;
 
 }

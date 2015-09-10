@@ -5,8 +5,8 @@ package com.xeiam.xchange.huobi.dto.streaming.request.marketdata;
  */
 public class MarketDepthTopDiff extends AbstractPush {
 
-	public MarketDepthTopDiff(String symbolId, PushType pushType) {
-		super(symbolId, pushType);
-	}
+  public MarketDepthTopDiff(String symbolId, PushType pushType) {
+    super(symbolId, pushType);
+  }
 
 }

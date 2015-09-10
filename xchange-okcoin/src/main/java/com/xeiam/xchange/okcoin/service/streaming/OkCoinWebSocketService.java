@@ -22,7 +22,6 @@ import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinStreamingTicker;
 import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
 
-
 public class OkCoinWebSocketService implements WebSocketService {
   private final ObjectMapper mapper = new ObjectMapper();
   private final JsonFactory jsonFactory = new JsonFactory();
@@ -31,7 +30,7 @@ public class OkCoinWebSocketService implements WebSocketService {
   private final ChannelProvider channelProvider;
 
   public OkCoinWebSocketService(BlockingQueue<ExchangeEvent> eventQueue, ChannelProvider channelProvider, CurrencyPair[] currencyPairs) {
-    this.eventQueue = eventQueue; 
+    this.eventQueue = eventQueue;
     this.channelProvider = channelProvider;
     this.currencyPairs = currencyPairs;
   }
@@ -40,15 +39,15 @@ public class OkCoinWebSocketService implements WebSocketService {
   public void onReceive(String msg) {
     try {
       JsonParser parser = jsonFactory.createParser(msg);
-      if(parser.nextToken() == JsonToken.START_ARRAY) {
+      if (parser.nextToken() == JsonToken.START_ARRAY) {
         ArrayNode readTree = (ArrayNode) mapper.readTree(msg);
 
         Iterator<JsonNode> iterator = readTree.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
           JsonNode node = iterator.next();
 
           // parse any requested channels
-          for(int i = 0; i < currencyPairs.length; i++) {
+          for (int i = 0; i < currencyPairs.length; i++) {
             parseMarketData(node, currencyPairs[i]);
           }
         }
@@ -65,39 +64,39 @@ public class OkCoinWebSocketService implements WebSocketService {
 
   /** Parse depth, trades, and ticker for a given currency pair */
   private void parseMarketData(JsonNode node, CurrencyPair currencyPair) throws JsonParseException, JsonMappingException, IOException {
-    if(node.has("errorcode")) {
+    if (node.has("errorcode")) {
       throw new ExchangeException(OkCoinStreamingUtils.getErrorMessage(node.get("errorcode").asInt()));
     }
 
-    if(node.get("channel").textValue().equals(channelProvider.getDepth(currencyPair))) {                
+    if (node.get("channel").textValue().equals(channelProvider.getDepth(currencyPair))) {
       parseDepth(node, currencyPair);
 
-    } else if(node.get("channel").textValue().equals(channelProvider.getTrades(currencyPair))) {
+    } else if (node.get("channel").textValue().equals(channelProvider.getTrades(currencyPair))) {
       parseTrades(node, currencyPair);
 
-    } else if(node.get("channel").textValue().equals(channelProvider.getTicker(currencyPair))) {
+    } else if (node.get("channel").textValue().equals(channelProvider.getTicker(currencyPair))) {
       parseTicker(node, currencyPair);
     }
   }
 
   private void parseTicker(JsonNode node, CurrencyPair currencyPair) throws IOException, JsonParseException, JsonMappingException {
 
-    OkCoinStreamingTicker ticker = mapper.readValue(node.get("data").toString(), OkCoinStreamingTicker.class);    
+    OkCoinStreamingTicker ticker = mapper.readValue(node.get("data").toString(), OkCoinStreamingTicker.class);
     putEvent(ExchangeEventType.TICKER, OkCoinJsonAdapters.adaptTicker(ticker, currencyPair));
   }
 
   private void parseDepth(JsonNode node, CurrencyPair currencyPair) throws IOException, JsonParseException, JsonMappingException {
 
-    OkCoinDepth depth = mapper.readValue(node.get("data").toString(), OkCoinStreamingDepth.class);    
+    OkCoinDepth depth = mapper.readValue(node.get("data").toString(), OkCoinStreamingDepth.class);
     putEvent(ExchangeEventType.DEPTH, OkCoinAdapters.adaptOrderBook(depth, currencyPair));
   }
 
   private void parseTrades(JsonNode node, CurrencyPair currencyPair) {
 
     JsonNode jsonNode = node.get("data");
-    for(int i = 0; i < jsonNode.size(); i++) {
+    for (int i = 0; i < jsonNode.size(); i++) {
       JsonNode trade = jsonNode.get(i);
-      putEvent(ExchangeEventType.TRADE, OkCoinJsonAdapters.adaptTrade(trade, currencyPair));                  
+      putEvent(ExchangeEventType.TRADE, OkCoinJsonAdapters.adaptTrade(trade, currencyPair));
     }
   }
 

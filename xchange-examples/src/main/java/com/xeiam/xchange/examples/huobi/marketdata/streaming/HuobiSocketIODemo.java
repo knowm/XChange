@@ -13,10 +13,9 @@ import com.xeiam.xchange.service.streaming.ExchangeEvent;
 import com.xeiam.xchange.service.streaming.ExchangeEventType;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
-
 public class HuobiSocketIODemo {
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws Exception {
 
     ExchangeSpecification exSpec = new ExchangeSpecification(HuobiExchange.class);
     exSpec.setSecretKey("aa");
@@ -34,16 +33,16 @@ public class HuobiSocketIODemo {
           try {
             ExchangeEvent event = service.getNextEvent();
 
-            if(event != null) {
-              System.out.println("---> "  + event.getPayload() + " " + event.getEventType());
-              
-              if(event.getEventType().equals(ExchangeEventType.TICKER)) {
+            if (event != null) {
+              System.out.println("---> " + event.getPayload() + " " + event.getEventType());
+
+              if (event.getEventType().equals(ExchangeEventType.TICKER)) {
                 Ticker ticker = (Ticker) event.getPayload();
-                
+
                 long x = (new Date()).getTime() - ticker.getTimestamp().getTime();
                 System.out.println("Delay " + x);
               }
-              
+
             }
 
           } catch (InterruptedException e) {
@@ -69,6 +68,5 @@ public class HuobiSocketIODemo {
     // Interrupt consumer to exit.
     consumer.interrupt();
   }
-
 
 }

@@ -19,15 +19,12 @@ public class BitcoindeOrderBookIntegration {
   public void bitcoindeOrderBookTest() throws IOException {
 
     /*
-     * Get the API key from an environmental variable,
-     * on *nix run $ export BITCOINDE_API_KEY=myapikey123
-     * to set this variable.
+     * Get the API key from an environmental variable, on *nix run $ export BITCOINDE_API_KEY=myapikey123 to set this variable.
      */
     final String API_KEY = System.getenv("BITCOINDE_API_KEY");
     Assume.assumeFalse(
         "Error: please set the environmental variable BITCOINDE_API_KEY equal to your API key before running this integration test. Try $ export BITCOINDE_API_KEY=myapikey123",
-        API_KEY == null || "".equals(API_KEY)
-    );
+        API_KEY == null || "".equals(API_KEY));
 
     /* configure the exchange to use our api key */
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoindeExchange.class.getName());

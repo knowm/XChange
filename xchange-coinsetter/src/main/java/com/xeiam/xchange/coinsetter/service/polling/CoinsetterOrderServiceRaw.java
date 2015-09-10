@@ -3,14 +3,14 @@ package com.xeiam.xchange.coinsetter.service.polling;
 import java.io.IOException;
 import java.util.UUID;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.order.request.CoinsetterOrderRequest;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrder;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderResponse;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * Order raw service.

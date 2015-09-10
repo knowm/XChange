@@ -3,13 +3,13 @@ package com.xeiam.xchange.cointrader.service.polling;
 import java.io.IOException;
 import java.util.Map;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cointrader.CointraderAuthenticated;
 import com.xeiam.xchange.cointrader.dto.CointraderRequest;
 import com.xeiam.xchange.cointrader.dto.account.CointraderBalance;
 import com.xeiam.xchange.cointrader.service.CointraderDigest;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class CointraderAccountServiceRaw extends CointraderBasePollingService {
 
@@ -23,10 +23,6 @@ public class CointraderAccountServiceRaw extends CointraderBasePollingService {
   }
 
   public Map<String, CointraderBalance> getCointraderBalance() throws IOException {
-    return cointraderAuthenticated.getBalance(
-        exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator,
-        new CointraderRequest()
-    ).getData();
+    return cointraderAuthenticated.getBalance(exchange.getExchangeSpecification().getApiKey(), signatureCreator, new CointraderRequest()).getData();
   }
 }

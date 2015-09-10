@@ -2,14 +2,14 @@ package com.xeiam.xchange.bitcoincharts;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
-import com.xeiam.xchange.exceptions.ExchangeException;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import com.xeiam.xchange.bitcoincharts.service.polling.BitcoinChartsMarketDataService;
+import com.xeiam.xchange.exceptions.ExchangeException;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitcoinChartsExchange extends BaseExchange implements Exchange {
 

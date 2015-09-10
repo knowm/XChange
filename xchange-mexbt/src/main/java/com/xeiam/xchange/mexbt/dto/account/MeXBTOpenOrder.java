@@ -17,8 +17,8 @@ public class MeXBTOpenOrder {
   private final Date receiveTime;
   private final int side;
 
-  public MeXBTOpenOrder(@JsonProperty("ServerOrderId") long serverOrderId, @JsonProperty("AccountId") long accountId, @JsonProperty("Price") BigDecimal price,
-      @JsonProperty("QtyTotal") BigDecimal qtyTotal, @JsonProperty("QtyRemaining") BigDecimal qtyRemaining,
+  public MeXBTOpenOrder(@JsonProperty("ServerOrderId") long serverOrderId, @JsonProperty("AccountId") long accountId,
+      @JsonProperty("Price") BigDecimal price, @JsonProperty("QtyTotal") BigDecimal qtyTotal, @JsonProperty("QtyRemaining") BigDecimal qtyRemaining,
       @JsonProperty("ReceiveTime") @JsonDeserialize(using = TickDeserializer.class) Date receiveTime, @JsonProperty("Side") int side) {
     this.serverOrderId = serverOrderId;
     this.accountId = accountId;

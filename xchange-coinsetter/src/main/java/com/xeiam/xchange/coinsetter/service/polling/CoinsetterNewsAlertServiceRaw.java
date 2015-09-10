@@ -3,12 +3,12 @@ package com.xeiam.xchange.coinsetter.service.polling;
 import java.io.IOException;
 import java.util.UUID;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterException;
 import com.xeiam.xchange.coinsetter.dto.newsalert.response.CoinsetterNewsAlertList;
 import com.xeiam.xchange.service.BaseExchangeService;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * News alert raw service.

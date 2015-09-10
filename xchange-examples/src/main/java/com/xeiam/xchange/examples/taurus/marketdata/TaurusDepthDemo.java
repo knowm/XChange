@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.taurus.TaurusExchange;
-import com.xeiam.xchange.taurus.dto.marketdata.TaurusOrderBook;
-import com.xeiam.xchange.taurus.service.polling.TaurusMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
+import com.xeiam.xchange.taurus.TaurusExchange;
+import com.xeiam.xchange.taurus.dto.marketdata.TaurusOrderBook;
+import com.xeiam.xchange.taurus.service.polling.TaurusMarketDataServiceRaw;
 
 /**
  * Demonstrate requesting Depth at Taurus

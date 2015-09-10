@@ -18,7 +18,8 @@ public final class QuoineAccountInfo {
    * @param bitcoinAccount
    * @param fiatAccounts
    */
-  public QuoineAccountInfo(@JsonProperty("bitcoin_account") BitcoinAccount bitcoinAccount, @JsonProperty("fiat_accounts") FiatAccount[] fiatAccounts) {
+  public QuoineAccountInfo(@JsonProperty("bitcoin_account") BitcoinAccount bitcoinAccount,
+      @JsonProperty("fiat_accounts") FiatAccount[] fiatAccounts) {
     this.bitcoinAccount = bitcoinAccount;
     this.fiatAccounts = fiatAccounts;
   }

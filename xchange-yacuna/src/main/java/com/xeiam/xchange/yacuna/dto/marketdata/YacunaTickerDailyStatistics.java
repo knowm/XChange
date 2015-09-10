@@ -13,8 +13,8 @@ public class YacunaTickerDailyStatistics {
   private final YacunaCurrencyAmountPair highPricePair;
   private final YacunaCurrencyAmountPair volumePair;
 
-  public YacunaTickerDailyStatistics(@JsonProperty("lowPrice") YacunaCurrencyAmountPair lowPricePair, @JsonProperty("highPrice") YacunaCurrencyAmountPair highPricePair,
-      @JsonProperty("volumeC1") YacunaCurrencyAmountPair volumePair) {
+  public YacunaTickerDailyStatistics(@JsonProperty("lowPrice") YacunaCurrencyAmountPair lowPricePair,
+      @JsonProperty("highPrice") YacunaCurrencyAmountPair highPricePair, @JsonProperty("volumeC1") YacunaCurrencyAmountPair volumePair) {
 
     this.lowPricePair = lowPricePair;
     this.highPricePair = highPricePair;

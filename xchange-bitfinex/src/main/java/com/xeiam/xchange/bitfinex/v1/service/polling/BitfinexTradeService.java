@@ -138,8 +138,8 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     return new BitfinexTradeHistoryParams(new Date(0), 50, CurrencyPair.BTC_USD);
   }
 
-  public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamCurrencyPair,
-      TradeHistoryParamPaging {
+  public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan
+      implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
 
     private int count;
     private CurrencyPair pair;

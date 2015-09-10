@@ -123,14 +123,14 @@ public class CoinbaseRecurringPayment {
     private final CoinbaseMoney amount;
 
     private CoinbaseRecurringPaymentInfo(@JsonProperty("id") final String id, @JsonProperty("type") final CoinbaseRecurringPaymentType type,
-        @JsonProperty("status") final CoinbaseRecurringPaymentStatus status, @JsonProperty("created_at") @JsonDeserialize(
-            using = ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("to") final String to,
+        @JsonProperty("status") final CoinbaseRecurringPaymentStatus status,
+        @JsonProperty("created_at") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date createdAt, @JsonProperty("to") final String to,
         @JsonProperty("from") final String from, @JsonProperty("start_type") final String startType, @JsonProperty("times") final int times,
         @JsonProperty("times_run") final int timesRun, @JsonProperty("repeat") final CoinbaseRepeat repeat,
         @JsonProperty("last_run") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date lastRun,
         @JsonProperty("next_run") @JsonDeserialize(using = ISO8601DateDeserializer.class) final Date nextRun,
-        @JsonProperty("notes") final String notes, @JsonProperty("description") final String description, @JsonProperty("amount") @JsonDeserialize(
-            using = CoinbaseMoneyDeserializer.class) final CoinbaseMoney amount) {
+        @JsonProperty("notes") final String notes, @JsonProperty("description") final String description,
+        @JsonProperty("amount") @JsonDeserialize(using = CoinbaseMoneyDeserializer.class) final CoinbaseMoney amount) {
 
       this.id = id;
       this.type = type;

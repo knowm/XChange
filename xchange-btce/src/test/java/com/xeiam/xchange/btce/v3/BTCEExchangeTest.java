@@ -20,7 +20,6 @@ public class BTCEExchangeTest {
     assertNonceLarger(nf1);
     assertNonceLarger(nf1);
 
-
     // A nonce factory created a bit later should return compatible nonces.
     Thread.sleep(1500);
 

@@ -69,8 +69,8 @@ public class CryptsyAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<Integer, CryptsyPublicOrderbook> cryptsyOrderBookMap = CryptsyAdapters.adaptPublicOrderBookMap(mapper.readValue(is,
-        CryptsyPublicOrderbookReturn.class).getReturnValue());
+    Map<Integer, CryptsyPublicOrderbook> cryptsyOrderBookMap = CryptsyAdapters
+        .adaptPublicOrderBookMap(mapper.readValue(is, CryptsyPublicOrderbookReturn.class).getReturnValue());
 
     List<OrderBook> adaptedOrderBookList = CryptsyAdapters.adaptPublicOrderBooks(cryptsyOrderBookMap);
     assertThat(adaptedOrderBookList).hasSize(1);
@@ -96,8 +96,8 @@ public class CryptsyAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<Integer, CryptsyPublicOrderbook> cryptsyOrderBookMap = CryptsyAdapters.adaptPublicOrderBookMap(mapper.readValue(is,
-        CryptsyPublicOrderbookReturn.class).getReturnValue());
+    Map<Integer, CryptsyPublicOrderbook> cryptsyOrderBookMap = CryptsyAdapters
+        .adaptPublicOrderBookMap(mapper.readValue(is, CryptsyPublicOrderbookReturn.class).getReturnValue());
 
     List<OrderBook> adaptedOrderBookList = CryptsyAdapters.adaptPublicOrderBooks(cryptsyOrderBookMap);
     assertThat(adaptedOrderBookList).hasSize(2);
@@ -126,8 +126,8 @@ public class CryptsyAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters.adaptPublicMarketDataMap(mapper.readValue(is,
-        CryptsyPublicMarketDataReturn.class).getReturnValue());
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters
+        .adaptPublicMarketDataMap(mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue());
 
     Map<CurrencyPair, Trades> adaptedTradesMap = CryptsyAdapters.adaptPublicTrades(cryptsyMarketData);
 
@@ -152,8 +152,8 @@ public class CryptsyAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters.adaptPublicMarketDataMap(mapper.readValue(is,
-        CryptsyPublicMarketDataReturn.class).getReturnValue());
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters
+        .adaptPublicMarketDataMap(mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue());
 
     Map<CurrencyPair, Trades> adaptedTradesMap = CryptsyAdapters.adaptPublicTrades(cryptsyMarketData);
 
@@ -189,8 +189,8 @@ public class CryptsyAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters.adaptPublicMarketDataMap(mapper.readValue(is,
-        CryptsyPublicMarketDataReturn.class).getReturnValue());
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters
+        .adaptPublicMarketDataMap(mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue());
 
     List<Ticker> adaptedTickerList = CryptsyAdapters.adaptPublicTickers(cryptsyMarketData);
     assertThat(adaptedTickerList).hasSize(1);
@@ -213,8 +213,8 @@ public class CryptsyAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters.adaptPublicMarketDataMap(mapper.readValue(is,
-        CryptsyPublicMarketDataReturn.class).getReturnValue());
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters
+        .adaptPublicMarketDataMap(mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue());
 
     List<Ticker> adaptedTickerList = CryptsyAdapters.adaptPublicTickers(cryptsyMarketData);
     assertThat(adaptedTickerList).hasSize(1);
@@ -318,8 +318,8 @@ public class CryptsyAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters.adaptPublicMarketDataMap(mapper.readValue(is,
-        CryptsyPublicMarketDataReturn.class).getReturnValue());
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters
+        .adaptPublicMarketDataMap(mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue());
 
     Collection<CurrencyPair> adaptedCurrencyPairs = CryptsyAdapters.adaptCurrencyPairs(cryptsyMarketData);
 
@@ -335,8 +335,8 @@ public class CryptsyAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters.adaptPublicMarketDataMap(mapper.readValue(is,
-        CryptsyPublicMarketDataReturn.class).getReturnValue());
+    Map<Integer, CryptsyPublicMarketData> cryptsyMarketData = CryptsyAdapters
+        .adaptPublicMarketDataMap(mapper.readValue(is, CryptsyPublicMarketDataReturn.class).getReturnValue());
 
     HashMap[] marketSets = CryptsyAdapters.adaptMarketSets(cryptsyMarketData);
     assertEquals(marketSets[0].get(135), CurrencyPair.DOGE_LTC);

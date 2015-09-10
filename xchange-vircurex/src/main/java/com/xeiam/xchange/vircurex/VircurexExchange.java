@@ -7,6 +7,7 @@ import com.xeiam.xchange.utils.nonce.CurrentTime250NonceFactory;
 import com.xeiam.xchange.vircurex.service.polling.VircurexAccountService;
 import com.xeiam.xchange.vircurex.service.polling.VircurexMarketDataService;
 import com.xeiam.xchange.vircurex.service.polling.VircurexTradeService;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class VircurexExchange extends BaseExchange implements Exchange {

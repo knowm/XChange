@@ -12,8 +12,9 @@ public class MeXBTOpenOrdersResponse extends MeXBTResponse {
   private final Date dateTimeUtc;
   private final MeXBTOpenOrdersInfo[] openOrdersInfo;
 
-  public MeXBTOpenOrdersResponse(@JsonProperty("isAccepted") boolean isAccepted, @JsonProperty("rejectReason") String rejectReason, @JsonProperty("dateTimeUtc") @JsonDeserialize(
-      using = TickDeserializer.class) Date dateTimeUtc, @JsonProperty("openOrdersInfo") MeXBTOpenOrdersInfo[] openOrdersInfo) {
+  public MeXBTOpenOrdersResponse(@JsonProperty("isAccepted") boolean isAccepted, @JsonProperty("rejectReason") String rejectReason,
+      @JsonProperty("dateTimeUtc") @JsonDeserialize(using = TickDeserializer.class) Date dateTimeUtc,
+      @JsonProperty("openOrdersInfo") MeXBTOpenOrdersInfo[] openOrdersInfo) {
     super(isAccepted, rejectReason);
     this.dateTimeUtc = dateTimeUtc;
     this.openOrdersInfo = openOrdersInfo;

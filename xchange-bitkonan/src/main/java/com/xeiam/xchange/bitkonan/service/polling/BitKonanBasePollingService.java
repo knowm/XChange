@@ -4,6 +4,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitkonan.BitKonan;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+
 import si.mazi.rescu.RestProxyFactory;
 
 /**

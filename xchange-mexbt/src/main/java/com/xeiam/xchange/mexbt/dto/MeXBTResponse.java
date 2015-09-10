@@ -1,8 +1,8 @@
 package com.xeiam.xchange.mexbt.dto;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 public class MeXBTResponse {
 

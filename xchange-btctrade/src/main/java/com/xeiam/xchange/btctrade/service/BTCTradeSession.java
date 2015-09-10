@@ -2,12 +2,12 @@ package com.xeiam.xchange.btctrade.service;
 
 import java.io.IOException;
 
-import si.mazi.rescu.ParamsDigest;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btctrade.BTCTradeAdapters;
 import com.xeiam.xchange.btctrade.dto.BTCTradeSecretData;
 import com.xeiam.xchange.btctrade.service.polling.BTCTradeSecretDataService;
+
+import si.mazi.rescu.ParamsDigest;
 
 /**
  * Represents an API key status.

@@ -45,8 +45,8 @@ public class CoinsetterPairedDepth {
   }
 
   /**
-   * Returns the sequence number (for COINSETTER exchange only) for synchronizing with <a
-   * href="https://www.coinsetter.com/api/websockets/levels">incremental ticks stream</a> (See web sockets documentation)
+   * Returns the sequence number (for COINSETTER exchange only) for synchronizing with
+   * <a href="https://www.coinsetter.com/api/websockets/levels">incremental ticks stream</a> (See web sockets documentation)
    */
   public int getSequenceNumber() {
 

@@ -65,8 +65,8 @@ public class LakeBTCAdapters {
   }
 
   public static OrderBook adaptOrderBook(LakeBTCOrderBook lakeBTCOrderBook, CurrencyPair currencyPair) {
-    return new OrderBook(null, transformArrayToLimitOrders(lakeBTCOrderBook.getAsks(), OrderType.ASK, currencyPair), transformArrayToLimitOrders(
-        lakeBTCOrderBook.getBids(), OrderType.BID, currencyPair));
+    return new OrderBook(null, transformArrayToLimitOrders(lakeBTCOrderBook.getAsks(), OrderType.ASK, currencyPair),
+        transformArrayToLimitOrders(lakeBTCOrderBook.getBids(), OrderType.BID, currencyPair));
   }
 
   /**
@@ -82,8 +82,8 @@ public class LakeBTCAdapters {
     long lastTradeId = 0;
     for (LakeBTCTradeResponse trade : transactions) {
       final OrderType orderType = trade.getType().startsWith("buy") ? OrderType.BID : OrderType.ASK;
-      trades.add(new Trade(orderType, trade.getAmount(), currencyPair, trade.getTotal(), DateUtils.fromMillisUtc(trade.getAt() * 1000L), trade
-          .getId()));
+      trades.add(
+          new Trade(orderType, trade.getAmount(), currencyPair, trade.getTotal(), DateUtils.fromMillisUtc(trade.getAt() * 1000L), trade.getId()));
     }
 
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);

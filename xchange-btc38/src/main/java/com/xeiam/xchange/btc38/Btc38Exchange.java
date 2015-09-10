@@ -1,12 +1,10 @@
 package com.xeiam.xchange.btc38;
 
-import java.io.InputStream;
-
 import com.xeiam.xchange.BaseExchange;
-import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btc38.service.polling.Btc38MarketDataService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**

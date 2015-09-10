@@ -1,12 +1,10 @@
 package com.xeiam.xchange.blockchain;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Tim Molter

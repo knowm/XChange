@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionLikeType;
-import com.xeiam.xchange.cryptonit.v2.CryptonitAdapters;
 import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
 import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitTicker;
 import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitTradesJSONTest;

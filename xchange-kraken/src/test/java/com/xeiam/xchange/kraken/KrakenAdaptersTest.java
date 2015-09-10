@@ -27,7 +27,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
@@ -212,6 +211,6 @@ public class KrakenAdaptersTest {
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
     assertThat(trade.getFeeAmount()).isEqualTo("0.03208");
     assertThat(trade.getFeeCurrency()).isEqualTo(Currencies.LTC);
-    assertThat(((KrakenUserTrade)trade).getCost()).isEqualTo("16.03781");
+    assertThat(((KrakenUserTrade) trade).getCost()).isEqualTo("16.03781");
   }
 }

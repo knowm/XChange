@@ -1,15 +1,13 @@
 package com.xeiam.xchange.empoex;
 
-import java.io.InputStream;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.empoex.service.polling.EmpoExAccountService;
 import com.xeiam.xchange.empoex.service.polling.EmpoExMarketDataService;
 import com.xeiam.xchange.empoex.service.polling.EmpoExTradeService;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class EmpoExExchange extends BaseExchange implements Exchange {
 

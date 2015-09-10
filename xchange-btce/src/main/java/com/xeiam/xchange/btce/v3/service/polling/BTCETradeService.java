@@ -7,7 +7,13 @@ import java.util.Map;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAdapters;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
-import com.xeiam.xchange.btce.v3.dto.trade.*;
+import com.xeiam.xchange.btce.v3.BTCEExchange;
+import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
+import com.xeiam.xchange.btce.v3.dto.trade.BTCETransHistoryResult;
 import com.xeiam.xchange.btce.v3.service.polling.trade.params.BTCETradeHistoryParams;
 import com.xeiam.xchange.btce.v3.service.polling.trade.params.BTCETransHistoryParams;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -17,7 +23,6 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
@@ -48,10 +53,15 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     return BTCEAdapters.adaptOrders(orders);
   }
 
+  /**
+   * Implementation note: this method calls placeLimitOrder with LimitOrder created from passed MarketOrder and either max price in case of BID or min
+   * proce in case of ASK, taken from the remote metadata cached in BTCEExchange
+   */
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
+    BTCEExchangeInfo btceExchangeInfo = ((BTCEExchange) exchange).getBtceExchangeInfo();
+    LimitOrder order = BTCEAdapters.createLimitOrder(marketOrder, btceExchangeInfo);
+    return placeLimitOrder(order);
   }
 
   @Override
@@ -59,7 +69,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
     BTCEOrder.Type type = limitOrder.getType() == Order.OrderType.BID ? BTCEOrder.Type.buy : BTCEOrder.Type.sell;
 
-    String pair = com.xeiam.xchange.btce.v3.BTCEUtils.getPair(limitOrder.getCurrencyPair());
+    String pair = BTCEAdapters.getPair(limitOrder.getCurrencyPair());
 
     BTCEOrder btceOrder = new BTCEOrder(0, null, limitOrder.getLimitPrice(), limitOrder.getTradableAmount(), type, pair);
 
@@ -100,7 +110,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
       pair = String.format("%s_%s", tradableIdentifier, transactionCurrency).toLowerCase();
     }
     Map<Long, BTCETradeHistoryResult> resultMap = getBTCETradeHistory(null, numberOfTransactions, id, id, BTCEAuthenticated.SortOrder.DESC, null,
-       null, pair);
+        null, pair);
     return BTCEAdapters.adaptTradeHistory(resultMap);
   }
 
@@ -182,10 +192,8 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   }
 
   /**
-   * Retrieve TransHistory.
-   *
-   * :TODO: Return could be abstracted in a fashion similar to UserTrades and also used
-   *  in additional service for BitStamp exchange.
+   * Retrieve TransHistory. :TODO: Return could be abstracted in a fashion similar to UserTrades and also used in additional service for BitStamp
+   * exchange.
    *
    * @param params
    * @return Map of transaction id to BTCETransHistoryResult

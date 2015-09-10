@@ -27,13 +27,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.coinmate.dto.CoinmateBaseResponse;
 
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateTradeResponse extends CoinmateBaseResponse<Long> {
 
-  public CoinmateTradeResponse(@JsonProperty("error") boolean error,
-      @JsonProperty("errorMessage") String errorMessage,
+  public CoinmateTradeResponse(@JsonProperty("error") boolean error, @JsonProperty("errorMessage") String errorMessage,
       @JsonProperty("data") Long data) {
 
     super(error, errorMessage, data);

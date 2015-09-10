@@ -51,7 +51,7 @@ public class CoinfloorEstimateMarketOrder {
   @Override
   public String toString() {
 
-    return "CoinfloorEstimateMarketOrderReturn{tag='" + tag + "', errorcode='" + errorCode + "', baseQty='" + baseQty + "', counterQty='"
-        + counterQty + "'}";
+    return "CoinfloorEstimateMarketOrderReturn{tag='" + tag + "', errorcode='" + errorCode + "', baseQty='" + baseQty + "', counterQty='" + counterQty
+        + "'}";
   }
 }

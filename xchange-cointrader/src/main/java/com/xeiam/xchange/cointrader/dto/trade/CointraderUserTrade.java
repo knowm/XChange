@@ -17,15 +17,26 @@ import com.xeiam.xchange.utils.jackson.SqlUtcTimeDeserializer;
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 public final class CointraderUserTrade {
 
-  @JsonProperty @JsonDeserialize(using = CurrencyPairDeserializer.class) CurrencyPair currencyPair;
-  @JsonProperty Long tradeId;
-  @JsonProperty Long orderId;
-  @JsonProperty @JsonDeserialize(using = SqlUtcTimeDeserializer.class) Date executed;
-  @JsonProperty CointraderOrder.Type type;
-  @JsonProperty BigDecimal quantity;
-  @JsonProperty BigDecimal price;
-  @JsonProperty BigDecimal fee;
-  @JsonProperty BigDecimal total;
+  @JsonProperty
+  @JsonDeserialize(using = CurrencyPairDeserializer.class)
+  CurrencyPair currencyPair;
+  @JsonProperty
+  Long tradeId;
+  @JsonProperty
+  Long orderId;
+  @JsonProperty
+  @JsonDeserialize(using = SqlUtcTimeDeserializer.class)
+  Date executed;
+  @JsonProperty
+  CointraderOrder.Type type;
+  @JsonProperty
+  BigDecimal quantity;
+  @JsonProperty
+  BigDecimal price;
+  @JsonProperty
+  BigDecimal fee;
+  @JsonProperty
+  BigDecimal total;
 
   public Long getTradeId() {
     return tradeId;
@@ -65,7 +76,8 @@ public final class CointraderUserTrade {
 
   @Override
   public String toString() {
-    return String.format("CointraderUserTransaction{id=%d, currency_pair=%s, order_id=%d, microtime=%s, type=%s, amount=%s, price=%s, fee=%s, total=%s}",
-        tradeId, currencyPair, orderId, executed, type, quantity, price, fee, total);
+    return String.format(
+        "CointraderUserTransaction{id=%d, currency_pair=%s, order_id=%d, microtime=%s, type=%s, amount=%s, price=%s, fee=%s, total=%s}", tradeId,
+        currencyPair, orderId, executed, type, quantity, price, fee, total);
   }
 }

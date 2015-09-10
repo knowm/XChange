@@ -30,8 +30,8 @@ public class BTCChinaTransactionsRequest extends BTCChinaRequest {
   public BTCChinaTransactionsRequest(String type, Integer limit, Integer offset, Integer since, String sincetype) {
 
     method = "getTransactions";
-    params = String.format("[\"%s\",%d,%d,%d,\"%s\"]", type == null ? TYPE_ALL : type, limit == null ? 10 : limit.intValue(), offset == null ? 0
-        : offset.intValue(), since == null ? 0 : since.intValue(), sincetype == null ? "time" : sincetype);
+    params = String.format("[\"%s\",%d,%d,%d,\"%s\"]", type == null ? TYPE_ALL : type, limit == null ? 10 : limit.intValue(),
+        offset == null ? 0 : offset.intValue(), since == null ? 0 : since.intValue(), sincetype == null ? "time" : sincetype);
   }
 
   @Override

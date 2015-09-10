@@ -7,6 +7,7 @@ import com.xeiam.xchange.taurus.service.polling.TaurusAccountService;
 import com.xeiam.xchange.taurus.service.polling.TaurusMarketDataService;
 import com.xeiam.xchange.taurus.service.polling.TaurusTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**

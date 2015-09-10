@@ -17,8 +17,9 @@ public class MeXBTTicker {
   private final BigDecimal volume24Hour;
   private final long trades24Hour;
 
-  public MeXBTTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("last") BigDecimal last, @JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("ask") BigDecimal ask, @JsonProperty("bidCount") long bidCount, @JsonProperty("askCount") long askCount, @JsonProperty("change24Hour") BigDecimal change24Hour,
+  public MeXBTTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("last") BigDecimal last,
+      @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask, @JsonProperty("bidCount") long bidCount,
+      @JsonProperty("askCount") long askCount, @JsonProperty("change24Hour") BigDecimal change24Hour,
       @JsonProperty("volume24Hour") BigDecimal volume24Hour, @JsonProperty("trades24Hour") long trades24Hour) {
     this.high = high;
     this.low = low;

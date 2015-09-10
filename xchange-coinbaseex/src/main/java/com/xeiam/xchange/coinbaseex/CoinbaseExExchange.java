@@ -7,6 +7,7 @@ import com.xeiam.xchange.coinbaseex.service.polling.CoinbaseExAccountService;
 import com.xeiam.xchange.coinbaseex.service.polling.CoinbaseExMarketDataService;
 import com.xeiam.xchange.coinbaseex.service.polling.CoinbaseExTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CoinbaseExExchange extends BaseExchange implements Exchange {

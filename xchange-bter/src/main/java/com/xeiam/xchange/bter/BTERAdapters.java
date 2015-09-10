@@ -134,8 +134,8 @@ public final class BTERAdapters {
       if (!tradeIdString.isEmpty()) {
         long tradeId = Long.valueOf(tradeIdString);
         if (tradeId > lastTradeId) {
-			lastTradeId = tradeId;
-		}
+          lastTradeId = tradeId;
+        }
       }
       Trade adaptedTrade = adaptTrade(trade, currencyPair);
       tradeList.add(adaptedTrade);

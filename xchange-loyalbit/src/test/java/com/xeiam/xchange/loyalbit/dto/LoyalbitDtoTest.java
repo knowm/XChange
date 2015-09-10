@@ -9,8 +9,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.loyalbit.dto.account.LoyalbitBalance;
@@ -43,7 +41,8 @@ public class LoyalbitDtoTest {
     try {
       parse("delete-order-error.json", LoyalbitBaseResponse.class);
       assertTrue("Expected an ExceptionalReturnContentException", false);
-    } catch (JsonMappingException ignore) { }
+    } catch (JsonMappingException ignore) {
+    }
 
     final LoyalbitException ex = parse("delete-order-error.json", LoyalbitException.class);
     assertTrue(ex.getMessage().contains("The order you tried to delete was executed before you requested the delete."));
@@ -65,8 +64,10 @@ public class LoyalbitDtoTest {
     final LoyalbitOrderBook response = parse("orderbook.json", LoyalbitOrderBook.class);
     assertEquals(7, response.getBids().size());
     assertEquals(7, response.getAsks().size());
-    for (List<BigDecimal> item : response.getAsks()) assertEquals(2, item.size());
-    for (List<BigDecimal> item : response.getBids()) assertEquals(2, item.size());
+    for (List<BigDecimal> item : response.getAsks())
+      assertEquals(2, item.size());
+    for (List<BigDecimal> item : response.getBids())
+      assertEquals(2, item.size());
 
     assertEquals(new BigDecimal("431.30"), response.getAsks().get(3).get(0));
     assertEquals(new BigDecimal("0.20442012"), response.getAsks().get(3).get(1));
@@ -89,7 +90,8 @@ public class LoyalbitDtoTest {
     try {
       parse("submit-order-error.json", LoyalbitSubmitOrderResponse.class);
       assertTrue("Expected an ExceptionalReturnContentException", false);
-    } catch (JsonMappingException ignore) { }
+    } catch (JsonMappingException ignore) {
+    }
 
     final LoyalbitException ex = parse("submit-order-error.json", LoyalbitException.class);
     assertTrue(ex.getMessage().contains("Not enough USD funds."));

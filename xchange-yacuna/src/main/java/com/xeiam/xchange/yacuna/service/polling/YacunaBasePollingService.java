@@ -1,5 +1,10 @@
 package com.xeiam.xchange.yacuna.service.polling;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
@@ -7,12 +12,8 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 import com.xeiam.xchange.yacuna.Yacuna;
 import com.xeiam.xchange.yacuna.dto.marketdata.YacunaTicker;
 import com.xeiam.xchange.yacuna.dto.marketdata.YacunaTickerReturn;
-import si.mazi.rescu.RestProxyFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * Created by Yingzhe on 12/27/2014.

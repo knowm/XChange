@@ -23,16 +23,10 @@ public final class TaurusUserTransaction {
   /** fee seems to be in BTC for buys, CAD for sells */
   private final BigDecimal fee;
 
-  public TaurusUserTransaction(
-      @JsonProperty("datetime") @JsonDeserialize(using = SqlUtcTimeDeserializer.class) Date datetime,
-      @JsonProperty("id") long id,
-      @JsonProperty("order_id") String orderId,
-      @JsonProperty("type") TransactionType type,
-      @JsonProperty("cad") BigDecimal cad,
-      @JsonProperty("btc") BigDecimal btc,
-      @JsonProperty("rate") BigDecimal price,
-      @JsonProperty("fee") BigDecimal fee)
-  {
+  public TaurusUserTransaction(@JsonProperty("datetime") @JsonDeserialize(using = SqlUtcTimeDeserializer.class) Date datetime,
+      @JsonProperty("id") long id, @JsonProperty("order_id") String orderId, @JsonProperty("type") TransactionType type,
+      @JsonProperty("cad") BigDecimal cad, @JsonProperty("btc") BigDecimal btc, @JsonProperty("rate") BigDecimal price,
+      @JsonProperty("fee") BigDecimal fee) {
     this.datetime = datetime;
     this.id = id;
     this.orderId = orderId;

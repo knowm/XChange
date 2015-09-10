@@ -76,8 +76,8 @@ public class CryptsyDemo {
     System.out.println("\ngetTrades:\n" + marketDataService.getTrades(new CurrencyPair("NET", "BTC")));
     Thread.sleep(500);
 
-    String orderID = tradeService.placeLimitOrder(new LimitOrder(OrderType.BID, new BigDecimal("50.000000"), new CurrencyPair("NET", "BTC"), null,
-        null, new BigDecimal("0.00000001")));
+    String orderID = tradeService.placeLimitOrder(
+        new LimitOrder(OrderType.BID, new BigDecimal("50.000000"), new CurrencyPair("NET", "BTC"), null, null, new BigDecimal("0.00000001")));
     System.out.println("\nPlaceOrder:\n" + orderID);
     Thread.sleep(500);
 
@@ -181,8 +181,8 @@ public class CryptsyDemo {
     System.out.println("\nTradeHistory:\n" + tradeService.getCryptsyTradeHistory(new Date(0), new Date()));
     Thread.sleep(500);
 
-    System.out.println("\nCalculateFees:\n"
-        + tradeService.calculateCryptsyFees(CryptsyOrderType.Buy, new BigDecimal("500"), new BigDecimal("0.15182")));
+    System.out
+        .println("\nCalculateFees:\n" + tradeService.calculateCryptsyFees(CryptsyOrderType.Buy, new BigDecimal("500"), new BigDecimal("0.15182")));
     Thread.sleep(500);
 
     System.out.println("\nOpenOrders:\n" + tradeService.getCryptsyOpenOrders());

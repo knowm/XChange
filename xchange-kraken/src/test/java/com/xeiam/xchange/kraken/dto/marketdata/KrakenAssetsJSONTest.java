@@ -9,7 +9,6 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenAsset;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
 
 public class KrakenAssetsJSONTest {

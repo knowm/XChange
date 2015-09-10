@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
@@ -44,10 +45,10 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
     walletId = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get("walletId");
   }
 
-  public ItBitOrder[] getItBitOpenOrders() throws IOException {
+  public ItBitOrder[] getItBitOpenOrders(CurrencyPair currencyPair) throws IOException {
 
-    ItBitOrder[] orders = itBitAuthenticated
-        .getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), "XBTUSD", "1", "1000", "open", walletId);
+    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), currencyPair.baseSymbol+currencyPair.counterSymbol, "1", "1000",
+        "open", walletId);
 
     return orders;
   }
@@ -61,8 +62,8 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
    */
   public ItBitOrder[] getItBitOrders(String status) throws IOException {
 
-    ItBitOrder[] orders = itBitAuthenticated
-        .getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), "XBTUSD", "1", "1000", status, walletId);
+    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), "XBTUSD", "1", "1000",
+        status, walletId);
 
     return orders;
   }
@@ -94,8 +95,8 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   public ItBitOrder[] getItBitTradeHistory(String currency, String pageNum, String pageLen) throws IOException {
 
-    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), currency, pageNum, pageLen, "filled",
-        walletId);
+    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), currency, pageNum, pageLen,
+        "filled", walletId);
     return orders;
   }
 }

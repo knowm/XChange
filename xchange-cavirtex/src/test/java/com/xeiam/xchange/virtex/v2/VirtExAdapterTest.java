@@ -16,7 +16,6 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.utils.DateUtils;
-import com.xeiam.xchange.virtex.v2.VirtExAdapters;
 import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExDepthJSONTest;
 import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExDepthWrapper;
 import com.xeiam.xchange.virtex.v2.dto.marketdata.VirtExTickerJSONTest;

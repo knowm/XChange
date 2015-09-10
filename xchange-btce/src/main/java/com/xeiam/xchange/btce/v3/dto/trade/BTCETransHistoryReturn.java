@@ -1,16 +1,14 @@
 package com.xeiam.xchange.btce.v3.dto.trade;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.btce.v3.dto.BTCEReturn;
-
-import java.util.Map;
 
 /**
  * Return value from TradeHistory, including overal status and map of transaction ids to TransHistoryResult.
  *
- * @author Peter N. Steinmetz
- *         Date: 3/30/15
- *         Time: 3:19 PM
+ * @author Peter N. Steinmetz Date: 3/30/15 Time: 3:19 PM
  */
 public class BTCETransHistoryReturn extends BTCEReturn<Map<Long, BTCETransHistoryResult>> {
 
@@ -22,7 +20,7 @@ public class BTCETransHistoryReturn extends BTCEReturn<Map<Long, BTCETransHistor
    * @param error
    */
   public BTCETransHistoryReturn(@JsonProperty("success") boolean success, @JsonProperty("return") Map<Long, BTCETransHistoryResult> value,
-                                @JsonProperty("error") String error) {
+      @JsonProperty("error") String error) {
 
     super(success, value, error);
   }

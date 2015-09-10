@@ -5,8 +5,8 @@ package com.xeiam.xchange.huobi.dto.streaming.request.marketdata;
  */
 public class LastTimeLine extends AbstractPush {
 
-	public LastTimeLine(String symbolId, PushType pushType) {
-		super(symbolId, pushType);
-	}
+  public LastTimeLine(String symbolId, PushType pushType) {
+    super(symbolId, pushType);
+  }
 
 }

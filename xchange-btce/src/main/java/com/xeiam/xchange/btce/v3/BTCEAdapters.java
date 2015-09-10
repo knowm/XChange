@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
+
+import com.xeiam.xchange.dto.meta.RateLimit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
@@ -23,10 +28,13 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
-import com.xeiam.xchange.dto.trade.*;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.MarketOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
+import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Various adapters for converting from BTCE DTOs to XChange DTOs
@@ -135,8 +143,8 @@ public final class BTCEAdapters {
     BigDecimal volume = bTCETicker.getVolCur();
     Date timestamp = DateUtils.fromMillisUtc(bTCETicker.getUpdated() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(avg).volume(volume).timestamp(timestamp)
-        .build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(avg).volume(volume)
+        .timestamp(timestamp).build();
   }
 
   public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {
@@ -209,21 +217,23 @@ public final class BTCEAdapters {
     Map<CurrencyPair, MarketMetaData> currencyPairs = new HashMap<CurrencyPair, MarketMetaData>();
     Map<String, CurrencyMetaData> currencies = new HashMap<String, CurrencyMetaData>();
 
+    if (btceExchangeInfo != null)
     for (Entry<String, BTCEPairInfo> e : btceExchangeInfo.getPairs().entrySet()) {
       CurrencyPair pair = adaptCurrencyPair(e.getKey());
       MarketMetaData marketMetaData = toMarketMetaData(e.getValue(), btceMetaData);
       currencyPairs.put(pair, marketMetaData);
 
-      addCurrencyMetaData(pair.baseSymbol, currencies);
-      addCurrencyMetaData(pair.counterSymbol, currencies);
+      addCurrencyMetaData(pair.baseSymbol, currencies, btceMetaData);
+      addCurrencyMetaData(pair.counterSymbol, currencies, btceMetaData);
     }
 
-    return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
+    HashSet<RateLimit> publicRateLimits = new HashSet<>(Collections.singleton(new RateLimit(btceMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)));
+    return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, Collections.<RateLimit>emptySet(), false);
   }
 
-  private static void addCurrencyMetaData(String symbol, Map<String, CurrencyMetaData> currencies) {
+  private static void addCurrencyMetaData(String symbol, Map<String, CurrencyMetaData> currencies, BTCEMetaData btceMetaData) {
     if (!currencies.containsKey(symbol)) {
-      currencies.put(symbol, new CurrencyMetaData(8));
+      currencies.put(symbol, new CurrencyMetaData(btceMetaData.amountScale));
     }
   }
 
@@ -237,13 +247,23 @@ public final class BTCEAdapters {
 
   private static BigDecimal withScale(BigDecimal value, int priceScale) {
     /*
-    * Last time I checked BTC-e returned an erroneous JSON result, where the minimum price for LTC/EUR was .0001 and the price scale was 3
-    */
+     * Last time I checked BTC-e returned an erroneous JSON result, where the minimum price for LTC/EUR was .0001 and the price scale was 3
+     */
     try {
       return value.setScale(priceScale, RoundingMode.UNNECESSARY);
     } catch (ArithmeticException e) {
       log.debug("Could not round {} to {} decimal places: {}", value, priceScale, e.getMessage());
       return value.setScale(priceScale, RoundingMode.CEILING);
     }
+  }
+
+  public static String getPair(CurrencyPair currencyPair) {
+    return currencyPair.baseSymbol.toLowerCase() + "_" + currencyPair.counterSymbol.toLowerCase();
+  }
+
+  public static LimitOrder createLimitOrder(MarketOrder marketOrder, BTCEExchangeInfo btceExchangeInfo) {
+    BTCEPairInfo btcePairInfo = btceExchangeInfo.getPairs().get(getPair(marketOrder.getCurrencyPair()));
+    BigDecimal limitPrice = marketOrder.getType() == OrderType.BID ? btcePairInfo.getMaxPrice() : btcePairInfo.getMinPrice();
+    return LimitOrder.Builder.from(marketOrder).limitPrice(limitPrice).build();
   }
 }

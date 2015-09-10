@@ -9,10 +9,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
 
 @Path("api/0")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

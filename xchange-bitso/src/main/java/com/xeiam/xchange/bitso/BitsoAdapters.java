@@ -29,21 +29,13 @@ import com.xeiam.xchange.utils.DateUtils;
 
 public final class BitsoAdapters {
 
-  private BitsoAdapters() { }
+  private BitsoAdapters() {
+  }
 
   public static Ticker adaptTicker(BitsoTicker t, CurrencyPair currencyPair) {
 
-    return new Ticker.Builder()
-        .currencyPair(currencyPair)
-        .last(t.getLast())
-        .bid(t.getBid())
-        .ask(t.getAsk())
-        .high(t.getHigh())
-        .low(t.getLow())
-        .vwap(t.getVwap())
-        .volume(t.getVolume())
-        .timestamp(t.getTimestamp())
-        .build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(t.getLast()).bid(t.getBid()).ask(t.getAsk()).high(t.getHigh()).low(t.getLow())
+        .vwap(t.getVwap()).volume(t.getVolume()).timestamp(t.getTimestamp()).build();
   }
 
   public static AccountInfo adaptAccountInfo(BitsoBalance bitsoBalance, String userName) {
@@ -76,7 +68,7 @@ public final class BitsoAdapters {
 
     return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
   }
-  
+
   /**
    * Adapts a Transaction[] to a Trades Object
    *
@@ -99,7 +91,6 @@ public final class BitsoAdapters {
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }
-
 
   public static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
 

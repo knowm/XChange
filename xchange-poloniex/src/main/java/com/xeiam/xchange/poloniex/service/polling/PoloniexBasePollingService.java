@@ -10,9 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.poloniex.Poloniex;
@@ -22,6 +19,9 @@ import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
 import com.xeiam.xchange.poloniex.service.PoloniexDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
 
 public class PoloniexBasePollingService extends BaseExchangeService implements BasePollingService {
 

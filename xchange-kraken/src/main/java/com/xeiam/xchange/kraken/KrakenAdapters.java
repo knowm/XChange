@@ -194,7 +194,8 @@ public class KrakenAdapters {
     String transactionCurrency = adaptCurrency(orderDescription.getAssetPair().substring(3));
     Date timestamp = new Date((long) (krakenOrder.getOpenTimestamp() * 1000L));
 
-    return new LimitOrder(type, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), id, timestamp, orderDescription.getPrice());
+    return new LimitOrder(type, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), id, timestamp,
+        orderDescription.getPrice());
   }
 
   public static UserTrades adaptTradesHistory(Map<String, KrakenTrade> krakenTrades) {
@@ -228,9 +229,9 @@ public class KrakenAdapters {
   }
 
   public static String adaptKrakenDepositAddress(KrakenDepositAddress[] krakenDepositAddress) {
-	  return krakenDepositAddress[0].getAddress();
+    return krakenDepositAddress[0].getAddress();
   }
-  
+
   public static String adaptOrderId(KrakenOrderResponse orderResponse) {
 
     List<String> orderIds = orderResponse.getTransactionIds();

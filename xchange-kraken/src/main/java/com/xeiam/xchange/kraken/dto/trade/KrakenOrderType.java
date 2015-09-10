@@ -30,6 +30,7 @@ public enum KrakenOrderType {
   }
 
   private static final Map<String, KrakenOrderType> fromString = new HashMap<String, KrakenOrderType>();
+
   static {
     for (KrakenOrderType orderType : values())
       fromString.put(orderType.toString(), orderType);

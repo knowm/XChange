@@ -1,12 +1,13 @@
 package com.xeiam.xchange.bitmarket;
 
-import com.xeiam.xchange.service.BaseParamsDigest;
-import si.mazi.rescu.RestInvocation;
-
-import javax.crypto.Mac;
-import javax.ws.rs.FormParam;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+
+import javax.crypto.Mac;
+
+import com.xeiam.xchange.service.BaseParamsDigest;
+
+import si.mazi.rescu.RestInvocation;
 
 /**
  * @author kfonal

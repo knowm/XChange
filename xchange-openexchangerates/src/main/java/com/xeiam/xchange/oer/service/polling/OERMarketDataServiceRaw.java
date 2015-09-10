@@ -2,13 +2,13 @@ package com.xeiam.xchange.oer.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.oer.OER;
 import com.xeiam.xchange.oer.dto.marketdata.OERRates;
 import com.xeiam.xchange.oer.dto.marketdata.OERTickers;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author timmolter

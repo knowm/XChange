@@ -1,10 +1,6 @@
 package com.xeiam.xchange.virtex.v2.service.polling;
 
-import java.io.IOException;
-import java.util.List;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 

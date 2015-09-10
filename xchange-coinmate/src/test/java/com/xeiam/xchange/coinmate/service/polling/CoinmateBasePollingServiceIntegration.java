@@ -23,6 +23,10 @@
  */
 package com.xeiam.xchange.coinmate.service.polling;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import org.junit.Test;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.coinmate.CoinmateExchange;
@@ -31,11 +35,8 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
-import static org.fest.assertions.api.Assertions.assertThat;
-import org.junit.Test;
 
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateBasePollingServiceIntegration {
@@ -45,7 +46,7 @@ public class CoinmateBasePollingServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
+    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "EUR"));
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }
@@ -55,7 +56,7 @@ public class CoinmateBasePollingServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_EUR);
     System.out.println(orderBook.toString());
     assertThat(orderBook).isNotNull();
   }
@@ -65,7 +66,7 @@ public class CoinmateBasePollingServiceIntegration {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
     System.out.println(trades.getTrades().toString());
     assertThat(trades).isNotNull();
   }

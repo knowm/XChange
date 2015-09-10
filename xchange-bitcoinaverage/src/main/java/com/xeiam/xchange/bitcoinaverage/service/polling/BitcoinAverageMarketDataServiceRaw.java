@@ -2,12 +2,12 @@ package com.xeiam.xchange.bitcoinaverage.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitcoinaverage.BitcoinAverage;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTickers;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * <p>

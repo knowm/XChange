@@ -23,11 +23,11 @@
  */
 package com.xeiam.xchange.coinmate.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
- *
  * @author Martin Stachon
  */
 public class CoinmateOpenOrdersEntry {
@@ -38,11 +38,8 @@ public class CoinmateOpenOrdersEntry {
   private final BigDecimal price;
   private final BigDecimal amount;
 
-  public CoinmateOpenOrdersEntry(@JsonProperty("id") long id,
-      @JsonProperty("timestamp") long timestamp,
-      @JsonProperty("type") String type,
-      @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amount") BigDecimal amount) {
+  public CoinmateOpenOrdersEntry(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp, @JsonProperty("type") String type,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount) {
 
     this.id = id;
     this.timestamp = timestamp;

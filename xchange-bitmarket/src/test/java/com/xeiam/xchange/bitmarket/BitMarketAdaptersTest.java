@@ -1,8 +1,18 @@
 package com.xeiam.xchange.bitmarket;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
+import org.junit.Test;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
-import com.xeiam.xchange.bitmarket.dto.trade.*;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryOperationsResponse;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
+import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -10,13 +20,6 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * @author kfonal

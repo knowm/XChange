@@ -1,7 +1,5 @@
 package com.xeiam.xchange.okcoin;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.okcoin.service.polling.OkCoinAccountService;
@@ -13,6 +11,8 @@ import com.xeiam.xchange.okcoin.service.polling.OkCoinTradeService;
 import com.xeiam.xchange.okcoin.service.streaming.OkCoinStreamingExchangeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class OkCoinExchange extends BaseExchange {
 

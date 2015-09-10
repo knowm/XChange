@@ -9,8 +9,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
-import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 
 public class HitbtcMarketDataJsonTest {
 

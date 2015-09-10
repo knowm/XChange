@@ -3,13 +3,13 @@ package com.xeiam.xchange.taurus.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.taurus.TaurusAuthenticated;
 import com.xeiam.xchange.taurus.dto.account.TaurusBalance;
 import com.xeiam.xchange.taurus.service.TaurusDigest;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class TaurusAccountServiceRaw extends TaurusBasePollingService {
 
@@ -20,8 +20,8 @@ public class TaurusAccountServiceRaw extends TaurusBasePollingService {
     super(exchange);
 
     this.taurusAuthenticated = RestProxyFactory.createProxy(TaurusAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = TaurusDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification()
-        .getUserName(), exchange.getExchangeSpecification().getApiKey());
+    this.signatureCreator = TaurusDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
+        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
 
   public TaurusBalance getTaurusBalance() throws IOException {
@@ -38,7 +38,7 @@ public class TaurusAccountServiceRaw extends TaurusBasePollingService {
   }
 
   public String getTaurusBitcoinDepositAddress() throws IOException {
-    return taurusAuthenticated.getBitcoinDepositAddress(exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator, exchange.getNonceFactory());
+    return taurusAuthenticated.getBitcoinDepositAddress(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory());
   }
 }

@@ -45,19 +45,19 @@ public class BitcoindeTradesDemo {
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
     List<Trade> allTrades = trades.getTrades();
     System.out.println("Number trades received: " + allTrades.size());
-    for (Trade t : allTrades ){
-    	System.out.println(t);
+    for (Trade t : allTrades) {
+      System.out.println(t);
     }
-    
+
   }
 
   public static void raw(BitcoindeMarketDataServiceRaw marketDataService) throws IOException {
 
     /* get BitcoindeTrades data */
     BitcoindeTrade[] bitcoindeTrades = marketDataService.getBitcoindeTrades();
-    
+
     /* print each trade object */
     for (BitcoindeTrade bitcoindeTrade : bitcoindeTrades)
-	    System.out.println(bitcoindeTrade);
+      System.out.println(bitcoindeTrade);
   }
 }

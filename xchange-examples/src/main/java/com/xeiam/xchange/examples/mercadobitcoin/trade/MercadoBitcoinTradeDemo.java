@@ -76,8 +76,8 @@ public class MercadoBitcoinTradeDemo {
     printRawOpenOrders(tradeService);
 
     // Cancel the added order
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> cancelResult = tradeService.mercadoBitcoinCancelOrder("ltc_brl", order
-        .getTheReturn().keySet().iterator().next());
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> cancelResult = tradeService.mercadoBitcoinCancelOrder("ltc_brl",
+        order.getTheReturn().keySet().iterator().next());
     System.out.println("Canceling returned " + cancelResult);
 
     printRawOpenOrders(tradeService);

@@ -1,8 +1,8 @@
 package com.xeiam.xchange.clevercoin.util;
 
-import si.mazi.rescu.serialization.jackson.serializers.EnumIntDeserializer;
-
 import com.xeiam.xchange.clevercoin.dto.account.WithdrawalRequest;
+
+import si.mazi.rescu.serialization.jackson.serializers.EnumIntDeserializer;
 
 /**
  * @author Karsten Nilsen

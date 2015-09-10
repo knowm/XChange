@@ -30,8 +30,9 @@ public final class CleverCoinOrder {
    * @param price
    * @param amount
    */
-  public CleverCoinOrder(@JsonProperty("orderID") int id,  @JsonProperty("type") String type, @JsonProperty("isOpen") boolean isOpen, @JsonProperty("created") double datetime,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount, @JsonProperty("remainingAmount") BigDecimal remainingAmount, 
+  public CleverCoinOrder(@JsonProperty("orderID") int id, @JsonProperty("type") String type, @JsonProperty("isOpen") boolean isOpen,
+      @JsonProperty("created") double datetime, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("remainingAmount") BigDecimal remainingAmount,
       @JsonProperty("error") @JsonDeserialize(using = CleverCoinErrorDeserializer.class) String errorMessage) {
 
     this.id = id;
@@ -58,17 +59,17 @@ public final class CleverCoinOrder {
 
     return price;
   }
-  
+
   public double getDatetime() {
 
-	    return datetime;
+    return datetime;
   }
 
   public BigDecimal getAmount() {
 
     return amount;
   }
-  
+
   public BigDecimal getRemainingAmount() {
 
     return remainingAmount;
@@ -76,7 +77,7 @@ public final class CleverCoinOrder {
 
   @JsonIgnore
   public Date getTime() {
-	  
+
     return new Date((long) (this.getDatetime() * 1000L));
   }
 
@@ -89,6 +90,8 @@ public final class CleverCoinOrder {
   @Override
   public String toString() {
 
-    return errorMessage != null ? errorMessage : String.format("Order{id=%s, created=%s, type=%s, price=%s, amount=%s, remainingamount=%s, isopen=%s}", id, datetime, type, price, amount, remainingAmount, isOpen);
+    return errorMessage != null ? errorMessage
+        : String.format("Order{id=%s, created=%s, type=%s, price=%s, amount=%s, remainingamount=%s, isopen=%s}", id, datetime, type, price, amount,
+            remainingAmount, isOpen);
   }
 }

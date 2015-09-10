@@ -11,8 +11,6 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
-import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import com.xeiam.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 
 /**

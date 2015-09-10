@@ -15,9 +15,9 @@ public class ANXMetaData extends ExchangeMetaData {
   public BigDecimal makerTradingFee;
   public BigDecimal takerTradingFee;
 
-  public ANXMetaData(@JsonProperty("currencyPair") Map<CurrencyPair, ANXMarketMetaData> currencyPairs, @JsonProperty("currency") Map<String, CurrencyMetaData> currency,
-      @JsonProperty("publicRateLimits") Set<RateLimit> publicRateLimits, @JsonProperty("privateRateLimits") Set<RateLimit> privateRateLimits,
-      @JsonProperty("shareRateLimits") Boolean shareRateLimits,
+  public ANXMetaData(@JsonProperty("currencyPair") Map<CurrencyPair, ANXMarketMetaData> currencyPairs,
+      @JsonProperty("currency") Map<String, CurrencyMetaData> currency, @JsonProperty("publicRateLimits") Set<RateLimit> publicRateLimits,
+      @JsonProperty("privateRateLimits") Set<RateLimit> privateRateLimits, @JsonProperty("shareRateLimits") Boolean shareRateLimits,
       @JsonProperty("makerTradingFee") BigDecimal makerTradingFee, @JsonProperty("takerTradingFee") BigDecimal takerTradingFee) {
     super((Map) currencyPairs, currency, publicRateLimits, privateRateLimits, shareRateLimits);
 

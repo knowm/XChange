@@ -21,12 +21,8 @@ public class CointraderOrderBook extends CointraderBaseResponse<List<CointraderO
 
   private final Integer totalCount;
 
-  public CointraderOrderBook(
-      @JsonProperty("data") List<Entry> data,
-      @JsonProperty("totalCount") Integer totalCount,
-      @JsonProperty("success") Boolean success,
-      @JsonProperty("message") String message
-  ) {
+  public CointraderOrderBook(@JsonProperty("data") List<Entry> data, @JsonProperty("totalCount") Integer totalCount,
+      @JsonProperty("success") Boolean success, @JsonProperty("message") String message) {
     super(success, message, data);
     this.totalCount = totalCount;
   }
@@ -84,8 +80,8 @@ public class CointraderOrderBook extends CointraderBaseResponse<List<CointraderO
 
     @Override
     public String toString() {
-      return String.format("Entry{currencyPair=%s, price=%s, quantity=%s, total=%s, type=%s, created=%s}",
-          currencyPair, price, quantity, total, type, created);
+      return String.format("Entry{currencyPair=%s, price=%s, quantity=%s, total=%s, type=%s, created=%s}", currencyPair, price, quantity, total, type,
+          created);
     }
   }
 }

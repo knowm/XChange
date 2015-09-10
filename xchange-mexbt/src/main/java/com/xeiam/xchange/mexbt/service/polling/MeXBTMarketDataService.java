@@ -27,7 +27,8 @@ public class MeXBTMarketDataService extends MeXBTMarketDataServiceRaw implements
    * {@inheritDoc}
    */
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return adaptTicker(currencyPair, getTicker(toCurrencyPair(currencyPair)));
   }
 
@@ -43,7 +44,8 @@ public class MeXBTMarketDataService extends MeXBTMarketDataServiceRaw implements
    * {@inheritDoc}
    */
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     final Long since;
     if (args.length > 0 && args[0] instanceof Number) {
       since = ((Number) args[0]).longValue();

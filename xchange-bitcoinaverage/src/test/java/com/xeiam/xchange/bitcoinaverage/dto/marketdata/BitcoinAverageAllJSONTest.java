@@ -9,7 +9,6 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTickers;
 
 /**
  * Test BitcoinAverageTicker JSON parsing

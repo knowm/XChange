@@ -1,9 +1,19 @@
 package com.xeiam.xchange.anx.v2.dto.account;
 
+import static com.xeiam.xchange.currency.Currencies.BTC;
+import static com.xeiam.xchange.currency.Currencies.DOGE;
+import static com.xeiam.xchange.currency.Currencies.HKD;
+import static com.xeiam.xchange.currency.Currencies.LTC;
+import static com.xeiam.xchange.currency.Currencies.USD;
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
+
+import org.junit.Test;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,11 +23,6 @@ import com.xeiam.xchange.anx.v2.ANXExchange;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
 import com.xeiam.xchange.anx.v2.dto.account.polling.ANXWallet;
 import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
-import org.junit.Test;
-
-import static com.xeiam.xchange.currency.Currencies.*;
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test BitStamp Full Depth JSON parsing
@@ -62,7 +67,6 @@ public class AccountInfoJSONTest {
     ANXAccountInfo anxAccountInfo = mapper.readValue(is, ANXAccountInfo.class);
 
     Map<String, ANXWallet> wallets = anxAccountInfo.getWallets();
-
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
     ANXMetaData anxMetaData = ((ANXExchange) exchange).getANXMetaData();

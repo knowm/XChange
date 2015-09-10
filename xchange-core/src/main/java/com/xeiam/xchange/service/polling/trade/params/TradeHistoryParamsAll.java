@@ -9,8 +9,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
  * exceptions, if that all the required fields are non-null) passed to any implementation of
  * {@link com.xeiam.xchange.service.polling.trade.PollingTradeService#getTradeHistory(TradeHistoryParams)} .
  */
-public class TradeHistoryParamsAll implements TradeHistoryParamsTimeSpan, TradeHistoryParamPaging, TradeHistoryParamsIdSpan, TradeHistoryParamOffset,
-    TradeHistoryParamCurrencyPair {
+public class TradeHistoryParamsAll
+    implements TradeHistoryParamsTimeSpan, TradeHistoryParamPaging, TradeHistoryParamsIdSpan, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
 
   private Integer pageLength;
   private Integer pageNumber;
