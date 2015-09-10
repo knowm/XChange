@@ -1,6 +1,8 @@
 package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
@@ -10,6 +12,21 @@ import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
 
 public class ItBitTradeServiceRaw extends ItBitBasePollingService {
+
+  private final static DecimalFormat AmountFormat;
+  private final static DecimalFormat PriceFormat;
+
+  static {
+    AmountFormat = new DecimalFormat();
+    AmountFormat.setMaximumFractionDigits(4);
+    AmountFormat.setGroupingUsed(false);
+    AmountFormat.setRoundingMode(RoundingMode.HALF_UP);
+
+    PriceFormat = new DecimalFormat();
+    PriceFormat.setMaximumFractionDigits(2);
+    PriceFormat.setGroupingUsed(false);
+    PriceFormat.setRoundingMode(RoundingMode.HALF_UP);
+  }
 
   /** Wallet ID used for transactions with this instance */
   private final String walletId;
@@ -60,10 +77,12 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
   public ItBitOrder placeItBitLimitOrder(LimitOrder limitOrder) throws IOException {
 
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
+    String baseCurrency = limitOrder.getCurrencyPair().baseSymbol;
+    String amount = AmountFormat.format(limitOrder.getTradableAmount());
+    String price  = PriceFormat.format(limitOrder.getLimitPrice());
 
-    ItBitOrder postOrder = itBitAuthenticated.postOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, new ItBitPlaceOrderRequest(
-        side, "limit", limitOrder.getCurrencyPair().baseSymbol, limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice()
-            .toPlainString(), limitOrder.getCurrencyPair().baseSymbol + limitOrder.getCurrencyPair().counterSymbol));
+    ItBitOrder postOrder = itBitAuthenticated.postOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId,
+        new ItBitPlaceOrderRequest(side, "limit", baseCurrency, amount, price, baseCurrency + limitOrder.getCurrencyPair().counterSymbol));
 
     return postOrder;
   }

@@ -30,12 +30,12 @@ public class ItBitAccountService extends ItBitAccountServiceRaw implements Polli
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    return withdrawItBitFunds(currency, amount, address);
   }
 
   @Override
   public String requestDepositAddress(String currency, String... args) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    return requestItBitDepositAddress(currency, args);
   }
 }

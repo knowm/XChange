@@ -15,10 +15,12 @@ public class ItBitWithdrawalRequest {
   @JsonProperty("address")
   protected String address;
 
-  public ItBitWithdrawalRequest(String currency) {
+  public ItBitWithdrawalRequest(String currency, BigDecimal amount, String address) {
 
     super();
     this.currency = currency;
+    this.amount = amount;
+    this.address = address;
   }
 
   public String getCurrency() {

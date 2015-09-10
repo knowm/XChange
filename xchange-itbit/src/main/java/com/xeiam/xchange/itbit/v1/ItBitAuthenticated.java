@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
+import com.xeiam.xchange.itbit.v1.dto.account.*;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
@@ -75,8 +75,14 @@ public interface ItBitAuthenticated extends ItBit {
   @POST
   @Path("wallets/{walletId}/cryptocurrency_withdrawals")
   @Consumes(MediaType.APPLICATION_JSON)
-  ItBitOrder requestWithdrawal(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
-      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId, ItBitPlaceOrderRequest request)
+  ItBitWithdrawalResponse requestWithdrawal(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId, ItBitWithdrawalRequest request)
       throws IOException;
 
+  @POST
+  @Path("wallets/{walletId}/cryptocurrency_deposits")
+  @Consumes(MediaType.APPLICATION_JSON)
+  ItBitDepositResponse requestDeposit(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId, ItBitDepositRequest request)
+      throws IOException;
 }
