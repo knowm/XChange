@@ -1,7 +1,5 @@
 package com.xeiam.xchange.itbit.v1.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ItBitWithdrawalRequest {
@@ -10,12 +8,12 @@ public class ItBitWithdrawalRequest {
   private String currency;
 
   @JsonProperty("amount")
-  protected BigDecimal amount;
+  protected String amount;
 
   @JsonProperty("address")
   protected String address;
 
-  public ItBitWithdrawalRequest(String currency, BigDecimal amount, String address) {
+  public ItBitWithdrawalRequest(String currency, String amount, String address) {
 
     super();
     this.currency = currency;
@@ -28,7 +26,7 @@ public class ItBitWithdrawalRequest {
     return currency;
   }
 
-  public BigDecimal getAmount() {
+  public String getAmount() {
 
     return amount;
   }
