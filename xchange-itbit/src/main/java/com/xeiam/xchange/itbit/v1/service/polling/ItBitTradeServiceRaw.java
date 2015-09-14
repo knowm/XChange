@@ -9,25 +9,11 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.itbit.v1.ItBitAdapters;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
 
 public class ItBitTradeServiceRaw extends ItBitBasePollingService {
-
-  private final static DecimalFormat AmountFormat;
-  private final static DecimalFormat PriceFormat;
-
-  static {
-    AmountFormat = new DecimalFormat();
-    AmountFormat.setMaximumFractionDigits(4);
-    AmountFormat.setGroupingUsed(false);
-    AmountFormat.setRoundingMode(RoundingMode.HALF_UP);
-
-    PriceFormat = new DecimalFormat();
-    PriceFormat.setMaximumFractionDigits(2);
-    PriceFormat.setGroupingUsed(false);
-    PriceFormat.setRoundingMode(RoundingMode.HALF_UP);
-  }
 
   /** Wallet ID used for transactions with this instance */
   private final String walletId;
@@ -79,8 +65,8 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
     String baseCurrency = limitOrder.getCurrencyPair().baseSymbol;
-    String amount = AmountFormat.format(limitOrder.getTradableAmount());
-    String price  = PriceFormat.format(limitOrder.getLimitPrice());
+    String amount = ItBitAdapters.formatCryptoAmount(limitOrder.getTradableAmount());
+    String price  = ItBitAdapters.formatFiatAmount(limitOrder.getLimitPrice());
 
     ItBitOrder postOrder = itBitAuthenticated.postOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId,
         new ItBitPlaceOrderRequest(side, "limit", baseCurrency, amount, price, baseCurrency + limitOrder.getCurrencyPair().counterSymbol));

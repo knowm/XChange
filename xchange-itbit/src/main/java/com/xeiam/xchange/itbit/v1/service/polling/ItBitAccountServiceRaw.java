@@ -6,9 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.itbit.v1.ItBitAdapters;
 import com.xeiam.xchange.itbit.v1.dto.account.*;
 
 public class ItBitAccountServiceRaw extends ItBitBasePollingService {
@@ -37,7 +36,9 @@ public class ItBitAccountServiceRaw extends ItBitBasePollingService {
 
   public String withdrawItBitFunds(String currency, BigDecimal amount, String address) throws IOException {
 
-    ItBitWithdrawalRequest request = new ItBitWithdrawalRequest(currency, amount, address);
+    String formattedAmount = ItBitAdapters.formatCryptoAmount(amount);
+
+    ItBitWithdrawalRequest request = new ItBitWithdrawalRequest(currency, formattedAmount, address);
     ItBitWithdrawalResponse response = itBitAuthenticated.requestWithdrawal(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, request);
     return response.getId();
   }
