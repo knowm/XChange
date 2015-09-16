@@ -23,6 +23,7 @@ import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.utils.Assert;
 
 /**
  * @author Matija Mazi
@@ -63,6 +64,8 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, BitstampException {
+
+    Assert.isTrue(limitOrder.getCurrencyPair().equals(CurrencyPair.BTC_USD), "Currency Pair must be USD/BTC!!!");
 
     BitstampOrder bitstampOrder;
     if (limitOrder.getType() == BID) {
