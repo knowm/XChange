@@ -39,7 +39,7 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Pol
   @Override
   public String requestDepositAddress(String currency, String... args) throws IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    return getDepositAddress(currency);
   }
 
 }

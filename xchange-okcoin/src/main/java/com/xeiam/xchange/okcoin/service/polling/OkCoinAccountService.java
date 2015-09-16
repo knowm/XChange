@@ -19,6 +19,7 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Pol
   public OkCoinAccountService(Exchange exchange) {
 
     super(exchange);
+    
   }
 
   @Override
@@ -28,9 +29,9 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Pol
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
+  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {      
+      withdraw(null, currency, address, amount);      
+      return "";
   }
 
   @Override

@@ -1,12 +1,15 @@
 package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.itbit.v1.ItBitAdapters;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
 
@@ -61,10 +64,12 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
   public ItBitOrder placeItBitLimitOrder(LimitOrder limitOrder) throws IOException {
 
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
+    String baseCurrency = limitOrder.getCurrencyPair().baseSymbol;
+    String amount = ItBitAdapters.formatCryptoAmount(limitOrder.getTradableAmount());
+    String price  = ItBitAdapters.formatFiatAmount(limitOrder.getLimitPrice());
 
     ItBitOrder postOrder = itBitAuthenticated.postOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId,
-        new ItBitPlaceOrderRequest(side, "limit", limitOrder.getCurrencyPair().baseSymbol, limitOrder.getTradableAmount().toPlainString(),
-            limitOrder.getLimitPrice().toPlainString(), limitOrder.getCurrencyPair().baseSymbol + limitOrder.getCurrencyPair().counterSymbol));
+        new ItBitPlaceOrderRequest(side, "limit", baseCurrency, amount, price, baseCurrency + limitOrder.getCurrencyPair().counterSymbol));
 
     return postOrder;
   }
