@@ -62,11 +62,6 @@ public class LoyalbitTradeService extends LoyalbitTradeServiceRaw implements Pol
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException, LoyalbitException {
-    return LoyalbitAdapters.adaptTradeHistory(getLoyalbitUserTransactions(0, 1000, LoyalbitAuthenticated.Sort.asc));
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     Integer offset = 0;
     Integer limit = 100;

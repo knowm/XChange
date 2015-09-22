@@ -3,6 +3,7 @@ package com.xeiam.xchange.examples.poloniex.trade;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
@@ -12,6 +13,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.examples.poloniex.PoloniexExamplesUtils;
 import com.xeiam.xchange.poloniex.PoloniexAdapters;
+import com.xeiam.xchange.poloniex.service.polling.PoloniexTradeService;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexTradeServiceRaw;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.utils.CertHelper;
@@ -46,11 +48,17 @@ public class PoloniexTradeDemo {
 
     System.out.println("----------GENERIC----------");
 
-    System.out.println(tradeService.getTradeHistory(currencyPair));
-    long startTime = (new Date().getTime() / 1000) - 8 * 60 * 60;
-    System.out.println(tradeService.getTradeHistory(currencyPair, startTime));
-    long endTime = startTime + 4 * 60 * 60;
-    System.out.println(tradeService.getTradeHistory(currencyPair, startTime, endTime));
+    PoloniexTradeService.PoloniexTradeHistoryParams params = new PoloniexTradeService.PoloniexTradeHistoryParams();
+    params.setCurrencyPair(currencyPair);
+    System.out.println(tradeService.getTradeHistory(params));
+
+    params.setStartTime(new Date());
+    System.out.println(tradeService.getTradeHistory(params));
+
+    Calendar endTime = Calendar.getInstance();
+    endTime.add(Calendar.HOUR, 4);
+    params.setEndTime(endTime.getTime());
+    System.out.println(tradeService.getTradeHistory(params));
 
     LimitOrder order = new LimitOrder.Builder(OrderType.BID, currencyPair).tradableAmount(new BigDecimal(".01")).limitPrice(xmrBuyRate).build();
     String orderId = tradeService.placeLimitOrder(order);

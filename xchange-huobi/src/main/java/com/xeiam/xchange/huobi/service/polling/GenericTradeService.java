@@ -67,8 +67,7 @@ public class GenericTradeService extends BaseExchangeService implements PollingT
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    HuobiPlaceOrderResult result = tradeServiceRaw.placeMarketOrder(marketOrder.getType(), coinTypes.get(marketOrder.getCurrencyPair()),
-        marketOrder.getTradableAmount());
+    HuobiPlaceOrderResult result = tradeServiceRaw.placeMarketOrder(marketOrder.getType(), coinTypes.get(marketOrder.getCurrencyPair()), marketOrder.getTradableAmount());
     return HuobiAdapters.adaptPlaceOrderResult(result);
   }
 
@@ -101,18 +100,12 @@ public class GenericTradeService extends BaseExchangeService implements PollingT
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 }

@@ -125,29 +125,6 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     return ret;
   }
 
-  /**
-   * Gets trade history for user's account.
-   *
-   * @param args 2 optional arguments:
-   *        <ol>
-   *        <li>limit: limit the number of transactions, default value is 10 if null.</li>
-   *        <li>offset: start index used for pagination, default value is 0 if null.</li>
-   *        <li>since: to fetch the transactions from this point, which can either be an order id or a unix timestamp, default value is 0.</li>
-   *        <li>sincetype: specify the type of 'since' parameter, can either be 'id' or 'time'. default value is 'time'.</li>
-   *        </ol>
-   */
-  @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException {
-
-    final String type = BTCChinaTransactionsRequest.TYPE_ALL;
-    final Integer limit = args.length > 0 ? ((Number) args[0]).intValue() : null;
-    final Integer offset = args.length > 1 ? ((Number) args[1]).intValue() : null;
-    final Integer since = args.length > 2 ? ((Number) args[2]).intValue() : null;
-    final String sincetype = args.length > 3 ? ((String) args[3]) : null;
-
-    return getUserTrades(type, limit, offset, since, sincetype);
-  }
-
   private UserTrades getUserTrades(String type, Integer limit, Integer offset, Integer since, String sincetype) throws IOException {
     log.debug("type: {}, limit: {}, offset: {}, since: {}, sincetype: {}", type, limit, offset, since, sincetype);
 

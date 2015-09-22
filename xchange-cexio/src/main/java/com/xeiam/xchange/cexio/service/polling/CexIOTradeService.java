@@ -60,12 +60,6 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     throw new NotAvailableFromExchangeException();
@@ -73,8 +67,7 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
 
   @Override
   public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
-
-    throw new NotYetImplementedForExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
 }

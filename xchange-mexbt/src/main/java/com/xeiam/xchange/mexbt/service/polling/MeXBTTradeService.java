@@ -1,10 +1,5 @@
 package com.xeiam.xchange.mexbt.service.polling;
 
-import static com.xeiam.xchange.mexbt.MeXBTAdapters.adaptOpenOrders;
-import static com.xeiam.xchange.mexbt.MeXBTAdapters.adaptUserTrades;
-import static com.xeiam.xchange.mexbt.MeXBTAdapters.toCurrencyPair;
-import static com.xeiam.xchange.mexbt.MeXBTAdapters.toSide;
-
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
@@ -14,14 +9,14 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.mexbt.dto.MeXBTException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamOffset;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+
+import static com.xeiam.xchange.mexbt.MeXBTAdapters.*;
 
 public class MeXBTTradeService extends MeXBTTradeServiceRaw implements PollingTradeService {
 
@@ -75,22 +70,17 @@ public class MeXBTTradeService extends MeXBTTradeServiceRaw implements PollingTr
   }
 
   /**
-   * {@inheritDoc}
-   */
-  @Override
-  public UserTrades getTradeHistory(Object... arguments)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  /**
-   * {@inheritDoc}
+   * @param params Required types: {@link TradeHistoryParamCurrencyPair}, {@link TradeHistoryParamPaging}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    MeXBTTradeHistoryParams meXBTTradeHistoryParams = (MeXBTTradeHistoryParams) params;
-    return adaptUserTrades(getTrades(toCurrencyPair(meXBTTradeHistoryParams.getCurrencyPair()), meXBTTradeHistoryParams.getOffset(),
-        meXBTTradeHistoryParams.getCount()));
+    CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+
+    TradeHistoryParamPaging paramPaging = (TradeHistoryParamPaging) params;
+    int count = paramPaging.getPageLength();
+    Long offset = (long) (paramPaging.getPageLength() * count);
+
+    return adaptUserTrades(getTrades(toCurrencyPair(pair), offset, count));
   }
 
   /**
@@ -101,36 +91,30 @@ public class MeXBTTradeService extends MeXBTTradeServiceRaw implements PollingTr
     return new MeXBTTradeHistoryParams();
   }
 
-  public static class MeXBTTradeHistoryParams extends DefaultTradeHistoryParamCurrencyPair
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamOffset {
+  public static class MeXBTTradeHistoryParams extends DefaultTradeHistoryParamCurrencyPair implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
 
-    private long startIndex;
-    private int count;
+    private Integer count;
+    private Integer pageLength;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void setOffset(Long offset) {
-      this.startIndex = offset;
+    public void setPageLength(Integer pageLength) {
+      this.pageLength = pageLength;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public Long getOffset() {
-      return startIndex;
+    public Integer getPageLength() {
+      return pageLength;
     }
 
-    public int getCount() {
+    @Override
+    public void setPageNumber(Integer pageNumber) {
+      count = pageNumber;
+    }
+
+    @Override
+    public Integer getPageNumber() {
       return count;
     }
-
-    public void setCount(int count) {
-      this.count = count;
-    }
-
   }
 
 }

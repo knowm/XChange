@@ -8,6 +8,7 @@ import com.xeiam.xchange.bitstamp.service.polling.BitstampTradeServiceRaw;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 
 /**
  * <p>
@@ -31,7 +32,7 @@ public class BitstampUserTradeHistoryDemo {
 
   private static void generic(PollingTradeService tradeService) throws IOException {
 
-    Trades trades = tradeService.getTradeHistory();
+    Trades trades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     System.out.println(trades);
 
     // Warning: using a limit here can be misleading. The underlying call
@@ -39,7 +40,7 @@ public class BitstampUserTradeHistoryDemo {
     // limit the result to 17 of those types and from those 17 only trades are
     // returned. It is recommended to use the raw service demonstrated below
     // if you want to use this feature.
-    Trades tradesLimitedTo17 = tradeService.getTradeHistory(17L);
+    Trades tradesLimitedTo17 = tradeService.getTradeHistory(new DefaultTradeHistoryParamPaging(17));
     System.out.println(tradesLimitedTo17);
   }
 

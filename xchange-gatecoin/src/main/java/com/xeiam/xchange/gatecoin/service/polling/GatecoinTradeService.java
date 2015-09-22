@@ -9,7 +9,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.gatecoin.GatecoinAdapters;
 
 import com.xeiam.xchange.gatecoin.dto.trade.GatecoinOrder;
@@ -17,8 +16,9 @@ import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinOrderResult;
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinPlaceOrderResult;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamTransactionId;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 import com.xeiam.xchange.utils.DateUtils;
 import java.io.IOException;
@@ -67,7 +67,7 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Pol
     } else {
       gatecoinPlaceOrderResult = placeGatecoinOrder(marketOrder.getTradableAmount(),BigDecimal.ZERO ,"ASK",ccyPair);
     }
-    
+
     return gatecoinPlaceOrderResult.getOrderId();
   }
 
@@ -80,7 +80,7 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Pol
       gatecoinOrderResult = placeGatecoinOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(),"BID",ccyPair);
     } else {
       gatecoinOrderResult = placeGatecoinOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(),"ASK",ccyPair);
-    }  
+    }
     return gatecoinOrderResult.getOrderId();
   }
 
@@ -90,11 +90,11 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Pol
       GatecoinCancelOrderResult response = null;
       if(orderId!= null && !orderId.isEmpty())
       {
-          response = cancelGatecoinOrder(orderId);         
+          response = cancelGatecoinOrder(orderId);
       }
       else
       {
-          response = cancelAllGatecoinOrders();           
+          response = cancelAllGatecoinOrders();
       }
       if(response!=null && response.getResponseStatus()!=null&& response.getResponseStatus().getMessage()!=null)
       {
@@ -104,59 +104,74 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Pol
       {
          return false;
       }
-    
+
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException {
-
-    Long txId;
-    int count ;
-    if (args.length == 0)
-    {
-        return GatecoinAdapters.adaptTradeHistory(getGatecoinUserTrades());
-    }
-    else if (args.length == 1)
-    {
-      Object arg0 = args[0];
-      if (!(arg0 instanceof Number)) {
-        throw new ExchangeException("Argument must be a Number!");
-      } else {
-        count = ((Number) arg0).intValue();
-        return GatecoinAdapters.adaptTradeHistory(getGatecoinUserTrades(count));
-      }
-    }
-    else if (args.length == 2)
-    {
-      Object arg0 = args[0];
-      Object arg1 = args[1];
-      if (!(arg0 instanceof Number) || !(arg1 instanceof Number))
-      {
-        throw new ExchangeException("Both arguments must be a number!");
-      }
-      else
-      {
-        count = ((Number) arg0).intValue();
-        txId = ((Number)arg1).longValue();
-        return GatecoinAdapters.adaptTradeHistory(getGatecoinUserTrades(count,txId));
-      }
-    }
-    else
-    {
-         throw new ExchangeException("Arguement length should be >=0 and <=2");   
-    }    
-  }
-
-  
+  /**
+   * @param params Supported optional parameters: {@link TradeHistoryParamPaging#getPageLength()}, {@link TradeHistoryParamTransactionId}
+   */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    Integer limit = null;
+    Long txId = null;
 
-      throw new IOException("Not implemented.Use other overload.");
+    if (params instanceof TradeHistoryParamPaging) {
+      limit = ((TradeHistoryParamPaging) params).getPageLength();
+    }
+
+    if (params instanceof TradeHistoryParamTransactionId) {
+      String txIdStr = ((TradeHistoryParamTransactionId) params).getTransactionId();
+      if (txIdStr != null)
+        txId = Long.valueOf(txIdStr);
+    }
+
+    return GatecoinAdapters.adaptTradeHistory(getGatecoinUserTrades(limit, txId));
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
+    return new GatecoinTradeHistoryParams(1000);
+  }
 
-    return new DefaultTradeHistoryParamPaging(1000);
+  public static class GatecoinTradeHistoryParams implements TradeHistoryParamPaging, TradeHistoryParamTransactionId{
+    Integer pageLength;
+    String transactionId;
+
+    public GatecoinTradeHistoryParams(Integer pageLength) {
+      this.pageLength = pageLength;
+    }
+
+    public GatecoinTradeHistoryParams(Integer pageLength, String transactionId) {
+      this.pageLength = pageLength;
+      this.transactionId = transactionId;
+    }
+
+    @Override
+    public void setPageLength(Integer pageLength) {
+      this.pageLength = pageLength;
+    }
+
+    @Override
+    public Integer getPageLength() {
+      return pageLength;
+    }
+
+    @Override
+    public void setPageNumber(Integer pageNumber) {
+    }
+
+    @Override
+    public Integer getPageNumber() {
+      return null;
+    }
+
+    @Override
+    public void setTransactionId(String txId) {
+      transactionId = txId;
+    }
+
+    public String getTransactionId() {
+      return transactionId;
+    }
   }
 }

@@ -15,7 +15,7 @@ import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
 /**
- * Demo for {@link BTCChinaTradeService#getTradeHistory(Object...)}.
+ * Demo for {@link BTCChinaTradeService#getTradeHistory(com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams)}.
  */
 public class BTCChinaGetTradeHistoryDemo {
 
@@ -31,7 +31,9 @@ public class BTCChinaGetTradeHistoryDemo {
 
   private static void generic() throws IOException {
 
-    Trades trades = tradeService.getTradeHistory(10);
+    BTCChinaTradeService.BTCChinaTradeHistoryParams params = new BTCChinaTradeService.BTCChinaTradeHistoryParams();
+    params.setPageLength(10);
+    Trades trades = tradeService.getTradeHistory(params);
     System.out.println("Trade count: " + trades.getTrades().size());
     for (Trade trade : trades.getTrades()) {
       System.out.println(trade);

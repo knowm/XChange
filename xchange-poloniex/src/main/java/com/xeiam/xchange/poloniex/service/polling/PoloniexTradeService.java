@@ -73,37 +73,10 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
     return cancel(orderId);
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-
-    CurrencyPair currencyPair = null;
-    Long startTime = null;
-    Long endTime = null;
-
-    if (arguments != null) {
-      switch (arguments.length) {
-      case 3:
-        if (arguments[2] != null && arguments[2] instanceof Long) {
-          endTime = (Long) arguments[2];
-        }
-      case 2:
-        if (arguments[1] != null && arguments[1] instanceof Long) {
-          startTime = (Long) arguments[1];
-        }
-      case 1:
-        if (arguments[0] != null && arguments[0] instanceof CurrencyPair) {
-          currencyPair = (CurrencyPair) arguments[0];
-        }
-      }
-    }
-    return getTradeHistory(currencyPair, startTime, endTime);
-  }
-
   /**
    * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams
    *        types will be ignored.
    */
-
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 

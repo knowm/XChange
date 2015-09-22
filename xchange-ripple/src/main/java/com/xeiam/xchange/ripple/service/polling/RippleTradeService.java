@@ -72,21 +72,6 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
   }
 
   /**
-   * Search through the last {@link RippleTradeHistoryParams#DEFAULT_PAGE_LENGTH} notifications looking for a maximum of
-   * {@link RippleTradeHistoryCount#DEFAULT_TRADE_COUNT_LIMIT} trades. If an account enters many orders and receives few executions then it is likely
-   * that this query will return no trades. See {@link #getTradeHistory(TradeHistoryParams)} for details of how to structure the query to fit your use
-   * case.
-   *
-   * @param arguments these are ignored.
-   */
-
-  @Override
-  public UserTrades getTradeHistory(final Object... arguments)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getTradeHistory(defaultTradeHistoryParams);
-  }
-
-  /**
    * Ripple trade history is a request intensive process. The REST API does not provide a simple single trade history query. Trades are retrieved by
    * querying account notifications and for those of type order details of the hash are then queried. These order detail queries could be order entry,
    * cancel or execution, it is not possible to tell from the notification. Therefore if an account is entering many orders but executing few of them,

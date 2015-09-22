@@ -49,12 +49,6 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
     return independentReserveCancelOrder(orderId);
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... arguments)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getTradeHistory(createTradeHistoryParams());
-  }
-
   /**
    * Optional parameters: {@link TradeHistoryParamPaging#getPageNumber()} indexed from 0
    */

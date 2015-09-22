@@ -61,20 +61,6 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
     return true;
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-
-    String currency;
-    if (arguments.length == 1) {
-      CurrencyPair currencyPair = ((CurrencyPair) arguments[0]);
-      currency = currencyPair.baseSymbol + currencyPair.counterSymbol;
-    } else {
-      currency = "XBTUSD";
-    }
-
-    return ItBitAdapters.adaptTradeHistory(getItBitTradeHistory(currency, "1", "1000"));
-  }
-
   /**
    * Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair}
    */

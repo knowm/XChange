@@ -36,7 +36,7 @@ public class TradeHistoryDemo {
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open orders: " + openOrders);
 
-    Trades trades = tradeService.getTradeHistory();
+    Trades trades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     System.out.println("Trades: " + trades);
   }
 

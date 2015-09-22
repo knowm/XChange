@@ -4,6 +4,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.gatecoin.dto.trade.GatecoinTradeHistory;
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinTradeHistoryResult;
+import com.xeiam.xchange.gatecoin.service.polling.GatecoinTradeService;
 import com.xeiam.xchange.gatecoin.service.polling.GatecoinTradeServiceRaw;
 import com.xeiam.xchange.gatecoin.testclient.GatecoinDemoUtils;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
@@ -26,15 +27,15 @@ public class GatecoinTradeHistoryDemo {
 
   private static void generic(PollingTradeService tradeService) throws IOException {
 
-    UserTrades result = tradeService.getTradeHistory();
+    UserTrades result = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     System.out.println("Trade history returned " + result);
     
     //with count parameter
-    result = tradeService.getTradeHistory(10);
+    result = tradeService.getTradeHistory(new GatecoinTradeService.GatecoinTradeHistoryParams(10));
     System.out.println("Trade history returned " + result);
     
     //with count and tradeId parameter
-    result = tradeService.getTradeHistory(10, 24561);
+    result = tradeService.getTradeHistory(new GatecoinTradeService.GatecoinTradeHistoryParams(10, "24561"));
     System.out.println("Trade history returned " + result);
     
   }

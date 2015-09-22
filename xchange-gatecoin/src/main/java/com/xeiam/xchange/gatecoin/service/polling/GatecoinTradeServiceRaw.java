@@ -56,7 +56,7 @@ public class GatecoinTradeServiceRaw extends GatecoinBasePollingService {
     return gatecoinAuthenticated.cancelAllOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, String.valueOf(now));
   }
 
-  public GatecoinTradeHistoryResult getGatecoinUserTrades(int count, long transactionId) throws IOException {
+  public GatecoinTradeHistoryResult getGatecoinUserTrades(Integer count, Long transactionId) throws IOException {
     return gatecoinAuthenticated.getUserTrades(exchange.getExchangeSpecification().getApiKey(), signatureCreator, String.valueOf(now),
         count,transactionId);
   }

@@ -134,22 +134,6 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     return ret;
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-    OkCoinFuturesTradeHistoryParams params = createTradeHistoryParams();
-
-    if (arguments.length >= 0)
-      params.setCurrencyPair((CurrencyPair) arguments[0]);
-
-    if (arguments.length > 0)
-      params.setFuturesContract((FuturesContract) arguments[1]);
-
-    if (arguments.length > 1)
-      params.setPageNumber((Integer) arguments[2]);
-
-    return getTradeHistory(params);
-  }
-
   /**
    * Parameters: see {@link OkCoinFuturesTradeService.OkCoinFuturesTradeHistoryParams}
    */

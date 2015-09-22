@@ -74,8 +74,8 @@ public interface GatecoinAuthenticated extends Gatecoin {
   public GatecoinTradeHistoryResult getUserTrades(@HeaderParam("API_PUBLIC_KEY") String publicKey,
           @HeaderParam("API_REQUEST_SIGNATURE") ParamsDigest signature,
           @HeaderParam("API_REQUEST_DATE") String date,
-          @QueryParam("Count") int Count,
-          @QueryParam("TransactionID") long TransactionID) throws  IOException;
+          @QueryParam("Count") Integer Count,
+          @QueryParam("TransactionID") Long TransactionID) throws  IOException;
 
   @GET
   @Path("Balance/Balances")

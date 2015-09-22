@@ -63,13 +63,6 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
     return BTCTradeAdapters.adaptResult(result);
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-
-    long since = arguments.length > 0 ? toLong(arguments[0]) : 0L;
-    return getTradeHistory(new DefaultTradeHistoryParamsTimeSpan(DateUtils.fromUnixTime(since)));
-  }
-
   /**
    * Optional parameters: start time (default 0 = all) of {@link TradeHistoryParamsTimeSpan}
    * <p/>

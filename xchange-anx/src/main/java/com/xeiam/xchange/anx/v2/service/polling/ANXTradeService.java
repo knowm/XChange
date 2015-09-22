@@ -79,25 +79,6 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
     return cancelANXOrder(orderId, "BTC", "EUR").getResult().equals("success");
   }
 
-  /**
-   * @param args Accept zero or 2 parameters, both are unix time: Long from, Long to
-   */
-  @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException {
-
-    Long from = null;
-    Long to = null;
-
-    if (args.length > 0) {
-      from = (Long) args[0];
-    }
-    if (args.length > 1) {
-      to = (Long) args[1];
-    }
-
-    return getTradeHistory(from, to);
-  }
-
   private UserTrades getTradeHistory(Long from, Long to) throws IOException {
     ANXTradeResultWrapper rawTrades = getExecutedANXTrades(from, to);
     String error = rawTrades.getError();

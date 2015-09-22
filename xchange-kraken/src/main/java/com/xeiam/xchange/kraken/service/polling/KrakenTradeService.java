@@ -52,12 +52,6 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
     return super.cancelKrakenOrder(orderId).getCount() > 0;
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException {
-
-    return KrakenAdapters.adaptTradesHistory(getKrakenTradeHistory());
-  }
-
   /**
    * @param params Can optionally implement {@link TradeHistoryParamOffset} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types
    *        will be ignored.

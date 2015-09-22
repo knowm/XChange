@@ -66,33 +66,6 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     return cancelBitfinexOrder(orderId);
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-
-    String symbol = "btcusd";
-    long timestamp = 0;
-    int limit = 50;
-
-    if (arguments.length >= 1) {
-      if (arguments[0] instanceof CurrencyPair) {
-        final CurrencyPair pair = (CurrencyPair) arguments[0];
-        symbol = pair.baseSymbol + pair.counterSymbol;
-      } else {
-        symbol = (String) arguments[0];
-      }
-    }
-    if (arguments.length >= 2) {
-      timestamp = (Long) arguments[1];
-    }
-    if (arguments.length >= 3) {
-      limit = (Integer) arguments[2];
-    }
-
-    final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, timestamp, limit);
-
-    return BitfinexAdapters.adaptTradeHistory(trades, symbol);
-  }
-
   /**
    * @param params Implementation of {@link TradeHistoryParamCurrencyPair} is mandatory. Can optionally implement {@link TradeHistoryParamPaging} and
    *        {@link TradeHistoryParamsTimeSpan#getStartTime()}. All other TradeHistoryParams types will be ignored.

@@ -105,13 +105,6 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
     return true;
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException {
-
-    // TODO: see #getTradeHistory(TradeHistoryParams params)
-    throw new NotYetImplementedForExchangeException();
-  }
-
   /**
    * Required parameter types: {@link com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging#getPageLength()}
    */

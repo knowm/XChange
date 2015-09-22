@@ -26,7 +26,7 @@ public class KrakenTradeHistoryDemo {
     PollingTradeService tradeService = krakenExchange.getPollingTradeService();
 
     // Get the trade history
-    Trades trades = tradeService.getTradeHistory();
+    Trades trades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     System.out.println(trades.toString());
   }
 

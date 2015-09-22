@@ -18,6 +18,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.examples.bter.BTERDemoUtils;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamCurrencyPair;
 
 public class BTERTradeDemo {
 
@@ -56,7 +57,7 @@ public class BTERTradeDemo {
 
     Thread.sleep(2000);
 
-    Trades tradeHistory = tradeService.getTradeHistory(CurrencyPair.LTC_BTC);
+    Trades tradeHistory = tradeService.getTradeHistory(new DefaultTradeHistoryParamCurrencyPair(CurrencyPair.LTC_BTC));
     System.out.println(tradeHistory);
   }
 
