@@ -85,36 +85,6 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   }
 
   /**
-   * @param arguments Vararg list of optional (nullable) arguments: (Long) arguments[0] Number of transactions to return (String) arguments[1]
-   *        TradableIdentifier (String) arguments[2] TransactionCurrency (Long) arguments[3] Starting ID
-   * @return Trades object
-   * @throws IOException
-   */
-  @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-
-    Long numberOfTransactions = Long.MAX_VALUE;
-    String tradableIdentifier = "";
-    String transactionCurrency = "";
-    Long id = null;
-    try {
-      numberOfTransactions = (Long) arguments[0];
-      tradableIdentifier = (String) arguments[1];
-      transactionCurrency = (String) arguments[2];
-      id = (Long) arguments[3];
-    } catch (ArrayIndexOutOfBoundsException e) {
-      // ignore, can happen if no arg given.
-    }
-    String pair = null;
-    if (!tradableIdentifier.equals("") && !transactionCurrency.equals("")) {
-      pair = String.format("%s_%s", tradableIdentifier, transactionCurrency).toLowerCase();
-    }
-    Map<Long, BTCETradeHistoryResult> resultMap = getBTCETradeHistory(null, numberOfTransactions, id, id, BTCEAuthenticated.SortOrder.DESC, null,
-        null, pair);
-    return BTCEAdapters.adaptTradeHistory(resultMap);
-  }
-
-  /**
    * Supported parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamsIdSpan} {@link TradeHistoryParamsTimeSpan}
    * {@link TradeHistoryParamCurrencyPair} You can also override sorting order (default is descending) by using {@link BTCETradeHistoryParams}
    */

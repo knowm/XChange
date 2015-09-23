@@ -54,12 +54,6 @@ public class CoinbaseExTradeService extends CoinbaseExTradeServiceRaw implements
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }

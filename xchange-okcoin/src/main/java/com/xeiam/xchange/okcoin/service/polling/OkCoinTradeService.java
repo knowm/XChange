@@ -120,16 +120,6 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
     return ret;
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-
-    CurrencyPair currencyPair = arguments.length > 0 ? (CurrencyPair) arguments[0] : (useIntl ? CurrencyPair.BTC_USD : CurrencyPair.BTC_CNY);
-    Integer page = arguments.length > 1 ? (Integer) arguments[1] : 0;
-
-    OkCoinOrderResult orderHistory = getOrderHistory(OkCoinAdapters.adaptSymbol(currencyPair), "1", page.toString(), "1000");
-    return OkCoinAdapters.adaptTrades(orderHistory);
-  }
-
   /**
    * Required parameters {@link TradeHistoryParamPaging} Supported parameters {@link TradeHistoryParamCurrencyPair}
    */

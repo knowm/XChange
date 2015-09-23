@@ -40,7 +40,7 @@ public class IndependentReserveTradeDemo {
 
     printOpenOrders(tradeService);
 
-    UserTrades tradeHistory = tradeService.getTradeHistory();
+    UserTrades tradeHistory = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     System.out.println("Trade history: " + tradeHistory.toString());
   }
 

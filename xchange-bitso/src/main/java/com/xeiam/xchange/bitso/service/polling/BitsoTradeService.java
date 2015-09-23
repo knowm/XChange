@@ -84,25 +84,16 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements PollingTr
     return cancelBitsoOrder(orderId);
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException, BitsoException {
-
-    Long numberOfTransactions = 1000L;
-    if (args.length > 0) {
-      Object arg0 = args[0];
-      if (!(arg0 instanceof Number)) {
-        throw new ExchangeException("Argument must be a Number!");
-      } else {
-        numberOfTransactions = ((Number) args[0]).longValue();
-      }
-    }
-
-    return BitsoAdapters.adaptTradeHistory(getBitsoUserTransactions(numberOfTransactions));
-  }
-
   /**
    * Required parameter types: {@link com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging#getPageLength()}
+   * <p/>
+   * Warning: using a limit here can be misleading. The underlying call
+   * retrieves trades, withdrawals, and deposits. So the example here will
+   * limit the result to 17 of those types and from those 17 only trades are
+   * returned. It is recommended to use the raw service demonstrated below
+   * if you want to use this feature.
    */
+
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 

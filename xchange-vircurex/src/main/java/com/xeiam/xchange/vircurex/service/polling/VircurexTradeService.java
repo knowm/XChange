@@ -48,12 +48,6 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Pol
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     throw new NotYetImplementedForExchangeException();

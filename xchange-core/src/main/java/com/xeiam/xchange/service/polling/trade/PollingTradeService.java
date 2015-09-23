@@ -83,22 +83,6 @@ public interface PollingTradeService extends BasePollingService {
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
-   * gets trade history for user's account
-   *
-   * @param arguments
-   * @return
-   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
-   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
-   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
-   *         implemented
-   * @throws IOException - Indication that a networking error occurred while fetching JSON data
-   * @deprecated in favour of {@link #getTradeHistory(TradeHistoryParams)}
-   */
-  @Deprecated
-  public UserTrades getTradeHistory(Object... arguments)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
-
-  /**
    * Fetch the history of user trades.
    * <p/>
    * If you are calling this method for single exchange, known at the development time, you may pass an object of specific *TradeHistoryParam class
@@ -124,7 +108,6 @@ public interface PollingTradeService extends BasePollingService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
-   * @see #getTradeHistory(Object...)
    * @see #createTradeHistoryParams()
    * @see com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsAll
    */

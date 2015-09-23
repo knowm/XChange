@@ -2,11 +2,7 @@ package com.xeiam.xchange.mercadobitcoin;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
@@ -17,6 +13,8 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import com.xeiam.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
@@ -25,7 +23,10 @@ import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
 import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrdersEntry;
+import com.xeiam.xchange.mercadobitcoin.dto.trade.OperationEntry;
 import com.xeiam.xchange.utils.DateUtils;
+
+import static com.xeiam.xchange.utils.DateUtils.fromUnixTime;
 
 /**
  * Various adapters for converting from Mercado Bitcoin DTOs to XChange DTOs
@@ -45,7 +46,6 @@ public final class MercadoBitcoinAdapters {
    * Adapts a com.xeiam.xchange.mercadobitcoin.dto.marketdata.OrderBook to a OrderBook Object
    *
    * @param currencyPair (e.g. BTC/BRL or LTC/BRL)
-   * @param timestamp When the book was retrieved from server.
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(MercadoBitcoinOrderBook mercadoBitcoinOrderBook, CurrencyPair currencyPair) {
@@ -115,7 +115,7 @@ public final class MercadoBitcoinAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades.add(new Trade(tx.getType().equals("buy") ? OrderType.BID : OrderType.ASK, tx.getAmount(), currencyPair, tx.getPrice(),
+      trades.add(new Trade(toOrderType(tx.getType()), tx.getAmount(), currencyPair, tx.getPrice(),
           DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
     }
 
@@ -157,10 +157,36 @@ public final class MercadoBitcoinAdapters {
     String id = entry.getKey();
     MercadoBitcoinUserOrdersEntry userOrdersEntry = entry.getValue();
 
-    OrderType orderType = userOrdersEntry.getType().equals("buy") ? OrderType.BID : OrderType.ASK;
+    String type = userOrdersEntry.getType();
+    OrderType orderType = toOrderType(type);
     BigDecimal price = userOrdersEntry.getPrice();
     BigDecimal volume = userOrdersEntry.getVolume();
     long time = userOrdersEntry.getCreated() * 1000L;
     return new LimitOrder(orderType, volume, currencyPair, id, new Date(time), price);
+  }
+
+  private static OrderType toOrderType(String mercadoType) {
+    return mercadoType.equals("buy") ? OrderType.BID : OrderType.ASK;
+  }
+
+  public static String adaptCurrencyPair(CurrencyPair pair) {
+    return (pair.baseSymbol + "_" + pair.counterSymbol).toLowerCase();
+  }
+
+  public static UserTrades toUserTrades(CurrencyPair pair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> orders) {
+    List<UserTrade> result = new LinkedList<>();
+    for (Map.Entry<String, MercadoBitcoinUserOrdersEntry> e : orders.getTheReturn().entrySet()) {
+      String orderId = e.getKey();
+      MercadoBitcoinUserOrdersEntry order = e.getValue();
+      OrderType type = toOrderType(order.getType());
+      for (Map.Entry<String, OperationEntry> f : order.getOperations().entrySet()) {
+        String txId = f.getKey();
+        OperationEntry op = f.getValue();
+        result
+            .add(new UserTrade.Builder().currencyPair(pair).id(txId).orderId(orderId).price(op.getPrice()).timestamp(fromUnixTime(op.getCreated())).tradableAmount(op.getVolume()).type(type).build());
+      }
+    }
+    // TODO verify sortType
+    return new UserTrades(result, Trades.TradeSortType.SortByID);
   }
 }

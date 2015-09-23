@@ -54,12 +54,6 @@ public class BleutradeTradeService extends BleutradeTradeServiceRaw implements P
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     throw new NotAvailableFromExchangeException();

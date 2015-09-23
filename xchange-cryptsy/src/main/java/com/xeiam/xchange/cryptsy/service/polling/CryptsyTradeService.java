@@ -1,7 +1,6 @@
 package com.xeiam.xchange.cryptsy.service.polling;
 
 import java.io.IOException;
-import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
@@ -55,8 +54,7 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, ExchangeException {
 
     CryptsyPlaceOrderReturn result = super.placeCryptsyLimitOrder(CryptsyCurrencyUtils.convertToMarketId(limitOrder.getCurrencyPair()),
-        limitOrder.getType() == OrderType.ASK ? CryptsyOrderType.Sell : CryptsyOrderType.Buy, limitOrder.getTradableAmount(),
-        limitOrder.getLimitPrice());
+        limitOrder.getType() == OrderType.ASK ? CryptsyOrderType.Sell : CryptsyOrderType.Buy, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
 
     return Integer.toString(result.getReturnValue());
   }
@@ -69,30 +67,8 @@ public class CryptsyTradeService extends CryptsyTradeServiceRaw implements Polli
   }
 
   /**
-   * @param arguments Vararg list of optional (nullable) arguments: (Long) arguments[0] Number of transactions to return (String) arguments[1]
-   *        TradableIdentifier (String) arguments[2] TransactionCurrency (Long) arguments[3] Starting ID
-   * @return Trades object
-   * @throws IOException
-   */
-  @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException, ExchangeException {
-
-    Date startDate = new Date(0); // default value
-    Date endDate = new Date(); // default value
-    if (arguments.length == 2) {
-      startDate = (Date) arguments[0];
-      endDate = (Date) arguments[1];
-    }
-
-    CryptsyTradeHistoryReturn tradeHistoryReturnData = super.getCryptsyTradeHistory(startDate, endDate);
-
-    return CryptsyAdapters.adaptTradeHistory(tradeHistoryReturnData);
-  }
-
-  /**
    * @param params Can optionally implement {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
    */
-
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 

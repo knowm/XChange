@@ -78,11 +78,6 @@ public class CointraderTradeService extends CointraderTradeServiceRaw implements
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException, CointraderException {
-    return CointraderAdapters.adaptTradeHistory(getCointraderUserTransactions((CurrencyPair) args[0], 0, 1000, 0L));
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     Integer offset = null;
     Integer limit = null;

@@ -55,11 +55,6 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Polli
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-    return getTradeHistory((TradeHistoryParams) null);
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     return new UserTrades(BittrexAdapters.adaptUserTrades(getBittrexTradeHistory()), TradeSortType.SortByTimestamp);
   }

@@ -32,7 +32,7 @@ public class TradeServiceIntegration {
     assertNotNull(exchange);
     PollingTradeService service = exchange.getPollingTradeService();
     assertNotNull(service);
-    UserTrades trades = service.getTradeHistory();
+    UserTrades trades = service.getTradeHistory(service.createTradeHistoryParams());
     assertNotNull(trades);
     System.out.println("Got " + trades.getUserTrades().size() + " trades.");
     for (Trade trade : trades.getTrades()) {

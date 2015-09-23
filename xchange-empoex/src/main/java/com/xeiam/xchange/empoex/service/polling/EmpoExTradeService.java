@@ -55,12 +55,6 @@ public class EmpoExTradeService extends EmpoExTradeServiceRaw implements Polling
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     throw new NotAvailableFromExchangeException();
@@ -69,7 +63,7 @@ public class EmpoExTradeService extends EmpoExTradeServiceRaw implements Polling
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    throw new NotYetImplementedForExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
 }

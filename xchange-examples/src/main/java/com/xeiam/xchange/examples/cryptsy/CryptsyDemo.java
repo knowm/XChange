@@ -90,7 +90,7 @@ public class CryptsyDemo {
     System.out.println("\nOpenOrders:\n" + tradeService.getOpenOrders());
     Thread.sleep(500);
 
-    System.out.println("\nTradeHistory:\n" + tradeService.getTradeHistory());
+    System.out.println("\nTradeHistory:\n" + tradeService.getTradeHistory(tradeService.createTradeHistoryParams()));
     Thread.sleep(500);
 
   }

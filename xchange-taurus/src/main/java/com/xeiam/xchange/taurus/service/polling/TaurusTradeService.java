@@ -68,14 +68,6 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements Polling
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException, TaurusException {
-    if (args.length == 0) {
-      return getTradeHistory(createTradeHistoryParams());
-    }
-    throw new IllegalArgumentException("Please use getTradeHistory(TradeHistoryParams).");
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     Integer offset = null;
     Integer limit = null;

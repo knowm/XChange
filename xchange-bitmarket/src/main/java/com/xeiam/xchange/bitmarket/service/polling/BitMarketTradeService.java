@@ -9,7 +9,6 @@ import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketTradeResponse;
 import com.xeiam.xchange.bitmarket.service.polling.params.BitMarketHistoryParams;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -61,22 +60,6 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements P
 
     cancelBitMarketOrder(id);
     return true;
-  }
-
-  @Override
-  public UserTrades getTradeHistory(Object... objects)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
-    BitMarketHistoryParams params = new BitMarketHistoryParams();
-
-    try {
-      params.setCurrencyPair((CurrencyPair) objects[0]);
-      params.setCount((Integer) objects[1]);
-      params.setOffset((Long) objects[2]);
-    } catch (Exception e) {
-    } //ignore, wrong or missed params just will be default
-
-    return getTradeHistory(params);
   }
 
   @Override

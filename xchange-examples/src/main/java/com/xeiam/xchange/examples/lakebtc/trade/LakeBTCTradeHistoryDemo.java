@@ -9,9 +9,6 @@ import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCTradeResponse;
 import com.xeiam.xchange.lakebtc.service.polling.LakeBTCTradeServiceRaw;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 
-/**
- * Created by Cristi on 12/22/2014.
- */
 public class LakeBTCTradeHistoryDemo {
 
   public static void main(String[] args) throws IOException {
@@ -25,10 +22,7 @@ public class LakeBTCTradeHistoryDemo {
     PollingTradeService tradeService = lakebtcExchange.getPollingTradeService();
 
     // Get the trade history
-    Trades trades = tradeService.getTradeHistory();
-    System.out.println(trades);
-
-    trades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
+    Trades trades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     System.out.println(trades);
 
   }

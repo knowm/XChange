@@ -2,6 +2,7 @@ package com.xeiam.xchange.mercadobitcoin.service.polling;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
@@ -13,15 +14,15 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinAdapters;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinUtils;
 import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.service.polling.trade.params.*;
+
+import static com.xeiam.xchange.utils.DateUtils.toUnixTimeNullSafe;
 
 /**
  * @author Felipe Micaroni Lalli
@@ -85,8 +86,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
       type = "sell";
     }
 
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> newOrderResult = mercadoBitcoinPlaceLimitOrder(pair, type,
-        limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinPlaceLimitOrderResult> newOrderResult = mercadoBitcoinPlaceLimitOrder(pair, type, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
 
     return MercadoBitcoinUtils.makeMercadoBitcoinOrderId(limitOrder.getCurrencyPair(), newOrderResult.getTheReturn().keySet().iterator().next());
   }
@@ -105,30 +105,92 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
     return true;
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException {
-
-    // TODO: see #getTradeHistory(TradeHistoryParams params)
-    throw new NotYetImplementedForExchangeException();
-  }
-
   /**
-   * Required parameter types: {@link com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging#getPageLength()}
+   * @param params Required parameter types: {@link TradeHistoryParamCurrencyPair}. Supported types: {@link TradeHistoryParamsIdSpan},
+   * {@link TradeHistoryParamsTimeSpan}.
+   *
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    CurrencyPair pair = ((TradeHistoryParamCurrencyPair)params).getCurrencyPair();
 
-    // TODO: use getMercadoBitcoinUserOrders of MercadoBitcoinTradeServiceRaw
-    // and get order of all status (active, completed and canceled) and look for
-    // getOperations()
-    throw new NotYetImplementedForExchangeException();
+    String fromId = null;
+    String toId = null;
+    if(params instanceof TradeHistoryParamsIdSpan){
+      TradeHistoryParamsIdSpan paramsIdSpan = (TradeHistoryParamsIdSpan) params;
+      fromId= paramsIdSpan.getStartId();
+      toId = paramsIdSpan.getEndId();
+    }
+
+    Long fromDate = null;
+    Long toDate = null;
+    if(params instanceof TradeHistoryParamsTimeSpan){
+      TradeHistoryParamsTimeSpan paramsTimeSpan = (TradeHistoryParamsTimeSpan) params;
+      fromDate = toUnixTimeNullSafe(paramsTimeSpan.getStartTime());
+      toDate = toUnixTimeNullSafe(paramsTimeSpan.getEndTime());
+    }
+
+
+    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> orders = getMercadoBitcoinUserOrders(MercadoBitcoinAdapters.adaptCurrencyPair(pair), null, /*all*/null, fromId, toId,
+        fromDate, toDate);
+
+    return MercadoBitcoinAdapters.toUserTrades(pair, orders);
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
+    return new MercadoTradeHistoryParams(CurrencyPair.BTC_BRL);
+  }
 
-    return new DefaultTradeHistoryParamPaging(1000); // the API limit of Mercado
-    // Bitcoin is 1000
+  public static class MercadoTradeHistoryParams extends DefaultTradeHistoryParamCurrencyPair implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan{
+    private String startId;
+    private String endId;
+    private Date startTime;
+    private Date endTime;
+
+    public MercadoTradeHistoryParams(CurrencyPair pair) {
+      super(pair);
+    }
+
+    @Override
+    public void setStartId(String startId) {
+      this.startId = startId;
+    }
+
+    @Override
+    public String getStartId() {
+      return startId;
+    }
+
+    @Override
+    public void setEndId(String endId) {
+      this.endId = endId;
+    }
+
+    @Override
+    public String getEndId() {
+      return endId;
+    }
+
+    @Override
+    public void setStartTime(Date startTime) {
+      this.startTime = startTime;
+    }
+
+    @Override
+    public Date getStartTime() {
+      return startTime;
+    }
+
+    @Override
+    public void setEndTime(Date endTime) {
+      this.endTime = endTime;
+    }
+
+    @Override
+    public Date getEndTime() {
+      return endTime;
+    }
   }
 
 }

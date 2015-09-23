@@ -82,7 +82,7 @@ public class ItBitTradesDemo {
     System.out.println("Cancelling " + placeLimitOrder1);
     trades.cancelOrder(placeLimitOrder1);
 
-    Trades tradeHistory = trades.getTradeHistory();
+    Trades tradeHistory = trades.getTradeHistory(trades.createTradeHistoryParams());
     System.out.println("Trade history: " + tradeHistory);
   }
 }

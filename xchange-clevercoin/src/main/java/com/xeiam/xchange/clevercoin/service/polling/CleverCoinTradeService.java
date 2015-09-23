@@ -79,24 +79,6 @@ public class CleverCoinTradeService extends CleverCoinTradeServiceRaw implements
     return cancelCleverCoinOrder(Integer.parseInt(orderId)).getResult().equals("success");
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException, CleverCoinException {
-
-    int numberOfTransactions = 100;
-    if (args.length > 0) {
-      Object arg0 = args[0];
-      if (!(arg0 instanceof Number)) {
-        throw new ExchangeException("Argument must be a Number!");
-      } else {
-        numberOfTransactions = ((Number) args[0]).intValue();
-      }
-    }
-
-    TradeHistoryParamPaging params = createTradeHistoryParams();
-    params.setPageLength(numberOfTransactions);
-    return getTradeHistory(params);
-  }
-
   /**
    * Required parameter types: {@link TradeHistoryParamPaging#getPageLength()}
    */

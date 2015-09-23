@@ -48,11 +48,6 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException, TheRockException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }

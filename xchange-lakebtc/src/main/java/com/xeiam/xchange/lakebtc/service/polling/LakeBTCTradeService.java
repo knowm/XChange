@@ -11,12 +11,8 @@ import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCCancelResponse;
 import com.xeiam.xchange.lakebtc.dto.trade.LakeBTCOrderResponse;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
-/**
- * Created by cristian.lucaci on 12/19/2014.
- */
 public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements PollingTradeService {
 
   /**
@@ -53,18 +49,13 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Polli
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new DefaultTradeHistoryParamsTimeSpan();
+    throw new NotYetImplementedForExchangeException();
   }
 
 }

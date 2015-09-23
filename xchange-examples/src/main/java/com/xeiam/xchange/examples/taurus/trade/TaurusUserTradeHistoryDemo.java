@@ -34,7 +34,7 @@ public class TaurusUserTradeHistoryDemo {
 
   private static void generic(PollingTradeService tradeService) throws IOException {
 
-    Trades trades = tradeService.getTradeHistory();
+    Trades trades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     System.out.println(trades);
 
     // Warning: using a limit here can be misleading. The underlying call

@@ -100,15 +100,6 @@ public class CoinsetterTradeService extends CoinsetterOrderServiceRaw implements
     return "SUCCESS".equals(response.getRequestStatus());
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public UserTrades getTradeHistory(Object... arguments) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 

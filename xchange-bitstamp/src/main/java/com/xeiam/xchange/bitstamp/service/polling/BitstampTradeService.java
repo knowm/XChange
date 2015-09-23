@@ -86,22 +86,6 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
     return cancelBitstampOrder(Integer.parseInt(orderId));
   }
 
-  @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException, BitstampException {
-
-    Long numberOfTransactions = 1000L;
-    if (args.length > 0) {
-      Object arg0 = args[0];
-      if (!(arg0 instanceof Number)) {
-        throw new ExchangeException("Argument must be a Number!");
-      } else {
-        numberOfTransactions = ((Number) args[0]).longValue();
-      }
-    }
-
-    return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(numberOfTransactions));
-  }
-
   /**
    * Required parameter types: {@link TradeHistoryParamPaging#getPageLength()}
    */

@@ -105,12 +105,6 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Pol
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... arguments)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getTradeHistory(createTradeHistoryParams());
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     DefaultTradeHistoryParamPagingSorted myParams = (DefaultTradeHistoryParamPagingSorted) params;
     return CoinmateAdapters.adaptTradeHistory(

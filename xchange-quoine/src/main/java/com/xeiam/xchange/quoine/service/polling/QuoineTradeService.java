@@ -62,12 +62,6 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements Polling
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
-  }
-
-  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     throw new NotAvailableFromExchangeException();

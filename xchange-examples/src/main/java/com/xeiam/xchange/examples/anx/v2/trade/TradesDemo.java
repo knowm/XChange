@@ -20,7 +20,7 @@ public class TradesDemo {
     // Interested in the private trading functionality (authentication)
     PollingTradeService tradeService = anx.getPollingTradeService();
 
-    Trades trades = tradeService.getTradeHistory();
+    Trades trades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     for (Trade trade : trades.getTrades()) {
       System.out.println(trade);
     }

@@ -8,6 +8,7 @@ import com.xeiam.xchange.clevercoin.service.polling.CleverCoinTradeServiceRaw;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.clevercoin.CleverCoinDemoUtils;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
+import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 
 /**
  * <p>
@@ -31,7 +32,7 @@ public class CleverCoinUserTradeHistoryDemo {
 
   private static void generic(PollingTradeService tradeService) throws IOException {
 
-    Trades trades = tradeService.getTradeHistory(150);
+    Trades trades = tradeService.getTradeHistory(new DefaultTradeHistoryParamPaging(150));
     System.out.println(trades);
 
     // Warning: using a limit here can be misleading. The underlying call
