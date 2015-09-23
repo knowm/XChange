@@ -86,6 +86,7 @@
 		<module>xchange-btccentral</module>
 		<module>xchange-btcchina</module>
 		<module>xchange-btce</module>
+		<module>xchange-btcmarkets</module>
 		<module>xchange-btctrade</module>
 		<module>xchange-bter</module>
 		<module>xchange-campbx</module>

@@ -1,5 +1,6 @@
 package com.xeiam.xchange.service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -7,6 +8,8 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+
+import net.iharder.Base64;
 
 import si.mazi.rescu.ParamsDigest;
 
@@ -80,5 +83,13 @@ public abstract class BaseParamsDigest implements ParamsDigest {
   protected Mac getMac() {
 
     return threadLocalMac.get();
+  }
+
+  protected static byte[] decodeBase64(String secretKey) {
+    try {
+      return Base64.decode(secretKey);
+    } catch (IOException e) {
+      throw new RuntimeException("Can't decode secret key as Base 64", e);
+    }
   }
 }
