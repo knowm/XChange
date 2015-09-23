@@ -15,7 +15,7 @@ public class NotYetImplementedForExchangeException extends RuntimeException {
    *
    * @param message
    */
-  private NotYetImplementedForExchangeException(String message) {
+  public NotYetImplementedForExchangeException(String message) {
 
     super(message);
   }
