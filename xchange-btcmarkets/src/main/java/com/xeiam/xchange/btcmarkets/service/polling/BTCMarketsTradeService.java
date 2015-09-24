@@ -46,7 +46,7 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
 
   @Override
   public String placeMarketOrder(MarketOrder order) throws IOException, BTCMarketsException {
-    return placeOrder(order.getCurrencyPair(), order.getType(), order.getTradableAmount(), null, BTCMarketsOrder.Type.Market);
+    return placeOrder(order.getCurrencyPair(), order.getType(), order.getTradableAmount(), BigDecimal.ZERO, BTCMarketsOrder.Type.Market);
   }
 
   @Override
