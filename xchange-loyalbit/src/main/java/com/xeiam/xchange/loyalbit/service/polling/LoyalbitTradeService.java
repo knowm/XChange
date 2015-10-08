@@ -65,20 +65,20 @@ public class LoyalbitTradeService extends LoyalbitTradeServiceRaw implements Pol
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     Integer offset = 0;
     Integer limit = 100;
-    LoyalbitAuthenticated.Sort sort = LoyalbitAuthenticated.Sort.asc;
+    LoyalbitAuthenticated.Sort sort = LoyalbitAuthenticated.Sort.desc;
     if (params instanceof TradeHistoryParamPaging) {
       final TradeHistoryParamPaging paging = (TradeHistoryParamPaging) params;
       limit = paging.getPageLength();
       offset = paging.getPageLength() * paging.getPageNumber();
     }
     if (params instanceof TradeHistoryParamsSorted) {
-      sort = LoyalbitAuthenticated.Sort.valueOf(((TradeHistoryParamsSorted) params).getOrder().name());
+      sort = ((TradeHistoryParamsSorted) params).getOrder() == TradeHistoryParamsSorted.Order.asc ? LoyalbitAuthenticated.Sort.asc : LoyalbitAuthenticated.Sort.desc;
     }
     return LoyalbitAdapters.adaptTradeHistory(getLoyalbitUserTransactions(offset, limit, sort));
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return new DefaultTradeHistoryParamPagingSorted(100);
+    return new DefaultTradeHistoryParamPagingSorted(100, TradeHistoryParamsSorted.Order.desc);
   }
 }
