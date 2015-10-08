@@ -8,6 +8,11 @@ public class DefaultTradeHistoryParamPagingSorted extends DefaultTradeHistoryPar
     super(pageLength);
   }
 
+  public DefaultTradeHistoryParamPagingSorted(Integer pageLength, Order order) {
+    super(pageLength);
+    this.order = order;
+  }
+
   @Override
   public Order getOrder() {
     return order;
