@@ -2,6 +2,12 @@
   "currencyPair": {
     "XBT/USD": {
       "priceScale": 2
+    },
+    "XBT/AUD": {
+      "priceScale": 2
+    },
+    "XBT/NZD": {
+      "priceScale": 2
     }
   },
   "currency": {},
