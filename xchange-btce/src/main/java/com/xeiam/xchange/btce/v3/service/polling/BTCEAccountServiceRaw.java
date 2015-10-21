@@ -6,6 +6,9 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfoReturn;
+import com.xeiam.xchange.btce.v3.dto.account.BTCEWithDrawInfoReturn;
+import com.xeiam.xchange.btce.v3.dto.account.BTCEWithdrawInfo;
+import java.math.BigDecimal;
 
 /**
  * Author: brox
@@ -40,6 +43,20 @@ public class BTCEAccountServiceRaw extends BTCEBasePollingService {
         BTCEAuthenticated.SortOrder.DESC, null, null);
     checkResult(info);
     return info.getReturnValue();
+  }
+  
+    /**
+     * Author: Ondřej Novtný
+     * @param currency Currency to withdraw
+     * @param amount Amount of withdrawal
+     * @param address Withdrawall address 
+     * @return Transactoin ID
+     */
+    public String withdraw(String currency, BigDecimal amount, String address)
+  {
+      BTCEWithDrawInfoReturn info = btce.Withdraw(apiKey, signatureCreator, currency, amount, address);
+      
+      return String.valueOf(info.getReturnValue().gettId());
   }
 
 }
