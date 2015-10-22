@@ -34,7 +34,7 @@ public class BTCEAccountService extends BTCEAccountServiceRaw implements Polling
  
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
-     String s = withdrawFunds(currency, amount, address);
+     String s = withdraw(currency, amount, address);
      return s;
   }
 

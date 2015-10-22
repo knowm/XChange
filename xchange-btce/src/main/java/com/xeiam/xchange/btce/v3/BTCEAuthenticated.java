@@ -138,7 +138,8 @@ public interface BTCEAuthenticated extends BTCE {
   @POST
   @Path("tapi")
   @FormParam("method")
-  BTCEWithDrawInfoReturn Withdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+  BTCEWithDrawInfoReturn WithdrawCoin(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+           @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
             @FormParam("coinName") String coinName, @FormParam("amount") BigDecimal amount,  @FormParam("address")String address );
   
 }
