@@ -27,13 +27,14 @@ public class IndependentReserveAccountDemo {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    System.out.println("USD balance: " + accountInfo.getWallet("USD").getAvailable());
+    System.out.println("BTC balance: " + accountInfo.getWallet("BTC").getAvailable());
 
   }
 
   private static void raw(IndependentReserveAccountService accountService) throws IOException {
     // Get the account information
-    IndependentReserveBalance bitstampBalance = accountService.getIndependentReserveBalance();
-    System.out.println("BitstampBalance: " + bitstampBalance);
+    IndependentReserveBalance balance = accountService.getIndependentReserveBalance();
+    System.out.println("Balance: " + balance);
   }
 }
