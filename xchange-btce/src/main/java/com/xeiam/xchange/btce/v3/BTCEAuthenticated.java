@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfoReturn;
+import com.xeiam.xchange.btce.v3.dto.account.BTCEWithDrawInfoReturn;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCECancelOrderReturn;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOpenOrdersReturn;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
@@ -126,4 +127,19 @@ public interface BTCEAuthenticated extends BTCE {
   enum SortOrder {
     ASC, DESC
   }
+    
+    /**
+     * Author: Ondřej Novtný
+     * @param currency Currency to withdraw
+     * @param amount Amount of withdrawal
+     * @param address Withdrawall address 
+     * @return
+     */
+  @POST
+  @Path("tapi")
+  @FormParam("method")
+  BTCEWithDrawInfoReturn WithdrawCoin(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+           @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+            @FormParam("coinName") String coinName, @FormParam("amount") BigDecimal amount,  @FormParam("address")String address );
+  
 }
