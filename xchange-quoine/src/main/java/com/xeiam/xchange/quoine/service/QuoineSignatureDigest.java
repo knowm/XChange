@@ -14,6 +14,7 @@ import java.security.NoSuchAlgorithmException;
 public class QuoineSignatureDigest extends BaseParamsDigest {
 
   private final String userID;
+  private final String COMMA_SEPARATOR = ",";
 
   public QuoineSignatureDigest(String userID, String secretKeyBase64) {
     super(secretKeyBase64, HMAC_SHA_1);
@@ -21,7 +22,6 @@ public class QuoineSignatureDigest extends BaseParamsDigest {
   }
 
   public ParamsDigest getContentMD5Digester() {
-
     return new QuoineContentMD5Digest();
   }
 
@@ -31,16 +31,27 @@ public class QuoineSignatureDigest extends BaseParamsDigest {
     String contentMD5 = getContentMD5(restInvocation.getRequestBody());
     String date = restInvocation.getParamValue(HeaderParam.class, "Date").toString();
     String nonce = restInvocation.getParamValue(HeaderParam.class, "NONCE").toString();
-    String data = "application/json," + contentMD5 + "," + restInvocation.getPath() + "," + date + "," + nonce;
+
+    String data = new StringBuilder(256) // most lengths are ~128, lets avoid resizing
+            .append("application/json,")
+            .append(contentMD5)
+            .append(COMMA_SEPARATOR)
+            .append(restInvocation.getPath())
+            .append(COMMA_SEPARATOR)
+            .append(date)
+            .append(COMMA_SEPARATOR)
+            .append(nonce).toString();
 
     Mac mac = getMac();
     byte[] hash = mac.doFinal(data.getBytes());
 
-    return "APIAuth " + userID + ":" + Base64.encodeBytes(hash);
+    return new StringBuilder(64).append("APIAuth ").append(userID).append(":").append(Base64.encodeBytes(hash)).toString();
   }
 
   private String getContentMD5(String content) {
-
+    if (content == null || "".equals(content)) {
+      return "";
+    }
     String digest = null;
     try {
       byte[] bytesOfMessage = content.getBytes("UTF-8");

@@ -3,6 +3,7 @@ package com.xeiam.xchange.quoine.service.polling;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
@@ -50,12 +51,13 @@ public class QuoineBasePollingService extends BaseExchangeService implements Bas
 
   protected String getDate() {
 
-    SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
-    return format.format(new Date());
+      SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+      format.setTimeZone(TimeZone.getTimeZone("GMT"));
+      return format.format(new Date());
   }
 
   protected String getNonce() {
 
-    return String.format("%032d", String.valueOf(exchange.getNonceFactory().createValue()));
+    return String.format("%032d", exchange.getNonceFactory().createValue());
   }
 }
