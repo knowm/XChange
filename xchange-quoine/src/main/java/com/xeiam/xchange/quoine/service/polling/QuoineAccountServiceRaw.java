@@ -6,6 +6,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
 import com.xeiam.xchange.quoine.dto.account.QuoineTradingAccountInfo;
+import com.xeiam.xchange.quoine.service.QuoineSignatureDigest;
 import com.xeiam.xchange.utils.Assert;
 
 import si.mazi.rescu.HttpStatusIOException;
@@ -25,7 +26,7 @@ public class QuoineAccountServiceRaw extends QuoineBasePollingService {
   public QuoineAccountInfo getQuoineAccountInfo() throws IOException {
 
     try {
-      return quoine.getAccountInfo(device, userID, userToken);
+      return quoine.getAccountInfo(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator);
     } catch (HttpStatusIOException e) {
       throw new ExchangeException(e.getHttpBody());
     }
@@ -34,7 +35,7 @@ public class QuoineAccountServiceRaw extends QuoineBasePollingService {
   public QuoineTradingAccountInfo[] getQuoineTradingAccountInfo() throws IOException {
 
     try {
-      return quoine.getTradingAccountInfo(device, userID, userToken);
+      return quoine.getTradingAccountInfo(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator);
     } catch (HttpStatusIOException e) {
       throw new ExchangeException(e.getHttpBody());
     }

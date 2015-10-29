@@ -7,16 +7,19 @@ import com.xeiam.xchange.quoine.service.polling.QuoineAccountService;
 import com.xeiam.xchange.quoine.service.polling.QuoineMarketDataService;
 import com.xeiam.xchange.quoine.service.polling.QuoineTradeService;
 
+import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class QuoineExchange extends BaseExchange implements Exchange {
 
   public static final String KEY_USER_ID = "KEY_USER_ID";
-  public static final String KEY_DEVICE_NAME = "KEY_DEVICE_NAME";
-  public static final String KEY_USER_TOKEN = "KEY_USER_TOKEN";
+  public static final String KEY_USER_SECRET = "KEY_USER_SECRET";
+
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
+
     boolean useMargin = (Boolean) exchangeSpecification.getExchangeSpecificParametersItem("Use_Margin");
 
     this.pollingMarketDataService = new QuoineMarketDataService(this);
@@ -37,7 +40,6 @@ public class QuoineExchange extends BaseExchange implements Exchange {
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
-    // not used by this exchange
-    return null;
+    return nonceFactory;
   }
 }
