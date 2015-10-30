@@ -1,30 +1,25 @@
-
 package com.xeiam.xchange.gatecoin.dto.account.Results;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.gatecoin.dto.GatecoinResult;
 import com.xeiam.xchange.gatecoin.dto.account.GatecoinDepositAddress;
-import com.xeiam.xchange.gatecoin.dto.marketdata.Response;
+import com.xeiam.xchange.gatecoin.dto.marketdata.ResponseStatus;
 
 /**
- *
  * @author sumedha
  */
-public class GatecoinDepositAddressResult
-{
-    private final GatecoinDepositAddress[]  addresses;
-     private final Response responseStatus; 
+public class GatecoinDepositAddressResult extends GatecoinResult {
+  private final GatecoinDepositAddress[] addresses;
 
-    public GatecoinDepositAddressResult(@JsonProperty("addresses") GatecoinDepositAddress[] addresses,@JsonProperty("responseStatus") Response responseStatus) {
-        this.addresses = addresses;
-        this.responseStatus = responseStatus;
-    }
+  public GatecoinDepositAddressResult(
+      @JsonProperty("addresses") GatecoinDepositAddress[] addresses,
+      @JsonProperty("responseStatus") ResponseStatus responseStatus
+  ) {
+    super(responseStatus);
+    this.addresses = addresses;
+  }
 
-    public GatecoinDepositAddress[] getAddresses() {
-        return addresses;
-    }
-
-    public Response getResponseStatus() {
-        return responseStatus;
-    }
-    
+  public GatecoinDepositAddress[] getAddresses() {
+    return addresses;
+  }
 }

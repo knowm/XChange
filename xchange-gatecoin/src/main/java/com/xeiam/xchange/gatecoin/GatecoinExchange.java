@@ -1,7 +1,5 @@
 package com.xeiam.xchange.gatecoin;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -11,6 +9,7 @@ import com.xeiam.xchange.gatecoin.service.polling.GatecoinTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Sumedha
@@ -33,11 +32,10 @@ public class GatecoinExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://gatecoin.com");
+    exchangeSpecification.setSslUri("https://www.gatecoin.com");
     exchangeSpecification.setHost("www.gatecoin.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Gatecoin");
-    exchangeSpecification.setExchangeDescription("Gatecoin is a Bitcoin exchange registered in Slovenia.");
     return exchangeSpecification;
   }
 
