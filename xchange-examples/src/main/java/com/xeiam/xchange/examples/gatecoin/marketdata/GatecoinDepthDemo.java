@@ -1,14 +1,14 @@
-package com.xeiam.xchange.gatecoin.testclient.marketdata;
+package com.xeiam.xchange.examples.gatecoin.marketdata;
 
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.gatecoin.GatecoinExchange;
-import com.xeiam.xchange.gatecoin.service.polling.GatecoinMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.gatecoin.GatecoinExchange;
 import com.xeiam.xchange.gatecoin.dto.marketdata.GatecoinDepth;
+import com.xeiam.xchange.gatecoin.service.polling.GatecoinMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
@@ -30,7 +30,7 @@ public class GatecoinDepthDemo {
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
-     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook.toString());
   }
 
@@ -38,7 +38,6 @@ public class GatecoinDepthDemo {
 
     GatecoinDepth[] asks = marketDataService.getGatecoinOrderBook(CurrencyPair.BTC_USD.toString()).getAsks();
 
-    System.out.println(asks.toString());
+    System.out.println(asks);
   }
-
 }

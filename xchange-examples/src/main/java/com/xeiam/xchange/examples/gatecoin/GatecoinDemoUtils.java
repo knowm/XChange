@@ -1,5 +1,4 @@
-
-package com.xeiam.xchange.gatecoin.testclient;
+package com.xeiam.xchange.examples.gatecoin;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -7,11 +6,10 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.gatecoin.GatecoinExchange;
 
 /**
- *
  * @author sumdeha
  */
 public class GatecoinDemoUtils {
-    public static Exchange createExchange() {
+  public static Exchange createExchange() {
 
     ExchangeSpecification exSpec = new GatecoinExchange().getDefaultExchangeSpecification();
     exSpec.setUserName("username");
