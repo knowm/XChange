@@ -51,9 +51,8 @@
 			<artifactId>pusher-java-client</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache-extras.camel-extra</groupId>
-			<artifactId>camel-example-rcode</artifactId>
-			<type>jar</type>
+			<groupId>net.iharder</groupId>
+			<artifactId>base64</artifactId>
 		</dependency>
 	</dependencies>
 

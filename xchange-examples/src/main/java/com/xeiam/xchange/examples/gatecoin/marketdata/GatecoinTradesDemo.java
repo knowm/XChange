@@ -1,21 +1,20 @@
-package com.xeiam.xchange.gatecoin.testclient.marketdata;
+package com.xeiam.xchange.examples.gatecoin.marketdata;
 
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.gatecoin.GatecoinExchange;
-import com.xeiam.xchange.gatecoin.dto.marketdata.GatecoinTicker;
-import com.xeiam.xchange.gatecoin.service.polling.GatecoinMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.gatecoin.GatecoinExchange;
+import com.xeiam.xchange.gatecoin.dto.marketdata.GatecoinTransaction;
+import com.xeiam.xchange.gatecoin.service.polling.GatecoinMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
- * Demonstrate requesting Ticker at Gatecoin. You can access both the raw data from Gatecoin or the XChange generic DTO data format.
+ * @author sumdeha
  */
-public class GatecoinTickerDemo {
-
+public class GatecoinTradesDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get gatecoin exchange API using default settings
@@ -30,16 +29,20 @@ public class GatecoinTickerDemo {
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
+    System.out.println(trades.getTrades().toString());
 
-    System.out.println(ticker.toString());
+    Trades tradesWithCount = marketDataService.getTrades(CurrencyPair.BTC_EUR, 10);
+    System.out.println(tradesWithCount.getTrades().toString());
+
+    Trades tradesWithCountAndTxId = marketDataService.getTrades(CurrencyPair.BTC_HKD, 5, (long) 1386153);
+    System.out.println(tradesWithCountAndTxId.getTrades().toString());
   }
 
   private static void raw(GatecoinMarketDataServiceRaw marketDataService) throws IOException {
 
-    GatecoinTicker[] gatecoinTicker = marketDataService.getGatecoinTicker().getTicker();
+    GatecoinTransaction[] gatecoinTransactions = marketDataService.getGatecoinTransactions(CurrencyPair.BTC_USD.toString()).getTransactions();
 
-    System.out.println(gatecoinTicker[0].toString());
+    System.out.println(gatecoinTransactions[0].toString());
   }
-
 }

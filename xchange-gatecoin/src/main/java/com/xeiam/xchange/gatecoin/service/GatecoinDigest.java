@@ -1,63 +1,40 @@
 package com.xeiam.xchange.gatecoin.service;
-import java.math.BigInteger;
-
-import javax.crypto.Mac;
-import javax.ws.rs.FormParam;
-import org.apache.commons.codec.binary.Base64;
-
-import si.mazi.rescu.RestInvocation;
 
 import com.xeiam.xchange.service.BaseParamsDigest;
-import java.util.Date;
+import net.iharder.Base64;
+import si.mazi.rescu.RestInvocation;
 
+import javax.crypto.Mac;
+import javax.ws.rs.HeaderParam;
 
-
-/**
- * @author sumedha
- */
 public class GatecoinDigest extends BaseParamsDigest {
 
-    private final String apiKey;
-    private final long now;
-  /**
-   * Constructor
-   * 
-   * @param secretKeyBase64
-   * @param clientId
-   * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
-   */
-  private GatecoinDigest(String secretKeyBase64, String apiKey, long timeStamp) {
-
-    super(secretKeyBase64, HMAC_SHA_256);   
-    this.apiKey = apiKey;
-    this.now = timeStamp;
+  private GatecoinDigest(String secretKeyBase64) {
+    super(secretKeyBase64, HMAC_SHA_256);
   }
 
-  public static GatecoinDigest createInstance(String secretKeyBase64, String apiKey,long timeStamp) {
-
-    return secretKeyBase64 == null ? null : new GatecoinDigest(secretKeyBase64, apiKey, timeStamp);
+  public static GatecoinDigest createInstance(String secretKeyBase64) {
+    return secretKeyBase64 == null ? null : new GatecoinDigest(secretKeyBase64);
   }
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
+    return digest(
+        restInvocation.getHttpMethod(),
+        restInvocation.getInvocationUrl(),
+        restInvocation.getReqContentType(),
+        restInvocation.getParamValue(HeaderParam.class, "API_REQUEST_DATE").toString()
+    );
+  }
 
-    String contentType;
-  
-    String url = restInvocation.getInvocationUrl();
-    String type = restInvocation.getHttpMethod();
-    contentType = restInvocation.getReqContentType();
-    if(type == "POST")
-    {
-         contentType = "application/x-www-form-urlencoded";
+  String digest(String httpMethod, String invocationUrl, String reqContentType, String now) {
+    Mac mac256 = getMac();
+    mac256.update(httpMethod.toLowerCase().getBytes());
+    mac256.update(invocationUrl.toLowerCase().getBytes());
+    if (!"GET".equals(httpMethod)) {
+      mac256.update(reqContentType.toLowerCase().getBytes());
     }
-    else
-    {
-        contentType = "";
-    } 
-
-    String message = type + url + contentType + now;   
-    Mac mac256 = getMac();      
-    String enc=  Base64.encodeBase64String(mac256.doFinal(message.toLowerCase().getBytes()));     
-    return enc;
+    mac256.update(now.toLowerCase().getBytes());
+    return Base64.encodeBytes(mac256.doFinal());
   }
 }

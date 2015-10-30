@@ -1,27 +1,17 @@
-
 package com.xeiam.xchange.gatecoin.dto.trade.Results;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.gatecoin.dto.marketdata.Response;
+import com.xeiam.xchange.gatecoin.dto.GatecoinResult;
+import com.xeiam.xchange.gatecoin.dto.marketdata.ResponseStatus;
 
 /**
- *
  * @author sumedha
  */
-public class GatecoinCancelOrderResult {
-  
-    private final Response responseStatus;
+public class GatecoinCancelOrderResult extends GatecoinResult {
 
-    @JsonCreator
-    public GatecoinCancelOrderResult(@JsonProperty("responseStatus") Response responseStatus) {
-       
-        this.responseStatus = responseStatus;
-    }
-
-   
-
-    public Response getResponseStatus() {
-        return responseStatus;
-    }
+  @JsonCreator
+  public GatecoinCancelOrderResult(@JsonProperty("responseStatus") ResponseStatus responseStatus) {
+    super(responseStatus);
+  }
 }

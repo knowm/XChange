@@ -1,27 +1,25 @@
 package com.xeiam.xchange.gatecoin.dto.trade.Results;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.gatecoin.dto.marketdata.Response;
+import com.xeiam.xchange.gatecoin.dto.GatecoinResult;
+import com.xeiam.xchange.gatecoin.dto.marketdata.ResponseStatus;
 import com.xeiam.xchange.gatecoin.dto.trade.GatecoinTradeHistory;
 
 /**
- *
  * @author sumedha
  */
-public class GatecoinTradeHistoryResult {
-    private final GatecoinTradeHistory[] transactions;
-     private final Response responseStatus;
+public class GatecoinTradeHistoryResult extends GatecoinResult {
+  private final GatecoinTradeHistory[] transactions;
 
-    public GatecoinTradeHistoryResult(@JsonProperty("transactions") GatecoinTradeHistory[] transactions,@JsonProperty("responseStatus")  Response responseStatus) {
-        this.transactions = transactions;
-        this.responseStatus = responseStatus;
-    }
+  public GatecoinTradeHistoryResult(
+      @JsonProperty("transactions") GatecoinTradeHistory[] transactions,
+      @JsonProperty("responseStatus") ResponseStatus responseStatus
+  ) {
+    super(responseStatus);
+    this.transactions = transactions;
+  }
 
-    public GatecoinTradeHistory[] getTransactions() {
-        return transactions;
-    }
-
-    public Response getResponseStatus() {
-        return responseStatus;
-    }
+  public GatecoinTradeHistory[] getTransactions() {
+    return transactions;
+  }
 }
