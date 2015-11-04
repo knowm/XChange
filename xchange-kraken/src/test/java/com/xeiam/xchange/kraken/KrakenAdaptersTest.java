@@ -60,6 +60,7 @@ public class KrakenAdaptersTest {
     assertThat(ticker.getLow()).isEqualTo(new BigDecimal("560.00000"));
     assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("591.11000"));
     assertThat(ticker.getLast()).isEqualTo(new BigDecimal("560.87711"));
+    assertThat(ticker.getVwap()).isEqualTo(new BigDecimal("576.77284"));
     assertThat(ticker.getVolume()).isEqualByComparingTo("600.91850325");
     assertThat(ticker.getCurrencyPair().baseSymbol).isEqualTo(currencyPair.baseSymbol);
   }
