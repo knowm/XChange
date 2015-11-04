@@ -107,6 +107,7 @@ public class KrakenAdapters {
     builder.last(krakenTicker.getClose().getPrice());
     builder.high(krakenTicker.get24HourHigh());
     builder.low(krakenTicker.get24HourLow());
+    builder.vwap(krakenTicker.get24HourVolumeAvg());
     builder.volume(krakenTicker.get24HourVolume());
     builder.currencyPair(currencyPair);
     return builder.build();
