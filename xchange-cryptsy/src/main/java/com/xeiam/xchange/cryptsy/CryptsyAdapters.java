@@ -3,7 +3,6 @@ package com.xeiam.xchange.cryptsy;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -238,8 +237,7 @@ public final class CryptsyAdapters {
     BigDecimal low = targetMarket.getLow();
     BigDecimal volume = targetMarket.get24hVolume();
 
-    Date timestamp = targetMarket.getCreatedTime();
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).build();
   }
 
   public static List<Ticker> adaptPublicTickers(Map<Integer, CryptsyPublicMarketData> marketsReturnData) {
@@ -256,6 +254,7 @@ public final class CryptsyAdapters {
    * function will have to be called to get summary data
    *
    * @param publicMarketData Raw returned data from Cryptsy, CryptsyGetMarketsReturn DTO
+   * @param currencyPair The market for which this CryptsyGetMarketsReturn belongs to (Usually not given in Cryptsy response)
    * @return Standard XChange Ticker DTO
    */
   public static Ticker adaptPublicTicker(CryptsyPublicMarketData publicMarketData) {
@@ -270,8 +269,7 @@ public final class CryptsyAdapters {
     BigDecimal low = null;
     BigDecimal volume = publicMarketData.getVolume();
 
-    Date timestamp = publicMarketData.getLastTradeTime();
-    return new Ticker.Builder().currencyPair(adaptCurrencyPair(publicMarketData)).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+    return new Ticker.Builder().currencyPair(adaptCurrencyPair(publicMarketData)).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume)
             .build();
   }
 
@@ -313,7 +311,7 @@ public final class CryptsyAdapters {
         OrderType orderType = order.getTradeType() == CryptsyOrderType.Buy ? OrderType.BID : OrderType.ASK;
 
         limitOrders.add(new LimitOrder(orderType, order.getQuantityRemaining(), CryptsyCurrencyUtils.convertToCurrencyPair(order.getMarketId()),
-            String.valueOf(order.getOrderId()), order.getTimestamp(), order.getPrice()));
+                String.valueOf(order.getOrderId()), order.getTimestamp(), order.getPrice()));
 
       }
     }
@@ -337,7 +335,7 @@ public final class CryptsyAdapters {
         CurrencyPair currencyPair = CryptsyCurrencyUtils.convertToCurrencyPair(trade.getMarketId());
 
         trades.add(new UserTrade(tradeType, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTimestamp(),
-            String.valueOf(trade.getTradeId()), String.valueOf(trade.getOrderId()), trade.getFee(), currencyPair.counterSymbol));
+                String.valueOf(trade.getTradeId()), String.valueOf(trade.getOrderId()), trade.getFee(), currencyPair.counterSymbol));
       }
     }
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
