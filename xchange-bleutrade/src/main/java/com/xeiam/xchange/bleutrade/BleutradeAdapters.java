@@ -1,17 +1,7 @@
 package com.xeiam.xchange.bleutrade;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalance;
-import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeLevel;
-import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarket;
-import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;
-import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeOrderBook;
-import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTicker;
-import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTrade;
+import com.xeiam.xchange.bleutrade.dto.marketdata.*;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -24,6 +14,11 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.Wallet;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class BleutradeAdapters {
 
@@ -104,11 +99,8 @@ public class BleutradeAdapters {
     List<Wallet> wallets = new ArrayList<Wallet>();
 
     for (BleutradeBalance bleutradeBalance : bleutradeBalances) {
+        wallets.add(new Wallet(bleutradeBalance.getCurrency(), bleutradeBalance.getBalance(), bleutradeBalance.getAvailable(), bleutradeBalance.getPending()));
 
-      // FIXME: the second parameter should be balance.getBalance(),
-      // keep it balance.getAvailable() for safe reason,
-      // will be fixed in XChange 4.0.0.
-      wallets.add(new Wallet(bleutradeBalance.getCurrency(), bleutradeBalance.getAvailable(), bleutradeBalance.getAvailable()));
     }
 
     return new AccountInfo(null, wallets);
