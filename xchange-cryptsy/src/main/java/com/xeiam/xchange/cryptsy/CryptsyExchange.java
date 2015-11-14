@@ -1,8 +1,5 @@
 package com.xeiam.xchange.cryptsy;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -12,8 +9,10 @@ import com.xeiam.xchange.cryptsy.service.polling.CryptsyPublicMarketDataService;
 import com.xeiam.xchange.cryptsy.service.polling.CryptsyTradeService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author ObsessiveOrange
@@ -57,8 +56,8 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
 
     // the public params
     Map<String, Object> exchangeSpecificParameters = new HashMap<String, Object>();
-    exchangeSpecificParameters.put(KEY_PUBLIC_API_HOST, "pubapi.cryptsy.com");
-    exchangeSpecificParameters.put(KEY_PUBLIC_API_URL, "http://pubapi.cryptsy.com");
+    exchangeSpecificParameters.put(KEY_PUBLIC_API_HOST, "pubapi2.cryptsy.com");
+    exchangeSpecificParameters.put(KEY_PUBLIC_API_URL, "http://pubapi2.cryptsy.com");
     exchangeSpecification.setExchangeSpecificParameters(exchangeSpecificParameters);
 
     return exchangeSpecification;
@@ -67,8 +66,8 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
   public static ExchangeSpecification getDefaultPublicExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(CryptsyExchange.class.getCanonicalName());
-    exchangeSpecification.setSslUri("http://pubapi.cryptsy.com");
-    exchangeSpecification.setHost("pubapi.cryptsy.com");
+    exchangeSpecification.setSslUri("http://pubapi2.cryptsy.com");
+    exchangeSpecification.setHost("pubapi2.cryptsy.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Cryptsy");
     exchangeSpecification.setExchangeDescription("Cryptsy is an altcoin exchange");
