@@ -2,8 +2,10 @@ package com.xeiam.xchange.hitbtc.dto.marketdata;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties("symbol")
 public class HitbtcSymbol {
 
   private final String commodity;
@@ -21,8 +23,8 @@ public class HitbtcSymbol {
    * @param step granularity of price
    * @param lot lot
    */
-  public HitbtcSymbol(@JsonProperty("commodity") String commodity, @JsonProperty("currency") String currency, @JsonProperty("step") BigDecimal step,
-      @JsonProperty("lot") BigDecimal lot, @JsonProperty("takeLiquidityRate") BigDecimal takeLiquidityRate,
+  public HitbtcSymbol(@JsonProperty("commodity") String commodity, @JsonProperty("currency") String currency,
+      @JsonProperty("step") BigDecimal step, @JsonProperty("lot") BigDecimal lot, @JsonProperty("takeLiquidityRate") BigDecimal takeLiquidityRate,
       @JsonProperty("provideLiquidityRate") BigDecimal provideLiquidityRate) {
 
     this.commodity = commodity;
