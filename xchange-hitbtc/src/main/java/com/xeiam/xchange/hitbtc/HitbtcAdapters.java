@@ -53,17 +53,6 @@ public class HitbtcAdapters {
     return new Date(hitbtcTime.getTimestamp());
   }
 
-  public static List<CurrencyPair> adaptCurrencyPairs(HitbtcSymbols hitbtcSymbols) {
-
-    List<CurrencyPair> currencyPairList = new ArrayList<CurrencyPair>();
-
-    for (HitbtcSymbol hitbtcSymbol : hitbtcSymbols.getHitbtcSymbols()) {
-      currencyPairList.add(adaptSymbol(hitbtcSymbol));
-    }
-
-    return currencyPairList;
-  }
-
   public static CurrencyPair adaptSymbol(String symbolString) {
 
     if (symbolString.startsWith(DOGE)) {

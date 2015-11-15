@@ -1,9 +1,7 @@
 package com.xeiam.xchange.examples.hitbtc.marketdata;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
@@ -26,6 +24,7 @@ public class HitbtcMarketDataDemo {
 
     Exchange hitbtcExchange = HitbtcExampleUtils.createExchange();
 
+    hitbtcExchange.remoteInit();
     System.out.println("Market metadata: " + hitbtcExchange.getMetaData().getMarketMetaDataMap().toString());
 
     PollingMarketDataService marketDataService = hitbtcExchange.getPollingMarketDataService();
@@ -54,10 +53,10 @@ public class HitbtcMarketDataDemo {
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
     System.out.println("Trades, default. Size=" + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, 0, "trade_id", 0, 10);
+    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, 0L, HitbtcTrades.HitbtcTradesSortField.SORT_BY_TRADE_ID, HitbtcTrades.HitbtcTradesSortDirection.SORT_ASCENDING, 0L, 10L);
     System.out.println("Trades, first 10, Size= " + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - 1000 * 60, "timestamp", 0, 1000);
+    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - 1000 * 60, HitbtcTrades.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcTrades.HitbtcTradesSortDirection.SORT_DESCENDING, 0L, 1000L);
     System.out.println("Trades, last minute, Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
   }
@@ -81,9 +80,9 @@ public class HitbtcMarketDataDemo {
     
     System.out.println("Current Order Book size for BTC/USD: " + (orderBook.getAsks().length + orderBook.getBids().length));
 
-    System.out.println("First Ask: " + orderBook.getAsks()[0].toString());
+    System.out.println("First Ask: " + Arrays.toString(orderBook.getAsks()[0]));
 
-    System.out.println("First Bid: " + orderBook.getBids()[0].toString());
+    System.out.println("First Bid: " + Arrays.toString(orderBook.getBids()[0]));
 
     System.out.println(orderBook);
 
@@ -96,5 +95,6 @@ public class HitbtcMarketDataDemo {
 
     trades = marketDataService.getHitbtcTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - 1000 * 60, HitbtcTrades.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcTrades.HitbtcTradesSortDirection.SORT_ASCENDING, 0, 1000);
     System.out.println("Trades, last minute, Size= " + trades.getHitbtcTrades().length);
+    System.out.println(trades.toString());
   }
 }

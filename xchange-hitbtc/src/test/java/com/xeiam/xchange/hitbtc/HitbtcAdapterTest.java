@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -15,6 +16,8 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.meta.ExchangeMetaData;
+import com.xeiam.xchange.dto.meta.MarketMetaData;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
@@ -22,6 +25,7 @@ import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTime;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
+import com.xeiam.xchange.hitbtc.dto.meta.HitbtcMetaData;
 
 public class HitbtcAdapterTest {
 
@@ -82,7 +86,7 @@ public class HitbtcAdapterTest {
   }
 
   @Test
-  public void testAdaptSymbols() throws IOException {
+  public void testAdaptToExchangeMetaData() throws IOException {
 
     // Read in the JSON from the example resources
     InputStream is = HitbtcAdapterTest.class.getResourceAsStream("/marketdata/example-symbols-data.json");
@@ -91,12 +95,15 @@ public class HitbtcAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     HitbtcSymbols symbols = mapper.readValue(is, HitbtcSymbols.class);
 
-    List<CurrencyPair> adaptedSymbols = HitbtcAdapters.adaptCurrencyPairs(symbols);
+    ExchangeMetaData adaptedMetaData = HitbtcAdapters.adaptToExchangeMetaData(symbols, new HitbtcMetaData());
+    Map<CurrencyPair, MarketMetaData> metaDataMap = adaptedMetaData.getMarketMetaDataMap();
 
-    assertThat(adaptedSymbols.size()).isEqualTo(15);
-    CurrencyPair currencyPair = adaptedSymbols.get(0);
-    assertThat(currencyPair.baseSymbol).isEqualTo("BCN");
-    assertThat(currencyPair.counterSymbol).isEqualTo("BTC");
+    assertThat(metaDataMap.size()).isEqualTo(15);
+    
+    MarketMetaData BTC_USD = metaDataMap.get(CurrencyPair.BTC_USD);
+    assertThat(BTC_USD.getTradingFee()).isEqualTo("0.001");
+    assertThat(BTC_USD.getMinimumAmount()).isEqualTo("0.01");
+    assertThat(BTC_USD.getPriceScale()).isEqualTo(2);
   }
 
   @Test

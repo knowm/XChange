@@ -42,7 +42,7 @@ public interface Hitbtc {
   public HitbtcTicker getHitbtcTicker(@PathParam("currencyPair") String currencyPair) throws IOException, HitbtcException;
 
   @GET
-  @Path("public/tickers")
+  @Path("public/ticker")
   public Map<String,HitbtcTicker> getHitbtcTickers() throws IOException, HitbtcException;
 
   @GET
