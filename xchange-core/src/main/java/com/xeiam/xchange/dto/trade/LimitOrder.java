@@ -51,6 +51,8 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     return "LimitOrder [limitPrice=" + limitPrice + ", " + super.toString() + "]";
   }
 
+  // TODO bids and asks compare equal if their prices are the same, but represent different concepts
+  // perhaps throw an assertion if a bid is compared with an ask
   @Override
   public int compareTo(LimitOrder limitOrder) {
 
