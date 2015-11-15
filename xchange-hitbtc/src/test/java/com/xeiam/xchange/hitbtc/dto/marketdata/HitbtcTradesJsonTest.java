@@ -5,6 +5,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -23,12 +24,13 @@ public class HitbtcTradesJsonTest {
 
     HitbtcTrades hitbtcTrades = mapper.readValue(is, HitbtcTrades.class);
     
-    HitbtcTrade[] trades = hitbtcTrades.getHitbtcTrades();
+    List<HitbtcTrade> trades = hitbtcTrades.getHitbtcTrades();
     assertThat(trades).hasSize(5);
-    assertThat(trades[0].getDate()).isEqualTo(1447538550006L);
-    assertThat(trades[0].getPrice()).isEqualTo("347.65");
-    assertThat(trades[0].getAmount()).isEqualTo("0.21");
-    assertThat(trades[0].getTid()).isEqualTo("4191471");
-    assertThat(trades[0].getSide()).isEqualTo(HitbtcTrade.HitbtcTradeSide.BUY);
+    HitbtcTrade trade = trades.get(0);
+    assertThat(trade.getDate()).isEqualTo(1447538550006L);
+    assertThat(trade.getPrice()).isEqualTo("347.65");
+    assertThat(trade.getAmount()).isEqualTo("0.21");
+    assertThat(trade.getTid()).isEqualTo("4191471");
+    assertThat(trade.getSide()).isEqualTo(HitbtcTrade.HitbtcTradeSide.BUY);
   }
 }

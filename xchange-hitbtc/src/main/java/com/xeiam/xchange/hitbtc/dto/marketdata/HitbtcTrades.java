@@ -1,6 +1,6 @@
 package com.xeiam.xchange.hitbtc.dto.marketdata;
 
-import java.util.Arrays;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,19 +9,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class HitbtcTrades {
 
-  private final HitbtcTrade[] hitbtcTrades;
+  private final List<HitbtcTrade> hitbtcTrades;
 
   /**
    * Constructor
    * 
    * @param hitbtcTrades
    */
-  public HitbtcTrades(@JsonProperty("trades") HitbtcTrade[] hitbtcTrades) {
+  public HitbtcTrades(@JsonProperty("trades") List<HitbtcTrade> hitbtcTrades) {
 
     this.hitbtcTrades = hitbtcTrades;
   }
 
-  public HitbtcTrade[] getHitbtcTrades() {
+  public List<HitbtcTrade> getHitbtcTrades() {
 
     return hitbtcTrades;
   }
@@ -29,7 +29,7 @@ public class HitbtcTrades {
   @Override
   public String toString() {
 
-    return "HitbtcTrades{" + "trades=" + Arrays.toString(hitbtcTrades) + '}';
+    return "HitbtcTrades{" + "trades=" + hitbtcTrades.toString() + '}';
   }
 
   public static enum HitbtcTradesSortField {
