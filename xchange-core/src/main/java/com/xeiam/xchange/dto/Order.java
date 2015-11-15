@@ -59,7 +59,7 @@ public abstract class Order {
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param tradableAmount The amount to trade
-   * @param CurrencyPair currencyPair The identifier (e.g. BTC/USD)
+   * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
    */
