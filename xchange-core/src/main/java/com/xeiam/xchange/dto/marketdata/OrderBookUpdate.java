@@ -21,9 +21,9 @@ public final class OrderBookUpdate {
    * Build an order book update.
    *
    * @param type the order type (BID/ASK)
-   * @param volume volume of the limit order in the base currency (i.e. BTC for BTC_USD)
-   * @param currencyPair the currencies traded (e.g. BTC_USD)
-   * @param limitPrice the price of this update in counter currency per base currency (i.e. $/BTC in BTC_USD)
+   * @param volume volume of the limit order in the base currency (i.e. BTC for BTC/USD)
+   * @param currencyPair the currencies traded (e.g. BTC/USD)
+   * @param limitPrice the price of this update in counter currency per base currency (i.e. $/BTC in BTC/USD)
    * @param timestamp the timestamp for the update
    * @param totalVolume the total new volume of open orders for this price in the order book, in the base currency
    */
