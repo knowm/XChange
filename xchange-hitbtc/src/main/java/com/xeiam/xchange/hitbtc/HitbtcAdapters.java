@@ -146,10 +146,10 @@ public class HitbtcAdapters {
       }
       OrderType orderType;
       switch (hitbtcTrade.getSide()) {
-      case "buy":
+      case BUY:
         orderType = OrderType.BID;
         break;
-      case "sell":
+      case SELL:
         orderType = OrderType.ASK;
         break;
       default:

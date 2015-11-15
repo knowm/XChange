@@ -29,6 +29,6 @@ public class HitbtcTradesJsonTest {
     assertThat(trades[0].getPrice()).isEqualTo("347.65");
     assertThat(trades[0].getAmount()).isEqualTo("0.21");
     assertThat(trades[0].getTid()).isEqualTo("4191471");
-    assertThat(trades[0].getSide()).isEqualTo("buy");
+    assertThat(trades[0].getSide()).isEqualTo(HitbtcTrade.HitbtcTradeSide.BUY);
   }
 }
