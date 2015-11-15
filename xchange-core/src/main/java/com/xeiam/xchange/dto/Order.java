@@ -15,10 +15,10 @@ public abstract class Order {
   public enum OrderType {
 
     /**
-     * Buying order (you're making an offer)
+     * Buying order (the trader is providing the counter currency)
      */
     BID, /**
-          * Selling order (you're asking for offers)
+          * Selling order (the trader is providing the base currency)
           */
     ASK
   }
