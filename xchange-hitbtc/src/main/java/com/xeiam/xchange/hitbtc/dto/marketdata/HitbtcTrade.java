@@ -13,6 +13,7 @@ public class HitbtcTrade {
   private final BigDecimal price;
   private final BigDecimal amount;
   private final String tid;
+  private final String side;
 
   /**
    * Constructor
@@ -21,14 +22,16 @@ public class HitbtcTrade {
    * @param price
    * @param amount
    * @param tid
+   * @param side
    */
   public HitbtcTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("tid") String tid) {
+      @JsonProperty("tid") String tid, @JsonProperty("side") String side) {
 
     this.date = date;
     this.price = price;
     this.amount = amount;
     this.tid = tid;
+    this.side = side;
   }
 
   public long getDate() {
@@ -51,9 +54,14 @@ public class HitbtcTrade {
     return tid;
   }
 
+  public String getSide() {
+
+    return side;
+  }
+
   @Override
   public String toString() {
 
-    return "HitbtcTrade{" + "date=" + date + ", price=" + price + ", amount=" + amount + ", tid='" + tid + '\'' + '}';
+    return "HitbtcTrade{" + "date=" + date + ", price=" + price + ", amount=" + amount + ", tid='" + tid + "', side='" + side + "'" + "}";
   }
 }

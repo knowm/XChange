@@ -30,6 +30,7 @@ import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTime;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrade;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 import com.xeiam.xchange.hitbtc.dto.meta.HitbtcMetaData;
@@ -47,15 +48,9 @@ public class HitbtcAdapters {
 
   }
 
-  public static List<CurrencyPair> adaptCurrencyPairs(HitbtcSymbols hitbtcSymbols) {
+  public static Date adaptTime(HitbtcTime hitbtcTime) {
 
-    List<CurrencyPair> currencyPairList = new ArrayList<CurrencyPair>();
-
-    for (HitbtcSymbol hitbtcSymbol : hitbtcSymbols.getHitbtcSymbols()) {
-      currencyPairList.add(adaptSymbol(hitbtcSymbol));
-    }
-
-    return currencyPairList;
+    return new Date(hitbtcTime.getTimestamp());
   }
 
   public static CurrencyPair adaptSymbol(String symbolString) {
@@ -90,10 +85,22 @@ public class HitbtcAdapters {
     BigDecimal low = hitbtcTicker.getLow();
     BigDecimal last = hitbtcTicker.getLast();
     BigDecimal volume = hitbtcTicker.getVolume();
-    Date timestamp = new Date(hitbtcTicker.getTimetamp());
+    Date timestamp = new Date(hitbtcTicker.getTimestamp());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();
+  }
+
+  public static List<Ticker> adaptTickers(Map<String,HitbtcTicker> hitbtcTickers) {
+
+    List<Ticker> tickers = new ArrayList<Ticker>(hitbtcTickers.size());
+
+    for (Map.Entry<String,HitbtcTicker> ticker : hitbtcTickers.entrySet()) {
+
+      tickers.add(adaptTicker(ticker.getValue(), adaptSymbol(ticker.getKey())));
+    }
+
+    return tickers;
   }
 
   public static OrderBook adaptOrderBook(HitbtcOrderBook hitbtcOrderBook, CurrencyPair currencyPair) {
@@ -137,7 +144,19 @@ public class HitbtcAdapters {
       if (longTradeId > lastTradeId) {
         lastTradeId = longTradeId;
       }
-      Trade trade = new Trade(null, amount, currencyPair, price, timestamp, tid);
+      OrderType orderType;
+      switch (hitbtcTrade.getSide()) {
+      case "buy":
+        orderType = OrderType.BID;
+        break;
+      case "sell":
+        orderType = OrderType.ASK;
+        break;
+      default:
+        orderType = null;
+        break;
+      }
+      Trade trade = new Trade(orderType, amount, currencyPair, price, timestamp, tid);
       trades.add(trade);
     }
 

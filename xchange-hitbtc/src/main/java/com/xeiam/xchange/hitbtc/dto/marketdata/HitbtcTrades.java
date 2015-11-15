@@ -32,21 +32,39 @@ public class HitbtcTrades {
     return "HitbtcTrades{" + "trades=" + Arrays.toString(hitbtcTrades) + '}';
   }
 
-  public static enum HitbtcTradesSortOrder {
+  public static enum HitbtcTradesSortField {
 
     SORT_BY_TRADE_ID("trade_id"), SORT_BY_TIMESTAMP("ts");
 
-    private final String hitbtcTradesSortOrder;
+    private final String hitbtcTradesSortField;
 
-    HitbtcTradesSortOrder(String hitbtcTradesSortOrder) {
+    HitbtcTradesSortField(String hitbtcTradesSortField) {
 
-      this.hitbtcTradesSortOrder = hitbtcTradesSortOrder;
+      this.hitbtcTradesSortField = hitbtcTradesSortField;
     }
 
     @Override
     public String toString() {
 
-      return hitbtcTradesSortOrder;
+      return hitbtcTradesSortField;
+    }
+  }
+
+  public static enum HitbtcTradesSortDirection {
+
+    SORT_ASCENDING("asc"), SORT_DESCENDING("desc");
+
+    private final String hitbtcTradesSortDirection;
+
+    HitbtcTradesSortDirection(String hitbtcTradesSortDirection) {
+
+      this.hitbtcTradesSortDirection = hitbtcTradesSortDirection;
+    }
+
+    @Override
+    public String toString() {
+
+      return hitbtcTradesSortDirection;
     }
   }
 }
