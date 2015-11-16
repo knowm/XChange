@@ -10,13 +10,19 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.examples.hitbtc.HitbtcExampleUtils;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcIncrementalRefresh;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSnapshotFullRefresh;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTime;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 import com.xeiam.xchange.hitbtc.service.polling.HitbtcMarketDataServiceRaw;
+import com.xeiam.xchange.hitbtc.service.streaming.HitbtcStreamingMarketDataConfiguration;
+import com.xeiam.xchange.hitbtc.service.streaming.HitbtcStreamingMarketDataServiceRaw;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
+import com.xeiam.xchange.service.streaming.ExchangeEvent;
+import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 public class HitbtcMarketDataDemo {
 
@@ -31,6 +37,8 @@ public class HitbtcMarketDataDemo {
 
     generic(marketDataService);
     raw((HitbtcMarketDataServiceRaw) marketDataService);
+    
+    rawStreaming(new HitbtcStreamingMarketDataServiceRaw(hitbtcExchange, new HitbtcStreamingMarketDataConfiguration()));
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
@@ -96,5 +104,36 @@ public class HitbtcMarketDataDemo {
     trades = marketDataService.getHitbtcTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - 1000 * 60, HitbtcTrades.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcTrades.HitbtcTradesSortDirection.SORT_ASCENDING, 0, 1000);
     System.out.println("Trades, last minute, Size= " + trades.getHitbtcTrades().size());
     System.out.println(trades.toString());
+  }
+
+  private static void rawStreaming(StreamingExchangeService marketDataService) throws Exception {
+
+    marketDataService.connect();
+
+    boolean gotFullRefresh = false;
+    while (!gotFullRefresh) {
+
+      ExchangeEvent exchangeEvent = marketDataService.getNextEvent();
+      Object payload = exchangeEvent.getPayload();
+
+      if (payload == null) {
+
+        System.out.println("Websocket: " + exchangeEvent.getData());
+
+      } else if (payload.getClass() == HitbtcIncrementalRefresh.class) {
+
+        System.out.println("Websocket: " + payload.toString());       
+
+      } else { // payload.getClass() == HitbtcSnapshotFullRefresh.class
+
+        HitbtcSnapshotFullRefresh snapshot = (HitbtcSnapshotFullRefresh)payload;
+        gotFullRefresh = true;
+
+        System.out.println("Websocket: " + snapshot.getSymbol() + " snapshot, seqNo=" + snapshot.getSnapshotSeqNo() + ", exchangeStatus=" + snapshot.getExchangeStatus());
+
+      }
+    }
+
+    marketDataService.disconnect();
   }
 }

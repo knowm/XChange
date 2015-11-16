@@ -13,8 +13,11 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.marketdata.*;
-import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -23,7 +26,17 @@ import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
-import com.xeiam.xchange.hitbtc.dto.marketdata.*;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcIncrementalRefresh;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSnapshotFullRefresh;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcStreamingOrder;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcStreamingTrade;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTime;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrade;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 import com.xeiam.xchange.hitbtc.dto.meta.HitbtcMetaData;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
@@ -186,6 +199,10 @@ public class HitbtcAdapters {
   }
 
   public static List<OrderBookUpdate> adaptIncrementalRefreshOrders(HitbtcIncrementalRefresh hitbtcIncrementalRefresh) {
+    return adaptIncrementalRefreshOrders(hitbtcIncrementalRefresh, null, null);
+  }
+
+  public static List<OrderBookUpdate> adaptIncrementalRefreshOrders(HitbtcIncrementalRefresh hitbtcIncrementalRefresh, BigDecimal volume, Date timestamp) {
 
     CurrencyPair currencyPair = adaptSymbol(hitbtcIncrementalRefresh.getSymbol());
     List<HitbtcStreamingOrder> asks = hitbtcIncrementalRefresh.getAsk();
@@ -193,10 +210,13 @@ public class HitbtcAdapters {
   
     List<OrderBookUpdate> updates = new ArrayList<OrderBookUpdate>(asks.size() + bids.size());
 
+    if (updates.size() != 1)
+      volume = null;
+
     for (int i = 0; i < asks.size(); i++) {
       HitbtcStreamingOrder order = asks.get(i);
 
-      OrderBookUpdate update = new OrderBookUpdate(OrderType.ASK, null, currencyPair, order.getPrice(), null, order.getSize());
+      OrderBookUpdate update = new OrderBookUpdate(OrderType.ASK, volume, currencyPair, order.getPrice(), timestamp, order.getSize());
       
       updates.add(update);
     }
@@ -204,7 +224,7 @@ public class HitbtcAdapters {
     for (int i = 0; i < bids.size(); i++) {
       HitbtcStreamingOrder order = bids.get(i);
 
-      OrderBookUpdate update = new OrderBookUpdate(OrderType.BID, null, currencyPair, order.getPrice(), null, order.getSize());
+      OrderBookUpdate update = new OrderBookUpdate(OrderType.BID, volume, currencyPair, order.getPrice(), timestamp, order.getSize());
 
       updates.add(update);
     }
@@ -263,7 +283,7 @@ public class HitbtcAdapters {
       trades.add(trade);
     }
 
-    return new UserTrades(trades, TradeSortType.SortByTimestamp);
+    return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
   public static AccountInfo adaptAccountInfo(HitbtcBalance[] accountInfoRaw) {
