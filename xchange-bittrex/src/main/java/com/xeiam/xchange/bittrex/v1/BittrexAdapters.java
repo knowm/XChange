@@ -1,14 +1,5 @@
 package com.xeiam.xchange.bittrex.v1;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalance;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexLevel;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
@@ -26,6 +17,14 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.Wallet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 public final class BittrexAdapters {
 
@@ -133,10 +132,7 @@ public final class BittrexAdapters {
     List<Wallet> wallets = new ArrayList<Wallet>(balances.size());
 
     for (BittrexBalance balance : balances) {
-      // FIXME: the second parameter should be balance.getBalance(),
-      // keep it balance.getAvailable() for safe reason,
-      // will be fixed in XChange 4.0.0.
-      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAvailable(), balance.getAvailable()));
+      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getBalance(), balance.getAvailable(), balance.getPending()));
     }
 
     return new AccountInfo(null, wallets);
