@@ -64,7 +64,8 @@ public final class OrderBook {
   }
 
   /**
-   * Given a new LimitOrder, it will replace and old matching limit order in the orderbook or simply get added. The timeStamp may be updated as well.
+   * Given a new LimitOrder, it will replace a matching limit order in the orderbook if one is found, or add the new LimitOrder if one is not.
+   * timeStamp will be updated if the new timestamp is non-null and in the future.
    *
    * @param limitOrder the new LimitOrder
    */
@@ -74,6 +75,7 @@ public final class OrderBook {
     updateDate(limitOrder.getTimestamp());
   }
 
+  // Replace the amount for limitOrder's price in the provided list.
   private void update(List<LimitOrder> asks, LimitOrder limitOrder) {
 
     int idx = Collections.binarySearch(asks, limitOrder);
@@ -86,8 +88,8 @@ public final class OrderBook {
   }
 
   /**
-   * Given an OrderBookUpdate, it will replace and old matching limit order in the orderbook or simply get added. The timeStamp may be updated as
-   * well.
+   * Given an OrderBookUpdate, it will replace a matching limit order in the orderbook if one is found, or add a new  if one is not.
+   * timeStamp will be updated if the new timestamp is non-null and in the future.
    *
    * @param orderBookUpdate the new OrderBookUpdate
    */
@@ -110,6 +112,7 @@ public final class OrderBook {
     updateDate(limitOrder.getTimestamp());
   }
 
+  // Returns a copy of limitOrder with tradeableAmount replaced.
   private static LimitOrder withAmount(LimitOrder limitOrder, BigDecimal tradeableAmount) {
 
     OrderType type = limitOrder.getType();
@@ -120,6 +123,8 @@ public final class OrderBook {
     return new LimitOrder(type, tradeableAmount, currencyPair, id, date, limit);
   }
 
+  // Replace timeStamp if the provided date is non-null and in the future
+  // TODO should this raise an exception if the order timestamp is in the past?
   private void updateDate(Date updateDate) {
 
     if (updateDate != null && (timeStamp == null || updateDate.after(timeStamp))) {
