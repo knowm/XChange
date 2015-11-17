@@ -52,11 +52,17 @@ public abstract class BaseExchange implements Exchange {
       if (exchangeSpecification.getSslUri() == null) {
         exchangeSpecification.setSslUri(defaultSpecification.getSslUri());
       }
+      if (exchangeSpecification.getSslUriStreaming() == null) {
+        exchangeSpecification.setSslUriStreaming(defaultSpecification.getSslUriStreaming());
+      }
       if (exchangeSpecification.getHost() == null) {
         exchangeSpecification.setHost(defaultSpecification.getHost());
       }
       if (exchangeSpecification.getPlainTextUri() == null) {
         exchangeSpecification.setPlainTextUri(defaultSpecification.getPlainTextUri());
+      }
+      if (exchangeSpecification.getPlainTextUriStreaming() == null) {
+        exchangeSpecification.setPlainTextUriStreaming(defaultSpecification.getPlainTextUriStreaming());
       }
       if (exchangeSpecification.getExchangeSpecificParameters() == null) {
         exchangeSpecification.setExchangeSpecificParameters(defaultSpecification.getExchangeSpecificParameters());
