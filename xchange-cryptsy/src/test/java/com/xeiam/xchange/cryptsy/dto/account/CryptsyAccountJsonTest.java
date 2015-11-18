@@ -1,6 +1,9 @@
 package com.xeiam.xchange.cryptsy.dto.account;
 
-import static org.junit.Assert.assertEquals;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.cryptsy.dto.account.CryptsyTransfers.CryptsyTrfDirection;
+import com.xeiam.xchange.cryptsy.dto.account.CryptsyTxn.CryptsyTxnType;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,11 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.cryptsy.dto.account.CryptsyTransfers.CryptsyTrfDirection;
-import com.xeiam.xchange.cryptsy.dto.account.CryptsyTxn.CryptsyTxnType;
+import static org.junit.Assert.assertEquals;
 
 public class CryptsyAccountJsonTest {
 
@@ -29,11 +28,11 @@ public class CryptsyAccountJsonTest {
     ObjectMapper mapper = new ObjectMapper();
     CryptsyAccountInfo accountInfo = mapper.readValue(is, CryptsyAccountInfoReturn.class).getReturnValue();
 
-    assertEquals(accountInfo.getAvailableFunds().keySet().size(), 150);
-    assertEquals(accountInfo.getAvailableFunds().get("BTC"), new BigDecimal("0.01527794"));
-    assertEquals(accountInfo.getAvailableFunds().get("ZET"), new BigDecimal("1.35094992"));
-    assertEquals(accountInfo.getAvailableFunds().get("PXC"), new BigDecimal("0.00002522"));
-    assertEquals(accountInfo.getOpenOrders(), 5);
+    assertEquals(accountInfo.getAvailableFunds().keySet().size(), 300);
+    assertEquals(accountInfo.getAvailableFunds().get("BTC"), new BigDecimal("0.05466078"));
+    assertEquals(accountInfo.getAvailableFunds().get("ZRC"), new BigDecimal("204.94509877"));
+    assertEquals(accountInfo.getAvailableFunds().get("XPM"), new BigDecimal("17.46835803"));
+    assertEquals(accountInfo.getOpenOrders(), 13);
   }
 
   @Test
