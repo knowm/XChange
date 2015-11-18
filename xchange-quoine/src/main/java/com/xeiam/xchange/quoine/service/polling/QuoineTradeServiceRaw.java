@@ -40,11 +40,10 @@ public class QuoineTradeServiceRaw extends QuoineBasePollingService {
 
   public QuoineOrderResponse placeLimitOrder(CurrencyPair currencyPair, String type, BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
-    QuoineNewOrderRequest quoineNewOrderRequest = useMargin
-        ? new QuoineNewMarginOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount, price, leverageLevel)
+    QuoineNewOrderRequest quoineNewOrderRequest = useMargin ? new QuoineNewMarginOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount, price, leverageLevel)
         : new QuoineNewOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount, price);
     try {
-      return quoine.placeOrder(device, userID, userToken, quoineNewOrderRequest);
+      return quoine.placeOrder(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, quoineNewOrderRequest);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
@@ -52,35 +51,37 @@ public class QuoineTradeServiceRaw extends QuoineBasePollingService {
 
   public QuoineOrderResponse placeMarketOrder(CurrencyPair currencyPair, String type, BigDecimal tradableAmount) throws IOException {
 
-    QuoineNewOrderRequest quoineNewOrderRequest = useMargin
-        ? new QuoineNewMarginOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount, null, leverageLevel)
+    QuoineNewOrderRequest quoineNewOrderRequest = useMargin ? new QuoineNewMarginOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount, null, leverageLevel)
         : new QuoineNewOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount, null);
     try {
-      return quoine.placeOrder(device, userID, userToken, quoineNewOrderRequest);
+      return quoine.placeOrder(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, quoineNewOrderRequest);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
   }
 
   public QuoineOrderResponse cancelQuoineOrder(String orderID) throws IOException {
+
     try {
-      return quoine.cancelOrder(device, userID, userToken, orderID);
+      return quoine.cancelOrder(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, orderID);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
   }
 
   public QuoineOrderDetailsResponse getQuoineOrderDetails(String orderID) throws IOException {
+
     try {
-      return quoine.orderDetails(device, userID, userToken, orderID);
+      return quoine.orderDetails(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, orderID);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
   }
 
   public QuoineOrdersList listQuoineOrders(String currencyPair) throws IOException {
+
     try {
-      return quoine.listOrders(device, userID, userToken, currencyPair);
+      return quoine.listOrders(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, currencyPair);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }

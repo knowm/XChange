@@ -8,10 +8,19 @@ public class HitbtcException extends RuntimeException {
   @JsonProperty("message")
   String message;
 
-  public HitbtcException(@JsonProperty("message") String message) {
+  @JsonProperty("code")
+  String code;
+
+  public HitbtcException(@JsonProperty("code") String code, @JsonProperty("message") String message) {
 
     super();
+    this.code = code;
     this.message = message;
+  }
+
+  public String getCode() {
+
+    return code;
   }
 
   public String getMessage() {

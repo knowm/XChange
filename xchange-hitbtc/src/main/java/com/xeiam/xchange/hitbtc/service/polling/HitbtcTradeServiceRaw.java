@@ -85,7 +85,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
     String symbol = marketOrder.getCurrencyPair().baseSymbol + marketOrder.getCurrencyPair().counterSymbol;
 
     long nonce = exchange.getNonceFactory().createValue();
-    String side = HitbtcAdapters.getSide(marketOrder.getType());
+    String side = HitbtcAdapters.getSide(marketOrder.getType()).toString();
     String orderId = HitbtcAdapters.createOrderId(marketOrder, nonce);
 
     try {
@@ -124,7 +124,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
 
     String symbol = HitbtcAdapters.adaptCurrencyPair(limitOrder.getCurrencyPair());
     long nonce = exchange.getNonceFactory().createValue();
-    String side = HitbtcAdapters.getSide(limitOrder.getType());
+    String side = HitbtcAdapters.getSide(limitOrder.getType()).toString();
     String orderId = HitbtcAdapters.createOrderId(limitOrder, nonce);
 
     try {
@@ -138,7 +138,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
   public HitbtcExecutionReportResponse cancelOrderRaw(String orderId) throws IOException {
 
     // extract symbol and side from original order id: buy/sell
-    String originalSide = HitbtcAdapters.getSide(HitbtcAdapters.readOrderType(orderId));
+    String originalSide = HitbtcAdapters.getSide(HitbtcAdapters.readOrderType(orderId)).toString();
     String symbol = HitbtcAdapters.readSymbol(orderId);
 
     try {

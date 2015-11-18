@@ -71,7 +71,7 @@ public enum ExchangeEventType {
   SUBSCRIBE_DEPTH,
 
   /**
-   * A message with a Market Depth update payload
+   * A message with a market depth OrderBook payload
    */
   DEPTH,
 

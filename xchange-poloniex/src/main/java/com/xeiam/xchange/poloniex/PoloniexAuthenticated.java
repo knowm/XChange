@@ -1,22 +1,16 @@
 package com.xeiam.xchange.poloniex;
 
-import java.io.IOException;
-import java.util.HashMap;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
+import com.xeiam.xchange.poloniex.dto.account.PoloniexBalance;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * @author Zach Holmes
@@ -28,7 +22,7 @@ public interface PoloniexAuthenticated {
 
   @POST
   @FormParam("command")
-  HashMap<String, String> returnBalances(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+  HashMap<String, PoloniexBalance> returnCompleteBalances(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce);
 
   @POST

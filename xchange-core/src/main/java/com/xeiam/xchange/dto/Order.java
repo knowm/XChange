@@ -15,10 +15,10 @@ public abstract class Order {
   public enum OrderType {
 
     /**
-     * Buying order (you're making an offer)
+     * Buying order (the trader is providing the counter currency)
      */
     BID, /**
-          * Selling order (you're asking for offers)
+          * Selling order (the trader is providing the base currency)
           */
     ASK
   }
@@ -59,7 +59,7 @@ public abstract class Order {
   /**
    * @param type Either BID (buying) or ASK (selling)
    * @param tradableAmount The amount to trade
-   * @param CurrencyPair currencyPair The identifier (e.g. BTC/USD)
+   * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
    */

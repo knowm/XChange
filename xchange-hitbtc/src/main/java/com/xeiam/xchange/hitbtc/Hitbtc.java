@@ -1,6 +1,7 @@
 package com.xeiam.xchange.hitbtc;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -10,9 +11,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.hitbtc.dto.HitbtcException;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTicker;
+import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTime;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 
 /**
@@ -22,25 +25,40 @@ import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 @Produces(MediaType.APPLICATION_JSON)
 public interface Hitbtc {
 
+  @GET
+  @Path("public/time")
+  public HitbtcTime getHitbtcTime() throws IOException, HitbtcException;
+
+  @GET
+  @Path("public/symbols")
+  public HitbtcSymbols getSymbols() throws IOException, HitbtcException;
+
   /**
    * @return BTCCentral ticker
    * @throws IOException
    */
   @GET
   @Path("public/{currencyPair}/ticker")
-  public HitbtcTicker getHitbtcTicker(@PathParam("currencyPair") String currencyPair) throws IOException;
+  public HitbtcTicker getHitbtcTicker(@PathParam("currencyPair") String currencyPair) throws IOException, HitbtcException;
+
+  @GET
+  @Path("public/ticker")
+  public Map<String,HitbtcTicker> getHitbtcTickers() throws IOException, HitbtcException;
 
   @GET
   @Path("public/{currencyPair}/orderbook")
-  public HitbtcOrderBook getOrderBook(@PathParam("currencyPair") String currencyPair) throws IOException;
+  public HitbtcOrderBook getOrderBook(@PathParam("currencyPair") String currencyPair) throws IOException, HitbtcException;
 
   @GET
   @Path("public/{currencyPair}/trades")
   public HitbtcTrades getTrades(@PathParam("currencyPair") String currencyPair, @QueryParam("from") String from, @QueryParam("by") String sortBy,
-      @QueryParam("sort") String sort, @QueryParam("start_index") String startIndex, @QueryParam("max_results") String max_results,
-      @DefaultValue("object") @QueryParam("format_item") String format_item) throws IOException;
+      @QueryParam("sort") String sort, @QueryParam("start_index") String startIndex, @DefaultValue("1000") @QueryParam("max_results") String max_results,
+      @DefaultValue("object") @QueryParam("format_item") String format_item,
+      @DefaultValue("true") @QueryParam("side") String side) throws IOException, HitbtcException;
 
   @GET
-  @Path("public/symbols")
-  public HitbtcSymbols getSymbols() throws IOException;
+  @Path("public/{currencyPair}/trades/recent")
+  public HitbtcTrades getTradesRecent( @PathParam("currencyPair") String currencyPair, @DefaultValue("1000") @QueryParam("max_results") String max_results,
+      @DefaultValue("object") @QueryParam("format_item") String format_item,
+      @DefaultValue("true") @QueryParam("side") String side) throws IOException, HitbtcException;
 }

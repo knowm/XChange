@@ -1,31 +1,28 @@
-
 package com.xeiam.xchange.gatecoin.dto.trade.Results;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.gatecoin.dto.marketdata.Response;
+import com.xeiam.xchange.gatecoin.dto.GatecoinResult;
+import com.xeiam.xchange.gatecoin.dto.marketdata.ResponseStatus;
 import com.xeiam.xchange.gatecoin.dto.trade.GatecoinOrder;
 
 /**
- *
  * @author sumedha
  */
-public class GatecoinOrderResult {
-    
-    private final GatecoinOrder[] orders;
-    private final Response responseStatus;
+public class GatecoinOrderResult extends GatecoinResult {
 
-    @JsonCreator
-    public GatecoinOrderResult(@JsonProperty("orders") GatecoinOrder[] orders,@JsonProperty("responseStatus") Response responseStatus) {
-        this.orders = orders;
-        this.responseStatus = responseStatus;
-    }
+  private final GatecoinOrder[] orders;
 
-    public GatecoinOrder[] getOrders() {
-        return orders;
-    }
+  @JsonCreator
+  public GatecoinOrderResult(
+      @JsonProperty("orders") GatecoinOrder[] orders,
+      @JsonProperty("responseStatus") ResponseStatus responseStatus
+  ) {
+    super(responseStatus);
+    this.orders = orders;
+  }
 
-    public Response getResponseStatus() {
-        return responseStatus;
-    }
+  public GatecoinOrder[] getOrders() {
+    return orders;
+  }
 }

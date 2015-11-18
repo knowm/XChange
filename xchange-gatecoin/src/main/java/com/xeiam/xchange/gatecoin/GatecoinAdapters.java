@@ -1,15 +1,5 @@
 package com.xeiam.xchange.gatecoin;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-
-import com.xeiam.xchange.gatecoin.dto.marketdata.GatecoinTicker;
-import com.xeiam.xchange.gatecoin.dto.marketdata.GatecoinTransaction;
-
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -25,10 +15,19 @@ import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.gatecoin.dto.account.GatecoinBalance;
 import com.xeiam.xchange.gatecoin.dto.marketdata.GatecoinDepth;
+import com.xeiam.xchange.gatecoin.dto.marketdata.GatecoinTicker;
+import com.xeiam.xchange.gatecoin.dto.marketdata.GatecoinTransaction;
 import com.xeiam.xchange.gatecoin.dto.marketdata.Results.GatecoinDepthResult;
 import com.xeiam.xchange.gatecoin.dto.trade.GatecoinTradeHistory;
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinTradeHistoryResult;
 import com.xeiam.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Various adapters for converting from Gatecoin DTOs to XChange DTOs
@@ -45,21 +44,19 @@ public final class GatecoinAdapters {
   /**
    * Adapts a GatecoinBalance to a AccountInfo
    *
-     * @param gatecoinBalances
-   * @param userName The user name
+   * @param gatecoinBalances
+   * @param userName         The user name
    * @return The account info
    */
   public static AccountInfo adaptAccountInfo(GatecoinBalance[] gatecoinBalances, String userName) {
 
-      ArrayList<Wallet> wallets = new ArrayList<Wallet>();
-         
-    for(GatecoinBalance balance : gatecoinBalances)
-    {
-        String ccy = balance.getCurrency();
-        if(ccy.equalsIgnoreCase("btc")||ccy.equalsIgnoreCase("usd")||ccy.equalsIgnoreCase("hkd")||ccy.equalsIgnoreCase("eur"))
-        {
-           wallets.add(new Wallet(ccy,balance.getBalance(), balance.getAvailableBalance(), balance.getOpenOrder()));            
-        }
+    ArrayList<Wallet> wallets = new ArrayList<Wallet>();
+
+    for (GatecoinBalance balance : gatecoinBalances) {
+      String ccy = balance.getCurrency();
+      if (ccy.equalsIgnoreCase("btc") || ccy.equalsIgnoreCase("usd") || ccy.equalsIgnoreCase("hkd") || ccy.equalsIgnoreCase("eur")) {
+        wallets.add(new Wallet(ccy, balance.getBalance(), balance.getAvailableBalance(), balance.getOpenOrder()));
+      }
     }
     return new AccountInfo(userName, wallets);
   }
@@ -67,31 +64,42 @@ public final class GatecoinAdapters {
   /**
    * Adapts a com.xeiam.xchange.gatecoin.api.model.OrderBook to a OrderBook Object
    *
-     * @param gatecoinDepthResult
-   * @param currencyPair (e.g. BTC/USD)
-   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
+   * @param gatecoinDepthResult
+   * @param currencyPair        (e.g. BTC/USD)
+   * @param timeScale           polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrderBook(GatecoinDepthResult gatecoinDepthResult, CurrencyPair currencyPair, int timeScale) {
+  public static OrderBook adaptOrderBook(
+      GatecoinDepthResult gatecoinDepthResult,
+      CurrencyPair currencyPair,
+      int timeScale
+  ) {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, gatecoinDepthResult.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, gatecoinDepthResult.getBids());
-    Date date = new Date(); 
+    Date date = new Date();
     return new OrderBook(date, asks, bids);
   }
 
-  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, GatecoinDepth[] orders) {
+  public static List<LimitOrder> createOrders(
+      CurrencyPair currencyPair,
+      Order.OrderType orderType,
+      GatecoinDepth[] orders
+  ) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-    for (GatecoinDepth priceVolume : orders) 
-    {
-       
+    for (GatecoinDepth priceVolume : orders) {
+
       limitOrders.add((createOrder(currencyPair, priceVolume, orderType)));
     }
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(CurrencyPair currencyPair, GatecoinDepth priceAndAmount, Order.OrderType orderType) {
+  public static LimitOrder createOrder(
+      CurrencyPair currencyPair,
+      GatecoinDepth priceAndAmount,
+      Order.OrderType orderType
+  ) {
 
     return new LimitOrder(orderType, priceAndAmount.getVolume(), currencyPair, "", null, priceAndAmount.getPrice());
   }
@@ -118,66 +126,60 @@ public final class GatecoinAdapters {
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }
 
- 
   public static Ticker adaptTicker(GatecoinTicker[] gatecoinTickers, CurrencyPair currencyPair) {
 
-    String  ccyPair = currencyPair.toString().replace('/', ' ').replaceAll("\\s", "");
-    for(GatecoinTicker ticker : gatecoinTickers )
-    {
-        String responseCcyPair = ticker.getCurrencyPair();
-        if(responseCcyPair.compareTo(ccyPair) == 0)
-        {            
-            BigDecimal last = ticker.getLast();            
-            BigDecimal bid = ticker.getBid();
-            BigDecimal ask = ticker.getAsk();           
-            BigDecimal high = ticker.getHigh();
-            BigDecimal low = ticker.getLow();
-            BigDecimal vwap = ticker.getVwap();
-            BigDecimal volume = ticker.getVolume();           
-            Date timestamp = new Date(ticker.getTimestamp() * 1000L);
+    String ccyPair = currencyPair.toString().replace('/', ' ').replaceAll("\\s", "");
+    for (GatecoinTicker ticker : gatecoinTickers) {
+      String responseCcyPair = ticker.getCurrencyPair();
+      if (responseCcyPair.compareTo(ccyPair) == 0) {
+        BigDecimal last = ticker.getLast();
+        BigDecimal bid = ticker.getBid();
+        BigDecimal ask = ticker.getAsk();
+        BigDecimal high = ticker.getHigh();
+        BigDecimal low = ticker.getLow();
+        BigDecimal vwap = ticker.getVwap();
+        BigDecimal volume = ticker.getVolume();
+        Date timestamp = new Date(ticker.getTimestamp() * 1000L);
 
-            return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume).timestamp(timestamp)
-                .build(); 
-        }
-    
+        return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume).timestamp(timestamp)
+            .build();
+      }
     }
-        return null;
-
+    return null;
   }
 
   /**
    * Adapt the user's trades
    *
-     * @param gatecoinUserTrades
+   * @param gatecoinUserTrades
    * @return
    */
   public static UserTrades adaptTradeHistory(GatecoinTradeHistoryResult gatecoinUserTrades) {
 
     List<UserTrade> trades = new ArrayList<UserTrade>();
     long lastTradeId = 0;
-    if(gatecoinUserTrades!=null)
-    {
-        GatecoinTradeHistory[] tradeHistory = gatecoinUserTrades.getTransactions();  
-        for (GatecoinTradeHistory gatecoinUserTrade : tradeHistory) 
-        {
-
-            OrderType orderType = gatecoinUserTrade.getWay()=="ASK" ? OrderType.ASK : OrderType.BID;
-            BigDecimal tradableAmount = gatecoinUserTrade.getQuantity();
-            BigDecimal price = gatecoinUserTrade.getPrice();
-            Date timestamp = GatecoinUtils.parseUnixTSToDateTime(gatecoinUserTrade.getTransactionTime());
-            long transactionId = gatecoinUserTrade.getTransactionId();
-            if (transactionId > lastTradeId) {
-              lastTradeId = transactionId;
-            }
-            final String tradeId = String.valueOf(transactionId);
-            final String orderId = gatecoinUserTrade.getAskOrderID();
-            final BigDecimal feeAmount = gatecoinUserTrade.getFeeRate();
-            final CurrencyPair currencyPair = new CurrencyPair( gatecoinUserTrade.getCurrencyPair().substring(0,2),  gatecoinUserTrade.getCurrencyPair().substring(3,5));
-            UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-                currencyPair.counterSymbol);
-            trades.add(trade);
-
+    if (gatecoinUserTrades != null) {
+      GatecoinTradeHistory[] tradeHistory = gatecoinUserTrades.getTransactions();
+      for (GatecoinTradeHistory gatecoinUserTrade : tradeHistory) {
+        final boolean isAsk = Objects.equals(gatecoinUserTrade.getWay().toLowerCase(), "ask");
+        OrderType orderType = isAsk ? OrderType.ASK : OrderType.BID;
+        BigDecimal tradableAmount = gatecoinUserTrade.getQuantity();
+        BigDecimal price = gatecoinUserTrade.getPrice();
+        Date timestamp = GatecoinUtils.parseUnixTSToDateTime(gatecoinUserTrade.getTransactionTime());
+        long transactionId = gatecoinUserTrade.getTransactionId();
+        if (transactionId > lastTradeId) {
+          lastTradeId = transactionId;
         }
+        final String tradeId = String.valueOf(transactionId);
+        final String orderId = isAsk ? gatecoinUserTrade.getAskOrderID() : gatecoinUserTrade.getBidOrderID();
+        final BigDecimal feeRate = gatecoinUserTrade.getFeeRate();
+        final BigDecimal feeAmount = feeRate.multiply(tradableAmount).multiply(price).setScale(8, BigDecimal.ROUND_CEILING);
+
+        final CurrencyPair currencyPair = new CurrencyPair(gatecoinUserTrade.getCurrencyPair().substring(0, 3), gatecoinUserTrade.getCurrencyPair().substring(3, 6));
+        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
+            currencyPair.counterSymbol);
+        trades.add(trade);
+      }
     }
     return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
   }

@@ -48,11 +48,12 @@ public class HitbtcBasePollingService extends BaseExchangeService implements Bas
   }
 
   protected RuntimeException handleException(HitbtcException exception) {
+    String code = exception.getCode();
     String message = exception.getMessage();
 
     if ("Nonce has been used".equals(message)) {
-      return new NonceException(message);
+      return new NonceException(code + ": " + message);
     }
-    return new ExchangeException(message);
+    return new ExchangeException(code + ": " + message);
   }
 }
