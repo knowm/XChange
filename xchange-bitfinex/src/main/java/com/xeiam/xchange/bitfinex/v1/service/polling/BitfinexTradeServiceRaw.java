@@ -2,6 +2,7 @@ package com.xeiam.xchange.bitfinex.v1.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitfinex.v1.BitfinexOrderType;
@@ -10,10 +11,14 @@ import com.xeiam.xchange.bitfinex.v1.dto.BitfinexException;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
+import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderMultiRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCreditResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewHiddenOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOfferRequest;
+import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOrder;
+import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderMultiRequest;
+import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderMultiResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusRequest;
@@ -103,6 +108,41 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
       throw new ExchangeException(e.getMessage());
     }
   }
+  
+  public BitfinexNewOrderMultiResponse placeBitfinexOrderMulti(List<Order> orders, BitfinexOrderType bitfinexOrderType) 
+      throws IOException {
+    
+    BitfinexNewOrder[] bitfinexOrders = new BitfinexNewOrder[orders.size()];
+    for (int i = 0; i < bitfinexOrders.length; i++) {
+      Order o = orders.get(i);
+      if (o instanceof LimitOrder) {
+        LimitOrder limitOrder = (LimitOrder) o;
+        
+        String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
+        String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
+        String orderType = bitfinexOrderType.toString();
+        
+        bitfinexOrders[i] = new BitfinexNewOrder(pair, "bitfinex", type, orderType, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());  
+      } else if (o instanceof MarketOrder) {
+        MarketOrder marketOrder = (MarketOrder) o;
+
+        String pair = BitfinexUtils.toPairString(marketOrder.getCurrencyPair());
+        String type = marketOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
+        String orderType = bitfinexOrderType.toString();
+        
+        bitfinexOrders[i] = new BitfinexNewOrder(pair, "bitfinex", type, orderType, marketOrder.getTradableAmount(), BigDecimal.ONE);
+      }
+    }
+    
+    BitfinexNewOrderMultiRequest request = new BitfinexNewOrderMultiRequest(String.valueOf(exchange.getNonceFactory().createValue()), bitfinexOrders);
+
+    try {
+      BitfinexNewOrderMultiResponse response = bitfinex.newOrderMulti(apiKey, payloadCreator, signatureCreator, request);
+      return response;
+    } catch (BitfinexException e) {
+      throw new ExchangeException(e.getMessage());
+    }
+  }
 
   public BitfinexOfferStatusResponse placeBitfinexFixedRateLoanOrder(FixedRateLoanOrder loanOrder, BitfinexOrderType orderType) throws IOException {
 
@@ -145,6 +185,22 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
       } else {
         throw new ExchangeException(e.getMessage());
       }
+    }
+  }
+  
+  public boolean cancelBitfinexOrderMulti(List<String> orderIds) throws IOException {
+    
+    int[] cancelOrderIds = new int[orderIds.size()];
+    
+    for (int i = 0; i < cancelOrderIds.length; i++) {
+      cancelOrderIds[i] = Integer.valueOf(orderIds.get(i));
+    }
+    
+    try {
+     bitfinex.cancelOrderMulti(apiKey, payloadCreator, signatureCreator, new BitfinexCancelOrderMultiRequest(String.valueOf(exchange.getNonceFactory().createValue()), cancelOrderIds));
+     return true;
+    } catch (BitfinexException e) {
+      throw new ExchangeException(e.getMessage());
     }
   }
 
