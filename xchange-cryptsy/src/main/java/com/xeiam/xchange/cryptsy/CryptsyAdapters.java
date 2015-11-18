@@ -285,15 +285,38 @@ public final class CryptsyAdapters {
 
     CryptsyAccountInfo cryptsyAccountInfo = cryptsyAccountInfoReturn.getReturnValue();
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
-    Map<String, BigDecimal> funds = cryptsyAccountInfo.getAvailableFunds();
+    //List<Wallet> wallets = new ArrayList<Wallet>();
+    Map<String, BigDecimal> available = cryptsyAccountInfo.getAvailableFunds();
+    Map<String, BigDecimal> hold = cryptsyAccountInfo.getHoldFunds();
 
-    for (String lcCurrency : funds.keySet()) {
-      String currency = lcCurrency.toUpperCase();
+    Map<String, Wallet> walltes = new HashMap<>();
 
-      wallets.add(new Wallet(currency, funds.get(lcCurrency)));
+    for (String lcCurrency : available.keySet()) {
+      BigDecimal balance = available.get(lcCurrency);
+      BigDecimal avail = available.get(lcCurrency);
+
+      walltes.put(lcCurrency, new Wallet(lcCurrency, balance, avail, BigDecimal.ZERO));
     }
-    return new AccountInfo(null, wallets);
+
+    for (String lcCurrency : hold.keySet()) {
+      BigDecimal frocen = hold.get(lcCurrency);
+
+      if (walltes.containsKey(lcCurrency)) {
+        //initialice new wallet. wallet have no setter
+        Wallet newWallet = new Wallet(lcCurrency, walltes.get(lcCurrency).getBalance().add(frocen), walltes.get(lcCurrency).getAvailable(), frocen);
+        //Remove old wallet
+        walltes.remove(lcCurrency);
+        //Add new wallet
+        walltes.put(lcCurrency, newWallet);
+      }else {
+        walltes.put(lcCurrency, new Wallet(lcCurrency, frocen, BigDecimal.ZERO, frocen));
+      }
+    }
+
+
+
+    return new AccountInfo(null, new ArrayList<>(walltes.values()));
+
   }
 
   /**
