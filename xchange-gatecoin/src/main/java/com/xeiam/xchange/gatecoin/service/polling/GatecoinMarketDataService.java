@@ -3,11 +3,11 @@ package com.xeiam.xchange.gatecoin.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.gatecoin.GatecoinAdapters;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.gatecoin.GatecoinAdapters;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
@@ -53,8 +53,7 @@ public class GatecoinMarketDataService extends GatecoinMarketDataServiceRaw impl
       {
           return GatecoinAdapters.adaptTrades( getGatecoinTransactions(currencyPair.toString(),(Integer)args[0],(Long)args[1]).getTransactions(), currencyPair);
       }
-      return null;
-  
+    throw new IllegalArgumentException("Illegal number of arguments: " + args.length);
   }
 
 }

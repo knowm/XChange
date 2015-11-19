@@ -24,7 +24,7 @@ public class IndependentReserveMarketDataService extends IndependentReserveMarke
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
@@ -36,6 +36,6 @@ public class IndependentReserveMarketDataService extends IndependentReserveMarke
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
+    throw new UnsupportedOperationException();
   }
 }
