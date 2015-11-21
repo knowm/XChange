@@ -34,12 +34,12 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
   @Override
   public String withdrawFunds(String currency, BigDecimal amount, String address)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override
   public String requestDepositAddress(String currency, String... args)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
+    throw new UnsupportedOperationException();
   }
 }

@@ -34,7 +34,7 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
   @Override
   public String placeMarketOrder(MarketOrder marketOrder)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
+    throw new UnsupportedOperationException();
   }
 
   @Override

@@ -8,7 +8,7 @@ package com.xeiam.xchange.exceptions;
  * <li>Indication that the exchange does not support the requested function or data</li>
  * </ul>
  */
-public class NotAvailableFromExchangeException extends RuntimeException {
+public class NotAvailableFromExchangeException extends UnsupportedOperationException {
 
   /**
    * Constructor

@@ -8,7 +8,7 @@ package com.xeiam.xchange.exceptions;
  * <li>Indication that the exchange supports the requested function or data, but it's not yet been implemented</li>
  * </ul>
  */
-public class NotYetImplementedForExchangeException extends RuntimeException {
+public class NotYetImplementedForExchangeException extends UnsupportedOperationException {
 
   /**
    * Constructor
