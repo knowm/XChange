@@ -13,6 +13,7 @@ public class BitsoTransaction {
   private final int tid;
   private final BigDecimal price;
   private final BigDecimal amount;
+  private final String side;
 
   /**
    * Constructor
@@ -21,14 +22,16 @@ public class BitsoTransaction {
    * @param tid Transaction id
    * @param price BTC price
    * @param amount BTC amount
+   * @param side "buy"/"sell" for the type of order the trade has completed
    */
   public BitsoTransaction(@JsonProperty("date") long date, @JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amount") BigDecimal amount) {
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("side") String side) {
 
     this.date = date;
     this.tid = tid;
     this.price = price;
     this.amount = amount;
+    this.side = side;
   }
 
   public int getTid() {
@@ -51,6 +54,11 @@ public class BitsoTransaction {
     return date;
   }
 
+  public String getSide() {
+
+    return side;
+  }
+
   public BigDecimal calculateFeeBtc() {
 
     return roundUp(amount.multiply(new BigDecimal(.5))).divide(new BigDecimal(100.));
@@ -70,7 +78,7 @@ public class BitsoTransaction {
   @Override
   public String toString() {
 
-    return "Transaction [date=" + date + ", tid=" + tid + ", price=" + price + ", amount=" + amount + "]";
+    return "Transaction [date=" + date + ", tid=" + tid + ", price=" + price + ", amount=" + amount + ", side=" + side + "]";
   }
 
 }

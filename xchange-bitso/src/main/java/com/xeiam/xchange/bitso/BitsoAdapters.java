@@ -81,12 +81,23 @@ public final class BitsoAdapters {
     List<Trade> trades = new ArrayList<Trade>();
     long lastTradeId = 0;
     for (BitsoTransaction tx : transactions) {
+      Order.OrderType type;
+      switch (tx.getSide()) {
+      case "buy":
+        type = Order.OrderType.ASK;
+        break;
+      case "sell":
+        type = Order.OrderType.BID;
+        break;
+      default:
+        type = null;
+      }
       final long tradeId = tx.getTid();
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
       trades
-          .add(new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
+          .add(new Trade(type, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
     }
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
