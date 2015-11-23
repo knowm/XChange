@@ -298,18 +298,20 @@ public final class CryptsyAdapters {
       walltes.put(lcCurrency, new Wallet(lcCurrency, balance, avail, BigDecimal.ZERO));
     }
 
-    for (String lcCurrency : hold.keySet()) {
-      BigDecimal frocen = hold.get(lcCurrency);
+    if( hold != null ) {
+      for (String lcCurrency : hold.keySet()) {
+        BigDecimal frocen = hold.get(lcCurrency);
 
-      if (walltes.containsKey(lcCurrency)) {
-        //initialice new wallet. wallet have no setter
-        Wallet newWallet = new Wallet(lcCurrency, walltes.get(lcCurrency).getBalance().add(frocen), walltes.get(lcCurrency).getAvailable(), frocen);
-        //Remove old wallet
-        walltes.remove(lcCurrency);
-        //Add new wallet
-        walltes.put(lcCurrency, newWallet);
-      }else {
-        walltes.put(lcCurrency, new Wallet(lcCurrency, frocen, BigDecimal.ZERO, frocen));
+        if (walltes.containsKey(lcCurrency)) {
+          //initialice new wallet. wallet have no setter
+          Wallet newWallet = new Wallet(lcCurrency, walltes.get(lcCurrency).getBalance().add(frocen), walltes.get(lcCurrency).getAvailable(), frocen);
+          //Remove old wallet
+          walltes.remove(lcCurrency);
+          //Add new wallet
+          walltes.put(lcCurrency, newWallet);
+        }else {
+          walltes.put(lcCurrency, new Wallet(lcCurrency, frocen, BigDecimal.ZERO, frocen));
+        }
       }
     }
 
