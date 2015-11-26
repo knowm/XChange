@@ -146,7 +146,7 @@ public class BleutradeAdapters {
     BigDecimal singleTxFee = new BigDecimal("0.0025");
     // bleutrade gives a fee per currency rather than per exchange
     // I suppose that the fee for both currencies is charged when a trade is made
-    // z = 1 - (1 - y) * (1 - z)
+    // z = 1 - (1 - y) * (1 - x)
     singleTxFee = singleTxFee.negate().add(BigDecimal.ONE);
     BigDecimal txFee = singleTxFee.multiply(singleTxFee).negate().add(BigDecimal.ONE);
 
