@@ -23,8 +23,10 @@ public class TickerFetchIntegration {
     CertHelper.trustAllCerts();
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getName());
+    exchange.remoteInit();
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "USD"));
+    CurrencyPair market = exchange.getMetaData().getMarketMetaDataMap().keySet().iterator().next();
+    Ticker ticker = marketDataService.getTicker(market);
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }

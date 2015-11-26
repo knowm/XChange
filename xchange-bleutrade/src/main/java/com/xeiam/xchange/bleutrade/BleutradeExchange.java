@@ -3,12 +3,18 @@ package com.xeiam.xchange.bleutrade;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarket;
 import com.xeiam.xchange.bleutrade.service.polling.BleutradeAccountService;
 import com.xeiam.xchange.bleutrade.service.polling.BleutradeMarketDataService;
+import com.xeiam.xchange.bleutrade.service.polling.BleutradeMarketDataServiceRaw;
 import com.xeiam.xchange.bleutrade.service.polling.BleutradeTradeService;
 import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.util.List;
 
 public class BleutradeExchange extends BaseExchange implements Exchange {
 
@@ -19,6 +25,12 @@ public class BleutradeExchange extends BaseExchange implements Exchange {
     this.pollingMarketDataService = new BleutradeMarketDataService(this);
     this.pollingAccountService = new BleutradeAccountService(this);
     this.pollingTradeService = new BleutradeTradeService(this);
+  }
+  @Override
+  public void remoteInit() throws IOException {
+    List<BleutradeCurrency> currencies = ((BleutradeMarketDataServiceRaw)pollingMarketDataService).getBleutradeCurrencies();
+    List<BleutradeMarket> markets = ((BleutradeMarketDataServiceRaw)pollingMarketDataService).getBleutradeMarkets();
+    metaData = BleutradeAdapters.adaptToExchangeMetaData(currencies, markets);
   }
 
   @Override
