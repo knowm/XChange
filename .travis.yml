@@ -1,4 +1,5 @@
 language: java
+sudo: false
 
 before_install: "git clone -b travis `git config --get remote.origin.url` target/travis"
 script: "
