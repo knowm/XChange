@@ -136,23 +136,22 @@ public class BleutradeAdapters {
 
     Map<CurrencyPair, MarketMetaData> marketMetaDataMap = new HashMap<CurrencyPair, MarketMetaData>();
     Map<String, CurrencyMetaData> currencyMetaDataMap = new HashMap<String, CurrencyMetaData>();
-    Map<String, BigDecimal> txFees = new HashMap<String, BigDecimal>();
 
     for (BleutradeCurrency bleutradeCurrency : bleutradeCurrencies) {
-      txFees.put(bleutradeCurrency.getCurrency(), bleutradeCurrency.getTxFee());
+      // the getTxFee parameter is the withdrawal charge in the currency in question
       currencyMetaDataMap.put(bleutradeCurrency.getCurrency(), new CurrencyMetaData(8));
     }
 
+    // https://bleutrade.com/help/fees_and_deadlines 11/25/2015 all == 0.25%
+    BigDecimal singleTxFee = new BigDecimal("0.0025");
+    // bleutrade gives a fee per currency rather than per exchange
+    // I suppose that the fee for both currencies is charged when a trade is made
+    // z = 1 - (1 - y) * (1 - z)
+    singleTxFee = singleTxFee.negate().add(BigDecimal.ONE);
+    BigDecimal txFee = singleTxFee.multiply(singleTxFee).negate().add(BigDecimal.ONE);
+
     for (BleutradeMarket bleutradeMarket : bleutradeMarkets) {
       CurrencyPair currencyPair = CurrencyPairDeserializer.getCurrencyPairFromString(bleutradeMarket.getMarketName());
-
-      BigDecimal baseTxFee = txFees.get(currencyPair.baseSymbol);
-      BigDecimal counterTxFee = txFees.get(currencyPair.counterSymbol);
-      // bleutrade gives a fee per currency rather than per exchange
-      // I suppose that the fee for both currencies is charged when a trade is made
-      // z = 1 - (1 - y) * (1 - z)
-      BigDecimal txFee = baseTxFee.negate().add(BigDecimal.ONE).multiply(counterTxFee.negate().add(BigDecimal.ONE)).negate().add(BigDecimal.ONE);
-
       MarketMetaData marketMetaData = new MarketMetaData(txFee, bleutradeMarket.getMinTradeSize(), 8);
       marketMetaDataMap.put(currencyPair, marketMetaData);
     }
