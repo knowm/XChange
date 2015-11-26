@@ -11,11 +11,11 @@ import si.mazi.rescu.ExceptionalReturnContentException;
 
 public class PoloniexTradeResponse {
 
-  private final Integer orderNumber;
+  private final Long orderNumber;
   private final List<PoloniexPublicTrade> resultingTrades = new ArrayList<PoloniexPublicTrade>();
 
   @JsonCreator
-  public PoloniexTradeResponse(@JsonProperty("orderNumber") Integer orderNumber,
+  public PoloniexTradeResponse(@JsonProperty("orderNumber") Long orderNumber,
       @JsonProperty("resultingTrades") List<PoloniexPublicTrade> resultingTrades) {
 
     if (orderNumber == null) {
@@ -27,7 +27,7 @@ public class PoloniexTradeResponse {
     }
   }
 
-  public Integer getOrderNumber() {
+  public Long getOrderNumber() {
 
     return orderNumber;
   }
