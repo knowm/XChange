@@ -7,6 +7,9 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.meta.CurrencyMetaData;
+import com.xeiam.xchange.dto.meta.ExchangeMetaData;
+import com.xeiam.xchange.dto.meta.MarketMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
@@ -142,5 +145,34 @@ public class PoloniexAdapters {
     BigDecimal feeAmount = amount.multiply(price).multiply(userTrade.getFee());
 
     return new UserTrade(orderType, amount, currencyPair, price, date, tradeId, orderId, feeAmount, currencyPair.counterSymbol);
+  }
+
+  public static ExchangeMetaData adaptToExchangeMetaData(Map<String, PoloniexCurrencyInfo> poloniexCurrencyInfo,
+      Map<String, PoloniexMarketData> poloniexMarketData, ExchangeMetaData exchangeMetaData) {
+
+    Map<String, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencyMetaDataMap();
+    CurrencyMetaData currencyArchetype = currencyMetaDataMap.values().iterator().next();
+
+    currencyMetaDataMap.clear();
+    for (Map.Entry<String,PoloniexCurrencyInfo> entry : poloniexCurrencyInfo.entrySet()) {
+
+      PoloniexCurrencyInfo currencyInfo = entry.getValue();
+
+      if (currencyInfo.isDelisted() || currencyInfo.isDisabled())
+        continue;
+
+      currencyMetaDataMap.put(entry.getKey(), currencyArchetype);
+    }
+
+    Map<CurrencyPair, MarketMetaData> marketMetaDataMap = exchangeMetaData.getMarketMetaDataMap();
+    MarketMetaData marketArchetype = marketMetaDataMap.values().iterator().next();
+
+    marketMetaDataMap.clear();
+    for (String market : poloniexMarketData.keySet()) {
+
+      marketMetaDataMap.put(PoloniexUtils.toCurrencyPair(market), marketArchetype);
+    }
+
+    return exchangeMetaData;
   }
 }
