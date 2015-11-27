@@ -11,6 +11,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
+import com.xeiam.xchange.utils.RestrictedSSLSocketFactory;
+import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
 
 public class CryptonitBasePollingService extends BaseExchangeService implements BasePollingService {
@@ -26,7 +28,11 @@ public class CryptonitBasePollingService extends BaseExchangeService implements 
 
     super(exchange);
 
-    this.cryptonit = RestProxyFactory.createProxy(Cryptonit.class, exchange.getExchangeSpecification().getSslUri());
+    ClientConfig config = new ClientConfig();
+    // cryptonit server disconnects immediately or raises "protocol version" if connected via these protocol versions
+    config.setSslSocketFactory(new RestrictedSSLSocketFactory(new String[]{"SSLv2Hello", "TLSv1","TLSv1.1"}, null));
+
+    this.cryptonit = RestProxyFactory.createProxy(Cryptonit.class, exchange.getExchangeSpecification().getSslUri(), config);
   }
 
   @Override

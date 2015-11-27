@@ -66,6 +66,9 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService {
 
     PoloniexMarketData data = marketData.get(pairString);
 
+    if (data == null)
+      throw new ExchangeException(currencyPair + " not available");
+
     return new PoloniexTicker(data, currencyPair);
 
   }

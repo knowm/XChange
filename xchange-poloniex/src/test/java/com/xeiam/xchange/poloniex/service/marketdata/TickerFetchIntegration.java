@@ -20,8 +20,10 @@ public class TickerFetchIntegration {
   public void tickerFetchTest() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
+    exchange.remoteInit();
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "XUSD"));
+    CurrencyPair currencyPair = exchange.getMetaData().getMarketMetaDataMap().keySet().iterator().next();
+    Ticker ticker = marketDataService.getTicker(currencyPair);
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();
   }

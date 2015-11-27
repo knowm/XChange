@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * An SSLSocketFactory that may disable some protocols or ciphers in case of server bugs for example.
+ * An SSLSocketFactory that may disable some protocols or ciphers in the generated sockets
  */
 public class RestrictedSSLSocketFactory extends SSLSocketFactory {
 
