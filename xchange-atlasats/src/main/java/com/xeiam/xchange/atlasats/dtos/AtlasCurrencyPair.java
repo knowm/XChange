@@ -52,19 +52,19 @@ public class AtlasCurrencyPair implements Serializable {
     }
     AtlasCurrencyPair other = (AtlasCurrencyPair) obj;
     if (baseSymbol == null) {
-      if (other.base.getCurrencyCode() != null) {
+      if (other.baseSymbol != null) {
         return false;
       }
     }
-    else if (!baseSymbol.equals(other.base.getCurrencyCode())) {
+    else if (!baseSymbol.equals(other.baseSymbol)) {
       return false;
     }
     if (counterSymbol == null) {
-      if (other.counter.getCurrencyCode() != null) {
+      if (other.counterSymbol != null) {
         return false;
       }
     }
-    else if (!counterSymbol.equals(other.counter.getCurrencyCode())) {
+    else if (!counterSymbol.equals(other.counterSymbol)) {
       return false;
     }
     return true;
