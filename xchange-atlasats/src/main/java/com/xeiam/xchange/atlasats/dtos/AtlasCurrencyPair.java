@@ -14,8 +14,8 @@ public class AtlasCurrencyPair implements Serializable {
 
   public AtlasCurrencyPair(String baseSymbol, String counterSymbol) {
 
-    this.base.getCurrencyCode() = baseSymbol;
-    this.counter.getCurrencyCode() = counterSymbol;
+    this.baseSymbol = baseSymbol;
+    this.counterSymbol = counterSymbol;
   }
 
   public String getBaseSymbol() {
