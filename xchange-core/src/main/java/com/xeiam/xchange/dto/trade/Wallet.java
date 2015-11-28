@@ -1,5 +1,7 @@
 package com.xeiam.xchange.dto.trade;
 
+import com.xeiam.xchange.currency.Currency;
+
 import java.math.BigDecimal;
 
 /**
@@ -15,7 +17,7 @@ import java.math.BigDecimal;
  */
 public final class Wallet {
 
-  private final String currency;
+  private final Currency currency;
 
   /**
    * @deprecated
@@ -32,7 +34,7 @@ public final class Wallet {
    * @param currency the wallet currency.
    * @return a wallet with zero balances.
    */
-  public static Wallet zero(String currency) {
+  public static Wallet zero(Currency currency) {
     return new Wallet(currency, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
   }
 
@@ -42,8 +44,16 @@ public final class Wallet {
    * @param currency The underlying currency
    * @param balance The balance
    */
-  public Wallet(String currency, BigDecimal balance) {
+  public Wallet(Currency currency, BigDecimal balance) {
     this(currency, balance, balance, BigDecimal.ZERO);
+  }
+
+  /**
+   * @deprecated use {@link #Wallet(Currency,BigDecimal)}
+   */
+  @Deprecated
+  public Wallet(String currency, BigDecimal balance) {
+    this(Currency.getInstance(currency), balance);
   }
 
   /**
@@ -53,8 +63,16 @@ public final class Wallet {
    * @param balance the total amount of the <code>currency</code> in this wallet.
    * @param available the amount of the <code>currency</code> in this wallet that is available to trade.
    */
-  public Wallet(String currency, BigDecimal balance, BigDecimal available) {
+  public Wallet(Currency currency, BigDecimal balance, BigDecimal available) {
     this(currency, balance, available, balance.add(available.negate()));
+  }
+
+  /**
+   * @deprecated use {@link #Wallet(Currency,BigDecimal,BigDecimal)}
+   */
+  @Deprecated
+  public Wallet(String currency, BigDecimal balance, BigDecimal available) {
+    this(Currency.getInstance(currency), balance, available);
   }
 
   /**
@@ -65,7 +83,7 @@ public final class Wallet {
    * @param available the amount of the <code>currency</code> in this wallet that is available to trade.
    * @param frozen the frozen amount of the <code>currency</code> in this wallet that is locked in trading.
    */
-  public Wallet(String currency, BigDecimal balance, BigDecimal available, BigDecimal frozen) {
+  public Wallet(Currency currency, BigDecimal balance, BigDecimal available, BigDecimal frozen) {
     this.currency = currency;
     this.balance = balance;
     this.available = available;
@@ -74,30 +92,48 @@ public final class Wallet {
   }
 
   /**
+   * @deprecated use {@link #Wallet(Currency,BigDecimal,BigDecimal,BigDecimal)}
+   */
+  @Deprecated
+  public Wallet(String currency, BigDecimal balance, BigDecimal available, BigDecimal frozen) { this(Currency.getInstance(currency), balance, available, frozen); }
+
+  /**
    * Additional constructor with optional description
    *
    * @param description Optional description to distinguish same currency Wallets
    */
   @Deprecated
-  public Wallet(String currency, BigDecimal balance, String description) {
+  public Wallet(Currency currency, BigDecimal balance, String description) {
     this(currency, balance, balance, BigDecimal.ZERO, description);
   }
-
   @Deprecated
-  public Wallet(String currency, BigDecimal balance, BigDecimal available, String description) {
-    this(currency, balance, available, balance.add(available.negate()), description);
+  public Wallet(String currency, BigDecimal balance, String description) {
+    this(Currency.getInstance(currency), balance, description);
   }
 
   @Deprecated
-  public Wallet(String currency, BigDecimal balance, BigDecimal available, BigDecimal frozen, String description) {
+  public Wallet(Currency currency, BigDecimal balance, BigDecimal available, String description) {
+    this(currency, balance, available, balance.add(available.negate()), description);
+  }
+  @Deprecated
+  public Wallet(String currency, BigDecimal balance, BigDecimal available, String description) {
+    this(Currency.getInstance(currency), balance, available, description);
+  }
+
+  @Deprecated
+  public Wallet(Currency currency, BigDecimal balance, BigDecimal available, BigDecimal frozen, String description) {
     this.currency = currency;
     this.balance = balance;
     this.available = balance;
     this.frozen = BigDecimal.ZERO;
     this.description = description;
   }
+  @Deprecated
+  public Wallet(String currency, BigDecimal balance, BigDecimal available, BigDecimal frozen, String description) {
+    this(Currency.getInstance(currency), balance, available, frozen, description);
+  }
 
-  public String getCurrency() {
+  public Currency getCurrency() {
 
     return currency;
   }

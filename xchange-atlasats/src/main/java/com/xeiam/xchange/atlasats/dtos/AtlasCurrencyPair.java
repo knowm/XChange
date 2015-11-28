@@ -14,8 +14,8 @@ public class AtlasCurrencyPair implements Serializable {
 
   public AtlasCurrencyPair(String baseSymbol, String counterSymbol) {
 
-    this.baseSymbol = baseSymbol;
-    this.counterSymbol = counterSymbol;
+    this.base.getCurrencyCode() = baseSymbol;
+    this.counter.getCurrencyCode() = counterSymbol;
   }
 
   public String getBaseSymbol() {
@@ -52,19 +52,19 @@ public class AtlasCurrencyPair implements Serializable {
     }
     AtlasCurrencyPair other = (AtlasCurrencyPair) obj;
     if (baseSymbol == null) {
-      if (other.baseSymbol != null) {
+      if (other.base.getCurrencyCode() != null) {
         return false;
       }
     }
-    else if (!baseSymbol.equals(other.baseSymbol)) {
+    else if (!baseSymbol.equals(other.base.getCurrencyCode())) {
       return false;
     }
     if (counterSymbol == null) {
-      if (other.counterSymbol != null) {
+      if (other.counter.getCurrencyCode() != null) {
         return false;
       }
     }
-    else if (!counterSymbol.equals(other.counterSymbol)) {
+    else if (!counterSymbol.equals(other.counter.getCurrencyCode())) {
       return false;
     }
     return true;

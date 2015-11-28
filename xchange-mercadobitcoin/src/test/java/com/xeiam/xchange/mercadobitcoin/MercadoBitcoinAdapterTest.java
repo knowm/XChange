@@ -10,11 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -110,11 +110,11 @@ public class MercadoBitcoinAdapterTest {
 
     AccountInfo accountInfo = MercadoBitcoinAdapters.adaptAccountInfo(mercadoBitcoinAccountInfo, "Nina Tufão & Bit");
     assertThat(accountInfo.getUsername()).isEqualTo("Nina Tufão & Bit");
-    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("BRL");
+    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo(Currency.BRL);
     assertThat(accountInfo.getWallets().get(0).getBalance()).isEqualTo(new BigDecimal("248.29516"));
-    assertThat(accountInfo.getWallets().get(1).getCurrency()).isEqualTo("BTC");
+    assertThat(accountInfo.getWallets().get(1).getCurrency()).isEqualTo(Currency.BTC);
     assertThat(accountInfo.getWallets().get(1).getBalance()).isEqualTo(new BigDecimal("0.25000000"));
-    assertThat(accountInfo.getWallets().get(2).getCurrency()).isEqualTo("LTC");
+    assertThat(accountInfo.getWallets().get(2).getCurrency()).isEqualTo(Currency.LTC);
     assertThat(accountInfo.getWallets().get(2).getBalance()).isEqualTo(new BigDecimal("0.00000000"));
   }
 
@@ -130,7 +130,7 @@ public class MercadoBitcoinAdapterTest {
         new TypeReference<MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders>>() {
         });
 
-    List<LimitOrder> orders = MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currencies.LTC, Currencies.BRL), apiResult);
+    List<LimitOrder> orders = MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currency.LTC, Currency.BRL), apiResult);
 
     Map<String, LimitOrder> orderById = new HashMap<String, LimitOrder>();
 
@@ -142,6 +142,6 @@ public class MercadoBitcoinAdapterTest {
     assertThat(orderById.get("1212").getTimestamp()).isEqualTo(new Date(1378929161000L));
     assertThat(orderById.get("1212").getLimitPrice()).isEqualTo(new BigDecimal("6.00000"));
     assertThat(orderById.get("1212").getTradableAmount()).isEqualTo(new BigDecimal("165.47309607"));
-    assertThat(orderById.get("1212").getCurrencyPair()).isEqualTo(new CurrencyPair(Currencies.LTC, Currencies.BRL));
+    assertThat(orderById.get("1212").getCurrencyPair()).isEqualTo(new CurrencyPair(Currency.LTC, Currency.BRL));
   }
 }

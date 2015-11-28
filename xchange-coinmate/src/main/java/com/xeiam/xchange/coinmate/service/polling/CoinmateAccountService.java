@@ -30,6 +30,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.CoinmateAdapters;
 import com.xeiam.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateTradeResponse;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
@@ -52,7 +53,7 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address)
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     CoinmateTradeResponse response = coinmateBitcoinWithdrawal(amount, address);
 
@@ -60,7 +61,7 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... args)
+  public String requestDepositAddress(Currency currency, String... args)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     CoinmateDepositAddresses addresses = coinmateBitcoinDepositAddresses();
 

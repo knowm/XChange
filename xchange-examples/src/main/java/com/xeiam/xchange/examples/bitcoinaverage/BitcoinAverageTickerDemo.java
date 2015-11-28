@@ -7,7 +7,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcoinaverage.BitcoinAverageExchange;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import com.xeiam.xchange.bitcoinaverage.service.polling.BitcoinAverageMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
@@ -32,7 +32,7 @@ public class BitcoinAverageTickerDemo {
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
     double value = ticker.getLast().doubleValue();
 
-    System.out.println("Last: " + ticker.getCurrencyPair().counterSymbol + "-" + value);
+    System.out.println("Last: " + ticker.getCurrencyPair().counter.getCurrencyCode() + "-" + value);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
   }
@@ -43,7 +43,7 @@ public class BitcoinAverageTickerDemo {
         .getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to EUR
-    BitcoinAverageTicker ticker = bitcoinAverageMarketDataServiceRaw.getBitcoinAverageTicker(Currencies.BTC, Currencies.EUR);
+    BitcoinAverageTicker ticker = bitcoinAverageMarketDataServiceRaw.getBitcoinAverageTicker("BTC", "EUR");
 
     System.out.println("Last: " + ticker.getLast());
     System.out.println("Vol: " + ticker.getVolume());

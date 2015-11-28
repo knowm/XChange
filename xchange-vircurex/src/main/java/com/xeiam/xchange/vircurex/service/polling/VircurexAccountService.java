@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -28,13 +29,13 @@ public class VircurexAccountService extends VircurexAccountServiceRaw implements
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... arguments) throws IOException {
+  public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public String withdrawFunds(String currecny, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currecny, BigDecimal amount, String address) throws IOException {
 
     throw new NotYetImplementedForExchangeException();
 

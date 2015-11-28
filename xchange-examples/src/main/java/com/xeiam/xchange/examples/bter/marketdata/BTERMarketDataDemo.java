@@ -14,7 +14,7 @@ import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
 import com.xeiam.xchange.bter.service.polling.BTERPollingMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -63,19 +63,19 @@ public class BTERMarketDataDemo {
     Map<CurrencyPair, BTERTicker> tickers = marketDataService.getBTERTickers();
     System.out.println(tickers);
 
-    BTERTicker ticker = marketDataService.getBTERTicker(Currencies.PPC, Currencies.BTC);
+    BTERTicker ticker = marketDataService.getBTERTicker("PPC", "BTC");
     System.out.println(ticker);
 
-    BTERDepth depth = marketDataService.getBTEROrderBook(Currencies.BTC, Currencies.CNY);
+    BTERDepth depth = marketDataService.getBTEROrderBook("BTC", "CNY");
     System.out.println(depth);
 
-    BTERTradeHistory tradeHistory = marketDataService.getBTERTradeHistory(Currencies.BTC, Currencies.CNY);
+    BTERTradeHistory tradeHistory = marketDataService.getBTERTradeHistory("BTC", "CNY");
     System.out.println(tradeHistory);
 
     List<BTERPublicTrade> trades = tradeHistory.getTrades();
     if (trades.size() > 1) {
       BTERPublicTrade trade = trades.get(trades.size() - 2);
-      tradeHistory = marketDataService.getBTERTradeHistorySince(Currencies.BTC, Currencies.CNY, trade.getTradeId());
+      tradeHistory = marketDataService.getBTERTradeHistorySince("BTC", "CNY", trade.getTradeId());
       System.out.println(tradeHistory);
     }
   }

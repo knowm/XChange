@@ -18,6 +18,7 @@ import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETrade;
 import com.xeiam.xchange.btce.v3.dto.meta.BTCEMetaData;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -188,7 +189,7 @@ public final class BTCEAdapters {
       String orderId = String.valueOf(result.getOrderId());
       String tradeId = String.valueOf(entry.getKey());
       CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
-      trades.add(new UserTrade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId, null, null));
+      trades.add(new UserTrade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId, null, (Currency)null));
     }
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
@@ -200,7 +201,7 @@ public final class BTCEAdapters {
   }
 
   public static String adaptCurrencyPair(CurrencyPair currencyPair) {
-    return (currencyPair.baseSymbol + "_" + currencyPair.counterSymbol).toLowerCase();
+    return (currencyPair.base.getCurrencyCode() + "_" + currencyPair.counter.getCurrencyCode()).toLowerCase();
   }
 
   public static List<CurrencyPair> adaptCurrencyPairs(Iterable<String> btcePairs) {
@@ -215,7 +216,7 @@ public final class BTCEAdapters {
 
   public static ExchangeMetaData toMetaData(BTCEExchangeInfo btceExchangeInfo, BTCEMetaData btceMetaData) {
     Map<CurrencyPair, MarketMetaData> currencyPairs = new HashMap<CurrencyPair, MarketMetaData>();
-    Map<String, CurrencyMetaData> currencies = new HashMap<String, CurrencyMetaData>();
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<Currency, CurrencyMetaData>();
 
     if (btceExchangeInfo != null)
     for (Entry<String, BTCEPairInfo> e : btceExchangeInfo.getPairs().entrySet()) {
@@ -223,15 +224,15 @@ public final class BTCEAdapters {
       MarketMetaData marketMetaData = toMarketMetaData(e.getValue(), btceMetaData);
       currencyPairs.put(pair, marketMetaData);
 
-      addCurrencyMetaData(pair.baseSymbol, currencies, btceMetaData);
-      addCurrencyMetaData(pair.counterSymbol, currencies, btceMetaData);
+      addCurrencyMetaData(pair.base, currencies, btceMetaData);
+      addCurrencyMetaData(pair.counter, currencies, btceMetaData);
     }
 
     HashSet<RateLimit> publicRateLimits = new HashSet<>(Collections.singleton(new RateLimit(btceMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)));
     return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, Collections.<RateLimit>emptySet(), false);
   }
 
-  private static void addCurrencyMetaData(String symbol, Map<String, CurrencyMetaData> currencies, BTCEMetaData btceMetaData) {
+  private static void addCurrencyMetaData(Currency symbol, Map<Currency, CurrencyMetaData> currencies, BTCEMetaData btceMetaData) {
     if (!currencies.containsKey(symbol)) {
       currencies.put(symbol, new CurrencyMetaData(btceMetaData.amountScale));
     }
@@ -258,7 +259,7 @@ public final class BTCEAdapters {
   }
 
   public static String getPair(CurrencyPair currencyPair) {
-    return currencyPair.baseSymbol.toLowerCase() + "_" + currencyPair.counterSymbol.toLowerCase();
+    return currencyPair.base.getCurrencyCode().toLowerCase() + "_" + currencyPair.counter.getCurrencyCode().toLowerCase();
   }
 
   public static LimitOrder createLimitOrder(MarketOrder marketOrder, BTCEExchangeInfo btceExchangeInfo) {

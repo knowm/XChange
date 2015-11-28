@@ -44,8 +44,8 @@ public class VirtExAdapterTest {
     assertThat(asks.get(0).getLimitPrice().doubleValue()).isEqualTo(500000.000000000);
     assertThat(asks.get(0).getType()).isEqualTo(OrderType.ASK);
     assertThat(asks.get(0).getTradableAmount().doubleValue()).isEqualTo(7.000000000);
-    assertThat(asks.get(0).getCurrencyPair().baseSymbol).isEqualTo("BTC");
-    assertThat(asks.get(0).getCurrencyPair().counterSymbol).isEqualTo("CAD");
+    assertThat(asks.get(0).getCurrencyPair().base.getCurrencyCode()).isEqualTo("BTC");
+    assertThat(asks.get(0).getCurrencyPair().counter.getCurrencyCode()).isEqualTo("CAD");
 
   }
 
@@ -65,7 +65,7 @@ public class VirtExAdapterTest {
     // Verify all fields filled
     assertThat(trades.getTrades().get(0).getPrice().doubleValue() == 545.060000000);
     assertThat(trades.getTrades().get(0).getTradableAmount().doubleValue() == 1.189100000);
-    assertThat(trades.getTrades().get(0).getCurrencyPair().baseSymbol == "BTC");
+    assertThat(trades.getTrades().get(0).getCurrencyPair().base.getCurrencyCode() == "BTC");
     assertThat(DateUtils.toUTCString(trades.getTrades().get(0).getTimestamp())).isEqualTo("2014-05-21 20:45:15 GMT");
   }
 
@@ -87,7 +87,7 @@ public class VirtExAdapterTest {
     assertThat(ticker.getHigh().toString()).isEqualTo("574.000000000");
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("284.231600000"));
 
-    assertThat(ticker.getCurrencyPair().baseSymbol).isEqualTo("BTC");
+    assertThat(ticker.getCurrencyPair().base.getCurrencyCode()).isEqualTo("BTC");
 
   }
 }

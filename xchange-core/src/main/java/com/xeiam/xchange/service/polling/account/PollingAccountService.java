@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
@@ -48,14 +49,14 @@ public interface PollingAccountService extends BasePollingService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String withdrawFunds(String currency, BigDecimal amount, String address)
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Request a digital currency address to fund this account. Allows to fund the exchange account with digital currency from an external address
    * 
-   * @param currency The digital currency that corresponds to the desired deposit address.
    * @param arguments
+   * @param currency The digital currency that corresponds to the desired deposit address.
    * @return the internal deposit address to send funds to
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
@@ -63,7 +64,7 @@ public interface PollingAccountService extends BasePollingService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String requestDepositAddress(String currency, String... args)
+  public String requestDepositAddress(Currency currency, String... args)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   // TODO: Transaction history (deposits, withrawals, etc.)

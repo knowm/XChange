@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,8 +70,8 @@ public class CointraderDtoTest {
     assertEquals(new BigDecimal("0.00015000"), trades[0].getFee());
     assertEquals(new BigDecimal("6.59"), trades[0].getTotal());
 
-    assertTrade(trades[0], Order.OrderType.ASK, "BTC", "0.00015000");
-    assertTrade(trades[1], Order.OrderType.BID, "USD", "0.03");
+    assertTrade(trades[0], Order.OrderType.ASK, Currency.BTC, "0.00015000");
+    assertTrade(trades[1], Order.OrderType.BID, Currency.USD, "0.03");
   }
 
   @Test
@@ -85,7 +86,7 @@ public class CointraderDtoTest {
     assertNull(balance.getData().get("CNY"));
   }
 
-  private void assertTrade(CointraderUserTrade trade, Order.OrderType type, String currency, String amt) {
+  private void assertTrade(CointraderUserTrade trade, Order.OrderType type, Currency currency, String amt) {
     UserTrade tr = CointraderAdapters.adaptTrade(trade);
     assertEquals(new BigDecimal(amt), tr.getFeeAmount());
     assertEquals(currency, tr.getFeeCurrency());

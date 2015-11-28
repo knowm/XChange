@@ -3,7 +3,7 @@ package com.xeiam.xchange.examples.mexbt.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.mexbt.MeXBTDemoUtils;
 import com.xeiam.xchange.mexbt.dto.MeXBTException;
@@ -32,7 +32,7 @@ public class AccountDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println(accountInfo);
 
-    String address = accountService.requestDepositAddress(Currencies.BTC);
+    String address = accountService.requestDepositAddress(Currency.BTC);
     System.out.println(address);
   }
 

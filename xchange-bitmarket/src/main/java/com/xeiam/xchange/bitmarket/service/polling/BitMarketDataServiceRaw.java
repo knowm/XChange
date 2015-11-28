@@ -24,17 +24,17 @@ public class BitMarketDataServiceRaw extends BitMarketBasePollingService {
 
   public BitMarketTicker getBitMarketTicker(CurrencyPair currencyPair) throws IOException {
 
-    return bitMarket.getTicker(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString());
+    return bitMarket.getTicker(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
   }
 
   public BitMarketOrderBook getBitMarketOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    return bitMarket.getOrderBook(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString());
+    return bitMarket.getOrderBook(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
   }
 
   public BitMarketTrade[] getBitMarketTrades(CurrencyPair currencyPair) throws IOException {
 
-    return bitMarket.getTrades(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString());
+    return bitMarket.getTrades(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
   }
 
 }

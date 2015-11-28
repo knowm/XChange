@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,7 +25,6 @@ import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTickers;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -113,12 +113,12 @@ public class BTERAdapterTest {
     AccountInfo accountInfo = BTERAdapters.adaptAccountInfo(funds);
 
     assertThat(accountInfo.getWallets()).hasSize(4);
-    assertThat(accountInfo.getBalance(Currencies.BTC)).isEqualTo("0.00010165");
+    assertThat(accountInfo.getBalance(Currency.BTC.toString())).isEqualTo("0.00010165");
 
-    assertThat(accountInfo.getWallet(Currencies.BTC).getAvailable()).isEqualTo(new BigDecimal("0.00010165"));
-    assertThat(accountInfo.getWallet(Currencies.BTC).getFrozen()).isEqualTo(BigDecimal.ZERO);
-    assertThat(accountInfo.getWallet(Currencies.LTC).getAvailable()).isEqualTo(new BigDecimal("0.00166859"));
-    assertThat(accountInfo.getWallet(Currencies.LTC).getFrozen()).isEqualTo(new BigDecimal("0.384"));
+    assertThat(accountInfo.getWallet(Currency.BTC).getAvailable()).isEqualTo(new BigDecimal("0.00010165"));
+    assertThat(accountInfo.getWallet(Currency.BTC).getFrozen()).isEqualTo(BigDecimal.ZERO);
+    assertThat(accountInfo.getWallet(Currency.LTC).getAvailable()).isEqualTo(new BigDecimal("0.00166859"));
+    assertThat(accountInfo.getWallet(Currency.LTC).getFrozen()).isEqualTo(new BigDecimal("0.384"));
   }
 
   @Test

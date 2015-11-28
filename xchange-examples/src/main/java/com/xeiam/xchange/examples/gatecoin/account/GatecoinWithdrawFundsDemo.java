@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.examples.gatecoin.GatecoinDemoUtils;
 import com.xeiam.xchange.gatecoin.dto.account.Results.GatecoinWithdrawResult;
 import com.xeiam.xchange.gatecoin.service.polling.GatecoinAccountServiceRaw;
@@ -24,7 +25,7 @@ public class GatecoinWithdrawFundsDemo {
 
   private static void generic(PollingAccountService accountService) throws IOException {
 
-    String result = accountService.withdrawFunds("BTC", BigDecimal.valueOf(0.1), "AddresssName");
+    String result = accountService.withdrawFunds(Currency.BTC, BigDecimal.valueOf(0.1), "AddresssName");
     System.out.println("WithdrawResult: " + result);
   }
 

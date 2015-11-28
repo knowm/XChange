@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.kraken.dto.account.KrakenDepositAddress;
@@ -28,13 +29,13 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Pol
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
-    return withdraw(null, currency, address, amount).getRefid();
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+    return withdraw(null, currency.toString(), address, amount).getRefid();
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... args) throws IOException {
-    KrakenDepositAddress[] depositAddresses = getDepositAddresses(currency, "Bitcoin", false);
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+    KrakenDepositAddress[] depositAddresses = getDepositAddresses(currency.toString(), "Bitcoin", false);
     return KrakenAdapters.adaptKrakenDepositAddress(depositAddresses);
   }
 

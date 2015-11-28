@@ -27,7 +27,7 @@ public class BitcurexTickerDemo {
   private static void requestData(Exchange bitcurex, CurrencyPair pair) throws IOException {
 
     generic(bitcurex, pair);
-    raw(bitcurex, pair.counterSymbol);
+    raw(bitcurex, pair.counter.getCurrencyCode());
   }
 
   private static void generic(Exchange bitcurex, CurrencyPair pair) throws IOException {

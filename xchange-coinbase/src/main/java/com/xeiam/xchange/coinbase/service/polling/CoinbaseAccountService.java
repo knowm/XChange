@@ -9,6 +9,7 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseAddress;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseSendMoneyRequest;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -40,15 +41,15 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw impl
    *         transaction, including the blockchain transaction hash.
    */
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    final CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction.createSendMoneyRequest(address, currency, amount);
+    final CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction.createSendMoneyRequest(address, currency.toString(), amount);
     final CoinbaseTransaction sendMoneyTransaction = super.sendMoneyCoinbaseRequest(sendMoneyRequest);
     return sendMoneyTransaction.getId();
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... arguments) throws IOException {
+  public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
 
     final CoinbaseAddress receiveAddress = super.getCoinbaseReceiveAddress();
     return receiveAddress.getAddress();

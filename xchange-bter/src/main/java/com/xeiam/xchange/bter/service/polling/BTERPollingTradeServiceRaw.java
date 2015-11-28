@@ -63,7 +63,7 @@ public class BTERPollingTradeServiceRaw extends BTERBasePollingService {
    */
   public String placeBTERLimitOrder(CurrencyPair currencyPair, BTEROrderType orderType, BigDecimal rate, BigDecimal amount) throws IOException {
 
-    String pair = String.format("%s_%s", currencyPair.baseSymbol, currencyPair.counterSymbol).toLowerCase();
+    String pair = String.format("%s_%s", currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()).toLowerCase();
     BTERPlaceOrderReturn orderId = bter.placeOrder(pair, orderType, rate, amount, apiKey, signatureCreator, exchange.getNonceFactory());
 
     return handleResponse(orderId).getOrderId();

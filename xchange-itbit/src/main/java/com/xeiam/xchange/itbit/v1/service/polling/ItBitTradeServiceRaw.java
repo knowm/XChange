@@ -33,7 +33,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
   public ItBitOrder[] getItBitOpenOrders(CurrencyPair currencyPair) throws IOException {
 
-    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), currencyPair.baseSymbol+currencyPair.counterSymbol, "1", "1000",
+    ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), currencyPair.base.getCurrencyCode()+currencyPair.counter.getCurrencyCode(), "1", "1000",
         "open", walletId);
 
     return orders;
@@ -64,12 +64,12 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
   public ItBitOrder placeItBitLimitOrder(LimitOrder limitOrder) throws IOException {
 
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
-    String baseCurrency = limitOrder.getCurrencyPair().baseSymbol;
+    String baseCurrency = limitOrder.getCurrencyPair().base.getCurrencyCode();
     String amount = ItBitAdapters.formatCryptoAmount(limitOrder.getTradableAmount());
     String price  = ItBitAdapters.formatFiatAmount(limitOrder.getLimitPrice());
 
     ItBitOrder postOrder = itBitAuthenticated.postOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId,
-        new ItBitPlaceOrderRequest(side, "limit", baseCurrency, amount, price, baseCurrency + limitOrder.getCurrencyPair().counterSymbol));
+        new ItBitPlaceOrderRequest(side, "limit", baseCurrency, amount, price, baseCurrency + limitOrder.getCurrencyPair().counter.getCurrencyCode()));
 
     return postOrder;
   }

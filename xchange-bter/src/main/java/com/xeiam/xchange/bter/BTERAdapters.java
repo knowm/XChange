@@ -19,6 +19,7 @@ import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrder;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
 import com.xeiam.xchange.bter.dto.trade.BTERTrade;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -59,7 +60,7 @@ public final class BTERAdapters {
     BigDecimal last = bterTicker.getLast();
     BigDecimal low = bterTicker.getLow();
     BigDecimal high = bterTicker.getHigh();
-    BigDecimal volume = bterTicker.getVolume(currencyPair.baseSymbol);
+    BigDecimal volume = bterTicker.getVolume(currencyPair.base.getCurrencyCode());
 
     return new Ticker.Builder().currencyPair(currencyPair).ask(ask).bid(bid).last(last).low(low).high(high).volume(volume).build();
   }
@@ -176,7 +177,7 @@ public final class BTERAdapters {
     Date timestamp = DateUtils.fromMillisUtc(bterTrade.getTimeUnix() * 1000);
     CurrencyPair currencyPair = adaptCurrencyPair(bterTrade.getPair());
 
-    return new UserTrade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null, null, null);
+    return new UserTrade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null, null, (Currency)null);
   }
 
 }

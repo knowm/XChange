@@ -3,6 +3,7 @@ package com.xeiam.xchange.ripple.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.UserTrade;
@@ -16,7 +17,7 @@ public class RippleUserTrade extends UserTrade {
   private final BigDecimal counterTransferFee;
 
   public RippleUserTrade(final OrderType type, final BigDecimal tradableAmount, final CurrencyPair currencyPair, final BigDecimal price,
-      final Date timestamp, final String id, final String orderId, final BigDecimal feeAmount, final String feeCurrency,
+      final Date timestamp, final String id, final String orderId, final BigDecimal feeAmount, final Currency feeCurrency,
       final String baseCounterparty, final String counterCounterparty, final BigDecimal baseTransferFee, final BigDecimal counterTransferFee) {
     super(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
     this.baseCounterparty = baseCounterparty;
@@ -38,17 +39,13 @@ public class RippleUserTrade extends UserTrade {
     return baseTransferFee;
   }
 
-  public String getBaseTransferFeeCurrency() {
-    return currencyPair.baseSymbol;
-  }
+  public Currency getBaseTransferFeeCurrency() { return currencyPair.base; }
 
   public BigDecimal getCounterTransferFee() {
     return counterTransferFee;
   }
 
-  public String getCounterTransferFeeCurrency() {
-    return currencyPair.counterSymbol;
-  }
+  public Currency getCounterTransferFeeCurrency() { return currencyPair.counter; }
 
   public static class Builder extends UserTrade.Builder {
 

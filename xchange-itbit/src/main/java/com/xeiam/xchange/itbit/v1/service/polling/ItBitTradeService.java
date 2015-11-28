@@ -75,7 +75,7 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
     ++pageNumber;
 
     CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-    String currency = pair.baseSymbol + pair.counterSymbol;
+    String currency = pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
 
     return ItBitAdapters.adaptTradeHistory(getItBitTradeHistory(currency, toString(pageNumber), toString(pageLength)));
   }

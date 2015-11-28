@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -172,7 +173,7 @@ public final class ItBitAdapters {
       Date timestamp = parseDate(itBitOrder.getCreatedTime());
 
       trades.add(new UserTrade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), timestamp, itBitOrder.getId(),
-          itBitOrder.getId(), null, null));
+          itBitOrder.getId(), null, (Currency)null));
     }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);

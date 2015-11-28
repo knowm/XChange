@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -62,7 +62,7 @@ public class KrakenAdaptersTest {
     assertThat(ticker.getLast()).isEqualTo(new BigDecimal("560.87711"));
     assertThat(ticker.getVwap()).isEqualTo(new BigDecimal("576.77284"));
     assertThat(ticker.getVolume()).isEqualByComparingTo("600.91850325");
-    assertThat(ticker.getCurrencyPair().baseSymbol).isEqualTo(currencyPair.baseSymbol);
+    assertThat(ticker.getCurrencyPair().base.getCurrencyCode()).isEqualTo(currencyPair.base.getCurrencyCode());
   }
 
   @Test
@@ -137,8 +137,8 @@ public class KrakenAdaptersTest {
 
     AccountInfo info = KrakenAdapters.adaptBalance(krakenBalance.getResult(), null);
 
-    assertThat(info.getWallet(Currencies.EUR).getBalance()).isEqualTo(new BigDecimal("1.0539"));
-    assertThat(info.getWallet(Currencies.BTC).getBalance()).isEqualTo(new BigDecimal("0.4888583300"));
+    assertThat(info.getWallet(Currency.EUR).getBalance()).isEqualTo(new BigDecimal("1.0539"));
+    assertThat(info.getWallet(Currency.BTC).getBalance()).isEqualTo(new BigDecimal("0.4888583300"));
 
   }
 
@@ -159,8 +159,8 @@ public class KrakenAdaptersTest {
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
     assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("13.00000");
     assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("0.01000000");
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().baseSymbol).isEqualTo(Currencies.LTC);
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counterSymbol).isEqualTo(Currencies.EUR);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().base).isEqualTo(Currency.LTC);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counter).isEqualTo(Currency.EUR);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
   }
 
@@ -181,8 +181,8 @@ public class KrakenAdaptersTest {
     assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
     assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("500.00000");
     assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("1.00000000");
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().baseSymbol).isEqualTo(Currencies.BTC);
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counterSymbol).isEqualTo(Currencies.EUR);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().base).isEqualTo(Currency.BTC);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counter).isEqualTo(Currency.EUR);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
   }
 
@@ -207,11 +207,11 @@ public class KrakenAdaptersTest {
     assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD");
     assertThat(trade.getPrice()).isEqualTo("32.07562");
     assertThat(trade.getTradableAmount()).isEqualTo("0.50000000");
-    assertThat(trade.getCurrencyPair().baseSymbol).isEqualTo(Currencies.BTC);
-    assertThat(trade.getCurrencyPair().counterSymbol).isEqualTo(Currencies.LTC);
+    assertThat(trade.getCurrencyPair().base).isEqualTo(Currency.BTC);
+    assertThat(trade.getCurrencyPair().counter).isEqualTo(Currency.LTC);
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
     assertThat(trade.getFeeAmount()).isEqualTo("0.03208");
-    assertThat(trade.getFeeCurrency()).isEqualTo(Currencies.LTC);
+    assertThat(trade.getFeeCurrency()).isEqualTo(Currency.LTC);
     assertThat(((KrakenUserTrade) trade).getCost()).isEqualTo("16.03781");
   }
 }

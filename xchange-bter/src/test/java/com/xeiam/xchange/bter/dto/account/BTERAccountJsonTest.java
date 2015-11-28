@@ -7,10 +7,10 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.currency.Currencies;
 
 public class BTERAccountJsonTest {
 
@@ -28,10 +28,10 @@ public class BTERAccountJsonTest {
 
     Map<String, BigDecimal> availableFunds = funds.getAvailableFunds();
     assertThat(availableFunds).hasSize(4);
-    assertThat(availableFunds.get(Currencies.FTC)).isEqualTo("0.00003326");
+    assertThat(availableFunds.get("FTC")).isEqualTo("0.00003326");
 
     Map<String, BigDecimal> lockedFunds = funds.getLockedFunds();
     assertThat(lockedFunds).hasSize(1);
-    assertThat(lockedFunds.get(Currencies.LTC)).isEqualTo("0.384");
+    assertThat(lockedFunds.get("LTC")).isEqualTo("0.384");
   }
 }

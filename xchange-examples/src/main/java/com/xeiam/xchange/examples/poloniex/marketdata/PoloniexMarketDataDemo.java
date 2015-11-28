@@ -6,7 +6,7 @@ import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.poloniex.PoloniexExchange;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexMarketDataServiceRaw;
@@ -27,7 +27,7 @@ public class PoloniexMarketDataDemo {
 
     Exchange poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
     PollingMarketDataService dataService = poloniex.getPollingMarketDataService();
-    currencyPair = new CurrencyPair("XMR", Currencies.BTC);
+    currencyPair = new CurrencyPair(Currency.XMR, Currency.BTC);
 
     generic(dataService);
     raw((PoloniexMarketDataServiceRaw) dataService);

@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.kraken.KrakenExchange;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenAssets;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenServerTime;
@@ -27,7 +27,7 @@ public class KrakenMarketDataRawSpecificDemo {
     KrakenAssets assets = krakenMarketDataService.getKrakenAssets();
     System.out.println(assets);
 
-    KrakenSpreads spreads = krakenMarketDataService.getKrakenSpreads(Currencies.BTC, Currencies.USD);
+    KrakenSpreads spreads = krakenMarketDataService.getKrakenSpreads(Currency.BTC, Currency.USD);
     System.out.println(spreads);
   }
 }

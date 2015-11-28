@@ -29,17 +29,17 @@ public class VirtExMarketDataServiceRaw extends VirtexBasePollingService {
 
   public VirtExTicker getVirtExTicker(CurrencyPair currencyPair) throws IOException {
 
-    return virtEx.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol).getTicker();
+    return virtEx.getTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()).getTicker();
   }
 
   public VirtExDepth getVirtExOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    return virtEx.getFullDepth(currencyPair.baseSymbol, currencyPair.counterSymbol).getDepth();
+    return virtEx.getFullDepth(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()).getDepth();
   }
 
   public List<VirtExTrade> getVirtExTrades(CurrencyPair currencyPair) throws IOException {
 
-    return virtEx.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol).getTrades();
+    return virtEx.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()).getTrades();
   }
 
 }

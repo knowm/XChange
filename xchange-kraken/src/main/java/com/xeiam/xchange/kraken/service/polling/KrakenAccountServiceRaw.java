@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.kraken.dto.account.KrakenDepositAddress;
 import com.xeiam.xchange.kraken.dto.account.KrakenDepositMethods;
@@ -81,13 +82,15 @@ public class KrakenAccountServiceRaw extends KrakenBasePollingService {
    * @return KrakenTradeBalanceInfo
    * @throws IOException
    */
-  public KrakenTradeBalanceInfo getKrakenTradeBalance(String valuationCurrency) throws IOException {
+  public KrakenTradeBalanceInfo getKrakenTradeBalance(Currency valuationCurrency) throws IOException {
+
+    String valuationCurrencyCode = null;
 
     if (valuationCurrency != null) {
-      valuationCurrency = getKrakenCurrencyCode(valuationCurrency);
+      valuationCurrencyCode = getKrakenCurrencyCode(valuationCurrency);
     }
 
-    KrakenTradeBalanceInfoResult balanceResult = kraken.tradeBalance(null, valuationCurrency, exchange.getExchangeSpecification().getApiKey(),
+    KrakenTradeBalanceInfoResult balanceResult = kraken.tradeBalance(null, valuationCurrencyCode, exchange.getExchangeSpecification().getApiKey(),
         signatureCreator, exchange.getNonceFactory());
     return checkResult(balanceResult);
   }
@@ -125,7 +128,7 @@ public class KrakenAccountServiceRaw extends KrakenBasePollingService {
    * @return
    * @throws IOException
    */
-  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, String start, String end, String offset, String... assets)
+  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, String start, String end, String offset, Currency... assets)
       throws IOException {
 
     String ledgerTypeString = (ledgerType == null) ? "all" : ledgerType.toString().toLowerCase();

@@ -22,6 +22,7 @@ import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrder;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrderStatus;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -297,7 +298,7 @@ public final class BTCChinaAdapters {
     final Date date = adaptDate(transaction.getDate());
     final String tradeId = String.valueOf(transaction.getId());
 
-    return new UserTrade(orderType, amount, currencyPair, price, date, tradeId, null, null, null);
+    return new UserTrade(orderType, amount, currencyPair, price, date, tradeId, null, null, (Currency)null);
   }
 
   /**
@@ -319,7 +320,7 @@ public final class BTCChinaAdapters {
 
   public static String adaptMarket(CurrencyPair currencyPair) {
 
-    return currencyPair.baseSymbol.toLowerCase() + currencyPair.counterSymbol.toLowerCase();
+    return currencyPair.base.getCurrencyCode().toLowerCase() + currencyPair.counter.getCurrencyCode().toLowerCase();
   }
 
   public static CurrencyPair adaptCurrencyPairFromTickerMarketKey(String market) {

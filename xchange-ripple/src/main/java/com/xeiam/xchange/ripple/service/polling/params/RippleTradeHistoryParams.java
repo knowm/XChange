@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
@@ -29,8 +30,8 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
   private int apiCallCount = 0;
   private int apiCallCountLimit = RippleTradeHistoryCount.DEFAULT_API_CALL_COUNT;
 
-  private Collection<String> preferredBaseCurrency = new HashSet<String>();
-  private Collection<String> preferredCounterCurrency = new HashSet<String>();
+  private Collection<Currency> preferredBaseCurrency = new HashSet<Currency>();
+  private Collection<Currency> preferredCounterCurrency = new HashSet<Currency>();
 
   public RippleTradeHistoryParams() {
     setPageLength(DEFAULT_PAGE_LENGTH);
@@ -102,21 +103,19 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
     return tradeCountLimit;
   }
 
-  public void addPreferredBaseCurrency(final String value) {
-    preferredBaseCurrency.add(value);
-  }
+  public void addPreferredBaseCurrency(final Currency value) { preferredBaseCurrency.add(value); }
 
   @Override
-  public Collection<String> getPreferredBaseCurrency() {
+  public Collection<Currency> getPreferredBaseCurrency() {
     return preferredBaseCurrency;
   }
 
-  public void addPreferredCounterCurrency(final String value) {
+  public void addPreferredCounterCurrency(final Currency value) {
     preferredCounterCurrency.add(value);
   }
 
   @Override
-  public Collection<String> getPreferredCounterCurrency() {
+  public Collection<Currency> getPreferredCounterCurrency() {
     return preferredCounterCurrency;
   }
 

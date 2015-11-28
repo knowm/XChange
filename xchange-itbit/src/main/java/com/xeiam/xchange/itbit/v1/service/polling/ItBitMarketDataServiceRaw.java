@@ -22,14 +22,14 @@ public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
 
   public ItBitTicker getItBitTicker(CurrencyPair currencyPair) throws IOException {
 
-    ItBitTicker ticker = itBitAuthenticated.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    ItBitTicker ticker = itBitAuthenticated.getTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
 
     return ticker;
   }
 
   public ItBitDepth getItBitDepth(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    ItBitDepth depth = itBitPublic.getDepth(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    ItBitDepth depth = itBitPublic.getDepth(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
 
     return depth;
   }
@@ -41,7 +41,7 @@ public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
       since = ((Number) args[0]).longValue();
     }
 
-    ItBitTrade[] trades = itBitPublic.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol, since);
+    ItBitTrade[] trades = itBitPublic.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), since);
     return trades;
   }
 }

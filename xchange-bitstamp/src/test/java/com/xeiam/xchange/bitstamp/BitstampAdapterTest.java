@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,11 +44,11 @@ public class BitstampAdapterTest {
     AccountInfo accountInfo = BitstampAdapters.adaptAccountInfo(bitstampBalance, "Joe Mama");
     assertThat(accountInfo.getUsername()).isEqualTo("Joe Mama");
     assertThat(accountInfo.getTradingFee()).isEqualTo(new BigDecimal("0.5000"));
-    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("USD");
+    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo(Currency.USD);
     assertThat(accountInfo.getWallets().get(0).getBalance().toString()).isEqualTo("172.87");
     assertThat(accountInfo.getWallets().get(0).getAvailable().toString()).isEqualTo("0.00");
     assertThat(accountInfo.getWallets().get(0).getFrozen().toString()).isEqualTo("172.87");
-    assertThat(accountInfo.getWallets().get(1).getCurrency()).isEqualTo("BTC");
+    assertThat(accountInfo.getWallets().get(1).getCurrency()).isEqualTo(Currency.BTC);
     assertThat(accountInfo.getWallets().get(1).getBalance().toString()).isEqualTo("6.99990000");
     assertThat(accountInfo.getWallets().get(1).getAvailable().toString()).isEqualTo("6.99990000");
     assertThat(accountInfo.getWallets().get(1).getFrozen().toString()).isEqualTo("0");

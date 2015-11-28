@@ -27,19 +27,19 @@ public class BitVcFuturesMarketDataService extends BitVcFuturesMarketDataService
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitVcFuturesAdapter.adaptTicker(getBitVcTicker(currencyPair.baseSymbol.toLowerCase()), currencyPair);
+    return BitVcFuturesAdapter.adaptTicker(getBitVcTicker(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitVcFuturesAdapter.adaptOrderBook(getBitVcDepth(currencyPair.baseSymbol.toLowerCase()), currencyPair);
+    return BitVcFuturesAdapter.adaptOrderBook(getBitVcDepth(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitVcFuturesAdapter.adaptTrades(getBitVcTrades(currencyPair.baseSymbol.toLowerCase()), currencyPair);
+    return BitVcFuturesAdapter.adaptTrades(getBitVcTrades(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
   }
 
 }

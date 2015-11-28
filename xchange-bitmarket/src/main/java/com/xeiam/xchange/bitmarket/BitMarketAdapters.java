@@ -16,6 +16,7 @@ import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryOperations;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrade;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrades;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrder;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -50,12 +51,13 @@ public class BitMarketAdapters {
    */
   public static AccountInfo adaptAccountInfo(BitMarketBalance balance, String username) {
 
-    Map<String, Wallet> wallets = new HashMap<String, Wallet>();
+    Map<Currency, Wallet> wallets = new HashMap<Currency, Wallet>();
 
     for (Map.Entry<String, BigDecimal> entry : balance.getAvailable().entrySet()) {
+      Currency currency = Currency.getInstance(entry.getKey());
       BigDecimal frozen = balance.getBlocked().containsKey(entry.getKey()) ? balance.getBlocked().get(entry.getKey()) : new BigDecimal("0");
       BigDecimal available = entry.getValue();
-      wallets.put(entry.getKey(), new Wallet(entry.getKey(), available.add(frozen), available, frozen));
+      wallets.put(currency, new Wallet(currency, available.add(frozen), available, frozen));
     }
 
     return new AccountInfo(username, wallets);

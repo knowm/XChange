@@ -11,6 +11,7 @@ import java.util.Set;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalance;
 import com.xeiam.xchange.bleutrade.dto.marketdata.*;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -135,11 +136,11 @@ public class BleutradeAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(List<BleutradeCurrency> bleutradeCurrencies, List<BleutradeMarket> bleutradeMarkets) {
 
     Map<CurrencyPair, MarketMetaData> marketMetaDataMap = new HashMap<CurrencyPair, MarketMetaData>();
-    Map<String, CurrencyMetaData> currencyMetaDataMap = new HashMap<String, CurrencyMetaData>();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<Currency, CurrencyMetaData>();
 
     for (BleutradeCurrency bleutradeCurrency : bleutradeCurrencies) {
       // the getTxFee parameter is the withdrawal charge in the currency in question
-      currencyMetaDataMap.put(bleutradeCurrency.getCurrency(), new CurrencyMetaData(8));
+      currencyMetaDataMap.put(Currency.getInstance(bleutradeCurrency.getCurrency()), new CurrencyMetaData(8));
     }
 
     // https://bleutrade.com/help/fees_and_deadlines 11/25/2015 all == 0.25%

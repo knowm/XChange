@@ -39,7 +39,7 @@ public class CoinbaseMarketDataService extends CoinbaseMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, final Object... args) throws IOException {
 
-    final String currency = currencyPair.counterSymbol;
+    final String currency = currencyPair.counter.getCurrencyCode();
     final CoinbasePrice buyPrice = super.getCoinbaseBuyPrice(BigDecimal.ONE, currency);
     final CoinbasePrice sellPrice = super.getCoinbaseSellPrice(BigDecimal.ONE, currency);
     final CoinbaseMoney spotRate = super.getCoinbaseSpotRate(currency);

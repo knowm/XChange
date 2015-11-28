@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.taurus.TaurusDemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -41,10 +41,10 @@ public class TaurusAccountDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
 
-    String depositAddress = accountService.requestDepositAddress(Currencies.BTC);
+    String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawFunds("BTC", new BigDecimal(1).movePointLeft(4), "1MqzGxp6fPdkCyEHe3hZK7rgnSSzHABh7f");
+    String withdrawResult = accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "1MqzGxp6fPdkCyEHe3hZK7rgnSSzHABh7f");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 

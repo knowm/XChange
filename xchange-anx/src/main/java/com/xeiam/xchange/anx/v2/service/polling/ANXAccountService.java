@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.anx.ANXUtils;
 import com.xeiam.xchange.anx.v2.ANXAdapters;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -34,7 +35,7 @@ public class ANXAccountService extends ANXAccountServiceRaw implements PollingAc
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
     if (amount.scale() > ANXUtils.VOLUME_AND_AMOUNT_MAX_SCALE) {
       throw new IllegalArgumentException("Amount scale exceed " + ANXUtils.VOLUME_AND_AMOUNT_MAX_SCALE);
@@ -44,14 +45,14 @@ public class ANXAccountService extends ANXAccountServiceRaw implements PollingAc
       throw new IllegalArgumentException("Amount cannot be null");
     }
 
-    anxWithdrawFunds(currency, amount, address);
+    anxWithdrawFunds(currency.toString(), amount, address);
     return "success";
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... args) throws IOException {
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
-    return anxRequestDepositAddress(currency).getAddress();
+    return anxRequestDepositAddress(currency.toString()).getAddress();
   }
 
 }

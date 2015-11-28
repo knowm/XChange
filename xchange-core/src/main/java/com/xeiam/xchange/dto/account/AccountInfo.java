@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
@@ -35,7 +35,7 @@ public final class AccountInfo {
    * <p>
    * The keys represent the currency of the wallet.
    */
-  private final Map<String, Wallet> walletsMap;
+  private final Map<Currency, Wallet> walletsMap;
 
   /**
    * Constructor
@@ -60,7 +60,7 @@ public final class AccountInfo {
   /**
    * @see #AccountInfo(String, BigDecimal, Map).
    */
-  public AccountInfo(String username, Map<String, Wallet> wallets) {
+  public AccountInfo(String username, Map<Currency, Wallet> wallets) {
     this(username, null, wallets);
   }
 
@@ -78,7 +78,7 @@ public final class AccountInfo {
     this.username = username;
     this.tradingFee = tradingFee;
     this.wallets = wallets;
-    this.walletsMap = new HashMap<String, Wallet>();
+    this.walletsMap = new HashMap<Currency, Wallet>();
     for (Wallet wallet : wallets) {
       this.walletsMap.put(wallet.getCurrency(), wallet);
     }
@@ -95,7 +95,7 @@ public final class AccountInfo {
     this.username = username;
     this.tradingFee = tradingFee;
     this.wallets = new ArrayList<Wallet>();
-    this.walletsMap = new HashMap<String, Wallet>();
+    this.walletsMap = new HashMap<Currency, Wallet>();
     for (Wallet wallet : wallets) {
       this.wallets.add(wallet);
       this.walletsMap.put(wallet.getCurrency(), wallet);
@@ -107,9 +107,9 @@ public final class AccountInfo {
    *
    * @param username the user name.
    * @param tradingFee the trading fee.
-   * @param wallets the wallets, key is {@link Currencies}.
+   * @param wallets the wallets, key is {@link Currency}.
    */
-  public AccountInfo(String username, BigDecimal tradingFee, Map<String, Wallet> wallets) {
+  public AccountInfo(String username, BigDecimal tradingFee, Map<Currency, Wallet> wallets) {
     this.username = username;
     this.tradingFee = tradingFee;
     this.walletsMap = wallets;
@@ -146,23 +146,38 @@ public final class AccountInfo {
   /**
    * Returns the wallet of the specified currency.
    *
-   * @param currency one of the {@link Currencies}.
+   * @param currency one of the {@link Currency}.
    * @return the wallet of the specified currency, or a zero balance wallet if no wallet with such currency.
    */
-  public Wallet getWallet(String currency) {
+  public Wallet getWallet(Currency currency) {
     Wallet wallet = this.walletsMap.get(currency);
     return wallet == null ? Wallet.zero(currency) : wallet;
   }
 
   /**
-   * Utility method to locate an exchange balance in the given currency
-   *
-   * @param currency A valid currency unit (e.g. CurrencyUnit.USD or CurrencyUnit.of("BTC"))
-   * @return The balance, or zero if not found
-   * @deprecated Use {@link #getWallet(String)} instead.
+   * @deprecated use #getWallet(Currenct)
    */
   @Deprecated
-  public BigDecimal getBalance(String currency) {
+  public Wallet getWallet(String currency) {
+    return getWallet(Currency.getInstance(currency));
+  }
+
+  /**
+   * Utility method to locate an exchange balance in the given currency
+   *
+   * @param currencyUnit A valid currency unit (e.g. CurrencyUnit.USD or CurrencyUnit.of("BTC"))
+   * @return The balance, or zero if not found
+   * @deprecated Use {@link #getWallet(Currency)} instead.
+   */
+  @Deprecated
+  public BigDecimal getBalance(String currencyUnit) {
+
+    Currency currency = Currency.getInstance(currencyUnit);
+
+    return getBalance(currency);
+  }
+  @Deprecated
+  public BigDecimal getBalance(Currency currency) {
 
     for (Wallet wallet : wallets) {
       if (wallet.getCurrency().equals(currency)) {

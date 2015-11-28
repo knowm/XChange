@@ -12,7 +12,7 @@ import com.xeiam.xchange.cexio.dto.marketdata.CexIODepth;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTicker;
 import com.xeiam.xchange.cexio.dto.marketdata.CexIOTrade;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -123,92 +123,92 @@ public class CexIOAdapters {
 
     // Adapt to XChange DTOs
     if (balance.getBalanceBTC() != null) {
-      wallets.add(new Wallet(Currencies.BTC, balance.getBalanceBTC().getAvailable(), "available"));
-      wallets.add(new Wallet(Currencies.BTC, balance.getBalanceBTC().getOrders(), "orders"));
-      wallets.add(adaptWallet(Currencies.BTC, balance.getBalanceBTC()));
+      wallets.add(new Wallet(Currency.BTC, balance.getBalanceBTC().getAvailable(), "available"));
+      wallets.add(new Wallet(Currency.BTC, balance.getBalanceBTC().getOrders(), "orders"));
+      wallets.add(adaptWallet(Currency.BTC, balance.getBalanceBTC()));
     }
     if (balance.getBalanceLTC() != null) {
-      wallets.add(new Wallet(Currencies.LTC, balance.getBalanceLTC().getAvailable(), "available"));
-      wallets.add(new Wallet(Currencies.LTC, balance.getBalanceLTC().getOrders(), "orders"));
-      wallets.add(adaptWallet(Currencies.LTC, balance.getBalanceLTC()));
+      wallets.add(new Wallet(Currency.LTC, balance.getBalanceLTC().getAvailable(), "available"));
+      wallets.add(new Wallet(Currency.LTC, balance.getBalanceLTC().getOrders(), "orders"));
+      wallets.add(adaptWallet(Currency.LTC, balance.getBalanceLTC()));
     }
     if (balance.getBalanceNMC() != null) {
-      wallets.add(new Wallet(Currencies.NMC, balance.getBalanceNMC().getAvailable(), "available"));
-      wallets.add(new Wallet(Currencies.NMC, balance.getBalanceNMC().getOrders(), "orders"));
-      wallets.add(adaptWallet(Currencies.NMC, balance.getBalanceNMC()));
+      wallets.add(new Wallet(Currency.NMC, balance.getBalanceNMC().getAvailable(), "available"));
+      wallets.add(new Wallet(Currency.NMC, balance.getBalanceNMC().getOrders(), "orders"));
+      wallets.add(adaptWallet(Currency.NMC, balance.getBalanceNMC()));
     }
     if (balance.getBalanceIXC() != null) {
-      wallets.add(new Wallet(Currencies.IXC, balance.getBalanceIXC().getAvailable(), "available"));
-      wallets.add(adaptWallet(Currencies.IXC, balance.getBalanceIXC()));
+      wallets.add(new Wallet(Currency.IXC, balance.getBalanceIXC().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.IXC, balance.getBalanceIXC()));
     }
     if (balance.getBalanceDVC() != null) {
-      wallets.add(new Wallet(Currencies.DVC, balance.getBalanceDVC().getAvailable(), "available"));
-      wallets.add(adaptWallet(Currencies.DVC, balance.getBalanceDVC()));
+      wallets.add(new Wallet(Currency.DVC, balance.getBalanceDVC().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.DVC, balance.getBalanceDVC()));
     }
     if (balance.getBalanceGHS() != null) {
-      wallets.add(new Wallet(Currencies.GHs, balance.getBalanceGHS().getAvailable(), "available"));
-      wallets.add(new Wallet(Currencies.GHs, balance.getBalanceGHS().getOrders(), "orders"));
-      wallets.add(adaptWallet(Currencies.GHs, balance.getBalanceGHS()));
+      wallets.add(new Wallet(Currency.GHs, balance.getBalanceGHS().getAvailable(), "available"));
+      wallets.add(new Wallet(Currency.GHs, balance.getBalanceGHS().getOrders(), "orders"));
+      wallets.add(adaptWallet(Currency.GHs, balance.getBalanceGHS()));
     }
     if (balance.getBalanceUSD() != null) {
-      wallets.add(new Wallet(Currencies.USD, balance.getBalanceUSD().getAvailable(), "available"));
-      wallets.add(new Wallet(Currencies.USD, balance.getBalanceUSD().getOrders(), "orders"));
-      wallets.add(adaptWallet(Currencies.USD, balance.getBalanceUSD()));
+      wallets.add(new Wallet(Currency.USD, balance.getBalanceUSD().getAvailable(), "available"));
+      wallets.add(new Wallet(Currency.USD, balance.getBalanceUSD().getOrders(), "orders"));
+      wallets.add(adaptWallet(Currency.USD, balance.getBalanceUSD()));
     }
     if (balance.getBalanceDRK() != null) {
-      wallets.add(new Wallet(Currencies.DRK, balance.getBalanceDRK().getAvailable(), "available"));
-      wallets.add(new Wallet(Currencies.DRK, balance.getBalanceDRK().getOrders(), "orders"));
-      wallets.add(adaptWallet(Currencies.DRK, balance.getBalanceDRK()));
+      wallets.add(new Wallet(Currency.DRK, balance.getBalanceDRK().getAvailable(), "available"));
+      wallets.add(new Wallet(Currency.DRK, balance.getBalanceDRK().getOrders(), "orders"));
+      wallets.add(adaptWallet(Currency.DRK, balance.getBalanceDRK()));
     }
     if (balance.getBalanceEUR() != null) {
-      wallets.add(new Wallet(Currencies.EUR, balance.getBalanceEUR().getAvailable(), "available"));
-      wallets.add(adaptWallet(Currencies.EUR, balance.getBalanceEUR()));
+      wallets.add(new Wallet(Currency.EUR, balance.getBalanceEUR().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.EUR, balance.getBalanceEUR()));
     }
     if (balance.getBalanceDOGE() != null) {
-      wallets.add(new Wallet(Currencies.DOGE, balance.getBalanceDOGE().getAvailable(), "available"));
-      wallets.add(adaptWallet(Currencies.DOGE, balance.getBalanceDOGE()));
+      wallets.add(new Wallet(Currency.DOGE, balance.getBalanceDOGE().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.DOGE, balance.getBalanceDOGE()));
     }
     if (balance.getBalanceFTC() != null) {
-      wallets.add(new Wallet(Currencies.FTC, balance.getBalanceFTC().getAvailable(), "available"));
-      wallets.add(adaptWallet(Currencies.FTC, balance.getBalanceFTC()));
+      wallets.add(new Wallet(Currency.FTC, balance.getBalanceFTC().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.FTC, balance.getBalanceFTC()));
     }
     if (balance.getBalanceMEC() != null) {
-      wallets.add(new Wallet(Currencies.MEC, balance.getBalanceMEC().getAvailable(), "available"));
-      wallets.add(adaptWallet(Currencies.MEC, balance.getBalanceMEC()));
+      wallets.add(new Wallet(Currency.MEC, balance.getBalanceMEC().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.MEC, balance.getBalanceMEC()));
     }
     if (balance.getBalanceWDC() != null) {
-      wallets.add(new Wallet(Currencies.WDC, balance.getBalanceWDC().getAvailable(), "available"));
-      wallets.add(adaptWallet(Currencies.WDC, balance.getBalanceWDC()));
+      wallets.add(new Wallet(Currency.WDC, balance.getBalanceWDC().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.WDC, balance.getBalanceWDC()));
     }
     if (balance.getBalanceMYR() != null) {
-      wallets.add(new Wallet(Currencies.MYR, balance.getBalanceMYR().getAvailable(), "available"));
-      wallets.add(adaptWallet(Currencies.MYR, balance.getBalanceMYR()));
+      wallets.add(new Wallet(Currency.MYR, balance.getBalanceMYR().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.MYR, balance.getBalanceMYR()));
     }
     if (balance.getBalanceAUR() != null) {
-      wallets.add(new Wallet("AUR", balance.getBalanceAUR().getAvailable(), "available"));
-      wallets.add(adaptWallet("AUR", balance.getBalanceAUR()));
+      wallets.add(new Wallet(Currency.AUR, balance.getBalanceAUR().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.AUR, balance.getBalanceAUR()));
     }
     if (balance.getBalancePOT() != null) {
-      wallets.add(new Wallet("POT", balance.getBalancePOT().getAvailable(), "available"));
-      wallets.add(adaptWallet("POT", balance.getBalancePOT()));
+      wallets.add(new Wallet(Currency.POT, balance.getBalancePOT().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.POT, balance.getBalancePOT()));
     }
     if (balance.getBalanceANC() != null) {
-      wallets.add(new Wallet("ANC", balance.getBalanceANC().getAvailable(), "available"));
-      wallets.add(adaptWallet("ANC", balance.getBalanceANC()));
+      wallets.add(new Wallet(Currency.ANC, balance.getBalanceANC().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.ANC, balance.getBalanceANC()));
     }
     if (balance.getBalanceDGB() != null) {
-      wallets.add(new Wallet("DGB", balance.getBalanceDGB().getAvailable(), "available"));
-      wallets.add(adaptWallet("DGB", balance.getBalanceDGB()));
+      wallets.add(new Wallet(Currency.DGB, balance.getBalanceDGB().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.DGB, balance.getBalanceDGB()));
     }
     if (balance.getBalanceUSDE() != null) {
-      wallets.add(new Wallet("USDE", balance.getBalanceUSDE().getAvailable(), "available"));
-      wallets.add(adaptWallet("USDE", balance.getBalanceUSDE()));
+      wallets.add(new Wallet(Currency.USDE, balance.getBalanceUSDE().getAvailable(), "available"));
+      wallets.add(adaptWallet(Currency.USDE, balance.getBalanceUSDE()));
     }
 
     return new AccountInfo(userName, wallets);
   }
 
-  public static Wallet adaptWallet(String currency, CexIOBalance balance) {
+  public static Wallet adaptWallet(Currency currency, CexIOBalance balance) {
     return new Wallet(currency, balance.getAvailable().add(balance.getOrders()), balance.getAvailable(), balance.getOrders());
   }
 

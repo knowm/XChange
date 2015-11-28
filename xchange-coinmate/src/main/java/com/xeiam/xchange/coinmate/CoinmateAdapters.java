@@ -41,6 +41,7 @@ import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrdersEntry;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistoryEntry;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -113,11 +114,11 @@ public class CoinmateAdapters {
 
   public static AccountInfo adaptAccountInfo(CoinmateBalance coinmateBalance) {
 
-    Map<String, Wallet> wallets = new HashMap<String, Wallet>();
+    Map<Currency, Wallet> wallets = new HashMap<Currency, Wallet>();
     CoinmateBalanceData funds = coinmateBalance.getData();
 
     for (String lcCurrency : funds.keySet()) {
-      String currency = lcCurrency.toUpperCase();
+      Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
       Wallet wallet = new Wallet(currency, funds.get(lcCurrency).getBalance(), funds.get(lcCurrency).getAvailable(),
           funds.get(lcCurrency).getReserved());
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import com.xeiam.xchange.currency.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +50,7 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
     CampBXResponse campBXResponse = withdrawCampBXFunds(amount, address);
     logger.debug("campBXResponse = {}", campBXResponse);
@@ -62,7 +63,7 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... args) throws IOException {
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
     CampBXResponse campBXResponse = requestCampBXBitcoinDepositAddress();
     logger.debug("campBXResponse = {}", campBXResponse);

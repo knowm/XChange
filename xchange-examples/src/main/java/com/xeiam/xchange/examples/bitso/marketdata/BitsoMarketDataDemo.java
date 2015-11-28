@@ -9,7 +9,7 @@ import com.xeiam.xchange.bitso.BitsoExchange;
 import com.xeiam.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import com.xeiam.xchange.bitso.dto.marketdata.BitsoTicker;
 import com.xeiam.xchange.bitso.service.polling.BitsoMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -37,7 +37,7 @@ public class BitsoMarketDataDemo {
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
-    CurrencyPair cp = new CurrencyPair(Currencies.BTC, Currencies.MXN);
+    CurrencyPair cp = new CurrencyPair(Currency.BTC, Currency.MXN);
     Ticker ticker = marketDataService.getTicker(cp);
     System.out.println("Ticker: " + ticker);
 

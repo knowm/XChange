@@ -29,7 +29,7 @@ public class Btc38MarketDataService extends Btc38MarketDataServiceRaw implements
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Request data
-    Btc38Ticker btc38Ticker = getBtc38Ticker(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    Btc38Ticker btc38Ticker = getBtc38Ticker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
 
     // Adapt to XChange DTOs
     return btc38Ticker != null ? Btc38Adapters.adaptTicker(btc38Ticker, currencyPair) : null;

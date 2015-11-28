@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
@@ -34,7 +34,7 @@ public class CaVirtexTickerDemo {
     // Get the latest ticker data showing BTC to CAD
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_CAD);
 
-    System.out.println("Currency: " + Currencies.CAD);
+    System.out.println("Currency: " + Currency.CAD);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
@@ -46,7 +46,7 @@ public class CaVirtexTickerDemo {
     // Get the latest ticker data showing BTC to CAD
     VirtExTicker ticker = marketDataService.getVirtExTicker(CurrencyPair.BTC_CAD);
 
-    System.out.println("Currency: " + Currencies.CAD);
+    System.out.println("Currency: " + Currency.CAD);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
