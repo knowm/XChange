@@ -6,7 +6,7 @@ import java.util.*;
  * A Currency class roughly modeled after {@link java.util.Currency}.
  * </p>
  * Each object retains the code it was acquired with -- so {@link #getInstance}("BTC").{@link #getCurrencyCode}() will always be "BTC",
- * even though the proposed ISO 4217 symbol is "XBT"
+ * even though the proposed ISO 4217 code is "XBT"
  */
 public class Currency implements Comparable <Currency> {
 
@@ -334,11 +334,11 @@ public class Currency implements Comparable <Currency> {
   }
 
   /**
-   * Gets the unit symbol of this currency.
+   * Gets the unicode symbol of this currency.
    */
   public String getSymbol() {
 
-    return attributes.symbol;
+    return attributes.unicode;
   }
 
   /**
@@ -355,13 +355,13 @@ public class Currency implements Comparable <Currency> {
    *
    * @param commonCode commonly used code for this currency: "BTC"
    * @param name Name of the currency: "Bitcoin"
-   * @param symbol Symbol for the currency: new unicode "\u20BF" or bhat "฿"
+   * @param unicode Unicode symbol for the currency: "\u20BF" or "฿"
    * @param scale Number of digits past the decimal point for this currency
    * @param alternativeCodes Alternative codes for the currency: "XBT"
    */
-  private static Currency createCurrency(String commonCode, String name, String symbol, Integer scale, String... alternativeCodes) {
+  private static Currency createCurrency(String commonCode, String name, String unicode, Integer scale, String... alternativeCodes) {
 
-    CurrencyAttributes attributes = new CurrencyAttributes(commonCode, name, symbol, scale, alternativeCodes);
+    CurrencyAttributes attributes = new CurrencyAttributes(commonCode, name, unicode, scale, alternativeCodes);
 
     Currency currency = new Currency(commonCode, attributes);
 
@@ -436,10 +436,10 @@ public class Currency implements Comparable <Currency> {
     public final String isoCode;
     public final String commonCode;
     public final String name;
-    public final String symbol;
+    public final String unicode;
     public final int scale;
 
-    public CurrencyAttributes(String commonCode, String name, String symbol, Integer scale, String... alternativeCodes) {
+    public CurrencyAttributes(String commonCode, String name, String unicode, Integer scale, String... alternativeCodes) {
 
       if (alternativeCodes.length > 0) {
         this.codes = new TreeSet<String>(Arrays.asList(alternativeCodes));
@@ -478,12 +478,12 @@ public class Currency implements Comparable <Currency> {
         this.name = commonCode;
       }
 
-      if (symbol != null) {
-        this.symbol = symbol;
+      if (unicode != null) {
+        this.unicode = unicode;
       } else if (javaCurrency != null) {
-        this.symbol = javaCurrency.getSymbol();
+        this.unicode = javaCurrency.getSymbol();
       } else {
-        this.symbol = commonCode;
+        this.unicode = commonCode;
       }
 
       if (scale == null && javaCurrency != null) {
