@@ -48,11 +48,8 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.*;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
 
 /**
@@ -113,15 +110,15 @@ public class CoinmateAdapters {
 
   public static AccountInfo adaptAccountInfo(CoinmateBalance coinmateBalance) {
 
-    Map<String, Wallet> wallets = new HashMap<String, Wallet>();
+    Map<String, Balance> wallets = new HashMap<String, Balance>();
     CoinmateBalanceData funds = coinmateBalance.getData();
 
     for (String lcCurrency : funds.keySet()) {
       String currency = lcCurrency.toUpperCase();
-      Wallet wallet = new Wallet(currency, funds.get(lcCurrency).getBalance(), funds.get(lcCurrency).getAvailable(),
+      Balance balance = new Balance(currency, funds.get(lcCurrency).getBalance(), funds.get(lcCurrency).getAvailable(),
           funds.get(lcCurrency).getReserved());
 
-      wallets.put(currency, wallet);
+      wallets.put(currency, balance);
     }
     return new AccountInfo(null, wallets);
   }

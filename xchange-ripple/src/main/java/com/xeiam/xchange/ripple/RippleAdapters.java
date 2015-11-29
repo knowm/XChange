@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import com.xeiam.xchange.dto.trade.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,11 +23,7 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.ripple.dto.RippleAmount;
 import com.xeiam.xchange.ripple.dto.account.ITransferFeeSource;
 import com.xeiam.xchange.ripple.dto.account.RippleAccountBalances;
@@ -68,7 +65,7 @@ public abstract class RippleAdapters {
    */
   public static AccountInfo adaptAccountInfo(final RippleAccountBalances account, final String username) {
     // Adapt account balances to XChange wallets
-    final Map<String, Wallet> wallets = new TreeMap<String, Wallet>();
+    final Map<String, Balance> wallets = new TreeMap<String, Balance>();
     for (final RippleBalance balance : account.getBalances()) {
       final String currency;
       if (balance.getCurrency().equals(Currencies.XRP)) {
@@ -76,7 +73,7 @@ public abstract class RippleAdapters {
       } else {
         currency = String.format("%s.%s", balance.getCurrency(), balance.getCounterparty());
       }
-      final Wallet wallet = new Wallet(currency, balance.getValue());
+      final Balance wallet = new Balance(currency, balance.getValue());
       wallets.put(wallet.getCurrency(), wallet);
     }
     return new AccountInfo(username, BigDecimal.ZERO, wallets);

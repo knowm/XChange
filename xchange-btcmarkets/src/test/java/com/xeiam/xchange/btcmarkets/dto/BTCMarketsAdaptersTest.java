@@ -31,9 +31,9 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
     AccountInfo accountInfo = BTCMarketsAdapters.adaptAccountInfo(Arrays.asList(response), "john");
 
     assertThat(accountInfo.getUsername()).isEqualTo("john");
-    assertThat(accountInfo.getWallets()).hasSize(3);
-    assertThat(accountInfo.getWallet("LTC").getBalance()).isEqualTo(new BigDecimal("10.00000000"));
-    assertThat(accountInfo.getWallet("LTC").getAvailable()).isEqualTo(new BigDecimal("10.00000000"));
+    assertThat(accountInfo.getBalancesList()).hasSize(3);
+    assertThat(accountInfo.getBalance("LTC").getTotal()).isEqualTo(new BigDecimal("10.00000000"));
+    assertThat(accountInfo.getBalance("LTC").getAvailable()).isEqualTo(new BigDecimal("10.00000000"));
   }
   
   @Test

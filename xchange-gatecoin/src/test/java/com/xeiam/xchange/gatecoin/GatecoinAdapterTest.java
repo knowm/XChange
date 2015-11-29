@@ -40,10 +40,10 @@ public class GatecoinAdapterTest {
     AccountInfo accountInfo = GatecoinAdapters.adaptAccountInfo(gatecoinBalance.getBalances(), "Joe Mama");
     assertThat(accountInfo.getUsername()).isEqualTo("Joe Mama");
     assertThat(accountInfo.getTradingFee()).isNull();
-    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("BTC");
-    assertThat(accountInfo.getWallets().get(0).getBalance().toString()).isEqualTo("2.94137538");
-    assertThat(accountInfo.getWallets().get(0).getAvailable().toString()).isEqualTo("2.94137538");
-    assertThat(accountInfo.getWallets().get(0).getFrozen().toString()).isEqualTo("0");
+    assertThat(accountInfo.getBalancesList().get(0).getCurrency()).isEqualTo("BTC");
+    assertThat(accountInfo.getBalancesList().get(0).getTotal().toString()).isEqualTo("2.94137538");
+    assertThat(accountInfo.getBalancesList().get(0).getAvailable().toString()).isEqualTo("2.94137538");
+    assertThat(accountInfo.getBalancesList().get(0).getFrozen().toString()).isEqualTo("0");
   }
 
   @Test

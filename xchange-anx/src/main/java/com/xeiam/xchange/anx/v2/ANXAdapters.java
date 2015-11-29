@@ -21,10 +21,10 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -117,12 +117,12 @@ public final class ANXAdapters {
    * @param anxWallet
    * @return
    */
-  public static Wallet adaptWallet(ANXWallet anxWallet) {
+  public static Balance adaptWallet(ANXWallet anxWallet) {
 
     if (anxWallet == null) { // use the presence of a currency String to indicate existing wallet at ANX
       return null; // an account maybe doesn't contain a ANXWallet
     } else {
-      return new Wallet(anxWallet.getBalance().getCurrency(), anxWallet.getBalance().getValue(), anxWallet.getAvailableBalance().getValue());
+      return new Balance(anxWallet.getBalance().getCurrency(), anxWallet.getBalance().getValue(), anxWallet.getAvailableBalance().getValue());
     }
 
   }
@@ -133,17 +133,17 @@ public final class ANXAdapters {
    * @param anxWallets
    * @return
    */
-  public static List<Wallet> adaptWallets(Map<String, ANXWallet> anxWallets) {
+  public static List<Balance> adaptWallets(Map<String, ANXWallet> anxWallets) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
 
     for (ANXWallet anxWallet : anxWallets.values()) {
-      Wallet wallet = adaptWallet(anxWallet);
-      if (wallet != null) {
-        wallets.add(wallet);
+      Balance balance = adaptWallet(anxWallet);
+      if (balance != null) {
+        balances.add(balance);
       }
     }
-    return wallets;
+    return balances;
 
   }
 

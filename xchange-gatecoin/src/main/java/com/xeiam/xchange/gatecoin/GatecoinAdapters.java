@@ -9,10 +9,10 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.gatecoin.dto.account.GatecoinBalance;
 import com.xeiam.xchange.gatecoin.dto.marketdata.GatecoinDepth;
 import com.xeiam.xchange.gatecoin.dto.marketdata.GatecoinTicker;
@@ -50,15 +50,15 @@ public final class GatecoinAdapters {
    */
   public static AccountInfo adaptAccountInfo(GatecoinBalance[] gatecoinBalances, String userName) {
 
-    ArrayList<Wallet> wallets = new ArrayList<Wallet>();
+    ArrayList<Balance> balances = new ArrayList<Balance>();
 
     for (GatecoinBalance balance : gatecoinBalances) {
       String ccy = balance.getCurrency();
       if (ccy.equalsIgnoreCase("btc") || ccy.equalsIgnoreCase("usd") || ccy.equalsIgnoreCase("hkd") || ccy.equalsIgnoreCase("eur")) {
-        wallets.add(new Wallet(ccy, balance.getBalance(), balance.getAvailableBalance(), balance.getOpenOrder()));
+        balances.add(new Balance(ccy, balance.getBalance(), balance.getAvailableBalance(), balance.getOpenOrder()));
       }
     }
-    return new AccountInfo(userName, wallets);
+    return new AccountInfo(userName, balances);
   }
 
   /**

@@ -45,8 +45,8 @@ public class CoinfloorAdaptersTest {
 
     Map<String, Object> testObj = coinfloorAdapters.adaptBalances(result);
 
-    Assert.assertEquals(BigDecimal.valueOf(100014718, 4), ((AccountInfo) testObj.get("generic")).getBalance("BTC"));
-    Assert.assertEquals(BigDecimal.valueOf(931913, 2), ((AccountInfo) testObj.get("generic")).getBalance("GBP"));
+    Assert.assertEquals(BigDecimal.valueOf(100014718, 4), ((AccountInfo) testObj.get("generic")).getBalanceTotal("BTC"));
+    Assert.assertEquals(BigDecimal.valueOf(931913, 2), ((AccountInfo) testObj.get("generic")).getBalanceTotal("GBP"));
   }
 
   @Test
@@ -261,7 +261,7 @@ public class CoinfloorAdaptersTest {
 
     Map<String, Object> testObj = coinfloorAdapters.adaptBalancesChanged(result);
 
-    Assert.assertEquals(BigDecimal.valueOf(990000, 2), ((AccountInfo) testObj.get("generic")).getBalance("GBP"));
+    Assert.assertEquals(BigDecimal.valueOf(990000, 2), ((AccountInfo) testObj.get("generic")).getBalanceTotal("GBP"));
   }
 
   /**

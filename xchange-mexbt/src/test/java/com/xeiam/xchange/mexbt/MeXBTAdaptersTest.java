@@ -95,10 +95,10 @@ public class MeXBTAdaptersTest {
         MeXBTBalanceResponse.class);
     AccountInfo accountInfo = MeXBTAdapters.adaptAccountInfo("john.doe@example.org", balanceResponse);
     assertEquals("john.doe@example.org", accountInfo.getUsername());
-    assertEquals(new BigDecimal("482198.87"), accountInfo.getWallet(Currencies.BTC).getAvailable());
-    assertEquals(new BigDecimal("482056"), accountInfo.getWallet(Currencies.BTC).getFrozen());
-    assertEquals(new BigDecimal("990119"), accountInfo.getWallet(Currencies.LTC).getAvailable());
-    assertEquals(new BigDecimal("11108"), accountInfo.getWallet(Currencies.LTC).getFrozen());
+    assertEquals(new BigDecimal("482198.87"), accountInfo.getBalance(Currencies.BTC).getAvailable());
+    assertEquals(new BigDecimal("482056"), accountInfo.getBalance(Currencies.BTC).getFrozen());
+    assertEquals(new BigDecimal("990119"), accountInfo.getBalance(Currencies.LTC).getAvailable());
+    assertEquals(new BigDecimal("11108"), accountInfo.getBalance(Currencies.LTC).getFrozen());
   }
 
   @Test

@@ -22,7 +22,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.ripple.dto.account.ITransferFeeSource;
 import com.xeiam.xchange.ripple.dto.account.RippleAccountBalances;
 import com.xeiam.xchange.ripple.dto.account.RippleAccountSettings;
@@ -50,23 +50,23 @@ public class RippleAdaptersTest implements ITransferFeeSource {
 
     // Convert to xchange object and check field values
     final AccountInfo account = RippleAdapters.adaptAccountInfo(rippleAccount, "username");
-    assertThat(account.getWallets()).hasSize(3);
+    assertThat(account.getBalancesList()).hasSize(3);
     assertThat(account.getUsername()).isEqualTo("username");
     assertThat(account.getTradingFee()).isEqualTo(BigDecimal.ZERO);
 
-    final Iterator<Wallet> iterator = account.getWallets().iterator();
+    final Iterator<Balance> iterator = account.getBalancesList().iterator();
 
-    final Wallet wallet1 = iterator.next();
-    assertThat(wallet1.getBalance()).isEqualTo("0.038777349225374");
-    assertThat(wallet1.getCurrency()).isEqualTo("BTC.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    final Balance balance1 = iterator.next();
+    assertThat(balance1.getTotal()).isEqualTo("0.038777349225374");
+    assertThat(balance1.getCurrency()).isEqualTo("BTC.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
 
-    final Wallet wallet2 = iterator.next();
-    assertThat(wallet2.getBalance()).isEqualTo("10");
-    assertThat(wallet2.getCurrency()).isEqualTo("USD.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    final Balance balance2 = iterator.next();
+    assertThat(balance2.getTotal()).isEqualTo("10");
+    assertThat(balance2.getCurrency()).isEqualTo("USD.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
 
-    final Wallet wallet3 = iterator.next();
-    assertThat(wallet3.getBalance()).isEqualTo("861.401578");
-    assertThat(wallet3.getCurrency()).isEqualTo("XRP");
+    final Balance balance3 = iterator.next();
+    assertThat(balance3.getTotal()).isEqualTo("861.401578");
+    assertThat(balance3.getCurrency()).isEqualTo("XRP");
   }
 
   @Test

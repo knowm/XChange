@@ -29,9 +29,9 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
@@ -60,17 +60,17 @@ public class CoinfloorAdapters {
     }
     resultMap.put("raw", rawRetObj);
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
     List<CoinfloorAssetBalance> funds = rawRetObj.getBalances();
 
     for (CoinfloorAssetBalance assetBalancePair : funds) {
       String currency = assetBalancePair.getAsset().toString();
       BigDecimal balance = assetBalancePair.getBalance();
 
-      wallets.add(new Wallet(currency, balance));
+      balances.add(new Balance(currency, balance));
     }
 
-    AccountInfo accountInfo = new AccountInfo(null, wallets);
+    AccountInfo accountInfo = new AccountInfo(null, balances);
     synchronized (cachedDataSynchronizationObject) {
       cachedAccountInfo = accountInfo;
     }
@@ -425,7 +425,7 @@ public class CoinfloorAdapters {
       throw new ExchangeException("JSON parse error", e);
     }
 
-    List<Wallet> newWallets = new ArrayList<Wallet>();
+    List<Balance> newBalances = new ArrayList<Balance>();
     AccountInfo accountInfo;
 
     synchronized (cachedDataSynchronizationObject) {
@@ -433,22 +433,22 @@ public class CoinfloorAdapters {
         String currency = rawRetObj.getAsset().toString();
         BigDecimal balance = rawRetObj.getBalance();
 
-        newWallets.add(new Wallet(currency, balance));
+        newBalances.add(new Balance(currency, balance));
       } else {
-        List<Wallet> oldWallets = cachedAccountInfo.getWallets();
-        for (Wallet wallet : oldWallets) {
+        List<Balance> oldBalances = cachedAccountInfo.getBalancesList();
+        for (Balance wallet : oldBalances) {
           if (wallet.getCurrency().equals(rawRetObj.getAsset())) {
             String currency = rawRetObj.getAsset().toString();
             BigDecimal balance = rawRetObj.getBalance();
 
-            newWallets.add(new Wallet(currency, balance));
+            newBalances.add(new Balance(currency, balance));
           } else {
-            newWallets.add(wallet);
+            newBalances.add(wallet);
           }
         }
       }
 
-      accountInfo = new AccountInfo(null, newWallets);
+      accountInfo = new AccountInfo(null, newBalances);
       cachedAccountInfo = accountInfo;
     }
 

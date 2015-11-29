@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.dto.trade.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,13 +26,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.FixedRateLoanOrder;
-import com.xeiam.xchange.dto.trade.FloatingRateLoanOrder;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.utils.DateUtils;
 
 public final class BitfinexAdapters {
@@ -220,15 +215,15 @@ public final class BitfinexAdapters {
 
   public static AccountInfo adaptAccountInfo(BitfinexBalancesResponse[] response) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>(response.length);
+    List<Balance> balances = new ArrayList<Balance>(response.length);
 
     for (BitfinexBalancesResponse balance : response) {
       if ("exchange".equals(balance.getType())) {
-        wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getAvailable()));
+        balances.add(new Balance(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getAvailable()));
       }
     }
 
-    return new AccountInfo(null, wallets);
+    return new AccountInfo(null, balances);
   }
 
   public static OpenOrders adaptOrders(BitfinexOrderStatusResponse[] activeOrders) {

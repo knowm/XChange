@@ -30,10 +30,10 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -159,9 +159,9 @@ public final class BTCChinaAdapters {
         BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens(), result.getLoans()));
   }
 
-  public static List<Wallet> adaptWallets(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens, Map<String, BTCChinaValue> loans) {
+  public static List<Balance> adaptWallets(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens, Map<String, BTCChinaValue> loans) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>(balances.size());
+    List<Balance> wallets = new ArrayList<Balance>(balances.size());
 
     for (Map.Entry<String, BTCChinaValue> entry : balances.entrySet()) {
       BTCChinaValue frozen = frozens.get(entry.getKey());
@@ -175,7 +175,7 @@ public final class BTCChinaAdapters {
       BigDecimal cash = balanceAmount.add(frozenAmount).subtract(loanAmount);
       // FIXME: the second parameter should be balanceAmount,
       // keep it as cash for safe reason, this will be fixed in XChagne 4.0.0
-      wallets.add(new Wallet(entry.getValue().getCurrency(), cash, cash, frozenAmount));
+      wallets.add(new Balance(entry.getValue().getCurrency(), cash, cash, frozenAmount));
     }
     return wallets;
 

@@ -11,7 +11,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.account.MyFunds;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -42,7 +42,7 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
       // TODO move to adapter class
       // TODO: what does MyFunds.liquid* mean? means available amount of the wallet?
       return new AccountInfo(exchange.getExchangeSpecification().getUserName(),
-          Arrays.asList(new Wallet("BTC", myFunds.getTotalBTC()), new Wallet("USD", myFunds.getTotalUSD())));
+          Arrays.asList(new Balance("BTC", myFunds.getTotalBTC()), new Balance("USD", myFunds.getTotalUSD())));
     } else {
       throw new ExchangeException("Error calling getAccountInfo(): " + myFunds.getError());
     }

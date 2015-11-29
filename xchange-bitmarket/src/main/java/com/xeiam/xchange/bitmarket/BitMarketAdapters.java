@@ -23,11 +23,8 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.*;
+import com.xeiam.xchange.dto.trade.Balance;
 
 /**
  * @author kpysniak, kfonal
@@ -50,12 +47,12 @@ public class BitMarketAdapters {
    */
   public static AccountInfo adaptAccountInfo(BitMarketBalance balance, String username) {
 
-    Map<String, Wallet> wallets = new HashMap<String, Wallet>();
+    Map<String, Balance> wallets = new HashMap<String, Balance>();
 
     for (Map.Entry<String, BigDecimal> entry : balance.getAvailable().entrySet()) {
       BigDecimal frozen = balance.getBlocked().containsKey(entry.getKey()) ? balance.getBlocked().get(entry.getKey()) : new BigDecimal("0");
       BigDecimal available = entry.getValue();
-      wallets.put(entry.getKey(), new Wallet(entry.getKey(), available.add(frozen), available, frozen));
+      wallets.put(entry.getKey(), new Balance(entry.getKey(), available.add(frozen), available, frozen));
     }
 
     return new AccountInfo(username, wallets);

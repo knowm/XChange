@@ -14,9 +14,9 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -129,10 +129,10 @@ public final class BittrexAdapters {
 
   public static AccountInfo adaptAccountInfo(List<BittrexBalance> balances) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>(balances.size());
+    List<Balance> wallets = new ArrayList<Balance>(balances.size());
 
     for (BittrexBalance balance : balances) {
-      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getBalance(), balance.getAvailable(), balance.getPending()));
+      wallets.add(new Balance(balance.getCurrency().toUpperCase(), balance.getBalance(), balance.getAvailable(), balance.getPending()));
     }
 
     return new AccountInfo(null, wallets);

@@ -22,9 +22,9 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
  * Various adapters for converting from Coinsetter DTOs to XChange DTOs.
@@ -134,7 +134,7 @@ public final class CoinsetterAdapters {
   public static AccountInfo adaptAccountInfo(String username, CoinsetterAccount account) {
 
     return new AccountInfo(username,
-        Arrays.asList(new Wallet(Currencies.BTC, account.getBtcBalance()), new Wallet(Currencies.USD, account.getUsdBalance())));
+        Arrays.asList(new Balance(Currencies.BTC, account.getBtcBalance()), new Balance(Currencies.USD, account.getUsdBalance())));
   }
 
   public static OpenOrders adaptOpenOrders(CoinsetterOrderList orderList) {

@@ -14,10 +14,10 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.lakebtc.dto.account.LakeBTCAccount;
 import com.xeiam.xchange.lakebtc.dto.account.LakeBTCBalance;
 import com.xeiam.xchange.lakebtc.dto.account.LakeBTCProfile;
@@ -144,10 +144,10 @@ public class LakeBTCAdapters {
     // Adapt to XChange DTOs
     LakeBTCProfile profile = lakeBTCAccount.getProfile();
     LakeBTCBalance balance = lakeBTCAccount.getBalance();
-    Wallet usdWallet = new Wallet(Currencies.USD, balance.getUSD());
-    Wallet cnyWWallet = new Wallet(Currencies.CNY, balance.getCNY());
-    Wallet btcWallet = new Wallet(Currencies.BTC, balance.getBTC());
+    Balance usdBalance = new Balance(Currencies.USD, balance.getUSD());
+    Balance cnyWBalance = new Balance(Currencies.CNY, balance.getCNY());
+    Balance btcBalance = new Balance(Currencies.BTC, balance.getBTC());
 
-    return new AccountInfo(profile.getId(), Arrays.asList(usdWallet, btcWallet, cnyWWallet));
+    return new AccountInfo(profile.getId(), Arrays.asList(usdBalance, btcBalance, cnyWBalance));
   }
 }

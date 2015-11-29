@@ -15,10 +15,10 @@ import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.loyalbit.dto.account.LoyalbitBalance;
 import com.xeiam.xchange.loyalbit.dto.marketdata.LoyalbitOrderBook;
 import com.xeiam.xchange.loyalbit.dto.trade.LoyalbitOrder;
@@ -45,12 +45,12 @@ public final class LoyalbitAdapters {
   public static AccountInfo adaptAccountInfo(LoyalbitBalance loyalbitBalance, String userName) {
     // FIXME: the second parameter should be sum of (available, reservedOrder, reservedWithdraw)
     // keep it as available for safe reason, will be fixed in XChange 4.0.0
-    Wallet usdWallet = new Wallet(Currencies.USD, loyalbitBalance.getAvailableUsd(), loyalbitBalance.getAvailableUsd(),
+    Balance usdBalance = new Balance(Currencies.USD, loyalbitBalance.getAvailableUsd(), loyalbitBalance.getAvailableUsd(),
         loyalbitBalance.getReservedOrderUsd());
-    Wallet btcWallet = new Wallet(Currencies.BTC, loyalbitBalance.getAvailableBtc(), loyalbitBalance.getAvailableBtc(),
+    Balance btcBalance = new Balance(Currencies.BTC, loyalbitBalance.getAvailableBtc(), loyalbitBalance.getAvailableBtc(),
         loyalbitBalance.getReservedOrderBtc());
 
-    return new AccountInfo(userName, loyalbitBalance.getFee(), Arrays.asList(usdWallet, btcWallet));
+    return new AccountInfo(userName, loyalbitBalance.getFee(), Arrays.asList(usdBalance, btcBalance));
   }
 
   public static OrderBook adaptOrderBook(LoyalbitOrderBook loyalbitOrderBook, CurrencyPair currencyPair) {

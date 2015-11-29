@@ -23,7 +23,7 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -47,16 +47,16 @@ public final class CleverCoinAdapters {
    */
   public static AccountInfo adaptAccountInfo(CleverCoinBalance[] cleverCoinBalance, String userName) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
 
     for (CleverCoinBalance currencybalance : cleverCoinBalance) {
-      wallets.add(new Wallet(currencybalance.getCurrency(), currencybalance.getBalance()));
+      balances.add(new Balance(currencybalance.getCurrency(), currencybalance.getBalance()));
     }
 
     // Adapt to XChange DTOs
     //Wallet usdWallet = new Wallet(Currencies.USD, cleverCoinBalance.getUsdBalance());
     //Wallet btcWallet = new Wallet(Currencies.BTC, cleverCoinBalance.getBtcBalance());
-    return new AccountInfo(userName, wallets);
+    return new AccountInfo(userName, balances);
   }
 
   /**

@@ -33,7 +33,7 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -149,15 +149,15 @@ public final class BTCEAdapters {
 
   public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
     Map<String, BigDecimal> funds = btceAccountInfo.getFunds();
 
     for (String lcCurrency : funds.keySet()) {
       String currency = lcCurrency.toUpperCase();
 
-      wallets.add(new Wallet(currency, funds.get(lcCurrency)));
+      balances.add(new Balance(currency, funds.get(lcCurrency)));
     }
-    return new AccountInfo(null, wallets);
+    return new AccountInfo(null, balances);
   }
 
   public static OpenOrders adaptOrders(Map<Long, BTCEOrder> btceOrderMap) {

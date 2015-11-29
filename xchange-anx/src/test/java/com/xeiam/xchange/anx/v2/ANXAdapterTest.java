@@ -32,7 +32,7 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 
 /**
  * Tests the ANXAdapter class
@@ -61,9 +61,9 @@ public class ANXAdapterTest {
     AccountInfo accountInfo = ANXAdapters.adaptAccountInfo(anxAccountInfo);
     assertThat(accountInfo.getUsername()).isEqualTo("test@anxpro.com");
 
-    assertThat(accountInfo.getWallet(Currencies.DOGE).getBalance()).isEqualTo(new BigDecimal("9999781.09457936"));
-    assertThat(accountInfo.getWallet(Currencies.DOGE).getAvailable()).isEqualTo(new BigDecimal("9914833.52608521"));
-    assertThat(accountInfo.getWallet(Currencies.DOGE).getFrozen()).isEqualTo(new BigDecimal("84947.56849415"));
+    assertThat(accountInfo.getBalance(Currencies.DOGE).getTotal()).isEqualTo(new BigDecimal("9999781.09457936"));
+    assertThat(accountInfo.getBalance(Currencies.DOGE).getAvailable()).isEqualTo(new BigDecimal("9914833.52608521"));
+    assertThat(accountInfo.getBalance(Currencies.DOGE).getFrozen()).isEqualTo(new BigDecimal("84947.56849415"));
   }
 
   @Test
@@ -156,13 +156,13 @@ public class ANXAdapterTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     ANXAccountInfo anxAccountInfo = mapper.readValue(is, ANXAccountInfo.class);
 
-    // in Wallet(s), only wallets from ANXAccountInfo.getWallets that contained data are NOT null.
-    List<Wallet> wallets = ANXAdapters.adaptWallets(anxAccountInfo.getWallets());
-    Assert.assertEquals(21, wallets.size());
+    // in Wallet(s), only wallets from ANXAccountInfo.getBalancesList that contained data are NOT null.
+    List<Balance> balances = ANXAdapters.adaptWallets(anxAccountInfo.getWallets());
+    Assert.assertEquals(21, balances.size());
 
-    Assert.assertTrue(wallets.contains(new Wallet(Currencies.CAD, new BigDecimal("100000.00000"), new BigDecimal("100000.00000"))));
-    Assert.assertTrue(wallets.contains(new Wallet(Currencies.BTC, new BigDecimal("100000.01988000"), new BigDecimal("100000.01988000"))));
-    Assert.assertTrue(wallets.contains(new Wallet(Currencies.DOGE, new BigDecimal("9999781.09457936"), new BigDecimal("9914833.52608521"))));
+    Assert.assertTrue(balances.contains(new Balance(Currencies.CAD, new BigDecimal("100000.00000"), new BigDecimal("100000.00000"))));
+    Assert.assertTrue(balances.contains(new Balance(Currencies.BTC, new BigDecimal("100000.01988000"), new BigDecimal("100000.01988000"))));
+    Assert.assertTrue(balances.contains(new Balance(Currencies.DOGE, new BigDecimal("9999781.09457936"), new BigDecimal("9914833.52608521"))));
   }
 
   @Test

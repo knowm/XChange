@@ -16,10 +16,10 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.taurus.dto.account.TaurusBalance;
 import com.xeiam.xchange.taurus.dto.marketdata.TaurusOrderBook;
 import com.xeiam.xchange.taurus.dto.marketdata.TaurusTicker;
@@ -32,10 +32,10 @@ public final class TaurusAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(TaurusBalance taurusBalance, String userName) {
-    Wallet cadWallet = new Wallet(Currencies.CAD, taurusBalance.getCadBalance(), taurusBalance.getCadAvailable(), taurusBalance.getCadReserved());
-    Wallet btcWallet = new Wallet(Currencies.BTC, taurusBalance.getBtcBalance(), taurusBalance.getBtcAvailable(), taurusBalance.getBtcReserved());
+    Balance cadBalance = new Balance(Currencies.CAD, taurusBalance.getCadBalance(), taurusBalance.getCadAvailable(), taurusBalance.getCadReserved());
+    Balance btcBalance = new Balance(Currencies.BTC, taurusBalance.getBtcBalance(), taurusBalance.getBtcAvailable(), taurusBalance.getBtcReserved());
 
-    return new AccountInfo(userName, taurusBalance.getFee(), Arrays.asList(cadWallet, btcWallet));
+    return new AccountInfo(userName, taurusBalance.getFee(), Arrays.asList(cadBalance, btcBalance));
   }
 
   public static OrderBook adaptOrderBook(TaurusOrderBook taurusOrderBook, CurrencyPair currencyPair) {

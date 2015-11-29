@@ -27,11 +27,8 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.*;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -146,7 +143,7 @@ public final class BTERAdapters {
 
   public static AccountInfo adaptAccountInfo(BTERFunds bterAccountInfo) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
       String currency = funds.getKey().toUpperCase();
       BigDecimal amount = funds.getValue();
@@ -154,10 +151,10 @@ public final class BTERAdapters {
 
       // FIXME: the second parameter should be amount + locked.
       // keep it as amount for safe reason, will be fixed in XChange 4.0.0.
-      wallets.add(new Wallet(currency, amount, amount, locked == null ? BigDecimal.ZERO : locked));
+      balances.add(new Balance(currency, amount, amount, locked == null ? BigDecimal.ZERO : locked));
     }
 
-    return new AccountInfo("", wallets);
+    return new AccountInfo("", balances);
   }
 
   public static UserTrades adaptUserTrades(List<BTERTrade> userTrades) {

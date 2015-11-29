@@ -20,7 +20,7 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 
 public final class CointraderAdapters {
 
@@ -41,10 +41,10 @@ public final class CointraderAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(Map<String, CointraderBalance> balances, String userName) {
-    HashMap<String, Wallet> wallets = new HashMap<String, Wallet>();
+    HashMap<String, Balance> wallets = new HashMap<String, Balance>();
     for (String currency : balances.keySet()) {
       CointraderBalance blc = balances.get(currency);
-      wallets.put(currency, new Wallet(currency, blc.getTotal(), blc.getAvailable()));
+      wallets.put(currency, new Balance(currency, blc.getTotal(), blc.getAvailable()));
     }
     return new AccountInfo(userName, wallets);
   }

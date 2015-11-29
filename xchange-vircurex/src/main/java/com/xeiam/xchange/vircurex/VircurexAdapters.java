@@ -11,8 +11,8 @@ import java.util.Map;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.vircurex.dto.account.VircurexAccountInfoReturn;
 import com.xeiam.xchange.vircurex.dto.trade.VircurexOpenOrder;
 
@@ -50,14 +50,14 @@ public final class VircurexAdapters {
 
   public static AccountInfo adaptAccountInfo(VircurexAccountInfoReturn vircurexAccountInfo) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
     Map<String, Map<String, BigDecimal>> funds = vircurexAccountInfo.getAvailableFunds();
 
     for (String lcCurrency : funds.keySet()) {
       String currency = lcCurrency.toUpperCase();
-      wallets.add(new Wallet(currency, funds.get(lcCurrency).get("availablebalance")));
+      balances.add(new Balance(currency, funds.get(lcCurrency).get("availablebalance")));
     }
-    return new AccountInfo(vircurexAccountInfo.getAccount(), wallets);
+    return new AccountInfo(vircurexAccountInfo.getAccount(), balances);
   }
 
   public static List<LimitOrder> adaptOpenOrders(List<VircurexOpenOrder> openOrders) {

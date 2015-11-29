@@ -44,7 +44,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 
 /**
  * @author ObsessiveOrange
@@ -289,13 +289,13 @@ public final class CryptsyAdapters {
     Map<String, BigDecimal> available = cryptsyAccountInfo.getAvailableFunds();
     Map<String, BigDecimal> hold = cryptsyAccountInfo.getHoldFunds();
 
-    Map<String, Wallet> walltes = new HashMap<>();
+    Map<String, Balance> walltes = new HashMap<>();
 
     for (String lcCurrency : available.keySet()) {
       BigDecimal balance = available.get(lcCurrency);
       BigDecimal avail = available.get(lcCurrency);
 
-      walltes.put(lcCurrency, new Wallet(lcCurrency, balance, avail, BigDecimal.ZERO));
+      walltes.put(lcCurrency, new Balance(lcCurrency, balance, avail, BigDecimal.ZERO));
     }
 
     if( hold != null ) {
@@ -304,13 +304,13 @@ public final class CryptsyAdapters {
 
         if (walltes.containsKey(lcCurrency)) {
           //initialice new wallet. wallet have no setter
-          Wallet newWallet = new Wallet(lcCurrency, walltes.get(lcCurrency).getBalance().add(frocen), walltes.get(lcCurrency).getAvailable(), frocen);
+          Balance newBalance = new Balance(lcCurrency, walltes.get(lcCurrency).getTotal().add(frocen), walltes.get(lcCurrency).getAvailable(), frocen);
           //Remove old wallet
           walltes.remove(lcCurrency);
           //Add new wallet
-          walltes.put(lcCurrency, newWallet);
+          walltes.put(lcCurrency, newBalance);
         }else {
-          walltes.put(lcCurrency, new Wallet(lcCurrency, frocen, BigDecimal.ZERO, frocen));
+          walltes.put(lcCurrency, new Balance(lcCurrency, frocen, BigDecimal.ZERO, frocen));
         }
       }
     }

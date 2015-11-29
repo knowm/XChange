@@ -135,10 +135,10 @@ public class KrakenAdaptersTest {
     ObjectMapper mapper = new ObjectMapper();
     KrakenBalanceResult krakenBalance = mapper.readValue(is, KrakenBalanceResult.class);
 
-    AccountInfo info = KrakenAdapters.adaptBalance(krakenBalance.getResult(), null);
+    AccountInfo info = KrakenAdapters.adaptWallet(krakenBalance.getResult(), null);
 
-    assertThat(info.getWallet(Currencies.EUR).getBalance()).isEqualTo(new BigDecimal("1.0539"));
-    assertThat(info.getWallet(Currencies.BTC).getBalance()).isEqualTo(new BigDecimal("0.4888583300"));
+    assertThat(info.getBalance(Currencies.EUR).getTotal()).isEqualTo(new BigDecimal("1.0539"));
+    assertThat(info.getBalance(Currencies.BTC).getTotal()).isEqualTo(new BigDecimal("0.4888583300"));
 
   }
 

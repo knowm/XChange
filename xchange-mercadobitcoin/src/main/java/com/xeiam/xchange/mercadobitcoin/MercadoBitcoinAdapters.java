@@ -12,10 +12,10 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import com.xeiam.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
 import com.xeiam.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
@@ -132,11 +132,11 @@ public final class MercadoBitcoinAdapters {
   public static AccountInfo adaptAccountInfo(MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo, String userName) {
 
     // Adapt to XChange DTOs
-    Wallet brlWallet = new Wallet(Currencies.BRL, accountInfo.getTheReturn().getFunds().getBrl(), "Brazilian Reais balance (R$ / BRL)");
-    Wallet btcWallet = new Wallet(Currencies.BTC, accountInfo.getTheReturn().getFunds().getBtc(), "Bitcoin balance (XBT / BTC)");
-    Wallet ltcWallet = new Wallet(Currencies.LTC, accountInfo.getTheReturn().getFunds().getLtc(), "Litecoin balance (XLT / LTC)");
+    Balance brlBalance = new Balance(Currencies.BRL, accountInfo.getTheReturn().getFunds().getBrl(), "Brazilian Reais balance (R$ / BRL)");
+    Balance btcBalance = new Balance(Currencies.BTC, accountInfo.getTheReturn().getFunds().getBtc(), "Bitcoin balance (XBT / BTC)");
+    Balance ltcBalance = new Balance(Currencies.LTC, accountInfo.getTheReturn().getFunds().getLtc(), "Litecoin balance (XLT / LTC)");
 
-    return new AccountInfo(userName, Arrays.asList(brlWallet, btcWallet, ltcWallet));
+    return new AccountInfo(userName, Arrays.asList(brlBalance, btcBalance, ltcBalance));
   }
 
   public static List<LimitOrder> adaptOrders(CurrencyPair currencyPair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> input) {

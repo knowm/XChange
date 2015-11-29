@@ -112,13 +112,13 @@ public class BTERAdapterTest {
 
     AccountInfo accountInfo = BTERAdapters.adaptAccountInfo(funds);
 
-    assertThat(accountInfo.getWallets()).hasSize(4);
-    assertThat(accountInfo.getBalance(Currencies.BTC)).isEqualTo("0.00010165");
+    assertThat(accountInfo.getBalancesList()).hasSize(4);
+    assertThat(accountInfo.getBalanceTotal(Currencies.BTC)).isEqualTo("0.00010165");
 
-    assertThat(accountInfo.getWallet(Currencies.BTC).getAvailable()).isEqualTo(new BigDecimal("0.00010165"));
-    assertThat(accountInfo.getWallet(Currencies.BTC).getFrozen()).isEqualTo(BigDecimal.ZERO);
-    assertThat(accountInfo.getWallet(Currencies.LTC).getAvailable()).isEqualTo(new BigDecimal("0.00166859"));
-    assertThat(accountInfo.getWallet(Currencies.LTC).getFrozen()).isEqualTo(new BigDecimal("0.384"));
+    assertThat(accountInfo.getBalance(Currencies.BTC).getAvailable()).isEqualTo(new BigDecimal("0.00010165"));
+    assertThat(accountInfo.getBalance(Currencies.BTC).getFrozen()).isEqualTo(BigDecimal.ZERO);
+    assertThat(accountInfo.getBalance(Currencies.LTC).getAvailable()).isEqualTo(new BigDecimal("0.00166859"));
+    assertThat(accountInfo.getBalance(Currencies.LTC).getFrozen()).isEqualTo(new BigDecimal("0.384"));
   }
 
   @Test

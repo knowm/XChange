@@ -32,7 +32,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
@@ -146,18 +146,18 @@ public final class BTCTradeAdapters {
 
     checkException(balance);
 
-    List<Wallet> wallets = new ArrayList<Wallet>(5);
-    wallets.add(new Wallet(Currencies.BTC, nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved()), zeroIfNull(balance.getBtcBalance()),
+    List<Balance> balances = new ArrayList<Balance>(5);
+    balances.add(new Balance(Currencies.BTC, nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved()), zeroIfNull(balance.getBtcBalance()),
         zeroIfNull(balance.getBtcReserved())));
-    wallets.add(new Wallet(Currencies.LTC, nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved()), zeroIfNull(balance.getLtcBalance()),
+    balances.add(new Balance(Currencies.LTC, nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved()), zeroIfNull(balance.getLtcBalance()),
         zeroIfNull(balance.getLtcReserved())));
-    wallets.add(new Wallet(Currencies.DOGE, nullSafeSum(balance.getDogeBalance(), balance.getDogeReserved()), zeroIfNull(balance.getDogeBalance()),
+    balances.add(new Balance(Currencies.DOGE, nullSafeSum(balance.getDogeBalance(), balance.getDogeReserved()), zeroIfNull(balance.getDogeBalance()),
         zeroIfNull(balance.getDogeReserved())));
-    wallets.add(new Wallet("YBC", nullSafeSum(balance.getYbcBalance(), balance.getYbcReserved()), zeroIfNull(balance.getYbcBalance()),
+    balances.add(new Balance("YBC", nullSafeSum(balance.getYbcBalance(), balance.getYbcReserved()), zeroIfNull(balance.getYbcBalance()),
         zeroIfNull(balance.getYbcReserved())));
-    wallets.add(new Wallet(Currencies.CNY, nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved()), zeroIfNull(balance.getCnyBalance()),
+    balances.add(new Balance(Currencies.CNY, nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved()), zeroIfNull(balance.getCnyBalance()),
         zeroIfNull(balance.getCnyReserved())));
-    return new AccountInfo(null, wallets);
+    return new AccountInfo(null, balances);
   }
 
   static BigDecimal nullSafeSum(BigDecimal a, BigDecimal b) {

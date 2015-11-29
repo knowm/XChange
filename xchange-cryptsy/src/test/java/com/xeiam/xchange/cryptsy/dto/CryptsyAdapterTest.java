@@ -230,23 +230,23 @@ public class CryptsyAdapterTest {
 
     AccountInfo adaptedAccountInfo = CryptsyAdapters.adaptAccountInfo(accountInfo);
 
-    List<Wallet> wallets = adaptedAccountInfo.getWallets();
-    assertEquals(wallets.size(), 300);
-    for (Wallet wallet : wallets) {
-      if (wallet.getCurrency().equals("BTC")) {
-        assertEquals(wallet.getBalance(), new BigDecimal("0.05567153"));
-        assertEquals(wallet.getAvailable(), new BigDecimal("0.05466078"));
-        assertEquals(wallet.getFrozen(), new BigDecimal("0.00101075"));
+    List<Balance> balances = adaptedAccountInfo.getBalancesList();
+    assertEquals(balances.size(), 300);
+    for (Balance balance : balances) {
+      if (balance.getCurrency().equals("BTC")) {
+        assertEquals(balance.getTotal(), new BigDecimal("0.05567153"));
+        assertEquals(balance.getAvailable(), new BigDecimal("0.05466078"));
+        assertEquals(balance.getFrozen(), new BigDecimal("0.00101075"));
       }
-      if (wallet.getCurrency().equals("ZRC")) {
-        assertEquals(wallet.getBalance(), new BigDecimal("206.64328423"));
-        assertEquals(wallet.getAvailable(), new BigDecimal("204.94509877"));
-        assertEquals(wallet.getFrozen(), new BigDecimal("1.69818546"));
+      if (balance.getCurrency().equals("ZRC")) {
+        assertEquals(balance.getTotal(), new BigDecimal("206.64328423"));
+        assertEquals(balance.getAvailable(), new BigDecimal("204.94509877"));
+        assertEquals(balance.getFrozen(), new BigDecimal("1.69818546"));
       }
-      if (wallet.getCurrency().equals("XPM")) {
-        assertEquals(wallet.getBalance(), new BigDecimal("17.46835803"));
-        assertEquals(wallet.getAvailable(), new BigDecimal("17.46835803"));
-        assertEquals(wallet.getFrozen(), new BigDecimal("0"));
+      if (balance.getCurrency().equals("XPM")) {
+        assertEquals(balance.getTotal(), new BigDecimal("17.46835803"));
+        assertEquals(balance.getAvailable(), new BigDecimal("17.46835803"));
+        assertEquals(balance.getFrozen(), new BigDecimal("0"));
       }
     }
   }

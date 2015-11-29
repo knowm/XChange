@@ -16,8 +16,8 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -134,20 +134,20 @@ public final class BitcurexAdapters {
   public static AccountInfo adaptAccountInfo(BitcurexFunds funds, String userName) {
 
     // Adapt to XChange DTOs
-    List<Wallet> wallets = new ArrayList<Wallet>(2);
-    wallets.add(new Wallet(Currencies.BTC, funds.getBtcs()));
+    List<Balance> balances = new ArrayList<Balance>(2);
+    balances.add(new Balance(Currencies.BTC, funds.getBtcs()));
 
     BigDecimal eur = funds.getEurs();
     if (eur != null) {
-      wallets.add(new Wallet(Currencies.EUR, eur));
+      balances.add(new Balance(Currencies.EUR, eur));
     }
 
     BigDecimal pln = funds.getPlns();
     if (pln != null) {
-      wallets.add(new Wallet(Currencies.PLN, pln));
+      balances.add(new Balance(Currencies.PLN, pln));
     }
 
-    return new AccountInfo(userName, wallets);
+    return new AccountInfo(userName, balances);
   }
 
 }

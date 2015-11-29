@@ -25,7 +25,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFunds;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesInfoCross;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
@@ -41,7 +41,7 @@ import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrderResult;
 
 public final class OkCoinAdapters {
 
-  private static final Wallet emptyUsdWallet = new Wallet(USD, BigDecimal.ZERO);
+  private static final Balance zeroUsdBalance = new Balance(USD, BigDecimal.ZERO);
 
   private OkCoinAdapters() {
 
@@ -101,30 +101,30 @@ public final class OkCoinAdapters {
     // depending on china or international version
     boolean is_cny = funds.getFree().containsKey("cny");
 
-    Wallet base = null;
-    Wallet baseLoan = null;
+    Balance base = null;
+    Balance baseLoan = null;
 
     if (is_cny) {
-      base = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(getOrZero("cny", funds.getBorrow())),
+      base = new Balance(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(getOrZero("cny", funds.getBorrow())),
           funds.getFree().get("cny"), funds.getFreezed().get("cny"), "available");
-      baseLoan = new Wallet(CNY, getOrZero("cny", funds.getBorrow()), "loan");
+      baseLoan = new Balance(CNY, getOrZero("cny", funds.getBorrow()), "loan");
     } else {
-      base = new Wallet(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())),
+      base = new Balance(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())),
           funds.getFree().get("usd"), funds.getFreezed().get("usd"), "available");
-      baseLoan = new Wallet(USD, getOrZero("usd", funds.getBorrow()), "loan");
+      baseLoan = new Balance(USD, getOrZero("usd", funds.getBorrow()), "loan");
     }
-    Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(getOrZero("btc", funds.getBorrow())),
+    Balance btc = new Balance(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(getOrZero("btc", funds.getBorrow())),
         funds.getFree().get("btc"), funds.getFreezed().get("btc"), "available");
-    Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(getOrZero("ltc", funds.getBorrow())),
+    Balance ltc = new Balance(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(getOrZero("ltc", funds.getBorrow())),
         funds.getFree().get("ltc"), funds.getFreezed().get("ltc"), "available");
 
     // loaned wallets
-    Wallet btcLoan = new Wallet(BTC, getOrZero("btc", funds.getBorrow()), "loan");
-    Wallet ltcLoan = new Wallet(LTC, getOrZero("ltc", funds.getBorrow()), "loan");
+    Balance btcLoan = new Balance(BTC, getOrZero("btc", funds.getBorrow()), "loan");
+    Balance ltcLoan = new Balance(LTC, getOrZero("ltc", funds.getBorrow()), "loan");
 
-    List<Wallet> wallets = Arrays.asList(base, btc, ltc, baseLoan, btcLoan, ltcLoan);
+    List<Balance> balances = Arrays.asList(base, btc, ltc, baseLoan, btcLoan, ltcLoan);
 
-    return new AccountInfo(null, wallets);
+    return new AccountInfo(null, balances);
   }
 
   public static AccountInfo adaptAccountInfoFutures(OkCoinFuturesUserInfoCross futureUserInfo) {
@@ -132,10 +132,10 @@ public final class OkCoinAdapters {
     OkcoinFuturesFundsCross btcFunds = info.getBtcFunds();
     OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
 
-    Wallet btcWallet = new Wallet(BTC, btcFunds.getAccountRights());
-    Wallet ltcWallet = new Wallet(LTC, ltcFunds.getAccountRights());
+    Balance btcBalance = new Balance(BTC, btcFunds.getAccountRights());
+    Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights());
 
-    return new AccountInfo(null, Arrays.asList(emptyUsdWallet, btcWallet, ltcWallet));
+    return new AccountInfo(null, Arrays.asList(zeroUsdBalance, btcBalance, ltcBalance));
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {

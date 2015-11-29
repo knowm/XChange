@@ -13,7 +13,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveAccount;
 import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import com.xeiam.xchange.independentreserve.dto.marketdata.IndependentReserveOrderBook;
@@ -51,16 +51,16 @@ public class IndependentReserveAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(IndependentReserveBalance independentReserveBalance, String userName) {
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
 
     for (IndependentReserveAccount balanceAccount : independentReserveBalance.getIndependentReserveAccounts()) {
       String currency = balanceAccount.getCurrencyCode().toUpperCase();
-      wallets.add(new Wallet(currency, balanceAccount.getTotalBalance()));
+      balances.add(new Balance(currency, balanceAccount.getTotalBalance()));
       if ("XBT".equals(currency)) {
-        wallets.add(new Wallet("BTC", balanceAccount.getTotalBalance()));
+        balances.add(new Balance("BTC", balanceAccount.getTotalBalance()));
       }
     }
-    return new AccountInfo(userName, wallets);
+    return new AccountInfo(userName, balances);
   }
 
   public static OpenOrders adaptOpenOrders(IndependentReserveOpenOrdersResponse independentReserveOrders) {

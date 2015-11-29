@@ -8,7 +8,7 @@ import java.util.Map;
 
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.therock.dto.account.TheRockBalance;
 import com.xeiam.xchange.therock.dto.trade.TheRockOrder;
 
@@ -22,9 +22,9 @@ public final class TheRockAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(List<TheRockBalance> balances, String userName) {
-    Map<String, Wallet> wallets = new HashMap<>();
+    Map<String, Balance> wallets = new HashMap<>();
     for (TheRockBalance blc : balances) {
-      wallets.put(blc.getCurrency(), new Wallet(blc.getCurrency(), blc.getBalance(), blc.getTradingBalance()));
+      wallets.put(blc.getCurrency(), new Balance(blc.getCurrency(), blc.getBalance(), blc.getTradingBalance()));
     }
     return new AccountInfo(userName, wallets);
   }

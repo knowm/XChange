@@ -22,9 +22,9 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class BleutradeAdapters {
@@ -103,14 +103,14 @@ public class BleutradeAdapters {
 
   public static AccountInfo adaptBleutradeBalances(List<BleutradeBalance> bleutradeBalances) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
 
     for (BleutradeBalance bleutradeBalance : bleutradeBalances) {
-        wallets.add(new Wallet(bleutradeBalance.getCurrency(), bleutradeBalance.getBalance(), bleutradeBalance.getAvailable(), bleutradeBalance.getPending()));
+        balances.add(new Balance(bleutradeBalance.getCurrency(), bleutradeBalance.getBalance(), bleutradeBalance.getAvailable(), bleutradeBalance.getPending()));
 
     }
 
-    return new AccountInfo(null, wallets);
+    return new AccountInfo(null, balances);
   }
 
   public static OpenOrders adaptBleutradeOpenOrders(List<BleutradeOpenOrder> bleutradeOpenOrders) {

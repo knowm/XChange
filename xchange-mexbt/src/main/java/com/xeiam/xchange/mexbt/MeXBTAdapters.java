@@ -14,11 +14,8 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.*;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.mexbt.dto.account.MeXBTBalance;
 import com.xeiam.xchange.mexbt.dto.account.MeXBTBalanceResponse;
 import com.xeiam.xchange.mexbt.dto.account.MeXBTDepositAddress;
@@ -86,9 +83,9 @@ public final class MeXBTAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(String username, MeXBTBalanceResponse balanceResponse) {
-    Map<String, Wallet> wallets = new LinkedHashMap<String, Wallet>(balanceResponse.getCurrencies().length);
+    Map<String, Balance> wallets = new LinkedHashMap<String, Balance>(balanceResponse.getCurrencies().length);
     for (MeXBTBalance balance : balanceResponse.getCurrencies()) {
-      Wallet wallet = new Wallet(balance.getName(), balance.getBalance().add(balance.getHold()), balance.getBalance(), balance.getHold());
+      Balance wallet = new Balance(balance.getName(), balance.getBalance().add(balance.getHold()), balance.getBalance(), balance.getHold());
       wallets.put(wallet.getCurrency(), wallet);
     }
     return new AccountInfo(username, wallets);

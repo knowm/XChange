@@ -110,12 +110,12 @@ public class MercadoBitcoinAdapterTest {
 
     AccountInfo accountInfo = MercadoBitcoinAdapters.adaptAccountInfo(mercadoBitcoinAccountInfo, "Nina Tufão & Bit");
     assertThat(accountInfo.getUsername()).isEqualTo("Nina Tufão & Bit");
-    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("BRL");
-    assertThat(accountInfo.getWallets().get(0).getBalance()).isEqualTo(new BigDecimal("248.29516"));
-    assertThat(accountInfo.getWallets().get(1).getCurrency()).isEqualTo("BTC");
-    assertThat(accountInfo.getWallets().get(1).getBalance()).isEqualTo(new BigDecimal("0.25000000"));
-    assertThat(accountInfo.getWallets().get(2).getCurrency()).isEqualTo("LTC");
-    assertThat(accountInfo.getWallets().get(2).getBalance()).isEqualTo(new BigDecimal("0.00000000"));
+    assertThat(accountInfo.getBalancesList().get(0).getCurrency()).isEqualTo("BRL");
+    assertThat(accountInfo.getBalancesList().get(0).getTotal()).isEqualTo(new BigDecimal("248.29516"));
+    assertThat(accountInfo.getBalancesList().get(1).getCurrency()).isEqualTo("BTC");
+    assertThat(accountInfo.getBalancesList().get(1).getTotal()).isEqualTo(new BigDecimal("0.25000000"));
+    assertThat(accountInfo.getBalancesList().get(2).getCurrency()).isEqualTo("LTC");
+    assertThat(accountInfo.getBalancesList().get(2).getTotal()).isEqualTo(new BigDecimal("0.00000000"));
   }
 
   @Test

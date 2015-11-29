@@ -27,8 +27,8 @@ public class IndependentReserveAccountDemo {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("USD balance: " + accountInfo.getWallet("USD").getAvailable());
-    System.out.println("BTC balance: " + accountInfo.getWallet("BTC").getAvailable());
+    System.out.println("USD balance: " + accountInfo.getBalance("USD").getAvailable());
+    System.out.println("BTC balance: " + accountInfo.getBalance("BTC").getAvailable());
 
   }
 

@@ -22,8 +22,8 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.huobi.dto.account.BitVcAccountInfo;
 import com.xeiam.xchange.huobi.dto.account.HuobiAccountInfo;
@@ -108,40 +108,40 @@ public final class HuobiAdapters {
 
   public static AccountInfo adaptAccountInfo(BitVcAccountInfo a) {
 
-    Wallet cny = new Wallet(CNY, a.getAvailableCnyDisplay().add(a.getFrozenCnyDisplay()).subtract(a.getLoanCnyDisplay()), "available");
-    Wallet btc = new Wallet(BTC, a.getAvailableBtcDisplay().add(a.getFrozenBtcDisplay()).subtract(a.getLoanBtcDisplay()), "available");
-    Wallet ltc = new Wallet(LTC, a.getAvailableLtcDisplay().add(a.getFrozenLtcDisplay()).subtract(a.getLoanLtcDisplay()), "available");
+    Balance cny = new Balance(CNY, a.getAvailableCnyDisplay().add(a.getFrozenCnyDisplay()).subtract(a.getLoanCnyDisplay()), "available");
+    Balance btc = new Balance(BTC, a.getAvailableBtcDisplay().add(a.getFrozenBtcDisplay()).subtract(a.getLoanBtcDisplay()), "available");
+    Balance ltc = new Balance(LTC, a.getAvailableLtcDisplay().add(a.getFrozenLtcDisplay()).subtract(a.getLoanLtcDisplay()), "available");
 
     // loaned wallets
-    Wallet cnyLoan = new Wallet(CNY, a.getLoanCnyDisplay(), "loan");
-    Wallet btcLoan = new Wallet(BTC, a.getLoanBtcDisplay(), "loan");
-    Wallet ltcLoan = new Wallet(LTC, a.getLoanLtcDisplay(), "loan");
+    Balance cnyLoan = new Balance(CNY, a.getLoanCnyDisplay(), "loan");
+    Balance btcLoan = new Balance(BTC, a.getLoanBtcDisplay(), "loan");
+    Balance ltcLoan = new Balance(LTC, a.getLoanLtcDisplay(), "loan");
 
-    List<Wallet> wallets = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan);
-    return new AccountInfo(null, wallets);
+    List<Balance> balances = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan);
+    return new AccountInfo(null, balances);
   }
 
   public static AccountInfo adaptHuobiAccountInfo(HuobiAccountInfo a) {
 
-    Wallet cny = new Wallet(CNY, a.getAvailableCnyDisplay().add(a.getFrozenCnyDisplay()).subtract(a.getLoanCnyDisplay()), "available");
-    Wallet btc = new Wallet(BTC, a.getAvailableBtcDisplay().add(a.getFrozenBtcDisplay()).subtract(a.getLoanBtcDisplay()), "available");
-    Wallet ltc = new Wallet(LTC, a.getAvailableLtcDisplay().add(a.getFrozenLtcDisplay()).subtract(a.getLoanLtcDisplay()), "available");
+    Balance cny = new Balance(CNY, a.getAvailableCnyDisplay().add(a.getFrozenCnyDisplay()).subtract(a.getLoanCnyDisplay()), "available");
+    Balance btc = new Balance(BTC, a.getAvailableBtcDisplay().add(a.getFrozenBtcDisplay()).subtract(a.getLoanBtcDisplay()), "available");
+    Balance ltc = new Balance(LTC, a.getAvailableLtcDisplay().add(a.getFrozenLtcDisplay()).subtract(a.getLoanLtcDisplay()), "available");
 
     // loaned wallets
-    Wallet cnyLoan = new Wallet(CNY, a.getLoanCnyDisplay(), "loan");
-    Wallet btcLoan = new Wallet(BTC, a.getLoanBtcDisplay(), "loan");
-    Wallet ltcLoan = new Wallet(LTC, a.getLoanLtcDisplay(), "loan");
+    Balance cnyLoan = new Balance(CNY, a.getLoanCnyDisplay(), "loan");
+    Balance btcLoan = new Balance(BTC, a.getLoanBtcDisplay(), "loan");
+    Balance ltcLoan = new Balance(LTC, a.getLoanLtcDisplay(), "loan");
 
-    Wallet cnyWallet = adaptWallet(CNY, a.getAvailableCnyDisplay(), a.getFrozenCnyDisplay(), a.getLoanCnyDisplay());
-    Wallet btcWallet = adaptWallet(BTC, a.getAvailableBtcDisplay(), a.getFrozenBtcDisplay(), a.getLoanBtcDisplay());
-    Wallet ltcWallet = adaptWallet(LTC, a.getAvailableLtcDisplay(), a.getFrozenLtcDisplay(), a.getLoanLtcDisplay());
+    Balance cnyBalance = adaptWallet(CNY, a.getAvailableCnyDisplay(), a.getFrozenCnyDisplay(), a.getLoanCnyDisplay());
+    Balance btcBalance = adaptWallet(BTC, a.getAvailableBtcDisplay(), a.getFrozenBtcDisplay(), a.getLoanBtcDisplay());
+    Balance ltcBalance = adaptWallet(LTC, a.getAvailableLtcDisplay(), a.getFrozenLtcDisplay(), a.getLoanLtcDisplay());
 
-    List<Wallet> wallets = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan, cnyWallet, btcWallet, ltcWallet);
-    return new AccountInfo(null, wallets);
+    List<Balance> balances = Arrays.asList(cny, btc, ltc, cnyLoan, btcLoan, ltcLoan, cnyBalance, btcBalance, ltcBalance);
+    return new AccountInfo(null, balances);
   }
 
-  public static Wallet adaptWallet(String currency, BigDecimal available, BigDecimal frozen, BigDecimal loan) {
-    return new Wallet(currency, available.add(frozen), available, frozen);
+  public static Balance adaptWallet(String currency, BigDecimal available, BigDecimal frozen, BigDecimal loan) {
+    return new Balance(currency, available.add(frozen), available, frozen);
   }
 
   public static String adaptPlaceOrderResult(HuobiPlaceOrderResult result) {

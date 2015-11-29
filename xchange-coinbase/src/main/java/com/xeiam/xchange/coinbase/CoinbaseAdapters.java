@@ -19,9 +19,9 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
  * jamespedwards42
@@ -36,11 +36,11 @@ public final class CoinbaseAdapters {
 
     final String username = user.getEmail();
     final CoinbaseMoney balance = user.getBalance();
-    final Wallet wallet = new Wallet(balance.getCurrency(), balance.getAmount());
-    final List<Wallet> wallets = new ArrayList<Wallet>();
-    wallets.add(wallet);
+    final Balance wallet = new Balance(balance.getCurrency(), balance.getAmount());
+    final List<Balance> balances = new ArrayList<Balance>();
+    balances.add(wallet);
 
-    final AccountInfo accountInfo = new AccountInfo(username, wallets);
+    final AccountInfo accountInfo = new AccountInfo(username, balances);
     return accountInfo;
   }
 

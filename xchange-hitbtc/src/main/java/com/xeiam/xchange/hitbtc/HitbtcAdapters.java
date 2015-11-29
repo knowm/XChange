@@ -24,7 +24,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcIncrementalRefresh;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
@@ -288,17 +288,17 @@ public class HitbtcAdapters {
 
   public static AccountInfo adaptAccountInfo(HitbtcBalance[] accountInfoRaw) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>(accountInfoRaw.length);
+    List<Balance> balances = new ArrayList<Balance>(accountInfoRaw.length);
 
     for (int i = 0; i < accountInfoRaw.length; i++) {
       HitbtcBalance balance = accountInfoRaw[i];
 
-      Wallet wallet = new Wallet(balance.getCurrencyCode(), balance.getCash().add(balance.getReserved()), balance.getCash(), balance.getReserved(),
+      Balance wallet = new Balance(balance.getCurrencyCode(), balance.getCash().add(balance.getReserved()), balance.getCash(), balance.getReserved(),
           balance.getCurrencyCode());
-      wallets.add(wallet);
+      balances.add(wallet);
 
     }
-    return new AccountInfo(null, wallets);
+    return new AccountInfo(null, balances);
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {

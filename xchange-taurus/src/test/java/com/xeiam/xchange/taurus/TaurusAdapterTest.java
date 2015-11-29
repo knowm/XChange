@@ -45,13 +45,13 @@ public class TaurusAdapterTest {
     AccountInfo accountInfo = TaurusAdapters.adaptAccountInfo(taurusBalance, "Joe Mama");
     assertThat(accountInfo.getUsername()).isEqualTo("Joe Mama");
     assertThat(accountInfo.getTradingFee()).isEqualTo(new BigDecimal("0.5000"));
-    assertThat(accountInfo.getWallets().size()).isEqualTo(2);
-    assertThat(accountInfo.getBalance("CAD")).isEqualTo(new BigDecimal("6.16"));
-    assertThat(accountInfo.getBalance("BTC")).isEqualTo(new BigDecimal("0.02350921"));
-    assertThat(accountInfo.getWallet(Currencies.CAD).getAvailable()).isEqualTo(new BigDecimal("6.16"));
-    assertThat(accountInfo.getWallet(Currencies.CAD).getFrozen()).isEqualTo(new BigDecimal("0.00"));
-    assertThat(accountInfo.getWallet(Currencies.BTC).getAvailable()).isEqualTo(new BigDecimal("0.02350921"));
-    assertThat(accountInfo.getWallet(Currencies.BTC).getFrozen()).isEqualTo(new BigDecimal("0.00000000"));
+    assertThat(accountInfo.getBalancesList().size()).isEqualTo(2);
+    assertThat(accountInfo.getBalanceTotal("CAD")).isEqualTo(new BigDecimal("6.16"));
+    assertThat(accountInfo.getBalanceTotal("BTC")).isEqualTo(new BigDecimal("0.02350921"));
+    assertThat(accountInfo.getBalance(Currencies.CAD).getAvailable()).isEqualTo(new BigDecimal("6.16"));
+    assertThat(accountInfo.getBalance(Currencies.CAD).getFrozen()).isEqualTo(new BigDecimal("0.00"));
+    assertThat(accountInfo.getBalance(Currencies.BTC).getAvailable()).isEqualTo(new BigDecimal("0.02350921"));
+    assertThat(accountInfo.getBalance(Currencies.BTC).getFrozen()).isEqualTo(new BigDecimal("0.00000000"));
   }
 
   @Test

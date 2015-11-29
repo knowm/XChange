@@ -24,9 +24,9 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
 
 public class CoinbaseExAdapters {
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -82,15 +82,15 @@ public class CoinbaseExAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(CoinbaseExAccount[] coinbaseExAccountInfo) {
-    List<Wallet> wallets = new ArrayList<Wallet>(coinbaseExAccountInfo.length);
+    List<Balance> balances = new ArrayList<Balance>(coinbaseExAccountInfo.length);
 
     for (int i = 0; i < coinbaseExAccountInfo.length; i++) {
       CoinbaseExAccount account = coinbaseExAccountInfo[i];
 
-      wallets.add(new Wallet(account.getCurrency(), account.getBalance(), account.getAvailable(), account.getHold()));
+      balances.add(new Balance(account.getCurrency(), account.getBalance(), account.getAvailable(), account.getHold()));
     }
 
-    return new AccountInfo(coinbaseExAccountInfo[0].getProfile_id(), wallets);
+    return new AccountInfo(coinbaseExAccountInfo[0].getProfile_id(), balances);
   }
 
   public static OpenOrders adaptOpenOrders(CoinbaseExOrder[] coinbaseExOpenOrders) {

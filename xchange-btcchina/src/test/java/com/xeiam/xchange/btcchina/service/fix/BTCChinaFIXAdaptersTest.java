@@ -110,9 +110,9 @@ public class BTCChinaFIXAdaptersTest {
     assertEquals(new BigDecimal("0"), groups.get(2).getField(new Amount()).getValue());
 
     AccountInfo accountInfo = BTCChinaFIXAdapters.adaptAccountInfo(message);
-    assertEquals(new BigDecimal("0.001"), accountInfo.getBalance("BTC"));
-    assertEquals(new BigDecimal("0"), accountInfo.getBalance("LTC"));
-    assertEquals(new BigDecimal("0"), accountInfo.getBalance("CNY"));
+    assertEquals(new BigDecimal("0.001"), accountInfo.getBalanceTotal("BTC"));
+    assertEquals(new BigDecimal("0"), accountInfo.getBalanceTotal("LTC"));
+    assertEquals(new BigDecimal("0"), accountInfo.getBalanceTotal("CNY"));
   }
 
   private Ticker getTicker() throws IOException, InvalidMessage, FieldNotFound {

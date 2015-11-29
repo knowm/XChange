@@ -14,9 +14,9 @@ import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.quoine.dto.account.FiatAccount;
 import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
 import com.xeiam.xchange.quoine.dto.account.QuoineTradingAccountInfo;
@@ -68,7 +68,7 @@ public class QuoineAdapters {
   }
 
   public static AccountInfo adaptTradingAccountInfo(QuoineTradingAccountInfo[] quoineAccountInfo) {
-    Map<String, Wallet> wallets = new HashMap<String, Wallet>(quoineAccountInfo.length);
+    Map<String, Balance> wallets = new HashMap<String, Balance>(quoineAccountInfo.length);
 
     // btc position is sum of all positions in margin. Asuming all currencies are using the same margin level.
     BigDecimal btcPosition = BigDecimal.ZERO;
@@ -76,30 +76,30 @@ public class QuoineAdapters {
     for (int i = 0; i < quoineAccountInfo.length; i++) {
       QuoineTradingAccountInfo info = quoineAccountInfo[i];
 
-      wallets.put(info.getCollateralCurrency(), new Wallet(info.getCollateralCurrency(), info.getFreeMargin()));
+      wallets.put(info.getCollateralCurrency(), new Balance(info.getCollateralCurrency(), info.getFreeMargin()));
 
       btcPosition = btcPosition.add(info.getPosition());
     }
 
-    wallets.put("BTC", new Wallet("BTC", btcPosition));
+    wallets.put("BTC", new Balance("BTC", btcPosition));
 
     return new AccountInfo(null, wallets);
   }
 
   public static AccountInfo adaptAccountinfo(QuoineAccountInfo quoineAccountInfo) {
 
-    Map<String, Wallet> wallets = new HashMap<String, Wallet>();
+    Map<String, Balance> wallets = new HashMap<String, Balance>();
 
     // Adapt to XChange DTOs
-    Wallet btcWallet = new Wallet(quoineAccountInfo.getBitcoinAccount().getCurrency(), quoineAccountInfo.getBitcoinAccount().getBalance(),
+    Balance btcBalance = new Balance(quoineAccountInfo.getBitcoinAccount().getCurrency(), quoineAccountInfo.getBitcoinAccount().getBalance(),
         quoineAccountInfo.getBitcoinAccount().getFreeBalance(),
         quoineAccountInfo.getBitcoinAccount().getBalance().subtract(quoineAccountInfo.getBitcoinAccount().getFreeBalance()));
-    wallets.put(quoineAccountInfo.getBitcoinAccount().getCurrency(), btcWallet);
+    wallets.put(quoineAccountInfo.getBitcoinAccount().getCurrency(), btcBalance);
 
     for (FiatAccount fiatAccount : quoineAccountInfo.getFiatAccounts()) {
-      Wallet fiatWallet = new Wallet(fiatAccount.getCurrency(), fiatAccount.getBalance(), fiatAccount.getFreeBalance(),
+      Balance fiatBalance = new Balance(fiatAccount.getCurrency(), fiatAccount.getBalance(), fiatAccount.getFreeBalance(),
           fiatAccount.getBalance().subtract(fiatAccount.getFreeBalance()));
-      wallets.put(fiatAccount.getCurrency(), fiatWallet);
+      wallets.put(fiatAccount.getCurrency(), fiatBalance);
     }
 
     return new AccountInfo(null, wallets);

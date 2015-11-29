@@ -18,11 +18,8 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.*;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountBalance;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
@@ -117,7 +114,7 @@ public final class ItBitAdapters {
 
   public static AccountInfo adaptAccountInfo(ItBitAccountInfoReturn[] info) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> wallets = new ArrayList<Balance>();
     String userId = "";
 
     for (int i = 0; i < info.length; i++) {
@@ -129,9 +126,9 @@ public final class ItBitAdapters {
       for (int j = 0; j < balances.length; j++) {
         ItBitAccountBalance itBitAccountBalance = balances[j];
 
-        Wallet wallet = new Wallet(itBitAccountBalance.getCurrency(), itBitAccountBalance.getTotalBalance(),
+        Balance balance = new Balance(itBitAccountBalance.getCurrency(), itBitAccountBalance.getTotalBalance(),
             itBitAccountBalance.getAvailableBalance(), itBitAccountInfoReturn.getName());
-        wallets.add(wallet);
+        wallets.add(balance);
       }
     }
 

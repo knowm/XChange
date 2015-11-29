@@ -96,10 +96,10 @@ public class QuoineAdaptersTest {
     AccountInfo accountInfo = QuoineAdapters.adaptAccountinfo(quoineAccountInfo);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(accountInfo.getWallets().size()).isEqualTo(6);
-    System.out.println(accountInfo.getWallet("JPY").toString());
-    assertThat(accountInfo.getWallet("JPY").getCurrency()).isEqualTo("JPY");
-    assertThat(accountInfo.getWallet("JPY").getBalance()).isEqualTo(new BigDecimal("12546.36144"));
+    assertThat(accountInfo.getBalancesList().size()).isEqualTo(6);
+    System.out.println(accountInfo.getBalance("JPY").toString());
+    assertThat(accountInfo.getBalance("JPY").getCurrency()).isEqualTo("JPY");
+    assertThat(accountInfo.getBalance("JPY").getTotal()).isEqualTo(new BigDecimal("12546.36144"));
   }
 
 }

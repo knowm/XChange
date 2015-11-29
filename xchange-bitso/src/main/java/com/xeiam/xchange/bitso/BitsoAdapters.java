@@ -21,10 +21,10 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 public final class BitsoAdapters {
@@ -40,10 +40,10 @@ public final class BitsoAdapters {
 
   public static AccountInfo adaptAccountInfo(BitsoBalance bitsoBalance, String userName) {
     // Adapt to XChange DTOs
-    Wallet mxnWallet = new Wallet(Currencies.MXN, bitsoBalance.getMxnBalance(), bitsoBalance.getMxnAvailable(), bitsoBalance.getMxnReserved());
-    Wallet btcWallet = new Wallet(Currencies.BTC, bitsoBalance.getBtcBalance(), bitsoBalance.getBtcAvailable(), bitsoBalance.getBtcReserved());
+    Balance mxnBalance = new Balance(Currencies.MXN, bitsoBalance.getMxnBalance(), bitsoBalance.getMxnAvailable(), bitsoBalance.getMxnReserved());
+    Balance btcBalance = new Balance(Currencies.BTC, bitsoBalance.getBtcBalance(), bitsoBalance.getBtcAvailable(), bitsoBalance.getBtcReserved());
 
-    return new AccountInfo(userName, Arrays.asList(mxnWallet, btcWallet));
+    return new AccountInfo(userName, Arrays.asList(mxnBalance, btcBalance));
   }
 
   public static OrderBook adaptOrderBook(BitsoOrderBook bitsoOrderBook, CurrencyPair currencyPair, int timeScale) {

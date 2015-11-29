@@ -24,7 +24,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.Balance;
 
 public final class BTCMarketsAdapters {
 
@@ -45,10 +45,10 @@ public final class BTCMarketsAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(List<BTCMarketsBalance> balances, String userName) {
-    Map<String, Wallet> wallets = new HashMap<>();
+    Map<String, Balance> wallets = new HashMap<>();
     for (BTCMarketsBalance blc : balances) {
       final String currency = blc.getCurrency();
-      wallets.put(currency, new Wallet(currency, blc.getBalance(), blc.getAvailable()));
+      wallets.put(currency, new Balance(currency, blc.getBalance(), blc.getAvailable()));
     }
     return new AccountInfo(userName, wallets);
   }

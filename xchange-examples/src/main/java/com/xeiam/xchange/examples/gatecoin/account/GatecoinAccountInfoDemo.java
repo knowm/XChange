@@ -28,7 +28,7 @@ public class GatecoinAccountInfoDemo {
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("AccountInfo: " + accountInfo);
-    System.out.println("BTC balance: " + accountInfo.getWallet("BTC").getAvailable());
+    System.out.println("BTC balance: " + accountInfo.getBalance("BTC").getAvailable());
   }
 
   private static void raw(GatecoinAccountServiceRaw accountService) throws IOException {
