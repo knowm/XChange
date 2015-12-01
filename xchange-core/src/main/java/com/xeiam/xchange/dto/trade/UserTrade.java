@@ -3,9 +3,11 @@ package com.xeiam.xchange.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 /**
  * Data object representing a user trade
@@ -23,18 +25,17 @@ public class UserTrade extends Trade {
   private final BigDecimal feeAmount;
 
   /**
-   * The symbol of the currency in which the fee was charged.
+   * The currency in which the fee was charged.
    */
-  private final String feeCurrency;
+  private final Currency feeCurrency;
 
   /**
    * This constructor is called to construct user's trade objects (in
-   * {@link com.xeiam.xchange.service.polling.trade.PollingTradeService#getTradeHistory(Object...)} implementations).
+   * {@link com.xeiam.xchange.service.polling.trade.PollingTradeService#getTradeHistory(TradeHistoryParams)} implementations).
    *
    * @param type The trade type (BID side or ASK side)
    * @param tradableAmount The depth of this trade
-   * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
-   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
+   * @param currencyPair The exchange identifier (e.g. "BTC/USD")
    * @param price The price (either the bid or the ask)
    * @param timestamp The timestamp of the trade
    * @param id The id of the trade
@@ -43,13 +44,31 @@ public class UserTrade extends Trade {
    * @param feeCurrency The symbol of the currency in which the fee was charged
    */
   public UserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId,
-      BigDecimal feeAmount, String feeCurrency) {
+      BigDecimal feeAmount, Currency feeCurrency) {
 
     super(type, tradableAmount, currencyPair, price, timestamp, id);
 
     this.orderId = orderId;
     this.feeAmount = feeAmount;
     this.feeCurrency = feeCurrency;
+  }
+
+  /**
+   * @see #UserTrade(OrderType,BigDecimal,CurrencyPair,BigDecimal,Date,String,String,BigDecimal,Currency)
+   */
+  public UserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId) {
+
+    this(type, tradableAmount, currencyPair, price, timestamp, id, orderId, null, (Currency)null);
+  }
+
+  /**
+   * @deprecated use #UserTrade(OrderType,BigDecimal,CurrencyPair,BigDecimal,Date,String,String,BigDecimal,Currency)
+   */
+  @Deprecated
+  public UserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId,
+      BigDecimal feeAmount, String feeCurrency) {
+
+    this(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, Currency.getInstance(feeCurrency));
   }
 
   public String getOrderId() {
@@ -62,7 +81,7 @@ public class UserTrade extends Trade {
     return feeAmount;
   }
 
-  public String getFeeCurrency() {
+  public Currency getFeeCurrency() {
 
     return feeCurrency;
   }
@@ -78,7 +97,7 @@ public class UserTrade extends Trade {
 
     protected String orderId;
     protected BigDecimal feeAmount;
-    protected String feeCurrency;
+    protected Currency feeCurrency;
 
     public static Builder from(UserTrade trade) {
       return new Builder().type(trade.getType()).tradableAmount(trade.getTradableAmount()).currencyPair(trade.getCurrencyPair())
@@ -120,7 +139,7 @@ public class UserTrade extends Trade {
       return this;
     }
 
-    public Builder feeCurrency(String feeCurrency) {
+    public Builder feeCurrency(Currency feeCurrency) {
       this.feeCurrency = feeCurrency;
       return this;
     }

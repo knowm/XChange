@@ -82,7 +82,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
 
   public HitbtcExecutionReportResponse placeMarketOrderRawBaseResponse(MarketOrder marketOrder) throws IOException {
 
-    String symbol = marketOrder.getCurrencyPair().baseSymbol + marketOrder.getCurrencyPair().counterSymbol;
+    String symbol = marketOrder.getCurrencyPair().base.getCurrencyCode() + marketOrder.getCurrencyPair().counter.getCurrencyCode();
 
     long nonce = exchange.getNonceFactory().createValue();
     String side = HitbtcAdapters.getSide(marketOrder.getType()).toString();

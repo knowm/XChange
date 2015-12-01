@@ -23,7 +23,7 @@ public final class HuobiSocketIOAdapters {
   }
 
   public static String adaptSymbol(CurrencyPair currencyPair) {
-    return (currencyPair.baseSymbol + currencyPair.counterSymbol).toLowerCase();
+    return (currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode()).toLowerCase();
   }
 
   public static CurrencyPair adaptCurrencyPair(String symbolId) {

@@ -11,7 +11,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitso.BitsoAdapters;
 import com.xeiam.xchange.bitso.dto.BitsoException;
 import com.xeiam.xchange.bitso.dto.trade.BitsoOrder;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -51,7 +51,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements PollingTr
       String id = bitsoOrder.getId();
       BigDecimal price = bitsoOrder.getPrice();
       limitOrders
-          .add(new LimitOrder(orderType, bitsoOrder.getAmount(), new CurrencyPair(Currencies.BTC, Currencies.MXN), id, bitsoOrder.getTime(), price));
+          .add(new LimitOrder(orderType, bitsoOrder.getAmount(), new CurrencyPair(Currency.BTC, Currency.MXN), id, bitsoOrder.getTime(), price));
     }
     return new OpenOrders(limitOrders);
   }

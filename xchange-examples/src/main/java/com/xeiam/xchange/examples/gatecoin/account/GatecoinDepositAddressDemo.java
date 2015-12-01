@@ -3,6 +3,7 @@ package com.xeiam.xchange.examples.gatecoin.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.examples.gatecoin.GatecoinDemoUtils;
 import com.xeiam.xchange.gatecoin.dto.account.GatecoinDepositAddress;
 import com.xeiam.xchange.gatecoin.dto.account.Results.GatecoinDepositAddressResult;
@@ -24,7 +25,7 @@ public class GatecoinDepositAddressDemo {
 
   private static void generic(PollingAccountService accountService) throws IOException {
 
-    String depositAddress = accountService.requestDepositAddress("BTC");
+    String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit address: " + depositAddress);
   }
 

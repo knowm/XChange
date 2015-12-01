@@ -177,7 +177,7 @@ public final class GatecoinAdapters {
 
         final CurrencyPair currencyPair = new CurrencyPair(gatecoinUserTrade.getCurrencyPair().substring(0, 3), gatecoinUserTrade.getCurrencyPair().substring(3, 6));
         UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-            currencyPair.counterSymbol);
+            currencyPair.counter.getCurrencyCode());
         trades.add(trade);
       }
     }

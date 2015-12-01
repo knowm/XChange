@@ -31,17 +31,17 @@ public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
 
   public BitbayTicker getBitbayTicker(CurrencyPair currencyPair) throws IOException {
 
-    return bitbay.getBitbayTicker(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString());
+    return bitbay.getBitbayTicker(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
   }
 
   public BitbayOrderBook getBitbayOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    return bitbay.getBitbayOrderBook(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString());
+    return bitbay.getBitbayOrderBook(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
   }
 
   public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair) throws IOException {
 
-    return bitbay.getBitbayTrades(currencyPair.baseSymbol.toUpperCase() + currencyPair.counterSymbol.toString());
+    return bitbay.getBitbayTrades(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
   }
 
 }

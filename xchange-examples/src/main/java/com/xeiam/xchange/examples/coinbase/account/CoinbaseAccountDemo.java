@@ -20,7 +20,7 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseUser;
 import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -44,7 +44,7 @@ public class CoinbaseAccountDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("Account Info: " + accountInfo);
 
-    String depositAddress = accountService.requestDepositAddress(Currencies.BTC);
+    String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit Address: " + depositAddress);
 
     // String transactionHash = accountService.withdrawFunds(new BigDecimal(".01"), "1CYmvfR53AYPj87TjxXZQrLZ8z8dRUKDMs");
@@ -125,7 +125,7 @@ public class CoinbaseAccountDemo {
 
   private static void demoTransactions(CoinbaseAccountService accountService) throws IOException {
 
-    CoinbaseRequestMoneyRequest moneyRequest = CoinbaseTransaction.createMoneyRequest("xchange@demo.com", Currencies.BTC, new BigDecimal(".001"))
+    CoinbaseRequestMoneyRequest moneyRequest = CoinbaseTransaction.createMoneyRequest("xchange@demo.com", "BTC", new BigDecimal(".001"))
         .withNotes("test");
     CoinbaseTransaction pendingTransaction = accountService.requestMoneyCoinbaseRequest(moneyRequest);
     System.out.println(pendingTransaction);

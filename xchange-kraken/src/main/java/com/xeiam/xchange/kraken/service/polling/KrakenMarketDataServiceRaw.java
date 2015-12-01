@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades;
@@ -62,12 +63,12 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService {
     return checkResult(result);
   }
 
-  public KrakenSpreads getKrakenSpreads(String tradableIdentifier, String currency) throws IOException {
+  public KrakenSpreads getKrakenSpreads(Currency tradableIdentifier, Currency currency) throws IOException {
 
     return getKrakenSpreads(tradableIdentifier, currency, null);
   }
 
-  private KrakenSpreads getKrakenSpreads(String tradableIdentifier, String currency, Long since) throws IOException {
+  private KrakenSpreads getKrakenSpreads(Currency tradableIdentifier, Currency currency, Long since) throws IOException {
 
     String krakenCurrencyPair = createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenSpreadsResult spreadsResult = kraken.getSpread(krakenCurrencyPair, since);

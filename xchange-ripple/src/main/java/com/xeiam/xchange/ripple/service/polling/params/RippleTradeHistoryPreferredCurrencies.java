@@ -2,6 +2,7 @@ package com.xeiam.xchange.ripple.service.polling.params;
 
 import java.util.Collection;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 /**
@@ -9,7 +10,7 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
  */
 public interface RippleTradeHistoryPreferredCurrencies extends TradeHistoryParams {
 
-  public Collection<String> getPreferredBaseCurrency();
+  public Collection<Currency> getPreferredBaseCurrency();
 
-  public Collection<String> getPreferredCounterCurrency();
+  public Collection<Currency> getPreferredCounterCurrency();
 }

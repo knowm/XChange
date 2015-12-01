@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.List;
 
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
@@ -51,7 +51,7 @@ public final class ANXUtils {
 
   public static int getMaxPriceScale(CurrencyPair currencyPair) {
 
-    if (currencyPair.baseSymbol.equalsIgnoreCase(Currencies.BTC.toString()) || currencyPair.baseSymbol.equalsIgnoreCase(Currencies.LTC.toString())) {
+    if (currencyPair.base.equals(Currency.BTC) || currencyPair.base.equals(Currency.LTC)) {
       return 5;
     } else {
       return 8;

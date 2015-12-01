@@ -3,6 +3,7 @@ package com.xeiam.xchange.kraken.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.UserTrade;
@@ -12,7 +13,7 @@ public class KrakenUserTrade extends UserTrade {
   private final BigDecimal cost;
 
   public KrakenUserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id,
-      String orderId, BigDecimal feeAmount, String feeCurrency, BigDecimal cost) {
+      String orderId, BigDecimal feeAmount, Currency feeCurrency, BigDecimal cost) {
     super(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
     this.cost = cost;
   }

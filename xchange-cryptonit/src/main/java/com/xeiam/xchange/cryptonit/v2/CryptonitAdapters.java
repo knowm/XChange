@@ -134,7 +134,7 @@ public final class CryptonitAdapters {
     BigDecimal low = rate.getLow();
     BigDecimal bid = rate.getBid();
     BigDecimal ask = rate.getAsk();
-    BigDecimal volume = cryptonitTicker.getVolume().getVolume(currencyPair.baseSymbol);
+    BigDecimal volume = cryptonitTicker.getVolume().getVolume(currencyPair.base.getCurrencyCode());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(bid).ask(ask).volume(volume).build();
   }

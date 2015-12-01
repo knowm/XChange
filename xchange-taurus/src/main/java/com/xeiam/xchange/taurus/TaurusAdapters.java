@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -32,8 +32,8 @@ public final class TaurusAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(TaurusBalance taurusBalance, String userName) {
-    Wallet cadWallet = new Wallet(Currencies.CAD, taurusBalance.getCadBalance(), taurusBalance.getCadAvailable(), taurusBalance.getCadReserved());
-    Wallet btcWallet = new Wallet(Currencies.BTC, taurusBalance.getBtcBalance(), taurusBalance.getBtcAvailable(), taurusBalance.getBtcReserved());
+    Wallet cadWallet = new Wallet(Currency.CAD, taurusBalance.getCadBalance(), taurusBalance.getCadAvailable(), taurusBalance.getCadReserved());
+    Wallet btcWallet = new Wallet(Currency.BTC, taurusBalance.getBtcBalance(), taurusBalance.getBtcAvailable(), taurusBalance.getBtcReserved());
 
     return new AccountInfo(userName, taurusBalance.getFee(), Arrays.asList(cadWallet, btcWallet));
   }
@@ -106,7 +106,7 @@ public final class TaurusAdapters {
         final String orderId = taurusUserTransaction.getOrderId();
         final BigDecimal feeAmount = taurusUserTransaction.getFee();
         final CurrencyPair pair = CurrencyPair.BTC_CAD;
-        final String feeCurrency = orderType == OrderType.BID ? pair.baseSymbol : pair.counterSymbol;
+        final Currency feeCurrency = orderType == OrderType.BID ? pair.base : pair.counter;
         trades.add(new UserTrade(orderType, tradableAmount, pair, price, timestamp, tradeId, orderId, feeAmount, feeCurrency));
       }
     }

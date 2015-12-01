@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -50,7 +50,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     limitOrders.addAll(MercadoBitcoinAdapters.adaptOrders(CurrencyPair.BTC_BRL, openOrdersBitcoinResult));
-    limitOrders.addAll(MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currencies.LTC, Currencies.BRL), openOrdersLitecoinResult));
+    limitOrders.addAll(MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currency.LTC, Currency.BRL), openOrdersLitecoinResult));
 
     return new OpenOrders(limitOrders);
   }
@@ -72,7 +72,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
 
     if (limitOrder.getCurrencyPair().equals(CurrencyPair.BTC_BRL)) {
       pair = "btc_brl";
-    } else if (limitOrder.getCurrencyPair().equals(new CurrencyPair(Currencies.LTC, Currencies.BRL))) {
+    } else if (limitOrder.getCurrencyPair().equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
       pair = "ltc_brl";
     } else {
       throw new NotAvailableFromExchangeException();

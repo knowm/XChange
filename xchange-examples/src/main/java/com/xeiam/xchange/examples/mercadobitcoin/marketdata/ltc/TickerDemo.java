@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinExchange;
@@ -33,14 +33,14 @@ public class TickerDemo {
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair(Currencies.LTC, Currencies.BRL));
+    Ticker ticker = marketDataService.getTicker(new CurrencyPair(Currency.LTC, Currency.BRL));
 
     System.out.println(ticker.toString());
   }
 
   private static void raw(MercadoBitcoinMarketDataServiceRaw marketDataService) throws IOException {
 
-    MercadoBitcoinTicker mercadoBitcoinTicker = marketDataService.getMercadoBitcoinTicker(new CurrencyPair(Currencies.LTC, Currencies.BRL));
+    MercadoBitcoinTicker mercadoBitcoinTicker = marketDataService.getMercadoBitcoinTicker(new CurrencyPair(Currency.LTC, Currency.BRL));
 
     System.out.println(mercadoBitcoinTicker.toString());
   }

@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.itbit.v1.ItBitAdapters;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -28,14 +28,14 @@ public class ItBitAccountService extends ItBitAccountServiceRaw implements Polli
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    return withdrawItBitFunds(currency, amount, address);
+    return withdrawItBitFunds(currency.toString(), amount, address);
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... args) throws IOException {
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
-    return requestItBitDepositAddress(currency, args);
+    return requestItBitDepositAddress(currency.toString(), args);
   }
 }

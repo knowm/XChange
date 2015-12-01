@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +19,6 @@ import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeDepth;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTicker;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTrade;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradeOrder;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -119,16 +119,16 @@ public class BTCTradeAdaptersTest {
 
     AccountInfo accountInfo = BTCTradeAdapters.adaptAccountInfo(balance);
     assertNull(accountInfo.getUsername());
-    assertEquals(new BigDecimal(3), accountInfo.getBalance(Currencies.BTC));
-    assertEquals(new BigDecimal(2), accountInfo.getWallet(Currencies.BTC).getFrozen());
-    assertEquals(new BigDecimal("7"), accountInfo.getBalance(Currencies.LTC));
-    assertEquals(new BigDecimal(4), accountInfo.getWallet(Currencies.LTC).getFrozen());
-    assertEquals(new BigDecimal("11"), accountInfo.getBalance(Currencies.DOGE));
-    assertEquals(new BigDecimal(6), accountInfo.getWallet(Currencies.DOGE).getFrozen());
-    assertEquals(new BigDecimal("15"), accountInfo.getBalance("YBC"));
-    assertEquals(new BigDecimal(8), accountInfo.getWallet("YBC").getFrozen());
-    assertEquals(new BigDecimal("19"), accountInfo.getBalance(Currencies.CNY));
-    assertEquals(new BigDecimal(10), accountInfo.getWallet(Currencies.CNY).getFrozen());
+    assertEquals(new BigDecimal(3), accountInfo.getBalance(Currency.BTC));
+    assertEquals(new BigDecimal(2), accountInfo.getWallet(Currency.BTC).getFrozen());
+    assertEquals(new BigDecimal("7"), accountInfo.getBalance(Currency.LTC));
+    assertEquals(new BigDecimal(4), accountInfo.getWallet(Currency.LTC).getFrozen());
+    assertEquals(new BigDecimal("11"), accountInfo.getBalance(Currency.DOGE));
+    assertEquals(new BigDecimal(6), accountInfo.getWallet(Currency.DOGE).getFrozen());
+    assertEquals(new BigDecimal("15"), accountInfo.getBalance(Currency.YBC));
+    assertEquals(new BigDecimal(8), accountInfo.getWallet(Currency.YBC).getFrozen());
+    assertEquals(new BigDecimal("19"), accountInfo.getBalance(Currency.CNY));
+    assertEquals(new BigDecimal(10), accountInfo.getWallet(Currency.CNY).getFrozen());
   }
 
   @Test

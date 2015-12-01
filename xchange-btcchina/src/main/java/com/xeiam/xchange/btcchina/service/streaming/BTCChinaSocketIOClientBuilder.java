@@ -255,7 +255,7 @@ public class BTCChinaSocketIOClientBuilder {
 
   private String toMarket(CurrencyPair currencyPair) {
 
-    return String.format("%s%s", currencyPair.counterSymbol.toLowerCase(), currencyPair.baseSymbol.toLowerCase());
+    return String.format("%s%s", currencyPair.counter.getCurrencyCode().toLowerCase(), currencyPair.base.getCurrencyCode().toLowerCase());
   }
 
 }

@@ -2,6 +2,7 @@ package com.xeiam.xchange.coinmate.service.polling;
 
 import static org.junit.Assert.assertNotNull;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.xeiam.xchange.Exchange;
@@ -26,12 +27,12 @@ public class AccountInfoFetchIntegration {
     assertNotNull(service);
     AccountInfo info = service.getAccountInfo();
     assertNotNull(info);
-    System.out.println("Balance BTC: " + info.getWallet("BTC").getBalance());
-    System.out.println("Available BTC: " + info.getWallet("BTC").getAvailable());
-    System.out.println("Reserved BTC: " + info.getWallet("BTC").getFrozen());
-    System.out.println("Balance EUR: " + info.getWallet("EUR").getBalance());
-    System.out.println("Available EUR: " + info.getWallet("EUR").getAvailable());
-    System.out.println("Reserved EUR: " + info.getWallet("EUR").getFrozen());
+    System.out.println("Balance BTC: " + info.getWallet(Currency.BTC).getBalance());
+    System.out.println("Available BTC: " + info.getWallet(Currency.BTC).getAvailable());
+    System.out.println("Reserved BTC: " + info.getWallet(Currency.BTC).getFrozen());
+    System.out.println("Balance EUR: " + info.getWallet(Currency.EUR).getBalance());
+    System.out.println("Available EUR: " + info.getWallet(Currency.EUR).getAvailable());
+    System.out.println("Reserved EUR: " + info.getWallet(Currency.EUR).getFrozen());
   }
 
   @Test
@@ -43,7 +44,7 @@ public class AccountInfoFetchIntegration {
     assertNotNull(exchange);
     PollingAccountService service = exchange.getPollingAccountService();
     assertNotNull(service);
-    String addr = service.requestDepositAddress("BTC");
+    String addr = service.requestDepositAddress(Currency.BTC);
     assertNotNull(addr);
     System.out.println("Deposit address: " + addr);
   }

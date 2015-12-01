@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -24,7 +25,6 @@ import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.TickerJSONTest;
 import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -61,9 +61,9 @@ public class ANXAdapterTest {
     AccountInfo accountInfo = ANXAdapters.adaptAccountInfo(anxAccountInfo);
     assertThat(accountInfo.getUsername()).isEqualTo("test@anxpro.com");
 
-    assertThat(accountInfo.getWallet(Currencies.DOGE).getBalance()).isEqualTo(new BigDecimal("9999781.09457936"));
-    assertThat(accountInfo.getWallet(Currencies.DOGE).getAvailable()).isEqualTo(new BigDecimal("9914833.52608521"));
-    assertThat(accountInfo.getWallet(Currencies.DOGE).getFrozen()).isEqualTo(new BigDecimal("84947.56849415"));
+    assertThat(accountInfo.getWallet(Currency.DOGE).getBalance()).isEqualTo(new BigDecimal("9999781.09457936"));
+    assertThat(accountInfo.getWallet(Currency.DOGE).getAvailable()).isEqualTo(new BigDecimal("9914833.52608521"));
+    assertThat(accountInfo.getWallet(Currency.DOGE).getFrozen()).isEqualTo(new BigDecimal("84947.56849415"));
   }
 
   @Test
@@ -88,8 +88,8 @@ public class ANXAdapterTest {
     Assert.assertEquals(new BigDecimal("412.34567"), openorders.get(0).getLimitPrice());
     Assert.assertEquals(new BigDecimal("10.00000000"), openorders.get(0).getTradableAmount());
 
-    Assert.assertEquals("BTC", openorders.get(0).getCurrencyPair().baseSymbol);
-    Assert.assertEquals("HKD", openorders.get(0).getCurrencyPair().counterSymbol);
+    Assert.assertEquals("BTC", openorders.get(0).getCurrencyPair().base.getCurrencyCode());
+    Assert.assertEquals("HKD", openorders.get(0).getCurrencyPair().counter.getCurrencyCode());
 
     Assert.assertEquals(new Date(1393411075000L), openorders.get(0).getTimestamp());
   }
@@ -114,8 +114,8 @@ public class ANXAdapterTest {
     Assert.assertEquals(new BigDecimal("16.00000000"), asks.get(0).getTradableAmount());
     Assert.assertEquals(new BigDecimal("3260.40000"), asks.get(0).getLimitPrice());
 
-    Assert.assertEquals("BTC", asks.get(0).getCurrencyPair().baseSymbol);
-    Assert.assertEquals("USD", asks.get(0).getCurrencyPair().counterSymbol);
+    Assert.assertEquals("BTC", asks.get(0).getCurrencyPair().base.getCurrencyCode());
+    Assert.assertEquals("USD", asks.get(0).getCurrencyPair().counter.getCurrencyCode());
   }
 
   @Test
@@ -160,9 +160,9 @@ public class ANXAdapterTest {
     List<Wallet> wallets = ANXAdapters.adaptWallets(anxAccountInfo.getWallets());
     Assert.assertEquals(21, wallets.size());
 
-    Assert.assertTrue(wallets.contains(new Wallet(Currencies.CAD, new BigDecimal("100000.00000"), new BigDecimal("100000.00000"))));
-    Assert.assertTrue(wallets.contains(new Wallet(Currencies.BTC, new BigDecimal("100000.01988000"), new BigDecimal("100000.01988000"))));
-    Assert.assertTrue(wallets.contains(new Wallet(Currencies.DOGE, new BigDecimal("9999781.09457936"), new BigDecimal("9914833.52608521"))));
+    Assert.assertTrue(wallets.contains(new Wallet(Currency.CAD, new BigDecimal("100000.00000"), new BigDecimal("100000.00000"))));
+    Assert.assertTrue(wallets.contains(new Wallet(Currency.BTC, new BigDecimal("100000.01988000"), new BigDecimal("100000.01988000"))));
+    Assert.assertTrue(wallets.contains(new Wallet(Currency.DOGE, new BigDecimal("9999781.09457936"), new BigDecimal("9914833.52608521"))));
   }
 
   @Test

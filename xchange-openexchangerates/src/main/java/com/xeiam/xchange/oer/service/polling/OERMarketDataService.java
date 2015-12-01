@@ -38,7 +38,7 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Pol
     // Use reflection to get at data.
     Method method = null;
     try {
-      method = OERRates.class.getMethod("get" + currencyPair.baseSymbol, null);
+      method = OERRates.class.getMethod("get" + currencyPair.base.getCurrencyCode(), null);
     } catch (SecurityException e) {
       throw new ExchangeException("Problem getting exchange rate!", e);
     } catch (NoSuchMethodException e) {

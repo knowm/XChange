@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -39,7 +40,7 @@ public final class MeXBTAdapters {
   }
 
   public static String toCurrencyPair(CurrencyPair currencyPair) {
-    return (currencyPair.baseSymbol + currencyPair.counterSymbol).toLowerCase();
+    return (currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode()).toLowerCase();
   }
 
   public static CurrencyPair adaptCurrencyPair(String ins) {
@@ -86,9 +87,9 @@ public final class MeXBTAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(String username, MeXBTBalanceResponse balanceResponse) {
-    Map<String, Wallet> wallets = new LinkedHashMap<String, Wallet>(balanceResponse.getCurrencies().length);
+    Map<Currency, Wallet> wallets = new LinkedHashMap<Currency, Wallet>(balanceResponse.getCurrencies().length);
     for (MeXBTBalance balance : balanceResponse.getCurrencies()) {
-      Wallet wallet = new Wallet(balance.getName(), balance.getBalance().add(balance.getHold()), balance.getBalance(), balance.getHold());
+      Wallet wallet = new Wallet(Currency.getInstance(balance.getName()), balance.getBalance().add(balance.getHold()), balance.getBalance(), balance.getHold());
       wallets.put(wallet.getCurrency(), wallet);
     }
     return new AccountInfo(username, wallets);

@@ -54,8 +54,8 @@ public final class CleverCoinAdapters {
     }
 
     // Adapt to XChange DTOs
-    //Wallet usdWallet = new Wallet(Currencies.USD, cleverCoinBalance.getUsdBalance());
-    //Wallet btcWallet = new Wallet(Currencies.BTC, cleverCoinBalance.getBtcBalance());
+    //Wallet usdWallet = new Wallet(Currency.USD, cleverCoinBalance.getUsdBalance());
+    //Wallet btcWallet = new Wallet(Currency.BTC, cleverCoinBalance.getBtcBalance());
     return new AccountInfo(userName, wallets);
   }
 
@@ -183,7 +183,7 @@ public final class CleverCoinAdapters {
         final CurrencyPair currencyPair = CurrencyPair.BTC_EUR;
 
         UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-            currencyPair.counterSymbol);
+            currencyPair.counter.getCurrencyCode());
         trades.add(trade);
       }
     }

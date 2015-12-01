@@ -27,11 +27,11 @@ public class YacunaMarketDataServiceRaw extends YacunaBasePollingService<Yacuna>
 
   public YacunaTicker getYacunaTicker(CurrencyPair currencyPair) throws IOException {
 
-    if (!this.getCurrencyPairMap().containsKey(currencyPair.baseSymbol.toUpperCase() + "_" + currencyPair.counterSymbol.toUpperCase())) {
+    if (!this.getCurrencyPairMap().containsKey(currencyPair.base.getCurrencyCode().toUpperCase() + "_" + currencyPair.counter.getCurrencyCode().toUpperCase())) {
       return null;
     }
 
-    YacunaTickerReturn tickerReturn = this.yacuna.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    YacunaTickerReturn tickerReturn = this.yacuna.getTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
     return tickerReturn != null && tickerReturn.getTickerList() != null && tickerReturn.getTickerList().size() == 1
         ? tickerReturn.getTickerList().get(0) : null;
   }

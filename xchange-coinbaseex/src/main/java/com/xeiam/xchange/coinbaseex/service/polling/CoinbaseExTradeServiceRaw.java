@@ -22,7 +22,7 @@ public class CoinbaseExTradeServiceRaw extends CoinbaseExBasePollingService<Coin
   public CoinbaseExIdResponse placeCoinbaseExLimitOrder(LimitOrder limitOrder) {
 
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
-    String productId = limitOrder.getCurrencyPair().baseSymbol + "-" + limitOrder.getCurrencyPair().counterSymbol;
+    String productId = limitOrder.getCurrencyPair().base.getCurrencyCode() + "-" + limitOrder.getCurrencyPair().counter.getCurrencyCode();
 
     return coinbaseEx.placeLimitOrder(new CoinbaseExPlaceOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), side, productId), apiKey,
         digest, getTimestamp(), passphrase);

@@ -21,7 +21,7 @@ public final class BittrexUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.counterSymbol.toUpperCase() + "-" + currencyPair.baseSymbol.toUpperCase();
+    return currencyPair.counter.getCurrencyCode().toUpperCase() + "-" + currencyPair.base.getCurrencyCode().toUpperCase();
   }
 
   public static Date toDate(String timeStamp) {

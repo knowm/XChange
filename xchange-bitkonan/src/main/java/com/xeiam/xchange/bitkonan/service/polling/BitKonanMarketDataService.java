@@ -26,13 +26,13 @@ public class BitKonanMarketDataService extends BitKonanMarketDataServiceRaw impl
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitKonanAdapters.adaptTicker(getBitKonanTicker(currencyPair.baseSymbol.toLowerCase()), currencyPair);
+    return BitKonanAdapters.adaptTicker(getBitKonanTicker(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitKonanAdapters.adaptOrderBook(getBitKonanOrderBook(currencyPair.baseSymbol.toLowerCase()), currencyPair);
+    return BitKonanAdapters.adaptOrderBook(getBitKonanOrderBook(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
   }
 
   @Override

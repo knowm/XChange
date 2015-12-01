@@ -1,10 +1,10 @@
 package com.xeiam.xchange.anx.v2.dto.account;
 
-import static com.xeiam.xchange.currency.Currencies.BTC;
-import static com.xeiam.xchange.currency.Currencies.DOGE;
-import static com.xeiam.xchange.currency.Currencies.HKD;
-import static com.xeiam.xchange.currency.Currencies.LTC;
-import static com.xeiam.xchange.currency.Currencies.USD;
+import static com.xeiam.xchange.currency.Currency.BTC;
+import static com.xeiam.xchange.currency.Currency.DOGE;
+import static com.xeiam.xchange.currency.Currency.HKD;
+import static com.xeiam.xchange.currency.Currency.LTC;
+import static com.xeiam.xchange.currency.Currency.USD;
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -12,7 +12,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -44,16 +47,16 @@ public class AccountInfoJSONTest {
     assertThat(anxAccountInfo.getLogin()).isEqualTo("test@anxpro.com");
 
     // Get Balance
-    assertThat(anxAccountInfo.getWallets().get(BTC).getBalance().getValue()).isEqualTo(new BigDecimal("100000.01988000"));
-    assertThat(anxAccountInfo.getWallets().get(USD).getBalance().getValue()).isEqualTo(new BigDecimal("100000.00000"));
-    assertThat(anxAccountInfo.getWallets().get(HKD).getBalance().getValue()).isEqualTo(new BigDecimal("99863.07000"));
+    assertThat(anxAccountInfo.getWallets().get("BTC").getBalance().getValue()).isEqualTo(new BigDecimal("100000.01988000"));
+    assertThat(anxAccountInfo.getWallets().get("USD").getBalance().getValue()).isEqualTo(new BigDecimal("100000.00000"));
+    assertThat(anxAccountInfo.getWallets().get("HKD").getBalance().getValue()).isEqualTo(new BigDecimal("99863.07000"));
 
-    assertThat(anxAccountInfo.getWallets().get(LTC).getBalance().getValue()).isEqualTo(new BigDecimal("100000.00000000"));
-    assertThat(anxAccountInfo.getWallets().get(DOGE).getBalance().getValue()).isEqualTo(new BigDecimal("9999781.09457936"));
+    assertThat(anxAccountInfo.getWallets().get("LTC").getBalance().getValue()).isEqualTo(new BigDecimal("100000.00000000"));
+    assertThat(anxAccountInfo.getWallets().get("DOGE").getBalance().getValue()).isEqualTo(new BigDecimal("9999781.09457936"));
 
     // Get Other Balance
-    assertThat(anxAccountInfo.getWallets().get(BTC).getMaxWithdraw().getValue()).isEqualTo(new BigDecimal("20.00000000"));
-    assertThat(anxAccountInfo.getWallets().get(BTC).getDailyWithdrawLimit().getValue()).isEqualTo(new BigDecimal("20.00000000"));
+    assertThat(anxAccountInfo.getWallets().get("BTC").getMaxWithdraw().getValue()).isEqualTo(new BigDecimal("20.00000000"));
+    assertThat(anxAccountInfo.getWallets().get("BTC").getDailyWithdrawLimit().getValue()).isEqualTo(new BigDecimal("20.00000000"));
   }
 
   @Test
@@ -71,7 +74,11 @@ public class AccountInfoJSONTest {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
     ANXMetaData anxMetaData = ((ANXExchange) exchange).getANXMetaData();
 
-    assertEquals(wallets.keySet(), anxMetaData.getCurrencyMetaDataMap().keySet());
+    Set<String> metadataCurrencyStrings = new TreeSet<String>();
+    for (Currency currency : anxMetaData.getCurrencyMetaDataMap().keySet())
+      metadataCurrencyStrings.add(currency.toString());
+
+    assertEquals(wallets.keySet(), metadataCurrencyStrings);
 
   }
 }

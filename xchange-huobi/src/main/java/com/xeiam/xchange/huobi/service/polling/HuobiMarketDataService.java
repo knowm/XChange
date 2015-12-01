@@ -25,19 +25,19 @@ public class HuobiMarketDataService extends HuobiMarketDataServiceRaw implements
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return HuobiAdapters.adaptTicker(getBitVcTicker(currencyPair.baseSymbol.toLowerCase()), currencyPair);
+    return HuobiAdapters.adaptTicker(getBitVcTicker(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return HuobiAdapters.adaptOrderBook(getBitVcDepth(currencyPair.baseSymbol.toLowerCase()), currencyPair);
+    return HuobiAdapters.adaptOrderBook(getBitVcDepth(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return HuobiAdapters.adaptTrades(getBitVcDetail(currencyPair.baseSymbol.toLowerCase()), currencyPair);
+    return HuobiAdapters.adaptTrades(getBitVcDetail(currencyPair.base.getCurrencyCode().toLowerCase()), currencyPair);
   }
 
 }

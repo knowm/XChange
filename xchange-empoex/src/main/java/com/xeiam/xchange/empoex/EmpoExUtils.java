@@ -8,7 +8,7 @@ public final class EmpoExUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.baseSymbol + "-" + currencyPair.counterSymbol;
+    return currencyPair.base.getCurrencyCode() + "-" + currencyPair.counter.getCurrencyCode();
   }
 
   public static CurrencyPair toCurrencyPair(String pairString) {

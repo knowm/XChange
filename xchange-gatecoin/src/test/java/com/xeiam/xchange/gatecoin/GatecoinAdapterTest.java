@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +41,7 @@ public class GatecoinAdapterTest {
     AccountInfo accountInfo = GatecoinAdapters.adaptAccountInfo(gatecoinBalance.getBalances(), "Joe Mama");
     assertThat(accountInfo.getUsername()).isEqualTo("Joe Mama");
     assertThat(accountInfo.getTradingFee()).isNull();
-    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo("BTC");
+    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo(Currency.BTC);
     assertThat(accountInfo.getWallets().get(0).getBalance().toString()).isEqualTo("2.94137538");
     assertThat(accountInfo.getWallets().get(0).getAvailable().toString()).isEqualTo("2.94137538");
     assertThat(accountInfo.getWallets().get(0).getFrozen().toString()).isEqualTo("0");

@@ -44,13 +44,13 @@ public class BTCMarketsTradeServiceRaw extends BTCMarketsBasePollingService {
   ) throws IOException {
     return btcm.placeOrder(exchange.getExchangeSpecification().getApiKey(), nonceFactory, this.signer,
         new BTCMarketsOrder(
-            amount, price, currencyPair.counterSymbol, currencyPair.baseSymbol, side,
+            amount, price, currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), side,
             type, newReqId()));
   }
 
   public BTCMarketsOrders getBTCMarketsOpenOrders(CurrencyPair currencyPair, Integer limit, Date since) throws IOException {
       return btcm.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer,
-           new BTCMarketsMyTradingRequest(currencyPair.counterSymbol, currencyPair.baseSymbol, limit, since));
+           new BTCMarketsMyTradingRequest(currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), limit, since));
   }
 
   public BTCMarketsBaseResponse cancelBTCMarketsOrder(Long orderId) throws IOException {
@@ -64,7 +64,7 @@ public class BTCMarketsTradeServiceRaw extends BTCMarketsBasePollingService {
   )
       throws IOException {
     return btcm.getTradeHistory(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer,
-        new BTCMarketsMyTradingRequest(currencyPair.counterSymbol, currencyPair.baseSymbol, limit, since));
+        new BTCMarketsMyTradingRequest(currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), limit, since));
   }
 
   private String newReqId() {

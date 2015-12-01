@@ -7,6 +7,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.clevercoin.CleverCoinAdapters;
 import com.xeiam.xchange.clevercoin.dto.account.CleverCoinDepositAddress;
 import com.xeiam.xchange.clevercoin.dto.account.CleverCoinWithdrawal;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -32,7 +33,7 @@ public class CleverCoinAccountService extends CleverCoinAccountServiceRaw implem
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
     final CleverCoinWithdrawal response = withdrawCleverCoinFunds(amount, address);
     return Integer.toString(response.getId());
@@ -42,7 +43,7 @@ public class CleverCoinAccountService extends CleverCoinAccountServiceRaw implem
    * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
    */
   @Override
-  public String requestDepositAddress(String currency, String... arguments) throws IOException {
+  public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
 
     final CleverCoinDepositAddress response = getCleverCoinBitcoinDepositAddress();
     return response.getDepositAddress();

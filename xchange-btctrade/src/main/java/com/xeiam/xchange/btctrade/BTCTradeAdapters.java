@@ -19,7 +19,7 @@ import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTicker;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTrade;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradeOrder;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradePlaceOrderResult;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -147,15 +147,15 @@ public final class BTCTradeAdapters {
     checkException(balance);
 
     List<Wallet> wallets = new ArrayList<Wallet>(5);
-    wallets.add(new Wallet(Currencies.BTC, nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved()), zeroIfNull(balance.getBtcBalance()),
+    wallets.add(new Wallet(Currency.BTC, nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved()), zeroIfNull(balance.getBtcBalance()),
         zeroIfNull(balance.getBtcReserved())));
-    wallets.add(new Wallet(Currencies.LTC, nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved()), zeroIfNull(balance.getLtcBalance()),
+    wallets.add(new Wallet(Currency.LTC, nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved()), zeroIfNull(balance.getLtcBalance()),
         zeroIfNull(balance.getLtcReserved())));
-    wallets.add(new Wallet(Currencies.DOGE, nullSafeSum(balance.getDogeBalance(), balance.getDogeReserved()), zeroIfNull(balance.getDogeBalance()),
+    wallets.add(new Wallet(Currency.DOGE, nullSafeSum(balance.getDogeBalance(), balance.getDogeReserved()), zeroIfNull(balance.getDogeBalance()),
         zeroIfNull(balance.getDogeReserved())));
     wallets.add(new Wallet("YBC", nullSafeSum(balance.getYbcBalance(), balance.getYbcReserved()), zeroIfNull(balance.getYbcBalance()),
         zeroIfNull(balance.getYbcReserved())));
-    wallets.add(new Wallet(Currencies.CNY, nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved()), zeroIfNull(balance.getCnyBalance()),
+    wallets.add(new Wallet(Currency.CNY, nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved()), zeroIfNull(balance.getCnyBalance()),
         zeroIfNull(balance.getCnyReserved())));
     return new AccountInfo(null, wallets);
   }
@@ -232,7 +232,7 @@ public final class BTCTradeAdapters {
   private static UserTrade adaptTrade(BTCTradeOrder order, com.xeiam.xchange.btctrade.dto.trade.BTCTradeTrade trade, CurrencyPair currencyPair) {
 
     return new UserTrade(adaptOrderType(order.getType()), trade.getAmount(), currencyPair, trade.getPrice(), adaptDatetime(trade.getDatetime()),
-        trade.getTradeId(), order.getId(), null, null);
+        trade.getTradeId(), order.getId(), null, (Currency)null);
   }
 
 }

@@ -10,6 +10,7 @@ import com.xeiam.xchange.btcchina.dto.account.BTCChinaWithdrawal;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaAccountServiceRaw;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -45,7 +46,7 @@ public class BTCChinaAccountDemo {
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("AccountInfo as String: " + accountInfo.toString());
 
-    String depositAddress = accountService.requestDepositAddress("BTC");
+    String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit address: " + depositAddress);
 
     // API key has no withdraw rights - returns 401 unauthorized

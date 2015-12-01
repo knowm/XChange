@@ -12,7 +12,7 @@ import com.xeiam.xchange.bitso.dto.marketdata.BitsoOrderBook;
 import com.xeiam.xchange.bitso.dto.marketdata.BitsoTicker;
 import com.xeiam.xchange.bitso.dto.marketdata.BitsoTransaction;
 import com.xeiam.xchange.bitso.dto.trade.BitsoUserTransaction;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -40,8 +40,8 @@ public final class BitsoAdapters {
 
   public static AccountInfo adaptAccountInfo(BitsoBalance bitsoBalance, String userName) {
     // Adapt to XChange DTOs
-    Wallet mxnWallet = new Wallet(Currencies.MXN, bitsoBalance.getMxnBalance(), bitsoBalance.getMxnAvailable(), bitsoBalance.getMxnReserved());
-    Wallet btcWallet = new Wallet(Currencies.BTC, bitsoBalance.getBtcBalance(), bitsoBalance.getBtcAvailable(), bitsoBalance.getBtcReserved());
+    Wallet mxnWallet = new Wallet(Currency.MXN, bitsoBalance.getMxnBalance(), bitsoBalance.getMxnAvailable(), bitsoBalance.getMxnReserved());
+    Wallet btcWallet = new Wallet(Currency.BTC, bitsoBalance.getBtcBalance(), bitsoBalance.getBtcAvailable(), bitsoBalance.getBtcReserved());
 
     return new AccountInfo(userName, Arrays.asList(mxnWallet, btcWallet));
   }
@@ -128,9 +128,9 @@ public final class BitsoAdapters {
         final String tradeId = String.valueOf(transactionId);
         final String orderId = String.valueOf(bitsoUserTransaction.getOrderId());
         final BigDecimal feeAmount = bitsoUserTransaction.getFee();
-        final CurrencyPair currencyPair = new CurrencyPair(Currencies.BTC, Currencies.MXN);
+        final CurrencyPair currencyPair = new CurrencyPair(Currency.BTC, Currency.MXN);
 
-        String feeCurrency = sell ? currencyPair.counterSymbol : currencyPair.baseSymbol;
+        String feeCurrency = sell ? currencyPair.counter.getCurrencyCode() : currencyPair.base.getCurrencyCode();
         UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount, feeCurrency);
         trades.add(trade);
       }

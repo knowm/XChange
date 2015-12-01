@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.loyalbit.LoyalbitAdapters;
@@ -24,7 +25,7 @@ public class LoyalbitAccountService extends LoyalbitAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -32,7 +33,7 @@ public class LoyalbitAccountService extends LoyalbitAccountServiceRaw implements
    * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
    */
   @Override
-  public String requestDepositAddress(String currency, String... arguments) throws IOException {
+  public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

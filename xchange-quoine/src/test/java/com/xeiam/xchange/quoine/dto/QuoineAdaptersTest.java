@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -97,9 +98,9 @@ public class QuoineAdaptersTest {
 
     // Verify that the example data was unmarshalled correctly
     assertThat(accountInfo.getWallets().size()).isEqualTo(6);
-    System.out.println(accountInfo.getWallet("JPY").toString());
-    assertThat(accountInfo.getWallet("JPY").getCurrency()).isEqualTo("JPY");
-    assertThat(accountInfo.getWallet("JPY").getBalance()).isEqualTo(new BigDecimal("12546.36144"));
+    System.out.println(accountInfo.getWallet(Currency.JPY).toString());
+    assertThat(accountInfo.getWallet(Currency.JPY).getCurrency()).isEqualTo(Currency.JPY);
+    assertThat(accountInfo.getWallet(Currency.JPY).getBalance()).isEqualTo(new BigDecimal("12546.36144"));
   }
 
 }

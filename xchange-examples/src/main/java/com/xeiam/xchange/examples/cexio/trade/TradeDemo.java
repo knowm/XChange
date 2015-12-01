@@ -7,7 +7,7 @@ import java.util.List;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
 import com.xeiam.xchange.cexio.service.polling.CexIOTradeServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -40,7 +40,7 @@ public class TradeDemo {
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, BigDecimal.ONE, new CurrencyPair(Currencies.GHs, Currencies.BTC), "", null,
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, BigDecimal.ONE, new CurrencyPair(Currency.GHs, Currency.BTC), "", null,
         new BigDecimal("0.00015600"));
     System.out.println("Trying to place: " + limitOrder);
     String orderId = "0";

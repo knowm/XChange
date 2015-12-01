@@ -246,7 +246,7 @@ public final class ANXAdapters {
     OrderType type = adaptSide(aNXTradeResult.getSide());
     // for fees, getWalletHistory should be used.
     return new UserTrade(type, tradedCurrencyFillAmount, currencyPair, price, aNXTradeResult.getTimestamp(), aNXTradeResult.getTradeId(),
-        aNXTradeResult.getOrderId(), null, null);
+        aNXTradeResult.getOrderId());
   }
 
   private static CurrencyPair adaptCurrencyPair(String currencyPairRaw) {

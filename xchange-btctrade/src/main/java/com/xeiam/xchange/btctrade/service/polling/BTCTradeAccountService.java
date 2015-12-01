@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btctrade.BTCTradeAdapters;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -34,7 +35,7 @@ public class BTCTradeAccountService extends BTCTradeAccountServiceRaw implements
    * {@inheritDoc}
    */
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) {
 
     throw new NotAvailableFromExchangeException();
   }
@@ -43,7 +44,7 @@ public class BTCTradeAccountService extends BTCTradeAccountServiceRaw implements
    * {@inheritDoc}
    */
   @Override
-  public String requestDepositAddress(String currency, String... args) throws IOException {
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
     return BTCTradeAdapters.adaptDepositAddress(getBTCTradeWallet());
   }

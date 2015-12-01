@@ -6,6 +6,7 @@ import java.util.List;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalance;
 import com.xeiam.xchange.bittrex.v1.service.polling.BittrexAccountServiceRaw;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.examples.bittrex.v1.BittrexExamplesUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -29,7 +30,7 @@ public class BittrexAccountDemo {
     List<Wallet> wallets = accountService.getAccountInfo().getWallets();
     System.out.println(wallets);
 
-    System.out.println(accountService.requestDepositAddress("BTC"));
+    System.out.println(accountService.requestDepositAddress(Currency.BTC));
 
   }
 

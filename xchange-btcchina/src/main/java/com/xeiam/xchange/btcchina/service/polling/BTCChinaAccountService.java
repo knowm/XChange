@@ -8,6 +8,7 @@ import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.dto.BTCChinaID;
 import com.xeiam.xchange.btcchina.dto.BTCChinaResponse;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaAccountInfo;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -39,15 +40,15 @@ public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    BTCChinaResponse<BTCChinaID> response = withdrawBTCChinaFunds(currency, amount, address);
+    BTCChinaResponse<BTCChinaID> response = withdrawBTCChinaFunds(currency.toString(), amount, address);
     return response.getResult().getId();
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... arguments) throws IOException {
+  public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
 
-    return requestBTCChinaDepositAddress(currency);
+    return requestBTCChinaDepositAddress(currency.toString());
   }
 }

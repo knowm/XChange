@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.*;
 
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -132,9 +132,9 @@ public final class MercadoBitcoinAdapters {
   public static AccountInfo adaptAccountInfo(MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo, String userName) {
 
     // Adapt to XChange DTOs
-    Wallet brlWallet = new Wallet(Currencies.BRL, accountInfo.getTheReturn().getFunds().getBrl(), "Brazilian Reais balance (R$ / BRL)");
-    Wallet btcWallet = new Wallet(Currencies.BTC, accountInfo.getTheReturn().getFunds().getBtc(), "Bitcoin balance (XBT / BTC)");
-    Wallet ltcWallet = new Wallet(Currencies.LTC, accountInfo.getTheReturn().getFunds().getLtc(), "Litecoin balance (XLT / LTC)");
+    Wallet brlWallet = new Wallet(Currency.BRL, accountInfo.getTheReturn().getFunds().getBrl(), "Brazilian Reais balance (R$ / BRL)");
+    Wallet btcWallet = new Wallet(Currency.BTC, accountInfo.getTheReturn().getFunds().getBtc(), "Bitcoin balance (XBT / BTC)");
+    Wallet ltcWallet = new Wallet(Currency.LTC, accountInfo.getTheReturn().getFunds().getLtc(), "Litecoin balance (XLT / LTC)");
 
     return new AccountInfo(userName, Arrays.asList(brlWallet, btcWallet, ltcWallet));
   }
@@ -170,7 +170,7 @@ public final class MercadoBitcoinAdapters {
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
-    return (pair.baseSymbol + "_" + pair.counterSymbol).toLowerCase();
+    return (pair.base.getCurrencyCode() + "_" + pair.counter.getCurrencyCode()).toLowerCase();
   }
 
   public static UserTrades toUserTrades(CurrencyPair pair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> orders) {

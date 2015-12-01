@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.IOrderFlags;
 import com.xeiam.xchange.exceptions.ExchangeException;
@@ -36,8 +36,8 @@ public class KrakenBasePollingService extends BaseExchangeService implements Bas
   //  protected static final String PREFIX = "kraken";
   //  protected static final String KEY_ORDER_SIZE_MIN_DEFAULT = PREFIX + SUF_ORDER_SIZE_MIN_DEFAULT;
 
-  private final Set<String> FIAT_CURRENCIES = new HashSet<String>();
-  private final Set<String> DIGITAL_CURRENCIES = new HashSet<String>();
+  private final Set<Currency> FIAT_CURRENCIES = new HashSet<Currency>();
+  private final Set<Currency> DIGITAL_CURRENCIES = new HashSet<Currency>();
 
   protected KrakenAuthenticated kraken;
   protected ParamsDigest signatureCreator;
@@ -65,17 +65,17 @@ public class KrakenBasePollingService extends BaseExchangeService implements Bas
       String krakenTradeCurrency = krakenCurrencyPair.substring(0, 4);
       String krakenPriceCurrency = krakenCurrencyPair.substring(4);
 
-      String tradeCurrency = addCurrencyAndGetCode(krakenTradeCurrency);
-      String priceCurrency = addCurrencyAndGetCode(krakenPriceCurrency);
+      Currency tradeCurrency = addCurrencyAndGetCode(krakenTradeCurrency);
+      Currency priceCurrency = addCurrencyAndGetCode(krakenPriceCurrency);
 
       currencyPairs.add(new CurrencyPair(tradeCurrency, priceCurrency));
     }
     return currencyPairs;
   }
 
-  private String addCurrencyAndGetCode(String krakenCurrencyString) {
+  private Currency addCurrencyAndGetCode(String krakenCurrencyString) {
 
-    String currencyCode = KrakenAdapters.adaptCurrency(krakenCurrencyString);
+    Currency currencyCode = KrakenAdapters.adaptCurrency(krakenCurrencyString);
     if (krakenCurrencyString.startsWith("X")) {
       DIGITAL_CURRENCIES.add(currencyCode);
     } else {
@@ -87,15 +87,15 @@ public class KrakenBasePollingService extends BaseExchangeService implements Bas
 
   protected String createKrakenCurrencyPair(CurrencyPair currencyPair) throws IOException {
 
-    return createKrakenCurrencyPair(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    return createKrakenCurrencyPair(currencyPair.base, currencyPair.counter);
   }
 
-  protected String createKrakenCurrencyPair(String tradableIdentifier, String currency) throws IOException {
+  protected String createKrakenCurrencyPair(Currency tradableIdentifier, Currency currency) throws IOException {
 
     return getKrakenCurrencyCode(tradableIdentifier) + getKrakenCurrencyCode(currency);
   }
 
-  protected String getKrakenCurrencyCode(String currency) throws IOException {
+  protected String getKrakenCurrencyCode(Currency currency) throws IOException {
 
     if (FIAT_CURRENCIES.isEmpty()) {
       getExchangeSymbols();
@@ -104,12 +104,8 @@ public class KrakenBasePollingService extends BaseExchangeService implements Bas
     if (FIAT_CURRENCIES.contains(currency)) {
       return "Z" + currency;
     } else if (DIGITAL_CURRENCIES.contains(currency)) {
-      if (currency.equals(Currencies.BTC)) {
-        return "XXBT";
-      }
-      if (currency.equals(Currencies.DOGE)) {
-        return "XXDG";
-      }
+      if (currency.getIso4217Currency() != null)
+        currency = currency.getIso4217Currency();
 
       return "X" + currency;
     }
@@ -124,7 +120,7 @@ public class KrakenBasePollingService extends BaseExchangeService implements Bas
     return checkResult(timeResult);
   }
 
-  public KrakenAssets getKrakenAssets(String... assets) throws IOException {
+  public KrakenAssets getKrakenAssets(Currency... assets) throws IOException {
 
     KrakenAssetsResult assetPairsResult = kraken.getAssets(null, delimitAssets(assets));
 
@@ -174,12 +170,12 @@ public class KrakenBasePollingService extends BaseExchangeService implements Bas
     return (commaDelimitedString == null) ? null : commaDelimitedString.toString();
   }
 
-  protected String delimitAssets(String[] assets) throws IOException {
+  protected String delimitAssets(Currency[] assets) throws IOException {
 
     StringBuilder commaDelimitedAssets = new StringBuilder();
     if (assets != null && assets.length > 0) {
       boolean started = false;
-      for (String asset : assets) {
+      for (Currency asset : assets) {
         commaDelimitedAssets.append((started) ? "," : "").append(getKrakenCurrencyCode(asset));
         started = true;
       }

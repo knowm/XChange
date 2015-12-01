@@ -1,26 +1,26 @@
 package com.xeiam.xchange.anx.v2.bootstrap;
 
-import static com.xeiam.xchange.currency.Currencies.AUD;
-import static com.xeiam.xchange.currency.Currencies.BGC;
-import static com.xeiam.xchange.currency.Currencies.BTC;
-import static com.xeiam.xchange.currency.Currencies.CAD;
-import static com.xeiam.xchange.currency.Currencies.CHF;
-import static com.xeiam.xchange.currency.Currencies.CNY;
-import static com.xeiam.xchange.currency.Currencies.DOGE;
-import static com.xeiam.xchange.currency.Currencies.EGD;
-import static com.xeiam.xchange.currency.Currencies.EUR;
-import static com.xeiam.xchange.currency.Currencies.GBP;
-import static com.xeiam.xchange.currency.Currencies.HKD;
-import static com.xeiam.xchange.currency.Currencies.JPY;
-import static com.xeiam.xchange.currency.Currencies.LTC;
-import static com.xeiam.xchange.currency.Currencies.NMC;
-import static com.xeiam.xchange.currency.Currencies.NZD;
-import static com.xeiam.xchange.currency.Currencies.PPC;
-import static com.xeiam.xchange.currency.Currencies.SGD;
-import static com.xeiam.xchange.currency.Currencies.START;
-import static com.xeiam.xchange.currency.Currencies.STR;
-import static com.xeiam.xchange.currency.Currencies.USD;
-import static com.xeiam.xchange.currency.Currencies.XRP;
+import static com.xeiam.xchange.currency.Currency.AUD;
+import static com.xeiam.xchange.currency.Currency.BGC;
+import static com.xeiam.xchange.currency.Currency.BTC;
+import static com.xeiam.xchange.currency.Currency.CAD;
+import static com.xeiam.xchange.currency.Currency.CHF;
+import static com.xeiam.xchange.currency.Currency.CNY;
+import static com.xeiam.xchange.currency.Currency.DOGE;
+import static com.xeiam.xchange.currency.Currency.EGD;
+import static com.xeiam.xchange.currency.Currency.EUR;
+import static com.xeiam.xchange.currency.Currency.GBP;
+import static com.xeiam.xchange.currency.Currency.HKD;
+import static com.xeiam.xchange.currency.Currency.JPY;
+import static com.xeiam.xchange.currency.Currency.LTC;
+import static com.xeiam.xchange.currency.Currency.NMC;
+import static com.xeiam.xchange.currency.Currency.NZD;
+import static com.xeiam.xchange.currency.Currency.PPC;
+import static com.xeiam.xchange.currency.Currency.SGD;
+import static com.xeiam.xchange.currency.Currency.START;
+import static com.xeiam.xchange.currency.Currency.STR;
+import static com.xeiam.xchange.currency.Currency.USD;
+import static com.xeiam.xchange.currency.Currency.XRP;
 import static com.xeiam.xchange.currency.CurrencyPair.DOGE_BTC;
 import static com.xeiam.xchange.currency.CurrencyPair.LTC_BTC;
 import static com.xeiam.xchange.currency.CurrencyPair.STR_BTC;
@@ -44,6 +44,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.xeiam.xchange.anx.v2.dto.meta.ANXMarketMetaData;
 import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 
@@ -52,18 +53,18 @@ public class ANXGenerator {
   static ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT, true)
       .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-  static Set<String> cryptos = new HashSet<String>(Arrays.asList(BTC, LTC, DOGE, STR, XRP, START, EGD));
-  static String[] fiats = { USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY, CNY };
+  static Set<Currency> cryptos = new HashSet<Currency>(Arrays.asList(BTC, LTC, DOGE, STR, XRP, START, EGD));
+  static Currency[] fiats = { USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY, CNY };
 
   // counter currencies for STARTCoin - all fiats but CNY
-  static String[] fiatsStart = { USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY };
+  static Currency[] fiatsStart = { USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY };
 
   static CurrencyPair[] pairsOther = { LTC_BTC, DOGE_BTC, STR_BTC, XRP_BTC };
 
   // base currency -> min order size
-  static Map<String, BigDecimal> minAmount = new HashMap<String, BigDecimal>();
-  static Map<String, BigDecimal> maxAmount = new HashMap<String, BigDecimal>();
-  static Map<String, CurrencyMetaData> currencyMap = new TreeMap<String, CurrencyMetaData>();
+  static Map<Currency, BigDecimal> minAmount = new HashMap<Currency, BigDecimal>();
+  static Map<Currency, BigDecimal> maxAmount = new HashMap<Currency, BigDecimal>();
+  static Map<Currency, CurrencyMetaData> currencyMap = new TreeMap<Currency, CurrencyMetaData>();
 
   static Set<CurrencyPair> pairs = new HashSet<CurrencyPair>();
 
@@ -84,12 +85,12 @@ public class ANXGenerator {
     maxAmount.put(START, null);
     maxAmount.put(EGD, null);
 
-    for (String crypto : cryptos) {
+    for (Currency crypto : cryptos) {
       currencyMap.put(crypto, new CurrencyMetaData(8));
     }
 
     currencyMap.put(CNY, new CurrencyMetaData(8));
-    for (String fiat : fiats) {
+    for (Currency fiat : fiats) {
       if (!currencyMap.containsKey(fiat))
         currencyMap.put(fiat, new CurrencyMetaData(2));
     }
@@ -102,11 +103,11 @@ public class ANXGenerator {
 
     Collections.addAll(pairs, pairsOther);
 
-    for (String base : Arrays.asList(BTC, EGD))
-      for (String counter : fiats)
+    for (Currency base : Arrays.asList(BTC, EGD))
+      for (Currency counter : fiats)
         pairs.add(new CurrencyPair(base, counter));
 
-    for (String counter : fiatsStart) {
+    for (Currency counter : fiatsStart) {
       pairs.add(new CurrencyPair(START, counter));
     }
   }
@@ -133,8 +134,8 @@ public class ANXGenerator {
 
   private void handleCurrencyPair(Map<CurrencyPair, ANXMarketMetaData> map, CurrencyPair currencyPair) {
     int amountScale = amountScale(currencyPair);
-    BigDecimal minimumAmount = scaled(minAmount.get(currencyPair.baseSymbol), amountScale);
-    BigDecimal maximumAmount = scaled(maxAmount.get(currencyPair.baseSymbol), amountScale);
+    BigDecimal minimumAmount = scaled(minAmount.get(currencyPair.base.getCurrencyCode()), amountScale);
+    BigDecimal maximumAmount = scaled(maxAmount.get(currencyPair.base.getCurrencyCode()), amountScale);
     ANXMarketMetaData mmd = new ANXMarketMetaData(fee, minimumAmount, maximumAmount, priceScale(currencyPair));
     map.put(currencyPair, mmd);
   }
@@ -144,11 +145,11 @@ public class ANXGenerator {
   }
 
   private int amountScale(CurrencyPair currencyPair) {
-    return currencyMap.get(currencyPair.baseSymbol).scale;
+    return currencyMap.get(currencyPair.base.getCurrencyCode()).scale;
   }
 
   int priceScale(CurrencyPair pair) {
-    if (LTC_BTC.equals(pair) || (BTC.equals(pair.baseSymbol) && !cryptos.contains(pair.counterSymbol)))
+    if (LTC_BTC.equals(pair) || (BTC.equals(pair.base.getCurrencyCode()) && !cryptos.contains(pair.counter.getCurrencyCode())))
       return 5;
     else
       return 8;

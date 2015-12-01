@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bleutrade.service.polling.BleutradeAccountServiceRaw;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.examples.bleutrade.BleutradeDemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -20,7 +21,7 @@ public class BleutradeAccountDemo {
 
   private static void generic(PollingAccountService accountService) throws IOException, InterruptedException {
 
-    System.out.println(accountService.requestDepositAddress("BTC"));
+    System.out.println(accountService.requestDepositAddress(Currency.BTC));
     Thread.sleep(1000);
     System.out.println(accountService.getAccountInfo());
     Thread.sleep(1000);

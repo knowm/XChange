@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitso.dto.trade.BitsoOrder;
 import com.xeiam.xchange.bitso.service.polling.BitsoTradeServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -41,7 +41,7 @@ public class BitsoTradeDemo {
     printOpenOrders(tradeService);
 
     // place a limit buy order
-    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal("0.01"), new CurrencyPair(Currencies.BTC, Currencies.MXN), "", null,
+    LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal("0.01"), new CurrencyPair(Currency.BTC, Currency.MXN), "", null,
         new BigDecimal("5000.00"));
     String limitOrderReturnValue = tradeService.placeLimitOrder(limitOrder);
     System.out.println("Limit Order return value: " + limitOrderReturnValue);

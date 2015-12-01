@@ -19,7 +19,7 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbasePrice;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -91,7 +91,7 @@ public class CoinbaseAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CoinbasePrice price = mapper.readValue(is, CoinbasePrice.class);
 
-    CoinbaseMoney spotPrice = new CoinbaseMoney(Currencies.USD, new BigDecimal("719.79"));
+    CoinbaseMoney spotPrice = new CoinbaseMoney("USD", new BigDecimal("719.79"));
 
     is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.json");
     String spotPriceHistoryString;

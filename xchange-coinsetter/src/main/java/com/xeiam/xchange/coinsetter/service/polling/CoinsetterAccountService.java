@@ -7,6 +7,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.CoinsetterAdapters;
 import com.xeiam.xchange.coinsetter.dto.account.CoinsetterAccount;
 import com.xeiam.xchange.coinsetter.dto.clientsession.response.CoinsetterClientSession;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -38,13 +39,13 @@ public class CoinsetterAccountService extends CoinsetterBasePollingService imple
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... args) throws IOException {
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
   }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcoincharts.BitcoinChartsExchange;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
@@ -26,12 +26,12 @@ public class BitcoinChartsTickerDemo {
     PollingMarketDataService marketDataService = bitcoinChartsExchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC/bitstampUSD
-    CurrencyPair currencyPair = new CurrencyPair(Currencies.BTC, "bitstampUSD");
+    CurrencyPair currencyPair = new CurrencyPair("BTC", "bitstampUSD");
     Ticker ticker = marketDataService.getTicker(currencyPair);
 
     double value = ticker.getLast().doubleValue();
 
-    String currency = ticker.getCurrencyPair().counterSymbol.toString();
+    String currency = ticker.getCurrencyPair().counter.getCurrencyCode().toString();
     System.out.println("bitstampUSD Last: " + currency + "-" + value);
     System.out.println("bitstampUSD Last: " + ticker.getLast().toString());
 

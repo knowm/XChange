@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.xeiam.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
@@ -33,7 +33,7 @@ public final class BitcoinChartsAdapters {
   public static Ticker adaptTicker(BitcoinChartsTicker[] bitcoinChartsTickers, CurrencyPair currencyPair) {
 
     for (int i = 0; i < bitcoinChartsTickers.length; i++) {
-      if (bitcoinChartsTickers[i].getSymbol().equals(currencyPair.counterSymbol)) {
+      if (bitcoinChartsTickers[i].getSymbol().equals(currencyPair.counter.getCurrencyCode())) {
 
         BigDecimal last = bitcoinChartsTickers[i].getClose() != null ? bitcoinChartsTickers[i].getClose() : null;
         BigDecimal bid = bitcoinChartsTickers[i].getBid() != null ? bitcoinChartsTickers[i].getBid() : null;
@@ -57,7 +57,7 @@ public final class BitcoinChartsAdapters {
     for (BitcoinChartsTicker ticker : tickers) {
       BigDecimal anyPrice = firstNonNull(ticker.getAsk(), ticker.getBid(), ticker.getClose(), ticker.getHigh(), ticker.getHigh());
       int scale = anyPrice != null ? anyPrice.scale() : 0;
-      pairs.put(new CurrencyPair(Currencies.BTC, ticker.getSymbol()), new MarketMetaData(null, null, scale));
+      pairs.put(new CurrencyPair(Currency.BTC, Currency.getInstance(ticker.getSymbol())), new MarketMetaData(null, null, scale));
     }
 
     return new ExchangeMetaData(pairs, exchangeMetaData.getCurrencyMetaDataMap(), exchangeMetaData.getPublicRateLimits(),

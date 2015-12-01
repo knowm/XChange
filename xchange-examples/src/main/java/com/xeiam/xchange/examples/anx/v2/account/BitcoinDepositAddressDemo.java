@@ -3,7 +3,7 @@ package com.xeiam.xchange.examples.anx.v2.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.examples.anx.v2.ANXExamplesUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -20,7 +20,7 @@ public class BitcoinDepositAddressDemo {
     PollingAccountService accountService = ANX.getPollingAccountService();
 
     // Request a Bitcoin deposit address
-    String address = accountService.requestDepositAddress(Currencies.BTC.toString());
+    String address = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Address to deposit Bitcoins to: " + address);
   }
 }

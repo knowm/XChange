@@ -32,11 +32,11 @@ public class ANXMarketdataDemo {
     System.out.println("Current Order Book size for BTC / USD: " + orderBook.getAsks().size() + orderBook.getBids().size());
 
     // Get the current full orderbook
-    // OrderBook fullOrderBook = marketDataService.getFullOrderBook(Currencies.BTC, Currencies.USD);
+    // OrderBook fullOrderBook = marketDataService.getFullOrderBook(Currency.BTC, Currency.USD);
     // System.out.println("Current Full Order Book size for BTC / USD: " + fullOrderBook.getAsks().size() + fullOrderBook.getBids().size());
 
     // Get trades
-    // Trades trades = marketDataService.getTrades(Currencies.BTC, Currencies.PLN);
+    // Trades trades = marketDataService.getTrades(Currency.BTC, Currency.PLN);
     // System.out.println("Current trades size for BTC / PLN: " + trades.getTrades().size());
 
     ANXMarketDataServiceRaw marketDataServiceRaw = (ANXMarketDataServiceRaw) marketDataService;

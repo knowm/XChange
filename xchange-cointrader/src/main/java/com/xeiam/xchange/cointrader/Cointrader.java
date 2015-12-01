@@ -64,7 +64,7 @@ public interface Cointrader {
 
     @Override
     public String toString() {
-      return String.format("%s%s", pair.baseSymbol, pair.counterSymbol);
+      return String.format("%s%s", pair.base.getCurrencyCode(), pair.counter.getCurrencyCode());
     }
   }
 }

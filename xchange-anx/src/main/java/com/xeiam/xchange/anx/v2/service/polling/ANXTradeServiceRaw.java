@@ -70,7 +70,7 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
 
     try {
       ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-          exchange.getNonceFactory(), marketOrder.getCurrencyPair().baseSymbol, marketOrder.getCurrencyPair().counterSymbol,
+          exchange.getNonceFactory(), marketOrder.getCurrencyPair().base.getCurrencyCode(), marketOrder.getCurrencyPair().counter.getCurrencyCode(),
           marketOrder.getType().equals(Order.OrderType.BID) ? "bid" : "ask", marketOrder.getTradableAmount(), null);
       return anxGenericResponse;
     } catch (ANXException e) {
@@ -84,7 +84,7 @@ public class ANXTradeServiceRaw extends ANXBasePollingService {
 
     try {
       ANXGenericResponse anxGenericResponse = anxV2.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-          exchange.getNonceFactory(), currencyPair.baseSymbol, currencyPair.counterSymbol, type, amount, price);
+          exchange.getNonceFactory(), currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), type, amount, price);
 
       return anxGenericResponse;
     } catch (ANXException e) {

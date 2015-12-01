@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.kraken.KrakenExchange;
@@ -32,7 +32,7 @@ public class KrakenTickerDemo {
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_EUR);
 
     System.out.println("Ticker: " + ticker.toString());
-    System.out.println("Currency: " + Currencies.EUR);
+    System.out.println("Currency: " + Currency.EUR);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());
@@ -48,7 +48,7 @@ public class KrakenTickerDemo {
     KrakenTicker ticker = krakenMarketDataService.getKrakenTicker(CurrencyPair.BTC_EUR);
 
     System.out.println("Ticker: " + ticker.toString());
-    System.out.println("Currency: " + Currencies.EUR);
+    System.out.println("Currency: " + Currency.EUR);
     System.out.println("Last: " + ticker.getClose());
     System.out.println("Volume: " + ticker.get24HourVolume().toString());
     System.out.println("High: " + ticker.get24HourHigh().toString());

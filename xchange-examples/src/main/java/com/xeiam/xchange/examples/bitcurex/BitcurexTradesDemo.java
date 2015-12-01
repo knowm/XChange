@@ -35,7 +35,7 @@ public class BitcurexTradesDemo {
     // System.out.println(trades.toString());
 
     generic(marketDataService, pair);
-    raw((BitcurexMarketDataServiceRaw) marketDataService, pair.counterSymbol);
+    raw((BitcurexMarketDataServiceRaw) marketDataService, pair.counter.getCurrencyCode());
   }
 
   private static void generic(PollingMarketDataService marketDataService, CurrencyPair pair) throws IOException {

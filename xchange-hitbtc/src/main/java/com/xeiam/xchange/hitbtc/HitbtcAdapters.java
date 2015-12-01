@@ -1,6 +1,6 @@
 package com.xeiam.xchange.hitbtc;
 
-import static com.xeiam.xchange.currency.Currencies.DOGE;
+import static com.xeiam.xchange.currency.Currency.DOGE;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -40,6 +40,7 @@ import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 import com.xeiam.xchange.hitbtc.dto.meta.HitbtcMetaData;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOrder;
 import com.xeiam.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
+import com.xeiam.xchange.utils.jackson.CurrencyPairDeserializer;
 
 public class HitbtcAdapters {
 
@@ -59,14 +60,7 @@ public class HitbtcAdapters {
 
   public static CurrencyPair adaptSymbol(String symbolString) {
 
-    if (symbolString.startsWith(DOGE)) {
-      String counterSymbol = symbolString.substring(4);
-      return new CurrencyPair(DOGE, counterSymbol);
-    } else {
-      String base = symbolString.substring(0, 3);
-      String counterSymbol = symbolString.substring(3);
-      return new CurrencyPair(base, counterSymbol);
-    }
+    return CurrencyPairDeserializer.getCurrencyPairFromString(symbolString);
   }
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
@@ -278,7 +272,7 @@ public class HitbtcAdapters {
       String id = Long.toString(t.getTradeId());
 
       UserTrade trade = new UserTrade(type, tradableAmount, pair, t.getExecPrice(), timestamp, id, t.getClientOrderId(), t.getFee(),
-          pair.counterSymbol);
+          pair.counter.getCurrencyCode());
 
       trades.add(trade);
     }
@@ -303,7 +297,7 @@ public class HitbtcAdapters {
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
 
-    return pair == null ? null : pair.baseSymbol + pair.counterSymbol;
+    return pair == null ? null : pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
   }
 
   public static String createOrderId(Order order, long nonce) {

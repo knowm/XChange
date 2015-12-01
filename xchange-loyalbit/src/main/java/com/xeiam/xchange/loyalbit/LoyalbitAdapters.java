@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -45,9 +45,9 @@ public final class LoyalbitAdapters {
   public static AccountInfo adaptAccountInfo(LoyalbitBalance loyalbitBalance, String userName) {
     // FIXME: the second parameter should be sum of (available, reservedOrder, reservedWithdraw)
     // keep it as available for safe reason, will be fixed in XChange 4.0.0
-    Wallet usdWallet = new Wallet(Currencies.USD, loyalbitBalance.getAvailableUsd(), loyalbitBalance.getAvailableUsd(),
+    Wallet usdWallet = new Wallet(Currency.USD, loyalbitBalance.getAvailableUsd(), loyalbitBalance.getAvailableUsd(),
         loyalbitBalance.getReservedOrderUsd());
-    Wallet btcWallet = new Wallet(Currencies.BTC, loyalbitBalance.getAvailableBtc(), loyalbitBalance.getAvailableBtc(),
+    Wallet btcWallet = new Wallet(Currency.BTC, loyalbitBalance.getAvailableBtc(), loyalbitBalance.getAvailableBtc(),
         loyalbitBalance.getReservedOrderBtc());
 
     return new AccountInfo(userName, loyalbitBalance.getFee(), Arrays.asList(usdWallet, btcWallet));
@@ -99,7 +99,7 @@ public final class LoyalbitAdapters {
       final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
       UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-          currencyPair.counterSymbol);
+          currencyPair.counter.getCurrencyCode());
       trades.add(trade);
     }
 
