@@ -9,7 +9,7 @@ import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButtonStyle;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseButtonType;
 import com.xeiam.xchange.coinbase.dto.merchant.CoinbaseOrder;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 
 /**
@@ -22,7 +22,7 @@ public class CoinbaseButtonDemo {
     Exchange coinbase = CoinbaseDemoUtils.createExchange();
     CoinbaseAccountService accountService = (CoinbaseAccountService) coinbase.getPollingAccountService();
 
-    CoinbaseButtonBuilder buttonBuilder = new CoinbaseButtonBuilder("Demo Button", Currencies.BTC, ".001");
+    CoinbaseButtonBuilder buttonBuilder = new CoinbaseButtonBuilder("Demo Button", "BTC", ".001");
     buttonBuilder.withDescription("Coinbase button demo for Coinbase.").withIncludeEmail(true).withStyle(CoinbaseButtonStyle.DONATION_LARGE)
         .withType(CoinbaseButtonType.DONATION).withVariablePrice(true);
 

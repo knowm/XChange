@@ -12,6 +12,7 @@ import com.xeiam.xchange.cointrader.dto.account.CointraderBalance;
 import com.xeiam.xchange.cointrader.dto.marketdata.CointraderOrderBook;
 import com.xeiam.xchange.cointrader.dto.trade.CointraderOrder;
 import com.xeiam.xchange.cointrader.dto.trade.CointraderUserTrade;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.Wallet;
@@ -40,13 +41,15 @@ public final class CointraderAdapters {
   private CointraderAdapters() {
   }
 
-  public static Wallet adaptAccountInfo(Map<String, CointraderBalance> balances, String userName) {
-    HashMap<String, Balance> wallets = new HashMap<String, Balance>();
+  public static Wallet adaptWallet(Map<String, CointraderBalance> balances, String userName) {
+    List<Balance> wallet = new ArrayList<Balance>(balances.size());
     for (String currency : balances.keySet()) {
+      Currency xchangeCurrency = Currency.getInstance(currency);
       CointraderBalance blc = balances.get(currency);
-      wallets.put(currency, new Balance(currency, blc.getTotal(), blc.getAvailable()));
+      wallet.add(new Balance(xchangeCurrency, blc.getTotal(), blc.getAvailable()));
+
     }
-    return new Wallet(userName, wallets);
+    return new Wallet(wallet);
   }
 
   public static OrderBook adaptOrderBook(CointraderOrderBook cointraderOrderBook) {
@@ -84,7 +87,7 @@ public final class CointraderAdapters {
     return new UserTrade(adaptOrderType(cointraderUserTrade.getType()), cointraderUserTrade.getQuantity(), currencyPair,
         cointraderUserTrade.getPrice().abs(), cointraderUserTrade.getExecuted(), String.valueOf(cointraderUserTrade.getTradeId()),
         String.valueOf(cointraderUserTrade.getOrderId()), cointraderUserTrade.getFee(),
-        cointraderUserTrade.getType() == CointraderOrder.Type.Buy ? currencyPair.counterSymbol : currencyPair.baseSymbol);
+        cointraderUserTrade.getType() == CointraderOrder.Type.Buy ? currencyPair.counter.getCurrencyCode() : currencyPair.base.getCurrencyCode());
   }
 
   public static Order.OrderType adaptOrderType(CointraderOrder.Type orderType) {

@@ -41,6 +41,7 @@ import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateOpenOrdersEntry;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistoryEntry;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.Wallet;
@@ -108,19 +109,19 @@ public class CoinmateAdapters {
     return new Trades(trades, Trades.TradeSortType.SortByID);
   }
 
-  public static Wallet adaptAccountInfo(CoinmateBalance coinmateBalance) {
+  public static Wallet adaptWallet(CoinmateBalance coinmateBalance) {
 
-    Map<String, Balance> wallets = new HashMap<String, Balance>();
     CoinmateBalanceData funds = coinmateBalance.getData();
+    List<Balance> balances = new ArrayList<Balance>(funds.size());
 
     for (String lcCurrency : funds.keySet()) {
-      String currency = lcCurrency.toUpperCase();
+      Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
       Balance balance = new Balance(currency, funds.get(lcCurrency).getBalance(), funds.get(lcCurrency).getAvailable(),
           funds.get(lcCurrency).getReserved());
 
-      wallets.put(currency, balance);
+      balances.add(balance);
     }
-    return new Wallet(null, wallets);
+    return new Wallet(balances);
   }
 
   public static UserTrades adaptTradeHistory(CoinmateTransactionHistory coinmateTradeHistory) {

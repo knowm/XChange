@@ -14,6 +14,7 @@ import com.xeiam.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.Wallet;
@@ -44,13 +45,13 @@ public final class BTCMarketsAdapters {
   private BTCMarketsAdapters() {
   }
 
-  public static Wallet adaptAccountInfo(List<BTCMarketsBalance> balances, String userName) {
-    Map<String, Balance> wallets = new HashMap<>();
+  public static Wallet adaptWallet(List<BTCMarketsBalance> balances) {
+    List<Balance> wallets = new ArrayList<>(balances.size());
     for (BTCMarketsBalance blc : balances) {
-      final String currency = blc.getCurrency();
-      wallets.put(currency, new Balance(currency, blc.getBalance(), blc.getAvailable()));
+      final Currency currency = Currency.getInstance(blc.getCurrency());
+      wallets.add(new Balance(currency, blc.getBalance(), blc.getAvailable()));
     }
-    return new Wallet(userName, wallets);
+    return new Wallet(wallets);
   }
 
   public static OrderBook adaptOrderBook(BTCMarketsOrderBook btcmarketsOrderBook, CurrencyPair currencyPair) {
@@ -89,7 +90,7 @@ public final class BTCMarketsAdapters {
     final Order.OrderType type = adaptOrderType(trade.getSide());
     final String tradeId = Long.toString(trade.getId());
     final Integer orderId = null; //trade.getOrderId();
-    String feeCurrency = currencyPair.counterSymbol;
+    String feeCurrency = currencyPair.counter.getCurrencyCode();
     return new UserTrade(type, trade.getVolume(), currencyPair,
         trade.getPrice().abs(), trade.getCreationTime(), tradeId,
         String.valueOf(orderId), trade.getFee(),

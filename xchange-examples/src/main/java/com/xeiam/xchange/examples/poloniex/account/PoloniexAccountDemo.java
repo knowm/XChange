@@ -3,6 +3,7 @@ package com.xeiam.xchange.examples.poloniex.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.examples.poloniex.PoloniexExamplesUtils;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexAccountServiceRaw;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -28,7 +29,7 @@ public class PoloniexAccountDemo {
   private static void generic(PollingAccountService accountService) throws IOException {
 
     System.out.println("----------GENERIC----------");
-    System.out.println(accountService.requestDepositAddress("BTC"));
+    System.out.println(accountService.requestDepositAddress(Currency.BTC));
     System.out.println(accountService.getAccountInfo());
   }
 

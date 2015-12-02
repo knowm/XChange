@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,13 +38,11 @@ public class GatecoinAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     GatecoinBalanceResult gatecoinBalance = mapper.readValue(is, GatecoinBalanceResult.class);
 
-    Wallet wallet = GatecoinAdapters.adaptWallet(gatecoinBalance.getBalances(), "Joe Mama");
-    assertThat(wallet.getId()).isEqualTo("Joe Mama");
-    assertThat(wallet.getTradingFee()).isNull();
-    assertThat(wallet.getBalancesList().get(0).getCurrency()).isEqualTo("BTC");
-    assertThat(wallet.getBalancesList().get(0).getTotal().toString()).isEqualTo("2.94137538");
-    assertThat(wallet.getBalancesList().get(0).getAvailable().toString()).isEqualTo("2.94137538");
-    assertThat(wallet.getBalancesList().get(0).getFrozen().toString()).isEqualTo("0");
+    Wallet wallet = GatecoinAdapters.adaptWallet(gatecoinBalance.getBalances());
+    assertThat(wallet.getBalance(Currency.BTC).getCurrency()).isEqualTo(Currency.BTC);
+    assertThat(wallet.getBalance(Currency.BTC).getTotal().toString()).isEqualTo("2.94137538");
+    assertThat(wallet.getBalance(Currency.BTC).getAvailable().toString()).isEqualTo("2.94137538");
+    assertThat(wallet.getBalance(Currency.BTC).getFrozen().toString()).isEqualTo("0");
   }
 
   @Test

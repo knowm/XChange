@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
@@ -17,7 +18,7 @@ public class ExchangeMetaData {
 
   private Map<CurrencyPair, MarketMetaData> currencyPairs;
 
-  private Map<String, CurrencyMetaData> currency;
+  private Map<Currency, CurrencyMetaData> currency;
 
   private Set<RateLimit> publicRateLimits;
   private Set<RateLimit> privateRateLimits;
@@ -32,7 +33,7 @@ public class ExchangeMetaData {
    * @param currency Map of currency -> {@link CurrencyMetaData}
    */
   public ExchangeMetaData(@JsonProperty("currencyPair") Map<CurrencyPair, MarketMetaData> currencyPairs,
-      @JsonProperty("currency") Map<String, CurrencyMetaData> currency, @JsonProperty("publicRateLimits") Set<RateLimit> publicRateLimits,
+      @JsonProperty("currency") Map<Currency, CurrencyMetaData> currency, @JsonProperty("publicRateLimits") Set<RateLimit> publicRateLimits,
       @JsonProperty("privateRateLimits") Set<RateLimit> privateRateLimits, @JsonProperty("shareRateLimits") Boolean shareRateLimits) {
 
     this.currencyPairs = currencyPairs;
@@ -48,9 +49,7 @@ public class ExchangeMetaData {
     return currencyPairs;
   }
 
-  public Map<String, CurrencyMetaData> getCurrencyMetaDataMap() {
-    return currency;
-  }
+  public Map<Currency, CurrencyMetaData> getCurrencyMetaDataMap() { return currency; }
 
   public Set<RateLimit> getPublicRateLimits() {
     return publicRateLimits;

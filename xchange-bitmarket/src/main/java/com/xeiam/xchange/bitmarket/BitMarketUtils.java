@@ -13,11 +13,11 @@ public class BitMarketUtils {
       return "BTCPLN";
     } else if (currencyPair == CurrencyPair.BTC_EUR) {
       return "BTCEUR";
-    } else if (currencyPair.baseSymbol.equals("LTC") && currencyPair.counterSymbol.equals("PLN")) {
+    } else if (currencyPair.base.getCurrencyCode().equals("LTC") && currencyPair.counter.getCurrencyCode().equals("PLN")) {
       return "LTCPLN";
-    } else if (currencyPair.baseSymbol.equals("LTC") && currencyPair.counterSymbol.equals("BTC")) {
+    } else if (currencyPair.base.getCurrencyCode().equals("LTC") && currencyPair.counter.getCurrencyCode().equals("BTC")) {
       return "LTCBTC";
-    } else if (currencyPair.baseSymbol.equals("LiteMineX") && currencyPair.counterSymbol.equals("BTC")) {
+    } else if (currencyPair.base.getCurrencyCode().equals("LiteMineX") && currencyPair.counter.getCurrencyCode().equals("BTC")) {
       return "LiteMineXBTC";
     } else {
       return null;

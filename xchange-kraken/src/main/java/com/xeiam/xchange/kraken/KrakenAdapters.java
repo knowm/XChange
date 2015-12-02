@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -130,15 +130,15 @@ public class KrakenAdapters {
     return new Trade(type, tradableAmount, currencyPair, krakenPublicTrade.getPrice(), timestamp, "0");
   }
 
-  public static AccountInfo adaptWallet(Map<String, BigDecimal> krakenWallet, String username) {
+  public static Wallet adaptWallet(Map<String, BigDecimal> krakenWallet) {
 
     List<Balance> balances = new ArrayList<Balance>(krakenWallet.size());
     for (Entry<String, BigDecimal> balancePair : krakenWallet.entrySet()) {
-      String currency = adaptCurrency(balancePair.getKey());
+      Currency currency = adaptCurrency(balancePair.getKey());
       Balance balance = new Balance(currency, balancePair.getValue());
       balances.add(balance);
     }
-    return new AccountInfo(username, new Wallet(balances));
+    return new Wallet(balances);
   }
 
   public static Set<CurrencyPair> adaptCurrencyPairs(Collection<String> krakenCurrencyPairs) {
@@ -150,17 +150,17 @@ public class KrakenAdapters {
     return currencyPairs;
   }
 
-  public static String adaptCurrency(String krakenCurrencyCode) {
+  public static Currency adaptCurrency(String krakenCurrencyCode) {
 
     String currencyCode = (krakenCurrencyCode.length() == 4) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
-    currencyCode = (currencyCode.equals("XDG")) ? Currencies.DOGE : currencyCode;
-    return (currencyCode.equals("XBT")) ? Currencies.BTC : currencyCode;
+
+    return Currency.getInstance(currencyCode).getCommonlyUsedCurrency();
   }
 
   public static CurrencyPair adaptCurrencyPair(String krakenCurrencyPair) {
 
-    String firstCurrency = adaptCurrency(krakenCurrencyPair.substring(0, 4));
-    String secondCurrency = adaptCurrency(krakenCurrencyPair.substring(4));
+    Currency firstCurrency = adaptCurrency(krakenCurrencyPair.substring(0, 4));
+    Currency secondCurrency = adaptCurrency(krakenCurrencyPair.substring(4));
 
     return new CurrencyPair(firstCurrency, secondCurrency);
   }
@@ -189,8 +189,8 @@ public class KrakenAdapters {
     KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
     OrderType type = adaptOrderType(orderDescription.getType());
     BigDecimal tradableAmount = krakenOrder.getVolume().subtract(krakenOrder.getVolumeExecuted());
-    String tradableIdentifier = adaptCurrency(orderDescription.getAssetPair().substring(0, 3));
-    String transactionCurrency = adaptCurrency(orderDescription.getAssetPair().substring(3));
+    Currency tradableIdentifier = adaptCurrency(orderDescription.getAssetPair().substring(0, 3));
+    Currency transactionCurrency = adaptCurrency(orderDescription.getAssetPair().substring(3));
     Date timestamp = new Date((long) (krakenOrder.getOpenTimestamp() * 1000L));
 
     return new LimitOrder(type, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), id, timestamp,
@@ -212,8 +212,8 @@ public class KrakenAdapters {
     OrderType orderType = adaptOrderType(krakenTrade.getType());
     BigDecimal tradableAmount = krakenTrade.getVolume();
     String krakenAssetPair = krakenTrade.getAssetPair();
-    String tradableIdentifier = adaptCurrency(krakenAssetPair.substring(0, 4));
-    String transactionCurrency = adaptCurrency(krakenAssetPair.substring(4));
+    Currency tradableIdentifier = adaptCurrency(krakenAssetPair.substring(0, 4));
+    Currency transactionCurrency = adaptCurrency(krakenAssetPair.substring(4));
     Date timestamp = new Date((long) (krakenTrade.getUnixTimestamp() * 1000L));
     BigDecimal averagePrice = krakenTrade.getAverageClosePrice();
     BigDecimal price = (averagePrice == null) ? krakenTrade.getPrice() : averagePrice;

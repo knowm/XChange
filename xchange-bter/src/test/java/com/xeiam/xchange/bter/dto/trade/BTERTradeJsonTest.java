@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bter.dto.BTEROrderType;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 public class BTERTradeJsonTest {
@@ -33,8 +33,8 @@ public class BTERTradeJsonTest {
 
     BTEROpenOrder openOrder = openOrderList.get(0);
     assertThat(openOrder.getId()).isEqualTo("12941907");
-    assertThat(openOrder.getSellCurrency()).isEqualTo(Currencies.LTC);
-    assertThat(openOrder.getBuyCurrency()).isEqualTo(Currencies.BTC);
+    assertThat(openOrder.getSellCurrency()).isEqualTo("LTC");
+    assertThat(openOrder.getBuyCurrency()).isEqualTo("BTC");
     assertThat(openOrder.getSellAmount()).isEqualTo("0.384");
     assertThat(openOrder.getBuyAmount()).isEqualTo("0.010176");
   }

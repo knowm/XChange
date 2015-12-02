@@ -38,7 +38,7 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     // Request data
-    BitcoiniumTicker bitcoiniumTicker = getBitcoiniumTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    BitcoiniumTicker bitcoiniumTicker = getBitcoiniumTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
 
     // Adapt to XChange DTOs
     return BitcoiniumAdapters.adaptTicker(bitcoiniumTicker, currencyPair);
@@ -61,7 +61,7 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
     }
 
     // Request data
-    BitcoiniumOrderbook bitcoiniumOrderbook = getBitcoiniumOrderbook(currencyPair.baseSymbol, currencyPair.counterSymbol, priceWindow);
+    BitcoiniumOrderbook bitcoiniumOrderbook = getBitcoiniumOrderbook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), priceWindow);
 
     // Adapt to XChange DTOs
     return BitcoiniumAdapters.adaptOrderbook(bitcoiniumOrderbook, currencyPair);

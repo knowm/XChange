@@ -36,7 +36,7 @@ public class BitcoinAverageMarketDataService extends BitcoinAverageMarketDataSer
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     // Request data
-    BitcoinAverageTicker bitcoinAverageTicker = getBitcoinAverageTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    BitcoinAverageTicker bitcoinAverageTicker = getBitcoinAverageTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
 
     // Adapt to XChange DTOs
     return BitcoinAverageAdapters.adaptTicker(bitcoinAverageTicker, currencyPair);

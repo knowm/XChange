@@ -2,12 +2,12 @@ package com.xeiam.xchange.bitmarket.service.account;
 
 import static org.junit.Assert.assertNotNull;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitmarket.ExchangeUtils;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
@@ -33,10 +33,10 @@ public class DepositFetchIntegration {
     PollingAccountService service = exchange.getPollingAccountService();
     assertNotNull(service);
     //verify address for deposit for BTC exists
-    String deposit = service.requestDepositAddress(Currencies.BTC);
+    String deposit = service.requestDepositAddress(Currency.BTC);
     assertNotNull(deposit);
     //verify address for deposit for LTC exists
-    deposit = service.requestDepositAddress(Currencies.LTC);
+    deposit = service.requestDepositAddress(Currency.LTC);
     assertNotNull(deposit);
   }
 }

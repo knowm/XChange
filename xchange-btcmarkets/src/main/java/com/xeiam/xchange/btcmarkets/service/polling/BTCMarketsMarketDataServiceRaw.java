@@ -20,10 +20,10 @@ public class BTCMarketsMarketDataServiceRaw extends BTCMarketsBasePollingService
   }
 
   public BTCMarketsTicker getBTCMarketsTicker(CurrencyPair currencyPair) throws IOException {
-    return btcmarkets.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    return btcmarkets.getTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
   }
 
   public BTCMarketsOrderBook getBTCMarketsOrderBook(CurrencyPair currencyPair) throws IOException {
-    return btcmarkets.getOrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    return btcmarkets.getOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
   }
 }

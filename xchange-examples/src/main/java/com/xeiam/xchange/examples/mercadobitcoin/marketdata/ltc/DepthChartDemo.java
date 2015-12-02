@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -38,7 +38,7 @@ public class DepthChartDemo {
     System.out.println("fetching data...");
 
     // Get the current orderbook
-    OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(Currencies.LTC, Currencies.BRL));
+    OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(Currency.LTC, Currency.BRL));
 
     System.out.println("received data.");
 

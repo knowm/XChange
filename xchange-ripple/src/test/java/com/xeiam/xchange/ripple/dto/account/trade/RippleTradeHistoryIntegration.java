@@ -5,6 +5,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.xeiam.xchange.Exchange;
@@ -30,8 +31,8 @@ public class RippleTradeHistoryIntegration {
     params.setPageLength(25);
     params.setTradeCountLimit(2);
 
-    params.addPreferredBaseCurrency("BTC");
-    params.addPreferredCounterCurrency("XRP");
+    params.addPreferredBaseCurrency(Currency.BTC);
+    params.addPreferredCounterCurrency(Currency.XRP);
 
     // An example address taken from https://www.ripplecharts.com/#/active_accounts
     // that was actively trading at the time this was last updated. 

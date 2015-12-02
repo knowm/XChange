@@ -1,5 +1,6 @@
 package com.xeiam.xchange.poloniex;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -144,13 +145,13 @@ public class PoloniexAdapters {
     // Poloniex returns fee as a multiplier, e.g. a 0.2% fee is 0.002
     BigDecimal feeAmount = amount.multiply(price).multiply(userTrade.getFee());
 
-    return new UserTrade(orderType, amount, currencyPair, price, date, tradeId, orderId, feeAmount, currencyPair.counterSymbol);
+    return new UserTrade(orderType, amount, currencyPair, price, date, tradeId, orderId, feeAmount, currencyPair.counter.getCurrencyCode());
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(Map<String, PoloniexCurrencyInfo> poloniexCurrencyInfo,
       Map<String, PoloniexMarketData> poloniexMarketData, ExchangeMetaData exchangeMetaData) {
 
-    Map<String, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencyMetaDataMap();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencyMetaDataMap();
     CurrencyMetaData currencyArchetype = currencyMetaDataMap.values().iterator().next();
 
     currencyMetaDataMap.clear();
@@ -161,7 +162,7 @@ public class PoloniexAdapters {
       if (currencyInfo.isDelisted() || currencyInfo.isDisabled())
         continue;
 
-      currencyMetaDataMap.put(entry.getKey(), currencyArchetype);
+      currencyMetaDataMap.put(Currency.getInstance(entry.getKey()), currencyArchetype);
     }
 
     Map<CurrencyPair, MarketMetaData> marketMetaDataMap = exchangeMetaData.getMarketMetaDataMap();

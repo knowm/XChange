@@ -5,7 +5,7 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.cexio.CexIOExchange;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
@@ -25,9 +25,9 @@ public class TickerDemo {
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair(Currencies.GHs, Currencies.BTC));
+    Ticker ticker = marketDataService.getTicker(new CurrencyPair(Currency.GHs, Currency.BTC));
 
-    System.out.println("Pair: " + Currencies.GHs + "/" + Currencies.BTC);
+    System.out.println("Pair: " + Currency.GHs + "/" + Currency.BTC);
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
     System.out.println("High: " + ticker.getHigh().toString());

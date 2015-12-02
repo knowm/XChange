@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.*;
 
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -133,9 +133,9 @@ public final class MercadoBitcoinAdapters {
   public static AccountInfo adaptAccountInfo(MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo, String userName) {
 
     // Adapt to XChange DTOs
-    Balance brlBalance = new Balance(Currencies.BRL, accountInfo.getTheReturn().getFunds().getBrl());
-    Balance btcBalance = new Balance(Currencies.BTC, accountInfo.getTheReturn().getFunds().getBtc());
-    Balance ltcBalance = new Balance(Currencies.LTC, accountInfo.getTheReturn().getFunds().getLtc());
+    Balance brlBalance = new Balance(Currency.BRL, accountInfo.getTheReturn().getFunds().getBrl());
+    Balance btcBalance = new Balance(Currency.BTC, accountInfo.getTheReturn().getFunds().getBtc());
+    Balance ltcBalance = new Balance(Currency.LTC, accountInfo.getTheReturn().getFunds().getLtc());
 
     return new AccountInfo(userName, new Wallet(brlBalance, btcBalance, ltcBalance));
   }
@@ -171,7 +171,7 @@ public final class MercadoBitcoinAdapters {
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {
-    return (pair.baseSymbol + "_" + pair.counterSymbol).toLowerCase();
+    return (pair.base.getCurrencyCode() + "_" + pair.counter.getCurrencyCode()).toLowerCase();
   }
 
   public static UserTrades toUserTrades(CurrencyPair pair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> orders) {

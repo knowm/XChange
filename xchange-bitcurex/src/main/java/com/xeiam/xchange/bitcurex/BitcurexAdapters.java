@@ -8,7 +8,7 @@ import java.util.List;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexFunds;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTicker;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.Wallet;
@@ -36,7 +36,7 @@ public final class BitcurexAdapters {
    * Adapts a List of bitcurexOrders to a List of LimitOrders
    *
    * @param bitcurexOrders
-   * @param currency
+   * @param currencyPair
    * @param orderType
    * @param id
    * @return
@@ -57,8 +57,8 @@ public final class BitcurexAdapters {
    *
    * @param amount
    * @param price
-   * @param currency
-   * @param orderTypeString
+   * @param currencyPair
+   * @param orderType
    * @param id
    * @return
    */
@@ -127,24 +127,24 @@ public final class BitcurexAdapters {
   /**
    * Adapts a BitcurexFunds to an Wallet Object
    *
-   * @param bitcurexFunds
-   * @param user name for the accountInfo
+   * @param funds
+   * @param userName name for the accountInfo
    * @return
    */
   public static Wallet adaptAccountInfo(BitcurexFunds funds, String userName) {
 
     // Adapt to XChange DTOs
     List<Balance> balances = new ArrayList<Balance>(2);
-    balances.add(new Balance(Currencies.BTC, funds.getBtcs()));
+    balances.add(new Balance(Currency.BTC, funds.getBtcs()));
 
     BigDecimal eur = funds.getEurs();
     if (eur != null) {
-      balances.add(new Balance(Currencies.EUR, eur));
+      balances.add(new Balance(Currency.EUR, eur));
     }
 
     BigDecimal pln = funds.getPlns();
     if (pln != null) {
-      balances.add(new Balance(Currencies.PLN, pln));
+      balances.add(new Balance(Currency.PLN, pln));
     }
 
     return new Wallet(userName, balances);

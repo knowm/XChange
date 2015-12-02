@@ -1,13 +1,14 @@
 package com.xeiam.xchange.okcoin;
 
-import static com.xeiam.xchange.currency.Currencies.BTC;
-import static com.xeiam.xchange.currency.Currencies.CNY;
-import static com.xeiam.xchange.currency.Currencies.LTC;
-import static com.xeiam.xchange.currency.Currencies.USD;
+import static com.xeiam.xchange.currency.Currency.BTC;
+import static com.xeiam.xchange.currency.Currency.CNY;
+import static com.xeiam.xchange.currency.Currency.LTC;
+import static com.xeiam.xchange.currency.Currency.USD;
 
 import java.math.BigDecimal;
 import java.util.*;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -54,7 +55,7 @@ public final class OkCoinAdapters {
 
   public static String adaptSymbol(CurrencyPair currencyPair) {
 
-    return currencyPair.baseSymbol.toLowerCase() + "_" + currencyPair.counterSymbol.toLowerCase();
+    return currencyPair.base.getCurrencyCode().toLowerCase() + "_" + currencyPair.counter.getCurrencyCode().toLowerCase();
   }
 
   public static CurrencyPair adaptSymbol(String symbol) {
@@ -232,12 +233,12 @@ public final class OkCoinAdapters {
   private static UserTrade adaptTrade(OkCoinOrder order) {
 
     return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getPrice(),
-        order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, null);
+        order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, (Currency)null);
   }
 
   private static UserTrade adaptTradeFutures(OkCoinFuturesOrder order) {
 
     return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getPrice(),
-        order.getCreatedDate(), null, String.valueOf(order.getOrderId()), null, null);
+        order.getCreatedDate(), null, String.valueOf(order.getOrderId()), null, (Currency)null);
   }
 }

@@ -29,7 +29,7 @@ public class JubiMarketDataService extends JubiMarketDataServiceRaw implements P
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Request data
-    JubiTicker jubiTicker = getJubiTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    JubiTicker jubiTicker = getJubiTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
 
     // Adapt to XChange DTOs
     return jubiTicker != null ? JubiAdapters.adaptTicker(jubiTicker, currencyPair) : null;

@@ -8,6 +8,8 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitfinex.v1.BitfinexOrderType;
 import com.xeiam.xchange.bitfinex.v1.BitfinexUtils;
 import com.xeiam.xchange.bitfinex.v1.dto.BitfinexException;
+import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
+import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
@@ -108,7 +110,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
       throw new ExchangeException(e.getMessage());
     }
   }
-  
+  /*
   public BitfinexNewOrderMultiResponse placeBitfinexOrderMulti(List<Order> orders, BitfinexOrderType bitfinexOrderType) 
       throws IOException {
     
@@ -143,6 +145,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
       throw new ExchangeException(e.getMessage());
     }
   }
+*/
 
   public BitfinexOfferStatusResponse placeBitfinexFixedRateLoanOrder(FixedRateLoanOrder loanOrder, BitfinexOrderType orderType) throws IOException {
 
@@ -197,7 +200,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
     }
     
     try {
-     bitfinex.cancelOrderMulti(apiKey, payloadCreator, signatureCreator, new BitfinexCancelOrderMultiRequest(String.valueOf(exchange.getNonceFactory().createValue()), cancelOrderIds));
+//     bitfinex.cancelOrderMulti(apiKey, payloadCreator, signatureCreator, new BitfinexCancelOrderMultiRequest(String.valueOf(exchange.getNonceFactory().createValue()), cancelOrderIds));
      return true;
     } catch (BitfinexException e) {
       throw new ExchangeException(e.getMessage());
@@ -260,15 +263,12 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
     }
   }
 
-  public BitfinexActivePositionsResponse[] getBitfinexActivePositions() throws IOException {
-
-    try {
-      BitfinexActivePositionsResponse[] activePositions = bitfinex.activePositions(apiKey, payloadCreator, signatureCreator,
-          new BitfinexNonceOnlyRequest("/v1/positions", String.valueOf(exchange.getNonceFactory().createValue())));
-      return activePositions;
-    } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+ 
+    public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address) throws IOException {
+           
+            BitfinexWithdrawalResponse[] withdrawRepsonse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator,
+                    new BitfinexWithdrawalRequest(String.valueOf(exchange.getNonceFactory().createValue()),
+                            withdrawType, walletSelected, amount, address));
+            return withdrawRepsonse[0].getWithdrawalId();        
     }
-  }
-
 }

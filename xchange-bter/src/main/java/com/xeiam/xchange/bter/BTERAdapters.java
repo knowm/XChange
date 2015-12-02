@@ -19,6 +19,7 @@ import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrder;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
 import com.xeiam.xchange.bter.dto.trade.BTERTrade;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.Wallet;
@@ -56,7 +57,7 @@ public final class BTERAdapters {
     BigDecimal last = bterTicker.getLast();
     BigDecimal low = bterTicker.getLow();
     BigDecimal high = bterTicker.getHigh();
-    BigDecimal volume = bterTicker.getVolume(currencyPair.baseSymbol);
+    BigDecimal volume = bterTicker.getVolume(currencyPair.base.getCurrencyCode());
 
     return new Ticker.Builder().currencyPair(currencyPair).ask(ask).bid(bid).last(last).low(low).high(high).volume(volume).build();
   }
@@ -141,20 +142,18 @@ public final class BTERAdapters {
     return new Trades(tradeList, lastTradeId, TradeSortType.SortByTimestamp);
   }
 
-  public static Wallet adaptAccountInfo(BTERFunds bterAccountInfo) {
+  public static Wallet adaptWallet(BTERFunds bterAccountInfo) {
 
     List<Balance> balances = new ArrayList<Balance>();
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
-      String currency = funds.getKey().toUpperCase();
+      Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
       BigDecimal amount = funds.getValue();
       BigDecimal locked = bterAccountInfo.getLockedFunds().get(currency);
 
-      // FIXME: the second parameter should be amount + locked.
-      // keep it as amount for safe reason, will be fixed in XChange 4.0.0.
-      balances.add(new Balance(currency, amount, amount, locked == null ? BigDecimal.ZERO : locked));
+      balances.add(new Balance(currency, null, amount, locked == null ? BigDecimal.ZERO : locked));
     }
 
-    return new Wallet("", balances);
+    return new Wallet(balances);
   }
 
   public static UserTrades adaptUserTrades(List<BTERTrade> userTrades) {
@@ -173,7 +172,7 @@ public final class BTERAdapters {
     Date timestamp = DateUtils.fromMillisUtc(bterTrade.getTimeUnix() * 1000);
     CurrencyPair currencyPair = adaptCurrencyPair(bterTrade.getPair());
 
-    return new UserTrade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null, null, null);
+    return new UserTrade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null, null, (Currency)null);
   }
 
 }

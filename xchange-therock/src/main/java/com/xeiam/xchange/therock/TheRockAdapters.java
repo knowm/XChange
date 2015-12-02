@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
@@ -27,7 +28,8 @@ public final class TheRockAdapters {
 
     ArrayList<Balance> balances = new ArrayList<Balance>(trBalances.size());
     for (TheRockBalance blc : trBalances) {
-      balances.add(new Balance(blc.getCurrency(), blc.getBalance(), blc.getTradingBalance()));
+      Currency currency = Currency.getInstance(blc.getCurrency());
+      balances.add(new Balance(currency, blc.getBalance(), blc.getTradingBalance()));
     }
     return new AccountInfo(userName, new Wallet(balances));
   }
@@ -47,6 +49,6 @@ public final class TheRockAdapters {
    * adaptTrade(TheRockUserTrade therockUserTrade) { CurrencyPair currencyPair = therockUserTrade.getCurrencyPair(); return new UserTrade(
    * adaptOrderType(therockUserTrade.getType()), therockUserTrade.getQuantity(), currencyPair, therockUserTrade.getPrice().abs(),
    * therockUserTrade.getExecuted(), String.valueOf(therockUserTrade.getTradeId()), String.valueOf(therockUserTrade.getOrderId()),
-   * therockUserTrade.getFee(), therockUserTrade.getType() == TheRockOrder.Type.Buy ? currencyPair.counterSymbol : currencyPair.baseSymbol); }
+   * therockUserTrade.getFee(), therockUserTrade.getType() == TheRockOrder.Type.Buy ? currencyPair.counter.getCurrencyCode() : currencyPair.base.getCurrencyCode()); }
    */
 }

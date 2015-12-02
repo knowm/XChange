@@ -32,7 +32,7 @@ public class CoinmateUtils {
 
   public static String getPair(CurrencyPair currencyPair) {
 
-    return currencyPair.baseSymbol.toUpperCase() + "_" + currencyPair.counterSymbol.toUpperCase();
+    return currencyPair.base.getCurrencyCode().toUpperCase() + "_" + currencyPair.counter.getCurrencyCode().toUpperCase();
   }
 
   public static CurrencyPair getPair(String currencyPair) {

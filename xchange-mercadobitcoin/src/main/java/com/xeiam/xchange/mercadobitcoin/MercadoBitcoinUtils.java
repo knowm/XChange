@@ -1,6 +1,6 @@
 package com.xeiam.xchange.mercadobitcoin;
 
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
@@ -23,7 +23,7 @@ public final class MercadoBitcoinUtils {
 
     if (currencyPair.equals(CurrencyPair.BTC_BRL)) {
       pair = "btc_brl";
-    } else if (currencyPair.equals(new CurrencyPair(Currencies.LTC, Currencies.BRL))) {
+    } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
       pair = "ltc_brl";
     } else {
       throw new NotAvailableFromExchangeException();

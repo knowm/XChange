@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -45,9 +45,9 @@ public final class LoyalbitAdapters {
 
   public static AccountInfo adaptAccountInfo(LoyalbitBalance loyalbitBalance, String userName) {
 
-    Balance usdBalance = new Balance.Builder().currency(Currencies.USD).available(loyalbitBalance.getAvailableUsd())
+    Balance usdBalance = new Balance.Builder().currency(Currency.USD).available(loyalbitBalance.getAvailableUsd())
         .frozen(loyalbitBalance.getReservedOrderUsd()).transferring(loyalbitBalance.getReservedWithdrawUsd()).build();
-    Balance btcBalance = new Balance.Builder().currency(Currencies.BTC).available(loyalbitBalance.getAvailableBtc())
+    Balance btcBalance = new Balance.Builder().currency(Currency.BTC).available(loyalbitBalance.getAvailableBtc())
         .frozen(loyalbitBalance.getReservedOrderBtc()).transferring(loyalbitBalance.getReservedWithdrawBtc()).build();
 
     return new AccountInfo(userName, loyalbitBalance.getFee(), new Wallet(usdBalance, btcBalance));
@@ -99,7 +99,7 @@ public final class LoyalbitAdapters {
       final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
       UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-          currencyPair.counterSymbol);
+          currencyPair.counter.getCurrencyCode());
       trades.add(trade);
     }
 

@@ -1,8 +1,8 @@
 package com.xeiam.xchange.huobi;
 
-import static com.xeiam.xchange.currency.Currencies.BTC;
-import static com.xeiam.xchange.currency.Currencies.CNY;
-import static com.xeiam.xchange.currency.Currencies.LTC;
+import static com.xeiam.xchange.currency.Currency.BTC;
+import static com.xeiam.xchange.currency.Currency.CNY;
+import static com.xeiam.xchange.currency.Currency.LTC;
 import static com.xeiam.xchange.dto.Order.OrderType.ASK;
 import static com.xeiam.xchange.dto.Order.OrderType.BID;
 import static com.xeiam.xchange.dto.marketdata.Trades.TradeSortType.SortByTimestamp;

@@ -66,8 +66,8 @@ public class CoinfloorAdaptersTest {
 
     Assert.assertEquals(BigDecimal.valueOf(10000, 4), ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getTradableAmount());
     Assert.assertEquals("211118", ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getId());
-    Assert.assertEquals("GBP", ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getCurrencyPair().counterSymbol);
-    Assert.assertEquals("BTC", ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getCurrencyPair().baseSymbol);
+    Assert.assertEquals("GBP", ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getCurrencyPair().counter.getCurrencyCode());
+    Assert.assertEquals("BTC", ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getCurrencyPair().base.getCurrencyCode());
     Assert.assertEquals(OrderType.BID, ((OpenOrders) testObj.get("generic")).getOpenOrders().get(0).getType());
 
   }
@@ -200,8 +200,8 @@ public class CoinfloorAdaptersTest {
     Map<String, Object> testObj = coinfloorAdapters.adaptOrderOpened(result);
 
     Assert.assertEquals(BigDecimal.valueOf(10000, 4), ((LimitOrder) testObj.get("generic")).getTradableAmount());
-    Assert.assertEquals("GBP", ((LimitOrder) testObj.get("generic")).getCurrencyPair().counterSymbol);
-    Assert.assertEquals("BTC", ((LimitOrder) testObj.get("generic")).getCurrencyPair().baseSymbol);
+    Assert.assertEquals("GBP", ((LimitOrder) testObj.get("generic")).getCurrencyPair().counter.getCurrencyCode());
+    Assert.assertEquals("BTC", ((LimitOrder) testObj.get("generic")).getCurrencyPair().base.getCurrencyCode());
   }
 
   @Test
@@ -220,8 +220,8 @@ public class CoinfloorAdaptersTest {
     Map<String, Object> testObj = coinfloorAdapters.adaptOrderClosed(result);
 
     Assert.assertEquals(BigDecimal.valueOf(10000, 4), ((LimitOrder) testObj.get("generic")).getTradableAmount());
-    Assert.assertEquals("GBP", ((LimitOrder) testObj.get("generic")).getCurrencyPair().counterSymbol);
-    Assert.assertEquals("BTC", ((LimitOrder) testObj.get("generic")).getCurrencyPair().baseSymbol);
+    Assert.assertEquals("GBP", ((LimitOrder) testObj.get("generic")).getCurrencyPair().counter.getCurrencyCode());
+    Assert.assertEquals("BTC", ((LimitOrder) testObj.get("generic")).getCurrencyPair().base.getCurrencyCode());
   }
 
   @Test
@@ -241,8 +241,8 @@ public class CoinfloorAdaptersTest {
 
     Assert.assertEquals("211184", ((Trade) testObj.get("generic")).getId());
     Assert.assertEquals(BigDecimal.valueOf(4768, 4), ((Trade) testObj.get("generic")).getTradableAmount());
-    Assert.assertEquals("GBP", ((Trade) testObj.get("generic")).getCurrencyPair().counterSymbol);
-    Assert.assertEquals("BTC", ((Trade) testObj.get("generic")).getCurrencyPair().baseSymbol);
+    Assert.assertEquals("GBP", ((Trade) testObj.get("generic")).getCurrencyPair().counter.getCurrencyCode());
+    Assert.assertEquals("BTC", ((Trade) testObj.get("generic")).getCurrencyPair().base.getCurrencyCode());
     Assert.assertEquals(OrderType.ASK, ((Trade) testObj.get("generic")).getType());
   }
 

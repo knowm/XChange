@@ -55,7 +55,7 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBasePol
     Long nonce = exchange.getNonceFactory().createValue();
     String apiKey = exchange.getExchangeSpecification().getApiKey();
     IndependentReserveOpenOrderRequest independentReserveOpenOrderRequest = new IndependentReserveOpenOrderRequest(apiKey, nonce,
-        currencyPair.baseSymbol, currencyPair.counterSymbol, pageNumber.toString(), TRADE_HISTORY_PAGE_SIZE);
+        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), pageNumber.toString(), TRADE_HISTORY_PAGE_SIZE);
 
     independentReserveOpenOrderRequest.setSignature(
         signatureCreator.digestParamsToString(ExchangeEndpoint.GET_OPEN_ORDERS, nonce, independentReserveOpenOrderRequest.getParameters()));
@@ -78,7 +78,7 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBasePol
     }
 
     IndependentReservePlaceLimitOrderRequest independentReservePlaceLimitOrderRequest = new IndependentReservePlaceLimitOrderRequest(apiKey, nonce,
-        currencyPair.baseSymbol, currencyPair.counterSymbol, orderType, limitPrice.toString(), tradableAmount.toString());
+        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), orderType, limitPrice.toString(), tradableAmount.toString());
     independentReservePlaceLimitOrderRequest.setSignature(
         signatureCreator.digestParamsToString(ExchangeEndpoint.PLACE_LIMIT_ORDER, nonce, independentReservePlaceLimitOrderRequest.getParameters()));
 

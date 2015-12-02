@@ -2,10 +2,12 @@ package com.xeiam.xchange.examples.bittrex.v1.account;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalance;
 import com.xeiam.xchange.bittrex.v1.service.polling.BittrexAccountServiceRaw;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.examples.bittrex.v1.BittrexExamplesUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -26,10 +28,10 @@ public class BittrexAccountDemo {
 
     System.out.println("----------GENERIC---------");
 
-    List<Balance> balances = accountService.getAccountInfo().getBalancesList();
+    Map<Currency,Balance> balances = accountService.getAccountInfo().getWallet().getBalances();
     System.out.println(balances);
 
-    System.out.println(accountService.requestDepositAddress("BTC"));
+    System.out.println(accountService.requestDepositAddress(Currency.BTC));
 
   }
 

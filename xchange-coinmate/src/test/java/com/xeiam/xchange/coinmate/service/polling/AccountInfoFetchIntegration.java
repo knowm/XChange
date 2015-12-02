@@ -2,6 +2,8 @@ package com.xeiam.xchange.coinmate.service.polling;
 
 import static org.junit.Assert.assertNotNull;
 
+import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import org.junit.Test;
 
 import com.xeiam.xchange.Exchange;
@@ -24,14 +26,14 @@ public class AccountInfoFetchIntegration {
     assertNotNull(exchange);
     PollingAccountService service = exchange.getPollingAccountService();
     assertNotNull(service);
-    Wallet info = service.getAccountInfo();
+    AccountInfo info = service.getAccountInfo();
     assertNotNull(info);
-    System.out.println("Balance BTC: " + info.getBalance("BTC").getTotal());
-    System.out.println("Available BTC: " + info.getBalance("BTC").getAvailable());
-    System.out.println("Reserved BTC: " + info.getBalance("BTC").getFrozen());
-    System.out.println("Balance EUR: " + info.getBalance("EUR").getTotal());
-    System.out.println("Available EUR: " + info.getBalance("EUR").getAvailable());
-    System.out.println("Reserved EUR: " + info.getBalance("EUR").getFrozen());
+    System.out.println("Balance BTC: " + info.getWallet().getBalance(Currency.BTC).getTotal());
+    System.out.println("Available BTC: " + info.getWallet().getBalance(Currency.BTC).getAvailable());
+    System.out.println("Reserved BTC: " + info.getWallet().getBalance(Currency.BTC).getFrozen());
+    System.out.println("Balance EUR: " + info.getWallet().getBalance(Currency.EUR).getTotal());
+    System.out.println("Available EUR: " + info.getWallet().getBalance(Currency.EUR).getAvailable());
+    System.out.println("Reserved EUR: " + info.getWallet().getBalance(Currency.EUR).getFrozen());
   }
 
   @Test
@@ -43,7 +45,7 @@ public class AccountInfoFetchIntegration {
     assertNotNull(exchange);
     PollingAccountService service = exchange.getPollingAccountService();
     assertNotNull(service);
-    String addr = service.requestDepositAddress("BTC");
+    String addr = service.requestDepositAddress(Currency.BTC);
     assertNotNull(addr);
     System.out.println("Deposit address: " + addr);
   }

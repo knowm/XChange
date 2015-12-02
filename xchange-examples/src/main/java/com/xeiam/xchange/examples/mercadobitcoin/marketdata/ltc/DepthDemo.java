@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.mercadobitcoin.MercadoBitcoinExchange;
@@ -35,7 +35,7 @@ public class DepthDemo {
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
     // Get the latest order book data for LTC/BRL
-    OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(Currencies.LTC, Currencies.BRL));
+    OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(Currency.LTC, Currency.BRL));
 
     System.out.println("Current Order Book size for LTC / BRL: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
@@ -51,7 +51,7 @@ public class DepthDemo {
   private static void raw(MercadoBitcoinMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the latest order book data for LTC/BRL
-    MercadoBitcoinOrderBook orderBook = marketDataService.getMercadoBitcoinOrderBook(new CurrencyPair(Currencies.LTC, Currencies.BRL));
+    MercadoBitcoinOrderBook orderBook = marketDataService.getMercadoBitcoinOrderBook(new CurrencyPair(Currency.LTC, Currency.BRL));
 
     System.out.println("Current Order Book size for LTC / BRL: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 

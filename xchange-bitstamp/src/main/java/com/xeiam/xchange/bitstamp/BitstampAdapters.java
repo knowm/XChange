@@ -12,10 +12,11 @@ import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -41,28 +42,27 @@ public final class BitstampAdapters {
   }
 
   /**
-   * Adapts a BitstampBalance to a Wallet
+   * Adapts a BitstampBalance to an AccountInfo
    *
    * @param bitstampBalance The Bitstamp balance
    * @param userName The user name
    * @return The account info
    */
-  public static Wallet adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
+  public static AccountInfo adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
 
     // Adapt to XChange DTOs
-    Balance usdBalance = new Balance(Currencies.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(),
+    Balance usdBalance = new Balance(Currency.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(),
         bitstampBalance.getUsdReserved());
-    Balance btcBalance = new Balance(Currencies.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),
+    Balance btcBalance = new Balance(Currency.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),
         bitstampBalance.getBtcReserved());
 
-    return new Wallet(userName, bitstampBalance.getFee(), Arrays.asList(usdBalance, btcBalance));
+    return new AccountInfo(userName, bitstampBalance.getFee(), new Wallet(usdBalance, btcBalance));
   }
 
   /**
    * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
    *
    * @param currencyPair (e.g. BTC/USD)
-   * @param currency The currency (e.g. USD in BTC/USD)
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
@@ -122,7 +122,7 @@ public final class BitstampAdapters {
   /**
    * Adapts a Transaction to a Trade Object
    *
-   * @param transactions The Bitstamp transaction
+   * @param tx The Bitstamp transaction
    * @param currencyPair (e.g. BTC/USD)
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
@@ -183,7 +183,7 @@ public final class BitstampAdapters {
         final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
         UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-            currencyPair.counterSymbol);
+            currencyPair.counter.getCurrencyCode());
         trades.add(trade);
       }
     }

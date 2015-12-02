@@ -5,9 +5,9 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 
@@ -23,7 +23,7 @@ public class UserTradeTest {
     final String id = "id";
     final String orderId = "OrderId";
     final BigDecimal feeAmount = new BigDecimal("0.0006");
-    final String feeCurrency = Currencies.BTC;
+    final Currency feeCurrency = Currency.BTC;
 
     final UserTrade copy = new UserTrade.Builder().type(type).tradableAmount(tradableAmount).currencyPair(currencyPair).price(price)
         .timestamp(timestamp).id(id).orderId(orderId).feeAmount(feeAmount).feeCurrency(feeCurrency).build();
@@ -49,7 +49,7 @@ public class UserTradeTest {
     final String id = "id";
     final String orderId = "OrderId";
     final BigDecimal feeAmount = new BigDecimal("0");
-    final String feeCurrency = Currencies.BTC;
+    final Currency feeCurrency = Currency.BTC;
 
     final UserTrade original = new UserTrade(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
     final UserTrade copy = UserTrade.Builder.from(original).build();

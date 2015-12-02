@@ -3,7 +3,7 @@ package com.xeiam.xchange.ripple.service.polling;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.ripple.dto.marketdata.RippleOrderBook;
@@ -21,21 +21,21 @@ public class RippleMarketDataServiceRaw extends RippleBasePollingService {
     }
 
     final String base;
-    if (pair.baseSymbol.equals(Currencies.XRP)) {
-      base = pair.baseSymbol; // XRP is the native currency - no counterparty
+    if (pair.base.equals(Currency.XRP)) {
+      base = pair.base.getCurrencyCode(); // XRP is the native currency - no counterparty
     } else if (params.getBaseCounterparty().isEmpty()) {
-      throw new ExchangeException("base counterparty must be populated for currency: " + pair.baseSymbol);
+      throw new ExchangeException("base counterparty must be populated for currency: " + pair.base.getCurrencyCode());
     } else {
-      base = String.format("%s+%s", pair.baseSymbol, params.getBaseCounterparty());
+      base = String.format("%s+%s", pair.base.getCurrencyCode(), params.getBaseCounterparty());
     }
 
     final String counter;
-    if (pair.counterSymbol.equals(Currencies.XRP)) {
-      counter = pair.counterSymbol; // XRP is the native currency - no counterparty
+    if (pair.counter.equals(Currency.XRP)) {
+      counter = pair.counter.getCurrencyCode(); // XRP is the native currency - no counterparty
     } else if (params.getCounterCounterparty().isEmpty()) {
-      throw new ExchangeException("counter counterparty must be populated for currency: " + pair.counterSymbol);
+      throw new ExchangeException("counter counterparty must be populated for currency: " + pair.counter.getCurrencyCode());
     } else {
-      counter = String.format("%s+%s", pair.counterSymbol, params.getCounterCounterparty());
+      counter = String.format("%s+%s", pair.counter.getCurrencyCode(), params.getCounterCounterparty());
     }
 
     return ripplePublic.getOrderBook(params.getAddress(), base, counter, params.getLimit());

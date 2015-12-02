@@ -11,6 +11,7 @@ import com.xeiam.xchange.clevercoin.dto.marketdata.CleverCoinOrderBook;
 import com.xeiam.xchange.clevercoin.dto.marketdata.CleverCoinTicker;
 import com.xeiam.xchange.clevercoin.dto.marketdata.CleverCoinTransaction;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinUserTransaction;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -42,28 +43,26 @@ public final class CleverCoinAdapters {
    * Adapts a CleverCoinBalance to a Wallet
    *
    * @param cleverCoinBalance The CleverCoin balance
-   * @param userName The user name
    * @return The account info
    */
-  public static Wallet adaptAccountInfo(CleverCoinBalance[] cleverCoinBalance, String userName) {
+  public static Wallet adaptWallet(CleverCoinBalance[] cleverCoinBalance) {
 
     List<Balance> balances = new ArrayList<Balance>();
 
     for (CleverCoinBalance currencybalance : cleverCoinBalance) {
-      balances.add(new Balance(currencybalance.getCurrency(), currencybalance.getBalance()));
+      balances.add(new Balance(Currency.getInstance(currencybalance.getCurrency()), currencybalance.getBalance()));
     }
 
     // Adapt to XChange DTOs
     //Wallet usdWallet = new Wallet(Currencies.USD, cleverCoinBalance.getUsdBalance());
     //Wallet btcWallet = new Wallet(Currencies.BTC, cleverCoinBalance.getBtcBalance());
-    return new Wallet(userName, balances);
+    return new Wallet(balances);
   }
 
   /**
    * Adapts a com.xeiam.xchange.clevercoin.api.model.OrderBook to a OrderBook Object
    *
    * @param currencyPair (e.g. BTC/USD)
-   * @param currency The currency (e.g. USD in BTC/USD)
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
@@ -123,7 +122,7 @@ public final class CleverCoinAdapters {
   /**
    * Adapts a Transaction to a Trade Object
    *
-   * @param transactions The CleverCoin transaction
+   * @param tx The CleverCoin transaction
    * @param currencyPair (e.g. BTC/USD)
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
@@ -160,7 +159,7 @@ public final class CleverCoinAdapters {
   /**
    * Adapt the user's trades
    *
-   * @param CleverCoinUserTransactions
+   * @param cleverCoinUserTransactions
    * @return
    */
   public static UserTrades adaptTradeHistory(CleverCoinUserTransaction[] cleverCoinUserTransactions) {
@@ -183,7 +182,7 @@ public final class CleverCoinAdapters {
         final CurrencyPair currencyPair = CurrencyPair.BTC_EUR;
 
         UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-            currencyPair.counterSymbol);
+            currencyPair.counter.getCurrencyCode());
         trades.add(trade);
       }
     }

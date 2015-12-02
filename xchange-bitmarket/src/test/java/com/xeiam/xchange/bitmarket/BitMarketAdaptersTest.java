@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import com.xeiam.xchange.dto.account.Wallet;
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +15,6 @@ import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryOperationsResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -35,16 +35,14 @@ public class BitMarketAdaptersTest {
     ObjectMapper mapper = new ObjectMapper();
     BitMarketAccountInfoResponse response = mapper.readValue(is, BitMarketAccountInfoResponse.class);
 
-    Wallet wallet = BitMarketAdapters.adaptAccountInfo(response.getData().getBalance(), "Jan Kowalski");
-    assertThat(wallet.getId()).isEqualTo("Jan Kowalski");
-    assertThat(wallet.getTradingFee()).isNull();
-    assertThat(wallet.getBalance(Currencies.PLN).getCurrency()).isEqualTo("PLN");
-    assertThat(wallet.getBalance(Currencies.PLN).getAvailable().toString()).isEqualTo("4.166000000000");
-    assertThat(wallet.getBalance(Currencies.BTC).getCurrency()).isEqualTo("BTC");
-    assertThat(wallet.getBalance(Currencies.BTC).getTotal().toString()).isEqualTo("0.029140000000");
-    assertThat(wallet.getBalance(Currencies.BTC).getAvailable().toString()).isEqualTo("0.029140000000");
-    assertThat(wallet.getBalance(Currencies.BTC).getFrozen().toString()).isEqualTo("0");
-    assertThat(wallet.getBalance(Currencies.LTC).getCurrency()).isEqualTo("LTC");
+    Wallet wallet = BitMarketAdapters.adaptWallet(response.getData().getBalance());
+    assertThat(wallet.getBalance(Currency.PLN).getCurrency()).isEqualTo(Currency.PLN);
+    assertThat(wallet.getBalance(Currency.PLN).getAvailable().toString()).isEqualTo("4.166000000000");
+    assertThat(wallet.getBalance(Currency.BTC).getCurrency()).isEqualTo(Currency.BTC);
+    assertThat(wallet.getBalance(Currency.BTC).getTotal().toString()).isEqualTo("0.029140000000");
+    assertThat(wallet.getBalance(Currency.BTC).getAvailable().toString()).isEqualTo("0.029140000000");
+    assertThat(wallet.getBalance(Currency.BTC).getFrozen().toString()).isEqualTo("0");
+    assertThat(wallet.getBalance(Currency.LTC).getCurrency()).isEqualTo(Currency.LTC);
   }
 
   @Test
@@ -90,6 +88,6 @@ public class BitMarketAdaptersTest {
     assertThat(trade.getType()).isEqualTo(Order.OrderType.BID);
     assertThat(trade.getId()).isEqualTo("389406");
     assertThat(trade.getFeeAmount()).isEqualTo(new BigDecimal("0.30312011"));
-    assertThat(trade.getFeeCurrency()).isEqualTo(Currencies.PLN);
+    assertThat(trade.getFeeCurrency()).isEqualTo(Currency.PLN);
   }
 }

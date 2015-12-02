@@ -40,6 +40,6 @@ public class LakeBTCUtil {
   }
 
   public static String toPairString(CurrencyPair currencyPair) {
-    return currencyPair.baseSymbol.toLowerCase();
+    return currencyPair.base.getCurrencyCode().toLowerCase();
   }
 }

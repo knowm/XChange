@@ -11,11 +11,11 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.xeiam.xchange.currency.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.exceptions.ExchangeException;
@@ -75,9 +75,9 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
       counterAmount = request.getTakerPays();
     }
 
-    baseAmount.setCurrency(order.getCurrencyPair().baseSymbol);
+    baseAmount.setCurrency(order.getCurrencyPair().base.getCurrencyCode());
     baseAmount.setValue(order.getTradableAmount());
-    if (baseAmount.getCurrency().equals(Currencies.XRP) == false) {
+    if (baseAmount.getCurrency().equals("XRP") == false) {
       // not XRP - need a counterparty for this currency
       final String counterparty = order.getBaseCounterparty();
       if (counterparty.isEmpty()) {
@@ -86,9 +86,9 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
       baseAmount.setCounterparty(counterparty.toString());
     }
 
-    counterAmount.setCurrency(order.getCurrencyPair().counterSymbol);
+    counterAmount.setCurrency(order.getCurrencyPair().counter.getCurrencyCode());
     counterAmount.setValue(order.getTradableAmount().multiply(order.getLimitPrice()));
-    if (counterAmount.getCurrency().equals(Currencies.XRP) == false) {
+    if (counterAmount.getCurrency().equals("XRP") == false) {
       // not XRP - need a counterparty for this currency
       final String counterparty = order.getCounterCounterparty();
       if (counterparty.isEmpty()) {
@@ -178,8 +178,8 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
     if (params instanceof TradeHistoryParamCurrencyPair) {
       final CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
       if (pair != null) {
-        currencyFilter.add(pair.baseSymbol);
-        currencyFilter.add(pair.counterSymbol);
+        currencyFilter.add(pair.base.getCurrencyCode());
+        currencyFilter.add(pair.counter.getCurrencyCode());
       }
     }
 
@@ -310,7 +310,7 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
   public BigDecimal getExpectedBaseTransferFee(final RippleLimitOrder order) throws IOException {
     final ITransferFeeSource transferFeeSource = (ITransferFeeSource) exchange.getPollingAccountService();
     final String counterparty = order.getBaseCounterparty();
-    final String currency = order.getCurrencyPair().baseSymbol;
+    final String currency = order.getCurrencyPair().base.getCurrencyCode();
     final BigDecimal quantity = order.getTradableAmount();
     final OrderType type = order.getType();
     return getExpectedTransferFee(transferFeeSource, counterparty, currency, quantity, type);
@@ -322,7 +322,7 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
   public BigDecimal getExpectedCounterTransferFee(final RippleLimitOrder order) throws IOException {
     final ITransferFeeSource transferFeeSource = (ITransferFeeSource) exchange.getPollingAccountService();
     final String counterparty = order.getCounterCounterparty();
-    final String currency = order.getCurrencyPair().counterSymbol;
+    final String currency = order.getCurrencyPair().counter.getCurrencyCode();
     final BigDecimal quantity = order.getTradableAmount().multiply(order.getLimitPrice());
     final OrderType type;
     if (order.getType() == OrderType.BID) {
@@ -342,7 +342,7 @@ public class RippleTradeServiceRaw extends RippleBasePollingService {
    */
   public static BigDecimal getExpectedTransferFee(final ITransferFeeSource transferFeeSource, final String counterparty, final String currency,
       final BigDecimal quantity, final OrderType type) throws IOException {
-    if (currency.equals(Currencies.XRP)) {
+    if (currency.equals("XRP")) {
       return BigDecimal.ZERO;
     }
     if (counterparty.isEmpty()) {

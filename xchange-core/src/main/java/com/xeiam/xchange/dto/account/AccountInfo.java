@@ -1,7 +1,6 @@
 package com.xeiam.xchange.dto.account;
 
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.trade.Balance;
+import com.xeiam.xchange.currency.Currency;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -29,7 +28,7 @@ public final class AccountInfo {
   /**
    * The wallets owned by this account
    */
-  private final Map<String,Wallet> wallets;
+  private final Map<String, Wallet> wallets;
 
 
   /**

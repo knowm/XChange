@@ -15,7 +15,7 @@ import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTicker;
 import com.xeiam.xchange.coinsetter.dto.marketdata.CoinsetterTrade;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrder;
 import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.Wallet;
@@ -42,7 +42,7 @@ public final class CoinsetterAdapters {
 
   public static String adaptSymbol(CurrencyPair currencyPair) {
 
-    return currencyPair.baseSymbol + currencyPair.counterSymbol;
+    return currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
   }
 
   public static OrderType adaptSide(String side) {
@@ -133,8 +133,8 @@ public final class CoinsetterAdapters {
 
   public static Wallet adaptAccountInfo(String username, CoinsetterAccount account) {
 
-    return new Wallet(username,
-        Arrays.asList(new Balance(Currencies.BTC, account.getBtcBalance()), new Balance(Currencies.USD, account.getUsdBalance())));
+    return new Wallet(
+        new Balance(Currency.BTC, account.getBtcBalance()), new Balance(Currency.USD, account.getUsdBalance()));
   }
 
   public static OpenOrders adaptOpenOrders(CoinsetterOrderList orderList) {

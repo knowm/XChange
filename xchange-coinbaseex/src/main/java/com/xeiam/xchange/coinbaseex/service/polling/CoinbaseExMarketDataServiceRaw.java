@@ -26,7 +26,7 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
       return null;
     }
 
-    CoinbaseExProductTicker tickerReturn = this.coinbaseEx.getProductTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    CoinbaseExProductTicker tickerReturn = this.coinbaseEx.getProductTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
     return tickerReturn;
   }
 
@@ -36,7 +36,7 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
       return null;
     }
 
-    CoinbaseExProductStats statsReturn = this.coinbaseEx.getProductStats(currencyPair.baseSymbol, currencyPair.counterSymbol);
+    CoinbaseExProductStats statsReturn = this.coinbaseEx.getProductStats(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
     return statsReturn;
   }
 
@@ -46,18 +46,18 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
       return null;
     }
 
-    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol, "1");
+    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "1");
     return book;
   }
 
   public CoinbaseExProductBook getCoinbaseExProductOrderBook(CurrencyPair currencyPair, int level) throws IOException {
-    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.baseSymbol, currencyPair.counterSymbol, String.valueOf(level));
+    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), String.valueOf(level));
     return book;
   }
 
   public CoinbaseExTrade[] getCoinbaseExTrades(CurrencyPair currencyPair, int limit) throws IOException {
 
-    return this.coinbaseEx.getTrades(currencyPair.baseSymbol, currencyPair.counterSymbol, String.valueOf(limit));
+    return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), String.valueOf(limit));
 
   }
 
@@ -65,7 +65,7 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
 
     boolean currencyPairSupported = false;
     for (CurrencyPair cp : this.getExchangeSymbols()) {
-      if (cp.baseSymbol.equalsIgnoreCase(currencyPair.baseSymbol) && cp.counterSymbol.equalsIgnoreCase(currencyPair.counterSymbol)) {
+      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode()) && cp.counter.getCurrencyCode().equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
         currencyPairSupported = true;
         break;
       }

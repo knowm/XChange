@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -33,7 +33,7 @@ public class PoloniexTradeDemo {
 
     Exchange poloniex = PoloniexExamplesUtils.getExchange();
     PollingTradeService tradeService = poloniex.getPollingTradeService();
-    currencyPair = new CurrencyPair("XMR", Currencies.BTC);
+    currencyPair = new CurrencyPair(Currency.XMR, Currency.BTC);
 
     /*
      * Make sure this is below the current market rate!!

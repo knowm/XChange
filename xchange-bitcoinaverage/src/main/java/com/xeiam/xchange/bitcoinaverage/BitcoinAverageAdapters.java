@@ -1,6 +1,6 @@
 package com.xeiam.xchange.bitcoinaverage;
 
-import static com.xeiam.xchange.currency.Currencies.BTC;
+import static com.xeiam.xchange.currency.Currency.BTC;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -11,6 +11,7 @@ import java.util.Map;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTickers;
 import com.xeiam.xchange.bitcoinaverage.dto.meta.BitcoinAverageMetaData;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.meta.CurrencyMetaData;
@@ -49,7 +50,7 @@ public final class BitcoinAverageAdapters {
   public static ExchangeMetaData adaptMetaData(BitcoinAverageTickers tickers, BitcoinAverageMetaData bAMetaData) {
     Map<CurrencyPair, MarketMetaData> currencyPairs = new HashMap<CurrencyPair, MarketMetaData>();
     for (String currency : tickers.getTickers().keySet())
-      currencyPairs.put(new CurrencyPair(BTC, currency), new MarketMetaData(null, null, bAMetaData.priceScale));
-    return new ExchangeMetaData(currencyPairs, Collections.<String, CurrencyMetaData> emptyMap(), null, null, null);
+      currencyPairs.put(new CurrencyPair(BTC, Currency.getInstance(currency)), new MarketMetaData(null, null, bAMetaData.priceScale));
+    return new ExchangeMetaData(currencyPairs, Collections.<Currency, CurrencyMetaData> emptyMap(), null, null, null);
   }
 }

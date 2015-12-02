@@ -1,10 +1,9 @@
 package com.xeiam.xchange.dto.account;
 
-import java.math.BigDecimal;
-import java.util.*;
-
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.trade.Balance;
+
+import java.util.*;
 
 /**
  * <p>
@@ -29,7 +28,7 @@ public final class Wallet {
   /**
    * The keys represent the currency of the wallet.
    */
-  private final Map<String, Balance> balances;
+  private final Map<Currency, Balance> balances;
 
   /**
    * Constructs a {@link Wallet}.
@@ -52,7 +51,7 @@ public final class Wallet {
       Balance balance = balances.iterator().next();
       this.balances = Collections.singletonMap(balance.getCurrency(), balance);
     } else {
-      this.balances = new HashMap<String, Balance>();
+      this.balances = new HashMap<Currency, Balance>();
       for (Balance balance : balances) {
         if (this.balances.containsKey(balance.getCurrency()))
           // this class could merge balances, but probably better to catch mistakes and let the exchange merge them
@@ -75,7 +74,7 @@ public final class Wallet {
    */
   public Wallet(String id, Balance... balances) {
 
-    this(id, null, (Collection<Balance>)Arrays.asList(balances));
+    this(id, null, (Collection<Balance>) Arrays.asList(balances));
   }
 
   /**
@@ -113,7 +112,7 @@ public final class Wallet {
   /**
    * @return The available balances (amount and currency)
    */
-  public Map<String,Balance> getBalances() {
+  public Map<Currency,Balance> getBalances() {
 
     return Collections.unmodifiableMap(balances);
   }
@@ -121,10 +120,10 @@ public final class Wallet {
   /**
    * Returns the balance for the specified currency.
    *
-   * @param currency one of the {@link Currencies}.
+   * @param currency a {@link Currency}.
    * @return the balance of the specified currency, or a zero balance if currency not present
    */
-  public Balance getBalance(String currency) {
+  public Balance getBalance(Currency currency) {
 
     Balance balance = this.balances.get(currency);
     return balance == null ? Balance.zero(currency) : balance;

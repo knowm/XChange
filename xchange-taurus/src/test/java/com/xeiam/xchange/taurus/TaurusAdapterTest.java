@@ -8,14 +8,13 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-import com.xeiam.xchange.dto.account.AccountInfo;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.currency.Currencies;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.Wallet;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -47,12 +46,12 @@ public class TaurusAdapterTest {
     assertThat(accountInfo.getUsername()).isEqualTo("Joe Mama");
     assertThat(accountInfo.getTradingFee()).isEqualTo(new BigDecimal("0.5000"));
     assertThat(accountInfo.getWallet().getBalances().size()).isEqualTo(2);
-    assertThat(accountInfo.getWallet().getBalance("CAD").getTotal()).isEqualTo(new BigDecimal("6.16"));
-    assertThat(accountInfo.getWallet().getBalance("BTC").getTotal()).isEqualTo(new BigDecimal("0.02350921"));
-    assertThat(accountInfo.getWallet().getBalance(Currencies.CAD).getAvailable()).isEqualTo(new BigDecimal("6.16"));
-    assertThat(accountInfo.getWallet().getBalance(Currencies.CAD).getFrozen()).isEqualTo(new BigDecimal("0.00"));
-    assertThat(accountInfo.getWallet().getBalance(Currencies.BTC).getAvailable()).isEqualTo(new BigDecimal("0.02350921"));
-    assertThat(accountInfo.getWallet().getBalance(Currencies.BTC).getFrozen()).isEqualTo(new BigDecimal("0.00000000"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.CAD).getTotal()).isEqualTo(new BigDecimal("6.16"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.CAD).getAvailable()).isEqualTo(new BigDecimal("6.16"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.CAD).getFrozen()).isEqualTo(new BigDecimal("0.00"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getTotal()).isEqualTo(new BigDecimal("0.02350921"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getAvailable()).isEqualTo(new BigDecimal("0.02350921"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getFrozen()).isEqualTo(new BigDecimal("0.00000000"));
   }
 
   @Test

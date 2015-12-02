@@ -1,5 +1,7 @@
 package com.xeiam.xchange.dto.trade;
 
+import com.xeiam.xchange.currency.Currency;
+
 import java.math.BigDecimal;
 
 /**
@@ -15,7 +17,7 @@ import java.math.BigDecimal;
  */
 public final class Balance implements Comparable<Balance> {
 
-  private final String currency;
+  private final Currency currency;
 
   // Invariant:
   // total = available + frozen - borrowed + loaned + transferring;
@@ -32,7 +34,7 @@ public final class Balance implements Comparable<Balance> {
    * @param currency the balance currency.
    * @return a zero balance.
    */
-  public static Balance zero(String currency) {
+  public static Balance zero(Currency currency) {
 
     return new Balance(currency, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
   }
@@ -44,7 +46,7 @@ public final class Balance implements Comparable<Balance> {
    * @param currency The underlying currency
    * @param total The total
    */
-  public Balance(String currency, BigDecimal total) {
+  public Balance(Currency currency, BigDecimal total) {
 
     this(currency, total, total, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
   }
@@ -57,7 +59,7 @@ public final class Balance implements Comparable<Balance> {
    * @param total the total amount of the <code>currency</code> in this balance.
    * @param available the amount of the <code>currency</code> in this balance that is available to trade.
    */
-  public Balance(String currency, BigDecimal total, BigDecimal available) {
+  public Balance(Currency currency, BigDecimal total, BigDecimal available) {
 
     this(currency, total, available, total.add(available.negate()), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
   }
@@ -71,7 +73,7 @@ public final class Balance implements Comparable<Balance> {
    * @param available the amount of the <code>currency</code> in this balance that is available to trade.
    * @param frozen the frozen amount of the <code>currency</code> in this balance that is locked in trading.
    */
-  public Balance(String currency, BigDecimal total, BigDecimal available, BigDecimal frozen) {
+  public Balance(Currency currency, BigDecimal total, BigDecimal available, BigDecimal frozen) {
 
     this(currency, total, available, frozen, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
   }
@@ -87,7 +89,7 @@ public final class Balance implements Comparable<Balance> {
    * @param loaned the loaned amount of the total <code>currency</code> in this balance that will be returned.
    * @param transferring the amount of the <code>currency</code> in this balance that is locked in a transfer.
    */
-  public Balance(String currency, BigDecimal total, BigDecimal available, BigDecimal frozen, BigDecimal borrowed, BigDecimal loaned,
+  public Balance(Currency currency, BigDecimal total, BigDecimal available, BigDecimal frozen, BigDecimal borrowed, BigDecimal loaned,
       BigDecimal transferring) {
 
     if (total != null && available != null) {
@@ -105,7 +107,7 @@ public final class Balance implements Comparable<Balance> {
     this.transferring = transferring;
   }
 
-  public String getCurrency() {
+  public Currency getCurrency() {
 
     return currency;
   }
@@ -146,7 +148,7 @@ public final class Balance implements Comparable<Balance> {
   public BigDecimal getFrozen() {
 
     if (frozen == null) {
-      return total.subtract(available)
+      return total.subtract(available);
     }
     return frozen;
   }
@@ -295,7 +297,7 @@ public final class Balance implements Comparable<Balance> {
 
   public static class Builder {
 
-    private String currency;
+    private Currency currency;
     private BigDecimal total;
     private BigDecimal available;
     private BigDecimal frozen;
@@ -308,7 +310,7 @@ public final class Balance implements Comparable<Balance> {
       return new Builder().currency(balance.getCurrency()).available(balance.getAvailable()).frozen(balance.getFrozen()).borrowed(balance.getBorrowed()).loaned(balance.getLoaned()).transferring(balance.getTransferring());
     }
 
-    public Builder currency(String currency) {
+    public Builder currency(Currency currency) {
 
       this.currency = currency;
       return this;

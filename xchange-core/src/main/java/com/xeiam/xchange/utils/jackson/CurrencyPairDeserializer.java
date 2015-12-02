@@ -1,6 +1,7 @@
 package com.xeiam.xchange.utils.jackson;
 
 import java.io.IOException;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
@@ -45,11 +47,36 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
     }
 
     /*
-     * Last-ditch effort to obtain the correct CurrencyPair (eg: "BTCUSD") XXX: What about a "DOGEBTC" or "BCBTC" string??
+     * The common case of two 3-character symbols (eg: "BTCUSD")
      */
-    final String tradeCurrency = currencyPairString.substring(0, 3);
-    final String priceCurrency = currencyPairString.substring(currencyPairString.length() - 3);
+    if (currencyPairString.length() == 6) {
+      final String tradeCurrency = currencyPairString.substring(0, 3);
+      final String priceCurrency = currencyPairString.substring(3);
+      return new CurrencyPair(tradeCurrency, priceCurrency);
+    }
 
+    /*
+     * Last-ditch effort to obtain the correct CurrencyPair (eg: "DOGEBTC", "BCBTC", or even "USDEUSD")
+     */
+    int bestGuess = currencyPairString.length() / 2;
+    int bestLength = 0;
+    for (int i = 1; i < currencyPairString.length() - 1; ++ i) {
+      final Currency tradeCurrency = Currency.getInstanceNoCreate(currencyPairString.substring(0, i));
+      final Currency priceCurrency = Currency.getInstanceNoCreate(currencyPairString.substring(i));
+      if (tradeCurrency != null) {
+        if (priceCurrency != null) {
+          return new CurrencyPair(tradeCurrency, priceCurrency);
+        } else if (i > bestLength) {
+          bestLength = i;
+          bestGuess = i;
+        }
+      } else if (priceCurrency != null && currencyPairString.length() - i > bestLength) {
+        bestLength = currencyPairString.length() - i;
+        bestGuess = i;
+      }
+    }
+    final String tradeCurrency = currencyPairString.substring(0, bestGuess);
+    final String priceCurrency = currencyPairString.substring(bestGuess);
     return new CurrencyPair(tradeCurrency, priceCurrency);
   }
 }

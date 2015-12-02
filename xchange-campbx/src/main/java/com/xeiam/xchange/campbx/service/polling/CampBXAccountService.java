@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
 import org.slf4j.Logger;
@@ -42,15 +43,15 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
     if (!myFunds.isError()) {
       // TODO move to adapter class
       // TODO: what does MyFunds.liquid* mean? means available amount of the wallet?
-      return new Wallet(exchange.getExchangeSpecification().getUserName(),
-          Arrays.asList(new Balance("BTC", myFunds.getTotalBTC()), new Balance("USD", myFunds.getTotalUSD())));
+      return new AccountInfo(exchange.getExchangeSpecification().getUserName(),
+          new Wallet(new Balance(Currency.BTC, myFunds.getTotalBTC()), new Balance(Currency.USD, myFunds.getTotalUSD())));
     } else {
       throw new ExchangeException("Error calling getAccountInfo(): " + myFunds.getError());
     }
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
     CampBXResponse campBXResponse = withdrawCampBXFunds(amount, address);
     logger.debug("campBXResponse = {}", campBXResponse);
@@ -63,7 +64,7 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Pol
   }
 
   @Override
-  public String requestDepositAddress(String currency, String... args) throws IOException {
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
     CampBXResponse campBXResponse = requestCampBXBitcoinDepositAddress();
     logger.debug("campBXResponse = {}", campBXResponse);

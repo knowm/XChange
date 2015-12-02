@@ -11,8 +11,8 @@ import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import com.xeiam.xchange.bitstamp.dto.account.DepositTransaction;
 import com.xeiam.xchange.bitstamp.dto.account.WithdrawalRequest;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampAccountServiceRaw;
-import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.account.Wallet;
+import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -43,13 +43,13 @@ public class BitstampAccountDemo {
   private static void generic(PollingAccountService accountService) throws IOException {
 
     // Get the account information
-    Wallet wallet = accountService.getAccountInfo();
-    System.out.println("Wallet as String: " + wallet.toString());
+    AccountInfo accountInfo = accountService.getAccountInfo();
+    System.out.println("AccountInfo as String: " + accountInfo.toString());
 
-    String depositAddress = accountService.requestDepositAddress(Currencies.BTC);
+    String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawFunds("BTC", new BigDecimal(1).movePointLeft(4), "1PxYUsgKdw75sdLmM7HYP2p74LEq3mxM6L");
+    String withdrawResult = accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "1PxYUsgKdw75sdLmM7HYP2p74LEq3mxM6L");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 

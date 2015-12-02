@@ -128,17 +128,17 @@ public class RequestFactory {
     @SuppressWarnings("null")
     public PlaceOrderRequest(Order order) {
 
-      this.base = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().baseSymbol);
-      this.counter = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().counterSymbol);
+      this.base = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().base.getCurrencyCode());
+      this.counter = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().counter.getCurrencyCode());
 
       if (order.getType().equals(OrderType.ASK)) {
-        this.quantity = (-1) * CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseSymbol, order.getTradableAmount());
+        this.quantity = (-1) * CoinfloorUtils.scaleToInt(order.getCurrencyPair().base.getCurrencyCode(), order.getTradableAmount());
       } else {
-        this.quantity = CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseSymbol, order.getTradableAmount());
+        this.quantity = CoinfloorUtils.scaleToInt(order.getCurrencyPair().base.getCurrencyCode(), order.getTradableAmount());
       }
 
       if (order instanceof LimitOrder) {
-        this.price = CoinfloorUtils.scalePriceToInt(order.getCurrencyPair().baseSymbol, order.getCurrencyPair().counterSymbol,
+        this.price = CoinfloorUtils.scalePriceToInt(order.getCurrencyPair().base.getCurrencyCode(), order.getCurrencyPair().counter.getCurrencyCode(),
             ((LimitOrder) order).getLimitPrice());
       } else {
         this.price = (Integer) null;
@@ -247,13 +247,13 @@ public class RequestFactory {
 
     public EstimateMarketOrderRequest(MarketOrder order) {
 
-      this.base = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().baseSymbol);
-      this.counter = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().counterSymbol);
+      this.base = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().base.getCurrencyCode());
+      this.counter = CoinfloorUtils.toCurrencyCode(order.getCurrencyPair().counter.getCurrencyCode());
 
       if (order.getType().equals(OrderType.ASK)) {
-        this.quantity = (-1) * CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseSymbol, order.getTradableAmount());
+        this.quantity = (-1) * CoinfloorUtils.scaleToInt(order.getCurrencyPair().base.getCurrencyCode(), order.getTradableAmount());
       } else {
-        this.quantity = CoinfloorUtils.scaleToInt(order.getCurrencyPair().baseSymbol, order.getTradableAmount());
+        this.quantity = CoinfloorUtils.scaleToInt(order.getCurrencyPair().base.getCurrencyCode(), order.getTradableAmount());
       }
 
     }

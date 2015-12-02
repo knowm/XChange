@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -37,7 +38,7 @@ public final class MeXBTAdapters {
   }
 
   public static String toCurrencyPair(CurrencyPair currencyPair) {
-    return (currencyPair.baseSymbol + currencyPair.counterSymbol).toLowerCase();
+    return (currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode()).toLowerCase();
   }
 
   public static CurrencyPair adaptCurrencyPair(String ins) {
@@ -83,14 +84,14 @@ public final class MeXBTAdapters {
         .high(meXBTTicker.getHigh()).low(meXBTTicker.getLow()).volume(meXBTTicker.getVolume24Hour()).build();
   }
 
-  public static AccountInfo adaptAccountInfo(String username, MeXBTBalanceResponse balanceResponse) {
+  public static AccountInfo adaptWallet(MeXBTBalanceResponse balanceResponse) {
     List<Balance> wallet = new ArrayList<Balance>(balanceResponse.getCurrencies().length);
     for (MeXBTBalance mxbtBalance : balanceResponse.getCurrencies()) {
-      Balance balance = new Balance.Builder().currency(mxbtBalance.getName()).available(mxbtBalance.getBalance()).frozen(mxbtBalance.getHold())
-          .build();
+      Balance balance = new Balance.Builder().currency(Currency.getInstance(mxbtBalance.getName()))
+          .available(mxbtBalance.getBalance()).frozen(mxbtBalance.getHold()) .build();
       wallet.add(balance);
     }
-    return new AccountInfo(username, new Wallet(wallet));
+    return new AccountInfo(new Wallet(wallet));
   }
 
   public static String getDepositAddress(MeXBTDepositAddressesResponse depositAddressesResponse, String currency) {

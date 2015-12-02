@@ -362,7 +362,7 @@ public final class CryptsyAdapters {
         CurrencyPair currencyPair = CryptsyCurrencyUtils.convertToCurrencyPair(trade.getMarketId());
 
         trades.add(new UserTrade(tradeType, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTimestamp(),
-                String.valueOf(trade.getTradeId()), String.valueOf(trade.getOrderId()), trade.getFee(), currencyPair.counterSymbol));
+                String.valueOf(trade.getTradeId()), String.valueOf(trade.getOrderId()), trade.getFee(), currencyPair.counter.getCurrencyCode()));
       }
     }
     return new UserTrades(trades, TradeSortType.SortByTimestamp);

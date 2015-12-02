@@ -7,6 +7,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitstamp.BitstampAdapters;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -32,7 +33,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   }
 
   @Override
-  public String withdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
     final BitstampWithdrawal response = withdrawBitstampFunds(amount, address);
     return Integer.toString(response.getId());
@@ -42,7 +43,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
    * This returns the currently set deposit address. It will not generate a new address (ie. repeated calls will return the same address).
    */
   @Override
-  public String requestDepositAddress(String currency, String... arguments) throws IOException {
+  public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
 
     final BitstampDepositAddress response = getBitstampBitcoinDepositAddress();
     return response.getDepositAddress();
