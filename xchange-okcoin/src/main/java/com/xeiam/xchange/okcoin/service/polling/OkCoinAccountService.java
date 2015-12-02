@@ -8,6 +8,7 @@ import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.okcoin.OkCoinAdapters;
+import com.xeiam.xchange.okcoin.dto.account.OKCoinWithdraw;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class OkCoinAccountService extends OkCoinAccountServiceRaw implements PollingAccountService {
@@ -31,8 +32,14 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Pol
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-      withdraw(null, currency.toString(), address, amount);
-      return "";
+      String okcoinCurrency = currency == Currency.BTC ? "btc_usd" : "btc_ltc";
+      
+       OKCoinWithdraw result = withdraw(null, okcoinCurrency, address, amount);      
+       
+       if(result != null)
+           return result.getWithdrawId();
+       
+      return ""; 
   }
 
   @Override
