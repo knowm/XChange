@@ -110,7 +110,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
       throw new ExchangeException(e.getMessage());
     }
   }
-  
+  /*
   public BitfinexNewOrderMultiResponse placeBitfinexOrderMulti(List<Order> orders, BitfinexOrderType bitfinexOrderType) 
       throws IOException {
     
@@ -145,6 +145,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
       throw new ExchangeException(e.getMessage());
     }
   }
+*/
 
   public BitfinexOfferStatusResponse placeBitfinexFixedRateLoanOrder(FixedRateLoanOrder loanOrder, BitfinexOrderType orderType) throws IOException {
 
@@ -199,7 +200,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
     }
     
     try {
-     bitfinex.cancelOrderMulti(apiKey, payloadCreator, signatureCreator, new BitfinexCancelOrderMultiRequest(String.valueOf(exchange.getNonceFactory().createValue()), cancelOrderIds));
+//     bitfinex.cancelOrderMulti(apiKey, payloadCreator, signatureCreator, new BitfinexCancelOrderMultiRequest(String.valueOf(exchange.getNonceFactory().createValue()), cancelOrderIds));
      return true;
     } catch (BitfinexException e) {
       throw new ExchangeException(e.getMessage());
