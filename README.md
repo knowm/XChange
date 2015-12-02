@@ -55,6 +55,7 @@ Installing SSL Certificates into TrustStore: https://github.com/timmolter/XChang
 Getting Started with XChange for Noobies: https://github.com/timmolter/XChange/wiki/Getting-Started-with-XChange-for-Noobies
 
 ## Continuous Integration
+
 [![Build Status](https://travis-ci.org/timmolter/XChange.png?branch=develop)](https://travis-ci.org/timmolter/XChange.png)  
 [Build History](https://travis-ci.org/timmolter/XChange/builds)  
 
@@ -63,6 +64,7 @@ Getting Started with XChange for Noobies: https://github.com/timmolter/XChange/w
 ### Non-Maven
 
 Download XChange Release Jars: http://search.maven.org/#search%7Cga%7C1%7Cxeiam%20xchange
+
 Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/
 
 ### Maven
