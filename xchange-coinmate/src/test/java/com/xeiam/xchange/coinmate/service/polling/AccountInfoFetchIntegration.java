@@ -6,11 +6,11 @@ import org.junit.Test;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.ExchangeUtils;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
- * Integration tests for AccountInfo retrieval. For these tests to function, a file 'exchangeConfiguration.json' must be on the classpath and contain
+ * Integration tests for Wallet retrieval. For these tests to function, a file 'exchangeConfiguration.json' must be on the classpath and contain
  * valid api and secret keys.
  */
 public class AccountInfoFetchIntegration {
@@ -24,7 +24,7 @@ public class AccountInfoFetchIntegration {
     assertNotNull(exchange);
     PollingAccountService service = exchange.getPollingAccountService();
     assertNotNull(service);
-    AccountInfo info = service.getAccountInfo();
+    Wallet info = service.getAccountInfo();
     assertNotNull(info);
     System.out.println("Balance BTC: " + info.getBalance("BTC").getTotal());
     System.out.println("Available BTC: " + info.getBalance("BTC").getAvailable());

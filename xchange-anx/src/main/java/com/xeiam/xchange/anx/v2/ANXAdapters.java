@@ -16,7 +16,7 @@ import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResult;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -43,17 +43,17 @@ public final class ANXAdapters {
   }
 
   /**
-   * Adapts a ANXAccountInfo to a AccountInfo
+   * Adapts a ANXAccountInfo to a Wallet
    *
    * @param anxAccountInfo
    * @return
    */
-  public static AccountInfo adaptAccountInfo(ANXAccountInfo anxAccountInfo) {
+  public static Wallet adaptAccountInfo(ANXAccountInfo anxAccountInfo) {
 
     // Adapt to XChange DTOs
-    AccountInfo accountInfo = new AccountInfo(anxAccountInfo.getLogin(), percentToFactor(anxAccountInfo.getTradeFee()),
+    Wallet wallet = new Wallet(anxAccountInfo.getLogin(), percentToFactor(anxAccountInfo.getTradeFee()),
         ANXAdapters.adaptWallets(anxAccountInfo.getWallets()));
-    return accountInfo;
+    return wallet;
   }
 
   public static BigDecimal percentToFactor(BigDecimal percent) {

@@ -9,7 +9,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -47,8 +47,8 @@ public class OkCoinTradesDemo {
   private static void futures(Exchange okcoinExchange) throws IOException {
     PollingAccountService pollingAccountService = okcoinExchange.getPollingAccountService();
 
-    AccountInfo accountInfo = pollingAccountService.getAccountInfo();
-    System.out.println(accountInfo);
+    Wallet wallet = pollingAccountService.getAccountInfo();
+    System.out.println(wallet);
 
     OkCoinFuturesTradeService pollingTradeService = (OkCoinFuturesTradeService) okcoinExchange.getPollingTradeService();
 

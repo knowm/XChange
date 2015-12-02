@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
+import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Test;
 
 import com.xeiam.xchange.btcmarkets.BTCMarketsAdapters;
@@ -16,7 +17,6 @@ import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -28,12 +28,12 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
   public void shouldAdaptBalances() throws Exception {
     final BTCMarketsBalance[] response = parse(BTCMarketsBalance[].class);
 
-    AccountInfo accountInfo = BTCMarketsAdapters.adaptAccountInfo(Arrays.asList(response), "john");
+    Wallet wallet = BTCMarketsAdapters.adaptAccountInfo(Arrays.asList(response), "john");
 
-    assertThat(accountInfo.getUsername()).isEqualTo("john");
-    assertThat(accountInfo.getBalancesList()).hasSize(3);
-    assertThat(accountInfo.getBalance("LTC").getTotal()).isEqualTo(new BigDecimal("10.00000000"));
-    assertThat(accountInfo.getBalance("LTC").getAvailable()).isEqualTo(new BigDecimal("10.00000000"));
+    assertThat(wallet.getId()).isEqualTo("john");
+    assertThat(wallet.getBalancesList()).hasSize(3);
+    assertThat(wallet.getBalance("LTC").getTotal()).isEqualTo(new BigDecimal("10.00000000"));
+    assertThat(wallet.getBalance("LTC").getAvailable()).isEqualTo(new BigDecimal("10.00000000"));
   }
   
   @Test

@@ -11,6 +11,7 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -35,7 +36,7 @@ public final class TaurusAdapters {
     Balance cadBalance = new Balance(Currencies.CAD, taurusBalance.getCadBalance(), taurusBalance.getCadAvailable(), taurusBalance.getCadReserved());
     Balance btcBalance = new Balance(Currencies.BTC, taurusBalance.getBtcBalance(), taurusBalance.getBtcAvailable(), taurusBalance.getBtcReserved());
 
-    return new AccountInfo(userName, taurusBalance.getFee(), Arrays.asList(cadBalance, btcBalance));
+    return new AccountInfo(userName, taurusBalance.getFee(), new Wallet(cadBalance, btcBalance));
   }
 
   public static OrderBook adaptOrderBook(TaurusOrderBook taurusOrderBook, CurrencyPair currencyPair) {

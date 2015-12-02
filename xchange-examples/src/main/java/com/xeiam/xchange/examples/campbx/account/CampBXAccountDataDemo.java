@@ -7,7 +7,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.campbx.CampBXExchange;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
@@ -25,8 +25,8 @@ public class CampBXAccountDataDemo {
 
     PollingAccountService accountService = campbx.getPollingAccountService();
 
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("accountInfo = " + accountInfo);
+    Wallet wallet = accountService.getAccountInfo();
+    System.out.println("wallet = " + wallet);
 
     String depositAddr = accountService.requestDepositAddress(Currencies.BTC);
     System.out.println("depositAddr = " + depositAddr);

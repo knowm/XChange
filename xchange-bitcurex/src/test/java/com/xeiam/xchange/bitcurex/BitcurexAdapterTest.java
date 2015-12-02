@@ -20,7 +20,7 @@ import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
 import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTradesJSONTest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -100,12 +100,12 @@ public class BitcurexAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcurexFunds bitcurexFunds = mapper.readValue(is, BitcurexFunds.class);
 
-    AccountInfo accountInfo = BitcurexAdapters.adaptAccountInfo(bitcurexFunds, "demo");
-    System.out.println(accountInfo.toString());
+    Wallet wallet = BitcurexAdapters.adaptAccountInfo(bitcurexFunds, "demo");
+    System.out.println(wallet.toString());
 
-    assertThat(accountInfo.getBalanceTotal("BTC").compareTo(new BigDecimal("2.59033845")) == 0);
-    assertThat(accountInfo.getBalanceTotal("EUR").compareTo(new BigDecimal("6160.06838790")) == 0);
-    assertThat(accountInfo.getUsername().toString()).isEqualTo("demo");
+    assertThat(wallet.getBalanceTotal("BTC").compareTo(new BigDecimal("2.59033845")) == 0);
+    assertThat(wallet.getBalanceTotal("EUR").compareTo(new BigDecimal("6160.06838790")) == 0);
+    assertThat(wallet.getId().toString()).isEqualTo("demo");
   }
 
   @Test
@@ -118,12 +118,12 @@ public class BitcurexAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcurexFunds bitcurexFunds = mapper.readValue(is, BitcurexFunds.class);
 
-    AccountInfo accountInfo = BitcurexAdapters.adaptAccountInfo(bitcurexFunds, "demo");
-    System.out.println(accountInfo.toString());
+    Wallet wallet = BitcurexAdapters.adaptAccountInfo(bitcurexFunds, "demo");
+    System.out.println(wallet.toString());
 
-    assertThat(accountInfo.getBalanceTotal("BTC").compareTo(new BigDecimal("2.59033845")) == 0);
-    assertThat(accountInfo.getBalanceTotal("PLN").compareTo(new BigDecimal("6160.06838790")) == 0);
-    assertThat(accountInfo.getUsername().toString()).isEqualTo("demo");
+    assertThat(wallet.getBalanceTotal("BTC").compareTo(new BigDecimal("2.59033845")) == 0);
+    assertThat(wallet.getBalanceTotal("PLN").compareTo(new BigDecimal("6160.06838790")) == 0);
+    assertThat(wallet.getId().toString()).isEqualTo("demo");
   }
 
 }

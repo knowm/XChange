@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.xeiam.xchange.dto.account.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +35,6 @@ import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistory;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -276,12 +276,12 @@ public final class CryptsyAdapters {
   }
 
   /**
-   * Adapts CryptsyAccountInfoReturn DTO to XChange standard AccountInfo DTO
+   * Adapts CryptsyAccountInfoReturn DTO to XChange standard Wallet DTO
    *
    * @param cryptsyAccountInfoReturn Raw returned data from Cryptsy, CryptsyAccountInfoReturn DTO
-   * @return Standard XChange AccountInfo DTO
+   * @return Standard XChange Wallet DTO
    */
-  public static AccountInfo adaptAccountInfo(CryptsyAccountInfoReturn cryptsyAccountInfoReturn) {
+  public static Wallet adaptAccountInfo(CryptsyAccountInfoReturn cryptsyAccountInfoReturn) {
 
     CryptsyAccountInfo cryptsyAccountInfo = cryptsyAccountInfoReturn.getReturnValue();
 
@@ -317,7 +317,7 @@ public final class CryptsyAdapters {
 
 
 
-    return new AccountInfo(null, new ArrayList<>(walltes.values()));
+    return new Wallet(null, new ArrayList<>(walltes.values()));
 
   }
 

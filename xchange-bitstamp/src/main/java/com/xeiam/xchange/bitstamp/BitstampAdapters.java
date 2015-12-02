@@ -16,7 +16,7 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -41,13 +41,13 @@ public final class BitstampAdapters {
   }
 
   /**
-   * Adapts a BitstampBalance to a AccountInfo
+   * Adapts a BitstampBalance to a Wallet
    *
    * @param bitstampBalance The Bitstamp balance
    * @param userName The user name
    * @return The account info
    */
-  public static AccountInfo adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
+  public static Wallet adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
 
     // Adapt to XChange DTOs
     Balance usdBalance = new Balance(Currencies.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(),
@@ -55,7 +55,7 @@ public final class BitstampAdapters {
     Balance btcBalance = new Balance(Currencies.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),
         bitstampBalance.getBtcReserved());
 
-    return new AccountInfo(userName, bitstampBalance.getFee(), Arrays.asList(usdBalance, btcBalance));
+    return new Wallet(userName, bitstampBalance.getFee(), Arrays.asList(usdBalance, btcBalance));
   }
 
   /**

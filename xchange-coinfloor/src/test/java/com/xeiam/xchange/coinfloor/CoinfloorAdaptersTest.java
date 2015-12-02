@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -25,7 +25,7 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 
 public class CoinfloorAdaptersTest {
 
-  private AccountInfo cachedAccountInfo;
+  private Wallet cachedWallet;
   private Trades cachedTrades;
   private OrderBook cachedOrderBook;
   private CoinfloorAdapters coinfloorAdapters = new CoinfloorAdapters();
@@ -45,8 +45,8 @@ public class CoinfloorAdaptersTest {
 
     Map<String, Object> testObj = coinfloorAdapters.adaptBalances(result);
 
-    Assert.assertEquals(BigDecimal.valueOf(100014718, 4), ((AccountInfo) testObj.get("generic")).getBalanceTotal("BTC"));
-    Assert.assertEquals(BigDecimal.valueOf(931913, 2), ((AccountInfo) testObj.get("generic")).getBalanceTotal("GBP"));
+    Assert.assertEquals(BigDecimal.valueOf(100014718, 4), ((Wallet) testObj.get("generic")).getBalanceTotal("BTC"));
+    Assert.assertEquals(BigDecimal.valueOf(931913, 2), ((Wallet) testObj.get("generic")).getBalanceTotal("GBP"));
   }
 
   @Test
@@ -261,12 +261,12 @@ public class CoinfloorAdaptersTest {
 
     Map<String, Object> testObj = coinfloorAdapters.adaptBalancesChanged(result);
 
-    Assert.assertEquals(BigDecimal.valueOf(990000, 2), ((AccountInfo) testObj.get("generic")).getBalanceTotal("GBP"));
+    Assert.assertEquals(BigDecimal.valueOf(990000, 2), ((Wallet) testObj.get("generic")).getBalanceTotal("GBP"));
   }
 
   /**
-   * Experimental: USE WITH CAUTION. Adapters take every "BalancesUpdated" event, update local AccountInfo object with said new balance. This method
-   * will return that cached AccountInfo object.
+   * Experimental: USE WITH CAUTION. Adapters take every "BalancesUpdated" event, update local Wallet object with said new balance. This method
+   * will return that cached Wallet object.
    * 
    * @return Trades object representing all OrdersMatched trades recieved.
    * @throws ExchangeException if getBalances method has not yet been called, or response has not been recieved.
@@ -274,7 +274,7 @@ public class CoinfloorAdaptersTest {
   @Test(expected = ExchangeException.class)
   public void getCachedAccountInfo() {
 
-    if (cachedAccountInfo == null) {
+    if (cachedWallet == null) {
       throw new ExchangeException("getBalances method has not been called yet, or balance data has not been recieved!");
     }
 

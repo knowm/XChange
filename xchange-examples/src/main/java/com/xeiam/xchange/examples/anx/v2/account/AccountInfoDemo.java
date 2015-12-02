@@ -3,7 +3,7 @@ package com.xeiam.xchange.examples.anx.v2.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.anx.v2.ANXExamplesUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -20,8 +20,8 @@ public class AccountInfoDemo {
     PollingAccountService accountService = anx.getPollingAccountService();
 
     // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
+    Wallet wallet = accountService.getAccountInfo();
 
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    System.out.println("Wallet as String: " + wallet.toString());
   }
 }

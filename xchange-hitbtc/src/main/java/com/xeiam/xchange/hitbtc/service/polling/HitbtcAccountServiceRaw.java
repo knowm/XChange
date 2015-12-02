@@ -20,7 +20,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService {
     super(exchange);
   }
 
-  public HitbtcBalance[] getAccountInfoRaw() throws IOException {
+  public HitbtcBalance[] getWalletRaw() throws IOException {
 
     try {
       HitbtcBalanceResponse hitbtcBalance = hitbtc.getHitbtcBalance(signatureCreator, exchange.getNonceFactory(), apiKey);

@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -50,7 +50,7 @@ public class IndependentReserveAdapters {
     return orders;
   }
 
-  public static AccountInfo adaptAccountInfo(IndependentReserveBalance independentReserveBalance, String userName) {
+  public static Wallet adaptWallet(IndependentReserveBalance independentReserveBalance) {
     List<Balance> balances = new ArrayList<Balance>();
 
     for (IndependentReserveAccount balanceAccount : independentReserveBalance.getIndependentReserveAccounts()) {
@@ -60,7 +60,7 @@ public class IndependentReserveAdapters {
         balances.add(new Balance("BTC", balanceAccount.getTotalBalance()));
       }
     }
-    return new AccountInfo(userName, balances);
+    return new Wallet(balances);
   }
 
   public static OpenOrders adaptOpenOrders(IndependentReserveOpenOrdersResponse independentReserveOrders) {

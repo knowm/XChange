@@ -8,6 +8,7 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -123,7 +124,7 @@ public final class MercadoBitcoinAdapters {
   }
 
   /**
-   * Adapts a MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> to a AccountInfo
+   * Adapts a MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> to an AccountInfo
    *
    * @param accountInfo The Mercado Bitcoin accountInfo
    * @param userName The user name
@@ -132,11 +133,11 @@ public final class MercadoBitcoinAdapters {
   public static AccountInfo adaptAccountInfo(MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo, String userName) {
 
     // Adapt to XChange DTOs
-    Balance brlBalance = new Balance(Currencies.BRL, accountInfo.getTheReturn().getFunds().getBrl(), "Brazilian Reais balance (R$ / BRL)");
-    Balance btcBalance = new Balance(Currencies.BTC, accountInfo.getTheReturn().getFunds().getBtc(), "Bitcoin balance (XBT / BTC)");
-    Balance ltcBalance = new Balance(Currencies.LTC, accountInfo.getTheReturn().getFunds().getLtc(), "Litecoin balance (XLT / LTC)");
+    Balance brlBalance = new Balance(Currencies.BRL, accountInfo.getTheReturn().getFunds().getBrl());
+    Balance btcBalance = new Balance(Currencies.BTC, accountInfo.getTheReturn().getFunds().getBtc());
+    Balance ltcBalance = new Balance(Currencies.LTC, accountInfo.getTheReturn().getFunds().getLtc());
 
-    return new AccountInfo(userName, Arrays.asList(brlBalance, btcBalance, ltcBalance));
+    return new AccountInfo(userName, new Wallet(brlBalance, btcBalance, ltcBalance));
   }
 
   public static List<LimitOrder> adaptOrders(CurrencyPair currencyPair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> input) {

@@ -5,13 +5,13 @@ import java.io.InputStream;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import com.xeiam.xchange.dto.account.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.btcchina.service.fix.BTCChinaApplication;
 import com.xeiam.xchange.btcchina.service.fix.fix44.BTCChinaMessageFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 
 import quickfix.ConfigError;
@@ -51,7 +51,7 @@ public class BTCChinaClient {
       }
 
       @Override
-      protected void onAccountInfo(String accReqId, AccountInfo accountInfo) {
+      protected void onAccountInfo(String accReqId, Wallet accountInfo) {
 
         log.info("accReqId: {}, accountInfo: {}", accReqId, accountInfo);
       };

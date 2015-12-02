@@ -8,7 +8,7 @@ import com.xeiam.xchange.clevercoin.dto.account.CleverCoinBalance;
 import com.xeiam.xchange.clevercoin.dto.account.CleverCoinWithdrawal;
 import com.xeiam.xchange.clevercoin.service.polling.CleverCoinAccountServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.clevercoin.CleverCoinDemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -39,8 +39,8 @@ public class CleverCoinAccountDemo {
   private static void generic(PollingAccountService accountService) throws IOException {
 
     // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    Wallet wallet = accountService.getAccountInfo();
+    System.out.println("Wallet as String: " + wallet.toString());
 
     String depositAddress = accountService.requestDepositAddress(Currencies.BTC);
     System.out.println("Deposit address: " + depositAddress);

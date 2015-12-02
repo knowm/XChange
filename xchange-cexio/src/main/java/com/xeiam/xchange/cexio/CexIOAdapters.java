@@ -15,7 +15,7 @@ import com.xeiam.xchange.cexio.dto.trade.CexIOOrder;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -111,13 +111,13 @@ public class CexIOAdapters {
   }
 
   /**
-   * Adapts CexIOBalanceInfo to AccountInfo
+   * Adapts CexIOBalanceInfo to Wallet
    *
    * @param balance CexIOBalanceInfo balance
    * @param userName The user name
    * @return The account info
    */
-  public static AccountInfo adaptAccountInfo(CexIOBalanceInfo balance, String userName) {
+  public static Wallet adaptAccountInfo(CexIOBalanceInfo balance, String userName) {
 
     List<Balance> balances = new ArrayList<Balance>();
 
@@ -205,7 +205,7 @@ public class CexIOAdapters {
       balances.add(adaptWallet("USDE", balance.getBalanceUSDE()));
     }
 
-    return new AccountInfo(userName, balances);
+    return new Wallet(userName, balances);
   }
 
   public static Balance adaptWallet(String currency, CexIOBalance balance) {

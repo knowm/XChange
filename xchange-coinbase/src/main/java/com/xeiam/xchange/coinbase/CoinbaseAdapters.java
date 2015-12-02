@@ -16,7 +16,7 @@ import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransferType;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.Balance;
@@ -32,7 +32,7 @@ public final class CoinbaseAdapters {
 
   }
 
-  public static AccountInfo adaptAccountInfo(CoinbaseUser user) {
+  public static Wallet adaptAccountInfo(CoinbaseUser user) {
 
     final String username = user.getEmail();
     final CoinbaseMoney balance = user.getBalance();
@@ -40,8 +40,8 @@ public final class CoinbaseAdapters {
     final List<Balance> balances = new ArrayList<Balance>();
     balances.add(wallet);
 
-    final AccountInfo accountInfo = new AccountInfo(username, balances);
-    return accountInfo;
+    final Wallet accountInfoTemporaryName = new Wallet(username, balances);
+    return accountInfoTemporaryName;
   }
 
   public static UserTrades adaptTrades(CoinbaseTransfers transfers) {

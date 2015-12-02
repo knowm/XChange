@@ -16,7 +16,7 @@ import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -44,13 +44,13 @@ public final class BTCMarketsAdapters {
   private BTCMarketsAdapters() {
   }
 
-  public static AccountInfo adaptAccountInfo(List<BTCMarketsBalance> balances, String userName) {
+  public static Wallet adaptAccountInfo(List<BTCMarketsBalance> balances, String userName) {
     Map<String, Balance> wallets = new HashMap<>();
     for (BTCMarketsBalance blc : balances) {
       final String currency = blc.getCurrency();
       wallets.put(currency, new Balance(currency, blc.getBalance(), blc.getAvailable()));
     }
-    return new AccountInfo(userName, wallets);
+    return new Wallet(userName, wallets);
   }
 
   public static OrderBook adaptOrderBook(BTCMarketsOrderBook btcmarketsOrderBook, CurrencyPair currencyPair) {

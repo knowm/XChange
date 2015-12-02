@@ -18,7 +18,7 @@ import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExTrade;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -81,7 +81,7 @@ public class CoinbaseExAdapters {
 
   }
 
-  public static AccountInfo adaptAccountInfo(CoinbaseExAccount[] coinbaseExAccountInfo) {
+  public static Wallet adaptAccountInfo(CoinbaseExAccount[] coinbaseExAccountInfo) {
     List<Balance> balances = new ArrayList<Balance>(coinbaseExAccountInfo.length);
 
     for (int i = 0; i < coinbaseExAccountInfo.length; i++) {
@@ -90,7 +90,7 @@ public class CoinbaseExAdapters {
       balances.add(new Balance(account.getCurrency(), account.getBalance(), account.getAvailable(), account.getHold()));
     }
 
-    return new AccountInfo(coinbaseExAccountInfo[0].getProfile_id(), balances);
+    return new Wallet(coinbaseExAccountInfo[0].getProfile_id(), balances);
   }
 
   public static OpenOrders adaptOpenOrders(CoinbaseExOrder[] coinbaseExOpenOrders) {

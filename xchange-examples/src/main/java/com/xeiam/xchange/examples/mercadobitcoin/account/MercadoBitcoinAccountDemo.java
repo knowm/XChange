@@ -3,7 +3,7 @@ package com.xeiam.xchange.examples.mercadobitcoin.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.mercadobitcoin.InteractiveAuthenticatedExchange;
 import com.xeiam.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import com.xeiam.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
@@ -37,8 +37,8 @@ public class MercadoBitcoinAccountDemo {
   private static void generic(PollingAccountService accountService) throws IOException {
 
     // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    Wallet wallet = accountService.getAccountInfo();
+    System.out.println("Wallet as String: " + wallet.toString());
   }
 
   private static void raw(MercadoBitcoinAccountServiceRaw accountService) throws IOException {

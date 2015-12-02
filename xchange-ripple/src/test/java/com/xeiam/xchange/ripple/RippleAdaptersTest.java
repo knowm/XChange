@@ -9,6 +9,8 @@ import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.Iterator;
 
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -17,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -50,23 +51,28 @@ public class RippleAdaptersTest implements ITransferFeeSource {
 
     // Convert to xchange object and check field values
     final AccountInfo account = RippleAdapters.adaptAccountInfo(rippleAccount, "username");
-    assertThat(account.getBalancesList()).hasSize(3);
+    assertThat(account.getWallets()).hasSize(2);
     assertThat(account.getUsername()).isEqualTo("username");
     assertThat(account.getTradingFee()).isEqualTo(BigDecimal.ZERO);
 
-    final Iterator<Balance> iterator = account.getBalancesList().iterator();
+    final Wallet counterWallet = account.getWallet("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    assertThat(counterWallet.getId()).isEqualTo("rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    assertThat(counterWallet.getBalances()).hasSize(2);
 
-    final Balance balance1 = iterator.next();
-    assertThat(balance1.getTotal()).isEqualTo("0.038777349225374");
-    assertThat(balance1.getCurrency()).isEqualTo("BTC.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    final Balance btcBalance = counterWallet.getBalance(Currencies.BTC);
+    assertThat(btcBalance.getTotal()).isEqualTo("0.038777349225374");
+    assertThat(btcBalance.getCurrency()).isEqualTo(Currencies.BTC);
 
-    final Balance balance2 = iterator.next();
-    assertThat(balance2.getTotal()).isEqualTo("10");
-    assertThat(balance2.getCurrency()).isEqualTo("USD.rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B");
+    final Balance usdBalance = counterWallet.getBalance(Currencies.USD);
+    assertThat(usdBalance.getTotal()).isEqualTo("10");
+    assertThat(usdBalance.getCurrency()).isEqualTo(Currencies.USD);
 
-    final Balance balance3 = iterator.next();
-    assertThat(balance3.getTotal()).isEqualTo("861.401578");
-    assertThat(balance3.getCurrency()).isEqualTo("XRP");
+    final Wallet mainWallet = account.getWallet();
+    assertThat(mainWallet.getBalances()).hasSize(1);
+
+    final Balance xrpBalance = mainWallet.getBalance(Currencies.XRP);
+    assertThat(xrpBalance.getTotal()).isEqualTo("861.401578");
+    assertThat(xrpBalance.getCurrency()).isEqualTo(Currencies.XRP);
   }
 
   @Test

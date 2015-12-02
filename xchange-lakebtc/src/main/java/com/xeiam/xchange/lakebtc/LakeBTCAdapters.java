@@ -10,6 +10,7 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -134,10 +135,10 @@ public class LakeBTCAdapters {
   }
 
   /**
-   * Adapts a LakeBTCAccount to a AccountInfo
+   * Adapts a LakeBTCAccount to a Wallet
    *
    * @param lakeBTCAccount
-   * @return AccountInfo
+   * @return Wallet
    */
   public static AccountInfo adaptAccountInfo(LakeBTCAccount lakeBTCAccount) {
 
@@ -148,6 +149,6 @@ public class LakeBTCAdapters {
     Balance cnyWBalance = new Balance(Currencies.CNY, balance.getCNY());
     Balance btcBalance = new Balance(Currencies.BTC, balance.getBTC());
 
-    return new AccountInfo(profile.getId(), Arrays.asList(usdBalance, btcBalance, cnyWBalance));
+    return new AccountInfo(profile.getId(), new Wallet(usdBalance, btcBalance, cnyWBalance));
   }
 }

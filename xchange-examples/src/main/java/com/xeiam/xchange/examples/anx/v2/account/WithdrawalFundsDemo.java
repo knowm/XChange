@@ -19,7 +19,7 @@ public class WithdrawalFundsDemo {
     // Interested in the private account functionality (authentication)
     PollingAccountService accountService = anx.getPollingAccountService();
 
-    System.out.println("AccountInfo= " + accountService.getAccountInfo());
+    System.out.println("Wallet= " + accountService.getAccountInfo());
 
     // ANX does not return a transaction id on fund withdrawal at this moment
     String success = accountService.withdrawFunds("BTC", new BigDecimal("0.001"), "1DTZHQF47QzETutRRQVr2o2Rjcku8gBWft");

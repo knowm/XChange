@@ -10,7 +10,7 @@ import com.xeiam.xchange.btctrade.dto.account.BTCTradeBalance;
 import com.xeiam.xchange.btctrade.dto.account.BTCTradeWallet;
 import com.xeiam.xchange.btctrade.service.polling.BTCTradeAccountServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class AccountInfoDemo {
@@ -33,8 +33,8 @@ public class AccountInfoDemo {
   private static void generic(Exchange exchange) throws IOException {
 
     PollingAccountService accountService = exchange.getPollingAccountService();
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("Account info: " + accountInfo);
+    Wallet wallet = accountService.getAccountInfo();
+    System.out.println("Account info: " + wallet);
 
     String depositAddress = accountService.requestDepositAddress(Currencies.BTC);
     System.out.println("Deposit address: " + depositAddress);

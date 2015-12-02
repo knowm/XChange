@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cointrader.service.polling.CointraderAccountServiceRaw;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 
 public class CointraderAccountDemo {
 
@@ -16,8 +16,8 @@ public class CointraderAccountDemo {
   }
 
   private static void generic(Exchange cointraderExchange) throws IOException {
-    AccountInfo accountInfo = cointraderExchange.getPollingAccountService().getAccountInfo();
-    System.out.println("Account Info: " + accountInfo);
+    Wallet wallet = cointraderExchange.getPollingAccountService().getAccountInfo();
+    System.out.println("Account Info: " + wallet);
   }
 
   private static void raw(Exchange cointraderExchange) throws IOException {

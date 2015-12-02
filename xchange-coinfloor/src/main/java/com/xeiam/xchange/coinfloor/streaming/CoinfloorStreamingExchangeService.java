@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.xeiam.xchange.dto.account.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +17,6 @@ import com.xeiam.xchange.coinfloor.dto.streaming.CoinfloorExchangeEvent;
 import com.xeiam.xchange.coinfloor.dto.streaming.CoinfloorStreamingConfiguration;
 import com.xeiam.xchange.coinfloor.streaming.RequestFactory.CoinfloorRequest;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -149,7 +149,7 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
 
   /**
    * Get user's balances Upon receipt of response, a CoinfloorExchangeEvent with payload Map<String, Object>, consisting of: > A raw object of type
-   * CoinfloorBalances (key "raw") > A generic object of type AccountInfo (key "generic")
+   * CoinfloorBalances (key "raw") > A generic object of type Wallet (key "generic")
    */
   public CoinfloorExchangeEvent getBalances() {
 
@@ -239,14 +239,14 @@ public class CoinfloorStreamingExchangeService extends BaseWebSocketExchangeServ
   }
 
   /**
-   * Retrieves cached AccountInfo. WARNING: EXPERIMENTAL METHOD
+   * Retrieves cached Wallet. WARNING: EXPERIMENTAL METHOD
    *
-   * @return the AccountInfo, as updated by last BalancesChanged event
+   * @return the Wallet, as updated by last BalancesChanged event
    * @throws ExchangeException if getBalances() method has not been called, or data not recieved yet.
    */
-  public AccountInfo getCachedAccountInfo() {
+  public Wallet getCachedAccountInfo() {
 
-    return exchangeEventListener.getAdapterInstance().getCachedAccountInfo();
+    return exchangeEventListener.getAdapterInstance().getCachedWallet();
   }
 
   /**

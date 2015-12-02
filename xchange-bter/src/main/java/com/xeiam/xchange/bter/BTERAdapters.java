@@ -21,7 +21,7 @@ import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
 import com.xeiam.xchange.bter.dto.trade.BTERTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -141,7 +141,7 @@ public final class BTERAdapters {
     return new Trades(tradeList, lastTradeId, TradeSortType.SortByTimestamp);
   }
 
-  public static AccountInfo adaptAccountInfo(BTERFunds bterAccountInfo) {
+  public static Wallet adaptAccountInfo(BTERFunds bterAccountInfo) {
 
     List<Balance> balances = new ArrayList<Balance>();
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
@@ -154,7 +154,7 @@ public final class BTERAdapters {
       balances.add(new Balance(currency, amount, amount, locked == null ? BigDecimal.ZERO : locked));
     }
 
-    return new AccountInfo("", balances);
+    return new Wallet("", balances);
   }
 
   public static UserTrades adaptUserTrades(List<BTERTrade> userTrades) {

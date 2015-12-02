@@ -14,7 +14,7 @@ import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinUserTransaction;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -39,13 +39,13 @@ public final class CleverCoinAdapters {
   }
 
   /**
-   * Adapts a CleverCoinBalance to a AccountInfo
+   * Adapts a CleverCoinBalance to a Wallet
    *
    * @param cleverCoinBalance The CleverCoin balance
    * @param userName The user name
    * @return The account info
    */
-  public static AccountInfo adaptAccountInfo(CleverCoinBalance[] cleverCoinBalance, String userName) {
+  public static Wallet adaptAccountInfo(CleverCoinBalance[] cleverCoinBalance, String userName) {
 
     List<Balance> balances = new ArrayList<Balance>();
 
@@ -56,7 +56,7 @@ public final class CleverCoinAdapters {
     // Adapt to XChange DTOs
     //Wallet usdWallet = new Wallet(Currencies.USD, cleverCoinBalance.getUsdBalance());
     //Wallet btcWallet = new Wallet(Currencies.BTC, cleverCoinBalance.getBtcBalance());
-    return new AccountInfo(userName, balances);
+    return new Wallet(userName, balances);
   }
 
   /**

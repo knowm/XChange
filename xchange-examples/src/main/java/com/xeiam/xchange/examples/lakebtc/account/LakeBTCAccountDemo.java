@@ -3,7 +3,7 @@ package com.xeiam.xchange.examples.lakebtc.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.lakebtc.LakeBTCExamplesUtils;
 import com.xeiam.xchange.lakebtc.service.polling.LakeBTCAccountServiceRaw;
 
@@ -25,8 +25,8 @@ public class LakeBTCAccountDemo {
   }
 
   private static void generic(Exchange lakebtcExchange) throws IOException {
-    AccountInfo accountInfo = lakebtcExchange.getPollingAccountService().getAccountInfo();
-    System.out.println("Account Info: " + accountInfo.toString());
+    Wallet wallet = lakebtcExchange.getPollingAccountService().getAccountInfo();
+    System.out.println("Account Info: " + wallet.toString());
   }
 
   private static void raw(Exchange lakeBtcExchange) throws IOException {

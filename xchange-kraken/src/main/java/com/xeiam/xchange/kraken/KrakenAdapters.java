@@ -15,6 +15,7 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -131,13 +132,13 @@ public class KrakenAdapters {
 
   public static AccountInfo adaptWallet(Map<String, BigDecimal> krakenWallet, String username) {
 
-    Map<String, Balance> balances = new ConcurrentHashMap<String, Balance>();
+    List<Balance> balances = new ArrayList<Balance>(krakenWallet.size());
     for (Entry<String, BigDecimal> balancePair : krakenWallet.entrySet()) {
       String currency = adaptCurrency(balancePair.getKey());
       Balance balance = new Balance(currency, balancePair.getValue());
-      balances.put(currency, balance);
+      balances.add(balance);
     }
-    return new AccountInfo(username, balances);
+    return new AccountInfo(username, new Wallet(balances));
   }
 
   public static Set<CurrencyPair> adaptCurrencyPairs(Collection<String> krakenCurrencyPairs) {

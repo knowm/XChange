@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcmarkets.service.polling.BTCMarketsAccountServiceRaw;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 
 public class BTCMarketsAccountDemo {
 
@@ -16,8 +16,8 @@ public class BTCMarketsAccountDemo {
   }
 
   private static void generic(Exchange btcMarketsExchange) throws IOException {
-    AccountInfo accountInfo = btcMarketsExchange.getPollingAccountService().getAccountInfo();
-    System.out.println("Account Info: " + accountInfo);
+    Wallet wallet = btcMarketsExchange.getPollingAccountService().getAccountInfo();
+    System.out.println("Account Info: " + wallet);
   }
 
   private static void raw(Exchange btcMarketsExchange) throws IOException {

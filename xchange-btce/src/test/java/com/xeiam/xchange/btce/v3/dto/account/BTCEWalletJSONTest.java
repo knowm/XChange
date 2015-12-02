@@ -13,13 +13,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Test BTCEDepth JSON parsing
  */
-public class BTCEAccountInfoJSONTest {
+public class BTCEWalletJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BTCEAccountInfoJSONTest.class.getResourceAsStream("/v3/account/example-account-info-data.json");
+    InputStream is = BTCEWalletJSONTest.class.getResourceAsStream("/v3/account/example-account-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

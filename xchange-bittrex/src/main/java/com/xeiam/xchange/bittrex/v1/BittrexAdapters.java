@@ -9,7 +9,7 @@ import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrder;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexUserTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -127,7 +127,7 @@ public final class BittrexAdapters {
         .build();
   }
 
-  public static AccountInfo adaptAccountInfo(List<BittrexBalance> balances) {
+  public static Wallet adaptAccountInfo(List<BittrexBalance> balances) {
 
     List<Balance> wallets = new ArrayList<Balance>(balances.size());
 
@@ -135,7 +135,7 @@ public final class BittrexAdapters {
       wallets.add(new Balance(balance.getCurrency().toUpperCase(), balance.getBalance(), balance.getAvailable(), balance.getPending()));
     }
 
-    return new AccountInfo(null, wallets);
+    return new Wallet(null, wallets);
   }
 
   public static List<UserTrade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {

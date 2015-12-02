@@ -10,7 +10,7 @@ import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -228,9 +228,9 @@ public class CryptsyAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CryptsyAccountInfoReturn accountInfo = mapper.readValue(is, CryptsyAccountInfoReturn.class);
 
-    AccountInfo adaptedAccountInfo = CryptsyAdapters.adaptAccountInfo(accountInfo);
+    Wallet adaptedWallet = CryptsyAdapters.adaptAccountInfo(accountInfo);
 
-    List<Balance> balances = adaptedAccountInfo.getBalancesList();
+    List<Balance> balances = adaptedWallet.getBalancesList();
     assertEquals(balances.size(), 300);
     for (Balance balance : balances) {
       if (balance.getCurrency().equals("BTC")) {

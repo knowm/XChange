@@ -18,7 +18,7 @@ import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -131,9 +131,9 @@ public final class CoinsetterAdapters {
     return new OrderBook(timeStamp, askOrders, bidOrders);
   }
 
-  public static AccountInfo adaptAccountInfo(String username, CoinsetterAccount account) {
+  public static Wallet adaptAccountInfo(String username, CoinsetterAccount account) {
 
-    return new AccountInfo(username,
+    return new Wallet(username,
         Arrays.asList(new Balance(Currencies.BTC, account.getBtcBalance()), new Balance(Currencies.USD, account.getUsdBalance())));
   }
 

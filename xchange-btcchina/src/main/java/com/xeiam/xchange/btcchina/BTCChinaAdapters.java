@@ -24,7 +24,7 @@ import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrders;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -150,12 +150,12 @@ public final class BTCChinaAdapters {
   }
 
   /**
-   * Adapts a BTCChinaAccountInfoResponse to AccountInfo Object
+   * Adapts a BTCChinaAccountInfoResponse to Wallet Object
    */
-  public static AccountInfo adaptAccountInfo(BTCChinaResponse<BTCChinaAccountInfo> response) {
+  public static Wallet adaptAccountInfo(BTCChinaResponse<BTCChinaAccountInfo> response) {
 
     BTCChinaAccountInfo result = response.getResult();
-    return new AccountInfo(result.getProfile().getUsername(), result.getProfile().getTradeFee(),
+    return new Wallet(result.getProfile().getUsername(), result.getProfile().getTradeFee(),
         BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens(), result.getLoans()));
   }
 

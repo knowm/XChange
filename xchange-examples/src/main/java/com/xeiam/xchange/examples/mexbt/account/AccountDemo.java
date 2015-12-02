@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.mexbt.MeXBTDemoUtils;
 import com.xeiam.xchange.mexbt.dto.MeXBTException;
 import com.xeiam.xchange.mexbt.dto.account.MeXBTBalanceResponse;
@@ -29,8 +29,8 @@ public class AccountDemo {
     MeXBTDepositAddressesResponse depositAddressesResponse = rawAccountService.getDepositAddresses();
     System.out.println(depositAddressesResponse);
 
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println(accountInfo);
+    Wallet wallet = accountService.getAccountInfo();
+    System.out.println(wallet);
 
     String address = accountService.requestDepositAddress(Currencies.BTC);
     System.out.println(address);

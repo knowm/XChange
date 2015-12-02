@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
+import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +19,6 @@ import com.xeiam.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -40,17 +40,17 @@ public class BitstampAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitstampBalance bitstampBalance = mapper.readValue(is, BitstampBalance.class);
 
-    AccountInfo accountInfo = BitstampAdapters.adaptAccountInfo(bitstampBalance, "Joe Mama");
-    assertThat(accountInfo.getUsername()).isEqualTo("Joe Mama");
-    assertThat(accountInfo.getTradingFee()).isEqualTo(new BigDecimal("0.5000"));
-    assertThat(accountInfo.getBalancesList().get(0).getCurrency()).isEqualTo("USD");
-    assertThat(accountInfo.getBalancesList().get(0).getTotal().toString()).isEqualTo("172.87");
-    assertThat(accountInfo.getBalancesList().get(0).getAvailable().toString()).isEqualTo("0.00");
-    assertThat(accountInfo.getBalancesList().get(0).getFrozen().toString()).isEqualTo("172.87");
-    assertThat(accountInfo.getBalancesList().get(1).getCurrency()).isEqualTo("BTC");
-    assertThat(accountInfo.getBalancesList().get(1).getTotal().toString()).isEqualTo("6.99990000");
-    assertThat(accountInfo.getBalancesList().get(1).getAvailable().toString()).isEqualTo("6.99990000");
-    assertThat(accountInfo.getBalancesList().get(1).getFrozen().toString()).isEqualTo("0");
+    Wallet wallet = BitstampAdapters.adaptAccountInfo(bitstampBalance, "Joe Mama");
+    assertThat(wallet.getId()).isEqualTo("Joe Mama");
+    assertThat(wallet.getTradingFee()).isEqualTo(new BigDecimal("0.5000"));
+    assertThat(wallet.getBalancesList().get(0).getCurrency()).isEqualTo("USD");
+    assertThat(wallet.getBalancesList().get(0).getTotal().toString()).isEqualTo("172.87");
+    assertThat(wallet.getBalancesList().get(0).getAvailable().toString()).isEqualTo("0.00");
+    assertThat(wallet.getBalancesList().get(0).getFrozen().toString()).isEqualTo("172.87");
+    assertThat(wallet.getBalancesList().get(1).getCurrency()).isEqualTo("BTC");
+    assertThat(wallet.getBalancesList().get(1).getTotal().toString()).isEqualTo("6.99990000");
+    assertThat(wallet.getBalancesList().get(1).getAvailable().toString()).isEqualTo("6.99990000");
+    assertThat(wallet.getBalancesList().get(1).getFrozen().toString()).isEqualTo("0");
   }
 
   @Test

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.taurus.TaurusDemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.taurus.dto.account.TaurusBalance;
@@ -38,8 +38,8 @@ public class TaurusAccountDemo {
   private static void generic(PollingAccountService accountService) throws IOException {
 
     // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    Wallet wallet = accountService.getAccountInfo();
+    System.out.println("Wallet as String: " + wallet.toString());
 
     String depositAddress = accountService.requestDepositAddress(Currencies.BTC);
     System.out.println("Deposit address: " + depositAddress);

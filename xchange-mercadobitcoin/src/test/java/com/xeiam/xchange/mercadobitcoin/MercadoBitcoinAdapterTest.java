@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -17,7 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -110,12 +111,13 @@ public class MercadoBitcoinAdapterTest {
 
     AccountInfo accountInfo = MercadoBitcoinAdapters.adaptAccountInfo(mercadoBitcoinAccountInfo, "Nina Tufão & Bit");
     assertThat(accountInfo.getUsername()).isEqualTo("Nina Tufão & Bit");
-    assertThat(accountInfo.getBalancesList().get(0).getCurrency()).isEqualTo("BRL");
-    assertThat(accountInfo.getBalancesList().get(0).getTotal()).isEqualTo(new BigDecimal("248.29516"));
-    assertThat(accountInfo.getBalancesList().get(1).getCurrency()).isEqualTo("BTC");
-    assertThat(accountInfo.getBalancesList().get(1).getTotal()).isEqualTo(new BigDecimal("0.25000000"));
-    assertThat(accountInfo.getBalancesList().get(2).getCurrency()).isEqualTo("LTC");
-    assertThat(accountInfo.getBalancesList().get(2).getTotal()).isEqualTo(new BigDecimal("0.00000000"));
+    assertThat(accountInfo.getWallet().getBalances()).hasSize(3);
+    assertThat(accountInfo.getWallet().getBalance("BRL").getCurrency()).isEqualTo("BRL");
+    assertThat(accountInfo.getWallet().getBalance("BRL").getTotal()).isEqualTo(new BigDecimal("248.29516"));
+    assertThat(accountInfo.getWallet().getBalance("BTC").getCurrency()).isEqualTo("BTC");
+    assertThat(accountInfo.getWallet().getBalance("BTC").getTotal()).isEqualTo(new BigDecimal("0.25000000"));
+    assertThat(accountInfo.getWallet().getBalance("LTC").getCurrency()).isEqualTo("LTC");
+    assertThat(accountInfo.getWallet().getBalance("LTC").getTotal()).isEqualTo(new BigDecimal("0.00000000"));
   }
 
   @Test

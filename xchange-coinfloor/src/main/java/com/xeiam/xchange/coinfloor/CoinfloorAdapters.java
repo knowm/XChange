@@ -23,7 +23,7 @@ import com.xeiam.xchange.coinfloor.dto.streaming.trade.CoinfloorOpenOrders;
 import com.xeiam.xchange.coinfloor.dto.streaming.trade.CoinfloorPlaceOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -43,7 +43,7 @@ public class CoinfloorAdapters {
   private static final ObjectMapper streamObjectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
   private Object cachedDataSynchronizationObject = new Object();
-  private AccountInfo cachedAccountInfo;
+  private Wallet cachedWallet;
   private Trades cachedTrades;
   private OrderBook cachedOrderBook;
   private Ticker cachedTicker;
@@ -70,11 +70,11 @@ public class CoinfloorAdapters {
       balances.add(new Balance(currency, balance));
     }
 
-    AccountInfo accountInfo = new AccountInfo(null, balances);
+    Wallet wallet = new Wallet(null, balances);
     synchronized (cachedDataSynchronizationObject) {
-      cachedAccountInfo = accountInfo;
+      cachedWallet = wallet;
     }
-    resultMap.put("generic", accountInfo);
+    resultMap.put("generic", wallet);
 
     return resultMap;
   }
@@ -426,16 +426,16 @@ public class CoinfloorAdapters {
     }
 
     List<Balance> newBalances = new ArrayList<Balance>();
-    AccountInfo accountInfo;
+    Wallet accountInfoTemporaryName;
 
     synchronized (cachedDataSynchronizationObject) {
-      if (cachedAccountInfo == null) {
+      if (cachedWallet == null) {
         String currency = rawRetObj.getAsset().toString();
         BigDecimal balance = rawRetObj.getBalance();
 
         newBalances.add(new Balance(currency, balance));
       } else {
-        List<Balance> oldBalances = cachedAccountInfo.getBalancesList();
+        List<Balance> oldBalances = cachedWallet.getBalancesList();
         for (Balance wallet : oldBalances) {
           if (wallet.getCurrency().equals(rawRetObj.getAsset())) {
             String currency = rawRetObj.getAsset().toString();
@@ -448,30 +448,30 @@ public class CoinfloorAdapters {
         }
       }
 
-      accountInfo = new AccountInfo(null, newBalances);
-      cachedAccountInfo = accountInfo;
+      accountInfoTemporaryName = new Wallet(null, newBalances);
+      cachedWallet = accountInfoTemporaryName;
     }
 
-    resultMap.put("generic", accountInfo);
+    resultMap.put("generic", accountInfoTemporaryName);
     resultMap.put("raw", rawRetObj);
 
     return resultMap;
   }
 
   /**
-   * Experimental: USE WITH CAUTION. Adapters take every "BalancesUpdated" event, update local AccountInfo object with said new balance. This method
-   * will return that cached AccountInfo object.
+   * Experimental: USE WITH CAUTION. Adapters take every "BalancesUpdated" event, update local Wallet object with said new balance. This method
+   * will return that cached Wallet object.
    *
    * @return Trades object representing all OrdersMatched trades recieved.
    * @throws ExchangeException if getBalances method has not yet been called, or response has not been recieved.
    */
-  public AccountInfo getCachedAccountInfo() {
+  public Wallet getCachedWallet() {
 
     synchronized (cachedDataSynchronizationObject) {
-      if (cachedAccountInfo == null) {
+      if (cachedWallet == null) {
         throw new ExchangeException("getBalances method has not been called yet, or balance data has not been recieved!");
       }
-      return cachedAccountInfo;
+      return cachedWallet;
     }
   }
 

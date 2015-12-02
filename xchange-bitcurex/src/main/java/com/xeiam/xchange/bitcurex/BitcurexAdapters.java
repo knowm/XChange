@@ -11,7 +11,7 @@ import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -125,13 +125,13 @@ public final class BitcurexAdapters {
   }
 
   /**
-   * Adapts a BitcurexFunds to an AccountInfo Object
+   * Adapts a BitcurexFunds to an Wallet Object
    *
    * @param bitcurexFunds
    * @param user name for the accountInfo
    * @return
    */
-  public static AccountInfo adaptAccountInfo(BitcurexFunds funds, String userName) {
+  public static Wallet adaptAccountInfo(BitcurexFunds funds, String userName) {
 
     // Adapt to XChange DTOs
     List<Balance> balances = new ArrayList<Balance>(2);
@@ -147,7 +147,7 @@ public final class BitcurexAdapters {
       balances.add(new Balance(Currencies.PLN, pln));
     }
 
-    return new AccountInfo(userName, balances);
+    return new Wallet(userName, balances);
   }
 
 }

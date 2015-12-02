@@ -10,7 +10,7 @@ import java.util.Map;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -83,7 +83,7 @@ public final class EmpoExAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  public static AccountInfo adaptBalances(List<EmpoExBalance> raw) {
+  public static Wallet adaptBalances(List<EmpoExBalance> raw) {
 
     List<Balance> balances = new ArrayList<Balance>();
 
@@ -93,7 +93,7 @@ public final class EmpoExAdapters {
       balances.add(new Balance(empoExBalance.getCoin().toUpperCase(), balance));
     }
 
-    return new AccountInfo(null, balances);
+    return new Wallet(null, balances);
   }
 
   public static OpenOrders adaptOpenOrders(Map<String, List<EmpoExOpenOrder>> raw) {

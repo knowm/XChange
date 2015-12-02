@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.itbit.v1.ItBitAdapters;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 

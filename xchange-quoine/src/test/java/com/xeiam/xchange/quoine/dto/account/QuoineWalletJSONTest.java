@@ -13,13 +13,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Test QuoineTicker JSON parsing
  */
-public class QuoineAccountInfoJSONTest {
+public class QuoineWalletJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = QuoineAccountInfoJSONTest.class.getResourceAsStream("/account/example-account-data.json");
+    InputStream is = QuoineWalletJSONTest.class.getResourceAsStream("/account/example-account-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

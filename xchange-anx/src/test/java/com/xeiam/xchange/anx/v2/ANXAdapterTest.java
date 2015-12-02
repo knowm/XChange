@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,7 +28,6 @@ import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -58,12 +58,12 @@ public class ANXAdapterTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     ANXAccountInfo anxAccountInfo = mapper.readValue(is, ANXAccountInfo.class);
 
-    AccountInfo accountInfo = ANXAdapters.adaptAccountInfo(anxAccountInfo);
-    assertThat(accountInfo.getUsername()).isEqualTo("test@anxpro.com");
+    Wallet wallet = ANXAdapters.adaptAccountInfo(anxAccountInfo);
+    assertThat(wallet.getId()).isEqualTo("test@anxpro.com");
 
-    assertThat(accountInfo.getBalance(Currencies.DOGE).getTotal()).isEqualTo(new BigDecimal("9999781.09457936"));
-    assertThat(accountInfo.getBalance(Currencies.DOGE).getAvailable()).isEqualTo(new BigDecimal("9914833.52608521"));
-    assertThat(accountInfo.getBalance(Currencies.DOGE).getFrozen()).isEqualTo(new BigDecimal("84947.56849415"));
+    assertThat(wallet.getBalance(Currencies.DOGE).getTotal()).isEqualTo(new BigDecimal("9999781.09457936"));
+    assertThat(wallet.getBalance(Currencies.DOGE).getAvailable()).isEqualTo(new BigDecimal("9914833.52608521"));
+    assertThat(wallet.getBalance(Currencies.DOGE).getFrozen()).isEqualTo(new BigDecimal("84947.56849415"));
   }
 
   @Test

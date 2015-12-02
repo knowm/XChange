@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.xeiam.xchange.dto.account.AccountInfo;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -137,8 +138,8 @@ public class KrakenAdaptersTest {
 
     AccountInfo info = KrakenAdapters.adaptWallet(krakenBalance.getResult(), null);
 
-    assertThat(info.getBalance(Currencies.EUR).getTotal()).isEqualTo(new BigDecimal("1.0539"));
-    assertThat(info.getBalance(Currencies.BTC).getTotal()).isEqualTo(new BigDecimal("0.4888583300"));
+    assertThat(info.getWallet().getBalance(Currencies.EUR).getTotal()).isEqualTo(new BigDecimal("1.0539"));
+    assertThat(info.getWallet().getBalance(Currencies.BTC).getTotal()).isEqualTo(new BigDecimal("0.4888583300"));
 
   }
 

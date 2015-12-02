@@ -8,7 +8,7 @@ import com.xeiam.xchange.bitso.dto.account.BitsoBalance;
 import com.xeiam.xchange.bitso.dto.account.BitsoDepositAddress;
 import com.xeiam.xchange.bitso.service.polling.BitsoAccountServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.bitso.BitsoDemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -37,8 +37,8 @@ public class BitsoAccountDemo {
   private static void generic(PollingAccountService accountService) throws IOException {
 
     // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    Wallet wallet = accountService.getAccountInfo();
+    System.out.println("Wallet as String: " + wallet.toString());
 
     String depositAddress = accountService.requestDepositAddress(Currencies.BTC);
     System.out.println("Deposit address: " + depositAddress);

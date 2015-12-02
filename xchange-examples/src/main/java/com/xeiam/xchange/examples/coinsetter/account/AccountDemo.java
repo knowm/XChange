@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.service.polling.CoinsetterAccountService;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.coinsetter.CoinsetterExamplesUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -27,8 +27,8 @@ public class AccountDemo {
     Exchange coinsetter = CoinsetterExamplesUtils.getExchange(username, password, ipAddress);
     PollingAccountService accountService = coinsetter.getPollingAccountService();
 
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    log.info("account info: {}", accountInfo);
+    Wallet wallet = accountService.getAccountInfo();
+    log.info("account info: {}", wallet);
 
     ((CoinsetterAccountService) accountService).logout();
   }

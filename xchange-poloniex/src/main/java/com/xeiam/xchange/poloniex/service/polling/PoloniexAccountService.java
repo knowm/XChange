@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -30,7 +31,7 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   public AccountInfo getAccountInfo() throws IOException {
 
     List<Balance> balances = getWallets();
-    return new AccountInfo(null, balances);
+    return new AccountInfo(new Wallet(balances));
   }
 
   @Override

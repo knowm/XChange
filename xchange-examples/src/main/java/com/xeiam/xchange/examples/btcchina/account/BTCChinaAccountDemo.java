@@ -10,7 +10,7 @@ import com.xeiam.xchange.btcchina.dto.account.BTCChinaWithdrawal;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
 import com.xeiam.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaAccountServiceRaw;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.btcchina.BTCChinaExamplesUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 import com.xeiam.xchange.utils.CertHelper;
@@ -42,8 +42,8 @@ public class BTCChinaAccountDemo {
   public static void generic() throws IOException {
 
     // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    Wallet wallet = accountService.getAccountInfo();
+    System.out.println("Wallet as String: " + wallet.toString());
 
     String depositAddress = accountService.requestDepositAddress("BTC");
     System.out.println("Deposit address: " + depositAddress);
@@ -59,7 +59,7 @@ public class BTCChinaAccountDemo {
 
     // Get the account information
     BTCChinaResponse<BTCChinaAccountInfo> accountInfo = btcChinaAccountService.getBTCChinaAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.getResult().toString());
+    System.out.println("Wallet as String: " + accountInfo.getResult().toString());
 
     // Get deposits
     BTCChinaGetDepositsResponse depositsResponse = btcChinaAccountService.getDeposits("BTC");
@@ -93,7 +93,7 @@ public class BTCChinaAccountDemo {
      * String depositAddress = btcChinaAccountService.requestBTCChinaBitcoinDepositAddress(null, null); System.out.println("Deposit address: " +
      * depositAddress);
      */
-    System.out.println("AccountInfo as String: " + accountInfo.getResult().getProfile().getDepositAddress("btc"));
+    System.out.println("Wallet as String: " + accountInfo.getResult().getProfile().getDepositAddress("btc"));
 
     // API key has no withdraw rights - returns 401 unauthorized
     // BTCChinaResponse<BTCChinaID> withdrawResult = btcChinaAccountService.withdrawBTCChinaFunds("BTC", new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");

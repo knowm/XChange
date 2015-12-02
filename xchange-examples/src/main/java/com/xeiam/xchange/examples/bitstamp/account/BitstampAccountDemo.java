@@ -12,7 +12,7 @@ import com.xeiam.xchange.bitstamp.dto.account.DepositTransaction;
 import com.xeiam.xchange.bitstamp.dto.account.WithdrawalRequest;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampAccountServiceRaw;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -43,8 +43,8 @@ public class BitstampAccountDemo {
   private static void generic(PollingAccountService accountService) throws IOException {
 
     // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    Wallet wallet = accountService.getAccountInfo();
+    System.out.println("Wallet as String: " + wallet.toString());
 
     String depositAddress = accountService.requestDepositAddress(Currencies.BTC);
     System.out.println("Deposit address: " + depositAddress);

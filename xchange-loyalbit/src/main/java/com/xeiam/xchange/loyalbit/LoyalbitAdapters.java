@@ -13,6 +13,7 @@ import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.Balance;
@@ -43,14 +44,13 @@ public final class LoyalbitAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(LoyalbitBalance loyalbitBalance, String userName) {
-    // FIXME: the second parameter should be sum of (available, reservedOrder, reservedWithdraw)
-    // keep it as available for safe reason, will be fixed in XChange 4.0.0
-    Balance usdBalance = new Balance(Currencies.USD, loyalbitBalance.getAvailableUsd(), loyalbitBalance.getAvailableUsd(),
-        loyalbitBalance.getReservedOrderUsd());
-    Balance btcBalance = new Balance(Currencies.BTC, loyalbitBalance.getAvailableBtc(), loyalbitBalance.getAvailableBtc(),
-        loyalbitBalance.getReservedOrderBtc());
 
-    return new AccountInfo(userName, loyalbitBalance.getFee(), Arrays.asList(usdBalance, btcBalance));
+    Balance usdBalance = new Balance.Builder().currency(Currencies.USD).available(loyalbitBalance.getAvailableUsd())
+        .frozen(loyalbitBalance.getReservedOrderUsd()).transferring(loyalbitBalance.getReservedWithdrawUsd()).build();
+    Balance btcBalance = new Balance.Builder().currency(Currencies.BTC).available(loyalbitBalance.getAvailableBtc())
+        .frozen(loyalbitBalance.getReservedOrderBtc()).transferring(loyalbitBalance.getReservedWithdrawBtc()).build();
+
+    return new AccountInfo(userName, loyalbitBalance.getFee(), new Wallet(usdBalance, btcBalance));
   }
 
   public static OrderBook adaptOrderBook(LoyalbitOrderBook loyalbitOrderBook, CurrencyPair currencyPair) {

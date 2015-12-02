@@ -21,7 +21,7 @@ import com.xeiam.xchange.coinbase.dto.account.CoinbaseUsers;
 import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import com.xeiam.xchange.coinbase.service.polling.CoinbaseAccountService;
 import com.xeiam.xchange.currency.Currencies;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.coinbase.CoinbaseDemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -41,8 +41,8 @@ public class CoinbaseAccountDemo {
 
   private static void generic(PollingAccountService accountService) throws IOException {
 
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("Account Info: " + accountInfo);
+    Wallet wallet = accountService.getAccountInfo();
+    System.out.println("Account Info: " + wallet);
 
     String depositAddress = accountService.requestDepositAddress(Currencies.BTC);
     System.out.println("Deposit Address: " + depositAddress);

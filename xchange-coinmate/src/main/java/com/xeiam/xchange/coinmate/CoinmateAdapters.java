@@ -43,7 +43,7 @@ import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
 import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistoryEntry;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -108,7 +108,7 @@ public class CoinmateAdapters {
     return new Trades(trades, Trades.TradeSortType.SortByID);
   }
 
-  public static AccountInfo adaptAccountInfo(CoinmateBalance coinmateBalance) {
+  public static Wallet adaptAccountInfo(CoinmateBalance coinmateBalance) {
 
     Map<String, Balance> wallets = new HashMap<String, Balance>();
     CoinmateBalanceData funds = coinmateBalance.getData();
@@ -120,7 +120,7 @@ public class CoinmateAdapters {
 
       wallets.put(currency, balance);
     }
-    return new AccountInfo(null, wallets);
+    return new Wallet(null, wallets);
   }
 
   public static UserTrades adaptTradeHistory(CoinmateTransactionHistory coinmateTradeHistory) {

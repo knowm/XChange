@@ -6,16 +6,12 @@ import static com.xeiam.xchange.currency.Currencies.LTC;
 import static com.xeiam.xchange.currency.Currencies.USD;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -98,33 +94,33 @@ public final class OkCoinAdapters {
 
     OkCoinFunds funds = userInfo.getInfo().getFunds();
 
-    // depending on china or international version
-    boolean is_cny = funds.getFree().containsKey("cny");
+    Map<String, Balance.Builder> builders = new TreeMap<String, Balance.Builder>();
 
-    Balance base = null;
-    Balance baseLoan = null;
-
-    if (is_cny) {
-      base = new Balance(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(getOrZero("cny", funds.getBorrow())),
-          funds.getFree().get("cny"), funds.getFreezed().get("cny"), "available");
-      baseLoan = new Balance(CNY, getOrZero("cny", funds.getBorrow()), "loan");
-    } else {
-      base = new Balance(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())),
-          funds.getFree().get("usd"), funds.getFreezed().get("usd"), "available");
-      baseLoan = new Balance(USD, getOrZero("usd", funds.getBorrow()), "loan");
+    for (Map.Entry<String,BigDecimal> available : funds.getFree().entrySet()) {
+      builders.put(available.getKey(), new Balance.Builder().currency(available.getKey()).available(available.getValue()));
     }
-    Balance btc = new Balance(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(getOrZero("btc", funds.getBorrow())),
-        funds.getFree().get("btc"), funds.getFreezed().get("btc"), "available");
-    Balance ltc = new Balance(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(getOrZero("ltc", funds.getBorrow())),
-        funds.getFree().get("ltc"), funds.getFreezed().get("ltc"), "available");
 
-    // loaned wallets
-    Balance btcLoan = new Balance(BTC, getOrZero("btc", funds.getBorrow()), "loan");
-    Balance ltcLoan = new Balance(LTC, getOrZero("ltc", funds.getBorrow()), "loan");
+    for (Map.Entry<String,BigDecimal> frozen : funds.getFreezed().entrySet()) {
+      Balance.Builder builder = builders.get(frozen.getKey());
+      if (builder == null)
+        builder = new Balance.Builder().currency(frozen.getKey());
+      builders.put(frozen.getKey(), builder.frozen(frozen.getValue()));
+    }
 
-    List<Balance> balances = Arrays.asList(base, btc, ltc, baseLoan, btcLoan, ltcLoan);
+    for (Map.Entry<String,BigDecimal> borrowed : funds.getBorrow().entrySet()) {
+      Balance.Builder builder = builders.get(borrowed.getKey());
+      if (builder == null)
+        builder = new Balance.Builder().currency(borrowed.getKey());
+      builders.put(borrowed.getKey(), builder.borrowed(borrowed.getValue()));
+    }
 
-    return new AccountInfo(null, balances);
+    List<Balance> wallet = new ArrayList(builders.size());
+
+    for (Balance.Builder builder : builders.values()) {
+      wallet.add(builder.build());
+    }
+
+    return new AccountInfo(new Wallet(wallet));
   }
 
   public static AccountInfo adaptAccountInfoFutures(OkCoinFuturesUserInfoCross futureUserInfo) {
@@ -135,7 +131,7 @@ public final class OkCoinAdapters {
     Balance btcBalance = new Balance(BTC, btcFunds.getAccountRights());
     Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights());
 
-    return new AccountInfo(null, Arrays.asList(zeroUsdBalance, btcBalance, ltcBalance));
+    return new AccountInfo(new Wallet(zeroUsdBalance, btcBalance, ltcBalance));
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {

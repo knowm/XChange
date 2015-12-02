@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.meta.RateLimit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,6 @@ import com.xeiam.xchange.btce.v3.dto.trade.BTCEOrder;
 import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -147,7 +147,7 @@ public final class BTCEAdapters {
         .timestamp(timestamp).build();
   }
 
-  public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {
+  public static Wallet adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {
 
     List<Balance> balances = new ArrayList<Balance>();
     Map<String, BigDecimal> funds = btceAccountInfo.getFunds();
@@ -157,7 +157,7 @@ public final class BTCEAdapters {
 
       balances.add(new Balance(currency, funds.get(lcCurrency)));
     }
-    return new AccountInfo(null, balances);
+    return new Wallet(null, balances);
   }
 
   public static OpenOrders adaptOrders(Map<Long, BTCEOrder> btceOrderMap) {

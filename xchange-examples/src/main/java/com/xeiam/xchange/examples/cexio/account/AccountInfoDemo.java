@@ -3,7 +3,7 @@ package com.xeiam.xchange.examples.cexio.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.cexio.CexIODemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -19,8 +19,8 @@ public class AccountInfoDemo {
     PollingAccountService accountService = exchange.getPollingAccountService();
 
     // Get the account information
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    Wallet wallet = accountService.getAccountInfo();
+    System.out.println("Wallet as String: " + wallet.toString());
   }
 
 }

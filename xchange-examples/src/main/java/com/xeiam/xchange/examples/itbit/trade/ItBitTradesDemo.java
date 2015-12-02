@@ -8,7 +8,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -50,9 +50,9 @@ public class ItBitTradesDemo {
     Trades trades2 = marketDataService.getTrades(new CurrencyPair("XBT", "USD"), 22233);
     System.out.println("Current trades:" + trades2);
 
-    AccountInfo accountInfo = accout.getAccountInfo();
+    Wallet wallet = accout.getAccountInfo();
 
-    System.out.println(accountInfo);
+    System.out.println(wallet);
     OpenOrders openOrders = trades.getOpenOrders();
     System.out.println("open orders: " + openOrders);
 

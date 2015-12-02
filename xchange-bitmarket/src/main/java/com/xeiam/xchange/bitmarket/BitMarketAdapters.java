@@ -18,7 +18,7 @@ import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTrades;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -39,13 +39,13 @@ public class BitMarketAdapters {
   }
 
   /**
-   * Adapts BitMarketBalance to AccountInfo
+   * Adapts BitMarketBalance to Wallet
    *
    * @param balance
    * @param username
    * @return
    */
-  public static AccountInfo adaptAccountInfo(BitMarketBalance balance, String username) {
+  public static Wallet adaptAccountInfo(BitMarketBalance balance, String username) {
 
     Map<String, Balance> wallets = new HashMap<String, Balance>();
 
@@ -55,7 +55,7 @@ public class BitMarketAdapters {
       wallets.put(entry.getKey(), new Balance(entry.getKey(), available.add(frozen), available, frozen));
     }
 
-    return new AccountInfo(username, wallets);
+    return new Wallet(username, wallets);
   }
 
   /**

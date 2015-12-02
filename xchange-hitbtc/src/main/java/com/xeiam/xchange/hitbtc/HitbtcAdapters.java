@@ -12,7 +12,7 @@ import java.util.Map;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -286,19 +286,17 @@ public class HitbtcAdapters {
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
-  public static AccountInfo adaptAccountInfo(HitbtcBalance[] accountInfoRaw) {
+  public static Wallet adaptWallet(HitbtcBalance[] walletRaw) {
 
-    List<Balance> balances = new ArrayList<Balance>(accountInfoRaw.length);
+    List<Balance> balances = new ArrayList<Balance>(walletRaw.length);
 
-    for (int i = 0; i < accountInfoRaw.length; i++) {
-      HitbtcBalance balance = accountInfoRaw[i];
+    for (HitbtcBalance balanceRaw : walletRaw) {
 
-      Balance wallet = new Balance(balance.getCurrencyCode(), balance.getCash().add(balance.getReserved()), balance.getCash(), balance.getReserved(),
-          balance.getCurrencyCode());
-      balances.add(wallet);
+      Balance balance = new Balance(balanceRaw.getCurrencyCode(), null, balanceRaw.getCash(), balanceRaw.getReserved());
+      balances.add(balance);
 
     }
-    return new AccountInfo(null, balances);
+    return new Wallet(balances);
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {

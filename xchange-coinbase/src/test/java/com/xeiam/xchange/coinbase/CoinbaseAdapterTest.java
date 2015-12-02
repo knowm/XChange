@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.trade.Balance;
 import org.junit.Test;
 
@@ -23,7 +24,6 @@ import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
@@ -40,7 +40,7 @@ public class CoinbaseAdapterTest {
     Balance balance = new Balance("BTC", new BigDecimal("7.10770000"));
     List<Balance> balances = new ArrayList<Balance>();
     balances.add(balance);
-    AccountInfo expectedAccountInfo = new AccountInfo("demo@demo.com", balances);
+    Wallet expectedWallet = new Wallet("demo@demo.com", balances);
 
     // Read in the JSON from the example resources
     InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/account/example-users-data.json");
@@ -52,11 +52,11 @@ public class CoinbaseAdapterTest {
     List<CoinbaseUser> userList = users.getUsers();
     CoinbaseUser user = userList.get(0);
 
-    AccountInfo accountInfo = CoinbaseAdapters.adaptAccountInfo(user);
+    Wallet wallet = CoinbaseAdapters.adaptAccountInfo(user);
     //// fest bug: map fields are compared by values() which is always false
-    //assertThat(accountInfo).isLenientEqualsToByIgnoringFields(expectedAccountInfo, "balances");
-    //assertThat(accountInfo.getBalance("BTC")).isEqualTo(expectedAccountInfo.getBalance("BTC"));
-    assertThat(accountInfo).isEqualsToByComparingFields(expectedAccountInfo);
+    //assertThat(wallet).isLenientEqualsToByIgnoringFields(expectedWallet, "balances");
+    //assertThat(wallet.getBalance("BTC")).isEqualTo(expectedWallet.getBalance("BTC"));
+    assertThat(wallet).isEqualsToByComparingFields(expectedWallet);
   }
 
   @Test

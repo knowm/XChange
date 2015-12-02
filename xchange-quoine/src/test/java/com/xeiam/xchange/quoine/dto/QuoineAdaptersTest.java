@@ -7,17 +7,18 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
+import com.xeiam.xchange.quoine.dto.account.QuoineWalletJSONTest;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.quoine.QuoineAdapters;
 import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
-import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfoJSONTest;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineOrderBookJSONTest;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineProduct;
@@ -87,7 +88,7 @@ public class QuoineAdaptersTest {
   public void testAdaptAccountinfo() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = QuoineAccountInfoJSONTest.class.getResourceAsStream("/account/example-account-data.json");
+    InputStream is = QuoineWalletJSONTest.class.getResourceAsStream("/account/example-account-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
@@ -96,10 +97,10 @@ public class QuoineAdaptersTest {
     AccountInfo accountInfo = QuoineAdapters.adaptAccountinfo(quoineAccountInfo);
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(accountInfo.getBalancesList().size()).isEqualTo(6);
-    System.out.println(accountInfo.getBalance("JPY").toString());
-    assertThat(accountInfo.getBalance("JPY").getCurrency()).isEqualTo("JPY");
-    assertThat(accountInfo.getBalance("JPY").getTotal()).isEqualTo(new BigDecimal("12546.36144"));
+    assertThat(accountInfo.getWallet().getBalances()).hasSize(6);
+    System.out.println(accountInfo.getWallet().getBalance("JPY").toString());
+    assertThat(accountInfo.getWallet().getBalance("JPY").getCurrency()).isEqualTo("JPY");
+    assertThat(accountInfo.getWallet().getBalance("JPY").getTotal()).isEqualTo(new BigDecimal("12546.36144"));
   }
 
 }

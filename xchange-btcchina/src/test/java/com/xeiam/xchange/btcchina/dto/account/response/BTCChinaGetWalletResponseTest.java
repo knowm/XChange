@@ -12,12 +12,12 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btcchina.dto.account.BTCChinaProfile;
 
-public class BTCChinaGetAccountInfoResponseTest {
+public class BTCChinaGetWalletResponseTest {
 
   private final ObjectMapper mapper = new ObjectMapper();
 
   @Test
-  public void testGetAccountInfo() throws IOException {
+  public void testGetWallet() throws IOException {
 
     BTCChinaGetAccountInfoResponse response = mapper.readValue(getClass().getResource("getAccountInfo.json"), BTCChinaGetAccountInfoResponse.class);
     BTCChinaProfile profile = response.getResult().getProfile();

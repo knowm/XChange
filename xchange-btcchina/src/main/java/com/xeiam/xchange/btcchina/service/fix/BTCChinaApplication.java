@@ -2,6 +2,7 @@ package com.xeiam.xchange.btcchina.service.fix;
 
 import java.math.BigDecimal;
 
+import com.xeiam.xchange.dto.account.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,7 +10,6 @@ import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoRequest;
 import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 
@@ -135,21 +135,21 @@ public class BTCChinaApplication extends MessageCracker implements Application {
    * Callback of account info got from server.
    *
    * @param accReqId the account request ID as assigned in the request.
-   * @param accountInfo the account info.
+   * @param wallet the account info.
    */
-  protected void onAccountInfo(String accReqId, AccountInfo accountInfo, SessionID sessionId) {
-    this.onAccountInfo(accReqId, accountInfo);
+  protected void onAccountInfo(String accReqId, Wallet wallet, SessionID sessionId) {
+    this.onAccountInfo(accReqId, wallet);
   }
 
   /**
    * Callback of account info got from server.
    *
    * @param accReqId the account request ID as assigned in the request.
-   * @param accountInfo the account info.
-   * @deprecated Use {@link #onAccountInfo(String, AccountInfo, SessionID)} instead.
+   * @param wallet the account info.
+   * @deprecated Use {@link #onAccountInfo(String, Wallet, SessionID)} instead.
    */
   @Deprecated
-  protected void onAccountInfo(String accReqId, AccountInfo accountInfo) {
+  protected void onAccountInfo(String accReqId, Wallet wallet) {
   }
 
   public Ticker getTicker() {

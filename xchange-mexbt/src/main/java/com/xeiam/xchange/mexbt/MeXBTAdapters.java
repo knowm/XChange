@@ -9,6 +9,7 @@ import java.util.Map;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -83,12 +84,13 @@ public final class MeXBTAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(String username, MeXBTBalanceResponse balanceResponse) {
-    Map<String, Balance> wallets = new LinkedHashMap<String, Balance>(balanceResponse.getCurrencies().length);
-    for (MeXBTBalance balance : balanceResponse.getCurrencies()) {
-      Balance wallet = new Balance(balance.getName(), balance.getBalance().add(balance.getHold()), balance.getBalance(), balance.getHold());
-      wallets.put(wallet.getCurrency(), wallet);
+    List<Balance> wallet = new ArrayList<Balance>(balanceResponse.getCurrencies().length);
+    for (MeXBTBalance mxbtBalance : balanceResponse.getCurrencies()) {
+      Balance balance = new Balance.Builder().currency(mxbtBalance.getName()).available(mxbtBalance.getBalance()).frozen(mxbtBalance.getHold())
+          .build();
+      wallet.add(balance);
     }
-    return new AccountInfo(username, wallets);
+    return new AccountInfo(username, new Wallet(wallet));
   }
 
   public static String getDepositAddress(MeXBTDepositAddressesResponse depositAddressesResponse, String currency) {

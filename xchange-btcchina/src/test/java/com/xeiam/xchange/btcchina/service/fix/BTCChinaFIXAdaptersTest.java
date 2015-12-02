@@ -19,7 +19,7 @@ import com.xeiam.xchange.btcchina.service.fix.field.Amount;
 import com.xeiam.xchange.btcchina.service.fix.field.Balance;
 import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 
 import quickfix.ConfigError;
@@ -109,10 +109,10 @@ public class BTCChinaFIXAdaptersTest {
     assertEquals("CNY", groups.get(2).getField(new Currency()).getValue());
     assertEquals(new BigDecimal("0"), groups.get(2).getField(new Amount()).getValue());
 
-    AccountInfo accountInfo = BTCChinaFIXAdapters.adaptAccountInfo(message);
-    assertEquals(new BigDecimal("0.001"), accountInfo.getBalanceTotal("BTC"));
-    assertEquals(new BigDecimal("0"), accountInfo.getBalanceTotal("LTC"));
-    assertEquals(new BigDecimal("0"), accountInfo.getBalanceTotal("CNY"));
+    Wallet wallet = BTCChinaFIXAdapters.adaptAccountInfo(message);
+    assertEquals(new BigDecimal("0.001"), wallet.getBalanceTotal("BTC"));
+    assertEquals(new BigDecimal("0"), wallet.getBalanceTotal("LTC"));
+    assertEquals(new BigDecimal("0"), wallet.getBalanceTotal("CNY"));
   }
 
   private Ticker getTicker() throws IOException, InvalidMessage, FieldNotFound {

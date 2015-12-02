@@ -15,7 +15,7 @@ import com.xeiam.xchange.bitso.dto.trade.BitsoUserTransaction;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -38,12 +38,12 @@ public final class BitsoAdapters {
         .vwap(t.getVwap()).volume(t.getVolume()).timestamp(t.getTimestamp()).build();
   }
 
-  public static AccountInfo adaptAccountInfo(BitsoBalance bitsoBalance, String userName) {
+  public static Wallet adaptAccountInfo(BitsoBalance bitsoBalance, String userName) {
     // Adapt to XChange DTOs
     Balance mxnBalance = new Balance(Currencies.MXN, bitsoBalance.getMxnBalance(), bitsoBalance.getMxnAvailable(), bitsoBalance.getMxnReserved());
     Balance btcBalance = new Balance(Currencies.BTC, bitsoBalance.getBtcBalance(), bitsoBalance.getBtcAvailable(), bitsoBalance.getBtcReserved());
 
-    return new AccountInfo(userName, Arrays.asList(mxnBalance, btcBalance));
+    return new Wallet(userName, Arrays.asList(mxnBalance, btcBalance));
   }
 
   public static OrderBook adaptOrderBook(BitsoOrderBook bitsoOrderBook, CurrencyPair currencyPair, int timeScale) {

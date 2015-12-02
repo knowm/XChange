@@ -2,12 +2,14 @@ package com.xeiam.xchange.therock;
 
 import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.trade.Balance;
 import com.xeiam.xchange.therock.dto.account.TheRockBalance;
 import com.xeiam.xchange.therock.dto.trade.TheRockOrder;
@@ -21,12 +23,13 @@ public final class TheRockAdapters {
     return type == BID ? TheRockOrder.Side.buy : TheRockOrder.Side.sell;
   }
 
-  public static AccountInfo adaptAccountInfo(List<TheRockBalance> balances, String userName) {
-    Map<String, Balance> wallets = new HashMap<>();
-    for (TheRockBalance blc : balances) {
-      wallets.put(blc.getCurrency(), new Balance(blc.getCurrency(), blc.getBalance(), blc.getTradingBalance()));
+  public static AccountInfo adaptAccountInfo(List<TheRockBalance> trBalances, String userName) {
+
+    ArrayList<Balance> balances = new ArrayList<Balance>(trBalances.size());
+    for (TheRockBalance blc : trBalances) {
+      balances.add(new Balance(blc.getCurrency(), blc.getBalance(), blc.getTradingBalance()));
     }
-    return new AccountInfo(userName, wallets);
+    return new AccountInfo(userName, new Wallet(balances));
   }
 
   /*

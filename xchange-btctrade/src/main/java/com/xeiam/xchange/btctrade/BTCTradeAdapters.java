@@ -22,7 +22,7 @@ import com.xeiam.xchange.btctrade.dto.trade.BTCTradePlaceOrderResult;
 import com.xeiam.xchange.currency.Currencies;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -142,7 +142,7 @@ public final class BTCTradeAdapters {
     return true;
   }
 
-  public static AccountInfo adaptAccountInfo(BTCTradeBalance balance) {
+  public static Wallet adaptAccountInfo(BTCTradeBalance balance) {
 
     checkException(balance);
 
@@ -157,7 +157,7 @@ public final class BTCTradeAdapters {
         zeroIfNull(balance.getYbcReserved())));
     balances.add(new Balance(Currencies.CNY, nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved()), zeroIfNull(balance.getCnyBalance()),
         zeroIfNull(balance.getCnyReserved())));
-    return new AccountInfo(null, balances);
+    return new Wallet(null, balances);
   }
 
   static BigDecimal nullSafeSum(BigDecimal a, BigDecimal b) {

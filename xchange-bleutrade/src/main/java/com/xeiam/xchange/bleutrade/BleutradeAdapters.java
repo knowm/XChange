@@ -13,7 +13,7 @@ import com.xeiam.xchange.bleutrade.dto.marketdata.*;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -101,7 +101,7 @@ public class BleutradeAdapters {
     return new Trades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static AccountInfo adaptBleutradeBalances(List<BleutradeBalance> bleutradeBalances) {
+  public static Wallet adaptBleutradeBalances(List<BleutradeBalance> bleutradeBalances) {
 
     List<Balance> balances = new ArrayList<Balance>();
 
@@ -110,7 +110,7 @@ public class BleutradeAdapters {
 
     }
 
-    return new AccountInfo(null, balances);
+    return new Wallet(null, balances);
   }
 
   public static OpenOrders adaptBleutradeOpenOrders(List<BleutradeOpenOrder> bleutradeOpenOrders) {

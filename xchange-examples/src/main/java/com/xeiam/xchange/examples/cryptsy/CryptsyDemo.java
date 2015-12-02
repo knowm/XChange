@@ -61,7 +61,7 @@ public class CryptsyDemo {
     System.out.println("\nOpenOrders:\n" + tradeService.getOpenOrders());
     Thread.sleep(500);
 
-    System.out.println("\nAccountInfo:\n" + accountService.getAccountInfo());
+    System.out.println("\nWallet:\n" + accountService.getAccountInfo());
     Thread.sleep(500);
 
     // System.out.println("\nrequestDepositAddress:\n" + accountService.requestDepositAddress("BTC"));
@@ -110,7 +110,7 @@ public class CryptsyDemo {
     System.out.println("\nOpenOrders:\n" + tradeService.getCryptsyOpenOrders());
     Thread.sleep(500);
 
-    System.out.println("\nAccountInfo:\n" + accountService.getCryptsyAccountInfo());
+    System.out.println("\nWallet:\n" + accountService.getCryptsyAccountInfo());
     Thread.sleep(500);
 
     // System.out.println("\nrequestNewDepositAddress:\n" + accountService.generateNewCryptsyDepositAddress(null, "BTC"));
