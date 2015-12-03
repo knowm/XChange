@@ -36,7 +36,7 @@ public final class AccountInfo {
    */
   public AccountInfo(Wallet... wallets) {
 
-    // TODO when separating out features, change this constructor to require two wallets to catch services which don't actually provide this feature
+    // TODO when refactoring for separate feature interfaces, change this constructor to require at least two wallets
     this(null, (BigDecimal)null, wallets);
   }
 

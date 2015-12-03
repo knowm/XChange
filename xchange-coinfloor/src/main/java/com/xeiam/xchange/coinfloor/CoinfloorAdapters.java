@@ -417,7 +417,7 @@ public class CoinfloorAdapters {
 
   public Map<String, Object> adaptBalancesChanged(String data) {
 
-    // TODO coinfloor uses a wallet delta, can this be passed straight to the application in a standardized way?
+    // TODO it appears coinfloor uses a wallet delta, can this be passed straight to the application in a standardized way?
 
     Map<String, Object> resultMap = new HashMap<String, Object>();
 
