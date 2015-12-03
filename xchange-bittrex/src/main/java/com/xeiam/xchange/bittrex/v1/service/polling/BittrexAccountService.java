@@ -31,7 +31,7 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements P
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    return withdraw(currency, amount, address) ;
   }
 
   @Override
@@ -39,4 +39,5 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements P
 
     return getBittrexDepositAddress(currency.toString());
   }
+  
 }
