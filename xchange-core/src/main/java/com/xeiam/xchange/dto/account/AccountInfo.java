@@ -21,7 +21,7 @@ public final class AccountInfo {
   private final String username;
 
   /**
-   * The current fee this account must pay.  Null if there is no such fee.
+   * The current fee this account must pay as a fraction of the value of each trade.  Null if there is no such fee.
    */
   private final BigDecimal tradingFee;
 
