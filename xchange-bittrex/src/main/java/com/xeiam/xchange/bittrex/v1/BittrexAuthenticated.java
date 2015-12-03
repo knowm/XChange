@@ -12,6 +12,9 @@ import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexBalancesResponse;
 import com.xeiam.xchange.bittrex.v1.dto.account.BittrexDepositAddressResponse;
+import com.xeiam.xchange.bittrex.v1.dto.account.BittrexDepositsHistoryResponse;
+import com.xeiam.xchange.bittrex.v1.dto.account.BittrexWithdrawResponse;
+import com.xeiam.xchange.bittrex.v1.dto.account.BittrexWithdrawalsHistoryResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexCancelOrderResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrdersResponse;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexTradeHistoryResponse;
@@ -73,4 +76,20 @@ public interface BittrexAuthenticated extends Bittrex {
   @Path("account/getorderhistory")
   BittrexTradeHistoryResponse getorderhistory(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  
+  @GET
+  @Path("account/withdraw")
+  BittrexWithdrawResponse withdraw(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("currency") String currency, @QueryParam("quantity") String quantity,
+      @QueryParam("address") String address ) throws IOException;
+  
+  @GET
+  @Path("account/getwithdrawalhistory")
+  BittrexWithdrawalsHistoryResponse getwithdrawalhistory( @QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+        @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  
+  @GET
+  @Path("account/getdeposithistory")
+  BittrexDepositsHistoryResponse getdeposithistory( @QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+        @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 }
