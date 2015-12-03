@@ -3,15 +3,13 @@ package com.xeiam.xchange.therock;
 import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
-import com.xeiam.xchange.dto.trade.Balance;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.therock.dto.account.TheRockBalance;
 import com.xeiam.xchange.therock.dto.trade.TheRockOrder;
 

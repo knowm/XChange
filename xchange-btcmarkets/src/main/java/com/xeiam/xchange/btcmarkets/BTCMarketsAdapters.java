@@ -4,9 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.xeiam.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import com.xeiam.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
@@ -25,7 +23,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Balance;
+import com.xeiam.xchange.dto.account.Balance;
 
 public final class BTCMarketsAdapters {
 

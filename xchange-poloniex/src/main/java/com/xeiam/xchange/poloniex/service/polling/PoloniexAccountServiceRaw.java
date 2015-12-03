@@ -1,7 +1,7 @@
 package com.xeiam.xchange.poloniex.service.polling;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.trade.Balance;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.poloniex.PoloniexAdapters;
 import com.xeiam.xchange.poloniex.PoloniexException;

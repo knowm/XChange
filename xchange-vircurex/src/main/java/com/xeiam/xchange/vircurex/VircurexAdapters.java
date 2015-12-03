@@ -13,7 +13,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
-import com.xeiam.xchange.dto.trade.Balance;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.vircurex.dto.account.VircurexAccountInfoReturn;
 import com.xeiam.xchange.vircurex.dto.trade.VircurexOpenOrder;

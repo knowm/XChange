@@ -1,7 +1,5 @@
 package com.xeiam.xchange.hitbtc;
 
-import static com.xeiam.xchange.currency.Currency.DOGE;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +23,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Balance;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcIncrementalRefresh;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;

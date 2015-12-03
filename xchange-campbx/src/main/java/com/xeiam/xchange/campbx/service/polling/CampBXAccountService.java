@@ -2,7 +2,6 @@ package com.xeiam.xchange.campbx.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -13,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.campbx.dto.CampBXResponse;
 import com.xeiam.xchange.campbx.dto.account.MyFunds;
-import com.xeiam.xchange.dto.trade.Balance;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 

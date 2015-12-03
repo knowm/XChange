@@ -18,7 +18,7 @@ import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.trade.Balance;
+import com.xeiam.xchange.dto.account.Balance;
 
 import quickfix.FieldNotFound;
 import quickfix.Group;

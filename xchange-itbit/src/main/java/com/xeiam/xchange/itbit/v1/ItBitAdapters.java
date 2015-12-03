@@ -21,7 +21,7 @@ import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.*;
-import com.xeiam.xchange.dto.trade.Balance;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountBalance;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;

@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
-import java.util.Iterator;
 
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.Balance;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.ripple.dto.account.ITransferFeeSource;
 import com.xeiam.xchange.ripple.dto.account.RippleAccountBalances;
 import com.xeiam.xchange.ripple.dto.account.RippleAccountSettings;

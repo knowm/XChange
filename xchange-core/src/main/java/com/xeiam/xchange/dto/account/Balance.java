@@ -1,4 +1,4 @@
-package com.xeiam.xchange.dto.trade;
+package com.xeiam.xchange.dto.account;
 
 import com.xeiam.xchange.currency.Currency;
 

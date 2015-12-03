@@ -1,7 +1,6 @@
 package com.xeiam.xchange.okcoin;
 
 import static com.xeiam.xchange.currency.Currency.BTC;
-import static com.xeiam.xchange.currency.Currency.CNY;
 import static com.xeiam.xchange.currency.Currency.LTC;
 import static com.xeiam.xchange.currency.Currency.USD;
 
@@ -22,7 +21,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Balance;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFunds;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesInfoCross;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;

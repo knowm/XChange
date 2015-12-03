@@ -14,7 +14,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Balance;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveAccount;
 import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import com.xeiam.xchange.independentreserve.dto.marketdata.IndependentReserveOrderBook;
