@@ -290,15 +290,17 @@ public final class CryptsyAdapters {
       builders.put(currency, builder.available(balance));
     }
 
-    for (Map.Entry<String,BigDecimal> fund : cryptsyWallet.getHoldFunds().entrySet()) {
-      String currency = fund.getKey();
-      BigDecimal balance = fund.getValue();
-      Balance.Builder builder = builders.get(currency);
-      if (builder == null) {
-        builder = new Balance.Builder().currency(Currency.getInstance(currency));
-        builders.put(currency, builder);
+    if (cryptsyWallet.getHoldFunds() != null) {
+      for (Map.Entry<String, BigDecimal> fund : cryptsyWallet.getHoldFunds().entrySet()) {
+        String currency = fund.getKey();
+        BigDecimal balance = fund.getValue();
+        Balance.Builder builder = builders.get(currency);
+        if (builder == null) {
+          builder = new Balance.Builder().currency(Currency.getInstance(currency));
+          builders.put(currency, builder);
+        }
+        builder.frozen(balance);
       }
-      builder.frozen(balance);
     }
 
     List<Balance> balances = new LinkedList<Balance>();
