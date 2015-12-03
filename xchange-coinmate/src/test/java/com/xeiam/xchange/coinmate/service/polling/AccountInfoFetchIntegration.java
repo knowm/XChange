@@ -2,13 +2,12 @@ package com.xeiam.xchange.coinmate.service.polling;
 
 import static org.junit.Assert.assertNotNull;
 
-import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import org.junit.Test;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.ExchangeUtils;
-import com.xeiam.xchange.dto.account.Wallet;
+import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**

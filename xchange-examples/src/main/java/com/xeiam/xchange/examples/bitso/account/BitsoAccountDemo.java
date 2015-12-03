@@ -7,8 +7,8 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitso.dto.account.BitsoBalance;
 import com.xeiam.xchange.bitso.dto.account.BitsoDepositAddress;
 import com.xeiam.xchange.bitso.service.polling.BitsoAccountServiceRaw;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitso.BitsoDemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 

@@ -1,8 +1,8 @@
 package com.xeiam.xchange.itbit.v1.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ItBitDepositRequest {
 

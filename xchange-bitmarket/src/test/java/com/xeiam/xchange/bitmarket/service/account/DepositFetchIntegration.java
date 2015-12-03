@@ -2,12 +2,12 @@ package com.xeiam.xchange.bitmarket.service.account;
 
 import static org.junit.Assert.assertNotNull;
 
-import com.xeiam.xchange.currency.Currency;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitmarket.ExchangeUtils;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**

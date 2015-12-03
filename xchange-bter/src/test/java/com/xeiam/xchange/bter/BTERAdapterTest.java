@@ -11,8 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,8 +24,10 @@ import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTickers;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 import com.xeiam.xchange.bter.dto.trade.BTEROpenOrders;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;

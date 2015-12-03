@@ -1,7 +1,5 @@
 package com.xeiam.xchange.campbx.service.polling;
 
-import javax.net.ssl.SSLSocketFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.service.BaseExchangeService;

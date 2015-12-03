@@ -6,9 +6,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.dto.account.Wallet;
-import com.xeiam.xchange.dto.trade.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,14 +17,22 @@ import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.trade.FixedRateLoanOrder;
+import com.xeiam.xchange.dto.trade.FloatingRateLoanOrder;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.utils.DateUtils;
 
 public final class BitfinexAdapters {

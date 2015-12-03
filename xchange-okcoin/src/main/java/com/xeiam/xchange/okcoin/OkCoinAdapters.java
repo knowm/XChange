@@ -5,12 +5,18 @@ import static com.xeiam.xchange.currency.Currency.LTC;
 import static com.xeiam.xchange.currency.Currency.USD;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -21,7 +27,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFunds;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesInfoCross;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;

@@ -1,5 +1,10 @@
 package com.xeiam.xchange.mexbt.service.polling;
 
+import static com.xeiam.xchange.mexbt.MeXBTAdapters.adaptOpenOrders;
+import static com.xeiam.xchange.mexbt.MeXBTAdapters.adaptUserTrades;
+import static com.xeiam.xchange.mexbt.MeXBTAdapters.toCurrencyPair;
+import static com.xeiam.xchange.mexbt.MeXBTAdapters.toSide;
+
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
@@ -15,8 +20,6 @@ import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamCu
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
-
-import static com.xeiam.xchange.mexbt.MeXBTAdapters.*;
 
 public class MeXBTTradeService extends MeXBTTradeServiceRaw implements PollingTradeService {
 

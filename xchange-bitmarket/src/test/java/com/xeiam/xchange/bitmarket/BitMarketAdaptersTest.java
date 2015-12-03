@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.dto.account.Wallet;
-import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,8 +13,10 @@ import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryOperationsResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;

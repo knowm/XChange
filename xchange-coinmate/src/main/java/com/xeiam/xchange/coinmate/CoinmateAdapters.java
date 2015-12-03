@@ -42,13 +42,16 @@ import com.xeiam.xchange.coinmate.dto.trade.CoinmateTransactionHistoryEntry;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.*;
-import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
 
 /**

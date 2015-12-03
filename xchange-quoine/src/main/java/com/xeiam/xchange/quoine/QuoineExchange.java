@@ -6,8 +6,8 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.quoine.service.polling.QuoineAccountService;
 import com.xeiam.xchange.quoine.service.polling.QuoineMarketDataService;
 import com.xeiam.xchange.quoine.service.polling.QuoineTradeService;
-
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class QuoineExchange extends BaseExchange implements Exchange {

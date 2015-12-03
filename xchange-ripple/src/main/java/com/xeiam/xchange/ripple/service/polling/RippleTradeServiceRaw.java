@@ -11,7 +11,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.xeiam.xchange.currency.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

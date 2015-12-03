@@ -1,7 +1,5 @@
 package com.xeiam.xchange.hitbtc.dto.account;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.hitbtc.dto.HitbtcBaseResponse;
 

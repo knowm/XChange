@@ -10,9 +10,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.okcoin.dto.account.OKCoinWithdraw;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinUserInfo;
-import com.xeiam.xchange.okcoin.dto.account.OKCoinWithdraw;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinDepth;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTickerResponse;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTrade;

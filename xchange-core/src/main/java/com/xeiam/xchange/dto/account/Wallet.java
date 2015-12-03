@@ -1,8 +1,13 @@
 package com.xeiam.xchange.dto.account;
 
-import com.xeiam.xchange.currency.Currency;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
-import java.util.*;
+import com.xeiam.xchange.currency.Currency;
 
 /**
  * <p>

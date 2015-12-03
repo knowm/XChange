@@ -9,7 +9,6 @@ import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;

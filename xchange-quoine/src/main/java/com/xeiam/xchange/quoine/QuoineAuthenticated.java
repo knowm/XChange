@@ -19,6 +19,7 @@ import com.xeiam.xchange.quoine.dto.trade.QuoineNewOrderRequest;
 import com.xeiam.xchange.quoine.dto.trade.QuoineOrderDetailsResponse;
 import com.xeiam.xchange.quoine.dto.trade.QuoineOrderResponse;
 import com.xeiam.xchange.quoine.dto.trade.QuoineOrdersList;
+
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/")

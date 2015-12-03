@@ -4,13 +4,12 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.Map;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HitbtcTickersJsonTest {
   

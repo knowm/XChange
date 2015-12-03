@@ -2,8 +2,6 @@ package com.xeiam.xchange.btcchina.service.fix;
 
 import java.math.BigDecimal;
 
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.account.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +9,7 @@ import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoRequest;
 import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 

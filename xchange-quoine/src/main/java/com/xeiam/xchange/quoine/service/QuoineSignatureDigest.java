@@ -1,15 +1,17 @@
 package com.xeiam.xchange.quoine.service;
 
-import com.xeiam.xchange.service.BaseParamsDigest;
-import net.iharder.Base64;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestInvocation;
-
-import javax.crypto.Mac;
-import javax.ws.rs.HeaderParam;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.Mac;
+import javax.ws.rs.HeaderParam;
+
+import com.xeiam.xchange.service.BaseParamsDigest;
+
+import net.iharder.Base64;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestInvocation;
 
 public class QuoineSignatureDigest extends BaseParamsDigest {
 

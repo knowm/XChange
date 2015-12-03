@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -16,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;

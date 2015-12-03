@@ -1,7 +1,6 @@
 package com.xeiam.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Map;
 
 import com.xeiam.xchange.Exchange;

@@ -1,6 +1,7 @@
 package com.xeiam.xchange.bitfinex.v1.service.polling;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitfinex.v1.dto.BitfinexException;
@@ -10,9 +11,7 @@ import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import com.xeiam.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
-import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.exceptions.ExchangeException;
-import java.math.BigDecimal;
 
 public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
 

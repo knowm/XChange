@@ -13,7 +13,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.xeiam.xchange.itbit.v1.dto.account.*;
+import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
+import com.xeiam.xchange.itbit.v1.dto.account.ItBitDepositRequest;
+import com.xeiam.xchange.itbit.v1.dto.account.ItBitDepositResponse;
+import com.xeiam.xchange.itbit.v1.dto.account.ItBitWithdrawalRequest;
+import com.xeiam.xchange.itbit.v1.dto.account.ItBitWithdrawalResponse;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;

@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.xeiam.xchange.currency.Currency;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.btcchina.service.fix.field.Amount;
 import com.xeiam.xchange.btcchina.service.fix.field.Balance;
 import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;

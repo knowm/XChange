@@ -1,9 +1,9 @@
 package com.xeiam.xchange.itbit.v1.dto.account;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.itbit.v1.dto.ItBitBaseResponse;
-
-import java.math.BigDecimal;
 
 public class ItBitWithdrawalResponse extends ItBitBaseResponse {
 

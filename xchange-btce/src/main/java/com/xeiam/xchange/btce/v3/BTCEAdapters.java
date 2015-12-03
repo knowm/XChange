@@ -2,12 +2,16 @@ package com.xeiam.xchange.btce.v3;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
-import com.xeiam.xchange.dto.account.Wallet;
-import com.xeiam.xchange.dto.meta.RateLimit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +26,8 @@ import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -29,12 +35,12 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
+import com.xeiam.xchange.dto.meta.RateLimit;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**

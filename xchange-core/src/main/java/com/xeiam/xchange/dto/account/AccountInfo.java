@@ -1,9 +1,11 @@
 package com.xeiam.xchange.dto.account;
 
-import com.xeiam.xchange.currency.Currency;
-
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>

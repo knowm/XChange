@@ -14,7 +14,6 @@ import com.xeiam.xchange.bter.dto.marketdata.BTERTicker;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory;
 import com.xeiam.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
 import com.xeiam.xchange.bter.service.polling.BTERPollingMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;

@@ -7,8 +7,8 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HitbtcSnapshotFullRefreshJsonTest {
 

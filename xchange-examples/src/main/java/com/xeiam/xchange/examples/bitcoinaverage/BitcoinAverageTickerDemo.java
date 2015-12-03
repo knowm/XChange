@@ -7,7 +7,6 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitcoinaverage.BitcoinAverageExchange;
 import com.xeiam.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import com.xeiam.xchange.bitcoinaverage.service.polling.BitcoinAverageMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;

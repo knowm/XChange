@@ -1,8 +1,8 @@
 package com.xeiam.xchange.dto.account;
 
-import com.xeiam.xchange.currency.Currency;
-
 import java.math.BigDecimal;
+
+import com.xeiam.xchange.currency.Currency;
 
 /**
  * <p>

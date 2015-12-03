@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

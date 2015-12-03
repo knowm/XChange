@@ -10,7 +10,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import net.iharder.Base64;
-
 import si.mazi.rescu.ParamsDigest;
 
 public abstract class BaseParamsDigest implements ParamsDigest {

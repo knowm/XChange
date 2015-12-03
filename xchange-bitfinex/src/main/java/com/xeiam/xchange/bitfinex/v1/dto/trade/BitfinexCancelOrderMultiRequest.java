@@ -1,7 +1,6 @@
 package com.xeiam.xchange.bitfinex.v1.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRawValue;
 
 public class BitfinexCancelOrderMultiRequest {
 

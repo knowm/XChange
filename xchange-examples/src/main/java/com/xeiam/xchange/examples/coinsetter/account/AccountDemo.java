@@ -2,13 +2,12 @@ package com.xeiam.xchange.examples.coinsetter.account;
 
 import java.io.IOException;
 
-import com.xeiam.xchange.dto.account.AccountInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinsetter.service.polling.CoinsetterAccountService;
-import com.xeiam.xchange.dto.account.Wallet;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.coinsetter.CoinsetterExamplesUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 

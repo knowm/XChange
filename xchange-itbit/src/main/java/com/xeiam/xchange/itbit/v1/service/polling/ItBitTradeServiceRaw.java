@@ -1,8 +1,6 @@
 package com.xeiam.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.Date;
 
 import com.xeiam.xchange.Exchange;

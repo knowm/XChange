@@ -1,7 +1,5 @@
 package com.xeiam.xchange.utils;
 
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -10,6 +8,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 /**
  * An SSLSocketFactory that may disable some protocols or ciphers in the generated sockets

@@ -16,7 +16,6 @@ import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook.CondensedOrder;
 import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
-import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchart.Chart;
 import com.xeiam.xchart.ChartBuilder;
 import com.xeiam.xchart.Series;

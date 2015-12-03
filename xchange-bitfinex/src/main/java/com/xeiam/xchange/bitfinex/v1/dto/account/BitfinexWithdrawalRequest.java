@@ -1,8 +1,9 @@
 package com.xeiam.xchange.bitfinex.v1.dto.account;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
-import java.math.BigDecimal;
 
 public class BitfinexWithdrawalRequest {
 

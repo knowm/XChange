@@ -2,12 +2,11 @@ package com.xeiam.xchange.btce.v3.service.polling;
 
 import static org.junit.Assert.assertNotNull;
 
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Test;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.ExchangeUtils;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
