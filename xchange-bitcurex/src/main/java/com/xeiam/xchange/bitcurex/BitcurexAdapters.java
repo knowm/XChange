@@ -128,10 +128,9 @@ public final class BitcurexAdapters {
    * Adapts a BitcurexFunds to an Wallet Object
    *
    * @param funds
-   * @param userName name for the accountInfo
    * @return
    */
-  public static Wallet adaptAccountInfo(BitcurexFunds funds, String userName) {
+  public static Wallet adaptWallet(BitcurexFunds funds) {
 
     // Adapt to XChange DTOs
     List<Balance> balances = new ArrayList<Balance>(2);
@@ -147,7 +146,7 @@ public final class BitcurexAdapters {
       balances.add(new Balance(Currency.PLN, pln));
     }
 
-    return new Wallet(userName, balances);
+    return new Wallet(balances);
   }
 
 }

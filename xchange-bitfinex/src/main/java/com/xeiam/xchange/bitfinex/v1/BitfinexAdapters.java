@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.trade.*;
 import org.slf4j.Logger;
@@ -213,17 +214,18 @@ public final class BitfinexAdapters {
         .build();
   }
 
-  public static Wallet adaptAccountInfo(BitfinexBalancesResponse[] response) {
+  public static Wallet adaptWallet(BitfinexBalancesResponse[] response) {
 
     List<Balance> balances = new ArrayList<Balance>(response.length);
 
     for (BitfinexBalancesResponse balance : response) {
       if ("exchange".equals(balance.getType())) {
-        balances.add(new Balance(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getAvailable()));
+        balances
+            .add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getAmount(), balance.getAvailable()));
       }
     }
 
-    return new Wallet(null, balances);
+    return new Wallet(balances);
   }
 
   public static OpenOrders adaptOrders(BitfinexOrderStatusResponse[] activeOrders) {

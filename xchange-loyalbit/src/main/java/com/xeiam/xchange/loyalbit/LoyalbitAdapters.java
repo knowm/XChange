@@ -46,9 +46,9 @@ public final class LoyalbitAdapters {
   public static AccountInfo adaptAccountInfo(LoyalbitBalance loyalbitBalance, String userName) {
 
     Balance usdBalance = new Balance.Builder().currency(Currency.USD).available(loyalbitBalance.getAvailableUsd())
-        .frozen(loyalbitBalance.getReservedOrderUsd()).transferring(loyalbitBalance.getReservedWithdrawUsd()).build();
+        .frozen(loyalbitBalance.getReservedOrderUsd()).withdrawing(loyalbitBalance.getReservedWithdrawUsd()).build();
     Balance btcBalance = new Balance.Builder().currency(Currency.BTC).available(loyalbitBalance.getAvailableBtc())
-        .frozen(loyalbitBalance.getReservedOrderBtc()).transferring(loyalbitBalance.getReservedWithdrawBtc()).build();
+        .frozen(loyalbitBalance.getReservedOrderBtc()).withdrawing(loyalbitBalance.getReservedWithdrawBtc()).build();
 
     return new AccountInfo(userName, loyalbitBalance.getFee(), new Wallet(usdBalance, btcBalance));
   }

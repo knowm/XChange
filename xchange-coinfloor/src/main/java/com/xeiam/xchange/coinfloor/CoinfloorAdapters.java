@@ -21,6 +21,7 @@ import com.xeiam.xchange.coinfloor.dto.streaming.trade.CoinfloorCancelOrder;
 import com.xeiam.xchange.coinfloor.dto.streaming.trade.CoinfloorEstimateMarketOrder;
 import com.xeiam.xchange.coinfloor.dto.streaming.trade.CoinfloorOpenOrders;
 import com.xeiam.xchange.coinfloor.dto.streaming.trade.CoinfloorPlaceOrder;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.Wallet;
@@ -64,7 +65,7 @@ public class CoinfloorAdapters {
     List<CoinfloorAssetBalance> funds = rawRetObj.getBalances();
 
     for (CoinfloorAssetBalance assetBalancePair : funds) {
-      String currency = assetBalancePair.getAsset().toString();
+      Currency currency = Currency.getInstance(assetBalancePair.getAsset().toString());
       BigDecimal balance = assetBalancePair.getBalance();
 
       balances.add(new Balance(currency, balance));
@@ -416,6 +417,8 @@ public class CoinfloorAdapters {
 
   public Map<String, Object> adaptBalancesChanged(String data) {
 
+    // TODO coinfloor uses a wallet delta, can this be passed straight to the application in a standardized way?
+
     Map<String, Object> resultMap = new HashMap<String, Object>();
 
     CoinfloorAssetBalance rawRetObj;
@@ -430,15 +433,15 @@ public class CoinfloorAdapters {
 
     synchronized (cachedDataSynchronizationObject) {
       if (cachedWallet == null) {
-        String currency = rawRetObj.getAsset().toString();
+        Currency currency = Currency.getInstance(rawRetObj.getAsset().toString());
         BigDecimal balance = rawRetObj.getBalance();
 
         newBalances.add(new Balance(currency, balance));
       } else {
-        List<Balance> oldBalances = cachedWallet.getBalancesList();
-        for (Balance wallet : oldBalances) {
-          if (wallet.getCurrency().equals(rawRetObj.getAsset())) {
-            String currency = rawRetObj.getAsset().toString();
+        Map<Currency, Balance> oldBalances = cachedWallet.getBalances();
+        for (Balance wallet : oldBalances.values()) {
+          if (wallet.getCurrency().toString().equals(rawRetObj.getAsset())) {
+            Currency currency = Currency.getInstance(rawRetObj.getAsset().toString());
             BigDecimal balance = rawRetObj.getBalance();
 
             newBalances.add(new Balance(currency, balance));

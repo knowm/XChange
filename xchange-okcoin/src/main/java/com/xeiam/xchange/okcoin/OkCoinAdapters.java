@@ -98,20 +98,20 @@ public final class OkCoinAdapters {
     Map<String, Balance.Builder> builders = new TreeMap<String, Balance.Builder>();
 
     for (Map.Entry<String,BigDecimal> available : funds.getFree().entrySet()) {
-      builders.put(available.getKey(), new Balance.Builder().currency(available.getKey()).available(available.getValue()));
+      builders.put(available.getKey(), new Balance.Builder().currency(Currency.getInstance(available.getKey())).available(available.getValue()));
     }
 
     for (Map.Entry<String,BigDecimal> frozen : funds.getFreezed().entrySet()) {
       Balance.Builder builder = builders.get(frozen.getKey());
       if (builder == null)
-        builder = new Balance.Builder().currency(frozen.getKey());
+        builder = new Balance.Builder().currency(Currency.getInstance(frozen.getKey()));
       builders.put(frozen.getKey(), builder.frozen(frozen.getValue()));
     }
 
     for (Map.Entry<String,BigDecimal> borrowed : funds.getBorrow().entrySet()) {
       Balance.Builder builder = builders.get(borrowed.getKey());
       if (builder == null)
-        builder = new Balance.Builder().currency(borrowed.getKey());
+        builder = new Balance.Builder().currency(Currency.getInstance(borrowed.getKey()));
       builders.put(borrowed.getKey(), builder.borrowed(borrowed.getValue()));
     }
 

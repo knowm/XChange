@@ -55,24 +55,24 @@ public abstract class RippleAdapters {
    */
   public static AccountInfo adaptAccountInfo(final RippleAccountBalances account, final String username) {
 
-    // Adapt account balances to XChange wallets
-    final Map<String,List<Balance>> wallets = new TreeMap<String,List<Balance>>();
+    // Adapt account balances to XChange balances
+    final Map<String,List<Balance>> balances = new HashMap<String,List<Balance>>();
     for (final RippleBalance balance : account.getBalances()) {
       final String walletId;
       if (balance.getCurrency().equals("XRP")) {
-        // TODO: I think this line might be invalid now that counterparty is the walletId
+        // TODO: is this line correct now that counterparty is the walletId?
         walletId = null;
       } else {
         walletId = balance.getCounterparty();
       }
-      if (!wallets.containsKey(walletId)) {
-        wallets.put(walletId, new LinkedList<Balance>());
+      if (!balances.containsKey(walletId)) {
+        balances.put(walletId, new LinkedList<Balance>());
       }
-      wallets.get(walletId).add(new Balance(Currency.getInstance(balance.getCurrency()), balance.getValue()));
+      balances.get(walletId).add(new Balance(Currency.getInstance(balance.getCurrency()), balance.getValue()));
     }
 
-    final List<Wallet> accountInfo = new ArrayList<Wallet>(wallets.size());
-    for (final Map.Entry<String,List<Balance>> wallet : wallets.entrySet()) {
+    final List<Wallet> accountInfo = new ArrayList<Wallet>(balances.size());
+    for (final Map.Entry<String,List<Balance>> wallet : balances.entrySet()) {
       accountInfo.add(new Wallet(wallet.getKey(), wallet.getValue()));
     }
 

@@ -55,11 +55,8 @@ public class IndependentReserveAdapters {
     List<Balance> balances = new ArrayList<Balance>();
 
     for (IndependentReserveAccount balanceAccount : independentReserveBalance.getIndependentReserveAccounts()) {
-      String currency = balanceAccount.getCurrencyCode().toUpperCase();
-      balances.add(new Balance(currency, balanceAccount.getTotalBalance()));
-      if ("XBT".equals(currency)) {
-        balances.add(new Balance("BTC", balanceAccount.getTotalBalance()));
-      }
+      Currency currency = Currency.getInstance(balanceAccount.getCurrencyCode().toUpperCase());
+      balances.add(new Balance(currency.getCommonlyUsedCurrency(), balanceAccount.getTotalBalance()));
     }
     return new Wallet(balances);
   }

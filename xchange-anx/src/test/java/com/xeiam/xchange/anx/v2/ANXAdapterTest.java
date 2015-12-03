@@ -5,9 +5,11 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.currency.Currency;
 import org.junit.Assert;
@@ -58,12 +60,12 @@ public class ANXAdapterTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     ANXAccountInfo anxAccountInfo = mapper.readValue(is, ANXAccountInfo.class);
 
-    Wallet wallet = ANXAdapters.adaptAccountInfo(anxAccountInfo);
-    assertThat(wallet.getId()).isEqualTo("test@anxpro.com");
+    AccountInfo accountInfo = ANXAdapters.adaptAccountInfo(anxAccountInfo);
+    assertThat(accountInfo.getUsername()).isEqualTo("test@anxpro.com");
 
-    assertThat(wallet.getBalance(Currency.DOGE).getTotal()).isEqualTo(new BigDecimal("9999781.09457936"));
-    assertThat(wallet.getBalance(Currency.DOGE).getAvailable()).isEqualTo(new BigDecimal("9914833.52608521"));
-    assertThat(wallet.getBalance(Currency.DOGE).getFrozen()).isEqualTo(new BigDecimal("84947.56849415"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getTotal()).isEqualTo(new BigDecimal("9999781.09457936"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getAvailable()).isEqualTo(new BigDecimal("9914833.52608521"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getFrozen()).isEqualTo(new BigDecimal("84947.56849415"));
   }
 
   @Test
@@ -156,8 +158,8 @@ public class ANXAdapterTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     ANXAccountInfo anxAccountInfo = mapper.readValue(is, ANXAccountInfo.class);
 
-    // in Wallet(s), only wallets from ANXAccountInfo.getBalancesList that contained data are NOT null.
-    List<Balance> balances = ANXAdapters.adaptWallets(anxAccountInfo.getWallets());
+    // in Wallet, only wallets from ANXAccountInfo.getBalancesList that contained data are NOT null.
+    Collection<Balance> balances = ANXAdapters.adaptWallet(anxAccountInfo.getWallets()).getBalances().values();
     Assert.assertEquals(21, balances.size());
 
     Assert.assertTrue(balances.contains(new Balance(Currency.CAD, new BigDecimal("100000.00000"), new BigDecimal("100000.00000"))));

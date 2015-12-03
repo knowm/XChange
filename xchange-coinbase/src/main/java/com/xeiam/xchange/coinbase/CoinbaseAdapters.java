@@ -14,8 +14,10 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransferType;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -32,15 +34,13 @@ public final class CoinbaseAdapters {
 
   }
 
-  public static Wallet adaptAccountInfo(CoinbaseUser user) {
+  public static AccountInfo adaptAccountInfo(CoinbaseUser user) {
 
     final String username = user.getEmail();
-    final CoinbaseMoney balance = user.getBalance();
-    final Balance wallet = new Balance(balance.getCurrency(), balance.getAmount());
-    final List<Balance> balances = new ArrayList<Balance>();
-    balances.add(wallet);
+    final CoinbaseMoney money = user.getBalance();
+    final Balance balance = new Balance(Currency.getInstance(money.getCurrency()), money.getAmount());
 
-    final Wallet accountInfoTemporaryName = new Wallet(username, balances);
+    final AccountInfo accountInfoTemporaryName = new AccountInfo(username, new Wallet(balance));
     return accountInfoTemporaryName;
   }
 

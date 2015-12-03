@@ -30,7 +30,7 @@ public class BTCEAccountService extends BTCEAccountServiceRaw implements Polling
   public AccountInfo getAccountInfo() throws IOException {
 
     BTCEAccountInfo info = getBTCEAccountInfo(null, null, null, null, null, null, null);
-    return BTCEAdapters.adaptAccountInfo(info);
+    return new AccountInfo(BTCEAdapters.adaptWallet(info));
   }
  
   @Override

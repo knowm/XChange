@@ -131,7 +131,7 @@ public final class CoinsetterAdapters {
     return new OrderBook(timeStamp, askOrders, bidOrders);
   }
 
-  public static Wallet adaptAccountInfo(String username, CoinsetterAccount account) {
+  public static Wallet adaptWallet(CoinsetterAccount account) {
 
     return new Wallet(
         new Balance(Currency.BTC, account.getBtcBalance()), new Balance(Currency.USD, account.getUsdBalance()));

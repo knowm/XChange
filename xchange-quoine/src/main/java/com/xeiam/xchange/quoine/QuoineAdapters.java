@@ -69,7 +69,7 @@ public class QuoineAdapters {
     }
   }
 
-  public static Wallet adaptTradingAccountInfo(QuoineTradingAccountInfo[] quoineWallet) {
+  public static Wallet adaptTradingWallet(QuoineTradingAccountInfo[] quoineWallet) {
     List<Balance> balances = new ArrayList<Balance>(quoineWallet.length);
 
     // btc position is sum of all positions in margin. Asuming all currencies are using the same margin level.

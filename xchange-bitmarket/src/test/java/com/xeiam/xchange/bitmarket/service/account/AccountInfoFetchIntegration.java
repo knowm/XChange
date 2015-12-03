@@ -2,6 +2,7 @@ package com.xeiam.xchange.bitmarket.service.account;
 
 import static org.junit.Assert.assertNotNull;
 
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class AccountInfoFetchIntegration {
     PollingAccountService service = exchange.getPollingAccountService();
     assertNotNull(service);
     //verify account info exists
-    Wallet info = service.getAccountInfo();
+    AccountInfo info = service.getAccountInfo();
     assertNotNull(info);
   }
 }

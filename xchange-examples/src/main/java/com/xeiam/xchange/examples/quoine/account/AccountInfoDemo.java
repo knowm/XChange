@@ -3,6 +3,7 @@ package com.xeiam.xchange.examples.quoine.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.quoine.QuoineExamplesUtils;
 import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
@@ -27,9 +28,9 @@ public class AccountInfoDemo {
 
   private static void generic(PollingAccountService accountService) throws IOException {
 
-    Wallet wallet = accountService.getAccountInfo();
+    AccountInfo accountInfo = accountService.getAccountInfo();
 
-    System.out.println(wallet.toString());
+    System.out.println(accountInfo.toString());
   }
 
   private static void raw(QuoineAccountServiceRaw quoineAccountServiceRaw) throws IOException {

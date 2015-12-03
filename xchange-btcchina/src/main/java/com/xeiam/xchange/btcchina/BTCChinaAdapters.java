@@ -25,6 +25,7 @@ import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -153,16 +154,16 @@ public final class BTCChinaAdapters {
   /**
    * Adapts a BTCChinaAccountInfoResponse to Wallet Object
    */
-  public static Wallet adaptAccountInfo(BTCChinaResponse<BTCChinaAccountInfo> response) {
+  public static AccountInfo adaptAccountInfo(BTCChinaResponse<BTCChinaAccountInfo> response) {
 
     BTCChinaAccountInfo result = response.getResult();
-    return new Wallet(result.getProfile().getUsername(), result.getProfile().getTradeFee(),
-        BTCChinaAdapters.adaptWallets(result.getBalances(), result.getFrozens(), result.getLoans()));
+    return new AccountInfo(result.getProfile().getUsername(), result.getProfile().getTradeFee(),
+        BTCChinaAdapters.adaptWallet(result.getBalances(), result.getFrozens(), result.getLoans()));
   }
 
-  public static List<Balance> adaptWallets(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens, Map<String, BTCChinaValue> loans) {
+  public static Wallet adaptWallet(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens, Map<String, BTCChinaValue> loans) {
 
-    List<Balance> wallets = new ArrayList<Balance>(balances.size());
+    List<Balance> wallet = new ArrayList<Balance>(balances.size());
 
     for (Map.Entry<String, BTCChinaValue> entry : balances.entrySet()) {
       BTCChinaValue frozen = frozens.get(entry.getKey());
@@ -172,13 +173,10 @@ public final class BTCChinaAdapters {
       BigDecimal frozenAmount = frozen == null ? BigDecimal.ZERO : BTCChinaUtils.valueToBigDecimal(frozen);
       BigDecimal loanAmount = loan == null ? BigDecimal.ZERO : BTCChinaUtils.valueToBigDecimal(loan);
 
-      // add frozen amount, subtract loaned amount
-      BigDecimal cash = balanceAmount.add(frozenAmount).subtract(loanAmount);
-      // FIXME: the second parameter should be balanceAmount,
-      // keep it as cash for safe reason, this will be fixed in XChagne 4.0.0
-      wallets.add(new Balance(entry.getValue().getCurrency(), cash, cash, frozenAmount));
+      wallet.add(new Balance.Builder().currency(Currency.getInstance(entry.getValue().getCurrency())).available(balanceAmount).frozen(frozenAmount)
+          .borrowed(loanAmount).build());
     }
-    return wallets;
+    return new Wallet(wallet);
 
   }
 

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.trade.Balance;
 import org.junit.Test;
@@ -37,10 +38,10 @@ public class CoinbaseAdapterTest {
   @Test
   public void testAdaptAccountInfo() throws IOException {
 
-    Balance balance = new Balance("BTC", new BigDecimal("7.10770000"));
+    Balance balance = new Balance(Currency.BTC, new BigDecimal("7.10770000"));
     List<Balance> balances = new ArrayList<Balance>();
     balances.add(balance);
-    Wallet expectedWallet = new Wallet("demo@demo.com", balances);
+    AccountInfo expectedAccountInfo = new AccountInfo("demo@demo.com", new Wallet(balances));
 
     // Read in the JSON from the example resources
     InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/account/example-users-data.json");
@@ -52,11 +53,11 @@ public class CoinbaseAdapterTest {
     List<CoinbaseUser> userList = users.getUsers();
     CoinbaseUser user = userList.get(0);
 
-    Wallet wallet = CoinbaseAdapters.adaptAccountInfo(user);
+    AccountInfo accountInfo = CoinbaseAdapters.adaptAccountInfo(user);
     //// fest bug: map fields are compared by values() which is always false
     //assertThat(wallet).isLenientEqualsToByIgnoringFields(expectedWallet, "balances");
     //assertThat(wallet.getBalance("BTC")).isEqualTo(expectedWallet.getBalance("BTC"));
-    assertThat(wallet).isEqualsToByComparingFields(expectedWallet);
+    assertThat(accountInfo).isEqualsToByComparingFields(expectedAccountInfo);
   }
 
   @Test

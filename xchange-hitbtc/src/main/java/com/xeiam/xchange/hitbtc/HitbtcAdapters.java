@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -286,7 +287,7 @@ public class HitbtcAdapters {
 
     for (HitbtcBalance balanceRaw : walletRaw) {
 
-      Balance balance = new Balance(balanceRaw.getCurrencyCode(), null, balanceRaw.getCash(), balanceRaw.getReserved());
+      Balance balance = new Balance(Currency.getInstance(balanceRaw.getCurrencyCode()), null, balanceRaw.getCash(), balanceRaw.getReserved());
       balances.add(balance);
 
     }

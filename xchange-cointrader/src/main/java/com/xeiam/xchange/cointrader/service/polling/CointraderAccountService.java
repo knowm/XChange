@@ -21,7 +21,7 @@ public class CointraderAccountService extends CointraderAccountServiceRaw implem
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return CointraderAdapters.adaptAccountInfo(getCointraderBalance(), exchange.getExchangeSpecification().getUserName());
+    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), CointraderAdapters.adaptWallet(getCointraderBalance()));
   }
 
   @Override

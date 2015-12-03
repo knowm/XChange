@@ -1,5 +1,6 @@
 package com.xeiam.xchange.gatecoin;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -47,13 +48,14 @@ public final class GatecoinAdapters {
    * @param gatecoinBalances
    * @return The account info
    */
-  public static Wallet adaptWallet(GatecoinBalance[] gatecoinBalances {
+  public static Wallet adaptWallet(GatecoinBalance[] gatecoinBalances) {
 
     ArrayList<Balance> balances = new ArrayList<Balance>();
 
     for (GatecoinBalance balance : gatecoinBalances) {
-      String ccy = balance.getCurrency();
-      balances.add(new Balance(ccy, balance.getBalance(), balance.getAvailableBalance(), balance.getOpenOrder()));
+      Currency ccy = Currency.getInstance(balance.getCurrency());
+      balances.add(new Balance.Builder().currency(ccy).total(balance.getBalance()).available(balance.getAvailableBalance())
+          .frozen(balance.getOpenOrder().negate()).withdrawing(balance.getPendingOutgoing().negate()).depositing(balance.getPendingIncoming().negate()).build());
     }
     return new Wallet(balances);
   }

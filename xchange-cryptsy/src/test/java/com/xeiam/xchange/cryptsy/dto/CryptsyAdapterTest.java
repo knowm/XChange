@@ -228,22 +228,22 @@ public class CryptsyAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CryptsyAccountInfoReturn accountInfo = mapper.readValue(is, CryptsyAccountInfoReturn.class);
 
-    Wallet adaptedWallet = CryptsyAdapters.adaptAccountInfo(accountInfo);
+    Wallet adaptedWallet = CryptsyAdapters.adaptWallet(accountInfo);
 
-    List<Balance> balances = adaptedWallet.getBalancesList();
+    Map<Currency,Balance> balances = adaptedWallet.getBalances();
     assertEquals(balances.size(), 300);
-    for (Balance balance : balances) {
-      if (balance.getCurrency().equals("BTC")) {
+    for (Balance balance : balances.values()) {
+      if (balance.getCurrency().equals(Currency.BTC)) {
         assertEquals(balance.getTotal(), new BigDecimal("0.05567153"));
         assertEquals(balance.getAvailable(), new BigDecimal("0.05466078"));
         assertEquals(balance.getFrozen(), new BigDecimal("0.00101075"));
       }
-      if (balance.getCurrency().equals("ZRC")) {
+      if (balance.getCurrency().equals(Currency.ZRC)) {
         assertEquals(balance.getTotal(), new BigDecimal("206.64328423"));
         assertEquals(balance.getAvailable(), new BigDecimal("204.94509877"));
         assertEquals(balance.getFrozen(), new BigDecimal("1.69818546"));
       }
-      if (balance.getCurrency().equals("XPM")) {
+      if (balance.getCurrency().equals(Currency.XPM)) {
         assertEquals(balance.getTotal(), new BigDecimal("17.46835803"));
         assertEquals(balance.getAvailable(), new BigDecimal("17.46835803"));
         assertEquals(balance.getFrozen(), new BigDecimal("0"));

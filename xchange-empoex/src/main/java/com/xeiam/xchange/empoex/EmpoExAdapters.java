@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.Wallet;
@@ -90,7 +91,7 @@ public final class EmpoExAdapters {
     for (EmpoExBalance empoExBalance : raw) {
 
       BigDecimal balance = new BigDecimal(empoExBalance.getAmount().replace(",", ""));
-      balances.add(new Balance(empoExBalance.getCoin().toUpperCase(), balance));
+      balances.add(new Balance(Currency.getInstance(empoExBalance.getCoin().toUpperCase()), balance));
     }
 
     return new Wallet(null, balances);

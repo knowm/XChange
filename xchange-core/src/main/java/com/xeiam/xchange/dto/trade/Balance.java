@@ -20,13 +20,14 @@ public final class Balance implements Comparable<Balance> {
   private final Currency currency;
 
   // Invariant:
-  // total = available + frozen - borrowed + loaned + transferring;
+  // total = available + frozen - borrowed + loaned + withdrawing + depositing;
   private final BigDecimal total;
   private final BigDecimal available;
   private final BigDecimal frozen;
   private final BigDecimal loaned;
   private final BigDecimal borrowed;
-  private final BigDecimal transferring;
+  private final BigDecimal withdrawing;
+  private final BigDecimal depositing;
 
   /**
    * Returns a zero balance.
@@ -36,7 +37,7 @@ public final class Balance implements Comparable<Balance> {
    */
   public static Balance zero(Currency currency) {
 
-    return new Balance(currency, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+    return new Balance(currency, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
   }
 
   /**
@@ -48,7 +49,7 @@ public final class Balance implements Comparable<Balance> {
    */
   public Balance(Currency currency, BigDecimal total) {
 
-    this(currency, total, total, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+    this(currency, total, total, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
   }
 
   /**
@@ -61,7 +62,7 @@ public final class Balance implements Comparable<Balance> {
    */
   public Balance(Currency currency, BigDecimal total, BigDecimal available) {
 
-    this(currency, total, available, total.add(available.negate()), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+    this(currency, total, available, total.add(available.negate()), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
   }
 
   /**
@@ -75,7 +76,7 @@ public final class Balance implements Comparable<Balance> {
    */
   public Balance(Currency currency, BigDecimal total, BigDecimal available, BigDecimal frozen) {
 
-    this(currency, total, available, frozen, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+    this(currency, total, available, frozen, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
   }
 
   /**
@@ -87,15 +88,16 @@ public final class Balance implements Comparable<Balance> {
    * @param frozen the frozen amount of the <code>currency</code> in this balance that is locked in trading.
    * @param borrowed the borrowed amount of the available <code>currency</code> in this balance that must be repaid.
    * @param loaned the loaned amount of the total <code>currency</code> in this balance that will be returned.
-   * @param transferring the amount of the <code>currency</code> in this balance that is locked in a transfer.
+   * @param withdrawing the amount of the <code>currency</code> in this balance that is scheduled for withdrawal.
+   * @param depositing the amount of the <code>currency</code> in this balance that is being deposited but not available yet.
    */
   public Balance(Currency currency, BigDecimal total, BigDecimal available, BigDecimal frozen, BigDecimal borrowed, BigDecimal loaned,
-      BigDecimal transferring) {
+      BigDecimal withdrawing, BigDecimal depositing) {
 
     if (total != null && available != null) {
-      BigDecimal sum = available.add(frozen).subtract(borrowed).add(loaned).add(transferring);
+      BigDecimal sum = available.add(frozen).subtract(borrowed).add(loaned).add(withdrawing).add(depositing);
       if (!total.equals(sum)) {
-        throw new IllegalArgumentException("total != available + frozen - borrowed + loaned + transferring");
+        throw new IllegalArgumentException("total != available + frozen - borrowed + loaned + withdrawing + depositing");
       }
     }
     this.currency = currency;
@@ -104,7 +106,8 @@ public final class Balance implements Comparable<Balance> {
     this.frozen = frozen;
     this.borrowed = borrowed;
     this.loaned = loaned;
-    this.transferring = transferring;
+    this.withdrawing = withdrawing;
+    this.depositing = depositing;
   }
 
   public Currency getCurrency() {
@@ -120,7 +123,7 @@ public final class Balance implements Comparable<Balance> {
   public BigDecimal getTotal() {
 
     if (total == null) {
-      return available.add(frozen).subtract(borrowed).add(loaned).add(transferring);
+      return available.add(frozen).subtract(borrowed).add(loaned).add(withdrawing).add(depositing);
     } else {
       return total;
     }
@@ -134,7 +137,7 @@ public final class Balance implements Comparable<Balance> {
   public BigDecimal getAvailable() {
 
     if (available == null) {
-      return total.subtract(frozen).subtract(loaned).add(borrowed).subtract(transferring);
+      return total.subtract(frozen).subtract(loaned).add(borrowed).subtract(withdrawing).subtract(depositing);
     } else {
       return available;
     }
@@ -174,20 +177,30 @@ public final class Balance implements Comparable<Balance> {
   }
 
   /**
-   * Returns the amount of the <code>currency</code> in this balance that is locked in a transfer.
+   * Returns the amount of the <code>currency</code> in this balance that is locked in withdrawal
    *
-   * @return the amount in transfer.
+   * @return the amount in withdrawal.
    */
-  public BigDecimal getTransferring() {
+  public BigDecimal getWithdrawing() {
 
-    return transferring;
+    return withdrawing;
+  }
+
+  /**
+   * Returns the amount of the <code>currency</code> in this balance that is locked in deposit
+   *
+   * @return the amount in deposit.
+   */
+  public BigDecimal getDepositing() {
+
+    return depositing;
   }
 
   @Override
   public String toString() {
 
     return "Balance [currency=" + currency + ", total=" + total + ", available=" + available + ", frozen=" + frozen + ", borrowed="
-        + borrowed + ", loaned=" + loaned + ", transferring=" + transferring + "]";
+        + borrowed + ", loaned=" + loaned + ", withdrawing=" + withdrawing + ", depositing=" + depositing + "]";
   }
 
   @Override
@@ -201,7 +214,8 @@ public final class Balance implements Comparable<Balance> {
     result = prime * result + ((frozen == null) ? 0 : frozen.hashCode());
     result = prime * result + ((borrowed == null) ? 0 : borrowed.hashCode());
     result = prime * result + ((loaned == null) ? 0 : loaned.hashCode());
-    result = prime * result + ((transferring == null) ? 0 : transferring.hashCode());
+    result = prime * result + ((withdrawing == null) ? 0 : withdrawing.hashCode());
+    result = prime * result + ((depositing == null) ? 0 : depositing.hashCode());
     return result;
   }
 
@@ -260,11 +274,18 @@ public final class Balance implements Comparable<Balance> {
     } else if (!loaned.equals(other.loaned)) {
       return false;
     }
-    if (transferring == null) {
-      if (other.transferring != null) {
+    if (withdrawing == null) {
+      if (other.withdrawing != null) {
         return false;
       }
-    } else if (!transferring.equals(other.transferring)) {
+    } else if (!withdrawing.equals(other.withdrawing)) {
+      return false;
+    }
+    if (depositing == null) {
+      if (other.depositing != null) {
+        return false;
+      }
+    } else if (!depositing.equals(other.depositing)) {
       return false;
     }
     return true;
@@ -291,7 +312,10 @@ public final class Balance implements Comparable<Balance> {
     comparison = loaned.compareTo(other.loaned);
     if (comparison != 0)
       return comparison;
-    comparison = transferring.compareTo(other.transferring);
+    comparison = withdrawing.compareTo(other.withdrawing);
+    if (comparison != 0)
+      return comparison;
+    comparison = depositing.compareTo(other.depositing);
     return comparison;
   }
 
@@ -303,11 +327,12 @@ public final class Balance implements Comparable<Balance> {
     private BigDecimal frozen;
     private BigDecimal borrowed = BigDecimal.ZERO;
     private BigDecimal loaned = BigDecimal.ZERO;
-    private BigDecimal transferring = BigDecimal.ZERO;
+    private BigDecimal withdrawing = BigDecimal.ZERO;
+    private BigDecimal depositing = BigDecimal.ZERO;
 
     public static Builder from(Balance balance) {
 
-      return new Builder().currency(balance.getCurrency()).available(balance.getAvailable()).frozen(balance.getFrozen()).borrowed(balance.getBorrowed()).loaned(balance.getLoaned()).transferring(balance.getTransferring());
+      return new Builder().currency(balance.getCurrency()).available(balance.getAvailable()).frozen(balance.getFrozen()).borrowed(balance.getBorrowed()).loaned(balance.getLoaned()).withdrawing(balance.getWithdrawing()).depositing(balance.getDepositing());
     }
 
     public Builder currency(Currency currency) {
@@ -346,9 +371,15 @@ public final class Balance implements Comparable<Balance> {
       return this;
     }
 
-    public Builder transferring(BigDecimal transferring) {
+    public Builder withdrawing(BigDecimal withdrawing) {
 
-      this.transferring = transferring;
+      this.withdrawing = withdrawing;
+      return this;
+    }
+
+    public Builder depositing(BigDecimal depositing) {
+
+      this.depositing = depositing;
       return this;
     }
 
@@ -360,7 +391,7 @@ public final class Balance implements Comparable<Balance> {
         }
       }
 
-      return new Balance(currency, total, available, frozen, borrowed, loaned, transferring);
+      return new Balance(currency, total, available, frozen, borrowed, loaned, withdrawing, depositing);
     }
   }
 }

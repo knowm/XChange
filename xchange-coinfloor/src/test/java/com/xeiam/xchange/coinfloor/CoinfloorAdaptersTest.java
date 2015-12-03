@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Assert;
 import org.junit.Test;
@@ -45,8 +46,8 @@ public class CoinfloorAdaptersTest {
 
     Map<String, Object> testObj = coinfloorAdapters.adaptBalances(result);
 
-    Assert.assertEquals(BigDecimal.valueOf(100014718, 4), ((Wallet) testObj.get("generic")).getBalanceTotal("BTC"));
-    Assert.assertEquals(BigDecimal.valueOf(931913, 2), ((Wallet) testObj.get("generic")).getBalanceTotal("GBP"));
+    Assert.assertEquals(BigDecimal.valueOf(100014718, 4), ((Wallet) testObj.get("generic")).getBalance(Currency.BTC).getTotal());
+    Assert.assertEquals(BigDecimal.valueOf(931913, 2), ((Wallet) testObj.get("generic")).getBalance(Currency.GBP).getTotal());
   }
 
   @Test
@@ -261,7 +262,7 @@ public class CoinfloorAdaptersTest {
 
     Map<String, Object> testObj = coinfloorAdapters.adaptBalancesChanged(result);
 
-    Assert.assertEquals(BigDecimal.valueOf(990000, 2), ((Wallet) testObj.get("generic")).getBalanceTotal("GBP"));
+    Assert.assertEquals(BigDecimal.valueOf(990000, 2), ((Wallet) testObj.get("generic")).getBalance(Currency.GBP).getTotal());
   }
 
   /**

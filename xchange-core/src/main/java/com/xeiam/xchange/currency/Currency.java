@@ -218,6 +218,7 @@ public class Currency implements Comparable <Currency> {
   public static final Currency YER = createCurrency("YER", "Yemeni Rial", null);
   public static final Currency ZAR = createCurrency("ZAR", "South African Rand", null);
   public static final Currency ZMK = createCurrency("ZMK", "Zambian Kwacha", null);
+  public static final Currency ZRC = createCurrency("ZRC", "ziftrCOIN", null);
   public static final Currency ZWL = createCurrency("ZWL", "Zimbabwean Dollar", null);
 
 

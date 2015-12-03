@@ -130,8 +130,8 @@ public final class ItBitAdapters {
       for (int j = 0; j < balances.length; j++) {
         ItBitAccountBalance itBitAccountBalance = balances[j];
 
-        Balance balance = new Balance(itBitAccountBalance.getCurrency(), itBitAccountBalance.getTotalBalance(),
-            itBitAccountBalance.getAvailableBalance());
+        Currency currency = Currency.getInstance(itBitAccountBalance.getCurrency());
+        Balance balance = new Balance(currency, itBitAccountBalance.getTotalBalance(), itBitAccountBalance.getAvailableBalance());
         walletContent.add(balance);
       }
 

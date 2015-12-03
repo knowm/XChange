@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -100,12 +101,11 @@ public class BitcurexAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcurexFunds bitcurexFunds = mapper.readValue(is, BitcurexFunds.class);
 
-    Wallet wallet = BitcurexAdapters.adaptAccountInfo(bitcurexFunds, "demo");
+    Wallet wallet = BitcurexAdapters.adaptWallet(bitcurexFunds);
     System.out.println(wallet.toString());
 
-    assertThat(wallet.getBalanceTotal("BTC").compareTo(new BigDecimal("2.59033845")) == 0);
-    assertThat(wallet.getBalanceTotal("EUR").compareTo(new BigDecimal("6160.06838790")) == 0);
-    assertThat(wallet.getId().toString()).isEqualTo("demo");
+    assertThat(wallet.getBalance(Currency.BTC).getTotal().compareTo(new BigDecimal("2.59033845")) == 0);
+    assertThat(wallet.getBalance(Currency.EUR).getTotal().compareTo(new BigDecimal("6160.06838790")) == 0);
   }
 
   @Test
@@ -118,12 +118,11 @@ public class BitcurexAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     BitcurexFunds bitcurexFunds = mapper.readValue(is, BitcurexFunds.class);
 
-    Wallet wallet = BitcurexAdapters.adaptAccountInfo(bitcurexFunds, "demo");
+    Wallet wallet = BitcurexAdapters.adaptWallet(bitcurexFunds);
     System.out.println(wallet.toString());
 
-    assertThat(wallet.getBalanceTotal("BTC").compareTo(new BigDecimal("2.59033845")) == 0);
-    assertThat(wallet.getBalanceTotal("PLN").compareTo(new BigDecimal("6160.06838790")) == 0);
-    assertThat(wallet.getId().toString()).isEqualTo("demo");
+    assertThat(wallet.getBalance(Currency.BTC).getTotal().compareTo(new BigDecimal("2.59033845")) == 0);
+    assertThat(wallet.getBalance(Currency.PLN).getTotal().compareTo(new BigDecimal("6160.06838790")) == 0);
   }
 
 }

@@ -38,12 +38,12 @@ public final class BitsoAdapters {
         .vwap(t.getVwap()).volume(t.getVolume()).timestamp(t.getTimestamp()).build();
   }
 
-  public static Wallet adaptAccountInfo(BitsoBalance bitsoBalance, String userName) {
+  public static Wallet adaptWallet(BitsoBalance bitsoBalance) {
     // Adapt to XChange DTOs
     Balance mxnBalance = new Balance(Currency.MXN, bitsoBalance.getMxnBalance(), bitsoBalance.getMxnAvailable(), bitsoBalance.getMxnReserved());
     Balance btcBalance = new Balance(Currency.BTC, bitsoBalance.getBtcBalance(), bitsoBalance.getBtcAvailable(), bitsoBalance.getBtcReserved());
 
-    return new Wallet(userName, Arrays.asList(mxnBalance, btcBalance));
+    return new Wallet(mxnBalance, btcBalance);
   }
 
   public static OrderBook adaptOrderBook(BitsoOrderBook bitsoOrderBook, CurrencyPair currencyPair, int timeScale) {

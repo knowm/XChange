@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.hitbtc.HitbtcExampleUtils;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
@@ -23,8 +24,8 @@ public class HitbtcAccountDemo {
 
   private static void generic(PollingAccountService accountService) throws IOException {
 
-    Wallet wallet = accountService.getAccountInfo();
-    System.out.println(wallet);
+    AccountInfo accountInfo = accountService.getAccountInfo();
+    System.out.println(accountInfo);
   }
 
   private static void raw(HitbtcAccountServiceRaw accountService) throws IOException {

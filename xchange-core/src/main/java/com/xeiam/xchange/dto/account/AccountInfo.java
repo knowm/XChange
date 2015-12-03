@@ -36,6 +36,7 @@ public final class AccountInfo {
    */
   public AccountInfo(Wallet... wallets) {
 
+    // TODO when separating out features, change this constructor to require two wallets to catch services which don't actually provide this feature
     this(null, (BigDecimal)null, wallets);
   }
 
@@ -81,7 +82,7 @@ public final class AccountInfo {
       Wallet wallet = wallets.iterator().next();
       this.wallets = Collections.singletonMap(wallet.getId(), wallet);
     } else {
-      this.wallets = new TreeMap<String,Wallet>();
+      this.wallets = new HashMap<String,Wallet>();
       for (Wallet wallet : wallets) {
         if (this.wallets.containsKey(wallet.getId()))
           throw new IllegalArgumentException("duplicate wallets passed to AccountInfo");

@@ -135,12 +135,12 @@ public class LakeBTCAdapters {
   }
 
   /**
-   * Adapts a LakeBTCAccount to a Wallet
+   * Adapts a LakeBTCAccount to an AccountInfo
    *
    * @param lakeBTCAccount
    * @return Wallet
    */
-  public static Wallet adaptWallet(LakeBTCAccount lakeBTCAccount) {
+  public static AccountInfo adaptAccountInfo(LakeBTCAccount lakeBTCAccount) {
 
     // Adapt to XChange DTOs
     LakeBTCProfile profile = lakeBTCAccount.getProfile();
@@ -149,6 +149,6 @@ public class LakeBTCAdapters {
     Balance cnyWBalance = new Balance(Currency.CNY, balance.getCNY());
     Balance btcBalance = new Balance(Currency.BTC, balance.getBTC());
 
-    return new Wallet(usdBalance, btcBalance, cnyWBalance);
+    return new AccountInfo(profile.getId(), new Wallet(usdBalance, btcBalance, cnyWBalance));
   }
 }

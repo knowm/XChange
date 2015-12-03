@@ -107,7 +107,7 @@ public class BleutradeAdapters {
     List<Balance> balances = new ArrayList<Balance>();
 
     for (BleutradeBalance bleutradeBalance : bleutradeBalances) {
-        balances.add(new Balance(bleutradeBalance.getCurrency(), bleutradeBalance.getBalance(), bleutradeBalance.getAvailable(), bleutradeBalance.getPending()));
+        balances.add(new Balance(Currency.getInstance(bleutradeBalance.getCurrency()), bleutradeBalance.getBalance(), bleutradeBalance.getAvailable(), bleutradeBalance.getPending()));
 
     }
 

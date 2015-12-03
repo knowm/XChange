@@ -148,7 +148,7 @@ public final class BTERAdapters {
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
       Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
       BigDecimal amount = funds.getValue();
-      BigDecimal locked = bterAccountInfo.getLockedFunds().get(currency);
+      BigDecimal locked = bterAccountInfo.getLockedFunds().get(currency.toString());
 
       balances.add(new Balance(currency, null, amount, locked == null ? BigDecimal.ZERO : locked));
     }

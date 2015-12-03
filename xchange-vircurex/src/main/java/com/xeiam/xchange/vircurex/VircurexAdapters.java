@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -55,8 +56,9 @@ public final class VircurexAdapters {
     Map<String, Map<String, BigDecimal>> funds = vircurexAccountInfo.getAvailableFunds();
 
     for (String lcCurrency : funds.keySet()) {
-      String currency = lcCurrency.toUpperCase();
-      balances.add(new Balance(currency, funds.get(lcCurrency).get("availablebalance")));
+      Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
+      // TODO does vircurex offer total balance as well? the api page lists two output keys
+      balances.add(new Balance(currency, null, funds.get(lcCurrency).get("availablebalance")));
     }
     return new AccountInfo(new Wallet(balances));
   }

@@ -41,7 +41,7 @@ public final class CointraderAdapters {
   private CointraderAdapters() {
   }
 
-  public static Wallet adaptWallet(Map<String, CointraderBalance> balances, String userName) {
+  public static Wallet adaptWallet(Map<String, CointraderBalance> balances) {
     List<Balance> wallet = new ArrayList<Balance>(balances.size());
     for (String currency : balances.keySet()) {
       Currency xchangeCurrency = Currency.getInstance(currency);

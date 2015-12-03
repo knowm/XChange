@@ -2,6 +2,7 @@ package com.xeiam.xchange.btce.v3.service.polling;
 
 import static org.junit.Assert.assertNotNull;
 
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Test;
 
@@ -24,7 +25,7 @@ public class AccountInfoFetchIntegration {
       return; // forces pass if not configuration is available
     PollingAccountService service = exchange.getPollingAccountService();
     assertNotNull(service);
-    Wallet info = service.getAccountInfo();
+    AccountInfo info = service.getAccountInfo();
     assertNotNull(info);
   }
 }

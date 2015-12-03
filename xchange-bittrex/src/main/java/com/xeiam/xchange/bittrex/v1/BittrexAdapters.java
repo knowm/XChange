@@ -7,6 +7,7 @@ import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTicker;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTrade;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrder;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexUserTrade;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.Wallet;
@@ -127,15 +128,15 @@ public final class BittrexAdapters {
         .build();
   }
 
-  public static Wallet adaptAccountInfo(List<BittrexBalance> balances) {
+  public static Wallet adaptWallet(List<BittrexBalance> balances) {
 
     List<Balance> wallets = new ArrayList<Balance>(balances.size());
 
     for (BittrexBalance balance : balances) {
-      wallets.add(new Balance(balance.getCurrency().toUpperCase(), balance.getBalance(), balance.getAvailable(), balance.getPending()));
+      wallets.add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getBalance(), balance.getAvailable(), balance.getPending()));
     }
 
-    return new Wallet(null, wallets);
+    return new Wallet(wallets);
   }
 
   public static List<UserTrade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {

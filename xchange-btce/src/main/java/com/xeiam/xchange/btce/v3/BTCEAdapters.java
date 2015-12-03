@@ -148,17 +148,17 @@ public final class BTCEAdapters {
         .timestamp(timestamp).build();
   }
 
-  public static Wallet adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {
+  public static Wallet adaptWallet(BTCEAccountInfo btceAccountInfo) {
 
     List<Balance> balances = new ArrayList<Balance>();
     Map<String, BigDecimal> funds = btceAccountInfo.getFunds();
 
     for (String lcCurrency : funds.keySet()) {
-      String currency = lcCurrency.toUpperCase();
+      Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
 
       balances.add(new Balance(currency, funds.get(lcCurrency)));
     }
-    return new Wallet(null, balances);
+    return new Wallet(balances);
   }
 
   public static OpenOrders adaptOrders(Map<Long, BTCEOrder> btceOrderMap) {

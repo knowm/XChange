@@ -49,7 +49,7 @@ public class CoinmateAccountService extends CoinmateAccountServiceRaw implements
   @Override
   public AccountInfo getAccountInfo()
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return CoinmateAdapters.adaptAccountInfo(getCoinmateBalance());
+    return new AccountInfo(CoinmateAdapters.adaptWallet(getCoinmateBalance()));
   }
 
   @Override

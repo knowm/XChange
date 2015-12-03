@@ -2,6 +2,7 @@ package com.xeiam.xchange.examples.coinsetter.account;
 
 import java.io.IOException;
 
+import com.xeiam.xchange.dto.account.AccountInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +28,8 @@ public class AccountDemo {
     Exchange coinsetter = CoinsetterExamplesUtils.getExchange(username, password, ipAddress);
     PollingAccountService accountService = coinsetter.getPollingAccountService();
 
-    Wallet wallet = accountService.getAccountInfo();
-    log.info("account info: {}", wallet);
+    AccountInfo accountInfo = accountService.getAccountInfo();
+    log.info("account info: {}", accountInfo);
 
     ((CoinsetterAccountService) accountService).logout();
   }

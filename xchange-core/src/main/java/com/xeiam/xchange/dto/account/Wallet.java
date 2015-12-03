@@ -130,6 +130,20 @@ public final class Wallet {
   }
 
   @Override
+  public boolean equals(Object object) {
+
+    if (object == this)
+      return true;
+    if (!(object instanceof Wallet))
+      return false;
+
+    Wallet wallet = (Wallet) object;
+    return Objects.equals(id, wallet.id) &&
+        Objects.equals(name, wallet.name) &&
+        balances.equals(wallet.balances);
+  }
+
+  @Override
   public String toString() {
 
     return "Wallet [id=" + id + ", name=" + name + ", balances=" + balances.values() + "]";

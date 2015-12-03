@@ -84,14 +84,14 @@ public final class MeXBTAdapters {
         .high(meXBTTicker.getHigh()).low(meXBTTicker.getLow()).volume(meXBTTicker.getVolume24Hour()).build();
   }
 
-  public static AccountInfo adaptWallet(MeXBTBalanceResponse balanceResponse) {
+  public static Wallet adaptWallet(MeXBTBalanceResponse balanceResponse) {
     List<Balance> wallet = new ArrayList<Balance>(balanceResponse.getCurrencies().length);
     for (MeXBTBalance mxbtBalance : balanceResponse.getCurrencies()) {
       Balance balance = new Balance.Builder().currency(Currency.getInstance(mxbtBalance.getName()))
           .available(mxbtBalance.getBalance()).frozen(mxbtBalance.getHold()) .build();
       wallet.add(balance);
     }
-    return new AccountInfo(new Wallet(wallet));
+    return new Wallet(wallet);
   }
 
   public static String getDepositAddress(MeXBTDepositAddressesResponse depositAddressesResponse, String currency) {

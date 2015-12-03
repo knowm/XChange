@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.xeiam.xchange.currency.Currency;
 import org.apache.commons.io.Charsets;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +28,6 @@ import quickfix.DataDictionary;
 import quickfix.FieldNotFound;
 import quickfix.Group;
 import quickfix.InvalidMessage;
-import quickfix.field.Currency;
 import quickfix.fix44.MarketDataIncrementalRefresh;
 import quickfix.fix44.MarketDataSnapshotFullRefresh;
 
@@ -100,19 +100,19 @@ public class BTCChinaFIXAdaptersTest {
     List<Group> groups = message.getGroups(Balance.FIELD);
     assertEquals(3, groups.size());
 
-    assertEquals("BTC", groups.get(0).getField(new Currency()).getValue());
+    assertEquals("BTC", groups.get(0).getField(new quickfix.field.Currency()).getValue());
     assertEquals(new BigDecimal("0.001"), groups.get(0).getField(new Amount()).getValue());
 
-    assertEquals("LTC", groups.get(1).getField(new Currency()).getValue());
+    assertEquals("LTC", groups.get(1).getField(new quickfix.field.Currency()).getValue());
     assertEquals(new BigDecimal("0"), groups.get(1).getField(new Amount()).getValue());
 
-    assertEquals("CNY", groups.get(2).getField(new Currency()).getValue());
+    assertEquals("CNY", groups.get(2).getField(new quickfix.field.Currency()).getValue());
     assertEquals(new BigDecimal("0"), groups.get(2).getField(new Amount()).getValue());
 
-    Wallet wallet = BTCChinaFIXAdapters.adaptAccountInfo(message);
-    assertEquals(new BigDecimal("0.001"), wallet.getBalanceTotal("BTC"));
-    assertEquals(new BigDecimal("0"), wallet.getBalanceTotal("LTC"));
-    assertEquals(new BigDecimal("0"), wallet.getBalanceTotal("CNY"));
+    Wallet wallet = BTCChinaFIXAdapters.adaptWallet(message);
+    assertEquals(new BigDecimal("0.001"), wallet.getBalance(Currency.BTC).getTotal());
+    assertEquals(new BigDecimal("0"), wallet.getBalance(Currency.LTC).getTotal());
+    assertEquals(new BigDecimal("0"), wallet.getBalance(Currency.CNY).getTotal());
   }
 
   private Ticker getTicker() throws IOException, InvalidMessage, FieldNotFound {

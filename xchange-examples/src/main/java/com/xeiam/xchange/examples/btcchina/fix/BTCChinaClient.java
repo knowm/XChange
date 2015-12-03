@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +52,7 @@ public class BTCChinaClient {
       }
 
       @Override
-      protected void onAccountInfo(String accReqId, Wallet accountInfo) {
+      protected void onAccountInfo(String accReqId, AccountInfo accountInfo) {
 
         log.info("accReqId: {}, accountInfo: {}", accReqId, accountInfo);
       };

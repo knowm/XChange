@@ -28,7 +28,7 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
   public AccountInfo getAccountInfo() throws IOException {
 
     List<BleutradeBalance> bleutradeBalances = getBleutradeBalances();
-    return BleutradeAdapters.adaptBleutradeBalances(bleutradeBalances);
+    return new AccountInfo(BleutradeAdapters.adaptBleutradeBalances(bleutradeBalances));
   }
 
   @Override

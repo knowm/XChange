@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
+import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -90,14 +91,14 @@ public class MeXBTAdaptersTest {
   }
 
   @Test
-  public void testAdaptAccountInfo() throws JsonParseException, JsonMappingException, IOException {
+  public void testAdaptWallet() throws JsonParseException, JsonMappingException, IOException {
     MeXBTBalanceResponse balanceResponse = new ObjectMapper().readValue(MeXBTBalanceResponseTest.class.getResource("balance.json"),
         MeXBTBalanceResponse.class);
-    AccountInfo accountInfo = MeXBTAdapters.adaptWallet(balanceResponse);
-    assertEquals(new BigDecimal("482198.87"), accountInfo.getWallet().getBalance(Currency.BTC).getAvailable());
-    assertEquals(new BigDecimal("482056"), accountInfo.getWallet().getBalance(Currency.BTC).getFrozen());
-    assertEquals(new BigDecimal("990119"), accountInfo.getWallet().getBalance(Currency.LTC).getAvailable());
-    assertEquals(new BigDecimal("11108"), accountInfo.getWallet().getBalance(Currency.LTC).getFrozen());
+    Wallet wallet = MeXBTAdapters.adaptWallet(balanceResponse);
+    assertEquals(new BigDecimal("482198.87"), wallet.getBalance(Currency.BTC).getAvailable());
+    assertEquals(new BigDecimal("482056"), wallet.getBalance(Currency.BTC).getFrozen());
+    assertEquals(new BigDecimal("990119"), wallet.getBalance(Currency.LTC).getAvailable());
+    assertEquals(new BigDecimal("11108"), wallet.getBalance(Currency.LTC).getFrozen());
   }
 
   @Test

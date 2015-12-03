@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -126,8 +127,8 @@ public final class HuobiAdapters {
     return new Wallet(cny, btc, ltc);
   }
 
-  public static Balance adaptBalance(String currency, BigDecimal available, BigDecimal frozen, BigDecimal loan) {
-    return new Balance(currency, null, available, frozen, loan, null, null);
+  public static Balance adaptBalance(Currency currency, BigDecimal available, BigDecimal frozen, BigDecimal loan) {
+    return new Balance(currency, null, available, frozen, loan, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
   }
 
   public static String adaptPlaceOrderResult(HuobiPlaceOrderResult result) {

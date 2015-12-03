@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEAccountServiceRaw;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -27,8 +28,8 @@ public class BTCEAccountInfoDemo {
     PollingAccountService accountService = exchange.getPollingAccountService();
 
     // Get the account information
-    Wallet wallet = accountService.getAccountInfo();
-    System.out.println("BTCE Wallet as String: " + wallet.toString());
+    AccountInfo accountInfo = accountService.getAccountInfo();
+    System.out.println("BTCE AccountInfo as String: " + accountInfo.toString());
   }
 
   private static void raw(Exchange exchange) throws IOException {
