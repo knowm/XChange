@@ -5,9 +5,9 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.gatecoin.GatecoinAdapters;
 import com.xeiam.xchange.gatecoin.dto.account.GatecoinDepositAddress;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.gatecoin.dto.account.Results.GatecoinDepositAddressResult;
 import com.xeiam.xchange.gatecoin.dto.account.Results.GatecoinWithdrawResult;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -30,7 +30,7 @@ public class GatecoinAccountService extends GatecoinAccountServiceRaw implements
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return GatecoinAdapters.adaptAccountInfo(getGatecoinBalance().getBalances(), exchange.getExchangeSpecification().getUserName());
+    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), GatecoinAdapters.adaptWallet(getGatecoinBalance().getBalances()));
   }
    
   @Override

@@ -13,12 +13,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @author
  */
-public class BitMarketAccountInfoJSONTest {
+public class BitMarketWalletJSONTest {
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = BitMarketAccountInfoJSONTest.class.getResourceAsStream("/account/example-info-data.json");
+    InputStream is = BitMarketWalletJSONTest.class.getResourceAsStream("/account/example-info-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

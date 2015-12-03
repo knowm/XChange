@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.meta.RateLimit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,6 @@ import com.xeiam.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
@@ -34,7 +34,7 @@ import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -148,17 +148,17 @@ public final class BTCEAdapters {
         .timestamp(timestamp).build();
   }
 
-  public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {
+  public static Wallet adaptWallet(BTCEAccountInfo btceAccountInfo) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
     Map<String, BigDecimal> funds = btceAccountInfo.getFunds();
 
     for (String lcCurrency : funds.keySet()) {
-      String currency = lcCurrency.toUpperCase();
+      Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
 
-      wallets.add(new Wallet(currency, funds.get(lcCurrency)));
+      balances.add(new Balance(currency, funds.get(lcCurrency)));
     }
-    return new AccountInfo(null, wallets);
+    return new Wallet(balances);
   }
 
   public static OpenOrders adaptOrders(Map<Long, BTCEOrder> btceOrderMap) {

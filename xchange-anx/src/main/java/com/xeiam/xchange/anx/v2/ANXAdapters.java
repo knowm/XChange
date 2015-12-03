@@ -14,17 +14,19 @@ import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
 import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResult;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -43,7 +45,7 @@ public final class ANXAdapters {
   }
 
   /**
-   * Adapts a ANXAccountInfo to a AccountInfo
+   * Adapts a ANXAccountInfo to an AccountInfo
    *
    * @param anxAccountInfo
    * @return
@@ -52,7 +54,7 @@ public final class ANXAdapters {
 
     // Adapt to XChange DTOs
     AccountInfo accountInfo = new AccountInfo(anxAccountInfo.getLogin(), percentToFactor(anxAccountInfo.getTradeFee()),
-        ANXAdapters.adaptWallets(anxAccountInfo.getWallets()));
+        ANXAdapters.adaptWallet(anxAccountInfo.getWallets()));
     return accountInfo;
   }
 
@@ -112,38 +114,38 @@ public final class ANXAdapters {
   }
 
   /**
-   * Adapts a ANX Wallet to a XChange Wallet
+   * Adapts a ANX Wallet to a XChange Balance
    *
    * @param anxWallet
    * @return
    */
-  public static Wallet adaptWallet(ANXWallet anxWallet) {
+  public static Balance adaptBalance(ANXWallet anxWallet) {
 
     if (anxWallet == null) { // use the presence of a currency String to indicate existing wallet at ANX
       return null; // an account maybe doesn't contain a ANXWallet
     } else {
-      return new Wallet(anxWallet.getBalance().getCurrency(), anxWallet.getBalance().getValue(), anxWallet.getAvailableBalance().getValue());
+      return new Balance(Currency.getInstance(anxWallet.getBalance().getCurrency()), anxWallet.getBalance().getValue(), anxWallet.getAvailableBalance().getValue());
     }
 
   }
 
   /**
-   * Adapts a List of ANX Wallets to a List of XChange Wallets
+   * Adapts a List of ANX Wallets to an XChange Wallet
    *
    * @param anxWallets
    * @return
    */
-  public static List<Wallet> adaptWallets(Map<String, ANXWallet> anxWallets) {
+  public static Wallet adaptWallet(Map<String, ANXWallet> anxWallets) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
 
     for (ANXWallet anxWallet : anxWallets.values()) {
-      Wallet wallet = adaptWallet(anxWallet);
-      if (wallet != null) {
-        wallets.add(wallet);
+      Balance balance = adaptBalance(anxWallet);
+      if (balance != null) {
+        balances.add(balance);
       }
     }
-    return wallets;
+    return new Wallet(balances);
 
   }
 

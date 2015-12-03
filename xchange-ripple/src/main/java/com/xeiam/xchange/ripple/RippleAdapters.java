@@ -3,30 +3,20 @@ package com.xeiam.xchange.ripple;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
-import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.trade.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.ripple.dto.RippleAmount;
 import com.xeiam.xchange.ripple.dto.account.ITransferFeeSource;
 import com.xeiam.xchange.ripple.dto.account.RippleAccountBalances;
@@ -62,24 +52,31 @@ public abstract class RippleAdapters {
   }
 
   /**
-   * Adapts a Ripple Account to an XChange AccountInfo object.
-   * <p>
-   * Counterparties are added to symbol since there is no other way of the application receiving this information.
+   * Adapts a Ripple Account to an XChange Wallet object.
    */
   public static AccountInfo adaptAccountInfo(final RippleAccountBalances account, final String username) {
-    // Adapt account balances to XChange wallets
-    final Map<Currency, Wallet> wallets = new TreeMap<Currency, Wallet>();
+
+    // Adapt account balances to XChange balances
+    final Map<String,List<Balance>> balances = new HashMap<String,List<Balance>>();
     for (final RippleBalance balance : account.getBalances()) {
-      final String currency;
+      final String walletId;
       if (balance.getCurrency().equals("XRP")) {
-        currency = balance.getCurrency();
+        walletId = null;
       } else {
-        currency = String.format("%s.%s", balance.getCurrency(), balance.getCounterparty());
+        walletId = balance.getCounterparty();
       }
-      final Wallet wallet = new Wallet(currency, balance.getValue());
-      wallets.put(wallet.getCurrency(), wallet);
+      if (!balances.containsKey(walletId)) {
+        balances.put(walletId, new LinkedList<Balance>());
+      }
+      balances.get(walletId).add(new Balance(Currency.getInstance(balance.getCurrency()), balance.getValue()));
     }
-    return new AccountInfo(username, BigDecimal.ZERO, wallets);
+
+    final List<Wallet> accountInfo = new ArrayList<Wallet>(balances.size());
+    for (final Map.Entry<String,List<Balance>> wallet : balances.entrySet()) {
+      accountInfo.add(new Wallet(wallet.getKey(), wallet.getValue()));
+    }
+
+    return new AccountInfo(username, BigDecimal.ZERO, accountInfo);
   }
 
   /**

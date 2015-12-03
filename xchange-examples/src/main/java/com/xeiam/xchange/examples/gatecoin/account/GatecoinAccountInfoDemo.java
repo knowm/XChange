@@ -3,7 +3,9 @@ package com.xeiam.xchange.examples.gatecoin.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.gatecoin.GatecoinDemoUtils;
 import com.xeiam.xchange.gatecoin.dto.account.GatecoinBalance;
 import com.xeiam.xchange.gatecoin.dto.account.Results.GatecoinBalanceResult;
@@ -27,8 +29,8 @@ public class GatecoinAccountInfoDemo {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("AccountInfo: " + accountInfo);
-    System.out.println("BTC balance: " + accountInfo.getWallet("BTC").getAvailable());
+    System.out.println("Wallet: " + accountInfo);
+    System.out.println("BTC balance: " + accountInfo.getWallet().getBalance(Currency.BTC).getAvailable());
   }
 
   private static void raw(GatecoinAccountServiceRaw accountService) throws IOException {

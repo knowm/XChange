@@ -3,15 +3,16 @@ package com.xeiam.xchange.coinmate.service.polling;
 import static org.junit.Assert.assertNotNull;
 
 import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.dto.account.AccountInfo;
 import org.junit.Test;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinmate.ExchangeUtils;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
- * Integration tests for AccountInfo retrieval. For these tests to function, a file 'exchangeConfiguration.json' must be on the classpath and contain
+ * Integration tests for Wallet retrieval. For these tests to function, a file 'exchangeConfiguration.json' must be on the classpath and contain
  * valid api and secret keys.
  */
 public class AccountInfoFetchIntegration {
@@ -27,12 +28,12 @@ public class AccountInfoFetchIntegration {
     assertNotNull(service);
     AccountInfo info = service.getAccountInfo();
     assertNotNull(info);
-    System.out.println("Balance BTC: " + info.getWallet(Currency.BTC).getBalance());
-    System.out.println("Available BTC: " + info.getWallet(Currency.BTC).getAvailable());
-    System.out.println("Reserved BTC: " + info.getWallet(Currency.BTC).getFrozen());
-    System.out.println("Balance EUR: " + info.getWallet(Currency.EUR).getBalance());
-    System.out.println("Available EUR: " + info.getWallet(Currency.EUR).getAvailable());
-    System.out.println("Reserved EUR: " + info.getWallet(Currency.EUR).getFrozen());
+    System.out.println("Balance BTC: " + info.getWallet().getBalance(Currency.BTC).getTotal());
+    System.out.println("Available BTC: " + info.getWallet().getBalance(Currency.BTC).getAvailable());
+    System.out.println("Reserved BTC: " + info.getWallet().getBalance(Currency.BTC).getFrozen());
+    System.out.println("Balance EUR: " + info.getWallet().getBalance(Currency.EUR).getTotal());
+    System.out.println("Available EUR: " + info.getWallet().getBalance(Currency.EUR).getAvailable());
+    System.out.println("Reserved EUR: " + info.getWallet().getBalance(Currency.EUR).getFrozen());
   }
 
   @Test

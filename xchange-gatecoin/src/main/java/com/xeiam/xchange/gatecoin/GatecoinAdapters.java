@@ -1,18 +1,19 @@
 package com.xeiam.xchange.gatecoin;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.gatecoin.dto.account.GatecoinBalance;
 import com.xeiam.xchange.gatecoin.dto.marketdata.GatecoinDepth;
 import com.xeiam.xchange.gatecoin.dto.marketdata.GatecoinTicker;
@@ -42,23 +43,21 @@ public final class GatecoinAdapters {
   }
 
   /**
-   * Adapts a GatecoinBalance to a AccountInfo
+   * Adapts a GatecoinBalance to a Wallet
    *
    * @param gatecoinBalances
-   * @param userName         The user name
    * @return The account info
    */
-  public static AccountInfo adaptAccountInfo(GatecoinBalance[] gatecoinBalances, String userName) {
+  public static Wallet adaptWallet(GatecoinBalance[] gatecoinBalances) {
 
-    ArrayList<Wallet> wallets = new ArrayList<Wallet>();
+    ArrayList<Balance> balances = new ArrayList<Balance>();
 
     for (GatecoinBalance balance : gatecoinBalances) {
-      String ccy = balance.getCurrency();
-      if (ccy.equalsIgnoreCase("btc") || ccy.equalsIgnoreCase("usd") || ccy.equalsIgnoreCase("hkd") || ccy.equalsIgnoreCase("eur")) {
-        wallets.add(new Wallet(ccy, balance.getBalance(), balance.getAvailableBalance(), balance.getOpenOrder()));
-      }
+      Currency ccy = Currency.getInstance(balance.getCurrency());
+      balances.add(new Balance.Builder().currency(ccy).total(balance.getBalance()).available(balance.getAvailableBalance())
+          .frozen(balance.getOpenOrder().negate()).withdrawing(balance.getPendingOutgoing().negate()).depositing(balance.getPendingIncoming().negate()).build());
     }
-    return new AccountInfo(userName, wallets);
+    return new Wallet(balances);
   }
 
   /**

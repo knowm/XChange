@@ -24,7 +24,7 @@ public class HuobiAccountService extends HuobiAccountServiceRaw implements Polli
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return HuobiAdapters.adaptHuobiAccountInfo(getHuobiAccountInfo());
+    return new AccountInfo(HuobiAdapters.adaptHuobiWallet(getHuobiAccountInfo()));
   }
 
   @Override

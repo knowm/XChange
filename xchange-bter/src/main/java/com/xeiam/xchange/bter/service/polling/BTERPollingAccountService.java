@@ -26,7 +26,7 @@ public class BTERPollingAccountService extends BTERPollingAccountServiceRaw impl
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return BTERAdapters.adaptAccountInfo(super.getBTERAccountInfo());
+    return new AccountInfo(BTERAdapters.adaptWallet(super.getBTERAccountInfo()));
   }
 
   @Override

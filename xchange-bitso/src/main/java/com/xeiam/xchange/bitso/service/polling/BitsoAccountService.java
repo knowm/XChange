@@ -23,7 +23,7 @@ public class BitsoAccountService extends BitsoAccountServiceRaw implements Polli
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return BitsoAdapters.adaptAccountInfo(getBitsoBalance(), exchange.getExchangeSpecification().getUserName());
+    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), BitsoAdapters.adaptWallet(getBitsoBalance()));
   }
 
   @Override

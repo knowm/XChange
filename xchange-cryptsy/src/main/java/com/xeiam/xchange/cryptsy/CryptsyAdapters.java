@@ -1,15 +1,10 @@
 package com.xeiam.xchange.cryptsy;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.dto.account.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +29,6 @@ import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistory;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -44,7 +38,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.account.Balance;
 
 /**
  * @author ObsessiveOrange
@@ -276,48 +270,43 @@ public final class CryptsyAdapters {
   }
 
   /**
-   * Adapts CryptsyAccountInfoReturn DTO to XChange standard AccountInfo DTO
+   * Adapts CryptsyAccountInfoReturn DTO to XChange standard Wallet DTO
    *
    * @param cryptsyAccountInfoReturn Raw returned data from Cryptsy, CryptsyAccountInfoReturn DTO
-   * @return Standard XChange AccountInfo DTO
+   * @return Standard XChange Wallet DTO
    */
-  public static AccountInfo adaptAccountInfo(CryptsyAccountInfoReturn cryptsyAccountInfoReturn) {
+  public static Wallet adaptWallet(CryptsyAccountInfoReturn cryptsyAccountInfoReturn) {
 
-    CryptsyAccountInfo cryptsyAccountInfo = cryptsyAccountInfoReturn.getReturnValue();
+    // TODO cryptsy also provides a server timestamp and a count of open orders, would either be good candidates for AccountInfo inclusion?
 
-    //List<Wallet> wallets = new ArrayList<Wallet>();
-    Map<String, BigDecimal> available = cryptsyAccountInfo.getAvailableFunds();
-    Map<String, BigDecimal> hold = cryptsyAccountInfo.getHoldFunds();
+    CryptsyAccountInfo cryptsyWallet = cryptsyAccountInfoReturn.getReturnValue();
 
-    Map<String, Wallet> walltes = new HashMap<>();
+    Map<String, Balance.Builder> builders = new HashMap<String, Balance.Builder>();
 
-    for (String lcCurrency : available.keySet()) {
-      BigDecimal balance = available.get(lcCurrency);
-      BigDecimal avail = available.get(lcCurrency);
-
-      walltes.put(lcCurrency, new Wallet(lcCurrency, balance, avail, BigDecimal.ZERO));
+    for (Map.Entry<String,BigDecimal> fund : cryptsyWallet.getAvailableFunds().entrySet()) {
+      String currency = fund.getKey();
+      BigDecimal balance = fund.getValue();
+      Balance.Builder builder = new Balance.Builder().currency(Currency.getInstance(currency));
+      builders.put(currency, builder.available(balance));
     }
 
-    if( hold != null ) {
-      for (String lcCurrency : hold.keySet()) {
-        BigDecimal frocen = hold.get(lcCurrency);
-
-        if (walltes.containsKey(lcCurrency)) {
-          //initialice new wallet. wallet have no setter
-          Wallet newWallet = new Wallet(lcCurrency, walltes.get(lcCurrency).getBalance().add(frocen), walltes.get(lcCurrency).getAvailable(), frocen);
-          //Remove old wallet
-          walltes.remove(lcCurrency);
-          //Add new wallet
-          walltes.put(lcCurrency, newWallet);
-        }else {
-          walltes.put(lcCurrency, new Wallet(lcCurrency, frocen, BigDecimal.ZERO, frocen));
-        }
+    for (Map.Entry<String,BigDecimal> fund : cryptsyWallet.getHoldFunds().entrySet()) {
+      String currency = fund.getKey();
+      BigDecimal balance = fund.getValue();
+      Balance.Builder builder = builders.get(currency);
+      if (builder == null) {
+        builder = new Balance.Builder().currency(Currency.getInstance(currency));
+        builders.put(currency, builder);
       }
+      builder.frozen(balance);
     }
 
+    List<Balance> balances = new LinkedList<Balance>();
 
+    for (Balance.Builder builder : builders.values())
+      balances.add(builder.build());
 
-    return new AccountInfo(null, new ArrayList<>(walltes.values()));
+    return new Wallet(balances);
 
   }
 

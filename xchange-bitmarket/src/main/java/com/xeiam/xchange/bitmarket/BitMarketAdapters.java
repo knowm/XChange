@@ -3,7 +3,6 @@ package com.xeiam.xchange.bitmarket;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,16 +18,13 @@ import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrder;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.*;
+import com.xeiam.xchange.dto.account.Balance;
 
 /**
  * @author kpysniak, kfonal
@@ -43,24 +39,23 @@ public class BitMarketAdapters {
   }
 
   /**
-   * Adapts BitMarketBalance to AccountInfo
+   * Adapts BitMarketBalance to Wallet
    *
    * @param balance
-   * @param username
    * @return
    */
-  public static AccountInfo adaptAccountInfo(BitMarketBalance balance, String username) {
+  public static Wallet adaptWallet(BitMarketBalance balance) {
 
-    Map<Currency, Wallet> wallets = new HashMap<Currency, Wallet>();
+    List<Balance> balances = new ArrayList<Balance>(balance.getAvailable().size());
 
     for (Map.Entry<String, BigDecimal> entry : balance.getAvailable().entrySet()) {
       Currency currency = Currency.getInstance(entry.getKey());
       BigDecimal frozen = balance.getBlocked().containsKey(entry.getKey()) ? balance.getBlocked().get(entry.getKey()) : new BigDecimal("0");
       BigDecimal available = entry.getValue();
-      wallets.put(currency, new Wallet(currency, available.add(frozen), available, frozen));
+      balances.add(new Balance(currency, available.add(frozen), available, frozen));
     }
 
-    return new AccountInfo(username, wallets);
+    return new Wallet(balances);
   }
 
   /**

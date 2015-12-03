@@ -35,7 +35,7 @@ public class CoinsetterAccountService extends CoinsetterBasePollingService imple
 
     CoinsetterClientSession session = getSession();
     CoinsetterAccount account = accountServiceRaw.get(session.getUuid(), getAccountUuid());
-    return CoinsetterAdapters.adaptAccountInfo(session.getUsername(), account);
+    return new AccountInfo(session.getUsername(), CoinsetterAdapters.adaptWallet(account));
   }
 
   @Override

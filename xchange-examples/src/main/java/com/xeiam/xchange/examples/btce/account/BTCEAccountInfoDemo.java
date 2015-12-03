@@ -6,6 +6,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.v3.service.polling.BTCEAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.btce.BTCEExamplesUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
@@ -38,7 +39,7 @@ public class BTCEAccountInfoDemo {
 
     // Get the account information
     BTCEAccountInfo accountInfo = accountService.getBTCEAccountInfo(null, null, null, null, null, null, null);
-    System.out.println("BTCE AccountInfo as String: " + accountInfo.toString());
+    System.out.println("BTCE Wallet as String: " + accountInfo.toString());
   }
 
 }

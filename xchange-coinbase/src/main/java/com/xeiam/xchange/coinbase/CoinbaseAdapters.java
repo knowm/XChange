@@ -14,14 +14,16 @@ import com.xeiam.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransferType;
 import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
  * jamespedwards42
@@ -35,13 +37,11 @@ public final class CoinbaseAdapters {
   public static AccountInfo adaptAccountInfo(CoinbaseUser user) {
 
     final String username = user.getEmail();
-    final CoinbaseMoney balance = user.getBalance();
-    final Wallet wallet = new Wallet(balance.getCurrency(), balance.getAmount());
-    final List<Wallet> wallets = new ArrayList<Wallet>();
-    wallets.add(wallet);
+    final CoinbaseMoney money = user.getBalance();
+    final Balance balance = new Balance(Currency.getInstance(money.getCurrency()), money.getAmount());
 
-    final AccountInfo accountInfo = new AccountInfo(username, wallets);
-    return accountInfo;
+    final AccountInfo accountInfoTemporaryName = new AccountInfo(username, new Wallet(balance));
+    return accountInfoTemporaryName;
   }
 
   public static UserTrades adaptTrades(CoinbaseTransfers transfers) {

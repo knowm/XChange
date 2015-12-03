@@ -68,7 +68,7 @@ public class CoinfloorDemo2 {
     // authenticate for rest of the demo
     ((CoinfloorStreamingExchangeService) streamingExchangeService).authenticate();
 
-    // request AccountInfo data (balances)
+    // request Wallet data (balances)
     resultMap = ((CoinfloorStreamingExchangeService) streamingExchangeService).getBalances().getPayload();
     System.out.println("\n\n\n\n\nUser balances returned: ");
     System.out.println("Raw Object: " + resultMap.get("raw"));

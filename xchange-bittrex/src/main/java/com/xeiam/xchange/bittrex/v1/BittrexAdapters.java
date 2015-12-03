@@ -7,16 +7,17 @@ import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTicker;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTrade;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrder;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexUserTrade;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -127,15 +128,15 @@ public final class BittrexAdapters {
         .build();
   }
 
-  public static AccountInfo adaptAccountInfo(List<BittrexBalance> balances) {
+  public static Wallet adaptWallet(List<BittrexBalance> balances) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>(balances.size());
+    List<Balance> wallets = new ArrayList<Balance>(balances.size());
 
     for (BittrexBalance balance : balances) {
-      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getBalance(), balance.getAvailable(), balance.getPending()));
+      wallets.add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getBalance(), balance.getAvailable(), balance.getPending()));
     }
 
-    return new AccountInfo(null, wallets);
+    return new Wallet(wallets);
   }
 
   public static List<UserTrade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {

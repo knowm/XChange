@@ -29,7 +29,7 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Polli
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return CexIOAdapters.adaptAccountInfo(getCexIOAccountInfo(), exchange.getExchangeSpecification().getUserName());
+    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), CexIOAdapters.adaptWallet(getCexIOAccountInfo()));
   }
 
   @Override

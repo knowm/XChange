@@ -11,10 +11,11 @@ import com.xeiam.xchange.clevercoin.dto.marketdata.CleverCoinOrderBook;
 import com.xeiam.xchange.clevercoin.dto.marketdata.CleverCoinTicker;
 import com.xeiam.xchange.clevercoin.dto.marketdata.CleverCoinTransaction;
 import com.xeiam.xchange.clevercoin.dto.trade.CleverCoinUserTransaction;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -23,7 +24,7 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -39,31 +40,29 @@ public final class CleverCoinAdapters {
   }
 
   /**
-   * Adapts a CleverCoinBalance to a AccountInfo
+   * Adapts a CleverCoinBalance to a Wallet
    *
    * @param cleverCoinBalance The CleverCoin balance
-   * @param userName The user name
    * @return The account info
    */
-  public static AccountInfo adaptAccountInfo(CleverCoinBalance[] cleverCoinBalance, String userName) {
+  public static Wallet adaptWallet(CleverCoinBalance[] cleverCoinBalance) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
 
     for (CleverCoinBalance currencybalance : cleverCoinBalance) {
-      wallets.add(new Wallet(currencybalance.getCurrency(), currencybalance.getBalance()));
+      balances.add(new Balance(Currency.getInstance(currencybalance.getCurrency()), currencybalance.getBalance()));
     }
 
     // Adapt to XChange DTOs
-    //Wallet usdWallet = new Wallet(Currency.USD, cleverCoinBalance.getUsdBalance());
-    //Wallet btcWallet = new Wallet(Currency.BTC, cleverCoinBalance.getBtcBalance());
-    return new AccountInfo(userName, wallets);
+    //Wallet usdWallet = new Wallet(Currencies.USD, cleverCoinBalance.getUsdBalance());
+    //Wallet btcWallet = new Wallet(Currencies.BTC, cleverCoinBalance.getBtcBalance());
+    return new Wallet(balances);
   }
 
   /**
    * Adapts a com.xeiam.xchange.clevercoin.api.model.OrderBook to a OrderBook Object
    *
    * @param currencyPair (e.g. BTC/USD)
-   * @param currency The currency (e.g. USD in BTC/USD)
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
@@ -123,7 +122,7 @@ public final class CleverCoinAdapters {
   /**
    * Adapts a Transaction to a Trade Object
    *
-   * @param transactions The CleverCoin transaction
+   * @param tx The CleverCoin transaction
    * @param currencyPair (e.g. BTC/USD)
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade
@@ -160,7 +159,7 @@ public final class CleverCoinAdapters {
   /**
    * Adapt the user's trades
    *
-   * @param CleverCoinUserTransactions
+   * @param cleverCoinUserTransactions
    * @return
    */
   public static UserTrades adaptTradeHistory(CleverCoinUserTransaction[] cleverCoinUserTransactions) {

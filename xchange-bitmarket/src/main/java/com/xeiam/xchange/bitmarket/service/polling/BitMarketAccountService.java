@@ -30,7 +30,7 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     BitMarketAccountInfo accountInfo = getBitMarketAccountInfo().getData();
-    return BitMarketAdapters.adaptAccountInfo(accountInfo.getBalance(), exchange.getExchangeSpecification().getUserName());
+    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), BitMarketAdapters.adaptWallet(accountInfo.getBalance()));
   }
 
   @Override

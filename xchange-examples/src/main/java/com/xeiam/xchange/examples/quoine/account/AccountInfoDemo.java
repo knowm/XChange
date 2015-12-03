@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.examples.quoine.QuoineExamplesUtils;
 import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
 import com.xeiam.xchange.quoine.service.polling.QuoineAccountServiceRaw;

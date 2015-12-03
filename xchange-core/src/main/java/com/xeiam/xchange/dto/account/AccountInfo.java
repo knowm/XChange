@@ -1,87 +1,67 @@
 package com.xeiam.xchange.dto.account;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.dto.trade.Wallet;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * <p>
  * DTO representing account information
  * </p>
  * <p>
- * Account information is associated with the current balances in various currencies held on the exchange.
+ * Account information is anything particular associated with the user's login
  * </p>
  */
 public final class AccountInfo {
 
-  // TODO get rid of this field?
+  /**
+   * The name on the account
+   */
   private final String username;
-  // TODO get rid of this field?
+
+  /**
+   * The current fee this account must pay as a fraction of the value of each trade.  Null if there is no such fee.
+   */
   private final BigDecimal tradingFee;
 
   /**
-   * @deprecated Use {@link #walletsMap} instead, this field will be deleted in XChange 4.0.0.
+   * The wallets owned by this account
    */
-  @Deprecated
-  private final List<Wallet> wallets;
+  private final Map<String, Wallet> wallets;
+
 
   /**
-   * TODO: from XChange 4.0.0, rename to wallets.
-   * <p>
-   * The keys represent the currency of the wallet.
+   * @see #AccountInfo(String,BigDecimal,Collection)
    */
-  private final Map<Currency, Wallet> walletsMap;
+  public AccountInfo(Wallet... wallets) {
+
+    // TODO when refactoring for separate feature interfaces, change this constructor to require at least two wallets
+    this(null, (BigDecimal)null, wallets);
+  }
 
   /**
-   * Constructor
-   *
-   * @param username The user name
-   * @param wallets The available wallets
-   * @deprecated Use {@link #AccountInfo(String, Map)} instead, this constructor will be deleted in XChange 4.0.0.
+   * @see #AccountInfo(String,BigDecimal,Collection)
    */
-  @Deprecated
-  public AccountInfo(String username, List<Wallet> wallets) {
+  public AccountInfo(Collection<Wallet> wallets) {
+
+    this(null, (BigDecimal)null, wallets);
+  }
+
+  /**
+   * @see #AccountInfo(String,BigDecimal,Collection)
+   */
+  public AccountInfo(String username, Wallet... wallets) {
 
     this(username, null, wallets);
   }
 
   /**
-   * @see #AccountInfo(String, BigDecimal, Iterable).
+   * @see #AccountInfo(String,BigDecimal,Collection)
    */
-  public AccountInfo(String username, Iterable<Wallet> wallets) {
+  public AccountInfo(String username, Collection<Wallet> wallets) {
+
     this(username, null, wallets);
-  }
-
-  /**
-   * @see #AccountInfo(String, BigDecimal, Map).
-   */
-  public AccountInfo(String username, Map<Currency, Wallet> wallets) {
-    this(username, null, wallets);
-  }
-
-  /**
-   * Constructor
-   *
-   * @param username The user name
-   * @param tradingFee the trading fee
-   * @param wallets The available wallets
-   * @deprecated Use {@link #AccountInfo(String, BigDecimal, Map)} instead, this constructor will be deleted in XChange 4.0.0.
-   */
-  @Deprecated
-  public AccountInfo(String username, BigDecimal tradingFee, List<Wallet> wallets) {
-
-    this.username = username;
-    this.tradingFee = tradingFee;
-    this.wallets = wallets;
-    this.walletsMap = new HashMap<Currency, Wallet>();
-    for (Wallet wallet : wallets) {
-      this.walletsMap.put(wallet.getCurrency(), wallet);
-    }
   }
 
   /**
@@ -89,31 +69,62 @@ public final class AccountInfo {
    *
    * @param username the user name.
    * @param tradingFee the trading fee.
-   * @param wallets the wallets, the currencies of the wallets should not be duplicated.
+   * @param wallets the user's wallets
    */
-  public AccountInfo(String username, BigDecimal tradingFee, Iterable<Wallet> wallets) {
+  public AccountInfo(String username, BigDecimal tradingFee, Collection<Wallet> wallets) {
+
     this.username = username;
     this.tradingFee = tradingFee;
-    this.wallets = new ArrayList<Wallet>();
-    this.walletsMap = new HashMap<Currency, Wallet>();
-    for (Wallet wallet : wallets) {
-      this.wallets.add(wallet);
-      this.walletsMap.put(wallet.getCurrency(), wallet);
+
+    if (wallets.size() == 0) {
+      this.wallets = Collections.emptyMap();
+    } else if (wallets.size() == 1) {
+      Wallet wallet = wallets.iterator().next();
+      this.wallets = Collections.singletonMap(wallet.getId(), wallet);
+    } else {
+      this.wallets = new HashMap<String,Wallet>();
+      for (Wallet wallet : wallets) {
+        if (this.wallets.containsKey(wallet.getId()))
+          throw new IllegalArgumentException("duplicate wallets passed to AccountInfo");
+        this.wallets.put(wallet.getId(), wallet);
+      }
     }
+
   }
 
   /**
-   * Constructs an {@link AccountInfo}.
-   *
-   * @param username the user name.
-   * @param tradingFee the trading fee.
-   * @param wallets the wallets, key is {@link Currency}.
+   * @see #AccountInfo(String,BigDecimal,Collection)
    */
-  public AccountInfo(String username, BigDecimal tradingFee, Map<Currency, Wallet> wallets) {
-    this.username = username;
-    this.tradingFee = tradingFee;
-    this.walletsMap = wallets;
-    this.wallets = new ArrayList<Wallet>(wallets.values());
+  public AccountInfo(String username, BigDecimal tradingFee, Wallet... wallets) {
+
+    this(username, tradingFee, Arrays.asList(wallets));
+  }
+
+  /**
+   * Gets all wallets in this account
+   */
+  public Map<String,Wallet> getWallets() {
+
+    return Collections.unmodifiableMap(wallets);
+  }
+
+  /**
+   * Gets wallet for accounts which don't use multiple wallets with ids
+   */
+  public Wallet getWallet() {
+
+    if (wallets.size() != 1)
+      throw new UnsupportedOperationException(wallets.size() + " wallets in account");
+
+    return getWallet(null);
+  }
+
+  /**
+   * Gets the wallet with a specific id
+   */
+  public Wallet getWallet(String id) {
+
+    return wallets.get(id);
   }
 
   /**
@@ -134,64 +145,9 @@ public final class AccountInfo {
     return tradingFee;
   }
 
-  /**
-   * @return The available wallets (balance and currency)
-   */
-  public List<Wallet> getWallets() {
-
-    // FIXME: from XChange 4.0.0 change to return the walletsMap.values()
-    return wallets;
-  }
-
-  /**
-   * Returns the wallet of the specified currency.
-   *
-   * @param currency one of the {@link Currency}.
-   * @return the wallet of the specified currency, or a zero balance wallet if no wallet with such currency.
-   */
-  public Wallet getWallet(Currency currency) {
-    Wallet wallet = this.walletsMap.get(currency);
-    return wallet == null ? Wallet.zero(currency) : wallet;
-  }
-
-  /**
-   * @deprecated use #getWallet(Currenct)
-   */
-  @Deprecated
-  public Wallet getWallet(String currency) {
-    return getWallet(Currency.getInstance(currency));
-  }
-
-  /**
-   * Utility method to locate an exchange balance in the given currency
-   *
-   * @param currencyUnit A valid currency unit (e.g. CurrencyUnit.USD or CurrencyUnit.of("BTC"))
-   * @return The balance, or zero if not found
-   * @deprecated Use {@link #getWallet(Currency)} instead.
-   */
-  @Deprecated
-  public BigDecimal getBalance(String currencyUnit) {
-
-    Currency currency = Currency.getInstance(currencyUnit);
-
-    return getBalance(currency);
-  }
-  @Deprecated
-  public BigDecimal getBalance(Currency currency) {
-
-    for (Wallet wallet : wallets) {
-      if (wallet.getCurrency().equals(currency)) {
-        return wallet.getBalance();
-      }
-    }
-
-    // Not found so treat as zero
-    return BigDecimal.ZERO;
-  }
-
   @Override
   public String toString() {
+
     return "AccountInfo [username=" + username + ", tradingFee=" + tradingFee + ", wallets=" + wallets + "]";
   }
-
 }

@@ -11,10 +11,10 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.poloniex.dto.account.PoloniexBalance;
 import com.xeiam.xchange.poloniex.dto.marketdata.*;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
@@ -96,16 +96,17 @@ public class PoloniexAdapters {
     return trade;
   }
 
-  public static List<Wallet> adaptPoloniexBalances(HashMap<String, PoloniexBalance> poloniexBalances) {
+  public static List<Balance> adaptPoloniexBalances(HashMap<String, PoloniexBalance> poloniexBalances) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
 
     for (Map.Entry<String, PoloniexBalance> item : poloniexBalances.entrySet()) {
 
-      wallets.add(new Wallet(item.getKey(), item.getValue().getAvailable().add(item.getValue().getOnOrders()), item.getValue().getAvailable(), item.getValue().getOnOrders()));
+      Currency currency = Currency.getInstance(item.getKey());
+      balances.add(new Balance(currency, null, item.getValue().getAvailable(), item.getValue().getOnOrders()));
     }
 
-    return wallets;
+    return balances;
   }
 
   public static OpenOrders adaptPoloniexOpenOrders(HashMap<String, PoloniexOpenOrder[]> poloniexOpenOrders) {

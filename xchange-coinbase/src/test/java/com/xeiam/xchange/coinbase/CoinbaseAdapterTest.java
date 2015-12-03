@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
+import com.xeiam.xchange.dto.account.Balance;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,11 +25,9 @@ import com.xeiam.xchange.coinbase.dto.trade.CoinbaseTransfers;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -37,10 +38,10 @@ public class CoinbaseAdapterTest {
   @Test
   public void testAdaptAccountInfo() throws IOException {
 
-    Wallet wallet = new Wallet("BTC", new BigDecimal("7.10770000"));
-    List<Wallet> wallets = new ArrayList<Wallet>();
-    wallets.add(wallet);
-    AccountInfo expectedAccountInfo = new AccountInfo("demo@demo.com", wallets);
+    Balance balance = new Balance(Currency.BTC, new BigDecimal("7.10770000"));
+    List<Balance> balances = new ArrayList<Balance>();
+    balances.add(balance);
+    AccountInfo expectedAccountInfo = new AccountInfo("demo@demo.com", new Wallet(balances));
 
     // Read in the JSON from the example resources
     InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/account/example-users-data.json");
@@ -53,6 +54,9 @@ public class CoinbaseAdapterTest {
     CoinbaseUser user = userList.get(0);
 
     AccountInfo accountInfo = CoinbaseAdapters.adaptAccountInfo(user);
+    //// fest bug: map fields are compared by values() which is always false
+    //assertThat(wallet).isLenientEqualsToByIgnoringFields(expectedWallet, "balances");
+    //assertThat(wallet.getBalance("BTC")).isEqualTo(expectedWallet.getBalance("BTC"));
     assertThat(accountInfo).isEqualsToByComparingFields(expectedAccountInfo);
   }
 

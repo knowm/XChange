@@ -21,17 +21,18 @@ import com.xeiam.xchange.coinfloor.dto.streaming.trade.CoinfloorCancelOrder;
 import com.xeiam.xchange.coinfloor.dto.streaming.trade.CoinfloorEstimateMarketOrder;
 import com.xeiam.xchange.coinfloor.dto.streaming.trade.CoinfloorOpenOrders;
 import com.xeiam.xchange.coinfloor.dto.streaming.trade.CoinfloorPlaceOrder;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
@@ -43,7 +44,7 @@ public class CoinfloorAdapters {
   private static final ObjectMapper streamObjectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
   private Object cachedDataSynchronizationObject = new Object();
-  private AccountInfo cachedAccountInfo;
+  private Wallet cachedWallet;
   private Trades cachedTrades;
   private OrderBook cachedOrderBook;
   private Ticker cachedTicker;
@@ -60,21 +61,21 @@ public class CoinfloorAdapters {
     }
     resultMap.put("raw", rawRetObj);
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
     List<CoinfloorAssetBalance> funds = rawRetObj.getBalances();
 
     for (CoinfloorAssetBalance assetBalancePair : funds) {
-      String currency = assetBalancePair.getAsset().toString();
+      Currency currency = Currency.getInstance(assetBalancePair.getAsset().toString());
       BigDecimal balance = assetBalancePair.getBalance();
 
-      wallets.add(new Wallet(currency, balance));
+      balances.add(new Balance(currency, balance));
     }
 
-    AccountInfo accountInfo = new AccountInfo(null, wallets);
+    Wallet wallet = new Wallet(null, balances);
     synchronized (cachedDataSynchronizationObject) {
-      cachedAccountInfo = accountInfo;
+      cachedWallet = wallet;
     }
-    resultMap.put("generic", accountInfo);
+    resultMap.put("generic", wallet);
 
     return resultMap;
   }
@@ -416,6 +417,8 @@ public class CoinfloorAdapters {
 
   public Map<String, Object> adaptBalancesChanged(String data) {
 
+    // TODO it appears coinfloor uses a wallet delta, can this be passed straight to the application in a standardized way?
+
     Map<String, Object> resultMap = new HashMap<String, Object>();
 
     CoinfloorAssetBalance rawRetObj;
@@ -425,53 +428,53 @@ public class CoinfloorAdapters {
       throw new ExchangeException("JSON parse error", e);
     }
 
-    List<Wallet> newWallets = new ArrayList<Wallet>();
-    AccountInfo accountInfo;
+    List<Balance> newBalances = new ArrayList<Balance>();
+    Wallet accountInfoTemporaryName;
 
     synchronized (cachedDataSynchronizationObject) {
-      if (cachedAccountInfo == null) {
-        String currency = rawRetObj.getAsset().toString();
+      if (cachedWallet == null) {
+        Currency currency = Currency.getInstance(rawRetObj.getAsset().toString());
         BigDecimal balance = rawRetObj.getBalance();
 
-        newWallets.add(new Wallet(currency, balance));
+        newBalances.add(new Balance(currency, balance));
       } else {
-        List<Wallet> oldWallets = cachedAccountInfo.getWallets();
-        for (Wallet wallet : oldWallets) {
-          if (wallet.getCurrency().equals(rawRetObj.getAsset())) {
-            String currency = rawRetObj.getAsset().toString();
+        Map<Currency, Balance> oldBalances = cachedWallet.getBalances();
+        for (Balance wallet : oldBalances.values()) {
+          if (wallet.getCurrency().toString().equals(rawRetObj.getAsset())) {
+            Currency currency = Currency.getInstance(rawRetObj.getAsset().toString());
             BigDecimal balance = rawRetObj.getBalance();
 
-            newWallets.add(new Wallet(currency, balance));
+            newBalances.add(new Balance(currency, balance));
           } else {
-            newWallets.add(wallet);
+            newBalances.add(wallet);
           }
         }
       }
 
-      accountInfo = new AccountInfo(null, newWallets);
-      cachedAccountInfo = accountInfo;
+      accountInfoTemporaryName = new Wallet(null, newBalances);
+      cachedWallet = accountInfoTemporaryName;
     }
 
-    resultMap.put("generic", accountInfo);
+    resultMap.put("generic", accountInfoTemporaryName);
     resultMap.put("raw", rawRetObj);
 
     return resultMap;
   }
 
   /**
-   * Experimental: USE WITH CAUTION. Adapters take every "BalancesUpdated" event, update local AccountInfo object with said new balance. This method
-   * will return that cached AccountInfo object.
+   * Experimental: USE WITH CAUTION. Adapters take every "BalancesUpdated" event, update local Wallet object with said new balance. This method
+   * will return that cached Wallet object.
    *
    * @return Trades object representing all OrdersMatched trades recieved.
    * @throws ExchangeException if getBalances method has not yet been called, or response has not been recieved.
    */
-  public AccountInfo getCachedAccountInfo() {
+  public Wallet getCachedWallet() {
 
     synchronized (cachedDataSynchronizationObject) {
-      if (cachedAccountInfo == null) {
+      if (cachedWallet == null) {
         throw new ExchangeException("getBalances method has not been called yet, or balance data has not been recieved!");
       }
-      return cachedAccountInfo;
+      return cachedWallet;
     }
   }
 

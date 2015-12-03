@@ -40,7 +40,7 @@ public class Currency implements Comparable <Currency> {
   public static final Currency BMD = createCurrency("BMD", "Bermudan Dollar", null);
   public static final Currency BND = createCurrency("BND", "Brunei Dollar", null);
   public static final Currency BOB = createCurrency("BOB", "Bolivian Boliviano", null);
-  public static final Currency BRL = createCurrency("BRL", "Brazilian Real", null);
+  public static final Currency BRL = createCurrency("BRL", "Brazilian Real", "R$");
   public static final Currency BSD = createCurrency("BSD", "Bahamian Dollar", null);
   public static final Currency BTC = createCurrency("BTC", "Bitcoin", null, "XBT");
   public static final Currency XBT = getInstance("XBT");
@@ -118,7 +118,8 @@ public class Currency implements Comparable <Currency> {
   public static final Currency LKR = createCurrency("LKR", "Sri Lankan Rupee", null);
   public static final Currency LRD = createCurrency("LRD", "Liberian Dollar", null);
   public static final Currency LSL = createCurrency("LSL", "Lesotho Loti", null);
-  public static final Currency LTC = createCurrency("LTC", "Litecoin", null);
+  public static final Currency LTC = createCurrency("LTC", "Litecoin", "XLT");
+  public static final Currency XLT = getInstance("XLT");
   public static final Currency LTL = createCurrency("LTL", "Lithuanian Litas", null);
   public static final Currency LVL = createCurrency("LVL", "Latvian Lats", null);
   public static final Currency LYD = createCurrency("LYD", "Libyan Dinar", null);
@@ -217,6 +218,7 @@ public class Currency implements Comparable <Currency> {
   public static final Currency YER = createCurrency("YER", "Yemeni Rial", null);
   public static final Currency ZAR = createCurrency("ZAR", "South African Rand", null);
   public static final Currency ZMK = createCurrency("ZMK", "Zambian Kwacha", null);
+  public static final Currency ZRC = createCurrency("ZRC", "ziftrCOIN", null);
   public static final Currency ZWL = createCurrency("ZWL", "Zimbabwean Dollar", null);
 
 

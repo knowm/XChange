@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcmarkets.service.polling.BTCMarketsAccountServiceRaw;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 
 public class BTCMarketsAccountDemo {
 

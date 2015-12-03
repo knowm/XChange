@@ -1,6 +1,6 @@
 package com.xeiam.xchange.mexbt.service.polling;
 
-import static com.xeiam.xchange.mexbt.MeXBTAdapters.adaptAccountInfo;
+import static com.xeiam.xchange.mexbt.MeXBTAdapters.adaptWallet;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -23,7 +23,7 @@ public class MeXBTAccountService extends MeXBTAccountServiceRaw implements Polli
    */
   @Override
   public AccountInfo getAccountInfo() throws ExchangeException, IOException {
-    return adaptAccountInfo(exchange.getExchangeSpecification().getUserName(), getBalance());
+    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), adaptWallet(getBalance()));
   }
 
   /**

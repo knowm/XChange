@@ -15,15 +15,13 @@ import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.*;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountBalance;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
@@ -118,7 +116,7 @@ public final class ItBitAdapters {
 
   public static AccountInfo adaptAccountInfo(ItBitAccountInfoReturn[] info) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Wallet> wallets = new ArrayList<Wallet>(info.length);
     String userId = "";
 
     for (int i = 0; i < info.length; i++) {
@@ -127,13 +125,18 @@ public final class ItBitAdapters {
 
       userId = itBitAccountInfoReturn.getUserId();
 
+      List<Balance> walletContent = new ArrayList<Balance>(balances.length);
+
       for (int j = 0; j < balances.length; j++) {
         ItBitAccountBalance itBitAccountBalance = balances[j];
 
-        Wallet wallet = new Wallet(itBitAccountBalance.getCurrency(), itBitAccountBalance.getTotalBalance(),
-            itBitAccountBalance.getAvailableBalance(), itBitAccountInfoReturn.getName());
-        wallets.add(wallet);
+        Currency currency = Currency.getInstance(itBitAccountBalance.getCurrency());
+        Balance balance = new Balance(currency, itBitAccountBalance.getTotalBalance(), itBitAccountBalance.getAvailableBalance());
+        walletContent.add(balance);
       }
+
+      Wallet wallet = new Wallet(itBitAccountInfoReturn.getId(), itBitAccountInfoReturn.getName(), walletContent);
+      wallets.add(wallet);
     }
 
     return new AccountInfo(userId, wallets);

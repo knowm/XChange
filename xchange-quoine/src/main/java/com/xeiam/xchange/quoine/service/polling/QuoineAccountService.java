@@ -38,11 +38,11 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Pol
   public AccountInfo getAccountInfo() throws IOException {
     if (useMargin) {
       QuoineTradingAccountInfo[] quoineTradingAccountInfo = getQuoineTradingAccountInfo();
-      return QuoineAdapters.adaptTradingAccountInfo(quoineTradingAccountInfo);
+      return new AccountInfo(QuoineAdapters.adaptTradingWallet(quoineTradingAccountInfo));
 
     } else {
       QuoineAccountInfo quoineAccountInfo = getQuoineAccountInfo();
-      return QuoineAdapters.adaptAccountinfo(quoineAccountInfo);
+      return new AccountInfo(QuoineAdapters.adaptWallet(quoineAccountInfo));
     }
   }
 

@@ -1,7 +1,7 @@
 package com.xeiam.xchange.poloniex.service.polling;
 
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.poloniex.PoloniexAdapters;
 import com.xeiam.xchange.poloniex.PoloniexException;
@@ -27,7 +27,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBasePollingService {
         super(exchange);
     }
 
-    public List<Wallet> getWallets() throws IOException {
+    public List<Balance> getWallets() throws IOException {
         try {
             HashMap<String, PoloniexBalance> response = poloniexAuthenticated.returnCompleteBalances(apiKey, signatureCreator, exchange.getNonceFactory());
             return PoloniexAdapters.adaptPoloniexBalances(response);

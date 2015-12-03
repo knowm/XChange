@@ -22,7 +22,7 @@ import com.xeiam.xchange.btctrade.dto.trade.BTCTradePlaceOrderResult;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -32,7 +32,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
@@ -142,22 +142,22 @@ public final class BTCTradeAdapters {
     return true;
   }
 
-  public static AccountInfo adaptAccountInfo(BTCTradeBalance balance) {
+  public static Wallet adaptWallet(BTCTradeBalance balance) {
 
     checkException(balance);
 
-    List<Wallet> wallets = new ArrayList<Wallet>(5);
-    wallets.add(new Wallet(Currency.BTC, nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved()), zeroIfNull(balance.getBtcBalance()),
+    List<Balance> balances = new ArrayList<Balance>(5);
+    balances.add(new Balance(Currency.BTC, nullSafeSum(balance.getBtcBalance(), balance.getBtcReserved()), zeroIfNull(balance.getBtcBalance()),
         zeroIfNull(balance.getBtcReserved())));
-    wallets.add(new Wallet(Currency.LTC, nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved()), zeroIfNull(balance.getLtcBalance()),
+    balances.add(new Balance(Currency.LTC, nullSafeSum(balance.getLtcBalance(), balance.getLtcReserved()), zeroIfNull(balance.getLtcBalance()),
         zeroIfNull(balance.getLtcReserved())));
-    wallets.add(new Wallet(Currency.DOGE, nullSafeSum(balance.getDogeBalance(), balance.getDogeReserved()), zeroIfNull(balance.getDogeBalance()),
+    balances.add(new Balance(Currency.DOGE, nullSafeSum(balance.getDogeBalance(), balance.getDogeReserved()), zeroIfNull(balance.getDogeBalance()),
         zeroIfNull(balance.getDogeReserved())));
-    wallets.add(new Wallet("YBC", nullSafeSum(balance.getYbcBalance(), balance.getYbcReserved()), zeroIfNull(balance.getYbcBalance()),
+    balances.add(new Balance(Currency.YBC, nullSafeSum(balance.getYbcBalance(), balance.getYbcReserved()), zeroIfNull(balance.getYbcBalance()),
         zeroIfNull(balance.getYbcReserved())));
-    wallets.add(new Wallet(Currency.CNY, nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved()), zeroIfNull(balance.getCnyBalance()),
+    balances.add(new Balance(Currency.CNY, nullSafeSum(balance.getCnyBalance(), balance.getCnyReserved()), zeroIfNull(balance.getCnyBalance()),
         zeroIfNull(balance.getCnyReserved())));
-    return new AccountInfo(null, wallets);
+    return new Wallet(balances);
   }
 
   static BigDecimal nullSafeSum(BigDecimal a, BigDecimal b) {

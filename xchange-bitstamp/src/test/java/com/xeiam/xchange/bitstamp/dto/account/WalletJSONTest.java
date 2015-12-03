@@ -13,13 +13,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Test BitStamp Full Depth JSON parsing
  */
-public class AccountInfoJSONTest {
+public class WalletJSONTest {
 
   @Test
   public void testUnmarshal() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = AccountInfoJSONTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
+    InputStream is = WalletJSONTest.class.getResourceAsStream("/account/example-accountinfo-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();

@@ -1,7 +1,5 @@
 package com.xeiam.xchange.hitbtc;
 
-import static com.xeiam.xchange.currency.Currency.DOGE;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,10 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.OrderBookUpdate;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -24,7 +23,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.hitbtc.dto.account.HitbtcBalance;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcIncrementalRefresh;
 import com.xeiam.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
@@ -280,19 +279,17 @@ public class HitbtcAdapters {
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
-  public static AccountInfo adaptAccountInfo(HitbtcBalance[] accountInfoRaw) {
+  public static Wallet adaptWallet(HitbtcBalance[] walletRaw) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>(accountInfoRaw.length);
+    List<Balance> balances = new ArrayList<Balance>(walletRaw.length);
 
-    for (int i = 0; i < accountInfoRaw.length; i++) {
-      HitbtcBalance balance = accountInfoRaw[i];
+    for (HitbtcBalance balanceRaw : walletRaw) {
 
-      Wallet wallet = new Wallet(balance.getCurrencyCode(), balance.getCash().add(balance.getReserved()), balance.getCash(), balance.getReserved(),
-          balance.getCurrencyCode());
-      wallets.add(wallet);
+      Balance balance = new Balance(Currency.getInstance(balanceRaw.getCurrencyCode()), null, balanceRaw.getCash(), balanceRaw.getReserved());
+      balances.add(balance);
 
     }
-    return new AccountInfo(null, wallets);
+    return new Wallet(balances);
   }
 
   public static String adaptCurrencyPair(CurrencyPair pair) {

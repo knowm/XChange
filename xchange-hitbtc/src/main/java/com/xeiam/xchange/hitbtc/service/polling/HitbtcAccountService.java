@@ -26,9 +26,9 @@ public class HitbtcAccountService extends HitbtcAccountServiceRaw implements Pol
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    HitbtcBalance[] accountInfoRaw = getAccountInfoRaw();
+    HitbtcBalance[] walletRaw = getWalletRaw();
 
-    return HitbtcAdapters.adaptAccountInfo(accountInfoRaw);
+    return new AccountInfo(HitbtcAdapters.adaptWallet(walletRaw));
   }
 
   @Override

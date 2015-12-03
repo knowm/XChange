@@ -8,17 +8,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.empoex.dto.account.EmpoExBalance;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExLevel;
 import com.xeiam.xchange.empoex.dto.marketdata.EmpoExTicker;
@@ -83,17 +84,17 @@ public final class EmpoExAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  public static AccountInfo adaptBalances(List<EmpoExBalance> raw) {
+  public static Wallet adaptBalances(List<EmpoExBalance> raw) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
 
     for (EmpoExBalance empoExBalance : raw) {
 
       BigDecimal balance = new BigDecimal(empoExBalance.getAmount().replace(",", ""));
-      wallets.add(new Wallet(empoExBalance.getCoin().toUpperCase(), balance));
+      balances.add(new Balance(Currency.getInstance(empoExBalance.getCoin().toUpperCase()), balance));
     }
 
-    return new AccountInfo(null, wallets);
+    return new Wallet(null, balances);
   }
 
   public static OpenOrders adaptOpenOrders(Map<String, List<EmpoExOpenOrder>> raw) {
