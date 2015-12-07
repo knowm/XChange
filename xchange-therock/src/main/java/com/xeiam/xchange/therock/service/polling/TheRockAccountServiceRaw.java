@@ -4,16 +4,17 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.therock.TheRockAuthenticated;
 import com.xeiam.xchange.therock.dto.TheRockException;
 import com.xeiam.xchange.therock.dto.account.TheRockBalance;
 import com.xeiam.xchange.therock.dto.account.TheRockWithdrawal;
 import com.xeiam.xchange.therock.dto.account.TheRockWithdrawalResponse;
 import com.xeiam.xchange.therock.service.TheRockDigest;
-
-import si.mazi.rescu.RestProxyFactory;
 
 public class TheRockAccountServiceRaw extends TheRockBasePollingService {
 
@@ -32,16 +33,16 @@ public class TheRockAccountServiceRaw extends TheRockBasePollingService {
   }
 
   /** Withdraw using the default method */
-  public TheRockWithdrawalResponse withdrawDefault(String currency, BigDecimal amount, String destinationAddress)
+  public TheRockWithdrawalResponse withdrawDefault(Currency currency, BigDecimal amount, String destinationAddress)
       throws TheRockException, IOException {
-    final TheRockWithdrawal withdrawal = TheRockWithdrawal.createDefaultWithdrawal(currency, amount, destinationAddress);
+    final TheRockWithdrawal withdrawal = TheRockWithdrawal.createDefaultWithdrawal(currency.getCurrencyCode(), amount, destinationAddress);
     return theRockAuthenticated.withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), withdrawal);
   }
 
   /** Withdraw to Ripple */
-  public TheRockWithdrawalResponse withdrawRipple(String currency, BigDecimal amount, String destinationAddress)
+  public TheRockWithdrawalResponse withdrawRipple(Currency currency, BigDecimal amount, String destinationAddress)
       throws TheRockException, IOException {
-    final TheRockWithdrawal withdrawal = TheRockWithdrawal.createRippleWithdrawal(currency, amount, destinationAddress);
+    final TheRockWithdrawal withdrawal = TheRockWithdrawal.createRippleWithdrawal(currency.getCurrencyCode(), amount, destinationAddress);
     return theRockAuthenticated.withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), withdrawal);
   }
 

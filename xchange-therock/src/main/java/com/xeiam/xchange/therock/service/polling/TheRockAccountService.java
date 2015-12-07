@@ -27,7 +27,7 @@ public class TheRockAccountService extends TheRockAccountServiceRaw implements P
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-    final TheRockWithdrawalResponse response = withdrawDefault(currency.toString(), amount, address);
+    final TheRockWithdrawalResponse response = withdrawDefault(currency, amount, address);
     return String.format("%d", response.getTransactionId());
   }
 
