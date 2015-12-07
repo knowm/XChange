@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.therock.dto.TheRockException;
+import com.xeiam.xchange.therock.dto.marketdata.TheRockOrderBook;
 import com.xeiam.xchange.therock.dto.marketdata.TheRockTicker;
 import com.xeiam.xchange.utils.jackson.CurrencyPairDeserializer;
 
@@ -21,6 +22,10 @@ public interface TheRock {
   @GET
   @Path("funds/{id}/ticker")
   TheRockTicker getTicker(@PathParam("id") Pair currencyPair) throws TheRockException, IOException;
+
+  @GET
+  @Path("funds/{id}/orderbook")
+  TheRockOrderBook getOrderbook(@PathParam("id") Pair currencyPair) throws TheRockException, IOException;
 
   class Pair {
     public final CurrencyPair pair;
