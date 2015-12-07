@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
+import si.mazi.rescu.RestProxyFactory;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
 import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
@@ -14,9 +16,8 @@ import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import com.xeiam.xchange.bitstamp.dto.account.DepositTransaction;
 import com.xeiam.xchange.bitstamp.dto.account.WithdrawalRequest;
 import com.xeiam.xchange.bitstamp.service.BitstampDigest;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.exceptions.ExchangeException;
-
-import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author gnandiga
@@ -81,10 +82,10 @@ public class BitstampAccountServiceRaw extends BitstampBasePollingService {
    * @return true if withdrawal was successful. Note that due to a bug on Bitstamp's side, withdrawal always fails if two-factor authentication is
    *         enabled for the account.
    */
-  public boolean withdrawToRipple(BigDecimal amount, String currency, String rippleAddress) throws IOException {
+  public boolean withdrawToRipple(BigDecimal amount, Currency currency, String rippleAddress) throws IOException {
 
     return bitstampAuthenticated.withdrawToRipple(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-        amount, currency, rippleAddress);
+        amount, currency.getCurrencyCode(), rippleAddress);
   }
 
   public List<DepositTransaction> getUnconfirmedDeposits() throws IOException {
