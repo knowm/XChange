@@ -1,16 +1,23 @@
 package com.xeiam.xchange.therock;
 
+import static com.xeiam.xchange.dto.Order.OrderType.ASK;
 import static com.xeiam.xchange.dto.Order.OrderType.BID;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.therock.dto.account.TheRockBalance;
+import com.xeiam.xchange.therock.dto.marketdata.TheRockBid;
+import com.xeiam.xchange.therock.dto.marketdata.TheRockOrderBook;
 import com.xeiam.xchange.therock.dto.trade.TheRockOrder;
 
 public final class TheRockAdapters {
@@ -24,12 +31,37 @@ public final class TheRockAdapters {
 
   public static AccountInfo adaptAccountInfo(List<TheRockBalance> trBalances, String userName) {
 
-    ArrayList<Balance> balances = new ArrayList<Balance>(trBalances.size());
+    ArrayList<Balance> balances = new ArrayList<>(trBalances.size());
     for (TheRockBalance blc : trBalances) {
       Currency currency = Currency.getInstance(blc.getCurrency());
       balances.add(new Balance(currency, blc.getBalance(), blc.getTradingBalance()));
     }
     return new AccountInfo(userName, new Wallet(balances));
+  }
+
+  public static OrderBook adaptOrderBook(TheRockOrderBook theRockOrderBook) {
+    final List<LimitOrder> asks = new ArrayList<>();
+    final List<LimitOrder> bids = new ArrayList<>();
+    for (TheRockBid theRockBid : theRockOrderBook.getAsks()) {
+      asks.add(adaptBid(theRockOrderBook.getCurrencyPair(), ASK, theRockBid, theRockOrderBook.getDate()));
+    }
+    for (TheRockBid theRockBid : theRockOrderBook.getBids()) {
+      bids.add(adaptBid(theRockOrderBook.getCurrencyPair(), BID, theRockBid, theRockOrderBook.getDate()));
+    }
+    return new OrderBook(theRockOrderBook.getDate(), asks, bids);
+  }
+
+  private static LimitOrder adaptBid(
+      CurrencyPair currencyPair,
+      Order.OrderType orderType,
+      TheRockBid theRockBid,
+      Date timestamp
+  ) {
+    return new LimitOrder.Builder(orderType, currencyPair)
+        .limitPrice(theRockBid.getPrice())
+        .tradableAmount(theRockBid.getAmount())
+        .timestamp(timestamp)
+        .build();
   }
 
   /*
