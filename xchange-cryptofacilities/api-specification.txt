@@ -1,0 +1,9 @@
+CryptoFacilities Exchange API specification
+===========================================
+
+Public API
+
+Documentation
+-------------
+https://www.cryptofacilities.com/derivatives/resources#apiTab
+
