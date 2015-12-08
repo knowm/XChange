@@ -358,6 +358,13 @@
 			<version>1.0.4</version>
 		</dependency>
 
+		<!-- Reflections - java runtime metadata analysis -->
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.10</version>
+		</dependency>
+
 	</dependencies>
 
 </project>
