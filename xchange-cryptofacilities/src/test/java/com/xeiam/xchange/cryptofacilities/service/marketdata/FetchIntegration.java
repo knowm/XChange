@@ -2,9 +2,11 @@ package com.xeiam.xchange.cryptofacilities.service.marketdata;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import java.math.BigDecimal;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
+import java.util.Date;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -19,6 +21,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptofacilities.CryptoFacilitiesExchange;
+import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesContract;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesContracts;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesIndex;
@@ -26,8 +29,10 @@ import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesVolatil
 import com.xeiam.xchange.cryptofacilities.service.polling.CryptoFacilitiesMarketDataService;
 import com.xeiam.xchange.cryptofacilities.service.polling.CryptoFacilitiesTradeService;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
@@ -143,7 +148,7 @@ public class FetchIntegration {
 //	  	LimitOrder order = new LimitOrder(OrderType.BID, new BigDecimal("1.0"), new CurrencyPair(firstContract.getTradeable(), firstContract.getUnit()), "1", new Date(), new BigDecimal("300.07"));
 //	  	String orderId = tradeService.placeLimitOrder(order);
 //	  	System.out.println("orderId="+orderId);
-//	  	
+	  	
 //	  	sleep();
 //	  	
 //	  	CryptoFacilitiesResult res = tradeService.cancelCryptoFacilitiesOrder(orderId, new CurrencyPair(firstContract.getTradeable(), firstContract.getUnit()));
@@ -156,7 +161,7 @@ public class FetchIntegration {
 	  	
 	  	sleep();
 	  	
-	  	UserTrades trades = tradeService.getTradeHistory();
+	  	UserTrades trades = tradeService.getTradeHistory(null);
 	  	System.out.println(trades.toString());
   }	
 

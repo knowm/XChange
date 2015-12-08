@@ -57,15 +57,9 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
   }
 
   @Override
-  public UserTrades getTradeHistory(Object... args) throws IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     return CryptoFacilitiesAdapters.adaptTrades(super.getCryptoFacilitiesTrades(100));
-  }
-
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
-
-	  throw new NotAvailableFromExchangeException();
   }
 
   @Override

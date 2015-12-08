@@ -28,7 +28,7 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBasePo
 
   public CryptoFacilitiesTicker getCryptoFacilitiesTicker(CurrencyPair currencyPair) throws IOException {
 
-	CryptoFacilitiesTicker ticker = cryptoFacilities.getTicker(currencyPair.baseSymbol, currencyPair.counterSymbol);
+	CryptoFacilitiesTicker ticker = cryptoFacilities.getTicker(currencyPair.base.toString(), currencyPair.counter.toString());
 
     return ticker;
   }
@@ -42,7 +42,7 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBasePo
 
   public CryptoFacilitiesCumulativeBidAsk getCryptoFacilitiesCumulativeBidAsk(CurrencyPair currencyPair)
   {
-	  CryptoFacilitiesCumulativeBidAsk cfcbidask = cryptoFacilities.getCumulativeBidAsk(currencyPair.baseSymbol, currencyPair.counterSymbol);
+	  CryptoFacilitiesCumulativeBidAsk cfcbidask = cryptoFacilities.getCumulativeBidAsk(currencyPair.base.toString(), currencyPair.counter.toString());
 	  
 	  return cfcbidask;
   }
