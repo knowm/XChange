@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCumulatedBidAsk;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCumulativeBidAsk;
@@ -16,9 +15,12 @@ import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTicker;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTrade;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTrades;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -26,7 +28,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
  * @author Jean-Christophe Laruelle
@@ -46,14 +47,20 @@ public class CryptoFacilitiesAdapters {
 		    return builder.build();
 	  }
 	  
+	  public static Currency adaptCurrency(String code)
+	  {
+	    return new Currency(code);
+	  }
+	  
 	  public static AccountInfo adaptBalance(Map<String, BigDecimal> cryptoFacilitiesBalance, String username) {
 
-		    Map<String, Wallet> wallets = new ConcurrentHashMap<String, Wallet>();
+		    List<Balance> balances = new ArrayList<Balance>(cryptoFacilitiesBalance.size());
 		    for (Entry<String, BigDecimal> balancePair : cryptoFacilitiesBalance.entrySet()) {
-		      Wallet wallet = new Wallet(balancePair.getKey(), balancePair.getValue());
-		      wallets.put(balancePair.getKey(), wallet);
+		      Currency currency = adaptCurrency(balancePair.getKey());
+		      Balance balance = new Balance(currency, balancePair.getValue());
+		      balances.add(balance);		      
 		    }
-		    return new AccountInfo(username, wallets);
+		    return new AccountInfo(username, new Wallet(balances));
 	  }
 
 	  public static String adaptOrderId(CryptoFacilitiesOrder order) {
@@ -96,7 +103,7 @@ public class CryptoFacilitiesAdapters {
 	  
 	  public static UserTrade adaptTrade(CryptoFacilitiesTrade trade)
 	  {
-		  return new UserTrade(adaptOrderType(trade.getDirection()), trade.getQuantity(), new CurrencyPair(trade.getTradeable(), trade.getUnit()), trade.getPrice(), trade.getTimestamp(), trade.getUid(), null, null, null);
+		  return new UserTrade(adaptOrderType(trade.getDirection()), trade.getQuantity(), new CurrencyPair(trade.getTradeable(), trade.getUnit()), trade.getPrice(), trade.getTimestamp(), trade.getUid(), null);
 	  }
 	  
 	  public static UserTrades adaptTrades(CryptoFacilitiesTrades cryptoFacilitiesTrades)
@@ -130,7 +137,7 @@ public class CryptoFacilitiesAdapters {
 		  List<CryptoFacilitiesCumulatedBidAsk> cumulBids = cumul.getCumulatedBids();
 		  List<CryptoFacilitiesCumulatedBidAsk> cumulAsks = cumul.getCumulatedAsks();
 		  
-		  return new OrderBook(null, adaptOrderBookSide(cumulAsks, "Sell", null, null), adaptOrderBookSide(cumulBids, "Buy", null, null));
+		  return new OrderBook(null, adaptOrderBookSide(cumulAsks, "Sell", "Forward", "USD"), adaptOrderBookSide(cumulBids, "Buy", "Forward", "USD"));
 	  }
 
 }

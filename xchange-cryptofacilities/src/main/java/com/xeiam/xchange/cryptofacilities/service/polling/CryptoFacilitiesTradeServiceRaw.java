@@ -32,8 +32,8 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBasePolling
   public CryptoFacilitiesOrder placeCryptoFacilitiesLimitOrder(LimitOrder order) throws IOException
   {
 	  String type = "LMT";
-	  String tradeable = order.getCurrencyPair().baseSymbol;
-	  String unit = order.getCurrencyPair().counterSymbol;
+	  String tradeable = order.getCurrencyPair().base.toString();
+	  String unit = order.getCurrencyPair().counter.toString();
 	  String dir = "Buy";
 	  if(order.getType().equals(OrderType.ASK))
 		dir = "Sell";
@@ -47,7 +47,7 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBasePolling
   
   public CryptoFacilitiesCancel cancelCryptoFacilitiesOrder(String uid, CurrencyPair currencyPair) throws IOException
   {	  
-	  CryptoFacilitiesCancel res = cryptoFacilities.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), uid, currencyPair.baseSymbol, currencyPair.counterSymbol);
+	  CryptoFacilitiesCancel res = cryptoFacilities.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), uid, currencyPair.base.toString(), currencyPair.counter.toString());
 	  
 	  return res;
   }
