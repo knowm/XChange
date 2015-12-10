@@ -20,8 +20,6 @@ public class TickerFetchIntegration {
   @Test
   public void tickerFetchTest() throws Exception {
 
-    CertHelper.trustAllCerts();
-
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BTCCentralExchange.class.getName());
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "EUR"));
