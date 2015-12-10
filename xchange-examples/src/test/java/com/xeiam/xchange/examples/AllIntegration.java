@@ -39,7 +39,7 @@ import si.mazi.rescu.HttpStatusIOException;
 @RunWith(Parameterized.class)
 public class AllIntegration {
 
-  @Parameterized.Parameters(name="{1}")
+  @Parameterized.Parameters(name="{index}:{1}")
   public static Iterable<Object[]> data() {
 
     List<Object[]> exchangeClasses = new ArrayList<Object[]>();
@@ -185,14 +185,12 @@ public class AllIntegration {
   @Test
   public void testGetOrderBook() throws Throwable {
 
-
     Method method = PollingMarketDataService.class.getMethod("getOrderBook", CurrencyPair.class, Object[].class);
     testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object)new Object[]{});
   }
 
   @Test
   public void testGetTrades() throws Throwable {
-
 
     Method method = PollingMarketDataService.class.getMethod("getTrades", CurrencyPair.class, Object[].class);
     testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object)new Object[]{});
