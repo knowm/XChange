@@ -6,7 +6,8 @@ import com.xeiam.xchange.btctrade.BTCTrade;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
 
-import com.xeiam.xchange.utils.IncorrectHostnameVerifier;
+import com.xeiam.xchange.utils.CertHelper;
+
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -27,7 +28,7 @@ public class BTCTradeBasePollingService extends BaseExchangeService implements B
 
     ClientConfig config = new ClientConfig();
     // btctrade is using an ssl certificate for 33option.com
-    config.setHostnameVerifier(new IncorrectHostnameVerifier(exchangeSpecification.getHost(),
+    config.setHostnameVerifier(CertHelper.createIncorrectHostnameVerifier(exchangeSpecification.getHost(),
         "CN=www.33option.com,OU=IT,O=OPTIONFORTUNE TRADE LIMITED,L=KOWLOON,ST=HONGKONG,C=HK"));
 
     btcTrade = RestProxyFactory.createProxy(BTCTrade.class, exchangeSpecification.getSslUri(), config);

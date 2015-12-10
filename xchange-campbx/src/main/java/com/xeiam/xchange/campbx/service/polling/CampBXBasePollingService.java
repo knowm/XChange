@@ -4,7 +4,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.campbx.CampBX;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
-import com.xeiam.xchange.utils.RestrictedSSLSocketFactory;
+import com.xeiam.xchange.utils.CertHelper;
 
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
@@ -27,7 +27,7 @@ public class CampBXBasePollingService extends BaseExchangeService implements Bas
 
     ClientConfig config = new ClientConfig();
     // campbx server raises "internal error" if connected via these protocol versions
-    config.setSslSocketFactory(new RestrictedSSLSocketFactory(new String[]{"TLSv1","TLSv1.1"}, null));
+    config.setSslSocketFactory(CertHelper.createRestrictedSSLSocketFactory("TLSv1", "TLSv1.1"));
 
     this.campBX = RestProxyFactory.createProxy(CampBX.class, exchange.getExchangeSpecification().getSslUri(), config);
   }
