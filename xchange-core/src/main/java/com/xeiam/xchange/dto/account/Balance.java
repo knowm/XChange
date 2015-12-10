@@ -2,6 +2,9 @@ package com.xeiam.xchange.dto.account;
 
 import java.math.BigDecimal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.xeiam.xchange.currency.Currency;
 
 /**
@@ -16,6 +19,8 @@ import com.xeiam.xchange.currency.Currency;
  * </p>
  */
 public final class Balance implements Comparable<Balance> {
+
+  private static final Logger log = LoggerFactory.getLogger(Balance.class);
 
   private final Currency currency;
 
@@ -97,7 +102,7 @@ public final class Balance implements Comparable<Balance> {
     if (total != null && available != null) {
       BigDecimal sum = available.add(frozen).subtract(borrowed).add(loaned).add(withdrawing).add(depositing);
       if (!total.equals(sum)) {
-        throw new IllegalArgumentException("total != available + frozen - borrowed + loaned + withdrawing + depositing");
+        log.warn("{} = total != available + frozen - borrowed + loaned + withdrawing + depositing = {}", total, sum);
       }
     }
     this.currency = currency;
