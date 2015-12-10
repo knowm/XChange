@@ -139,7 +139,10 @@ public class AllIntegration {
         assertThat(notAvailableFromExchangeThrown).isFalse();
         notAvailableFromExchangeNotThrown = true;
 
-        logger.debug((methodName + "(" + firstArgument + ") -> " + result).substring(0,75));
+        String logmsg = methodName + "(" + firstArgument + ") -> " + result;
+        if (logmsg.length() > 75)
+          logmsg = logmsg.substring(0,75);
+        logger.debug(logmsg);
 
         assertThat(result).isNotNull();
         results.add(result);
