@@ -1,25 +1,31 @@
 {
   "currencyPair": {
     "BTC/USD": {
-      "priceScale": 4
+      "priceScale": 4,
+      "minimumAmount": 0.010000000
     },
     "GHS/USD": {
-      "priceScale": 8
+      "priceScale": 8,
+      "minimumAmount": 1.000000000
     },
     "LTC/USD": {
-      "priceScale": 3
+      "priceScale": 3,
+      "minimumAmount": 1.200000000
     },
     "DOGE/USD": {
-      "priceScale": 8
+      "priceScale": 8,
+      "minimumAmount": 15500.00000
     },
     "DRK/USD": {
       "priceScale": 5
     },
     "GHS/BTC": {
-      "priceScale": 8
+      "priceScale": 8,
+      "minimumAmount": 1.000000000
     },
     "LTC/BTC": {
-      "priceScale": 8
+      "priceScale": 8,
+      "minimumAmount": 1.200000000
     },
     "DOGE/BTC": {
       "priceScale": 8
@@ -61,7 +67,8 @@
       "priceScale": 8
     },
     "GHS/LTC": {
-      "priceScale": 8
+      "priceScale": 8,
+      "minimumAmount": 1.000000000
     },
     "DOGE/LTC": {
       "priceScale": 8
@@ -82,10 +89,12 @@
       "priceScale": 8
     },
     "BTC/EUR": {
-      "priceScale": 4
+      "priceScale": 4,
+      "minimumAmount": 0.010000000
     },
     "LTC/EUR": {
-      "priceScale": 3
+      "priceScale": 3,
+      "minimumAmount": 1.200000000
     },
     "DOGE/EUR": {
       "priceScale": 8

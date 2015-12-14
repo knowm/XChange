@@ -1,7 +1,8 @@
 {
   "currencyPair": {
     "BTC/EUR": {
-      "priceScale": 2
+      "priceScale": 2,
+      "minimumAmount": 0.0040000000
     }
   },
   "currency": {},
