@@ -133,7 +133,14 @@ public final class BittrexAdapters {
     List<Balance> wallets = new ArrayList<Balance>(balances.size());
 
     for (BittrexBalance balance : balances) {
-      wallets.add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getBalance(), balance.getAvailable(), balance.getPending()));
+      wallets.add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), 
+    		                                       balance.getBalance(), 
+    		                                       balance.getAvailable(), 
+    		                                       balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()), 
+    		                                       BigDecimal.ZERO,
+    		                                       BigDecimal.ZERO,
+    		                                       BigDecimal.ZERO,
+    		                                       balance.getPending()));
     }
 
     return new Wallet(wallets);
