@@ -1,13 +1,16 @@
 {
   "currencyPair": {
     "BTC/USD": {
-      "priceScale": 2
+      "priceScale": 2,
+      "minimumAmount": 0.01000000
     },
     "LTC/USD": {
-      "priceScale": 4
+      "priceScale": 4,
+      "minimumAmount": 0.10000000
     },
     "LTC/BTC": {
-      "priceScale": 6
+      "priceScale": 6,
+      "minimumAmount": 0.10000000
     }
   },
   "currency": {
@@ -16,3 +19,4 @@
     }
   }
 }
+
