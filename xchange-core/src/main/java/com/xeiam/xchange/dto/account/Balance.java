@@ -101,7 +101,7 @@ public final class Balance implements Comparable<Balance> {
 
     if (total != null && available != null) {
       BigDecimal sum = available.add(frozen).subtract(borrowed).add(loaned).add(withdrawing).add(depositing);
-      if (!total.equals(sum)) {
+      if (0 != total.compareTo(sum)) {
         log.warn("{} = total != available + frozen - borrowed + loaned + withdrawing + depositing = {}", total, sum);
       }
     }
