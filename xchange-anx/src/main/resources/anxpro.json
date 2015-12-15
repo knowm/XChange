@@ -86,7 +86,7 @@
       "priceScale": 8
     },
     "LTC/BTC": {
-      "minimumAmount": 0.10000000,
+      "minimumAmount": 1.00000000,
       "maximumAmount": 10000000.00000000,
       "priceScale": 5
     },
@@ -123,7 +123,7 @@
       "priceScale": 8
     },
     "XRP/BTC": {
-      "minimumAmount": 0.01000000,
+      "minimumAmount": 1.0000000,
       "maximumAmount": 100000.00000000,
       "priceScale": 8
     }
