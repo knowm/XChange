@@ -1,19 +1,18 @@
 package com.xeiam.xchange.bleutrade;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalance;
-import com.xeiam.xchange.bleutrade.dto.marketdata.*;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeLevel;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarket;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeOrderBook;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTicker;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTrade;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -23,10 +22,17 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
-import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.utils.jackson.CurrencyPairDeserializer;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class BleutradeAdapters {
 
@@ -53,6 +59,7 @@ public class BleutradeAdapters {
     builder.low(bleutradeTicker.getLow());
     builder.timestamp(BleutradeUtils.toDate(bleutradeTicker.getTimeStamp()));
     builder.volume(bleutradeTicker.getVolume());
+    builder.vwap(bleutradeTicker.getAverage());
 
     return builder.build();
   }
