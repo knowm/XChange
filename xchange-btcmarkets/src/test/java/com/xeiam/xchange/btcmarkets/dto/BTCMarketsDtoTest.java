@@ -1,15 +1,5 @@
 package com.xeiam.xchange.btcmarkets.dto;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.junit.Test;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +13,15 @@ import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
+import org.junit.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
 public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
@@ -35,6 +34,32 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
     assertThat(response[2].getCurrency()).isEqualTo("LTC");
     assertThat(response[2].getBalance()).isEqualTo(new BigDecimal("10.00000000"));
     assertThat(response[2].getPendingFunds()).isEqualTo(new BigDecimal("0E-8"));
+    assertThat(response[2].toString()).isEqualTo("BTCMarketsBalance{pendingFunds=0E-8, balance=10.00000000, currency='LTC'}");
+  }
+
+  @Test
+  public void shouldParseNullAvailabilityBalances() throws Exception {
+    final BTCMarketsBalance[] response = parse("NullAvailabilityBalances", BTCMarketsBalance[].class);
+
+    assertThat(response).hasSize(3);
+
+    assertThat(response[0].getCurrency()).isEqualTo("AUD");
+    assertThat(response[0].getBalance()).isNull();
+    assertThat(response[0].getPendingFunds()).isEqualTo(new BigDecimal("10.00000000"));
+    assertThat(response[0].getAvailable()).isNull();;
+    assertThat(response[0].toString()).isEqualTo("BTCMarketsBalance{pendingFunds=10.00000000, balance=null, currency='AUD'}");
+
+    assertThat(response[1].getCurrency()).isEqualTo("BTC");
+    assertThat(response[1].getBalance()).isEqualTo(new BigDecimal("10.00000000"));
+    assertThat(response[1].getPendingFunds()).isNull();
+    assertThat(response[1].getAvailable()).isNull();
+    assertThat(response[1].toString()).isEqualTo("BTCMarketsBalance{pendingFunds=null, balance=10.00000000, currency='BTC'}");
+
+    assertThat(response[2].getCurrency()).isEqualTo("LTC");
+    assertThat(response[2].getBalance()).isNull();
+    assertThat(response[2].getPendingFunds()).isNull();
+    assertThat(response[2].getAvailable()).isNull();
+    assertThat(response[2].toString()).isEqualTo("BTCMarketsBalance{pendingFunds=null, balance=null, currency='LTC'}");
   }
 
   @Test
@@ -51,17 +76,39 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
   }
 
   @Test
+  public void shouldParseEmptyCancelOrderResponse() throws Exception {
+    final BTCMarketsCancelOrderResponse response = parse("EmptyCancelOrderResponse", BTCMarketsCancelOrderResponse.class);
+
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getErrorCode()).isNull();
+    assertThat(response.getErrorMessage()).isNull();;
+  }
+
+  @Test
+  public void shouldParseNullCancelOrderResponse() throws Exception {
+    final BTCMarketsCancelOrderResponse response = parse("NullCancelOrderResponse", BTCMarketsCancelOrderResponse.class);
+
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getErrorCode()).isNull();
+    assertThat(response.getErrorMessage()).isNull();;
+  }
+
+  @Test
   public void shouldParseCancelOrderResponseAsException() throws Exception {
     final BTCMarketsException ex = parse("CancelOrderResponse", BTCMarketsException.class);
 
     assertThat(ex.getSuccess()).isTrue();
     assertThat(ex.getErrorCode()).isNull();
 //    assertThat(ex.getMessage()).isNull();
-    assertThat(ex.getResponses()).hasSize(1);
-    assertThat(ex.getResponses().get(0).getSuccess()).isFalse();
-    assertThat(ex.getResponses().get(0).getErrorCode()).isEqualTo(3);
-    assertThat(ex.getResponses().get(0).getMessage()).contains("order does not exist.");
-    assertThat(ex.getResponses().get(0).getId()).isEqualTo(6840125478L);
+    assertThat(ex.getResponses()).hasSize(2);
+    assertThat(ex.getResponses().get(0).getSuccess()).isTrue();
+    assertThat(ex.getResponses().get(0).getErrorCode()).isNull();;
+    assertThat(ex.getResponses().get(0).getMessage()).contains("(HTTP status code: 0)");
+    assertThat(ex.getResponses().get(0).getId()).isEqualTo(6840125484L);
+    assertThat(ex.getResponses().get(1).getSuccess()).isFalse();
+    assertThat(ex.getResponses().get(1).getErrorCode()).isEqualTo(3);
+    assertThat(ex.getResponses().get(1).getMessage()).contains("order does not exist.");
+    assertThat(ex.getResponses().get(1).getId()).isEqualTo(6840125478L);
   }
 
   @Test
@@ -115,6 +162,8 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
     assertThat(response.getAsks().get(2)[0]).isEqualTo(new BigDecimal("329.41"));
     assertThat(response.getAsks().get(2)[1]).isEqualTo(new BigDecimal("10.0"));
     assertThat(response.getBids()).hasSize(94);
+    assertThat(response.toString()).isEqualTo(
+        String.format("BTCMarketsOrderBook{currency='AUD', instrument='BTC', timestamp=%s, bids=94, asks=135}", new Date(1442997827000L)));
   }
 
   @Test
@@ -144,6 +193,12 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
     assertThat(response.getOrders().get(1).getTrades().get(0).getPrice()).isEqualTo("130.00000000");
     assertThat(response.getOrders().get(1).getTrades().get(0).getVolume()).isEqualTo("0.10000000");
     assertThat(response.getOrders().get(1).getTrades().get(0).getFee()).isEqualTo("0.00100000");
+    assertThat(response.getOrders().get(1).toString()).isEqualTo(
+        String.format("BTCMarketsOrder{volume=0.10000000, price=130.00000000, currency='AUD', instrument='BTC', "
+            + "orderSide=Ask, ordertype=Limit, clientRequestId='null', id=4345675, creationTime=%s, "
+            + "status='Fully Matched', errorMessage='null', openVolume=0E-8, "
+            + "trades=[BTCMarketsUserTrade{id=5345677, side='null', description='null', price=130.00000000, volume=0.10000000, "
+            + "fee=0.00100000, creationTime=%s}]}", new Date(1378636912705L), new Date(1378636913151L)));
   }
 
   @Test
@@ -167,6 +222,8 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
     assertThat(response.getCurrency()).isEqualTo("AUD");
     assertThat(response.getInstrument()).isEqualTo("BTC");
     assertThat(response.getTimestamp().getTime()).isEqualTo(1378878117000L);
+    assertThat(response.toString()).isEqualTo(
+        String.format("BTCMarketsTicker{bestBid=137.00000000, bestAsk=140.00000000, lastPrice=140.00000000, currency='AUD', instrument='BTC', timestamp=%s}", new Date(1378878117000L)));
   }
 
   @Test
@@ -184,7 +241,10 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
     assertThat(response.getTrades().get(0).getVolume()).isEqualTo("0.00100000");
     assertThat(response.getTrades().get(0).getSide()).isEqualTo(BTCMarketsOrder.Side.Bid);
     assertThat(response.getTrades().get(0).getFee()).isEqualTo("0.00280499");
+    assertThat(response.getTrades().get(0).toString()).isEqualTo(
+        String.format("BTCMarketsUserTrade{id=45118157, side='Bid', description='null', price=330.00000000, volume=0.00100000, fee=0.00280499, creationTime=%s}", new Date(1442994673684L)));
     assertThat(response.getTrades().get(1).getSide()).isEqualTo(BTCMarketsOrder.Side.Ask);
+    assertThat(response.toString()).isEqualTo("BTCMarketsTradeHistory{success=true, errorMessage='null', errorCode=null}");
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////
