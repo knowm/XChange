@@ -1,31 +1,24 @@
 package com.xeiam.xchange.bitmarket.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
+import com.xeiam.xchange.bitmarket.dto.BitMarketDtoTestSupport;
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * @author kfonal
  */
-public class BitMarketHistoryOperationsJSONTest {
+public class BitMarketHistoryOperationsJSONTest extends BitMarketDtoTestSupport {
 
   @Test
   public void testUnmarshal() throws IOException {
+    // when
+    BitMarketHistoryOperationsResponse response = parse("trade/example-history-operations-data", BitMarketHistoryOperationsResponse.class);
 
-    // Read in the JSON from the example resources
-    InputStream is = BitMarketHistoryOperationsJSONTest.class.getResourceAsStream("/trade/example-history-operations-data.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BitMarketHistoryOperationsResponse response = mapper.readValue(is, BitMarketHistoryOperationsResponse.class);
-
-    // Verify that the example data was unmarshalled correctly
+    // then
     BitMarketHistoryOperations operations = response.getData();
 
     assertThat(response.getSuccess()).isTrue();
