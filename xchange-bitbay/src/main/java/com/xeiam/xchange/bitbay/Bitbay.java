@@ -32,6 +32,6 @@ public interface Bitbay {
   public BitbayOrderBook getBitbayOrderBook(@PathParam("currencyPair") String currencyPair) throws IOException;
 
   @GET
-  @Path("{currencyPair}/trades.json?sort=desc")
+  @Path("{currencyPair}/trades.json")
   public BitbayTrade[] getBitbayTrades(@PathParam("currencyPair") String currencyPair) throws IOException;
 }

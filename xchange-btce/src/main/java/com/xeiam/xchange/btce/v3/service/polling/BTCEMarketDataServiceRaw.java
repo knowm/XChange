@@ -91,13 +91,4 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService {
     return btce.getInfo();
   }
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-    List<CurrencyPair> result = new ArrayList<>();
-    for (String p : getBTCEInfo().getPairs().keySet()) {
-      result.add(new CurrencyPair(p.toUpperCase().replace('_', '/')));
-    }
-    return result;
-  }
-
 }
