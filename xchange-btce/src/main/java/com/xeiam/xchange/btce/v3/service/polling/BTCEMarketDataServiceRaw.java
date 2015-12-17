@@ -1,12 +1,15 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
 import com.xeiam.xchange.btce.v3.dto.marketdata.BTCETradesWrapper;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
  * @author brox
@@ -86,6 +89,15 @@ public class BTCEMarketDataServiceRaw extends BTCEBasePollingService {
   public BTCEExchangeInfo getBTCEInfo() throws IOException {
 
     return btce.getInfo();
+  }
+
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+    List<CurrencyPair> result = new ArrayList<>();
+    for (String p : getBTCEInfo().getPairs().keySet()) {
+      result.add(new CurrencyPair(p.toUpperCase().replace('_', '/')));
+    }
+    return result;
   }
 
 }
