@@ -37,12 +37,15 @@ public class BTCMarketsExchangeTest extends BTCMarketsDtoTestSupport {
   }
 
   @Test
-  @Ignore("Test case fails")
   public void shouldApplyDefaultSpecificationWithKeys() {
-    // when
+    // given
     exchangeSpecification = exchange.getDefaultExchangeSpecification();
+    exchangeSpecification.getExchangeSpecificParameters().put(BTCMarketsExchange.CURRENCY_PAIR, CurrencyPair.BTC_AUD);
     exchangeSpecification.setApiKey("apiKey");
     exchangeSpecification.setSecretKey("secretKey");
+
+    // when
+    exchange.applySpecification(exchangeSpecification);
 
     // then
     assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);

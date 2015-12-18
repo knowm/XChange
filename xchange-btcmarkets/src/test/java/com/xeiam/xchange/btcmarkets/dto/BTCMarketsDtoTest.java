@@ -39,8 +39,10 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
 
   @Test
   public void shouldParseNullAvailabilityBalances() throws Exception {
+    // when
     final BTCMarketsBalance[] response = parse("NullAvailabilityBalances", BTCMarketsBalance[].class);
 
+    // then
     assertThat(response).hasSize(3);
 
     assertThat(response[0].getCurrency()).isEqualTo("AUD");
@@ -77,8 +79,10 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
 
   @Test
   public void shouldParseEmptyCancelOrderResponse() throws Exception {
+    // when
     final BTCMarketsCancelOrderResponse response = parse("EmptyCancelOrderResponse", BTCMarketsCancelOrderResponse.class);
 
+    // then
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getErrorCode()).isNull();
     assertThat(response.getErrorMessage()).isNull();;
@@ -86,8 +90,10 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
 
   @Test
   public void shouldParseNullCancelOrderResponse() throws Exception {
+    // when
     final BTCMarketsCancelOrderResponse response = parse("NullCancelOrderResponse", BTCMarketsCancelOrderResponse.class);
 
+    // then
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getErrorCode()).isNull();
     assertThat(response.getErrorMessage()).isNull();;
@@ -95,11 +101,12 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
 
   @Test
   public void shouldParseCancelOrderResponseAsException() throws Exception {
+    // when
     final BTCMarketsException ex = parse("CancelOrderResponse", BTCMarketsException.class);
 
+    // then
     assertThat(ex.getSuccess()).isTrue();
     assertThat(ex.getErrorCode()).isNull();
-//    assertThat(ex.getMessage()).isNull();
     assertThat(ex.getResponses()).hasSize(2);
     assertThat(ex.getResponses().get(0).getSuccess()).isTrue();
     assertThat(ex.getResponses().get(0).getErrorCode()).isNull();;
@@ -121,8 +128,10 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
 
   @Test
   public void shouldParseFailedPlaceOrderResponseAsException() throws Exception {
+    // when
     final BTCMarketsException ex = parse("Error-PlaceOrderResponse", BTCMarketsException.class);
 
+    // then
     assertThat(ex.getSuccess()).isFalse();
     assertThat(ex.getErrorCode()).isEqualTo(3);
     assertThat(ex.getMessage()).contains("Invalid argument.");
@@ -153,8 +162,10 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
 
   @Test
   public void shoudParseOrderBook() throws Exception {
+    // when
     final BTCMarketsOrderBook response = parse(BTCMarketsOrderBook.class);
 
+    // then
     assertThat(response.getCurrency()).isEqualTo("AUD");
     assertThat(response.getInstrument()).isEqualTo("BTC");
     assertThat(response.getTimestamp().getTime()).isEqualTo(1442997827000L);
@@ -168,8 +179,10 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
 
   @Test
   public void shouldParseOrders() throws Exception {
+    // when
     final BTCMarketsOrders response = parse(BTCMarketsOrders.class);
 
+    // then
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getErrorCode()).isNull();
     assertThat(response.getErrorMessage()).isNull();
@@ -203,8 +216,10 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
 
   @Test
   public void shouldParsePlaceOrderResponse() throws Exception {
+    // when
     final BTCMarketsPlaceOrderResponse response = parse(BTCMarketsPlaceOrderResponse.class);
 
+    // then
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getErrorCode()).isNull();
     assertThat(response.getErrorMessage()).isNull();
@@ -214,8 +229,10 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
 
   @Test
   public void shouldParseTicker() throws Exception {
+    // when
     final BTCMarketsTicker response = parse(BTCMarketsTicker.class);
 
+    // then
     assertThat(response.getBestBid()).isEqualTo("137.00000000");
     assertThat(response.getBestAsk()).isEqualTo("140.00000000");
     assertThat(response.getLastPrice()).isEqualTo("140.00000000");
@@ -228,8 +245,10 @@ public class BTCMarketsDtoTest extends BTCMarketsDtoTestSupport {
 
   @Test
   public void shouldParseTradeHistory() throws Exception {
+    // when
     final BTCMarketsTradeHistory response = parse(BTCMarketsTradeHistory.class);
 
+    // then
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getErrorCode()).isNull();
     assertThat(response.getErrorMessage()).isNull();
