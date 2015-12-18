@@ -3,6 +3,9 @@ package com.xeiam.xchange.bitmarket.dto;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketDepositResponse;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketWithdrawResponse;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketCancelResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketTradeResponse;
 import com.xeiam.xchange.dto.Order;
@@ -127,5 +130,32 @@ public class BitMarketDtoTest extends BitMarketDtoTestSupport {
 
   @Test public void shouldParseMarketTradeError() throws Exception {
     verifyErrorResponse(BitMarketTradeResponse.class);
+  }
+
+  @Test public void shouldParseOrderBook() throws Exception {
+    // when
+    BitMarketOrderBook response = parse("marketdata/example-order-book-data", BitMarketOrderBook.class);
+
+    // then
+    assertThat(response.toString()).isEqualTo("BitMarketOrderBook{asks=[14.6999, 20.47];[14.7, 10.06627287];, bids=[14.4102, 1.55];[14.4101, 27.77224019];[0, 52669.33019064];}");
+  }
+
+  @Test public void shouldParseTicker() throws Exception {
+    // when
+    BitMarketTicker response = parse("marketdata/example-ticker-data", BitMarketTicker.class);
+
+    // then
+    assertThat(response.toString()).isEqualTo("BitMarketTicker{ask=1794.5000, bid=1789.2301, last=1789.2001, low=1756.5000, high=1813.5000, vwap=1785.8484, volume=455.69192487}");
+  }
+
+  @Test public void shouldParseTrades() throws Exception {
+    // when
+    BitMarketTrade[] trades = parse("marketdata/example-trades-data", BitMarketTrade[].class);
+
+    // then
+    assertThat(trades).hasSize(3);
+    assertThat(trades[0].toString()).isEqualTo("BitMarketTrade{tid='78455', price=14.6900, amount=27.24579867, date=1450344119}");
+    assertThat(trades[1].toString()).isEqualTo("BitMarketTrade{tid='78454', price=14.4105, amount=5.22284399, date=1450343831}");
+    assertThat(trades[2].toString()).isEqualTo("BitMarketTrade{tid='78453', price=14.4105, amount=0.10560487, date=1450303414}");
   }
 }

@@ -1,18 +1,10 @@
 package com.xeiam.xchange.bitmarket;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
-
 import com.xeiam.xchange.bitmarket.dto.BitMarketDtoTestSupport;
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryOperationsResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
@@ -20,9 +12,19 @@ import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.account.Wallet;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * @author kfonal
@@ -98,4 +100,69 @@ public class BitMarketAdaptersTest extends BitMarketDtoTestSupport {
     assertThat(trade.toString()).isEqualTo(String.format("UserTrade[type=BID, tradableAmount=1.08260046, currencyPair=BTC/PLN, price=877.0000, "
         + "timestamp=%s, id=389406, orderId='11852566', feeAmount=0.30312011, feeCurrency='PLN']", new Date(1430687948000L)));
   }
+
+  @Test
+  public void testTickerAdapter() throws IOException {
+
+    // given
+    BitMarketTicker bitMarketTicker = parse("marketdata/example-ticker-data", BitMarketTicker.class);
+
+    // when
+    Ticker ticker = BitMarketAdapters.adaptTicker(bitMarketTicker, CurrencyPair.BTC_AUD);
+
+    // then
+    assertThat(ticker.toString()).isEqualTo("Ticker [currencyPair=BTC/AUD, last=1789.2001, bid=1789.2301, ask=1794.5000, high=1813.5000, low=1756.5000,avg=null, volume=455.69192487, timestamp=null]");
+  }
+
+  // https://www.bitmarket.pl/json/LTCPLN/trades.json example has addition field 'type' which is not specified in API description (https://www.bitmarket.net/docs.php?file=api_public.html)
+  // should be changed after issue #1141 fix
+  @Test
+  public void testTradesAdapter() throws IOException {
+    // given
+    BitMarketTrade[] bitMarketTrades = parse("marketdata/example-trades-data", BitMarketTrade[].class);
+
+    // when
+    Trades trades = BitMarketAdapters.adaptTrades(bitMarketTrades, CurrencyPair.BTC_AUD);
+
+    // then
+    assertThat(trades.getTrades()).hasSize(3);
+    assertThat(trades.getTrades().get(0).toString()).isEqualTo("Trade [type=BID, tradableAmount=0.10560487, currencyPair=BTC/AUD, price=14.4105, timestamp=Sat Jan 17 21:51:43 MSK 1970, id=78453]");
+    assertThat(trades.getTrades().get(1).toString()).isEqualTo("Trade [type=BID, tradableAmount=5.22284399, currencyPair=BTC/AUD, price=14.4105, timestamp=Sat Jan 17 21:52:23 MSK 1970, id=78454]");
+    assertThat(trades.getTrades().get(2).toString()).isEqualTo("Trade [type=BID, tradableAmount=27.24579867, currencyPair=BTC/AUD, price=14.6900, timestamp=Sat Jan 17 21:52:24 MSK 1970, id=78455]");
+  }
+
+  @Test
+  public void testOrderBookAdapter() throws IOException {
+    // given
+    BitMarketOrderBook bitMarketOrderBook = parse("marketdata/example-order-book-data", BitMarketOrderBook.class);
+
+    // when
+    OrderBook orderBook = BitMarketAdapters.adaptOrderBook(bitMarketOrderBook, CurrencyPair.BTC_AUD);
+
+    // then
+    assertThat(orderBook.getAsks()).hasSize(2);
+    assertThat(orderBook.getAsks().get(0).getType()).isEqualTo(Order.OrderType.ASK);
+    assertThat(orderBook.getAsks().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
+    assertThat(orderBook.getAsks().get(0).getLimitPrice()).isEqualTo(new BigDecimal("14.6999"));
+    assertThat(orderBook.getAsks().get(0).getTradableAmount()).isEqualTo(new BigDecimal("20.47"));
+    assertThat(orderBook.getAsks().get(1).getType()).isEqualTo(Order.OrderType.ASK);
+    assertThat(orderBook.getAsks().get(1).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
+    assertThat(orderBook.getAsks().get(1).getLimitPrice()).isEqualTo(new BigDecimal("14.7"));
+    assertThat(orderBook.getAsks().get(1).getTradableAmount()).isEqualTo(new BigDecimal("10.06627287"));
+
+    assertThat(orderBook.getBids()).hasSize(3);
+    assertThat(orderBook.getBids().get(0).getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
+    assertThat(orderBook.getBids().get(0).getLimitPrice()).isEqualTo(new BigDecimal("14.4102"));
+    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("1.55"));
+    assertThat(orderBook.getBids().get(1).getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(orderBook.getBids().get(1).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
+    assertThat(orderBook.getBids().get(1).getLimitPrice()).isEqualTo(new BigDecimal("14.4101"));
+    assertThat(orderBook.getBids().get(1).getTradableAmount()).isEqualTo(new BigDecimal("27.77224019"));
+    assertThat(orderBook.getBids().get(2).getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(orderBook.getBids().get(2).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
+    assertThat(orderBook.getBids().get(2).getLimitPrice()).isEqualTo(new BigDecimal("0"));
+    assertThat(orderBook.getBids().get(2).getTradableAmount()).isEqualTo(new BigDecimal("52669.33019064"));
+  }
+
 }
