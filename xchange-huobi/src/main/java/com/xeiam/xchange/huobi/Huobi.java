@@ -11,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import com.xeiam.xchange.huobi.dto.account.HuobiAccountInfo;
 import com.xeiam.xchange.huobi.dto.trade.HuobiCancelOrderResult;
 import com.xeiam.xchange.huobi.dto.trade.HuobiOrder;
+import com.xeiam.xchange.huobi.dto.trade.HuobiOrderInfo;
 import com.xeiam.xchange.huobi.dto.trade.HuobiPlaceOrderResult;
 
 import si.mazi.rescu.ParamsDigest;
@@ -25,7 +26,12 @@ public interface Huobi {
 
   @POST
   public HuobiOrder[] getOrders(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType, @FormParam("created") long created,
-      @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
+                                @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
+
+  @POST
+  public HuobiOrderInfo getOrderInfo(@FormParam("access_key") String accessKey, @FormParam("id") long orderId,
+                                     @FormParam("coin_type") int coinType, @FormParam("created") long created,
+                                     @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   public HuobiPlaceOrderResult placeLimitOrder(@FormParam("access_key") String accessKey, @FormParam("amount") String amount,

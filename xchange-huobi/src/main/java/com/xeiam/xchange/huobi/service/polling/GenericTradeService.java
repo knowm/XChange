@@ -45,6 +45,10 @@ public class GenericTradeService extends BaseExchangeService implements PollingT
     coinTypes.put(CurrencyPair.LTC_CNY, 2);
   }
 
+  public TradeServiceRaw getTradeServiceRaw(){
+    return this.tradeServiceRaw;
+  }
+
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
