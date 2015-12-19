@@ -9,6 +9,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.huobi.dto.trade.HuobiCancelOrderResult;
 import com.xeiam.xchange.huobi.dto.trade.HuobiOrder;
+import com.xeiam.xchange.huobi.dto.trade.HuobiOrderInfo;
 import com.xeiam.xchange.huobi.dto.trade.HuobiPlaceOrderResult;
 import com.xeiam.xchange.huobi.service.TradeServiceRaw;
 
@@ -26,6 +27,11 @@ public class HuobiTradeServiceRaw extends HuobiBaseTradeService implements Trade
   @Override
   public HuobiOrder[] getOrders(int coinType) throws IOException {
     return huobi.getOrders(accessKey, coinType, nextCreated(), "get_orders", digest);
+  }
+
+  @Override
+  public HuobiOrderInfo getOrderInfo(long orderId, int coinType) throws IOException {
+    return huobi.getOrderInfo(accessKey, orderId, coinType, nextCreated(), "order_info", digest);
   }
 
   @Override
