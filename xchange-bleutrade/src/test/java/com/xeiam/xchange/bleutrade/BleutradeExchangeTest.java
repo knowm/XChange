@@ -2,14 +2,14 @@ package com.xeiam.xchange.bleutrade;
 
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarket;
-import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;
 import com.xeiam.xchange.bleutrade.service.polling.BleutradeMarketDataService;
 import com.xeiam.xchange.bleutrade.service.polling.BleutradeServiceTestSupport;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.meta.CurrencyMetaData;
+import com.xeiam.xchange.dto.meta.MarketMetaData;
 import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,9 +19,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
@@ -33,13 +35,13 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
   private ExchangeSpecification exchangeSpecification;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     exchange = (BleutradeExchange) ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getCanonicalName());
     exchangeSpecification = new ExchangeSpecification(BleutradeExchange.class);
   }
 
   @Test
-  public void shouldApplyDefaultSpecification() throws Exception {
+  public void shouldApplyDefaultSpecification() {
     // when
     exchange.applySpecification(exchange.getDefaultExchangeSpecification());
 
@@ -50,7 +52,7 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
   }
 
   @Test
-  public void shouldApplyDefaultSpecificationWithKeys() throws Exception {
+  public void shouldApplyDefaultSpecificationWithKeys() {
     // when
     exchangeSpecification = exchange.getDefaultExchangeSpecification();
     exchangeSpecification.setApiKey("apiKey");
@@ -63,7 +65,7 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
   }
 
   @Test
-  public void shouldApplySpecificationWithKeys() throws Exception {
+  public void shouldApplySpecificationWithKeys() {
     // given
     exchangeSpecification.setApiKey("apiKey");
     exchangeSpecification.setSecretKey("secretKey");
@@ -78,7 +80,7 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
   }
 
   @Test
-  public void shouldApplySpecificationWithApiKeyOnly() throws Exception {
+  public void shouldApplySpecificationWithApiKeyOnly() {
     // given
     exchangeSpecification.setApiKey("apiKey");
 
@@ -92,7 +94,7 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
   }
 
   @Test
-  public void shouldApplySpecificationWithSecretKeyOnly() throws Exception {
+  public void shouldApplySpecificationWithSecretKeyOnly() {
     // given
     exchangeSpecification.setSecretKey("secretKey");
 
@@ -106,7 +108,7 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
   }
 
   @Test(expected = NullPointerException.class)
-  public void shouldFailWhenApplyNullSpecification() throws Exception {
+  public void shouldFailWhenApplyNullSpecification() {
     // when
     exchange.applySpecification(null);
 
@@ -115,7 +117,7 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
   }
 
   @Test
-  public void shouldCreateDefaultExchangeSpecification() throws Exception {
+  public void shouldCreateDefaultExchangeSpecification() {
     // when
     ExchangeSpecification specification = exchange.getDefaultExchangeSpecification();
 
@@ -130,7 +132,7 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
   }
 
   @Test
-  public void shouldCreateNonceFactory() throws Exception {
+  public void shouldCreateNonceFactory() {
     // when
     SynchronizedValueFactory factory = exchange.getNonceFactory();
 
@@ -140,7 +142,7 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
   }
 
   @Test
-  public void shouldMakeRemoteInit() throws Exception {
+  public void shouldMakeRemoteInit() throws IOException {
     // given
     List<BleutradeCurrency> currenciesStub = Arrays.asList(
         createBleutradeCurrency("BTC", "Bitcoin", 2, new BigDecimal("0.00080000"), true, "BITCOIN"),
@@ -162,11 +164,16 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.remoteInit();
 
     // then
-    assertThat(exchange.getMetaData().getCurrencyMetaDataMap()).hasSize(2);
-    assertThat(exchange.getMetaData().getCurrencyMetaDataMap().get(Currency.BTC).scale).isEqualTo(8);
-    assertThat(exchange.getMetaData().getCurrencyMetaDataMap().get(Currency.LTC).scale).isEqualTo(8);
-    assertThat(exchange.getMetaData().getMarketMetaDataMap()).hasSize(2);
-    assertThat(exchange.getMetaData().getMarketMetaDataMap().get(CurrencyPair.DOGE_BTC).toString()).isEqualTo("MarketMetaData{tradingFee=0.00499375, minimumAmount=0.10000000, priceScale=8}");
-    assertThat(exchange.getMetaData().getMarketMetaDataMap().get(new CurrencyPair("BLEU", "BTC")).toString()).isEqualTo("MarketMetaData{tradingFee=0.00499375, minimumAmount=1E-8, priceScale=8}");
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchange.getMetaData().getCurrencyMetaDataMap();
+    assertThat(currencyMetaDataMap).hasSize(2);
+    assertThat(currencyMetaDataMap.get(Currency.BTC).scale).isEqualTo(8);
+    assertThat(currencyMetaDataMap.get(Currency.LTC).scale).isEqualTo(8);
+
+    Map<CurrencyPair, MarketMetaData> marketMetaDataMap = exchange.getMetaData().getMarketMetaDataMap();
+    assertThat(marketMetaDataMap).hasSize(2);
+    assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString()).isEqualTo(
+        "MarketMetaData{tradingFee=0.00499375, minimumAmount=0.10000000, priceScale=8}");
+    assertThat(marketMetaDataMap.get(new CurrencyPair("BLEU", "BTC")).toString()).isEqualTo(
+        "MarketMetaData{tradingFee=0.00499375, minimumAmount=1E-8, priceScale=8}");
   }
 }
