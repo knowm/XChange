@@ -33,6 +33,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
@@ -51,7 +52,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
   private BTCMarketsTradeService marketsTradeService;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     exchange = (BTCMarketsExchange) ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getCanonicalName());
 
     exchange.getExchangeSpecification().getExchangeSpecificParameters().put(BTCMarketsExchange.CURRENCY_PAIR, CurrencyPair.BTC_AUD);
@@ -63,12 +64,12 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shouldConstructObject() throws Exception {
+  public void shouldConstructObject() {
     assertThat(Whitebox.getInternalState(marketsTradeService, "currencyPair")).isEqualTo(CurrencyPair.BTC_AUD);
   }
 
   @Test(expected = IllegalArgumentException.class)
-  public void shouldFailToConstructObjectOnCorruptedContext() throws Exception {
+  public void shouldFailToConstructObjectOnCorruptedContext() {
     // given
     exchange.getExchangeSpecification().getExchangeSpecificParameters().put(BTCMarketsExchange.CURRENCY_PAIR, "BTC/AUD");
 
@@ -80,12 +81,13 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shouldPlaceMarketOrder() throws Exception {
+  public void shouldPlaceMarketOrder() throws IOException {
     // given
     MarketOrder marketOrder = new MarketOrder(Order.OrderType.BID, new BigDecimal("10.00000000"), CurrencyPair.BTC_AUD);
 
     BTCMarketsOrder btcMarketsOrder = new BTCMarketsOrder(
-        new BigDecimal("10.00000000"), BigDecimal.ZERO, "AUD", "BTC", BTCMarketsOrder.Side.Bid, BTCMarketsOrder.Type.Market, "generatedReqId");
+        new BigDecimal("10.00000000"), BigDecimal.ZERO, "AUD", "BTC", BTCMarketsOrder.Side.Bid,
+        BTCMarketsOrder.Type.Market, "generatedReqId");
 
     BTCMarketsPlaceOrderResponse orderResponse = new BTCMarketsPlaceOrderResponse(true, null, 0, "11111", 12345);
 
@@ -104,12 +106,14 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shouldPlaceLimitOrder() throws Exception {
+  public void shouldPlaceLimitOrder() throws IOException {
     // given
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("10.00000000"), CurrencyPair.BTC_AUD, "11111", new Date(1234567890L), new BigDecimal("20.00000000"));
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("10.00000000"),
+        CurrencyPair.BTC_AUD, "11111", new Date(1234567890L), new BigDecimal("20.00000000"));
 
     BTCMarketsOrder btcMarketsOrder = new BTCMarketsOrder(
-        new BigDecimal("10.00000000"), new BigDecimal("20.00000000"), "AUD", "BTC", BTCMarketsOrder.Side.Ask, BTCMarketsOrder.Type.Limit, "generatedReqId");
+        new BigDecimal("10.00000000"), new BigDecimal("20.00000000"), "AUD", "BTC",
+        BTCMarketsOrder.Side.Ask, BTCMarketsOrder.Type.Limit, "generatedReqId");
 
     BTCMarketsPlaceOrderResponse orderResponse = new BTCMarketsPlaceOrderResponse(true, null, 0, "11111", 12345);
 
@@ -128,7 +132,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shouldCancelOrder() throws Exception {
+  public void shouldCancelOrder() throws IOException {
     // given
     BTCMarketsCancelOrderRequest cancelOrderRequest = new BTCMarketsCancelOrderRequest(111L);
 
@@ -136,7 +140,8 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
         Arrays.asList(new BTCMarketsException(true, null, 0, "12345", 111L, null)));
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
-    PowerMockito.when(btcm.cancelOrder(Mockito.eq("publicKey"), Mockito.any(SynchronizedValueFactory.class), Mockito.any(BTCMarketsDigest.class), Mockito.refEq(cancelOrderRequest))).thenReturn(
+    PowerMockito.when(btcm.cancelOrder(Mockito.eq("publicKey"), Mockito.any(SynchronizedValueFactory.class),
+        Mockito.any(BTCMarketsDigest.class), Mockito.refEq(cancelOrderRequest))).thenReturn(
         orderResponse);
     Whitebox.setInternalState(marketsTradeService, "btcm", btcm);
 
@@ -155,11 +160,16 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     BTCMarketsMyTradingRequest pagingRequest = new BTCMarketsMyTradingRequest("AUD", "BTC", 120, null);
     BTCMarketsMyTradingRequest timeSpanRequest = new BTCMarketsMyTradingRequest("AUD", "BTC", null, new Date(1234567890L));
 
-    BTCMarketsUserTrade userTrade1 = createBTCMarketsUserTrade("trade 1", new BigDecimal("10.00000000"), new BigDecimal("20.00000000"), new BigDecimal("1"), new Date(111111111L), BTCMarketsOrder.Side.Ask);
-    BTCMarketsUserTrade userTrade2 = createBTCMarketsUserTrade("trade 2", new BigDecimal("30.00000000"), new BigDecimal("40.00000000"), new BigDecimal("2"), new Date(222222222L), BTCMarketsOrder.Side.Ask);
-    BTCMarketsUserTrade userTrade3 = createBTCMarketsUserTrade("trade 3", new BigDecimal("50.00000000"), new BigDecimal("60.00000000"), new BigDecimal("3"), new Date(333333333L), BTCMarketsOrder.Side.Bid);
-    BTCMarketsUserTrade userTrade4 = createBTCMarketsUserTrade("trade 4", new BigDecimal("70.00000000"), new BigDecimal("80.00000000"), new BigDecimal("4"), new Date(444444444L), BTCMarketsOrder.Side.Bid);
-    BTCMarketsUserTrade userTrade5 = createBTCMarketsUserTrade("trade 5", new BigDecimal("90.00000000"), BigDecimal.ZERO, new BigDecimal("5"), new Date(555555555L), BTCMarketsOrder.Side.Bid);
+    BTCMarketsUserTrade userTrade1 = createBTCMarketsUserTrade("trade 1", new BigDecimal("10.00000000"),
+        new BigDecimal("20.00000000"), new BigDecimal("1"), new Date(111111111L), BTCMarketsOrder.Side.Ask);
+    BTCMarketsUserTrade userTrade2 = createBTCMarketsUserTrade("trade 2", new BigDecimal("30.00000000"),
+        new BigDecimal("40.00000000"), new BigDecimal("2"), new Date(222222222L), BTCMarketsOrder.Side.Ask);
+    BTCMarketsUserTrade userTrade3 = createBTCMarketsUserTrade("trade 3", new BigDecimal("50.00000000"),
+        new BigDecimal("60.00000000"), new BigDecimal("3"), new Date(333333333L), BTCMarketsOrder.Side.Bid);
+    BTCMarketsUserTrade userTrade4 = createBTCMarketsUserTrade("trade 4", new BigDecimal("70.00000000"),
+        new BigDecimal("80.00000000"), new BigDecimal("4"), new Date(444444444L), BTCMarketsOrder.Side.Bid);
+    BTCMarketsUserTrade userTrade5 = createBTCMarketsUserTrade("trade 5", new BigDecimal("90.00000000"),
+        BigDecimal.ZERO, new BigDecimal("5"), new Date(555555555L), BTCMarketsOrder.Side.Bid);
 
     Whitebox.setInternalState(userTrade1, "id", 1L);
     Whitebox.setInternalState(userTrade2, "id", 2L);
@@ -181,9 +191,12 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
 
-    PowerMockito.when(btcm.getTradeHistory(Mockito.eq("publicKey"), Mockito.any(SynchronizedValueFactory.class), Mockito.any(BTCMarketsDigest.class), Mockito.refEq(defaultRequest))).thenReturn(defaultResponse);
-    PowerMockito.when(btcm.getTradeHistory(Mockito.eq("publicKey"), Mockito.any(SynchronizedValueFactory.class), Mockito.any(BTCMarketsDigest.class), Mockito.refEq(pagingRequest))).thenReturn(pagingResponse);
-    PowerMockito.when(btcm.getTradeHistory(Mockito.eq("publicKey"), Mockito.any(SynchronizedValueFactory.class), Mockito.any(BTCMarketsDigest.class), Mockito.refEq(timeSpanRequest))).thenReturn(timeSpanResponse);
+    PowerMockito.when(btcm.getTradeHistory(Mockito.eq("publicKey"), Mockito.any(SynchronizedValueFactory.class),
+        Mockito.any(BTCMarketsDigest.class), Mockito.refEq(defaultRequest))).thenReturn(defaultResponse);
+    PowerMockito.when(btcm.getTradeHistory(Mockito.eq("publicKey"), Mockito.any(SynchronizedValueFactory.class),
+        Mockito.any(BTCMarketsDigest.class), Mockito.refEq(pagingRequest))).thenReturn(pagingResponse);
+    PowerMockito.when(btcm.getTradeHistory(Mockito.eq("publicKey"), Mockito.any(SynchronizedValueFactory.class),
+        Mockito.any(BTCMarketsDigest.class), Mockito.refEq(timeSpanRequest))).thenReturn(timeSpanResponse);
 
     Whitebox.setInternalState(marketsTradeService, "btcm", btcm);
 
@@ -194,17 +207,23 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
 
     // then
     assertThat(defaultTrades.toString()).isEqualTo(String.format("Trades\n" + "lastID= 0\n"
-        + "[trade=UserTrade[type=ASK, tradableAmount=20.00000000, currencyPair=BTC/AUD, price=10.00000000, timestamp=%s, id=1, orderId='null', feeAmount=1, feeCurrency='AUD']]\n", new Date(111111111L)));
+        + "[trade=UserTrade[type=ASK, tradableAmount=20.00000000, currencyPair=BTC/AUD, price=10.00000000, "
+        + "timestamp=%s, id=1, orderId='null', feeAmount=1, feeCurrency='AUD']]\n", new Date(111111111L)));
 
     assertThat(pagingTrades.toString()).isEqualTo(String.format("Trades\n" + "lastID= 0\n"
-        + "[trade=UserTrade[type=ASK, tradableAmount=40.00000000, currencyPair=BTC/AUD, price=30.00000000, timestamp=%s, id=2, orderId='null', feeAmount=2, feeCurrency='AUD']]\n"
-        + "[trade=UserTrade[type=BID, tradableAmount=60.00000000, currencyPair=BTC/AUD, price=50.00000000, timestamp=%s, id=3, orderId='null', feeAmount=3, feeCurrency='AUD']]\n",
+        + "[trade=UserTrade[type=ASK, tradableAmount=40.00000000, currencyPair=BTC/AUD, price=30.00000000, "
+            + "timestamp=%s, id=2, orderId='null', feeAmount=2, feeCurrency='AUD']]\n"
+        + "[trade=UserTrade[type=BID, tradableAmount=60.00000000, currencyPair=BTC/AUD, price=50.00000000, "
+            + "timestamp=%s, id=3, orderId='null', feeAmount=3, feeCurrency='AUD']]\n",
         new Date(222222222L), new Date(333333333L)));
 
     assertThat(timeSpanTrades.toString()).isEqualTo(String.format("Trades\n" + "lastID= 0\n"
-            + "[trade=UserTrade[type=BID, tradableAmount=60.00000000, currencyPair=BTC/AUD, price=50.00000000, timestamp=%s, id=3, orderId='null', feeAmount=3, feeCurrency='AUD']]\n"
-            + "[trade=UserTrade[type=BID, tradableAmount=80.00000000, currencyPair=BTC/AUD, price=70.00000000, timestamp=%s, id=4, orderId='null', feeAmount=4, feeCurrency='AUD']]\n"
-            + "[trade=UserTrade[type=BID, tradableAmount=0, currencyPair=BTC/AUD, price=90.00000000, timestamp=%s, id=5, orderId='null', feeAmount=5, feeCurrency='AUD']]\n",
+            + "[trade=UserTrade[type=BID, tradableAmount=60.00000000, currencyPair=BTC/AUD, price=50.00000000, "
+            + "timestamp=%s, id=3, orderId='null', feeAmount=3, feeCurrency='AUD']]\n"
+            + "[trade=UserTrade[type=BID, tradableAmount=80.00000000, currencyPair=BTC/AUD, price=70.00000000, "
+            + "timestamp=%s, id=4, orderId='null', feeAmount=4, feeCurrency='AUD']]\n"
+            + "[trade=UserTrade[type=BID, tradableAmount=0, currencyPair=BTC/AUD, price=90.00000000, "
+            + "timestamp=%s, id=5, orderId='null', feeAmount=5, feeCurrency='AUD']]\n",
         new Date(333333333L), new Date(444444444L), new Date(555555555L)));
   }
 
@@ -214,8 +233,10 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     // given
     BTCMarketsMyTradingRequest request = new BTCMarketsMyTradingRequest("AUD", "BTC", 50, null);
 
-    BTCMarketsOrder marketsOrder1 = new BTCMarketsOrder(new BigDecimal("10.00000000"), new BigDecimal("20.00000000"), "AUD", "BTC", BTCMarketsOrder.Side.Ask, BTCMarketsOrder.Type.Market, "11111");
-    BTCMarketsOrder marketsOrder2 = new BTCMarketsOrder(new BigDecimal("30.00000000"), new BigDecimal("40.00000000"), "AUD", "BTC", BTCMarketsOrder.Side.Bid, BTCMarketsOrder.Type.Limit, "22222");
+    BTCMarketsOrder marketsOrder1 = new BTCMarketsOrder(new BigDecimal("10.00000000"),
+        new BigDecimal("20.00000000"), "AUD", "BTC", BTCMarketsOrder.Side.Ask, BTCMarketsOrder.Type.Market, "11111");
+    BTCMarketsOrder marketsOrder2 = new BTCMarketsOrder(new BigDecimal("30.00000000"),
+        new BigDecimal("40.00000000"), "AUD", "BTC", BTCMarketsOrder.Side.Bid, BTCMarketsOrder.Type.Limit, "22222");
 
     Whitebox.setInternalState(marketsOrder1, "id", 1L);
     Whitebox.setInternalState(marketsOrder2, "id", 2L);
@@ -225,21 +246,25 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
         new Object[]{true, "", 0, Arrays.asList(marketsOrder1, marketsOrder2)});
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
-    PowerMockito.when(btcm.getOpenOrders(Mockito.eq("publicKey"), Mockito.any(SynchronizedValueFactory.class), Mockito.any(BTCMarketsDigest.class), Mockito.refEq(request))).thenReturn(response);
+    PowerMockito.when(btcm.getOpenOrders(Mockito.eq("publicKey"), Mockito.any(SynchronizedValueFactory.class),
+        Mockito.any(BTCMarketsDigest.class), Mockito.refEq(request))).thenReturn(response);
 
     Whitebox.setInternalState(marketsTradeService, "btcm", btcm);
 
     // when
     OpenOrders openOrders = marketsTradeService.getOpenOrders();
+    List<LimitOrder> ordersList = openOrders.getOpenOrders();
 
     // then
-    assertThat(openOrders.getOpenOrders().size()).isEqualTo(2);
-    assertThat(openOrders.getOpenOrders().get(0).toString()).isEqualTo("LimitOrder [limitPrice=20.00000000, Order [type=ASK, tradableAmount=10.00000000, currencyPair=BTC/AUD, id=1, timestamp=null]]");
-    assertThat(openOrders.getOpenOrders().get(1).toString()).isEqualTo("LimitOrder [limitPrice=40.00000000, Order [type=BID, tradableAmount=30.00000000, currencyPair=BTC/AUD, id=2, timestamp=null]]");
+    assertThat(ordersList).hasSize(2);
+    assertThat(ordersList.get(0).toString()).isEqualTo(
+        "LimitOrder [limitPrice=20.00000000, Order [type=ASK, tradableAmount=10.00000000, currencyPair=BTC/AUD, id=1, timestamp=null]]");
+    assertThat(ordersList.get(1).toString()).isEqualTo(
+        "LimitOrder [limitPrice=40.00000000, Order [type=BID, tradableAmount=30.00000000, currencyPair=BTC/AUD, id=2, timestamp=null]]");
   }
 
   @Test
-  public void shouldCreateHistoryParams() throws Exception {
+  public void shouldCreateHistoryParams() {
     // when
     BTCMarketsTradeService.HistoryParams historyParams = marketsTradeService.createTradeHistoryParams();
 

@@ -10,7 +10,7 @@ import static org.junit.Assert.fail;
 public class BTCMarketsTradeServiceHistoryParamsTest {
 
   @Test
-  public void shouldHoldPageLength() throws Exception {
+  public void shouldHoldPageLength() {
     // given
     BTCMarketsTradeService.HistoryParams historyParams = new BTCMarketsTradeService.HistoryParams();
 
@@ -22,7 +22,7 @@ public class BTCMarketsTradeServiceHistoryParamsTest {
   }
 
   @Test(expected = UnsupportedOperationException.class)
-  public void shouldFailOnGetPageNumber() throws Exception {
+  public void shouldFailOnGetPageNumber() {
     // given
     BTCMarketsTradeService.HistoryParams historyParams = new BTCMarketsTradeService.HistoryParams();
 
@@ -34,7 +34,7 @@ public class BTCMarketsTradeServiceHistoryParamsTest {
   }
 
   @Test(expected = UnsupportedOperationException.class)
-  public void shouldFailOnSetPageNumber() throws Exception {
+  public void shouldFailOnSetPageNumber() {
     // given
     BTCMarketsTradeService.HistoryParams historyParams = new BTCMarketsTradeService.HistoryParams();
 
@@ -46,7 +46,7 @@ public class BTCMarketsTradeServiceHistoryParamsTest {
   }
 
   @Test
-  public void shouldHoldStartTime() throws Exception {
+  public void shouldHoldStartTime() {
     // given
     BTCMarketsTradeService.HistoryParams historyParams = new BTCMarketsTradeService.HistoryParams();
 
@@ -58,7 +58,7 @@ public class BTCMarketsTradeServiceHistoryParamsTest {
   }
 
   @Test(expected = UnsupportedOperationException.class)
-  public void shouldFailOnGetEndTime() throws Exception {
+  public void shouldFailOnGetEndTime() {
     // given
     BTCMarketsTradeService.HistoryParams historyParams = new BTCMarketsTradeService.HistoryParams();
 
@@ -70,7 +70,7 @@ public class BTCMarketsTradeServiceHistoryParamsTest {
   }
 
   @Test(expected = UnsupportedOperationException.class)
-  public void shouldFailOnSetEndTime() throws Exception {
+  public void shouldFailOnSetEndTime() {
     // given
     BTCMarketsTradeService.HistoryParams historyParams = new BTCMarketsTradeService.HistoryParams();
 

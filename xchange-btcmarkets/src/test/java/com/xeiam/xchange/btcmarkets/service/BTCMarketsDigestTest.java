@@ -1,6 +1,5 @@
 package com.xeiam.xchange.btcmarkets.service;
 
-import net.iharder.Base64;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +10,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import si.mazi.rescu.RestInvocation;
 
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.HeaderParam;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -25,20 +21,14 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 public class BTCMarketsDigestTest {
 
   private BTCMarketsDigest btcMarketsDigest;
-  private Mac mac;
-
 
   @Before
-  public void setUp() throws Exception {
-    SecretKey secretKey = new SecretKeySpec("secretKey".getBytes(), "HmacSHA512");
-    mac = Mac.getInstance("HmacSHA512");
-    mac.init(secretKey);
-
+  public void setUp() {
     btcMarketsDigest = new BTCMarketsDigest("c2VjcmV0S2V5");  // encoded 'secretKey'
   }
 
   @Test
-  public void shouldEncode() throws Exception {
+  public void shouldEncode() {
     // given
     String expected = "u+WtKtUXd4CkUlfYJvL7Li4kr5LyNluP/m1Xqk4CMmTnsSymWTTpxpnwWD+RTseXJVsXUgrw6fZusGTjfS9knQ==";
 
@@ -52,7 +42,7 @@ public class BTCMarketsDigestTest {
   }
 
   @Test
-  public void shouldEncodeWithoutBody() throws Exception {
+  public void shouldEncodeWithoutBody() {
     // given
     String expected = "/LEFVtbNw+pgTFK/thj4xWzKuNz16Tub2+Jm8Ooep4o3XH6tGalk6AQxFiUvnDmN+w3NQpu+qCyoO5ap6OseYQ==";
 
