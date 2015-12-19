@@ -10,7 +10,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class BitMarketUtilsTest {
 
   @Test
-  public void shouldConvertStringToCurrencyPair() throws Exception {
+  public void shouldConvertStringToCurrencyPair() {
     assertThat(BitMarketUtils.BitMarketCurrencyPairToCurrencyPair("BTCPLN")).isEqualTo(CurrencyPair.BTC_PLN);
     assertThat(BitMarketUtils.BitMarketCurrencyPairToCurrencyPair("BTCEUR")).isEqualTo(CurrencyPair.BTC_EUR);
     assertThat(BitMarketUtils.BitMarketCurrencyPairToCurrencyPair("LTCPLN")).isEqualTo(new CurrencyPair("LTC", "PLN"));
@@ -22,7 +22,7 @@ public class BitMarketUtilsTest {
   }
 
   @Test
-  public void shouldConvertCurrencyPairToString() throws Exception {
+  public void shouldConvertCurrencyPairToString() {
     assertThat(BitMarketUtils.CurrencyPairToBitMarketCurrencyPair(CurrencyPair.BTC_PLN)).isEqualTo("BTCPLN");
     assertThat(BitMarketUtils.CurrencyPairToBitMarketCurrencyPair(CurrencyPair.BTC_EUR)).isEqualTo("BTCEUR");
     assertThat(BitMarketUtils.CurrencyPairToBitMarketCurrencyPair(new CurrencyPair("LTC", "PLN"))).isEqualTo("LTCPLN");
@@ -35,14 +35,14 @@ public class BitMarketUtilsTest {
 
   @Test
   @Ignore("issue #1140")
-  public void shouldConvertStringToOrderType() throws Exception {
+  public void shouldConvertStringToOrderType() {
     assertThat(BitMarketUtils.BitMarketOrderTypeToOrderType("buy")).isEqualTo(Order.OrderType.BID);
     assertThat(BitMarketUtils.BitMarketOrderTypeToOrderType("sell")).isEqualTo(Order.OrderType.ASK);
   }
 
   @Test
   @Ignore("issue #1140")
-  public void shouldConvertOrderTypeToString() throws Exception {
+  public void shouldConvertOrderTypeToString() {
     assertThat(BitMarketUtils.OrderTypeToBitMarketOrderType(Order.OrderType.BID)).isEqualTo("buy");
     assertThat(BitMarketUtils.OrderTypeToBitMarketOrderType(Order.OrderType.ASK)).isEqualTo("sell");
   }

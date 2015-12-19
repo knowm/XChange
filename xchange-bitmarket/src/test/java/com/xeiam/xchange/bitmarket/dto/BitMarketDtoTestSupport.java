@@ -19,7 +19,7 @@ public class BitMarketDtoTestSupport {
     return BitMarketDtoTestSupport.class.getResourceAsStream(String.format("/%s.json", baseName));
   }
 
-  protected <T extends BitMarketBaseResponse> void verifyErrorResponse(Class<T> responseType) throws Exception {
+  protected <T extends BitMarketBaseResponse> void verifyErrorResponse(Class<T> responseType) throws IOException {
     // when
     T response = parse("example-error", responseType);
 
@@ -31,10 +31,9 @@ public class BitMarketDtoTestSupport {
     assertThat(response.getLimit()).isNull();
   }
 
-  protected void verifyResponseLimit(BitMarketAPILimit limit, int used, int allowed, long expires) throws Exception {
+  protected void verifyResponseLimit(BitMarketAPILimit limit, int used, int allowed, long expires) {
     assertThat(limit.getUsed()).isEqualTo(used);
     assertThat(limit.getAllowed()).isEqualTo(allowed);
     assertThat(limit.getExpires()).isEqualTo(expires);
   }
-
 }

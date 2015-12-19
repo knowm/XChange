@@ -1,6 +1,7 @@
 package com.xeiam.xchange.bitmarket.service.polling;
 
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitmarket.BitMarket;
 import com.xeiam.xchange.bitmarket.BitMarketExchange;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
@@ -10,6 +11,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import org.junit.Before;
@@ -31,22 +33,24 @@ public class BitMarketDataServiceTest {
 
   private BitMarketDataService dataService;
 
-  @Before public void setUp() throws Exception {
+  @Before public void setUp() {
     BitMarketExchange exchange = (BitMarketExchange) ExchangeFactory.INSTANCE.createExchange(BitMarketExchange.class.getCanonicalName());
-    exchange.getExchangeSpecification().setUserName("admin");
-    exchange.getExchangeSpecification().setApiKey("publicKey");
-    exchange.getExchangeSpecification().setSecretKey("secretKey");
+    ExchangeSpecification specification = exchange.getExchangeSpecification();
+    specification.setUserName("admin");
+    specification.setApiKey("publicKey");
+    specification.setSecretKey("secretKey");
 
     dataService = new BitMarketDataService(exchange);
   }
 
-  @Test public void constructor() throws Exception {
+  @Test public void constructor() {
     assertThat(Whitebox.getInternalState(dataService, "apiKey")).isEqualTo("publicKey");
   }
 
-  @Test public void shouldGetTicker() throws Exception {
+  @Test public void shouldGetTicker() throws IOException {
     // given
-    BitMarketTicker response = new BitMarketTicker(new BigDecimal("1794.5000"), new BigDecimal("1789.2301"), new BigDecimal("1789.2001"), new BigDecimal("1756.5000"), new BigDecimal("1813.5000"),
+    BitMarketTicker response = new BitMarketTicker(new BigDecimal("1794.5000"), new BigDecimal("1789.2301"),
+        new BigDecimal("1789.2001"), new BigDecimal("1756.5000"), new BigDecimal("1813.5000"),
         new BigDecimal("1785.8484"), new BigDecimal("455.69192487"));
 
     BitMarket bitMarket = mock(BitMarket.class);
@@ -57,8 +61,8 @@ public class BitMarketDataServiceTest {
     Ticker ticker = dataService.getTicker(CurrencyPair.BTC_AUD);
 
     // then
-    assertThat(ticker.toString())
-        .isEqualTo("Ticker [currencyPair=BTC/AUD, last=1789.2001, bid=1789.2301, " + "ask=1794.5000, high=1813.5000, low=1756.5000,avg=null, volume=455.69192487, timestamp=null]");
+    assertThat(ticker.toString()).isEqualTo(
+        "Ticker [currencyPair=BTC/AUD, last=1789.2001, bid=1789.2301, " + "ask=1794.5000, high=1813.5000, low=1756.5000,avg=null, volume=455.69192487, timestamp=null]");
   }
 
   @Test public void shouldGetTrades() throws IOException {
@@ -73,19 +77,25 @@ public class BitMarketDataServiceTest {
 
     // when
     Trades trades = dataService.getTrades(CurrencyPair.BTC_AUD);
+    List<Trade> tradeList = trades.getTrades();
 
     // then
-    assertThat(trades.getTrades()).hasSize(3);
-    assertThat(trades.getTrades().get(0).toString()).isEqualTo("Trade [type=BID, tradableAmount=0.10560487, currencyPair=BTC/AUD, price=14.4105, timestamp=Sat Jan 17 21:51:43 MSK 1970, id=78453]");
-    assertThat(trades.getTrades().get(1).toString()).isEqualTo("Trade [type=BID, tradableAmount=5.22284399, currencyPair=BTC/AUD, price=14.4105, timestamp=Sat Jan 17 21:52:23 MSK 1970, id=78454]");
-    assertThat(trades.getTrades().get(2).toString()).isEqualTo("Trade [type=BID, tradableAmount=27.24579867, currencyPair=BTC/AUD, price=14.6900, timestamp=Sat Jan 17 21:52:24 MSK 1970, id=78455]");
+    assertThat(tradeList).hasSize(3);
+    assertThat(tradeList.get(0).toString()).isEqualTo(
+        "Trade [type=BID, tradableAmount=0.10560487, currencyPair=BTC/AUD, price=14.4105, timestamp=Sat Jan 17 21:51:43 MSK 1970, id=78453]");
+    assertThat(tradeList.get(1).toString()).isEqualTo(
+        "Trade [type=BID, tradableAmount=5.22284399, currencyPair=BTC/AUD, price=14.4105, timestamp=Sat Jan 17 21:52:23 MSK 1970, id=78454]");
+    assertThat(tradeList.get(2).toString()).isEqualTo(
+        "Trade [type=BID, tradableAmount=27.24579867, currencyPair=BTC/AUD, price=14.6900, timestamp=Sat Jan 17 21:52:24 MSK 1970, id=78455]");
   }
 
-  @Test public void shouldGetOrderBook() throws Exception {
+  @Test public void shouldGetOrderBook() throws IOException {
     // given
     BitMarketOrderBook response = new BitMarketOrderBook(
-        new BigDecimal[][] { new BigDecimal[] { new BigDecimal("14.6999"), new BigDecimal("20.47") }, new BigDecimal[] { new BigDecimal("14.7"), new BigDecimal("10.06627287") } },
-        new BigDecimal[][] { new BigDecimal[] { new BigDecimal("14.4102"), new BigDecimal("1.55") }, new BigDecimal[] { new BigDecimal("14.4101"), new BigDecimal("27.77224019") },
+        new BigDecimal[][] { new BigDecimal[] { new BigDecimal("14.6999"), new BigDecimal("20.47") },
+            new BigDecimal[] { new BigDecimal("14.7"), new BigDecimal("10.06627287") } },
+        new BigDecimal[][] { new BigDecimal[] { new BigDecimal("14.4102"), new BigDecimal("1.55") },
+            new BigDecimal[] { new BigDecimal("14.4101"), new BigDecimal("27.77224019") },
             new BigDecimal[] { new BigDecimal("0"), new BigDecimal("52669.33019064") } });
 
     BitMarket bitMarket = mock(BitMarket.class);
@@ -96,28 +106,30 @@ public class BitMarketDataServiceTest {
     OrderBook orderBook = dataService.getOrderBook(CurrencyPair.BTC_AUD);
 
     // then
-    assertThat(orderBook.getAsks()).hasSize(2);
-    assertThat(orderBook.getAsks().get(0).getType()).isEqualTo(Order.OrderType.ASK);
-    assertThat(orderBook.getAsks().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(orderBook.getAsks().get(0).getLimitPrice()).isEqualTo(new BigDecimal("14.6999"));
-    assertThat(orderBook.getAsks().get(0).getTradableAmount()).isEqualTo(new BigDecimal("20.47"));
-    assertThat(orderBook.getAsks().get(1).getType()).isEqualTo(Order.OrderType.ASK);
-    assertThat(orderBook.getAsks().get(1).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(orderBook.getAsks().get(1).getLimitPrice()).isEqualTo(new BigDecimal("14.7"));
-    assertThat(orderBook.getAsks().get(1).getTradableAmount()).isEqualTo(new BigDecimal("10.06627287"));
+    List<LimitOrder> asks = orderBook.getAsks();
+    assertThat(asks).hasSize(2);
+    assertThat(asks.get(0).getType()).isEqualTo(Order.OrderType.ASK);
+    assertThat(asks.get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
+    assertThat(asks.get(0).getLimitPrice()).isEqualTo(new BigDecimal("14.6999"));
+    assertThat(asks.get(0).getTradableAmount()).isEqualTo(new BigDecimal("20.47"));
+    assertThat(asks.get(1).getType()).isEqualTo(Order.OrderType.ASK);
+    assertThat(asks.get(1).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
+    assertThat(asks.get(1).getLimitPrice()).isEqualTo(new BigDecimal("14.7"));
+    assertThat(asks.get(1).getTradableAmount()).isEqualTo(new BigDecimal("10.06627287"));
 
-    assertThat(orderBook.getBids()).hasSize(3);
-    assertThat(orderBook.getBids().get(0).getType()).isEqualTo(Order.OrderType.BID);
-    assertThat(orderBook.getBids().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(orderBook.getBids().get(0).getLimitPrice()).isEqualTo(new BigDecimal("14.4102"));
-    assertThat(orderBook.getBids().get(0).getTradableAmount()).isEqualTo(new BigDecimal("1.55"));
-    assertThat(orderBook.getBids().get(1).getType()).isEqualTo(Order.OrderType.BID);
-    assertThat(orderBook.getBids().get(1).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(orderBook.getBids().get(1).getLimitPrice()).isEqualTo(new BigDecimal("14.4101"));
-    assertThat(orderBook.getBids().get(1).getTradableAmount()).isEqualTo(new BigDecimal("27.77224019"));
-    assertThat(orderBook.getBids().get(2).getType()).isEqualTo(Order.OrderType.BID);
-    assertThat(orderBook.getBids().get(2).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(orderBook.getBids().get(2).getLimitPrice()).isEqualTo(new BigDecimal("0"));
-    assertThat(orderBook.getBids().get(2).getTradableAmount()).isEqualTo(new BigDecimal("52669.33019064"));
+    List<LimitOrder> bids = orderBook.getBids();
+    assertThat(bids).hasSize(3);
+    assertThat(bids.get(0).getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(bids.get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
+    assertThat(bids.get(0).getLimitPrice()).isEqualTo(new BigDecimal("14.4102"));
+    assertThat(bids.get(0).getTradableAmount()).isEqualTo(new BigDecimal("1.55"));
+    assertThat(bids.get(1).getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(bids.get(1).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
+    assertThat(bids.get(1).getLimitPrice()).isEqualTo(new BigDecimal("14.4101"));
+    assertThat(bids.get(1).getTradableAmount()).isEqualTo(new BigDecimal("27.77224019"));
+    assertThat(bids.get(2).getType()).isEqualTo(Order.OrderType.BID);
+    assertThat(bids.get(2).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
+    assertThat(bids.get(2).getLimitPrice()).isEqualTo(new BigDecimal("0"));
+    assertThat(bids.get(2).getTradableAmount()).isEqualTo(new BigDecimal("52669.33019064"));
   }
 }

@@ -9,11 +9,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import si.mazi.rescu.RestInvocation;
 
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
@@ -25,29 +21,26 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 public class BitMarketDigestTest {
 
   private BitMarketDigest bitMarketDigest;
-  private Mac mac;
 
   @Before
   public void setUp() throws Exception {
-    SecretKey secretKey = new SecretKeySpec("secretKey".getBytes(), "HmacSHA512");
-    mac = Mac.getInstance("HmacSHA512");
-    mac.init(secretKey);
-
     bitMarketDigest = BitMarketDigest.createInstance("secretKey");
   }
 
   @Test
   public void shouldEncodeRestInvocation() throws Exception {
     // given
-    mac.update("rest body".getBytes());
-    String expected = String.format("%0128x", new BigInteger(1, mac.doFinal()));
     RestInvocation invocation = mock(RestInvocation.class);
-
-    // when
     PowerMockito.when(invocation, "getRequestBody").thenReturn("rest body");
 
+    String expected =
+        "6372f349eea659b26f5e01bc76e1485de744a1894d5e036b98eca724a8104719ea8767518286863d1becd0a1313ad5e7e507749f7cdb98a4dee92fec055643c4";
+
+    // when
+    String encoded = bitMarketDigest.digestParams(invocation);
+
     // then
-    assertThat(bitMarketDigest.digestParams(invocation)).isEqualTo(expected);
+    assertThat(encoded).isEqualTo(expected);
   }
 
   @Test(expected = RuntimeException.class)
