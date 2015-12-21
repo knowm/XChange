@@ -11,18 +11,11 @@ import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTicker;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTrade;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOrderId;
-import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 public class BleutradeServiceTestSupport implements BleutradeTestData {
 
