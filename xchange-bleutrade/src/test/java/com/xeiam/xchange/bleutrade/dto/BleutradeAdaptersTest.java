@@ -1,6 +1,7 @@
 package com.xeiam.xchange.bleutrade.dto;
 
 import com.xeiam.xchange.bleutrade.BleutradeAdapters;
+import com.xeiam.xchange.bleutrade.BleutradeCompareUtils;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalancesReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketHistoryReturn;
@@ -26,16 +27,58 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
+
+  private static final Balance[] BALANCES = new Balance[] {
+      new Balance(Currency.DOGE, new BigDecimal("0E-8"), new BigDecimal("0E-8"), new BigDecimal("0E-8")),
+      new Balance(Currency.BTC, new BigDecimal("15.49843675"), new BigDecimal("13.98901996"), new BigDecimal("0E-8")),
+  };
+
+  private static final Trade[] TRADES = new Trade[] {
+      new Trade(Order.OrderType.BID, new BigDecimal("654971.69417461"), CurrencyPair.BTC_AUD,
+          new BigDecimal("0.00000055"), new Date(1406657280000L), null),
+      new Trade(Order.OrderType.ASK, new BigDecimal("120.00000000"), CurrencyPair.BTC_AUD,
+          new BigDecimal("0.00006600"), new Date(1406657555000L), null),
+  };
+
+  private static final LimitOrder[] ORDER = new LimitOrder[] {   // timestampas are always null: 'created' to 'timestamp' convertation is probably missed
+      new LimitOrder(Order.OrderType.BID, new BigDecimal("5.00000000"), CurrencyPair.LTC_BTC, "65489", null, new BigDecimal("0.01268311")),
+      new LimitOrder(Order.OrderType.ASK, new BigDecimal("795.00000000"), CurrencyPair.DOGE_BTC, "65724", null, new BigDecimal("0.00000055")),
+  };
+
+  private static final LimitOrder[] BIDS = new LimitOrder[] {
+      new LimitOrder(Order.OrderType.BID, new BigDecimal("4.99400000"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("3.00650900")),
+      new LimitOrder(Order.OrderType.BID, new BigDecimal("50.00000000"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("3.50000000"))
+  };
+
+  private static final LimitOrder[] ASKS = new LimitOrder[] {
+      new LimitOrder(Order.OrderType.ASK, new BigDecimal("12.44147454"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("5.13540000")),
+      new LimitOrder(Order.OrderType.ASK, new BigDecimal("100.00000000"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("6.25500000")),
+      new LimitOrder(Order.OrderType.ASK, new BigDecimal("30.00000000"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("6.75500001")),
+      new LimitOrder(Order.OrderType.ASK, new BigDecimal("13.49989999"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("6.76260099"))
+  };
+
+  private static final Ticker TICKER = new Ticker.Builder()
+      .currencyPair(BLEU_BTC_CP).last(new BigDecimal("0.00101977")).bid(new BigDecimal("0.00100000"))
+      .ask(new BigDecimal("0.00101977")).high(new BigDecimal("0.00105000")).low(new BigDecimal("0.00086000"))
+      .vwap(new BigDecimal("0.00103455")).volume(new BigDecimal("2450.97496015")).timestamp(new Date(1406632770000L)).build();
+
+  private static final MarketMetaData[] META_DATA_LIST = new MarketMetaData[] {
+      new MarketMetaData(new BigDecimal("0.00499375"), new BigDecimal("0.10000000"), 8),
+      new MarketMetaData(new BigDecimal("0.00499375"), new BigDecimal("0.00000001"), 8)
+  };
+
+  private static final String[] META_DATA_STR = new String[] {
+      "MarketMetaData{tradingFee=0.00499375, minimumAmount=0.10000000, priceScale=8}",
+      "MarketMetaData{tradingFee=0.00499375, minimumAmount=1E-8, priceScale=8}"
+  };
 
   @Test
   public void shouldAdaptBalances() throws IOException {
@@ -48,15 +91,8 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     // then
     assertThat(wallet.getBalances()).hasSize(2);
 
-    Balance dogeBalance = wallet.getBalance(Currency.DOGE);
-    assertThat(dogeBalance.getTotal()).isEqualTo(new BigDecimal("0E-8"));
-    assertThat(dogeBalance.getAvailable()).isEqualTo(new BigDecimal("0E-8"));
-    assertThat(dogeBalance.getFrozen()).isEqualTo(new BigDecimal("0E-8"));
-
-    Balance btcBalance = wallet.getBalance(Currency.BTC);
-    assertThat(btcBalance.getTotal()).isEqualTo(new BigDecimal("15.49843675"));
-    assertThat(btcBalance.getAvailable()).isEqualTo(new BigDecimal("13.98901996"));
-    assertThat(btcBalance.getFrozen()).isEqualTo(new BigDecimal("0E-8"));
+    BleutradeCompareUtils.compareBalances(wallet.getBalance(Currency.DOGE), BALANCES[0]);
+    BleutradeCompareUtils.compareBalances(wallet.getBalance(Currency.BTC), BALANCES[1]);
   }
 
   @Test
@@ -77,17 +113,6 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     // given
     final BleutradeMarketHistoryReturn response = parse(BleutradeMarketHistoryReturn.class);
 
-    long expectedTime1;
-    long expectedTime2;
-
-    GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-    calendar.set(Calendar.MILLISECOND, 0);
-
-    calendar.set(2014, Calendar.JULY, 29, 18, 8, 0);
-    expectedTime1 = calendar.getTimeInMillis();
-    calendar.set(2014, Calendar.JULY, 29, 18, 12, 35);
-    expectedTime2 = calendar.getTimeInMillis();
-
     // when
     Trades trades = BleutradeAdapters.adaptBleutradeMarketHistory(response.getResult(), CurrencyPair.BTC_AUD);
 
@@ -97,19 +122,9 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     List<Trade> tradeList = trades.getTrades();
     assertThat(tradeList).hasSize(2);
 
-    Trade trade1 = tradeList.get(0);
-    assertThat(trade1.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(trade1.getTimestamp().getTime()).isEqualTo(expectedTime1);
-    assertThat(trade1.getTradableAmount()).isEqualTo(new BigDecimal("654971.69417461"));
-    assertThat(trade1.getPrice()).isEqualTo(new BigDecimal("0.00000055"));
-    assertThat(trade1.getType()).isEqualTo(Order.OrderType.BID);
-
-    Trade trade2 = tradeList.get(1);
-    assertThat(trade2.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(trade2.getTimestamp().getTime()).isEqualTo(expectedTime2);
-    assertThat(trade2.getTradableAmount()).isEqualTo(new BigDecimal("120.00000000"));
-    assertThat(trade2.getPrice()).isEqualTo(new BigDecimal("0.00006600"));
-    assertThat(trade2.getType()).isEqualTo(Order.OrderType.ASK);
+    for (int i=0; i<tradeList.size(); i++) {
+      BleutradeCompareUtils.compareTrades(tradeList.get(i), TRADES[i]);
+    }
   }
 
   @Test
@@ -124,21 +139,9 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     List<LimitOrder> orderList = openOrders.getOpenOrders();
     assertThat(orderList).hasSize(2);
 
-    LimitOrder order1 = orderList.get(0);
-    assertThat(order1.getId()).isEqualTo("65489");
-    assertThat(order1.getType()).isEqualTo(Order.OrderType.BID);
-    assertThat(order1.getCurrencyPair()).isEqualTo(CurrencyPair.LTC_BTC);
-    assertThat(order1.getLimitPrice()).isEqualTo(new BigDecimal("0.01268311"));
-    assertThat(order1.getTradableAmount()).isEqualTo(new BigDecimal("5.00000000"));
-    assertThat(order1.getTimestamp()).isNull();  // 'created' to 'timestamp' convertation is probably missed
-
-    LimitOrder order2 = orderList.get(1);
-    assertThat(order2.getId()).isEqualTo("65724");
-    assertThat(order2.getType()).isEqualTo(Order.OrderType.ASK);
-    assertThat(order2.getCurrencyPair()).isEqualTo(CurrencyPair.DOGE_BTC);
-    assertThat(order2.getLimitPrice()).isEqualTo(new BigDecimal("0.00000055"));
-    assertThat(order2.getTradableAmount()).isEqualTo(new BigDecimal("795.00000000"));
-    assertThat(order2.getTimestamp()).isNull();  // 'created' to 'timestamp' convertation is probably missed
+    for (int i=0; i<orderList.size(); i++) {
+      BleutradeCompareUtils.compareOrders(orderList.get(i), ORDER[i]);
+    }
   }
 
   @Test
@@ -153,69 +156,28 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     List<LimitOrder> bids = orderBook.getBids();
     assertThat(bids).hasSize(2);
 
-    LimitOrder bid1 = bids.get(0);
-    assertThat(bid1.getType()).isEqualTo(Order.OrderType.BID);
-    assertThat(bid1.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(bid1.getTradableAmount()).isEqualTo(new BigDecimal("4.99400000"));
-    assertThat(bid1.getLimitPrice()).isEqualTo(new BigDecimal("3.00650900"));
-
-    LimitOrder bid2 = bids.get(1);
-    assertThat(bid2.getType()).isEqualTo(Order.OrderType.BID);
-    assertThat(bid2.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(bid2.getTradableAmount()).isEqualTo(new BigDecimal("50.00000000"));
-    assertThat(bid2.getLimitPrice()).isEqualTo(new BigDecimal("3.50000000"));
+    for (int i=0; i<bids.size(); i++) {
+      BleutradeCompareUtils.compareOrders(bids.get(i), BIDS[i]);
+    }
 
     List<LimitOrder> asks = orderBook.getAsks();
     assertThat(asks).hasSize(4);
 
-    LimitOrder ask1 = asks.get(0);
-    assertThat(ask1.getType()).isEqualTo(Order.OrderType.ASK);
-    assertThat(ask1.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(ask1.getTradableAmount()).isEqualTo(new BigDecimal("12.44147454"));
-    assertThat(ask1.getLimitPrice()).isEqualTo(new BigDecimal("5.13540000"));
-
-    LimitOrder ask2 = asks.get(1);
-    assertThat(ask2.getType()).isEqualTo(Order.OrderType.ASK);
-    assertThat(ask2.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(ask2.getTradableAmount()).isEqualTo(new BigDecimal("100.00000000"));
-    assertThat(ask2.getLimitPrice()).isEqualTo(new BigDecimal("6.25500000"));
-
-    LimitOrder ask3 = asks.get(2);
-    assertThat(ask3.getType()).isEqualTo(Order.OrderType.ASK);
-    assertThat(ask3.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(ask3.getTradableAmount()).isEqualTo(new BigDecimal("30.00000000"));
-    assertThat(ask3.getLimitPrice()).isEqualTo(new BigDecimal("6.75500001"));
-
-    LimitOrder ask4 = asks.get(3);
-    assertThat(ask4.getType()).isEqualTo(Order.OrderType.ASK);
-    assertThat(ask4.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_AUD);
-    assertThat(ask4.getTradableAmount()).isEqualTo(new BigDecimal("13.49989999"));
-    assertThat(ask4.getLimitPrice()).isEqualTo(new BigDecimal("6.76260099"));
+    for (int i=0; i<asks.size(); i++) {
+      BleutradeCompareUtils.compareOrders(asks.get(i), ASKS[i]);
+    }
   }
 
   @Test
   public void shouldAdaptTicker() throws IOException {
     // given
     final BleutradeTickerReturn response = parse(BleutradeTickerReturn.class);
-    GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-    calendar.set(Calendar.MILLISECOND, 0);
-
-    calendar.set(2014, Calendar.JULY, 29, 11, 19, 30);
-    long expectedTime = calendar.getTimeInMillis();
 
     // when
     Ticker ticker = BleutradeAdapters.adaptBleutradeTicker(response.getResult().get(0));
 
     // then
-    assertThat(ticker.getBid()).isEqualTo(new BigDecimal("0.00100000"));
-    assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("0.00101977"));
-    assertThat(ticker.getCurrencyPair()).isEqualTo(BLEU_BTC_CP);
-    assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("0.00105000"));
-    assertThat(ticker.getLast()).isEqualTo(new BigDecimal("0.00101977"));
-    assertThat(ticker.getLow()).isEqualTo(new BigDecimal("0.00086000"));
-    assertThat(ticker.getTimestamp().getTime()).isEqualTo(expectedTime);
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("2450.97496015"));
-    assertThat(ticker.getVwap()).isEqualTo(new BigDecimal("0.00103455"));
+    BleutradeCompareUtils.compareTickers(ticker, TICKER);
   }
 
   @Test
@@ -235,9 +197,13 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
 
     Map<CurrencyPair,MarketMetaData> marketMetaDataMap = exchangeMetaData.getMarketMetaDataMap();
     assertThat(marketMetaDataMap).hasSize(2);
+
     // there is no reliable information about valid tradingFee calculation formula
-    assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString()).isEqualTo("MarketMetaData{tradingFee=0.00499375, minimumAmount=0.10000000, priceScale=8}");
-    assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo("MarketMetaData{tradingFee=0.00499375, minimumAmount=1E-8, priceScale=8}");
+    BleutradeCompareUtils.compareMarketMetaData(marketMetaDataMap.get(CurrencyPair.DOGE_BTC), META_DATA_LIST[0]);
+    assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString()).isEqualTo(META_DATA_STR[0]);
+
+    BleutradeCompareUtils.compareMarketMetaData(marketMetaDataMap.get(BLEU_BTC_CP), META_DATA_LIST[1]);
+    assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo(META_DATA_STR[1]);
   }
 
 }
