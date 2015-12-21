@@ -2,6 +2,7 @@ package com.xeiam.xchange.bleutrade.dto;
 
 import com.xeiam.xchange.bleutrade.BleutradeAdapters;
 import com.xeiam.xchange.bleutrade.BleutradeCompareUtils;
+import com.xeiam.xchange.bleutrade.BleutradeTestData;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalancesReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketHistoryReturn;
@@ -11,8 +12,6 @@ import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTickerReturn;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrdersReturn;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -26,59 +25,13 @@ import com.xeiam.xchange.dto.trade.OpenOrders;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
-
-  private static final Balance[] BALANCES = new Balance[] {
-      new Balance(Currency.DOGE, new BigDecimal("0E-8"), new BigDecimal("0E-8"), new BigDecimal("0E-8")),
-      new Balance(Currency.BTC, new BigDecimal("15.49843675"), new BigDecimal("13.98901996"), new BigDecimal("0E-8")),
-  };
-
-  private static final Trade[] TRADES = new Trade[] {
-      new Trade(Order.OrderType.BID, new BigDecimal("654971.69417461"), CurrencyPair.BTC_AUD,
-          new BigDecimal("0.00000055"), new Date(1406657280000L), null),
-      new Trade(Order.OrderType.ASK, new BigDecimal("120.00000000"), CurrencyPair.BTC_AUD,
-          new BigDecimal("0.00006600"), new Date(1406657555000L), null),
-  };
-
-  private static final LimitOrder[] ORDER = new LimitOrder[] {   // timestampas are always null: 'created' to 'timestamp' convertation is probably missed
-      new LimitOrder(Order.OrderType.BID, new BigDecimal("5.00000000"), CurrencyPair.LTC_BTC, "65489", null, new BigDecimal("0.01268311")),
-      new LimitOrder(Order.OrderType.ASK, new BigDecimal("795.00000000"), CurrencyPair.DOGE_BTC, "65724", null, new BigDecimal("0.00000055")),
-  };
-
-  private static final LimitOrder[] BIDS = new LimitOrder[] {
-      new LimitOrder(Order.OrderType.BID, new BigDecimal("4.99400000"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("3.00650900")),
-      new LimitOrder(Order.OrderType.BID, new BigDecimal("50.00000000"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("3.50000000"))
-  };
-
-  private static final LimitOrder[] ASKS = new LimitOrder[] {
-      new LimitOrder(Order.OrderType.ASK, new BigDecimal("12.44147454"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("5.13540000")),
-      new LimitOrder(Order.OrderType.ASK, new BigDecimal("100.00000000"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("6.25500000")),
-      new LimitOrder(Order.OrderType.ASK, new BigDecimal("30.00000000"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("6.75500001")),
-      new LimitOrder(Order.OrderType.ASK, new BigDecimal("13.49989999"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("6.76260099"))
-  };
-
-  private static final Ticker TICKER = new Ticker.Builder()
-      .currencyPair(BLEU_BTC_CP).last(new BigDecimal("0.00101977")).bid(new BigDecimal("0.00100000"))
-      .ask(new BigDecimal("0.00101977")).high(new BigDecimal("0.00105000")).low(new BigDecimal("0.00086000"))
-      .vwap(new BigDecimal("0.00103455")).volume(new BigDecimal("2450.97496015")).timestamp(new Date(1406632770000L)).build();
-
-  private static final MarketMetaData[] META_DATA_LIST = new MarketMetaData[] {
-      new MarketMetaData(new BigDecimal("0.00499375"), new BigDecimal("0.10000000"), 8),
-      new MarketMetaData(new BigDecimal("0.00499375"), new BigDecimal("0.00000001"), 8)
-  };
-
-  private static final String[] META_DATA_STR = new String[] {
-      "MarketMetaData{tradingFee=0.00499375, minimumAmount=0.10000000, priceScale=8}",
-      "MarketMetaData{tradingFee=0.00499375, minimumAmount=1E-8, priceScale=8}"
-  };
+public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements BleutradeTestData {
 
   @Test
   public void shouldAdaptBalances() throws IOException {
@@ -140,7 +93,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     assertThat(orderList).hasSize(2);
 
     for (int i=0; i<orderList.size(); i++) {
-      BleutradeCompareUtils.compareOrders(orderList.get(i), ORDER[i]);
+      BleutradeCompareUtils.compareOrders(orderList.get(i), ORDERS[i]);
     }
   }
 

@@ -3,6 +3,7 @@ package com.xeiam.xchange.bleutrade.service.polling;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
+import com.xeiam.xchange.bleutrade.BleutradeCompareUtils;
 import com.xeiam.xchange.bleutrade.BleutradeException;
 import com.xeiam.xchange.bleutrade.BleutradeExchange;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeCancelOrderReturn;
@@ -74,9 +75,11 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
     List<LimitOrder> ordersList = openOrders.getOpenOrders();
 
     // then
-    assertThat(ordersList).hasSize(BLEUTRADE_OPEN_ORDERS_LIST.size());
-    assertThat(ordersList.get(0).toString()).isEqualTo(OPEN_ORDERS_STR[0]);
-    assertThat(ordersList.get(1).toString()).isEqualTo(OPEN_ORDERS_STR[1]);
+    assertThat(ordersList).hasSize(2);
+
+    for (int i=0; i<ordersList.size(); i++) {
+      BleutradeCompareUtils.compareOrders(ordersList.get(i), ORDERS[i]);
+    }
   }
 
   @Test(expected = ExchangeException.class)

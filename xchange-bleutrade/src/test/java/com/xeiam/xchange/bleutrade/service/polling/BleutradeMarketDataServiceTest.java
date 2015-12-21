@@ -2,6 +2,7 @@ package com.xeiam.xchange.bleutrade.service.polling;
 
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
+import com.xeiam.xchange.bleutrade.BleutradeCompareUtils;
 import com.xeiam.xchange.bleutrade.BleutradeExchange;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
@@ -11,9 +12,12 @@ import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeOrderBookReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTicker;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTickerReturn;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,12 +27,11 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.fail;
@@ -38,6 +41,11 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport {
 
   private BleutradeMarketDataService marketDataService;
+
+  private static final Ticker TICKER = new Ticker.Builder()
+      .currencyPair(BLEU_BTC_CP).last(new BigDecimal("0.00101977")).bid(new BigDecimal("0.00100000"))
+      .ask(new BigDecimal("0.00101977")).high(new BigDecimal("0.00105000")).low(new BigDecimal("0.00086000"))
+      .vwap(new BigDecimal("0.00103455")).volume(new BigDecimal("2450.97496015")).timestamp(new Date(1406632770000L)).build();
 
   @Before
   public void setUp() {
@@ -71,6 +79,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
 
     // then
     assertThat(ticker.toString()).isEqualTo(BLEUTRADE_TICKER_STR);
+    BleutradeCompareUtils.compareTickers(ticker, TICKER);
   }
 
   @Test(expected = ExchangeException.class)
@@ -106,24 +115,26 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     orderBookReturn2.setResult(createBleutradeOrderBook(Collections.EMPTY_LIST, Collections.EMPTY_LIST));
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 30)).thenReturn(orderBookReturn1);
+    PowerMockito.when(bleutrade.getBleutradeOrderBook("BTC_AUD", "ALL", 30)).thenReturn(orderBookReturn1);
     PowerMockito.when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50)).thenReturn(orderBookReturn2);
     Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
 
     // when
-    OrderBook orderBook1 = marketDataService.getOrderBook(BLEU_BTC_CP, 30);
+    OrderBook orderBook1 = marketDataService.getOrderBook(CurrencyPair.BTC_AUD, 30);
     OrderBook orderBook2 = marketDataService.getOrderBook(BLEU_BTC_CP, "test parameter");
 
     // then
-    assertThat(orderBook1.toString()).isEqualTo("OrderBook [timestamp: null, "
-        + "asks=["
-          + SELLS_STR[0] + ", "
-          + SELLS_STR[1] + ", "
-          + SELLS_STR[2] + ", "
-          + SELLS_STR[3]
-        + "], "
-        + "bids=[" + BUYS_STR[0] +", " + BUYS_STR[1] + "]"
-        + "]");
+    List<LimitOrder> asks = orderBook1.getAsks();
+    assertThat(asks).hasSize(4);
+    for (int i=0; i < asks.size(); i++) {
+      BleutradeCompareUtils.compareOrders(asks.get(i), ASKS[i]);
+    }
+
+    List<LimitOrder> bids = orderBook1.getBids();
+    assertThat(bids).hasSize(2);
+    for (int i=0; i < bids.size(); i++) {
+      BleutradeCompareUtils.compareOrders(bids.get(i), BIDS[i]);
+    }
 
     assertThat(orderBook2.getAsks()).isEmpty();
     assertThat(orderBook2.getBids()).isEmpty();
@@ -151,18 +162,6 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
   @Test
   public void shouldGetTrades() throws IOException {
     // given
-    Date expectedTimestamp1;
-    Date expectedTimestamp2;
-
-    GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-    calendar.set(GregorianCalendar.MILLISECOND, 0);
-
-    calendar.set(2014, GregorianCalendar.JULY, 29, 18, 8, 0);
-    expectedTimestamp1 = calendar.getTime();
-    calendar.set(2014, GregorianCalendar.JULY, 29, 18, 12, 35);
-    expectedTimestamp2 = calendar.getTime();
-
-
     BleutradeMarketHistoryReturn marketHistoryReturn1 = new BleutradeMarketHistoryReturn();
     marketHistoryReturn1.setSuccess(true);
     marketHistoryReturn1.setMessage("test message");
@@ -184,34 +183,34 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     marketHistoryReturn4.setResult(Arrays.asList(BLEUTRADE_TRADES.get(1)));
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BLEU_BTC", 30)).thenReturn(marketHistoryReturn1);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BLEU_BTC", 50)).thenReturn(marketHistoryReturn2);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BLEU_BTC", 1)).thenReturn(marketHistoryReturn3);
-    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BLEU_BTC", 200)).thenReturn(marketHistoryReturn4);
+    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 30)).thenReturn(marketHistoryReturn1);
+    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 50)).thenReturn(marketHistoryReturn2);
+    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 1)).thenReturn(marketHistoryReturn3);
+    PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 200)).thenReturn(marketHistoryReturn4);
 
     Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
 
     // when
-    Trades trades1 = marketDataService.getTrades(BLEU_BTC_CP, 30);
-    Trades trades2 = marketDataService.getTrades(BLEU_BTC_CP, "test parameter");
-    Trades trades3 = marketDataService.getTrades(BLEU_BTC_CP, 0);
-    Trades trades4 = marketDataService.getTrades(BLEU_BTC_CP, 201);
+    Trades trades1 = marketDataService.getTrades(CurrencyPair.BTC_AUD, 30);
+    Trades trades2 = marketDataService.getTrades(CurrencyPair.BTC_AUD, "test parameter");
+    Trades trades3 = marketDataService.getTrades(CurrencyPair.BTC_AUD, 0);
+    Trades trades4 = marketDataService.getTrades(CurrencyPair.BTC_AUD, 201);
 
     // then
-    assertThat(trades1.toString()).isEqualTo(String.format("Trades\n" + "lastID= 0\n"
-        + TRADES_STR[0] + "\n"
-        + TRADES_STR[1] + "\n",
-        expectedTimestamp1, expectedTimestamp2));
+    List<Trade> tradeList = trades1.getTrades();
+    assertThat(tradeList).hasSize(2);
+
+    for (int i=0; i<tradeList.size(); i++) {
+      BleutradeCompareUtils.compareTrades(tradeList.get(i), TRADES[i]);
+    }
 
     assertThat(trades2.getTrades()).isEmpty();
-    assertThat(trades3.toString()).isEqualTo(String.format("Trades\n" + "lastID= 0\n"
-                + TRADES_STR[0] + "\n",
-            expectedTimestamp1)
-    );
-    assertThat(trades4.toString()).isEqualTo(String.format("Trades\n" + "lastID= 0\n"
-                + TRADES_STR[1] + "\n",
-            expectedTimestamp2)
-    );
+
+    assertThat(trades3.getTrades()).hasSize(1);
+    BleutradeCompareUtils.compareTrades(trades3.getTrades().get(0), TRADES[0]);
+
+    assertThat(trades4.getTrades()).hasSize(1);
+    BleutradeCompareUtils.compareTrades(trades4.getTrades().get(0), TRADES[1]);
   }
 
   @Test(expected = ExchangeException.class)
@@ -251,8 +250,11 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
 
     // then
     assertThat(tickers).hasSize(2);
-    assertThat(tickers.get(0).toString()).isEqualTo(BLEUTRADE_TICKERS_STR[0]);
-    assertThat(tickers.get(1).toString()).isEqualTo(BLEUTRADE_TICKERS_STR[1]);
+
+    for (int i=0; i<tickers.size(); i++) {
+      BleutradeCompareUtils.compareBleutradeTickers(tickers.get(i), BLEUTRADE_TICKERS.get(i));
+      assertThat(tickers.get(i).toString()).isEqualTo(BLEUTRADE_TICKERS_STR[i]);
+    }
   }
 
   @Test(expected = ExchangeException.class)
@@ -291,8 +293,11 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
 
     // then
     assertThat(currencies).hasSize(2);
-    assertThat(currencies.get(0).toString()).isEqualTo(CURRENCIES_STR[0]);
-    assertThat(currencies.get(1).toString()).isEqualTo(CURRENCIES_STR[1]);
+
+    for (int i=0; i<currencies.size(); i++) {
+      BleutradeCompareUtils.compareBleutradeCurrencies(currencies.get(i), BLEUTRADE_CURRENCIES.get(i));
+      assertThat(currencies.get(i).toString()).isEqualTo(BLEUTRADE_CURRENCIES_STR[i]);
+    }
   }
 
   @Test(expected = ExchangeException.class)
@@ -331,8 +336,11 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
 
     // then
     assertThat(markets).hasSize(2);
-    assertThat(markets.get(0).toString()).isEqualTo(MARKETS_STR[0]);
-    assertThat(markets.get(1).toString()).isEqualTo(MARKETS_STR[1]);
+
+    for (int i=0; i<markets.size(); i++) {
+      BleutradeCompareUtils.compareBleutradeMarkets(markets.get(i), BLEUTRADE_MARKETS.get(i));
+      assertThat(markets.get(i).toString()).isEqualTo(BLEUTRADE_MARKETS_STR[i]);
+    }
   }
 
   @Test(expected = ExchangeException.class)

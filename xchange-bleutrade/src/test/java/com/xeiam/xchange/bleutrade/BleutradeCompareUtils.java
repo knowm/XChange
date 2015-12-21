@@ -1,19 +1,47 @@
 package com.xeiam.xchange.bleutrade;
 
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalance;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarket;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTicker;
+import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class BleutradeCompareUtils {
+
+  public static void compareBleutradeOpenOrders(BleutradeOpenOrder o1, BleutradeOpenOrder o2) {
+    assertThat(o1.getOrderId()).isEqualTo(o2.getOrderId());
+    assertThat(o1.getExchange()).isEqualTo(o2.getExchange());
+    assertThat(o1.getType()).isEqualTo(o2.getType());
+    assertThat(o1.getQuantity()).isEqualTo(o2.getQuantity());
+    assertThat(o1.getQuantityRemaining()).isEqualTo(o2.getQuantityRemaining());
+    assertThat(o1.getQuantityBaseTraded()).isEqualTo(o2.getQuantityBaseTraded());
+    assertThat(o1.getPrice()).isEqualTo(o2.getPrice());
+    assertThat(o1.getStatus()).isEqualTo(o2.getStatus());
+    assertThat(o1.getCreated()).isEqualTo(o2.getCreated());
+    assertThat(o1.getComments()).isEqualTo(o2.getComments());
+  }
+
+  public static void compareBleutradeTickers(BleutradeTicker o1, BleutradeTicker o2) {
+    assertThat(o1.getBid()).isEqualTo(o2.getBid());
+    assertThat(o1.getAsk()).isEqualTo(o2.getAsk());
+    assertThat(o1.getMarketName()).isEqualTo(o2.getMarketName());
+    assertThat(o1.getHigh()).isEqualTo(o2.getHigh());
+    assertThat(o1.getLast()).isEqualTo(o2.getLast());
+    assertThat(o1.getLow()).isEqualTo(o2.getLow());
+    assertThat(o1.getTimeStamp()).isEqualTo(o2.getTimeStamp());
+    assertThat(o1.getVolume()).isEqualTo(o2.getVolume());
+    assertThat(o1.getAverage()).isEqualTo(o2.getAverage());
+    assertThat(o1.getBaseVolume()).isEqualTo(o2.getBaseVolume());
+    assertThat(o1.getIsActive()).isEqualTo(o2.getIsActive());
+    assertThat(o1.getPrevDay()).isEqualTo(o2.getPrevDay());
+  }
 
   public static void compareBalances(Balance o1, Balance o2) {
     assertThat(o1.getCurrency()).isEqualTo(o2.getCurrency());
@@ -56,5 +84,33 @@ public class BleutradeCompareUtils {
     assertThat(o1.getMinimumAmount()).isEqualTo(o2.getMinimumAmount());
     assertThat(o1.getPriceScale()).isEqualTo(o2.getPriceScale());
     assertThat(o1.getTradingFee()).isEqualTo(o2.getTradingFee());
+  }
+
+  public static void compareBleutradeCurrencies(BleutradeCurrency o1, BleutradeCurrency o2) {
+    assertThat(o1.getCurrency()).isEqualTo(o2.getCurrency());
+    assertThat(o1.getCurrencyLong()).isEqualTo(o2.getCurrencyLong());
+    assertThat(o1.getMinConfirmation()).isEqualTo(o2.getMinConfirmation());
+    assertThat(o1.getTxFee()).isEqualTo(o2.getTxFee());
+    assertThat(o1.getIsActive()).isEqualTo(o2.getIsActive());
+    assertThat(o1.getCoinType()).isEqualTo(o2.getCoinType());
+  }
+
+  public static void compareBleutradeMarkets(BleutradeMarket o1, BleutradeMarket o2) {
+    assertThat(o1.getMarketCurrency()).isEqualTo(o2.getMarketCurrency());
+    assertThat(o1.getBaseCurrency()).isEqualTo(o2.getBaseCurrency());
+    assertThat(o1.getMarketCurrencyLong()).isEqualTo(o2.getMarketCurrencyLong());
+    assertThat(o1.getBaseCurrencyLong()).isEqualTo(o2.getBaseCurrencyLong());
+    assertThat(o1.getMinTradeSize()).isEqualTo(o2.getMinTradeSize());
+    assertThat(o1.getMarketName()).isEqualTo(o2.getMarketName());
+    assertThat(o1.getIsActive()).isEqualTo(o2.getIsActive());
+  }
+
+  public static void compareBleutradeBalances(BleutradeBalance o1, BleutradeBalance o2) {
+    assertThat(o1.getCurrency()).isEqualTo(o2.getCurrency());
+    assertThat(o1.getBalance()).isEqualTo(o2.getBalance());
+    assertThat(o1.getAvailable()).isEqualTo(o2.getAvailable());
+    assertThat(o1.getPending()).isEqualTo(o2.getPending());
+    assertThat(o1.getCryptoAddress()).isEqualTo(o2.getCryptoAddress());
+    assertThat(o1.getIsActive()).isEqualTo(o2.getIsActive());
   }
 }
