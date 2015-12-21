@@ -69,7 +69,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
 
     // then
     assertThat(currencyPairs).hasSize(2);
-    assertThat(currencyPairs).contains(CurrencyPair.DOGE_BTC, new CurrencyPair("BLEU", "BTC"));
+    assertThat(currencyPairs).contains(CurrencyPair.DOGE_BTC, BLEU_BTC_CP);
   }
 
   @Test
@@ -209,7 +209,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     // then
     assertThat(ticker.getBid()).isEqualTo(new BigDecimal("0.00100000"));
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("0.00101977"));
-    assertThat(ticker.getCurrencyPair()).isEqualTo(new CurrencyPair("BLEU", "BTC"));
+    assertThat(ticker.getCurrencyPair()).isEqualTo(BLEU_BTC_CP);
     assertThat(ticker.getHigh()).isEqualTo(new BigDecimal("0.00105000"));
     assertThat(ticker.getLast()).isEqualTo(new BigDecimal("0.00101977"));
     assertThat(ticker.getLow()).isEqualTo(new BigDecimal("0.00086000"));
@@ -237,7 +237,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     assertThat(marketMetaDataMap).hasSize(2);
     // there is no reliable information about valid tradingFee calculation formula
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString()).isEqualTo("MarketMetaData{tradingFee=0.00499375, minimumAmount=0.10000000, priceScale=8}");
-    assertThat(marketMetaDataMap.get(new CurrencyPair("BLEU", "BTC")).toString()).isEqualTo("MarketMetaData{tradingFee=0.00499375, minimumAmount=1E-8, priceScale=8}");
+    assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo("MarketMetaData{tradingFee=0.00499375, minimumAmount=1E-8, priceScale=8}");
   }
 
 }

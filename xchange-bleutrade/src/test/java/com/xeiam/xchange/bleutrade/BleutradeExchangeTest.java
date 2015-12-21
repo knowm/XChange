@@ -56,7 +56,7 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     // when
     exchangeSpecification = exchange.getDefaultExchangeSpecification();
     exchangeSpecification.setApiKey("apiKey");
-    exchangeSpecification.setSecretKey("secretKey");
+    exchangeSpecification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     // then
     assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
@@ -68,7 +68,7 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
   public void shouldApplySpecificationWithKeys() {
     // given
     exchangeSpecification.setApiKey("apiKey");
-    exchangeSpecification.setSecretKey("secretKey");
+    exchangeSpecification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     // when
     exchange.applySpecification(exchangeSpecification);
@@ -96,7 +96,7 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
   @Test
   public void shouldApplySpecificationWithSecretKeyOnly() {
     // given
-    exchangeSpecification.setSecretKey("secretKey");
+    exchangeSpecification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     // when
     exchange.applySpecification(exchangeSpecification);
@@ -173,7 +173,7 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     assertThat(marketMetaDataMap).hasSize(2);
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString()).isEqualTo(
         "MarketMetaData{tradingFee=0.00499375, minimumAmount=0.10000000, priceScale=8}");
-    assertThat(marketMetaDataMap.get(new CurrencyPair("BLEU", "BTC")).toString()).isEqualTo(
+    assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo(
         "MarketMetaData{tradingFee=0.00499375, minimumAmount=1E-8, priceScale=8}");
   }
 }
