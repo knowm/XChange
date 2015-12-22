@@ -27,6 +27,10 @@ import java.util.Map;
 
 public class BitMarketTestSupport extends BitMarketDtoTestSupport {
 
+  protected static final String SPECIFICATION_USERNAME = "admin";
+  protected static final String SPECIFICATION_API_KEY = "publicKey";
+  protected static final String SPECIFICATION_SECRET_KEY = "secretKey";
+
   public static final BitMarketBalance PARSED_BALANCE = new BitMarketBalance(
     createParsedAvailable(), createParsedBlocked());
 

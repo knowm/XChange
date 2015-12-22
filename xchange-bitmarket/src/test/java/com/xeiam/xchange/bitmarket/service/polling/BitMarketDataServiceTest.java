@@ -4,6 +4,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitmarket.BitMarket;
 import com.xeiam.xchange.bitmarket.BitMarketExchange;
+import com.xeiam.xchange.bitmarket.BitMarketTestSupport;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
@@ -29,22 +30,22 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 @RunWith(PowerMockRunner.class)
-public class BitMarketDataServiceTest {
+public class BitMarketDataServiceTest extends BitMarketTestSupport {
 
   private BitMarketDataService dataService;
 
   @Before public void setUp() {
     BitMarketExchange exchange = (BitMarketExchange) ExchangeFactory.INSTANCE.createExchange(BitMarketExchange.class.getCanonicalName());
     ExchangeSpecification specification = exchange.getExchangeSpecification();
-    specification.setUserName("admin");
-    specification.setApiKey("publicKey");
-    specification.setSecretKey("secretKey");
+    specification.setUserName(SPECIFICATION_USERNAME);
+    specification.setApiKey(SPECIFICATION_API_KEY);
+    specification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     dataService = new BitMarketDataService(exchange);
   }
 
   @Test public void constructor() {
-    assertThat(Whitebox.getInternalState(dataService, "apiKey")).isEqualTo("publicKey");
+    assertThat(Whitebox.getInternalState(dataService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test public void shouldGetTicker() throws IOException {

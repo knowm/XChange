@@ -41,16 +41,16 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
   public void setUp() {
     BitMarketExchange exchange = (BitMarketExchange) ExchangeFactory.INSTANCE.createExchange(BitMarketExchange.class.getCanonicalName());
     ExchangeSpecification specification = exchange.getExchangeSpecification();
-    specification.setUserName("admin");
-    specification.setApiKey("publicKey");
-    specification.setSecretKey("secretKey");
+    specification.setUserName(SPECIFICATION_USERNAME);
+    specification.setApiKey(SPECIFICATION_API_KEY);
+    specification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     accountService = new BitMarketAccountService(exchange);
   }
 
   @Test
   public void constructor() {
-    assertThat(Whitebox.getInternalState(accountService, "apiKey")).isEqualTo("publicKey");
+    assertThat(Whitebox.getInternalState(accountService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
   }
 
   @Test
@@ -65,7 +65,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
     );
 
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
-    PowerMockito.when(bitMarketAuthenticated.info(Mockito.eq("publicKey"), Mockito.any(ParamsDigest.class),
+    PowerMockito.when(bitMarketAuthenticated.info(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
         Mockito.any(SynchronizedValueFactory.class))).thenReturn(response);
     Whitebox.setInternalState(accountService, "bitMarketAuthenticated", bitMarketAuthenticated);
 
@@ -73,7 +73,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
     AccountInfo accountInfo = accountService.getAccountInfo();
 
     // then
-    assertThat(accountInfo.getUsername()).isEqualTo("admin");
+    assertThat(accountInfo.getUsername()).isEqualTo(SPECIFICATION_USERNAME);
 
     Wallet wallet = accountInfo.getWallet();
     assertThat(wallet.getBalances()).hasSize(3);
@@ -100,7 +100,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
     );
 
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
-    PowerMockito.when(bitMarketAuthenticated.info(Mockito.eq("publicKey"), Mockito.any(ParamsDigest.class),
+    PowerMockito.when(bitMarketAuthenticated.info(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
         Mockito.any(SynchronizedValueFactory.class))).thenReturn(response);
     Whitebox.setInternalState(accountService, "bitMarketAuthenticated", bitMarketAuthenticated);
 
@@ -123,7 +123,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
     );
 
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
-    PowerMockito.when(bitMarketAuthenticated.withdraw(Mockito.eq("publicKey"), Mockito.any(ParamsDigest.class),
+    PowerMockito.when(bitMarketAuthenticated.withdraw(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
         Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC"),
         Mockito.eq(new BigDecimal("30.00000000")), Mockito.eq("address mock")))
         .thenReturn(response);
@@ -148,7 +148,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
     );
 
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
-    PowerMockito.when(bitMarketAuthenticated.withdraw(Mockito.eq("publicKey"), Mockito.any(ParamsDigest.class),
+    PowerMockito.when(bitMarketAuthenticated.withdraw(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
         Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC"),
         Mockito.eq(new BigDecimal("30.00000000")), Mockito.eq("address mock")))
         .thenReturn(response);
@@ -173,7 +173,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
     );
 
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
-    PowerMockito.when(bitMarketAuthenticated.deposit(Mockito.eq("publicKey"), Mockito.any(ParamsDigest.class),
+    PowerMockito.when(bitMarketAuthenticated.deposit(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
         Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC")))
         .thenReturn(response);
     Whitebox.setInternalState(accountService, "bitMarketAuthenticated", bitMarketAuthenticated);
@@ -197,7 +197,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
     );
 
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
-    PowerMockito.when(bitMarketAuthenticated.deposit(Mockito.eq("publicKey"), Mockito.any(ParamsDigest.class),
+    PowerMockito.when(bitMarketAuthenticated.deposit(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
         Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC")))
         .thenReturn(response);
     Whitebox.setInternalState(accountService, "bitMarketAuthenticated", bitMarketAuthenticated);
