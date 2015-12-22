@@ -4,11 +4,11 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcmarkets.BTCMarketsAuthenticated;
 import com.xeiam.xchange.btcmarkets.BTCMarketsExchange;
+import com.xeiam.xchange.btcmarkets.BtcMarketsCompareUtils;
 import com.xeiam.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import com.xeiam.xchange.btcmarkets.service.BTCMarketsDigest;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +30,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(BTCMarketsAuthenticated.class)
-public class BTCMarketsAccountServiceTest {
+public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
 
   private BTCMarketsAccountService accountService;
 
@@ -39,9 +39,9 @@ public class BTCMarketsAccountServiceTest {
     BTCMarketsExchange exchange =
         (BTCMarketsExchange) ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getCanonicalName());
     ExchangeSpecification specification = exchange.getExchangeSpecification();
-    specification.setUserName("admin");
-    specification.setApiKey("publicKey");
-    specification.setSecretKey("secretKey");
+    specification.setUserName(SPECIFICATION_USERNAME);
+    specification.setApiKey(SPECIFICATION_API_KEY);
+    specification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     accountService = new BTCMarketsAccountService(exchange);
   }
@@ -49,13 +49,10 @@ public class BTCMarketsAccountServiceTest {
   @Test
   public void shouldCreateAccountInfo() throws IOException {
     // given
-    BTCMarketsBalance balance = new BTCMarketsBalance();
-    Whitebox.setInternalState(balance, "pendingFunds", new BigDecimal("10.00000000"));
-    Whitebox.setInternalState(balance, "balance", new BigDecimal("30.00000000"));
-    Whitebox.setInternalState(balance, "currency", "BTC");
+    BTCMarketsBalance balance = parse(BTCMarketsBalance.class);
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
-    PowerMockito.when(btcm.getBalance(Mockito.eq("publicKey"),
+    PowerMockito.when(btcm.getBalance(Mockito.eq(SPECIFICATION_API_KEY),
         Mockito.any(SynchronizedValueFactory.class),
         Mockito.any(BTCMarketsDigest.class))).thenReturn(Arrays.asList(balance));
     Whitebox.setInternalState(accountService, "btcm", btcm);
@@ -64,20 +61,17 @@ public class BTCMarketsAccountServiceTest {
     AccountInfo accountInfo = accountService.getAccountInfo();
 
     // then
-    assertThat(accountInfo.getUsername()).isEqualTo("admin");
+    assertThat(accountInfo.getUsername()).isEqualTo(SPECIFICATION_USERNAME);
     assertThat(accountInfo.getTradingFee()).isNull();
     assertThat(accountInfo.getWallets()).hasSize(1);
 
-    Balance btcBalance = accountInfo.getWallet().getBalance(Currency.BTC);
-    assertThat(btcBalance).isNotNull();
-    assertThat(btcBalance.getTotal()).isEqualTo(new BigDecimal("30.00000000"));
-    assertThat(btcBalance.getAvailable()).isEqualTo(new BigDecimal("20.00000000"));
+    BtcMarketsCompareUtils.compareBalances(accountInfo.getWallet().getBalance(Currency.BTC), BALANCE);
   }
 
   @Test(expected = NotYetImplementedForExchangeException.class)
   public void shouldFailWhenWithdrawFunds() throws IOException {
     // when
-    accountService.withdrawFunds(Currency.BTC, new BigDecimal("1000"), "any address");
+    accountService.withdrawFunds(Currency.BTC, BigDecimal.TEN, "any address");
 
     // then
     fail("BTCMarketsAccountService should throw NotYetImplementedForExchangeException when call withdrawFunds");

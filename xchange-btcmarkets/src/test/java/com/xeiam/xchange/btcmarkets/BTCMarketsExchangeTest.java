@@ -2,11 +2,10 @@ package com.xeiam.xchange.btcmarkets;
 
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.btcmarkets.dto.BTCMarketsDtoTestSupport;
+import com.xeiam.xchange.btcmarkets.service.polling.BTCMarketsTestSupport;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -14,7 +13,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
-public class BTCMarketsExchangeTest extends BTCMarketsDtoTestSupport {
+public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
 
   private BTCMarketsExchange exchange;
   private ExchangeSpecification exchangeSpecification;
@@ -41,8 +40,8 @@ public class BTCMarketsExchangeTest extends BTCMarketsDtoTestSupport {
     // given
     exchangeSpecification = exchange.getDefaultExchangeSpecification();
     exchangeSpecification.getExchangeSpecificParameters().put(BTCMarketsExchange.CURRENCY_PAIR, CurrencyPair.BTC_AUD);
-    exchangeSpecification.setApiKey("apiKey");
-    exchangeSpecification.setSecretKey("secretKey");
+    exchangeSpecification.setApiKey(SPECIFICATION_API_KEY);
+    exchangeSpecification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     // when
     exchange.applySpecification(exchangeSpecification);
@@ -57,8 +56,8 @@ public class BTCMarketsExchangeTest extends BTCMarketsDtoTestSupport {
   public void shouldApplySpecificationWithKeys() {
     // given
     exchangeSpecification.getExchangeSpecificParameters().put(BTCMarketsExchange.CURRENCY_PAIR, CurrencyPair.BTC_AUD);
-    exchangeSpecification.setApiKey("apiKey");
-    exchangeSpecification.setSecretKey("secretKey");
+    exchangeSpecification.setApiKey(SPECIFICATION_API_KEY);
+    exchangeSpecification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     // when
     exchange.applySpecification(exchangeSpecification);
@@ -72,7 +71,7 @@ public class BTCMarketsExchangeTest extends BTCMarketsDtoTestSupport {
   @Test
   public void shouldApplySpecificationWithApiKeyOnly() {
     // given
-    exchangeSpecification.setApiKey("apiKey");
+    exchangeSpecification.setApiKey(SPECIFICATION_API_KEY);
 
     // when
     exchange.applySpecification(exchangeSpecification);
@@ -86,7 +85,7 @@ public class BTCMarketsExchangeTest extends BTCMarketsDtoTestSupport {
   @Test
   public void shouldApplySpecificationWithSecretKeyOnly() {
     // given
-    exchangeSpecification.setSecretKey("secretKey");
+    exchangeSpecification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     // when
     exchange.applySpecification(exchangeSpecification);
