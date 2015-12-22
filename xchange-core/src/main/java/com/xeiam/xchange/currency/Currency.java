@@ -248,7 +248,7 @@ public class Currency implements Comparable <Currency> {
     Currency currency = getInstanceNoCreate(currencyCode);
 
     if (currency == null) {
-      return createCurrency(currencyCode, null, null);
+      return createCurrency(currencyCode.toUpperCase(), null, null);
     } else {
       return currency;
     }
