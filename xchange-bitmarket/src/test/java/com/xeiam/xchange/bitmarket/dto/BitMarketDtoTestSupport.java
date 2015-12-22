@@ -31,6 +31,12 @@ public class BitMarketDtoTestSupport {
     assertThat(response.getLimit()).isNull();
   }
 
+  protected <T extends BitMarketBaseResponse> void verifySuccessResponse(T response) throws IOException {
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getError()).isEqualTo(0);
+    assertThat(response.getErrorMsg()).isNull();
+  }
+
   protected void verifyResponseLimit(BitMarketAPILimit limit, int used, int allowed, long expires) {
     assertThat(limit.getUsed()).isEqualTo(used);
     assertThat(limit.getAllowed()).isEqualTo(allowed);

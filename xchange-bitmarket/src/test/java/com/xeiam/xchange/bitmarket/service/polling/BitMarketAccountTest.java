@@ -4,6 +4,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitmarket.BitMarketAuthenticated;
 import com.xeiam.xchange.bitmarket.BitMarketExchange;
+import com.xeiam.xchange.bitmarket.BitMarketTestSupport;
 import com.xeiam.xchange.bitmarket.dto.BitMarketAPILimit;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfo;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
@@ -32,7 +33,7 @@ import static org.fest.assertions.api.Assertions.fail;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 @RunWith(PowerMockRunner.class)
-public class BitMarketAccountServiceTest extends BitMarketServiceTestSupport {
+public class BitMarketAccountTest extends BitMarketTestSupport {
 
   private BitMarketAccountService accountService;
 
