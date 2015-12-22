@@ -245,7 +245,7 @@ public class Currency implements Comparable <Currency> {
    */
   public static Currency getInstance(String currencyCode) {
 
-    Currency currency = getInstanceNoCreate(currencyCode);
+    Currency currency = getInstanceNoCreate(currencyCode.toUpperCase());
 
     if (currency == null) {
       return createCurrency(currencyCode.toUpperCase(), null, null);
@@ -259,7 +259,7 @@ public class Currency implements Comparable <Currency> {
    */
   public static Currency getInstanceNoCreate(String currencyCode) {
 
-    return currencies.get(currencyCode);
+    return currencies.get(currencyCode.toUpperCase());
   }
 
   /**
