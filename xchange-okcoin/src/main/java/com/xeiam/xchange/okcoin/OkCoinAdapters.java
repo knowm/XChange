@@ -39,6 +39,7 @@ import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesOrder;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrder;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrderResult;
+import java.util.HashMap;
 
 public final class OkCoinAdapters {
 
@@ -96,7 +97,7 @@ public final class OkCoinAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(OkCoinUserInfo userInfo) {
-
+    Map<Currency, Wallet> wallets = new HashMap<>();
     OkCoinFunds funds = userInfo.getInfo().getFunds();
 
     // depending on china or international version
@@ -107,23 +108,26 @@ public final class OkCoinAdapters {
 
     if (is_cny) {
       base = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(getOrZero("cny", funds.getBorrow())),
-          funds.getFree().get("cny"), funds.getFreezed().get("cny"), "available");
-      baseLoan = new Wallet(CNY, getOrZero("cny", funds.getBorrow()), "loan");
+          funds.getFree().get("cny"), funds.getFreezed().get("cny"));
+     // baseLoan = new Wallet(CNY, getOrZero("cny", funds.getBorrow()), "loan");
     } else {
       base = new Wallet(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())),
-          funds.getFree().get("usd"), funds.getFreezed().get("usd"), "available");
-      baseLoan = new Wallet(USD, getOrZero("usd", funds.getBorrow()), "loan");
+          funds.getFree().get("usd"), funds.getFreezed().get("usd"));
+      //baseLoan = new Wallet("USD_LOAN", getOrZero("usd", funds.getBorrow()));
     }
     Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(getOrZero("btc", funds.getBorrow())),
-        funds.getFree().get("btc"), funds.getFreezed().get("btc"), "available");
+        funds.getFree().get("btc"), funds.getFreezed().get("btc"));
     Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(getOrZero("ltc", funds.getBorrow())),
-        funds.getFree().get("ltc"), funds.getFreezed().get("ltc"), "available");
+        funds.getFree().get("ltc"), funds.getFreezed().get("ltc"));
 
     // loaned wallets
-    Wallet btcLoan = new Wallet(BTC, getOrZero("btc", funds.getBorrow()), "loan");
-    Wallet ltcLoan = new Wallet(LTC, getOrZero("ltc", funds.getBorrow()), "loan");
-
-    List<Wallet> wallets = Arrays.asList(base, btc, ltc, baseLoan, btcLoan, ltcLoan);
+    //Wallet btcLoan = new Wallet(BTC, getOrZero("btc", funds.getBorrow()), "loan");
+    //Wallet ltcLoan = new Wallet(LTC, getOrZero("ltc", funds.getBorrow()), "loan");
+    
+    wallets.put(USD, base);
+    wallets.put(BTC, btc);
+    wallets.put(LTC, ltc);
+    
 
     return new AccountInfo(null, wallets);
   }

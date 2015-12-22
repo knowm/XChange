@@ -27,6 +27,7 @@ import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
+import java.util.HashMap;
 
 /**
  * Various adapters for converting from Bitstamp DTOs to XChange DTOs
@@ -55,7 +56,10 @@ public final class BitstampAdapters {
     Wallet btcWallet = new Wallet(Currency.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),
         bitstampBalance.getBtcReserved());
 
-    return new AccountInfo(userName, bitstampBalance.getFee(), Arrays.asList(usdWallet, btcWallet));
+      HashMap<Currency, Wallet> map = new HashMap<>();
+      map.put(usdWallet.getCurrency(), usdWallet);
+      map.put(btcWallet.getCurrency(), btcWallet);
+    return new AccountInfo(userName, bitstampBalance.getFee(), map);
   }
 
   /**

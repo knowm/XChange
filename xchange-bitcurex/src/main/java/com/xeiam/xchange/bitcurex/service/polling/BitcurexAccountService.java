@@ -37,7 +37,7 @@ public class BitcurexAccountService extends BitcurexAccountServiceRaw implements
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
-    return getFunds().getAddress();
+     throw new NotYetImplementedForExchangeException();
   }
 
 }

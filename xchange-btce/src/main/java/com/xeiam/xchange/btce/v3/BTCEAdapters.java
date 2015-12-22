@@ -150,13 +150,13 @@ public final class BTCEAdapters {
 
   public static AccountInfo adaptAccountInfo(BTCEAccountInfo btceAccountInfo) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    HashMap<Currency, Wallet> wallets = new HashMap<Currency, Wallet>();
     Map<String, BigDecimal> funds = btceAccountInfo.getFunds();
 
     for (String lcCurrency : funds.keySet()) {
       String currency = lcCurrency.toUpperCase();
 
-      wallets.add(new Wallet(currency, funds.get(lcCurrency)));
+      wallets.put(new Currency(currency), new Wallet(new Currency(currency), funds.get(lcCurrency)));
     }
     return new AccountInfo(null, wallets);
   }

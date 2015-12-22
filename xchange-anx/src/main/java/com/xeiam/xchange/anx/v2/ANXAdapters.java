@@ -14,6 +14,7 @@ import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTrade;
 import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXTradeResult;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -26,6 +27,7 @@ import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
+import java.util.HashMap;
 
 /**
  * Various adapters for converting from anx DTOs to XChange DTOs
@@ -51,7 +53,7 @@ public final class ANXAdapters {
   public static AccountInfo adaptAccountInfo(ANXAccountInfo anxAccountInfo) {
 
     // Adapt to XChange DTOs
-    AccountInfo accountInfo = new AccountInfo(anxAccountInfo.getLogin(), percentToFactor(anxAccountInfo.getTradeFee()),
+    AccountInfo accountInfo = new AccountInfo(anxAccountInfo.getLogin(), 
         ANXAdapters.adaptWallets(anxAccountInfo.getWallets()));
     return accountInfo;
   }
@@ -133,14 +135,14 @@ public final class ANXAdapters {
    * @param anxWallets
    * @return
    */
-  public static List<Wallet> adaptWallets(Map<String, ANXWallet> anxWallets) {
+  public static  Map<Currency, Wallet> adaptWallets(Map<String, ANXWallet> anxWallets) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+     Map<Currency, Wallet> wallets = new HashMap<>();
 
     for (ANXWallet anxWallet : anxWallets.values()) {
       Wallet wallet = adaptWallet(anxWallet);
       if (wallet != null) {
-        wallets.add(wallet);
+        wallets.put(wallet.getCurrency(), wallet);
       }
     }
     return wallets;

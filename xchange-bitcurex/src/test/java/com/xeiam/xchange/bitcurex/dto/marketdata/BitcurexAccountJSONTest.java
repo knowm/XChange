@@ -1,5 +1,6 @@
 package com.xeiam.xchange.bitcurex.dto.marketdata;
 
+import com.xeiam.xchange.bitcurex.dto.account.BitcurexFunds;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;

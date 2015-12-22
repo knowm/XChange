@@ -17,6 +17,7 @@ import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -33,6 +34,7 @@ import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
+import java.util.HashMap;
 
 public final class BitfinexAdapters {
 
@@ -220,11 +222,14 @@ public final class BitfinexAdapters {
 
   public static AccountInfo adaptAccountInfo(BitfinexBalancesResponse[] response) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>(response.length);
+    HashMap<Currency, Wallet> wallets = new HashMap<>();
 
     for (BitfinexBalancesResponse balance : response) {
       if ("exchange".equals(balance.getType())) {
-        wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getAvailable()));
+          
+          Wallet wallet = new Wallet(new Currency(balance.getCurrency().toUpperCase()), balance.getAvailable());
+          
+        wallets.put(new Currency(balance.getCurrency().toUpperCase()), wallet);
       }
     }
 

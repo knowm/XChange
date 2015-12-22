@@ -32,11 +32,11 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Pol
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-      String okcoinCurrency = currency == Currency.BTC ? "btc_usd" : "btc_ltc";
-      
-       OKCoinWithdraw result = withdraw(null, okcoinCurrency, address, amount);      
+      String okcoinCurrency = currency.compareTo(Currency.BTC) == 0  ? "btc_usd" : "ltc_usd";
+      String fee =   currency.compareTo(Currency.BTC) == 0 ? "0.0001" : "0.001";
+      OKCoinWithdraw result = withdraw(null, okcoinCurrency, address, amount, fee);      
        
-       if(result != null)
+      if(result != null)
            return result.getWithdrawId();
        
       return ""; 
