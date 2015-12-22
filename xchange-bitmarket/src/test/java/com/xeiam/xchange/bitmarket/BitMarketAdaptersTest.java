@@ -103,7 +103,6 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
   // https://www.bitmarket.pl/json/LTCPLN/trades.json example has addition field 'type' which is not specified in API description (https://www.bitmarket.net/docs.php?file=api_public.html)
   // should be changed after issue #1141 fix
   @Test
-  @Ignore("Ignored due to #1141 and #1149")
   public void testTradesAdapter() throws IOException {
     // given
     BitMarketTrade[] bitMarketTrades = parse("marketdata/example-trades-data", BitMarketTrade[].class);
