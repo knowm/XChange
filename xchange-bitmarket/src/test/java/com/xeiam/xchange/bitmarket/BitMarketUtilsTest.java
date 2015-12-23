@@ -36,14 +36,14 @@ public class BitMarketUtilsTest {
   }
 
   @Test
-  @Ignore("issue #1140")
+  @Ignore("issue #1140 https://github.com/timmolter/XChange/issues/1140")
   public void shouldConvertStringToOrderType() {
     assertThat(BitMarketUtils.BitMarketOrderTypeToOrderType("buy")).isEqualTo(Order.OrderType.BID);
     assertThat(BitMarketUtils.BitMarketOrderTypeToOrderType("sell")).isEqualTo(Order.OrderType.ASK);
   }
 
   @Test
-  @Ignore("issue #1140")
+  @Ignore("issue #1140 https://github.com/timmolter/XChange/issues/1140")
   public void shouldConvertOrderTypeToString() {
     assertThat(BitMarketUtils.OrderTypeToBitMarketOrderType(Order.OrderType.BID)).isEqualTo("buy");
     assertThat(BitMarketUtils.OrderTypeToBitMarketOrderType(Order.OrderType.ASK)).isEqualTo("sell");
