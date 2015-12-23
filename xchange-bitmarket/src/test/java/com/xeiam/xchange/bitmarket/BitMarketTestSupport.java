@@ -101,6 +101,15 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
       new BigDecimal("0"), new BigDecimal("0"), new BigDecimal("0"), new BigDecimal("0"), new BigDecimal("0"))
   };
 
+  public static final Balance[] BALANCES = new Balance[] {
+    new Balance(Currency.BTC, new BigDecimal("20.00000000"),
+      new BigDecimal("10.00000000"), new BigDecimal("10.00000000")),
+    new Balance(Currency.AUD, new BigDecimal("40.00000000"),
+      new BigDecimal("20.00000000"), new BigDecimal("20.00000000")),
+    new Balance(Currency.PLN, new BigDecimal("60.00000000"),
+      new BigDecimal("30.00000000"), new BigDecimal("30.00000000")),
+  };
+
   public static final LimitOrder[] ORDERS = new LimitOrder[] {
     new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.20000000"),
       CurrencyPair.BTC_PLN, "31393", new Date(1432661682000L), new BigDecimal("3000.0000")),
@@ -120,6 +129,17 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
     new UserTrade(Order.OrderType.BID, new BigDecimal("1.08260046"), CurrencyPair.BTC_PLN, new BigDecimal("877.0000"),
       new Date(1430687948000L), "389406", "11852566", new BigDecimal("0.30312011"), Currency.PLN)
   };
+
+  public static final UserTrade[] CP_USER_TRADES = new UserTrade[]{
+    new UserTrade(Order.OrderType.BID, new BigDecimal("2.140000000"), CurrencyPair.BTC_EUR, new BigDecimal("110.0000"),
+      new Date(1234567890000L), "389406", null, null, Currency.EUR),
+    new UserTrade(Order.OrderType.ASK, new BigDecimal("0.05555555"), CurrencyPair.BTC_EUR, new BigDecimal("115.5555"),
+      new Date(1400000000000L), "386750", null, null, Currency.BTC),
+  };
+
+  public static final UserTrade BM_USER_TRADES =
+    new UserTrade(Order.OrderType.ASK, new BigDecimal("0.08888888"), CurrencyPair.BTC_EUR, new BigDecimal("210.3333"),
+      new Date(1444444444000L), "386775", null, null, Currency.BTC);
 
   public static final Ticker TICKER = new Ticker.Builder()
     .bid(new BigDecimal("1789.2301"))

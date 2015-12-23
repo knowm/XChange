@@ -3,6 +3,7 @@ package com.xeiam.xchange.bitmarket.service.polling;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitmarket.BitMarketAuthenticated;
+import com.xeiam.xchange.bitmarket.BitMarketCompareUtils;
 import com.xeiam.xchange.bitmarket.BitMarketExchange;
 import com.xeiam.xchange.bitmarket.BitMarketTestSupport;
 import com.xeiam.xchange.bitmarket.dto.BitMarketAPILimit;
@@ -13,6 +14,7 @@ import com.xeiam.xchange.bitmarket.dto.account.BitMarketDepositResponse;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketWithdrawResponse;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import org.junit.Before;
@@ -27,6 +29,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Map;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.fail;
@@ -76,16 +79,12 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
     assertThat(accountInfo.getUsername()).isEqualTo(SPECIFICATION_USERNAME);
 
     Wallet wallet = accountInfo.getWallet();
-    assertThat(wallet.getBalances()).hasSize(3);
-    assertThat(wallet.getBalance(Currency.BTC).getTotal()).isEqualTo(new BigDecimal("20.00000000"));
-    assertThat(wallet.getBalance(Currency.BTC).getFrozen()).isEqualTo(new BigDecimal("10.00000000"));
-    assertThat(wallet.getBalance(Currency.BTC).getAvailable()).isEqualTo(new BigDecimal("10.00000000"));
-    assertThat(wallet.getBalance(Currency.AUD).getTotal()).isEqualTo(new BigDecimal("40.00000000"));
-    assertThat(wallet.getBalance(Currency.AUD).getFrozen()).isEqualTo(new BigDecimal("20.00000000"));
-    assertThat(wallet.getBalance(Currency.AUD).getAvailable()).isEqualTo(new BigDecimal("20.00000000"));
-    assertThat(wallet.getBalance(Currency.PLN).getTotal()).isEqualTo(new BigDecimal("60.00000000"));
-    assertThat(wallet.getBalance(Currency.PLN).getFrozen()).isEqualTo(new BigDecimal("30.00000000"));
-    assertThat(wallet.getBalance(Currency.PLN).getAvailable()).isEqualTo(new BigDecimal("30.00000000"));
+    Map<Currency,Balance> balances = wallet.getBalances();
+
+    assertThat(balances).hasSize(3);
+    for (int i=0; i<balances.size(); i++) {
+      BitMarketCompareUtils.compareBalances(balances.get(BALANCES[i].getCurrency()), BALANCES[i]);
+    }
   }
 
   @Test(expected = ExchangeException.class)
@@ -125,12 +124,12 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
     PowerMockito.when(bitMarketAuthenticated.withdraw(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
         Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC"),
-        Mockito.eq(new BigDecimal("30.00000000")), Mockito.eq("address mock")))
+        Mockito.eq(BigDecimal.TEN), Mockito.eq("address mock")))
         .thenReturn(response);
     Whitebox.setInternalState(accountService, "bitMarketAuthenticated", bitMarketAuthenticated);
 
     // when
-    String withdraw = accountService.withdrawFunds(Currency.BTC, new BigDecimal("30.00000000"), "address mock");
+    String withdraw = accountService.withdrawFunds(Currency.BTC, BigDecimal.TEN, "address mock");
 
     // then
     assertThat(withdraw).isEqualTo("12345");
@@ -150,12 +149,12 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
     PowerMockito.when(bitMarketAuthenticated.withdraw(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
         Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC"),
-        Mockito.eq(new BigDecimal("30.00000000")), Mockito.eq("address mock")))
+        Mockito.eq(BigDecimal.TEN), Mockito.eq("address mock")))
         .thenReturn(response);
     Whitebox.setInternalState(accountService, "bitMarketAuthenticated", bitMarketAuthenticated);
 
     // when
-    accountService.withdrawFunds(Currency.BTC, new BigDecimal("30.00000000"), "address mock");
+    accountService.withdrawFunds(Currency.BTC, BigDecimal.TEN, "address mock");
 
     // then
     fail("BitMarketAccountService should throw ExchangeException when withdraw funds request was unsuccessful");
