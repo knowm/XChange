@@ -1,8 +1,8 @@
 package com.xeiam.xchange.bleutrade.service.polling;
 
 import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
 import com.xeiam.xchange.bleutrade.BleutradeAssert;
+import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
 import com.xeiam.xchange.bleutrade.BleutradeExchange;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
@@ -12,6 +12,7 @@ import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeOrderBookReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTicker;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTickerReturn;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -68,7 +69,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     BleutradeTickerReturn tickerReturn = new BleutradeTickerReturn();
     tickerReturn.setSuccess(true);
     tickerReturn.setMessage("test message");
-    tickerReturn.setResult(BLEUTRADE_TICKER);
+    tickerReturn.setResult(expectedBleutradeTicker());
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeTicker("BLEU_BTC")).thenReturn(tickerReturn);
@@ -78,7 +79,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     Ticker ticker = marketDataService.getTicker(BLEU_BTC_CP);
 
     // then
-    assertThat(ticker.toString()).isEqualTo(BLEUTRADE_TICKER_STR);
+    assertThat(ticker.toString()).isEqualTo(EXPECTED_BLEUTRADE_TICKER_STR);
     BleutradeAssert.assertEquals(ticker, TICKER);
   }
 
@@ -88,7 +89,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     BleutradeTickerReturn tickerReturn = new BleutradeTickerReturn();
     tickerReturn.setSuccess(false);
     tickerReturn.setMessage("test message");
-    tickerReturn.setResult(BLEUTRADE_TICKER);
+    tickerReturn.setResult(expectedBleutradeTicker());
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeTicker("BLEU_BTC")).thenReturn(tickerReturn);
@@ -107,7 +108,8 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     BleutradeOrderBookReturn orderBookReturn1 = new BleutradeOrderBookReturn();
     orderBookReturn1.setSuccess(true);
     orderBookReturn1.setMessage("test message");
-    orderBookReturn1.setResult(createBleutradeOrderBook(BLEUTRADE_LEVEL_BUYS, BLEUTRADE_LEVEL_SELLS));
+    orderBookReturn1.setResult(
+      createBleutradeOrderBook(expectedBleutradeLevelBuys(), expectedBleutradeLevelSells()));
 
     BleutradeOrderBookReturn orderBookReturn2 = new BleutradeOrderBookReturn();
     orderBookReturn2.setSuccess(true);
@@ -119,6 +121,9 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     PowerMockito.when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50)).thenReturn(orderBookReturn2);
     Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
 
+    final LimitOrder[] expectedAsks = expectedAsks();
+    final LimitOrder[] expectedBids = expectedBids();
+
     // when
     OrderBook orderBook1 = marketDataService.getOrderBook(CurrencyPair.BTC_AUD, 30);
     OrderBook orderBook2 = marketDataService.getOrderBook(BLEU_BTC_CP, "test parameter");
@@ -127,13 +132,13 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     List<LimitOrder> asks = orderBook1.getAsks();
     assertThat(asks).hasSize(4);
     for (int i=0; i < asks.size(); i++) {
-      BleutradeAssert.assertEquals(asks.get(i), ASKS[i]);
+      BleutradeAssert.assertEquals(asks.get(i), expectedAsks[i]);
     }
 
     List<LimitOrder> bids = orderBook1.getBids();
     assertThat(bids).hasSize(2);
     for (int i=0; i < bids.size(); i++) {
-      BleutradeAssert.assertEquals(bids.get(i), BIDS[i]);
+      BleutradeAssert.assertEquals(bids.get(i), expectedBids[i]);
     }
 
     assertThat(orderBook2.getAsks()).isEmpty();
@@ -146,7 +151,8 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     BleutradeOrderBookReturn orderBookReturn = new BleutradeOrderBookReturn();
     orderBookReturn.setSuccess(false);
     orderBookReturn.setMessage("test message");
-    orderBookReturn.setResult(createBleutradeOrderBook(BLEUTRADE_LEVEL_BUYS, BLEUTRADE_LEVEL_SELLS));
+    orderBookReturn.setResult(createBleutradeOrderBook(
+      expectedBleutradeLevelBuys(), expectedBleutradeLevelSells()));
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50)).thenReturn(orderBookReturn);
@@ -162,10 +168,12 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
   @Test
   public void shouldGetTrades() throws IOException {
     // given
+    final List<BleutradeTrade> expectedBleutradeTrades = expectedBleutradeTrades();
+
     BleutradeMarketHistoryReturn marketHistoryReturn1 = new BleutradeMarketHistoryReturn();
     marketHistoryReturn1.setSuccess(true);
     marketHistoryReturn1.setMessage("test message");
-    marketHistoryReturn1.setResult(BLEUTRADE_TRADES);
+    marketHistoryReturn1.setResult(expectedBleutradeTrades);
 
     BleutradeMarketHistoryReturn marketHistoryReturn2 = new BleutradeMarketHistoryReturn();
     marketHistoryReturn2.setSuccess(true);
@@ -175,12 +183,12 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     BleutradeMarketHistoryReturn marketHistoryReturn3 = new BleutradeMarketHistoryReturn();
     marketHistoryReturn3.setSuccess(true);
     marketHistoryReturn3.setMessage("test message");
-    marketHistoryReturn3.setResult(Arrays.asList(BLEUTRADE_TRADES.get(0)));
+    marketHistoryReturn3.setResult(Arrays.asList(expectedBleutradeTrades.get(0)));
 
     BleutradeMarketHistoryReturn marketHistoryReturn4 = new BleutradeMarketHistoryReturn();
     marketHistoryReturn4.setSuccess(true);
     marketHistoryReturn4.setMessage("test message");
-    marketHistoryReturn4.setResult(Arrays.asList(BLEUTRADE_TRADES.get(1)));
+    marketHistoryReturn4.setResult(Arrays.asList(expectedBleutradeTrades.get(1)));
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 30)).thenReturn(marketHistoryReturn1);
@@ -189,6 +197,8 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     PowerMockito.when(bleutrade.getBleutradeMarketHistory("BTC_AUD", 200)).thenReturn(marketHistoryReturn4);
 
     Whitebox.setInternalState(marketDataService, "bleutrade", bleutrade);
+
+    final Trade[] expectedTrades = expectedTrades();
 
     // when
     Trades trades1 = marketDataService.getTrades(CurrencyPair.BTC_AUD, 30);
@@ -201,16 +211,16 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     assertThat(tradeList).hasSize(2);
 
     for (int i=0; i<tradeList.size(); i++) {
-      BleutradeAssert.assertEquals(tradeList.get(i), TRADES[i]);
+      BleutradeAssert.assertEquals(tradeList.get(i), expectedTrades[i]);
     }
 
     assertThat(trades2.getTrades()).isEmpty();
 
     assertThat(trades3.getTrades()).hasSize(1);
-    BleutradeAssert.assertEquals(trades3.getTrades().get(0), TRADES[0]);
+    BleutradeAssert.assertEquals(trades3.getTrades().get(0), expectedTrades[0]);
 
     assertThat(trades4.getTrades()).hasSize(1);
-    BleutradeAssert.assertEquals(trades4.getTrades().get(0), TRADES[1]);
+    BleutradeAssert.assertEquals(trades4.getTrades().get(0), expectedTrades[1]);
   }
 
   @Test(expected = ExchangeException.class)
@@ -219,7 +229,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     BleutradeMarketHistoryReturn marketHistoryReturn = new BleutradeMarketHistoryReturn();
     marketHistoryReturn.setSuccess(false);
     marketHistoryReturn.setMessage("test message");
-    marketHistoryReturn.setResult(BLEUTRADE_TRADES);
+    marketHistoryReturn.setResult(expectedBleutradeTrades());
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeMarketHistory("BLEU_BTC", 50)).thenReturn(marketHistoryReturn);
@@ -236,10 +246,13 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
   @Test
   public void shouldGetTickers() throws IOException {
     // given
+    final List<BleutradeTicker> expectedBleutradeTickers = expectedBleutradeTickers();
+    final String[] expectedBleutradeTickersStr = expectedBleutradeTickersStr();
+
     BleutradeTickerReturn tickerReturn = new BleutradeTickerReturn();
     tickerReturn.setSuccess(true);
     tickerReturn.setMessage("test message");
-    tickerReturn.setResult(BLEUTRADE_TICKERS);
+    tickerReturn.setResult(expectedBleutradeTickers);
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeTickers()).thenReturn(tickerReturn);
@@ -252,8 +265,8 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     assertThat(tickers).hasSize(2);
 
     for (int i=0; i<tickers.size(); i++) {
-      BleutradeAssert.assertEquals(tickers.get(i), BLEUTRADE_TICKERS.get(i));
-      assertThat(tickers.get(i).toString()).isEqualTo(BLEUTRADE_TICKERS_STR[i]);
+      BleutradeAssert.assertEquals(tickers.get(i), expectedBleutradeTickers.get(i));
+      assertThat(tickers.get(i).toString()).isEqualTo(expectedBleutradeTickersStr[i]);
     }
   }
 
@@ -263,7 +276,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     BleutradeTickerReturn tickerReturn = new BleutradeTickerReturn();
     tickerReturn.setSuccess(false);
     tickerReturn.setMessage("test message");
-    tickerReturn.setResult(BLEUTRADE_TICKERS);
+    tickerReturn.setResult(expectedBleutradeTickers());
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeTickers()).thenReturn(tickerReturn);
@@ -279,10 +292,13 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
   @Test
   public void shouldGetCurrencies() throws IOException {
     // given
+    final List<BleutradeCurrency> expectedBleutradeCurrencies = expectedBleutradeCurrencies();
+    final String[] expectedBleutradeCurrenciesStr = expectedBleutradeCurrenciesStr();
+
     BleutradeCurrenciesReturn currenciesReturn = new BleutradeCurrenciesReturn();
     currenciesReturn.setSuccess(true);
     currenciesReturn.setMessage("test message");
-    currenciesReturn.setResult(BLEUTRADE_CURRENCIES);
+    currenciesReturn.setResult(expectedBleutradeCurrencies);
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeCurrencies()).thenReturn(currenciesReturn);
@@ -295,8 +311,8 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     assertThat(currencies).hasSize(2);
 
     for (int i=0; i<currencies.size(); i++) {
-      BleutradeAssert.assertEquals(currencies.get(i), BLEUTRADE_CURRENCIES.get(i));
-      assertThat(currencies.get(i).toString()).isEqualTo(BLEUTRADE_CURRENCIES_STR[i]);
+      BleutradeAssert.assertEquals(currencies.get(i), expectedBleutradeCurrencies.get(i));
+      assertThat(currencies.get(i).toString()).isEqualTo(expectedBleutradeCurrenciesStr[i]);
     }
   }
 
@@ -306,7 +322,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     BleutradeCurrenciesReturn currenciesReturn = new BleutradeCurrenciesReturn();
     currenciesReturn.setSuccess(false);
     currenciesReturn.setMessage("test message");
-    currenciesReturn.setResult(BLEUTRADE_CURRENCIES);
+    currenciesReturn.setResult(expectedBleutradeCurrencies());
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeCurrencies()).thenReturn(currenciesReturn);
@@ -322,10 +338,13 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
   @Test
   public void shouldGetMarkets() throws IOException {
     // given
+    final List<BleutradeMarket> expectedBleutradeMarkets = expectedBleutradeMarkets();
+    final String[] expectedBleutradeMarketsStr = expectedBleutradeMarketsStr();
+
     BleutradeMarketsReturn marketsReturn = new BleutradeMarketsReturn();
     marketsReturn.setSuccess(true);
     marketsReturn.setMessage("test message");
-    marketsReturn.setResult(BLEUTRADE_MARKETS);
+    marketsReturn.setResult(expectedBleutradeMarkets);
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeMarkets()).thenReturn(marketsReturn);
@@ -338,8 +357,8 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     assertThat(markets).hasSize(2);
 
     for (int i=0; i<markets.size(); i++) {
-      BleutradeAssert.assertEquals(markets.get(i), BLEUTRADE_MARKETS.get(i));
-      assertThat(markets.get(i).toString()).isEqualTo(BLEUTRADE_MARKETS_STR[i]);
+      BleutradeAssert.assertEquals(markets.get(i), expectedBleutradeMarkets.get(i));
+      assertThat(markets.get(i).toString()).isEqualTo(expectedBleutradeMarketsStr[i]);
     }
   }
 
@@ -349,7 +368,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     BleutradeMarketsReturn marketsReturn = new BleutradeMarketsReturn();
     marketsReturn.setSuccess(false);
     marketsReturn.setMessage("test message");
-    marketsReturn.setResult(BLEUTRADE_MARKETS);
+    marketsReturn.setResult(expectedBleutradeMarkets());
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeMarkets()).thenReturn(marketsReturn);

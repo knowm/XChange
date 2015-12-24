@@ -2,8 +2,8 @@ package com.xeiam.xchange.bleutrade.service.polling;
 
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
 import com.xeiam.xchange.bleutrade.BleutradeAssert;
+import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
 import com.xeiam.xchange.bleutrade.BleutradeException;
 import com.xeiam.xchange.bleutrade.BleutradeExchange;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeCancelOrderReturn;
@@ -63,12 +63,14 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
     BleutradeOpenOrdersReturn openOrdersReturn = new BleutradeOpenOrdersReturn();
     openOrdersReturn.setSuccess(true);
     openOrdersReturn.setMessage("test message");
-    openOrdersReturn.setResult(BLEUTRADE_OPEN_ORDERS_LIST);
+    openOrdersReturn.setResult(expectedBleutradeOpenOrdersList());
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getOrders(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
         Mockito.any(SynchronizedValueFactory.class))).thenReturn(openOrdersReturn);
     Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
+
+    final LimitOrder[] expectedOrders = expectedOrders();
 
     // when
     OpenOrders openOrders = tradeService.getOpenOrders();
@@ -78,7 +80,7 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
     assertThat(ordersList).hasSize(2);
 
     for (int i=0; i<ordersList.size(); i++) {
-      BleutradeAssert.assertEquals(ordersList.get(i), ORDERS[i]);
+      BleutradeAssert.assertEquals(ordersList.get(i), expectedOrders[i]);
     }
   }
 
@@ -88,7 +90,7 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
     BleutradeOpenOrdersReturn openOrdersReturn = new BleutradeOpenOrdersReturn();
     openOrdersReturn.setSuccess(false);
     openOrdersReturn.setMessage("test message");
-    openOrdersReturn.setResult(BLEUTRADE_OPEN_ORDERS_LIST);
+    openOrdersReturn.setResult(expectedBleutradeOpenOrdersList());
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getOrders(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
@@ -149,9 +151,11 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
         Mockito.eq("2.2"))).thenReturn(placeSellOrderReturn);
     Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
+    final LimitOrder[] expectedPlacedOrders = expectedPlacedOrders();
+
     // when
-    String placeBuyLimitOrder = tradeService.placeLimitOrder(PLACED_ORDERS[0]);
-    String placeSellLimitOrder = tradeService.placeLimitOrder(PLACED_ORDERS[1]);
+    String placeBuyLimitOrder = tradeService.placeLimitOrder(expectedPlacedOrders[0]);
+    String placeSellLimitOrder = tradeService.placeLimitOrder(expectedPlacedOrders[1]);
 
     // then
     assertThat(placeBuyLimitOrder).isEqualTo("11111");
@@ -172,8 +176,10 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
         Mockito.eq("1.1"))).thenReturn(placeBuyOrderReturn);
     Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
+    final LimitOrder[] expectedPlacedOrders = expectedPlacedOrders();
+
     // when
-    tradeService.placeLimitOrder(PLACED_ORDERS[0]);
+    tradeService.placeLimitOrder(expectedPlacedOrders[0]);
 
     // then
     fail("BleutradeAccountService should throw ExchangeException on unsuccessful place buy limit order request");
@@ -193,8 +199,10 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
         Mockito.eq("2.2"))).thenReturn(placeSellOrderReturn);
     Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
+    final LimitOrder[] expectedPlacedOrders = expectedPlacedOrders();
+
     // when
-    tradeService.placeLimitOrder(PLACED_ORDERS[1]);
+    tradeService.placeLimitOrder(expectedPlacedOrders[1]);
 
     // then
     fail("BleutradeAccountService should throw ExchangeException on unsuccessful place sell limit order request");
@@ -209,8 +217,10 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
         Mockito.eq("1.1"))).thenThrow(BleutradeException.class);
     Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
+    final LimitOrder[] expectedPlacedOrders = expectedPlacedOrders();
+
     // when
-    tradeService.placeLimitOrder(PLACED_ORDERS[0]);
+    tradeService.placeLimitOrder(expectedPlacedOrders[0]);
 
     // then
     fail("BleutradeAccountService should throw ExchangeException when place buy limit order request throw error");
@@ -225,8 +235,10 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
         Mockito.eq("2.2"))).thenThrow(BleutradeException.class);
     Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
+    final LimitOrder[] expectedPlacedOrders = expectedPlacedOrders();
+
     // when
-    tradeService.placeLimitOrder(PLACED_ORDERS[1]);
+    tradeService.placeLimitOrder(expectedPlacedOrders[1]);
 
     // then
     fail("BleutradeAccountService should throw ExchangeException when place sell limit order request throw error");

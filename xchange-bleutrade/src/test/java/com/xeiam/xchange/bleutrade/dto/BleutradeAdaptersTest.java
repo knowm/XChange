@@ -2,7 +2,6 @@ package com.xeiam.xchange.bleutrade.dto;
 
 import com.xeiam.xchange.bleutrade.BleutradeAdapters;
 import com.xeiam.xchange.bleutrade.BleutradeAssert;
-import com.xeiam.xchange.bleutrade.BleutradeTestData;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalancesReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketHistoryReturn;
@@ -12,6 +11,7 @@ import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTickerReturn;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrdersReturn;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -31,12 +31,13 @@ import java.util.Set;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements BleutradeTestData {
+public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
 
   @Test
   public void shouldAdaptBalances() throws IOException {
     // given
     final BleutradeBalancesReturn response = parse(BleutradeBalancesReturn.class);
+    final Balance[] expectedBalances = expectedBalances();
 
     // when
     Wallet wallet = BleutradeAdapters.adaptBleutradeBalances(response.getResult());
@@ -44,8 +45,8 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
     // then
     assertThat(wallet.getBalances()).hasSize(2);
 
-    BleutradeAssert.assertEquals(wallet.getBalance(Currency.DOGE), BALANCES[0]);
-    BleutradeAssert.assertEquals(wallet.getBalance(Currency.BTC), BALANCES[1]);
+    BleutradeAssert.assertEquals(wallet.getBalance(Currency.DOGE), expectedBalances[0]);
+    BleutradeAssert.assertEquals(wallet.getBalance(Currency.BTC), expectedBalances[1]);
   }
 
   @Test
@@ -65,6 +66,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
   public void shouldAdaptMarketHistory() throws IOException {
     // given
     final BleutradeMarketHistoryReturn response = parse(BleutradeMarketHistoryReturn.class);
+    final Trade[] expectedTrades = expectedTrades();
 
     // when
     Trades trades = BleutradeAdapters.adaptBleutradeMarketHistory(response.getResult(), CurrencyPair.BTC_AUD);
@@ -76,7 +78,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
     assertThat(tradeList).hasSize(2);
 
     for (int i=0; i<tradeList.size(); i++) {
-      BleutradeAssert.assertEquals(tradeList.get(i), TRADES[i]);
+      BleutradeAssert.assertEquals(tradeList.get(i), expectedTrades[i]);
     }
   }
 
@@ -84,6 +86,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
   public void shouldAdaptOpenOrders() throws IOException {
     // given
     final BleutradeOpenOrdersReturn response = parse(BleutradeOpenOrdersReturn.class);
+    final LimitOrder[] expectedOrders = expectedOrders();
 
     // when
     OpenOrders openOrders = BleutradeAdapters.adaptBleutradeOpenOrders(response.getResult());
@@ -93,7 +96,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
     assertThat(orderList).hasSize(2);
 
     for (int i=0; i<orderList.size(); i++) {
-      BleutradeAssert.assertEquals(orderList.get(i), ORDERS[i]);
+      BleutradeAssert.assertEquals(orderList.get(i), expectedOrders[i]);
     }
   }
 
@@ -101,6 +104,8 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
   public void shouldAdaptOrderBook() throws IOException {
     // given
     final BleutradeOrderBookReturn response = parse(BleutradeOrderBookReturn.class);
+    final LimitOrder[] expectedBids = expectedBids();
+    final LimitOrder[] expectedAsks = expectedAsks();
 
     // when
     OrderBook orderBook = BleutradeAdapters.adaptBleutradeOrderBook(response.getResult(), CurrencyPair.BTC_AUD);
@@ -110,14 +115,14 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
     assertThat(bids).hasSize(2);
 
     for (int i=0; i<bids.size(); i++) {
-      BleutradeAssert.assertEquals(bids.get(i), BIDS[i]);
+      BleutradeAssert.assertEquals(bids.get(i), expectedBids[i]);
     }
 
     List<LimitOrder> asks = orderBook.getAsks();
     assertThat(asks).hasSize(4);
 
     for (int i=0; i<asks.size(); i++) {
-      BleutradeAssert.assertEquals(asks.get(i), ASKS[i]);
+      BleutradeAssert.assertEquals(asks.get(i), expectedAsks[i]);
     }
   }
 
@@ -125,12 +130,13 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
   public void shouldAdaptTicker() throws IOException {
     // given
     final BleutradeTickerReturn response = parse(BleutradeTickerReturn.class);
+    final Ticker expectedTicker = expectedTicker();
 
     // when
     Ticker ticker = BleutradeAdapters.adaptBleutradeTicker(response.getResult().get(0));
 
     // then
-    BleutradeAssert.assertEquals(ticker, TICKER);
+    BleutradeAssert.assertEquals(ticker, expectedTicker);
   }
 
   @Test
@@ -138,6 +144,8 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
     // given
     final BleutradeCurrenciesReturn currenciesResponse = parse(BleutradeCurrenciesReturn.class);
     final BleutradeMarketsReturn marketsResponse = parse(BleutradeMarketsReturn.class);
+    final MarketMetaData[] expectedMetaDataList = expectedMetaDataList();
+    final String[] expectedMetaDataStr = expectedMetaDataStr();
 
     // when
     ExchangeMetaData exchangeMetaData = BleutradeAdapters.adaptToExchangeMetaData(currenciesResponse.getResult(), marketsResponse.getResult());
@@ -152,11 +160,10 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
     assertThat(marketMetaDataMap).hasSize(2);
 
     // there is no reliable information about valid tradingFee calculation formula
-    BleutradeAssert.assertEquals(marketMetaDataMap.get(CurrencyPair.DOGE_BTC), META_DATA_LIST[0]);
-    assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString()).isEqualTo(META_DATA_STR[0]);
+    BleutradeAssert.assertEquals(marketMetaDataMap.get(CurrencyPair.DOGE_BTC), expectedMetaDataList[0]);
+    assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString()).isEqualTo(expectedMetaDataStr[0]);
 
-    BleutradeAssert.assertEquals(marketMetaDataMap.get(BLEU_BTC_CP), META_DATA_LIST[1]);
-    assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo(META_DATA_STR[1]);
+    BleutradeAssert.assertEquals(marketMetaDataMap.get(BLEU_BTC_CP), expectedMetaDataList[1]);
+    assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo(expectedMetaDataStr[1]);
   }
-
 }
