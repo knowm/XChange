@@ -2,7 +2,7 @@ package com.xeiam.xchange.bleutrade.service.polling;
 
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
-import com.xeiam.xchange.bleutrade.BleutradeCompareUtils;
+import com.xeiam.xchange.bleutrade.BleutradeAssert;
 import com.xeiam.xchange.bleutrade.BleutradeException;
 import com.xeiam.xchange.bleutrade.BleutradeExchange;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalance;
@@ -70,7 +70,7 @@ public class BleutradeAccountServiceTest extends BleutradeServiceTestSupport {
     BleutradeBalance balance = accountService.getBleutradeBalance("AUD");
 
     // then
-    BleutradeCompareUtils.compareBleutradeBalances(balance, BLEUTRADE_ACCOUNT_INFO.get(0));
+    BleutradeAssert.assertEquals(balance, BLEUTRADE_ACCOUNT_INFO.get(0));
     assertThat(balance.toString()).isEqualTo(BLEUTRADE_BALANCE_STR);
   }
 
@@ -132,9 +132,9 @@ public class BleutradeAccountServiceTest extends BleutradeServiceTestSupport {
     Map<Currency,Balance> balances = accountInfo.getWallet(null).getBalances();
     assertThat(balances).hasSize(3);
 
-    BleutradeCompareUtils.compareBalances(balances.get(Currency.AUD), ACCOUNT_BALANCES[0]);
-    BleutradeCompareUtils.compareBalances(balances.get(Currency.BTC), ACCOUNT_BALANCES[1]);
-    BleutradeCompareUtils.compareBalances(balances.get(new Currency("BLEU")),ACCOUNT_BALANCES[2]);
+    BleutradeAssert.assertEquals(balances.get(Currency.AUD), ACCOUNT_BALANCES[0]);
+    BleutradeAssert.assertEquals(balances.get(Currency.BTC), ACCOUNT_BALANCES[1]);
+    BleutradeAssert.assertEquals(balances.get(new Currency("BLEU")), ACCOUNT_BALANCES[2]);
   }
 
   @Test(expected = ExchangeException.class) public void shouldFailOnUnsuccessfulGetAccountInfo() throws IOException {

@@ -2,7 +2,7 @@ package com.xeiam.xchange.bleutrade.service.polling;
 
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
-import com.xeiam.xchange.bleutrade.BleutradeCompareUtils;
+import com.xeiam.xchange.bleutrade.BleutradeAssert;
 import com.xeiam.xchange.bleutrade.BleutradeExchange;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
@@ -79,7 +79,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
 
     // then
     assertThat(ticker.toString()).isEqualTo(BLEUTRADE_TICKER_STR);
-    BleutradeCompareUtils.compareTickers(ticker, TICKER);
+    BleutradeAssert.assertEquals(ticker, TICKER);
   }
 
   @Test(expected = ExchangeException.class)
@@ -127,13 +127,13 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     List<LimitOrder> asks = orderBook1.getAsks();
     assertThat(asks).hasSize(4);
     for (int i=0; i < asks.size(); i++) {
-      BleutradeCompareUtils.compareOrders(asks.get(i), ASKS[i]);
+      BleutradeAssert.assertEquals(asks.get(i), ASKS[i]);
     }
 
     List<LimitOrder> bids = orderBook1.getBids();
     assertThat(bids).hasSize(2);
     for (int i=0; i < bids.size(); i++) {
-      BleutradeCompareUtils.compareOrders(bids.get(i), BIDS[i]);
+      BleutradeAssert.assertEquals(bids.get(i), BIDS[i]);
     }
 
     assertThat(orderBook2.getAsks()).isEmpty();
@@ -201,16 +201,16 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     assertThat(tradeList).hasSize(2);
 
     for (int i=0; i<tradeList.size(); i++) {
-      BleutradeCompareUtils.compareTrades(tradeList.get(i), TRADES[i]);
+      BleutradeAssert.assertEquals(tradeList.get(i), TRADES[i]);
     }
 
     assertThat(trades2.getTrades()).isEmpty();
 
     assertThat(trades3.getTrades()).hasSize(1);
-    BleutradeCompareUtils.compareTrades(trades3.getTrades().get(0), TRADES[0]);
+    BleutradeAssert.assertEquals(trades3.getTrades().get(0), TRADES[0]);
 
     assertThat(trades4.getTrades()).hasSize(1);
-    BleutradeCompareUtils.compareTrades(trades4.getTrades().get(0), TRADES[1]);
+    BleutradeAssert.assertEquals(trades4.getTrades().get(0), TRADES[1]);
   }
 
   @Test(expected = ExchangeException.class)
@@ -252,7 +252,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     assertThat(tickers).hasSize(2);
 
     for (int i=0; i<tickers.size(); i++) {
-      BleutradeCompareUtils.compareBleutradeTickers(tickers.get(i), BLEUTRADE_TICKERS.get(i));
+      BleutradeAssert.assertEquals(tickers.get(i), BLEUTRADE_TICKERS.get(i));
       assertThat(tickers.get(i).toString()).isEqualTo(BLEUTRADE_TICKERS_STR[i]);
     }
   }
@@ -295,7 +295,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     assertThat(currencies).hasSize(2);
 
     for (int i=0; i<currencies.size(); i++) {
-      BleutradeCompareUtils.compareBleutradeCurrencies(currencies.get(i), BLEUTRADE_CURRENCIES.get(i));
+      BleutradeAssert.assertEquals(currencies.get(i), BLEUTRADE_CURRENCIES.get(i));
       assertThat(currencies.get(i).toString()).isEqualTo(BLEUTRADE_CURRENCIES_STR[i]);
     }
   }
@@ -338,7 +338,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     assertThat(markets).hasSize(2);
 
     for (int i=0; i<markets.size(); i++) {
-      BleutradeCompareUtils.compareBleutradeMarkets(markets.get(i), BLEUTRADE_MARKETS.get(i));
+      BleutradeAssert.assertEquals(markets.get(i), BLEUTRADE_MARKETS.get(i));
       assertThat(markets.get(i).toString()).isEqualTo(BLEUTRADE_MARKETS_STR[i]);
     }
   }

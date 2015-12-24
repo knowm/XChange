@@ -1,7 +1,7 @@
 package com.xeiam.xchange.bleutrade.dto;
 
 import com.xeiam.xchange.bleutrade.BleutradeAdapters;
-import com.xeiam.xchange.bleutrade.BleutradeCompareUtils;
+import com.xeiam.xchange.bleutrade.BleutradeAssert;
 import com.xeiam.xchange.bleutrade.BleutradeTestData;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalancesReturn;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
@@ -44,8 +44,8 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
     // then
     assertThat(wallet.getBalances()).hasSize(2);
 
-    BleutradeCompareUtils.compareBalances(wallet.getBalance(Currency.DOGE), BALANCES[0]);
-    BleutradeCompareUtils.compareBalances(wallet.getBalance(Currency.BTC), BALANCES[1]);
+    BleutradeAssert.assertEquals(wallet.getBalance(Currency.DOGE), BALANCES[0]);
+    BleutradeAssert.assertEquals(wallet.getBalance(Currency.BTC), BALANCES[1]);
   }
 
   @Test
@@ -76,7 +76,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
     assertThat(tradeList).hasSize(2);
 
     for (int i=0; i<tradeList.size(); i++) {
-      BleutradeCompareUtils.compareTrades(tradeList.get(i), TRADES[i]);
+      BleutradeAssert.assertEquals(tradeList.get(i), TRADES[i]);
     }
   }
 
@@ -93,7 +93,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
     assertThat(orderList).hasSize(2);
 
     for (int i=0; i<orderList.size(); i++) {
-      BleutradeCompareUtils.compareOrders(orderList.get(i), ORDERS[i]);
+      BleutradeAssert.assertEquals(orderList.get(i), ORDERS[i]);
     }
   }
 
@@ -110,14 +110,14 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
     assertThat(bids).hasSize(2);
 
     for (int i=0; i<bids.size(); i++) {
-      BleutradeCompareUtils.compareOrders(bids.get(i), BIDS[i]);
+      BleutradeAssert.assertEquals(bids.get(i), BIDS[i]);
     }
 
     List<LimitOrder> asks = orderBook.getAsks();
     assertThat(asks).hasSize(4);
 
     for (int i=0; i<asks.size(); i++) {
-      BleutradeCompareUtils.compareOrders(asks.get(i), ASKS[i]);
+      BleutradeAssert.assertEquals(asks.get(i), ASKS[i]);
     }
   }
 
@@ -130,7 +130,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
     Ticker ticker = BleutradeAdapters.adaptBleutradeTicker(response.getResult().get(0));
 
     // then
-    BleutradeCompareUtils.compareTickers(ticker, TICKER);
+    BleutradeAssert.assertEquals(ticker, TICKER);
   }
 
   @Test
@@ -152,10 +152,10 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport implements Bl
     assertThat(marketMetaDataMap).hasSize(2);
 
     // there is no reliable information about valid tradingFee calculation formula
-    BleutradeCompareUtils.compareMarketMetaData(marketMetaDataMap.get(CurrencyPair.DOGE_BTC), META_DATA_LIST[0]);
+    BleutradeAssert.assertEquals(marketMetaDataMap.get(CurrencyPair.DOGE_BTC), META_DATA_LIST[0]);
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString()).isEqualTo(META_DATA_STR[0]);
 
-    BleutradeCompareUtils.compareMarketMetaData(marketMetaDataMap.get(BLEU_BTC_CP), META_DATA_LIST[1]);
+    BleutradeAssert.assertEquals(marketMetaDataMap.get(BLEU_BTC_CP), META_DATA_LIST[1]);
     assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo(META_DATA_STR[1]);
   }
 
