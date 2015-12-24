@@ -1,32 +1,32 @@
 package com.xeiam.xchange.btcmarkets.dto;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-
-import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.dto.account.Wallet;
-import org.junit.Test;
-
 import com.xeiam.xchange.btcmarkets.BTCMarketsAdapters;
 import com.xeiam.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import com.xeiam.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import com.xeiam.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
 
   @Test
-  public void shouldAdaptBalances() throws Exception {
+  public void shouldAdaptBalances() throws IOException {
     final BTCMarketsBalance[] response = parse(BTCMarketsBalance[].class);
 
     Wallet wallet = BTCMarketsAdapters.adaptWallet(Arrays.asList(response));
@@ -37,7 +37,7 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
   }
   
   @Test
-  public void shoudAdaptOrderBook() throws Exception {
+  public void shoudAdaptOrderBook() throws IOException {
     final BTCMarketsOrderBook response = parse(BTCMarketsOrderBook.class);
 
     final OrderBook orderBook = BTCMarketsAdapters.adaptOrderBook(response, CurrencyPair.BTC_AUD);
@@ -50,7 +50,7 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
   }
 
   @Test
-  public void shouldAdaptOrders() throws Exception {
+  public void shouldAdaptOrders() throws IOException {
     final BTCMarketsOrders response = parse(BTCMarketsOrders.class);
 
     final OpenOrders openOrders = BTCMarketsAdapters.adaptOpenOrders(response);
@@ -65,7 +65,7 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
   }
   
   @Test
-  public void shouldAdaptTicker() throws Exception {
+  public void shouldAdaptTicker() throws IOException {
     final BTCMarketsTicker response = parse(BTCMarketsTicker.class);
 
     final Ticker ticker = BTCMarketsAdapters.adaptTicker(CurrencyPair.BTC_AUD, response);
@@ -78,7 +78,7 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
   }
 
   @Test
-  public void shouldAdaptTradeHistory() throws Exception {
+  public void shouldAdaptTradeHistory() throws IOException {
     final BTCMarketsTradeHistory response = parse(BTCMarketsTradeHistory.class);
 
     final List<UserTrade> userTrades = BTCMarketsAdapters.adaptTradeHistory(response.getTrades(), CurrencyPair.BTC_AUD).getUserTrades();

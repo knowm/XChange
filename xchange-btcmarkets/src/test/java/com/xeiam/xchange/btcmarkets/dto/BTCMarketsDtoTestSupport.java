@@ -8,6 +8,7 @@ import java.io.InputStream;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BTCMarketsDtoTestSupport {
+
   private static ObjectMapper mapper = new ObjectMapper();
 
   protected static <E> E parse(Class<E> type) throws IOException {
