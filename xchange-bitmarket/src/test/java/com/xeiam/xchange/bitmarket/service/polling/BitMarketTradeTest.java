@@ -2,8 +2,8 @@ package com.xeiam.xchange.bitmarket.service.polling;
 
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitmarket.BitMarketAuthenticated;
 import com.xeiam.xchange.bitmarket.BitMarketAssert;
+import com.xeiam.xchange.bitmarket.BitMarketAuthenticated;
 import com.xeiam.xchange.bitmarket.BitMarketExchange;
 import com.xeiam.xchange.bitmarket.BitMarketTestSupport;
 import com.xeiam.xchange.bitmarket.dto.BitMarketAPILimit;
@@ -214,6 +214,8 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
   @Test
   public void shouldGetOpenOrders() throws IOException {
     // given
+    final LimitOrder[] expectedOrders = expectedOrders();
+
     BitMarketOrdersResponse response = new BitMarketOrdersResponse(
         true,
         createOpenOrdersData(),
@@ -235,8 +237,8 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
     // then
     assertThat(openOrders).hasSize(2);
     for (int i=0; i<openOrders.size(); i++) {
-      BitMarketAssert.assertEquals(openOrders.get(i), ORDERS[i]);
-      assertThat(orders.toString()).contains(ORDERS[i].toString());
+      BitMarketAssert.assertEquals(openOrders.get(i), expectedOrders[i]);
+      assertThat(orders.toString()).contains(expectedOrders[i].toString());
     }
   }
 
@@ -267,6 +269,8 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
   @Test
   public void shouldGetPagingTradeHistory() throws IOException {
     // given
+    final UserTrade[] expectedUserTrades = expectedUserTrades();
+
     BitMarketHistoryTradesResponse historyTradesResponse =
         parse("trade/example-history-trades-data", BitMarketHistoryTradesResponse.class);
     BitMarketHistoryOperationsResponse marketHistoryOperationsPlnResponse =
@@ -300,13 +304,15 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
     // then
     assertThat(userTrades).hasSize(5);
     for (int i=0; i<userTrades.size(); i++) {
-      BitMarketAssert.assertEquals(userTrades.get(i), USER_TRADES[i]);
+      BitMarketAssert.assertEquals(userTrades.get(i), expectedUserTrades[i]);
     }
   }
 
   @Test
   public void shouldGetCurrencyPairTradeHistory() throws IOException {
     // given
+    final UserTrade[] expectedCpUserTrades = expectedCpUserTrades();
+
     BitMarketHistoryTradesResponse historyTradesCPResponse =
       parse("trade/example-history-trades-cp-data", BitMarketHistoryTradesResponse.class);
     BitMarketHistoryOperationsResponse marketHistoryOperationsEurResponse =
@@ -338,7 +344,7 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
     // then
     assertThat(userTrades).hasSize(2);
     for (int i=0; i<userTrades.size(); i++) {
-      BitMarketAssert.assertEquals(userTrades.get(i), CP_USER_TRADES[i]);
+      BitMarketAssert.assertEquals(userTrades.get(i), expectedCpUserTrades[i]);
     }
   }
 
@@ -375,7 +381,7 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
 
     // then
     assertThat(userTrades).hasSize(1);
-    BitMarketAssert.assertEquals(userTrades.get(0), BM_USER_TRADES);
+    BitMarketAssert.assertEquals(userTrades.get(0), EXPECTED_BM_USER_TRADES);
   }
 
   @Test(expected = ExchangeException.class)
