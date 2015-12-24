@@ -16,16 +16,16 @@ import java.math.BigDecimal;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class BtcMarketsCompareUtils {
+public class BtcMarketsAssert {
 
-  public static void compareBalances(Balance o1, Balance o2) {
+  public static void assertEquals(Balance o1, Balance o2) {
     assertThat(o1.getCurrency()).isEqualTo(o2.getCurrency());
     assertThat(o1.getTotal()).isEqualTo(o2.getTotal());
     assertThat(o1.getAvailable()).isEqualTo(o2.getAvailable());
     assertThat(o1.getFrozen()).isEqualTo(o2.getFrozen());
   }
 
-  public static void compareTrades(Trade o1, Trade o2) {
+  public static void assertEquals(Trade o1, Trade o2) {
     assertThat(o1.getType()).isEqualTo(o2.getType());
     assertThat(o1.getTradableAmount()).isEqualTo(o2.getTradableAmount());
     assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
@@ -34,15 +34,20 @@ public class BtcMarketsCompareUtils {
     assertThat(o1.getId()).isEqualTo(o2.getId());
   }
 
-  public static void compareUserTrades(UserTrade o1, UserTrade o2) {
-    compareTrades(o1, o2);
+  public static void assertEquals(UserTrade o1, UserTrade o2) {
+    assertThat(o1.getType()).isEqualTo(o2.getType());
+    assertThat(o1.getTradableAmount()).isEqualTo(o2.getTradableAmount());
+    assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
+    assertThat(o1.getPrice()).isEqualTo(o2.getPrice());
+    assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
+    assertThat(o1.getId()).isEqualTo(o2.getId());
 
     assertThat(o1.getOrderId()).isEqualTo(o2.getOrderId());
     assertThat(o1.getFeeAmount()).isEqualTo(o2.getFeeAmount());
     assertThat(o1.getFeeCurrency()).isEqualTo(o2.getFeeCurrency());
   }
 
-  public static void compareOrders(LimitOrder o1, LimitOrder o2) {
+  public static void assertEquals(LimitOrder o1, LimitOrder o2) {
     assertThat(o1.getId()).isEqualTo(o2.getId());
     assertThat(o1.getType()).isEqualTo(o2.getType());
     assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
@@ -51,15 +56,15 @@ public class BtcMarketsCompareUtils {
     assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
   }
 
-  public static void compareOrderHistories(LimitOrder o1, Order.OrderType orderType,
-                                           CurrencyPair currencyPair, BigDecimal[] history) {
+  public static void assertEquals(LimitOrder o1, Order.OrderType orderType,
+                                  CurrencyPair currencyPair, BigDecimal[] history) {
     assertThat(o1.getType()).isEqualTo(orderType);
     assertThat(o1.getCurrencyPair()).isEqualTo(currencyPair);
     assertThat(o1.getLimitPrice()).isEqualTo(history[0]);
     assertThat(o1.getTradableAmount()).isEqualTo(history[1]);
   }
 
-  public static void compareTickers(Ticker o1, Ticker o2) {
+  public static void assertEquals(Ticker o1, Ticker o2) {
     assertThat(o1.getBid()).isEqualTo(o2.getBid());
     assertThat(o1.getAsk()).isEqualTo(o2.getAsk());
     assertThat(o1.getCurrencyPair()).isEqualTo(o2.getCurrencyPair());
@@ -71,7 +76,7 @@ public class BtcMarketsCompareUtils {
     assertThat(o1.getVwap()).isEqualTo(o2.getVwap());
   }
 
-  public static void compareBTCMarketsBalances(BTCMarketsBalance o1, BTCMarketsBalance o2) {
+  public static void assertEquals(BTCMarketsBalance o1, BTCMarketsBalance o2) {
     assertThat(o1.getCurrency()).isEqualTo(o2.getCurrency());
     assertThat(o1.getBalance()).isEqualTo(o2.getBalance());
     assertThat(o1.getPendingFunds()).isEqualTo(o2.getPendingFunds());
@@ -80,7 +85,7 @@ public class BtcMarketsCompareUtils {
 
   }
 
-  public static void compareBTCMarketsOrders(BTCMarketsOrder o1, BTCMarketsOrder o2) {
+  public static void assertEquals(BTCMarketsOrder o1, BTCMarketsOrder o2) {
     assertThat(o1.getId()).isEqualTo(o2.getId());
     assertThat(o1.getCurrency()).isEqualTo(o2.getCurrency());
     assertThat(o1.getInstrument()).isEqualTo(o2.getInstrument());
@@ -95,14 +100,14 @@ public class BtcMarketsCompareUtils {
     assertThat(o1.getClientRequestId()).isEqualTo(o2.getClientRequestId());
     assertThat(o1.getTrades().size()).isEqualTo(o2.getTrades().size());
 
-    for (int i=0; i<o1.getTrades().size(); i++) {
-      compareBtcMarketsUserTrades(o1.getTrades().get(i), o2.getTrades().get(i));
+    for (int i = 0; i < o1.getTrades().size(); i++) {
+      assertEquals(o1.getTrades().get(i), o2.getTrades().get(i));
     }
 
     assertThat(o1.toString()).isEqualTo(o2.toString());
   }
 
-  public static void compareBtcMarketsUserTrades(
+  public static void assertEquals(
     BTCMarketsUserTrade o1, BTCMarketsUserTrade o2) {
 
     assertThat(o1.getId()).isEqualTo(o2.getId());
@@ -114,7 +119,7 @@ public class BtcMarketsCompareUtils {
     assertThat(o1.toString()).isEqualTo(o2.toString());
   }
 
-  public static void compareBtcMarketsTickers(
+  public static void assertEquals(
     BTCMarketsTicker o1, BTCMarketsTicker o2) {
 
     assertThat(o1.getBestBid()).isEqualTo(o2.getBestBid());
@@ -125,7 +130,4 @@ public class BtcMarketsCompareUtils {
     assertThat(o1.getTimestamp()).isEqualTo(o2.getTimestamp());
     assertThat(o1.toString()).isEqualTo(o2.toString());
   }
-
-
-
 }

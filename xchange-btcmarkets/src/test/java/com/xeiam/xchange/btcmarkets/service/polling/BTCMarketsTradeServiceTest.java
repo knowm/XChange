@@ -3,7 +3,7 @@ package com.xeiam.xchange.btcmarkets.service.polling;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.btcmarkets.BTCMarketsAuthenticated;
 import com.xeiam.xchange.btcmarkets.BTCMarketsExchange;
-import com.xeiam.xchange.btcmarkets.BtcMarketsCompareUtils;
+import com.xeiam.xchange.btcmarkets.BtcMarketsAssert;
 import com.xeiam.xchange.btcmarkets.dto.BTCMarketsException;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderRequest;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderResponse;
@@ -196,16 +196,16 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
 
     // then
     assertThat(defaultUserTrades).hasSize(1);
-    BtcMarketsCompareUtils.compareUserTrades(defaultUserTrades.get(0), USER_TRADES[0]);
+    BtcMarketsAssert.assertEquals(defaultUserTrades.get(0), USER_TRADES[0]);
 
     assertThat(pagingUserTrades).hasSize(2);
     for (int i=0; i<pagingUserTrades.size(); i++) {
-      BtcMarketsCompareUtils.compareUserTrades(pagingUserTrades.get(i), USER_TRADES[i + 1]);
+      BtcMarketsAssert.assertEquals(pagingUserTrades.get(i), USER_TRADES[i + 1]);
     }
 
     assertThat(timeSpanUserTrades).hasSize(2);
     for (int i=0; i<timeSpanUserTrades.size(); i++) {
-      BtcMarketsCompareUtils.compareUserTrades(timeSpanUserTrades.get(i), USER_TRADES[i + 2]);
+      BtcMarketsAssert.assertEquals(timeSpanUserTrades.get(i), USER_TRADES[i + 2]);
     }
   }
 
@@ -234,7 +234,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     assertThat(ordersList).hasSize(2);
 
     for (int i=0; i<ordersList.size(); i++) {
-      BtcMarketsCompareUtils.compareOrders(ordersList.get(i), ORDERS[i]);
+      BtcMarketsAssert.assertEquals(ordersList.get(i), ORDERS[i]);
     }
   }
 

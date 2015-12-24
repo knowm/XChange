@@ -3,7 +3,7 @@ package com.xeiam.xchange.btcmarkets.dto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.btcmarkets.BtcMarketsCompareUtils;
+import com.xeiam.xchange.btcmarkets.BtcMarketsAssert;
 import com.xeiam.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import com.xeiam.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import com.xeiam.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
@@ -52,7 +52,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     // then
     assertThat(response).hasSize(3);
     for (int i=0; i<response.length; i++) {
-      BtcMarketsCompareUtils.compareBTCMarketsBalances(response[i], BTC_MARKETS_BALANCES[i]);
+      BtcMarketsAssert.assertEquals(response[i], BTC_MARKETS_BALANCES[i]);
     }
   }
 
@@ -172,18 +172,18 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     assertThat(asks).hasSize(3);
 
     for (int i=0; i<asks.size(); i++) {
-      BtcMarketsCompareUtils.compareOrderHistories(ASKS[i], Order.OrderType.ASK, CurrencyPair.BTC_AUD, asks.get(i));
+      BtcMarketsAssert.assertEquals(ASKS[i], Order.OrderType.ASK, CurrencyPair.BTC_AUD, asks.get(i));
     }
 
     List<BigDecimal[]> bids = response.getBids();
     assertThat(bids).hasSize(2);
     for (int i=0; i<bids.size(); i++) {
-      BtcMarketsCompareUtils.compareOrderHistories(BIDS[i], Order.OrderType.BID, CurrencyPair.BTC_AUD, bids.get(i));
+      BtcMarketsAssert.assertEquals(BIDS[i], Order.OrderType.BID, CurrencyPair.BTC_AUD, bids.get(i));
     }
 
     assertThat(response.toString()).isEqualTo(
-        String.format("BTCMarketsOrderBook{currency='AUD', instrument='BTC', timestamp=%s, bids=2, asks=3}", new
-          Date(1442997827000L)));
+      String.format("BTCMarketsOrderBook{currency='AUD', instrument='BTC', timestamp=%s, bids=2, asks=3}", new
+        Date(1442997827000L)));
   }
 
   @Test
@@ -199,7 +199,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     List<BTCMarketsOrder> ordersList = response.getOrders();
     assertThat(ordersList).hasSize(2);
     for (int i=0; i<ordersList.size(); i++) {
-      BtcMarketsCompareUtils.compareBTCMarketsOrders(ordersList.get(i), PARSED_BTC_MARKETS_ORDERS[i]);
+      BtcMarketsAssert.assertEquals(ordersList.get(i), PARSED_BTC_MARKETS_ORDERS[i]);
     }
   }
 
@@ -224,7 +224,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     final BTCMarketsTicker response = parse(BTCMarketsTicker.class);
 
     // then
-    BtcMarketsCompareUtils.compareBtcMarketsTickers(response, BTC_MARKETS_TICKER);
+    BtcMarketsAssert.assertEquals(response, BTC_MARKETS_TICKER);
   }
 
   @Test
@@ -240,7 +240,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     List<BTCMarketsUserTrade> userTrades = response.getTrades();
     assertThat(userTrades).hasSize(3);
     for (int i=0; i<userTrades.size(); i++) {
-      BtcMarketsCompareUtils.compareBtcMarketsUserTrades(userTrades.get(i), PARSED_BTC_MARKETS_USER_TRADES.get(i));
+      BtcMarketsAssert.assertEquals(userTrades.get(i), PARSED_BTC_MARKETS_USER_TRADES.get(i));
     }
   }
 

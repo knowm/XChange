@@ -4,7 +4,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcmarkets.BTCMarkets;
 import com.xeiam.xchange.btcmarkets.BTCMarketsExchange;
-import com.xeiam.xchange.btcmarkets.BtcMarketsCompareUtils;
+import com.xeiam.xchange.btcmarkets.BtcMarketsAssert;
 import com.xeiam.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -55,7 +55,7 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsTestSupport {
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_AUD);
 
     // then
-    BtcMarketsCompareUtils.compareTickers(ticker, TICKER);
+    BtcMarketsAssert.assertEquals(ticker, TICKER);
   }
 
   @Test
@@ -76,13 +76,13 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsTestSupport {
     List<LimitOrder> asks = orderBook.getAsks();
     assertThat(asks).hasSize(3);
     for (int i=0; i<asks.size(); i++) {
-      BtcMarketsCompareUtils.compareOrders(asks.get(i), ASKS[i]);
+      BtcMarketsAssert.assertEquals(asks.get(i), ASKS[i]);
     }
 
     List<LimitOrder> bids = orderBook.getBids();
     assertThat(bids).hasSize(2);
     for (int i=0; i<bids.size(); i++) {
-      BtcMarketsCompareUtils.compareOrders(bids.get(i), BIDS[i]);
+      BtcMarketsAssert.assertEquals(bids.get(i), BIDS[i]);
     }
   }
 

@@ -4,7 +4,7 @@ import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcmarkets.BTCMarketsAuthenticated;
 import com.xeiam.xchange.btcmarkets.BTCMarketsExchange;
-import com.xeiam.xchange.btcmarkets.BtcMarketsCompareUtils;
+import com.xeiam.xchange.btcmarkets.BtcMarketsAssert;
 import com.xeiam.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import com.xeiam.xchange.btcmarkets.service.BTCMarketsDigest;
 import com.xeiam.xchange.currency.Currency;
@@ -65,7 +65,7 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
     assertThat(accountInfo.getTradingFee()).isNull();
     assertThat(accountInfo.getWallets()).hasSize(1);
 
-    BtcMarketsCompareUtils.compareBalances(accountInfo.getWallet().getBalance(Currency.BTC), BALANCE);
+    BtcMarketsAssert.assertEquals(accountInfo.getWallet().getBalance(Currency.BTC), BALANCE);
   }
 
   @Test(expected = NotYetImplementedForExchangeException.class)
