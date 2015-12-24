@@ -3,7 +3,7 @@ package com.xeiam.xchange.bitmarket.service.polling;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitmarket.BitMarket;
-import com.xeiam.xchange.bitmarket.BitMarketCompareUtils;
+import com.xeiam.xchange.bitmarket.BitMarketAsserts;
 import com.xeiam.xchange.bitmarket.BitMarketExchange;
 import com.xeiam.xchange.bitmarket.BitMarketTestSupport;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
@@ -32,7 +32,8 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
 
   private BitMarketDataService dataService;
 
-  @Before public void setUp() {
+  @Before
+  public void setUp() {
     BitMarketExchange exchange = (BitMarketExchange) ExchangeFactory.INSTANCE.createExchange(BitMarketExchange.class.getCanonicalName());
     ExchangeSpecification specification = exchange.getExchangeSpecification();
     specification.setUserName(SPECIFICATION_USERNAME);
@@ -42,11 +43,13 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
     dataService = new BitMarketDataService(exchange);
   }
 
-  @Test public void constructor() {
+  @Test
+  public void constructor() {
     assertThat(Whitebox.getInternalState(dataService, "apiKey")).isEqualTo(SPECIFICATION_API_KEY);
   }
 
-  @Test public void shouldGetTicker() throws IOException {
+  @Test
+  public void shouldGetTicker() throws IOException {
     // given
     BitMarketTicker response = parse("marketdata/example-ticker-data", BitMarketTicker.class);
 
@@ -58,10 +61,11 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
     Ticker ticker = dataService.getTicker(CurrencyPair.BTC_AUD);
 
     // then
-    BitMarketCompareUtils.compareTickers(ticker, TICKER);
+    BitMarketAsserts.assertEquals(ticker, TICKER);
   }
 
-  @Test public void shouldGetTrades() throws IOException {
+  @Test
+  public void shouldGetTrades() throws IOException {
     // given
     BitMarketTrade[] response = parse("marketdata/example-trades-data", BitMarketTrade[].class);
 
@@ -76,11 +80,12 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
     // then
     assertThat(tradeList).hasSize(3);
     for (int i=0; i < tradeList.size(); i++) {
-      BitMarketCompareUtils.compareTrades(tradeList.get(i), TRADES[i]);
+      BitMarketAsserts.assertEquals(tradeList.get(i), TRADES[i]);
     }
   }
 
-  @Test public void shouldGetOrderBook() throws IOException {
+  @Test
+  public void shouldGetOrderBook() throws IOException {
     // given
     BitMarketOrderBook response = parse("marketdata/example-order-book-data", BitMarketOrderBook.class);
 
@@ -92,6 +97,6 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
     OrderBook orderBook = dataService.getOrderBook(CurrencyPair.BTC_AUD);
 
     // then
-    BitMarketCompareUtils.compareOrderBooks(orderBook, ORDER_BOOK);
+    BitMarketAsserts.assertEquals(orderBook, ORDER_BOOK);
   }
 }

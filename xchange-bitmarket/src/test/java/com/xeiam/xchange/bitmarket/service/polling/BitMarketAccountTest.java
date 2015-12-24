@@ -3,7 +3,7 @@ package com.xeiam.xchange.bitmarket.service.polling;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitmarket.BitMarketAuthenticated;
-import com.xeiam.xchange.bitmarket.BitMarketCompareUtils;
+import com.xeiam.xchange.bitmarket.BitMarketAsserts;
 import com.xeiam.xchange.bitmarket.BitMarketExchange;
 import com.xeiam.xchange.bitmarket.BitMarketTestSupport;
 import com.xeiam.xchange.bitmarket.dto.BitMarketAPILimit;
@@ -83,7 +83,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
 
     assertThat(balances).hasSize(3);
     for (int i=0; i<balances.size(); i++) {
-      BitMarketCompareUtils.compareBalances(balances.get(BALANCES[i].getCurrency()), BALANCES[i]);
+      BitMarketAsserts.assertEquals(balances.get(BALANCES[i].getCurrency()), BALANCES[i]);
     }
   }
 
@@ -123,7 +123,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
 
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
     PowerMockito.when(bitMarketAuthenticated.withdraw(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC"),
+        Mockito.any(SynchronizedValueFactory.class), Mockito.eq(Currency.BTC.toString()),
         Mockito.eq(BigDecimal.TEN), Mockito.eq("address mock")))
         .thenReturn(response);
     Whitebox.setInternalState(accountService, "bitMarketAuthenticated", bitMarketAuthenticated);
@@ -148,7 +148,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
 
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
     PowerMockito.when(bitMarketAuthenticated.withdraw(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC"),
+        Mockito.any(SynchronizedValueFactory.class), Mockito.eq(Currency.BTC.toString()),
         Mockito.eq(BigDecimal.TEN), Mockito.eq("address mock")))
         .thenReturn(response);
     Whitebox.setInternalState(accountService, "bitMarketAuthenticated", bitMarketAuthenticated);
@@ -173,7 +173,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
 
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
     PowerMockito.when(bitMarketAuthenticated.deposit(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC")))
+        Mockito.any(SynchronizedValueFactory.class), Mockito.eq(Currency.BTC.toString())))
         .thenReturn(response);
     Whitebox.setInternalState(accountService, "bitMarketAuthenticated", bitMarketAuthenticated);
 
@@ -197,7 +197,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
 
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
     PowerMockito.when(bitMarketAuthenticated.deposit(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTC")))
+        Mockito.any(SynchronizedValueFactory.class), Mockito.eq(Currency.BTC.toString())))
         .thenReturn(response);
     Whitebox.setInternalState(accountService, "bitMarketAuthenticated", bitMarketAuthenticated);
 
