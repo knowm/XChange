@@ -12,6 +12,7 @@ import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
+import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
 import com.xeiam.xchange.btcmarkets.service.BTCMarketsDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -154,25 +155,27 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     assertThat(cancelled).isTrue();
   }
 
-
   @Test
   public void shouldGetTradeHistory() throws Exception {
     // given
+    final List<BTCMarketsUserTrade> expectedBtcMarketsUserTrades = expectedBtcMarketsUserTrades();
+    final UserTrade[] expectedUserTrades = expectedUserTrades();
+
     BTCMarketsMyTradingRequest defaultRequest = new BTCMarketsMyTradingRequest("AUD", "BTC", null, null);
     BTCMarketsMyTradingRequest pagingRequest = new BTCMarketsMyTradingRequest("AUD", "BTC", 120, null);
     BTCMarketsMyTradingRequest timeSpanRequest = new BTCMarketsMyTradingRequest("AUD", "BTC", null, new Date(1234567890L));
 
     BTCMarketsTradeHistory defaultResponse = Whitebox.invokeConstructor(BTCMarketsTradeHistory.class,
         new Class[]{Boolean.class, String.class, Integer.class, List.class},
-        new Object[]{true, "", 0, Collections.singletonList(BTC_MARKETS_USER_TRADES.get(0))});
+        new Object[]{true, "", 0, Collections.singletonList(expectedBtcMarketsUserTrades.get(0))});
 
     BTCMarketsTradeHistory pagingResponse = Whitebox.invokeConstructor(BTCMarketsTradeHistory.class,
         new Class[]{Boolean.class, String.class, Integer.class, List.class},
-        new Object[]{true, "", 0, BTC_MARKETS_USER_TRADES.subList(1, 3)});
+        new Object[]{true, "", 0, expectedBtcMarketsUserTrades.subList(1, 3)});
 
     BTCMarketsTradeHistory timeSpanResponse = Whitebox.invokeConstructor(BTCMarketsTradeHistory.class,
         new Class[]{Boolean.class, String.class, Integer.class, List.class},
-        new Object[]{true, "", 0, BTC_MARKETS_USER_TRADES.subList(2, 4)});
+        new Object[]{true, "", 0, expectedBtcMarketsUserTrades.subList(2, 4)});
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
 
@@ -196,29 +199,29 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
 
     // then
     assertThat(defaultUserTrades).hasSize(1);
-    BtcMarketsAssert.assertEquals(defaultUserTrades.get(0), USER_TRADES[0]);
+    BtcMarketsAssert.assertEquals(defaultUserTrades.get(0), expectedUserTrades[0]);
 
     assertThat(pagingUserTrades).hasSize(2);
     for (int i=0; i<pagingUserTrades.size(); i++) {
-      BtcMarketsAssert.assertEquals(pagingUserTrades.get(i), USER_TRADES[i + 1]);
+      BtcMarketsAssert.assertEquals(pagingUserTrades.get(i), expectedUserTrades[i + 1]);
     }
 
     assertThat(timeSpanUserTrades).hasSize(2);
     for (int i=0; i<timeSpanUserTrades.size(); i++) {
-      BtcMarketsAssert.assertEquals(timeSpanUserTrades.get(i), USER_TRADES[i + 2]);
+      BtcMarketsAssert.assertEquals(timeSpanUserTrades.get(i), expectedUserTrades[i + 2]);
     }
   }
-
 
   @Test
   public void shouldGetOpenOrders() throws Exception {
     // given
+    final BTCMarketsOrder[] expectedBtcMarketsOrders = expectedBtcMarketsOrders();
+    final LimitOrder[] expectedOrders = expectedOrders();
+
     BTCMarketsMyTradingRequest request = new BTCMarketsMyTradingRequest("AUD", "BTC", 50, null);
-
-
     BTCMarketsOrders response = Whitebox.invokeConstructor(BTCMarketsOrders.class,
         new Class[]{Boolean.class, String.class, Integer.class, List.class},
-        new Object[]{true, "", 0, Arrays.asList(BTC_MARKETS_ORDERS[0], BTC_MARKETS_ORDERS[1])});
+        new Object[]{true, "", 0, Arrays.asList(expectedBtcMarketsOrders[0], expectedBtcMarketsOrders[1])});
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
     PowerMockito.when(btcm.getOpenOrders(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class),
@@ -234,7 +237,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     assertThat(ordersList).hasSize(2);
 
     for (int i=0; i<ordersList.size(); i++) {
-      BtcMarketsAssert.assertEquals(ordersList.get(i), ORDERS[i]);
+      BtcMarketsAssert.assertEquals(ordersList.get(i), expectedOrders[i]);
     }
   }
 

@@ -65,7 +65,7 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
     assertThat(accountInfo.getTradingFee()).isNull();
     assertThat(accountInfo.getWallets()).hasSize(1);
 
-    BtcMarketsAssert.assertEquals(accountInfo.getWallet().getBalance(Currency.BTC), BALANCE);
+    BtcMarketsAssert.assertEquals(accountInfo.getWallet().getBalance(Currency.BTC), EXPECTED_BALANCE);
   }
 
   @Test(expected = NotYetImplementedForExchangeException.class)

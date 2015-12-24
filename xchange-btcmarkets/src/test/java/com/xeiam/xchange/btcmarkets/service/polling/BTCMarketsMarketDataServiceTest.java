@@ -48,19 +48,22 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsTestSupport {
   public void shouldGetTicker() throws IOException {
     // given
     BTCMarkets btcmarkets = mock(BTCMarkets.class);
-    PowerMockito.when(btcmarkets.getTicker("BTC", "AUD")).thenReturn(BTC_MARKETS_TICKER);
+    PowerMockito.when(btcmarkets.getTicker("BTC", "AUD")).thenReturn(EXPECTED_BTC_MARKETS_TICKER);
     Whitebox.setInternalState(marketDataService, "btcmarkets", btcmarkets);
 
     // when
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_AUD);
 
     // then
-    BtcMarketsAssert.assertEquals(ticker, TICKER);
+    BtcMarketsAssert.assertEquals(ticker, EXPECTED_TICKER);
   }
 
   @Test
   public void shouldGetOrderBook() throws IOException {
     // given
+    final LimitOrder[] expectedAsks = expectedAsks();
+    final LimitOrder[] expectedBids = expectedBids();
+
     BTCMarketsOrderBook orderBookMock = parse("ShortOrderBook", BTCMarketsOrderBook.class);
 
     BTCMarkets btcmarkets = mock(BTCMarkets.class);
@@ -76,13 +79,13 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsTestSupport {
     List<LimitOrder> asks = orderBook.getAsks();
     assertThat(asks).hasSize(3);
     for (int i=0; i<asks.size(); i++) {
-      BtcMarketsAssert.assertEquals(asks.get(i), ASKS[i]);
+      BtcMarketsAssert.assertEquals(asks.get(i), expectedAsks[i]);
     }
 
     List<LimitOrder> bids = orderBook.getBids();
     assertThat(bids).hasSize(2);
     for (int i=0; i<bids.size(); i++) {
-      BtcMarketsAssert.assertEquals(bids.get(i), BIDS[i]);
+      BtcMarketsAssert.assertEquals(bids.get(i), expectedBids[i]);
     }
   }
 
