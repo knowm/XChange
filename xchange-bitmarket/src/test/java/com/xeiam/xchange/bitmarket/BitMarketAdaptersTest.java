@@ -45,7 +45,7 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
 
     assertThat(balances).hasSize(3);
     for (Balance balance : INFO_BALANCES) {
-      BitMarketAsserts.assertEquals(balances.get(balance.getCurrency()), balance);
+      BitMarketAssert.assertEquals(balances.get(balance.getCurrency()), balance);
       assertThat(wallet.toString()).contains(balance.toString());
     }
   }
@@ -63,7 +63,7 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
     // then
     assertThat(openOrders).hasSize(2);
     for (int i=0; i<openOrders.size(); i++) {
-      BitMarketAsserts.assertEquals(openOrders.get(i), ORDERS[i]);
+      BitMarketAssert.assertEquals(openOrders.get(i), ORDERS[i]);
       assertThat(orders.toString()).contains(ORDERS[i].toString());
     }
   }
@@ -82,7 +82,7 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
     // then
     assertThat(userTrades).hasSize(5);
     for (int i=0; i<userTrades.size(); i++) {
-      BitMarketAsserts.assertEquals(userTrades.get(i), USER_TRADES[i]);
+      BitMarketAssert.assertEquals(userTrades.get(i), USER_TRADES[i]);
     }
   }
 
@@ -96,7 +96,7 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
     Ticker ticker = BitMarketAdapters.adaptTicker(bitMarketTicker, CurrencyPair.BTC_AUD);
 
     // then
-    BitMarketAsserts.assertEquals(ticker, TICKER);
+    BitMarketAssert.assertEquals(ticker, TICKER);
   }
 
   // https://www.bitmarket.pl/json/LTCPLN/trades.json example has addition field 'type' which is not specified in API description (https://www.bitmarket.net/docs.php?file=api_public.html)
@@ -113,7 +113,7 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
     // then
     assertThat(tradeList).hasSize(3);
     for (int i=0; i < tradeList.size(); i++) {
-      BitMarketAsserts.assertEquals(tradeList.get(i), TRADES[i]);
+      BitMarketAssert.assertEquals(tradeList.get(i), TRADES[i]);
     }
   }
 
@@ -126,7 +126,7 @@ public class BitMarketAdaptersTest extends BitMarketTestSupport {
     OrderBook orderBook = BitMarketAdapters.adaptOrderBook(bitMarketOrderBook, CurrencyPair.BTC_AUD);
 
     // then
-    BitMarketAsserts.assertEquals(orderBook, ORDER_BOOK);
+    BitMarketAssert.assertEquals(orderBook, ORDER_BOOK);
   }
 
 }

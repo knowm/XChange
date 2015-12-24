@@ -3,7 +3,7 @@ package com.xeiam.xchange.bitmarket.service.polling;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitmarket.BitMarket;
-import com.xeiam.xchange.bitmarket.BitMarketAsserts;
+import com.xeiam.xchange.bitmarket.BitMarketAssert;
 import com.xeiam.xchange.bitmarket.BitMarketExchange;
 import com.xeiam.xchange.bitmarket.BitMarketTestSupport;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
@@ -61,7 +61,7 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
     Ticker ticker = dataService.getTicker(CurrencyPair.BTC_AUD);
 
     // then
-    BitMarketAsserts.assertEquals(ticker, TICKER);
+    BitMarketAssert.assertEquals(ticker, TICKER);
   }
 
   @Test
@@ -80,7 +80,7 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
     // then
     assertThat(tradeList).hasSize(3);
     for (int i=0; i < tradeList.size(); i++) {
-      BitMarketAsserts.assertEquals(tradeList.get(i), TRADES[i]);
+      BitMarketAssert.assertEquals(tradeList.get(i), TRADES[i]);
     }
   }
 
@@ -97,6 +97,6 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
     OrderBook orderBook = dataService.getOrderBook(CurrencyPair.BTC_AUD);
 
     // then
-    BitMarketAsserts.assertEquals(orderBook, ORDER_BOOK);
+    BitMarketAssert.assertEquals(orderBook, ORDER_BOOK);
   }
 }

@@ -3,7 +3,7 @@ package com.xeiam.xchange.bitmarket.service.polling;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.bitmarket.BitMarketAuthenticated;
-import com.xeiam.xchange.bitmarket.BitMarketAsserts;
+import com.xeiam.xchange.bitmarket.BitMarketAssert;
 import com.xeiam.xchange.bitmarket.BitMarketExchange;
 import com.xeiam.xchange.bitmarket.BitMarketTestSupport;
 import com.xeiam.xchange.bitmarket.dto.BitMarketAPILimit;
@@ -235,7 +235,7 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
     // then
     assertThat(openOrders).hasSize(2);
     for (int i=0; i<openOrders.size(); i++) {
-      BitMarketAsserts.assertEquals(openOrders.get(i), ORDERS[i]);
+      BitMarketAssert.assertEquals(openOrders.get(i), ORDERS[i]);
       assertThat(orders.toString()).contains(ORDERS[i].toString());
     }
   }
@@ -300,7 +300,7 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
     // then
     assertThat(userTrades).hasSize(5);
     for (int i=0; i<userTrades.size(); i++) {
-      BitMarketAsserts.assertEquals(userTrades.get(i), USER_TRADES[i]);
+      BitMarketAssert.assertEquals(userTrades.get(i), USER_TRADES[i]);
     }
   }
 
@@ -338,7 +338,7 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
     // then
     assertThat(userTrades).hasSize(2);
     for (int i=0; i<userTrades.size(); i++) {
-      BitMarketAsserts.assertEquals(userTrades.get(i), CP_USER_TRADES[i]);
+      BitMarketAssert.assertEquals(userTrades.get(i), CP_USER_TRADES[i]);
     }
   }
 
@@ -375,7 +375,7 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
 
     // then
     assertThat(userTrades).hasSize(1);
-    BitMarketAsserts.assertEquals(userTrades.get(0), BM_USER_TRADES);
+    BitMarketAssert.assertEquals(userTrades.get(0), BM_USER_TRADES);
   }
 
   @Test(expected = ExchangeException.class)

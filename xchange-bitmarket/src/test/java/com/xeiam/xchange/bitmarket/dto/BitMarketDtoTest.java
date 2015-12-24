@@ -1,6 +1,6 @@
 package com.xeiam.xchange.bitmarket.dto;
 
-import com.xeiam.xchange.bitmarket.BitMarketAsserts;
+import com.xeiam.xchange.bitmarket.BitMarketAssert;
 import com.xeiam.xchange.bitmarket.BitMarketTestSupport;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketDepositResponse;
@@ -24,7 +24,7 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
 
     // then
     verifySuccessResponse(response);
-    BitMarketAsserts.assertEquals(response.getData().getBalance(), PARSED_BALANCE);
+    BitMarketAssert.assertEquals(response.getData().getBalance(), PARSED_BALANCE);
     verifyResponseLimit(response.getLimit(), 1, 200, 1395750600L);
   }
 
@@ -38,7 +38,7 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
 
     // then
     verifySuccessResponse(response);
-    BitMarketAsserts.assertEquals(response.getData(), PARSED_BALANCE);
+    BitMarketAssert.assertEquals(response.getData(), PARSED_BALANCE);
     verifyResponseLimit(response.getLimit(), 1, 200, 1395750600L);
   }
 
@@ -81,8 +81,8 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
     // then
     verifySuccessResponse(response);
 
-    BitMarketAsserts.assertEquals(response.getData().getOrder(), PARSED_TRADE_ORDER);
-    BitMarketAsserts.assertEquals(response.getData().getBalance(), PARSED_TRADE_BALANCE);
+    BitMarketAssert.assertEquals(response.getData().getOrder(), PARSED_TRADE_ORDER);
+    BitMarketAssert.assertEquals(response.getData().getBalance(), PARSED_TRADE_BALANCE);
 
     verifyResponseLimit(response.getLimit(), 39, 6000, 1432920000L);
   }
@@ -96,7 +96,7 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
     BitMarketOrderBook response = parse("marketdata/example-order-book-data", BitMarketOrderBook.class);
 
     // then
-    BitMarketAsserts.assertEquals(response, PARSED_ORDER_BOOK);
+    BitMarketAssert.assertEquals(response, PARSED_ORDER_BOOK);
   }
 
   @Test public void shouldParseTicker() throws IOException {
@@ -104,7 +104,7 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
     BitMarketTicker response = parse("marketdata/example-ticker-data", BitMarketTicker.class);
 
     // then
-    BitMarketAsserts.assertEquals(response, PARSED_TICKER);
+    BitMarketAssert.assertEquals(response, PARSED_TICKER);
   }
 
   @Test public void shouldParseTrades() throws IOException {
@@ -114,7 +114,7 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
     // then
     assertThat(trades).hasSize(3);
     for (int i=0; i<trades.length; i++) {
-      BitMarketAsserts.assertEquals(trades[i], PARSED_TRADES[i]);
+      BitMarketAssert.assertEquals(trades[i], PARSED_TRADES[i]);
     }
   }
 }

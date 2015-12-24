@@ -18,7 +18,7 @@ import java.util.Map;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class BitMarketAsserts {
+public class BitMarketAssert {
 
   public static void assertEquals(Balance o1, Balance o2) {
     assertThat(o1.getCurrency()).isEqualTo(o2.getCurrency());
