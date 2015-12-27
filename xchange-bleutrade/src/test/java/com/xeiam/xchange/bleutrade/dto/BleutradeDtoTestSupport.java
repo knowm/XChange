@@ -1,6 +1,7 @@
 package com.xeiam.xchange.bleutrade.dto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.bleutrade.BleutradeTestData;
 import com.xeiam.xchange.currency.CurrencyPair;
 
 import java.io.IOException;
@@ -8,7 +9,7 @@ import java.io.InputStream;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-public class BleutradeDtoTestSupport {
+public class BleutradeDtoTestSupport extends BleutradeTestData {
 
   private static ObjectMapper mapper = new ObjectMapper();
 

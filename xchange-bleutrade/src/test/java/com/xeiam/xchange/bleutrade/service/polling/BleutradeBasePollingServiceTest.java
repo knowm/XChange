@@ -3,6 +3,7 @@ package com.xeiam.xchange.bleutrade.service.polling;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
 import com.xeiam.xchange.bleutrade.BleutradeExchange;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarket;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;
 import com.xeiam.xchange.currency.CurrencyPair;
 import org.junit.Before;
@@ -40,11 +41,14 @@ public class BleutradeBasePollingServiceTest extends BleutradeServiceTestSupport
 
   @Test
   public void shouldGetExchangeSymbols() throws IOException {
+    // given
+    final List<BleutradeMarket> expectedMarkets = expectedBleutradeMarkets();
+
     // when
     BleutradeMarketsReturn marketsReturn = new BleutradeMarketsReturn();
     marketsReturn.setSuccess(true);
     marketsReturn.setMessage("test message");
-    marketsReturn.setResult(BLEUTRADE_MARKETS);
+    marketsReturn.setResult(expectedMarkets);
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeMarkets()).thenReturn(marketsReturn);
