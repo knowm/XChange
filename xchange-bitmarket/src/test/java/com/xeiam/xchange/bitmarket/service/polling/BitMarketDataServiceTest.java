@@ -67,6 +67,7 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
   @Test
   public void shouldGetTrades() throws IOException {
     // given
+    final Trade[] expectedTrades = expectedTrades();
     BitMarketTrade[] response = parse("marketdata/example-trades-data", BitMarketTrade[].class);
 
     BitMarket bitMarket = mock(BitMarket.class);
@@ -80,7 +81,7 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
     // then
     assertThat(tradeList).hasSize(3);
     for (int i=0; i < tradeList.size(); i++) {
-      BitMarketAssert.assertEquals(tradeList.get(i), TRADES[i]);
+      BitMarketAssert.assertEquals(tradeList.get(i), expectedTrades[i]);
     }
   }
 

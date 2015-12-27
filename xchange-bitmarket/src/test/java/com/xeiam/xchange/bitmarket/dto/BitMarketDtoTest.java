@@ -108,13 +108,16 @@ public class BitMarketDtoTest extends BitMarketTestSupport {
   }
 
   @Test public void shouldParseTrades() throws IOException {
+    // given
+    final BitMarketTrade[] expectedParsedTrades = expectedParsedTrades();
+
     // when
     BitMarketTrade[] trades = parse("marketdata/example-trades-data", BitMarketTrade[].class);
 
     // then
     assertThat(trades).hasSize(3);
     for (int i=0; i<trades.length; i++) {
-      BitMarketAssert.assertEquals(trades[i], PARSED_TRADES[i]);
+      BitMarketAssert.assertEquals(trades[i], expectedParsedTrades[i]);
     }
   }
 }

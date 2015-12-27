@@ -2,8 +2,8 @@ package com.xeiam.xchange.bitmarket.service.polling;
 
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitmarket.BitMarketAuthenticated;
 import com.xeiam.xchange.bitmarket.BitMarketAssert;
+import com.xeiam.xchange.bitmarket.BitMarketAuthenticated;
 import com.xeiam.xchange.bitmarket.BitMarketExchange;
 import com.xeiam.xchange.bitmarket.BitMarketTestSupport;
 import com.xeiam.xchange.bitmarket.dto.BitMarketAPILimit;
@@ -59,6 +59,8 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
   @Test
   public void shouldGetAccountInfo() throws IOException {
     // given
+    final Balance[] expectedBalances = expectedBalances();
+
     BitMarketAccountInfoResponse response = new BitMarketAccountInfoResponse(
         true,
         new BitMarketAccountInfo(new BitMarketBalance(createAvailable(), createBlocked())),
@@ -83,7 +85,7 @@ public class BitMarketAccountTest extends BitMarketTestSupport {
 
     assertThat(balances).hasSize(3);
     for (int i=0; i<balances.size(); i++) {
-      BitMarketAssert.assertEquals(balances.get(BALANCES[i].getCurrency()), BALANCES[i]);
+      BitMarketAssert.assertEquals(balances.get(expectedBalances[i].getCurrency()), expectedBalances[i]);
     }
   }
 
