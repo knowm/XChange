@@ -18,6 +18,7 @@ import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
 import com.xeiam.xchange.btcmarkets.service.polling.BTCMarketsTestSupport;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -46,13 +47,16 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
   @Test
   public void shouldParseNullAvailabilityBalances() throws IOException {
+    // given
+    final BTCMarketsBalance[] expectedBtcMarketsBalances = expectedBtcMarketsBalances();
+
     // when
     final BTCMarketsBalance[] response = parse("NullAvailabilityBalances", BTCMarketsBalance[].class);
 
     // then
     assertThat(response).hasSize(3);
     for (int i=0; i<response.length; i++) {
-      BtcMarketsAssert.assertEquals(response[i], BTC_MARKETS_BALANCES[i]);
+      BtcMarketsAssert.assertEquals(response[i], expectedBtcMarketsBalances[i]);
     }
   }
 
@@ -160,6 +164,10 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
   @Test
   public void shoudParseOrderBook() throws IOException {
+    // given
+    final LimitOrder[] expectedAsks = expectedAsks();
+    final LimitOrder[] expectedBids = expectedBids();
+
     // when
     final BTCMarketsOrderBook response = parse("ShortOrderBook", BTCMarketsOrderBook.class);
 
@@ -172,13 +180,13 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     assertThat(asks).hasSize(3);
 
     for (int i=0; i<asks.size(); i++) {
-      BtcMarketsAssert.assertEquals(ASKS[i], Order.OrderType.ASK, CurrencyPair.BTC_AUD, asks.get(i));
+      BtcMarketsAssert.assertEquals(expectedAsks[i], Order.OrderType.ASK, CurrencyPair.BTC_AUD, asks.get(i));
     }
 
     List<BigDecimal[]> bids = response.getBids();
     assertThat(bids).hasSize(2);
     for (int i=0; i<bids.size(); i++) {
-      BtcMarketsAssert.assertEquals(BIDS[i], Order.OrderType.BID, CurrencyPair.BTC_AUD, bids.get(i));
+      BtcMarketsAssert.assertEquals(expectedBids[i], Order.OrderType.BID, CurrencyPair.BTC_AUD, bids.get(i));
     }
 
     assertThat(response.toString()).isEqualTo(
@@ -188,6 +196,9 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
   @Test
   public void shouldParseOrders() throws IOException {
+    // given
+    final BTCMarketsOrder[] expectedParsedBtcMarketsOrders = expectedParsedBtcMarketsOrders();
+
     // when
     final BTCMarketsOrders response = parse(BTCMarketsOrders.class);
 
@@ -199,7 +210,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     List<BTCMarketsOrder> ordersList = response.getOrders();
     assertThat(ordersList).hasSize(2);
     for (int i=0; i<ordersList.size(); i++) {
-      BtcMarketsAssert.assertEquals(ordersList.get(i), PARSED_BTC_MARKETS_ORDERS[i]);
+      BtcMarketsAssert.assertEquals(ordersList.get(i), expectedParsedBtcMarketsOrders[i]);
     }
   }
 
@@ -224,11 +235,14 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     final BTCMarketsTicker response = parse(BTCMarketsTicker.class);
 
     // then
-    BtcMarketsAssert.assertEquals(response, BTC_MARKETS_TICKER);
+    BtcMarketsAssert.assertEquals(response, EXPECTED_BTC_MARKETS_TICKER);
   }
 
   @Test
   public void shouldParseTradeHistory() throws IOException {
+    // given
+    final List<BTCMarketsUserTrade> expectedParsedBtcMarketsUserTrades = expectedParsedBtcMarketsUserTrades();
+
     // when
     final BTCMarketsTradeHistory response = parse(BTCMarketsTradeHistory.class);
 
@@ -240,7 +254,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     List<BTCMarketsUserTrade> userTrades = response.getTrades();
     assertThat(userTrades).hasSize(3);
     for (int i=0; i<userTrades.size(); i++) {
-      BtcMarketsAssert.assertEquals(userTrades.get(i), PARSED_BTC_MARKETS_USER_TRADES.get(i));
+      BtcMarketsAssert.assertEquals(userTrades.get(i), expectedParsedBtcMarketsUserTrades.get(i));
     }
   }
 
