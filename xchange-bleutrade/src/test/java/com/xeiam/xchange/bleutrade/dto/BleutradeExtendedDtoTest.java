@@ -24,7 +24,7 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
   protected static final String BALANCE_RETURN_STR = "BleutradeBalanceReturn [success=true, message=, "
       + "result=BleutradeBalance [Currency=BTC, Balance=15.49843675, Available=13.98901996, "
       + "Pending=0E-8, CryptoAddress=1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9, IsActive=true, "
-      + "additionalProperties={bar=true, foo=1}], "
+      + "additionalProperties={foo=1}], "
       + "additionalProperties={ext=extended value}]";
 
   protected static final String BALANCES_RETURN_STR = "BleutradeBalancesReturn [success=true, message=, result=["

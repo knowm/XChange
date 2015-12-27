@@ -8,8 +8,7 @@
     "Pending" : 0.00000000,
     "CryptoAddress" : "1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9",
     "IsActive" : true,
-    "foo" : 1,
-    "bar" : true
+    "foo" : 1
   },
   "ext" : "extended value"
 }
