@@ -7,7 +7,6 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bittrex.v1.BittrexAdapters;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class BittrexAccountService extends BittrexAccountServiceRaw implements PollingAccountService {

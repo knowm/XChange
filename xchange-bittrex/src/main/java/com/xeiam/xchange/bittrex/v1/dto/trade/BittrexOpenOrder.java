@@ -38,7 +38,7 @@ public class BittrexOpenOrder {
   @JsonProperty("Price")
   private BigDecimal price;
   @JsonProperty("PricePerUnit")
-  private Object pricePerUnit;
+  private BigDecimal pricePerUnit;
   @JsonProperty("Opened")
   private String opened;
   @JsonProperty("Closed")
@@ -165,13 +165,13 @@ public class BittrexOpenOrder {
   }
 
   @JsonProperty("PricePerUnit")
-  public Object getPricePerUnit() {
+  public BigDecimal getPricePerUnit() {
 
     return pricePerUnit;
   }
 
   @JsonProperty("PricePerUnit")
-  public void setPricePerUnit(Object pricePerUnit) {
+  public void setPricePerUnit(BigDecimal pricePerUnit) {
 
     this.pricePerUnit = pricePerUnit;
   }
