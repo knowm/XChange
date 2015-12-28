@@ -220,5 +220,4 @@ public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
     assertThat(response.getAdditionalProperties()).hasSize(1);
     assertThat(response.getAdditionalProperties().get("ext")).isEqualTo("extended value");
   }
-
 }
