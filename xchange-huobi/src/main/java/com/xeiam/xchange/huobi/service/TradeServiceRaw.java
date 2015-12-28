@@ -6,11 +6,14 @@ import java.math.BigDecimal;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.huobi.dto.trade.HuobiCancelOrderResult;
 import com.xeiam.xchange.huobi.dto.trade.HuobiOrder;
+import com.xeiam.xchange.huobi.dto.trade.HuobiOrderInfo;
 import com.xeiam.xchange.huobi.dto.trade.HuobiPlaceOrderResult;
 
 public interface TradeServiceRaw {
 
   public HuobiOrder[] getOrders(int coinType) throws IOException;
+
+  public HuobiOrderInfo getOrderInfo(long orderId, int coinType) throws IOException;
 
   public HuobiPlaceOrderResult placeLimitOrder(OrderType type, int coinType, BigDecimal price, BigDecimal amount) throws IOException;
 
