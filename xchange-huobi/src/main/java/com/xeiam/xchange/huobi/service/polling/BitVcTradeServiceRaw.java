@@ -7,10 +7,8 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.huobi.dto.trade.HuobiCancelOrderResult;
-import com.xeiam.xchange.huobi.dto.trade.HuobiOrder;
-import com.xeiam.xchange.huobi.dto.trade.HuobiOrderResult;
-import com.xeiam.xchange.huobi.dto.trade.HuobiPlaceOrderResult;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
+import com.xeiam.xchange.huobi.dto.trade.*;
 import com.xeiam.xchange.huobi.service.TradeServiceRaw;
 
 public class BitVcTradeServiceRaw extends BitVcBaseTradeService implements TradeServiceRaw {
@@ -32,8 +30,12 @@ public class BitVcTradeServiceRaw extends BitVcBaseTradeService implements Trade
     return orders.getOrders();
   }
 
-  public HuobiOrder getBitVcOrder(int coinType, long id) throws IOException {
+  @Override
+  public HuobiOrderInfo getOrderInfo(long orderId, int coinType) throws NotYetImplementedForExchangeException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
+  public HuobiOrder getBitVcOrder(int coinType, long id) throws IOException {
     return bitvc.getOrder(accessKey, coinType, nextCreated(), digest, id);
   }
 

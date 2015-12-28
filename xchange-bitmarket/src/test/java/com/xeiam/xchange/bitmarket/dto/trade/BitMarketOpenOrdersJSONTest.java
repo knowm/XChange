@@ -1,30 +1,23 @@
 package com.xeiam.xchange.bitmarket.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
+import com.xeiam.xchange.bitmarket.dto.BitMarketDtoTestSupport;
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * @author kfonal
  */
-public class BitMarketOpenOrdersJSONTest {
+public class BitMarketOpenOrdersJSONTest extends BitMarketDtoTestSupport {
   @Test
   public void testUnmarshal() throws IOException {
+    // when
+    BitMarketOrdersResponse response = parse("trade/example-orders-data", BitMarketOrdersResponse.class);
 
-    // Read in the JSON from the example resources
-    InputStream is = BitMarketOpenOrdersJSONTest.class.getResourceAsStream("/trade/example-orders-data.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BitMarketOrdersResponse response = mapper.readValue(is, BitMarketOrdersResponse.class);
-
-    // Verify that the example data was unmarshalled correctly
+    // then
     BitMarketOrder buyOrderBTCPLN = response.getData().get("BTCPLN").get("buy").get(0);
     BitMarketOrder sellOrderBTCPLN = response.getData().get("BTCPLN").get("sell").get(0);
 
