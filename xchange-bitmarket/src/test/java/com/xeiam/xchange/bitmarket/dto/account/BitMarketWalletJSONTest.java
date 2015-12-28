@@ -1,30 +1,24 @@
 package com.xeiam.xchange.bitmarket.dto.account;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
+import com.xeiam.xchange.bitmarket.dto.BitMarketDtoTestSupport;
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * @author
  */
-public class BitMarketWalletJSONTest {
+public class BitMarketWalletJSONTest extends BitMarketDtoTestSupport {
   @Test
   public void testUnmarshal() throws IOException {
 
-    // Read in the JSON from the example resources
-    InputStream is = BitMarketWalletJSONTest.class.getResourceAsStream("/account/example-info-data.json");
+    // when
+    BitMarketAccountInfoResponse response = parse("account/example-info-data", BitMarketAccountInfoResponse.class);
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BitMarketAccountInfoResponse response = mapper.readValue(is, BitMarketAccountInfoResponse.class);
-
-    // Verify that the example data was unmarshalled correctly
+    // then
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getData().getBalance().getAvailable().get("PLN")).isEqualTo(new BigDecimal("4.166000000000"));
     assertThat(response.getData().getBalance().getBlocked().size()).isEqualTo(3);
