@@ -1,12 +1,10 @@
 {
    "1CR":{
-      "maxDailyWithdrawal":10000,
       "txFee":0.01,
       "minConf":3,
       "disabled":0
    },
    "ABY":{
-      "maxDailyWithdrawal":10000000,
       "txFee":0.01,
       "minConf":8,
       "disabled":0

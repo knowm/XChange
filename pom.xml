@@ -309,7 +309,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- PowerMockito for unit testing -->
+		<!-- PowerMockito for unit tests -->
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-module-junit4</artifactId>

@@ -172,7 +172,7 @@ public final class BittrexAdapters {
       price = trade.getLimit();
     }
 
-    return new UserTrade(orderType, amount, currencyPair, price, date, orderId, orderId);
+    return new UserTrade(orderType, amount, currencyPair, price, date, orderId, orderId, trade.getCommission(), currencyPair.counter);
   }
 
 }
