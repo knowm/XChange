@@ -10,3 +10,4 @@ Please note that the above folder is created under each of the modules. For exam
 * xchange-btcmarkets/target/site/cobertura/index.html
 * xchange-bleutrade/target/site/cobertura/index.html
 * xchange-bitmarket/target/site/cobertura/index.html
+
