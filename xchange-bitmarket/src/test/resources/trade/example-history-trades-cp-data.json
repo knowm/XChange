@@ -1,0 +1,37 @@
+{
+  "success":true,
+  "data": {
+    "total": 5,
+    "start": 0,
+    "count": 5,
+    "results": [
+      {
+        "id": 389406,
+        "amountCrypto": 2.140000000,
+        "currencyCrypto": "BTC",
+        "amountFiat": 300.44444444,
+        "currencyFiat": "EUR",
+        "time": 1234567890,
+        "rate": 110.0000,
+        "type": "sell"
+      },
+      {
+        "id": 386750,
+        "amountCrypto": 0.05555555,
+        "currencyCrypto": "BTC",
+        "amountFiat": 115.11111111,
+        "currencyFiat": "EUR",
+        "time": 1400000000,
+        "rate": 115.5555,
+        "type": "buy"
+      }
+    ]
+  },
+  "time":1455667788,
+  "limit":
+  {
+    "used" : 1,
+    "allowed" : 200,
+    "expires" : 1395750600
+  }
+}
