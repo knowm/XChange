@@ -55,6 +55,6 @@ public class BitstampMarketDataServiceRaw extends BitstampBasePollingService {
   }
 
   public enum BitstampTime {
-    HOUR, MINUTE
+    DAY, HOUR, MINUTE
   }
 }
