@@ -19,6 +19,7 @@ import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExTrade;
+import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExFill;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExIdResponse;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExOrder;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExPlaceOrder;
@@ -73,11 +74,26 @@ public interface CoinbaseEx {
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
 
+    @POST
+    @Path("orders")
+    @Consumes(MediaType.APPLICATION_JSON)
+    CoinbaseExIdResponse placeMarketOrder(CoinbaseExPlaceOrder placeOrder, @HeaderParam("CB-ACCESS-KEY") String apiKey,
+                                         @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp,
+                                         @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
+
   @DELETE
   @Path("orders/{id}")
   @Produces(MediaType.TEXT_PLAIN)
   @Consumes(MediaType.TEXT_PLAIN)
   void cancelOrder(@PathParam("id") String id, @HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
+
+
+    @GET
+    @Path("fills")
+    CoinbaseExFill[] getFills(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+                                    @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+                                    @PathParam("order_id") String orderId);
+
 
 }

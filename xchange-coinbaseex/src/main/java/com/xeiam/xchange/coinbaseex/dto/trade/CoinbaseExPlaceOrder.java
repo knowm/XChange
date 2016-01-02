@@ -13,12 +13,15 @@ public class CoinbaseExPlaceOrder {
   private final String side;
   @JsonProperty("product_id")
   private final String productId;
+  @JsonProperty("type")
+  private final String type;
 
-  public CoinbaseExPlaceOrder(BigDecimal size, BigDecimal price, String side, String productId) {
+  public CoinbaseExPlaceOrder(BigDecimal size, BigDecimal price, String side, String productId, String type) {
     this.size = size;
     this.price = price;
     this.side = side;
     this.productId = productId;
+    this.type = type;
   }
 
   public BigDecimal getSize() {
@@ -37,6 +40,10 @@ public class CoinbaseExPlaceOrder {
     return productId;
   }
 
+  public String getType() {
+    return type;
+  }
+
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
@@ -46,6 +53,8 @@ public class CoinbaseExPlaceOrder {
     builder.append(price);
     builder.append(", side=");
     builder.append(side);
+    builder.append(", type=");
+    builder.append(type);
     builder.append(", productId=");
     builder.append(productId);
     builder.append("]");

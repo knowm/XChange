@@ -4,8 +4,10 @@ import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbaseex.CoinbaseExAdapters;
+import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExFill;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExIdResponse;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExOrder;
+import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExTradeHistoryParams;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -31,10 +33,13 @@ public class CoinbaseExTradeService extends CoinbaseExTradeServiceRaw implements
     return CoinbaseExAdapters.adaptOpenOrders(coinbaseExOpenOrders);
   }
 
+
   @Override
   public String placeMarketOrder(MarketOrder marketOrder)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotAvailableFromExchangeException();
+    CoinbaseExIdResponse response = placeCoinbaseExMarketOrder(marketOrder);
+
+    return response.getId();
   }
 
   @Override
@@ -55,7 +60,8 @@ public class CoinbaseExTradeService extends CoinbaseExTradeServiceRaw implements
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    CoinbaseExFill[] coinbaseExFills = getCoinbaseExFills((CoinbaseExTradeHistoryParams) params);
+     return CoinbaseExAdapters.adaptTradeHistory(coinbaseExFills);
   }
 
   @Override
