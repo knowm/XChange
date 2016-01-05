@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "OrderUuid", "Exchange", "TimeStamp", "OrderType", "Limit", "Quantity", "QuantityRemaining", "Commission", "Price",
-    "PricePerUnit", "IsConditional", "Condition", "ConditionTarget", "ImmediateOrCancel" })
+    "PricePerUnit", "IsConditional", "Condition", "ConditionTarget", "ImmediateOrCancel", "Closed" })
 public class BittrexUserTrade {
 
   @JsonProperty("OrderUuid")
@@ -47,6 +47,8 @@ public class BittrexUserTrade {
   private Object conditionTarget;
   @JsonProperty("ImmediateOrCancel")
   private Boolean immediateOrCancel;
+  @JsonProperty("Closed")
+  private String closed;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -84,6 +86,18 @@ public class BittrexUserTrade {
   public void setTimeStamp(String timeStamp) {
 
     this.timeStamp = timeStamp;
+  }
+
+  @JsonProperty("Closed")
+  public String getClosed() {
+
+    return closed;
+  }
+
+  @JsonProperty("Closed")
+  public void setClosed(String closed) {
+
+    this.closed = closed;
   }
 
   @JsonProperty("OrderType")

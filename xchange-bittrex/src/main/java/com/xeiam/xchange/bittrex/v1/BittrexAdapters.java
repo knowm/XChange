@@ -5,6 +5,7 @@ import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexLevel;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTicker;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTrade;
+import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexLimitOrder;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrder;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexUserTrade;
 import com.xeiam.xchange.currency.Currency;
@@ -62,13 +63,14 @@ public final class BittrexAdapters {
     return openOrders;
   }
 
-  public static LimitOrder adaptOpenOrder(BittrexOpenOrder bittrexOpenOrder) {
+  public static BittrexLimitOrder adaptOpenOrder(BittrexOpenOrder bittrexOpenOrder) {
 
     OrderType type = bittrexOpenOrder.getOrderType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
     String[] currencies = bittrexOpenOrder.getExchange().split("-");
     CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
 
-    return new LimitOrder(type, bittrexOpenOrder.getQuantityRemaining(), pair, bittrexOpenOrder.getOrderUuid(), null, bittrexOpenOrder.getLimit());
+    return new BittrexLimitOrder(type, bittrexOpenOrder.getQuantityRemaining(), pair, bittrexOpenOrder.getOrderUuid(), null,
+        bittrexOpenOrder.getLimit(), bittrexOpenOrder.getQuantityRemaining(), bittrexOpenOrder.getPricePerUnit());
   }
 
   public static List<LimitOrder> adaptOrders(BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
@@ -163,7 +165,7 @@ public final class BittrexAdapters {
 
     OrderType orderType = trade.getOrderType().equalsIgnoreCase("LIMIT_BUY") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getQuantity().subtract(trade.getQuantityRemaining());
-    Date date = BittrexUtils.toDate(trade.getTimeStamp());
+    Date date = BittrexUtils.toDate(trade.getClosed());
     String orderId = String.valueOf(trade.getOrderUuid());
 
     BigDecimal price = trade.getPricePerUnit();
