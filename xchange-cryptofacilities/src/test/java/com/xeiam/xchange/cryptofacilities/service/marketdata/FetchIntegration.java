@@ -28,6 +28,7 @@ import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesIndex;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesVolatility;
 import com.xeiam.xchange.cryptofacilities.service.polling.CryptoFacilitiesMarketDataService;
 import com.xeiam.xchange.cryptofacilities.service.polling.CryptoFacilitiesTradeService;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -103,12 +104,14 @@ public class FetchIntegration {
 	    System.out.println(contracts.toString());
 	    
 	    CryptoFacilitiesContract firstContract = contracts.getContracts().iterator().next();
-			
-		Ticker ticker = marketDataService.getTicker(new CurrencyPair(firstContract.getTradeable(), firstContract.getUnit()));
+		
+                // CryptoFacilities api is senstitive to capitalization on forward contract=tradeable=base currency so have to use Currency(String) constructor
+                // to prevent toUpperCase on supplied contract
+		Ticker ticker = marketDataService.getTicker(new CurrencyPair(new Currency(firstContract.getTradeable()), new Currency(firstContract.getUnit())));
 		System.out.println(ticker.toString());
 		assertThat(ticker).isNotNull();
 		
-		OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(firstContract.getTradeable(), firstContract.getUnit()));
+		OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair(new Currency(firstContract.getTradeable()), new Currency(firstContract.getUnit())));
 		System.out.println(orderBook);
 		
 		CryptoFacilitiesIndex index = marketDataService.getCryptoFacilitiesIndex();
@@ -145,13 +148,13 @@ public class FetchIntegration {
 	    sleep();
 	    
 	  	CryptoFacilitiesTradeService tradeService = (CryptoFacilitiesTradeService) exchange.getPollingTradeService();
-//	  	LimitOrder order = new LimitOrder(OrderType.BID, new BigDecimal("1.0"), new CurrencyPair(firstContract.getTradeable(), firstContract.getUnit()), "1", new Date(), new BigDecimal("300.07"));
+//	  	LimitOrder order = new LimitOrder(OrderType.BID, new BigDecimal("1.0"), new CurrencyPair(new Currency(firstContract.getTradeable()), new Currency(firstContract.getUnit())), "1", new Date(), new BigDecimal("300.07"));
 //	  	String orderId = tradeService.placeLimitOrder(order);
 //	  	System.out.println("orderId="+orderId);
 	  	
 //	  	sleep();
 //	  	
-//	  	CryptoFacilitiesResult res = tradeService.cancelCryptoFacilitiesOrder(orderId, new CurrencyPair(firstContract.getTradeable(), firstContract.getUnit()));
+//	  	CryptoFacilitiesResult res = tradeService.cancelCryptoFacilitiesOrder(orderId, new CurrencyPair(new Currency(firstContract.getTradeable()), new Currency(firstContract.getUnit())));
 //	  	System.out.println("cancelled="+res.isSuccess());
 	  	
 	  	sleep();
