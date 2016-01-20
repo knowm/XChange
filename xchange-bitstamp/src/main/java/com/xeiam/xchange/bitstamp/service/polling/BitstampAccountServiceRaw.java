@@ -1,23 +1,17 @@
 package com.xeiam.xchange.bitstamp.service.polling;
 
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
+import com.xeiam.xchange.bitstamp.dto.account.*;
+import com.xeiam.xchange.bitstamp.service.BitstampDigest;
+import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.exceptions.ExchangeException;
+import si.mazi.rescu.RestProxyFactory;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
-
-import si.mazi.rescu.RestProxyFactory;
-
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampRippleDepositAddress;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
-import com.xeiam.xchange.bitstamp.dto.account.DepositTransaction;
-import com.xeiam.xchange.bitstamp.dto.account.WithdrawalRequest;
-import com.xeiam.xchange.bitstamp.service.BitstampDigest;
-import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * @author gnandiga
@@ -51,15 +45,20 @@ public class BitstampAccountServiceRaw extends BitstampBasePollingService {
     return bitstampBalance;
   }
 
-  public BitstampWithdrawal withdrawBitstampFunds(BigDecimal amount, final String address) throws IOException {
-
-    final BitstampWithdrawal response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory(), amount, address);
+  public BitstampWithdrawal withdrawBitstampFunds(Currency currency, BigDecimal amount, final String address) throws IOException {
+      final BitstampWithdrawal response;
+    if (address.startsWith("r")) {
+      boolean isSuccess = bitstampAuthenticated.withdrawToRipple(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+              exchange.getNonceFactory(), amount, currency.getCurrencyCode(), address);
+      response = isSuccess ? new BitstampWithdrawal(null, null) : new BitstampWithdrawal(null, "Bitstamp responded with 'false' when withdrawing to Ripple");
+    } else {
+        response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+                exchange.getNonceFactory(), amount, address);
+    }
     if (response.getError() != null) {
       throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.getError());
     }
     return response;
-
   }
 
   public BitstampDepositAddress getBitstampBitcoinDepositAddress() throws IOException {
