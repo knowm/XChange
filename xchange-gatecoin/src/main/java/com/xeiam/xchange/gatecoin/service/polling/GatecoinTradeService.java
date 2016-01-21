@@ -51,8 +51,8 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Pol
       OrderType orderType = gatecoinOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
       String id = gatecoinOrder.getClOrderId();
       BigDecimal price = gatecoinOrder.getPrice();
-      CurrencyPair ccyPair = new CurrencyPair(gatecoinOrder.getCode().substring(0,2), gatecoinOrder.getCode().substring(3,5));
-      limitOrders.add(new LimitOrder(orderType, gatecoinOrder.getInitialQuantity(), ccyPair, id, DateUtils.fromMillisUtc(Long.valueOf(gatecoinOrder.getDate()) * 1000L), price));
+      CurrencyPair ccyPair = new CurrencyPair(gatecoinOrder.getCode().substring(0,3), gatecoinOrder.getCode().substring(3,6));
+      limitOrders.add(new LimitOrder(orderType, gatecoinOrder.getRemainingQuantity(), ccyPair, id, DateUtils.fromMillisUtc(Long.valueOf(gatecoinOrder.getDate()) * 1000L), price));
     }
     return new OpenOrders(limitOrders);
   }
