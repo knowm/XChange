@@ -10,16 +10,21 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.okcoin.FuturesContract;
 import com.xeiam.xchange.okcoin.OkCoinAdapters;
 import com.xeiam.xchange.okcoin.OkCoinUtils;
+import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesOrder;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
+import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
@@ -36,7 +41,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   /**
    * Constructor
-   *
+   * 
    * @param exchange
    */
   public OkCoinFuturesTradeService(Exchange exchange, FuturesContract futuresContract, int leverRate) {
@@ -146,8 +151,12 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     String pageLength = myParams.getPageLength().toString();
     FuturesContract reqFuturesContract = myParams.futuresContract;
 
-    OkCoinFuturesOrderResult orderHistory = getFuturesOrder(orderId, OkCoinAdapters.adaptSymbol(currencyPair), page, pageLength, reqFuturesContract);
-    return OkCoinAdapters.adaptTradesFutures(orderHistory);
+    OkCoinFuturesTradeHistoryResult[] orderHistory = getFuturesTradesHistory(OkCoinAdapters.adaptSymbol(currencyPair), Long.valueOf("86751191"),
+        "2015-12-04");
+    // orderHistory
+    //(orderId, OkCoinAdapters.adaptSymbol(currencyPair), page, pageLength, reqFuturesContract);
+    return OkCoinAdapters.adaptTradeHistory(orderHistory);
+    //OkCoinAdapters.adaptTradesFutures(orderHistory);
   }
 
   public List<FuturesContract> getExchangeContracts() {
@@ -170,8 +179,8 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     void setOrderId(String orderId);
   }
 
-  final public static class OkCoinFuturesTradeHistoryParams extends DefaultTradeHistoryParamPaging
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamFuturesContract {
+  final public static class OkCoinFuturesTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair,
+      TradeHistoryParamFuturesContract {
     private CurrencyPair currencyPair;
     private FuturesContract futuresContract;
     private String orderId;
@@ -216,5 +225,34 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     public void setOrderId(String orderId) {
       this.orderId = orderId;
     }
+  }
+
+  @Override
+  public Order getOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+      IOException {
+    OkCoinFuturesOrderResult orderResult = null;
+    long id = Long.valueOf(orderId);
+
+    List<CurrencyPair> exchangeSymbols = getExchangeSymbols();
+
+    for (int i = 0; i < exchangeSymbols.size(); i++) {
+      CurrencyPair symbol = exchangeSymbols.get(i);
+      log.debug("Getting order: {}", symbol);
+      try {
+        orderResult = getFuturesOrder(id, OkCoinAdapters.adaptSymbol(symbol), "0", "50", futuresContract);
+        if (orderResult.getOrders().length > 0)
+          break;
+      } catch (ExchangeException e) {
+        if (e.getMessage().equals(OkCoinUtils.getErrorMessage(1009)) || e.getMessage().equals(OkCoinUtils.getErrorMessage(20015))) {
+          // order not found.
+          continue;
+        }
+      }
+    }
+    if (orderResult.getOrders().length > 0) {
+      OkCoinFuturesOrder singleOrder = orderResult.getOrders()[0];
+      return OkCoinAdapters.adaptOpenOrderFutures(singleOrder);
+    } else
+      return null;
   }
 }

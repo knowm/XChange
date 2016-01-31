@@ -15,6 +15,7 @@ import java.util.Map;
 
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order.OrderStatus;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
@@ -37,6 +38,8 @@ import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTickerResponse;
 import com.xeiam.xchange.okcoin.dto.marketdata.OkCoinTrade;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesOrder;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
+import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
+import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult.TransactionType;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrder;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrderResult;
 
@@ -106,18 +109,18 @@ public final class OkCoinAdapters {
     Wallet baseLoan = null;
 
     if (is_cny) {
-      base = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(getOrZero("cny", funds.getBorrow())),
-          funds.getFree().get("cny"), funds.getFreezed().get("cny"), "available");
+      base = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(getOrZero("cny", funds.getBorrow())), funds
+          .getFree().get("cny"), funds.getFreezed().get("cny"), "available");
       baseLoan = new Wallet(CNY, getOrZero("cny", funds.getBorrow()), "loan");
     } else {
-      base = new Wallet(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())),
-          funds.getFree().get("usd"), funds.getFreezed().get("usd"), "available");
+      base = new Wallet(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())), funds
+          .getFree().get("usd"), funds.getFreezed().get("usd"), "available");
       baseLoan = new Wallet(USD, getOrZero("usd", funds.getBorrow()), "loan");
     }
-    Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(getOrZero("btc", funds.getBorrow())),
-        funds.getFree().get("btc"), funds.getFreezed().get("btc"), "available");
-    Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(getOrZero("ltc", funds.getBorrow())),
-        funds.getFree().get("ltc"), funds.getFreezed().get("ltc"), "available");
+    Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(getOrZero("btc", funds.getBorrow())), funds
+        .getFree().get("btc"), funds.getFreezed().get("btc"), "available");
+    Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(getOrZero("ltc", funds.getBorrow())), funds
+        .getFree().get("ltc"), funds.getFreezed().get("ltc"), "available");
 
     // loaned wallets
     Wallet btcLoan = new Wallet(BTC, getOrZero("btc", funds.getBorrow()), "loan");
@@ -224,9 +227,9 @@ public final class OkCoinAdapters {
         String.valueOf(order.getOrderId()), order.getCreateDate(), order.getPrice());
   }
 
-  private static LimitOrder adaptOpenOrderFutures(OkCoinFuturesOrder order) {
+  public static LimitOrder adaptOpenOrderFutures(OkCoinFuturesOrder order) {
     return new LimitOrder(adaptOrderType(order.getType()), order.getAmount().subtract(order.getDealAmount()), adaptSymbol(order.getSymbol()),
-        String.valueOf(order.getOrderId()), order.getCreatedDate(), order.getPrice());
+        String.valueOf(order.getOrderId()), order.getCreatedDate(), order.getPrice(), order.getAvgPrice(), adaptOrderStatus(order.getStatus()));
   }
 
   public static OrderType adaptOrderType(String type) {
@@ -234,15 +237,62 @@ public final class OkCoinAdapters {
     return type.equals("buy") || type.equals("buy_market") || type.equals("1") || type.equals("4") ? OrderType.BID : OrderType.ASK;
   }
 
+  public static OrderStatus adaptOrderStatus(int status) {
+    switch (status) {
+
+    case -1:
+      return OrderStatus.CANCELED;
+    case 0:
+      return OrderStatus.NEW;
+    case 1:
+      return OrderStatus.PARTIALLY_FILLED;
+    case 2:
+      return OrderStatus.FILLED;
+    case 4:
+      return OrderStatus.PENDING_CANCEL;
+    default:
+      return OrderStatus.PENDING_NEW;
+    }
+
+  }
+
   private static UserTrade adaptTrade(OkCoinOrder order) {
 
     return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getPrice(),
-        order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, (Currency)null);
+        order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, (Currency) null);
   }
 
   private static UserTrade adaptTradeFutures(OkCoinFuturesOrder order) {
 
     return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getPrice(),
-        order.getCreatedDate(), null, String.valueOf(order.getOrderId()), null, (Currency)null);
+        order.getCreatedDate(), null, String.valueOf(order.getOrderId()), null, (Currency) null);
+  }
+
+  public static UserTrades adaptTradeHistory(OkCoinFuturesTradeHistoryResult[] okCoinFuturesTradeHistoryResult) {
+
+    List<UserTrade> trades = new ArrayList<UserTrade>();
+    long lastTradeId = 0;
+    for (OkCoinFuturesTradeHistoryResult okCoinFuturesTrade : okCoinFuturesTradeHistoryResult) {
+      //  if (okCoinFuturesTrade.getType().equals(OkCoinFuturesTradeHistoryResult.TransactionType.)) { // skip account deposits and withdrawals.
+      OrderType orderType = okCoinFuturesTrade.getType().equals(TransactionType.sell) ? OrderType.ASK : OrderType.BID;
+      BigDecimal tradableAmount = BigDecimal.valueOf(okCoinFuturesTrade.getAmount());
+      BigDecimal price = okCoinFuturesTrade.getPrice();
+      Date timestamp = new Date(okCoinFuturesTrade.getTimestamp());
+      long transactionId = okCoinFuturesTrade.getId();
+      if (transactionId > lastTradeId) {
+        lastTradeId = transactionId;
+      }
+      final String tradeId = String.valueOf(transactionId);
+      final String orderId = String.valueOf(okCoinFuturesTrade.getId());
+      final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+
+      BigDecimal feeAmont = BigDecimal.ZERO;
+      UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmont,
+          currencyPair.counter.getCurrencyCode());
+      trades.add(trade);
+
+    }
+
+    return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
   }
 }

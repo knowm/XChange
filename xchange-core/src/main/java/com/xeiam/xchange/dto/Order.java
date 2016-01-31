@@ -18,9 +18,47 @@ public abstract class Order {
      * Buying order (the trader is providing the counter currency)
      */
     BID, /**
-          * Selling order (the trader is providing the base currency)
-          */
+     * Selling order (the trader is providing the base currency)
+     */
     ASK
+  }
+
+  public enum OrderStatus {
+
+    /**
+     * Initial order when instantiated
+     */
+    PENDING_NEW, /**
+     * Initial order when placed on the order book at exchange
+     */
+    NEW, /**
+     * Partially match against opposite order on order book at exchange
+     */
+    PARTIALLY_FILLED, /**
+     * Fully match against opposite order on order book at exchange
+     */
+    FILLED, /**
+     * Waiting to be removed from order book at exchange
+     */
+    PENDING_CANCEL, /**
+     * Removed from order book at exchange
+     */
+    CANCELED, /**
+     * Waiting to be replaced by another order on order book at exchange
+     */
+    PENDING_REPLACE, /**
+     * Order has been replace by another order on order book at exchange
+     */
+    REPLACED, /**
+     * Order has been triggered at stop price
+     */
+    STOPPED, /**
+     * Order has been rejected by exchange and not place on order book
+     */
+    REJECTED, /**
+     * Order has expired it's time to live or trading session and been removed from order book
+     */
+    EXPIRED
   }
 
   public interface IOrderFlags {
@@ -32,9 +70,19 @@ public abstract class Order {
   private final OrderType type;
 
   /**
+   * Status of order during it lifecycle
+   */
+  private OrderStatus status;
+
+  /**
    * Amount to be ordered / amount that was ordered
    */
   private final BigDecimal tradableAmount;
+
+  /**
+   * Weighted Average price of the fills in the order
+   */
+  private BigDecimal averagePrice;
 
   /**
    * The currency pair
@@ -70,6 +118,28 @@ public abstract class Order {
     this.currencyPair = currencyPair;
     this.id = id;
     this.timestamp = timestamp;
+    this.averagePrice = BigDecimal.ZERO;
+    this.status = OrderStatus.PENDING_NEW;
+  }
+
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param tradableAmount The amount to trade
+   * @param currencyPair currencyPair The identifier (e.g. BTC/USD)
+   * @param id An id (usually provided by the exchange)
+   * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
+   * @param averagePrice the averagePrice of fill belonging to the order
+   * @param orderStatus the status of the order at the exchange
+   */
+  public Order(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice, OrderStatus status) {
+
+    this.type = type;
+    this.tradableAmount = tradableAmount;
+    this.currencyPair = currencyPair;
+    this.id = id;
+    this.timestamp = timestamp;
+    this.averagePrice = averagePrice;
+    this.status = status;
   }
 
   /**
@@ -81,11 +151,27 @@ public abstract class Order {
   }
 
   /**
+   * @return The type (PENDING_NEW, NEW, PARTIALLY_FILLED, FILLED, PENDING_CANCEL, CANCELED, PENDING_REPLACE, REPLACED, STOPPED, REJECTED or EXPIRED)
+   */
+  public OrderStatus getStatus() {
+
+    return status;
+  }
+
+  /**
    * @return The amount to trade
    */
   public BigDecimal getTradableAmount() {
 
     return tradableAmount;
+  }
+
+  /**
+   * @return The average price of the fills in the order
+   */
+  public BigDecimal getAveragePrice() {
+
+    return averagePrice;
   }
 
   public CurrencyPair getCurrencyPair() {
@@ -107,25 +193,38 @@ public abstract class Order {
   }
 
   public Set<IOrderFlags> getOrderFlags() {
+
     return flags;
   }
 
   public void addOrderFlag(IOrderFlags flag) {
+
     flags.add(flag);
   }
 
   public void setOrderFlags(Set<IOrderFlags> flags) {
+
     this.flags.clear();
     if (flags != null) {
       this.flags.addAll(flags);
     }
   }
 
+  public void setOrderStatus(OrderStatus status) {
+
+    this.status = status;
+  }
+
+  public void setAveragePrice(BigDecimal averagePrice) {
+
+    this.averagePrice = averagePrice;
+  }
+
   @Override
   public String toString() {
 
-    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", currencyPair=" + currencyPair + ", id=" + id + ", timestamp=" + timestamp
-        + "]";
+    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", averagePrice=" + averagePrice + ", currencyPair=" + currencyPair + ", id=" + id + ", timestamp=" + timestamp + ", status="
+        + status + "]";
   }
 
   @Override
@@ -175,45 +274,67 @@ public abstract class Order {
     protected CurrencyPair currencyPair;
     protected String id;
     protected Date timestamp;
+    protected BigDecimal averagePrice;
+    protected OrderStatus status;
 
     protected final Set<IOrderFlags> flags = new HashSet<IOrderFlags>();
 
     protected Builder(OrderType orderType, CurrencyPair currencyPair) {
+
       this.orderType = orderType;
       this.currencyPair = currencyPair;
     }
 
     public Builder orderType(OrderType orderType) {
+
       this.orderType = orderType;
       return this;
     }
 
+    public Builder orderStatus(OrderStatus status) {
+
+      this.status = status;
+      return this;
+    }
+
     public Builder tradableAmount(BigDecimal tradableAmount) {
+
       this.tradableAmount = tradableAmount;
       return this;
     }
 
+    public Builder averagePrice(BigDecimal averagePrice) {
+
+      this.averagePrice = averagePrice;
+      return this;
+    }
+
     public Builder currencyPair(CurrencyPair currencyPair) {
+
       this.currencyPair = currencyPair;
       return this;
     }
 
     public Builder id(String id) {
+
       this.id = id;
       return this;
     }
 
     public Builder timestamp(Date timestamp) {
+
       this.timestamp = timestamp;
       return this;
     }
 
     public Builder flags(Set<IOrderFlags> flags) {
+
       this.flags.addAll(flags);
       return this;
     }
 
     public Builder flag(IOrderFlags flag) {
+
       this.flags.add(flag);
       return this;
     }
