@@ -10,11 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
@@ -110,12 +110,13 @@ public class MercadoBitcoinAdapterTest {
 
     AccountInfo accountInfo = MercadoBitcoinAdapters.adaptAccountInfo(mercadoBitcoinAccountInfo, "Nina Tufão & Bit");
     assertThat(accountInfo.getUsername()).isEqualTo("Nina Tufão & Bit");
-    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo(Currency.BRL);
-    assertThat(accountInfo.getWallets().get(0).getBalance()).isEqualTo(new BigDecimal("248.29516"));
-    assertThat(accountInfo.getWallets().get(1).getCurrency()).isEqualTo(Currency.BTC);
-    assertThat(accountInfo.getWallets().get(1).getBalance()).isEqualTo(new BigDecimal("0.25000000"));
-    assertThat(accountInfo.getWallets().get(2).getCurrency()).isEqualTo(Currency.LTC);
-    assertThat(accountInfo.getWallets().get(2).getBalance()).isEqualTo(new BigDecimal("0.00000000"));
+    assertThat(accountInfo.getWallet().getBalances()).hasSize(3);
+    assertThat(accountInfo.getWallet().getBalance(Currency.BRL).getCurrency()).isEqualTo(Currency.BRL);
+    assertThat(accountInfo.getWallet().getBalance(Currency.BRL).getTotal()).isEqualTo(new BigDecimal("248.29516"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getCurrency()).isEqualTo(Currency.BTC);
+    assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getTotal()).isEqualTo(new BigDecimal("0.25000000"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.LTC).getCurrency()).isEqualTo(Currency.LTC);
+    assertThat(accountInfo.getWallet().getBalance(Currency.LTC).getTotal()).isEqualTo(new BigDecimal("0.00000000"));
   }
 
   @Test

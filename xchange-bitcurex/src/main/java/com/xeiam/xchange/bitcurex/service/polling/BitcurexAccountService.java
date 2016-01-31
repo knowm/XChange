@@ -25,7 +25,7 @@ public class BitcurexAccountService extends BitcurexAccountServiceRaw implements
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return BitcurexAdapters.adaptAccountInfo(getFunds(), exchange.getExchangeSpecification().getUserName());
+    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), BitcurexAdapters.adaptWallet(getFunds()));
   }
 
   @Override

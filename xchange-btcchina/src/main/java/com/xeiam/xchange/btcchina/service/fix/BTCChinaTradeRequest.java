@@ -35,7 +35,7 @@ public final class BTCChinaTradeRequest {
 
   public static AccountInfoRequest createAccountInfoRequest(long nonce, String accessKey, String secretKey, String accReqId) {
 
-    String methodString = "method=getAccountInfo&params=balance";
+    String methodString = "method=getWallet&params=balance";
     String account = getAccountString(nonce, accessKey, secretKey, methodString);
 
     AccountInfoRequest message = new AccountInfoRequest();

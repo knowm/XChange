@@ -17,9 +17,11 @@ import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
 import com.xeiam.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import com.xeiam.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -31,7 +33,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 public final class BitfinexAdapters {
@@ -218,17 +219,18 @@ public final class BitfinexAdapters {
         .build();
   }
 
-  public static AccountInfo adaptAccountInfo(BitfinexBalancesResponse[] response) {
+  public static Wallet adaptWallet(BitfinexBalancesResponse[] response) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>(response.length);
+    List<Balance> balances = new ArrayList<Balance>(response.length);
 
     for (BitfinexBalancesResponse balance : response) {
       if ("exchange".equals(balance.getType())) {
-        wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getAmount(), balance.getAvailable()));
+        balances
+            .add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getAmount(), balance.getAvailable()));
       }
     }
 
-    return new AccountInfo(null, wallets);
+    return new Wallet(balances);
   }
 
   public static OpenOrders adaptOrders(BitfinexOrderStatusResponse[] activeOrders) {

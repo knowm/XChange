@@ -29,7 +29,7 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
   @Override
   public AccountInfo getAccountInfo()
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return IndependentReserveAdapters.adaptAccountInfo(getIndependentReserveBalance(), exchange.getExchangeSpecification().getUserName());
+    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), IndependentReserveAdapters.adaptWallet(getIndependentReserveBalance()));
   }
 
   @Override

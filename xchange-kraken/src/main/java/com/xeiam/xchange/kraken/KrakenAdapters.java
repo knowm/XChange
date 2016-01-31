@@ -9,22 +9,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.*;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.kraken.dto.account.KrakenDepositAddress;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicOrder;
@@ -132,15 +128,15 @@ public class KrakenAdapters {
     return new Trade(type, tradableAmount, currencyPair, krakenPublicTrade.getPrice(), timestamp, "0");
   }
 
-  public static AccountInfo adaptBalance(Map<String, BigDecimal> krakenBalance, String username) {
+  public static Wallet adaptWallet(Map<String, BigDecimal> krakenWallet) {
 
-    Map<Currency, Wallet> wallets = new ConcurrentHashMap<Currency, Wallet>();
-    for (Entry<String, BigDecimal> balancePair : krakenBalance.entrySet()) {
+    List<Balance> balances = new ArrayList<Balance>(krakenWallet.size());
+    for (Entry<String, BigDecimal> balancePair : krakenWallet.entrySet()) {
       Currency currency = adaptCurrency(balancePair.getKey());
-      Wallet wallet = new Wallet(currency, balancePair.getValue());
-      wallets.put(currency, wallet);
+      Balance balance = new Balance(currency, balancePair.getValue());
+      balances.add(balance);
     }
-    return new AccountInfo(username, wallets);
+    return new Wallet(balances);
   }
 
   public static Set<CurrencyPair> adaptCurrencyPairs(Collection<String> krakenCurrencyPairs) {

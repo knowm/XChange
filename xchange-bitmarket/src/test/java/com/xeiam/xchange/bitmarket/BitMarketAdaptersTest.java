@@ -1,95 +1,135 @@
 package com.xeiam.xchange.bitmarket;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
-import com.xeiam.xchange.currency.Currency;
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
+import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryOperationsResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
+import com.xeiam.xchange.dto.marketdata.OrderBook;
+import com.xeiam.xchange.dto.marketdata.Ticker;
+import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 /**
  * @author kfonal
  */
-public class BitMarketAdaptersTest {
+public class BitMarketAdaptersTest extends BitMarketTestSupport {
+
   @Test
   public void testAccountInfoAdapter() throws IOException {
+    // given
+    BitMarketAccountInfoResponse response = parse("account/example-info-data", BitMarketAccountInfoResponse.class);
+    final Balance[] expectedInfoBalances = expectedInfoBalances();
 
-    // Read in the JSON from the example resources
-    InputStream is = BitMarketAdaptersTest.class.getResourceAsStream("/account/example-info-data.json");
+    // when
+    Wallet wallet = BitMarketAdapters.adaptWallet(response.getData().getBalance());
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BitMarketAccountInfoResponse response = mapper.readValue(is, BitMarketAccountInfoResponse.class);
+    // then
+    Map<Currency,Balance> balances = wallet.getBalances();
 
-    AccountInfo accountInfo = BitMarketAdapters.adaptAccountInfo(response.getData().getBalance(), "Jan Kowalski");
-    assertThat(accountInfo.getUsername()).isEqualTo("Jan Kowalski");
-    assertThat(accountInfo.getTradingFee()).isNull();
-    assertThat(accountInfo.getWallet(Currency.PLN).getCurrency()).isEqualTo(Currency.PLN);
-    assertThat(accountInfo.getWallet(Currency.PLN).getAvailable().toString()).isEqualTo("4.166000000000");
-    assertThat(accountInfo.getWallet(Currency.BTC).getCurrency()).isEqualTo(Currency.BTC);
-    assertThat(accountInfo.getWallet(Currency.BTC).getBalance().toString()).isEqualTo("0.029140000000");
-    assertThat(accountInfo.getWallet(Currency.BTC).getAvailable().toString()).isEqualTo("0.029140000000");
-    assertThat(accountInfo.getWallet(Currency.BTC).getFrozen().toString()).isEqualTo("0");
-    assertThat(accountInfo.getWallet(Currency.LTC).getCurrency()).isEqualTo(Currency.LTC);
+    assertThat(balances).hasSize(3);
+    for (Balance balance : expectedInfoBalances) {
+      BitMarketAssert.assertEquals(balances.get(balance.getCurrency()), balance);
+      assertThat(wallet.toString()).contains(balance.toString());
+    }
   }
 
   @Test
   public void testOpenOrdersAdapter() throws IOException {
+    // given
+    BitMarketOrdersResponse response = parse("trade/example-orders-data", BitMarketOrdersResponse.class);
+    final LimitOrder[] expectedOrders = expectedOrders();
 
-    // Read in the JSON from the example resources
-    InputStream is = BitMarketAdaptersTest.class.getResourceAsStream("/trade/example-orders-data.json");
-
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BitMarketOrdersResponse response = mapper.readValue(is, BitMarketOrdersResponse.class);
-
+    // when
     OpenOrders orders = BitMarketAdapters.adaptOpenOrders(response.getData());
-    assertThat(orders.getOpenOrders().size()).isEqualTo(2);
-    assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("31393");
-    assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo(new BigDecimal("3000.0000"));
-    assertThat(orders.getOpenOrders().get(1).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_PLN);
-    assertThat(orders.getOpenOrders().get(1).getTradableAmount()).isEqualTo(new BigDecimal("0.08000000"));
+    List<LimitOrder> openOrders = orders.getOpenOrders();
+
+    // then
+    assertThat(openOrders).hasSize(2);
+    for (int i=0; i<openOrders.size(); i++) {
+      BitMarketAssert.assertEquals(openOrders.get(i), expectedOrders[i]);
+      assertThat(orders.toString()).contains(expectedOrders[i].toString());
+    }
   }
 
   @Test
   public void testTradeHistoryAdapter() throws IOException {
+    // given
+    BitMarketHistoryTradesResponse historyTradesResponse = parse("trade/example-history-trades-data", BitMarketHistoryTradesResponse.class);
+    BitMarketHistoryOperationsResponse marketHistoryOperationsResponse = parse("trade/example-history-operations-data", BitMarketHistoryOperationsResponse.class);
 
-    // Read in the JSON from the example resources
-    InputStream is = BitMarketAdaptersTest.class.getResourceAsStream("/trade/example-history-trades-data.json");
-    InputStream is2 = BitMarketAdaptersTest.class.getResourceAsStream("/trade/example-history-operations-data.json");
+    final UserTrade[] expectedUserTrades = expectedUserTrades();
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    BitMarketHistoryTradesResponse response = mapper.readValue(is, BitMarketHistoryTradesResponse.class);
-    BitMarketHistoryOperationsResponse response2 = mapper.readValue(is2, BitMarketHistoryOperationsResponse.class);
+    // when
+    UserTrades trades = BitMarketAdapters.adaptTradeHistory(historyTradesResponse.getData(), marketHistoryOperationsResponse.getData());
+    List<UserTrade> userTrades = trades.getUserTrades();
 
-    // Verify that the example data was unmarshalled correctly
-    UserTrades trades = BitMarketAdapters.adaptTradeHistory(response.getData(), response2.getData());
-
-    assertThat(trades.getUserTrades().size()).isEqualTo(5);
-
-    UserTrade trade = trades.getUserTrades().get(4);
-
-    assertThat(trade.getTradableAmount()).isEqualTo(new BigDecimal("1.08260046"));
-    assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_PLN);
-    assertThat(trade.getPrice()).isEqualTo(new BigDecimal("877.0000"));
-    assertThat(trade.getType()).isEqualTo(Order.OrderType.BID);
-    assertThat(trade.getId()).isEqualTo("389406");
-    assertThat(trade.getFeeAmount()).isEqualTo(new BigDecimal("0.30312011"));
-    assertThat(trade.getFeeCurrency()).isEqualTo(Currency.PLN);
+    // then
+    assertThat(userTrades).hasSize(5);
+    for (int i=0; i<userTrades.size(); i++) {
+      BitMarketAssert.assertEquals(userTrades.get(i), expectedUserTrades[i]);
+    }
   }
+
+  @Test
+  public void testTickerAdapter() throws IOException {
+
+    // given
+    BitMarketTicker bitMarketTicker = parse("marketdata/example-ticker-data", BitMarketTicker.class);
+
+    // when
+    Ticker ticker = BitMarketAdapters.adaptTicker(bitMarketTicker, CurrencyPair.BTC_AUD);
+
+    // then
+    BitMarketAssert.assertEquals(ticker, TICKER);
+  }
+
+  // https://www.bitmarket.pl/json/LTCPLN/trades.json example has addition field 'type' which is not specified in API description (https://www.bitmarket.net/docs.php?file=api_public.html)
+  // should be changed after issue #1141 fix
+  @Test
+  public void testTradesAdapter() throws IOException {
+    // given
+    BitMarketTrade[] bitMarketTrades = parse("marketdata/example-trades-data", BitMarketTrade[].class);
+    final Trade[] expectedTrades = expectedTrades();
+
+    // when
+    Trades trades = BitMarketAdapters.adaptTrades(bitMarketTrades, CurrencyPair.BTC_AUD);
+    List<Trade> tradeList = trades.getTrades();
+
+    // then
+    assertThat(tradeList).hasSize(3);
+    for (int i=0; i < tradeList.size(); i++) {
+      BitMarketAssert.assertEquals(tradeList.get(i), expectedTrades[i]);
+    }
+  }
+
+  @Test
+  public void testOrderBookAdapter() throws IOException {
+    // given
+    BitMarketOrderBook bitMarketOrderBook = parse("marketdata/example-order-book-data", BitMarketOrderBook.class);
+
+    // when
+    OrderBook orderBook = BitMarketAdapters.adaptOrderBook(bitMarketOrderBook, CurrencyPair.BTC_AUD);
+
+    // then
+    BitMarketAssert.assertEquals(orderBook, ORDER_BOOK);
+  }
+
 }

@@ -108,7 +108,7 @@ public class BTCChinaApplication extends MessageCracker implements Application {
 
     log.debug("{}", message);
 
-    onAccountInfo(message.getAccReqID().getValue(), BTCChinaFIXAdapters.adaptAccountInfo(message), sessionId);
+    onAccountInfo(message.getAccReqID().getValue(), new AccountInfo(BTCChinaFIXAdapters.adaptWallet(message)), sessionId);
   }
 
   /**

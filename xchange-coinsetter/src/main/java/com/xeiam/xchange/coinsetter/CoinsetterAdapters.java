@@ -2,7 +2,6 @@ package com.xeiam.xchange.coinsetter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -18,13 +17,13 @@ import com.xeiam.xchange.coinsetter.dto.order.response.CoinsetterOrderList;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
  * Various adapters for converting from Coinsetter DTOs to XChange DTOs.
@@ -131,10 +130,10 @@ public final class CoinsetterAdapters {
     return new OrderBook(timeStamp, askOrders, bidOrders);
   }
 
-  public static AccountInfo adaptAccountInfo(String username, CoinsetterAccount account) {
+  public static Wallet adaptWallet(CoinsetterAccount account) {
 
-    return new AccountInfo(username,
-        Arrays.asList(new Wallet(Currency.BTC, account.getBtcBalance()), new Wallet(Currency.USD, account.getUsdBalance())));
+    return new Wallet(
+        new Balance(Currency.BTC, account.getBtcBalance()), new Balance(Currency.USD, account.getUsdBalance()));
   }
 
   public static OpenOrders adaptOpenOrders(CoinsetterOrderList orderList) {

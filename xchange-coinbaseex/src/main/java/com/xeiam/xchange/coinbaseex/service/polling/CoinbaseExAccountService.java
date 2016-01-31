@@ -22,7 +22,7 @@ public class CoinbaseExAccountService extends CoinbaseExAccountServiceRaw implem
   @Override
   public AccountInfo getAccountInfo()
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return CoinbaseExAdapters.adaptAccountInfo(getCoinbaseExAccountInfo());
+    return new AccountInfo(CoinbaseExAdapters.adaptAccountInfo(getCoinbaseExAccountInfo()));
   }
 
   @Override

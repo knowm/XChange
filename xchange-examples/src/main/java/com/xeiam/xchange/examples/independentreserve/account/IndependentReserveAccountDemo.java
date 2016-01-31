@@ -3,6 +3,7 @@ package com.xeiam.xchange.examples.independentreserve.account;
 import java.io.IOException;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.independentreserve.IndependentReserveDemoUtils;
 import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveBalance;
@@ -27,8 +28,8 @@ public class IndependentReserveAccountDemo {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("USD balance: " + accountInfo.getWallet("USD").getAvailable());
-    System.out.println("BTC balance: " + accountInfo.getWallet("BTC").getAvailable());
+    System.out.println("USD balance: " + accountInfo.getWallet().getBalance(Currency.USD).getAvailable());
+    System.out.println("BTC balance: " + accountInfo.getWallet().getBalance(Currency.BTC).getAvailable());
 
   }
 

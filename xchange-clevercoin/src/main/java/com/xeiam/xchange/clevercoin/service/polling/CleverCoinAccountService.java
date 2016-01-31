@@ -29,7 +29,7 @@ public class CleverCoinAccountService extends CleverCoinAccountServiceRaw implem
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return CleverCoinAdapters.adaptAccountInfo(getCleverCoinBalance(), exchange.getExchangeSpecification().getUserName());
+    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), CleverCoinAdapters.adaptWallet(getCleverCoinBalance()));
   }
 
   @Override

@@ -7,15 +7,15 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -90,15 +90,14 @@ public class MeXBTAdaptersTest {
   }
 
   @Test
-  public void testAdaptAccountInfo() throws JsonParseException, JsonMappingException, IOException {
+  public void testAdaptWallet() throws JsonParseException, JsonMappingException, IOException {
     MeXBTBalanceResponse balanceResponse = new ObjectMapper().readValue(MeXBTBalanceResponseTest.class.getResource("balance.json"),
         MeXBTBalanceResponse.class);
-    AccountInfo accountInfo = MeXBTAdapters.adaptAccountInfo("john.doe@example.org", balanceResponse);
-    assertEquals("john.doe@example.org", accountInfo.getUsername());
-    assertEquals(new BigDecimal("482198.87"), accountInfo.getWallet(Currency.BTC).getAvailable());
-    assertEquals(new BigDecimal("482056"), accountInfo.getWallet(Currency.BTC).getFrozen());
-    assertEquals(new BigDecimal("990119"), accountInfo.getWallet(Currency.LTC).getAvailable());
-    assertEquals(new BigDecimal("11108"), accountInfo.getWallet(Currency.LTC).getFrozen());
+    Wallet wallet = MeXBTAdapters.adaptWallet(balanceResponse);
+    assertEquals(new BigDecimal("482198.87"), wallet.getBalance(Currency.BTC).getAvailable());
+    assertEquals(new BigDecimal("482056"), wallet.getBalance(Currency.BTC).getFrozen());
+    assertEquals(new BigDecimal("990119"), wallet.getBalance(Currency.LTC).getAvailable());
+    assertEquals(new BigDecimal("11108"), wallet.getBalance(Currency.LTC).getFrozen());
   }
 
   @Test

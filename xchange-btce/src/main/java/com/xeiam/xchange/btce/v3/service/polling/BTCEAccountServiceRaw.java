@@ -1,14 +1,13 @@
 package com.xeiam.xchange.btce.v3.service.polling;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btce.v3.BTCEAuthenticated;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEAccountInfoReturn;
 import com.xeiam.xchange.btce.v3.dto.account.BTCEWithDrawInfoReturn;
-import com.xeiam.xchange.btce.v3.dto.account.BTCEWithdrawInfo;
-import java.math.BigDecimal;
 
 /**
  * Author: brox

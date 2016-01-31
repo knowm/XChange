@@ -15,18 +15,22 @@ import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBookEntry;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
 import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExTrade;
+import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExFill;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExOrder;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 
 public class CoinbaseExAdapters {
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -81,16 +85,16 @@ public class CoinbaseExAdapters {
 
   }
 
-  public static AccountInfo adaptAccountInfo(CoinbaseExAccount[] coinbaseExAccountInfo) {
-    List<Wallet> wallets = new ArrayList<Wallet>(coinbaseExAccountInfo.length);
+  public static Wallet adaptAccountInfo(CoinbaseExAccount[] coinbaseExAccountInfo) {
+    List<Balance> balances = new ArrayList<Balance>(coinbaseExAccountInfo.length);
 
     for (int i = 0; i < coinbaseExAccountInfo.length; i++) {
       CoinbaseExAccount account = coinbaseExAccountInfo[i];
 
-      wallets.add(new Wallet(account.getCurrency(), account.getBalance(), account.getAvailable(), account.getHold()));
+      balances.add(new Balance(Currency.getInstance(account.getCurrency()), account.getBalance(), account.getAvailable(), account.getHold()));
     }
 
-    return new AccountInfo(coinbaseExAccountInfo[0].getProfile_id(), wallets);
+    return new Wallet(coinbaseExAccountInfo[0].getProfile_id(), balances);
   }
 
   public static OpenOrders adaptOpenOrders(CoinbaseExOrder[] coinbaseExOpenOrders) {
@@ -109,6 +113,26 @@ public class CoinbaseExAdapters {
     }
 
     return new OpenOrders(orders);
+  }
+
+  public static UserTrades adaptTradeHistory(CoinbaseExFill[] coinbaseExFills) {
+    List<UserTrade> trades = new ArrayList<UserTrade>(coinbaseExFills.length);
+
+    for (int i = 0; i < coinbaseExFills.length; i++) {
+      CoinbaseExFill fill = coinbaseExFills[i];
+
+      // yes, sell means buy for Coinbase reported trades..
+      OrderType type = fill.getSide().equals("sell") ? OrderType.BID : OrderType.ASK;
+
+      CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace("-", "/"));
+
+      // ToDo add fee amount
+      UserTrade t = new UserTrade(type, fill.getSize(), currencyPair, fill.getPrice(), parseDate(fill.getCreatedAt()),
+              String.valueOf(fill.getTradeId()), fill.getOrderId());
+      trades.add(t);
+    }
+
+    return new UserTrades(trades, TradeSortType.SortByID);
   }
 
   public static Trades adaptTrades(CoinbaseExTrade[] coinbaseExTrades, CurrencyPair currencyPair) {

@@ -66,12 +66,20 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     return "LimitOrder [limitPrice=" + limitPrice + ", " + super.toString() + "]";
   }
 
-  // TODO bids and asks compare equal if their prices are the same, but represent different concepts
-  // perhaps throw an assertion if a bid is compared with an ask
   @Override
   public int compareTo(LimitOrder limitOrder) {
 
-    return this.getLimitPrice().compareTo(limitOrder.getLimitPrice()) * (getType() == OrderType.BID ? -1 : 1);
+    final int ret;
+
+    if (this.getType() == limitOrder.getType()) {
+      // Same side
+      ret = this.getLimitPrice().compareTo(limitOrder.getLimitPrice()) * (getType() == OrderType.BID ? -1 : 1);
+    } else {
+      // Keep bid side be less than ask side
+      ret = this.getType() == OrderType.BID ? -1 : 1;
+    }
+
+    return ret;
   }
 
   @Override

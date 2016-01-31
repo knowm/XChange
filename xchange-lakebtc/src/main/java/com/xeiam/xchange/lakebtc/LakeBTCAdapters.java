@@ -2,7 +2,6 @@ package com.xeiam.xchange.lakebtc;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -10,14 +9,15 @@ import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.lakebtc.dto.account.LakeBTCAccount;
 import com.xeiam.xchange.lakebtc.dto.account.LakeBTCBalance;
 import com.xeiam.xchange.lakebtc.dto.account.LakeBTCProfile;
@@ -134,20 +134,20 @@ public class LakeBTCAdapters {
   }
 
   /**
-   * Adapts a LakeBTCAccount to a AccountInfo
+   * Adapts a LakeBTCAccount to an AccountInfo
    *
    * @param lakeBTCAccount
-   * @return AccountInfo
+   * @return Wallet
    */
   public static AccountInfo adaptAccountInfo(LakeBTCAccount lakeBTCAccount) {
 
     // Adapt to XChange DTOs
     LakeBTCProfile profile = lakeBTCAccount.getProfile();
     LakeBTCBalance balance = lakeBTCAccount.getBalance();
-    Wallet usdWallet = new Wallet(Currency.USD, balance.getUSD());
-    Wallet cnyWWallet = new Wallet(Currency.CNY, balance.getCNY());
-    Wallet btcWallet = new Wallet(Currency.BTC, balance.getBTC());
+    Balance usdBalance = new Balance(Currency.USD, balance.getUSD());
+    Balance cnyWBalance = new Balance(Currency.CNY, balance.getCNY());
+    Balance btcBalance = new Balance(Currency.BTC, balance.getBTC());
 
-    return new AccountInfo(profile.getId(), Arrays.asList(usdWallet, btcWallet, cnyWWallet));
+    return new AccountInfo(profile.getId(), new Wallet(usdBalance, btcBalance, cnyWBalance));
   }
 }

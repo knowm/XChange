@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.yacuna.dto.marketdata.YacunaTickerReturn;
@@ -27,7 +26,6 @@ public class YacunaAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    TypeFactory t = TypeFactory.defaultInstance();
     YacunaTickerReturn tickerReturn = mapper.readValue(is, YacunaTickerReturn.class);
 
     Ticker ticker = YacunaAdapters.adaptTicker(tickerReturn.getTickerList().get(0), new CurrencyPair("XBT", "EUR"));

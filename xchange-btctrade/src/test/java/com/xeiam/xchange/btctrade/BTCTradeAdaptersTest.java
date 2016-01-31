@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +22,6 @@ import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTrade;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradeOrder;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -117,18 +117,18 @@ public class BTCTradeAdaptersTest {
 
     BTCTradeBalance balance = mapper.readValue(getClass().getResource("dto/account/balance.json"), BTCTradeBalance.class);
 
-    AccountInfo accountInfo = BTCTradeAdapters.adaptAccountInfo(balance);
-    assertNull(accountInfo.getUsername());
-    assertEquals(new BigDecimal(3), accountInfo.getBalance(Currency.BTC));
-    assertEquals(new BigDecimal(2), accountInfo.getWallet(Currency.BTC).getFrozen());
-    assertEquals(new BigDecimal("7"), accountInfo.getBalance(Currency.LTC));
-    assertEquals(new BigDecimal(4), accountInfo.getWallet(Currency.LTC).getFrozen());
-    assertEquals(new BigDecimal("11"), accountInfo.getBalance(Currency.DOGE));
-    assertEquals(new BigDecimal(6), accountInfo.getWallet(Currency.DOGE).getFrozen());
-    assertEquals(new BigDecimal("15"), accountInfo.getBalance(Currency.YBC));
-    assertEquals(new BigDecimal(8), accountInfo.getWallet(Currency.YBC).getFrozen());
-    assertEquals(new BigDecimal("19"), accountInfo.getBalance(Currency.CNY));
-    assertEquals(new BigDecimal(10), accountInfo.getWallet(Currency.CNY).getFrozen());
+    Wallet wallet = BTCTradeAdapters.adaptWallet(balance);
+    assertNull(wallet.getId());
+    assertEquals(new BigDecimal(3), wallet.getBalance(Currency.BTC).getTotal());
+    assertEquals(new BigDecimal(2), wallet.getBalance(Currency.BTC).getFrozen());
+    assertEquals(new BigDecimal("7"), wallet.getBalance(Currency.LTC).getTotal());
+    assertEquals(new BigDecimal(4), wallet.getBalance(Currency.LTC).getFrozen());
+    assertEquals(new BigDecimal("11"), wallet.getBalance(Currency.DOGE).getTotal());
+    assertEquals(new BigDecimal(6), wallet.getBalance(Currency.DOGE).getFrozen());
+    assertEquals(new BigDecimal("15"), wallet.getBalance(Currency.YBC).getTotal());
+    assertEquals(new BigDecimal(8), wallet.getBalance(Currency.YBC).getFrozen());
+    assertEquals(new BigDecimal("19"), wallet.getBalance(Currency.CNY).getTotal());
+    assertEquals(new BigDecimal(10), wallet.getBalance(Currency.CNY).getFrozen());
   }
 
   @Test
@@ -137,7 +137,7 @@ public class BTCTradeAdaptersTest {
     BTCTradeBalance balance = mapper.readValue(getClass().getResource("dto/account/balance-signature-error.json"), BTCTradeBalance.class);
 
     try {
-      BTCTradeAdapters.adaptAccountInfo(balance);
+      BTCTradeAdapters.adaptWallet(balance);
       fail("ExchangeException is expected.");
     } catch (ExchangeException e) {
       assertEquals("signature error", e.getMessage());

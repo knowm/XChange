@@ -1,7 +1,6 @@
 package com.xeiam.xchange.utils.jackson;
 
 import java.io.IOException;
-import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

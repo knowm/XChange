@@ -29,7 +29,7 @@ public class HitbtcAccountDemo {
 
   private static void raw(HitbtcAccountServiceRaw accountService) throws IOException {
 
-    HitbtcBalance[] accountInfo = accountService.getAccountInfoRaw();
+    HitbtcBalance[] accountInfo = accountService.getWalletRaw();
     System.out.println(Arrays.toString(accountInfo));
   }
 }

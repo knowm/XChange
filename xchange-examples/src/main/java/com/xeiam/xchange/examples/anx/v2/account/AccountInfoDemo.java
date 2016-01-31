@@ -22,6 +22,6 @@ public class AccountInfoDemo {
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
 
-    System.out.println("AccountInfo as String: " + accountInfo.toString());
+    System.out.println("Wallet as String: " + accountInfo.toString());
   }
 }

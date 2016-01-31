@@ -1,9 +1,10 @@
 package com.xeiam.xchange.bitstamp;
 
+import static java.math.BigDecimal.ZERO;
+
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -25,7 +28,6 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -41,7 +43,7 @@ public final class BitstampAdapters {
   }
 
   /**
-   * Adapts a BitstampBalance to a AccountInfo
+   * Adapts a BitstampBalance to an AccountInfo
    *
    * @param bitstampBalance The Bitstamp balance
    * @param userName The user name
@@ -50,19 +52,20 @@ public final class BitstampAdapters {
   public static AccountInfo adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
 
     // Adapt to XChange DTOs
-    Wallet usdWallet = new Wallet(Currency.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(),
-        bitstampBalance.getUsdReserved());
-    Wallet btcWallet = new Wallet(Currency.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),
-        bitstampBalance.getBtcReserved());
+    final BigDecimal usdWithdrawing = bitstampBalance.getUsdBalance().subtract(bitstampBalance.getUsdAvailable()).subtract(bitstampBalance.getUsdReserved());
+    final BigDecimal btcWithdrawing = bitstampBalance.getBtcBalance().subtract(bitstampBalance.getBtcAvailable()).subtract(bitstampBalance.getBtcReserved());
+    Balance usdBalance = new Balance(Currency.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(),
+        bitstampBalance.getUsdReserved(), ZERO, ZERO, usdWithdrawing, ZERO);
+    Balance btcBalance = new Balance(Currency.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),
+        bitstampBalance.getBtcReserved(), ZERO, ZERO, btcWithdrawing, ZERO);
 
-    return new AccountInfo(userName, bitstampBalance.getFee(), Arrays.asList(usdWallet, btcWallet));
+    return new AccountInfo(userName, bitstampBalance.getFee(), new Wallet(usdBalance, btcBalance));
   }
 
   /**
    * Adapts a com.xeiam.xchange.bitstamp.api.model.OrderBook to a OrderBook Object
    *
    * @param currencyPair (e.g. BTC/USD)
-   * @param currency The currency (e.g. USD in BTC/USD)
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
@@ -122,7 +125,7 @@ public final class BitstampAdapters {
   /**
    * Adapts a Transaction to a Trade Object
    *
-   * @param transactions The Bitstamp transaction
+   * @param tx The Bitstamp transaction
    * @param currencyPair (e.g. BTC/USD)
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange Trade

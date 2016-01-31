@@ -1,6 +1,12 @@
 package com.xeiam.xchange.currency;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * A Currency class roughly modeled after {@link java.util.Currency}.
@@ -40,7 +46,7 @@ public class Currency implements Comparable <Currency> {
   public static final Currency BMD = createCurrency("BMD", "Bermudan Dollar", null);
   public static final Currency BND = createCurrency("BND", "Brunei Dollar", null);
   public static final Currency BOB = createCurrency("BOB", "Bolivian Boliviano", null);
-  public static final Currency BRL = createCurrency("BRL", "Brazilian Real", null);
+  public static final Currency BRL = createCurrency("BRL", "Brazilian Real", "R$");
   public static final Currency BSD = createCurrency("BSD", "Bahamian Dollar", null);
   public static final Currency BTC = createCurrency("BTC", "Bitcoin", null, "XBT");
   public static final Currency XBT = getInstance("XBT");
@@ -63,8 +69,9 @@ public class Currency implements Comparable <Currency> {
   public static final Currency DGB = createCurrency("DGB", "DigiByte", null);
   public static final Currency DJF = createCurrency("DJF", "Djiboutian Franc", null);
   public static final Currency DKK = createCurrency("DKK", "Danish Krone", null);
-  public static final Currency DOGE = createCurrency("DOGE", "Dogecoin", null, "XDC");
+  public static final Currency DOGE = createCurrency("DOGE", "Dogecoin", null, "XDC", "XDG");
   public static final Currency XDC = getInstance("XDC");
+  public static final Currency XDG = getInstance("XDG"); 
   public static final Currency DOP = createCurrency("DOP", "Dominican Peso", null);
   public static final Currency DGC = createCurrency("DGC", "Digitalcoin", null);
   public static final Currency DVC = createCurrency("DVC", "Devcoin", null);
@@ -118,7 +125,8 @@ public class Currency implements Comparable <Currency> {
   public static final Currency LKR = createCurrency("LKR", "Sri Lankan Rupee", null);
   public static final Currency LRD = createCurrency("LRD", "Liberian Dollar", null);
   public static final Currency LSL = createCurrency("LSL", "Lesotho Loti", null);
-  public static final Currency LTC = createCurrency("LTC", "Litecoin", null);
+  public static final Currency LTC = createCurrency("LTC", "Litecoin", "XLT");
+  public static final Currency XLT = getInstance("XLT");
   public static final Currency LTL = createCurrency("LTL", "Lithuanian Litas", null);
   public static final Currency LVL = createCurrency("LVL", "Latvian Lats", null);
   public static final Currency LYD = createCurrency("LYD", "Libyan Dinar", null);
@@ -217,6 +225,7 @@ public class Currency implements Comparable <Currency> {
   public static final Currency YER = createCurrency("YER", "Yemeni Rial", null);
   public static final Currency ZAR = createCurrency("ZAR", "South African Rand", null);
   public static final Currency ZMK = createCurrency("ZMK", "Zambian Kwacha", null);
+  public static final Currency ZRC = createCurrency("ZRC", "ziftrCOIN", null);
   public static final Currency ZWL = createCurrency("ZWL", "Zimbabwean Dollar", null);
 
 
@@ -237,10 +246,10 @@ public class Currency implements Comparable <Currency> {
    */
   public static Currency getInstance(String currencyCode) {
 
-    Currency currency = getInstanceNoCreate(currencyCode);
+    Currency currency = getInstanceNoCreate(currencyCode.toUpperCase());
 
     if (currency == null) {
-      return createCurrency(currencyCode, null, null);
+      return createCurrency(currencyCode.toUpperCase(), null, null);
     } else {
       return currency;
     }
@@ -251,7 +260,7 @@ public class Currency implements Comparable <Currency> {
    */
   public static Currency getInstanceNoCreate(String currencyCode) {
 
-    return currencies.get(currencyCode);
+    return currencies.get(currencyCode.toUpperCase());
   }
 
   /**

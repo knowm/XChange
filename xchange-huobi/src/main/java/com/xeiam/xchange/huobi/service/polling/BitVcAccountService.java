@@ -23,7 +23,7 @@ public class BitVcAccountService extends BitVcAccountServiceRaw implements Polli
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return HuobiAdapters.adaptAccountInfo(getBitVcAccountInfo());
+    return new AccountInfo(HuobiAdapters.adaptWallet(getBitVcAccountInfo()));
   }
 
   @Override

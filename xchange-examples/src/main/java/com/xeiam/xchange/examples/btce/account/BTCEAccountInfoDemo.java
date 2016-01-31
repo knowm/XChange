@@ -38,7 +38,7 @@ public class BTCEAccountInfoDemo {
 
     // Get the account information
     BTCEAccountInfo accountInfo = accountService.getBTCEAccountInfo(null, null, null, null, null, null, null);
-    System.out.println("BTCE AccountInfo as String: " + accountInfo.toString());
+    System.out.println("BTCE Wallet as String: " + accountInfo.toString());
   }
 
 }

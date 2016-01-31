@@ -28,7 +28,7 @@ public class BTCTradeAccountService extends BTCTradeAccountServiceRaw implements
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return BTCTradeAdapters.adaptAccountInfo(getBTCTradeBalance());
+    return new AccountInfo(BTCTradeAdapters.adaptWallet(getBTCTradeBalance()));
   }
 
   /**

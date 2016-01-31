@@ -4,9 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.xeiam.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import com.xeiam.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
@@ -17,7 +15,7 @@ import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
@@ -25,7 +23,7 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.account.Balance;
 
 public final class BTCMarketsAdapters {
 
@@ -45,13 +43,13 @@ public final class BTCMarketsAdapters {
   private BTCMarketsAdapters() {
   }
 
-  public static AccountInfo adaptAccountInfo(List<BTCMarketsBalance> balances, String userName) {
-    Map<Currency, Wallet> wallets = new HashMap<>();
+  public static Wallet adaptWallet(List<BTCMarketsBalance> balances) {
+    List<Balance> wallets = new ArrayList<>(balances.size());
     for (BTCMarketsBalance blc : balances) {
       final Currency currency = Currency.getInstance(blc.getCurrency());
-      wallets.put(currency, new Wallet(currency, blc.getBalance(), blc.getAvailable()));
+      wallets.add(new Balance(currency, blc.getBalance(), blc.getAvailable()));
     }
-    return new AccountInfo(userName, wallets);
+    return new Wallet(wallets);
   }
 
   public static OrderBook adaptOrderBook(BTCMarketsOrderBook btcmarketsOrderBook, CurrencyPair currencyPair) {

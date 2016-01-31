@@ -7,14 +7,14 @@ import java.util.List;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveAccount;
 import com.xeiam.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import com.xeiam.xchange.independentreserve.dto.marketdata.IndependentReserveOrderBook;
@@ -51,17 +51,14 @@ public class IndependentReserveAdapters {
     return orders;
   }
 
-  public static AccountInfo adaptAccountInfo(IndependentReserveBalance independentReserveBalance, String userName) {
-    List<Wallet> wallets = new ArrayList<Wallet>();
+  public static Wallet adaptWallet(IndependentReserveBalance independentReserveBalance) {
+    List<Balance> balances = new ArrayList<Balance>();
 
     for (IndependentReserveAccount balanceAccount : independentReserveBalance.getIndependentReserveAccounts()) {
-      String currency = balanceAccount.getCurrencyCode().toUpperCase();
-      wallets.add(new Wallet(currency, balanceAccount.getTotalBalance()));
-      if ("XBT".equals(currency)) {
-        wallets.add(new Wallet("BTC", balanceAccount.getTotalBalance()));
-      }
+      Currency currency = Currency.getInstance(balanceAccount.getCurrencyCode().toUpperCase());
+      balances.add(new Balance(currency.getCommonlyUsedCurrency(), balanceAccount.getTotalBalance()));
     }
-    return new AccountInfo(userName, wallets);
+    return new Wallet(balances);
   }
 
   public static OpenOrders adaptOpenOrders(IndependentReserveOpenOrdersResponse independentReserveOrders) {

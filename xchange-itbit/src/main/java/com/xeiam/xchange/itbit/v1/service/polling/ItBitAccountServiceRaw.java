@@ -8,7 +8,11 @@ import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.itbit.v1.ItBitAdapters;
-import com.xeiam.xchange.itbit.v1.dto.account.*;
+import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
+import com.xeiam.xchange.itbit.v1.dto.account.ItBitDepositRequest;
+import com.xeiam.xchange.itbit.v1.dto.account.ItBitDepositResponse;
+import com.xeiam.xchange.itbit.v1.dto.account.ItBitWithdrawalRequest;
+import com.xeiam.xchange.itbit.v1.dto.account.ItBitWithdrawalResponse;
 
 public class ItBitAccountServiceRaw extends ItBitBasePollingService {
 

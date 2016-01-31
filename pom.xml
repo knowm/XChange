@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -98,11 +99,12 @@
 		<module>xchange-coinsetter</module>
 		<module>xchange-cointrader</module>
 		<module>xchange-core</module>
+		<module>xchange-cryptofacilities</module>
 		<module>xchange-cryptonit</module>
 		<module>xchange-cryptsy</module>
 		<module>xchange-empoex</module>
-        <module>xchange-examples</module>
-        <module>xchange-gatecoin</module>
+		<module>xchange-examples</module>
+		<module>xchange-gatecoin</module>
 		<module>xchange-hitbtc</module>
 		<module>xchange-itbit</module>
 		<module>xchange-independentreserve</module>
@@ -263,6 +265,12 @@
 				<version>2.3.8</version>
 			</dependency>
 
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>2.3.1</version>
+			</dependency>
+
 			<!-- For Base64 encoding in Gatecoin API -->
 			<dependency>
 				<groupId>org.apache-extras.camel-extra</groupId>
@@ -298,6 +306,20 @@
 			<groupId>org.easytesting</groupId>
 			<artifactId>fest-assert-core</artifactId>
 			<version>2.0M10</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- PowerMockito for unit tests -->
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>${powermock.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -395,7 +417,7 @@
 		</pluginManagement>
 
 		<plugins>
-			<!-- Ensure compilation is done under Java 6 in all environments -->
+			<!-- Ensure compilation is done under Java 7 in all environments -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -423,6 +445,31 @@
 				</executions>
 			</plugin>
 
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<check>
+						true
+					</check>
+					<formats>
+						<format>html</format>
+					</formats>
+					<outputDirectory>${project.build.directory}/site/cobertura</outputDirectory>
+					<instrumentation>
+						<ignoreTrivial>true</ignoreTrivial>
+					</instrumentation>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>cobertura</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -467,6 +514,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<skipIntegrationTests>true</skipIntegrationTests>
+		<powermock.version>1.6.3</powermock.version>
 	</properties>
 
 </project>

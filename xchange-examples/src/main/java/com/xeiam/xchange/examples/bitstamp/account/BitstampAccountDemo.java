@@ -1,20 +1,16 @@
 package com.xeiam.xchange.examples.bitstamp.account;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
-import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
-import com.xeiam.xchange.bitstamp.dto.account.DepositTransaction;
-import com.xeiam.xchange.bitstamp.dto.account.WithdrawalRequest;
+import com.xeiam.xchange.bitstamp.dto.account.*;
 import com.xeiam.xchange.bitstamp.service.polling.BitstampAccountServiceRaw;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.examples.bitstamp.BitstampDemoUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * <p>
@@ -74,7 +70,7 @@ public class BitstampAccountDemo {
       System.out.println(unconfirmedDeposit);
     }
 
-    BitstampWithdrawal withdrawResult = accountService.withdrawBitstampFunds(new BigDecimal(1).movePointLeft(4),
+    BitstampWithdrawal withdrawResult = accountService.withdrawBitstampFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4),
         "1PxYUsgKdw75sdLmM7HYP2p74LEq3mxM6L");
     System.out.println("BitstampBooleanResponse = " + withdrawResult);
   }

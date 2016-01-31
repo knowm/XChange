@@ -11,6 +11,8 @@ import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 import com.xeiam.xchange.therock.TheRock;
+import com.xeiam.xchange.therock.TheRockAdapters;
+import com.xeiam.xchange.therock.dto.marketdata.TheRockOrderBook;
 import com.xeiam.xchange.therock.dto.marketdata.TheRockTicker;
 
 /**
@@ -31,7 +33,8 @@ public class TheRockMarketDataService extends TheRockMarketDataServiceRaw implem
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    final TheRockOrderBook theRockOrderBook = getTheRockOrderBook(new TheRock.Pair(currencyPair));
+    return TheRockAdapters.adaptOrderBook(theRockOrderBook);
   }
 
   @Override

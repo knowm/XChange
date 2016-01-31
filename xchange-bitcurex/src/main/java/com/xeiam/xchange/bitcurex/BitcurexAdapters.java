@@ -11,13 +11,13 @@ import com.xeiam.xchange.bitcurex.dto.marketdata.BitcurexTrade;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -36,7 +36,7 @@ public final class BitcurexAdapters {
    * Adapts a List of bitcurexOrders to a List of LimitOrders
    *
    * @param bitcurexOrders
-   * @param currency
+   * @param currencyPair
    * @param orderType
    * @param id
    * @return
@@ -57,8 +57,8 @@ public final class BitcurexAdapters {
    *
    * @param amount
    * @param price
-   * @param currency
-   * @param orderTypeString
+   * @param currencyPair
+   * @param orderType
    * @param id
    * @return
    */
@@ -125,29 +125,28 @@ public final class BitcurexAdapters {
   }
 
   /**
-   * Adapts a BitcurexFunds to an AccountInfo Object
+   * Adapts a BitcurexFunds to an Wallet Object
    *
-   * @param bitcurexFunds
-   * @param user name for the accountInfo
+   * @param funds
    * @return
    */
-  public static AccountInfo adaptAccountInfo(BitcurexFunds funds, String userName) {
+  public static Wallet adaptWallet(BitcurexFunds funds) {
 
     // Adapt to XChange DTOs
-    List<Wallet> wallets = new ArrayList<Wallet>(2);
-    wallets.add(new Wallet(Currency.BTC, funds.getBtcs()));
+    List<Balance> balances = new ArrayList<Balance>(2);
+    balances.add(new Balance(Currency.BTC, funds.getBtcs()));
 
     BigDecimal eur = funds.getEurs();
     if (eur != null) {
-      wallets.add(new Wallet(Currency.EUR, eur));
+      balances.add(new Balance(Currency.EUR, eur));
     }
 
     BigDecimal pln = funds.getPlns();
     if (pln != null) {
-      wallets.add(new Wallet(Currency.PLN, pln));
+      balances.add(new Balance(Currency.PLN, pln));
     }
 
-    return new AccountInfo(userName, wallets);
+    return new Wallet(balances);
   }
 
 }

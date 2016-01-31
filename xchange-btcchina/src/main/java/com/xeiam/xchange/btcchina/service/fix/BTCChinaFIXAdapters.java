@@ -14,16 +14,15 @@ import java.util.TimeZone;
 
 import com.xeiam.xchange.btcchina.BTCChinaAdapters;
 import com.xeiam.xchange.btcchina.service.fix.field.Amount;
-import com.xeiam.xchange.btcchina.service.fix.field.Balance;
 import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.trade.Wallet;
 
 import quickfix.FieldNotFound;
 import quickfix.Group;
 import quickfix.Message;
-import quickfix.field.Currency;
 import quickfix.field.MDEntryDate;
 import quickfix.field.MDEntryPx;
 import quickfix.field.MDEntrySize;
@@ -127,15 +126,15 @@ public final class BTCChinaFIXAdapters {
     tickerBuilder.timestamp(dateCal.getTime());
   }
 
-  public static AccountInfo adaptAccountInfo(AccountInfoResponse message) throws FieldNotFound {
+  public static Wallet adaptWallet(AccountInfoResponse message) throws FieldNotFound {
 
-    List<Group> groups = message.getGroups(Balance.FIELD);
-    List<Wallet> wallets = new ArrayList<Wallet>(groups.size());
+    List<Group> groups = message.getGroups(com.xeiam.xchange.btcchina.service.fix.field.Balance.FIELD);
+    List<Balance> balances = new ArrayList<Balance>(groups.size());
     for (Group group : groups) {
-      Wallet wallet = new Wallet(group.getField(new Currency()).getValue(), group.getField(new Amount()).getValue());
-      wallets.add(wallet);
+      Balance balance = new Balance(Currency.getInstance(group.getField(new quickfix.field.Currency()).getValue()), group.getField(new Amount()).getValue());
+      balances.add(balance);
     }
-    return new AccountInfo(null, wallets);
+    return new Wallet(balances);
   }
 
 }

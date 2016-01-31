@@ -6,7 +6,6 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
 import com.xeiam.xchange.quoine.dto.account.QuoineTradingAccountInfo;
-import com.xeiam.xchange.quoine.service.QuoineSignatureDigest;
 import com.xeiam.xchange.utils.Assert;
 
 import si.mazi.rescu.HttpStatusIOException;

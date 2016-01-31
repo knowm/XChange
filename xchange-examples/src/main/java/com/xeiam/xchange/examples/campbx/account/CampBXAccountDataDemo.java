@@ -25,8 +25,8 @@ public class CampBXAccountDataDemo {
 
     PollingAccountService accountService = campbx.getPollingAccountService();
 
-    AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("accountInfo = " + accountInfo);
+    AccountInfo wallet = accountService.getAccountInfo();
+    System.out.println("wallet = " + wallet);
 
     String depositAddr = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("depositAddr = " + depositAddr);

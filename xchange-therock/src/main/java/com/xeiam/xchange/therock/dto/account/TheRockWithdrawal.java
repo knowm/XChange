@@ -57,7 +57,7 @@ public class TheRockWithdrawal {
   @Override
   public String toString() {
     return String.format("TheRockWithdrawal{currency='%s', withdrawMethod='%s', destinationAddress='%s', amount=%s}", currency,
-        withdrawMethod == null ? "<defualt>" : withdrawMethod, destinationAddress, amount);
+        withdrawMethod == null ? "<default>" : withdrawMethod, destinationAddress, amount);
   }
 
   public enum Method {

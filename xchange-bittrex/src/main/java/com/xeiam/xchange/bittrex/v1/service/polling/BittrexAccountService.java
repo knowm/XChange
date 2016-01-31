@@ -7,7 +7,6 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bittrex.v1.BittrexAdapters;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 public class BittrexAccountService extends BittrexAccountServiceRaw implements PollingAccountService {
@@ -25,13 +24,13 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements P
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return BittrexAdapters.adaptAccountInfo(getBittrexAccountInfo());
+    return new AccountInfo(BittrexAdapters.adaptWallet(getBittrexAccountInfo()));
   }
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    return withdraw(currency.getCurrencyCode(), amount, address) ;
   }
 
   @Override
@@ -39,4 +38,5 @@ public class BittrexAccountService extends BittrexAccountServiceRaw implements P
 
     return getBittrexDepositAddress(currency.toString());
   }
+  
 }

@@ -1,0 +1,8 @@
+{
+  "currencyPair": {
+    "XBT/USD": {
+      "priceScale": 2
+    }
+  },
+  "currency": {}
+}

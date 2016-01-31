@@ -68,7 +68,7 @@ public class CoinfloorDemo {
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     Future<?> eventCatcherThread = executorService.submit(new MarketDataRunnable(streamingExchangeService, secondaryQueue));
 
-    // request AccountInfo data (balances)
+    // request Wallet data (balances)
     ((CoinfloorStreamingExchangeService) streamingExchangeService).getBalances();
     TimeUnit.MILLISECONDS.sleep(1000);
 

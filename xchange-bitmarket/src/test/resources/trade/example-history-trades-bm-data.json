@@ -1,0 +1,27 @@
+{
+  "success":true,
+  "data": {
+    "total": 5,
+    "start": 0,
+    "count": 5,
+    "results": [
+      {
+        "id": 386775,
+        "amountCrypto": 0.08888888,
+        "currencyCrypto": "BTC",
+        "amountFiat": 240.33333333,
+        "currencyFiat": "EUR",
+        "time": 1444444444,
+        "rate": 210.3333,
+        "type": "buy"
+      }
+    ]
+  },
+  "time":1455443322,
+  "limit":
+  {
+    "used" : 1,
+    "allowed" : 200,
+    "expires" : 1395750600
+  }
+}

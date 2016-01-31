@@ -5,10 +5,10 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.currency.Currency;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,14 +25,15 @@ import com.xeiam.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
 import com.xeiam.xchange.anx.v2.dto.marketdata.TickerJSONTest;
 import com.xeiam.xchange.anx.v2.dto.meta.ANXMetaData;
 import com.xeiam.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.Wallet;
 
 /**
  * Tests the ANXAdapter class
@@ -61,9 +62,9 @@ public class ANXAdapterTest {
     AccountInfo accountInfo = ANXAdapters.adaptAccountInfo(anxAccountInfo);
     assertThat(accountInfo.getUsername()).isEqualTo("test@anxpro.com");
 
-    assertThat(accountInfo.getWallet(Currency.DOGE).getBalance()).isEqualTo(new BigDecimal("9999781.09457936"));
-    assertThat(accountInfo.getWallet(Currency.DOGE).getAvailable()).isEqualTo(new BigDecimal("9914833.52608521"));
-    assertThat(accountInfo.getWallet(Currency.DOGE).getFrozen()).isEqualTo(new BigDecimal("84947.56849415"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getTotal()).isEqualTo(new BigDecimal("9999781.09457936"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getAvailable()).isEqualTo(new BigDecimal("9914833.52608521"));
+    assertThat(accountInfo.getWallet().getBalance(Currency.DOGE).getFrozen()).isEqualTo(new BigDecimal("84947.56849415"));
   }
 
   @Test
@@ -156,13 +157,13 @@ public class ANXAdapterTest {
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     ANXAccountInfo anxAccountInfo = mapper.readValue(is, ANXAccountInfo.class);
 
-    // in Wallet(s), only wallets from ANXAccountInfo.getWallets that contained data are NOT null.
-    List<Wallet> wallets = ANXAdapters.adaptWallets(anxAccountInfo.getWallets());
-    Assert.assertEquals(21, wallets.size());
+    // in Wallet, only wallets from ANXAccountInfo.getBalancesList that contained data are NOT null.
+    Collection<Balance> balances = ANXAdapters.adaptWallet(anxAccountInfo.getWallets()).getBalances().values();
+    Assert.assertEquals(21, balances.size());
 
-    Assert.assertTrue(wallets.contains(new Wallet(Currency.CAD, new BigDecimal("100000.00000"), new BigDecimal("100000.00000"))));
-    Assert.assertTrue(wallets.contains(new Wallet(Currency.BTC, new BigDecimal("100000.01988000"), new BigDecimal("100000.01988000"))));
-    Assert.assertTrue(wallets.contains(new Wallet(Currency.DOGE, new BigDecimal("9999781.09457936"), new BigDecimal("9914833.52608521"))));
+    Assert.assertTrue(balances.contains(new Balance(Currency.CAD, new BigDecimal("100000.00000"), new BigDecimal("100000.00000"))));
+    Assert.assertTrue(balances.contains(new Balance(Currency.BTC, new BigDecimal("100000.01988000"), new BigDecimal("100000.01988000"))));
+    Assert.assertTrue(balances.contains(new Balance(Currency.DOGE, new BigDecimal("9999781.09457936"), new BigDecimal("9914833.52608521"))));
   }
 
   @Test

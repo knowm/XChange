@@ -18,8 +18,9 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.btcchina.service.fix.field.Amount;
 import com.xeiam.xchange.btcchina.service.fix.field.Balance;
 import com.xeiam.xchange.btcchina.service.fix.fix44.AccountInfoResponse;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 
 import quickfix.ConfigError;
@@ -27,7 +28,6 @@ import quickfix.DataDictionary;
 import quickfix.FieldNotFound;
 import quickfix.Group;
 import quickfix.InvalidMessage;
-import quickfix.field.Currency;
 import quickfix.fix44.MarketDataIncrementalRefresh;
 import quickfix.fix44.MarketDataSnapshotFullRefresh;
 
@@ -100,19 +100,19 @@ public class BTCChinaFIXAdaptersTest {
     List<Group> groups = message.getGroups(Balance.FIELD);
     assertEquals(3, groups.size());
 
-    assertEquals("BTC", groups.get(0).getField(new Currency()).getValue());
+    assertEquals("BTC", groups.get(0).getField(new quickfix.field.Currency()).getValue());
     assertEquals(new BigDecimal("0.001"), groups.get(0).getField(new Amount()).getValue());
 
-    assertEquals("LTC", groups.get(1).getField(new Currency()).getValue());
+    assertEquals("LTC", groups.get(1).getField(new quickfix.field.Currency()).getValue());
     assertEquals(new BigDecimal("0"), groups.get(1).getField(new Amount()).getValue());
 
-    assertEquals("CNY", groups.get(2).getField(new Currency()).getValue());
+    assertEquals("CNY", groups.get(2).getField(new quickfix.field.Currency()).getValue());
     assertEquals(new BigDecimal("0"), groups.get(2).getField(new Amount()).getValue());
 
-    AccountInfo accountInfo = BTCChinaFIXAdapters.adaptAccountInfo(message);
-    assertEquals(new BigDecimal("0.001"), accountInfo.getBalance("BTC"));
-    assertEquals(new BigDecimal("0"), accountInfo.getBalance("LTC"));
-    assertEquals(new BigDecimal("0"), accountInfo.getBalance("CNY"));
+    Wallet wallet = BTCChinaFIXAdapters.adaptWallet(message);
+    assertEquals(new BigDecimal("0.001"), wallet.getBalance(Currency.BTC).getTotal());
+    assertEquals(new BigDecimal("0"), wallet.getBalance(Currency.LTC).getTotal());
+    assertEquals(new BigDecimal("0"), wallet.getBalance(Currency.CNY).getTotal());
   }
 
   private Ticker getTicker() throws IOException, InvalidMessage, FieldNotFound {

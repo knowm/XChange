@@ -5,18 +5,20 @@ import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexLevel;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTicker;
 import com.xeiam.xchange.bittrex.v1.dto.marketdata.BittrexTrade;
+import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexLimitOrder;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexOpenOrder;
 import com.xeiam.xchange.bittrex.v1.dto.trade.BittrexUserTrade;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
-import com.xeiam.xchange.dto.trade.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,13 +63,14 @@ public final class BittrexAdapters {
     return openOrders;
   }
 
-  public static LimitOrder adaptOpenOrder(BittrexOpenOrder bittrexOpenOrder) {
+  public static BittrexLimitOrder adaptOpenOrder(BittrexOpenOrder bittrexOpenOrder) {
 
     OrderType type = bittrexOpenOrder.getOrderType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
     String[] currencies = bittrexOpenOrder.getExchange().split("-");
     CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
 
-    return new LimitOrder(type, bittrexOpenOrder.getQuantityRemaining(), pair, bittrexOpenOrder.getOrderUuid(), null, bittrexOpenOrder.getLimit());
+    return new BittrexLimitOrder(type, bittrexOpenOrder.getQuantityRemaining(), pair, bittrexOpenOrder.getOrderUuid(), null,
+        bittrexOpenOrder.getLimit(), bittrexOpenOrder.getQuantityRemaining(), bittrexOpenOrder.getPricePerUnit());
   }
 
   public static List<LimitOrder> adaptOrders(BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
@@ -127,15 +130,22 @@ public final class BittrexAdapters {
         .build();
   }
 
-  public static AccountInfo adaptAccountInfo(List<BittrexBalance> balances) {
+  public static Wallet adaptWallet(List<BittrexBalance> balances) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>(balances.size());
+    List<Balance> wallets = new ArrayList<Balance>(balances.size());
 
     for (BittrexBalance balance : balances) {
-      wallets.add(new Wallet(balance.getCurrency().toUpperCase(), balance.getBalance(), balance.getAvailable(), balance.getPending()));
+      wallets.add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), 
+    		                                       balance.getBalance(), 
+    		                                       balance.getAvailable(), 
+    		                                       balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()), 
+    		                                       BigDecimal.ZERO,
+    		                                       BigDecimal.ZERO,
+    		                                       BigDecimal.ZERO,
+    		                                       balance.getPending()));
     }
 
-    return new AccountInfo(null, wallets);
+    return new Wallet(wallets);
   }
 
   public static List<UserTrade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {
@@ -155,7 +165,7 @@ public final class BittrexAdapters {
 
     OrderType orderType = trade.getOrderType().equalsIgnoreCase("LIMIT_BUY") ? OrderType.BID : OrderType.ASK;
     BigDecimal amount = trade.getQuantity().subtract(trade.getQuantityRemaining());
-    Date date = BittrexUtils.toDate(trade.getTimeStamp());
+    Date date = BittrexUtils.toDate(trade.getClosed());
     String orderId = String.valueOf(trade.getOrderUuid());
 
     BigDecimal price = trade.getPricePerUnit();
@@ -164,7 +174,7 @@ public final class BittrexAdapters {
       price = trade.getLimit();
     }
 
-    return new UserTrade(orderType, amount, currencyPair, price, date, orderId, orderId);
+    return new UserTrade(orderType, amount, currencyPair, price, date, orderId, orderId, trade.getCommission(), currencyPair.counter);
   }
 
 }

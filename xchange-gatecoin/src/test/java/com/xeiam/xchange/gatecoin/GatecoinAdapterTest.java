@@ -13,7 +13,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;
 import com.xeiam.xchange.dto.trade.UserTrades;
@@ -38,13 +38,11 @@ public class GatecoinAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     GatecoinBalanceResult gatecoinBalance = mapper.readValue(is, GatecoinBalanceResult.class);
 
-    AccountInfo accountInfo = GatecoinAdapters.adaptAccountInfo(gatecoinBalance.getBalances(), "Joe Mama");
-    assertThat(accountInfo.getUsername()).isEqualTo("Joe Mama");
-    assertThat(accountInfo.getTradingFee()).isNull();
-    assertThat(accountInfo.getWallets().get(0).getCurrency()).isEqualTo(Currency.BTC);
-    assertThat(accountInfo.getWallets().get(0).getBalance().toString()).isEqualTo("2.94137538");
-    assertThat(accountInfo.getWallets().get(0).getAvailable().toString()).isEqualTo("2.94137538");
-    assertThat(accountInfo.getWallets().get(0).getFrozen().toString()).isEqualTo("0");
+    Wallet wallet = GatecoinAdapters.adaptWallet(gatecoinBalance.getBalances());
+    assertThat(wallet.getBalance(Currency.BTC).getCurrency()).isEqualTo(Currency.BTC);
+    assertThat(wallet.getBalance(Currency.BTC).getTotal().toString()).isEqualTo("2.94137538");
+    assertThat(wallet.getBalance(Currency.BTC).getAvailable().toString()).isEqualTo("2.94137538");
+    assertThat(wallet.getBalance(Currency.BTC).getFrozen().toString()).isEqualTo("0");
   }
 
   @Test

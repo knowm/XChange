@@ -25,7 +25,8 @@ public class EmpoExAccountService extends EmpoExAccountServiceRaw implements Pol
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return EmpoExAdapters.adaptBalances(super.getEmpoExBalances().get("available"));
+    // TODO empoex also provides "pending" and "held" balances; perhaps they are depositing and frozen?
+    return new AccountInfo(EmpoExAdapters.adaptBalances(super.getEmpoExBalances().get("available")));
   }
 
   @Override

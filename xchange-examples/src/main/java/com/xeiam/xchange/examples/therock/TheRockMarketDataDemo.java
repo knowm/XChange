@@ -25,5 +25,8 @@ public class TheRockMarketDataDemo {
 
     // Get the ticker
     System.out.println("Ticker: " + loyalbitMarketDataService.getTicker(CurrencyPair.BTC_USD));
+
+    // Get the order book
+    System.out.println("Order book: " + loyalbitMarketDataService.getOrderBook(CurrencyPair.BTC_USD));
   }
 }

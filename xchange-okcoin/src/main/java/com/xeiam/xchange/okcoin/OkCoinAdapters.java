@@ -1,23 +1,24 @@
 package com.xeiam.xchange.okcoin;
 
 import static com.xeiam.xchange.currency.Currency.BTC;
-import static com.xeiam.xchange.currency.Currency.CNY;
 import static com.xeiam.xchange.currency.Currency.LTC;
 import static com.xeiam.xchange.currency.Currency.USD;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderStatus;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -27,7 +28,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFunds;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesInfoCross;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
@@ -45,7 +45,7 @@ import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrderResult;
 
 public final class OkCoinAdapters {
 
-  private static final Wallet emptyUsdWallet = new Wallet(USD, BigDecimal.ZERO);
+  private static final Balance zeroUsdBalance = new Balance(USD, BigDecimal.ZERO);
 
   private OkCoinAdapters() {
 
@@ -102,9 +102,9 @@ public final class OkCoinAdapters {
 
     OkCoinFunds funds = userInfo.getInfo().getFunds();
 
-    // depending on china or international version
-    boolean is_cny = funds.getFree().containsKey("cny");
+    Map<String, Balance.Builder> builders = new TreeMap<String, Balance.Builder>();
 
+<<<<<<< HEAD
     Wallet base = null;
     Wallet baseLoan = null;
 
@@ -116,19 +116,40 @@ public final class OkCoinAdapters {
       base = new Wallet(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())), funds
           .getFree().get("usd"), funds.getFreezed().get("usd"), "available");
       baseLoan = new Wallet(USD, getOrZero("usd", funds.getBorrow()), "loan");
+=======
+    for (Map.Entry<String,BigDecimal> available : funds.getFree().entrySet()) {
+      builders.put(available.getKey(), new Balance.Builder().currency(Currency.getInstance(available.getKey())).available(available.getValue()));
+>>>>>>> refs/remotes/upstream/develop
     }
+<<<<<<< HEAD
     Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(getOrZero("btc", funds.getBorrow())), funds
         .getFree().get("btc"), funds.getFreezed().get("btc"), "available");
     Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(getOrZero("ltc", funds.getBorrow())), funds
         .getFree().get("ltc"), funds.getFreezed().get("ltc"), "available");
+=======
+>>>>>>> refs/remotes/upstream/develop
 
-    // loaned wallets
-    Wallet btcLoan = new Wallet(BTC, getOrZero("btc", funds.getBorrow()), "loan");
-    Wallet ltcLoan = new Wallet(LTC, getOrZero("ltc", funds.getBorrow()), "loan");
+    for (Map.Entry<String,BigDecimal> frozen : funds.getFreezed().entrySet()) {
+      Balance.Builder builder = builders.get(frozen.getKey());
+      if (builder == null)
+        builder = new Balance.Builder().currency(Currency.getInstance(frozen.getKey()));
+      builders.put(frozen.getKey(), builder.frozen(frozen.getValue()));
+    }
 
-    List<Wallet> wallets = Arrays.asList(base, btc, ltc, baseLoan, btcLoan, ltcLoan);
+    for (Map.Entry<String,BigDecimal> borrowed : funds.getBorrow().entrySet()) {
+      Balance.Builder builder = builders.get(borrowed.getKey());
+      if (builder == null)
+        builder = new Balance.Builder().currency(Currency.getInstance(borrowed.getKey()));
+      builders.put(borrowed.getKey(), builder.borrowed(borrowed.getValue()));
+    }
 
-    return new AccountInfo(null, wallets);
+    List<Balance> wallet = new ArrayList(builders.size());
+
+    for (Balance.Builder builder : builders.values()) {
+      wallet.add(builder.build());
+    }
+
+    return new AccountInfo(new Wallet(wallet));
   }
 
   public static AccountInfo adaptAccountInfoFutures(OkCoinFuturesUserInfoCross futureUserInfo) {
@@ -136,10 +157,10 @@ public final class OkCoinAdapters {
     OkcoinFuturesFundsCross btcFunds = info.getBtcFunds();
     OkcoinFuturesFundsCross ltcFunds = info.getLtcFunds();
 
-    Wallet btcWallet = new Wallet(BTC, btcFunds.getAccountRights());
-    Wallet ltcWallet = new Wallet(LTC, ltcFunds.getAccountRights());
+    Balance btcBalance = new Balance(BTC, btcFunds.getAccountRights());
+    Balance ltcBalance = new Balance(LTC, ltcFunds.getAccountRights());
 
-    return new AccountInfo(null, Arrays.asList(emptyUsdWallet, btcWallet, ltcWallet));
+    return new AccountInfo(new Wallet(zeroUsdBalance, btcBalance, ltcBalance));
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {

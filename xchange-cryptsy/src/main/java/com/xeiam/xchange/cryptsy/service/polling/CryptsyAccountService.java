@@ -28,7 +28,7 @@ public class CryptsyAccountService extends CryptsyAccountServiceRaw implements P
   @Override
   public AccountInfo getAccountInfo() throws IOException, ExchangeException {
 
-    return CryptsyAdapters.adaptAccountInfo(getCryptsyAccountInfo());
+    return new AccountInfo(CryptsyAdapters.adaptWallet(getCryptsyAccountInfo()));
   }
 
   @Override

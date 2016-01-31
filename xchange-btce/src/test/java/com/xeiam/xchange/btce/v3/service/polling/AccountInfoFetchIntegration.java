@@ -10,7 +10,7 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
- * Integration tests for AccountInfo retrieval. For these tests to function, a file 'v3/exchangeConfiguration.json' must be on the classpath and
+ * Integration tests for Wallet retrieval. For these tests to function, a file 'v3/exchangeConfiguration.json' must be on the classpath and
  * contain valid api and secret keys.
  *
  * @author Peter N. Steinmetz Date: 3/30/15 Time: 7:15 PM

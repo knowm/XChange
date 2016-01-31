@@ -40,8 +40,13 @@ public class QuoineBasePollingService extends BaseExchangeService implements Bas
 
     this.userID = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(QuoineExchange.KEY_USER_ID);
     this.secret = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(QuoineExchange.KEY_USER_SECRET);
-    this.signatureCreator = new QuoineSignatureDigest(this.userID, this.secret);
-    this.contentMD5Creator = signatureCreator.getContentMD5Digester();
+    if (this.userID != null && this.secret != null) {
+      this.signatureCreator = new QuoineSignatureDigest(this.userID, this.secret);
+      this.contentMD5Creator = signatureCreator.getContentMD5Digester();
+    } else {
+      this.signatureCreator = null;
+      this.contentMD5Creator = null;
+    }
   }
 
   protected RuntimeException handleHttpError(HttpStatusIOException exception) throws IOException {

@@ -4,7 +4,9 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btccentral.BTCCentral;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+import com.xeiam.xchange.utils.CertHelper;
 
+import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
 
 /**
@@ -22,6 +24,10 @@ public class BTCCentralBasePollingService extends BaseExchangeService implements
   protected BTCCentralBasePollingService(Exchange exchange) {
 
     super(exchange);
-    this.btcCentral = RestProxyFactory.createProxy(BTCCentral.class, exchange.getExchangeSpecification().getSslUri());
+
+    ClientConfig config = new ClientConfig();
+    config.setSslSocketFactory(CertHelper.createExpiredAcceptingSSLSocketFactory("CN=*.bitcoin-central.net,OU=EssentialSSL Wildcard,OU=Domain Control Validated"));
+
+    this.btcCentral = RestProxyFactory.createProxy(BTCCentral.class, exchange.getExchangeSpecification().getSslUri(), config);
   }
 }

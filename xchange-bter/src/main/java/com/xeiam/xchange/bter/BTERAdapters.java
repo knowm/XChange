@@ -22,7 +22,8 @@ import com.xeiam.xchange.bter.dto.trade.BTERTrade;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -32,7 +33,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.utils.DateUtils;
 
 /**
@@ -145,20 +145,18 @@ public final class BTERAdapters {
     return new Trades(tradeList, lastTradeId, TradeSortType.SortByTimestamp);
   }
 
-  public static AccountInfo adaptAccountInfo(BTERFunds bterAccountInfo) {
+  public static Wallet adaptWallet(BTERFunds bterAccountInfo) {
 
-    List<Wallet> wallets = new ArrayList<Wallet>();
+    List<Balance> balances = new ArrayList<Balance>();
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
-      String currency = funds.getKey().toUpperCase();
+      Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
       BigDecimal amount = funds.getValue();
-      BigDecimal locked = bterAccountInfo.getLockedFunds().get(currency);
+      BigDecimal locked = bterAccountInfo.getLockedFunds().get(currency.toString());
 
-      // FIXME: the second parameter should be amount + locked.
-      // keep it as amount for safe reason, will be fixed in XChange 4.0.0.
-      wallets.add(new Wallet(currency, amount, amount, locked == null ? BigDecimal.ZERO : locked));
+      balances.add(new Balance(currency, null, amount, locked == null ? BigDecimal.ZERO : locked));
     }
 
-    return new AccountInfo("", wallets);
+    return new Wallet(balances);
   }
 
   public static UserTrades adaptUserTrades(List<BTERTrade> userTrades) {

@@ -2,14 +2,13 @@ package com.xeiam.xchange.mexbt;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -19,7 +18,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.trade.Wallet;
 import com.xeiam.xchange.mexbt.dto.account.MeXBTBalance;
 import com.xeiam.xchange.mexbt.dto.account.MeXBTBalanceResponse;
 import com.xeiam.xchange.mexbt.dto.account.MeXBTDepositAddress;
@@ -86,13 +84,14 @@ public final class MeXBTAdapters {
         .high(meXBTTicker.getHigh()).low(meXBTTicker.getLow()).volume(meXBTTicker.getVolume24Hour()).build();
   }
 
-  public static AccountInfo adaptAccountInfo(String username, MeXBTBalanceResponse balanceResponse) {
-    Map<Currency, Wallet> wallets = new LinkedHashMap<Currency, Wallet>(balanceResponse.getCurrencies().length);
-    for (MeXBTBalance balance : balanceResponse.getCurrencies()) {
-      Wallet wallet = new Wallet(Currency.getInstance(balance.getName()), balance.getBalance().add(balance.getHold()), balance.getBalance(), balance.getHold());
-      wallets.put(wallet.getCurrency(), wallet);
+  public static Wallet adaptWallet(MeXBTBalanceResponse balanceResponse) {
+    List<Balance> wallet = new ArrayList<Balance>(balanceResponse.getCurrencies().length);
+    for (MeXBTBalance mxbtBalance : balanceResponse.getCurrencies()) {
+      Balance balance = new Balance.Builder().currency(Currency.getInstance(mxbtBalance.getName()))
+          .available(mxbtBalance.getBalance()).frozen(mxbtBalance.getHold()) .build();
+      wallet.add(balance);
     }
-    return new AccountInfo(username, wallets);
+    return new Wallet(wallet);
   }
 
   public static String getDepositAddress(MeXBTDepositAddressesResponse depositAddressesResponse, String currency) {
