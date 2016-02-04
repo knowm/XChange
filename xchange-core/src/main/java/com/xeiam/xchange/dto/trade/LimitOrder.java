@@ -46,9 +46,10 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param averagePrice the weighted average price of any fills belonging to the order
    * @param status the status of the order at the exchange or broker
    */
-  public LimitOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice, BigDecimal averagePrice, OrderStatus status) {
+  public LimitOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice, BigDecimal averagePrice, BigDecimal cumulativeAmount,
+      OrderStatus status) {
 
-    super(type, tradableAmount, currencyPair, id, timestamp, averagePrice, status);
+    super(type, tradableAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
     this.limitPrice = limitPrice;
   }
 
@@ -74,7 +75,8 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     if (this.getType() == limitOrder.getType()) {
       // Same side
       ret = this.getLimitPrice().compareTo(limitOrder.getLimitPrice()) * (getType() == OrderType.BID ? -1 : 1);
-    } else {
+    }
+    else {
       // Keep bid side be less than ask side
       ret = this.getType() == OrderType.BID ? -1 : 1;
     }

@@ -2,8 +2,12 @@ package com.xeiam.xchange.okcoin.service.polling;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +41,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   private final Logger log = LoggerFactory.getLogger(OkCoinFuturesTradeService.class);
 
   private final int leverRate;
+  private final int batchSize = 50;
   private final FuturesContract futuresContract;
 
   /**
@@ -228,31 +233,62 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public Order getOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-      IOException {
-    OkCoinFuturesOrderResult orderResult = null;
-    long id = Long.valueOf(orderId);
-
+  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
     List<CurrencyPair> exchangeSymbols = getExchangeSymbols();
+    List<Order> openOrders = new ArrayList<Order>();
+    List<OkCoinFuturesOrder> orderResults = new ArrayList<OkCoinFuturesOrder>(exchangeSymbols.size());
+    List<String> orderIdsRequest = new ArrayList<String>();
+    Set<String> orderSet = new HashSet<String>();
+
+    for (int i = 0; i < orderIds.length; i++) {
+      orderSet.add(orderIds[i]);
+    }
 
     for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
       log.debug("Getting order: {}", symbol);
-      try {
-        orderResult = getFuturesOrder(id, OkCoinAdapters.adaptSymbol(symbol), "0", "50", futuresContract);
-        if (orderResult.getOrders().length > 0)
-          break;
-      } catch (ExchangeException e) {
-        if (e.getMessage().equals(OkCoinUtils.getErrorMessage(1009)) || e.getMessage().equals(OkCoinUtils.getErrorMessage(20015))) {
-          // order not found.
-          continue;
+      int count = 0;
+      orderIdsRequest.clear();
+      for (String order : orderSet) {
+        orderIdsRequest.add(order);
+        count++;
+        if (count % batchSize == 0) {
+
+          OkCoinFuturesOrderResult orderResult = getFuturesOrders(createDelimitedString(orderIdsRequest.toArray(new String[orderIdsRequest.size()])),
+              OkCoinAdapters.adaptSymbol(symbol), futuresContract);
+          orderIdsRequest.clear();
+          if (orderResult.getOrders().length > 0)
+            orderResults.addAll(new ArrayList<OkCoinFuturesOrder>(Arrays.asList(orderResult.getOrders())));
+
         }
       }
+      if (!orderIdsRequest.isEmpty()) {
+        OkCoinFuturesOrderResult orderResult = getFuturesOrders(createDelimitedString(orderIdsRequest.toArray(new String[orderIdsRequest.size()])),
+            OkCoinAdapters.adaptSymbol(symbol), futuresContract);
+        if (orderResult.getOrders().length > 0) {
+          for (int o = 0; o < orderResult.getOrders().length; o++) {
+            OkCoinFuturesOrder singleOrder = orderResult.getOrders()[o];
+            openOrders.add(OkCoinAdapters.adaptOpenOrderFutures(singleOrder));
+          }
+
+          //  for (int o = 0; o < orderResult.getOrders().length; o++)
+
+          // orderResults.addAll(new ArrayList<OkCoinFuturesOrder>(Arrays.asList(orderResult.getOrders())));
+
+          //}
+
+        }
+
+        // for (OkCoinFuturesOrder order : orderResults) {
+
+        //   openOrders.add(OkCoinAdapters.adaptOpenOrderFutures(order));
+        // }
+        // }
+
+      }
     }
-    if (orderResult.getOrders().length > 0) {
-      OkCoinFuturesOrder singleOrder = orderResult.getOrders()[0];
-      return OkCoinAdapters.adaptOpenOrderFutures(singleOrder);
-    } else
-      return null;
+    return openOrders;
   }
+
 }

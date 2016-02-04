@@ -70,6 +70,12 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradePollingService {
     return returnOrThrow(futuresOrder);
   }
 
+  public OkCoinFuturesOrderResult getFuturesOrders(String orderIds, String symbol, FuturesContract contract) throws IOException {
+
+    OkCoinFuturesOrderResult futuresOrder = okCoin.getFuturesOrders(apikey, orderIds, symbol, contract.getName(), signatureCreator);
+    return returnOrThrow(futuresOrder);
+  }
+
   public OkCoinFuturesTradeHistoryResult[] getFuturesTradesHistory(String symbol, long since, String date) throws IOException {
 
     OkCoinFuturesTradeHistoryResult[] futuresHistory = okCoin.getFuturesTradeHistory(apikey, since, symbol, date, signatureCreator);

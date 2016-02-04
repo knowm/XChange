@@ -104,39 +104,18 @@ public final class OkCoinAdapters {
 
     Map<String, Balance.Builder> builders = new TreeMap<String, Balance.Builder>();
 
-<<<<<<< HEAD
-    Wallet base = null;
-    Wallet baseLoan = null;
-
-    if (is_cny) {
-      base = new Wallet(CNY, funds.getFree().get("cny").add(funds.getFreezed().get("cny")).subtract(getOrZero("cny", funds.getBorrow())), funds
-          .getFree().get("cny"), funds.getFreezed().get("cny"), "available");
-      baseLoan = new Wallet(CNY, getOrZero("cny", funds.getBorrow()), "loan");
-    } else {
-      base = new Wallet(USD, funds.getFree().get("usd").add(funds.getFreezed().get("usd")).subtract(getOrZero("usd", funds.getBorrow())), funds
-          .getFree().get("usd"), funds.getFreezed().get("usd"), "available");
-      baseLoan = new Wallet(USD, getOrZero("usd", funds.getBorrow()), "loan");
-=======
-    for (Map.Entry<String,BigDecimal> available : funds.getFree().entrySet()) {
+    for (Map.Entry<String, BigDecimal> available : funds.getFree().entrySet()) {
       builders.put(available.getKey(), new Balance.Builder().currency(Currency.getInstance(available.getKey())).available(available.getValue()));
->>>>>>> refs/remotes/upstream/develop
     }
-<<<<<<< HEAD
-    Wallet btc = new Wallet(BTC, funds.getFree().get("btc").add(funds.getFreezed().get("btc")).subtract(getOrZero("btc", funds.getBorrow())), funds
-        .getFree().get("btc"), funds.getFreezed().get("btc"), "available");
-    Wallet ltc = new Wallet(LTC, funds.getFree().get("ltc").add(funds.getFreezed().get("ltc")).subtract(getOrZero("ltc", funds.getBorrow())), funds
-        .getFree().get("ltc"), funds.getFreezed().get("ltc"), "available");
-=======
->>>>>>> refs/remotes/upstream/develop
 
-    for (Map.Entry<String,BigDecimal> frozen : funds.getFreezed().entrySet()) {
+    for (Map.Entry<String, BigDecimal> frozen : funds.getFreezed().entrySet()) {
       Balance.Builder builder = builders.get(frozen.getKey());
       if (builder == null)
         builder = new Balance.Builder().currency(Currency.getInstance(frozen.getKey()));
       builders.put(frozen.getKey(), builder.frozen(frozen.getValue()));
     }
 
-    for (Map.Entry<String,BigDecimal> borrowed : funds.getBorrow().entrySet()) {
+    for (Map.Entry<String, BigDecimal> borrowed : funds.getBorrow().entrySet()) {
       Balance.Builder builder = builders.get(borrowed.getKey());
       if (builder == null)
         builder = new Balance.Builder().currency(Currency.getInstance(borrowed.getKey()));
@@ -250,7 +229,8 @@ public final class OkCoinAdapters {
 
   public static LimitOrder adaptOpenOrderFutures(OkCoinFuturesOrder order) {
     return new LimitOrder(adaptOrderType(order.getType()), order.getAmount().subtract(order.getDealAmount()), adaptSymbol(order.getSymbol()),
-        String.valueOf(order.getOrderId()), order.getCreatedDate(), order.getPrice(), order.getAvgPrice(), adaptOrderStatus(order.getStatus()));
+        String.valueOf(order.getOrderId()), order.getCreatedDate(), order.getPrice(), order.getAvgPrice(), order.getDealAmount(),
+        adaptOrderStatus(order.getStatus()));
   }
 
   public static OrderType adaptOrderType(String type) {
@@ -272,7 +252,7 @@ public final class OkCoinAdapters {
     case 4:
       return OrderStatus.PENDING_CANCEL;
     default:
-      return OrderStatus.PENDING_NEW;
+      return null;
     }
 
   }

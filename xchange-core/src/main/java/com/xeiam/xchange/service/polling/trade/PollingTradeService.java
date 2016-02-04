@@ -1,6 +1,7 @@
 package com.xeiam.xchange.service.polling.trade;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -139,6 +140,6 @@ public interface PollingTradeService extends BasePollingService {
    *           implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public Order getOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
 }

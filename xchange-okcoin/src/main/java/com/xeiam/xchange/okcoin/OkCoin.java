@@ -2,6 +2,7 @@ package com.xeiam.xchange.okcoin;
 
 import java.io.IOException;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -10,11 +11,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-<<<<<<< HEAD
 import si.mazi.rescu.ParamsDigest;
 
-=======
->>>>>>> refs/remotes/upstream/develop
 import com.xeiam.xchange.okcoin.dto.account.OKCoinWithdraw;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinUserInfo;
@@ -111,6 +109,12 @@ public interface OkCoin {
       @FormParam("symbol") String symbol, @FormParam("status") String status, @FormParam("current_page") String currentPage,
       @FormParam("page_length") String pageLength, @FormParam("contract_type") String contract, @FormParam("sign") ParamsDigest sign)
       throws IOException;
+
+  @POST
+  @Path(value = "future_orders_info.do")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  OkCoinFuturesOrderResult getFuturesOrders(@FormParam("api_key") String api_key, @FormParam("order_id") String orderId,
+      @FormParam("symbol") String symbol, @FormParam("contract_type") String contract, @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   @Path("future_trades_history.do")

@@ -14,11 +14,11 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTicker;
-import com.xeiam.xchange.btcchina.dto.trade.BTCChinaOrderStatus;
 import com.xeiam.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
 import com.xeiam.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order.OrderStatus;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -152,12 +152,12 @@ public class BTCChinaAdaptersTest {
   @Test
   public void testAdaptOrderStatus() {
 
-    assertEquals(BTCChinaOrderStatus.OPEN, BTCChinaAdapters.adaptOrderStatus("open"));
-    assertEquals(BTCChinaOrderStatus.CLOSED, BTCChinaAdapters.adaptOrderStatus("closed"));
-    assertEquals(BTCChinaOrderStatus.CANCELLED, BTCChinaAdapters.adaptOrderStatus("cancelled"));
-    assertEquals(BTCChinaOrderStatus.PENDING, BTCChinaAdapters.adaptOrderStatus("pending"));
-    assertEquals(BTCChinaOrderStatus.ERROR, BTCChinaAdapters.adaptOrderStatus("error"));
-    assertEquals(BTCChinaOrderStatus.INSUFFICIENT_BALANCE, BTCChinaAdapters.adaptOrderStatus("insufficient_balance"));
+    assertEquals(OrderStatus.NEW, BTCChinaAdapters.adaptOrderStatus("open"));
+    assertEquals(OrderStatus.FILLED, BTCChinaAdapters.adaptOrderStatus("closed"));
+    assertEquals(OrderStatus.CANCELED, BTCChinaAdapters.adaptOrderStatus("cancelled"));
+    assertEquals(OrderStatus.PENDING_NEW, BTCChinaAdapters.adaptOrderStatus("pending"));
+    assertEquals(OrderStatus.REJECTED, BTCChinaAdapters.adaptOrderStatus("error"));
+    assertEquals(OrderStatus.REJECTED, BTCChinaAdapters.adaptOrderStatus("insufficient_balance"));
   }
 
 }

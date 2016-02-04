@@ -80,6 +80,11 @@ public abstract class Order {
   private final BigDecimal tradableAmount;
 
   /**
+   * Amount to be ordered / amount that has been matched against order on the order book/filled
+   */
+  private BigDecimal cumulativeAmount;
+
+  /**
    * Weighted Average price of the fills in the order
    */
   private BigDecimal averagePrice;
@@ -120,6 +125,7 @@ public abstract class Order {
     this.timestamp = timestamp;
     this.averagePrice = BigDecimal.ZERO;
     this.status = OrderStatus.PENDING_NEW;
+    this.cumulativeAmount = BigDecimal.ZERO;
   }
 
   /**
@@ -131,7 +137,7 @@ public abstract class Order {
    * @param averagePrice the averagePrice of fill belonging to the order
    * @param orderStatus the status of the order at the exchange
    */
-  public Order(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice, OrderStatus status) {
+  public Order(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice, BigDecimal cumulativeAmount, OrderStatus status) {
 
     this.type = type;
     this.tradableAmount = tradableAmount;
@@ -139,6 +145,7 @@ public abstract class Order {
     this.id = id;
     this.timestamp = timestamp;
     this.averagePrice = averagePrice;
+    this.cumulativeAmount = cumulativeAmount;
     this.status = status;
   }
 
@@ -164,6 +171,14 @@ public abstract class Order {
   public BigDecimal getTradableAmount() {
 
     return tradableAmount;
+  }
+
+  /**
+   * @return The amount that has been filled
+   */
+  public BigDecimal getCumulativeAmount() {
+
+    return cumulativeAmount;
   }
 
   /**
@@ -218,6 +233,11 @@ public abstract class Order {
   public void setAveragePrice(BigDecimal averagePrice) {
 
     this.averagePrice = averagePrice;
+  }
+
+  public void setCumulativeAmount(BigDecimal cumulativeAmount) {
+
+    this.cumulativeAmount = cumulativeAmount;
   }
 
   @Override
