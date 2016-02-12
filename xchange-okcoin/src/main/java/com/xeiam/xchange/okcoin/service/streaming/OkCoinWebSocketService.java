@@ -106,6 +106,7 @@ public class OkCoinWebSocketService implements WebSocketService {
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
+
   }
 
   @Override

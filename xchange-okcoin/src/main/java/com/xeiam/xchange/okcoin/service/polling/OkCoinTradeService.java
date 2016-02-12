@@ -2,6 +2,7 @@ package com.xeiam.xchange.okcoin.service.polling;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,12 +11,15 @@ import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.okcoin.OkCoinAdapters;
 import com.xeiam.xchange.okcoin.OkCoinUtils;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrderResult;
@@ -34,7 +38,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
 
   /**
    * Constructor
-   *
+   * 
    * @param exchange
    */
   public OkCoinTradeService(Exchange exchange) {
@@ -178,4 +182,11 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
       return pair;
     }
   }
+
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
+
 }
