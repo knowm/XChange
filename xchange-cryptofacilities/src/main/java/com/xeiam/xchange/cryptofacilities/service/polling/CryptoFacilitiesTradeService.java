@@ -12,6 +12,10 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
+import java.util.Collection;
 
 /**
  * @author Jean-Christophe Laruelle
@@ -50,10 +54,18 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
   }
 
   @Override
-	public boolean cancelOrder(String orderId) throws IOException {
+  public boolean cancelOrder(String orderId) throws IOException {
 
-	  throw new ExchangeException("You must use the specific cancelCryptoFacilitiesOrder(String uid, CurrencyPair currencyPair) method in the CryptoFacilitiesTradeService class");
-	  
+    OpenOrders openOrders = getOpenOrders();
+    CurrencyPair ccyPair = new CurrencyPair("","");
+
+    for(LimitOrder order : openOrders.getOpenOrders()) {
+        if(orderId.equals(order.getId())) {
+            ccyPair = order.getCurrencyPair();
+        }
+    }
+
+    return CryptoFacilitiesAdapters.adaptCryptoFacilitiesCancel(super.cancelCryptoFacilitiesOrder(orderId, ccyPair));	  
   }
 
   @Override
@@ -65,7 +77,13 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
   @Override
   public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
-	  throw new NotAvailableFromExchangeException();
+//	  throw new NotAvailableFromExchangeException();
+    return null;
+  }
+
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      throw new NotAvailableFromExchangeException();
   }
 
 }

@@ -48,7 +48,7 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBasePolling
   public CryptoFacilitiesCancel cancelCryptoFacilitiesOrder(String uid, CurrencyPair currencyPair) throws IOException
   {	  
 	  CryptoFacilitiesCancel res = cryptoFacilities.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), uid, currencyPair.base.toString(), currencyPair.counter.toString());
-	  
+
 	  return res;
   }
   
