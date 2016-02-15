@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptofacilities.CryptoFacilitiesAdapters;
+import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
@@ -55,9 +56,16 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
     @Override
     public boolean cancelOrder(String orderId) throws IOException {
 
-        throw new ExchangeException(
-                "You must use the specific cancelCryptoFacilitiesOrder(String uid, CurrencyPair currencyPair) method in the CryptoFacilitiesTradeService class");
+        OpenOrders openOrders = getOpenOrders();
+        CurrencyPair ccyPair = new CurrencyPair("","");
 
+        for(LimitOrder order : openOrders.getOpenOrders()) {
+            if(orderId.equals(order.getId())) {
+                ccyPair = order.getCurrencyPair();
+            }
+        }
+
+        return CryptoFacilitiesAdapters.adaptCryptoFacilitiesCancel(super.cancelCryptoFacilitiesOrder(orderId, ccyPair));	  
     }
 
     @Override
@@ -69,7 +77,7 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
     @Override
     public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
-        throw new NotAvailableFromExchangeException();
+        return null;
     }
 
     @Override
