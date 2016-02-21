@@ -20,7 +20,13 @@ public abstract class Order {
     BID, /**
      * Selling order (the trader is providing the base currency)
      */
-    ASK
+    ASK, /**
+     * Close short position (the trader is providing the base currency)
+     */
+    EXIT_ASK, /**
+     * Close long position (the trader is providing the base currency)
+     */
+    EXIT_BID
   }
 
   public enum OrderStatus {

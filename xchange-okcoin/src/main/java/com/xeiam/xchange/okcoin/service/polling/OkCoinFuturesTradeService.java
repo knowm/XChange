@@ -98,17 +98,21 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-
-    long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "1" : "2",
-        limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
-    return String.valueOf(orderId);
+    long orderId;
+    if (limitOrder.getType() == OrderType.BID || limitOrder.getType() == OrderType.ASK) {
+      orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "1" : "2",
+          limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
+      return String.valueOf(orderId);
+    } else
+      return liquidateLimitOrder(limitOrder);
   }
 
   /** Liquidate long or short contract using a limit order */
   public String liquidateLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()), limitOrder.getType() == OrderType.BID ? "3" : "4",
-        limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
+    long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()),
+        limitOrder.getType() == OrderType.BID || limitOrder.getType() == OrderType.EXIT_BID ? "3" : "4", limitOrder.getLimitPrice().toPlainString(),
+        limitOrder.getTradableAmount().toPlainString(), futuresContract, 0, leverRate).getOrderId();
     return String.valueOf(orderId);
   }
 
