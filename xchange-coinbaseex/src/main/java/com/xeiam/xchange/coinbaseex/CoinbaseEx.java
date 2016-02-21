@@ -1,30 +1,15 @@
 package com.xeiam.xchange.coinbaseex;
 
+import com.xeiam.xchange.coinbaseex.dto.account.CoinbaseExAccount;
+import com.xeiam.xchange.coinbaseex.dto.account.CoinbaseExSendMoneyRequest;
+import com.xeiam.xchange.coinbaseex.dto.marketdata.*;
+import com.xeiam.xchange.coinbaseex.dto.trade.*;
+import si.mazi.rescu.ParamsDigest;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import com.xeiam.xchange.coinbaseex.dto.account.CoinbaseExAccount;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProduct;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
-import com.xeiam.xchange.coinbaseex.dto.marketdata.CoinbaseExTrade;
-import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExFill;
-import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExIdResponse;
-import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExOrder;
-import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExPlaceOrder;
-
-import si.mazi.rescu.ParamsDigest;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -94,6 +79,13 @@ public interface CoinbaseEx {
     CoinbaseExFill[] getFills(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
                                     @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
                                     @PathParam("order_id") String orderId);
+
+  @POST
+  @Path("accounts/{account_id}/transactions")
+  @Consumes(MediaType.APPLICATION_JSON)
+  CoinbaseExSendMoneyResponse sendMoney(CoinbaseExSendMoneyRequest sendMoney, @HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+                                        @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+                                        @PathParam("account_id") String accountId);
 
 
 }
