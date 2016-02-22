@@ -29,8 +29,8 @@ public class CryptoFacilitiesCumulativeBidAskJSONTest {
 	    // Verify that the example data was unmarshalled correctly
 	    assertThat(cryptoFacilitiesCumulativeBidAsk.isSuccess()).isTrue();
 	    
-	    assertThat(cryptoFacilitiesCumulativeBidAsk.getCumulatedBids().get(0).getPrice()).isEqualTo(new BigDecimal("212.00"));
-	    assertThat(cryptoFacilitiesCumulativeBidAsk.getCumulatedBids().get(0).getQuantity()).isEqualTo(new BigDecimal("107"));
+	    assertThat(cryptoFacilitiesCumulativeBidAsk.getCumulatedBids().get(0).getPrice()).isEqualTo(new BigDecimal("325.20"));
+	    assertThat(cryptoFacilitiesCumulativeBidAsk.getCumulatedBids().get(0).getQuantity()).isEqualTo(new BigDecimal("1"));
 
 	    assertThat(cryptoFacilitiesCumulativeBidAsk.getCumulatedAsks().get(0).getPrice()).isEqualTo(new BigDecimal("327.52"));
 	    assertThat(cryptoFacilitiesCumulativeBidAsk.getCumulatedAsks().get(0).getQuantity()).isEqualTo(new BigDecimal("7"));

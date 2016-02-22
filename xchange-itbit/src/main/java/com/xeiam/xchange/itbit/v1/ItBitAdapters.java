@@ -1,16 +1,5 @@
 package com.xeiam.xchange.itbit.v1;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -32,25 +21,42 @@ import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrade;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.utils.DateUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.*;
+import java.util.*;
+
 public final class ItBitAdapters {
 
   private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
-  private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-  private static final DecimalFormat cryptoFormat;
-  private static final DecimalFormat fiatFormat;
-
+  private static final String DATE_FORMAT_STRING = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+  private static final DecimalFormatSymbols CUSTOM_SYMBOLS = new DecimalFormatSymbols();
   static {
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    CUSTOM_SYMBOLS.setDecimalSeparator('.');
+  }
 
-    cryptoFormat = new DecimalFormat();
+  private static DateFormat getDateFormat() {
+    DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_STRING);
+    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+    return dateFormat;
+  }
+
+  private static DecimalFormat getCryptoFormat() {
+    DecimalFormat cryptoFormat = new DecimalFormat();
+    cryptoFormat.setDecimalFormatSymbols(CUSTOM_SYMBOLS);
     cryptoFormat.setMaximumFractionDigits(4);
     cryptoFormat.setGroupingUsed(false);
     cryptoFormat.setRoundingMode(RoundingMode.HALF_UP);
+    return cryptoFormat;
+  }
 
-    fiatFormat = new DecimalFormat();
+  private static DecimalFormat getFiatFormat() {
+    DecimalFormat fiatFormat = new DecimalFormat();
+    fiatFormat.setDecimalFormatSymbols(CUSTOM_SYMBOLS);
     fiatFormat.setMaximumFractionDigits(2);
     fiatFormat.setGroupingUsed(false);
     fiatFormat.setRoundingMode(RoundingMode.HALF_UP);
+    return fiatFormat;
   }
 
   /**
@@ -67,7 +73,7 @@ public final class ItBitAdapters {
       /**
        * "date" is sent with microsecond precision in UTC time. This is not supported by Java natively.
        */
-      parse = dateFormat.parse(date.substring(0, 23) + 'Z');
+      parse = getDateFormat().parse(date.substring(0, 23) + 'Z');
     } catch (ParseException e) {
       return null;
     }
@@ -200,10 +206,10 @@ public final class ItBitAdapters {
   }
 
   public static String formatFiatAmount(BigDecimal amount) {
-    return fiatFormat.format(amount);
+    return getFiatFormat().format(amount);
   }
 
   public static String formatCryptoAmount(BigDecimal amount) {
-    return cryptoFormat.format(amount);
+    return getCryptoFormat().format(amount);
   }
 }

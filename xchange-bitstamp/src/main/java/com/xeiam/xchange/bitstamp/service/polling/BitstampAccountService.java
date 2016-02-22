@@ -36,6 +36,9 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
     final BitstampWithdrawal response = withdrawBitstampFunds(currency, amount, address);
+    if (response.getId() == null) {
+      return null;
+    }
     return Integer.toString(response.getId());
   }
 

@@ -1,6 +1,7 @@
 package com.xeiam.xchange.bitmarket.service.polling;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitmarket.BitMarketAdapters;
@@ -9,6 +10,7 @@ import com.xeiam.xchange.bitmarket.dto.trade.BitMarketHistoryTradesResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketTradeResponse;
 import com.xeiam.xchange.bitmarket.service.polling.params.BitMarketHistoryParams;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -23,56 +25,62 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
  * @author kfonal
  */
 public class BitMarketTradeService extends BitMarketTradeServiceRaw implements PollingTradeService {
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
-  public BitMarketTradeService(Exchange exchange) {
-    super(exchange);
-  }
+    /**
+     * Constructor
+     *
+     * @param exchange
+     */
+    public BitMarketTradeService(Exchange exchange) {
+        super(exchange);
+    }
 
-  @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    @Override
+    public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    BitMarketOrdersResponse response = getBitMarketOpenOrders();
-    return BitMarketAdapters.adaptOpenOrders(response.getData());
-  }
+        BitMarketOrdersResponse response = getBitMarketOpenOrders();
+        return BitMarketAdapters.adaptOpenOrders(response.getData());
+    }
 
-  @Override
-  public String placeMarketOrder(MarketOrder marketOrder)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    @Override
+    public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+            IOException {
 
-    throw new NotAvailableFromExchangeException();
-  }
+        throw new NotAvailableFromExchangeException();
+    }
 
-  @Override
-  public String placeLimitOrder(LimitOrder limitOrder)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    @Override
+    public String placeLimitOrder(LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+            IOException {
 
-    BitMarketTradeResponse response = placeBitMarketOrder(limitOrder);
-    return String.valueOf(response.getData().getId());
-  }
+        BitMarketTradeResponse response = placeBitMarketOrder(limitOrder);
+        return String.valueOf(response.getData().getId());
+    }
 
-  @Override
-  public boolean cancelOrder(String id)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    @Override
+    public boolean cancelOrder(String id) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    cancelBitMarketOrder(id);
-    return true;
-  }
+        cancelBitMarketOrder(id);
+        return true;
+    }
 
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams tradeHistoryParams) throws IOException {
+    @Override
+    public UserTrades getTradeHistory(TradeHistoryParams tradeHistoryParams) throws IOException {
 
-    BitMarketHistoryTradesResponse response = getBitMarketTradeHistory(tradeHistoryParams);
-    BitMarketHistoryOperationsResponse response2 = getBitMarketOperationHistory(tradeHistoryParams);
-    return BitMarketAdapters.adaptTradeHistory(response.getData(), response2.getData());
-  }
+        BitMarketHistoryTradesResponse response = getBitMarketTradeHistory(tradeHistoryParams);
+        BitMarketHistoryOperationsResponse response2 = getBitMarketOperationHistory(tradeHistoryParams);
+        return BitMarketAdapters.adaptTradeHistory(response.getData(), response2.getData());
+    }
 
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
+    @Override
+    public TradeHistoryParams createTradeHistoryParams() {
 
-    return new BitMarketHistoryParams();
-  }
+        return new BitMarketHistoryParams();
+    }
+
+    @Override
+    public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+            IOException {
+        throw new NotYetImplementedForExchangeException();
+    }
+
 }

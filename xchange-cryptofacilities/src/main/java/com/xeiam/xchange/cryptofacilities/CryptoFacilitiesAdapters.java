@@ -1,5 +1,6 @@
 package com.xeiam.xchange.cryptofacilities;
 
+import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -76,15 +77,15 @@ public class CryptoFacilitiesAdapters {
 	  
 	  public static LimitOrder adaptLimitOrder(CryptoFacilitiesOpenOrder ord)
 	  {
-		  return new LimitOrder(adaptOrderType(ord.getDirection()), ord.getQuantity(), new CurrencyPair(ord.getTradeable(), ord.getUnit()), ord.getUid(), ord.getTimestamp(),
+		  return new LimitOrder(adaptOrderType(ord.getDirection()), ord.getQuantity(), new CurrencyPair(new Currency(ord.getTradeable()), new Currency(ord.getUnit())), ord.getUid(), ord.getTimestamp(),
 			        ord.getLimitPrice());
 	  }
 	  
 	  public static OpenOrders adaptOpenOrders(CryptoFacilitiesOpenOrders orders)
 	  {
 		  List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-		  
-		  if(orders != null)
+
+		  if(orders != null && orders.isSuccess())
 		  {
 			  for(CryptoFacilitiesOpenOrder ord : orders.getOrders())
 			  {
@@ -103,21 +104,25 @@ public class CryptoFacilitiesAdapters {
 	  
 	  public static UserTrade adaptTrade(CryptoFacilitiesTrade trade)
 	  {
-		  return new UserTrade(adaptOrderType(trade.getDirection()), trade.getQuantity(), new CurrencyPair(trade.getTradeable(), trade.getUnit()), trade.getPrice(), trade.getTimestamp(), trade.getUid(), null);
+		  return new UserTrade(adaptOrderType(trade.getDirection()), trade.getQuantity(), new CurrencyPair(new Currency(trade.getTradeable()), new Currency(trade.getUnit())), trade.getPrice(), trade.getTimestamp(), trade.getUid(), null);
 	  }
 	  
 	  public static UserTrades adaptTrades(CryptoFacilitiesTrades cryptoFacilitiesTrades)
 	  {
 		  List<UserTrade> trades = new ArrayList<UserTrade>();
-		  for(CryptoFacilitiesTrade trade : cryptoFacilitiesTrades.getTrades())
-			  trades.add(adaptTrade(trade));
+
+		  if(cryptoFacilitiesTrades != null && cryptoFacilitiesTrades.isSuccess())
+		  {
+                      for(CryptoFacilitiesTrade trade : cryptoFacilitiesTrades.getTrades())
+                              trades.add(adaptTrade(trade));
+                  }
 		  
 		  return new UserTrades(trades, TradeSortType.SortByTimestamp);
 	  }
 	  
 	  public static LimitOrder adaptOrderBookOrder(CryptoFacilitiesCumulatedBidAsk cumulBidAsk, String direction, String tradeable, String unit)
 	  {
-		  LimitOrder order = new LimitOrder(adaptOrderType(direction), cumulBidAsk.getQuantity(), new CurrencyPair(tradeable, unit), null, null, cumulBidAsk.getPrice());
+		  LimitOrder order = new LimitOrder(adaptOrderType(direction), cumulBidAsk.getQuantity(), new CurrencyPair(new Currency(tradeable), new Currency(unit)), null, null, cumulBidAsk.getPrice());
 
 		  return order;
 	  }
@@ -138,6 +143,11 @@ public class CryptoFacilitiesAdapters {
 		  List<CryptoFacilitiesCumulatedBidAsk> cumulAsks = cumul.getCumulatedAsks();
 		  
 		  return new OrderBook(null, adaptOrderBookSide(cumulAsks, "Sell", "Forward", "USD"), adaptOrderBookSide(cumulBids, "Buy", "Forward", "USD"));
+	  }
+          
+          public static boolean adaptCryptoFacilitiesCancel(CryptoFacilitiesCancel cancel)
+	  {              
+              return cancel.isSuccess();
 	  }
 
 }

@@ -1,6 +1,7 @@
 package com.xeiam.xchange.coinbaseex.service.polling;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbaseex.CoinbaseExAdapters;
@@ -8,6 +9,7 @@ import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExFill;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExIdResponse;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExOrder;
 import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExTradeHistoryParams;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
@@ -67,5 +69,11 @@ public class CoinbaseExTradeService extends CoinbaseExTradeServiceRaw implements
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return null;
+  }
+  
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
+          IOException {
+      throw new NotYetImplementedForExchangeException();
   }
 }

@@ -2,24 +2,33 @@ package com.xeiam.xchange.okcoin.service.polling;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.exceptions.ExchangeException;
+import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.okcoin.FuturesContract;
 import com.xeiam.xchange.okcoin.OkCoinAdapters;
 import com.xeiam.xchange.okcoin.OkCoinUtils;
+import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesOrder;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
+import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinTradeResult;
 import com.xeiam.xchange.service.polling.trade.PollingTradeService;
 import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
@@ -32,11 +41,12 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   private final Logger log = LoggerFactory.getLogger(OkCoinFuturesTradeService.class);
 
   private final int leverRate;
+  private final int batchSize = 50;
   private final FuturesContract futuresContract;
 
   /**
    * Constructor
-   *
+   * 
    * @param exchange
    */
   public OkCoinFuturesTradeService(Exchange exchange, FuturesContract futuresContract, int leverRate) {
@@ -146,8 +156,12 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     String pageLength = myParams.getPageLength().toString();
     FuturesContract reqFuturesContract = myParams.futuresContract;
 
-    OkCoinFuturesOrderResult orderHistory = getFuturesOrder(orderId, OkCoinAdapters.adaptSymbol(currencyPair), page, pageLength, reqFuturesContract);
-    return OkCoinAdapters.adaptTradesFutures(orderHistory);
+    OkCoinFuturesTradeHistoryResult[] orderHistory = getFuturesTradesHistory(OkCoinAdapters.adaptSymbol(currencyPair), Long.valueOf("86751191"),
+        "2015-12-04");
+    // orderHistory
+    //(orderId, OkCoinAdapters.adaptSymbol(currencyPair), page, pageLength, reqFuturesContract);
+    return OkCoinAdapters.adaptTradeHistory(orderHistory);
+    //OkCoinAdapters.adaptTradesFutures(orderHistory);
   }
 
   public List<FuturesContract> getExchangeContracts() {
@@ -170,8 +184,8 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     void setOrderId(String orderId);
   }
 
-  final public static class OkCoinFuturesTradeHistoryParams extends DefaultTradeHistoryParamPaging
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamFuturesContract {
+  final public static class OkCoinFuturesTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair,
+      TradeHistoryParamFuturesContract {
     private CurrencyPair currencyPair;
     private FuturesContract futuresContract;
     private String orderId;
@@ -217,4 +231,64 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
       this.orderId = orderId;
     }
   }
+
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
+    List<CurrencyPair> exchangeSymbols = getExchangeSymbols();
+    List<Order> openOrders = new ArrayList<Order>();
+    List<OkCoinFuturesOrder> orderResults = new ArrayList<OkCoinFuturesOrder>(exchangeSymbols.size());
+    List<String> orderIdsRequest = new ArrayList<String>();
+    Set<String> orderSet = new HashSet<String>();
+
+    for (int i = 0; i < orderIds.length; i++) {
+      orderSet.add(orderIds[i]);
+    }
+
+    for (int i = 0; i < exchangeSymbols.size(); i++) {
+      CurrencyPair symbol = exchangeSymbols.get(i);
+      log.debug("Getting order: {}", symbol);
+      int count = 0;
+      orderIdsRequest.clear();
+      for (String order : orderSet) {
+        orderIdsRequest.add(order);
+        count++;
+        if (count % batchSize == 0) {
+
+          OkCoinFuturesOrderResult orderResult = getFuturesOrders(createDelimitedString(orderIdsRequest.toArray(new String[orderIdsRequest.size()])),
+              OkCoinAdapters.adaptSymbol(symbol), futuresContract);
+          orderIdsRequest.clear();
+          if (orderResult.getOrders().length > 0)
+            orderResults.addAll(new ArrayList<OkCoinFuturesOrder>(Arrays.asList(orderResult.getOrders())));
+
+        }
+      }
+      if (!orderIdsRequest.isEmpty()) {
+        OkCoinFuturesOrderResult orderResult = getFuturesOrders(createDelimitedString(orderIdsRequest.toArray(new String[orderIdsRequest.size()])),
+            OkCoinAdapters.adaptSymbol(symbol), futuresContract);
+        if (orderResult.getOrders().length > 0) {
+          for (int o = 0; o < orderResult.getOrders().length; o++) {
+            OkCoinFuturesOrder singleOrder = orderResult.getOrders()[o];
+            openOrders.add(OkCoinAdapters.adaptOpenOrderFutures(singleOrder));
+          }
+
+          //  for (int o = 0; o < orderResult.getOrders().length; o++)
+
+          // orderResults.addAll(new ArrayList<OkCoinFuturesOrder>(Arrays.asList(orderResult.getOrders())));
+
+          //}
+
+        }
+
+        // for (OkCoinFuturesOrder order : orderResults) {
+
+        //   openOrders.add(OkCoinAdapters.adaptOpenOrderFutures(order));
+        // }
+        // }
+
+      }
+    }
+    return openOrders;
+  }
+
 }
