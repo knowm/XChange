@@ -13,22 +13,25 @@ public class BitMarketTrade {
   private final BigDecimal price;
   private final BigDecimal amount;
   private final long date;
+  private final String type;
 
   /**
    * Constructor
-   * 
+   *
    * @param tid
    * @param price
    * @param amount
    * @param date
+   * @param type
    */
   public BitMarketTrade(@JsonProperty("tid") String tid, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("date") long date) {
+      @JsonProperty("date") long date, @JsonProperty("type") String type) {
 
     this.tid = tid;
     this.price = price;
     this.amount = amount;
     this.date = date;
+    this.type = type;
   }
 
   public String getTid() {
@@ -51,9 +54,13 @@ public class BitMarketTrade {
     return date;
   }
 
+  public String getType() {
+    return type;
+  }
+
   @Override
   public String toString() {
-
-    return "BitMarketTrade{" + "tid='" + tid + '\'' + ", price=" + price + ", amount=" + amount + ", date=" + date + '}';
+    return "BitMarketTrade [tid=" + tid + ", price=" + price + ", amount=" + amount + ", date=" + date + ", type=" + type + "]";
   }
+
 }

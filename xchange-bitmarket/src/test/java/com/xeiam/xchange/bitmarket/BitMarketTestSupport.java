@@ -78,9 +78,9 @@ public class BitMarketTestSupport extends BitMarketDtoTestSupport {
   public static BitMarketTrade[] expectedParsedTrades() {
     return new BitMarketTrade[]
       {
-        new BitMarketTrade("78455", new BigDecimal("14.6900"), new BigDecimal("27.24579867"), 1450344119L),
-        new BitMarketTrade("78454", new BigDecimal("14.4105"), new BigDecimal("5.22284399"), 1450343831L),
-        new BitMarketTrade("78453", new BigDecimal("14.4105"), new BigDecimal("0.10560487"), 1450303414L)
+        new BitMarketTrade("78455", new BigDecimal("14.6900"), new BigDecimal("27.24579867"), 1450344119L,"ask"),
+        new BitMarketTrade("78454", new BigDecimal("14.4105"), new BigDecimal("5.22284399"), 1450343831L,"ask"),
+        new BitMarketTrade("78453", new BigDecimal("14.4105"), new BigDecimal("0.10560487"), 1450303414L,"ask")
       };
   }
 
