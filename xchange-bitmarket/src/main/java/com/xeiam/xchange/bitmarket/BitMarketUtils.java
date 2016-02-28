@@ -43,11 +43,11 @@ public class BitMarketUtils {
 
   public static Order.OrderType BitMarketOrderTypeToOrderType(String bitmarketOrderType) {
 
-    return bitmarketOrderType.equals("buy") ? Order.OrderType.ASK : Order.OrderType.BID;
+    return bitmarketOrderType.equals("sell") ? Order.OrderType.ASK : Order.OrderType.BID;
   }
 
   public static String OrderTypeToBitMarketOrderType(Order.OrderType orderType) {
 
-    return orderType == Order.OrderType.ASK ? "buy" : "sell";
+    return orderType == Order.OrderType.ASK ? "sell" : "buy";
   }
 }

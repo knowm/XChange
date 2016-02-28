@@ -78,8 +78,7 @@ public class BitMarketAdapters {
     BigDecimal vwap = bitMarketTicker.getVwap();
     BigDecimal last = bitMarketTicker.getLast();
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low)
-      .volume(volume).vwap(vwap).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).vwap(vwap).build();
   }
 
   private static List<LimitOrder> transformArrayToLimitOrders(BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
@@ -107,9 +106,8 @@ public class BitMarketAdapters {
 
     for (BitMarketTrade bitMarketTrade : bitMarketTrades) {
 
-      Trade trade = new Trade(OrderType.BID, bitMarketTrade.getAmount(), currencyPair, bitMarketTrade.getPrice(), new
-        Date(bitMarketTrade.getDate() * 1000),
-          bitMarketTrade.getTid());
+      Trade trade = new Trade(bitMarketTrade.getType().equals("bid") ? OrderType.BID : OrderType.BID, bitMarketTrade.getAmount(), currencyPair,
+          bitMarketTrade.getPrice(), new Date(bitMarketTrade.getDate() * 1000), bitMarketTrade.getTid());
 
       tradeList.add(trade);
     }
