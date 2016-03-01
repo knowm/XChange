@@ -9,6 +9,7 @@ import com.xeiam.xchange.gatecoin.service.polling.GatecoinTradeService;
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
@@ -22,10 +23,14 @@ public class GatecoinExchange extends BaseExchange implements Exchange {
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     super.applySpecification(exchangeSpecification);
+  }
+
+  @Override
+  protected void initServices() {
+
     this.pollingMarketDataService = new GatecoinMarketDataService(this);
     this.pollingTradeService = new GatecoinTradeService(this);
     this.pollingAccountService = new GatecoinAccountService(this);
-
   }
 
   @Override

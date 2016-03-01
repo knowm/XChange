@@ -19,7 +19,10 @@ public class CointraderExchange extends BaseExchange implements Exchange {
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
     super.applySpecification(exchangeSpecification);
+  }
 
+  @Override
+  protected void initServices() {
     this.pollingMarketDataService = new CointraderMarketDataService(this);
     if (exchangeSpecification.getApiKey() != null && exchangeSpecification.getSecretKey() != null) {
       this.pollingTradeService = new CointraderTradeService(this);

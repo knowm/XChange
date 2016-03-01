@@ -22,6 +22,7 @@ public class BTCEExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
+
     this.pollingMarketDataService = new BTCEMarketDataService(this);
     this.pollingAccountService = new BTCEAccountService(this);
     this.pollingTradeService = new BTCETradeService(this);

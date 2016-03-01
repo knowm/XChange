@@ -44,7 +44,10 @@ public class RippleExchange extends BaseExchange implements Exchange {
         && (Boolean.parseBoolean(specification.getParameter(PARAMETER_TRUST_API_RIPPLE_COM).toString()) == false)) {
       throw new IllegalStateException(String.format("server %s has not been trusted - see %s for details", REST_API_RIPPLE_LABS, README));
     }
+  }
 
+  @Override
+  protected void initServices() {
     pollingMarketDataService = new RippleMarketDataService(this);
     pollingTradeService = new RippleTradeService(this);
     pollingAccountService = new RippleAccountService(this);

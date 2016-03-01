@@ -22,6 +22,8 @@ import com.xeiam.xchange.service.streaming.StreamingExchangeService;
 
 public abstract class BaseExchange implements Exchange {
 
+  protected abstract void initServices();
+
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   protected ExchangeSpecification exchangeSpecification;
@@ -78,7 +80,7 @@ public abstract class BaseExchange implements Exchange {
       this.exchangeSpecification = exchangeSpecification;
     }
 
-    if (this.exchangeSpecification.getMetaDataJsonFileOverride() != null) {// load the metadata from the file system
+    if (this.exchangeSpecification.getMetaDataJsonFileOverride() != null) { // load the metadata from the file system
 
       InputStream is = null;
       try {
@@ -110,9 +112,7 @@ public abstract class BaseExchange implements Exchange {
     initServices();
   }
 
-  protected void initServices() {
-  }
-
+  @Override
   public void remoteInit() throws IOException, ExchangeException {
     logger.debug("No remote initialization for {}", exchangeSpecification.getExchangeName());
   }
