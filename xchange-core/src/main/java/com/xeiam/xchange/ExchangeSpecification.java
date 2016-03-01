@@ -40,6 +40,8 @@ public class ExchangeSpecification {
 
   private String metaDataJsonFileOverride = null;
 
+  private boolean shouldLoadRemoteMetaData;
+
   private final String exchangeClassName;
 
   /** arbitrary exchange params that can be set for unique cases */
@@ -390,6 +392,24 @@ public class ExchangeSpecification {
   public void setMetaDataJsonFileOverride(String metaDataJsonFileOverride) {
 
     this.metaDataJsonFileOverride = metaDataJsonFileOverride;
+  }
+
+  /**
+   * By default, some meta data from the exchange is remotely loaded (if implemented).
+   *
+   * @return
+   */
+  public boolean isShouldLoadRemoteMetaData() {
+    return shouldLoadRemoteMetaData;
+  }
+
+  /**
+   * By default, some meta data from the exchange is remotely loaded (if implemented). Here you can set this default behavior.
+   *
+   * @param shouldLoadRemoteMetaData
+   */
+  public void setShouldLoadRemoteMetaData(boolean shouldLoadRemoteMetaData) {
+    this.shouldLoadRemoteMetaData = shouldLoadRemoteMetaData;
   }
 
 }

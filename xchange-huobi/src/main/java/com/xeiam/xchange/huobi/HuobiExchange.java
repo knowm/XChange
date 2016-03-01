@@ -38,7 +38,10 @@ public class HuobiExchange extends BaseExchange implements Exchange {
       exchangeSpecification.setSslUri("https://api.bitvc.com");
       exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "NOT IMPLEMENTED");
     }
+  }
 
+  @Override
+  protected void initServices() {
     if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)
         && exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES).equals(true)) {
       FuturesContract contract = futuresContractOfConfig(exchangeSpecification);

@@ -33,7 +33,10 @@ public class OkCoinExchange extends BaseExchange {
       exchangeSpecification.setHost("www.okcoin.com");
       exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.com:10440/websocket/okcoinapi");
     }
+  }
 
+  @Override
+  protected void initServices() {
     if (exchangeSpecification.getExchangeSpecificParameters() != null
         && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
       FuturesContract contract = futuresContractOfConfig(exchangeSpecification);

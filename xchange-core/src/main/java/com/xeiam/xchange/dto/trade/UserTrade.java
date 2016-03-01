@@ -56,13 +56,14 @@ public class UserTrade extends Trade {
   /**
    * @see #UserTrade(OrderType,BigDecimal,CurrencyPair,BigDecimal,Date,String,String,BigDecimal,Currency)
    */
-  public UserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId) {
+  public UserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id,
+      String orderId) {
 
-    this(type, tradableAmount, currencyPair, price, timestamp, id, orderId, null, (Currency)null);
+    this(type, tradableAmount, currencyPair, price, timestamp, id, orderId, null, (Currency) null);
   }
 
   /**
-   * @deprecated use #UserTrade(OrderType,BigDecimal,CurrencyPair,BigDecimal,Date,String,String,BigDecimal,Currency)
+   * @deprecated use #UserTrade(OrderType, BigDecimal, CurrencyPair, BigDecimal, Date, String, String, BigDecimal, Currency)
    */
   @Deprecated
   public UserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId,
@@ -105,26 +106,32 @@ public class UserTrade extends Trade {
           .feeCurrency(trade.getFeeCurrency());
     }
 
+    @Override
     public Builder type(OrderType type) {
       return (Builder) super.type(type);
     }
 
+    @Override
     public Builder tradableAmount(BigDecimal tradableAmount) {
       return (Builder) super.tradableAmount(tradableAmount);
     }
 
+    @Override
     public Builder currencyPair(CurrencyPair currencyPair) {
       return (Builder) super.currencyPair(currencyPair);
     }
 
+    @Override
     public Builder price(BigDecimal price) {
       return (Builder) super.price(price);
     }
 
+    @Override
     public Builder timestamp(Date timestamp) {
       return (Builder) super.timestamp(timestamp);
     }
 
+    @Override
     public Builder id(String id) {
       return (Builder) super.id(id);
     }
@@ -144,6 +151,7 @@ public class UserTrade extends Trade {
       return this;
     }
 
+    @Override
     public UserTrade build() {
       return new UserTrade(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, feeCurrency);
     }

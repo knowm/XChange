@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.knowm.xchart.ChartBuilder_XY;
+import org.knowm.xchart.Chart_XY;
+import org.knowm.xchart.Series_XY;
+import org.knowm.xchart.Series_XY.ChartXYSeriesRenderStyle;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.internal.style.Styler.LegendPosition;
+import org.knowm.xchart.internal.style.markers.SeriesMarkers;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -11,13 +19,6 @@ import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
 import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
-import com.xeiam.xchart.Chart;
-import com.xeiam.xchart.ChartBuilder;
-import com.xeiam.xchart.Series;
-import com.xeiam.xchart.SeriesMarker;
-import com.xeiam.xchart.StyleManager.ChartType;
-import com.xeiam.xchart.StyleManager.LegendPosition;
-import com.xeiam.xchart.SwingWrapper;
 
 /**
  * Demonstrates plotting an OrderBook with XChart
@@ -40,8 +41,7 @@ public class BitcoiniumTickerHistoryDemo {
     System.out.println("fetching data...");
 
     // Get the latest order book data for BTC/USD - BITSTAMP
-    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory("BTC", "BITSTAMP_USD",
-        "THIRTY_DAYS");
+    BitcoiniumTickerHistory bitcoiniumTickerHistory = bitcoiniumMarketDataService.getBitcoiniumTickerHistory("BTC", "BITSTAMP_USD", "THIRTY_DAYS");
 
     System.out.println(bitcoiniumTickerHistory.toString());
 
@@ -58,12 +58,15 @@ public class BitcoiniumTickerHistoryDemo {
       yAxisData.add(price);
     }
 
-    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(600).title("Bitstamp Price vs. Date").xAxisTitle("Date")
-        .yAxisTitle("Price").build();
-    chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
+    // Create Chart
+    Chart_XY chart = new ChartBuilder_XY().width(800).height(600).title("Bitstamp Price vs. Date").xAxisTitle("Date").yAxisTitle("Price").build();
 
-    Series series = chart.addSeries("Bitcoinium USD/BTC", xAxisData, yAxisData);
-    series.setMarker(SeriesMarker.NONE);
+    // Customize Chart
+    chart.getStyler().setLegendPosition(LegendPosition.InsideNE);
+    chart.getStyler().setDefaultSeriesRenderStyle(ChartXYSeriesRenderStyle.Area);
+
+    Series_XY series = chart.addSeries("Bitcoinium USD/BTC", xAxisData, yAxisData);
+    series.setMarker(SeriesMarkers.NONE);
 
     new SwingWrapper(chart).displayChart();
   }

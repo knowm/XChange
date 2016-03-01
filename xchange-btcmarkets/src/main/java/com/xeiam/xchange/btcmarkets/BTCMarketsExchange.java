@@ -1,7 +1,5 @@
 package com.xeiam.xchange.btcmarkets;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -9,6 +7,8 @@ import com.xeiam.xchange.btcmarkets.service.polling.BTCMarketsAccountService;
 import com.xeiam.xchange.btcmarkets.service.polling.BTCMarketsMarketDataService;
 import com.xeiam.xchange.btcmarkets.service.polling.BTCMarketsTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Matija Mazi
@@ -20,7 +20,10 @@ public class BTCMarketsExchange extends BaseExchange implements Exchange {
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
     super.applySpecification(exchangeSpecification);
+  }
 
+  @Override
+  protected void initServices() {
     this.pollingMarketDataService = new BTCMarketsMarketDataService(this);
     if (exchangeSpecification.getApiKey() != null && exchangeSpecification.getSecretKey() != null) {
       this.pollingTradeService = new BTCMarketsTradeService(this);

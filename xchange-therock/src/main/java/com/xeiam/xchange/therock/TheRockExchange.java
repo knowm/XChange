@@ -20,7 +20,10 @@ public class TheRockExchange extends BaseExchange implements Exchange {
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
     super.applySpecification(exchangeSpecification);
+  }
 
+  @Override
+  protected void initServices() {
     this.pollingMarketDataService = new TheRockMarketDataService(this);
     if (exchangeSpecification.getApiKey() != null && exchangeSpecification.getSecretKey() != null) {
       this.pollingTradeService = new TheRockTradeService(this);

@@ -6,6 +6,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.knowm.xchart.ChartBuilder_XY;
+import org.knowm.xchart.Chart_XY;
+import org.knowm.xchart.Series_XY;
+import org.knowm.xchart.Series_XY.ChartXYSeriesRenderStyle;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.internal.style.markers.SeriesMarkers;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.bitstamp.BitstampExchange;
@@ -13,11 +20,6 @@ import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
-import com.xeiam.xchart.Chart;
-import com.xeiam.xchart.Series;
-import com.xeiam.xchart.SeriesMarker;
-import com.xeiam.xchart.StyleManager.ChartType;
-import com.xeiam.xchart.SwingWrapper;
 
 /**
  * Demonstrate requesting OrderBook from Bitstamp and plotting it using XChart.
@@ -42,13 +44,10 @@ public class DepthChartDemo {
     System.out.println("plotting...");
 
     // Create Chart
-    Chart chart = new Chart(800, 500);
+    Chart_XY chart = new ChartBuilder_XY().width(800).height(600).title("Bitstamp Order Book").xAxisTitle("BTC").yAxisTitle("USD").build();
 
     // Customize Chart
-    chart.setChartTitle("Bitstamp Order Book");
-    chart.setYAxisTitle("BTC");
-    chart.setXAxisTitle("USD");
-    chart.getStyleManager().setChartType(ChartType.Area);
+    chart.getStyler().setDefaultSeriesRenderStyle(ChartXYSeriesRenderStyle.Area);
 
     // BIDS
     List<Number> xData = new ArrayList<Number>();
@@ -65,8 +64,8 @@ public class DepthChartDemo {
     Collections.reverse(yData);
 
     // Bids Series
-    Series series = chart.addSeries("bids", xData, yData);
-    series.setMarker(SeriesMarker.NONE);
+    Series_XY series = chart.addSeries("bids", xData, yData);
+    series.setMarker(SeriesMarkers.NONE);
 
     // ASKS
     xData = new ArrayList<Number>();
@@ -82,7 +81,7 @@ public class DepthChartDemo {
 
     // Asks Series
     series = chart.addSeries("asks", xData, yData);
-    series.setMarker(SeriesMarker.NONE);
+    series.setMarker(SeriesMarkers.NONE);
 
     new SwingWrapper(chart).displayChart();
 

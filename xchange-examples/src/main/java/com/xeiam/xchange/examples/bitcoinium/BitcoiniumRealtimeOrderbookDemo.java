@@ -9,6 +9,14 @@ import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
+import org.knowm.xchart.ChartBuilder_XY;
+import org.knowm.xchart.Chart_XY;
+import org.knowm.xchart.Series_XY;
+import org.knowm.xchart.Series_XY.ChartXYSeriesRenderStyle;
+import org.knowm.xchart.XChartPanel;
+import org.knowm.xchart.internal.style.Styler.LegendPosition;
+import org.knowm.xchart.internal.style.markers.SeriesMarkers;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -16,13 +24,6 @@ import com.xeiam.xchange.bitcoinium.BitcoiniumExchange;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import com.xeiam.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook.CondensedOrder;
 import com.xeiam.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
-import com.xeiam.xchart.Chart;
-import com.xeiam.xchart.ChartBuilder;
-import com.xeiam.xchart.Series;
-import com.xeiam.xchart.SeriesMarker;
-import com.xeiam.xchart.StyleManager.ChartType;
-import com.xeiam.xchart.StyleManager.LegendPosition;
-import com.xeiam.xchart.XChartPanel;
 
 /**
  * Demonstrates plotting an OrderBook with XChart
@@ -57,7 +58,7 @@ public class BitcoiniumRealtimeOrderbookDemo {
     bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getPollingMarketDataService();
 
     // Setup the panel
-    final XChartPanel chartPanel = buildPanel();
+    final XChartPanel<Chart_XY> chartPanel = buildPanel();
     // Schedule a job for the event-dispatching thread:
     // creating and showing this application's GUI.
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -85,8 +86,8 @@ public class BitcoiniumRealtimeOrderbookDemo {
         try {
           updateData();
           // update chart
-          chartPanel.updateSeries(BIDS_SERIES_NAME, xAxisBidData, yAxisBidData);
-          chartPanel.updateSeries(ASKS_SERIES_NAME, xAxisAskData, yAxisAskData);
+          chartPanel.updateSeries(BIDS_SERIES_NAME, xAxisBidData, yAxisBidData, null);
+          chartPanel.updateSeries(ASKS_SERIES_NAME, xAxisAskData, yAxisAskData, null);
         } catch (IOException e) {
           e.printStackTrace();
         }
@@ -98,24 +99,27 @@ public class BitcoiniumRealtimeOrderbookDemo {
 
   }
 
-  public XChartPanel buildPanel() throws IOException {
+  public XChartPanel<Chart_XY> buildPanel() throws IOException {
 
     System.out.println("fetching data...");
 
     updateData();
 
     // create chart
-    Chart chart = new ChartBuilder().chartType(ChartType.Area).width(800).height(400).title("Real-time Bitcoinium Order Book - BITSTAMP_BTC_USD")
-        .xAxisTitle("BTC").yAxisTitle("USD").build();
-    chart.getStyleManager().setLegendPosition(LegendPosition.InsideNE);
+    Chart_XY chart = new ChartBuilder_XY().width(800).height(400).title("Real-time Bitcoinium Order Book - BITSTAMP_BTC_USD").xAxisTitle("BTC")
+        .yAxisTitle("USD").build();
+
+    // Customize Chart
+    chart.getStyler().setLegendPosition(LegendPosition.InsideNE);
+    chart.getStyler().setDefaultSeriesRenderStyle(ChartXYSeriesRenderStyle.Area);
 
     // add series
-    Series series = chart.addSeries(BIDS_SERIES_NAME, xAxisBidData, yAxisBidData);
-    series.setMarker(SeriesMarker.NONE);
+    Series_XY series = chart.addSeries(BIDS_SERIES_NAME, xAxisBidData, yAxisBidData);
+    series.setMarker(SeriesMarkers.NONE);
     series = chart.addSeries(ASKS_SERIES_NAME, xAxisAskData, yAxisAskData);
-    series.setMarker(SeriesMarker.NONE);
+    series.setMarker(SeriesMarkers.NONE);
 
-    return new XChartPanel(chart);
+    return new XChartPanel<Chart_XY>(chart);
   }
 
   private void updateData() throws IOException {
