@@ -223,19 +223,39 @@ public final class OkCoinAdapters {
 
   private static LimitOrder adaptOpenOrder(OkCoinOrder order) {
 
-    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount().subtract(order.getDealAmount()), adaptSymbol(order.getSymbol()),
-        String.valueOf(order.getOrderId()), order.getCreateDate(), order.getPrice());
+    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount(), adaptSymbol(order.getSymbol()), String.valueOf(order.getOrderId()),
+        order.getCreateDate(), order.getPrice());
   }
 
   public static LimitOrder adaptOpenOrderFutures(OkCoinFuturesOrder order) {
-    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount().subtract(order.getDealAmount()), adaptSymbol(order.getSymbol()),
-        String.valueOf(order.getOrderId()), order.getCreatedDate(), order.getPrice(), order.getAvgPrice(), order.getDealAmount(),
-        adaptOrderStatus(order.getStatus()));
+    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount(), adaptSymbol(order.getSymbol()), String.valueOf(order.getOrderId()),
+        order.getCreatedDate(), order.getPrice(), order.getAvgPrice(), order.getDealAmount(), adaptOrderStatus(order.getStatus()));
   }
 
   public static OrderType adaptOrderType(String type) {
 
-    return type.equals("buy") || type.equals("buy_market") || type.equals("1") || type.equals("4") ? OrderType.BID : OrderType.ASK;
+    switch (type) {
+
+    case "buy":
+      return OrderType.BID;
+    case "buy_market":
+      return OrderType.BID;
+    case "sell":
+      return OrderType.ASK;
+    case "sell_market":
+      return OrderType.ASK;
+    case "1":
+      return OrderType.BID;
+    case "2":
+      return OrderType.ASK;
+    case "3":
+      return OrderType.EXIT_ASK;
+    case "4":
+      return OrderType.EXIT_BID;
+    default:
+      return null;
+    }
+
   }
 
   public static OrderStatus adaptOrderStatus(int status) {

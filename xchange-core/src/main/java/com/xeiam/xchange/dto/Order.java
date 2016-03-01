@@ -20,7 +20,13 @@ public abstract class Order {
     BID, /**
      * Selling order (the trader is providing the base currency)
      */
-    ASK
+    ASK, /**
+     * This is to close a short position when trading crypto currency derivatives such as swaps, futures for CFD's.
+     */
+    EXIT_ASK, /**
+     * This is to close a long position when trading crypto currency derivatives such as swaps, futures for CFD's.
+     */
+    EXIT_BID
   }
 
   public enum OrderStatus {
