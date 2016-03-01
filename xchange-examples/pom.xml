@@ -365,7 +365,7 @@
 			<artifactId>jul-to-slf4j</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.xeiam.xchart</groupId>
+			<groupId>org.knowm.xchart</groupId>
 			<artifactId>xchart</artifactId>
 		</dependency>
 
