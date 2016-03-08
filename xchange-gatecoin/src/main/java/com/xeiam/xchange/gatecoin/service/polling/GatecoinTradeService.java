@@ -52,7 +52,8 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Pol
 
         List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
         for (GatecoinOrder gatecoinOrder : openOrdersResult.getOrders()) {
-            OrderType orderType = gatecoinOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
+            /* get side is order side (ask or bid) get type is order type, (limit or market) */
+            OrderType orderType = gatecoinOrder.getSide() == 0 ? OrderType.BID : OrderType.ASK;
             String id = gatecoinOrder.getClOrderId();
             BigDecimal price = gatecoinOrder.getPrice();
             CurrencyPair ccyPair = new CurrencyPair(gatecoinOrder.getCode().substring(0, 3), gatecoinOrder.getCode().substring(3, 6));
