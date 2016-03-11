@@ -9,6 +9,7 @@ import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
  * @author Jean-Christophe Laruelle
  */
 
+@Deprecated
 public class CryptoFacilitiesTrades extends CryptoFacilitiesResult {
 
   private final List<CryptoFacilitiesTrade> trades;

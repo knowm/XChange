@@ -29,7 +29,7 @@ public class CryptoFacilitiesAccountService extends CryptoFacilitiesAccountServi
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-	  return CryptoFacilitiesAdapters.adaptBalance(getCryptoFacilitiesBalance(), exchange.getExchangeSpecification().getUserName());
+	  return CryptoFacilitiesAdapters.adaptAccount(getCryptoFacilitiesAccount(), exchange.getExchangeSpecification().getUserName());
 	  
   }
 

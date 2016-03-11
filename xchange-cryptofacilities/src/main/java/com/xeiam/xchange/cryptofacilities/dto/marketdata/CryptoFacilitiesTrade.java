@@ -12,6 +12,7 @@ import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
  * @author Jean-Christophe Laruelle
  */
 
+@Deprecated
 public class CryptoFacilitiesTrade extends CryptoFacilitiesResult {
 
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
