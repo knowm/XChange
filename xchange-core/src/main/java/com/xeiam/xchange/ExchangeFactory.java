@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.utils.Assert;
 
+import java.io.IOException;
+
 /**
  * <p>
  * Factory to provide the following to {@link Exchange}:
@@ -54,6 +56,7 @@ public enum ExchangeFactory {
         // Instantiate through the default constructor and use the default exchange specification
         Exchange exchange = (Exchange) exchangeProviderClass.newInstance();
         exchange.applySpecification(exchange.getDefaultExchangeSpecification());
+        exchange.remoteInit();
         return exchange;
       } else {
         throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
@@ -64,6 +67,8 @@ public enum ExchangeFactory {
       throw new ExchangeException("Problem creating Exchange (instantiation)", e);
     } catch (IllegalAccessException e) {
       throw new ExchangeException("Problem creating Exchange (illegal access)", e);
+    } catch (IOException e){
+      throw new ExchangeException("Problem creating Exchange (input/output)", e);
     }
 
     // Cannot be here due to exceptions
