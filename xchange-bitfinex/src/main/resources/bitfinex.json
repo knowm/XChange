@@ -14,11 +14,11 @@
     },
     "ETH/USD": {
       "priceScale": 4,
-      "minimumAmount": 0.01000000
+      "minimumAmount": 0.10000000
     },
     "ETH/BTC": {
       "priceScale": 6,
-      "minimumAmount": 0.01000000
+      "minimumAmount": 0.10000000
     }    
   },
   "currency": {
