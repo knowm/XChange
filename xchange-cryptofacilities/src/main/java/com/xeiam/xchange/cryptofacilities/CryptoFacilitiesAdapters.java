@@ -1,6 +1,5 @@
 package com.xeiam.xchange.cryptofacilities;
 
-import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -8,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.xeiam.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccount;
+import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCumulatedBidAsk;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCumulativeBidAsk;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrder;
@@ -16,6 +17,8 @@ import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTicker;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTrade;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTrades;
+import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFill;
+import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -53,6 +56,7 @@ public class CryptoFacilitiesAdapters {
 	    return new Currency(code);
 	  }
 	  
+          @Deprecated
 	  public static AccountInfo adaptBalance(Map<String, BigDecimal> cryptoFacilitiesBalance, String username) {
 
 		    List<Balance> balances = new ArrayList<Balance>(cryptoFacilitiesBalance.size());
@@ -64,7 +68,27 @@ public class CryptoFacilitiesAdapters {
 		    return new AccountInfo(username, new Wallet(balances));
 	  }
 
-	  public static String adaptOrderId(CryptoFacilitiesOrder order) {
+	  public static AccountInfo adaptAccount(CryptoFacilitiesAccount cryptoFacilitiesAccount, String username) {
+
+		    List<Balance> balances = new ArrayList<Balance>(cryptoFacilitiesAccount.getBalances().size());
+                    Balance balance;
+                    
+		    for (Entry<String, BigDecimal> balancePair : cryptoFacilitiesAccount.getBalances().entrySet()) {
+                        if ( balancePair.getKey().equalsIgnoreCase("xbt") ) {
+                            // For xbt balance we construct both total=deposited xbt and available=total - margin balances 
+                            balance = new Balance(Currency.BTC, balancePair.getValue(), 
+                                                    cryptoFacilitiesAccount.getAuxiliary().get("af"));
+                        }
+                        else {
+                            Currency currency = adaptCurrency(balancePair.getKey());
+                            balance = new Balance(currency, balancePair.getValue());
+                        }
+		      balances.add(balance);		      
+		    }
+		    return new AccountInfo(username, new Wallet(balances));
+	  }
+
+          public static String adaptOrderId(CryptoFacilitiesOrder order) {
 
 		  return order.getOrderId();
 		  
@@ -72,7 +96,7 @@ public class CryptoFacilitiesAdapters {
 	  
 	  public static OrderType adaptOrderType(String cryptoFacilitiesOrderType) {
 
-		    return cryptoFacilitiesOrderType.equals("Buy") ? OrderType.BID : OrderType.ASK;
+		    return cryptoFacilitiesOrderType.equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
 	  }
 	  
 	  public static LimitOrder adaptLimitOrder(CryptoFacilitiesOpenOrder ord)
@@ -102,11 +126,13 @@ public class CryptoFacilitiesAdapters {
 		  
 	  }
 	  
+          @Deprecated
 	  public static UserTrade adaptTrade(CryptoFacilitiesTrade trade)
 	  {
 		  return new UserTrade(adaptOrderType(trade.getDirection()), trade.getQuantity(), new CurrencyPair(new Currency(trade.getTradeable()), new Currency(trade.getUnit())), trade.getPrice(), trade.getTimestamp(), trade.getUid(), null);
 	  }
 	  
+          @Deprecated
 	  public static UserTrades adaptTrades(CryptoFacilitiesTrades cryptoFacilitiesTrades)
 	  {
 		  List<UserTrade> trades = new ArrayList<UserTrade>();
@@ -120,7 +146,25 @@ public class CryptoFacilitiesAdapters {
 		  return new UserTrades(trades, TradeSortType.SortByTimestamp);
 	  }
 	  
-	  public static LimitOrder adaptOrderBookOrder(CryptoFacilitiesCumulatedBidAsk cumulBidAsk, String direction, String tradeable, String unit)
+	  public static UserTrade adaptFill(CryptoFacilitiesFill fill)
+	  {
+		  return new UserTrade( adaptOrderType(fill.getSide()), fill.getSize(), new CurrencyPair(fill.getSymbol(), "USD"), fill.getPrice(), fill.getFillTime(), fill.getFillId(), fill.getOrderId() );
+	  }
+	  
+	  public static UserTrades adaptFills(CryptoFacilitiesFills cryptoFacilitiesFills)
+	  {
+		  List<UserTrade> trades = new ArrayList<UserTrade>();
+
+		  if(cryptoFacilitiesFills != null && cryptoFacilitiesFills.isSuccess())
+		  {
+                      for(CryptoFacilitiesFill fill : cryptoFacilitiesFills.getFills())
+                              trades.add(adaptFill(fill));
+                  }
+		  
+		  return new UserTrades(trades, TradeSortType.SortByTimestamp);
+	  }
+
+          public static LimitOrder adaptOrderBookOrder(CryptoFacilitiesCumulatedBidAsk cumulBidAsk, String direction, String tradeable, String unit)
 	  {
 		  LimitOrder order = new LimitOrder(adaptOrderType(direction), cumulBidAsk.getQuantity(), new CurrencyPair(new Currency(tradeable), new Currency(unit)), null, null, cumulBidAsk.getPrice());
 

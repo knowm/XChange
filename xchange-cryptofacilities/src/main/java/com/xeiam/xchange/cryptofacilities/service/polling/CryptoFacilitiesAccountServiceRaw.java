@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccount;
 import com.xeiam.xchange.cryptofacilities.dto.account.CryptoFacilitiesBalance;
 
 /**
@@ -23,11 +24,17 @@ public class CryptoFacilitiesAccountServiceRaw extends CryptoFacilitiesBasePolli
     super(exchange);
   }
 
+  @Deprecated
   public Map<String, BigDecimal> getCryptoFacilitiesBalance() throws IOException {
 
     CryptoFacilitiesBalance balanceResult = cryptoFacilities.balance(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
     
     return balanceResult.getBalances();
+  }
+
+  public CryptoFacilitiesAccount getCryptoFacilitiesAccount() throws IOException {
+
+    return cryptoFacilities.account(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());    
   }
 
 }

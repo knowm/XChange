@@ -15,10 +15,12 @@ import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import com.xeiam.xchange.cryptofacilities.dto.account.CryptoFacilitiesBalance;
+import com.xeiam.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccount;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTrades;
+import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 
 
 /**
@@ -33,7 +35,14 @@ import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTrades;
 	@POST
 	@Path("/balance")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+        @Deprecated
 	public CryptoFacilitiesBalance balance(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
+		@HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
+	@POST
+	@Path("/v2/account")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public CryptoFacilitiesAccount account(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
 		@HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
 	@POST
@@ -58,7 +67,14 @@ import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTrades;
 	@POST
 	@Path("/trades")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+        @Deprecated
 	public CryptoFacilitiesTrades trades(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
 		@HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("number") Integer number) throws IOException;
+
+	@POST
+	@Path("/v2/fills")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public CryptoFacilitiesFills fills(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
+		@HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
 }

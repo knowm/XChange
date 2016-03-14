@@ -12,6 +12,7 @@ import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
  * @author Jean-Christophe Laruelle
  */
 
+@Deprecated
 public class CryptoFacilitiesBalance extends CryptoFacilitiesResult {
 
 	private final Map<String, BigDecimal> balances;
