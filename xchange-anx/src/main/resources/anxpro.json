@@ -123,7 +123,7 @@
       "priceScale": 8
     },
     "XRP/BTC": {
-      "minimumAmount": 500.00000,
+      "minimumAmount": 750.00000,
       "maximumAmount": 100000.00000000,
       "priceScale": 8
     }
