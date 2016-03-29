@@ -1,16 +1,26 @@
 package com.xeiam.xchange.poloniex;
 
-import com.xeiam.xchange.poloniex.dto.account.PoloniexBalance;
-import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
-import com.xeiam.xchange.poloniex.dto.trade.PoloniexTradeResponse;
-import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
+
+import javax.annotation.Nullable;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.HashMap;
+import com.xeiam.xchange.poloniex.dto.account.PoloniexBalance;
+import com.xeiam.xchange.poloniex.dto.account.WithdrawalResponse;
+import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
+import com.xeiam.xchange.poloniex.dto.trade.PoloniexTradeResponse;
+import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
 
 /**
  * @author Zach Holmes
@@ -64,4 +74,16 @@ public interface PoloniexAuthenticated {
   HashMap<String, String> cancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderNumber,
       @FormParam("currencyPair") String currencyPair) throws IOException;
+
+  @POST
+  @FormParam("command")
+  WithdrawalResponse withdraw(
+      @HeaderParam("Key") String apiKey,
+      @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("currency") String currency,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address,
+      @FormParam("paymentId") @Nullable String paymentId
+  ) throws PoloniexException, IOException;
 }

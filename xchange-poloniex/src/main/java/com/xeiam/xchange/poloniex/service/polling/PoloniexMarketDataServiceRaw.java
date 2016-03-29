@@ -52,27 +52,39 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService {
 
   }
 
-  public PoloniexTicker getPoloniexTicker(CurrencyPair currencyPair) throws IOException {
+    // There is no point to query the ticker instantly again when
+    // all tickers are returned on 1 query avaialble in the hash map
+    // lets wait a seconds and save our self a call for each ticker in our calling for loop.
+    
+    private HashMap<String, PoloniexMarketData> TickermarketData;
+    private final long cashe_delay = 1000L;
+    private long next_refresh = System.currentTimeMillis() + cashe_delay;
 
-    String command = "returnTicker";
-    String pairString = PoloniexUtils.toPairString(currencyPair);
+    public PoloniexTicker getPoloniexTicker(CurrencyPair currencyPair) throws IOException {
 
-    HashMap<String, PoloniexMarketData> marketData;
-    try {
-      marketData = poloniex.getTicker(command);
-    } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError());
+        String command = "returnTicker";
+        String pairString = PoloniexUtils.toPairString(currencyPair);
+        long now = System.currentTimeMillis();
+
+        if (TickermarketData == null || next_refresh < now) {
+            try {
+                TickermarketData = poloniex.getTicker(command);
+            } catch (PoloniexException e) {
+                throw new ExchangeException(e.getError());
+            } finally {
+                // also nice to take a short break on an error
+                next_refresh = now + cashe_delay;
+            }
+        }
+        
+        PoloniexMarketData data = TickermarketData.get(pairString);
+        if (data == null) {
+            throw new ExchangeException(currencyPair + " not available");
+        }
+        
+        return new PoloniexTicker(data, currencyPair);
     }
-
-    PoloniexMarketData data = marketData.get(pairString);
-
-    if (data == null)
-      throw new ExchangeException(currencyPair + " not available");
-
-    return new PoloniexTicker(data, currencyPair);
-
-  }
-
+  
   public PoloniexDepth getPoloniexDepth(CurrencyPair currencyPair) throws IOException {
 
     String command = "returnOrderBook";

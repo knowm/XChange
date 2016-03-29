@@ -4,6 +4,8 @@ package com.xeiam.xchange.poloniex.service.polling;
  * @author Zach Holmes
  */
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,9 +21,11 @@ import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
 import com.xeiam.xchange.poloniex.service.PoloniexDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
+import si.mazi.rescu.ClientConfig;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.serialization.jackson.JacksonConfigureListener;
 
 public class PoloniexBasePollingService extends BaseExchangeService implements BasePollingService {
 
@@ -39,6 +43,16 @@ public class PoloniexBasePollingService extends BaseExchangeService implements B
   public PoloniexBasePollingService(Exchange exchange) {
 
     super(exchange);
+    // Fix for empty string array mapping exception
+    ClientConfig config = new ClientConfig();
+    config.setJacksonConfigureListener(
+            new JacksonConfigureListener() {
+                @Override
+                public void configureObjectMapper(ObjectMapper objectMapper) {
+                    objectMapper.configure(DeserializationFeature. ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
+                }
+            }
+    );
     this.poloniexAuthenticated = RestProxyFactory.createProxy(PoloniexAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = PoloniexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
