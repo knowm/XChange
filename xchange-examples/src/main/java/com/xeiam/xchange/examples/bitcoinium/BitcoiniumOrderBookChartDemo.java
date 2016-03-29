@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.knowm.xchart.ChartBuilder_XY;
-import org.knowm.xchart.Chart_XY;
-import org.knowm.xchart.Series_XY;
-import org.knowm.xchart.Series_XY.ChartXYSeriesRenderStyle;
 import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.internal.style.markers.SeriesMarkers;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.XYSeries;
+import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
+import org.knowm.xchart.style.markers.SeriesMarkers;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -48,11 +48,11 @@ public class BitcoiniumOrderBookChartDemo {
     System.out.println("plotting...");
 
     // Create Chart
-    Chart_XY chart = new ChartBuilder_XY().width(800).height(600).title("Bitcoinium Order Book - BITSTAMP_BTC_USD").xAxisTitle("BTC")
-        .yAxisTitle("USD").build();
+    XYChart chart = new XYChartBuilder().width(800).height(600).title("Bitcoinium Order Book - BITSTAMP_BTC_USD").xAxisTitle("BTC").yAxisTitle("USD")
+        .build();
 
     // Customize Chart
-    chart.getStyler().setDefaultSeriesRenderStyle(ChartXYSeriesRenderStyle.Area);
+    chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
 
     // BIDS
 
@@ -65,7 +65,7 @@ public class BitcoiniumOrderBookChartDemo {
     List<Float> bidsVolumeData = getVolumeData(bitcoiniumOrderbook.getBids());
     Collections.reverse(bidsVolumeData);
 
-    Series_XY series = chart.addSeries("bids", bidsPriceData, bidsVolumeData);
+    XYSeries series = chart.addSeries("bids", bidsPriceData, bidsVolumeData);
     series.setMarker(SeriesMarkers.NONE);
 
     // ASKS

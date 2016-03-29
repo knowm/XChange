@@ -9,14 +9,14 @@ import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
-import org.knowm.xchart.ChartBuilder_XY;
-import org.knowm.xchart.Chart_XY;
-import org.knowm.xchart.Series_XY;
-import org.knowm.xchart.Series_XY.ChartXYSeriesRenderStyle;
 import org.knowm.xchart.XChartPanel;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.XYSeries;
+import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.internal.Series_AxesChart;
-import org.knowm.xchart.internal.style.Styler.LegendPosition;
-import org.knowm.xchart.internal.style.markers.SeriesMarkers;
+import org.knowm.xchart.style.Styler.LegendPosition;
+import org.knowm.xchart.style.markers.SeriesMarkers;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
@@ -56,7 +56,7 @@ public class BitcoiniumRealtimeTickerDemo {
     bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getPollingMarketDataService();
 
     // Setup the panel
-    final XChartPanel<Chart_XY> chartPanel = buildPanel();
+    final XChartPanel<XYChart> chartPanel = buildPanel();
     // Schedule a job for the event-dispatching thread:
     // creating and showing this application's GUI.
     javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -106,7 +106,7 @@ public class BitcoiniumRealtimeTickerDemo {
 
   }
 
-  public XChartPanel<Chart_XY> buildPanel() throws IOException {
+  public XChartPanel<XYChart> buildPanel() throws IOException {
 
     System.out.println("fetching data...");
 
@@ -130,15 +130,15 @@ public class BitcoiniumRealtimeTickerDemo {
     }
 
     // Create Chart
-    Chart_XY chart = new ChartBuilder_XY().width(800).height(600).title("Real-time Bitstamp Price vs. Time").xAxisTitle("Time").yAxisTitle("Price")
+    XYChart chart = new XYChartBuilder().width(800).height(600).title("Real-time Bitstamp Price vs. Time").xAxisTitle("Time").yAxisTitle("Price")
         .build();
 
     // Customize Chart
-    chart.getStyler().setDefaultSeriesRenderStyle(ChartXYSeriesRenderStyle.Area);
+    chart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Area);
     chart.getStyler().setLegendPosition(LegendPosition.InsideNE);
 
     // add series
-    Series_XY series = chart.addSeries(SERIES_NAME, xAxisData, yAxisData);
+    XYSeries series = chart.addSeries(SERIES_NAME, xAxisData, yAxisData);
     series.setMarker(SeriesMarkers.NONE);
 
     return new XChartPanel(chart);
