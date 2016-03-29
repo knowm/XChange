@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class PoloniexException extends RuntimeException {
 
   @JsonProperty("error")
-  String error;
+  private String error;
 
   public PoloniexException(@JsonProperty("error") String error) {
 
-    super();
+    super(error);
     this.error = error;
   }
 
@@ -18,10 +18,4 @@ public class PoloniexException extends RuntimeException {
 
     return error;
   }
-
-  public void setError(String error) {
-
-    this.error = error;
-  }
-
 }
