@@ -21,6 +21,20 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({ "last", "lowestAsk", "highestBid", "percentChange", "baseVolume", "quoteVolume" })
 public class PoloniexMarketData {
+    
+  @JsonProperty("high24hr")
+  private BigDecimal high24hr; 
+  public BigDecimal getHigh24hr() {
+        
+      return high24hr;
+  }
+  
+  @JsonProperty("low24hr")
+  private BigDecimal low24hr; 
+  public BigDecimal getLow24hr() {
+        
+      return low24hr;
+  }   
 
   @JsonProperty("last")
   private BigDecimal last;

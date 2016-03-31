@@ -12,6 +12,9 @@
 .classpath
 .project
 
+#NetBeans
+nb-configuration.xml
+
 # Generated
 target/
 javadoc/

@@ -1,6 +1,7 @@
 package com.xeiam.xchange.examples.poloniex.account;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.Currency;
@@ -31,6 +32,8 @@ public class PoloniexAccountDemo {
     System.out.println("----------GENERIC----------");
     System.out.println(accountService.requestDepositAddress(Currency.BTC));
     System.out.println(accountService.getAccountInfo());
+
+    System.out.println(accountService.withdrawFunds(Currency.BTC, new BigDecimal("0.03"), "13ArNKUYZ4AmXP4EUzSHMAUsvgGok74jWu"));
   }
 
   private static void raw(PoloniexAccountServiceRaw accountService) throws IOException {
