@@ -151,12 +151,7 @@ public class BleutradeAdapters {
     }
 
     // https://bleutrade.com/help/fees_and_deadlines 11/25/2015 all == 0.25%
-    BigDecimal singleTxFee = new BigDecimal("0.0025");
-    // bleutrade gives a fee per currency rather than per exchange
-    // I suppose that the fee for both currencies is charged when a trade is made
-    // z = 1 - (1 - y) * (1 - x)
-    singleTxFee = singleTxFee.negate().add(BigDecimal.ONE);
-    BigDecimal txFee = singleTxFee.multiply(singleTxFee).negate().add(BigDecimal.ONE);
+    BigDecimal txFee = new BigDecimal("0.0025");
 
     for (BleutradeMarket bleutradeMarket : bleutradeMarkets) {
       CurrencyPair currencyPair = CurrencyPairDeserializer.getCurrencyPairFromString(bleutradeMarket.getMarketName());
