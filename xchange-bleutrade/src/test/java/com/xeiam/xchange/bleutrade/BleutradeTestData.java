@@ -92,15 +92,15 @@ public class BleutradeTestData {
 
   protected static MarketMetaData[] expectedMetaDataList() {
     return new MarketMetaData[]{
-      new MarketMetaData(new BigDecimal("0.00499375"), new BigDecimal("0.10000000"), 8),
-      new MarketMetaData(new BigDecimal("0.00499375"), new BigDecimal("0.00000001"), 8)
+      new MarketMetaData(new BigDecimal("0.0025"), new BigDecimal("0.10000000"), 8),
+      new MarketMetaData(new BigDecimal("0.0025"), new BigDecimal("0.00000001"), 8)
     };
   }
 
   protected static String[] expectedMetaDataStr() {
     return new String[]{
-      "MarketMetaData{tradingFee=0.00499375, minimumAmount=0.10000000, priceScale=8}",
-      "MarketMetaData{tradingFee=0.00499375, minimumAmount=1E-8, priceScale=8}"
+      "MarketMetaData{tradingFee=0.0025, minimumAmount=0.10000000, priceScale=8}",
+      "MarketMetaData{tradingFee=0.0025, minimumAmount=1E-8, priceScale=8}"
     };
   }
 }
