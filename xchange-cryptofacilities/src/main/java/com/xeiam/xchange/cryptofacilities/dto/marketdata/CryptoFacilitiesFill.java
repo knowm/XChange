@@ -14,7 +14,7 @@ import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
 public class CryptoFacilitiesFill extends CryptoFacilitiesResult {
 
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 		
 	private final Date fillTime;
 	private final String order_id;
@@ -36,7 +36,7 @@ public class CryptoFacilitiesFill extends CryptoFacilitiesResult {
 			) throws ParseException {
 	
 		  super(result, error);
-		    
+
 		  this.fillTime = DATE_FORMAT.parse(strfillTime);
 		  this.order_id = order_id;
 		  this.fill_id = fill_id;
