@@ -172,8 +172,8 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     Map<CurrencyPair, MarketMetaData> marketMetaDataMap = exchange.getMetaData().getMarketMetaDataMap();
     assertThat(marketMetaDataMap).hasSize(2);
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString()).isEqualTo(
-        "MarketMetaData{tradingFee=0.00499375, minimumAmount=0.10000000, priceScale=8}");
+        "MarketMetaData{tradingFee=0.0025, minimumAmount=0.10000000, priceScale=8}");
     assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo(
-        "MarketMetaData{tradingFee=0.00499375, minimumAmount=1E-8, priceScale=8}");
+        "MarketMetaData{tradingFee=0.0025, minimumAmount=1E-8, priceScale=8}");
   }
 }
