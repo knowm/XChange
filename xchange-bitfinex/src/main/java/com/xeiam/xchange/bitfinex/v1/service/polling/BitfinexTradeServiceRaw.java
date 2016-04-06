@@ -131,6 +131,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
         bitfinexOrders[i] = new BitfinexNewOrder(pair, "bitfinex", type, orderType, marketOrder.getTradableAmount(), BigDecimal.ONE);
       }
     }
+    
     BitfinexNewOrderMultiRequest request = new BitfinexNewOrderMultiRequest(String.valueOf(exchange.getNonceFactory().createValue()), bitfinexOrders);
     try {
       BitfinexNewOrderMultiResponse response = bitfinex.newOrderMulti(apiKey, payloadCreator, signatureCreator, request);
