@@ -111,7 +111,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
     }
   }
 
-  public BitfinexNewOrderMultiResponse placeBitfinexOrderMulti(List<Order> orders, BitfinexOrderType bitfinexOrderType) throws IOException {
+  public BitfinexNewOrderMultiResponse placeBitfinexOrderMulti(List<? extends Order> orders, BitfinexOrderType bitfinexOrderType) throws IOException {
     
     BitfinexNewOrder[] bitfinexOrders = new BitfinexNewOrder[orders.size()];
     
