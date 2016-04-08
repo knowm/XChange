@@ -37,7 +37,7 @@ public class CryptoFacilitiesFill extends CryptoFacilitiesResult {
 	
 		  super(result, error);
 
-		  this.fillTime = DATE_FORMAT.parse(strfillTime);
+		  this.fillTime = strfillTime == null ? null : DATE_FORMAT.parse(strfillTime);
 		  this.order_id = order_id;
 		  this.fill_id = fill_id;
 		  this.symbol = symbol;

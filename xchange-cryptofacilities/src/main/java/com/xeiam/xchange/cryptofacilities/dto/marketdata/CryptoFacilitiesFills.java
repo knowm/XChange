@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 
 public class CryptoFacilitiesFills extends CryptoFacilitiesResult {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
     private final Date serverTime;
     private final List<CryptoFacilitiesFill> fills;
@@ -42,12 +42,17 @@ public class CryptoFacilitiesFills extends CryptoFacilitiesResult {
     @Override
     public String toString() {
 
+        if(isSuccess()) {
             String res = "CryptoFacilitiesFills [serverTime=" + DATE_FORMAT.format(serverTime) + ", fills=";
             for(CryptoFacilitiesFill fill : fills)
                     res = res + fill.toString() + ", ";
             res = res + " ]";
 
             return res;
+        } 
+        else {
+            return super.toString();
+        }
     }
 
   

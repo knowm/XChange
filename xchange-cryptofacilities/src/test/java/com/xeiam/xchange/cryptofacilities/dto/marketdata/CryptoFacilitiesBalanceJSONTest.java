@@ -18,6 +18,7 @@ import com.xeiam.xchange.cryptofacilities.dto.account.CryptoFacilitiesBalance;
  * @author Jean-Christophe Laruelle
  */
 
+@Deprecated
 public class CryptoFacilitiesBalanceJSONTest {
 
 	@Test
