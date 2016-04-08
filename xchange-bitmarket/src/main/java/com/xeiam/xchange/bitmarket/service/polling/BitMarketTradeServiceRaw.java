@@ -48,7 +48,7 @@ public class BitMarketTradeServiceRaw extends BitMarketBasePollingService {
   public BitMarketTradeResponse placeBitMarketOrder(LimitOrder order) throws IOException, ExchangeException {
 
     String market = order.getCurrencyPair().toString().replace("/", "");
-    String type = order.getType() == Order.OrderType.ASK ? "buy" : "sell";
+    String type = order.getType() == Order.OrderType.ASK ? "sell" : "buy";
 
     BitMarketTradeResponse response = bitMarketAuthenticated.trade(apiKey, sign, exchange.getNonceFactory(), market, type, order.getTradableAmount(),
         order.getLimitPrice());

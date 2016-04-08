@@ -106,7 +106,7 @@ public class BitMarketAdapters {
 
     for (BitMarketTrade bitMarketTrade : bitMarketTrades) {
 
-      Trade trade = new Trade(bitMarketTrade.getType().equals("bid") ? OrderType.BID : OrderType.BID, bitMarketTrade.getAmount(), currencyPair,
+      Trade trade = new Trade(bitMarketTrade.getType().equals("sell") ? OrderType.ASK : OrderType.BID, bitMarketTrade.getAmount(), currencyPair,
           bitMarketTrade.getPrice(), new Date(bitMarketTrade.getDate() * 1000), bitMarketTrade.getTid());
 
       tradeList.add(trade);
