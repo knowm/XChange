@@ -104,7 +104,7 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
 
     // when
     String placedBuy = tradeService.placeLimitOrder(
-        new LimitOrder(Order.OrderType.ASK, BigDecimal.ONE, CurrencyPair.BTC_AUD, "12345", null, BigDecimal.TEN));
+        new LimitOrder(Order.OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_AUD, "12345", null, BigDecimal.TEN));
 
     // then
     assertThat(placedBuy).isEqualTo("12345");
@@ -132,7 +132,7 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
 
     // when
     String placedSell = tradeService.placeLimitOrder(
-      new LimitOrder(Order.OrderType.BID, BigDecimal.ONE, CurrencyPair.BTC_AUD, "11111", null, BigDecimal.TEN));
+      new LimitOrder(Order.OrderType.ASK, BigDecimal.ONE, CurrencyPair.BTC_AUD, "11111", null, BigDecimal.TEN));
 
     // then
     assertThat(placedSell).isEqualTo("11111");
@@ -151,7 +151,7 @@ public class BitMarketTradeTest extends BitMarketTestSupport {
 
     BitMarketAuthenticated bitMarketAuthenticated = mock(BitMarketAuthenticated.class);
     PowerMockito.when(bitMarketAuthenticated.trade(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTCAUD"), Mockito.eq("buy"),
+        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("BTCAUD"), Mockito.eq("sell"),
         Mockito.eq(BigDecimal.ONE), Mockito.eq(BigDecimal.TEN))).thenReturn(response);
     Whitebox.setInternalState(tradeService, "bitMarketAuthenticated", bitMarketAuthenticated);
 
