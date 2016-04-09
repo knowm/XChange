@@ -161,4 +161,15 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService {
     }
   }
 
+  public PoloniexChartData[] getPoloniexChartData(CurrencyPair currencyPair, Integer period, Long startTime, Long endTime) throws IOException {
+    String command = "returnChartData";
+    String pairString = PoloniexUtils.toPairString(currencyPair);
+
+    try {
+      PoloniexChartData[] chartData = poloniex.getChartData(command, period, pairString, startTime, endTime);
+      return chartData;
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
+    }
+  }
 }

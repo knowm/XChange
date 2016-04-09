@@ -1,0 +1,117 @@
+package com.xeiam.xchange.poloniex.dto.marketdata;
+/**
+ * @author MadWicket
+ */
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import java.math.BigDecimal;
+
+@JsonInclude(Include.NON_NULL)
+@JsonPropertyOrder({"date", "high", "low", "open", "close", "volume", "quoteVolume", "weightedAverage"})
+public class PoloniexChartData {
+    @JsonProperty("date")
+    private String date;
+    @JsonProperty("high")
+    private BigDecimal high;
+    @JsonProperty("low")
+    private BigDecimal low;
+    @JsonProperty("open")
+    private BigDecimal open;
+    @JsonProperty("close")
+    private BigDecimal close;
+    @JsonProperty("volume")
+    private BigDecimal volume;
+    @JsonProperty("quoteVolume")
+    private BigDecimal quoteVolume;
+    @JsonProperty("weightedAverage")
+    private BigDecimal weightedAverage;
+
+    public PoloniexChartData() {
+    }
+
+    @JsonProperty("date")
+    public String getDate() {
+        return this.date;
+    }
+
+    @JsonProperty("date")
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    @JsonProperty("high")
+    public BigDecimal getHigh() {
+        return this.high;
+    }
+
+    @JsonProperty("high")
+    public void setHigh(BigDecimal high) {
+        this.high = high;
+    }
+
+    @JsonProperty("low")
+    public BigDecimal getLow() {
+        return this.low;
+    }
+
+    @JsonProperty("low")
+    public void setLow(BigDecimal low) {
+        this.low = low;
+    }
+
+    @JsonProperty("open")
+    public BigDecimal getOpen() {
+        return this.open;
+    }
+
+    @JsonProperty("open")
+    public void setOpen(BigDecimal open) {
+        this.open = open;
+    }
+
+    @JsonProperty("close")
+    public BigDecimal getClose() {
+        return this.close;
+    }
+
+    @JsonProperty("close")
+    public void setClose(BigDecimal close) {
+        this.close = close;
+    }
+
+    @JsonProperty("volume")
+    public BigDecimal getVolume() {
+        return this.volume;
+    }
+
+    @JsonProperty("volume")
+    public void setVolume(BigDecimal volume) {
+        this.volume = volume;
+    }
+
+    @JsonProperty("quoteVolume")
+    public BigDecimal getQuoteVolume() {
+        return this.quoteVolume;
+    }
+
+    @JsonProperty("quoteVolume")
+    public void setQuoteVolume(BigDecimal quoteVolume) {
+        this.quoteVolume = quoteVolume;
+    }
+
+    @JsonProperty("weightedAverage")
+    public BigDecimal getWeightedAverage() {
+        return this.weightedAverage;
+    }
+
+    @JsonProperty("weightedAverage")
+    public void setWeightedAverage(BigDecimal weightedAverage) {
+        this.weightedAverage = weightedAverage;
+    }
+
+    public String toString() {
+        return "PoloniexPublicTrade [date=" + this.date + ", high=" + this.high + ", low=" + this.low + ", open=" + this.open + ", close=" + this.close + ", volume=" + this.volume + ", quoteVolume=" + this.quoteVolume + ", weightedAverage=" + this.weightedAverage + "]";
+    }
+}
