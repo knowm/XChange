@@ -44,5 +44,9 @@ public interface Poloniex {
   @GET
   Map<String, PoloniexDepth> getAllOrderBooks(@QueryParam("command") String command, @QueryParam("currencyPair") String pair,
       @QueryParam("depth") Integer depth) throws PoloniexException, IOException;
+      
+  @GET
+  PoloniexChartData[] getChartData(@QueryParam("command") String command, @QueryParam("period") Integer period, @QueryParam("currencyPair") String currencyPair,
+      @QueryParam("start") Long startTime, @QueryParam("end") Long endTime) throws PoloniexException, IOException;
 
 }
