@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Jean-Christophe Laruelle
  */
 
+@Deprecated
 public class CryptoFacilitiesIndexJSONTest {
 
 	@Test

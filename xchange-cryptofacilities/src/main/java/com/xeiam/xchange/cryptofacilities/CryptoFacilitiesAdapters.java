@@ -41,14 +41,21 @@ public class CryptoFacilitiesAdapters {
 
 	  public static Ticker adaptTicker(CryptoFacilitiesTicker cryptoFacilitiesTicker, CurrencyPair currencyPair) {
 
+		if(cryptoFacilitiesTicker != null) {
 		    Ticker.Builder builder = new Ticker.Builder();
 		    
 		    builder.ask(cryptoFacilitiesTicker.getAsk());
 		    builder.bid(cryptoFacilitiesTicker.getBid());
 		    builder.last(cryptoFacilitiesTicker.getLast());
 		    builder.currencyPair(currencyPair);
+		    builder.low(cryptoFacilitiesTicker.getLow24H());
+		    builder.high(cryptoFacilitiesTicker.getHigh24H());
+		    builder.volume(cryptoFacilitiesTicker.getVol24H());
+		    builder.timestamp(cryptoFacilitiesTicker.getLastTime());
 
 		    return builder.build();
+		}
+		return null;
 	  }
 	  
 	  public static Currency adaptCurrency(String code)
