@@ -10,18 +10,18 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitDepth;
-import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrade;
+import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrades;
 
-@Path("/api")
+@Path("/v1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface ItBit {
 
   @GET
-  @Path("/v2/markets/{ident}{currency}/orders")
+  @Path("/markets/{ident}{currency}/order_book")
   ItBitDepth getDepth(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException;
 
   @GET
-  @Path("/v2/markets/{ident}{currency}/trades")
-  ItBitTrade[] getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("since") long sinceId)
+  @Path("/markets/{ident}{currency}/trades")
+  ItBitTrades getTrades(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @QueryParam("since") long sinceId)
       throws IOException;
 }
