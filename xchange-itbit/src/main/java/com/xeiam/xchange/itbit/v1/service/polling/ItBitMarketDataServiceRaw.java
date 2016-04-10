@@ -6,7 +6,7 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitDepth;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
-import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrade;
+import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrades;
 
 public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
 
@@ -28,20 +28,19 @@ public class ItBitMarketDataServiceRaw extends ItBitBasePollingService {
   }
 
   public ItBitDepth getItBitDepth(CurrencyPair currencyPair, Object... args) throws IOException {
-
     ItBitDepth depth = itBitPublic.getDepth(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
 
     return depth;
   }
 
-  public ItBitTrade[] getItBitTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+  public ItBitTrades getItBitTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     long since = 0;
     if (args.length == 1) {
       since = ((Number) args[0]).longValue();
     }
 
-    ItBitTrade[] trades = itBitPublic.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), since);
+    ItBitTrades trades = itBitPublic.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), since);
     return trades;
   }
 }

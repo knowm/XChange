@@ -18,6 +18,7 @@ import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountBalance;
 import com.xeiam.xchange.itbit.v1.dto.account.ItBitAccountInfoReturn;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrade;
+import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrades;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.utils.DateUtils;
 
@@ -81,12 +82,12 @@ public final class ItBitAdapters {
     return parse;
   }
 
-  public static Trades adaptTrades(ItBitTrade[] trades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(ItBitTrades trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>(trades.length);
+    List<Trade> tradesList = new ArrayList<Trade>(trades.getCount());
     long lastTradeId = 0;
-    for (int i = 0; i < trades.length; i++) {
-      ItBitTrade trade = trades[i];
+    for (int i = 0; i < trades.getCount(); i++) {
+      ItBitTrade trade = trades.getTrades()[i];
       long tradeId = trade.getTid();
       if (tradeId > lastTradeId)
         lastTradeId = tradeId;
