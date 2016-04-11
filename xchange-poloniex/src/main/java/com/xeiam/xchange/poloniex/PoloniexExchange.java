@@ -1,5 +1,10 @@
 package com.xeiam.xchange.poloniex;
 
+import java.io.IOException;
+import java.util.Map;
+
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -9,12 +14,7 @@ import com.xeiam.xchange.poloniex.service.polling.PoloniexAccountService;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexMarketDataService;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexMarketDataServiceRaw;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexTradeService;
-import com.xeiam.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
-
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.util.Map;
+import com.xeiam.xchange.utils.nonce.TimestampIncrementingNonceFactory;
 
 /**
  * @author Zach Holmes
@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class PoloniexExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
 
   @Override
   protected void initServices() {
