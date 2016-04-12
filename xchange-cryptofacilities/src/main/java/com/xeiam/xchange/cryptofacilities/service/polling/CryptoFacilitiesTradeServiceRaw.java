@@ -8,7 +8,6 @@ import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
-import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTrades;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
@@ -35,8 +34,9 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBasePolling
     String tradeable = order.getCurrencyPair().base.toString();
     String unit = order.getCurrencyPair().counter.toString();
     String dir = "Buy";
-    if (order.getType().equals(OrderType.ASK))
+    if (order.getType().equals(OrderType.ASK)) {
       dir = "Sell";
+    }
     BigDecimal qty = order.getTradableAmount();
     BigDecimal price = order.getLimitPrice();
 
@@ -62,19 +62,6 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBasePolling
     }
 
     return openOrders;
-  }
-
-  @Deprecated
-  public CryptoFacilitiesTrades getCryptoFacilitiesTrades(int number) throws IOException {
-    CryptoFacilitiesTrades trades = null;
-
-    try {
-      trades = cryptoFacilities.trades(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), number);
-    } catch (Exception e) {
-      return null;
-    }
-
-    return trades;
   }
 
   public CryptoFacilitiesFills getCryptoFacilitiesFills() throws IOException {

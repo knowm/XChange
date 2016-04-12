@@ -12,12 +12,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccount;
-import com.xeiam.xchange.cryptofacilities.dto.account.CryptoFacilitiesBalance;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
-import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTrades;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -29,13 +27,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
 public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
-
-  @POST
-  @Path("/balance")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  @Deprecated
-  public CryptoFacilitiesBalance balance(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
-      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("/v2/account")
@@ -63,13 +54,6 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public CryptoFacilitiesOpenOrders openOrders(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
       @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
-
-  @POST
-  @Path("/trades")
-  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  @Deprecated
-  public CryptoFacilitiesTrades trades(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
-      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("number") Integer number) throws IOException;
 
   @POST
   @Path("/v2/fills")
