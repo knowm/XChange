@@ -3,8 +3,6 @@ package com.xeiam.xchange.bitso.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bitso.BitsoAuthenticated;
 import com.xeiam.xchange.bitso.dto.account.BitsoBalance;
@@ -12,6 +10,8 @@ import com.xeiam.xchange.bitso.dto.account.BitsoDepositAddress;
 import com.xeiam.xchange.bitso.service.BitsoDigest;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.exceptions.ExchangeException;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class BitsoAccountServiceRaw extends BitsoBasePollingService {
 

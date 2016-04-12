@@ -13,14 +13,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.poloniex.dto.account.PoloniexBalance;
 import com.xeiam.xchange.poloniex.dto.account.WithdrawalResponse;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Zach Holmes

@@ -2,13 +2,13 @@ package com.xeiam.xchange.therock.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.therock.TheRock;
 import com.xeiam.xchange.therock.dto.TheRockException;
 import com.xeiam.xchange.therock.dto.marketdata.TheRockOrderBook;
 import com.xeiam.xchange.therock.dto.marketdata.TheRockTicker;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class TheRockMarketDataServiceRaw extends TheRockBasePollingService {
 

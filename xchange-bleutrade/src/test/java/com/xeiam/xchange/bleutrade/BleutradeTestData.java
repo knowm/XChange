@@ -1,5 +1,8 @@
 package com.xeiam.xchange.bleutrade;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
@@ -8,9 +11,6 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 public class BleutradeTestData {
 

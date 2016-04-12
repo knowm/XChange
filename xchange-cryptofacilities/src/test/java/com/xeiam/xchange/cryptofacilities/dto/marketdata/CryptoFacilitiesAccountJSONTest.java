@@ -5,13 +5,10 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.Iterator;
-import java.util.List;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.xeiam.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccount;
 
 /**

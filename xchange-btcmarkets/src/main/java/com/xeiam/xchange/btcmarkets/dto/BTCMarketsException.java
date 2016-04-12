@@ -2,9 +2,9 @@ package com.xeiam.xchange.btcmarkets.dto;
 
 import java.util.List;
 
-import si.mazi.rescu.HttpStatusExceptionSupport;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class BTCMarketsException extends HttpStatusExceptionSupport {
 

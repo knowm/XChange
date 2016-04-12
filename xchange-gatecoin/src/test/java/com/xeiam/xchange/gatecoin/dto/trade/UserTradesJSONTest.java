@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinTradeHistoryResult;
 
 public class UserTradesJSONTest {

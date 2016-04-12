@@ -1,11 +1,11 @@
 package com.xeiam.xchange.btcmarkets.service.polling;
 
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.Date;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import org.junit.Test;
 
 public class BTCMarketsTradeServiceHistoryParamsTest {
 

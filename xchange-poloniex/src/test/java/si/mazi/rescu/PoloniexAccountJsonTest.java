@@ -5,13 +5,13 @@ import java.lang.reflect.Method;
 import org.junit.Assert;
 import org.junit.Test;
 
-import si.mazi.rescu.serialization.jackson.JacksonConfigureListener;
-import si.mazi.rescu.serialization.jackson.JacksonMapper;
-import si.mazi.rescu.serialization.jackson.JacksonResponseReader;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.poloniex.PoloniexAuthenticated;
 import com.xeiam.xchange.poloniex.PoloniexException;
+
+import si.mazi.rescu.serialization.jackson.JacksonConfigureListener;
+import si.mazi.rescu.serialization.jackson.JacksonMapper;
+import si.mazi.rescu.serialization.jackson.JacksonResponseReader;
 
 public class PoloniexAccountJsonTest {
 

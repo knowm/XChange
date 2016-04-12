@@ -1,11 +1,11 @@
 package com.xeiam.xchange.bitmarket.dto;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BitMarketDtoTestSupport {
   private static ObjectMapper mapper = new ObjectMapper();

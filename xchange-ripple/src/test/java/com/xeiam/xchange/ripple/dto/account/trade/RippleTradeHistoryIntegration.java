@@ -5,11 +5,11 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.ripple.RippleExchange;

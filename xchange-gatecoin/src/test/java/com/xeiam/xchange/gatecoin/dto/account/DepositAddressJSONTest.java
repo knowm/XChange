@@ -1,12 +1,15 @@
 
 package com.xeiam.xchange.gatecoin.dto.account;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.gatecoin.dto.account.Results.GatecoinDepositAddressResult;
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import java.io.IOException;
 import java.io.InputStream;
-import static org.fest.assertions.api.Assertions.assertThat;
+
 import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.gatecoin.dto.account.Results.GatecoinDepositAddressResult;
 
 /**
  * @author sumedha

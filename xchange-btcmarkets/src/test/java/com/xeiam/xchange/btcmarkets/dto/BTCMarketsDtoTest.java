@@ -1,5 +1,17 @@
 package com.xeiam.xchange.btcmarkets.dto;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,17 +31,6 @@ import com.xeiam.xchange.btcmarkets.service.polling.BTCMarketsTestSupport;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-import org.junit.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
 public class BTCMarketsDtoTest extends BTCMarketsTestSupport {

@@ -3,13 +3,13 @@ package com.xeiam.xchange.btcmarkets.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.xeiam.xchange.utils.jackson.BtcToSatoshi;
 import com.xeiam.xchange.utils.jackson.SatoshiToBtc;
+
+import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
 
 public class BTCMarketsTicker {
 

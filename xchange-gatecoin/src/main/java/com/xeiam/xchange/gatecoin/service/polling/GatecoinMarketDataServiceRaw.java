@@ -2,13 +2,13 @@ package com.xeiam.xchange.gatecoin.service.polling;
 
 import java.io.IOException;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.gatecoin.Gatecoin;
 import com.xeiam.xchange.gatecoin.dto.marketdata.Results.GatecoinDepthResult;
 import com.xeiam.xchange.gatecoin.dto.marketdata.Results.GatecoinTickerResult;
 import com.xeiam.xchange.gatecoin.dto.marketdata.Results.GatecoinTransactionResult;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author sumedha

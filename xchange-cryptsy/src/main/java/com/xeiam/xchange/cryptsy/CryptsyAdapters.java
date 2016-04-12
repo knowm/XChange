@@ -1,10 +1,16 @@
 package com.xeiam.xchange.cryptsy;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.dto.account.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +33,11 @@ import com.xeiam.xchange.cryptsy.dto.trade.CryptsyOpenOrders;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyOpenOrdersReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistory;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -38,7 +47,6 @@ import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.dto.account.Balance;
 
 /**
  * @author ObsessiveOrange

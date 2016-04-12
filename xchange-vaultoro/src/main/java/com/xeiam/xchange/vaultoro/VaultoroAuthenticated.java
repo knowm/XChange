@@ -12,13 +12,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.vaultoro.dto.account.VaultoroBalancesResponse;
 import com.xeiam.xchange.vaultoro.dto.trade.VaultoroCancelOrderResponse;
 import com.xeiam.xchange.vaultoro.dto.trade.VaultoroNewOrderResponse;
 import com.xeiam.xchange.vaultoro.dto.trade.VaultoroOrdersResponse;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)

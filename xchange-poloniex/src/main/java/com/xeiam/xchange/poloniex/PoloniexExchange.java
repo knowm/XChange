@@ -3,8 +3,6 @@ package com.xeiam.xchange.poloniex;
 import java.io.IOException;
 import java.util.Map;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -15,6 +13,8 @@ import com.xeiam.xchange.poloniex.service.polling.PoloniexMarketDataService;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexMarketDataServiceRaw;
 import com.xeiam.xchange.poloniex.service.polling.PoloniexTradeService;
 import com.xeiam.xchange.utils.nonce.TimestampIncrementingNonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Zach Holmes

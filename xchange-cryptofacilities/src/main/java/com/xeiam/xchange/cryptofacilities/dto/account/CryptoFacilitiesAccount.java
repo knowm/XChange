@@ -1,11 +1,8 @@
 package com.xeiam.xchange.cryptofacilities.dto.account;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 

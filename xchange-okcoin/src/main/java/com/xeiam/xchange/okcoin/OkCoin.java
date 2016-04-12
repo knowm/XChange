@@ -11,8 +11,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-
 import com.xeiam.xchange.okcoin.dto.account.OKCoinWithdraw;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinUserInfo;
@@ -24,6 +22,8 @@ import com.xeiam.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinPositionResult;
 import com.xeiam.xchange.okcoin.dto.trade.OkCoinTradeResult;
+
+import si.mazi.rescu.ParamsDigest;
 
 @Path("/v1")
 @Produces(MediaType.APPLICATION_JSON)

@@ -1,10 +1,10 @@
 package com.xeiam.xchange.gatecoin.service.polling;
 
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
-
-import java.math.BigDecimal;
 
 /**
  * @author timmolter

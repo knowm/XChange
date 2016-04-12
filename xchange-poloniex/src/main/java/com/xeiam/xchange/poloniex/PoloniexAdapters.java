@@ -1,8 +1,16 @@
 package com.xeiam.xchange.poloniex;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
@@ -11,17 +19,18 @@ import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
 import com.xeiam.xchange.dto.meta.CurrencyMetaData;
 import com.xeiam.xchange.dto.meta.ExchangeMetaData;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
-import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.poloniex.dto.account.PoloniexBalance;
-import com.xeiam.xchange.poloniex.dto.marketdata.*;
+import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
+import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexDepth;
+import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexLevel;
+import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
+import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
+import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexTicker;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import com.xeiam.xchange.poloniex.dto.trade.PoloniexUserTrade;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * @author Zach Holmes

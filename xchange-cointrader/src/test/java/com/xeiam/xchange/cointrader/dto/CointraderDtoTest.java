@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +19,7 @@ import com.xeiam.xchange.cointrader.dto.marketdata.CointraderOrderBook;
 import com.xeiam.xchange.cointrader.dto.trade.CointraderOrder;
 import com.xeiam.xchange.cointrader.dto.trade.CointraderTradeHistoryResponse;
 import com.xeiam.xchange.cointrader.dto.trade.CointraderUserTrade;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order;
 import com.xeiam.xchange.dto.marketdata.OrderBook;

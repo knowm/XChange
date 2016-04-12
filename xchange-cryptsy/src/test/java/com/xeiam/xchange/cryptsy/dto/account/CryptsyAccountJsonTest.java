@@ -1,9 +1,6 @@
 package com.xeiam.xchange.cryptsy.dto.account;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.cryptsy.dto.account.CryptsyTransfers.CryptsyTrfDirection;
-import com.xeiam.xchange.cryptsy.dto.account.CryptsyTxn.CryptsyTxnType;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.xeiam.xchange.cryptsy.dto.account.CryptsyTransfers.CryptsyTrfDirection;
+import com.xeiam.xchange.cryptsy.dto.account.CryptsyTxn.CryptsyTxnType;
 
 public class CryptsyAccountJsonTest {
 

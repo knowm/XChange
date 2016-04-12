@@ -5,9 +5,9 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.xeiam.xchange.currency.Currency;
 import org.junit.Test;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 

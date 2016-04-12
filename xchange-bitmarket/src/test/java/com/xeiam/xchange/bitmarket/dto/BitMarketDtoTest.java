@@ -1,5 +1,11 @@
 package com.xeiam.xchange.bitmarket.dto;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.io.IOException;
+
+import org.junit.Test;
+
 import com.xeiam.xchange.bitmarket.BitMarketAssert;
 import com.xeiam.xchange.bitmarket.BitMarketTestSupport;
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
@@ -10,11 +16,6 @@ import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTrade;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketCancelResponse;
 import com.xeiam.xchange.bitmarket.dto.trade.BitMarketTradeResponse;
-import org.junit.Test;
-
-import java.io.IOException;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 public class BitMarketDtoTest extends BitMarketTestSupport {
 

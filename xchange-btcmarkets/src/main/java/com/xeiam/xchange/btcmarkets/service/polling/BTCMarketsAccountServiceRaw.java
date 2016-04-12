@@ -3,13 +3,13 @@ package com.xeiam.xchange.btcmarkets.service.polling;
 import java.io.IOException;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.btcmarkets.BTCMarketsAuthenticated;
 import com.xeiam.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import com.xeiam.xchange.btcmarkets.service.BTCMarketsDigest;
+
+import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BTCMarketsAccountServiceRaw extends BTCMarketsBasePollingService {
 

@@ -1,11 +1,12 @@
 package com.xeiam.xchange.bitmarket;
 
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order;
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.dto.Order;
 
 public class BitMarketUtilsTest {
 

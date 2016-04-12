@@ -8,7 +8,11 @@ import java.math.BigDecimal;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.huobi.dto.trade.*;
+import com.xeiam.xchange.huobi.dto.trade.HuobiCancelOrderResult;
+import com.xeiam.xchange.huobi.dto.trade.HuobiOrder;
+import com.xeiam.xchange.huobi.dto.trade.HuobiOrderInfo;
+import com.xeiam.xchange.huobi.dto.trade.HuobiOrderResult;
+import com.xeiam.xchange.huobi.dto.trade.HuobiPlaceOrderResult;
 import com.xeiam.xchange.huobi.service.TradeServiceRaw;
 
 public class BitVcTradeServiceRaw extends BitVcBaseTradeService implements TradeServiceRaw {

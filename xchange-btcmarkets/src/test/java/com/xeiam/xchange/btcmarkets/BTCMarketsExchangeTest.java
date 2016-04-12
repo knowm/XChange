@@ -1,17 +1,19 @@
 package com.xeiam.xchange.btcmarkets;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.powermock.reflect.Whitebox;
+
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcmarkets.service.polling.BTCMarketsTestSupport;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
-import org.junit.Before;
-import org.junit.Test;
-import org.powermock.reflect.Whitebox;
-import si.mazi.rescu.SynchronizedValueFactory;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
 

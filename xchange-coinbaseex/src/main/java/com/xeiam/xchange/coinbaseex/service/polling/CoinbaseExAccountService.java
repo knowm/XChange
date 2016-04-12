@@ -1,5 +1,8 @@
 package com.xeiam.xchange.coinbaseex.service.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbaseex.CoinbaseExAdapters;
 import com.xeiam.xchange.coinbaseex.dto.account.CoinbaseExAccount;
@@ -10,9 +13,6 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
 import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 
 public class CoinbaseExAccountService extends CoinbaseExAccountServiceRaw implements PollingAccountService {
 

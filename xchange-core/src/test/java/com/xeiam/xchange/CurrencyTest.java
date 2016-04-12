@@ -1,9 +1,10 @@
 package com.xeiam.xchange;
 
-import com.xeiam.xchange.currency.Currency;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import com.xeiam.xchange.currency.Currency;
 
 public class CurrencyTest {
 

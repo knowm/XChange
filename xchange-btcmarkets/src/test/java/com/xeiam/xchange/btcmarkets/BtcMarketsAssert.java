@@ -1,5 +1,9 @@
 package com.xeiam.xchange.btcmarkets;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import com.xeiam.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
@@ -11,10 +15,6 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
-
-import java.math.BigDecimal;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 public class BtcMarketsAssert {
 

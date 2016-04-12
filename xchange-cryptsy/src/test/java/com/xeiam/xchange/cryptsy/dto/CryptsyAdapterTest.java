@@ -1,10 +1,31 @@
 package com.xeiam.xchange.cryptsy.dto;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Test;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.cryptsy.CryptsyAdapters;
 import com.xeiam.xchange.cryptsy.CryptsyUtils;
 import com.xeiam.xchange.cryptsy.dto.account.CryptsyAccountInfoReturn;
-import com.xeiam.xchange.cryptsy.dto.marketdata.*;
+import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyGetMarketsReturn;
+import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyMarketTradesReturn;
+import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyOrderBookReturn;
+import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicMarketData;
+import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicMarketDataReturn;
+import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicOrderbook;
+import com.xeiam.xchange.cryptsy.dto.marketdata.CryptsyPublicOrderbookReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyOpenOrdersReturn;
 import com.xeiam.xchange.cryptsy.dto.trade.CryptsyTradeHistoryReturn;
 import com.xeiam.xchange.currency.Currency;
@@ -16,21 +37,10 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.*;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.OpenOrders;
+import com.xeiam.xchange.dto.trade.UserTrade;
+import com.xeiam.xchange.dto.trade.UserTrades;
 
 public class CryptsyAdapterTest {
 

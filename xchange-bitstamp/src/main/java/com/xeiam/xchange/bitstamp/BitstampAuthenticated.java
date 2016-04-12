@@ -1,16 +1,27 @@
 package com.xeiam.xchange.bitstamp;
 
-import com.xeiam.xchange.bitstamp.dto.BitstampException;
-import com.xeiam.xchange.bitstamp.dto.account.*;
-import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
-import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.math.BigDecimal;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import com.xeiam.xchange.bitstamp.dto.BitstampException;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampRippleDepositAddress;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
+import com.xeiam.xchange.bitstamp.dto.account.DepositTransaction;
+import com.xeiam.xchange.bitstamp.dto.account.WithdrawalRequest;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampOrder;
+import com.xeiam.xchange.bitstamp.dto.trade.BitstampUserTransaction;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Benedikt Bünz See https://www.bitstamp.net/api/ for up-to-date docs.

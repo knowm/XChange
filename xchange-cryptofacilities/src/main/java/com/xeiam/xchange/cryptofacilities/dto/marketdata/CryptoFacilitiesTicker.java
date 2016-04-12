@@ -1,12 +1,12 @@
 package com.xeiam.xchange.cryptofacilities.dto.marketdata;
 
 import java.math.BigDecimal;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
 /**
  * @author Jean-Christophe Laruelle

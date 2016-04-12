@@ -5,9 +5,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
-import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btcmarkets.BTCMarketsAuthenticated;
@@ -20,6 +17,9 @@ import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
 import com.xeiam.xchange.btcmarkets.service.BTCMarketsDigest;
 import com.xeiam.xchange.currency.CurrencyPair;
+
+import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BTCMarketsTradeServiceRaw extends BTCMarketsBasePollingService {
 

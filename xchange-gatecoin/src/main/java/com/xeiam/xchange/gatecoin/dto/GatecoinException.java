@@ -2,6 +2,7 @@ package com.xeiam.xchange.gatecoin.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.gatecoin.dto.marketdata.ResponseStatus;
+
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
 public class GatecoinException extends HttpStatusExceptionSupport {

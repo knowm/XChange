@@ -1,9 +1,9 @@
 package com.xeiam.xchange.huobi.dto.trade;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-
-import java.math.BigDecimal;
 
 public class HuobiOrderInfo {
 

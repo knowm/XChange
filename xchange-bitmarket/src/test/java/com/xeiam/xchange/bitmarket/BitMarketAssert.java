@@ -1,5 +1,11 @@
 package com.xeiam.xchange.bitmarket;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+
 import com.xeiam.xchange.bitmarket.dto.account.BitMarketBalance;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import com.xeiam.xchange.bitmarket.dto.marketdata.BitMarketTicker;
@@ -11,12 +17,6 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 public class BitMarketAssert {
 

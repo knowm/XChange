@@ -2,7 +2,11 @@ package com.xeiam.xchange.coinbaseex.service.polling;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.coinbaseex.CoinbaseEx;
-import com.xeiam.xchange.coinbaseex.dto.trade.*;
+import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExFill;
+import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExIdResponse;
+import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExOrder;
+import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExPlaceOrder;
+import com.xeiam.xchange.coinbaseex.dto.trade.CoinbaseExTradeHistoryParams;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.MarketOrder;

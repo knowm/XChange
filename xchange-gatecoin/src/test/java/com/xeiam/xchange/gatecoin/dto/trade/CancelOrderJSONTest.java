@@ -7,12 +7,12 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.gatecoin.dto.GatecoinException;
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 public class CancelOrderJSONTest {
 

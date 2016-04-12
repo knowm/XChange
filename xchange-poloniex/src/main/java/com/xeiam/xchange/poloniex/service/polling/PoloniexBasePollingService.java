@@ -1,17 +1,17 @@
 package com.xeiam.xchange.poloniex.service.polling;
 
-/**
- * @author Zach Holmes
- */
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author Zach Holmes
+ */
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.poloniex.Poloniex;
@@ -21,8 +21,8 @@ import com.xeiam.xchange.poloniex.dto.marketdata.PoloniexMarketData;
 import com.xeiam.xchange.poloniex.service.PoloniexDigest;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
-import si.mazi.rescu.ClientConfig;
 
+import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.serialization.jackson.JacksonConfigureListener;

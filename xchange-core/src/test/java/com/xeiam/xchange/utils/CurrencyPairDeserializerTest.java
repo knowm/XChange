@@ -2,10 +2,11 @@ package com.xeiam.xchange.utils;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
+import org.junit.Test;
+
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.utils.jackson.CurrencyPairDeserializer;
-import org.junit.Test;
 
 /**
  * Test class for CurrencyPairDeserializer

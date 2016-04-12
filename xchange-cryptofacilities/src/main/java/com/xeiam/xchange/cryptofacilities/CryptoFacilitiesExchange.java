@@ -1,7 +1,5 @@
 package com.xeiam.xchange.cryptofacilities;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
@@ -9,6 +7,8 @@ import com.xeiam.xchange.cryptofacilities.service.polling.CryptoFacilitiesAccoun
 import com.xeiam.xchange.cryptofacilities.service.polling.CryptoFacilitiesMarketDataService;
 import com.xeiam.xchange.cryptofacilities.service.polling.CryptoFacilitiesTradeService;
 import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Jean-Christophe Laruelle

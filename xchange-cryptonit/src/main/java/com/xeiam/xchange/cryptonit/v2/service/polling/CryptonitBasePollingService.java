@@ -10,7 +10,6 @@ import com.xeiam.xchange.cryptonit.v2.CryptonitAdapters;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
-
 import com.xeiam.xchange.utils.CertHelper;
 
 import si.mazi.rescu.ClientConfig;

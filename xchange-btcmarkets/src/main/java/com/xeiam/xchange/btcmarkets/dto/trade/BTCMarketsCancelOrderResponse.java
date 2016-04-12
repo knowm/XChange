@@ -2,11 +2,11 @@ package com.xeiam.xchange.btcmarkets.dto.trade;
 
 import java.util.List;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.xeiam.xchange.btcmarkets.dto.BTCMarketsBaseResponse;
 import com.xeiam.xchange.btcmarkets.dto.BTCMarketsException;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 public class BTCMarketsCancelOrderResponse extends BTCMarketsBaseResponse {
 

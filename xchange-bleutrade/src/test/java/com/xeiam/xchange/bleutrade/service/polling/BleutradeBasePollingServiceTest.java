@@ -1,11 +1,11 @@
 package com.xeiam.xchange.bleutrade.service.polling;
 
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
-import com.xeiam.xchange.bleutrade.BleutradeExchange;
-import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarket;
-import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;
-import com.xeiam.xchange.currency.CurrencyPair;
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.powermock.api.mockito.PowerMockito.mock;
+
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,11 +13,12 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
-import java.io.IOException;
-import java.util.List;
-
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.powermock.api.mockito.PowerMockito.mock;
+import com.xeiam.xchange.ExchangeFactory;
+import com.xeiam.xchange.bleutrade.BleutradeAuthenticated;
+import com.xeiam.xchange.bleutrade.BleutradeExchange;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarket;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;
+import com.xeiam.xchange.currency.CurrencyPair;
 
 @RunWith(PowerMockRunner.class)
 public class BleutradeBasePollingServiceTest extends BleutradeServiceTestSupport {

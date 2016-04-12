@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.xeiam.xchange.dto.account.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +16,7 @@ import com.xeiam.xchange.coinfloor.dto.streaming.CoinfloorExchangeEvent;
 import com.xeiam.xchange.coinfloor.dto.streaming.CoinfloorStreamingConfiguration;
 import com.xeiam.xchange.coinfloor.streaming.RequestFactory.CoinfloorRequest;
 import com.xeiam.xchange.dto.Order;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trades;

@@ -1,5 +1,14 @@
 package com.xeiam.xchange.btcmarkets.dto;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.Test;
+
 import com.xeiam.xchange.btcmarkets.BTCMarketsAdapters;
 import com.xeiam.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import com.xeiam.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
@@ -14,14 +23,6 @@ import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrade;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
 

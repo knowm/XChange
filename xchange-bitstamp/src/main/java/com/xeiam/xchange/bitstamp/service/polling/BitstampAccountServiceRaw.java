@@ -1,17 +1,23 @@
 package com.xeiam.xchange.bitstamp.service.polling;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
-import com.xeiam.xchange.bitstamp.dto.account.*;
-import com.xeiam.xchange.bitstamp.service.BitstampDigest;
-import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.exceptions.ExchangeException;
-import si.mazi.rescu.RestProxyFactory;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+
+import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.bitstamp.BitstampAuthenticated;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampBalance;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampDepositAddress;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampRippleDepositAddress;
+import com.xeiam.xchange.bitstamp.dto.account.BitstampWithdrawal;
+import com.xeiam.xchange.bitstamp.dto.account.DepositTransaction;
+import com.xeiam.xchange.bitstamp.dto.account.WithdrawalRequest;
+import com.xeiam.xchange.bitstamp.service.BitstampDigest;
+import com.xeiam.xchange.currency.Currency;
+import com.xeiam.xchange.exceptions.ExchangeException;
+
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author gnandiga

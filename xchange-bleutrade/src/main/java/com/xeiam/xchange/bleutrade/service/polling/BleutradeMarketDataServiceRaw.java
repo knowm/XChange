@@ -5,7 +5,16 @@ import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bleutrade.BleutradeUtils;
-import com.xeiam.xchange.bleutrade.dto.marketdata.*;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarket;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketHistoryReturn;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarketsReturn;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeOrderBook;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeOrderBookReturn;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTicker;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTickerReturn;
+import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTrade;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.exceptions.ExchangeException;
 

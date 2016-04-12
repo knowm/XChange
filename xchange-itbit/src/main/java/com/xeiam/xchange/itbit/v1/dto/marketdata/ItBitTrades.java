@@ -1,8 +1,8 @@
 package com.xeiam.xchange.itbit.v1.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.Arrays;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ItBitTrades {
 

@@ -1,5 +1,13 @@
 package com.xeiam.xchange.bleutrade;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalance;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeLevel;
@@ -25,14 +33,6 @@ import com.xeiam.xchange.dto.meta.MarketMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.utils.jackson.CurrencyPairDeserializer;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class BleutradeAdapters {
 

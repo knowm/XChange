@@ -1,8 +1,9 @@
 
 package com.xeiam.xchange.gatecoin.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author sumedha

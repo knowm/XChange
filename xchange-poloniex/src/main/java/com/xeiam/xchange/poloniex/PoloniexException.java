@@ -1,8 +1,8 @@
 package com.xeiam.xchange.poloniex;
 
-import si.mazi.rescu.HttpStatusExceptionSupport;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.HttpStatusExceptionSupport;
 
 @SuppressWarnings("serial")
 public class PoloniexException extends HttpStatusExceptionSupport {

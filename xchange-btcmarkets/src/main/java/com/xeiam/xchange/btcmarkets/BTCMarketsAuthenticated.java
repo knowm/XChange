@@ -11,8 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.SynchronizedValueFactory;
-
 import com.xeiam.xchange.btcmarkets.dto.BTCMarketsException;
 import com.xeiam.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderRequest;
@@ -23,6 +21,8 @@ import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
 import com.xeiam.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
 import com.xeiam.xchange.btcmarkets.service.BTCMarketsDigest;
+
+import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)

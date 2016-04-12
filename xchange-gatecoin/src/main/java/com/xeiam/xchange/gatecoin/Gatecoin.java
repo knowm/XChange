@@ -1,13 +1,18 @@
 package com.xeiam.xchange.gatecoin;
 
+import java.io.IOException;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+
 import com.xeiam.xchange.gatecoin.dto.GatecoinException;
 import com.xeiam.xchange.gatecoin.dto.marketdata.Results.GatecoinDepthResult;
 import com.xeiam.xchange.gatecoin.dto.marketdata.Results.GatecoinTickerResult;
 import com.xeiam.xchange.gatecoin.dto.marketdata.Results.GatecoinTransactionResult;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
 
 /**
  * @author sumedha. See https://www.gatecoin.com/api/ for up-to-date docs.

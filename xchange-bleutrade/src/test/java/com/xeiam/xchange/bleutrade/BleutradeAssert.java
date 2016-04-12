@@ -1,5 +1,7 @@
 package com.xeiam.xchange.bleutrade;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalance;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeMarket;
@@ -9,8 +11,6 @@ import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.meta.MarketMetaData;
 import com.xeiam.xchange.dto.trade.LimitOrder;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 public class BleutradeAssert {
 

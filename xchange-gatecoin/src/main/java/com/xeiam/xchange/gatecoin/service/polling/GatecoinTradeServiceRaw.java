@@ -1,5 +1,8 @@
 package com.xeiam.xchange.gatecoin.service.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.gatecoin.GatecoinAuthenticated;
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
@@ -7,10 +10,8 @@ import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinOrderResult;
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinPlaceOrderResult;
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinTradeHistoryResult;
 import com.xeiam.xchange.gatecoin.service.GatecoinDigest;
-import si.mazi.rescu.RestProxyFactory;
 
-import java.io.IOException;
-import java.math.BigDecimal;
+import si.mazi.rescu.RestProxyFactory;
 
 /**
  * @author sumedha

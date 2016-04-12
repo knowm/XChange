@@ -11,16 +11,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.SynchronizedValueFactory;
-
-import com.xeiam.xchange.cryptofacilities.dto.account.CryptoFacilitiesBalance;
 import com.xeiam.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccount;
+import com.xeiam.xchange.cryptofacilities.dto.account.CryptoFacilitiesBalance;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
+import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTrades;
-import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Jean-Christophe Laruelle

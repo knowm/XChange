@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
-import si.mazi.rescu.RestProxyFactory;
-
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.currency.Currency;
@@ -15,6 +13,8 @@ import com.xeiam.xchange.therock.dto.account.TheRockBalance;
 import com.xeiam.xchange.therock.dto.account.TheRockWithdrawal;
 import com.xeiam.xchange.therock.dto.account.TheRockWithdrawalResponse;
 import com.xeiam.xchange.therock.service.TheRockDigest;
+
+import si.mazi.rescu.RestProxyFactory;
 
 public class TheRockAccountServiceRaw extends TheRockBasePollingService {
 

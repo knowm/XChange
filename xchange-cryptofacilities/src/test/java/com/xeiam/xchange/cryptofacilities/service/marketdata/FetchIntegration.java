@@ -2,11 +2,9 @@ package com.xeiam.xchange.cryptofacilities.service.marketdata;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-import java.math.BigDecimal;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
-import java.util.Date;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -21,7 +19,6 @@ import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.cryptofacilities.CryptoFacilitiesExchange;
-import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesContract;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesContracts;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesIndex;
@@ -30,10 +27,8 @@ import com.xeiam.xchange.cryptofacilities.service.polling.CryptoFacilitiesMarket
 import com.xeiam.xchange.cryptofacilities.service.polling.CryptoFacilitiesTradeService;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.OpenOrders;
 import com.xeiam.xchange.dto.trade.UserTrades;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;

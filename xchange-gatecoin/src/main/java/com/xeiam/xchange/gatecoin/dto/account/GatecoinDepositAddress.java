@@ -1,7 +1,8 @@
 package com.xeiam.xchange.gatecoin.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GatecoinDepositAddress {
 

@@ -1,8 +1,8 @@
 package com.xeiam.xchange.coinbaseex.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CoinbaseExSendMoneyRequest {
 

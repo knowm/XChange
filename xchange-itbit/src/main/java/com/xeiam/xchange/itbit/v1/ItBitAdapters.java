@@ -1,5 +1,18 @@
 package com.xeiam.xchange.itbit.v1;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
@@ -21,11 +34,6 @@ import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrade;
 import com.xeiam.xchange.itbit.v1.dto.marketdata.ItBitTrades;
 import com.xeiam.xchange.itbit.v1.dto.trade.ItBitOrder;
 import com.xeiam.xchange.utils.DateUtils;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.text.*;
-import java.util.*;
 
 public final class ItBitAdapters {
 

@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
+import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
 import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTrades;
-import com.xeiam.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.trade.LimitOrder;

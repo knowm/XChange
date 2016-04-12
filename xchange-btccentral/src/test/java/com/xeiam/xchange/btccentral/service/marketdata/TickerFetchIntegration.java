@@ -10,7 +10,6 @@ import com.xeiam.xchange.btccentral.BTCCentralExchange;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
-import com.xeiam.xchange.utils.CertHelper;
 
 /**
  * @author timmolter

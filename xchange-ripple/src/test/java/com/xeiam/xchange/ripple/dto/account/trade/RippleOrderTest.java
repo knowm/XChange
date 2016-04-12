@@ -14,9 +14,9 @@ import com.xeiam.xchange.ripple.dto.RippleAmount;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrders;
 import com.xeiam.xchange.ripple.dto.trade.RippleAccountOrdersBody;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderCancelResponse;
-import com.xeiam.xchange.ripple.dto.trade.RippleOrderTransaction;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderEntryResponse;
 import com.xeiam.xchange.ripple.dto.trade.RippleOrderResponseBody;
+import com.xeiam.xchange.ripple.dto.trade.RippleOrderTransaction;
 
 public class RippleOrderTest {
 

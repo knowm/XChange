@@ -1,19 +1,25 @@
 package com.xeiam.xchange.mercadobitcoin;
 
+import static com.xeiam.xchange.utils.DateUtils.fromUnixTime;
+
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
 import com.xeiam.xchange.dto.trade.UserTrades;
@@ -26,8 +32,6 @@ import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrdersEntry;
 import com.xeiam.xchange.mercadobitcoin.dto.trade.OperationEntry;
 import com.xeiam.xchange.utils.DateUtils;
-
-import static com.xeiam.xchange.utils.DateUtils.fromUnixTime;
 
 /**
  * Various adapters for converting from Mercado Bitcoin DTOs to XChange DTOs

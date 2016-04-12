@@ -1,5 +1,12 @@
 package com.xeiam.xchange.bleutrade.dto;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import java.io.IOException;
+
+import org.junit.Ignore;
+import org.junit.Test;
+
 import com.xeiam.xchange.bleutrade.BleutradeException;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalanceReturn;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalancesReturn;
@@ -12,12 +19,6 @@ import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTickerReturn;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeCancelOrderReturn;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrdersReturn;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
-import org.junit.Ignore;
-import org.junit.Test;
-
-import java.io.IOException;
-
-import static org.fest.assertions.api.Assertions.assertThat;
 
 public class BleutradeExtendedDtoTest extends BleutradeDtoTestSupport {
 

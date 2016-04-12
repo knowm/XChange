@@ -1,5 +1,14 @@
 package com.xeiam.xchange.btcmarkets.service.polling;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import org.powermock.reflect.Whitebox;
+
 import com.xeiam.xchange.btcmarkets.dto.BTCMarketsDtoTestSupport;
 import com.xeiam.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import com.xeiam.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
@@ -12,14 +21,6 @@ import com.xeiam.xchange.dto.account.Balance;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.trade.LimitOrder;
 import com.xeiam.xchange.dto.trade.UserTrade;
-import org.powermock.reflect.Whitebox;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Test utilities for btnmarkets tests.

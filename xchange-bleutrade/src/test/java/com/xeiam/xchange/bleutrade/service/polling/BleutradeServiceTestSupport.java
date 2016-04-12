@@ -1,5 +1,10 @@
 package com.xeiam.xchange.bleutrade.service.polling;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import com.xeiam.xchange.bleutrade.BleutradeTestData;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeBalance;
 import com.xeiam.xchange.bleutrade.dto.account.BleutradeDepositAddress;
@@ -11,11 +16,6 @@ import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTicker;
 import com.xeiam.xchange.bleutrade.dto.marketdata.BleutradeTrade;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import com.xeiam.xchange.bleutrade.dto.trade.BleutradeOrderId;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class BleutradeServiceTestSupport extends BleutradeTestData {
 

@@ -1,5 +1,20 @@
 package com.xeiam.xchange.gatecoin;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+
 import com.xeiam.xchange.gatecoin.dto.GatecoinException;
 import com.xeiam.xchange.gatecoin.dto.account.Results.GatecoinBalanceResult;
 import com.xeiam.xchange.gatecoin.dto.account.Results.GatecoinDepositAddressResult;
@@ -8,12 +23,8 @@ import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinOrderResult;
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinPlaceOrderResult;
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinTradeHistoryResult;
-import si.mazi.rescu.ParamsDigest;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.math.BigDecimal;
+import si.mazi.rescu.ParamsDigest;
 
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)

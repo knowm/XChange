@@ -1,14 +1,14 @@
 package com.xeiam.xchange.cryptsy.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.cryptsy.CryptsyUtils;
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.xeiam.xchange.cryptsy.CryptsyUtils;
 
 /**
  * @author ObsessiveOrange

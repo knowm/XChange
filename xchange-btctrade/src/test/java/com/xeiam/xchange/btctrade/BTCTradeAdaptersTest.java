@@ -9,8 +9,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,8 +18,10 @@ import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeDepth;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTicker;
 import com.xeiam.xchange.btctrade.dto.marketdata.BTCTradeTrade;
 import com.xeiam.xchange.btctrade.dto.trade.BTCTradeOrder;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;

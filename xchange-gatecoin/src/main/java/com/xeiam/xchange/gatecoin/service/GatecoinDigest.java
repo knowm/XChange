@@ -1,11 +1,12 @@
 package com.xeiam.xchange.gatecoin.service;
 
-import com.xeiam.xchange.service.BaseParamsDigest;
-import net.iharder.Base64;
-import si.mazi.rescu.RestInvocation;
-
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
+
+import com.xeiam.xchange.service.BaseParamsDigest;
+
+import net.iharder.Base64;
+import si.mazi.rescu.RestInvocation;
 
 public class GatecoinDigest extends BaseParamsDigest {
 

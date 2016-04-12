@@ -5,7 +5,6 @@ import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.btctrade.BTCTrade;
 import com.xeiam.xchange.service.BaseExchangeService;
 import com.xeiam.xchange.service.polling.BasePollingService;
-
 import com.xeiam.xchange.utils.CertHelper;
 
 import si.mazi.rescu.ClientConfig;

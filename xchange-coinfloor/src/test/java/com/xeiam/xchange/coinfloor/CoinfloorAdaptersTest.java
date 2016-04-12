@@ -6,12 +6,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.dto.account.Wallet;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;

@@ -1,6 +1,7 @@
 package com.xeiam.xchange.gatecoin.dto.trade;
 
 import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
