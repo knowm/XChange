@@ -118,17 +118,6 @@ public class BTCChinaApplication extends MessageCracker implements Application {
    * @param sessionId the FIX session ID.
    */
   protected void onTicker(Ticker ticker, SessionID sessionId) {
-    onTicker(ticker);
-  }
-
-  /**
-   * Callback of ticker refreshed.
-   *
-   * @param ticker the refreshed ticker.
-   * @deprecated Use {@link #onTicker(Ticker, SessionID)} instead.
-   */
-  @Deprecated
-  protected void onTicker(Ticker ticker) {
   }
 
   /**
@@ -138,18 +127,6 @@ public class BTCChinaApplication extends MessageCracker implements Application {
    * @param accountInfo the account info.
    */
   protected void onAccountInfo(String accReqId, AccountInfo accountInfo, SessionID sessionId) {
-    this.onAccountInfo(accReqId, accountInfo);
-  }
-
-  /**
-   * Callback of account info got from server.
-   *
-   * @param accReqId the account request ID as assigned in the request.
-   * @param accountInfo the account info.
-   * @deprecated Use {@link #onAccountInfo(String, AccountInfo, SessionID)} instead.
-   */
-  @Deprecated
-  protected void onAccountInfo(String accReqId, AccountInfo accountInfo) {
   }
 
   public Ticker getTicker() {
