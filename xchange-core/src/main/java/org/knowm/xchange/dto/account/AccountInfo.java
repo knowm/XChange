@@ -85,8 +85,9 @@ public final class AccountInfo {
     } else {
       this.wallets = new HashMap<String, Wallet>();
       for (Wallet wallet : wallets) {
-        if (this.wallets.containsKey(wallet.getId()))
+        if (this.wallets.containsKey(wallet.getId())) {
           throw new IllegalArgumentException("duplicate wallets passed to AccountInfo");
+        }
         this.wallets.put(wallet.getId(), wallet);
       }
     }
@@ -114,10 +115,11 @@ public final class AccountInfo {
    */
   public Wallet getWallet() {
 
-    if (wallets.size() != 1)
+    if (wallets.size() != 1) {
       throw new UnsupportedOperationException(wallets.size() + " wallets in account");
+    }
 
-    return getWallet(null);
+    return getWallet(wallets.keySet().iterator().next());
   }
 
   /**
