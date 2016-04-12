@@ -8,7 +8,7 @@ import com.xeiam.xchange.examples.anx.v2.ANXExamplesUtils;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
- * Demo requesting account info at MtGox
+ * Demo requesting account info at ANX
  */
 public class AccountInfoDemo {
 
