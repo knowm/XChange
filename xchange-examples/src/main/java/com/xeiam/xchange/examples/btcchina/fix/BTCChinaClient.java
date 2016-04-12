@@ -45,13 +45,13 @@ public class BTCChinaClient {
       }
 
       @Override
-      protected void onTicker(Ticker ticker) {
+      protected void onTicker(Ticker ticker, SessionID id) {
 
         log.info("ticker: {}", ticker);
       }
 
       @Override
-      protected void onAccountInfo(String accReqId, AccountInfo accountInfo) {
+      protected void onAccountInfo(String accReqId, AccountInfo accountInfo, SessionID id) {
 
         log.info("accReqId: {}, accountInfo: {}", accReqId, accountInfo);
       };
