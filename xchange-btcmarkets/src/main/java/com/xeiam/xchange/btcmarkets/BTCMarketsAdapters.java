@@ -88,7 +88,7 @@ public final class BTCMarketsAdapters {
     final Integer orderId = null; //trade.getOrderId();
     String feeCurrency = currencyPair.counter.getCurrencyCode();
     return new UserTrade(type, trade.getVolume(), currencyPair, trade.getPrice().abs(), trade.getCreationTime(), tradeId, String.valueOf(orderId),
-        trade.getFee(), feeCurrency);
+        trade.getFee(), Currency.getInstance(feeCurrency));
   }
 
   public static Order.OrderType adaptOrderType(BTCMarketsOrder.Side orderType) {

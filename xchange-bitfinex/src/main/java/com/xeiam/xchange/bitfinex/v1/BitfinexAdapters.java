@@ -257,7 +257,7 @@ public final class BitfinexAdapters {
       Date timestamp = convertBigDecimalTimestampToDate(trade.getTimestamp());
       final BigDecimal fee = trade.getFeeAmount() == null ? null : trade.getFeeAmount().negate();
       pastTrades.add(new UserTrade(orderType, trade.getAmount(), currencyPair, trade.getPrice(), timestamp, trade.getTradeId(), trade.getOrderId(),
-          fee, trade.getFeeCurrency()));
+          fee, Currency.getInstance(trade.getFeeCurrency())));
     }
 
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);

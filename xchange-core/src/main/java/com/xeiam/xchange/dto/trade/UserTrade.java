@@ -53,25 +53,6 @@ public class UserTrade extends Trade {
     this.feeCurrency = feeCurrency;
   }
 
-  /**
-   * @see #UserTrade(OrderType,BigDecimal,CurrencyPair,BigDecimal,Date,String,String,BigDecimal,Currency)
-   */
-  public UserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id,
-      String orderId) {
-
-    this(type, tradableAmount, currencyPair, price, timestamp, id, orderId, null, (Currency) null);
-  }
-
-  /**
-   * @deprecated use #UserTrade(OrderType, BigDecimal, CurrencyPair, BigDecimal, Date, String, String, BigDecimal, Currency)
-   */
-  @Deprecated
-  public UserTrade(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, BigDecimal price, Date timestamp, String id, String orderId,
-      BigDecimal feeAmount, String feeCurrency) {
-
-    this(type, tradableAmount, currencyPair, price, timestamp, id, orderId, feeAmount, Currency.getInstance(feeCurrency));
-  }
-
   public String getOrderId() {
 
     return orderId;

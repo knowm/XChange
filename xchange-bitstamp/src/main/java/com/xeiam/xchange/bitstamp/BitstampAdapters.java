@@ -188,7 +188,7 @@ public final class BitstampAdapters {
         final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
 
         UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-            currencyPair.counter.getCurrencyCode());
+            Currency.getInstance(currencyPair.counter.getCurrencyCode()));
         trades.add(trade);
       }
     }

@@ -314,8 +314,9 @@ public final class CryptsyAdapters {
 
     List<Balance> balances = new LinkedList<Balance>();
 
-    for (Balance.Builder builder : builders.values())
+    for (Balance.Builder builder : builders.values()) {
       balances.add(builder.build());
+    }
 
     return new Wallet(balances);
 
@@ -361,8 +362,9 @@ public final class CryptsyAdapters {
         OrderType tradeType = trade.getTradeType() == CryptsyOrderType.Buy ? OrderType.BID : OrderType.ASK;
         CurrencyPair currencyPair = CryptsyCurrencyUtils.convertToCurrencyPair(trade.getMarketId());
 
-        trades.add(new UserTrade(tradeType, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTimestamp(),
-            String.valueOf(trade.getTradeId()), String.valueOf(trade.getOrderId()), trade.getFee(), currencyPair.counter.getCurrencyCode()));
+        trades.add(
+            new UserTrade(tradeType, trade.getQuantity(), currencyPair, trade.getPrice(), trade.getTimestamp(), String.valueOf(trade.getTradeId()),
+                String.valueOf(trade.getOrderId()), trade.getFee(), Currency.getInstance(currencyPair.counter.getCurrencyCode())));
       }
     }
     return new UserTrades(trades, TradeSortType.SortByTimestamp);

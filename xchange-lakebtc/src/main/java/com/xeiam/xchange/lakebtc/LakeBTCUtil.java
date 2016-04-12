@@ -1,8 +1,5 @@
 package com.xeiam.xchange.lakebtc;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 import com.xeiam.xchange.currency.CurrencyPair;
 
 /**
@@ -29,14 +26,6 @@ public class LakeBTCUtil {
       sb.append(String.format("%02x", b));
     }
     return sb.toString();
-  }
-
-  /**
-   * @deprecated scales of BTCCNY, LTCCNY, LTCBTC are different.
-   */
-  @Deprecated
-  public static BigDecimal truncateAmount(BigDecimal value) {
-    return value.setScale(3, RoundingMode.FLOOR).stripTrailingZeros();
   }
 
   public static String toPairString(CurrencyPair currencyPair) {

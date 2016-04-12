@@ -110,15 +110,17 @@ public final class OkCoinAdapters {
 
     for (Map.Entry<String, BigDecimal> frozen : funds.getFreezed().entrySet()) {
       Balance.Builder builder = builders.get(frozen.getKey());
-      if (builder == null)
+      if (builder == null) {
         builder = new Balance.Builder().currency(Currency.getInstance(frozen.getKey()));
+      }
       builders.put(frozen.getKey(), builder.frozen(frozen.getValue()));
     }
 
     for (Map.Entry<String, BigDecimal> borrowed : funds.getBorrow().entrySet()) {
       Balance.Builder builder = builders.get(borrowed.getKey());
-      if (builder == null)
+      if (builder == null) {
         builder = new Balance.Builder().currency(Currency.getInstance(borrowed.getKey()));
+      }
       builders.put(borrowed.getKey(), builder.borrowed(borrowed.getValue()));
     }
 
@@ -309,7 +311,7 @@ public final class OkCoinAdapters {
 
       BigDecimal feeAmont = BigDecimal.ZERO;
       UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmont,
-          currencyPair.counter.getCurrencyCode());
+          Currency.getInstance(currencyPair.counter.getCurrencyCode()));
       trades.add(trade);
 
     }

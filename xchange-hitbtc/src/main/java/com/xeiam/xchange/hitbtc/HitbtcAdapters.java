@@ -204,8 +204,9 @@ public class HitbtcAdapters {
 
     List<OrderBookUpdate> updates = new ArrayList<OrderBookUpdate>(asks.size() + bids.size());
 
-    if (updates.size() != 1)
+    if (updates.size() != 1) {
       volume = null;
+    }
 
     for (int i = 0; i < asks.size(); i++) {
       HitbtcStreamingOrder order = asks.get(i);
@@ -272,7 +273,7 @@ public class HitbtcAdapters {
       String id = Long.toString(t.getTradeId());
 
       UserTrade trade = new UserTrade(type, tradableAmount, pair, t.getExecPrice(), timestamp, id, t.getClientOrderId(), t.getFee(),
-          pair.counter.getCurrencyCode());
+          Currency.getInstance(pair.counter.getCurrencyCode()));
 
       trades.add(trade);
     }
@@ -328,13 +329,14 @@ public class HitbtcAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(HitbtcSymbols symbols, HitbtcMetaData hitbtcMetaData) {
 
     Map<CurrencyPair, MarketMetaData> marketMetaDataMap = new HashMap<CurrencyPair, MarketMetaData>();
-    if (symbols != null)
+    if (symbols != null) {
       for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
         CurrencyPair pair = adaptSymbol(symbol);
         MarketMetaData meta = new MarketMetaData(symbol.getTakeLiquidityRate(), symbol.getLot(), symbol.getStep().scale());
 
         marketMetaDataMap.put(pair, meta);
       }
+    }
 
     return new ExchangeMetaData(marketMetaDataMap, hitbtcMetaData.currency, null, null, null);
   }

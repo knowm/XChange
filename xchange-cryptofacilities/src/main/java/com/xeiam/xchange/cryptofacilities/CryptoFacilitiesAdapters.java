@@ -112,7 +112,7 @@ public class CryptoFacilitiesAdapters {
 
   public static UserTrade adaptFill(CryptoFacilitiesFill fill) {
     return new UserTrade(adaptOrderType(fill.getSide()), fill.getSize(), new CurrencyPair(fill.getSymbol(), "USD"), fill.getPrice(),
-        fill.getFillTime(), fill.getFillId(), fill.getOrderId());
+        fill.getFillTime(), fill.getFillId(), fill.getOrderId(), null, (Currency) null);
   }
 
   public static UserTrades adaptFills(CryptoFacilitiesFills cryptoFacilitiesFills) {

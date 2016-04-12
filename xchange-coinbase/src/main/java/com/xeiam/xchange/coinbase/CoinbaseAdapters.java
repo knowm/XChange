@@ -47,8 +47,9 @@ public final class CoinbaseAdapters {
   public static UserTrades adaptTrades(CoinbaseTransfers transfers) {
 
     final List<UserTrade> trades = new ArrayList<UserTrade>();
-    for (CoinbaseTransfer transfer : transfers.getTransfers())
+    for (CoinbaseTransfer transfer : transfers.getTransfers()) {
       trades.add(adaptTrade(transfer));
+    }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
@@ -69,7 +70,7 @@ public final class CoinbaseAdapters {
     final String feeCurrency = transfer.getCoinbaseFee().getCurrency();
 
     return new UserTrade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, id, transferId,
-        feeAmount, feeCurrency);
+        feeAmount, Currency.getInstance(feeCurrency));
   }
 
   public static OrderType adaptOrderType(CoinbaseTransferType transferType) {
@@ -99,16 +100,18 @@ public final class CoinbaseAdapters {
       // The spot price history list is sorted in descending order by timestamp when deserialized.
       for (CoinbaseHistoricalSpotPrice historicalSpotPrice : coinbaseSpotPriceHistory.getSpotPriceHistory()) {
 
-        if (twentyFourHoursAgo == null)
+        if (twentyFourHoursAgo == null) {
           twentyFourHoursAgo = new Date(historicalSpotPrice.getTimestamp().getTime() - TWENTY_FOUR_HOURS_IN_MILLIS);
-        else if (historicalSpotPrice.getTimestamp().before(twentyFourHoursAgo))
+        } else if (historicalSpotPrice.getTimestamp().before(twentyFourHoursAgo)) {
           break;
+        }
 
         final BigDecimal spotPriceAmount = historicalSpotPrice.getSpotRate();
-        if (spotPriceAmount.compareTo(observedLow) < 0)
+        if (spotPriceAmount.compareTo(observedLow) < 0) {
           observedLow = spotPriceAmount;
-        else if (spotPriceAmount.compareTo(observedHigh) > 0)
+        } else if (spotPriceAmount.compareTo(observedHigh) > 0) {
           observedHigh = spotPriceAmount;
+        }
       }
       tickerBuilder.high(observedHigh).low(observedLow);
     }

@@ -68,7 +68,7 @@ public class CoinbaseAdapterTest {
 
     UserTrade expectedTrade = new UserTrade(OrderType.BID, tradableAmount, CurrencyPair.BTC_USD, price,
         DateUtils.fromISO8601DateString("2014-02-06T18:12:38-08:00"), "52f4411767c71baf9000003f", "52f4411667c71baf9000003c", new BigDecimal("9.05"),
-        "USD");
+        Currency.getInstance("USD"));
 
     // Read in the JSON from the example resources
     InputStream is = CoinbaseAdapterTest.class.getResourceAsStream("/trade/example-transfers-data.json");

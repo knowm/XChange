@@ -157,7 +157,8 @@ public class PoloniexAdapters {
     // Poloniex returns fee as a multiplier, e.g. a 0.2% fee is 0.002
     BigDecimal feeAmount = amount.multiply(price).multiply(userTrade.getFee());
 
-    return new UserTrade(orderType, amount, currencyPair, price, date, tradeId, orderId, feeAmount, currencyPair.counter.getCurrencyCode());
+    return new UserTrade(orderType, amount, currencyPair, price, date, tradeId, orderId, feeAmount,
+        Currency.getInstance(currencyPair.counter.getCurrencyCode()));
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(Map<String, PoloniexCurrencyInfo> poloniexCurrencyInfo,
@@ -171,8 +172,9 @@ public class PoloniexAdapters {
 
       PoloniexCurrencyInfo currencyInfo = entry.getValue();
 
-      if (currencyInfo.isDelisted() || currencyInfo.isDisabled())
+      if (currencyInfo.isDelisted() || currencyInfo.isDisabled()) {
         continue;
+      }
 
       currencyMetaDataMap.put(Currency.getInstance(entry.getKey()), currencyArchetype);
     }

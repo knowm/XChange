@@ -142,7 +142,7 @@ public class CoinmateAdapters {
 
       UserTrade trade = new UserTrade(orderType, entry.getAmount(), CoinmateUtils.getPair(entry.getAmountCurrency() + "_" + entry.getPriceCurrency()),
           entry.getPrice(), new Date(entry.getTimestamp()), Long.toString(entry.getTransactionId()), Long.toString(entry.getOrderId()),
-          entry.getFee(), entry.getFeeCurrency());
+          entry.getFee(), Currency.getInstance(entry.getFeeCurrency()));
       trades.add(trade);
 
     }
@@ -157,7 +157,7 @@ public class CoinmateAdapters {
     for (CoinmateOpenOrdersEntry entry : coinmateOpenOrders.getData()) {
 
       Order.OrderType orderType;
-      //TODO 
+      //TODO
       if ("BUY".equals(entry.getType())) {
         orderType = Order.OrderType.BID;
       } else if ("SELL".equals(entry.getType())) {

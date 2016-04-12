@@ -85,8 +85,8 @@ public final class CointraderAdapters {
     CurrencyPair currencyPair = cointraderUserTrade.getCurrencyPair();
     return new UserTrade(adaptOrderType(cointraderUserTrade.getType()), cointraderUserTrade.getQuantity(), currencyPair,
         cointraderUserTrade.getPrice().abs(), cointraderUserTrade.getExecuted(), String.valueOf(cointraderUserTrade.getTradeId()),
-        String.valueOf(cointraderUserTrade.getOrderId()), cointraderUserTrade.getFee(),
-        cointraderUserTrade.getType() == CointraderOrder.Type.Buy ? currencyPair.counter.getCurrencyCode() : currencyPair.base.getCurrencyCode());
+        String.valueOf(cointraderUserTrade.getOrderId()), cointraderUserTrade.getFee(), cointraderUserTrade.getType() == CointraderOrder.Type.Buy
+            ? Currency.getInstance(currencyPair.counter.getCurrencyCode()) : Currency.getInstance(currencyPair.base.getCurrencyCode()));
   }
 
   public static Order.OrderType adaptOrderType(CointraderOrder.Type orderType) {

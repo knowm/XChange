@@ -128,7 +128,7 @@ public class CoinbaseExAdapters {
 
       // ToDo add fee amount
       UserTrade t = new UserTrade(type, fill.getSize(), currencyPair, fill.getPrice(), parseDate(fill.getCreatedAt()),
-          String.valueOf(fill.getTradeId()), fill.getOrderId());
+          String.valueOf(fill.getTradeId()), fill.getOrderId(), null, (Currency) null);
       trades.add(t);
     }
 
