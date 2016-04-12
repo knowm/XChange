@@ -76,17 +76,17 @@ Add the following dependencies in your pom.xml file. You will need at least xcha
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-core</artifactId>
-      <version>3.1.0</version>
+      <version>4.0.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
-      <version>3.1.0</version>
+      <version>4.0.0</version>
     </dependency>
     <dependency>
       <groupId>com.xeiam.xchange</groupId>
       <artifactId>xchange-XYZ</artifactId>
-      <version>3.1.0</version>
+      <version>4.0.0</version>
     </dependency>
 
 For snapshots, add the following repository to your pom.xml file.
@@ -99,7 +99,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    4.0.0-SNAPSHOT
+    4.0.1-SNAPSHOT
     
 ## Building with Maven
 
