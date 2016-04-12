@@ -20,7 +20,7 @@ public class IndependentReserveOrderBook {
   public IndependentReserveOrderBook(@JsonProperty("BuyOrders") List<OrderBookOrder> buyOrders,
       @JsonProperty("SellOrders") List<OrderBookOrder> sellOrders, @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode,
       @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode, @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc)
-          throws InvalidFormatException {
+      throws InvalidFormatException {
     this.buyOrders = buyOrders;
     this.createdTimestampUtc = DateUtils.fromISO8601DateString(createdTimestampUtc).getTime();
     this.sellOrders = sellOrders;

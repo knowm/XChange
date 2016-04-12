@@ -11,7 +11,6 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xeiam.xchange.gatecoin.dto.trade.Results.GatecoinOrderResult;
 
-
 public class OpenOrdersJSONTest {
 
   @Test

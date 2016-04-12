@@ -9,7 +9,7 @@ import com.xeiam.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
 import com.xeiam.xchange.okcoin.dto.account.OkCoinUserInfo;
 
 public class OkCoinAccountServiceRaw extends OKCoinBaseTradePollingService {
-    private final String tradepwd;
+  private final String tradepwd;
 
   /**
    * Constructor
@@ -19,8 +19,8 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradePollingService {
   protected OkCoinAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
-    
-    tradepwd = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("tradepwd");    
+
+    tradepwd = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("tradepwd");
   }
 
   public OkCoinUserInfo getUserInfo() throws IOException {
@@ -31,18 +31,17 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradePollingService {
   }
 
   public OkCoinFuturesUserInfoCross getFutureUserInfo() throws IOException {
-    
+
     OkCoinFuturesUserInfoCross futuresUserInfoCross = okCoin.getFuturesUserInfoCross(apikey, signatureCreator);
 
     return returnOrThrow(futuresUserInfoCross);
   }
-    
+
   public OKCoinWithdraw withdraw(String assetPairs, String assets, String key, BigDecimal amount) throws IOException {
-    OKCoinWithdraw withdrawResult = okCoin.withdraw(exchange.getExchangeSpecification().getApiKey(),
-            assets, signatureCreator, "0.0001", tradepwd, key, amount.toString());
-        
-            
-    return  returnOrThrow(withdrawResult);
+    OKCoinWithdraw withdrawResult = okCoin.withdraw(exchange.getExchangeSpecification().getApiKey(), assets, signatureCreator, "0.0001", tradepwd,
+        key, amount.toString());
+
+    return returnOrThrow(withdrawResult);
   }
 
 }

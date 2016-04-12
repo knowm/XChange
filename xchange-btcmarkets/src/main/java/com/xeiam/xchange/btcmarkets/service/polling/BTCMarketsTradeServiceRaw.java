@@ -35,34 +35,22 @@ public class BTCMarketsTradeServiceRaw extends BTCMarketsBasePollingService {
     this.nonceFactory = exchange.getNonceFactory();
   }
 
-  public BTCMarketsPlaceOrderResponse placeBTCMarketsOrder(
-      CurrencyPair currencyPair,
-      BigDecimal amount,
-      BigDecimal price,
-      BTCMarketsOrder.Side side,
-      BTCMarketsOrder.Type type
-  ) throws IOException {
+  public BTCMarketsPlaceOrderResponse placeBTCMarketsOrder(CurrencyPair currencyPair, BigDecimal amount, BigDecimal price, BTCMarketsOrder.Side side,
+      BTCMarketsOrder.Type type) throws IOException {
     return btcm.placeOrder(exchange.getExchangeSpecification().getApiKey(), nonceFactory, this.signer,
-        new BTCMarketsOrder(
-            amount, price, currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), side,
-            type, newReqId()));
+        new BTCMarketsOrder(amount, price, currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), side, type, newReqId()));
   }
 
   public BTCMarketsOrders getBTCMarketsOpenOrders(CurrencyPair currencyPair, Integer limit, Date since) throws IOException {
-      return btcm.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer,
-           new BTCMarketsMyTradingRequest(currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), limit, since));
+    return btcm.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer,
+        new BTCMarketsMyTradingRequest(currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), limit, since));
   }
 
   public BTCMarketsBaseResponse cancelBTCMarketsOrder(Long orderId) throws IOException {
-    return btcm.cancelOrder(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer,
-        new BTCMarketsCancelOrderRequest(orderId));
+    return btcm.cancelOrder(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer, new BTCMarketsCancelOrderRequest(orderId));
   }
 
-  public BTCMarketsTradeHistory getBTCMarketsUserTransactions( CurrencyPair currencyPair,
-      Integer limit,
-      Date since
-  )
-      throws IOException {
+  public BTCMarketsTradeHistory getBTCMarketsUserTransactions(CurrencyPair currencyPair, Integer limit, Date since) throws IOException {
     return btcm.getTradeHistory(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer,
         new BTCMarketsMyTradingRequest(currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), limit, since));
   }

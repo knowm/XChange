@@ -110,6 +110,7 @@ public abstract class BaseExchange implements Exchange {
     }
 
     initServices();
+
   }
 
   @Override

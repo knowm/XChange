@@ -19,7 +19,7 @@ public class CoinbaseExTradeServiceRaw extends CoinbaseExBasePollingService<Coin
   }
 
   public CoinbaseExFill[] getCoinbaseExFills(CoinbaseExTradeHistoryParams tradeHistoryParams) {
-    return coinbaseEx.getFills(apiKey,digest,getTimestamp(),passphrase,tradeHistoryParams.getOrderId());
+    return coinbaseEx.getFills(apiKey, digest, getTimestamp(), passphrase, tradeHistoryParams.getOrderId());
   }
 
   public CoinbaseExIdResponse placeCoinbaseExLimitOrder(LimitOrder limitOrder) {
@@ -27,8 +27,8 @@ public class CoinbaseExTradeServiceRaw extends CoinbaseExBasePollingService<Coin
     String side = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
     String productId = limitOrder.getCurrencyPair().base.getCurrencyCode() + "-" + limitOrder.getCurrencyPair().counter.getCurrencyCode();
 
-    return coinbaseEx.placeLimitOrder(new CoinbaseExPlaceOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), side, productId,"limit"), apiKey,
-        digest, getTimestamp(), passphrase);
+    return coinbaseEx.placeLimitOrder(new CoinbaseExPlaceOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), side, productId, "limit"),
+        apiKey, digest, getTimestamp(), passphrase);
   }
 
   public CoinbaseExIdResponse placeCoinbaseExMarketOrder(MarketOrder marketOrder) {
@@ -36,8 +36,8 @@ public class CoinbaseExTradeServiceRaw extends CoinbaseExBasePollingService<Coin
     String side = marketOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
     String productId = marketOrder.getCurrencyPair().base.getCurrencyCode() + "-" + marketOrder.getCurrencyPair().counter.getCurrencyCode();
 
-    return coinbaseEx.placeMarketOrder(new CoinbaseExPlaceOrder(marketOrder.getTradableAmount(), null, side, productId, "market"), apiKey,
-            digest, getTimestamp(), passphrase);
+    return coinbaseEx.placeMarketOrder(new CoinbaseExPlaceOrder(marketOrder.getTradableAmount(), null, side, productId, "market"), apiKey, digest,
+        getTimestamp(), passphrase);
   }
 
   public boolean cancelCoinbaseExOrder(String id) {

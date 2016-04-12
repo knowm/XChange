@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * @author npinot
- *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
@@ -35,73 +34,73 @@ public class BittrexDepositHistory {
 
   @JsonProperty("Id")
   public Long getId() {
-    
+
     return id;
   }
 
   @JsonProperty("Id")
   public void setId(Long id) {
-    
+
     this.id = id;
   }
 
   @JsonProperty("Amount")
   public BigDecimal getAmount() {
-    
+
     return amount;
   }
 
   @JsonProperty("Amount")
   public void setAmount(BigDecimal amount) {
-    
+
     this.amount = amount;
   }
 
   @JsonProperty("Currency")
   public String getCurrency() {
-    
+
     return currency;
   }
 
   @JsonProperty("Currency")
   public void setCurrency(String currency) {
-    
+
     this.currency = currency;
   }
 
   @JsonProperty("LastUpdated")
   public Date getLastUpdated() {
-    
+
     return lastUpdated;
   }
 
   @JsonProperty("LastUpdated")
   public void setLastUpdated(Date lastUpdated) {
-    
+
     this.lastUpdated = lastUpdated;
   }
 
   @JsonProperty("TxId")
   public String getTxId() {
-    
+
     return txId;
   }
 
   @JsonProperty("TxId")
   public void setTxId(String txId) {
-    
+
     this.txId = txId;
   }
 
   @JsonProperty("CryptoAddress")
   public String getCryptoAddress() {
-    
+
     return cryptoAddress;
   }
 
   @JsonProperty("CryptoAddress")
   public void setCryptoAddress(String cryptoAddress) {
-    
+
     this.cryptoAddress = cryptoAddress;
   }
 

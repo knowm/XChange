@@ -13,8 +13,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 public class BtcToSatoshi extends JsonSerializer<BigDecimal> {
 
   @Override
-  public void serialize(BigDecimal valueBtc, JsonGenerator gen, SerializerProvider serializers)
-      throws IOException {
+  public void serialize(BigDecimal valueBtc, JsonGenerator gen, SerializerProvider serializers) throws IOException {
     gen.writeNumber(valueBtc.movePointRight(8));
   }
 }

@@ -24,59 +24,59 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTradeService {
 
-    /**
-     * Constructor
-     *
-     * @param exchange
-     */
-    public CexIOTradeService(Exchange exchange) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public CexIOTradeService(Exchange exchange) {
 
-        super(exchange);
-    }
+    super(exchange);
+  }
 
-    @Override
-    public OpenOrders getOpenOrders() throws IOException {
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
 
-        List<CexIOOrder> cexIOOrderList = getCexIOOpenOrders();
+    List<CexIOOrder> cexIOOrderList = getCexIOOpenOrders();
 
-        return CexIOAdapters.adaptOpenOrders(cexIOOrderList);
-    }
+    return CexIOAdapters.adaptOpenOrders(cexIOOrderList);
+  }
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-        throw new NotAvailableFromExchangeException();
-    }
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-        CexIOOrder order = placeCexIOLimitOrder(limitOrder);
+    CexIOOrder order = placeCexIOLimitOrder(limitOrder);
 
-        return Long.toString(order.getId());
-    }
+    return Long.toString(order.getId());
+  }
 
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException {
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
 
-        return cancelCexIOOrder(orderId);
-    }
+    return cancelCexIOOrder(orderId);
+  }
 
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-        throw new NotAvailableFromExchangeException();
-    }
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
-        throw new NotAvailableFromExchangeException();
-    }
+  @Override
+  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-            IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
 }

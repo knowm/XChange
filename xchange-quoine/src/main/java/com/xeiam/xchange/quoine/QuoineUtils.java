@@ -39,9 +39,9 @@ public final class QuoineUtils {
     CURRENCY_PAIR_2_ID_MAP.put(new CurrencyPair("ETH", "AUD"), 33);
     CURRENCY_PAIR_2_ID_MAP.put(new CurrencyPair("ETH", "PHP"), 34);
     CURRENCY_PAIR_2_ID_MAP.put(CurrencyPair.ETH_CNY, 35);
-    CURRENCY_PAIR_2_ID_MAP.put(new CurrencyPair("ETH","INR"), 36);
+    CURRENCY_PAIR_2_ID_MAP.put(new CurrencyPair("ETH", "INR"), 36);
     CURRENCY_PAIR_2_ID_MAP.put(CurrencyPair.ETH_BTC, 37);
-}
+  }
 
   public static int toID(CurrencyPair currencyPair) {
     return CURRENCY_PAIR_2_ID_MAP.get(currencyPair);

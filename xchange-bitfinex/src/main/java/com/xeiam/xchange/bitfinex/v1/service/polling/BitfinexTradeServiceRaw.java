@@ -112,9 +112,9 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
   }
 
   public BitfinexNewOrderMultiResponse placeBitfinexOrderMulti(List<? extends Order> orders, BitfinexOrderType bitfinexOrderType) throws IOException {
-    
+
     BitfinexNewOrder[] bitfinexOrders = new BitfinexNewOrder[orders.size()];
-    
+
     for (int i = 0; i < bitfinexOrders.length; i++) {
       Order o = orders.get(i);
       if (o instanceof LimitOrder) {
@@ -131,7 +131,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
         bitfinexOrders[i] = new BitfinexNewOrder(pair, "bitfinex", type, orderType, marketOrder.getTradableAmount(), BigDecimal.ONE);
       }
     }
-    
+
     BitfinexNewOrderMultiRequest request = new BitfinexNewOrderMultiRequest(String.valueOf(exchange.getNonceFactory().createValue()), bitfinexOrders);
     try {
       BitfinexNewOrderMultiResponse response = bitfinex.newOrderMulti(apiKey, payloadCreator, signatureCreator, request);

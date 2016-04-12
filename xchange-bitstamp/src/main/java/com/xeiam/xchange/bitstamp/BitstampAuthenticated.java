@@ -29,13 +29,13 @@ public interface BitstampAuthenticated extends Bitstamp {
   @Path("buy/")
   public BitstampOrder buy(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
-          throws BitstampException, IOException;
+      throws BitstampException, IOException;
 
   @POST
   @Path("sell/")
   public BitstampOrder sell(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
-          throws BitstampException, IOException;
+      throws BitstampException, IOException;
 
   /**
    * @return true if order has been canceled.
@@ -70,7 +70,7 @@ public interface BitstampAuthenticated extends Bitstamp {
   @Path("bitcoin_withdrawal/")
   public BitstampWithdrawal withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
-          throws BitstampException, IOException;
+      throws BitstampException, IOException;
 
   @POST
   @Path("unconfirmed_btc/")

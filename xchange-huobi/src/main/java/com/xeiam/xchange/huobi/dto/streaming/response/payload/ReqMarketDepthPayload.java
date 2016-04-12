@@ -31,8 +31,8 @@ public class ReqMarketDepthPayload extends ReqMarketDepthTopPayload implements D
    */
   public ReqMarketDepthPayload(String symbolId, Percent percent, long time, long version,
 
-  String bidName, BigDecimal[] bidPrice, BigDecimal[] bidTotal, BigDecimal[] bidAmount, String askName, BigDecimal[] askPrice, BigDecimal[] askTotal,
-      BigDecimal[] askAmount) {
+      String bidName, BigDecimal[] bidPrice, BigDecimal[] bidTotal, BigDecimal[] bidAmount, String askName, BigDecimal[] askPrice,
+      BigDecimal[] askTotal, BigDecimal[] askAmount) {
     super(symbolId, time, version, bidName, bidPrice, bidTotal, bidAmount, askName, askPrice, askTotal, askAmount);
     this.percent = percent;
   }

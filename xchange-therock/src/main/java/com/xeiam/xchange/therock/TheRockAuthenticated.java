@@ -32,7 +32,7 @@ public interface TheRockAuthenticated {
   @Path("funds/{fund_id}/orders")
   TheRockOrder placeOrder(@PathParam("fund_id") TheRock.Pair currencyPair, @HeaderParam("X-TRT-KEY") String publicKey,
       @HeaderParam("X-TRT-SIGN") TheRockDigest signer, @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, TheRockOrder order)
-          throws TheRockException, IOException;
+      throws TheRockException, IOException;
 
   @POST
   @Path("atms/withdraw")
@@ -43,7 +43,7 @@ public interface TheRockAuthenticated {
   @Path("balances/{currency}")
   TheRockBalance balance(@HeaderParam("X-TRT-KEY") String publicKey, @HeaderParam("X-TRT-SIGN") TheRockDigest signer,
       @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, @PathParam("currency") String currency)
-          throws TheRockException, IOException;
+      throws TheRockException, IOException;
 
   @GET
   @Path("balances")

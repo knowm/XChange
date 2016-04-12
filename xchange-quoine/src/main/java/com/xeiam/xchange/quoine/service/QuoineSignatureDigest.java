@@ -35,14 +35,8 @@ public class QuoineSignatureDigest extends BaseParamsDigest {
     String nonce = restInvocation.getParamValue(HeaderParam.class, "NONCE").toString();
 
     String data = new StringBuilder(256) // most lengths are ~128, lets avoid resizing
-            .append("application/json,")
-            .append(contentMD5)
-            .append(COMMA_SEPARATOR)
-            .append(restInvocation.getPath())
-            .append(COMMA_SEPARATOR)
-            .append(date)
-            .append(COMMA_SEPARATOR)
-            .append(nonce).toString();
+        .append("application/json,").append(contentMD5).append(COMMA_SEPARATOR).append(restInvocation.getPath()).append(COMMA_SEPARATOR).append(date)
+        .append(COMMA_SEPARATOR).append(nonce).toString();
 
     Mac mac = getMac();
     byte[] hash = mac.doFinal(data.getBytes());

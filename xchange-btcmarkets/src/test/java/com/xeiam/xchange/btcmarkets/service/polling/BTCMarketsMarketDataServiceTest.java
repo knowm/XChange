@@ -34,8 +34,7 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsTestSupport {
 
   @Before
   public void setUp() {
-    BTCMarketsExchange exchange = (BTCMarketsExchange) ExchangeFactory.INSTANCE.createExchange(
-      BTCMarketsExchange.class.getCanonicalName());
+    BTCMarketsExchange exchange = (BTCMarketsExchange) ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getCanonicalName());
     ExchangeSpecification specification = exchange.getExchangeSpecification();
     specification.setUserName(SPECIFICATION_USERNAME);
     specification.setApiKey(SPECIFICATION_API_KEY);
@@ -78,13 +77,13 @@ public class BTCMarketsMarketDataServiceTest extends BTCMarketsTestSupport {
 
     List<LimitOrder> asks = orderBook.getAsks();
     assertThat(asks).hasSize(3);
-    for (int i=0; i<asks.size(); i++) {
+    for (int i = 0; i < asks.size(); i++) {
       BtcMarketsAssert.assertEquals(asks.get(i), expectedAsks[i]);
     }
 
     List<LimitOrder> bids = orderBook.getBids();
     assertThat(bids).hasSize(2);
-    for (int i=0; i<bids.size(); i++) {
+    for (int i = 0; i < bids.size(); i++) {
       BtcMarketsAssert.assertEquals(bids.get(i), expectedBids[i]);
     }
   }

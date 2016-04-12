@@ -17,15 +17,9 @@ public interface BTCMarkets {
 
   @GET
   @Path("/market/{instrument}/{currency}/tick")
-  BTCMarketsTicker getTicker(
-      @PathParam("instrument") String instrument,
-      @PathParam("currency") String currency
-  ) throws IOException;
+  BTCMarketsTicker getTicker(@PathParam("instrument") String instrument, @PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("/market/{instrument}/{currency}/orderbook")
-  BTCMarketsOrderBook getOrderBook(
-      @PathParam("instrument") String instrument,
-      @PathParam("currency") String currency
-  ) throws IOException;
+  BTCMarketsOrderBook getOrderBook(@PathParam("instrument") String instrument, @PathParam("currency") String currency) throws IOException;
 }

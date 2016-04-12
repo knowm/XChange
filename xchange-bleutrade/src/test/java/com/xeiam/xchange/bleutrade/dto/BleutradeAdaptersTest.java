@@ -77,7 +77,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     List<Trade> tradeList = trades.getTrades();
     assertThat(tradeList).hasSize(2);
 
-    for (int i=0; i<tradeList.size(); i++) {
+    for (int i = 0; i < tradeList.size(); i++) {
       BleutradeAssert.assertEquals(tradeList.get(i), expectedTrades[i]);
     }
   }
@@ -95,7 +95,7 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     List<LimitOrder> orderList = openOrders.getOpenOrders();
     assertThat(orderList).hasSize(2);
 
-    for (int i=0; i<orderList.size(); i++) {
+    for (int i = 0; i < orderList.size(); i++) {
       BleutradeAssert.assertEquals(orderList.get(i), expectedOrders[i]);
     }
   }
@@ -114,14 +114,14 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     List<LimitOrder> bids = orderBook.getBids();
     assertThat(bids).hasSize(2);
 
-    for (int i=0; i<bids.size(); i++) {
+    for (int i = 0; i < bids.size(); i++) {
       BleutradeAssert.assertEquals(bids.get(i), expectedBids[i]);
     }
 
     List<LimitOrder> asks = orderBook.getAsks();
     assertThat(asks).hasSize(4);
 
-    for (int i=0; i<asks.size(); i++) {
+    for (int i = 0; i < asks.size(); i++) {
       BleutradeAssert.assertEquals(asks.get(i), expectedAsks[i]);
     }
   }
@@ -151,12 +151,12 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     ExchangeMetaData exchangeMetaData = BleutradeAdapters.adaptToExchangeMetaData(currenciesResponse.getResult(), marketsResponse.getResult());
 
     // then
-    Map<Currency,CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencyMetaDataMap();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencyMetaDataMap();
     assertThat(currencyMetaDataMap).hasSize(2);
     assertThat(currencyMetaDataMap.get(Currency.BTC).scale).isEqualTo(8);
     assertThat(currencyMetaDataMap.get(Currency.LTC).scale).isEqualTo(8);
 
-    Map<CurrencyPair,MarketMetaData> marketMetaDataMap = exchangeMetaData.getMarketMetaDataMap();
+    Map<CurrencyPair, MarketMetaData> marketMetaDataMap = exchangeMetaData.getMarketMetaDataMap();
     assertThat(marketMetaDataMap).hasSize(2);
 
     // there is no reliable information about valid tradingFee calculation formula

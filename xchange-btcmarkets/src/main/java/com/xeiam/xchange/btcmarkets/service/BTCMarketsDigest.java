@@ -11,7 +11,7 @@ import com.xeiam.xchange.service.BaseParamsDigest;
 
 public class BTCMarketsDigest extends BaseParamsDigest {
 
-  public BTCMarketsDigest(String secretKey)  {
+  public BTCMarketsDigest(String secretKey) {
     super(decodeBase64(secretKey), HMAC_SHA_512);
   }
 

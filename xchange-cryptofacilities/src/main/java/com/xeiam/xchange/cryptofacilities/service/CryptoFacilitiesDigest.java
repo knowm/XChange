@@ -19,7 +19,7 @@ import com.xeiam.xchange.service.BaseParamsDigest;
  */
 
 public class CryptoFacilitiesDigest extends BaseParamsDigest {
-	
+
   /**
    * Constructor
    * 
@@ -33,7 +33,7 @@ public class CryptoFacilitiesDigest extends BaseParamsDigest {
 
   public static CryptoFacilitiesDigest createInstance(String secretKeyBase64) {
 
-	  try {
+    try {
       if (secretKeyBase64 != null)
         return new CryptoFacilitiesDigest(Base64.decode(secretKeyBase64.getBytes()));
     } catch (IOException e) {
@@ -42,29 +42,28 @@ public class CryptoFacilitiesDigest extends BaseParamsDigest {
     return null;
   }
 
-  
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
-	MessageDigest sha256;
+    MessageDigest sha256;
     try {
       sha256 = MessageDigest.getInstance("SHA-256");
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
     }
-    
+
     String decodedQuery = null;
-    
+
     try {
-		decodedQuery = URLDecoder.decode(restInvocation.getQueryString(), "UTF-8");		
-	} catch (UnsupportedEncodingException e) {
-		throw new IllegalArgumentException("Unsupported query encoding", e);
-	}
-    
-    sha256.update(decodedQuery.getBytes());    
-    sha256.update(restInvocation.getParamValue(HeaderParam.class, "Nonce").toString().getBytes());        
-    sha256.update((restInvocation.getPath()).getBytes());    
-        
+      decodedQuery = URLDecoder.decode(restInvocation.getQueryString(), "UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new IllegalArgumentException("Unsupported query encoding", e);
+    }
+
+    sha256.update(decodedQuery.getBytes());
+    sha256.update(restInvocation.getParamValue(HeaderParam.class, "Nonce").toString().getBytes());
+    sha256.update((restInvocation.getPath()).getBytes());
+
     Mac mac512 = getMac();
     mac512.update(sha256.digest());
 

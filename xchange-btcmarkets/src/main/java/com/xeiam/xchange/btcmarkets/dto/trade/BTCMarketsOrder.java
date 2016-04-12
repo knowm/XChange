@@ -13,7 +13,7 @@ import com.xeiam.xchange.utils.jackson.BtcToSatoshi;
 import com.xeiam.xchange.utils.jackson.MillisecTimestampDeserializer;
 import com.xeiam.xchange.utils.jackson.SatoshiToBtc;
 
-@JsonPropertyOrder({"currency", "instrument", "price", "volume", "orderSide", "ordertype", "clientRequestId"})
+@JsonPropertyOrder({ "currency", "instrument", "price", "volume", "orderSide", "ordertype", "clientRequestId" })
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BTCMarketsOrder {
 
@@ -52,15 +52,8 @@ public class BTCMarketsOrder {
   protected BTCMarketsOrder() {
   }
 
-  public BTCMarketsOrder(
-      BigDecimal volume,
-      BigDecimal price,
-      String currency,
-      String instrument,
-      Side orderSide,
-      Type ordertype,
-      String clientRequestId
-  ) {
+  public BTCMarketsOrder(BigDecimal volume, BigDecimal price, String currency, String instrument, Side orderSide, Type ordertype,
+      String clientRequestId) {
     this.volume = volume;
     this.price = price;
     this.currency = currency;
@@ -166,11 +159,16 @@ public class BTCMarketsOrder {
 
   @Override
   public String toString() {
-    return String.format("BTCMarketsOrder{volume=%s, price=%s, currency='%s', instrument='%s', orderSide=%s, ordertype=%s, clientRequestId='%s', id=%d, creationTime=%s, status='%s', errorMessage='%s', openVolume=%s, trades=%s}",
+    return String.format(
+        "BTCMarketsOrder{volume=%s, price=%s, currency='%s', instrument='%s', orderSide=%s, ordertype=%s, clientRequestId='%s', id=%d, creationTime=%s, status='%s', errorMessage='%s', openVolume=%s, trades=%s}",
         volume, price, currency, instrument, orderSide, ordertype, clientRequestId, id, creationTime, status, errorMessage, openVolume, trades);
   }
 
-  public enum Side {Bid, Ask}
+  public enum Side {
+    Bid, Ask
+  }
 
-  public enum Type {Limit, Market}
+  public enum Type {
+    Limit, Market
+  }
 }

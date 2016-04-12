@@ -38,7 +38,7 @@ public class CoinbaseExAccountService extends CoinbaseExAccountServiceRaw implem
       }
     }
     if (accountId == null) {
-        throw new ExchangeException("Cannot determine account id for currency " + currency.getCurrencyCode());
+      throw new ExchangeException("Cannot determine account id for currency " + currency.getCurrencyCode());
     }
     CoinbaseExSendMoneyResponse response = sendMoney(accountId, address, amount, currency);
     if (response.getData() != null) {

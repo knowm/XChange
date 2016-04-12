@@ -23,7 +23,7 @@ public final class AccountInfo {
   private final String username;
 
   /**
-   * The current fee this account must pay as a fraction of the value of each trade.  Null if there is no such fee.
+   * The current fee this account must pay as a fraction of the value of each trade. Null if there is no such fee.
    */
   private final BigDecimal tradingFee;
 
@@ -32,14 +32,13 @@ public final class AccountInfo {
    */
   private final Map<String, Wallet> wallets;
 
-
   /**
    * @see #AccountInfo(String,BigDecimal,Collection)
    */
   public AccountInfo(Wallet... wallets) {
 
     // TODO when refactoring for separate feature interfaces, change this constructor to require at least two wallets
-    this(null, (BigDecimal)null, wallets);
+    this(null, (BigDecimal) null, wallets);
   }
 
   /**
@@ -47,7 +46,7 @@ public final class AccountInfo {
    */
   public AccountInfo(Collection<Wallet> wallets) {
 
-    this(null, (BigDecimal)null, wallets);
+    this(null, (BigDecimal) null, wallets);
   }
 
   /**
@@ -84,7 +83,7 @@ public final class AccountInfo {
       Wallet wallet = wallets.iterator().next();
       this.wallets = Collections.singletonMap(wallet.getId(), wallet);
     } else {
-      this.wallets = new HashMap<String,Wallet>();
+      this.wallets = new HashMap<String, Wallet>();
       for (Wallet wallet : wallets) {
         if (this.wallets.containsKey(wallet.getId()))
           throw new IllegalArgumentException("duplicate wallets passed to AccountInfo");
@@ -105,7 +104,7 @@ public final class AccountInfo {
   /**
    * Gets all wallets in this account
    */
-  public Map<String,Wallet> getWallets() {
+  public Map<String, Wallet> getWallets() {
 
     return Collections.unmodifiableMap(wallets);
   }

@@ -132,8 +132,7 @@ public final class CoinsetterAdapters {
 
   public static Wallet adaptWallet(CoinsetterAccount account) {
 
-    return new Wallet(
-        new Balance(Currency.BTC, account.getBtcBalance()), new Balance(Currency.USD, account.getUsdBalance()));
+    return new Wallet(new Balance(Currency.BTC, account.getBtcBalance()), new Balance(Currency.USD, account.getUsdBalance()));
   }
 
   public static OpenOrders adaptOpenOrders(CoinsetterOrderList orderList) {

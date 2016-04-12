@@ -33,85 +33,84 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
  */
 public class BitsoTradeService extends BitsoTradeServiceRaw implements PollingTradeService {
 
-    /**
-     * Constructor
-     *
-     * @param exchange
-     */
-    public BitsoTradeService(Exchange exchange) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public BitsoTradeService(Exchange exchange) {
 
-        super(exchange);
+    super(exchange);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders() throws IOException, BitsoException {
+
+    BitsoOrder[] openOrders = getBitsoOpenOrders();
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    for (BitsoOrder bitsoOrder : openOrders) {
+      OrderType orderType = bitsoOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
+      String id = bitsoOrder.getId();
+      BigDecimal price = bitsoOrder.getPrice();
+      limitOrders
+          .add(new LimitOrder(orderType, bitsoOrder.getAmount(), new CurrencyPair(Currency.BTC, Currency.MXN), id, bitsoOrder.getTime(), price));
+    }
+    return new OpenOrders(limitOrders);
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException, BitsoException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException, BitsoException {
+
+    BitsoOrder bitsoOrder;
+    if (limitOrder.getType() == BID) {
+      bitsoOrder = buyBitoOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    } else {
+      bitsoOrder = sellBitsoOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    }
+    if (bitsoOrder.getErrorMessage() != null) {
+      throw new ExchangeException(bitsoOrder.getErrorMessage());
     }
 
-    @Override
-    public OpenOrders getOpenOrders() throws IOException, BitsoException {
+    return bitsoOrder.getId();
+  }
 
-        BitsoOrder[] openOrders = getBitsoOpenOrders();
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException, BitsoException {
 
-        List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-        for (BitsoOrder bitsoOrder : openOrders) {
-            OrderType orderType = bitsoOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
-            String id = bitsoOrder.getId();
-            BigDecimal price = bitsoOrder.getPrice();
-            limitOrders.add(new LimitOrder(orderType, bitsoOrder.getAmount(), new CurrencyPair(Currency.BTC, Currency.MXN), id, bitsoOrder.getTime(), price));
-        }
-        return new OpenOrders(limitOrders);
-    }
+    return cancelBitsoOrder(orderId);
+  }
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException, BitsoException {
+  /**
+   * Required parameter types: {@link com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging#getPageLength()}
+   * <p/>
+   * Warning: using a limit here can be misleading. The underlying call retrieves trades, withdrawals, and deposits. So the example here will limit
+   * the result to 17 of those types and from those 17 only trades are returned. It is recommended to use the raw service demonstrated below if you
+   * want to use this feature.
+   */
 
-        throw new NotAvailableFromExchangeException();
-    }
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException, BitsoException {
+    return BitsoAdapters.adaptTradeHistory(getBitsoUserTransactions(Long.valueOf(((TradeHistoryParamPaging) params).getPageLength())));
+  }
 
-        BitsoOrder bitsoOrder;
-        if (limitOrder.getType() == BID) {
-            bitsoOrder = buyBitoOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-        } else {
-            bitsoOrder = sellBitsoOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-        }
-        if (bitsoOrder.getErrorMessage() != null) {
-            throw new ExchangeException(bitsoOrder.getErrorMessage());
-        }
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
 
-        return bitsoOrder.getId();
-    }
+    return new DefaultTradeHistoryParamPaging(1000);
+  }
 
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException, BitsoException {
-
-        return cancelBitsoOrder(orderId);
-    }
-
-    /**
-     * Required parameter types: {@link com.xeiam.xchange.service.polling.trade.params.TradeHistoryParamPaging#getPageLength()}
-     * <p/>
-     * Warning: using a limit here can be misleading. The underlying call
-     * retrieves trades, withdrawals, and deposits. So the example here will
-     * limit the result to 17 of those types and from those 17 only trades are
-     * returned. It is recommended to use the raw service demonstrated below
-     * if you want to use this feature.
-     */
-
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
-        return BitsoAdapters.adaptTradeHistory(getBitsoUserTransactions(Long.valueOf(((TradeHistoryParamPaging) params).getPageLength())));
-    }
-
-    @Override
-    public TradeHistoryParams createTradeHistoryParams() {
-
-        return new DefaultTradeHistoryParamPaging(1000);
-    }
-
-    @Override
-    public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-            IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
 }

@@ -88,8 +88,8 @@ public final class OrderBook {
   }
 
   /**
-   * Given an OrderBookUpdate, it will replace a matching limit order in the orderbook if one is found, or add a new  if one is not.
-   * timeStamp will be updated if the new timestamp is non-null and in the future.
+   * Given an OrderBookUpdate, it will replace a matching limit order in the orderbook if one is found, or add a new if one is not. timeStamp will be
+   * updated if the new timestamp is non-null and in the future.
    *
    * @param orderBookUpdate the new OrderBookUpdate
    */

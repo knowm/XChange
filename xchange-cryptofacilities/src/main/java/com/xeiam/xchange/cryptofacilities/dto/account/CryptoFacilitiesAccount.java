@@ -15,31 +15,29 @@ import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
 public class CryptoFacilitiesAccount extends CryptoFacilitiesResult {
 
-    private final CryptoFacilitiesAccountInfo accountInfo;
-    
-    public CryptoFacilitiesAccount(@JsonProperty("result") String result
-                  , @JsonProperty("serverTime") String strServerTime
-                  , @JsonProperty("error") String error
-                  , @JsonProperty("account") CryptoFacilitiesAccountInfo accountInfo ) {
+  private final CryptoFacilitiesAccountInfo accountInfo;
 
-            super(result, error);
-            
-            this.accountInfo = accountInfo;
-    }
+  public CryptoFacilitiesAccount(@JsonProperty("result") String result, @JsonProperty("serverTime") String strServerTime,
+      @JsonProperty("error") String error, @JsonProperty("account") CryptoFacilitiesAccountInfo accountInfo) {
 
-    public Map<String, BigDecimal> getBalances() {
-            return accountInfo.getBalances();
-    }
-		
-    public Map<String, BigDecimal> getAuxiliary() {
-            return accountInfo.getAuxiliary();
-    }
+    super(result, error);
 
-    public Map<String, BigDecimal> getMarginRequirements() {
-            return accountInfo.getMarginRequirements();
-    }
+    this.accountInfo = accountInfo;
+  }
 
-    public Map<String, BigDecimal> getTriggerEstimates() {
-            return accountInfo.getTriggerEstimates();
-    }
+  public Map<String, BigDecimal> getBalances() {
+    return accountInfo.getBalances();
+  }
+
+  public Map<String, BigDecimal> getAuxiliary() {
+    return accountInfo.getAuxiliary();
+  }
+
+  public Map<String, BigDecimal> getMarginRequirements() {
+    return accountInfo.getMarginRequirements();
+  }
+
+  public Map<String, BigDecimal> getTriggerEstimates() {
+    return accountInfo.getTriggerEstimates();
+  }
 }

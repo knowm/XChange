@@ -195,7 +195,7 @@ public final class BTCEAdapters {
       String orderId = String.valueOf(result.getOrderId());
       String tradeId = String.valueOf(entry.getKey());
       CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
-      trades.add(new UserTrade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId, null, (Currency)null));
+      trades.add(new UserTrade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId, null, (Currency) null));
     }
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
@@ -225,17 +225,18 @@ public final class BTCEAdapters {
     Map<Currency, CurrencyMetaData> currencies = new HashMap<Currency, CurrencyMetaData>();
 
     if (btceExchangeInfo != null)
-    for (Entry<String, BTCEPairInfo> e : btceExchangeInfo.getPairs().entrySet()) {
-      CurrencyPair pair = adaptCurrencyPair(e.getKey());
-      MarketMetaData marketMetaData = toMarketMetaData(e.getValue(), btceMetaData);
-      currencyPairs.put(pair, marketMetaData);
+      for (Entry<String, BTCEPairInfo> e : btceExchangeInfo.getPairs().entrySet()) {
+        CurrencyPair pair = adaptCurrencyPair(e.getKey());
+        MarketMetaData marketMetaData = toMarketMetaData(e.getValue(), btceMetaData);
+        currencyPairs.put(pair, marketMetaData);
 
-      addCurrencyMetaData(pair.base, currencies, btceMetaData);
-      addCurrencyMetaData(pair.counter, currencies, btceMetaData);
-    }
+        addCurrencyMetaData(pair.base, currencies, btceMetaData);
+        addCurrencyMetaData(pair.counter, currencies, btceMetaData);
+      }
 
-    HashSet<RateLimit> publicRateLimits = new HashSet<>(Collections.singleton(new RateLimit(btceMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)));
-    return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, Collections.<RateLimit>emptySet(), false);
+    HashSet<RateLimit> publicRateLimits = new HashSet<>(
+        Collections.singleton(new RateLimit(btceMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)));
+    return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, Collections.<RateLimit> emptySet(), false);
   }
 
   private static void addCurrencyMetaData(Currency symbol, Map<Currency, CurrencyMetaData> currencies, BTCEMetaData btceMetaData) {

@@ -24,7 +24,7 @@ public class BTCMarketsDigestTest {
 
   @Before
   public void setUp() {
-    btcMarketsDigest = new BTCMarketsDigest("c2VjcmV0S2V5");  // encoded 'secretKey'
+    btcMarketsDigest = new BTCMarketsDigest("c2VjcmV0S2V5"); // encoded 'secretKey'
   }
 
   @Test

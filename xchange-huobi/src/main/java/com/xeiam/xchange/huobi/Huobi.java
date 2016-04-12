@@ -26,12 +26,11 @@ public interface Huobi {
 
   @POST
   public HuobiOrder[] getOrders(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType, @FormParam("created") long created,
-                                @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
+      @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
-  public HuobiOrderInfo getOrderInfo(@FormParam("access_key") String accessKey, @FormParam("id") long orderId,
-                                     @FormParam("coin_type") int coinType, @FormParam("created") long created,
-                                     @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
+  public HuobiOrderInfo getOrderInfo(@FormParam("access_key") String accessKey, @FormParam("id") long orderId, @FormParam("coin_type") int coinType,
+      @FormParam("created") long created, @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   public HuobiPlaceOrderResult placeLimitOrder(@FormParam("access_key") String accessKey, @FormParam("amount") String amount,
@@ -46,5 +45,5 @@ public interface Huobi {
   @POST
   public HuobiCancelOrderResult cancelOrder(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType,
       @FormParam("created") long created, @FormParam("id") long id, @FormParam("method") String method, @FormParam("sign") ParamsDigest sign)
-          throws IOException;
+      throws IOException;
 }

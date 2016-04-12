@@ -68,7 +68,7 @@ public abstract class RippleAdapters {
   public static AccountInfo adaptAccountInfo(final RippleAccountBalances account, final String username) {
 
     // Adapt account balances to XChange balances
-    final Map<String,List<Balance>> balances = new HashMap<String,List<Balance>>();
+    final Map<String, List<Balance>> balances = new HashMap<String, List<Balance>>();
     for (final RippleBalance balance : account.getBalances()) {
       final String walletId;
       if (balance.getCurrency().equals("XRP")) {
@@ -83,7 +83,7 @@ public abstract class RippleAdapters {
     }
 
     final List<Wallet> accountInfo = new ArrayList<Wallet>(balances.size());
-    for (final Map.Entry<String,List<Balance>> wallet : balances.entrySet()) {
+    for (final Map.Entry<String, List<Balance>> wallet : balances.entrySet()) {
       accountInfo.add(new Wallet(wallet.getKey(), wallet.getValue()));
     }
 
@@ -260,10 +260,12 @@ public abstract class RippleAdapters {
     } else if ((params instanceof TradeHistoryParamCurrencyPair) && (((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null)) {
       // Searching for a specific currency pair - use this direction
       final CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-      if (pair.base.getCurrencyCode().equals(balanceChanges.get(0).getCurrency()) && pair.counter.getCurrencyCode().equals(balanceChanges.get(1).getCurrency())) {
+      if (pair.base.getCurrencyCode().equals(balanceChanges.get(0).getCurrency())
+          && pair.counter.getCurrencyCode().equals(balanceChanges.get(1).getCurrency())) {
         base = balanceChanges.get(0);
         counter = balanceChanges.get(1);
-      } else if (pair.base.getCurrencyCode().equals(balanceChanges.get(1).getCurrency()) && pair.counter.getCurrencyCode().equals(balanceChanges.get(0).getCurrency())) {
+      } else if (pair.base.getCurrencyCode().equals(balanceChanges.get(1).getCurrency())
+          && pair.counter.getCurrencyCode().equals(balanceChanges.get(0).getCurrency())) {
         base = balanceChanges.get(1);
         counter = balanceChanges.get(0);
       } else {

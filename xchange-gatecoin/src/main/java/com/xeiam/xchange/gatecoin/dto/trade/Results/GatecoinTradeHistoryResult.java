@@ -11,10 +11,8 @@ import com.xeiam.xchange.gatecoin.dto.trade.GatecoinTradeHistory;
 public class GatecoinTradeHistoryResult extends GatecoinResult {
   private final GatecoinTradeHistory[] transactions;
 
-  public GatecoinTradeHistoryResult(
-      @JsonProperty("transactions") GatecoinTradeHistory[] transactions,
-      @JsonProperty("responseStatus") ResponseStatus responseStatus
-  ) {
+  public GatecoinTradeHistoryResult(@JsonProperty("transactions") GatecoinTradeHistory[] transactions,
+      @JsonProperty("responseStatus") ResponseStatus responseStatus) {
     super(responseStatus);
     this.transactions = transactions;
   }

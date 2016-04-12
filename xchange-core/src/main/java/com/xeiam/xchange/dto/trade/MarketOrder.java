@@ -9,8 +9,8 @@ import com.xeiam.xchange.dto.Order;
 /**
  * DTO representing a market order
  * <p>
- * A market order is a buy or sell order to be executed immediately at current market prices. As long as there are willing sellers and buyers, market orders are filled. Market orders are therefore
- * used when certainty of execution is a priority over price of execution.
+ * A market order is a buy or sell order to be executed immediately at current market prices. As long as there are willing sellers and buyers, market
+ * orders are filled. Market orders are therefore used when certainty of execution is a priority over price of execution.
  * </p>
  * <strong>Use market orders with caution, and review {@link LimitOrder} in case it is more suitable.</strong>
  */
@@ -58,7 +58,8 @@ public class MarketOrder extends Order {
 
     public static Builder from(Order order) {
 
-      return (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount()).timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags());
+      return (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount()).timestamp(order.getTimestamp())
+          .id(order.getId()).flags(order.getOrderFlags());
     }
 
     @Override

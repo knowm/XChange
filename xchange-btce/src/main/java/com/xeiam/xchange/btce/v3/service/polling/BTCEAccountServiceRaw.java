@@ -43,19 +43,19 @@ public class BTCEAccountServiceRaw extends BTCEBasePollingService {
     checkResult(info);
     return info.getReturnValue();
   }
-  
-    /**
-     * Author: Ondřej Novtný
-     * @param currency Currency to withdraw
-     * @param amount Amount of withdrawal
-     * @param address Withdrawall address 
-     * @return Transactoin ID
-     */
-    public String withdraw(String currency, BigDecimal amount, String address)
-  {
-      BTCEWithDrawInfoReturn info = btce.WithdrawCoin(apiKey, signatureCreator,exchange.getNonceFactory(), currency, amount, address);
-      
-      return String.valueOf(info.getReturnValue().gettId());
+
+  /**
+   * Author: Ondřej Novtný
+   * 
+   * @param currency Currency to withdraw
+   * @param amount Amount of withdrawal
+   * @param address Withdrawall address
+   * @return Transactoin ID
+   */
+  public String withdraw(String currency, BigDecimal amount, String address) {
+    BTCEWithDrawInfoReturn info = btce.WithdrawCoin(apiKey, signatureCreator, exchange.getNonceFactory(), currency, amount, address);
+
+    return String.valueOf(info.getReturnValue().gettId());
   }
 
 }

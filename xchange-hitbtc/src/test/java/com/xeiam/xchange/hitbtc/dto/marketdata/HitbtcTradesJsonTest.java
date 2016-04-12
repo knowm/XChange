@@ -22,7 +22,7 @@ public class HitbtcTradesJsonTest {
     ObjectMapper mapper = new ObjectMapper();
 
     HitbtcTrades hitbtcTrades = mapper.readValue(is, HitbtcTrades.class);
-    
+
     List<HitbtcTrade> trades = hitbtcTrades.getHitbtcTrades();
     assertThat(trades).hasSize(5);
     HitbtcTrade trade = trades.get(0);

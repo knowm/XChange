@@ -103,7 +103,9 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
     return tradeCountLimit;
   }
 
-  public void addPreferredBaseCurrency(final Currency value) { preferredBaseCurrency.add(value); }
+  public void addPreferredBaseCurrency(final Currency value) {
+    preferredBaseCurrency.add(value);
+  }
 
   @Override
   public Collection<Currency> getPreferredBaseCurrency() {

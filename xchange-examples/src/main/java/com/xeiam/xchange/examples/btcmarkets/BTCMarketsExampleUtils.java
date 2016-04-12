@@ -8,7 +8,8 @@ import com.xeiam.xchange.currency.CurrencyPair;
 
 public class BTCMarketsExampleUtils {
 
-  private BTCMarketsExampleUtils() { }
+  private BTCMarketsExampleUtils() {
+  }
 
   public static Exchange createTestExchange() {
     Exchange btcMarketsExchange = ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getName());

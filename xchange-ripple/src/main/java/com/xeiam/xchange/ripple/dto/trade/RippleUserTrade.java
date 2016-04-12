@@ -39,13 +39,17 @@ public class RippleUserTrade extends UserTrade {
     return baseTransferFee;
   }
 
-  public Currency getBaseTransferFeeCurrency() { return currencyPair.base; }
+  public Currency getBaseTransferFeeCurrency() {
+    return currencyPair.base;
+  }
 
   public BigDecimal getCounterTransferFee() {
     return counterTransferFee;
   }
 
-  public Currency getCounterTransferFeeCurrency() { return currencyPair.counter; }
+  public Currency getCounterTransferFeeCurrency() {
+    return currencyPair.counter;
+  }
 
   public static class Builder extends UserTrade.Builder {
 

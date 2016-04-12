@@ -80,7 +80,7 @@ public class BitMarketDataServiceTest extends BitMarketTestSupport {
 
     // then
     assertThat(tradeList).hasSize(3);
-    for (int i=0; i < tradeList.size(); i++) {
+    for (int i = 0; i < tradeList.size(); i++) {
       BitMarketAssert.assertEquals(tradeList.get(i), expectedTrades[i]);
     }
   }

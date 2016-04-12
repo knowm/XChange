@@ -175,7 +175,8 @@ public final class BTERAdapters {
     Date timestamp = DateUtils.fromMillisUtc(bterTrade.getTimeUnix() * 1000);
     CurrencyPair currencyPair = adaptCurrencyPair(bterTrade.getPair());
 
-    return new UserTrade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null, null, (Currency)null);
+    return new UserTrade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null, null,
+        (Currency) null);
   }
 
 }

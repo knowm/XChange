@@ -18,5 +18,5 @@ public class BTCEWithDrawInfoReturn extends BTCEReturn<BTCEWithdrawInfo> {
   public BTCEWithDrawInfoReturn(@JsonProperty("success") boolean success, @JsonProperty("return") BTCEWithdrawInfo value,
       @JsonProperty("error") String error) {
     super(success, value, error);
-  }  
+  }
 }

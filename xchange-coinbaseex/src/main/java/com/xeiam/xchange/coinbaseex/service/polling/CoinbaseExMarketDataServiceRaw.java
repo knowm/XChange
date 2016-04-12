@@ -26,7 +26,8 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
       return null;
     }
 
-    CoinbaseExProductTicker tickerReturn = this.coinbaseEx.getProductTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+    CoinbaseExProductTicker tickerReturn = this.coinbaseEx.getProductTicker(currencyPair.base.getCurrencyCode(),
+        currencyPair.counter.getCurrencyCode());
     return tickerReturn;
   }
 
@@ -46,12 +47,14 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
       return null;
     }
 
-    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), "1");
+    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(),
+        "1");
     return book;
   }
 
   public CoinbaseExProductBook getCoinbaseExProductOrderBook(CurrencyPair currencyPair, int level) throws IOException {
-    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), String.valueOf(level));
+    CoinbaseExProductBook book = this.coinbaseEx.getProductOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(),
+        String.valueOf(level));
     return book;
   }
 
@@ -65,7 +68,8 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
 
     boolean currencyPairSupported = false;
     for (CurrencyPair cp : this.getExchangeSymbols()) {
-      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode()) && cp.counter.getCurrencyCode().equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
+      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
+          && cp.counter.getCurrencyCode().equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
         currencyPairSupported = true;
         break;
       }

@@ -125,7 +125,7 @@ public interface ANXV2 {
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXTradeResultWrapper getExecutedTrades(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @FormParam("to") Long to)
-          throws ANXException, IOException;
+      throws ANXException, IOException;
 
   /**
    * Status of the order
@@ -145,7 +145,7 @@ public interface ANXV2 {
   ANXOrderResultWrapper getOrderResult(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("baseCurrency") String baseCurrency,
       @PathParam("counterCurrency") String counterCurrency, @FormParam("order") String order, @FormParam("type") String type)
-          throws ANXException, IOException;
+      throws ANXException, IOException;
 
   /**
    * @param postBodySignatureCreator
@@ -192,5 +192,5 @@ public interface ANXV2 {
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("page") Integer page)
-          throws ANXException, IOException;
+      throws ANXException, IOException;
 }

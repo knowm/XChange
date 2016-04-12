@@ -25,10 +25,10 @@ public class HitbtcIncrementalRefresh {
    * @param bid
    * @param trade
    */
-  public HitbtcIncrementalRefresh(@JsonProperty("seqNo") long seqNo, @JsonProperty("symbol") String symbol, @JsonProperty("exchangeStatus") String exchangeStatus,
-      @JsonProperty("ask") List<HitbtcStreamingOrder> ask, @JsonProperty("bid") List<HitbtcStreamingOrder> bid,
-      @JsonProperty("trade") List<HitbtcStreamingTrade> trade) {
-    
+  public HitbtcIncrementalRefresh(@JsonProperty("seqNo") long seqNo, @JsonProperty("symbol") String symbol,
+      @JsonProperty("exchangeStatus") String exchangeStatus, @JsonProperty("ask") List<HitbtcStreamingOrder> ask,
+      @JsonProperty("bid") List<HitbtcStreamingOrder> bid, @JsonProperty("trade") List<HitbtcStreamingTrade> trade) {
+
     this.seqNo = seqNo;
     this.symbol = symbol;
     this.exchangeStatus = exchangeStatus;
@@ -48,7 +48,7 @@ public class HitbtcIncrementalRefresh {
   }
 
   public String getExchangeStatus() {
-  
+
     return exchangeStatus;
   }
 
@@ -70,7 +70,7 @@ public class HitbtcIncrementalRefresh {
   @Override
   public String toString() {
 
-    return "HitbtcIncrementalRefresh{" + "seqNo=" + seqNo + ", symbol='" + symbol + "', exchangeStatus='" + exchangeStatus + "', ask=" + ask +
-        ", bid=" + bid + ", trade=" + trade + "}";
+    return "HitbtcIncrementalRefresh{" + "seqNo=" + seqNo + ", symbol='" + symbol + "', exchangeStatus='" + exchangeStatus + "', ask=" + ask
+        + ", bid=" + bid + ", trade=" + trade + "}";
   }
 }

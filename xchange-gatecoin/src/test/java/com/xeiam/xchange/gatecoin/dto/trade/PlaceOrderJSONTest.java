@@ -27,6 +27,6 @@ public class PlaceOrderJSONTest {
 
     assertThat(newOrder.getOrderId()).isEqualTo("BK11432031302");
     assertThat(newOrder.getResponseStatus().getMessage()).isEqualTo("OK");
-    }
+  }
 
 }

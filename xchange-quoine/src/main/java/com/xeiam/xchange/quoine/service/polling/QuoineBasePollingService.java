@@ -56,9 +56,9 @@ public class QuoineBasePollingService extends BaseExchangeService implements Bas
 
   protected String getDate() {
 
-      SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-      format.setTimeZone(TimeZone.getTimeZone("GMT"));
-      return format.format(new Date());
+    SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+    format.setTimeZone(TimeZone.getTimeZone("GMT"));
+    return format.format(new Date());
   }
 
   protected String getNonce() {

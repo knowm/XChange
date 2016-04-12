@@ -1,4 +1,5 @@
 package com.xeiam.xchange.gatecoin.dto.account;
+
 import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,9 +22,8 @@ public class WithdrawFundsJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     GatecoinWithdrawResult gatecoinWithdrawResult = mapper.readValue(is, GatecoinWithdrawResult.class);
 
-
     // Verify that the example data was unmarshalled correctly    
-    assertThat(gatecoinWithdrawResult.getResponseStatus().getMessage()).isEqualTo("OK");    
+    assertThat(gatecoinWithdrawResult.getResponseStatus().getMessage()).isEqualTo("OK");
 
   }
 }

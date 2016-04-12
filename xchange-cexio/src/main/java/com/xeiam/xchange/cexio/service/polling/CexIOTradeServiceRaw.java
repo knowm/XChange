@@ -71,9 +71,10 @@ public class CexIOTradeServiceRaw extends CexIOBasePollingService {
 
   public CexIOOrder placeCexIOLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    CexIOOrder order = cexIOAuthenticated.placeOrder(limitOrder.getCurrencyPair().base.getCurrencyCode(), limitOrder.getCurrencyPair().counter.getCurrencyCode(),
-        exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-        (limitOrder.getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell), limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
+    CexIOOrder order = cexIOAuthenticated.placeOrder(limitOrder.getCurrencyPair().base.getCurrencyCode(),
+        limitOrder.getCurrencyPair().counter.getCurrencyCode(), exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory(), (limitOrder.getType() == BID ? CexIOOrder.Type.buy : CexIOOrder.Type.sell), limitOrder.getLimitPrice(),
+        limitOrder.getTradableAmount());
     if (order.getErrorMessage() != null) {
       throw new ExchangeException(order.getErrorMessage());
     }

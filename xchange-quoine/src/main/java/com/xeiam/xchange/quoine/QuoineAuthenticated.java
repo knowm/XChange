@@ -28,33 +28,38 @@ public interface QuoineAuthenticated extends Quoine {
 
   @GET
   @Path("accounts")
-  public QuoineAccountInfo getAccountInfo(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date,
-      @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer) throws IOException;
+  public QuoineAccountInfo getAccountInfo(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5,
+      @HeaderParam("Date") String date, @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer) throws IOException;
 
   @GET
   @Path("trading_accounts")
-  public QuoineTradingAccountInfo[] getTradingAccountInfo(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date,
-      @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer) throws IOException;
+  public QuoineTradingAccountInfo[] getTradingAccountInfo(@HeaderParam("Content-Type") String contentType,
+      @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date, @HeaderParam("NONCE") String nonce,
+      @HeaderParam("Authorization") ParamsDigest signer) throws IOException;
 
   @POST
   @Path("orders")
   @Consumes(MediaType.APPLICATION_JSON)
-  public QuoineOrderResponse placeOrder(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date,
-      @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer, QuoineNewOrderRequest quoineNewOrderRequest) throws IOException;
+  public QuoineOrderResponse placeOrder(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5,
+      @HeaderParam("Date") String date, @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer,
+      QuoineNewOrderRequest quoineNewOrderRequest) throws IOException;
 
   @PUT
   @Path("orders/{order_id}/cancel")
-  public QuoineOrderResponse cancelOrder(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date,
-      @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer, @PathParam("order_id") String orderID) throws IOException;
+  public QuoineOrderResponse cancelOrder(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5,
+      @HeaderParam("Date") String date, @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer,
+      @PathParam("order_id") String orderID) throws IOException;
 
   @GET
   @Path("orders/{order_id}")
-  public QuoineOrderDetailsResponse orderDetails(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date,
-      @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer, @PathParam("order_id") String orderID) throws IOException;
+  public QuoineOrderDetailsResponse orderDetails(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5,
+      @HeaderParam("Date") String date, @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer,
+      @PathParam("order_id") String orderID) throws IOException;
 
   @GET
   @Path("orders")
-  public QuoineOrdersList listOrders(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date,
-      @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer, @QueryParam("currency_pair_code") String currencyPair) throws IOException;
+  public QuoineOrdersList listOrders(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5,
+      @HeaderParam("Date") String date, @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer,
+      @QueryParam("currency_pair_code") String currencyPair) throws IOException;
 
 }

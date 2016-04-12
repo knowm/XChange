@@ -13,8 +13,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 public class UnixTimestampSerializer extends JsonSerializer<Date> {
 
   @Override
-  public void serialize(Date value, JsonGenerator gen, SerializerProvider serializers)
-      throws IOException {
+  public void serialize(Date value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
     gen.writeNumber(value.getTime() / 1000);
   }
 }

@@ -27,14 +27,15 @@ public class CryptoFacilitiesAccountServiceRaw extends CryptoFacilitiesBasePolli
   @Deprecated
   public Map<String, BigDecimal> getCryptoFacilitiesBalance() throws IOException {
 
-    CryptoFacilitiesBalance balanceResult = cryptoFacilities.balance(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
-    
+    CryptoFacilitiesBalance balanceResult = cryptoFacilities.balance(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory());
+
     return balanceResult.getBalances();
   }
 
   public CryptoFacilitiesAccount getCryptoFacilitiesAccount() throws IOException {
 
-    return cryptoFacilities.account(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());    
+    return cryptoFacilities.account(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
   }
 
 }

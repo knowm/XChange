@@ -34,80 +34,80 @@ import com.xeiam.xchange.utils.Assert;
 // TODO Convert BitstampExceptions to ExchangeException at the Raw level. Do not leak them out of this class.
 public class BitstampTradeService extends BitstampTradeServiceRaw implements PollingTradeService {
 
-    /**
-     * Constructor
-     *
-     * @param exchange
-     */
-    public BitstampTradeService(Exchange exchange) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public BitstampTradeService(Exchange exchange) {
 
-        super(exchange);
+    super(exchange);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders() throws IOException, BitstampException {
+
+    BitstampOrder[] openOrders = getBitstampOpenOrders();
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    for (BitstampOrder bitstampOrder : openOrders) {
+      OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
+      String id = Integer.toString(bitstampOrder.getId());
+      BigDecimal price = bitstampOrder.getPrice();
+      limitOrders.add(new LimitOrder(orderType, bitstampOrder.getAmount(), CurrencyPair.BTC_USD, id, bitstampOrder.getTime(), price));
+    }
+    return new OpenOrders(limitOrders);
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException, BitstampException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException, BitstampException {
+
+    Assert.isTrue(limitOrder.getCurrencyPair().equals(CurrencyPair.BTC_USD), "Currency Pair must be USD/BTC!!!");
+
+    BitstampOrder bitstampOrder;
+    if (limitOrder.getType() == BID) {
+      bitstampOrder = buyBitStampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    } else {
+      bitstampOrder = sellBitstampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    }
+    if (bitstampOrder.getErrorMessage() != null) {
+      throw new ExchangeException(bitstampOrder.getErrorMessage());
     }
 
-    @Override
-    public OpenOrders getOpenOrders() throws IOException, BitstampException {
+    return Integer.toString(bitstampOrder.getId());
+  }
 
-        BitstampOrder[] openOrders = getBitstampOpenOrders();
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException, BitstampException {
 
-        List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-        for (BitstampOrder bitstampOrder : openOrders) {
-            OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
-            String id = Integer.toString(bitstampOrder.getId());
-            BigDecimal price = bitstampOrder.getPrice();
-            limitOrders.add(new LimitOrder(orderType, bitstampOrder.getAmount(), CurrencyPair.BTC_USD, id, bitstampOrder.getTime(), price));
-        }
-        return new OpenOrders(limitOrders);
-    }
+    return cancelBitstampOrder(Integer.parseInt(orderId));
+  }
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException, BitstampException {
+  /**
+   * Required parameter types: {@link TradeHistoryParamPaging#getPageLength()}
+   */
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-        throw new NotAvailableFromExchangeException();
-    }
+    return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(Long.valueOf(((TradeHistoryParamPaging) params).getPageLength())));
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException, BitstampException {
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
 
-        Assert.isTrue(limitOrder.getCurrencyPair().equals(CurrencyPair.BTC_USD), "Currency Pair must be USD/BTC!!!");
+    return new DefaultTradeHistoryParamPaging(1000);
+  }
 
-        BitstampOrder bitstampOrder;
-        if (limitOrder.getType() == BID) {
-            bitstampOrder = buyBitStampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-        } else {
-            bitstampOrder = sellBitstampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-        }
-        if (bitstampOrder.getErrorMessage() != null) {
-            throw new ExchangeException(bitstampOrder.getErrorMessage());
-        }
-
-        return Integer.toString(bitstampOrder.getId());
-    }
-
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException, BitstampException {
-
-        return cancelBitstampOrder(Integer.parseInt(orderId));
-    }
-
-    /**
-     * Required parameter types: {@link TradeHistoryParamPaging#getPageLength()}
-     */
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
-        return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(Long.valueOf(((TradeHistoryParamPaging) params).getPageLength())));
-    }
-
-    @Override
-    public TradeHistoryParams createTradeHistoryParams() {
-
-        return new DefaultTradeHistoryParamPaging(1000);
-    }
-
-    @Override
-    public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-            IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
 }

@@ -43,8 +43,7 @@ public class BTCMarketsMarketDataDemo {
     BTCMarketsMarketDataServiceRaw btcMarketsMarketDataService = (BTCMarketsMarketDataServiceRaw) btcMarketsExchange.getPollingMarketDataService();
 
     // Get the weekly ticker
-    System.out.println(
-        "Ticker: " + btcMarketsMarketDataService.getBTCMarketsTicker(CurrencyPair.BTC_AUD));
+    System.out.println("Ticker: " + btcMarketsMarketDataService.getBTCMarketsTicker(CurrencyPair.BTC_AUD));
 
     // Get the latest full order book data
     BTCMarketsOrderBook depth = btcMarketsMarketDataService.getBTCMarketsOrderBook(CurrencyPair.BTC_AUD);

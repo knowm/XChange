@@ -26,7 +26,8 @@ public class BTCCentralBasePollingService extends BaseExchangeService implements
     super(exchange);
 
     ClientConfig config = new ClientConfig();
-    config.setSslSocketFactory(CertHelper.createExpiredAcceptingSSLSocketFactory("CN=*.bitcoin-central.net,OU=EssentialSSL Wildcard,OU=Domain Control Validated"));
+    config.setSslSocketFactory(
+        CertHelper.createExpiredAcceptingSSLSocketFactory("CN=*.bitcoin-central.net,OU=EssentialSSL Wildcard,OU=Domain Control Validated"));
 
     this.btcCentral = RestProxyFactory.createProxy(BTCCentral.class, exchange.getExchangeSpecification().getSslUri(), config);
   }

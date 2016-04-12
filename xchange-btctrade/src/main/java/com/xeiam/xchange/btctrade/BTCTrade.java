@@ -114,7 +114,7 @@ public interface BTCTrade {
   @Path("orders")
   public BTCTradeOrder[] getOrders(@FormParam("since") long since, @FormParam("type") String type,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
-          throws IOException;
+      throws IOException;
 
   /**
    * Returns order information.
@@ -155,7 +155,7 @@ public interface BTCTrade {
   @Path("buy")
   public BTCTradePlaceOrderResult buy(@FormParam("amount") String amount, @FormParam("price") String price,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
-          throws IOException;
+      throws IOException;
 
   /**
    * Places a sell order.
@@ -170,6 +170,6 @@ public interface BTCTrade {
   @Path("sell")
   public BTCTradePlaceOrderResult sell(@FormParam("amount") String amount, @FormParam("price") String price,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
-          throws IOException;
+      throws IOException;
 
 }

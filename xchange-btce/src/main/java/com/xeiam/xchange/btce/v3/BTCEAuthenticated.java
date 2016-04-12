@@ -127,19 +127,20 @@ public interface BTCEAuthenticated extends BTCE {
   enum SortOrder {
     ASC, DESC
   }
-    
-    /**
-     * Author: Ondřej Novtný
-     * @param currency Currency to withdraw
-     * @param amount Amount of withdrawal
-     * @param address Withdrawall address 
-     * @return
-     */
+
+  /**
+   * Author: Ondřej Novtný
+   * 
+   * @param currency Currency to withdraw
+   * @param amount Amount of withdrawal
+   * @param address Withdrawall address
+   * @return
+   */
   @POST
   @Path("tapi")
   @FormParam("method")
   BTCEWithDrawInfoReturn WithdrawCoin(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-           @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-            @FormParam("coinName") String coinName, @FormParam("amount") BigDecimal amount,  @FormParam("address")String address );
-  
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("coinName") String coinName, @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address);
+
 }

@@ -11,10 +11,7 @@ import com.xeiam.xchange.gatecoin.dto.marketdata.ResponseStatus;
 public class GatecoinBalanceResult extends GatecoinResult {
   private final GatecoinBalance[] balances;
 
-  public GatecoinBalanceResult(
-      @JsonProperty("balances") GatecoinBalance[] balances,
-      @JsonProperty("responseStatus") ResponseStatus responseStatus
-  ) {
+  public GatecoinBalanceResult(@JsonProperty("balances") GatecoinBalance[] balances, @JsonProperty("responseStatus") ResponseStatus responseStatus) {
     super(responseStatus);
     this.balances = balances;
   }

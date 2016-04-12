@@ -15,7 +15,6 @@ import com.xeiam.xchange.service.polling.BasePollingService;
 
 public class CryptoFacilitiesBasePollingService extends BaseExchangeService implements BasePollingService {
 
-
   protected CryptoFacilitiesAuthenticated cryptoFacilities;
   protected ParamsDigest signatureCreator;
 

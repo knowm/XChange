@@ -44,13 +44,13 @@ public interface CleverCoinAuthenticated extends CleverCoin {
   public CleverCoinOpenOrder createLimitedOrder(@HeaderParam("X-CleverAPI-Key") String apiKey,
       @HeaderParam("X-CleverAPI-Signature") ParamsDigest signer, @HeaderParam("X-CleverAPI-Nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("type") String type, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
-          throws CleverCoinException, IOException;
+      throws CleverCoinException, IOException;
 
   @DELETE
   @Path("orders/limited")
   public CleverCoinCancelOrder cancelOrder(@HeaderParam("X-CleverAPI-Key") String apiKey, @HeaderParam("X-CleverAPI-Signature") ParamsDigest signer,
       @HeaderParam("X-CleverAPI-Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("orderID") int orderId)
-          throws CleverCoinException, IOException;
+      throws CleverCoinException, IOException;
 
   @GET
   @Path("wallets")
@@ -67,7 +67,7 @@ public interface CleverCoinAuthenticated extends CleverCoin {
   @Path("bitcoin/depositAddress")
   public CleverCoinDepositAddress getBitcoinDepositAddress(@HeaderParam("X-CleverAPI-Key") String apiKey,
       @HeaderParam("X-CleverAPI-Signature") ParamsDigest signer, @HeaderParam("X-CleverAPI-Nonce") SynchronizedValueFactory<Long> nonce)
-          throws CleverCoinException, IOException;
+      throws CleverCoinException, IOException;
 
   @POST
   @Path("bitcoin/withdrawal")

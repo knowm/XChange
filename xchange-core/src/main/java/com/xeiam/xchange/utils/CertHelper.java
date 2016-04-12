@@ -86,15 +86,14 @@ public class CertHelper {
       };
 
       SSLContext sslContext = SSLContext.getInstance("TLS");
-      sslContext.init(null, new TrustManager[]{trustManager}, null);
+      sslContext.init(null, new TrustManager[] { trustManager }, null);
       return sslContext.getSocketFactory();
 
-    } catch(GeneralSecurityException e) {
+    } catch (GeneralSecurityException e) {
 
       throw new IllegalStateException(e);
     }
   }
-
 
   /**
    * Creates a custom {@link SSLSocketFactory} that disallows the use of a set of protocols and/or ciphers, no matter the current default
@@ -120,8 +119,8 @@ public class CertHelper {
         }
 
         if (filtered.isEmpty())
-          throw new IOException("No supported SSL attributed enabled.  " + Arrays.toString(original) + " provided, "
-              + disabled.toString() + " disabled, " + Arrays.toString(supported) + " supported, result: " + filtered.toString());
+          throw new IOException("No supported SSL attributed enabled.  " + Arrays.toString(original) + " provided, " + disabled.toString()
+              + " disabled, " + Arrays.toString(supported) + " supported, result: " + filtered.toString());
 
         return filtered.toArray(new String[filtered.size()]);
       }
@@ -147,27 +146,33 @@ public class CertHelper {
         return getDefaultFactory().getDefaultCipherSuites();
       }
 
-      @Override public String[] getSupportedCipherSuites() {
+      @Override
+      public String[] getSupportedCipherSuites() {
         return getDefaultFactory().getSupportedCipherSuites();
       }
 
-      @Override public Socket createSocket(Socket s, String host, int port, boolean autoClose) throws IOException {
+      @Override
+      public Socket createSocket(Socket s, String host, int port, boolean autoClose) throws IOException {
         return fixupSocket(getDefaultFactory().createSocket(s, host, port, autoClose));
       }
 
-      @Override public Socket createSocket(String host, int port) throws IOException {
+      @Override
+      public Socket createSocket(String host, int port) throws IOException {
         return fixupSocket(getDefaultFactory().createSocket(host, port));
       }
 
-      @Override public Socket createSocket(String host, int port, InetAddress localHost, int localPort) throws IOException {
+      @Override
+      public Socket createSocket(String host, int port, InetAddress localHost, int localPort) throws IOException {
         return fixupSocket(getDefaultFactory().createSocket(host, port, localHost, localPort));
       }
 
-      @Override public Socket createSocket(InetAddress host, int port) throws IOException {
+      @Override
+      public Socket createSocket(InetAddress host, int port) throws IOException {
         return fixupSocket(getDefaultFactory().createSocket(host, port));
       }
 
-      @Override public Socket createSocket(InetAddress address, int port, InetAddress localAddress, int localPort) throws IOException {
+      @Override
+      public Socket createSocket(InetAddress address, int port, InetAddress localAddress, int localPort) throws IOException {
         return fixupSocket(getDefaultFactory().createSocket(address, port, localAddress, localPort));
       }
 
@@ -195,7 +200,8 @@ public class CertHelper {
           if (hostname.equals(requestHostname) && principalName.equals(certPrincipalName))
             return true;
 
-        } catch (SSLPeerUnverifiedException e) { }
+        } catch (SSLPeerUnverifiedException e) {
+        }
 
         return HttpsURLConnection.getDefaultHostnameVerifier().verify(hostname, session);
       }

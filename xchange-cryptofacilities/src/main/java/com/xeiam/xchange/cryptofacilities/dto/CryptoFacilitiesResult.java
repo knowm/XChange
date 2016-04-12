@@ -35,15 +35,15 @@ public class CryptoFacilitiesResult {
   }
 
   public String getError() {
-	return error;
-}
+    return error;
+  }
 
-@Override
+  @Override
   public String toString() {
 
-    if(isSuccess())
-    	return result;
+    if (isSuccess())
+      return result;
     else
-    	return result + " : " + error;
+      return result + " : " + error;
   }
 }

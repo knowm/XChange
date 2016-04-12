@@ -51,17 +51,9 @@ public final class TheRockAdapters {
     return new OrderBook(theRockOrderBook.getDate(), asks, bids);
   }
 
-  private static LimitOrder adaptBid(
-      CurrencyPair currencyPair,
-      Order.OrderType orderType,
-      TheRockBid theRockBid,
-      Date timestamp
-  ) {
-    return new LimitOrder.Builder(orderType, currencyPair)
-        .limitPrice(theRockBid.getPrice())
-        .tradableAmount(theRockBid.getAmount())
-        .timestamp(timestamp)
-        .build();
+  private static LimitOrder adaptBid(CurrencyPair currencyPair, Order.OrderType orderType, TheRockBid theRockBid, Date timestamp) {
+    return new LimitOrder.Builder(orderType, currencyPair).limitPrice(theRockBid.getPrice()).tradableAmount(theRockBid.getAmount())
+        .timestamp(timestamp).build();
   }
 
   /*
@@ -79,6 +71,7 @@ public final class TheRockAdapters {
    * adaptTrade(TheRockUserTrade therockUserTrade) { CurrencyPair currencyPair = therockUserTrade.getCurrencyPair(); return new UserTrade(
    * adaptOrderType(therockUserTrade.getType()), therockUserTrade.getQuantity(), currencyPair, therockUserTrade.getPrice().abs(),
    * therockUserTrade.getExecuted(), String.valueOf(therockUserTrade.getTradeId()), String.valueOf(therockUserTrade.getOrderId()),
-   * therockUserTrade.getFee(), therockUserTrade.getType() == TheRockOrder.Type.Buy ? currencyPair.counter.getCurrencyCode() : currencyPair.base.getCurrencyCode()); }
+   * therockUserTrade.getFee(), therockUserTrade.getType() == TheRockOrder.Type.Buy ? currencyPair.counter.getCurrencyCode() :
+   * currencyPair.base.getCurrencyCode()); }
    */
 }

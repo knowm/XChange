@@ -62,7 +62,7 @@ public class BTCMarketsUserTrade {
 
   @Override
   public String toString() {
-    return String.format("BTCMarketsUserTrade{id=%d, side='%s', description='%s', price=%s, volume=%s, fee=%s, creationTime=%s}",
-        id, side, description, price, volume, fee, creationTime);
+    return String.format("BTCMarketsUserTrade{id=%d, side='%s', description='%s', price=%s, volume=%s, fee=%s, creationTime=%s}", id, side,
+        description, price, volume, fee, creationTime);
   }
 }

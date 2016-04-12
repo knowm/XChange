@@ -16,8 +16,8 @@ public class HitbtcStreamingTrade extends HitbtcTrade {
    * @param timestamp
    * @param side
    */
-  public HitbtcStreamingTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size,
-      @JsonProperty("tradeId") String tradeId, @JsonProperty("timestamp") long timestamp, @JsonProperty("side") HitbtcTradeSide side) {
+  public HitbtcStreamingTrade(@JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size, @JsonProperty("tradeId") String tradeId,
+      @JsonProperty("timestamp") long timestamp, @JsonProperty("side") HitbtcTradeSide side) {
     super(timestamp, price, size, tradeId, side);
   }
 }

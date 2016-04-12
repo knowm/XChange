@@ -1,4 +1,5 @@
 package com.xeiam.xchange.gatecoin.dto.account;
+
 import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,9 +24,9 @@ public class WalletJSONTest {
     GatecoinBalance gatecoinBalance[] = gatecoinBalanceResult.getBalances();
 
     // Verify that the example data was unmarshalled correctly
-    
+
     assertThat(gatecoinBalanceResult.getResponseStatus().getMessage()).isEqualTo("OK");
-    
+
     assertThat(gatecoinBalance[0].getCurrency()).isEqualTo("BTC");
     assertThat(gatecoinBalance[0].getBalance()).isEqualTo(BigDecimal.valueOf(2.94137538));
     assertThat(gatecoinBalance[0].getAvailableBalance()).isEqualTo(BigDecimal.valueOf(2.94137538));

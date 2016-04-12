@@ -18,42 +18,41 @@ public class GatecoinTransaction {
   /**
    * Constructor
    * 
-     * @param transactionTime
-     * @param transactionId   
+   * @param transactionTime
+   * @param transactionId
    * @param price BTC price
-     * @param quantity
-     * @param currencyPair
-  
+   * @param quantity
+   * @param currencyPair
    */
-  public GatecoinTransaction(@JsonProperty("transactionTime") long transactionTime, @JsonProperty("transactionId") int transactionId, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("currencyPair") String currencyPair) {
+  public GatecoinTransaction(@JsonProperty("transactionTime") long transactionTime, @JsonProperty("transactionId") int transactionId,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("currencyPair") String currencyPair) {
 
     this.transactionTime = transactionTime;
     this.transactionId = transactionId;
     this.price = price;
     this.quantity = quantity;
-    this.currencyPair= currencyPair;
+    this.currencyPair = currencyPair;
   }
 
-    public long getTransacationTime() {
-        return transactionTime;
-    }
+  public long getTransacationTime() {
+    return transactionTime;
+  }
 
-    public int getTransactionId() {
-        return transactionId;
-    }
+  public int getTransactionId() {
+    return transactionId;
+  }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
+  public BigDecimal getQuantity() {
+    return quantity;
+  }
 
-    public String getCurrencyPair() {
-        return currencyPair;
-    }
+  public String getCurrencyPair() {
+    return currencyPair;
+  }
 
   @Override
   public String toString() {

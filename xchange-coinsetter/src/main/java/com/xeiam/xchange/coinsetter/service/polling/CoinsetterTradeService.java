@@ -33,92 +33,93 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
  */
 public class CoinsetterTradeService extends CoinsetterOrderServiceRaw implements PollingTradeService {
 
-    /**
-     * Constructor
-     *
-     * @param exchange
-     */
-    public CoinsetterTradeService(Exchange exchange) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public CoinsetterTradeService(Exchange exchange) {
 
-        super(exchange);
-    }
+    super(exchange);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public OpenOrders getOpenOrders() throws IOException {
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
 
-        CoinsetterClientSession session = getSession();
-        CoinsetterOrderList orderList = list(session.getUuid(), getAccountUuid(), "OPEN");
-        return CoinsetterAdapters.adaptOpenOrders(orderList);
-    }
+    CoinsetterClientSession session = getSession();
+    CoinsetterOrderList orderList = list(session.getUuid(), getAccountUuid(), "OPEN");
+    return CoinsetterAdapters.adaptOpenOrders(orderList);
+  }
 
-    /**
-     * Method returns CoinsetterOrder type giving full order execution state details. Method getOpenOrders() do not provide information of
-     * filledQuantity, average execution price etc.
-     *
-     * @return
-     * @throws IOException
-     */
-    public List<CoinsetterOrder> getCoinsetterOpenOrders() throws IOException {
-        CoinsetterClientSession session = getSession();
-        CoinsetterOrderList orderList = list(session.getUuid(), getAccountUuid(), "OPEN");
-        return new ArrayList<CoinsetterOrder>(Arrays.asList(orderList.getOrderList()));
-    }
+  /**
+   * Method returns CoinsetterOrder type giving full order execution state details. Method getOpenOrders() do not provide information of
+   * filledQuantity, average execution price etc.
+   *
+   * @return
+   * @throws IOException
+   */
+  public List<CoinsetterOrder> getCoinsetterOpenOrders() throws IOException {
+    CoinsetterClientSession session = getSession();
+    CoinsetterOrderList orderList = list(session.getUuid(), getAccountUuid(), "OPEN");
+    return new ArrayList<CoinsetterOrder>(Arrays.asList(orderList.getOrderList()));
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-        return add(marketOrder.getCurrencyPair(), marketOrder.getType(), marketOrder.getTradableAmount(), null);
-    }
+    return add(marketOrder.getCurrencyPair(), marketOrder.getType(), marketOrder.getTradableAmount(), null);
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-        return add(limitOrder.getCurrencyPair(), limitOrder.getType(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-    }
+    return add(limitOrder.getCurrencyPair(), limitOrder.getType(), limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+  }
 
-    private String add(CurrencyPair currencyPair, OrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException {
+  private String add(CurrencyPair currencyPair, OrderType orderType, BigDecimal quantity, BigDecimal price) throws IOException {
 
-        CoinsetterClientSession session = getSession();
-        CoinsetterOrderRequest request = new CoinsetterOrderRequest(session.getCustomerUuid(), getAccountUuid(), CoinsetterAdapters.adaptSymbol(currencyPair),
-                CoinsetterAdapters.adaptSide(orderType), price == null ? "MARKET" : "LIMIT", quantity, 2, price);
-        return add(getSession().getUuid(), request).getUuid().toString();
-    }
+    CoinsetterClientSession session = getSession();
+    CoinsetterOrderRequest request = new CoinsetterOrderRequest(session.getCustomerUuid(), getAccountUuid(),
+        CoinsetterAdapters.adaptSymbol(currencyPair), CoinsetterAdapters.adaptSide(orderType), price == null ? "MARKET" : "LIMIT", quantity, 2,
+        price);
+    return add(getSession().getUuid(), request).getUuid().toString();
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException {
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
 
-        CoinsetterOrderResponse response = cancel(getSession().getUuid(), UUID.fromString(orderId));
-        return "SUCCESS".equals(response.getRequestStatus());
-    }
+    CoinsetterOrderResponse response = cancel(getSession().getUuid(), UUID.fromString(orderId));
+    return "SUCCESS".equals(response.getRequestStatus());
+  }
 
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-        throw new NotAvailableFromExchangeException();
-    }
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
+  @Override
+  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
-        throw new NotAvailableFromExchangeException();
-    }
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-            IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
 }

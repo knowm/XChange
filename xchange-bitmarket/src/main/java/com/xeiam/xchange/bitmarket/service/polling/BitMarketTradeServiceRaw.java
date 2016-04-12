@@ -118,8 +118,8 @@ public class BitMarketTradeServiceRaw extends BitMarketBasePollingService {
       count = ((BitMarketHistoryParams) params).getCount();
     }
 
-    BitMarketHistoryOperationsResponse response = bitMarketAuthenticated.history(apiKey, sign, exchange.getNonceFactory(), currencyPair.base.getCurrencyCode(),
-        count, offset);
+    BitMarketHistoryOperationsResponse response = bitMarketAuthenticated.history(apiKey, sign, exchange.getNonceFactory(),
+        currencyPair.base.getCurrencyCode(), count, offset);
 
     BitMarketHistoryOperationsResponse response2 = bitMarketAuthenticated.history(apiKey, sign, exchange.getNonceFactory(),
         currencyPair.counter.getCurrencyCode(), count, offset);

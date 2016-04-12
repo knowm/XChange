@@ -14,15 +14,9 @@ public class BTCMarketsException extends HttpStatusExceptionSupport {
   private final Long id;
   private final List<BTCMarketsException> responses;
 
-  public BTCMarketsException(
-      @JsonProperty("success") Boolean success,
-      @JsonProperty("errorMessage") String errorMessage,
-      @JsonProperty("errorCode") Integer errorCode,
-      @JsonProperty("clientRequestId") String clientRequestId,
-      @JsonProperty("id") Long id,
-      @JsonProperty("responses") List<BTCMarketsException> responses
-  )
-  {
+  public BTCMarketsException(@JsonProperty("success") Boolean success, @JsonProperty("errorMessage") String errorMessage,
+      @JsonProperty("errorCode") Integer errorCode, @JsonProperty("clientRequestId") String clientRequestId, @JsonProperty("id") Long id,
+      @JsonProperty("responses") List<BTCMarketsException> responses) {
     super(constructMsg(errorMessage, responses));
     this.success = success;
     this.errorCode = errorCode;

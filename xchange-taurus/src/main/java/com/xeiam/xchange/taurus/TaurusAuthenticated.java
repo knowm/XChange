@@ -33,13 +33,13 @@ public interface TaurusAuthenticated extends Taurus {
   @Path("buy/")
   TaurusOrder buy(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
-          throws TaurusException, IOException;
+      throws TaurusException, IOException;
 
   @POST
   @Path("sell/")
   TaurusOrder sell(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
-          throws TaurusException, IOException;
+      throws TaurusException, IOException;
 
   // todo: market order
 
@@ -71,5 +71,5 @@ public interface TaurusAuthenticated extends Taurus {
   @Path("bitcoin_withdrawal/")
   String withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
-          throws TaurusException, IOException;
+      throws TaurusException, IOException;
 }

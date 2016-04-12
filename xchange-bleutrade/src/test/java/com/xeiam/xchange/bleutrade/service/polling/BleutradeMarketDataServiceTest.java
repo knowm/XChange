@@ -43,9 +43,8 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
 
   private BleutradeMarketDataService marketDataService;
 
-  private static final Ticker TICKER = new Ticker.Builder()
-      .currencyPair(BLEU_BTC_CP).last(new BigDecimal("0.00101977")).bid(new BigDecimal("0.00100000"))
-      .ask(new BigDecimal("0.00101977")).high(new BigDecimal("0.00105000")).low(new BigDecimal("0.00086000"))
+  private static final Ticker TICKER = new Ticker.Builder().currencyPair(BLEU_BTC_CP).last(new BigDecimal("0.00101977"))
+      .bid(new BigDecimal("0.00100000")).ask(new BigDecimal("0.00101977")).high(new BigDecimal("0.00105000")).low(new BigDecimal("0.00086000"))
       .vwap(new BigDecimal("0.00103455")).volume(new BigDecimal("2450.97496015")).timestamp(new Date(1406632770000L)).build();
 
   @Before
@@ -108,8 +107,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     BleutradeOrderBookReturn orderBookReturn1 = new BleutradeOrderBookReturn();
     orderBookReturn1.setSuccess(true);
     orderBookReturn1.setMessage("test message");
-    orderBookReturn1.setResult(
-      createBleutradeOrderBook(expectedBleutradeLevelBuys(), expectedBleutradeLevelSells()));
+    orderBookReturn1.setResult(createBleutradeOrderBook(expectedBleutradeLevelBuys(), expectedBleutradeLevelSells()));
 
     BleutradeOrderBookReturn orderBookReturn2 = new BleutradeOrderBookReturn();
     orderBookReturn2.setSuccess(true);
@@ -131,13 +129,13 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     // then
     List<LimitOrder> asks = orderBook1.getAsks();
     assertThat(asks).hasSize(4);
-    for (int i=0; i < asks.size(); i++) {
+    for (int i = 0; i < asks.size(); i++) {
       BleutradeAssert.assertEquals(asks.get(i), expectedAsks[i]);
     }
 
     List<LimitOrder> bids = orderBook1.getBids();
     assertThat(bids).hasSize(2);
-    for (int i=0; i < bids.size(); i++) {
+    for (int i = 0; i < bids.size(); i++) {
       BleutradeAssert.assertEquals(bids.get(i), expectedBids[i]);
     }
 
@@ -151,8 +149,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     BleutradeOrderBookReturn orderBookReturn = new BleutradeOrderBookReturn();
     orderBookReturn.setSuccess(false);
     orderBookReturn.setMessage("test message");
-    orderBookReturn.setResult(createBleutradeOrderBook(
-      expectedBleutradeLevelBuys(), expectedBleutradeLevelSells()));
+    orderBookReturn.setResult(createBleutradeOrderBook(expectedBleutradeLevelBuys(), expectedBleutradeLevelSells()));
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getBleutradeOrderBook("BLEU_BTC", "ALL", 50)).thenReturn(orderBookReturn);
@@ -210,7 +207,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     List<Trade> tradeList = trades1.getTrades();
     assertThat(tradeList).hasSize(2);
 
-    for (int i=0; i<tradeList.size(); i++) {
+    for (int i = 0; i < tradeList.size(); i++) {
       BleutradeAssert.assertEquals(tradeList.get(i), expectedTrades[i]);
     }
 
@@ -264,7 +261,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     // then
     assertThat(tickers).hasSize(2);
 
-    for (int i=0; i<tickers.size(); i++) {
+    for (int i = 0; i < tickers.size(); i++) {
       BleutradeAssert.assertEquals(tickers.get(i), expectedBleutradeTickers.get(i));
       assertThat(tickers.get(i).toString()).isEqualTo(expectedBleutradeTickersStr[i]);
     }
@@ -310,7 +307,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     // then
     assertThat(currencies).hasSize(2);
 
-    for (int i=0; i<currencies.size(); i++) {
+    for (int i = 0; i < currencies.size(); i++) {
       BleutradeAssert.assertEquals(currencies.get(i), expectedBleutradeCurrencies.get(i));
       assertThat(currencies.get(i).toString()).isEqualTo(expectedBleutradeCurrenciesStr[i]);
     }
@@ -356,7 +353,7 @@ public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport 
     // then
     assertThat(markets).hasSize(2);
 
-    for (int i=0; i<markets.size(); i++) {
+    for (int i = 0; i < markets.size(); i++) {
       BleutradeAssert.assertEquals(markets.get(i), expectedBleutradeMarkets.get(i));
       assertThat(markets.get(i).toString()).isEqualTo(expectedBleutradeMarketsStr[i]);
     }

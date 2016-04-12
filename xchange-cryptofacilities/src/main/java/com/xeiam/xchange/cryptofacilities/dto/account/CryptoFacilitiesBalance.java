@@ -15,27 +15,23 @@ import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 @Deprecated
 public class CryptoFacilitiesBalance extends CryptoFacilitiesResult {
 
-	private final Map<String, BigDecimal> balances;
-	
-	@JsonCreator
-	public CryptoFacilitiesBalance(Map<String, Object> data) {
+  private final Map<String, BigDecimal> balances;
 
-		super(data.get("result").toString(), data.get("error") != null ? ((String) data.get("error")) : null);
-		
-		this.balances = new LinkedHashMap<>();
-		for(Entry<String, Object> dt : data.entrySet())
-		{
-			if(!dt.getKey().equals("result") && !dt.getKey().equals("error"))
-			{
-				balances.put(dt.getKey(), new BigDecimal(dt.getValue().toString()));
-			}
-		}			
-	}
+  @JsonCreator
+  public CryptoFacilitiesBalance(Map<String, Object> data) {
 
-	public Map<String, BigDecimal> getBalances() {
-		return balances;
-	}
-	
-	
+    super(data.get("result").toString(), data.get("error") != null ? ((String) data.get("error")) : null);
+
+    this.balances = new LinkedHashMap<>();
+    for (Entry<String, Object> dt : data.entrySet()) {
+      if (!dt.getKey().equals("result") && !dt.getKey().equals("error")) {
+        balances.put(dt.getKey(), new BigDecimal(dt.getValue().toString()));
+      }
+    }
+  }
+
+  public Map<String, BigDecimal> getBalances() {
+    return balances;
+  }
 
 }

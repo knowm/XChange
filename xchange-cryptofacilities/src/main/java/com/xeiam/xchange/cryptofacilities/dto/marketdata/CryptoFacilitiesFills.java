@@ -14,47 +14,41 @@ import java.text.SimpleDateFormat;
 
 public class CryptoFacilitiesFills extends CryptoFacilitiesResult {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
-    private final Date serverTime;
-    private final List<CryptoFacilitiesFill> fills;
+  private final Date serverTime;
+  private final List<CryptoFacilitiesFill> fills;
 
+  public CryptoFacilitiesFills(@JsonProperty("result") String result, @JsonProperty("serverTime") String strServerTime,
+      @JsonProperty("error") String error, @JsonProperty("fills") List<CryptoFacilitiesFill> fills) throws ParseException {
 
-    public CryptoFacilitiesFills(@JsonProperty("result") String result
-                  , @JsonProperty("serverTime") String strServerTime
-                  , @JsonProperty("error") String error
-                  , @JsonProperty("fills") List<CryptoFacilitiesFill> fills) throws ParseException {
+    super(result, error);
 
-        super(result, error);
+    this.serverTime = DATE_FORMAT.parse(strServerTime);
+    this.fills = fills;
+  }
 
-        this.serverTime = DATE_FORMAT.parse(strServerTime);
-        this.fills = fills;	    
+  public List<CryptoFacilitiesFill> getFills() {
+    return fills;
+  }
+
+  public Date getServerTime() {
+    return serverTime;
+  }
+
+  @Override
+  public String toString() {
+
+    if (isSuccess()) {
+      String res = "CryptoFacilitiesFills [serverTime=" + DATE_FORMAT.format(serverTime) + ", fills=";
+      for (CryptoFacilitiesFill fill : fills)
+        res = res + fill.toString() + ", ";
+      res = res + " ]";
+
+      return res;
+    } else {
+      return super.toString();
     }
-
-    public List<CryptoFacilitiesFill> getFills() {
-          return fills;
-    }
-  
-    public Date getServerTime() {
-          return serverTime;
-    }
-
-    @Override
-    public String toString() {
-
-        if(isSuccess()) {
-            String res = "CryptoFacilitiesFills [serverTime=" + DATE_FORMAT.format(serverTime) + ", fills=";
-            for(CryptoFacilitiesFill fill : fills)
-                    res = res + fill.toString() + ", ";
-            res = res + " ]";
-
-            return res;
-        } 
-        else {
-            return super.toString();
-        }
-    }
-
-  
+  }
 
 }

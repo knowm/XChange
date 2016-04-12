@@ -55,7 +55,8 @@ public final class GatecoinAdapters {
     for (GatecoinBalance balance : gatecoinBalances) {
       Currency ccy = Currency.getInstance(balance.getCurrency());
       balances.add(new Balance.Builder().currency(ccy).total(balance.getBalance()).available(balance.getAvailableBalance())
-          .frozen(balance.getOpenOrder().negate()).withdrawing(balance.getPendingOutgoing().negate()).depositing(balance.getPendingIncoming().negate()).build());
+          .frozen(balance.getOpenOrder().negate()).withdrawing(balance.getPendingOutgoing().negate())
+          .depositing(balance.getPendingIncoming().negate()).build());
     }
     return new Wallet(balances);
   }
@@ -64,15 +65,11 @@ public final class GatecoinAdapters {
    * Adapts a com.xeiam.xchange.gatecoin.api.model.OrderBook to a OrderBook Object
    *
    * @param gatecoinDepthResult
-   * @param currencyPair        (e.g. BTC/USD)
-   * @param timeScale           polled order books provide a timestamp in seconds, stream in ms
+   * @param currencyPair (e.g. BTC/USD)
+   * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrderBook(
-      GatecoinDepthResult gatecoinDepthResult,
-      CurrencyPair currencyPair,
-      int timeScale
-  ) {
+  public static OrderBook adaptOrderBook(GatecoinDepthResult gatecoinDepthResult, CurrencyPair currencyPair, int timeScale) {
 
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, gatecoinDepthResult.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, gatecoinDepthResult.getBids());
@@ -80,11 +77,7 @@ public final class GatecoinAdapters {
     return new OrderBook(date, asks, bids);
   }
 
-  public static List<LimitOrder> createOrders(
-      CurrencyPair currencyPair,
-      Order.OrderType orderType,
-      GatecoinDepth[] orders
-  ) {
+  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, GatecoinDepth[] orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (GatecoinDepth priceVolume : orders) {
@@ -94,11 +87,7 @@ public final class GatecoinAdapters {
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(
-      CurrencyPair currencyPair,
-      GatecoinDepth priceAndAmount,
-      Order.OrderType orderType
-  ) {
+  public static LimitOrder createOrder(CurrencyPair currencyPair, GatecoinDepth priceAndAmount, Order.OrderType orderType) {
 
     return new LimitOrder(orderType, priceAndAmount.getVolume(), currencyPair, "", null, priceAndAmount.getPrice());
   }
@@ -119,8 +108,8 @@ public final class GatecoinAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades
-          .add(new Trade(null, tx.getQuantity(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getTransacationTime() * 1000L), String.valueOf(tradeId)));
+      trades.add(new Trade(null, tx.getQuantity(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getTransacationTime() * 1000L),
+          String.valueOf(tradeId)));
     }
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
   }
@@ -140,8 +129,8 @@ public final class GatecoinAdapters {
         BigDecimal volume = ticker.getVolume();
         Date timestamp = new Date(ticker.getTimestamp() * 1000L);
 
-        return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume).timestamp(timestamp)
-            .build();
+        return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume)
+            .timestamp(timestamp).build();
       }
     }
     return null;
@@ -174,7 +163,8 @@ public final class GatecoinAdapters {
         final BigDecimal feeRate = gatecoinUserTrade.getFeeRate();
         final BigDecimal feeAmount = feeRate.multiply(tradableAmount).multiply(price).setScale(8, BigDecimal.ROUND_CEILING);
 
-        final CurrencyPair currencyPair = new CurrencyPair(gatecoinUserTrade.getCurrencyPair().substring(0, 3), gatecoinUserTrade.getCurrencyPair().substring(3, 6));
+        final CurrencyPair currencyPair = new CurrencyPair(gatecoinUserTrade.getCurrencyPair().substring(0, 3),
+            gatecoinUserTrade.getCurrencyPair().substring(3, 6));
         UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
             currencyPair.counter.getCurrencyCode());
         trades.add(trade);

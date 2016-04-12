@@ -50,7 +50,8 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @POST
   @Path("order/new/multi")
   BitfinexNewOrderMultiResponse newOrderMulti(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexNewOrderMultiRequest newOrderMultiRequest) throws IOException, BitfinexException;
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexNewOrderMultiRequest newOrderMultiRequest)
+      throws IOException, BitfinexException;
 
   @POST
   @Path("offer/new")
@@ -70,7 +71,8 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @POST
   @Path("order/cancel/multi")
   BitfinexCancelOrderMultiResponse cancelOrderMulti(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexCancelOrderMultiRequest cancelOrderRequest) throws IOException, BitfinexException;
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexCancelOrderMultiRequest cancelOrderRequest)
+      throws IOException, BitfinexException;
 
   @POST
   @Path("offer/cancel")
@@ -115,17 +117,16 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @Path("credits")
   BitfinexCreditResponse[] activeCredits(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexActiveCreditsRequest activeCreditsRequest)
-          throws IOException, BitfinexException;
+      throws IOException, BitfinexException;
 
   @POST
   @Path("margin_infos")
   BitfinexMarginInfosResponse[] marginInfos(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexMarginInfosRequest marginInfosRequest) throws IOException, BitfinexException;
-  
- @POST
+
+  @POST
   @Path("withdraw")
   BitfinexWithdrawalResponse[] withdraw(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexWithdrawalRequest withdrawalRequest) throws IOException, BitfinexException;
-
 
 }

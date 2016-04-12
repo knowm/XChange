@@ -19,60 +19,60 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class BleutradeTradeService extends BleutradeTradeServiceRaw implements PollingTradeService {
 
-    /**
-     * Constructor
-     *
-     * @param exchange
-     */
-    public BleutradeTradeService(Exchange exchange) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public BleutradeTradeService(Exchange exchange) {
 
-        super(exchange);
+    super(exchange);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
+
+    return BleutradeAdapters.adaptBleutradeOpenOrders(getBleutradeOpenOrders());
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+
+    if (limitOrder.getType() == OrderType.BID) {
+      return buyLimit(limitOrder);
+    } else {
+      return sellLimit(limitOrder);
     }
+  }
 
-    @Override
-    public OpenOrders getOpenOrders() throws IOException {
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
 
-        return BleutradeAdapters.adaptBleutradeOpenOrders(getBleutradeOpenOrders());
-    }
+    return cancel(orderId);
+  }
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-        throw new NotAvailableFromExchangeException();
-    }
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
 
-        if (limitOrder.getType() == OrderType.BID) {
-            return buyLimit(limitOrder);
-        } else {
-            return sellLimit(limitOrder);
-        }
-    }
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException {
-
-        return cancel(orderId);
-    }
-
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
-        throw new NotAvailableFromExchangeException();
-    }
-
-    @Override
-    public TradeHistoryParams createTradeHistoryParams() {
-
-        throw new NotAvailableFromExchangeException();
-    }
-
-    @Override
-    public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-            IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
 }

@@ -37,13 +37,13 @@ public interface BitsoAuthenticated {
   @Path("buy/")
   public BitsoOrder buy(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
-          throws BitsoException, IOException;
+      throws BitsoException, IOException;
 
   @POST
   @Path("sell/")
   public BitsoOrder sell(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
-          throws BitsoException, IOException;
+      throws BitsoException, IOException;
 
   /**
    * @return true if order has been canceled.
@@ -78,7 +78,7 @@ public interface BitsoAuthenticated {
   @Path("bitcoin_withdrawal/")
   String withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") BitsoDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
-          throws BitsoException, IOException;
+      throws BitsoException, IOException;
 
   @POST
   @Path("ripple_withdrawal/")

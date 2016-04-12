@@ -43,7 +43,8 @@ public class ItBitAccountServiceRaw extends ItBitBasePollingService {
     String formattedAmount = ItBitAdapters.formatCryptoAmount(amount);
 
     ItBitWithdrawalRequest request = new ItBitWithdrawalRequest(currency, formattedAmount, address);
-    ItBitWithdrawalResponse response = itBitAuthenticated.requestWithdrawal(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, request);
+    ItBitWithdrawalResponse response = itBitAuthenticated.requestWithdrawal(signatureCreator, new Date().getTime(), exchange.getNonceFactory(),
+        walletId, request);
     return response.getId();
   }
 
@@ -51,11 +52,12 @@ public class ItBitAccountServiceRaw extends ItBitBasePollingService {
 
     Map<String, String> metadata = new HashMap<String, String>();
     for (int i = 0; i < args.length - 1; i += 2) {
-      metadata.put(args[i], args[i+1]);
+      metadata.put(args[i], args[i + 1]);
     }
 
     ItBitDepositRequest request = new ItBitDepositRequest(currency, metadata);
-    ItBitDepositResponse response = itBitAuthenticated.requestDeposit(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, request);
+    ItBitDepositResponse response = itBitAuthenticated.requestDeposit(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId,
+        request);
     return response.getDepositAddress();
   }
 

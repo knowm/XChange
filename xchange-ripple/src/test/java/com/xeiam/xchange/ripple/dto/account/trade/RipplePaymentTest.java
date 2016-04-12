@@ -14,7 +14,7 @@ import com.xeiam.xchange.ripple.dto.RippleAmount;
 import com.xeiam.xchange.ripple.dto.trade.RipplePaymentTransaction;
 
 public class RipplePaymentTest {
-  
+
   @Test
   public void passthroughUnmarshalTest() throws IOException, ParseException {
     // Read in the JSON from the example resources
@@ -44,13 +44,13 @@ public class RipplePaymentTest {
     assertThat(payment.getTimestamp()).isEqualTo(RippleExchange.ToDate("2015-08-07T03:58:10.000Z"));
     assertThat(payment.getFee()).isEqualTo("0.012");
     assertThat(payment.getResult()).isEqualTo("tesSUCCESS");
-    
+
     assertThat(payment.getBalanceChanges()).hasSize(2);
     final RippleAmount balance1 = payment.getBalanceChanges().get(0);
     assertThat(balance1.getCurrency()).isEqualTo("XRP");
     assertThat(balance1.getValue()).isEqualTo("-349.559725");
     assertThat(balance1.getCounterparty()).isEqualTo("");
-    
+
     final RippleAmount balance2 = payment.getBalanceChanges().get(1);
     assertThat(balance2.getCurrency()).isEqualTo("BTC");
     assertThat(balance2.getValue()).isEqualTo("0.009941478580724");

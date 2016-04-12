@@ -26,10 +26,11 @@ public class BleutradeExchange extends BaseExchange implements Exchange {
     this.pollingAccountService = new BleutradeAccountService(this);
     this.pollingTradeService = new BleutradeTradeService(this);
   }
+
   @Override
   public void remoteInit() throws IOException {
-    List<BleutradeCurrency> currencies = ((BleutradeMarketDataServiceRaw)pollingMarketDataService).getBleutradeCurrencies();
-    List<BleutradeMarket> markets = ((BleutradeMarketDataServiceRaw)pollingMarketDataService).getBleutradeMarkets();
+    List<BleutradeCurrency> currencies = ((BleutradeMarketDataServiceRaw) pollingMarketDataService).getBleutradeCurrencies();
+    List<BleutradeMarket> markets = ((BleutradeMarketDataServiceRaw) pollingMarketDataService).getBleutradeMarkets();
     metaData = BleutradeAdapters.adaptToExchangeMetaData(currencies, markets);
   }
 

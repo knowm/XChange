@@ -30,59 +30,39 @@ public interface BTCMarketsAuthenticated {
 
   @GET
   @Path("account/balance")
-  List<BTCMarketsBalance> getBalance(
-      @HeaderParam("apikey") String publicKey,
-      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
-      @HeaderParam("signature") BTCMarketsDigest signer
-  ) throws BTCMarketsException, IOException;
+  List<BTCMarketsBalance> getBalance(@HeaderParam("apikey") String publicKey, @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
+      @HeaderParam("signature") BTCMarketsDigest signer) throws BTCMarketsException, IOException;
 
   @POST
   @Path("order/create")
   @Consumes(MediaType.APPLICATION_JSON)
-  BTCMarketsPlaceOrderResponse placeOrder(
-      @HeaderParam("apikey") String publicKey,
-      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
-      @HeaderParam("signature") BTCMarketsDigest signer,
-      BTCMarketsOrder order
-  ) throws BTCMarketsException, IOException;
+  BTCMarketsPlaceOrderResponse placeOrder(@HeaderParam("apikey") String publicKey,
+      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory, @HeaderParam("signature") BTCMarketsDigest signer, BTCMarketsOrder order)
+      throws BTCMarketsException, IOException;
 
   @POST
   @Path("order/cancel")
   @Consumes(MediaType.APPLICATION_JSON)
-  BTCMarketsCancelOrderResponse cancelOrder(
-      @HeaderParam("apikey") String publicKey,
-      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
-      @HeaderParam("signature") BTCMarketsDigest signer,
-      BTCMarketsCancelOrderRequest request
-  ) throws BTCMarketsException, IOException;
+  BTCMarketsCancelOrderResponse cancelOrder(@HeaderParam("apikey") String publicKey,
+      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory, @HeaderParam("signature") BTCMarketsDigest signer,
+      BTCMarketsCancelOrderRequest request) throws BTCMarketsException, IOException;
 
   @POST
   @Path("order/open")
   @Consumes(MediaType.APPLICATION_JSON)
-  BTCMarketsOrders getOpenOrders(
-      @HeaderParam("apikey") String publicKey,
-      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
-      @HeaderParam("signature") BTCMarketsDigest signer,
-      BTCMarketsMyTradingRequest request
-  ) throws BTCMarketsException, IOException;
+  BTCMarketsOrders getOpenOrders(@HeaderParam("apikey") String publicKey, @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
+      @HeaderParam("signature") BTCMarketsDigest signer, BTCMarketsMyTradingRequest request) throws BTCMarketsException, IOException;
 
   @POST
   @Path("order/history")
   @Consumes(MediaType.APPLICATION_JSON)
-  BTCMarketsOrders getOrderHistory(
-      @HeaderParam("apikey") String publicKey,
-      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
-      @HeaderParam("signature") BTCMarketsDigest signer,
-      BTCMarketsMyTradingRequest request
-  ) throws BTCMarketsException, IOException;
+  BTCMarketsOrders getOrderHistory(@HeaderParam("apikey") String publicKey, @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
+      @HeaderParam("signature") BTCMarketsDigest signer, BTCMarketsMyTradingRequest request) throws BTCMarketsException, IOException;
 
   @POST
   @Path("order/trade/history")
   @Consumes(MediaType.APPLICATION_JSON)
-  BTCMarketsTradeHistory getTradeHistory(
-      @HeaderParam("apikey") String publicKey,
-      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory,
-      @HeaderParam("signature") BTCMarketsDigest signer,
-      BTCMarketsMyTradingRequest request
-  ) throws BTCMarketsException, IOException;
+  BTCMarketsTradeHistory getTradeHistory(@HeaderParam("apikey") String publicKey,
+      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory, @HeaderParam("signature") BTCMarketsDigest signer,
+      BTCMarketsMyTradingRequest request) throws BTCMarketsException, IOException;
 }

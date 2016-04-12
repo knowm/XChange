@@ -18,83 +18,70 @@ import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
  */
 
 public class CryptoFacilitiesCumulativeBidAsk extends CryptoFacilitiesResult {
-		
-	private final String cumulatedBids;
-	private final String cumulatedAsks;	
-		
-	public CryptoFacilitiesCumulativeBidAsk(@JsonProperty("result") String result
-			, @JsonProperty("error") String error
-			, @JsonProperty("cumulatedBids") String cumulatedBids
-			, @JsonProperty("cumulatedAsks") String cumulatedAsks
-			) throws ParseException {
-	
-		  super(result, error);
 
-		  this.cumulatedBids = cumulatedBids;
-		  this.cumulatedAsks = cumulatedAsks;
-	}
+  private final String cumulatedBids;
+  private final String cumulatedAsks;
 
+  public CryptoFacilitiesCumulativeBidAsk(@JsonProperty("result") String result, @JsonProperty("error") String error,
+      @JsonProperty("cumulatedBids") String cumulatedBids, @JsonProperty("cumulatedAsks") String cumulatedAsks) throws ParseException {
 
-	
-	@Override
-	public String toString() {	
-		return "CryptoFacilitiesCumulativeBidAsk [cumulatedBids=" + cumulatedBids 
-			+ ", cumulatedAsks=" + cumulatedAsks 
-			+" ]";
-	}
-	
-	private List<CryptoFacilitiesCumulatedBidAsk> parseCumulatedString(String strCumulated) throws JsonProcessingException, IOException
-	{
-		List<CryptoFacilitiesCumulatedBidAsk> res = new LinkedList<CryptoFacilitiesCumulatedBidAsk>();
-		
-		String jsonString = "{ \"table\" : " + strCumulated + " }";
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		JsonNode root = objectMapper.readTree(jsonString);
-		JsonNode tableNode = root.get("table");
-		int size = tableNode.size();
-		for(int i=0; i<size; i++)
-		{			
-			BigDecimal price = new BigDecimal(tableNode.get(i).get(0).asText()).setScale(2, RoundingMode.HALF_EVEN);
-			BigDecimal qty = new BigDecimal(tableNode.get(i).get(1).asText()).setScale(0, RoundingMode.HALF_EVEN);
-			
-			res.add(new CryptoFacilitiesCumulatedBidAsk(price, qty));
-		}
+    super(result, error);
 
-		return res;
-	}
-	
-	private List<CryptoFacilitiesCumulatedBidAsk> parseCumulatedReverseString(String strCumulated) throws JsonProcessingException, IOException
-	{
-		List<CryptoFacilitiesCumulatedBidAsk> res = new LinkedList<CryptoFacilitiesCumulatedBidAsk>();
-		
-		String jsonString = "{ \"table\" : " + strCumulated + " }";
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		JsonNode root = objectMapper.readTree(jsonString);
-		JsonNode tableNode = root.get("table");
-		int size = tableNode.size();
-		for(int i=size-1; i>=0; i--)
-		{			
-			BigDecimal price = new BigDecimal(tableNode.get(i).get(0).asText()).setScale(2, RoundingMode.HALF_EVEN);
-			BigDecimal qty = new BigDecimal(tableNode.get(i).get(1).asText()).setScale(0, RoundingMode.HALF_EVEN);
-			
-			res.add(new CryptoFacilitiesCumulatedBidAsk(price, qty));
-		}
+    this.cumulatedBids = cumulatedBids;
+    this.cumulatedAsks = cumulatedAsks;
+  }
 
-		return res;
-	}
+  @Override
+  public String toString() {
+    return "CryptoFacilitiesCumulativeBidAsk [cumulatedBids=" + cumulatedBids + ", cumulatedAsks=" + cumulatedAsks + " ]";
+  }
 
-	public List<CryptoFacilitiesCumulatedBidAsk> getCumulatedBids() throws JsonProcessingException, IOException
-	{
-		// CryptoFacilites https api returns order book bids in reverse order.
-                // I.e. this.cumulatedBids[0] is not best bid!
-                return parseCumulatedReverseString(this.cumulatedBids);
-	}
-	
-	public List<CryptoFacilitiesCumulatedBidAsk> getCumulatedAsks() throws JsonProcessingException, IOException
-	{
-		return parseCumulatedString(this.cumulatedAsks);
-	}
+  private List<CryptoFacilitiesCumulatedBidAsk> parseCumulatedString(String strCumulated) throws JsonProcessingException, IOException {
+    List<CryptoFacilitiesCumulatedBidAsk> res = new LinkedList<CryptoFacilitiesCumulatedBidAsk>();
+
+    String jsonString = "{ \"table\" : " + strCumulated + " }";
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode root = objectMapper.readTree(jsonString);
+    JsonNode tableNode = root.get("table");
+    int size = tableNode.size();
+    for (int i = 0; i < size; i++) {
+      BigDecimal price = new BigDecimal(tableNode.get(i).get(0).asText()).setScale(2, RoundingMode.HALF_EVEN);
+      BigDecimal qty = new BigDecimal(tableNode.get(i).get(1).asText()).setScale(0, RoundingMode.HALF_EVEN);
+
+      res.add(new CryptoFacilitiesCumulatedBidAsk(price, qty));
+    }
+
+    return res;
+  }
+
+  private List<CryptoFacilitiesCumulatedBidAsk> parseCumulatedReverseString(String strCumulated) throws JsonProcessingException, IOException {
+    List<CryptoFacilitiesCumulatedBidAsk> res = new LinkedList<CryptoFacilitiesCumulatedBidAsk>();
+
+    String jsonString = "{ \"table\" : " + strCumulated + " }";
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode root = objectMapper.readTree(jsonString);
+    JsonNode tableNode = root.get("table");
+    int size = tableNode.size();
+    for (int i = size - 1; i >= 0; i--) {
+      BigDecimal price = new BigDecimal(tableNode.get(i).get(0).asText()).setScale(2, RoundingMode.HALF_EVEN);
+      BigDecimal qty = new BigDecimal(tableNode.get(i).get(1).asText()).setScale(0, RoundingMode.HALF_EVEN);
+
+      res.add(new CryptoFacilitiesCumulatedBidAsk(price, qty));
+    }
+
+    return res;
+  }
+
+  public List<CryptoFacilitiesCumulatedBidAsk> getCumulatedBids() throws JsonProcessingException, IOException {
+    // CryptoFacilites https api returns order book bids in reverse order.
+    // I.e. this.cumulatedBids[0] is not best bid!
+    return parseCumulatedReverseString(this.cumulatedBids);
+  }
+
+  public List<CryptoFacilitiesCumulatedBidAsk> getCumulatedAsks() throws JsonProcessingException, IOException {
+    return parseCumulatedString(this.cumulatedAsks);
+  }
 
 }

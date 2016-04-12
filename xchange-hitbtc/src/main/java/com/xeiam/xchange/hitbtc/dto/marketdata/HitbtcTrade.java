@@ -71,7 +71,7 @@ public class HitbtcTrade {
     BUY("buy"), SELL("sell");
 
     private final String hitbtcTradeSide;
-    
+
     HitbtcTradeSide(String hitbtcTradeSide) {
 
       this.hitbtcTradeSide = hitbtcTradeSide;

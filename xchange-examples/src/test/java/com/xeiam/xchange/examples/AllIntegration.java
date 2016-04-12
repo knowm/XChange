@@ -39,7 +39,7 @@ import si.mazi.rescu.HttpStatusIOException;
 @RunWith(Parameterized.class)
 public class AllIntegration {
 
-  @Parameterized.Parameters(name="{index}:{1}")
+  @Parameterized.Parameters(name = "{index}:{1}")
   public static Iterable<Object[]> data() {
 
     List<Object[]> exchangeClasses = new ArrayList<Object[]>();
@@ -50,7 +50,7 @@ public class AllIntegration {
       if (Modifier.isAbstract(exchangeClass.getModifiers()))
         continue;
 
-      exchangeClasses.add(new Object[]{exchangeClass, exchangeClass.getSimpleName()});
+      exchangeClasses.add(new Object[] { exchangeClass, exchangeClass.getSimpleName() });
     }
 
     return exchangeClasses;
@@ -81,10 +81,10 @@ public class AllIntegration {
     ExchangeMetaData exchangeMetaData = exchange.getMetaData();
     assertThat(exchangeMetaData).isNotNull();
 
-    Map<CurrencyPair,MarketMetaData> marketMetaDataMap = exchangeMetaData.getMarketMetaDataMap();
+    Map<CurrencyPair, MarketMetaData> marketMetaDataMap = exchangeMetaData.getMarketMetaDataMap();
     assertThat(marketMetaDataMap).isNotEmpty();
 
-    Map<Currency,CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencyMetaDataMap();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencyMetaDataMap();
     assertThat(currencyMetaDataMap).isNotNull();
   }
 
@@ -92,17 +92,16 @@ public class AllIntegration {
   public static final IPredicate<Exception> RETRYABLE_REQUEST = new IPredicate<Exception>() {
     @Override
     public boolean test(Exception e) {
-      return (e.getMessage() != null && e.getMessage().contains("{code=200, message=Too many requests}")) ||
-          e instanceof SocketTimeoutException /*||
-          e instanceof HttpStatusIOException*/;
+      return (e.getMessage() != null && e.getMessage().contains("{code=200, message=Too many requests}"))
+          || e instanceof SocketTimeoutException /*
+                                                  * || e instanceof HttpStatusIOException
+                                                  */;
     }
   };
 
   // Test some service method for a collection of first arguments, catching for example NotYetImplementedForExchangeException
-  private <R,A> Collection<R> testExchangeMethod(final Object service, final Method method, Collection<A> firstArgumentOptions, Object...
-      restStaticArguments)
-      throws Throwable
-  {
+  private <R, A> Collection<R> testExchangeMethod(final Object service, final Method method, Collection<A> firstArgumentOptions,
+      Object... restStaticArguments) throws Throwable {
 
     Assume.assumeNotNull(service);
 
@@ -116,7 +115,7 @@ public class AllIntegration {
     boolean notAvailableFromExchangeThrown = false;
     boolean notAvailableFromExchangeNotThrown = false;
 
-    for (final A firstArgument : firstArgumentOptions){
+    for (final A firstArgument : firstArgumentOptions) {
 
       Callable<R> callMethod = new Callable<R>() {
 
@@ -127,7 +126,7 @@ public class AllIntegration {
             arguments.set(0, firstArgument);
             return (R) method.invoke(service, arguments.toArray());
           } catch (InvocationTargetException invocationTargetException) {
-            throw((Exception)invocationTargetException.getCause());
+            throw ((Exception) invocationTargetException.getCause());
           }
         }
       };
@@ -141,18 +140,18 @@ public class AllIntegration {
 
         String logmsg = methodName + "(" + firstArgument + ") -> " + result;
         if (logmsg.length() > 75)
-          logmsg = logmsg.substring(0,75);
+          logmsg = logmsg.substring(0, 75);
         logger.debug(logmsg);
 
         assertThat(result).isNotNull();
         results.add(result);
 
-      } catch(NotAvailableFromExchangeException e) {
+      } catch (NotAvailableFromExchangeException e) {
 
         assertThat(notAvailableFromExchangeNotThrown).isFalse();
         notAvailableFromExchangeThrown = true;
 
-      } catch(NotYetImplementedForExchangeException e) {
+      } catch (NotYetImplementedForExchangeException e) {
 
         logger.warn(methodName + " unimplemented");
 
@@ -182,20 +181,20 @@ public class AllIntegration {
   public void testGetTicker() throws Throwable {
 
     Method method = PollingMarketDataService.class.getMethod("getTicker", CurrencyPair.class, Object[].class);
-    testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object)new Object[]{});
+    testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
   }
 
   @Test
   public void testGetOrderBook() throws Throwable {
 
     Method method = PollingMarketDataService.class.getMethod("getOrderBook", CurrencyPair.class, Object[].class);
-    testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object)new Object[]{});
+    testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
   }
 
   @Test
   public void testGetTrades() throws Throwable {
 
     Method method = PollingMarketDataService.class.getMethod("getTrades", CurrencyPair.class, Object[].class);
-    testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object)new Object[]{});
+    testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
   }
 }

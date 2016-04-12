@@ -29,22 +29,22 @@ public class CryptoFacilitiesAccountService extends CryptoFacilitiesAccountServi
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-	  return CryptoFacilitiesAdapters.adaptAccount(getCryptoFacilitiesAccount(), exchange.getExchangeSpecification().getUserName());
-	  
+    return CryptoFacilitiesAdapters.adaptAccount(getCryptoFacilitiesAccount(), exchange.getExchangeSpecification().getUserName());
+
   }
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-	  
-	  throw new NotAvailableFromExchangeException();
-	  
+
+    throw new NotAvailableFromExchangeException();
+
   }
 
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
-    
-	  throw new NotAvailableFromExchangeException();
-	  
+
+    throw new NotAvailableFromExchangeException();
+
   }
 
 }

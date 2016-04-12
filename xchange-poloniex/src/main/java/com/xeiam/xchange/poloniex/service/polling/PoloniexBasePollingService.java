@@ -42,21 +42,19 @@ public class PoloniexBasePollingService extends BaseExchangeService implements B
    */
   public PoloniexBasePollingService(Exchange exchange) {
 
-    super(exchange);    
+    super(exchange);
     // Fix for empty string array mapping exception
     ClientConfig config = new ClientConfig();
-    config.setJacksonConfigureListener(
-            new JacksonConfigureListener() {
-                @Override
-                public void configureObjectMapper(ObjectMapper objectMapper) {
-                    objectMapper.configure(DeserializationFeature. ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
-                }
-            }
-    );
-    this.poloniexAuthenticated = RestProxyFactory.createProxy(PoloniexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),config);
+    config.setJacksonConfigureListener(new JacksonConfigureListener() {
+      @Override
+      public void configureObjectMapper(ObjectMapper objectMapper) {
+        objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
+      }
+    });
+    this.poloniexAuthenticated = RestProxyFactory.createProxy(PoloniexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), config);
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = PoloniexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-    this.poloniex = RestProxyFactory.createProxy(Poloniex.class, exchange.getExchangeSpecification().getSslUri(),config);
+    this.poloniex = RestProxyFactory.createProxy(Poloniex.class, exchange.getExchangeSpecification().getSslUri(), config);
 
   }
 

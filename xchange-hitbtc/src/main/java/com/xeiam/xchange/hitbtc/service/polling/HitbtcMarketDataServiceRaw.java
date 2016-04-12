@@ -29,7 +29,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBasePollingService {
   }
 
   public HitbtcTime getHitbtcTime() throws IOException {
-  
+
     try {
       return hitbtc.getHitbtcTime();
     } catch (HitbtcException e) {
@@ -55,7 +55,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBasePollingService {
     }
   }
 
-  public Map<String,HitbtcTicker> getHitbtcTickers() throws IOException {
+  public Map<String, HitbtcTicker> getHitbtcTickers() throws IOException {
 
     try {
       return hitbtc.getHitbtcTickers();
@@ -73,8 +73,8 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBasePollingService {
     }
   }
 
-  public HitbtcTrades getHitbtcTrades(CurrencyPair currencyPair, long from, HitbtcTrades.HitbtcTradesSortField sortBy, HitbtcTrades.HitbtcTradesSortDirection sortDirection, long startIndex,
-      long maxResults) throws IOException {
+  public HitbtcTrades getHitbtcTrades(CurrencyPair currencyPair, long from, HitbtcTrades.HitbtcTradesSortField sortBy,
+      HitbtcTrades.HitbtcTradesSortDirection sortDirection, long startIndex, long maxResults) throws IOException {
 
     try {
       return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), String.valueOf(from), sortBy.toString(), sortDirection.toString(),

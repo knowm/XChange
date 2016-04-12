@@ -43,13 +43,13 @@ public class OkCoinPosition {
   public OkCoinPosition(@JsonProperty("contract_id") final long orderId, @JsonProperty("status") final int status,
       @JsonProperty("symbol") final String symbol, @JsonProperty("type") final String type, @JsonProperty("lever_rate") final BigDecimal rate,
 
-  @JsonProperty("buy_amount") final BigDecimal buyAmount, @JsonProperty("buy_available") final BigDecimal buyAmountAvailable,
+      @JsonProperty("buy_amount") final BigDecimal buyAmount, @JsonProperty("buy_available") final BigDecimal buyAmountAvailable,
       @JsonProperty("buy_profit_real") final BigDecimal buyProfitReal, @JsonProperty("buy_price_avg") final BigDecimal buyPriceAvg,
 
-  @JsonProperty("sell_amount") final BigDecimal sellAmount, @JsonProperty("sell_available") final BigDecimal sellAmountAvailable,
+      @JsonProperty("sell_amount") final BigDecimal sellAmount, @JsonProperty("sell_available") final BigDecimal sellAmountAvailable,
       @JsonProperty("sell_profit_real") final BigDecimal sellProfitReal, @JsonProperty("sell_price_avg") final BigDecimal sellPriceAvg,
 
-  @JsonProperty("create_date") final Date createDate) {
+      @JsonProperty("create_date") final Date createDate) {
 
     this.contractId = orderId;
     this.status = status;

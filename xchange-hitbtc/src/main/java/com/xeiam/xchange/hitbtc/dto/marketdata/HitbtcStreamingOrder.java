@@ -18,7 +18,7 @@ public class HitbtcStreamingOrder {
   public HitbtcStreamingOrder(@JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size) {
 
     this.price = price;
-    this.size = size; 
+    this.size = size;
   }
 
   public BigDecimal getPrice() {

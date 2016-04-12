@@ -30,66 +30,62 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBasePolling
     super(exchange);
   }
 
-  public CryptoFacilitiesOrder placeCryptoFacilitiesLimitOrder(LimitOrder order) throws IOException
-  {
-	  String type = "LMT";
-	  String tradeable = order.getCurrencyPair().base.toString();
-	  String unit = order.getCurrencyPair().counter.toString();
-	  String dir = "Buy";
-	  if(order.getType().equals(OrderType.ASK))
-		dir = "Sell";
-	  BigDecimal qty = order.getTradableAmount();
-	  BigDecimal price = order.getLimitPrice();
-	  
-	  CryptoFacilitiesOrder ord = cryptoFacilities.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), type, tradeable, unit, dir, qty, price);
-	  
-	  return ord;
-  }
-  
-  public CryptoFacilitiesCancel cancelCryptoFacilitiesOrder(String uid, CurrencyPair currencyPair) throws IOException
-  {	  
-	  CryptoFacilitiesCancel res = cryptoFacilities.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), uid, currencyPair.base.toString(), currencyPair.counter.toString());
+  public CryptoFacilitiesOrder placeCryptoFacilitiesLimitOrder(LimitOrder order) throws IOException {
+    String type = "LMT";
+    String tradeable = order.getCurrencyPair().base.toString();
+    String unit = order.getCurrencyPair().counter.toString();
+    String dir = "Buy";
+    if (order.getType().equals(OrderType.ASK))
+      dir = "Sell";
+    BigDecimal qty = order.getTradableAmount();
+    BigDecimal price = order.getLimitPrice();
 
-	  return res;
+    CryptoFacilitiesOrder ord = cryptoFacilities.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory(), type, tradeable, unit, dir, qty, price);
+
+    return ord;
   }
-  
-  public CryptoFacilitiesOpenOrders getCryptoFacilitiesOpenOrders() throws IOException
-  {
-	  CryptoFacilitiesOpenOrders openOrders = null;
-	try {
-		openOrders = cryptoFacilities.openOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
-	} catch (Exception e) {
-		return null;
-	}
-	  
-	  return openOrders;
+
+  public CryptoFacilitiesCancel cancelCryptoFacilitiesOrder(String uid, CurrencyPair currencyPair) throws IOException {
+    CryptoFacilitiesCancel res = cryptoFacilities.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory(), uid, currencyPair.base.toString(), currencyPair.counter.toString());
+
+    return res;
+  }
+
+  public CryptoFacilitiesOpenOrders getCryptoFacilitiesOpenOrders() throws IOException {
+    CryptoFacilitiesOpenOrders openOrders = null;
+    try {
+      openOrders = cryptoFacilities.openOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    } catch (Exception e) {
+      return null;
+    }
+
+    return openOrders;
   }
 
   @Deprecated
-  public CryptoFacilitiesTrades getCryptoFacilitiesTrades(int number) throws IOException
-  {
-	  CryptoFacilitiesTrades trades = null;
-	  
-	  try {
-		trades = cryptoFacilities.trades(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), number);
-	} catch (Exception e) {
-		return null;
-	}
-	  
-	  return trades;
+  public CryptoFacilitiesTrades getCryptoFacilitiesTrades(int number) throws IOException {
+    CryptoFacilitiesTrades trades = null;
+
+    try {
+      trades = cryptoFacilities.trades(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), number);
+    } catch (Exception e) {
+      return null;
+    }
+
+    return trades;
   }
 
-  
-  public CryptoFacilitiesFills getCryptoFacilitiesFills() throws IOException
-  {
-	  CryptoFacilitiesFills fills = null;
-	  
-	  try {
-		fills = cryptoFacilities.fills(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
-	} catch (Exception e) {
-		return null;
-	}
-	  
-	  return fills;
+  public CryptoFacilitiesFills getCryptoFacilitiesFills() throws IOException {
+    CryptoFacilitiesFills fills = null;
+
+    try {
+      fills = cryptoFacilities.fills(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    } catch (Exception e) {
+      return null;
+    }
+
+    return fills;
   }
 }

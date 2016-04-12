@@ -11,10 +11,10 @@ import java.util.TreeSet;
 /**
  * A Currency class roughly modeled after {@link java.util.Currency}.
  * </p>
- * Each object retains the code it was acquired with -- so {@link #getInstance}("BTC").{@link #getCurrencyCode}() will always be "BTC",
- * even though the proposed ISO 4217 code is "XBT"
+ * Each object retains the code it was acquired with -- so {@link #getInstance}("BTC").{@link #getCurrencyCode}() will always be "BTC", even though
+ * the proposed ISO 4217 code is "XBT"
  */
-public class Currency implements Comparable <Currency> {
+public class Currency implements Comparable<Currency> {
 
   private static final Map<String, Currency> currencies = new HashMap<String, Currency>();
 
@@ -71,7 +71,7 @@ public class Currency implements Comparable <Currency> {
   public static final Currency DKK = createCurrency("DKK", "Danish Krone", null);
   public static final Currency DOGE = createCurrency("DOGE", "Dogecoin", null, "XDC", "XDG");
   public static final Currency XDC = getInstance("XDC");
-  public static final Currency XDG = getInstance("XDG"); 
+  public static final Currency XDG = getInstance("XDG");
   public static final Currency DOP = createCurrency("DOP", "Dominican Peso", null);
   public static final Currency DGC = createCurrency("DGC", "Digitalcoin", null);
   public static final Currency DVC = createCurrency("DVC", "Devcoin", null);
@@ -228,7 +228,6 @@ public class Currency implements Comparable <Currency> {
   public static final Currency ZRC = createCurrency("ZRC", "ziftrCOIN", null);
   public static final Currency ZWL = createCurrency("ZWL", "Zimbabwean Dollar", null);
 
-
   /**
    * Gets the set of available currencies.
    */
@@ -236,7 +235,6 @@ public class Currency implements Comparable <Currency> {
 
     return new TreeSet<Currency>(currencies.values());
   }
-
 
   private final String code;
   private final CurrencyAttributes attributes;
@@ -293,7 +291,7 @@ public class Currency implements Comparable <Currency> {
 
     if (code.equals(this.code))
       return this;
-    
+
     Currency currency = getInstance(code);
     if (currency.equals(this))
       return currency;
@@ -305,8 +303,8 @@ public class Currency implements Comparable <Currency> {
   }
 
   /**
-   * Gets the equivalent object with an ISO 4217 code, or if none a code which looks ISO compatible (starts with an X),
-   * or the constructed currency code if neither exist.
+   * Gets the equivalent object with an ISO 4217 code, or if none a code which looks ISO compatible (starts with an X), or the constructed currency
+   * code if neither exist.
    */
   public Currency getIso4217Currency() {
 
@@ -350,7 +348,6 @@ public class Currency implements Comparable <Currency> {
     return attributes.name;
   }
 
-
   /**
    * Factory
    *
@@ -365,13 +362,13 @@ public class Currency implements Comparable <Currency> {
 
     Currency currency = new Currency(commonCode, attributes);
 
-    for(String code : attributes.codes) {
+    for (String code : attributes.codes) {
       if (commonCode.equals(code)) {
         // common code will always be part of the currencies map
 
         currencies.put(code, currency);
 
-      } else if (!currencies.containsKey(code)){
+      } else if (!currencies.containsKey(code)) {
         // alternative codes will never overwrite common codes
 
         currencies.put(code, new Currency(code, attributes));
@@ -454,7 +451,8 @@ public class Currency implements Comparable <Currency> {
         if (javaCurrency == null) {
           try {
             javaCurrency = java.util.Currency.getInstance(code);
-          } catch(IllegalArgumentException e) { }
+          } catch (IllegalArgumentException e) {
+          }
         }
         if (code.startsWith("X")) {
           possibleIsoProposalCryptoCode = code;

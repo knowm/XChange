@@ -27,7 +27,8 @@ public class YacunaMarketDataServiceRaw extends YacunaBasePollingService<Yacuna>
 
   public YacunaTicker getYacunaTicker(CurrencyPair currencyPair) throws IOException {
 
-    if (!this.getCurrencyPairMap().containsKey(currencyPair.base.getCurrencyCode().toUpperCase() + "_" + currencyPair.counter.getCurrencyCode().toUpperCase())) {
+    if (!this.getCurrencyPairMap()
+        .containsKey(currencyPair.base.getCurrencyCode().toUpperCase() + "_" + currencyPair.counter.getCurrencyCode().toUpperCase())) {
       return null;
     }
 

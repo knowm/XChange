@@ -40,7 +40,8 @@ public class QuoineTradeServiceRaw extends QuoineBasePollingService {
 
   public QuoineOrderResponse placeLimitOrder(CurrencyPair currencyPair, String type, BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
-    QuoineNewOrderRequest quoineNewOrderRequest = useMargin ? new QuoineNewMarginOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount, price, leverageLevel)
+    QuoineNewOrderRequest quoineNewOrderRequest = useMargin
+        ? new QuoineNewMarginOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount, price, leverageLevel)
         : new QuoineNewOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount, price);
     try {
       return quoine.placeOrder(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, quoineNewOrderRequest);
@@ -51,7 +52,8 @@ public class QuoineTradeServiceRaw extends QuoineBasePollingService {
 
   public QuoineOrderResponse placeMarketOrder(CurrencyPair currencyPair, String type, BigDecimal tradableAmount) throws IOException {
 
-    QuoineNewOrderRequest quoineNewOrderRequest = useMargin ? new QuoineNewMarginOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount, null, leverageLevel)
+    QuoineNewOrderRequest quoineNewOrderRequest = useMargin
+        ? new QuoineNewMarginOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount, null, leverageLevel)
         : new QuoineNewOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount, null);
     try {
       return quoine.placeOrder(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, quoineNewOrderRequest);

@@ -61,7 +61,8 @@ public class BitcoiniumMarketDataService extends BitcoiniumMarketDataServiceRaw 
     }
 
     // Request data
-    BitcoiniumOrderbook bitcoiniumOrderbook = getBitcoiniumOrderbook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), priceWindow);
+    BitcoiniumOrderbook bitcoiniumOrderbook = getBitcoiniumOrderbook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(),
+        priceWindow);
 
     // Adapt to XChange DTOs
     return BitcoiniumAdapters.adaptOrderbook(bitcoiniumOrderbook, currencyPair);

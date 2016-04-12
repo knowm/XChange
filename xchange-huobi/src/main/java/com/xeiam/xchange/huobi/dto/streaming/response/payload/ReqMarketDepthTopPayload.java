@@ -44,9 +44,9 @@ public class ReqMarketDepthTopPayload extends AbstractPayload implements Depth {
    */
   public ReqMarketDepthTopPayload(String symbolId, long time, long version,
 
-  String bidName, BigDecimal[] bidPrice, BigDecimal[] bidTotal, BigDecimal[] bidAmount,
+      String bidName, BigDecimal[] bidPrice, BigDecimal[] bidTotal, BigDecimal[] bidAmount,
 
-  String askName, BigDecimal[] askPrice, BigDecimal[] askTotal, BigDecimal[] askAmount
+      String askName, BigDecimal[] askPrice, BigDecimal[] askTotal, BigDecimal[] askAmount
 
   ) {
     this.symbolId = symbolId;

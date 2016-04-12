@@ -126,7 +126,8 @@ public class LakeBTCAdapters {
 
       final String tradeId = trade.getId();
       final CurrencyPair currencyPair = CurrencyPair.BTC_CNY;
-      UserTrade userTrade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, null, null, currencyPair.counter.getCurrencyCode());
+      UserTrade userTrade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, null, null,
+          currencyPair.counter.getCurrencyCode());
       trades.add(userTrade);
     }
 

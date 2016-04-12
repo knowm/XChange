@@ -21,7 +21,7 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Pol
   public OkCoinAccountService(Exchange exchange) {
 
     super(exchange);
-    
+
   }
 
   @Override
@@ -32,14 +32,14 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Pol
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-      String okcoinCurrency = currency == Currency.BTC ? "btc_usd" : "btc_ltc";
-      
-       OKCoinWithdraw result = withdraw(null, okcoinCurrency, address, amount);      
-       
-       if(result != null)
-           return result.getWithdrawId();
-       
-      return ""; 
+    String okcoinCurrency = currency == Currency.BTC ? "btc_usd" : "btc_ltc";
+
+    OKCoinWithdraw result = withdraw(null, okcoinCurrency, address, amount);
+
+    if (result != null)
+      return result.getWithdrawId();
+
+    return "";
   }
 
   @Override

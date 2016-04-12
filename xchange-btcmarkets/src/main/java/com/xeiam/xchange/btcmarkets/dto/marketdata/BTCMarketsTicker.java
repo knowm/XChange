@@ -31,14 +31,9 @@ public class BTCMarketsTicker {
 
   private final Date timestamp;
 
-  public BTCMarketsTicker(
-      @JsonProperty("bestBid") BigDecimal bestBid,
-      @JsonProperty("bestAsk") BigDecimal bestAsk,
-      @JsonProperty("lastPrice") BigDecimal lastPrice,
-      @JsonProperty("currency") String currency,
-      @JsonProperty("instrument") String instrument,
-      @JsonProperty("timestamp") @JsonDeserialize(using = TimestampDeserializer.class) Date timestamp
-  ) {
+  public BTCMarketsTicker(@JsonProperty("bestBid") BigDecimal bestBid, @JsonProperty("bestAsk") BigDecimal bestAsk,
+      @JsonProperty("lastPrice") BigDecimal lastPrice, @JsonProperty("currency") String currency, @JsonProperty("instrument") String instrument,
+      @JsonProperty("timestamp") @JsonDeserialize(using = TimestampDeserializer.class) Date timestamp) {
     this.bestBid = bestBid;
     this.bestAsk = bestAsk;
     this.lastPrice = lastPrice;
@@ -73,7 +68,7 @@ public class BTCMarketsTicker {
 
   @Override
   public String toString() {
-    return String.format("BTCMarketsTicker{bestBid=%s, bestAsk=%s, lastPrice=%s, currency='%s', instrument='%s', timestamp=%s}",
-        bestBid, bestAsk, lastPrice, currency, instrument, timestamp);
+    return String.format("BTCMarketsTicker{bestBid=%s, bestAsk=%s, lastPrice=%s, currency='%s', instrument='%s', timestamp=%s}", bestBid, bestAsk,
+        lastPrice, currency, instrument, timestamp);
   }
 }

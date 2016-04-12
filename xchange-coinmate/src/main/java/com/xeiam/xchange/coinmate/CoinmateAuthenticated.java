@@ -90,7 +90,7 @@ public interface CoinmateAuthenticated extends Coinmate {
   @Path("buyInstant")
   public CoinmateTradeResponse buyInstant(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("total") BigDecimal total, @FormParam("currencyPair") String currencyPair)
-          throws IOException;
+      throws IOException;
 
   @POST
   @Path("sellInstant")
@@ -103,7 +103,7 @@ public interface CoinmateAuthenticated extends Coinmate {
   @Path("bitcoinWithdrawal")
   public CoinmateTradeResponse bitcoinWithdrawal(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
-          throws IOException;
+      throws IOException;
 
   @POST
   @Path("bitcoinDepositAddresses")

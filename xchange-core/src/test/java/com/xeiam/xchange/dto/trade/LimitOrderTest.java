@@ -80,7 +80,6 @@ public class LimitOrderTest {
     assertEquals(-1, bid2.compareTo(bid1));
     assertEquals(1, bid1.compareTo(bid2));
 
-
     // ask@3
     LimitOrder ask3 = new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("3")).build();
     LimitOrder anotherAsk3 = new LimitOrder.Builder(OrderType.ASK, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("3")).build();
@@ -93,7 +92,6 @@ public class LimitOrderTest {
     // Sorted: ask@3, ask@4
     assertEquals(-1, ask3.compareTo(ask4));
     assertEquals(1, ask4.compareTo(ask3));
-
 
     // Sorted: bid@2, bid@1, ask@3, ask@4
     assertEquals(-1, bid1.compareTo(ask3));

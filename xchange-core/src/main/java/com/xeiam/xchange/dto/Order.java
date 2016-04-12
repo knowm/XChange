@@ -17,13 +17,16 @@ public abstract class Order {
     /**
      * Buying order (the trader is providing the counter currency)
      */
-    BID, /**
+    BID,
+    /**
      * Selling order (the trader is providing the base currency)
      */
-    ASK, /**
+    ASK,
+    /**
      * This is to close a short position when trading crypto currency derivatives such as swaps, futures for CFD's.
      */
-    EXIT_ASK, /**
+    EXIT_ASK,
+    /**
      * This is to close a long position when trading crypto currency derivatives such as swaps, futures for CFD's.
      */
     EXIT_BID
@@ -34,34 +37,44 @@ public abstract class Order {
     /**
      * Initial order when instantiated
      */
-    PENDING_NEW, /**
+    PENDING_NEW,
+    /**
      * Initial order when placed on the order book at exchange
      */
-    NEW, /**
+    NEW,
+    /**
      * Partially match against opposite order on order book at exchange
      */
-    PARTIALLY_FILLED, /**
+    PARTIALLY_FILLED,
+    /**
      * Fully match against opposite order on order book at exchange
      */
-    FILLED, /**
+    FILLED,
+    /**
      * Waiting to be removed from order book at exchange
      */
-    PENDING_CANCEL, /**
+    PENDING_CANCEL,
+    /**
      * Removed from order book at exchange
      */
-    CANCELED, /**
+    CANCELED,
+    /**
      * Waiting to be replaced by another order on order book at exchange
      */
-    PENDING_REPLACE, /**
+    PENDING_REPLACE,
+    /**
      * Order has been replace by another order on order book at exchange
      */
-    REPLACED, /**
+    REPLACED,
+    /**
      * Order has been triggered at stop price
      */
-    STOPPED, /**
+    STOPPED,
+    /**
      * Order has been rejected by exchange and not place on order book
      */
-    REJECTED, /**
+    REJECTED,
+    /**
      * Order has expired it's time to live or trading session and been removed from order book
      */
     EXPIRED
@@ -143,7 +156,8 @@ public abstract class Order {
    * @param averagePrice the averagePrice of fill belonging to the order
    * @param orderStatus the status of the order at the exchange
    */
-  public Order(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice, BigDecimal cumulativeAmount, OrderStatus status) {
+  public Order(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
+      BigDecimal cumulativeAmount, OrderStatus status) {
 
     this.type = type;
     this.tradableAmount = tradableAmount;
@@ -249,8 +263,8 @@ public abstract class Order {
   @Override
   public String toString() {
 
-    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", averagePrice=" + averagePrice + ", currencyPair=" + currencyPair + ", id=" + id + ", timestamp=" + timestamp + ", status="
-        + status + "]";
+    return "Order [type=" + type + ", tradableAmount=" + tradableAmount + ", averagePrice=" + averagePrice + ", currencyPair=" + currencyPair
+        + ", id=" + id + ", timestamp=" + timestamp + ", status=" + status + "]";
   }
 
   @Override

@@ -13,8 +13,7 @@ public class ItBitDepositResponse extends ItBitBaseResponse {
   private final Map<String, String> metadata;
 
   public ItBitDepositResponse(@JsonProperty("id") String id, @JsonProperty("walletID") String walletId,
-    @JsonProperty("depositAddress") String depositAddress,
-    @JsonProperty("metadata") Map<String, String> metadata) {
+      @JsonProperty("depositAddress") String depositAddress, @JsonProperty("metadata") Map<String, String> metadata) {
 
     this.id = id;
     this.walletId = walletId;

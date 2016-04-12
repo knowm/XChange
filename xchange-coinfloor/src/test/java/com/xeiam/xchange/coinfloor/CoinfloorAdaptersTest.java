@@ -266,8 +266,8 @@ public class CoinfloorAdaptersTest {
   }
 
   /**
-   * Experimental: USE WITH CAUTION. Adapters take every "BalancesUpdated" event, update local Wallet object with said new balance. This method
-   * will return that cached Wallet object.
+   * Experimental: USE WITH CAUTION. Adapters take every "BalancesUpdated" event, update local Wallet object with said new balance. This method will
+   * return that cached Wallet object.
    * 
    * @return Trades object representing all OrdersMatched trades recieved.
    * @throws ExchangeException if getBalances method has not yet been called, or response has not been recieved.

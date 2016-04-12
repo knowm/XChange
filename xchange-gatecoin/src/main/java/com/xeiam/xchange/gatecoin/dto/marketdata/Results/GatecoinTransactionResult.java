@@ -14,10 +14,8 @@ public class GatecoinTransactionResult extends GatecoinResult {
   private final GatecoinTransaction[] transactions;
 
   @JsonCreator
-  public GatecoinTransactionResult(
-      @JsonProperty("transactions") GatecoinTransaction[] transactions,
-      @JsonProperty("responseStatus") ResponseStatus responseStatus
-  ) {
+  public GatecoinTransactionResult(@JsonProperty("transactions") GatecoinTransaction[] transactions,
+      @JsonProperty("responseStatus") ResponseStatus responseStatus) {
     super(responseStatus);
     this.transactions = transactions;
   }

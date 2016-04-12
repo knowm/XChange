@@ -96,7 +96,6 @@ public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
     assertThat(exchange.getPollingAccountService()).isNull();
   }
 
-
   @Test(expected = NullPointerException.class)
   public void shouldFailWhenApplyNullSpecification() {
     // when

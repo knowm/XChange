@@ -9,28 +9,26 @@ import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 
 public class CryptoFacilitiesOrder extends CryptoFacilitiesResult {
 
-	private final String orderId;
-		
-	public CryptoFacilitiesOrder(@JsonProperty("result") String result
-			, @JsonProperty("error") String error
-			, @JsonProperty("orderId") String orderId) {
-	
-		  super(result, error);
-		    
-		  this.orderId = orderId;
-	}
+  private final String orderId;
 
-	public String getOrderId() {
-		return orderId;
-	}
+  public CryptoFacilitiesOrder(@JsonProperty("result") String result, @JsonProperty("error") String error, @JsonProperty("orderId") String orderId) {
 
-	@Override
-	public String toString() {
+    super(result, error);
 
-	    if(isSuccess())
-	    	return "CryptoFacilitiesOrder [orderId=" + orderId  + "]";
-	    else
-	    	return super.toString();
-	}  
+    this.orderId = orderId;
+  }
+
+  public String getOrderId() {
+    return orderId;
+  }
+
+  @Override
+  public String toString() {
+
+    if (isSuccess())
+      return "CryptoFacilitiesOrder [orderId=" + orderId + "]";
+    else
+      return super.toString();
+  }
 
 }

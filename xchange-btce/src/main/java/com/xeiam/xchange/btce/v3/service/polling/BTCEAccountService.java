@@ -32,11 +32,11 @@ public class BTCEAccountService extends BTCEAccountServiceRaw implements Polling
     BTCEAccountInfo info = getBTCEAccountInfo(null, null, null, null, null, null, null);
     return new AccountInfo(BTCEAdapters.adaptWallet(info));
   }
- 
+
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-     String s = withdraw(currency.toString(), amount, address);
-     return s;
+    String s = withdraw(currency.toString(), amount, address);
+    return s;
   }
 
   @Override

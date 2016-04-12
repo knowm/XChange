@@ -26,24 +26,24 @@ public class CryptoFacilitiesMarketDataService extends CryptoFacilitiesMarketDat
 
     super(exchange);
   }
-  
+
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
-	  return CryptoFacilitiesAdapters.adaptTicker(getCryptoFacilitiesTicker(currencyPair), currencyPair);
+    return CryptoFacilitiesAdapters.adaptTicker(getCryptoFacilitiesTicker(currencyPair), currencyPair);
   }
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-	  return CryptoFacilitiesAdapters.adaptOrderBook(getCryptoFacilitiesCumulativeBidAsk(currencyPair));
+    return CryptoFacilitiesAdapters.adaptOrderBook(getCryptoFacilitiesCumulativeBidAsk(currencyPair));
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-	  throw new NotAvailableFromExchangeException();
-	  
-  }  
+    throw new NotAvailableFromExchangeException();
+
+  }
 
 }

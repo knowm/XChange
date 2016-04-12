@@ -12,17 +12,18 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HitbtcTickersJsonTest {
-  
+
   @Test
   public void tesetUnmarshal() throws IOException {
-    
+
     // Read in the JSON from the example resources
     InputStream is = HitbtcTickersJsonTest.class.getResourceAsStream("/marketdata/example-tickers-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
-    Map<String,HitbtcTicker> tickers = mapper.readValue(is, new TypeReference<Map<String,HitbtcTicker>>(){});
+    Map<String, HitbtcTicker> tickers = mapper.readValue(is, new TypeReference<Map<String, HitbtcTicker>>() {
+    });
 
     assertThat(tickers).hasSize(18);
 

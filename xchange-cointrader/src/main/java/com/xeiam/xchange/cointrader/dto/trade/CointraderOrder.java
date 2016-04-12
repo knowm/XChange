@@ -28,7 +28,7 @@ public class CointraderOrder {
       @JsonProperty("type") Type type, @JsonProperty("amount") BigDecimal quantity, @JsonProperty("price") BigDecimal price,
       @JsonProperty("total") BigDecimal total,
       @JsonProperty("currency_pair") @JsonDeserialize(using = CurrencyPairDeserializer.class) CurrencyPair currencyPair)
-          throws ExceptionalReturnContentException {
+      throws ExceptionalReturnContentException {
     this.total = total;
     this.id = id;
     this.created = created;

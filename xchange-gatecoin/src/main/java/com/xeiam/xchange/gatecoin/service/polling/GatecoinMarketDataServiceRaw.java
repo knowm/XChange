@@ -35,20 +35,20 @@ public class GatecoinMarketDataServiceRaw extends GatecoinBasePollingService {
 
   public GatecoinDepthResult getGatecoinOrderBook(String currencyPair) throws IOException {
 
-    String ccyPair = currencyPair.replaceAll("/","");
+    String ccyPair = currencyPair.replaceAll("/", "");
     return gatecoin.getOrderBook(ccyPair);
   }
 
   public GatecoinTransactionResult getGatecoinTransactions(String currencyPair) throws IOException {
 
-      String ccyPair = currencyPair.replaceAll("/","");
-    return gatecoin.getTransactions(ccyPair);    
+    String ccyPair = currencyPair.replaceAll("/", "");
+    return gatecoin.getTransactions(ccyPair);
   }
-  
-   public GatecoinTransactionResult getGatecoinTransactions(String currencyPair , int count, long tid) throws IOException {
 
-       String ccyPair = currencyPair.replaceAll("/","");
-       return gatecoin.getTransactions(ccyPair,count,tid); 
-  }   
-  
+  public GatecoinTransactionResult getGatecoinTransactions(String currencyPair, int count, long tid) throws IOException {
+
+    String ccyPair = currencyPair.replaceAll("/", "");
+    return gatecoin.getTransactions(ccyPair, count, tid);
+  }
+
 }

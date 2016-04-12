@@ -55,7 +55,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
     // then
     assertThat(response).hasSize(3);
-    for (int i=0; i<response.length; i++) {
+    for (int i = 0; i < response.length; i++) {
       BtcMarketsAssert.assertEquals(response[i], expectedBtcMarketsBalances[i]);
     }
   }
@@ -70,7 +70,8 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     try {
       parse(BTCMarketsCancelOrderResponse.class);
       assertThat(true).as("Should throw exception").isFalse();
-    } catch (JsonMappingException ignored) { }
+    } catch (JsonMappingException ignored) {
+    }
   }
 
   @Test
@@ -81,7 +82,8 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     // then
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getErrorCode()).isNull();
-    assertThat(response.getErrorMessage()).isNull();;
+    assertThat(response.getErrorMessage()).isNull();
+    ;
   }
 
   @Test
@@ -92,7 +94,8 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     // then
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getErrorCode()).isNull();
-    assertThat(response.getErrorMessage()).isNull();;
+    assertThat(response.getErrorMessage()).isNull();
+    ;
   }
 
   @Test
@@ -109,7 +112,8 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
     BTCMarketsException response1 = responses.get(0);
     assertThat(response1.getSuccess()).isTrue();
-    assertThat(response1.getErrorCode()).isNull();;
+    assertThat(response1.getErrorCode()).isNull();
+    ;
     assertThat(response1.getMessage()).contains("(HTTP status code: 0)");
     assertThat(response1.getId()).isEqualTo(6840125484L);
 
@@ -125,7 +129,8 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     try {
       parse("Error-PlaceOrderResponse", BTCMarketsPlaceOrderResponse.class);
       assertThat(true).as("Should throw exception").isFalse();
-    } catch (JsonMappingException ignored) { }
+    } catch (JsonMappingException ignored) {
+    }
   }
 
   @Test
@@ -144,22 +149,14 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
   @Test
   public void shouldSerializeMyTradingRequest() throws UnsupportedEncodingException, JsonProcessingException {
-    final BTCMarketsMyTradingRequest request = new BTCMarketsMyTradingRequest(
-      "AUD", "BTC", 10, new Date(33434568724000L)
-    );
+    final BTCMarketsMyTradingRequest request = new BTCMarketsMyTradingRequest("AUD", "BTC", 10, new Date(33434568724000L));
     assertThatSerializesCorrectly(request);
   }
 
   @Test
   public void shouldSerializePlaceOrderRequest() throws UnsupportedEncodingException, JsonProcessingException {
-    assertThatSerializesCorrectly(new BTCMarketsOrder(
-        new BigDecimal("0.10000000"),
-        new BigDecimal("130.00000000"),
-        "AUD", "BTC",
-        BTCMarketsOrder.Side.Bid,
-        BTCMarketsOrder.Type.Limit,
-        "abc-cdf-1000"
-    ));
+    assertThatSerializesCorrectly(new BTCMarketsOrder(new BigDecimal("0.10000000"), new BigDecimal("130.00000000"), "AUD", "BTC",
+        BTCMarketsOrder.Side.Bid, BTCMarketsOrder.Type.Limit, "abc-cdf-1000"));
   }
 
   @Test
@@ -179,19 +176,18 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     List<BigDecimal[]> asks = response.getAsks();
     assertThat(asks).hasSize(3);
 
-    for (int i=0; i<asks.size(); i++) {
+    for (int i = 0; i < asks.size(); i++) {
       BtcMarketsAssert.assertEquals(expectedAsks[i], Order.OrderType.ASK, CurrencyPair.BTC_AUD, asks.get(i));
     }
 
     List<BigDecimal[]> bids = response.getBids();
     assertThat(bids).hasSize(2);
-    for (int i=0; i<bids.size(); i++) {
+    for (int i = 0; i < bids.size(); i++) {
       BtcMarketsAssert.assertEquals(expectedBids[i], Order.OrderType.BID, CurrencyPair.BTC_AUD, bids.get(i));
     }
 
-    assertThat(response.toString()).isEqualTo(
-      String.format("BTCMarketsOrderBook{currency='AUD', instrument='BTC', timestamp=%s, bids=2, asks=3}", new
-        Date(1442997827000L)));
+    assertThat(response.toString())
+        .isEqualTo(String.format("BTCMarketsOrderBook{currency='AUD', instrument='BTC', timestamp=%s, bids=2, asks=3}", new Date(1442997827000L)));
   }
 
   @Test
@@ -209,7 +205,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
     List<BTCMarketsOrder> ordersList = response.getOrders();
     assertThat(ordersList).hasSize(2);
-    for (int i=0; i<ordersList.size(); i++) {
+    for (int i = 0; i < ordersList.size(); i++) {
       BtcMarketsAssert.assertEquals(ordersList.get(i), expectedParsedBtcMarketsOrders[i]);
     }
   }
@@ -225,8 +221,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     assertThat(response.getErrorMessage()).isNull();
     assertThat(response.getId()).isEqualTo(100);
     assertThat(response.getClientRequestId()).isEqualTo("abc-cdf-1000");
-    assertThat(response.toString()).isEqualTo(
-      "BTCMarketsPlaceOrderResponse{success=true, errorMessage='null', errorCode=null}");
+    assertThat(response.toString()).isEqualTo("BTCMarketsPlaceOrderResponse{success=true, errorMessage='null', errorCode=null}");
   }
 
   @Test
@@ -253,7 +248,7 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
 
     List<BTCMarketsUserTrade> userTrades = response.getTrades();
     assertThat(userTrades).hasSize(3);
-    for (int i=0; i<userTrades.size(); i++) {
+    for (int i = 0; i < userTrades.size(); i++) {
       BtcMarketsAssert.assertEquals(userTrades.get(i), expectedParsedBtcMarketsUserTrades.get(i));
     }
   }

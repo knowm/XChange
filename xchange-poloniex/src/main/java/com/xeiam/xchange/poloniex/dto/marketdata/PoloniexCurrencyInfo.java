@@ -12,9 +12,8 @@ public class PoloniexCurrencyInfo {
   private final boolean frozen;
   private final boolean delisted;
 
-  public PoloniexCurrencyInfo(@JsonProperty("txFee") BigDecimal txFee, @JsonProperty("minConf") int minConf, 
-      @JsonProperty("disabled") boolean disabled, @JsonProperty("frozen") boolean frozen, 
-      @JsonProperty("delisted") boolean delisted) {
+  public PoloniexCurrencyInfo(@JsonProperty("txFee") BigDecimal txFee, @JsonProperty("minConf") int minConf,
+      @JsonProperty("disabled") boolean disabled, @JsonProperty("frozen") boolean frozen, @JsonProperty("delisted") boolean delisted) {
 
     this.txFee = txFee;
     this.minConf = minConf;
@@ -51,7 +50,7 @@ public class PoloniexCurrencyInfo {
   @Override
   public String toString() {
 
-    return "PoloniexCurrencyInfo [txFee=" + txFee + ", minConf=" + minConf + ", disabled=" + disabled
-        + ", frozen=" + frozen + ", delisted=" + delisted + "]";
+    return "PoloniexCurrencyInfo [txFee=" + txFee + ", minConf=" + minConf + ", disabled=" + disabled + ", frozen=" + frozen + ", delisted="
+        + delisted + "]";
   }
 }

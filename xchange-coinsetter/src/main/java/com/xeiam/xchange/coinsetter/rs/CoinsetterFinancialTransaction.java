@@ -24,7 +24,7 @@ public interface CoinsetterFinancialTransaction {
   @Path("financialTransaction/{financialTransactionUuid}")
   com.xeiam.xchange.coinsetter.dto.financialtransaction.CoinsetterFinancialTransaction get(
       @HeaderParam("coinsetter-client-session-id") UUID clientSessionId, @PathParam("financialTransactionUuid") UUID financialTransactionUuid)
-          throws CoinsetterException, IOException;
+      throws CoinsetterException, IOException;
 
   @GET
   @Path("customer/account/{accountUuid}/financialTransaction")

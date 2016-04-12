@@ -11,8 +11,8 @@ import com.xeiam.xchange.dto.account.AccountInfo;
 import com.xeiam.xchange.service.polling.account.PollingAccountService;
 
 /**
- * Integration tests for Wallet retrieval. For these tests to function, a file 'exchangeConfiguration.json' must be on the classpath and contain
- * valid api and secret keys.
+ * Integration tests for Wallet retrieval. For these tests to function, a file 'exchangeConfiguration.json' must be on the classpath and contain valid
+ * api and secret keys.
  */
 public class AccountInfoFetchIntegration {
 

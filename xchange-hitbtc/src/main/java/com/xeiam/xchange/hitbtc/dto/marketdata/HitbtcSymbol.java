@@ -23,8 +23,8 @@ public class HitbtcSymbol {
    * @param step granularity of price
    * @param lot lot
    */
-  public HitbtcSymbol(@JsonProperty("commodity") String commodity, @JsonProperty("currency") String currency,
-      @JsonProperty("step") BigDecimal step, @JsonProperty("lot") BigDecimal lot, @JsonProperty("takeLiquidityRate") BigDecimal takeLiquidityRate,
+  public HitbtcSymbol(@JsonProperty("commodity") String commodity, @JsonProperty("currency") String currency, @JsonProperty("step") BigDecimal step,
+      @JsonProperty("lot") BigDecimal lot, @JsonProperty("takeLiquidityRate") BigDecimal takeLiquidityRate,
       @JsonProperty("provideLiquidityRate") BigDecimal provideLiquidityRate) {
 
     this.commodity = commodity;
@@ -71,6 +71,6 @@ public class HitbtcSymbol {
     return "HitbtcSymbol{" + "symbol='" + commodity + '/' + currency + '\'' + ", step=" + step + ", lot=" + lot + ", takeRate=" + takeLiquidityRate
         + ", lot=" + lot
 
-    + '}';
+        + '}';
   }
 }

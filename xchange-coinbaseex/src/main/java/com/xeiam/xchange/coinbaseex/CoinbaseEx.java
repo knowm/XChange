@@ -59,12 +59,12 @@ public interface CoinbaseEx {
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp,
       @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
 
-    @POST
-    @Path("orders")
-    @Consumes(MediaType.APPLICATION_JSON)
-    CoinbaseExIdResponse placeMarketOrder(CoinbaseExPlaceOrder placeOrder, @HeaderParam("CB-ACCESS-KEY") String apiKey,
-                                         @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp,
-                                         @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
+  @POST
+  @Path("orders")
+  @Consumes(MediaType.APPLICATION_JSON)
+  CoinbaseExIdResponse placeMarketOrder(CoinbaseExPlaceOrder placeOrder, @HeaderParam("CB-ACCESS-KEY") String apiKey,
+      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
 
   @DELETE
   @Path("orders/{id}")
@@ -73,19 +73,17 @@ public interface CoinbaseEx {
   void cancelOrder(@PathParam("id") String id, @HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
 
-
-    @GET
-    @Path("fills")
-    CoinbaseExFill[] getFills(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-                                    @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-                                    @PathParam("order_id") String orderId);
+  @GET
+  @Path("fills")
+  CoinbaseExFill[] getFills(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+      @PathParam("order_id") String orderId);
 
   @POST
   @Path("accounts/{account_id}/transactions")
   @Consumes(MediaType.APPLICATION_JSON)
-  CoinbaseExSendMoneyResponse sendMoney(CoinbaseExSendMoneyRequest sendMoney, @HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-                                        @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-                                        @PathParam("account_id") String accountId);
-
+  CoinbaseExSendMoneyResponse sendMoney(CoinbaseExSendMoneyRequest sendMoney, @HeaderParam("CB-ACCESS-KEY") String apiKey,
+      @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp,
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase, @PathParam("account_id") String accountId);
 
 }

@@ -25,7 +25,7 @@ public final class Wallet {
   private String id;
 
   /**
-   * A descriptive name for this wallet.  Defaults to {@link #id}
+   * A descriptive name for this wallet. Defaults to {@link #id}
    */
   private String name;
 
@@ -116,7 +116,7 @@ public final class Wallet {
   /**
    * @return The available balances (amount and currency)
    */
-  public Map<Currency,Balance> getBalances() {
+  public Map<Currency, Balance> getBalances() {
 
     return Collections.unmodifiableMap(balances);
   }
@@ -142,9 +142,7 @@ public final class Wallet {
       return false;
 
     Wallet wallet = (Wallet) object;
-    return Objects.equals(id, wallet.id) &&
-        Objects.equals(name, wallet.name) &&
-        balances.equals(wallet.balances);
+    return Objects.equals(id, wallet.id) && Objects.equals(name, wallet.name) && balances.equals(wallet.balances);
   }
 
   @Override

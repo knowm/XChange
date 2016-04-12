@@ -22,7 +22,7 @@ public class CryptoFacilitiesExchange extends BaseExchange implements Exchange {
   protected void initServices() {
     this.pollingMarketDataService = new CryptoFacilitiesMarketDataService(this);
     this.pollingAccountService = new CryptoFacilitiesAccountService(this);
-    this.pollingTradeService = new CryptoFacilitiesTradeService(this);        
+    this.pollingTradeService = new CryptoFacilitiesTradeService(this);
   }
 
   @Override

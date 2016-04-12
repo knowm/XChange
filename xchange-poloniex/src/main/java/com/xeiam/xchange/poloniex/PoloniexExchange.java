@@ -34,7 +34,7 @@ public class PoloniexExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException {
 
-    PoloniexMarketDataServiceRaw poloniexMarketDataServiceRaw = (PoloniexMarketDataServiceRaw)pollingMarketDataService;
+    PoloniexMarketDataServiceRaw poloniexMarketDataServiceRaw = (PoloniexMarketDataServiceRaw) pollingMarketDataService;
 
     Map<String, PoloniexCurrencyInfo> poloniexCurrencyInfoMap = poloniexMarketDataServiceRaw.getPoloniexCurrencyInfo();
     Map<String, PoloniexMarketData> poloniexMarketDataMap = poloniexMarketDataServiceRaw.getAllPoloniexTickers();

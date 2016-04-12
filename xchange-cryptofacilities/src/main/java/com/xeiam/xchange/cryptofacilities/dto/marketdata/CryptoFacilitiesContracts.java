@@ -13,32 +13,28 @@ import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 public class CryptoFacilitiesContracts extends CryptoFacilitiesResult {
 
   private final List<CryptoFacilitiesContract> contracts;
-	
-  
-  public CryptoFacilitiesContracts(@JsonProperty("result") String result
-		  , @JsonProperty("error") String error
-		  , @JsonProperty("contracts") List<CryptoFacilitiesContract> contracts) {
 
-	  super(result, error);
-	    
-	    this.contracts = contracts;	    
+  public CryptoFacilitiesContracts(@JsonProperty("result") String result, @JsonProperty("error") String error,
+      @JsonProperty("contracts") List<CryptoFacilitiesContract> contracts) {
+
+    super(result, error);
+
+    this.contracts = contracts;
   }
 
   public List<CryptoFacilitiesContract> getContracts() {
-	  return contracts;
+    return contracts;
   }
-  
-	@Override
-	public String toString() {
-		
-		String res = "CryptoFacilitiesContracts [contracts=";
-		for(CryptoFacilitiesContract ct : contracts)
-			res = res + ct.toString() + ", ";
-		res = res + " ]";
-		
-		return res;
-	}
 
-  
+  @Override
+  public String toString() {
+
+    String res = "CryptoFacilitiesContracts [contracts=";
+    for (CryptoFacilitiesContract ct : contracts)
+      res = res + ct.toString() + ", ";
+    res = res + " ]";
+
+    return res;
+  }
 
 }

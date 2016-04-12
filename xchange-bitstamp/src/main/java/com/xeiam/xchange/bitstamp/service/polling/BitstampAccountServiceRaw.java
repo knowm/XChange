@@ -46,14 +46,15 @@ public class BitstampAccountServiceRaw extends BitstampBasePollingService {
   }
 
   public BitstampWithdrawal withdrawBitstampFunds(Currency currency, BigDecimal amount, final String address) throws IOException {
-      final BitstampWithdrawal response;
+    final BitstampWithdrawal response;
     if (address.startsWith("r")) {
       boolean isSuccess = bitstampAuthenticated.withdrawToRipple(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-              exchange.getNonceFactory(), amount, currency.getCurrencyCode(), address);
-      response = isSuccess ? new BitstampWithdrawal(null, null) : new BitstampWithdrawal(null, "Bitstamp responded with 'false' when withdrawing to Ripple");
+          exchange.getNonceFactory(), amount, currency.getCurrencyCode(), address);
+      response = isSuccess ? new BitstampWithdrawal(null, null)
+          : new BitstampWithdrawal(null, "Bitstamp responded with 'false' when withdrawing to Ripple");
     } else {
-        response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-                exchange.getNonceFactory(), amount, address);
+      response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
+          amount, address);
     }
     if (response.getError() != null) {
       throw new ExchangeException("Withdrawing funds from Bitstamp failed: " + response.getError());

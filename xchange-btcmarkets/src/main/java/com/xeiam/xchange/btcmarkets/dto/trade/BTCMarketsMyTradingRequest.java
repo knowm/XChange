@@ -9,7 +9,7 @@ import com.xeiam.xchange.utils.jackson.UnixTimestampSerializer;
 /**
  * Used for open orders, order history, trade history.
  */
-@JsonPropertyOrder({"currency", "instrument", "limit", "since"})
+@JsonPropertyOrder({ "currency", "instrument", "limit", "since" })
 public class BTCMarketsMyTradingRequest {
 
   private final String currency;

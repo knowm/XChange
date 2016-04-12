@@ -40,6 +40,5 @@ public class OKCoinBaseTradePollingService extends OkCoinBasePollingService {
       throw new ExchangeException(OkCoinUtils.getErrorMessage(t.getErrorCode()));
     }
   }
-  
 
 }

@@ -22,10 +22,7 @@ public class CoinbaseExAccountServiceRaw extends CoinbaseExBasePollingService<Co
   }
 
   public CoinbaseExSendMoneyResponse sendMoney(String accountId, String to, BigDecimal amount, Currency currency) {
-    return coinbaseEx.sendMoney(
-            new CoinbaseExSendMoneyRequest(to, amount, currency.getCurrencyCode()),
-            apiKey, digest, getTimestamp(), passphrase,
-            accountId
-    );
+    return coinbaseEx.sendMoney(new CoinbaseExSendMoneyRequest(to, amount, currency.getCurrencyCode()), apiKey, digest, getTimestamp(), passphrase,
+        accountId);
   }
 }

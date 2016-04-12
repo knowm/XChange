@@ -8,14 +8,13 @@ public class GatecoinResult {
   protected final ResponseStatus responseStatus;
 
   public GatecoinResult(@JsonProperty("responseStatus") ResponseStatus responseStatus) {
-    if (responseStatus.getErrorCode() != null
-        || (responseStatus.getMessage() != null && !responseStatus.getMessage().equals("OK"))) {
+    if (responseStatus.getErrorCode() != null || (responseStatus.getMessage() != null && !responseStatus.getMessage().equals("OK"))) {
       throw new ExceptionalReturnContentException(responseStatus.toString());
     }
     this.responseStatus = responseStatus;
   }
 
   public ResponseStatus getResponseStatus() {
-      return responseStatus;
+    return responseStatus;
   }
 }

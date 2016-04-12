@@ -42,7 +42,7 @@ public class CryptsyMarketData {
       @JsonProperty("current_volume") BigDecimal volume24h, @JsonProperty("current_volume_btc") BigDecimal volumeBTC,
       @JsonProperty("current_volume_usd") BigDecimal volumeUSD, @JsonProperty("last_trade") BigDecimal last,
       @JsonProperty("high_trade") BigDecimal high, @JsonProperty("low_trade") BigDecimal low, @JsonProperty("created") String created)
-          throws ParseException {
+      throws ParseException {
 
     this.marketId = marketId;
     this.label = label;

@@ -35,7 +35,6 @@ public class CoinbaseExTradeService extends CoinbaseExTradeServiceRaw implements
     return CoinbaseExAdapters.adaptOpenOrders(coinbaseExOpenOrders);
   }
 
-
   @Override
   public String placeMarketOrder(MarketOrder marketOrder)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
@@ -63,17 +62,17 @@ public class CoinbaseExTradeService extends CoinbaseExTradeServiceRaw implements
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     CoinbaseExFill[] coinbaseExFills = getCoinbaseExFills((CoinbaseExTradeHistoryParams) params);
-     return CoinbaseExAdapters.adaptTradeHistory(coinbaseExFills);
+    return CoinbaseExAdapters.adaptTradeHistory(coinbaseExFills);
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return null;
   }
-  
+
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-          IOException {
-      throw new NotYetImplementedForExchangeException();
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 }

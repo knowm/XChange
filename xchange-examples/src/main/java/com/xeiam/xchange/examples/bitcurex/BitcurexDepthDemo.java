@@ -38,7 +38,8 @@ public class BitcurexDepthDemo {
     // Get the latest order book data for BTC/CAD
     OrderBook orderBook = marketDataService.getOrderBook(pair);
 
-    System.out.println("Current Order Book size for BTC / " + pair.counter.getCurrencyCode() + ": " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+    System.out.println(
+        "Current Order Book size for BTC / " + pair.counter.getCurrencyCode() + ": " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
     System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
 

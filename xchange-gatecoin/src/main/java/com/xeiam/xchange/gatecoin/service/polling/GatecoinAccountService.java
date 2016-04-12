@@ -32,33 +32,29 @@ public class GatecoinAccountService extends GatecoinAccountServiceRaw implements
 
     return new AccountInfo(exchange.getExchangeSpecification().getUserName(), GatecoinAdapters.adaptWallet(getGatecoinBalance().getBalances()));
   }
-   
+
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
 
     GatecoinDepositAddressResult result = getGatecoinDepositAddress();
-    if(result.getResponseStatus().getMessage().equalsIgnoreCase("ok"))
-    {
-         GatecoinDepositAddress[] addresses = result.getAddresses();
-         if(addresses.length > 0)
-             return addresses[0].getAddress();
-         else
-             return null;    
+    if (result.getResponseStatus().getMessage().equalsIgnoreCase("ok")) {
+      GatecoinDepositAddress[] addresses = result.getAddresses();
+      if (addresses.length > 0)
+        return addresses[0].getAddress();
+      else
+        return null;
     }
-     return null;  
+    return null;
   }
-  
+
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
     GatecoinWithdrawResult result = withdrawGatecoinFunds(currency.toString(), amount, address);
-    if(result.getResponseStatus().getMessage().equalsIgnoreCase("ok"))
-    {
+    if (result.getResponseStatus().getMessage().equalsIgnoreCase("ok")) {
       return "Ok";
-    }
-    else
-    {
-        return result.getResponseStatus().getMessage();    
+    } else {
+      return result.getResponseStatus().getMessage();
     }
   }
 }

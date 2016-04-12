@@ -96,7 +96,8 @@ public class VaultoroTrade {
   @Override
   public String toString() {
 
-    return "VaultoroTrade [Time=" + Time + ", GoldPrice=" + GoldPrice + ", GoldAmount=" + GoldAmount + ", additionalProperties=" + additionalProperties + "]";
+    return "VaultoroTrade [Time=" + Time + ", GoldPrice=" + GoldPrice + ", GoldAmount=" + GoldAmount + ", additionalProperties="
+        + additionalProperties + "]";
   }
 
 }

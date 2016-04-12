@@ -47,7 +47,7 @@ import static org.junit.Assert.fail;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({BTCMarketsAuthenticated.class, BTCMarketsMyTradingRequest.class, BTCMarketsCancelOrderRequest.class, BTCMarketsOrder.class})
+@PrepareForTest({ BTCMarketsAuthenticated.class, BTCMarketsMyTradingRequest.class, BTCMarketsCancelOrderRequest.class, BTCMarketsOrder.class })
 @PowerMockIgnore("javax.crypto.*")
 public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
 
@@ -88,15 +88,13 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     // given
     MarketOrder marketOrder = new MarketOrder(Order.OrderType.BID, new BigDecimal("10.00000000"), CurrencyPair.BTC_AUD);
 
-    BTCMarketsOrder btcMarketsOrder = new BTCMarketsOrder(
-        new BigDecimal("10.00000000"), BigDecimal.ZERO, "AUD", "BTC", BTCMarketsOrder.Side.Bid,
+    BTCMarketsOrder btcMarketsOrder = new BTCMarketsOrder(new BigDecimal("10.00000000"), BigDecimal.ZERO, "AUD", "BTC", BTCMarketsOrder.Side.Bid,
         BTCMarketsOrder.Type.Market, "generatedReqId");
 
     BTCMarketsPlaceOrderResponse orderResponse = new BTCMarketsPlaceOrderResponse(true, null, 0, "11111", 12345);
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
-    PowerMockito.when(btcm.placeOrder(
-        Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class),
+    PowerMockito.when(btcm.placeOrder(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class),
         Mockito.any(BTCMarketsDigest.class), Mockito.refEq(btcMarketsOrder, "clientRequestId"))).thenReturn(orderResponse);
 
     Whitebox.setInternalState(marketsTradeService, "btcm", btcm);
@@ -111,18 +109,16 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
   @Test
   public void shouldPlaceLimitOrder() throws IOException {
     // given
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("10.00000000"),
-        CurrencyPair.BTC_AUD, "11111", new Date(1234567890L), new BigDecimal("20.00000000"));
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("10.00000000"), CurrencyPair.BTC_AUD, "11111", new Date(1234567890L),
+        new BigDecimal("20.00000000"));
 
-    BTCMarketsOrder btcMarketsOrder = new BTCMarketsOrder(
-        new BigDecimal("10.00000000"), new BigDecimal("20.00000000"), "AUD", "BTC",
+    BTCMarketsOrder btcMarketsOrder = new BTCMarketsOrder(new BigDecimal("10.00000000"), new BigDecimal("20.00000000"), "AUD", "BTC",
         BTCMarketsOrder.Side.Ask, BTCMarketsOrder.Type.Limit, "generatedReqId");
 
     BTCMarketsPlaceOrderResponse orderResponse = new BTCMarketsPlaceOrderResponse(true, null, 0, "11111", 12345);
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
-    PowerMockito.when(btcm.placeOrder(
-        Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class),
+    PowerMockito.when(btcm.placeOrder(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class),
         Mockito.any(BTCMarketsDigest.class), Mockito.refEq(btcMarketsOrder, "clientRequestId"))).thenReturn(orderResponse);
 
     Whitebox.setInternalState(marketsTradeService, "btcm", btcm);
@@ -144,8 +140,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
     PowerMockito.when(btcm.cancelOrder(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class),
-        Mockito.any(BTCMarketsDigest.class), Mockito.refEq(cancelOrderRequest))).thenReturn(
-        orderResponse);
+        Mockito.any(BTCMarketsDigest.class), Mockito.refEq(cancelOrderRequest))).thenReturn(orderResponse);
     Whitebox.setInternalState(marketsTradeService, "btcm", btcm);
 
     // when
@@ -166,16 +161,16 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     BTCMarketsMyTradingRequest timeSpanRequest = new BTCMarketsMyTradingRequest("AUD", "BTC", null, new Date(1234567890L));
 
     BTCMarketsTradeHistory defaultResponse = Whitebox.invokeConstructor(BTCMarketsTradeHistory.class,
-        new Class[]{Boolean.class, String.class, Integer.class, List.class},
-        new Object[]{true, "", 0, Collections.singletonList(expectedBtcMarketsUserTrades.get(0))});
+        new Class[] { Boolean.class, String.class, Integer.class, List.class },
+        new Object[] { true, "", 0, Collections.singletonList(expectedBtcMarketsUserTrades.get(0)) });
 
     BTCMarketsTradeHistory pagingResponse = Whitebox.invokeConstructor(BTCMarketsTradeHistory.class,
-        new Class[]{Boolean.class, String.class, Integer.class, List.class},
-        new Object[]{true, "", 0, expectedBtcMarketsUserTrades.subList(1, 3)});
+        new Class[] { Boolean.class, String.class, Integer.class, List.class },
+        new Object[] { true, "", 0, expectedBtcMarketsUserTrades.subList(1, 3) });
 
     BTCMarketsTradeHistory timeSpanResponse = Whitebox.invokeConstructor(BTCMarketsTradeHistory.class,
-        new Class[]{Boolean.class, String.class, Integer.class, List.class},
-        new Object[]{true, "", 0, expectedBtcMarketsUserTrades.subList(2, 4)});
+        new Class[] { Boolean.class, String.class, Integer.class, List.class },
+        new Object[] { true, "", 0, expectedBtcMarketsUserTrades.subList(2, 4) });
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
 
@@ -202,12 +197,12 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     BtcMarketsAssert.assertEquals(defaultUserTrades.get(0), expectedUserTrades[0]);
 
     assertThat(pagingUserTrades).hasSize(2);
-    for (int i=0; i<pagingUserTrades.size(); i++) {
+    for (int i = 0; i < pagingUserTrades.size(); i++) {
       BtcMarketsAssert.assertEquals(pagingUserTrades.get(i), expectedUserTrades[i + 1]);
     }
 
     assertThat(timeSpanUserTrades).hasSize(2);
-    for (int i=0; i<timeSpanUserTrades.size(); i++) {
+    for (int i = 0; i < timeSpanUserTrades.size(); i++) {
       BtcMarketsAssert.assertEquals(timeSpanUserTrades.get(i), expectedUserTrades[i + 2]);
     }
   }
@@ -220,8 +215,8 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
 
     BTCMarketsMyTradingRequest request = new BTCMarketsMyTradingRequest("AUD", "BTC", 50, null);
     BTCMarketsOrders response = Whitebox.invokeConstructor(BTCMarketsOrders.class,
-        new Class[]{Boolean.class, String.class, Integer.class, List.class},
-        new Object[]{true, "", 0, Arrays.asList(expectedBtcMarketsOrders[0], expectedBtcMarketsOrders[1])});
+        new Class[] { Boolean.class, String.class, Integer.class, List.class },
+        new Object[] { true, "", 0, Arrays.asList(expectedBtcMarketsOrders[0], expectedBtcMarketsOrders[1]) });
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
     PowerMockito.when(btcm.getOpenOrders(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class),
@@ -236,7 +231,7 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     // then
     assertThat(ordersList).hasSize(2);
 
-    for (int i=0; i<ordersList.size(); i++) {
+    for (int i = 0; i < ordersList.size(); i++) {
       BtcMarketsAssert.assertEquals(ordersList.get(i), expectedOrders[i]);
     }
   }

@@ -144,7 +144,7 @@ public interface BTCChina {
   @Consumes(MediaType.APPLICATION_JSON)
   BTCChinaGetAccountInfoResponse getAccountInfo(@HeaderParam("Authorization") ParamsDigest authorization,
       @HeaderParam("Json-Rpc-Tonce") SynchronizedValueFactory<Long> jsonRpcTonce, BTCChinaGetAccountInfoRequest getAccountInfoRequest)
-          throws IOException;
+      throws IOException;
 
   @POST
   @Path("api_trade_v1.php")
@@ -178,7 +178,7 @@ public interface BTCChina {
   @Consumes(MediaType.APPLICATION_JSON)
   BTCChinaRequestWithdrawalResponse requestWithdrawal(@HeaderParam("Authorization") ParamsDigest authorization,
       @HeaderParam("Json-Rpc-Tonce") SynchronizedValueFactory<Long> jsonRpcTonce, BTCChinaRequestWithdrawalRequest requestWithdrawalRequest)
-          throws IOException;
+      throws IOException;
 
   @POST
   @Path("api_trade_v1.php")

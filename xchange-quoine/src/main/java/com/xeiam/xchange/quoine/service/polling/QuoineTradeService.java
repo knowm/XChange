@@ -24,63 +24,63 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
  */
 public class QuoineTradeService extends QuoineTradeServiceRaw implements PollingTradeService {
 
-    /**
-     * Constructor
-     *
-     * @param exchange
-     */
-    public QuoineTradeService(Exchange exchange, boolean useMargin) {
-        super(exchange, useMargin);
-    }
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public QuoineTradeService(Exchange exchange, boolean useMargin) {
+    super(exchange, useMargin);
+  }
 
-    @Override
-    public OpenOrders getOpenOrders() throws IOException {
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
 
-        QuoineOrdersList quoineOrdersList = listQuoineOrders(null);
-        return QuoineAdapters.adapteOpenOrders(quoineOrdersList);
+    QuoineOrdersList quoineOrdersList = listQuoineOrders(null);
+    return QuoineAdapters.adapteOpenOrders(quoineOrdersList);
 
-    }
+  }
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-        QuoineOrderResponse quoinePlaceOrderResponse = placeMarketOrder(marketOrder.getCurrencyPair(), marketOrder.getType() == OrderType.ASK ? "sell" : "buy",
-                marketOrder.getTradableAmount());
-        return quoinePlaceOrderResponse.getId();
-    }
+    QuoineOrderResponse quoinePlaceOrderResponse = placeMarketOrder(marketOrder.getCurrencyPair(),
+        marketOrder.getType() == OrderType.ASK ? "sell" : "buy", marketOrder.getTradableAmount());
+    return quoinePlaceOrderResponse.getId();
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-        QuoineOrderResponse quoinePlaceOrderResponse = placeLimitOrder(limitOrder.getCurrencyPair(), limitOrder.getType() == OrderType.ASK ? "sell" : "buy",
-                limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-        return quoinePlaceOrderResponse.getId();
-    }
+    QuoineOrderResponse quoinePlaceOrderResponse = placeLimitOrder(limitOrder.getCurrencyPair(),
+        limitOrder.getType() == OrderType.ASK ? "sell" : "buy", limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    return quoinePlaceOrderResponse.getId();
+  }
 
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException {
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
 
-        QuoineOrderResponse quoineOrderResponse = cancelQuoineOrder(orderId);
+    QuoineOrderResponse quoineOrderResponse = cancelQuoineOrder(orderId);
 
-        return quoineOrderResponse.getId() != null && (quoineOrderResponse.getId().equals(orderId));
-    }
+    return quoineOrderResponse.getId() != null && (quoineOrderResponse.getId().equals(orderId));
+  }
 
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-        throw new NotAvailableFromExchangeException();
-    }
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-            IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public TradeHistoryParams createTradeHistoryParams() {
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
 
-        throw new NotAvailableFromExchangeException();
-    }
+    throw new NotAvailableFromExchangeException();
+  }
 
 }

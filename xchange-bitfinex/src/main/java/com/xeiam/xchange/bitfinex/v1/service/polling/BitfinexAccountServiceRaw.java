@@ -47,11 +47,10 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
     }
   }
 
- public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address) throws IOException {
-           
-            BitfinexWithdrawalResponse[] withdrawRepsonse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator,
-                    new BitfinexWithdrawalRequest(String.valueOf(exchange.getNonceFactory().createValue()),
-                            withdrawType, walletSelected, amount, address));
-            return withdrawRepsonse[0].getWithdrawalId();        
-    }
+  public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address) throws IOException {
+
+    BitfinexWithdrawalResponse[] withdrawRepsonse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator,
+        new BitfinexWithdrawalRequest(String.valueOf(exchange.getNonceFactory().createValue()), withdrawType, walletSelected, amount, address));
+    return withdrawRepsonse[0].getWithdrawalId();
+  }
 }

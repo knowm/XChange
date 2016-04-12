@@ -10,12 +10,8 @@ import com.xeiam.xchange.btcmarkets.dto.BTCMarketsException;
 
 public class BTCMarketsCancelOrderResponse extends BTCMarketsBaseResponse {
 
-  public BTCMarketsCancelOrderResponse(
-      @JsonProperty("success") Boolean success,
-      @JsonProperty("errorMessage") String errorMessage,
-      @JsonProperty("errorCode") Integer errorCode,
-      @JsonProperty("responses") List<BTCMarketsException> responses
-  ) {
+  public BTCMarketsCancelOrderResponse(@JsonProperty("success") Boolean success, @JsonProperty("errorMessage") String errorMessage,
+      @JsonProperty("errorCode") Integer errorCode, @JsonProperty("responses") List<BTCMarketsException> responses) {
     super(success, errorMessage, errorCode);
     if (responses != null) {
       for (BTCMarketsException response : responses) {

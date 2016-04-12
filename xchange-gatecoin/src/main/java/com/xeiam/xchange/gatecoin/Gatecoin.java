@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
 /**
- * @author sumedha.  See https://www.gatecoin.com/api/ for up-to-date docs.
+ * @author sumedha. See https://www.gatecoin.com/api/ for up-to-date docs.
  */
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -39,9 +39,6 @@ public interface Gatecoin {
    */
   @GET
   @Path("public/transactions/{CurrencyPair}")
-  GatecoinTransactionResult getTransactions(
-      @PathParam("CurrencyPair") String CurrencyPair,
-      @QueryParam("Count") int Count,
-      @QueryParam("TransactionId") long TransactionId
-  ) throws IOException, GatecoinException;
+  GatecoinTransactionResult getTransactions(@PathParam("CurrencyPair") String CurrencyPair, @QueryParam("Count") int Count,
+      @QueryParam("TransactionId") long TransactionId) throws IOException, GatecoinException;
 }

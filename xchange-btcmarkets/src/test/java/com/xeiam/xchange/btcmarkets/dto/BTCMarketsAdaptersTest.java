@@ -35,7 +35,7 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
     assertThat(wallet.getBalance(Currency.LTC).getTotal()).isEqualTo(new BigDecimal("10.00000000"));
     assertThat(wallet.getBalance(Currency.LTC).getAvailable()).isEqualTo(new BigDecimal("10.00000000"));
   }
-  
+
   @Test
   public void shoudAdaptOrderBook() throws IOException {
     final BTCMarketsOrderBook response = parse(BTCMarketsOrderBook.class);
@@ -63,7 +63,7 @@ public class BTCMarketsAdaptersTest extends BTCMarketsDtoTestSupport {
     assertThat(openOrders.getOpenOrders().get(1).getLimitPrice()).isEqualTo("130.00000000");
     assertThat(openOrders.getOpenOrders().get(1).getTradableAmount()).isEqualTo("0.10000000");
   }
-  
+
   @Test
   public void shouldAdaptTicker() throws IOException {
     final BTCMarketsTicker response = parse(BTCMarketsTicker.class);

@@ -124,7 +124,8 @@ public final class ANXAdapters {
     if (anxWallet == null) { // use the presence of a currency String to indicate existing wallet at ANX
       return null; // an account maybe doesn't contain a ANXWallet
     } else {
-      return new Balance(Currency.getInstance(anxWallet.getBalance().getCurrency()), anxWallet.getBalance().getValue(), anxWallet.getAvailableBalance().getValue());
+      return new Balance(Currency.getInstance(anxWallet.getBalance().getCurrency()), anxWallet.getBalance().getValue(),
+          anxWallet.getAvailableBalance().getValue());
     }
 
   }

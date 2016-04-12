@@ -67,11 +67,11 @@ public interface BitVc {
   @Path("api/order/{side}")
   public HuobiPlaceOrderResult placeMarketOrder(@FormParam("access_key") String accessKey, @FormParam("amount") String amount,
       @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("sign") ParamsDigest sign, @PathParam("side") String side)
-          throws IOException;
+      throws IOException;
 
   @POST
   @Path("api/order/cancel/{id2}")
   public HuobiCancelOrderResult cancelOrder(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType,
       @FormParam("created") long created, @FormParam("id") long id, @FormParam("sign") ParamsDigest sign, @PathParam("id2") long id2)
-          throws IOException;
+      throws IOException;
 }

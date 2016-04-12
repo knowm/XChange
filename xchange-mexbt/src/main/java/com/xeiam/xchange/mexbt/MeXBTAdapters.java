@@ -87,8 +87,8 @@ public final class MeXBTAdapters {
   public static Wallet adaptWallet(MeXBTBalanceResponse balanceResponse) {
     List<Balance> wallet = new ArrayList<Balance>(balanceResponse.getCurrencies().length);
     for (MeXBTBalance mxbtBalance : balanceResponse.getCurrencies()) {
-      Balance balance = new Balance.Builder().currency(Currency.getInstance(mxbtBalance.getName()))
-          .available(mxbtBalance.getBalance()).frozen(mxbtBalance.getHold()) .build();
+      Balance balance = new Balance.Builder().currency(Currency.getInstance(mxbtBalance.getName())).available(mxbtBalance.getBalance())
+          .frozen(mxbtBalance.getHold()).build();
       wallet.add(balance);
     }
     return new Wallet(wallet);

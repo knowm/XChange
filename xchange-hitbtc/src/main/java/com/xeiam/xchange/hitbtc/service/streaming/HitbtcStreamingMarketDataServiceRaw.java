@@ -25,7 +25,7 @@ public class HitbtcStreamingMarketDataServiceRaw extends BaseWebSocketExchangeSe
   public void connect() throws Exception {
 
     URI uri = URI.create(exchange.getExchangeSpecification().getPlainTextUriStreaming());
-    
+
     // Use the default internal connect
     internalConnect(uri, exchangeEventListener, null);
   }

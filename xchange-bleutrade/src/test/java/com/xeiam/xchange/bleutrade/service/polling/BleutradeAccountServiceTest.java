@@ -40,8 +40,7 @@ public class BleutradeAccountServiceTest extends BleutradeServiceTestSupport {
 
   @Before
   public void setUp() {
-    BleutradeExchange exchange = (BleutradeExchange) ExchangeFactory.INSTANCE.createExchange(
-      BleutradeExchange.class.getCanonicalName());
+    BleutradeExchange exchange = (BleutradeExchange) ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getCanonicalName());
     exchange.getExchangeSpecification().setUserName(SPECIFICATION_USERNAME);
     exchange.getExchangeSpecification().setApiKey(SPECIFICATION_API_KEY);
     exchange.getExchangeSpecification().setSecretKey(SPECIFICATION_SECRET_KEY);
@@ -101,9 +100,8 @@ public class BleutradeAccountServiceTest extends BleutradeServiceTestSupport {
   public void shouldFailOnGetBalanceThrowError() throws IOException {
     // given
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBalance(Mockito.eq(SPECIFICATION_API_KEY),
-        Mockito.any(ParamsDigest.class), Mockito.any(SynchronizedValueFactory.class), Mockito.eq("AUD")))
-      .thenThrow(BleutradeException.class);
+    PowerMockito.when(bleutrade.getBalance(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
+        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("AUD"))).thenThrow(BleutradeException.class);
     Whitebox.setInternalState(accountService, "bleutrade", bleutrade);
 
     // when
@@ -122,8 +120,9 @@ public class BleutradeAccountServiceTest extends BleutradeServiceTestSupport {
     balancesReturn.setResult(expectedBleutradeAccountInfo());
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBalances(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class))).thenReturn(balancesReturn);
+    PowerMockito
+        .when(bleutrade.getBalances(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class), Mockito.any(SynchronizedValueFactory.class)))
+        .thenReturn(balancesReturn);
     Whitebox.setInternalState(accountService, "bleutrade", bleutrade);
 
     final Balance[] expectedAccountBalances = expectedAccountBalances();
@@ -134,7 +133,7 @@ public class BleutradeAccountServiceTest extends BleutradeServiceTestSupport {
     // then
     assertThat(accountInfo.getWallets()).hasSize(1);
 
-    Map<Currency,Balance> balances = accountInfo.getWallet(null).getBalances();
+    Map<Currency, Balance> balances = accountInfo.getWallet(null).getBalances();
     assertThat(balances).hasSize(3);
 
     BleutradeAssert.assertEquals(balances.get(Currency.AUD), expectedAccountBalances[0]);
@@ -142,7 +141,8 @@ public class BleutradeAccountServiceTest extends BleutradeServiceTestSupport {
     BleutradeAssert.assertEquals(balances.get(new Currency("BLEU")), expectedAccountBalances[2]);
   }
 
-  @Test(expected = ExchangeException.class) public void shouldFailOnUnsuccessfulGetAccountInfo() throws IOException {
+  @Test(expected = ExchangeException.class)
+  public void shouldFailOnUnsuccessfulGetAccountInfo() throws IOException {
     // given
     BleutradeBalancesReturn balancesReturn = new BleutradeBalancesReturn();
     balancesReturn.setSuccess(false);
@@ -150,8 +150,9 @@ public class BleutradeAccountServiceTest extends BleutradeServiceTestSupport {
     balancesReturn.setResult(expectedBleutradeAccountInfo());
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBalances(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class))).thenReturn(balancesReturn);
+    PowerMockito
+        .when(bleutrade.getBalances(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class), Mockito.any(SynchronizedValueFactory.class)))
+        .thenReturn(balancesReturn);
     Whitebox.setInternalState(accountService, "bleutrade", bleutrade);
 
     // when
@@ -165,8 +166,9 @@ public class BleutradeAccountServiceTest extends BleutradeServiceTestSupport {
   public void shouldFailOnGetAccountInfoThrowError() throws IOException {
     // given
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getBalances(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
-        Mockito.any(SynchronizedValueFactory.class))).thenThrow(BleutradeException.class);
+    PowerMockito
+        .when(bleutrade.getBalances(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class), Mockito.any(SynchronizedValueFactory.class)))
+        .thenThrow(BleutradeException.class);
     Whitebox.setInternalState(accountService, "bleutrade", bleutrade);
 
     // when
@@ -229,9 +231,8 @@ public class BleutradeAccountServiceTest extends BleutradeServiceTestSupport {
   public void shouldFailRequestDepositAddressError() throws IOException {
     // given
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
-    PowerMockito.when(bleutrade.getDepositAddress(Mockito.eq(SPECIFICATION_API_KEY),
-        Mockito.any(ParamsDigest.class), Mockito.any(SynchronizedValueFactory.class), Mockito.eq("AUD")))
-        .thenThrow(BleutradeException.class);
+    PowerMockito.when(bleutrade.getDepositAddress(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(ParamsDigest.class),
+        Mockito.any(SynchronizedValueFactory.class), Mockito.eq("AUD"))).thenThrow(BleutradeException.class);
     Whitebox.setInternalState(accountService, "bleutrade", bleutrade);
 
     // when

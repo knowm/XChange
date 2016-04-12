@@ -232,7 +232,7 @@ public final class BTCTradeAdapters {
   private static UserTrade adaptTrade(BTCTradeOrder order, com.xeiam.xchange.btctrade.dto.trade.BTCTradeTrade trade, CurrencyPair currencyPair) {
 
     return new UserTrade(adaptOrderType(order.getType()), trade.getAmount(), currencyPair, trade.getPrice(), adaptDatetime(trade.getDatetime()),
-        trade.getTradeId(), order.getId(), null, (Currency)null);
+        trade.getTradeId(), order.getId(), null, (Currency) null);
   }
 
 }

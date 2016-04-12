@@ -28,7 +28,7 @@ public class BittrexAccountDemo {
 
     System.out.println("----------GENERIC---------");
 
-    Map<Currency,Balance> balances = accountService.getAccountInfo().getWallet().getBalances();
+    Map<Currency, Balance> balances = accountService.getAccountInfo().getWallet().getBalances();
     System.out.println(balances);
 
     System.out.println(accountService.requestDepositAddress(Currency.BTC));

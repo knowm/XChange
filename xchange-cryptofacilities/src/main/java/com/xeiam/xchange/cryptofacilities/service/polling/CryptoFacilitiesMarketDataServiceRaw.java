@@ -18,7 +18,7 @@ import com.xeiam.xchange.currency.CurrencyPair;
 
 public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBasePollingService {
 
-	/**
+  /**
    * Constructor
    *
    * @param exchange
@@ -30,14 +30,14 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBasePo
 
   public CryptoFacilitiesTicker getCryptoFacilitiesTicker(CurrencyPair currencyPair) throws IOException {
 
-	CryptoFacilitiesTicker ticker = cryptoFacilities.getTickers().getTicker(currencyPair.base.toString());
+    CryptoFacilitiesTicker ticker = cryptoFacilities.getTickers().getTicker(currencyPair.base.toString());
 
     return ticker;
   }
 
   public CryptoFacilitiesTickers getCryptoFacilitiesTickers() throws IOException {
 
-	CryptoFacilitiesTickers tickers = cryptoFacilities.getTickers();
+    CryptoFacilitiesTickers tickers = cryptoFacilities.getTickers();
 
     return tickers;
   }
@@ -58,29 +58,26 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBasePo
     return instruments;
   }
 
-  public CryptoFacilitiesCumulativeBidAsk getCryptoFacilitiesCumulativeBidAsk(CurrencyPair currencyPair)
-  {
-	  CryptoFacilitiesCumulativeBidAsk cfcbidask = cryptoFacilities.getCumulativeBidAsk(currencyPair.base.toString(), currencyPair.counter.toString());
-	  
-	  return cfcbidask;
+  public CryptoFacilitiesCumulativeBidAsk getCryptoFacilitiesCumulativeBidAsk(CurrencyPair currencyPair) {
+    CryptoFacilitiesCumulativeBidAsk cfcbidask = cryptoFacilities.getCumulativeBidAsk(currencyPair.base.toString(), currencyPair.counter.toString());
+
+    return cfcbidask;
   }
 
   @Deprecated
   // Indexes returned from tickers in v2
-  public CryptoFacilitiesIndex getCryptoFacilitiesIndex()
-  {
-	  CryptoFacilitiesIndex cfIndex = cryptoFacilities.getIndex();
-	  
-	  return cfIndex;
+  public CryptoFacilitiesIndex getCryptoFacilitiesIndex() {
+    CryptoFacilitiesIndex cfIndex = cryptoFacilities.getIndex();
+
+    return cfIndex;
   }
 
   @Deprecated
   // Volatility returned from tickers in v2
-  public CryptoFacilitiesVolatility getCryptoFacilitiesVolatility()
-  {
-	  CryptoFacilitiesVolatility cfVol = cryptoFacilities.getVolatility();
-	  
-	  return cfVol;
+  public CryptoFacilitiesVolatility getCryptoFacilitiesVolatility() {
+    CryptoFacilitiesVolatility cfVol = cryptoFacilities.getVolatility();
+
+    return cfVol;
   }
 
 }

@@ -2,12 +2,12 @@ package com.xeiam.xchange.hitbtc.service.streaming;
 
 import com.xeiam.xchange.service.streaming.ExchangeStreamingConfiguration;
 
-public class HitbtcStreamingMarketDataConfiguration implements ExchangeStreamingConfiguration { 
+public class HitbtcStreamingMarketDataConfiguration implements ExchangeStreamingConfiguration {
 
   private final int maxReconnectAttempts;
   private final int reconnectWaitTimeInMs;
   private final int timeoutInMs;
-  
+
   /**
    * Constructor
    *
@@ -23,7 +23,7 @@ public class HitbtcStreamingMarketDataConfiguration implements ExchangeStreaming
   }
 
   public HitbtcStreamingMarketDataConfiguration() {
-  
+
     maxReconnectAttempts = 30; // 67 min
     reconnectWaitTimeInMs = 135000; // 2:15
     timeoutInMs = 120000; // 2:00
@@ -58,4 +58,3 @@ public class HitbtcStreamingMarketDataConfiguration implements ExchangeStreaming
     return true;
   }
 }
-

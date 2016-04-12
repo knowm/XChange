@@ -131,7 +131,8 @@ public final class BTCChinaFIXAdapters {
     List<Group> groups = message.getGroups(com.xeiam.xchange.btcchina.service.fix.field.Balance.FIELD);
     List<Balance> balances = new ArrayList<Balance>(groups.size());
     for (Group group : groups) {
-      Balance balance = new Balance(Currency.getInstance(group.getField(new quickfix.field.Currency()).getValue()), group.getField(new Amount()).getValue());
+      Balance balance = new Balance(Currency.getInstance(group.getField(new quickfix.field.Currency()).getValue()),
+          group.getField(new Amount()).getValue());
       balances.add(balance);
     }
     return new Wallet(balances);

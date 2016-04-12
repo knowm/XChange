@@ -43,7 +43,8 @@ public class HitbtcAccountServiceRaw extends HitbtcBasePollingService {
   public String getDepositAddress(String currency) throws IOException {
 
     try {
-      HitbtcDepositAddressResponse hitbtcDepositAddressResponse  = hitbtc.getHitbtcDepositAddress(currency, signatureCreator, exchange.getNonceFactory(), apiKey);
+      HitbtcDepositAddressResponse hitbtcDepositAddressResponse = hitbtc.getHitbtcDepositAddress(currency, signatureCreator,
+          exchange.getNonceFactory(), apiKey);
       return hitbtcDepositAddressResponse.getAddress();
     } catch (HitbtcException e) {
       throw handleException(e);

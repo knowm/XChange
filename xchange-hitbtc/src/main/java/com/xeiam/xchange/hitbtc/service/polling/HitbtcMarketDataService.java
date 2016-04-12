@@ -27,8 +27,6 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
     super(exchange);
   }
 
-  
-
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
@@ -45,7 +43,7 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     if (args.length == 0)
-        return HitbtcAdapters.adaptTrades(getHitbtcTradesRecent(currencyPair, 1000), currencyPair);
+      return HitbtcAdapters.adaptTrades(getHitbtcTradesRecent(currencyPair, 1000), currencyPair);
 
     long from = (Long) args[0]; // <trade_id> or <timestamp>
     HitbtcTradesSortField sortBy = (HitbtcTradesSortField) args[1]; // "trade_id" or "timestamp"

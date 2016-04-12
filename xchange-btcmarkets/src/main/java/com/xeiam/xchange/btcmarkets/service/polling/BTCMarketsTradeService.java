@@ -41,7 +41,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     CurrencyPair cp = null;
     try {
       cp = (CurrencyPair) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(BTCMarketsExchange.CURRENCY_PAIR);
-    } catch (ClassCastException ignored) { }
+    } catch (ClassCastException ignored) {
+    }
     if (cp == null) {
       throw new IllegalArgumentException("The CURRENCY_PAIR exchange-specific parameter must be set in the exchange specification.");
     }
@@ -58,13 +59,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     return placeOrder(order.getCurrencyPair(), order.getType(), order.getTradableAmount(), order.getLimitPrice(), BTCMarketsOrder.Type.Limit);
   }
 
-  private String placeOrder(
-      CurrencyPair currencyPair,
-      Order.OrderType orderSide,
-      BigDecimal amount,
-      BigDecimal price,
-      BTCMarketsOrder.Type orderType
-  ) throws IOException {
+  private String placeOrder(CurrencyPair currencyPair, Order.OrderType orderSide, BigDecimal amount, BigDecimal price, BTCMarketsOrder.Type orderType)
+      throws IOException {
     BTCMarketsOrder.Side side = orderSide == BID ? BTCMarketsOrder.Side.Bid : BTCMarketsOrder.Side.Ask;
     final BTCMarketsPlaceOrderResponse orderResponse = placeBTCMarketsOrder(currencyPair, amount, price, side, orderType);
     return Long.toString(orderResponse.getId());
@@ -146,9 +142,10 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
       throw new UnsupportedOperationException();
     }
   }
+
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-          IOException {
-      throw new NotYetImplementedForExchangeException();
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 }

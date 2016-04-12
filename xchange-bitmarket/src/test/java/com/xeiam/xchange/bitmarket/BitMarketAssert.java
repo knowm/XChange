@@ -89,7 +89,7 @@ public class BitMarketAssert {
   public static void assertEquals(List<LimitOrder> o1, List<LimitOrder> o2) {
 
     assertThat(o1.size()).isEqualTo(o2.size());
-    for (int i=0; i< o1.size(); i++) {
+    for (int i = 0; i < o1.size(); i++) {
       assertEqualsWithoutTimestamp(o1.get(i), o2.get(i));
     }
   }
@@ -150,10 +150,10 @@ public class BitMarketAssert {
 
     assertThat(o1.length).isEqualTo(o2.length);
 
-    for (int i=0; i<o1.length; i++) {
+    for (int i = 0; i < o1.length; i++) {
       assertThat(o1[i].length).isEqualTo(o2[i].length);
 
-      for (int j=0; j<o1[i].length; j++) {
+      for (int j = 0; j < o1[i].length; j++) {
         assertThat(o1[i][j]).isEqualTo(o2[i][j]);
       }
     }

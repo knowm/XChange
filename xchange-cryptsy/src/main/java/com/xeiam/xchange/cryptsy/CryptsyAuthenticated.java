@@ -106,7 +106,7 @@ public interface CryptsyAuthenticated {
   @FormParam("method")
   CryptsyWithdrawalReturn makewithdrawal(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("address") String address, @FormParam("amount") BigDecimal amount)
-          throws IOException;
+      throws IOException;
 
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
@@ -171,7 +171,7 @@ public interface CryptsyAuthenticated {
   @FormParam("method")
   CryptsyTradeHistoryReturn mytrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("marketid") int marketID, @FormParam("limit") int resultCount)
-          throws IOException;
+      throws IOException;
 
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}
@@ -186,7 +186,7 @@ public interface CryptsyAuthenticated {
   @FormParam("method")
   CryptsyTradeHistoryReturn allmytrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("startdate") String startDate, @FormParam("enddate") String endDate)
-          throws IOException;
+      throws IOException;
 
   /**
    * @param apiKey API key as given in {@link com.xeiam.xchange.ExchangeSpecification}

@@ -9,80 +9,72 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class GatecoinTicker {
 
- private final String currencyPair;
- private final BigDecimal open;
- private final BigDecimal last;
- private final BigDecimal lastQ;
- private final BigDecimal high;
- private final BigDecimal low;
- private final BigDecimal volume;
- private final BigDecimal volumn;
- private final BigDecimal bid;
- private final BigDecimal ask;
- private final BigDecimal bidQ;
- private final BigDecimal askQ;
- private final BigDecimal vwap;  
- private final long createDateTime;
- 
+  private final String currencyPair;
+  private final BigDecimal open;
+  private final BigDecimal last;
+  private final BigDecimal lastQ;
+  private final BigDecimal high;
+  private final BigDecimal low;
+  private final BigDecimal volume;
+  private final BigDecimal volumn;
+  private final BigDecimal bid;
+  private final BigDecimal ask;
+  private final BigDecimal bidQ;
+  private final BigDecimal askQ;
+  private final BigDecimal vwap;
+  private final long createDateTime;
 
   /**
    * Constructor
    * 
-     * @param currencyPair
-     * @param open
+   * @param currencyPair
+   * @param open
    * @param last
-     * @param lastQ
+   * @param lastQ
    * @param high
    * @param low
    * @param vwap
-     * @param volumn
+   * @param volumn
    * @param volume
-     * @param bidQ
+   * @param bidQ
    * @param bid
-     * @param askQ
+   * @param askQ
    * @param ask
-     * @param createDateTime
+   * @param createDateTime
    */
-  public GatecoinTicker( @JsonProperty("currencyPair") String currencyPair ,
-        @JsonProperty("open")BigDecimal open,
-        @JsonProperty("last") BigDecimal last,
-        @JsonProperty("lastQ") BigDecimal lastQ,
-        @JsonProperty("high") BigDecimal high,
-        @JsonProperty("low") BigDecimal low,
-        @JsonProperty("volume") BigDecimal volume,
-        @JsonProperty("volumn") BigDecimal volumn,
-        @JsonProperty("bid") BigDecimal bid,
-        @JsonProperty("bidQ") BigDecimal bidQ,
-        @JsonProperty("ask") BigDecimal ask,
-        @JsonProperty("askQ") BigDecimal askQ,
-        @JsonProperty("vwap") BigDecimal vwap,
-        @JsonProperty("createDateTime") long createDateTime) {
+  public GatecoinTicker(@JsonProperty("currencyPair") String currencyPair, @JsonProperty("open") BigDecimal open,
+      @JsonProperty("last") BigDecimal last, @JsonProperty("lastQ") BigDecimal lastQ, @JsonProperty("high") BigDecimal high,
+      @JsonProperty("low") BigDecimal low, @JsonProperty("volume") BigDecimal volume, @JsonProperty("volumn") BigDecimal volumn,
+      @JsonProperty("bid") BigDecimal bid, @JsonProperty("bidQ") BigDecimal bidQ, @JsonProperty("ask") BigDecimal ask,
+      @JsonProperty("askQ") BigDecimal askQ, @JsonProperty("vwap") BigDecimal vwap, @JsonProperty("createDateTime") long createDateTime) {
 
-      this.open = open;
+    this.open = open;
     this.last = last;
     this.lastQ = lastQ;
     this.high = high;
     this.low = low;
     this.vwap = vwap;
     this.volume = volume;
-     this.volumn = volumn;
+    this.volumn = volumn;
     this.bid = bid;
     this.ask = ask;
-       this.bidQ = bidQ;
+    this.bidQ = bidQ;
     this.askQ = askQ;
     this.createDateTime = createDateTime;
     this.currencyPair = currencyPair;
   }
 
-    public BigDecimal getOpen() {
+  public BigDecimal getOpen() {
 
     return open;
   }
+
   public BigDecimal getLast() {
 
     return last;
   }
-    public BigDecimal getLastQ() {
+
+  public BigDecimal getLastQ() {
 
     return lastQ;
   }
@@ -99,7 +91,7 @@ public final class GatecoinTicker {
 
   public BigDecimal getVwap() {
 
-	return vwap;
+    return vwap;
   }
 
   public BigDecimal getVolume() {
@@ -107,11 +99,11 @@ public final class GatecoinTicker {
     return volume;
   }
 
-   public BigDecimal getVolumn() {
+  public BigDecimal getVolumn() {
 
     return volumn;
   }
-   
+
   public BigDecimal getBid() {
 
     return bid;
@@ -121,7 +113,8 @@ public final class GatecoinTicker {
 
     return ask;
   }
-    public BigDecimal getBidQ() {
+
+  public BigDecimal getBidQ() {
 
     return bidQ;
   }
@@ -130,13 +123,12 @@ public final class GatecoinTicker {
 
     return askQ;
   }
-  
 
   public long getTimestamp() {
 
     return createDateTime;
   }
-  
+
   public String getCurrencyPair() {
 
     return currencyPair;
@@ -145,8 +137,8 @@ public final class GatecoinTicker {
   @Override
   public String toString() {
 
-    return "GatecoinTicker [last=" + last + ",open=" + open + ",volumn=" + volumn + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid
-        + ", ask=" + ask + ", timestamp=" + createDateTime + "]";
+    return "GatecoinTicker [last=" + last + ",open=" + open + ",volumn=" + volumn + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume="
+        + volume + ", bid=" + bid + ", ask=" + ask + ", timestamp=" + createDateTime + "]";
   }
 
 }

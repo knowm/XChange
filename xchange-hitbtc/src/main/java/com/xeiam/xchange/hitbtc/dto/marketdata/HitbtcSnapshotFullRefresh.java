@@ -24,8 +24,9 @@ public class HitbtcSnapshotFullRefresh {
    * @param bid
    */
   public HitbtcSnapshotFullRefresh(@JsonProperty("snapshotSeqNo") long snapshotSeqNo, @JsonProperty("symbol") String symbol,
-      @JsonProperty("exchangeStatus") String exchangeStatus, @JsonProperty("ask") List<HitbtcStreamingOrder> ask, @JsonProperty("bid") List<HitbtcStreamingOrder> bid) {
-    
+      @JsonProperty("exchangeStatus") String exchangeStatus, @JsonProperty("ask") List<HitbtcStreamingOrder> ask,
+      @JsonProperty("bid") List<HitbtcStreamingOrder> bid) {
+
     this.snapshotSeqNo = snapshotSeqNo;
     this.symbol = symbol;
     this.exchangeStatus = exchangeStatus;
@@ -60,8 +61,8 @@ public class HitbtcSnapshotFullRefresh {
 
   @Override
   public String toString() {
-  
-    return "HitbtcSnapshotFullRefresh{" + "snapshotSeqNo=" + snapshotSeqNo + ", symbol='" + symbol + "', exchangeStatus='" + exchangeStatus +
-        "', ask=" + ask + ", bid=" + bid + "}";
+
+    return "HitbtcSnapshotFullRefresh{" + "snapshotSeqNo=" + snapshotSeqNo + ", symbol='" + symbol + "', exchangeStatus='" + exchangeStatus
+        + "', ask=" + ask + ", bid=" + bid + "}";
   }
 }

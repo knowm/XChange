@@ -36,8 +36,7 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
 
   @Before
   public void setUp() {
-    BTCMarketsExchange exchange =
-        (BTCMarketsExchange) ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getCanonicalName());
+    BTCMarketsExchange exchange = (BTCMarketsExchange) ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getCanonicalName());
     ExchangeSpecification specification = exchange.getExchangeSpecification();
     specification.setUserName(SPECIFICATION_USERNAME);
     specification.setApiKey(SPECIFICATION_API_KEY);
@@ -52,9 +51,9 @@ public class BTCMarketsAccountServiceTest extends BTCMarketsTestSupport {
     BTCMarketsBalance balance = parse(BTCMarketsBalance.class);
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
-    PowerMockito.when(btcm.getBalance(Mockito.eq(SPECIFICATION_API_KEY),
-        Mockito.any(SynchronizedValueFactory.class),
-        Mockito.any(BTCMarketsDigest.class))).thenReturn(Arrays.asList(balance));
+    PowerMockito
+        .when(btcm.getBalance(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class), Mockito.any(BTCMarketsDigest.class)))
+        .thenReturn(Arrays.asList(balance));
     Whitebox.setInternalState(accountService, "btcm", btcm);
 
     // when

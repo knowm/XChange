@@ -17,20 +17,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Deprecated
 public class CryptoFacilitiesVolatilityJSONTest {
 
-	@Test
-	public void testUnmarshal() throws IOException {
+  @Test
+  public void testUnmarshal() throws IOException {
 
-	    // Read in the JSON from the example resources
-	    InputStream is = CryptoFacilitiesVolatilityJSONTest.class.getResourceAsStream("/marketdata/example-volatility-data.json");
+    // Read in the JSON from the example resources
+    InputStream is = CryptoFacilitiesVolatilityJSONTest.class.getResourceAsStream("/marketdata/example-volatility-data.json");
 
-	    // Use Jackson to parse it
-	    ObjectMapper mapper = new ObjectMapper();
-	    CryptoFacilitiesVolatility cryptoFacilitiesVolatility = mapper.readValue(is, CryptoFacilitiesVolatility.class);
-	    
-	    // Verify that the example data was unmarshalled correctly
-	    assertThat(cryptoFacilitiesVolatility.isSuccess()).isTrue();
-	    assertThat(cryptoFacilitiesVolatility.getVolatility()).isEqualTo(new BigDecimal("30.03"));
-	  }
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    CryptoFacilitiesVolatility cryptoFacilitiesVolatility = mapper.readValue(is, CryptoFacilitiesVolatility.class);
 
+    // Verify that the example data was unmarshalled correctly
+    assertThat(cryptoFacilitiesVolatility.isSuccess()).isTrue();
+    assertThat(cryptoFacilitiesVolatility.getVolatility()).isEqualTo(new BigDecimal("30.03"));
+  }
 
 }

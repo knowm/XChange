@@ -51,7 +51,8 @@ public class VaultoroTradeServiceRaw extends VaultoroBasePollingService {
     }
   }
 
-  public VaultoroNewOrderResponse placeLimitOrder(CurrencyPair currencyPair, OrderType orderType, BigDecimal amount, BigDecimal price) throws IOException {
+  public VaultoroNewOrderResponse placeLimitOrder(CurrencyPair currencyPair, OrderType orderType, BigDecimal amount, BigDecimal price)
+      throws IOException {
 
     return placeOrder("limit", currencyPair, orderType, amount, price);
 
@@ -63,7 +64,8 @@ public class VaultoroTradeServiceRaw extends VaultoroBasePollingService {
 
   }
 
-  private VaultoroNewOrderResponse placeOrder(String type, CurrencyPair currencyPair, OrderType orderType, BigDecimal amount, BigDecimal price) throws IOException {
+  private VaultoroNewOrderResponse placeOrder(String type, CurrencyPair currencyPair, OrderType orderType, BigDecimal amount, BigDecimal price)
+      throws IOException {
 
     String baseSymbol = currencyPair.base.getCurrencyCode().toLowerCase();
 
@@ -78,12 +80,10 @@ public class VaultoroTradeServiceRaw extends VaultoroBasePollingService {
         if (!asks.isEmpty()) {
           LimitOrder lowestAsk = orderBook.getAsks().get(0);
           price = lowestAsk.getLimitPrice();
-        }
-        else {
+        } else {
           price = ds.getLast(currencyPair);
         }
-      }
-      else {
+      } else {
         amount = price.multiply(amount, new MathContext(8, RoundingMode.HALF_DOWN));
       }
       try {
@@ -91,8 +91,7 @@ public class VaultoroTradeServiceRaw extends VaultoroBasePollingService {
       } catch (VaultoroException e) {
         throw new ExchangeException(e.getMessage());
       }
-    }
-    else {
+    } else {
       try {
         return vaultoro.sell(baseSymbol, type, exchange.getNonceFactory(), apiKey, amount, price, signatureCreator);
       } catch (VaultoroException e) {

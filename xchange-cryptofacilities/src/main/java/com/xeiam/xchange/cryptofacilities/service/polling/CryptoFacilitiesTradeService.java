@@ -23,67 +23,67 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRaw implements PollingTradeService {
 
-    /**
-     * Constructor
-     *
-     * @param exchange
-     */
-    public CryptoFacilitiesTradeService(Exchange exchange) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public CryptoFacilitiesTradeService(Exchange exchange) {
 
-        super(exchange);
+    super(exchange);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
+
+    return CryptoFacilitiesAdapters.adaptOpenOrders(super.getCryptoFacilitiesOpenOrders());
+
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+
+    return CryptoFacilitiesAdapters.adaptOrderId(super.placeCryptoFacilitiesLimitOrder(limitOrder));
+  }
+
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
+
+    OpenOrders openOrders = getOpenOrders();
+    CurrencyPair ccyPair = new CurrencyPair("", "");
+
+    for (LimitOrder order : openOrders.getOpenOrders()) {
+      if (orderId.equals(order.getId())) {
+        ccyPair = order.getCurrencyPair();
+      }
     }
 
-    @Override
-    public OpenOrders getOpenOrders() throws IOException {
+    return CryptoFacilitiesAdapters.adaptCryptoFacilitiesCancel(super.cancelCryptoFacilitiesOrder(orderId, ccyPair));
+  }
 
-        return CryptoFacilitiesAdapters.adaptOpenOrders(super.getCryptoFacilitiesOpenOrders());
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    }
+    return CryptoFacilitiesAdapters.adaptFills(super.getCryptoFacilitiesFills());
+  }
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+  @Override
+  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
-        throw new NotAvailableFromExchangeException();
+    return null;
+  }
 
-    }
-
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-
-        return CryptoFacilitiesAdapters.adaptOrderId(super.placeCryptoFacilitiesLimitOrder(limitOrder));
-    }
-
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException {
-
-        OpenOrders openOrders = getOpenOrders();
-        CurrencyPair ccyPair = new CurrencyPair("","");
-
-        for(LimitOrder order : openOrders.getOpenOrders()) {
-            if(orderId.equals(order.getId())) {
-                ccyPair = order.getCurrencyPair();
-            }
-        }
-
-        return CryptoFacilitiesAdapters.adaptCryptoFacilitiesCancel(super.cancelCryptoFacilitiesOrder(orderId, ccyPair));	  
-    }
-
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
-        return CryptoFacilitiesAdapters.adaptFills(super.getCryptoFacilitiesFills());
-    }
-
-    @Override
-    public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
-
-        return null;
-    }
-
-    @Override
-    public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-            IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
 }

@@ -29,25 +29,26 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     return new AccountInfo(BitfinexAdapters.adaptWallet(getBitfinexAccountInfo()));
   }
 
-    /**   
-   * Withdrawal suppport   
+  /**
+   * Withdrawal suppport
+   * 
    * @param currency
    * @param amount
    * @param address
    * @return
-   * @throws IOException 
+   * @throws IOException
    */
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
     //determine withdrawal type
-     String type = BitfinexUtils.convertToBitfinexWithdrawalType(currency.toString());
+    String type = BitfinexUtils.convertToBitfinexWithdrawalType(currency.toString());
     //Bitfinex withdeawal can be from different type of wallets    * 
     // we have to use one of these for now: Exchange - 
     //to be able to withdraw instantly after trading for example
     //The wallet to withdraw from, can be “trading”, “exchange”, or “deposit”.
-     String walletSelected= "exchange";
+    String walletSelected = "exchange";
     //We have to convert XEIAM currencies to Bitfinex currencies: can be “bitcoin”, “litecoin” or “darkcoin” or “tether” or “wire”.      
-    return withdraw(type, walletSelected, amount, address);    
+    return withdraw(type, walletSelected, amount, address);
   }
 
   @Override

@@ -59,7 +59,7 @@ public class CurrencyPairDeserializer extends JsonDeserializer<CurrencyPair> {
      */
     int bestGuess = currencyPairString.length() / 2;
     int bestLength = 0;
-    for (int i = 1; i < currencyPairString.length() - 1; ++ i) {
+    for (int i = 1; i < currencyPairString.length() - 1; ++i) {
       final Currency tradeCurrency = Currency.getInstanceNoCreate(currencyPairString.substring(0, i));
       final Currency priceCurrency = Currency.getInstanceNoCreate(currencyPairString.substring(i));
       if (tradeCurrency != null) {

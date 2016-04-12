@@ -32,121 +32,121 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
  */
 public class CampBXTradeService extends CampBXTradeServiceRaw implements PollingTradeService {
 
-    private final Logger logger = LoggerFactory.getLogger(CampBXTradeService.class);
+  private final Logger logger = LoggerFactory.getLogger(CampBXTradeService.class);
 
-    private static final MessageFormat ID_FORMAT = new MessageFormat("{0}-{1}");
+  private static final MessageFormat ID_FORMAT = new MessageFormat("{0}-{1}");
 
-    /**
-     * Constructor
-     *
-     * @param exchange
-     */
-    public CampBXTradeService(Exchange exchange) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public CampBXTradeService(Exchange exchange) {
 
-        super(exchange);
-    }
+    super(exchange);
+  }
 
-    @Override
-    public OpenOrders getOpenOrders() throws IOException {
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
 
-        MyOpenOrders myOpenOrders = getCampBXOpenOrders();
-        logger.debug("myOpenOrders = {}", myOpenOrders);
+    MyOpenOrders myOpenOrders = getCampBXOpenOrders();
+    logger.debug("myOpenOrders = {}", myOpenOrders);
 
-        if (!myOpenOrders.isError()) {
+    if (!myOpenOrders.isError()) {
 
-            // TODO move to adapter class
-            List<LimitOrder> orders = new ArrayList<LimitOrder>();
-            for (CampBXOrder cbo : myOpenOrders.getBuy()) {
-                if (cbo.isError() || cbo.isInfo()) {
-                    logger.debug("Skipping non-order in Buy: " + cbo);
-                } else {
-                    String id = composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID());
-                    BigDecimal price = cbo.getPrice();
-                    orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), CurrencyPair.BTC_USD, id, cbo.getOrderEntered(), price));
-                }
-            }
-            for (CampBXOrder cbo : myOpenOrders.getSell()) {
-                if (cbo.isError() || cbo.isInfo()) {
-                    logger.debug("Skipping non-order in Sell: " + cbo);
-                } else {
-
-                    String id = composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID());
-                    BigDecimal price = cbo.getPrice();
-                    orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), CurrencyPair.BTC_USD, id, cbo.getOrderEntered(), price));
-                }
-            }
-            return new OpenOrders(orders);
+      // TODO move to adapter class
+      List<LimitOrder> orders = new ArrayList<LimitOrder>();
+      for (CampBXOrder cbo : myOpenOrders.getBuy()) {
+        if (cbo.isError() || cbo.isInfo()) {
+          logger.debug("Skipping non-order in Buy: " + cbo);
         } else {
-            throw new ExchangeException("Error calling getOpenOrders(): " + myOpenOrders.getError());
+          String id = composeOrderId(CampBX.OrderType.Buy, cbo.getOrderID());
+          BigDecimal price = cbo.getPrice();
+          orders.add(new LimitOrder(Order.OrderType.BID, cbo.getQuantity(), CurrencyPair.BTC_USD, id, cbo.getOrderEntered(), price));
         }
-    }
-
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-
-        CampBXResponse campBXResponse = placeCampBXMarketOrder(marketOrder);
-        logger.debug("campBXResponse = {}", campBXResponse);
-
-        if (!campBXResponse.isError()) {
-            return composeOrderId(campBXResponse.getSuccess(), marketOrder.getType());
+      }
+      for (CampBXOrder cbo : myOpenOrders.getSell()) {
+        if (cbo.isError() || cbo.isInfo()) {
+          logger.debug("Skipping non-order in Sell: " + cbo);
         } else {
-            throw new ExchangeException("Error calling placeMarketOrder(): " + campBXResponse.getError());
+
+          String id = composeOrderId(CampBX.OrderType.Sell, cbo.getOrderID());
+          BigDecimal price = cbo.getPrice();
+          orders.add(new LimitOrder(Order.OrderType.ASK, cbo.getQuantity(), CurrencyPair.BTC_USD, id, cbo.getOrderEntered(), price));
         }
+      }
+      return new OpenOrders(orders);
+    } else {
+      throw new ExchangeException("Error calling getOpenOrders(): " + myOpenOrders.getError());
     }
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-        CampBXResponse campBXResponse = placeCampBXLimitOrder(limitOrder);
-        logger.debug("campBXResponse = {}", campBXResponse);
+    CampBXResponse campBXResponse = placeCampBXMarketOrder(marketOrder);
+    logger.debug("campBXResponse = {}", campBXResponse);
 
-        if (!campBXResponse.isError()) {
-            return composeOrderId(campBXResponse.getSuccess(), limitOrder.getType());
-        } else {
-            throw new ExchangeException("Error calling placeLimitOrder(): " + campBXResponse.getError());
-        }
+    if (!campBXResponse.isError()) {
+      return composeOrderId(campBXResponse.getSuccess(), marketOrder.getType());
+    } else {
+      throw new ExchangeException("Error calling placeMarketOrder(): " + campBXResponse.getError());
     }
+  }
 
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException {
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-        CampBXResponse campBXResponse = cancelCampBXOrder(orderId);
-        logger.debug("campBXResponse = {}", campBXResponse);
+    CampBXResponse campBXResponse = placeCampBXLimitOrder(limitOrder);
+    logger.debug("campBXResponse = {}", campBXResponse);
 
-        if (!campBXResponse.isError()) {
-            return campBXResponse.isSuccess();
-        } else {
-            throw new ExchangeException("Error calling cancelOrder(): " + campBXResponse.getError());
-        }
+    if (!campBXResponse.isError()) {
+      return composeOrderId(campBXResponse.getSuccess(), limitOrder.getType());
+    } else {
+      throw new ExchangeException("Error calling placeLimitOrder(): " + campBXResponse.getError());
     }
+  }
 
-    private String composeOrderId(String id, Order.OrderType orderType) {
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
 
-        CampBX.OrderType type = orderType == Order.OrderType.ASK ? CampBX.OrderType.Sell : CampBX.OrderType.Buy;
-        return composeOrderId(type, id);
+    CampBXResponse campBXResponse = cancelCampBXOrder(orderId);
+    logger.debug("campBXResponse = {}", campBXResponse);
+
+    if (!campBXResponse.isError()) {
+      return campBXResponse.isSuccess();
+    } else {
+      throw new ExchangeException("Error calling cancelOrder(): " + campBXResponse.getError());
     }
+  }
 
-    private String composeOrderId(CampBX.OrderType type, String id) {
+  private String composeOrderId(String id, Order.OrderType orderType) {
 
-        return ID_FORMAT.format(new Object[] { type, id });
-    }
+    CampBX.OrderType type = orderType == Order.OrderType.ASK ? CampBX.OrderType.Sell : CampBX.OrderType.Buy;
+    return composeOrderId(type, id);
+  }
 
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+  private String composeOrderId(CampBX.OrderType type, String id) {
 
-        throw new NotAvailableFromExchangeException();
-    }
+    return ID_FORMAT.format(new Object[] { type, id });
+  }
 
-    @Override
-    public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-        throw new NotAvailableFromExchangeException();
-    }
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-            IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
 }

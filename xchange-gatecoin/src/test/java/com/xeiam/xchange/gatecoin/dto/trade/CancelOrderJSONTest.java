@@ -35,7 +35,8 @@ public class CancelOrderJSONTest {
     try {
       mapper.readValue(is, GatecoinCancelOrderResult.class);
       assertThat(false).isTrue();
-    } catch (JsonMappingException | ExceptionalReturnContentException ignored) { }
+    } catch (JsonMappingException | ExceptionalReturnContentException ignored) {
+    }
 
     is = CancelOrderJSONTest.class.getResourceAsStream("/trade/example-cancel-order-fail.json");
     @SuppressWarnings("ThrowableResultOfMethodCallIgnored")

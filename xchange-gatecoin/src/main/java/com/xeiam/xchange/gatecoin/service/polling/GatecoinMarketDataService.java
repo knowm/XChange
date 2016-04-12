@@ -31,7 +31,6 @@ public class GatecoinMarketDataService extends GatecoinMarketDataServiceRaw impl
 
     return GatecoinAdapters.adaptTicker(getGatecoinTicker().getTicker(), currencyPair);
   }
-   
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
@@ -41,18 +40,14 @@ public class GatecoinMarketDataService extends GatecoinMarketDataServiceRaw impl
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-      if(args.length == 0)
-      {
-          return GatecoinAdapters.adaptTrades( getGatecoinTransactions(currencyPair.toString()).getTransactions(), currencyPair);
-      }
-      else if(args.length == 1)
-      {
-          return GatecoinAdapters.adaptTrades( getGatecoinTransactions(currencyPair.toString(),(Integer)args[0],0).getTransactions(), currencyPair);
-      }
-      else if(args.length == 2)
-      {
-          return GatecoinAdapters.adaptTrades( getGatecoinTransactions(currencyPair.toString(),(Integer)args[0],(Long)args[1]).getTransactions(), currencyPair);
-      }
+    if (args.length == 0) {
+      return GatecoinAdapters.adaptTrades(getGatecoinTransactions(currencyPair.toString()).getTransactions(), currencyPair);
+    } else if (args.length == 1) {
+      return GatecoinAdapters.adaptTrades(getGatecoinTransactions(currencyPair.toString(), (Integer) args[0], 0).getTransactions(), currencyPair);
+    } else if (args.length == 2) {
+      return GatecoinAdapters.adaptTrades(getGatecoinTransactions(currencyPair.toString(), (Integer) args[0], (Long) args[1]).getTransactions(),
+          currencyPair);
+    }
     throw new IllegalArgumentException("Illegal number of arguments: " + args.length);
   }
 

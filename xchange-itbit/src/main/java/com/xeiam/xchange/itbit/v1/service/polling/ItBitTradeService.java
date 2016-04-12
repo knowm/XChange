@@ -26,105 +26,105 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTradeService {
 
-    /**
-     * Constructor
-     *
-     * @param exchange
-     */
-    public ItBitTradeService(Exchange exchange) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public ItBitTradeService(Exchange exchange) {
 
-        super(exchange);
+    super(exchange);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
+    List<ItBitOrder> orders = new ArrayList<>();
+    for (CurrencyPair currencyPair : getExchangeSymbols()) {
+      orders.addAll(Arrays.asList(getItBitOpenOrders(currencyPair)));
+    }
+    ItBitOrder[] empty = {};
+    return ItBitAdapters.adaptPrivateOrders(orders.isEmpty() ? empty : Arrays.copyOf(orders.toArray(), orders.size(), ItBitOrder[].class));
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+
+    return placeItBitLimitOrder(limitOrder).getId();
+  }
+
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
+
+    cancelItBitOrder(orderId);
+    return true;
+  }
+
+  /**
+   * Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair}
+   */
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+
+    TradeHistoryParamPaging paging = (TradeHistoryParamPaging) params;
+    Integer pageLength = paging.getPageLength();
+    Integer pageNumber = paging.getPageNumber();
+
+    // pages supposedly start from 1
+    ++pageNumber;
+
+    CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    String currency = pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
+
+    return ItBitAdapters.adaptTradeHistory(getItBitTradeHistory(currency, toString(pageNumber), toString(pageLength)));
+  }
+
+  private String toString(Object o) {
+
+    return o == null ? null : o.toString();
+  }
+
+  @Override
+  public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
+
+    return new ItBitTradeHistoryParams();
+  }
+
+  public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {
+
+    private CurrencyPair pair;
+
+    public ItBitTradeHistoryParams() {
+    }
+
+    public ItBitTradeHistoryParams(Integer pageLength, Integer pageNumber, CurrencyPair pair) {
+
+      super(pageLength, pageNumber);
+      this.pair = pair;
     }
 
     @Override
-    public OpenOrders getOpenOrders() throws IOException {
-        List<ItBitOrder> orders = new ArrayList<>();
-        for (CurrencyPair currencyPair : getExchangeSymbols()) {
-            orders.addAll(Arrays.asList(getItBitOpenOrders(currencyPair)));
-        }
-        ItBitOrder[] empty = {};
-        return ItBitAdapters.adaptPrivateOrders(orders.isEmpty() ? empty : Arrays.copyOf(orders.toArray(), orders.size(), ItBitOrder[].class));
+    public void setCurrencyPair(CurrencyPair pair) {
+
+      this.pair = pair;
     }
 
     @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    public CurrencyPair getCurrencyPair() {
 
-        throw new NotAvailableFromExchangeException();
+      return pair;
     }
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-
-        return placeItBitLimitOrder(limitOrder).getId();
-    }
-
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException {
-
-        cancelItBitOrder(orderId);
-        return true;
-    }
-
-    /**
-     * Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair}
-     */
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
-        TradeHistoryParamPaging paging = (TradeHistoryParamPaging) params;
-        Integer pageLength = paging.getPageLength();
-        Integer pageNumber = paging.getPageNumber();
-
-        // pages supposedly start from 1
-        ++pageNumber;
-
-        CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-        String currency = pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
-
-        return ItBitAdapters.adaptTradeHistory(getItBitTradeHistory(currency, toString(pageNumber), toString(pageLength)));
-    }
-
-    private String toString(Object o) {
-
-        return o == null ? null : o.toString();
-    }
-
-    @Override
-    public com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
-
-        return new ItBitTradeHistoryParams();
-    }
-
-    public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {
-
-        private CurrencyPair pair;
-
-        public ItBitTradeHistoryParams() {
-        }
-
-        public ItBitTradeHistoryParams(Integer pageLength, Integer pageNumber, CurrencyPair pair) {
-
-            super(pageLength, pageNumber);
-            this.pair = pair;
-        }
-
-        @Override
-        public void setCurrencyPair(CurrencyPair pair) {
-
-            this.pair = pair;
-        }
-
-        @Override
-        public CurrencyPair getCurrencyPair() {
-
-            return pair;
-        }
-    }
-
-    @Override
-    public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-            IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
 }

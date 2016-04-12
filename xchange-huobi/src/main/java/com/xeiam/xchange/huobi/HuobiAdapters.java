@@ -108,7 +108,6 @@ public final class HuobiAdapters {
 
   public static Wallet adaptWallet(BitVcAccountInfo a) {
 
-
     Balance cny = adaptBalance(CNY, a.getAvailableCnyDisplay(), a.getFrozenCnyDisplay(), a.getLoanCnyDisplay());
     Balance btc = adaptBalance(BTC, a.getAvailableBtcDisplay(), a.getFrozenBtcDisplay(), a.getLoanBtcDisplay());
     Balance ltc = adaptBalance(LTC, a.getAvailableLtcDisplay(), a.getFrozenLtcDisplay(), a.getLoanLtcDisplay());

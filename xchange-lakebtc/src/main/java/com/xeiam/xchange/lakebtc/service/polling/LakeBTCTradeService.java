@@ -19,53 +19,53 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements PollingTradeService {
 
-    /**
-     * Constructor
-     *
-     * @param exchange
-     */
-    public LakeBTCTradeService(Exchange exchange) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public LakeBTCTradeService(Exchange exchange) {
 
-        super(exchange);
-    }
+    super(exchange);
+  }
 
-    @Override
-    public OpenOrders getOpenOrders() throws IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public OpenOrders getOpenOrders() throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
-        final LakeBTCOrderResponse response = placeLakeBTCMarketOrder(marketOrder);
-        return response.getId();
-    }
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    final LakeBTCOrderResponse response = placeLakeBTCMarketOrder(marketOrder);
+    return response.getId();
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-        final LakeBTCOrderResponse response = placeLakeBTCLimitOrder(limitOrder);
-        return response.getId();
-    }
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    final LakeBTCOrderResponse response = placeLakeBTCLimitOrder(limitOrder);
+    return response.getId();
+  }
 
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException {
-        final LakeBTCCancelResponse response = cancelLakeBTCOrder(orderId);
-        return Boolean.valueOf(response.getResult());
-    }
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
+    final LakeBTCCancelResponse response = cancelLakeBTCOrder(orderId);
+    return Boolean.valueOf(response.getResult());
+  }
 
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public TradeHistoryParams createTradeHistoryParams() {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+    throw new NotYetImplementedForExchangeException();
+  }
 
-    @Override
-    public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-            IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
 }

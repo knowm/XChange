@@ -81,6 +81,6 @@ public interface ItBitAuthenticated extends ItBit {
   @Path("wallets/{walletId}/cryptocurrency_deposits")
   @Consumes(MediaType.APPLICATION_JSON)
   ItBitDepositResponse requestDeposit(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
-      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId,
-      ItBitDepositRequest request) throws IOException;
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId, ItBitDepositRequest request)
+      throws IOException;
 }

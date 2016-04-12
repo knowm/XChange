@@ -33,7 +33,8 @@ public class VircurexMarketDataServiceRaw extends VircurexBasePollingService {
 
   public VircurexDepth getVircurexOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    VircurexDepth vircurexDepth = vircurexAuthenticated.getFullDepth(currencyPair.base.getCurrencyCode().toLowerCase(), currencyPair.counter.getCurrencyCode().toLowerCase());
+    VircurexDepth vircurexDepth = vircurexAuthenticated.getFullDepth(currencyPair.base.getCurrencyCode().toLowerCase(),
+        currencyPair.counter.getCurrencyCode().toLowerCase());
 
     return vircurexDepth;
   }

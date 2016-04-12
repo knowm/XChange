@@ -146,13 +146,11 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     // given
     List<BleutradeCurrency> currenciesStub = Arrays.asList(
         createBleutradeCurrency("BTC", "Bitcoin", 2, new BigDecimal("0.00080000"), true, "BITCOIN"),
-        createBleutradeCurrency("LTC", "Litecoin", 4, new BigDecimal("0.02000000"), true, "BITCOIN")
-    );
+        createBleutradeCurrency("LTC", "Litecoin", 4, new BigDecimal("0.02000000"), true, "BITCOIN"));
 
     List<BleutradeMarket> marketsStub = Arrays.asList(
         createBleutradeMarket("DOGE", "BTC", "Dogecoin", "Bitcoin", new BigDecimal("0.10000000"), "DOGE_BTC", true),
-        createBleutradeMarket("BLEU", "BTC", "Bleutrade Share", "Bitcoin", new BigDecimal("0.00000001"), "BLEU_BTC", true)
-    );
+        createBleutradeMarket("BLEU", "BTC", "Bleutrade Share", "Bitcoin", new BigDecimal("0.00000001"), "BLEU_BTC", true));
 
     BleutradeMarketDataService pollingMarketDataServiceMock = mock(BleutradeMarketDataService.class);
     PowerMockito.when(pollingMarketDataServiceMock.getBleutradeCurrencies()).thenReturn(currenciesStub);
@@ -171,9 +169,8 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
 
     Map<CurrencyPair, MarketMetaData> marketMetaDataMap = exchange.getMetaData().getMarketMetaDataMap();
     assertThat(marketMetaDataMap).hasSize(2);
-    assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString()).isEqualTo(
-        "MarketMetaData{tradingFee=0.0025, minimumAmount=0.10000000, priceScale=8}");
-    assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo(
-        "MarketMetaData{tradingFee=0.0025, minimumAmount=1E-8, priceScale=8}");
+    assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString())
+        .isEqualTo("MarketMetaData{tradingFee=0.0025, minimumAmount=0.10000000, priceScale=8}");
+    assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo("MarketMetaData{tradingFee=0.0025, minimumAmount=1E-8, priceScale=8}");
   }
 }

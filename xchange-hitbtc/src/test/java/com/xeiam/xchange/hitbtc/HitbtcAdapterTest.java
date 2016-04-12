@@ -103,7 +103,7 @@ public class HitbtcAdapterTest {
     Map<CurrencyPair, MarketMetaData> metaDataMap = adaptedMetaData.getMarketMetaDataMap();
 
     assertThat(metaDataMap.size()).isEqualTo(15);
-    
+
     MarketMetaData BTC_USD = metaDataMap.get(CurrencyPair.BTC_USD);
     assertThat(BTC_USD.getTradingFee()).isEqualTo("0.001");
     assertThat(BTC_USD.getMinimumAmount()).isEqualTo("0.01");
@@ -175,10 +175,10 @@ public class HitbtcAdapterTest {
     HitbtcIncrementalRefresh incrementalRefresh = mapper.readValue(is, HitbtcIncrementalRefresh.class);
 
     List<OrderBookUpdate> adaptedOrders = HitbtcAdapters.adaptIncrementalRefreshOrders(incrementalRefresh);
-    
+
     assertThat(adaptedOrders).hasSize(1);
     OrderBookUpdate order = adaptedOrders.get(0);
-    assertThat(order.getLimitOrder().getLimitPrice()).isEqualTo("0.001276");   
+    assertThat(order.getLimitOrder().getLimitPrice()).isEqualTo("0.001276");
     assertThat(order.getLimitOrder().getCurrencyPair()).isEqualTo(new CurrencyPair("XMR/BTC"));
     assertThat(order.getLimitOrder().getType()).isEqualTo(OrderType.BID);
 

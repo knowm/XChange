@@ -231,7 +231,7 @@ public class CryptsyAdapterTest {
 
     Wallet adaptedWallet = CryptsyAdapters.adaptWallet(accountInfo);
 
-    Map<Currency,Balance> balances = adaptedWallet.getBalances();
+    Map<Currency, Balance> balances = adaptedWallet.getBalances();
     assertEquals(balances.size(), 300);
     for (Balance balance : balances.values()) {
       if (balance.getCurrency().equals(Currency.BTC)) {

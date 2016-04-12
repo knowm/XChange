@@ -24,16 +24,14 @@ public class UserTradesJSONTest {
     ObjectMapper mapper = new ObjectMapper();
     GatecoinTradeHistoryResult tradesHistoryResult = mapper.readValue(is, GatecoinTradeHistoryResult.class);
     GatecoinTradeHistory[] tradesHistory = tradesHistoryResult.getTransactions();
-    
 
     assertThat(tradesHistoryResult.getResponseStatus().getMessage()).isEqualTo("OK");
-    assertThat(tradesHistory.length).isEqualTo(4);   
+    assertThat(tradesHistory.length).isEqualTo(4);
     assertThat(tradesHistory[0].getPrice()).isEqualTo(new BigDecimal("1960"));
     assertThat(tradesHistory[0].getTransactionId()).isEqualTo(42239);
-    assertThat(tradesHistory[0].getAskOrderID()).isEqualTo("BK11432053513");    
+    assertThat(tradesHistory[0].getAskOrderID()).isEqualTo("BK11432053513");
 
     assertThat(tradesHistory[1].getPrice()).isEqualTo(new BigDecimal("125"));
-
 
   }
 }

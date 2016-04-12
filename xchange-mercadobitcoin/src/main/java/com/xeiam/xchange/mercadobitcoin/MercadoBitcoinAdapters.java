@@ -116,8 +116,8 @@ public final class MercadoBitcoinAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades.add(new Trade(toOrderType(tx.getType()), tx.getAmount(), currencyPair, tx.getPrice(),
-          DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
+      trades.add(new Trade(toOrderType(tx.getType()), tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L),
+          String.valueOf(tradeId)));
     }
 
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByID);
@@ -183,8 +183,8 @@ public final class MercadoBitcoinAdapters {
       for (Map.Entry<String, OperationEntry> f : order.getOperations().entrySet()) {
         String txId = f.getKey();
         OperationEntry op = f.getValue();
-        result
-            .add(new UserTrade.Builder().currencyPair(pair).id(txId).orderId(orderId).price(op.getPrice()).timestamp(fromUnixTime(op.getCreated())).tradableAmount(op.getVolume()).type(type).build());
+        result.add(new UserTrade.Builder().currencyPair(pair).id(txId).orderId(orderId).price(op.getPrice()).timestamp(fromUnixTime(op.getCreated()))
+            .tradableAmount(op.getVolume()).type(type).build());
       }
     }
     // TODO verify sortType

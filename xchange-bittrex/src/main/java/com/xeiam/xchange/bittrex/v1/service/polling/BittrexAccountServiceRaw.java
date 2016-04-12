@@ -49,9 +49,8 @@ public class BittrexAccountServiceRaw extends BittrexBasePollingService {
   }
 
   public List<BittrexWithdrawalHistory> getWithdrawalsHistory() throws IOException {
-    
-    BittrexWithdrawalsHistoryResponse response = bittrexAuthenticated.getwithdrawalhistory(apiKey, signatureCreator,
-        exchange.getNonceFactory());
+
+    BittrexWithdrawalsHistoryResponse response = bittrexAuthenticated.getwithdrawalhistory(apiKey, signatureCreator, exchange.getNonceFactory());
     if (response.getSuccess()) {
       return response.getResult();
     } else {
@@ -61,8 +60,7 @@ public class BittrexAccountServiceRaw extends BittrexBasePollingService {
 
   public List<BittrexDepositHistory> getDepositsHistory() throws IOException {
 
-    BittrexDepositsHistoryResponse response = bittrexAuthenticated.getdeposithistory(apiKey, signatureCreator,
-        exchange.getNonceFactory());
+    BittrexDepositsHistoryResponse response = bittrexAuthenticated.getdeposithistory(apiKey, signatureCreator, exchange.getNonceFactory());
     if (response.getSuccess()) {
       return response.getResult();
     } else {
@@ -72,13 +70,13 @@ public class BittrexAccountServiceRaw extends BittrexBasePollingService {
 
   public String withdraw(String currencyCode, BigDecimal amount, String address) throws IOException {
 
-    BittrexWithdrawResponse response = bittrexAuthenticated.withdraw(apiKey, signatureCreator,
-        exchange.getNonceFactory(), currencyCode, amount.toPlainString(), address);
+    BittrexWithdrawResponse response = bittrexAuthenticated.withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currencyCode,
+        amount.toPlainString(), address);
     if (response.getSuccess()) {
       return response.getResult().getUuid();
     } else {
       throw new ExchangeException(response.getMessage());
     }
   }
-  
+
 }

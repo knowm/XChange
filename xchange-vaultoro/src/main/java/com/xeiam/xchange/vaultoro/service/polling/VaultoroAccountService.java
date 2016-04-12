@@ -27,20 +27,23 @@ public class VaultoroAccountService extends VaultoroAccountServiceRaw implements
   }
 
   @Override
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public AccountInfo getAccountInfo()
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     List<VaultoroBalance> vaultoroBalances = super.getVaultoroBalances();
     return VaultoroAdapters.adaptVaultoroBalances(vaultoroBalances);
   }
 
   @Override
-  public String requestDepositAddress(Currency arg0, String... arg1) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String requestDepositAddress(Currency arg0, String... arg1)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String withdrawFunds(Currency arg0, BigDecimal arg1, String arg2) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(Currency arg0, BigDecimal arg1, String arg2)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotAvailableFromExchangeException();
   }

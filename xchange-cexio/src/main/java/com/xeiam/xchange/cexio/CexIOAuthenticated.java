@@ -37,7 +37,7 @@ public interface CexIOAuthenticated extends CexIO {
   @Path("open_orders/{ident}/{currency}/")
   CexIOOpenOrders getOpenOrders(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency,
       @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
-          throws IOException;
+      throws IOException;
 
   @POST
   @Path("cancel_order/")

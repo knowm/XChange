@@ -31,7 +31,8 @@ public class GatecoinAccountServiceRaw extends GatecoinBasePollingService {
   public GatecoinBalanceResult getGatecoinBalance() throws IOException {
 
     final ExchangeSpecification spec = exchange.getExchangeSpecification();
-    GatecoinBalanceResult gatecoinBalanceResult = gatecoinAuthenticated.getUserBalance(spec.getApiKey(), spec.getUserName(), signatureCreator, getNow());
+    GatecoinBalanceResult gatecoinBalanceResult = gatecoinAuthenticated.getUserBalance(spec.getApiKey(), spec.getUserName(), signatureCreator,
+        getNow());
     if (gatecoinBalanceResult.getResponseStatus().getMessage().equalsIgnoreCase("ok")) {
       return gatecoinBalanceResult;
     }
@@ -41,11 +42,7 @@ public class GatecoinAccountServiceRaw extends GatecoinBasePollingService {
   public GatecoinWithdrawResult withdrawGatecoinFunds(String currency, BigDecimal amount, final String address) throws IOException {
 
     GatecoinWithdrawResult gatecoinWithdrawalResult = gatecoinAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(),
-        signatureCreator,
-        getNow(),
-        currency,
-        address,
-        amount);
+        signatureCreator, getNow(), currency, address, amount);
     if (gatecoinWithdrawalResult.getResponseStatus().getMessage().equalsIgnoreCase("ok")) {
       return gatecoinWithdrawalResult;
     }
@@ -54,7 +51,8 @@ public class GatecoinAccountServiceRaw extends GatecoinBasePollingService {
 
   public GatecoinDepositAddressResult getGatecoinDepositAddress() throws IOException {
 
-    GatecoinDepositAddressResult gatecoinDepositAddressResult = gatecoinAuthenticated.getDepositAddress(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNow());
+    GatecoinDepositAddressResult gatecoinDepositAddressResult = gatecoinAuthenticated
+        .getDepositAddress(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNow());
     if (gatecoinDepositAddressResult.getResponseStatus().getMessage().equalsIgnoreCase("ok")) {
       return gatecoinDepositAddressResult;
     }

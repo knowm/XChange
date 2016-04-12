@@ -20,22 +20,23 @@ public final class BitfinexUtils {
     return currencyPair.base.toString().toLowerCase() + currencyPair.counter.toString().toLowerCase();
   }
 
-    /**
-   * Can be  “bitcoin”, “litecoin” or “darkcoin” or “tether” or “wire”
+  /**
+   * Can be “bitcoin”, “litecoin” or “darkcoin” or “tether” or “wire”
+   * 
    * @param currency
-   * @return 
+   * @return
    */
   public static String convertToBitfinexWithdrawalType(String currency) {
-      
-      if(currency.toUpperCase().equals("BTC"))
-          return "bitcoin";
-      if(currency.toUpperCase().equals("LTC"))
-          return "litecoin";
-      if(currency.toUpperCase().equals("USD") )
-          return "wire";
-      if(currency.toUpperCase().equals("TETHER"))
-          return "tether";
-      
-          throw new BitfinexException("Cannot determine withdrawal type.");
+
+    if (currency.toUpperCase().equals("BTC"))
+      return "bitcoin";
+    if (currency.toUpperCase().equals("LTC"))
+      return "litecoin";
+    if (currency.toUpperCase().equals("USD"))
+      return "wire";
+    if (currency.toUpperCase().equals("TETHER"))
+      return "tether";
+
+    throw new BitfinexException("Cannot determine withdrawal type.");
   }
 }

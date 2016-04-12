@@ -11,8 +11,9 @@ import com.xeiam.xchange.dto.Order;
  * DTO representing a limit order
  * </p>
  * <p>
- * A limit order lets you set a minimum or maximum price before your trade will be treated by the exchange as a {@link MarketOrder}. There is no guarantee that your conditions will be met on the
- * exchange, so your order may not be executed. However, until you become very experienced, almost all orders should be limit orders to protect yourself.
+ * A limit order lets you set a minimum or maximum price before your trade will be treated by the exchange as a {@link MarketOrder}. There is no
+ * guarantee that your conditions will be met on the exchange, so your order may not be executed. However, until you become very experienced, almost
+ * all orders should be limit orders to protect yourself.
  * </p>
  */
 public class LimitOrder extends Order implements Comparable<LimitOrder> {
@@ -46,8 +47,8 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
    * @param averagePrice the weighted average price of any fills belonging to the order
    * @param status the status of the order at the exchange or broker
    */
-  public LimitOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice, BigDecimal averagePrice, BigDecimal cumulativeAmount,
-      OrderStatus status) {
+  public LimitOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal limitPrice,
+      BigDecimal averagePrice, BigDecimal cumulativeAmount, OrderStatus status) {
 
     super(type, tradableAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
     this.limitPrice = limitPrice;
@@ -75,8 +76,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     if (this.getType() == limitOrder.getType()) {
       // Same side
       ret = this.getLimitPrice().compareTo(limitOrder.getLimitPrice()) * (getType() == OrderType.BID ? -1 : 1);
-    }
-    else {
+    } else {
       // Keep bid side be less than ask side
       ret = this.getType() == OrderType.BID ? -1 : 1;
     }
@@ -119,8 +119,8 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     public static Builder from(Order order) {
 
-      Builder builder =
-          (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount()).timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags());
+      Builder builder = (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount())
+          .timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags());
       if (order instanceof LimitOrder) {
         LimitOrder limitOrder = (LimitOrder) order;
         builder.limitPrice(limitOrder.getLimitPrice());

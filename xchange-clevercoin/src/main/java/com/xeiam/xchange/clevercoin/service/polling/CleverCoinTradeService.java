@@ -33,73 +33,73 @@ import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
  */
 public class CleverCoinTradeService extends CleverCoinTradeServiceRaw implements PollingTradeService {
 
-    /**
-     * Constructor
-     *
-     * @param exchange
-     */
-    public CleverCoinTradeService(Exchange exchange) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public CleverCoinTradeService(Exchange exchange) {
 
-        super(exchange);
+    super(exchange);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders() throws IOException, CleverCoinException {
+
+    CleverCoinOrder[] openOrders = getCleverCoinOpenOrders();
+
+    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    for (CleverCoinOrder cleverCoinOrder : openOrders) {
+      OrderType orderType = cleverCoinOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
+      String id = Integer.toString(cleverCoinOrder.getId());
+      BigDecimal price = cleverCoinOrder.getPrice();
+      limitOrders.add(new LimitOrder(orderType, cleverCoinOrder.getAmount(), CurrencyPair.BTC_EUR, id, cleverCoinOrder.getTime(), price));
     }
+    return new OpenOrders(limitOrders);
+  }
 
-    @Override
-    public OpenOrders getOpenOrders() throws IOException, CleverCoinException {
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException, CleverCoinException {
 
-        CleverCoinOrder[] openOrders = getCleverCoinOpenOrders();
+    throw new NotAvailableFromExchangeException();
+  }
 
-        List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-        for (CleverCoinOrder cleverCoinOrder : openOrders) {
-            OrderType orderType = cleverCoinOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
-            String id = Integer.toString(cleverCoinOrder.getId());
-            BigDecimal price = cleverCoinOrder.getPrice();
-            limitOrders.add(new LimitOrder(orderType, cleverCoinOrder.getAmount(), CurrencyPair.BTC_EUR, id, cleverCoinOrder.getTime(), price));
-        }
-        return new OpenOrders(limitOrders);
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException, CleverCoinException {
+
+    CleverCoinOpenOrder cleverCoinOrder;
+    String orderType = (limitOrder.getType() == BID ? "bid" : "ask");
+    cleverCoinOrder = createCleverCoinOrder(orderType, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    if (cleverCoinOrder.getErrorMessage() != null) {
+      throw new ExchangeException(cleverCoinOrder.getErrorMessage());
     }
+    return cleverCoinOrder.getOrderId();
+  }
 
-    @Override
-    public String placeMarketOrder(MarketOrder marketOrder) throws IOException, CleverCoinException {
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException, CleverCoinException {
 
-        throw new NotAvailableFromExchangeException();
-    }
+    return cancelCleverCoinOrder(Integer.parseInt(orderId)).getResult().equals("success");
+  }
 
-    @Override
-    public String placeLimitOrder(LimitOrder limitOrder) throws IOException, CleverCoinException {
+  /**
+   * Required parameter types: {@link TradeHistoryParamPaging#getPageLength()}
+   */
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    Integer count = ((TradeHistoryParamPaging) params).getPageLength();
+    return CleverCoinAdapters.adaptTradeHistory(getCleverCoinUserTransactions(count));
+  }
 
-        CleverCoinOpenOrder cleverCoinOrder;
-        String orderType = (limitOrder.getType() == BID ? "bid" : "ask");
-        cleverCoinOrder = createCleverCoinOrder(orderType, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-        if (cleverCoinOrder.getErrorMessage() != null) {
-            throw new ExchangeException(cleverCoinOrder.getErrorMessage());
-        }
-        return cleverCoinOrder.getOrderId();
-    }
+  @Override
+  public TradeHistoryParamPaging createTradeHistoryParams() {
+    return new DefaultTradeHistoryParamPaging(100);
+  }
 
-    @Override
-    public boolean cancelOrder(String orderId) throws IOException, CleverCoinException {
-
-        return cancelCleverCoinOrder(Integer.parseInt(orderId)).getResult().equals("success");
-    }
-
-    /**
-     * Required parameter types: {@link TradeHistoryParamPaging#getPageLength()}
-     */
-    @Override
-    public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-        Integer count = ((TradeHistoryParamPaging) params).getPageLength();
-        return CleverCoinAdapters.adaptTradeHistory(getCleverCoinUserTransactions(count));
-    }
-
-    @Override
-    public TradeHistoryParamPaging createTradeHistoryParams() {
-        return new DefaultTradeHistoryParamPaging(100);
-    }
-
-    @Override
-    public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException,
-            IOException {
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
 }

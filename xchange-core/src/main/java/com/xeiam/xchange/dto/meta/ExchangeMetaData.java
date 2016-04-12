@@ -49,7 +49,9 @@ public class ExchangeMetaData {
     return currencyPairs;
   }
 
-  public Map<Currency, CurrencyMetaData> getCurrencyMetaDataMap() { return currency; }
+  public Map<Currency, CurrencyMetaData> getCurrencyMetaDataMap() {
+    return currency;
+  }
 
   public Set<RateLimit> getPublicRateLimits() {
     return publicRateLimits;

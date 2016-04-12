@@ -30,7 +30,8 @@ public class IndependentReserveMarketDataService extends IndependentReserveMarke
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return IndependentReserveAdapters.adaptOrderBook(getIndependentReserveOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()));
+    return IndependentReserveAdapters
+        .adaptOrderBook(getIndependentReserveOrderBook(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode()));
   }
 
   @Override

@@ -52,8 +52,10 @@ public final class BitstampAdapters {
   public static AccountInfo adaptAccountInfo(BitstampBalance bitstampBalance, String userName) {
 
     // Adapt to XChange DTOs
-    final BigDecimal usdWithdrawing = bitstampBalance.getUsdBalance().subtract(bitstampBalance.getUsdAvailable()).subtract(bitstampBalance.getUsdReserved());
-    final BigDecimal btcWithdrawing = bitstampBalance.getBtcBalance().subtract(bitstampBalance.getBtcAvailable()).subtract(bitstampBalance.getBtcReserved());
+    final BigDecimal usdWithdrawing = bitstampBalance.getUsdBalance().subtract(bitstampBalance.getUsdAvailable())
+        .subtract(bitstampBalance.getUsdReserved());
+    final BigDecimal btcWithdrawing = bitstampBalance.getBtcBalance().subtract(bitstampBalance.getBtcAvailable())
+        .subtract(bitstampBalance.getBtcReserved());
     Balance usdBalance = new Balance(Currency.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(),
         bitstampBalance.getUsdReserved(), ZERO, ZERO, usdWithdrawing, ZERO);
     Balance btcBalance = new Balance(Currency.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),

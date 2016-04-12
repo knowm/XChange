@@ -5,32 +5,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 /**
- *
  * @author sumedha
  */
 public class GatecoinDepth {
-    
-    private final BigDecimal price;
-    private final BigDecimal volume;
 
-    public GatecoinDepth(@JsonProperty("price") BigDecimal price , @JsonProperty("volume") BigDecimal volume  ) 
-    {
-        this.price = price;
-        this.volume = volume;
-    }
+  private final BigDecimal price;
+  private final BigDecimal volume;
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+  public GatecoinDepth(@JsonProperty("price") BigDecimal price, @JsonProperty("volume") BigDecimal volume) {
+    this.price = price;
+    this.volume = volume;
+  }
 
-    public BigDecimal getVolume() {
-        return volume;
-    }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    @Override
-    public String toString() {
-        return "GatecoinDepth[ price=" + price + ",volume ="+volume+"]";      
-    }
-    
-    
+  public BigDecimal getVolume() {
+    return volume;
+  }
+
+  @Override
+  public String toString() {
+    return "GatecoinDepth[ price=" + price + ",volume =" + volume + "]";
+  }
+
 }

@@ -31,14 +31,9 @@ public class GatecoinTradeServiceRaw extends GatecoinBasePollingService {
     return gatecoinAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNow());
   }
 
-  public GatecoinPlaceOrderResult placeGatecoinOrder(
-      BigDecimal tradableAmount,
-      BigDecimal price,
-      String way,
-      String code
-  ) throws IOException {
-    return gatecoinAuthenticated.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNow(), tradableAmount,
-        price, way, code);
+  public GatecoinPlaceOrderResult placeGatecoinOrder(BigDecimal tradableAmount, BigDecimal price, String way, String code) throws IOException {
+    return gatecoinAuthenticated.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNow(), tradableAmount, price, way,
+        code);
   }
 
   public GatecoinCancelOrderResult cancelGatecoinOrder(String orderId) throws IOException {
@@ -52,13 +47,11 @@ public class GatecoinTradeServiceRaw extends GatecoinBasePollingService {
   }
 
   public GatecoinTradeHistoryResult getGatecoinUserTrades(Integer count, Long transactionId) throws IOException {
-    return gatecoinAuthenticated.getUserTrades(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNow(),
-        count, transactionId);
+    return gatecoinAuthenticated.getUserTrades(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNow(), count, transactionId);
   }
 
   public GatecoinTradeHistoryResult getGatecoinUserTrades(int count) throws IOException {
-    return gatecoinAuthenticated.getUserTrades(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNow(),
-        count);
+    return gatecoinAuthenticated.getUserTrades(exchange.getExchangeSpecification().getApiKey(), signatureCreator, getNow(), count);
   }
 
   public GatecoinTradeHistoryResult getGatecoinUserTrades() throws IOException {

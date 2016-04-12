@@ -192,8 +192,8 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     void setOrderId(String orderId);
   }
 
-  final public static class OkCoinFuturesTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair,
-      TradeHistoryParamFuturesContract {
+  final public static class OkCoinFuturesTradeHistoryParams extends DefaultTradeHistoryParamPaging
+      implements TradeHistoryParamCurrencyPair, TradeHistoryParamFuturesContract {
     private CurrencyPair currencyPair;
     private FuturesContract futuresContract;
     private String orderId;
@@ -241,8 +241,8 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException,
-      NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     List<CurrencyPair> exchangeSymbols = getExchangeSymbols();
     List<Order> openOrders = new ArrayList<Order>();
     List<OkCoinFuturesOrder> orderResults = new ArrayList<OkCoinFuturesOrder>(exchangeSymbols.size());

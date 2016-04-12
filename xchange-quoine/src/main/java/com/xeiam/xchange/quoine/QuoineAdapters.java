@@ -91,8 +91,7 @@ public class QuoineAdapters {
 
     // Adapt to XChange DTOs
     Balance btcBalance = new Balance(Currency.getInstance(quoineWallet.getBitcoinAccount().getCurrency()),
-        quoineWallet.getBitcoinAccount().getBalance(),
-        quoineWallet.getBitcoinAccount().getFreeBalance());
+        quoineWallet.getBitcoinAccount().getBalance(), quoineWallet.getBitcoinAccount().getFreeBalance());
     balances.add(btcBalance);
 
     for (FiatAccount fiatAccount : quoineWallet.getFiatAccounts()) {

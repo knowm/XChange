@@ -12,28 +12,27 @@ import com.xeiam.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 @Deprecated
 public class CryptoFacilitiesVolatility extends CryptoFacilitiesResult {
 
-	private final BigDecimal volatility;
-		
-	public CryptoFacilitiesVolatility(@JsonProperty("result") String result
-			, @JsonProperty("error") String error
-			, @JsonProperty("volatility") BigDecimal volatility) {
-	
-		  super(result, error);
-		    
-		  this.volatility = volatility;
-	}	  
+  private final BigDecimal volatility;
 
-	public BigDecimal getVolatility() {
-		return volatility;
-	}
+  public CryptoFacilitiesVolatility(@JsonProperty("result") String result, @JsonProperty("error") String error,
+      @JsonProperty("volatility") BigDecimal volatility) {
 
-	@Override
-	public String toString() {
+    super(result, error);
 
-	    if(isSuccess())
-	    	return "CryptoFacilitiesVolatility [volatility=" + volatility + "]";
-	    else
-	    	return super.toString();
-	}  
+    this.volatility = volatility;
+  }
+
+  public BigDecimal getVolatility() {
+    return volatility;
+  }
+
+  @Override
+  public String toString() {
+
+    if (isSuccess())
+      return "CryptoFacilitiesVolatility [volatility=" + volatility + "]";
+    else
+      return super.toString();
+  }
 
 }

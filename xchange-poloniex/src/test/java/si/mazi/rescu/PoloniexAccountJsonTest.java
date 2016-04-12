@@ -16,18 +16,18 @@ import com.xeiam.xchange.poloniex.PoloniexException;
 public class PoloniexAccountJsonTest {
 
   public static final JacksonMapper DUMMY = new JacksonMapper(new JacksonConfigureListener() {
-    @Override public void configureObjectMapper(ObjectMapper objectMapper) { }
+    @Override
+    public void configureObjectMapper(ObjectMapper objectMapper) {
+    }
   });
 
   @Test
   public void testBalancesError() throws Exception {
 
-    InvocationResult invocationResult = new InvocationResult(
-        "{\"error\":\"Invalid API key\\/secret pair.\"}", 200
-    );
+    InvocationResult invocationResult = new InvocationResult("{\"error\":\"Invalid API key\\/secret pair.\"}", 200);
 
-    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod(
-        "returnCompleteBalances", String.class, ParamsDigest.class, SynchronizedValueFactory.class);
+    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("returnCompleteBalances", String.class, ParamsDigest.class,
+        SynchronizedValueFactory.class);
     RestMethodMetadata balances = RestMethodMetadata.create(apiMethod, "", "");
 
     try {

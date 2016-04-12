@@ -15,23 +15,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CryptoFacilitiesPlaceOrderJSONTest {
 
-	@Test
-	public void testUnmarshal() throws IOException {
+  @Test
+  public void testUnmarshal() throws IOException {
 
-	    // Read in the JSON from the example resources
-	    InputStream is = CryptoFacilitiesPlaceOrderJSONTest.class.getResourceAsStream("/marketdata/example-placeOrder-data.json");
+    // Read in the JSON from the example resources
+    InputStream is = CryptoFacilitiesPlaceOrderJSONTest.class.getResourceAsStream("/marketdata/example-placeOrder-data.json");
 
-	    // Use Jackson to parse it
-	    ObjectMapper mapper = new ObjectMapper();
-	    CryptoFacilitiesOrder cryptoFacilitiesOrder = mapper.readValue(is, CryptoFacilitiesOrder.class);
-	    
-	    // Verify that the example data was unmarshalled correctly
-	    assertThat(cryptoFacilitiesOrder.isSuccess()).isTrue();
-	    
-	    String orderId = cryptoFacilitiesOrder.getOrderId();
-	    
-	    assertThat(orderId).isEqualTo("25c3521c-979e-4b78-a4a1-a807f0597c28");	    
-	  }
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    CryptoFacilitiesOrder cryptoFacilitiesOrder = mapper.readValue(is, CryptoFacilitiesOrder.class);
 
+    // Verify that the example data was unmarshalled correctly
+    assertThat(cryptoFacilitiesOrder.isSuccess()).isTrue();
+
+    String orderId = cryptoFacilitiesOrder.getOrderId();
+
+    assertThat(orderId).isEqualTo("25c3521c-979e-4b78-a4a1-a807f0597c28");
+  }
 
 }

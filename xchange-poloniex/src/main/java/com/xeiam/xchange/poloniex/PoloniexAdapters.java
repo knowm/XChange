@@ -26,7 +26,7 @@ import java.util.*;
 /**
  * @author Zach Holmes
  * @author Dave Seyb
- * @version 2.0 * 
+ * @version 2.0 *
  */
 
 public class PoloniexAdapters {
@@ -158,7 +158,7 @@ public class PoloniexAdapters {
     CurrencyMetaData currencyArchetype = currencyMetaDataMap.values().iterator().next();
 
     currencyMetaDataMap.clear();
-    for (Map.Entry<String,PoloniexCurrencyInfo> entry : poloniexCurrencyInfo.entrySet()) {
+    for (Map.Entry<String, PoloniexCurrencyInfo> entry : poloniexCurrencyInfo.entrySet()) {
 
       PoloniexCurrencyInfo currencyInfo = entry.getValue();
 

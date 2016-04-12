@@ -88,11 +88,11 @@ public class HitbtcAdapters {
         .build();
   }
 
-  public static List<Ticker> adaptTickers(Map<String,HitbtcTicker> hitbtcTickers) {
+  public static List<Ticker> adaptTickers(Map<String, HitbtcTicker> hitbtcTickers) {
 
     List<Ticker> tickers = new ArrayList<Ticker>(hitbtcTickers.size());
 
-    for (Map.Entry<String,HitbtcTicker> ticker : hitbtcTickers.entrySet()) {
+    for (Map.Entry<String, HitbtcTicker> ticker : hitbtcTickers.entrySet()) {
 
       tickers.add(adaptTicker(ticker.getValue(), adaptSymbol(ticker.getKey())));
     }
@@ -172,7 +172,7 @@ public class HitbtcAdapters {
 
     for (int i = 0; i < orders.size(); i++) {
       HitbtcStreamingOrder order = orders.get(i);
-      
+
       LimitOrder limitOrder = new LimitOrder(orderType, order.getSize(), currencyPair, "", null, order.getPrice());
 
       limitOrders.add(limitOrder);
@@ -195,12 +195,13 @@ public class HitbtcAdapters {
     return adaptIncrementalRefreshOrders(hitbtcIncrementalRefresh, null, null);
   }
 
-  public static List<OrderBookUpdate> adaptIncrementalRefreshOrders(HitbtcIncrementalRefresh hitbtcIncrementalRefresh, BigDecimal volume, Date timestamp) {
+  public static List<OrderBookUpdate> adaptIncrementalRefreshOrders(HitbtcIncrementalRefresh hitbtcIncrementalRefresh, BigDecimal volume,
+      Date timestamp) {
 
     CurrencyPair currencyPair = adaptSymbol(hitbtcIncrementalRefresh.getSymbol());
     List<HitbtcStreamingOrder> asks = hitbtcIncrementalRefresh.getAsk();
     List<HitbtcStreamingOrder> bids = hitbtcIncrementalRefresh.getBid();
-  
+
     List<OrderBookUpdate> updates = new ArrayList<OrderBookUpdate>(asks.size() + bids.size());
 
     if (updates.size() != 1)
@@ -210,7 +211,7 @@ public class HitbtcAdapters {
       HitbtcStreamingOrder order = asks.get(i);
 
       OrderBookUpdate update = new OrderBookUpdate(OrderType.ASK, volume, currencyPair, order.getPrice(), timestamp, order.getSize());
-      
+
       updates.add(update);
     }
 
@@ -226,7 +227,7 @@ public class HitbtcAdapters {
   }
 
   public static Trades adaptIncrementalRefreshTrades(HitbtcIncrementalRefresh hitbtcIncrementalRefresh) {
-  
+
     CurrencyPair currencyPair = adaptSymbol(hitbtcIncrementalRefresh.getSymbol());
     List<HitbtcStreamingTrade> trades = hitbtcIncrementalRefresh.getTrade();
 
@@ -328,12 +329,12 @@ public class HitbtcAdapters {
 
     Map<CurrencyPair, MarketMetaData> marketMetaDataMap = new HashMap<CurrencyPair, MarketMetaData>();
     if (symbols != null)
-    for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
-      CurrencyPair pair = adaptSymbol(symbol);
-      MarketMetaData meta = new MarketMetaData(symbol.getTakeLiquidityRate(), symbol.getLot(), symbol.getStep().scale());
+      for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
+        CurrencyPair pair = adaptSymbol(symbol);
+        MarketMetaData meta = new MarketMetaData(symbol.getTakeLiquidityRate(), symbol.getLot(), symbol.getStep().scale());
 
-      marketMetaDataMap.put(pair, meta);
-    }
+        marketMetaDataMap.put(pair, meta);
+      }
 
     return new ExchangeMetaData(marketMetaDataMap, hitbtcMetaData.currency, null, null, null);
   }

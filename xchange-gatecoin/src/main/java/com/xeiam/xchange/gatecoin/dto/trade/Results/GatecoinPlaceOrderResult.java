@@ -12,10 +12,7 @@ public class GatecoinPlaceOrderResult extends GatecoinResult {
   private final String clOrderId;
 
   @JsonCreator
-  public GatecoinPlaceOrderResult(
-      @JsonProperty("clOrderId") String clOrderId,
-      @JsonProperty("responseStatus") ResponseStatus responseStatus
-  ) {
+  public GatecoinPlaceOrderResult(@JsonProperty("clOrderId") String clOrderId, @JsonProperty("responseStatus") ResponseStatus responseStatus) {
     super(responseStatus);
     this.clOrderId = clOrderId;
   }

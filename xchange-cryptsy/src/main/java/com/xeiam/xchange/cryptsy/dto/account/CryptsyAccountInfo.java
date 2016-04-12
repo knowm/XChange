@@ -17,53 +17,52 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CryptsyAccountInfo {
 
-    private final int openOrders;
-    private final Date timeStamp;
-    private final Map<String, BigDecimal> availableFunds;
-    private final Map<String, BigDecimal> availableFundsBTC;
-    private final Map<String, BigDecimal> holdFunds;
+  private final int openOrders;
+  private final Date timeStamp;
+  private final Map<String, BigDecimal> availableFunds;
+  private final Map<String, BigDecimal> availableFundsBTC;
+  private final Map<String, BigDecimal> holdFunds;
 
-    @JsonCreator
-    public CryptsyAccountInfo(@JsonProperty("openordercount") Integer openordercount, @JsonProperty("serverdatetime") String timeStamp,
-                              @JsonProperty("balances_available") Map<String, BigDecimal> availableFunds,
-                              @JsonProperty("balances_hold") Map<String, BigDecimal> holdFunds,
-                              @JsonProperty("balances_available_btc") Map<String, BigDecimal> availableFundsBTC) throws ParseException {
+  @JsonCreator
+  public CryptsyAccountInfo(@JsonProperty("openordercount") Integer openordercount, @JsonProperty("serverdatetime") String timeStamp,
+      @JsonProperty("balances_available") Map<String, BigDecimal> availableFunds, @JsonProperty("balances_hold") Map<String, BigDecimal> holdFunds,
+      @JsonProperty("balances_available_btc") Map<String, BigDecimal> availableFundsBTC) throws ParseException {
 
-        this.openOrders = openordercount;
-        this.timeStamp = timeStamp == null ? null : CryptsyUtils.convertDateTime(timeStamp);
-        this.availableFunds = availableFunds;
-        this.availableFundsBTC = availableFundsBTC;
-        this.holdFunds = holdFunds;
+    this.openOrders = openordercount;
+    this.timeStamp = timeStamp == null ? null : CryptsyUtils.convertDateTime(timeStamp);
+    this.availableFunds = availableFunds;
+    this.availableFundsBTC = availableFundsBTC;
+    this.holdFunds = holdFunds;
 
-    }
+  }
 
-    public int getOpenOrders() {
+  public int getOpenOrders() {
 
-        return openOrders;
-    }
+    return openOrders;
+  }
 
-    public Date getTimeStamp() {
+  public Date getTimeStamp() {
 
-        return timeStamp;
-    }
+    return timeStamp;
+  }
 
-    public Map<String, BigDecimal> getAvailableFunds() {
+  public Map<String, BigDecimal> getAvailableFunds() {
 
-        return availableFunds;
-    }
+    return availableFunds;
+  }
 
-    public Map<String, BigDecimal> getHoldFunds() {
-        return holdFunds;
-    }
+  public Map<String, BigDecimal> getHoldFunds() {
+    return holdFunds;
+  }
 
-    public Map<String, BigDecimal> getAvailableFundsBTC() {
+  public Map<String, BigDecimal> getAvailableFundsBTC() {
 
-        return availableFundsBTC;
-    }
+    return availableFundsBTC;
+  }
 
-    @Override
-    public String toString() {
-        return "CryptsyAccountInfo[" + "availableFunds='" + availableFunds + "', holdFunds='" + holdFunds + "', Available Funds in BTC='" + availableFundsBTC + "',Open Orders='"
-                + openOrders + "',TimeStamp='" + timeStamp + "']";
-    }
+  @Override
+  public String toString() {
+    return "CryptsyAccountInfo[" + "availableFunds='" + availableFunds + "', holdFunds='" + holdFunds + "', Available Funds in BTC='"
+        + availableFundsBTC + "',Open Orders='" + openOrders + "',TimeStamp='" + timeStamp + "']";
+  }
 }

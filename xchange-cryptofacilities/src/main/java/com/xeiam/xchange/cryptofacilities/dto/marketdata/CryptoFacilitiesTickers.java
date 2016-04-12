@@ -13,56 +13,53 @@ import java.util.List;
 
 public class CryptoFacilitiesTickers extends CryptoFacilitiesResult {
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
-    private final Date serverTime;
-    private final List<CryptoFacilitiesTicker> tickers;
+  private final Date serverTime;
+  private final List<CryptoFacilitiesTicker> tickers;
 
-    public CryptoFacilitiesTickers(@JsonProperty("result") String result
-                  , @JsonProperty("serverTime") String strServerTime
-                  , @JsonProperty("error") String error
-                  , @JsonProperty("tickers") List<CryptoFacilitiesTicker> tickers) throws ParseException {
+  public CryptoFacilitiesTickers(@JsonProperty("result") String result, @JsonProperty("serverTime") String strServerTime,
+      @JsonProperty("error") String error, @JsonProperty("tickers") List<CryptoFacilitiesTicker> tickers) throws ParseException {
 
-        super(result, error);
+    super(result, error);
 
-        this.serverTime = strServerTime == null ? null : DATE_FORMAT.parse(strServerTime);
-        this.tickers = tickers;
-    }
+    this.serverTime = strServerTime == null ? null : DATE_FORMAT.parse(strServerTime);
+    this.tickers = tickers;
+  }
 
-    public Date getServerTime() {
-        return serverTime;
-    }
+  public Date getServerTime() {
+    return serverTime;
+  }
 
-    public List<CryptoFacilitiesTicker> getTickers() {
-        return tickers;
-    }
-  
-    public CryptoFacilitiesTicker getTicker(String symbol) {
-        if(isSuccess() && tickers != null) {
-            for(CryptoFacilitiesTicker ticker : tickers) {
-                if (ticker != null && ticker.getSymbol().equalsIgnoreCase(symbol)) {
-                    return ticker;
-                }
-            }
+  public List<CryptoFacilitiesTicker> getTickers() {
+    return tickers;
+  }
+
+  public CryptoFacilitiesTicker getTicker(String symbol) {
+    if (isSuccess() && tickers != null) {
+      for (CryptoFacilitiesTicker ticker : tickers) {
+        if (ticker != null && ticker.getSymbol().equalsIgnoreCase(symbol)) {
+          return ticker;
         }
-        return null;
+      }
     }
-  
-    @Override
-    public String toString() {
+    return null;
+  }
 
-	if(isSuccess()) {
-            String res = "CryptoFacilitiesTickers [serverTime=" + DATE_FORMAT.format(serverTime) + ", tickers=";
-            for(CryptoFacilitiesTicker ticker : tickers) {
-                        res = res + ticker.toString() + ", ";
-            }
-            res = res + " ]";
+  @Override
+  public String toString() {
 
-            return res;
-        } 
-        else {
-            return super.toString();
-        }
+    if (isSuccess()) {
+      String res = "CryptoFacilitiesTickers [serverTime=" + DATE_FORMAT.format(serverTime) + ", tickers=";
+      for (CryptoFacilitiesTicker ticker : tickers) {
+        res = res + ticker.toString() + ", ";
+      }
+      res = res + " ]";
+
+      return res;
+    } else {
+      return super.toString();
     }
+  }
 
 }

@@ -42,12 +42,13 @@ public final class Balance implements Comparable<Balance> {
    */
   public static Balance zero(Currency currency) {
 
-    return new Balance(currency, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+    return new Balance(currency, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
+        BigDecimal.ZERO);
   }
 
   /**
-   * Constructs a balance, the {@link #available} will be the same as the <code>total</code>, and the {@link #frozen} is zero.
-   * The <code>borrowed</code> and <code>loaned</code> will be zero.
+   * Constructs a balance, the {@link #available} will be the same as the <code>total</code>, and the {@link #frozen} is zero. The
+   * <code>borrowed</code> and <code>loaned</code> will be zero.
    *
    * @param currency The underlying currency
    * @param total The total
@@ -58,8 +59,8 @@ public final class Balance implements Comparable<Balance> {
   }
 
   /**
-   * Constructs a balance, the {@link #frozen} will be assigned as <code>total</code> - <code>available</code>.
-   * The <code>borrowed</code> and <code>loaned</code> will be zero.
+   * Constructs a balance, the {@link #frozen} will be assigned as <code>total</code> - <code>available</code>. The <code>borrowed</code> and
+   * <code>loaned</code> will be zero.
    *
    * @param currency the underlying currency of this balance.
    * @param total the total amount of the <code>currency</code> in this balance.
@@ -71,8 +72,7 @@ public final class Balance implements Comparable<Balance> {
   }
 
   /**
-   * Constructs a balance.
-   * The <code>borrowed</code> and <code>loaned</code> will be zero.
+   * Constructs a balance. The <code>borrowed</code> and <code>loaned</code> will be zero.
    *
    * @param currency the underlying currency of this balance.
    * @param total the total amount of the <code>currency</code> in this balance, including the <code>available</code> and <code>frozen</code>.
@@ -149,7 +149,7 @@ public final class Balance implements Comparable<Balance> {
   }
 
   /**
-   * Returns the amount of the <code>currency</code> in this balance that may be withdrawn.  Equal to <code>available - borrowed</code>.
+   * Returns the amount of the <code>currency</code> in this balance that may be withdrawn. Equal to <code>available - borrowed</code>.
    *
    * @return the amount that is available to withdraw.
    */
@@ -214,8 +214,8 @@ public final class Balance implements Comparable<Balance> {
   @Override
   public String toString() {
 
-    return "Balance [currency=" + currency + ", total=" + total + ", available=" + available + ", frozen=" + frozen + ", borrowed="
-        + borrowed + ", loaned=" + loaned + ", withdrawing=" + withdrawing + ", depositing=" + depositing + "]";
+    return "Balance [currency=" + currency + ", total=" + total + ", available=" + available + ", frozen=" + frozen + ", borrowed=" + borrowed
+        + ", loaned=" + loaned + ", withdrawing=" + withdrawing + ", depositing=" + depositing + "]";
   }
 
   @Override
@@ -347,7 +347,8 @@ public final class Balance implements Comparable<Balance> {
 
     public static Builder from(Balance balance) {
 
-      return new Builder().currency(balance.getCurrency()).available(balance.getAvailable()).frozen(balance.getFrozen()).borrowed(balance.getBorrowed()).loaned(balance.getLoaned()).withdrawing(balance.getWithdrawing()).depositing(balance.getDepositing());
+      return new Builder().currency(balance.getCurrency()).available(balance.getAvailable()).frozen(balance.getFrozen())
+          .borrowed(balance.getBorrowed()).loaned(balance.getLoaned()).withdrawing(balance.getWithdrawing()).depositing(balance.getDepositing());
     }
 
     public Builder currency(Currency currency) {

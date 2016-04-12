@@ -17,38 +17,38 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Deprecated
 public class CryptoFacilitiesTickerJSONTest {
 
-	@Test
-	public void testUnmarshal1() throws IOException {
+  @Test
+  public void testUnmarshal1() throws IOException {
 
-	    // Read in the JSON from the example resources
-	    InputStream is = CryptoFacilitiesTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data-1.json");
+    // Read in the JSON from the example resources
+    InputStream is = CryptoFacilitiesTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data-1.json");
 
-	    // Use Jackson to parse it
-	    ObjectMapper mapper = new ObjectMapper();
-	    CryptoFacilitiesTicker cryptoFacilitiesTicker = mapper.readValue(is, CryptoFacilitiesTicker.class);
-	    
-	    // Verify that the example data was unmarshalled correctly
-	    assertThat(cryptoFacilitiesTicker.isSuccess()).isTrue();
-	    assertThat(cryptoFacilitiesTicker.getBid()).isEqualTo(new BigDecimal("328.5"));
-	    assertThat(cryptoFacilitiesTicker.getAsk()).isEqualTo(new BigDecimal("330.49"));
-	    assertThat(cryptoFacilitiesTicker.getLast()).isEqualTo(new BigDecimal("328.66"));
-	  }
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    CryptoFacilitiesTicker cryptoFacilitiesTicker = mapper.readValue(is, CryptoFacilitiesTicker.class);
 
-	@Test
-	public void testUnmarshal2() throws IOException {
+    // Verify that the example data was unmarshalled correctly
+    assertThat(cryptoFacilitiesTicker.isSuccess()).isTrue();
+    assertThat(cryptoFacilitiesTicker.getBid()).isEqualTo(new BigDecimal("328.5"));
+    assertThat(cryptoFacilitiesTicker.getAsk()).isEqualTo(new BigDecimal("330.49"));
+    assertThat(cryptoFacilitiesTicker.getLast()).isEqualTo(new BigDecimal("328.66"));
+  }
 
-	    // Read in the JSON from the example resources
-	    InputStream is = CryptoFacilitiesTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data-2.json");
+  @Test
+  public void testUnmarshal2() throws IOException {
 
-	    // Use Jackson to parse it
-	    ObjectMapper mapper = new ObjectMapper();
-	    CryptoFacilitiesTicker cryptoFacilitiesTicker = mapper.readValue(is, CryptoFacilitiesTicker.class);
-	    
-	    // Verify that the example data was unmarshalled correctly
-	    assertThat(cryptoFacilitiesTicker.isSuccess()).isFalse();
-	    assertThat(cryptoFacilitiesTicker.getBid()).isNull();
-	    assertThat(cryptoFacilitiesTicker.getAsk()).isNull();
-	    assertThat(cryptoFacilitiesTicker.getLast()).isNull();
-	  }
+    // Read in the JSON from the example resources
+    InputStream is = CryptoFacilitiesTickerJSONTest.class.getResourceAsStream("/marketdata/example-ticker-data-2.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    CryptoFacilitiesTicker cryptoFacilitiesTicker = mapper.readValue(is, CryptoFacilitiesTicker.class);
+
+    // Verify that the example data was unmarshalled correctly
+    assertThat(cryptoFacilitiesTicker.isSuccess()).isFalse();
+    assertThat(cryptoFacilitiesTicker.getBid()).isNull();
+    assertThat(cryptoFacilitiesTicker.getAsk()).isNull();
+    assertThat(cryptoFacilitiesTicker.getLast()).isNull();
+  }
 
 }

@@ -30,7 +30,7 @@ public class LoyalbitOrder {
   public LoyalbitOrder(@JsonProperty("id") Long id,
       @JsonProperty("microtime") @JsonDeserialize(using = FloatingTimestampDeserializer.class) Date microtime, @JsonProperty("type") Type type,
       @JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price, @JsonProperty("status") Integer status)
-          throws ExceptionalReturnContentException {
+      throws ExceptionalReturnContentException {
     if (Objects.equals(status, 0)) {
       throw new ExceptionalReturnContentException("Status indicates failure: " + status);
     }

@@ -186,7 +186,7 @@ public final class ItBitAdapters {
       Date timestamp = parseDate(itBitOrder.getCreatedTime());
 
       trades.add(new UserTrade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), timestamp, itBitOrder.getId(),
-          itBitOrder.getId(), null, (Currency)null));
+          itBitOrder.getId(), null, (Currency) null));
     }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);

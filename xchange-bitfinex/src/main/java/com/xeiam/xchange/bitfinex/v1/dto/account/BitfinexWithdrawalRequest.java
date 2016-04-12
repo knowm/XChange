@@ -16,34 +16,33 @@ public class BitfinexWithdrawalRequest {
   @JsonProperty("options")
   @JsonRawValue
   protected String options;
-  
+
   @JsonProperty("withdraw_type")
   private final String withdrawType;
 
-  @JsonProperty("walletselected")  
+  @JsonProperty("walletselected")
   private final String walletSelected;
-  @JsonProperty("amount")  
+  @JsonProperty("amount")
   private final String amount;
-  @JsonProperty("address")  
+  @JsonProperty("address")
   private final String address;
 
   /**
    * Constructor
    * 
    * @param nonce
-     * @param withdrawType
-     * @param walletSelected     
-     * @param amount
-     * @param address
+   * @param withdrawType
+   * @param walletSelected
+   * @param amount
+   * @param address
    */
-  public BitfinexWithdrawalRequest(String nonce, String withdrawType, String walletSelected,
-          BigDecimal amount, String address) {
+  public BitfinexWithdrawalRequest(String nonce, String withdrawType, String walletSelected, BigDecimal amount, String address) {
 
     this.request = "/v1/withdraw";
     this.nonce = String.valueOf(nonce);
     this.options = "[]";
     this.withdrawType = withdrawType;
-    this.walletSelected = walletSelected;    
+    this.walletSelected = walletSelected;
     this.amount = amount.toString();
     this.address = address;
   }
@@ -78,19 +77,19 @@ public class BitfinexWithdrawalRequest {
     this.options = options;
   }
 
-    public String getWithdrawType() {
-        return withdrawType;
-    }
+  public String getWithdrawType() {
+    return withdrawType;
+  }
 
-    public String getWalletSelected() {
-        return walletSelected;
-    }
+  public String getWalletSelected() {
+    return walletSelected;
+  }
 
-    public String getAmount() {
-        return amount;
-    }
+  public String getAmount() {
+    return amount;
+  }
 
-    public String getAddress() {
-        return address;
-    }
+  public String getAddress() {
+    return address;
+  }
 }
