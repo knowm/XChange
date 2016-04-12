@@ -28,9 +28,6 @@ public class BleutradeMarketDataDemo {
 
   private static void generic(PollingMarketDataService dataService) throws IOException, InterruptedException {
 
-    System.out.println(dataService.getExchangeSymbols());
-    Thread.sleep(1000);
-
     System.out.println(dataService.getTicker(currencyPair));
     Thread.sleep(1000);
 

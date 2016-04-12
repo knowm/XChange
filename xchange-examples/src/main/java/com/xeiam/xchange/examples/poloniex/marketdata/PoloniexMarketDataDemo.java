@@ -36,7 +36,6 @@ public class PoloniexMarketDataDemo {
   private static void generic(PollingMarketDataService dataService) throws IOException {
 
     System.out.println("----------GENERIC----------");
-    System.out.println(dataService.getExchangeSymbols());
     System.out.println(dataService.getTicker(currencyPair));
     System.out.println(dataService.getOrderBook(currencyPair));
     System.out.println(dataService.getOrderBook(currencyPair, 3));

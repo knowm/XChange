@@ -1,7 +1,6 @@
 package com.xeiam.xchange.examples.cryptonit.marketdata;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
@@ -26,9 +25,6 @@ public class CrypotnitMarketDataDemo {
   }
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
-
-    Collection<CurrencyPair> currencyPairs = marketDataService.getExchangeSymbols();
-    System.out.println(currencyPairs);
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);

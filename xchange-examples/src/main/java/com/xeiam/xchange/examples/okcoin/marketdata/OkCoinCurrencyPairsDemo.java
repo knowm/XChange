@@ -1,12 +1,10 @@
 package com.xeiam.xchange.examples.okcoin.marketdata;
 
 import java.io.IOException;
-import java.util.List;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeFactory;
 import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.okcoin.OkCoinExchange;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
@@ -27,10 +25,6 @@ public class OkCoinCurrencyPairsDemo {
 
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = okcoinExchange.getPollingMarketDataService();
-    List<CurrencyPair> currencyPairs = marketDataService.getExchangeSymbols();
-    for (CurrencyPair currencyPair : currencyPairs) {
-      System.out.println(currencyPair.toString());
-    }
   }
 
 }

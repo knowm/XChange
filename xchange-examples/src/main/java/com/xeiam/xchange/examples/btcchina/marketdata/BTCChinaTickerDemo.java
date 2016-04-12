@@ -11,7 +11,6 @@ import com.xeiam.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import com.xeiam.xchange.btcchina.service.polling.BTCChinaMarketDataServiceRaw;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.service.polling.BasePollingService;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
@@ -65,8 +64,6 @@ public class BTCChinaTickerDemo {
 
     Map<String, BTCChinaTickerObject> tickers = marketDataServiceRaw.getBTCChinaTickers();
     System.out.println(tickers);
-
-    System.out.println(((BasePollingService) marketDataServiceRaw).getExchangeSymbols());
 
   }
 }

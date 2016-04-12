@@ -37,10 +37,7 @@ public class BittrexMarketDataDemo {
 
     System.out.println("----------GENERIC---------");
 
-    ArrayList<CurrencyPair> pairs = new ArrayList<CurrencyPair>(marketDataService.getExchangeSymbols());
-    System.out.println(pairs);
-
-    CurrencyPair pair = pairs.get(new Random().nextInt(pairs.size()));
+    CurrencyPair pair = CurrencyPair.BTC_USD;
     System.out.println("Market data for " + pair + ":");
 
     Ticker ticker = marketDataService.getTicker(pair);
