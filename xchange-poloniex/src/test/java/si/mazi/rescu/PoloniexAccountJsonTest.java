@@ -6,8 +6,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xeiam.xchange.poloniex.PoloniexAuthenticated;
-import com.xeiam.xchange.poloniex.PoloniexException;
+import org.knowm.xchange.poloniex.PoloniexAuthenticated;
+import org.knowm.xchange.poloniex.PoloniexException;
 
 import si.mazi.rescu.serialization.jackson.JacksonConfigureListener;
 import si.mazi.rescu.serialization.jackson.JacksonMapper;

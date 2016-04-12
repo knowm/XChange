@@ -52,8 +52,8 @@
 	<logger name="org.apache.http.impl.client" level="DEBUG" />
 
 	<!-- Define logging for organisation applications only -->
-	<logger name="com.xeiam.xchange.streaming.socketio" level="TRACE" />
+	<logger name="org.knowm.xchange.streaming.socketio" level="TRACE" />
 	<logger name="si.mazi.rescu" level="TRACE" />
-	<logger name="com.xeiam.xchange" level="INFO" />
+	<logger name="org.knowm.xchange" level="INFO" />
 
 </configuration>

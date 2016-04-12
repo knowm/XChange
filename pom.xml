@@ -4,7 +4,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.xeiam.xchange</groupId>
+	<groupId>org.knowm.xchange</groupId>
 	<artifactId>xchange-parent</artifactId>
 	<version>4.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -15,8 +15,8 @@
 	<inceptionYear>2012</inceptionYear>
 
 	<organization>
-		<name>Xeiam, LLC</name>
-		<url>http://xeiam.com</url>
+		<name>Knowm Inc.</name>
+		<url>http://knowm.org/open-source/xchange/</url>
 	</organization>
 
 	<developers>
@@ -50,7 +50,7 @@
 			<name>Nexus Release Repository</name>
 			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
-		<downloadUrl>https://oss.sonatype.org/content/groups/public/com/xeiam/xchange</downloadUrl>
+		<downloadUrl>https://oss.sonatype.org/content/groups/public/org/knowm/xchange</downloadUrl>
 	</distributionManagement>
 
 	<scm>

@@ -4,7 +4,7 @@ XChange is a Java library providing a simple and consistent API for interacting 
 
 ## Important!
 
-The world of Bitcoin changes quickly and XChange is no exception. The best way to stay updated on important announcements is to follow tweets on [Knowm's Twitter page](https://twitter.com/knowmorg). For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/timmolter/XChange/issues). There are also most likely some open [bounties](http://knowm.org/open-source/) to be had as well.
+The world of Bitcoin changes quickly and XChange is no exception. The best way to stay updated on important announcements is to follow tweets on [Knowm's Twitter page](https://twitter.com/knowmorg). For the latest bugfixes and features you should use the [snapshot jars] (https://oss.sonatype.org/content/groups/public/org/knowm/xchange/) or build yourself from the DEVELOP branch. See below for more details about building with Maven. To report bugs and see what issues people are currently working on see the [issues page](https://github.com/timmolter/XChange/issues). There are also most likely some open [bounties](http://knowm.org/open-source/) to be had as well.
 
 ## Description
 
@@ -63,9 +63,9 @@ Getting Started with XChange for Noobies: https://github.com/timmolter/XChange/w
 
 ### Non-Maven
 
-Download XChange Release Jars: http://search.maven.org/#search%7Cga%7C1%7Cxeiam%20xchange
+Download XChange Release Jars: http://search.maven.org/#search%7Cga%7C1%7Cknowm%20xchange
 
-Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/com/xeiam/xchange/
+Download XChange Snapshot Jars: https://oss.sonatype.org/content/groups/public/org/knowm/xchange/
 
 ### Maven
 
@@ -74,17 +74,17 @@ The XChange release artifacts are hosted on Maven Central.
 Add the following dependencies in your pom.xml file. You will need at least xchange-core. Add the additional dependencies for the exchange modules you are interested in (XYZ shown only for a placeholder). There is example code for all the modules in xchange-examples.
 
     <dependency>
-      <groupId>com.xeiam.xchange</groupId>
+      <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-core</artifactId>
       <version>4.0.0</version>
     </dependency>
     <dependency>
-      <groupId>com.xeiam.xchange</groupId>
+      <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-examples</artifactId>
       <version>4.0.0</version>
     </dependency>
     <dependency>
-      <groupId>com.xeiam.xchange</groupId>
+      <groupId>org.knowm.xchange</groupId>
       <artifactId>xchange-XYZ</artifactId>
       <version>4.0.0</version>
     </dependency>
