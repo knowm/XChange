@@ -271,32 +271,34 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
         }
       }
-      if (!orderIdsRequest.isEmpty()) {
-        OkCoinFuturesOrderResult orderResult = getFuturesOrders(createDelimitedString(orderIdsRequest.toArray(new String[orderIdsRequest.size()])),
+      OkCoinFuturesOrderResult orderResult;
+      if (!orderIdsRequest.isEmpty())
+        orderResult = getFuturesOrders(createDelimitedString(orderIdsRequest.toArray(new String[orderIdsRequest.size()])),
             OkCoinAdapters.adaptSymbol(symbol), futuresContract);
-        if (orderResult.getOrders().length > 0) {
-          for (int o = 0; o < orderResult.getOrders().length; o++) {
-            OkCoinFuturesOrder singleOrder = orderResult.getOrders()[o];
-            openOrders.add(OkCoinAdapters.adaptOpenOrderFutures(singleOrder));
-          }
+      else
+        orderResult = getFuturesFilledOrder(-1, OkCoinAdapters.adaptSymbol(symbol), "0", "50", futuresContract);
 
-          //  for (int o = 0; o < orderResult.getOrders().length; o++)
-
-          // orderResults.addAll(new ArrayList<OkCoinFuturesOrder>(Arrays.asList(orderResult.getOrders())));
-
-          //}
-
+      if (orderResult.getOrders().length > 0) {
+        for (int o = 0; o < orderResult.getOrders().length; o++) {
+          OkCoinFuturesOrder singleOrder = orderResult.getOrders()[o];
+          openOrders.add(OkCoinAdapters.adaptOpenOrderFutures(singleOrder));
         }
 
-        // for (OkCoinFuturesOrder order : orderResults) {
+        //  for (int o = 0; o < orderResult.getOrders().length; o++)
 
-        //   openOrders.add(OkCoinAdapters.adaptOpenOrderFutures(order));
-        // }
-        // }
+        // orderResults.addAll(new ArrayList<OkCoinFuturesOrder>(Arrays.asList(orderResult.getOrders())));
+
+        //}
 
       }
+
+      // for (OkCoinFuturesOrder order : orderResults) {
+
+      //   openOrders.add(OkCoinAdapters.adaptOpenOrderFutures(order));
+      // }
+      // }
+
     }
     return openOrders;
   }
-
 }
