@@ -12,6 +12,10 @@
       "priceScale": 3,
       "minimumAmount": 1.200000000
     },
+    "ETH/USD": {
+      "priceScale": 3,
+      "minimumAmount": 0.300000000
+    },
     "GHS/BTC": {
       "priceScale": 8,
       "minimumAmount": 1.000000000
@@ -20,6 +24,10 @@
       "priceScale": 8,
       "minimumAmount": 1.200000000
     },
+    "ETH/BTC": {
+      "priceScale": 8,
+      "minimumAmount": 0.300000000
+    },    
     "BTC/EUR": {
       "priceScale": 4,
       "minimumAmount": 0.010000000

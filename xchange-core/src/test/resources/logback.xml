@@ -52,7 +52,7 @@
 	<logger name="org.apache.http.impl.client" level="DEBUG" />
 
 	<!-- Define logging for organisation applications only -->
-	<logger name="com.xeiam.xchange.streaming.socketio" level="TRACE" />
-	<logger name="com.xeiam.xchange" level="DEBUG" />
+	<logger name="org.knowm.xchange.streaming.socketio" level="TRACE" />
+	<logger name="org.knowm.xchange" level="DEBUG" />
 
 </configuration>

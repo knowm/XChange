@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.xeiam.xchange</groupId>
+	<groupId>org.knowm.xchange</groupId>
 	<artifactId>xchange-parent</artifactId>
-	<version>4.0.0-SNAPSHOT</version>
+	<version>4.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>XChange</name>
@@ -15,8 +14,8 @@
 	<inceptionYear>2012</inceptionYear>
 
 	<organization>
-		<name>Xeiam, LLC</name>
-		<url>http://xeiam.com</url>
+		<name>Knowm Inc.</name>
+		<url>http://knowm.org/open-source/xchange/</url>
 	</organization>
 
 	<developers>
@@ -50,7 +49,7 @@
 			<name>Nexus Release Repository</name>
 			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
-		<downloadUrl>https://oss.sonatype.org/content/groups/public/com/xeiam/xchange</downloadUrl>
+		<downloadUrl>https://oss.sonatype.org/content/groups/public/org/knowm/xchange</downloadUrl>
 	</distributionManagement>
 
 	<scm>
@@ -91,6 +90,7 @@
 		<module>xchange-campbx</module>
 		<module>xchange-cavirtex</module>
 		<module>xchange-cexio</module>
+		<module>xchange-chbtc</module>
 		<module>xchange-clevercoin</module>
 		<module>xchange-coinbase</module>
 		<module>xchange-coinbaseex</module>
@@ -352,7 +352,31 @@
 						</executions>
 					</plugin>
 
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.19.1</version>
+					</plugin>
 
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>2.19.1</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<skipTests>${skipIntegrationTests}</skipTests>
+							<includes>
+								<include>**/*Integration.java</include>
+							</includes>
+						</configuration>
+					</plugin>
 					<!-- Generates a source code JAR during package -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -384,48 +408,19 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>2.19.1</version>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-failsafe-plugin</artifactId>
-						<version>2.19.1</version>
-						<executions>
-							<execution>
-								<goals>
-									<goal>integration-test</goal>
-									<goal>verify</goal>
-								</goals>
-							</execution>
-						</executions>
-						<configuration>
-							<skipTests>${skipIntegrationTests}</skipTests>
-							<includes>
-								<include>**/*Integration.java</include>
-							</includes>
-						</configuration>
-					</plugin>
-
-					<!-- for deploying to Maven Central -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-release-plugin</artifactId>
-						<version>2.5.3</version>
-						<configuration>
-							<autoVersionSubmodules>true</autoVersionSubmodules>
-						</configuration>
-					</plugin>
-
-
 
 				</plugins>
 			</build>
 		</profile>
-
+        <profile>
+            <id>disable-java8-doclint</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <additionalparam>-Xdoclint:none</additionalparam>
+            </properties>
+        </profile>
 	</profiles>
 
 	<build>
@@ -443,8 +438,42 @@
 					<showWarnings>true</showWarnings>
 				</configuration>
 			</plugin>
-
-
+			<!-- for deploying to Maven Central -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+				</configuration>
+			</plugin>
+      
+        <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+      
 		</plugins>
 	</build>
 
