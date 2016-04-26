@@ -23,9 +23,13 @@ public interface Bitstamp {
    * Returns "bids" and "asks". Each is a list of open orders and each order is represented as a list of price and amount.
    */
   @GET
-  @Path("order_book/")
-  public BitstampOrderBook getOrderBook() throws IOException;
+  @Path("v2/order_book/btcusd/")
+  public BitstampOrderBook getOrderBookUsd() throws IOException;
 
+  @GET
+  @Path("v2/order_book/btceur/")
+  public BitstampOrderBook getOrderBookEur() throws IOException;
+  
   @GET
   @Path("ticker/")
   public BitstampTicker getTicker() throws IOException;
