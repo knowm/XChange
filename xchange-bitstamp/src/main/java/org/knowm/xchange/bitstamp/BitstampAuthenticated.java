@@ -32,22 +32,40 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public interface BitstampAuthenticated extends Bitstamp {
 
   @POST
-  @Path("open_orders/")
-  public BitstampOrder[] getOpenOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+  @Path("v2/open_orders/btcusd/")
+  public BitstampOrder[] getOpenOrdersUsd(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
 
   @POST
-  @Path("buy/")
-  public BitstampOrder buy(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+  @Path("v2/open_orders/btceur/")
+  public BitstampOrder[] getOpenOrdersEur(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
+  
+  @POST
+  @Path("v2/buy/btcusd/")
+  public BitstampOrder buyUsd(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
       throws BitstampException, IOException;
 
   @POST
-  @Path("sell/")
-  public BitstampOrder sell(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+  @Path("v2/buy/btceur/")
+  public BitstampOrder buyEur(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
       throws BitstampException, IOException;
 
+  @POST
+  @Path("v2/sell/btcusd/")
+  public BitstampOrder sellUsd(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
+      throws BitstampException, IOException;
+
+  @POST
+  @Path("v2/sell/btceur/")
+  public BitstampOrder sellEur(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
+      throws BitstampException, IOException;
+  
+  
   /**
    * @return true if order has been canceled.
    */
