@@ -36,9 +36,13 @@ public class BitstampMarketDataService extends BitstampMarketDataServiceRaw impl
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+    Assert.isTrue(currencyPair.equals(CurrencyPair.BTC_USD) || currencyPair.equals(CurrencyPair.BTC_EUR), "Currency Pair must be USD/BTC or EUR/BTC!!!");
+    if (currencyPair.equals(CurrencyPair.BTC_USD)) {
+        return BitstampAdapters.adaptOrderBook(getBitstampOrderBookUsd(), currencyPair, 1000);
+    } else  {
+        return BitstampAdapters.adaptOrderBook(getBitstampOrderBookEur(), currencyPair, 1000);
+    }
 
-    Assert.isTrue(currencyPair.equals(CurrencyPair.BTC_USD), "Currency Pair must be USD/BTC!!!");
-    return BitstampAdapters.adaptOrderBook(getBitstampOrderBook(), currencyPair, 1000);
   }
 
   @Override
