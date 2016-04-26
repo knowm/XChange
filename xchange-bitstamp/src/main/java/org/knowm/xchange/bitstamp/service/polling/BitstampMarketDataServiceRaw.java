@@ -34,11 +34,17 @@ public class BitstampMarketDataServiceRaw extends BitstampBasePollingService {
     return bitstamp.getTicker();
   }
 
-  public BitstampOrderBook getBitstampOrderBook() throws IOException {
+  public BitstampOrderBook getBitstampOrderBookUsd() throws IOException {
 
-    return bitstamp.getOrderBook();
+    return bitstamp.getOrderBookUsd();
   }
 
+  public BitstampOrderBook getBitstampOrderBookEur() throws IOException {
+
+    return bitstamp.getOrderBookEur();
+  }
+  
+  
   public BitstampTransaction[] getBitstampTransactions(Object... args) throws IOException {
 
     BitstampTransaction[] transactions = null;
