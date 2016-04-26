@@ -47,7 +47,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   @Override
   public OpenOrders getOpenOrders() throws IOException, BitstampException {
 
-    BitstampOrder[] openOrders = getBitstampOpenOrders();
+    BitstampOrder[] openOrders = getBitstampOpenOrdersUsd();
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
     for (BitstampOrder bitstampOrder : openOrders) {
@@ -56,6 +56,14 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
       BigDecimal price = bitstampOrder.getPrice();
       limitOrders.add(new LimitOrder(orderType, bitstampOrder.getAmount(), CurrencyPair.BTC_USD, id, bitstampOrder.getTime(), price));
     }
+    openOrders = getBitstampOpenOrdersEur();
+    for (BitstampOrder bitstampOrder : openOrders) {
+      OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
+      String id = Integer.toString(bitstampOrder.getId());
+      BigDecimal price = bitstampOrder.getPrice();
+      limitOrders.add(new LimitOrder(orderType, bitstampOrder.getAmount(), CurrencyPair.BTC_EUR, id, bitstampOrder.getTime(), price));
+    }
+    
     return new OpenOrders(limitOrders);
   }
 
@@ -68,18 +76,28 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException, BitstampException {
 
-    Assert.isTrue(limitOrder.getCurrencyPair().equals(CurrencyPair.BTC_USD), "Currency Pair must be USD/BTC!!!");
+    Assert.isTrue(limitOrder.getCurrencyPair().equals(CurrencyPair.BTC_USD) || limitOrder.getCurrencyPair().equals(CurrencyPair.BTC_EUR), "Currency Pair must be USD/BTC or EUR/BTC!!!");
 
     BitstampOrder bitstampOrder;
-    if (limitOrder.getType() == BID) {
-      bitstampOrder = buyBitStampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    if (limitOrder.getCurrencyPair().equals(CurrencyPair.BTC_USD)) {
+	    if (limitOrder.getType() == BID) {
+	      bitstampOrder = buyBitStampOrderUsd(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+	    } else {
+	      bitstampOrder = sellBitstampOrderUsd(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+	    }
+	    if (bitstampOrder.getErrorMessage() != null) {
+	      throw new ExchangeException(bitstampOrder.getErrorMessage());
+	    }
     } else {
-      bitstampOrder = sellBitstampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+    	if (limitOrder.getType() == BID) {
+    		bitstampOrder = buyBitStampOrderEur(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+		} else {
+		    bitstampOrder = sellBitstampOrderEur(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
+		}
+		if (bitstampOrder.getErrorMessage() != null) {
+		   throw new ExchangeException(bitstampOrder.getErrorMessage());
+		}
     }
-    if (bitstampOrder.getErrorMessage() != null) {
-      throw new ExchangeException(bitstampOrder.getErrorMessage());
-    }
-
     return Integer.toString(bitstampOrder.getId());
   }
 

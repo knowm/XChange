@@ -30,23 +30,41 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
         exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }
 
-  public BitstampOrder[] getBitstampOpenOrders() throws IOException {
+  public BitstampOrder[] getBitstampOpenOrdersUsd() throws IOException {
 
-    return bitstampAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    return bitstampAuthenticated.getOpenOrdersUsd(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
   }
 
-  public BitstampOrder sellBitstampOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
+  public BitstampOrder[] getBitstampOpenOrdersEur() throws IOException {
 
-    return bitstampAuthenticated.sell(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount,
+	    return bitstampAuthenticated.getOpenOrdersEur(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+	  }
+  
+  public BitstampOrder sellBitstampOrderUsd(BigDecimal tradableAmount, BigDecimal price) throws IOException {
+
+    return bitstampAuthenticated.sellUsd(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount,
         price);
   }
 
-  public BitstampOrder buyBitStampOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
+  public BitstampOrder sellBitstampOrderEur(BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
-    return bitstampAuthenticated.buy(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount,
+    return bitstampAuthenticated.sellEur(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount,
         price);
   }
 
+  
+  public BitstampOrder buyBitStampOrderUsd(BigDecimal tradableAmount, BigDecimal price) throws IOException {
+
+    return bitstampAuthenticated.buyUsd(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount,
+        price);
+  }
+
+  public BitstampOrder buyBitStampOrderEur(BigDecimal tradableAmount, BigDecimal price) throws IOException {
+
+    return bitstampAuthenticated.buyEur(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), tradableAmount,
+        price);
+  }
+  
   public boolean cancelBitstampOrder(int orderId) throws IOException {
 
     return bitstampAuthenticated.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), orderId);

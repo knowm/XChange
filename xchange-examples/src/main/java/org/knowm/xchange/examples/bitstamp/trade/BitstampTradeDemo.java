@@ -62,7 +62,7 @@ public class BitstampTradeDemo {
     printRawOpenOrders(tradeService);
 
     // place a limit buy order
-    BitstampOrder order = tradeService.sellBitstampOrder(new BigDecimal(".001"), new BigDecimal("1000.00"));
+    BitstampOrder order = tradeService.sellBitstampOrderUsd(new BigDecimal(".001"), new BigDecimal("1000.00"));
     System.out.println("BitstampOrder return value: " + order);
 
     printRawOpenOrders(tradeService);
@@ -76,7 +76,7 @@ public class BitstampTradeDemo {
 
   private static void printRawOpenOrders(BitstampTradeServiceRaw tradeService) throws IOException {
 
-    BitstampOrder[] openOrders = tradeService.getBitstampOpenOrders();
+    BitstampOrder[] openOrders = tradeService.getBitstampOpenOrdersUsd();
     System.out.println("Open Orders: " + openOrders.length);
     for (BitstampOrder order : openOrders) {
       System.out.println(order.toString());
