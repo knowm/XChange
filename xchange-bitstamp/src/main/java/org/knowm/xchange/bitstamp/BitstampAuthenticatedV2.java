@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -42,5 +43,28 @@ public interface BitstampAuthenticatedV2 {
       @FormParam("price") BigDecimal price
   ) throws BitstampException, IOException;
 
-  enum Side { buy, sell }
+  @POST
+  @Path("user_transactions/")
+  BitstampUserTransaction[] getUserTransactions(
+      @FormParam("key") String apiKey,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("limit") Long numberOfTransactions,
+      @FormParam("offset") Long offset,
+      @FormParam("sort") String sort
+  ) throws BitstampException, IOException;
+
+  @POST
+  @Path("user_transactions/{pair}/")
+  BitstampUserTransaction[] getUserTransactions(
+      @FormParam("key") String apiKey,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @PathParam("pair") BitstampV2.Pair pair,
+      @FormParam("limit") Long numberOfTransactions,
+      @FormParam("offset") Long offset,
+      @FormParam("sort") String sort
+  ) throws BitstampException, IOException;
+
+  enum Side {buy, sell}
 }

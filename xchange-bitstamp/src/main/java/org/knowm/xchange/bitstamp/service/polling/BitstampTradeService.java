@@ -16,6 +16,7 @@ import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
 import org.knowm.xchange.bitstamp.BitstampExchange;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -27,9 +28,11 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
 
 /**
  * @author Matija Mazi
@@ -86,14 +89,30 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
-    return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(Long.valueOf(((TradeHistoryParamPaging) params).getPageLength())));
+    Long limit = null;
+    CurrencyPair currencyPair = null;
+    Long offset = null;
+    TradeHistoryParamsSorted.Order sort = null;
+    if (params instanceof TradeHistoryParamPaging) {
+      limit = Long.valueOf(((TradeHistoryParamPaging) params).getPageLength());
+    }
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    }
+    if (params instanceof TradeHistoryParamOffset) {
+      offset = ((TradeHistoryParamOffset)params).getOffset();
+    }
+    if (params instanceof TradeHistoryParamsSorted) {
+      sort = ((TradeHistoryParamsSorted)params).getOrder();
+    }
+    BitstampUserTransaction[] txs = getBitstampUserTransactions(limit, currencyPair, offset, sort == null ? null : sort.toString());
+    return BitstampAdapters.adaptTradeHistory(txs);
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    return new DefaultTradeHistoryParamPaging(1000);
+    return new BitstampTradeHistoryParams(CurrencyPair.BTC_USD, 1000);
   }
 
   @Override

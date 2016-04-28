@@ -77,12 +77,28 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
     return bitstampAuthenticated.cancelOrder(apiKey, signatureCreator, nonceFactory, orderId);
   }
 
+  public BitstampUserTransaction[] getBitstampUserTransactions(
+      Long numberOfTransactions,
+      CurrencyPair pair
+  ) throws IOException {
+    return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions, null, null);
+  }
+
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions) throws IOException {
-    return bitstampAuthenticated.getUserTransactions(apiKey, signatureCreator, nonceFactory, numberOfTransactions);
+    return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, numberOfTransactions, null, null);
+  }
+
+  public BitstampUserTransaction[] getBitstampUserTransactions(
+      Long numberOfTransactions,
+      CurrencyPair pair,
+      Long offset,
+      String sort
+  ) throws IOException {
+    return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions, offset, sort);
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, Long offset, String sort) throws IOException {
-    return bitstampAuthenticated.getUserTransactions(apiKey, signatureCreator, nonceFactory, numberOfTransactions, offset, sort);
+    return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, numberOfTransactions, offset, sort);
   }
 
 }
