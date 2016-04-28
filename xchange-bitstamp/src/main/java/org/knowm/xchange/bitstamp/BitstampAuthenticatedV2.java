@@ -1,0 +1,46 @@
+package org.knowm.xchange.bitstamp;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import org.knowm.xchange.bitstamp.dto.BitstampException;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
+
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
+
+@Path("api/v2")
+@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+@Produces(MediaType.APPLICATION_JSON)
+public interface BitstampAuthenticatedV2 {
+
+  @POST
+  @Path("open_orders/{pair}/")
+  BitstampOrder[] getOpenOrders(
+      @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @PathParam("pair") BitstampV2.Pair pair
+  ) throws BitstampException, IOException;
+
+  @POST
+  @Path("{side}/{pair}/")
+  BitstampOrder placeOrder(
+      @FormParam("key") String apiKey,
+      @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @PathParam("side") Side side,
+      @PathParam("pair") BitstampV2.Pair pair,
+      @FormParam("amount") BigDecimal amount,
+      @FormParam("price") BigDecimal price
+  ) throws BitstampException, IOException;
+
+  enum Side { buy, sell }
+}
