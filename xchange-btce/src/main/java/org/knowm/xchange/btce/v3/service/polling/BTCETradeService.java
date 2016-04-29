@@ -134,7 +134,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
     if (params instanceof TradeHistoryParamCurrencyPair) {
       CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
       if (pair != null) {
-        btcrPair = BTCEAdapters.adaptCurrencyPair(pair);
+        btcrPair = BTCEAdapters.getPair(pair);
       }
     }
 
