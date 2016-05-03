@@ -177,7 +177,13 @@
 			<dependency>
 				<groupId>com.github.mmazi</groupId>
 				<artifactId>rescu</artifactId>
-				<version>1.8.1</version>
+        <version>1.8.2-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>2.5.0</version>
 			</dependency>
 
 			<!-- Charting -->
