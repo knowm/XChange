@@ -37,7 +37,7 @@ public class BitstampTickerDemo {
 
   private static void raw(BitstampMarketDataServiceRaw marketDataService) throws IOException {
 
-    BitstampTicker bitstampTicker = marketDataService.getBitstampTicker();
+    BitstampTicker bitstampTicker = marketDataService.getBitstampTicker(CurrencyPair.BTC_USD);
 
     System.out.println(bitstampTicker.toString());
   }

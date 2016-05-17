@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2.Side;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
 import org.knowm.xchange.bitstamp.service.polling.BitstampTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -62,7 +63,7 @@ public class BitstampTradeDemo {
     printRawOpenOrders(tradeService);
 
     // place a limit buy order
-    BitstampOrder order = tradeService.sellBitstampOrder(new BigDecimal(".001"), new BigDecimal("1000.00"));
+    BitstampOrder order = tradeService.placeBitstampOrder(CurrencyPair.BTC_USD, Side.sell, new BigDecimal(".001"), new BigDecimal("1000.00"));
     System.out.println("BitstampOrder return value: " + order);
 
     printRawOpenOrders(tradeService);
@@ -76,7 +77,7 @@ public class BitstampTradeDemo {
 
   private static void printRawOpenOrders(BitstampTradeServiceRaw tradeService) throws IOException {
 
-    BitstampOrder[] openOrders = tradeService.getBitstampOpenOrders();
+    BitstampOrder[] openOrders = tradeService.getBitstampOpenOrders(CurrencyPair.BTC_USD);
     System.out.println("Open Orders: " + openOrders.length);
     for (BitstampOrder order : openOrders) {
       System.out.println(order.toString());

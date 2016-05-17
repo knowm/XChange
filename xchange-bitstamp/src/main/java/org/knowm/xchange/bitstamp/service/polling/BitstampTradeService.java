@@ -5,13 +5,18 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
+import org.knowm.xchange.bitstamp.BitstampExchange;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -23,38 +28,36 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
+import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
-import org.knowm.xchange.utils.Assert;
+import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
 
 /**
  * @author Matija Mazi
  */
-// TODO Convert BitstampExceptions to ExchangeException at the Raw level. Do not leak them out of this class.
 public class BitstampTradeService extends BitstampTradeServiceRaw implements PollingTradeService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
-  public BitstampTradeService(Exchange exchange) {
+  private static final List<CurrencyPair> ALL_PAIRS = Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_EUR);
 
+  public BitstampTradeService(Exchange exchange) {
     super(exchange);
   }
 
   @Override
   public OpenOrders getOpenOrders() throws IOException, BitstampException {
-
-    BitstampOrder[] openOrders = getBitstampOpenOrders();
-
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-    for (BitstampOrder bitstampOrder : openOrders) {
-      OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
-      String id = Integer.toString(bitstampOrder.getId());
-      BigDecimal price = bitstampOrder.getPrice();
-      limitOrders.add(new LimitOrder(orderType, bitstampOrder.getAmount(), CurrencyPair.BTC_USD, id, bitstampOrder.getTime(), price));
+    CurrencyPair cp = (CurrencyPair) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(BitstampExchange.CURRENCY_PAIR);
+    Collection<CurrencyPair> pairs = cp != null ? Collections.singleton(cp) : ALL_PAIRS;
+    List<LimitOrder> limitOrders = new ArrayList<>();
+    for (CurrencyPair pair : pairs) {
+      BitstampOrder[] openOrders = getBitstampOpenOrders(pair);
+      for (BitstampOrder bitstampOrder : openOrders) {
+        OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
+        String id = Integer.toString(bitstampOrder.getId());
+        BigDecimal price = bitstampOrder.getPrice();
+        limitOrders.add(new LimitOrder(orderType, bitstampOrder.getAmount(), pair, id, bitstampOrder.getTime(), price));
+      }
     }
     return new OpenOrders(limitOrders);
   }
@@ -66,20 +69,12 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder) throws IOException, BitstampException {
-
-    Assert.isTrue(limitOrder.getCurrencyPair().equals(CurrencyPair.BTC_USD), "Currency Pair must be USD/BTC!!!");
-
-    BitstampOrder bitstampOrder;
-    if (limitOrder.getType() == BID) {
-      bitstampOrder = buyBitStampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-    } else {
-      bitstampOrder = sellBitstampOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
-    }
+  public String placeLimitOrder(LimitOrder order) throws IOException, BitstampException {
+    BitstampAuthenticatedV2.Side side = order.getType().equals(BID) ? BitstampAuthenticatedV2.Side.buy : BitstampAuthenticatedV2.Side.sell;
+    BitstampOrder bitstampOrder = placeBitstampOrder(order.getCurrencyPair(), side, order.getTradableAmount(), order.getLimitPrice());
     if (bitstampOrder.getErrorMessage() != null) {
       throw new ExchangeException(bitstampOrder.getErrorMessage());
     }
-
     return Integer.toString(bitstampOrder.getId());
   }
 
@@ -94,14 +89,30 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
-    return BitstampAdapters.adaptTradeHistory(getBitstampUserTransactions(Long.valueOf(((TradeHistoryParamPaging) params).getPageLength())));
+    Long limit = null;
+    CurrencyPair currencyPair = null;
+    Long offset = null;
+    TradeHistoryParamsSorted.Order sort = null;
+    if (params instanceof TradeHistoryParamPaging) {
+      limit = Long.valueOf(((TradeHistoryParamPaging) params).getPageLength());
+    }
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+    }
+    if (params instanceof TradeHistoryParamOffset) {
+      offset = ((TradeHistoryParamOffset)params).getOffset();
+    }
+    if (params instanceof TradeHistoryParamsSorted) {
+      sort = ((TradeHistoryParamsSorted)params).getOrder();
+    }
+    BitstampUserTransaction[] txs = getBitstampUserTransactions(limit, currencyPair, offset, sort == null ? null : sort.toString());
+    return BitstampAdapters.adaptTradeHistory(txs);
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    return new DefaultTradeHistoryParamPaging(1000);
+    return new BitstampTradeHistoryParams(CurrencyPair.BTC_USD, 1000);
   }
 
   @Override

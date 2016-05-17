@@ -48,7 +48,7 @@ public class DepthDemo {
   private static void raw(BitstampMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the latest order book data for BTC/CAD
-    BitstampOrderBook orderBook = marketDataService.getBitstampOrderBook();
+    BitstampOrderBook orderBook = marketDataService.getBitstampOrderBook(CurrencyPair.BTC_USD);
 
     System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 

@@ -160,9 +160,13 @@ public final class BTCEAdapters {
     Map<String, BigDecimal> funds = btceAccountInfo.getFunds();
 
     for (String lcCurrency : funds.keySet()) {
-      Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
-
-      balances.add(new Balance(currency, funds.get(lcCurrency)));
+      /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */ 
+      BigDecimal fund = funds.get(lcCurrency);
+      if (lcCurrency.equals("dsh")) {
+    	  lcCurrency = "dash";
+      }
+      Currency currency = Currency.getInstance(lcCurrency);
+      balances.add(new Balance(currency, fund));
     }
     return new Wallet(balances);
   }
@@ -173,10 +177,9 @@ public final class BTCEAdapters {
     for (Long id : btceOrderMap.keySet()) {
       BTCEOrder bTCEOrder = btceOrderMap.get(id);
       OrderType orderType = bTCEOrder.getType() == BTCEOrder.Type.buy ? OrderType.BID : OrderType.ASK;
-      String[] pair = bTCEOrder.getPair().split("_");
       BigDecimal price = bTCEOrder.getRate();
       Date timestamp = DateUtils.fromMillisUtc(bTCEOrder.getTimestampCreated() * 1000L);
-      CurrencyPair currencyPair = new CurrencyPair(pair[0].toUpperCase(), pair[1].toUpperCase());
+      CurrencyPair currencyPair = adaptCurrencyPair(bTCEOrder.getPair());
 
       limitOrders.add(new LimitOrder(orderType, bTCEOrder.getAmount(), currencyPair, Long.toString(id), timestamp, price));
     }
@@ -203,11 +206,14 @@ public final class BTCEAdapters {
   public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
 
     String[] currencies = btceCurrencyPair.split("_");
+    /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */ 
+    if (currencies[0].equals("dsh")) {
+    	currencies[0] = "dash";
+    }
+    if (currencies[1].equals("dsh")) {
+    	currencies[1] = "dash";
+    }
     return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
-  }
-
-  public static String adaptCurrencyPair(CurrencyPair currencyPair) {
-    return (currencyPair.base.getCurrencyCode() + "_" + currencyPair.counter.getCurrencyCode()).toLowerCase();
   }
 
   public static List<CurrencyPair> adaptCurrencyPairs(Iterable<String> btcePairs) {
@@ -266,7 +272,16 @@ public final class BTCEAdapters {
   }
 
   public static String getPair(CurrencyPair currencyPair) {
-    return currencyPair.base.getCurrencyCode().toLowerCase() + "_" + currencyPair.counter.getCurrencyCode().toLowerCase();
+	/* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */	  
+    String base = currencyPair.base.getCurrencyCode();
+    String counter = currencyPair.counter.getCurrencyCode();    
+	if (base.equals("DASH")) {
+		base = "DSH";
+	}
+	else if (counter.equals("DASH")) {
+		counter = "DSH";
+	} 
+    return (base + "_" + counter).toLowerCase();
   }
 
   public static LimitOrder createLimitOrder(MarketOrder marketOrder, BTCEExchangeInfo btceExchangeInfo) {
