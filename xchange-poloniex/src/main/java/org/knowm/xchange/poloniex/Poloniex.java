@@ -14,10 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
+import org.knowm.xchange.poloniex.dto.marketdata.*;
 
 @Path("public")
 @Produces(MediaType.APPLICATION_JSON)
@@ -44,5 +41,9 @@ public interface Poloniex {
   @GET
   Map<String, PoloniexDepth> getAllOrderBooks(@QueryParam("command") String command, @QueryParam("currencyPair") String pair,
       @QueryParam("depth") Integer depth) throws PoloniexException, IOException;
+
+  @GET
+  PoloniexChartData[] getChartData(@QueryParam("command") String command, @QueryParam("currencyPair") String pair,
+      @QueryParam("start") Long startTime, @QueryParam("end") Long endTime, @QueryParam("period") long period) throws PoloniexException, IOException;
 
 }
