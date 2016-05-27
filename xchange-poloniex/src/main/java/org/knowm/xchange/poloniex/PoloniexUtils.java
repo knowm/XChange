@@ -1,11 +1,16 @@
 package org.knowm.xchange.poloniex;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import org.knowm.xchange.currency.CurrencyPair;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
-import org.knowm.xchange.currency.CurrencyPair;
 
 /**
  * @author Zach Holmes
@@ -33,6 +38,20 @@ public class PoloniexUtils {
       return sdf.parse(dateString);
     } catch (ParseException e) {
       return new Date(0);
+    }
+  }
+
+  public static class UnixTimestampDeserializer extends JsonDeserializer<Date> {
+    @Override
+    public Date deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+      final String dateTimeInUnixFormat = p.getText();
+      try {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.setTimeInMillis(Long.parseLong(dateTimeInUnixFormat + "000"));
+        return calendar.getTime();
+      } catch (Exception e) {
+        return new Date(0);
+      }
     }
   }
 }

@@ -9,11 +9,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.PoloniexUtils;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
+import org.knowm.xchange.poloniex.dto.marketdata.*;
 
 public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService {
 
@@ -156,6 +152,19 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService {
     try {
       PoloniexPublicTrade[] trades = poloniex.getTrades(command, pairString, startTime, endTime);
       return trades;
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
+    }
+  }
+
+  public PoloniexChartData[] getPoloniexChartData(CurrencyPair currencyPair, Long startTime,
+                                                                      Long endTime, PoloniexChartDataPeriodType period) throws IOException {
+    String command = "returnChartData";
+    String pairString = PoloniexUtils.toPairString(currencyPair);
+
+    try {
+      PoloniexChartData[] chartData = poloniex.getChartData(command, pairString, startTime, endTime, period.getPeriod());
+      return chartData;
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError());
     }
