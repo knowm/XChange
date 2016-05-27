@@ -52,10 +52,6 @@
       "priceScale": 5,
       "minimumAmount": 0.010000000      
     },
-    "BTC/NMC": {
-      "priceScale": 5,
-      "minimumAmount": 0.010000000      
-    },
     "BTC/DOGE": {
       "priceScale": 1,
       "minimumAmount": 0.010000000      
