@@ -1,19 +1,20 @@
 package org.knowm.xchange.poloniex.service.polling;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.PoloniexException;
+import org.knowm.xchange.poloniex.dto.LoanInfo;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
+import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
+
+import javax.annotation.Nullable;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Zach Holmes
@@ -38,6 +39,15 @@ public class PoloniexAccountServiceRaw extends PoloniexBasePollingService {
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError());
     }
+  }
+
+  public LoanInfo getLoanInfo() throws IOException {
+      try {
+          HashMap<String, PoloniexLoan[]> response = poloniexAuthenticated.returnActiveLoans(apiKey, signatureCreator, exchange.getNonceFactory());
+          return PoloniexAdapters.adaptPoloniexLoans(response);
+      } catch (PoloniexException e) {
+          throw new ExchangeException(e.getError());
+      }
   }
 
   public String getDepositAddress(String currency) throws IOException {
