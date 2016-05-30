@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 //trade ID is "id" when polling and "tid" when streaming.
 public class BitstampStreamingTransaction extends BitstampTransaction {
   public BitstampStreamingTransaction(@JsonProperty("date") long date, @JsonProperty("id") int tid, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amount") BigDecimal amount) {
-    super(date, tid, price, amount);
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("type") int type) {
+    super(date, tid, price, amount, type);
   }
 }
