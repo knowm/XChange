@@ -5,10 +5,10 @@
       "tradingFee": 0.002,
       "minimumAmount": 0.010000000
     },
-    "GHS/USD": {
-      "priceScale": 8,
-      "tradingFee": 0.002,
-      "minimumAmount": 1.000000000
+    "BTC/EUR": {
+      "priceScale": 4,
+      "tradingFee": 0.001,
+      "minimumAmount": 0.010000000
     },
     "LTC/USD": {
       "priceScale": 3,
@@ -35,10 +35,10 @@
       "tradingFee": 0.002,
       "minimumAmount": 0.500000000
     },
-    "BTC/EUR": {
-      "priceScale": 4,
+    "ETH/EUR": {
+      "priceScale": 3,
       "tradingFee": 0.001,
-      "minimumAmount": 0.010000000
+      "minimumAmount": 0.500000000
     },
     "LTC/EUR": {
       "priceScale": 3,
