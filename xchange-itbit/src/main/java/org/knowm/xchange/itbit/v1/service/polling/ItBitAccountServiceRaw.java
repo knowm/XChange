@@ -16,9 +16,6 @@ import org.knowm.xchange.itbit.v1.dto.account.ItBitWithdrawalResponse;
 
 public class ItBitAccountServiceRaw extends ItBitBasePollingService {
 
-  private final String userId;
-  private final String walletId;
-
   /**
    * Constructor
    *
@@ -28,8 +25,6 @@ public class ItBitAccountServiceRaw extends ItBitBasePollingService {
 
     super(exchange);
 
-    this.userId = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("userId");
-    this.walletId = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("walletId");
   }
 
   public ItBitAccountInfoReturn[] getItBitAccountInfo() throws IOException {

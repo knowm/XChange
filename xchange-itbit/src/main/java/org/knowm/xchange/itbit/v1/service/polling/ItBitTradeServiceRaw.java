@@ -13,20 +13,13 @@ import org.knowm.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
 
 public class ItBitTradeServiceRaw extends ItBitBasePollingService {
 
-  /** Wallet ID used for transactions with this instance */
-  private final String walletId;
-
   /**
    * Constructor
    *
    * @param exchange
    */
   public ItBitTradeServiceRaw(Exchange exchange) {
-
     super(exchange);
-
-    // wallet Id used for this instance.
-    walletId = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get("walletId");
   }
 
   public ItBitOrder[] getItBitOpenOrders(CurrencyPair currencyPair) throws IOException {
