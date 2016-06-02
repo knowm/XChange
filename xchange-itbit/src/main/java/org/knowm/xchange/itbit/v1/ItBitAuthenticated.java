@@ -1,6 +1,7 @@
 package org.knowm.xchange.itbit.v1;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -22,22 +23,23 @@ import org.knowm.xchange.itbit.v1.dto.account.ItBitWithdrawalResponse;
 import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("v1")
 @Produces(MediaType.APPLICATION_JSON)
-public interface ItBitAuthenticated extends ItBit {
+public interface ItBitAuthenticated {
 
   @GET
   @Path("/markets/{ident}{currency}/ticker")
   ItBitTicker getTicker(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency) throws IOException, ItBitException;
 
   @GET
-  @Path("wallets?userId={userId}")
+  @Path("wallets")
   ItBitAccountInfoReturn[] getInfo(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
-      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("userId") String userId) throws IOException, ItBitException;
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("userId") String userId) throws IOException, ItBitException;
 
   @GET
   @Path("wallets/{walletId}")
@@ -84,5 +86,20 @@ public interface ItBitAuthenticated extends ItBit {
   ItBitDepositResponse requestDeposit(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,
       @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId, ItBitDepositRequest request)
       throws IOException, ItBitException;
+
+  @GET
+  @Path("wallets/{walletId}/trades")
+  @Consumes(MediaType.APPLICATION_JSON)
+  ItBitTradeHistory getUserTradeHistory(
+      @HeaderParam("Authorization") ParamsDigest signer,
+      @HeaderParam("X-Auth-Timestamp") long timestamp,
+      @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory,
+      @PathParam("walletId") String walletId,
+      @QueryParam("lastExecutionId") String lastExecutionId,
+      @QueryParam("page") Integer page,
+      @QueryParam("perPage") Integer perPage,
+      @QueryParam("rangeStart") Date rangeStart,
+      @QueryParam("rangeStart") Date rangeEnd
+  ) throws IOException, ItBitException;
 
 }
