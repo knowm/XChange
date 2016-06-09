@@ -5,12 +5,7 @@ import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
-import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
@@ -53,4 +48,29 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
         new BitfinexWithdrawalRequest(String.valueOf(exchange.getNonceFactory().createValue()), withdrawType, walletSelected, amount, address));
     return withdrawRepsonse[0].getWithdrawalId();
   }
+
+  public BitfinexDepositAddressResponse requestDepositAddressRaw(String currency) throws IOException {
+    try {
+      String type = "unknown";
+      if (currency.equalsIgnoreCase("BTC")) {
+        type = "bitcoin";
+      }else if (currency.equalsIgnoreCase("LTC")) {
+        type = "litecoin";
+      }else if (currency.equalsIgnoreCase("ETH")) {
+        type = "ethereum";
+      }
+
+      BitfinexDepositAddressResponse requestDepositAddressResponse = bitfinex.requestDeposit(apiKey, payloadCreator, signatureCreator,
+                      new BitfinexDepositAddressRequest(String.valueOf(exchange.getNonceFactory().createValue()), type, "exchange",0));
+      if (requestDepositAddressResponse != null) {
+        return requestDepositAddressResponse;
+      }else{
+        return null;
+      }
+    } catch (BitfinexException e) {
+      throw new ExchangeException(e.getMessage());
+    }
+  }
+
+
 }
