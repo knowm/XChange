@@ -7,7 +7,12 @@
     },
     "BTC/EUR": {
       "priceScale": 2,
-      "tradingFee": 0.00,
+      "tradingFee": 0.0025,
+      "minimumAmount": 0.015000000
+    },
+    "EUR/USD": {
+      "priceScale": 2,
+      "tradingFee": 0.0020,
       "minimumAmount": 0.015000000
     }
   },
