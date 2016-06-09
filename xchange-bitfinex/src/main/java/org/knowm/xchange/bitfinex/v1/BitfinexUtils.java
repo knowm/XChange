@@ -21,7 +21,7 @@ public final class BitfinexUtils {
   }
 
   /**
-   * Can be “bitcoin”, “litecoin” or “darkcoin” or “tether” or “wire”
+   * can be “bitcoin”, “litecoin” or “ethereum” or “tether” or “wire”.
    * 
    * @param currency
    * @return
@@ -36,6 +36,8 @@ public final class BitfinexUtils {
       return "wire";
     if (currency.toUpperCase().equals("TETHER"))
       return "tether";
+    if (currency.toUpperCase().equals("ETH"))
+      return "ethereum";
 
     throw new BitfinexException("Cannot determine withdrawal type.");
   }
