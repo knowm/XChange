@@ -15,14 +15,17 @@ import org.knowm.xchange.therock.dto.marketdata.TheRockOrderBook;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTicker;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
-@Path("v1")
+//see https://www.therocktrading.com/pages/api
+@Path("api")
 @Produces(MediaType.APPLICATION_JSON)
 public interface TheRock {
 
+  //TODO review - inconistent https://www.therocktrading.com/pages/api
   @GET
   @Path("funds/{id}/ticker")
   TheRockTicker getTicker(@PathParam("id") Pair currencyPair) throws TheRockException, IOException;
 
+  //TODO review - inconistent https://www.therocktrading.com/pages/api
   @GET
   @Path("funds/{id}/orderbook")
   TheRockOrderBook getOrderbook(@PathParam("id") Pair currencyPair) throws TheRockException, IOException;
