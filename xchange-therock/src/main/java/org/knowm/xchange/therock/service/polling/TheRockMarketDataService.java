@@ -8,7 +8,6 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
 import org.knowm.xchange.therock.TheRock;
 import org.knowm.xchange.therock.TheRockAdapters;
@@ -39,6 +38,6 @@ public class TheRockMarketDataService extends TheRockMarketDataServiceRaw implem
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return TheRockAdapters.adaptTrades(getTheRockTrades(new TheRock.Pair(currencyPair), args), currencyPair);
   }
 }

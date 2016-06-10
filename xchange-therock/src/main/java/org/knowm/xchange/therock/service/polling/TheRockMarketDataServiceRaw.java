@@ -7,6 +7,7 @@ import org.knowm.xchange.therock.TheRock;
 import org.knowm.xchange.therock.dto.TheRockException;
 import org.knowm.xchange.therock.dto.marketdata.TheRockOrderBook;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTicker;
+import org.knowm.xchange.therock.dto.marketdata.TheRockTrades;
 
 import si.mazi.rescu.RestProxyFactory;
 
@@ -25,5 +26,15 @@ public class TheRockMarketDataServiceRaw extends TheRockBasePollingService {
 
   public TheRockOrderBook getTheRockOrderBook(TheRock.Pair currencyPair) throws TheRockException, IOException {
     return theRock.getOrderbook(currencyPair);
+  }
+
+  public TheRockTrades getTheRockTrades(TheRock.Pair currencyPair, Object[] args) throws IOException {
+    long since = 0;
+    if (args.length == 1) {
+      since = ((Number) args[0]).longValue();
+    }
+
+    TheRockTrades trades = new TheRockTrades(theRock.getTrades(currencyPair, since));
+    return trades;
   }
 }
