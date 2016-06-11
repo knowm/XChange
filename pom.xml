@@ -159,7 +159,7 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.7.16</version>
+				<version>1.7.21</version>
 			</dependency>
 
 			<!-- SLF4J implementation for use in testing -->
