@@ -26,17 +26,13 @@ public class OkCoinExchange extends BaseExchange {
       throw new RuntimeException("Futures only available on international version. Set `Use_Intl` to true.");
     }
 
-    // set SSL URL and HOST accordingly
-
-    if (exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)) {
-      exchangeSpecification.setSslUri("https://www.okcoin.com/api");
-      exchangeSpecification.setHost("www.okcoin.com");
-      exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.com:10440/websocket/okcoinapi");
-    }
+    concludeHostParams(exchangeSpecification);
   }
 
   @Override
   protected void initServices() {
+    concludeHostParams(exchangeSpecification);
+
     if (exchangeSpecification.getExchangeSpecificParameters() != null
         && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
       FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
@@ -54,6 +50,16 @@ public class OkCoinExchange extends BaseExchange {
       }
     }
   }
+
+  /** Adjust host parameters depending on exchange specific parameters */
+  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+    if (exchangeSpecification.getExchangeSpecificParameters() != null && exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)) {
+      exchangeSpecification.setSslUri("https://www.okcoin.com/api");
+      exchangeSpecification.setHost("www.okcoin.com");
+      exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.com:10440/websocket/okcoinapi");
+    }
+  }
+
 
   /** Extract futures leverage used by spec */
   private static int futuresLeverageOfConfig(ExchangeSpecification exchangeSpecification) {

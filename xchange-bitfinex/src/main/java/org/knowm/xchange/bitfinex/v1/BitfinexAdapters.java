@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -221,12 +224,30 @@ public final class BitfinexAdapters {
 
   public static Wallet adaptWallet(BitfinexBalancesResponse[] response) {
 
-    List<Balance> balances = new ArrayList<Balance>(response.length);
+    Map<String, BigDecimal[]> balancesByCurrency = new HashMap<String, BigDecimal[]>(); // {total, available}
 
+    // for each currency we have multiple balances types: exchange, trading, deposit.
+    // each of those may be partially frozen/available
     for (BitfinexBalancesResponse balance : response) {
-      if ("exchange".equals(balance.getType())) {
-        balances.add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getAmount(), balance.getAvailable()));
+      String currencyName = balance.getCurrency().toUpperCase();
+      BigDecimal[] balanceDetail = balancesByCurrency.get(currencyName);
+      if (balanceDetail == null) {
+        balanceDetail = new BigDecimal[]{balance.getAmount(), balance.getAvailable()};
       }
+      else {
+        balanceDetail[0] = balanceDetail[0].add(balance.getAmount());
+        balanceDetail[1] = balanceDetail[1].add(balance.getAvailable());
+      }
+      balancesByCurrency.put(currencyName, balanceDetail);
+    }
+
+    List<Balance> balances = new ArrayList<Balance>(balancesByCurrency.size());
+    for (Entry<String, BigDecimal[]> entry : balancesByCurrency.entrySet()) {
+      String currencyName = entry.getKey();
+      BigDecimal[] balanceDetail = entry.getValue();
+      BigDecimal balanceTotal = balanceDetail[0];
+      BigDecimal balanceAvailable = balanceDetail[1];
+      balances.add(new Balance(Currency.getInstance(currencyName), balanceTotal, balanceAvailable));
     }
 
     return new Wallet(balances);

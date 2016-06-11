@@ -29,21 +29,33 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Path("api")
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
-public interface BitstampAuthenticated extends Bitstamp {
+public interface BitstampAuthenticated {
 
+  /**
+   * @deprecated Use {@link BitstampAuthenticatedV2#getOpenOrders(String, ParamsDigest, SynchronizedValueFactory, BitstampV2.Pair)}.
+   */
   @POST
   @Path("open_orders/")
+  @Deprecated
   public BitstampOrder[] getOpenOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
 
+  /**
+   * @deprecated Use {@link BitstampAuthenticatedV2#buy(String, ParamsDigest, SynchronizedValueFactory, BitstampV2.Pair, BigDecimal, BigDecimal)}.
+   */
   @POST
   @Path("buy/")
+  @Deprecated
   public BitstampOrder buy(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
       throws BitstampException, IOException;
 
+  /**
+   * @deprecated Use {@link BitstampAuthenticatedV2#sell(String, ParamsDigest, SynchronizedValueFactory, BitstampV2.Pair, BigDecimal, BigDecimal)}.
+   */
   @POST
   @Path("sell/")
+  @Deprecated
   public BitstampOrder sell(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
       throws BitstampException, IOException;

@@ -174,6 +174,9 @@ public class CexIOAdapters {
     if (balance.getBalanceUSDE() != null) {
       balances.add(adaptBalance(Currency.USDE, balance.getBalanceUSDE()));
     }
+    if (balance.getBalanceETH() != null) {
+      balances.add(adaptBalance(Currency.ETH, balance.getBalanceETH()));
+    }
 
     return new Wallet(balances);
   }

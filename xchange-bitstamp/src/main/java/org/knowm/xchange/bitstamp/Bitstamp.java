@@ -14,9 +14,12 @@ import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 
 /**
  * @author Matija Mazi See https://www.bitstamp.net/api/ for up-to-date docs.
+ *
+ * @deprecated Use {@link BitstampV2} instead.
  */
 @Path("api")
 @Produces(MediaType.APPLICATION_JSON)
+@Deprecated
 public interface Bitstamp {
 
   /**

@@ -47,13 +47,13 @@ public class TradesDemo {
   private static void raw(BitstampMarketDataServiceRaw marketDataService) throws IOException {
 
     // Get the latest trade data for BTC/USD
-    BitstampTransaction[] trades = marketDataService.getBitstampTransactions();
+    BitstampTransaction[] trades = marketDataService.getTransactions(CurrencyPair.BTC_USD, null);
     System.out.println("Trades, default. Size= " + trades.length);
 
-    trades = marketDataService.getBitstampTransactions(BitstampMarketDataServiceRaw.BitstampTime.HOUR);
+    trades = marketDataService.getTransactions(CurrencyPair.BTC_USD, BitstampMarketDataServiceRaw.BitstampTime.HOUR);
     System.out.println("Trades, hour= " + trades.length);
 
-    trades = marketDataService.getBitstampTransactions(BitstampMarketDataServiceRaw.BitstampTime.MINUTE);
+    trades = marketDataService.getTransactions(CurrencyPair.BTC_USD, BitstampMarketDataServiceRaw.BitstampTime.MINUTE);
     System.out.println("Trades, minute= " + trades.length);
     System.out.println(Arrays.toString(trades));
   }

@@ -54,14 +54,18 @@ public final class BitstampAdapters {
     // Adapt to XChange DTOs
     final BigDecimal usdWithdrawing = bitstampBalance.getUsdBalance().subtract(bitstampBalance.getUsdAvailable())
         .subtract(bitstampBalance.getUsdReserved());
+    final BigDecimal eurWithdrawing = bitstampBalance.getEurBalance().subtract(bitstampBalance.getEurAvailable())
+            .subtract(bitstampBalance.getEurReserved());
     final BigDecimal btcWithdrawing = bitstampBalance.getBtcBalance().subtract(bitstampBalance.getBtcAvailable())
         .subtract(bitstampBalance.getBtcReserved());
     Balance usdBalance = new Balance(Currency.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(),
         bitstampBalance.getUsdReserved(), ZERO, ZERO, usdWithdrawing, ZERO);
+    Balance eurBalance = new Balance(Currency.EUR, bitstampBalance.getEurBalance(), bitstampBalance.getEurAvailable(),
+            bitstampBalance.getEurReserved(), ZERO, ZERO, eurWithdrawing, ZERO);
     Balance btcBalance = new Balance(Currency.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),
         bitstampBalance.getBtcReserved(), ZERO, ZERO, btcWithdrawing, ZERO);
 
-    return new AccountInfo(userName, bitstampBalance.getFee(), new Wallet(usdBalance, btcBalance));
+    return new AccountInfo(userName, bitstampBalance.getFee(), new Wallet(usdBalance, eurBalance, btcBalance));
   }
 
   /**
@@ -117,8 +121,7 @@ public final class BitstampAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades
-          .add(new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
+      trades.add(adaptTrade(tx, currencyPair, 1000));
     }
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
@@ -134,9 +137,10 @@ public final class BitstampAdapters {
    */
   public static Trade adaptTrade(BitstampTransaction tx, CurrencyPair currencyPair, int timeScale) {
 
+	OrderType orderType = tx.getType() == 0 ? OrderType.BID : OrderType.ASK;
     final String tradeId = String.valueOf(tx.getTid());
     Date date = DateUtils.fromMillisUtc(tx.getDate() * timeScale);// polled order books provide a timestamp in seconds, stream in ms
-    return new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
+    return new Trade(orderType, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
   }
 
   /**
@@ -174,7 +178,7 @@ public final class BitstampAdapters {
     long lastTradeId = 0;
     for (BitstampUserTransaction bitstampUserTransaction : bitstampUserTransactions) {
       if (bitstampUserTransaction.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
-        OrderType orderType = bitstampUserTransaction.getUsd().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
+        OrderType orderType = bitstampUserTransaction.getCounterAmount().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
         BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
         BigDecimal price = bitstampUserTransaction.getPrice().abs();
         Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
@@ -185,7 +189,7 @@ public final class BitstampAdapters {
         final String tradeId = String.valueOf(transactionId);
         final String orderId = String.valueOf(bitstampUserTransaction.getOrderId());
         final BigDecimal feeAmount = bitstampUserTransaction.getFee();
-        final CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+        final CurrencyPair currencyPair = new CurrencyPair(Currency.BTC, new Currency(bitstampUserTransaction.getCounterCurrency()));
 
         UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
             Currency.getInstance(currencyPair.counter.getCurrencyCode()));

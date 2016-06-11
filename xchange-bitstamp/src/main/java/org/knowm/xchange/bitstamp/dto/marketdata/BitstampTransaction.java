@@ -13,6 +13,7 @@ public class BitstampTransaction {
   private final int tid;
   private final BigDecimal price;
   private final BigDecimal amount;
+  private final int type;
 
   /**
    * Constructor
@@ -23,12 +24,13 @@ public class BitstampTransaction {
    * @param amount BTC amount
    */
   public BitstampTransaction(@JsonProperty("date") long date, @JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("amount") BigDecimal amount) {
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("type") int type) {
 
     this.date = date;
     this.tid = tid;
     this.price = price;
     this.amount = amount;
+    this.type = type;
   }
 
   public int getTid() {
@@ -51,6 +53,11 @@ public class BitstampTransaction {
     return date;
   }
 
+  public int getType() {
+
+	    return type;
+  }
+  
   public BigDecimal calculateFeeBtc() {
 
     return roundUp(amount.multiply(new BigDecimal(.5))).divide(new BigDecimal(100.));

@@ -1,27 +1,52 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import static org.junit.Assert.assertEquals;
-
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
-
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWalletJSONTest;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+
+import java.io.InputStream;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
 
 public class BitfinexAdaptersTest {
 
   private final static String MARKET = "bitfinex";
   private final static String EXCHANGE = "exchange";
   private final static String SYMBOL = "BTCUSD";
+
+  @Test
+  public void shouldAdaptBalances() throws IOException{
+    // Read in the JSON from the example resources
+    InputStream is = BitfinexWalletJSONTest.class.getResourceAsStream("/v1/account/example-account-info-balance.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitfinexBalancesResponse[] response = mapper.readValue(is, BitfinexBalancesResponse[].class);
+
+    Wallet wallet = BitfinexAdapters.adaptWallet(response);
+
+    assertEquals(2, wallet.getBalances().size());
+    assertEquals(new BigDecimal("105.5"), wallet.getBalance(Currency.USD).getTotal());
+    assertEquals(new BigDecimal("55.5"), wallet.getBalance(Currency.USD).getAvailable());
+    assertEquals(new BigDecimal("50"), wallet.getBalance(Currency.BTC).getTotal());
+    assertEquals(new BigDecimal("30"), wallet.getBalance(Currency.BTC).getAvailable());
+  }
 
   @Test
   public void testAdaptOrdersToOrdersContainer() {

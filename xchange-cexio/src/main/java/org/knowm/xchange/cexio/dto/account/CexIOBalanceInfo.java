@@ -32,10 +32,11 @@ public class CexIOBalanceInfo {
   private final CexIOBalance balanceDGB;
   private final CexIOBalance balanceUSDE;
   private final CexIOBalance balanceMYR;
+  private final CexIOBalance balanceETH;
 
   /**
    * Constructor
-   * 
+   *
    * @param error
    * @param timestamp The server time (Unix time)
    * @param username
@@ -47,6 +48,7 @@ public class CexIOBalanceInfo {
    * @param balanceUSD
    * @param balanceDRK
    * @param balanceEUR
+   * @param balanceETH
    */
   public CexIOBalanceInfo(@JsonProperty("error") String error, @JsonProperty("timestamp") long timestamp, @JsonProperty("username") String username,
       @JsonProperty("BTC") CexIOBalance balanceBTC, @JsonProperty("LTC") CexIOBalance balanceLTC, @JsonProperty("NMC") CexIOBalance balanceNMC,
@@ -55,7 +57,7 @@ public class CexIOBalanceInfo {
       @JsonProperty("DOGE") CexIOBalance balanceDOGE, @JsonProperty("FTC") CexIOBalance balanceFTC, @JsonProperty("AUR") CexIOBalance balanceAUR,
       @JsonProperty("POT") CexIOBalance balancePOT, @JsonProperty("ANC") CexIOBalance balanceANC, @JsonProperty("MEC") CexIOBalance balanceMEC,
       @JsonProperty("WDC") CexIOBalance balanceWDC, @JsonProperty("DGB") CexIOBalance balanceDGB, @JsonProperty("USDE") CexIOBalance balanceUSDE,
-      @JsonProperty("MYR") CexIOBalance balanceMYR) {
+      @JsonProperty("MYR") CexIOBalance balanceMYR, @JsonProperty("ETH") CexIOBalance balanceETH) {
 
     this.error = error;
     this.timestamp = timestamp;
@@ -79,6 +81,7 @@ public class CexIOBalanceInfo {
     this.balanceDGB = balanceDGB;
     this.balanceUSDE = balanceUSDE;
     this.balanceMYR = balanceMYR;
+    this.balanceETH = balanceETH;
   }
 
   public String getError() {
@@ -191,12 +194,17 @@ public class CexIOBalanceInfo {
     return balanceMYR;
   }
 
+  public CexIOBalance getBalanceETH() {
+
+    return balanceETH;
+  }
+
   @Override
   public String toString() {
 
     return MessageFormat.format(
-        "CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, LTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}, USD={9}, DRK={10}, EUR={11}]",
-        error, timestamp, username, balanceBTC, balanceLTC, balanceNMC, balanceIXC, balanceDVC, balanceGHS, balanceUSD, balanceDRK, balanceEUR);
+        "CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, LTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}, USD={9}, DRK={10}, EUR={11} ETH={12}]",
+        error, timestamp, username, balanceBTC, balanceLTC, balanceNMC, balanceIXC, balanceDVC, balanceGHS, balanceUSD, balanceDRK, balanceEUR, balanceETH);
   }
 
 }

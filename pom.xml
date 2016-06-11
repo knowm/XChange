@@ -90,6 +90,7 @@
 		<module>xchange-campbx</module>
 		<module>xchange-cavirtex</module>
 		<module>xchange-cexio</module>
+		<module>xchange-chbtc</module>
 		<module>xchange-clevercoin</module>
 		<module>xchange-coinbase</module>
 		<module>xchange-coinbaseex</module>
@@ -176,7 +177,13 @@
 			<dependency>
 				<groupId>com.github.mmazi</groupId>
 				<artifactId>rescu</artifactId>
-				<version>1.8.1</version>
+        <version>1.8.2-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>2.5.0</version>
 			</dependency>
 
 			<!-- Charting -->
@@ -446,6 +453,33 @@
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 				</configuration>
 			</plugin>
+      
+        <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+      
 		</plugins>
 	</build>
 
