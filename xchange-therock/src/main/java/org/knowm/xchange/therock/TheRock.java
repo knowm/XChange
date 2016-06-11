@@ -7,12 +7,14 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.therock.dto.TheRockException;
 import org.knowm.xchange.therock.dto.marketdata.TheRockOrderBook;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTicker;
+import org.knowm.xchange.therock.dto.marketdata.TheRockTrade;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 //see https://www.therocktrading.com/pages/api
@@ -29,6 +31,10 @@ public interface TheRock {
   @GET
   @Path("funds/{id}/orderbook")
   TheRockOrderBook getOrderbook(@PathParam("id") Pair currencyPair) throws TheRockException, IOException;
+
+  @GET
+  @Path("trades/{id}")
+  TheRockTrade[] getTrades(@PathParam("id") Pair currencyPair, @QueryParam("since") long sinceId) throws IOException;
 
   class Pair {
     public final CurrencyPair pair;
