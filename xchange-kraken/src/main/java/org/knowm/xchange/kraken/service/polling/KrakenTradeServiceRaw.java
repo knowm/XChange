@@ -139,7 +139,7 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService {
 
     KrakenType type = KrakenType.fromOrderType(limitOrder.getType());
     KrakenOrderBuilder krakenOrderBuilder = KrakenStandardOrder
-        .getLimitOrderBuilder(limitOrder.getCurrencyPair(), type, limitOrder.getLimitPrice().toString(), limitOrder.getTradableAmount())
+        .getLimitOrderBuilder(limitOrder.getCurrencyPair(), type, limitOrder.getLimitPrice().toPlainString(), limitOrder.getTradableAmount())
         .withOrderFlags(limitOrder.getOrderFlags());
 
     return placeKrakenOrder(krakenOrderBuilder.buildOrder());
@@ -151,14 +151,14 @@ public class KrakenTradeServiceRaw extends KrakenBasePollingService {
     if (!krakenStandardOrder.isValidateOnly()) {
       result = kraken.addOrder(createKrakenCurrencyPair(krakenStandardOrder.getAssetPair()), krakenStandardOrder.getType().toString(),
           krakenStandardOrder.getOrderType().toString(), krakenStandardOrder.getPrice(), krakenStandardOrder.getSecondaryPrice(),
-          krakenStandardOrder.getVolume().toString(), krakenStandardOrder.getLeverage(), krakenStandardOrder.getPositionTxId(),
+          krakenStandardOrder.getVolume().toPlainString(), krakenStandardOrder.getLeverage(), krakenStandardOrder.getPositionTxId(),
           delimitSet(krakenStandardOrder.getOrderFlags()), krakenStandardOrder.getStartTime(), krakenStandardOrder.getExpireTime(),
           krakenStandardOrder.getUserRefId(), krakenStandardOrder.getCloseOrder(), exchange.getExchangeSpecification().getApiKey(), signatureCreator,
           exchange.getNonceFactory());
     } else {
       result = kraken.addOrderValidateOnly(createKrakenCurrencyPair(krakenStandardOrder.getAssetPair()), krakenStandardOrder.getType().toString(),
           krakenStandardOrder.getOrderType().toString(), krakenStandardOrder.getPrice(), krakenStandardOrder.getSecondaryPrice(),
-          krakenStandardOrder.getVolume().toString(), krakenStandardOrder.getLeverage(), krakenStandardOrder.getPositionTxId(),
+          krakenStandardOrder.getVolume().toPlainString(), krakenStandardOrder.getLeverage(), krakenStandardOrder.getPositionTxId(),
           delimitSet(krakenStandardOrder.getOrderFlags()), krakenStandardOrder.getStartTime(), krakenStandardOrder.getExpireTime(),
           krakenStandardOrder.getUserRefId(), true, krakenStandardOrder.getCloseOrder(), exchange.getExchangeSpecification().getApiKey(),
           signatureCreator, exchange.getNonceFactory());
