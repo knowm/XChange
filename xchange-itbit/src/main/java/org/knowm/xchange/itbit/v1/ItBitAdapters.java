@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -35,11 +36,16 @@ import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTrades;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.utils.DateUtils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public final class ItBitAdapters {
 
   private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
   private static final String DATE_FORMAT_STRING = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
   private static final DecimalFormatSymbols CUSTOM_SYMBOLS = new DecimalFormatSymbols();
+  private static Pattern TIMESTAMP_PATTERN = Pattern.compile("(.*\\.[0-9]{3})0000Z$");
+
   static {
     CUSTOM_SYMBOLS.setDecimalSeparator('.');
   }
@@ -90,7 +96,7 @@ public final class ItBitAdapters {
     return parse;
   }
 
-  public static Trades adaptTrades(ItBitTrades trades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(ItBitTrades trades, CurrencyPair currencyPair) throws InvalidFormatException {
 
     List<Trade> tradesList = new ArrayList<Trade>(trades.getCount());
     long lastTradeId = 0;
@@ -104,9 +110,16 @@ public final class ItBitAdapters {
     return new Trades(tradesList, lastTradeId, TradeSortType.SortByID);
   }
 
-  public static Trade adaptTrade(ItBitTrade trade, CurrencyPair currencyPair) {
+  public static Trade adaptTrade(ItBitTrade trade, CurrencyPair currencyPair) throws InvalidFormatException {
+    String timestamp = trade.getTimestamp();
 
-    Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000L);
+    //matcher instantiated each time for adaptTrade to be thread-safe
+    Matcher matcher = TIMESTAMP_PATTERN.matcher(timestamp);
+    //truncate sub-millisecond zeros
+    if (matcher.matches()) {
+      timestamp = matcher.group(1) + "Z";
+    }
+    Date date = DateUtils.fromISODateString(timestamp);
     final String tradeId = String.valueOf(trade.getTid());
 
     return new Trade(null, trade.getAmount(), currencyPair, trade.getPrice(), date, tradeId);

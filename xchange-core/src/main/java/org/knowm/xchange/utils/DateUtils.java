@@ -59,6 +59,8 @@ public class DateUtils {
   public static Date fromISODateString(String isoFormattedDate) throws InvalidFormatException {
 
     SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    // set UTC time zone - 'Z' indicates it
+    isoDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     try {
       return isoDateFormat.parse(isoFormattedDate);
     } catch (ParseException e) {
