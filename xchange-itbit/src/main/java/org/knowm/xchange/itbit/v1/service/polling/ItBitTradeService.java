@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
@@ -18,19 +19,16 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.itbit.v1.ItBitAdapters;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
 
 public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTradeService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public ItBitTradeService(Exchange exchange) {
 
     super(exchange);
@@ -65,60 +63,49 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
     return true;
   }
 
-  /**
-   * Required parameters: {@link TradeHistoryParamPaging} {@link TradeHistoryParamCurrencyPair}
-   */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    TradeHistoryParamPaging paging = (TradeHistoryParamPaging) params;
-    Integer pageLength = paging.getPageLength();
-    Integer pageNumber = paging.getPageNumber();
+    Integer page = ((TradeHistoryParamPaging) params).getPageNumber();
+    if (page != null) {
+      ++page;
+    }
 
-    // pages supposedly start from 1
-    ++pageNumber;
-
-    CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-    String currency = pair.base.getCurrencyCode() + pair.counter.getCurrencyCode();
-
-    return ItBitAdapters.adaptTradeHistory(getItBitTradeHistory(currency, toString(pageNumber), toString(pageLength)));
-  }
-
-  private String toString(Object o) {
-
-    return o == null ? null : o.toString();
+    ItBitTradeHistory userTradeHistory = getUserTradeHistory(
+        ((TradeHistoryParamTransactionId) params).getTransactionId(),
+        page,
+        ((TradeHistoryParamPaging) params).getPageLength(),
+        ((TradeHistoryParamsTimeSpan) params).getStartTime(),
+        ((TradeHistoryParamsTimeSpan) params).getEndTime()
+    );
+    return ItBitAdapters.adaptTradeHistory(userTradeHistory);
   }
 
   @Override
-  public org.knowm.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
-
-    return new ItBitTradeHistoryParams();
+  public TradeHistoryParams createTradeHistoryParams() {
+    return new ItBitTradeHistoryParams(50, 0, null, null, null);
   }
 
-  public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {
+  public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging
+      implements TradeHistoryParamsTimeSpan, TradeHistoryParamTransactionId, TradeHistoryParamPaging {
 
-    private CurrencyPair pair;
+    private String txId;
+    private Date startTime;
+    private Date endTime;
 
-    public ItBitTradeHistoryParams() {
-    }
-
-    public ItBitTradeHistoryParams(Integer pageLength, Integer pageNumber, CurrencyPair pair) {
-
+    public ItBitTradeHistoryParams(Integer pageLength, Integer pageNumber, String txId, Date startTime, Date endTime) {
       super(pageLength, pageNumber);
-      this.pair = pair;
+      this.txId = txId;
+      this.startTime = startTime;
+      this.endTime = endTime;
     }
 
-    @Override
-    public void setCurrencyPair(CurrencyPair pair) {
-
-      this.pair = pair;
-    }
-
-    @Override
-    public CurrencyPair getCurrencyPair() {
-
-      return pair;
-    }
+    @Override public void setTransactionId(String txId) { this.txId = txId; }
+    @Override public String getTransactionId() { return txId; }
+    @Override public void setStartTime(Date startTime) { this.startTime = startTime; }
+    @Override public Date getStartTime() { return startTime; }
+    @Override public void setEndTime(Date endTime) { this.endTime = endTime; }
+    @Override public Date getEndTime() { return endTime; }
   }
 
   @Override

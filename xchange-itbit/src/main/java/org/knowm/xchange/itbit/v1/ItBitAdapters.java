@@ -34,6 +34,8 @@ import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTrade;
 import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTrades;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitUserTrade;
 import org.knowm.xchange.utils.DateUtils;
 
 import java.util.regex.Matcher;
@@ -194,20 +196,19 @@ public final class ItBitAdapters {
     return new OpenOrders(limitOrders);
   }
 
-  public static UserTrades adaptTradeHistory(ItBitOrder[] orders) {
+  public static UserTrades adaptTradeHistory(ItBitTradeHistory history) {
+    List<ItBitUserTrade> itBitTrades = history.getTradingHistory();
 
-    List<UserTrade> trades = new ArrayList<UserTrade>(orders.length);
+    List<UserTrade> trades = new ArrayList<UserTrade>(itBitTrades.size());
 
-    for (int i = 0; i < orders.length; i++) {
-      ItBitOrder itBitOrder = orders[i];
-      String instrument = itBitOrder.getInstrument();
+    for (ItBitUserTrade itBitTrade : itBitTrades) {
+      String instrument = itBitTrade.getInstrument();
 
-      OrderType orderType = itBitOrder.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
+      OrderType orderType = itBitTrade.getDirection().equals(ItBitUserTrade.Direction.buy) ? OrderType.BID : OrderType.ASK;
       CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
-      Date timestamp = parseDate(itBitOrder.getCreatedTime());
 
-      trades.add(new UserTrade(orderType, itBitOrder.getAmount(), currencyPair, itBitOrder.getPrice(), timestamp, itBitOrder.getId(),
-          itBitOrder.getId(), null, (Currency) null));
+      trades.add(new UserTrade(orderType, itBitTrade.getCurrency1Amount(), currencyPair, itBitTrade.getRate(),
+          itBitTrade.getTimestamp(), null, itBitTrade.getOrderId(), itBitTrade.getCommissionPaid(), new Currency(itBitTrade.getCommissionCurrency())));
     }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
