@@ -20,26 +20,6 @@
       "priceScale": 1,
       "minimumAmount": 0.010000000      
     },
-    "BTC/EUR.d": {
-      "priceScale": 3,
-      "minimumAmount": 0.010000000      
-    },
-    "BTC/USD.d": {
-      "priceScale": 3,
-      "minimumAmount": 0.010000000      
-    },
-    "BTC/CAD.d": {
-      "priceScale": 3,
-      "minimumAmount": 0.010000000      
-    },
-    "BTC/GBP.d": {
-      "priceScale": 3,
-      "minimumAmount": 0.010000000      
-    },
-    "BTC/JPY.d": {
-      "priceScale": 1,
-      "minimumAmount": 0.010000000      
-    },
     "LTC/EUR": {
       "priceScale": 5,
       "minimumAmount": 0.010000000      
