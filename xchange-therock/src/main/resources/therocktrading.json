@@ -1,17 +1,65 @@
 {
   "currencyPair": {
-    "BTC/EUR": {},
-    "BTC/USD": {},
-    "BTC/XRP": {},
-    "LTC/EUR": {},
-    "LTC/BTC": {},
-    "EUR/XRP": {},
-    "USD/XRP": {},
-    "LTC/USD": {},
-    "NMC/BTC": {},
-    "PPC/EUR": {},
-    "EUR/DOG": {},
-    "PPC/BTC": {}
+    "BTC/EUR": {
+      "priceScale": 2,    
+      "tradingFee": 0.002,      
+      "minimumAmount": 0.0050000000
+    },
+    "BTC/USD":  {
+      "priceScale": 2,    
+      "tradingFee": 0.002,      
+      "minimumAmount": 0.0050000000
+    },
+    "BTC/XRP":  {
+      "priceScale": 2,    
+      "tradingFee": 0.002,      
+      "minimumAmount": 0.0050000000
+    },
+    "LTC/EUR":  {
+      "priceScale": 2,    
+      "tradingFee": 0.002,      
+      "minimumAmount": 0.0100000000
+    },
+    "LTC/BTC":  {
+      "priceScale": 2,    
+      "tradingFee": 0.002,      
+      "minimumAmount": 0.0100000000
+    },
+    "EUR/XRP":  {
+      "priceScale": 2,    
+      "tradingFee": 0.002,      
+      "minimumAmount": 0.0100000000
+    },
+    "USD/XRP":  {
+      "priceScale": 2,    
+      "tradingFee": 0.002,      
+      "minimumAmount": 0.0100000000
+    },
+    "LTC/USD":  {
+      "priceScale": 2,    
+      "tradingFee": 0.002,      
+      "minimumAmount": 0.0100000000
+    },
+    "PPC/EUR":  {
+      "priceScale": 2,    
+      "tradingFee": 0.002,      
+      "minimumAmount": 0.0500000000
+    },
+    "PPC/BTC":  {
+      "priceScale": 5,    
+      "tradingFee": 0.002,      
+      "minimumAmount": 0.0500000000
+    },
+    "ETH/EUR":  {
+      "priceScale": 2,    
+      "tradingFee": 0.002,      
+      "minimumAmount": 0.0100000000
+    },
+    "ETH/BTC":  {
+      "priceScale": 5,    
+      "tradingFee": 0.002,      
+      "minimumAmount": 0.0100000000
+    }
   },
   "currency": {},
   "privateRateLimits": [

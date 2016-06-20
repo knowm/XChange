@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.polling.account.PollingAccountService;
 
 public class BitfinexAccountService extends BitfinexAccountServiceRaw implements PollingAccountService {
@@ -47,13 +47,13 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     //to be able to withdraw instantly after trading for example
     //The wallet to withdraw from, can be “trading”, “exchange”, or “deposit”.
     String walletSelected = "exchange";
-    //We have to convert XChange currencies to Bitfinex currencies: can be “bitcoin”, “litecoin” or “darkcoin” or “tether” or “wire”.
+    //We have to convert XChange currencies to Bitfinex currencies: can be “bitcoin”, “litecoin” or “ether” or “tether” or “wire”.
     return withdraw(type, walletSelected, amount, address);
   }
 
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
+    final BitfinexDepositAddressResponse response = super.requestDepositAddressRaw(currency.getCurrencyCode());
+    return response.getAddress();
   }
 }

@@ -27,7 +27,7 @@ public interface PoloniexAuthenticated {
   @POST
   @FormParam("command")
   HashMap<String, PoloniexBalance> returnCompleteBalances(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("account") String account) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")
