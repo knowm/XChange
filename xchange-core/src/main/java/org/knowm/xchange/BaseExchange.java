@@ -7,10 +7,6 @@ import java.io.InputStream;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseExchangeService;
@@ -19,6 +15,10 @@ import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
 import org.knowm.xchange.service.streaming.StreamingExchangeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class BaseExchange implements Exchange {
 
@@ -27,7 +27,7 @@ public abstract class BaseExchange implements Exchange {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   protected ExchangeSpecification exchangeSpecification;
-  protected ExchangeMetaData metaData;
+  protected ExchangeMetaData exchangeMetaData;
 
   protected PollingMarketDataService pollingMarketDataService;
   protected PollingTradeService pollingTradeService;
@@ -85,7 +85,7 @@ public abstract class BaseExchange implements Exchange {
       InputStream is = null;
       try {
         is = new FileInputStream(this.exchangeSpecification.getMetaDataJsonFileOverride());
-        loadMetaData(is);
+        loadExchangeMetaData(is);
       } catch (FileNotFoundException e) {
         logger.warn(
             "An exception occured while loading the metadata file from the classpath. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
@@ -99,7 +99,7 @@ public abstract class BaseExchange implements Exchange {
       InputStream is = null;
       try {
         is = BaseExchangeService.class.getClassLoader().getResourceAsStream(getMetaDataFileName(exchangeSpecification) + ".json");
-        loadMetaData(is);
+        loadExchangeMetaData(is);
       } finally {
         IOUtils.closeQuietly(is);
       }
@@ -118,11 +118,12 @@ public abstract class BaseExchange implements Exchange {
     logger.debug("No remote initialization for {}", exchangeSpecification.getExchangeName());
   }
 
-  protected void loadMetaData(InputStream is) {
-    loadExchangeMetaData(is);
+  protected void loadExchangeMetaData(InputStream is) {
+    exchangeMetaData = loadMetaData(is, ExchangeMetaData.class);
   }
 
   protected <T> T loadMetaData(InputStream is, Class<T> type) {
+
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
 
@@ -138,10 +139,6 @@ public abstract class BaseExchange implements Exchange {
     }
   }
 
-  protected void loadExchangeMetaData(InputStream is) {
-    metaData = loadMetaData(is, ExchangeMetaData.class);
-  }
-
   public String getMetaDataFileName(ExchangeSpecification exchangeSpecification) {
 
     return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "");
@@ -154,8 +151,8 @@ public abstract class BaseExchange implements Exchange {
   }
 
   @Override
-  public ExchangeMetaData getMetaData() {
-    return metaData;
+  public ExchangeMetaData getExchangeMetaData() {
+    return exchangeMetaData;
   }
 
   @Override

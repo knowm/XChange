@@ -13,7 +13,7 @@ public class BitcoinAverageMetaDataDemo {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitcoinAverageExchange.class.getName());
     exchange.remoteInit();
 
-    System.out.println(exchange.getMetaData().toString());
+    System.out.println(exchange.getExchangeMetaData().toString());
 
   }
 

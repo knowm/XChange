@@ -12,7 +12,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.MarketMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -191,8 +191,8 @@ public class PoloniexAdapters {
       currencyMetaDataMap.put(Currency.getInstance(entry.getKey()), currencyArchetype);
     }
 
-    Map<CurrencyPair, MarketMetaData> marketMetaDataMap = exchangeMetaData.getMarketMetaDataMap();
-    MarketMetaData marketArchetype = marketMetaDataMap.values().iterator().next();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairMetaDataMap();
+    CurrencyPairMetaData marketArchetype = marketMetaDataMap.values().iterator().next();
 
     marketMetaDataMap.clear();
     for (String market : poloniexMarketData.keySet()) {

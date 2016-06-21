@@ -8,8 +8,8 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.MarketMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 
@@ -32,28 +32,32 @@ public abstract class BaseExchangeService {
   }
 
   public void verifyOrder(LimitOrder limitOrder) {
-    ExchangeMetaData exchangeMetaData = exchange.getMetaData();
+
+    ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
     verifyOrder(limitOrder, exchangeMetaData);
     BigDecimal price = limitOrder.getLimitPrice().stripTrailingZeros();
 
-    if (price.scale() > exchangeMetaData.getMarketMetaDataMap().get(limitOrder.getCurrencyPair()).getPriceScale()) {
+    if (price.scale() > exchangeMetaData.getCurrencyPairMetaDataMap().get(limitOrder.getCurrencyPair()).getPriceScale()) {
       throw new IllegalArgumentException("Unsupported price scale " + price.scale());
     }
   }
 
   public void verifyOrder(MarketOrder marketOrder) {
-    verifyOrder(marketOrder, exchange.getMetaData());
+
+    verifyOrder(marketOrder, exchange.getExchangeMetaData());
   }
 
   final protected void verifyOrder(Order order, ExchangeMetaData exchangeMetaData) {
-    MarketMetaData metaData = exchangeMetaData.getMarketMetaDataMap().get(order.getCurrencyPair());
+
+    CurrencyPairMetaData metaData = exchangeMetaData.getCurrencyPairMetaDataMap().get(order.getCurrencyPair());
     if (metaData == null) {
       throw new IllegalArgumentException("Invalid CurrencyPair");
     }
 
     BigDecimal tradableAmount = order.getTradableAmount();
-    if (tradableAmount == null)
+    if (tradableAmount == null) {
       throw new IllegalArgumentException("Missing tradableAmount");
+    }
 
     BigDecimal amount = tradableAmount.stripTrailingZeros();
     BigDecimal minimumAmount = metaData.getMinimumAmount();
@@ -65,6 +69,6 @@ public abstract class BaseExchangeService {
   }
 
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
-    return new ArrayList<CurrencyPair>(exchange.getMetaData().getMarketMetaDataMap().keySet());
+    return new ArrayList<CurrencyPair>(exchange.getExchangeMetaData().getCurrencyPairMetaDataMap().keySet());
   }
 }

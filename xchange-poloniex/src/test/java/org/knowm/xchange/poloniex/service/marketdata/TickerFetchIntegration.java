@@ -22,7 +22,7 @@ public class TickerFetchIntegration {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
     exchange.remoteInit();
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-    CurrencyPair currencyPair = exchange.getMetaData().getMarketMetaDataMap().keySet().iterator().next();
+    CurrencyPair currencyPair = exchange.getExchangeMetaData().getCurrencyPairMetaDataMap().keySet().iterator().next();
     Ticker ticker = marketDataService.getTicker(currencyPair);
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();

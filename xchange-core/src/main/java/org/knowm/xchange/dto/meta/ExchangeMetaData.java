@@ -3,9 +3,10 @@ package org.knowm.xchange.dto.meta;
 import java.util.Map;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * This class is loaded during creation of the Exchange and is intended to hold both data that is readily available from an HTTP API request at an
@@ -16,7 +17,7 @@ import org.knowm.xchange.currency.CurrencyPair;
  */
 public class ExchangeMetaData {
 
-  private Map<CurrencyPair, MarketMetaData> currencyPairs;
+  private Map<CurrencyPair, CurrencyPairMetaData> currencyPairs;
 
   private Map<Currency, CurrencyMetaData> currency;
 
@@ -29,10 +30,12 @@ public class ExchangeMetaData {
   private boolean shareRateLimits = true;
 
   /**
-   * @param currencyPairs Map of {@link CurrencyPair} -> {@link MarketMetaData}
+   * Constructor
+   *
+   * @param currencyPairs Map of {@link CurrencyPair} -> {@link CurrencyPairMetaData}
    * @param currency Map of currency -> {@link CurrencyMetaData}
    */
-  public ExchangeMetaData(@JsonProperty("currencyPair") Map<CurrencyPair, MarketMetaData> currencyPairs,
+  public ExchangeMetaData(@JsonProperty("currencyPair") Map<CurrencyPair, CurrencyPairMetaData> currencyPairs,
       @JsonProperty("currency") Map<Currency, CurrencyMetaData> currency, @JsonProperty("publicRateLimits") Set<RateLimit> publicRateLimits,
       @JsonProperty("privateRateLimits") Set<RateLimit> privateRateLimits, @JsonProperty("shareRateLimits") Boolean shareRateLimits) {
 
@@ -45,7 +48,7 @@ public class ExchangeMetaData {
     this.shareRateLimits = shareRateLimits != null ? shareRateLimits : false;
   }
 
-  public Map<CurrencyPair, MarketMetaData> getMarketMetaDataMap() {
+  public Map<CurrencyPair, CurrencyPairMetaData> getCurrencyPairMetaDataMap() {
     return currencyPairs;
   }
 
@@ -70,8 +73,9 @@ public class ExchangeMetaData {
    *         breaks for an infinite period of time. Returns null if the rateLimits collection is null or empty
    */
   public static Long getPollDelayMillis(Set<RateLimit> rateLimits) {
-    if (rateLimits == null || rateLimits.isEmpty())
+    if (rateLimits == null || rateLimits.isEmpty()) {
       return null;
+    }
     long result = 0;
     for (RateLimit rateLimit : rateLimits) {
       // this is the delay between calls, we want max, any smaller number is for burst calls

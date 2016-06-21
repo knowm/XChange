@@ -39,7 +39,7 @@ public class PoloniexExchange extends BaseExchange implements Exchange {
     Map<String, PoloniexCurrencyInfo> poloniexCurrencyInfoMap = poloniexMarketDataServiceRaw.getPoloniexCurrencyInfo();
     Map<String, PoloniexMarketData> poloniexMarketDataMap = poloniexMarketDataServiceRaw.getAllPoloniexTickers();
 
-    metaData = PoloniexAdapters.adaptToExchangeMetaData(poloniexCurrencyInfoMap, poloniexMarketDataMap, metaData);
+    exchangeMetaData = PoloniexAdapters.adaptToExchangeMetaData(poloniexCurrencyInfoMap, poloniexMarketDataMap, exchangeMetaData);
   }
 
   @Override

@@ -56,7 +56,7 @@ public class GenericTradeService extends BaseExchangeService implements PollingT
   public OpenOrders getOpenOrders() throws IOException {
 
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
-    for (CurrencyPair currencyPair : exchange.getMetaData().getMarketMetaDataMap().keySet()) {
+    for (CurrencyPair currencyPair : exchange.getExchangeMetaData().getCurrencyPairMetaDataMap().keySet()) {
       HuobiOrder[] orders = tradeServiceRaw.getOrders(coinTypes.get(currencyPair));
 
       for (int i = 0; i < orders.length; i++) {
@@ -93,7 +93,7 @@ public class GenericTradeService extends BaseExchangeService implements PollingT
     final long id = Long.parseLong(orderId);
 
     HuobiCancelOrderResult result = null;
-    for (CurrencyPair currencyPair : exchange.getMetaData().getMarketMetaDataMap().keySet()) {
+    for (CurrencyPair currencyPair : exchange.getExchangeMetaData().getCurrencyPairMetaDataMap().keySet()) {
       result = tradeServiceRaw.cancelOrder(coinTypes.get(currencyPair), id);
 
       if (result.getCode() == 0) {

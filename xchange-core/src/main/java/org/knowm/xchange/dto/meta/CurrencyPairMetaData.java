@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class MarketMetaData {
+public class CurrencyPairMetaData {
 
   /**
    * Trading fee (fraction)
@@ -25,7 +25,7 @@ public class MarketMetaData {
    * @param minimumAmount
    * @param priceScale
    */
-  public MarketMetaData(@JsonProperty("tradingFee") BigDecimal tradingFee, @JsonProperty("minAmount") BigDecimal minimumAmount,
+  public CurrencyPairMetaData(@JsonProperty("tradingFee") BigDecimal tradingFee, @JsonProperty("minAmount") BigDecimal minimumAmount,
       @JsonProperty("priceScale") int priceScale) {
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;

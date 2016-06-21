@@ -29,7 +29,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.MarketMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
@@ -143,7 +143,7 @@ public class BleutradeAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(List<BleutradeCurrency> bleutradeCurrencies, List<BleutradeMarket> bleutradeMarkets) {
 
-    Map<CurrencyPair, MarketMetaData> marketMetaDataMap = new HashMap<CurrencyPair, MarketMetaData>();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = new HashMap<CurrencyPair, CurrencyPairMetaData>();
     Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<Currency, CurrencyMetaData>();
 
     for (BleutradeCurrency bleutradeCurrency : bleutradeCurrencies) {
@@ -156,7 +156,7 @@ public class BleutradeAdapters {
 
     for (BleutradeMarket bleutradeMarket : bleutradeMarkets) {
       CurrencyPair currencyPair = CurrencyPairDeserializer.getCurrencyPairFromString(bleutradeMarket.getMarketName());
-      MarketMetaData marketMetaData = new MarketMetaData(txFee, bleutradeMarket.getMinTradeSize(), 8);
+      CurrencyPairMetaData marketMetaData = new CurrencyPairMetaData(txFee, bleutradeMarket.getMinTradeSize(), 8);
       marketMetaDataMap.put(currencyPair, marketMetaData);
     }
 

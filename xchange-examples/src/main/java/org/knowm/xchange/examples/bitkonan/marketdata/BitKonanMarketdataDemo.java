@@ -38,7 +38,7 @@ public class BitKonanMarketdataDemo {
   }
 
   public static void requestAndPrintOrderBook(PollingMarketDataService marketDataService) throws IOException {
-    for (CurrencyPair pair : bitKonanExchange.getMetaData().getMarketMetaDataMap().keySet()) {
+    for (CurrencyPair pair : bitKonanExchange.getExchangeMetaData().getCurrencyPairMetaDataMap().keySet()) {
       OrderBook orderBook = marketDataService.getOrderBook(pair);
       System.out.println(orderBook.toString());
 
@@ -46,7 +46,7 @@ public class BitKonanMarketdataDemo {
   }
 
   public static void requestAndPrintLatestTicker(PollingMarketDataService marketDataService) throws IOException {
-    for (CurrencyPair pair : bitKonanExchange.getMetaData().getMarketMetaDataMap().keySet()) {
+    for (CurrencyPair pair : bitKonanExchange.getExchangeMetaData().getCurrencyPairMetaDataMap().keySet()) {
       Ticker ticker = marketDataService.getTicker(pair);
       System.out.println(ticker.toString());
     }

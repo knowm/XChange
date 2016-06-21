@@ -26,7 +26,7 @@ import org.knowm.xchange.bleutrade.service.polling.BleutradeServiceTestSupport;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.MarketMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -164,12 +164,12 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.remoteInit();
 
     // then
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchange.getMetaData().getCurrencyMetaDataMap();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchange.getExchangeMetaData().getCurrencyMetaDataMap();
     assertThat(currencyMetaDataMap).hasSize(2);
     assertThat(currencyMetaDataMap.get(Currency.BTC).scale).isEqualTo(8);
     assertThat(currencyMetaDataMap.get(Currency.LTC).scale).isEqualTo(8);
 
-    Map<CurrencyPair, MarketMetaData> marketMetaDataMap = exchange.getMetaData().getMarketMetaDataMap();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchange.getExchangeMetaData().getCurrencyPairMetaDataMap();
     assertThat(marketMetaDataMap).hasSize(2);
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString())
         .isEqualTo("MarketMetaData{tradingFee=0.0025, minimumAmount=0.10000000, priceScale=8}");

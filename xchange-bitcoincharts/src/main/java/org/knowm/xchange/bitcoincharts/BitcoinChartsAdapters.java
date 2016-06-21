@@ -10,7 +10,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.MarketMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 
 /**
  * Various adapters for converting from BitcoinCharts DTOs to XChange DTOs
@@ -52,12 +52,12 @@ public final class BitcoinChartsAdapters {
   }
 
   public static ExchangeMetaData adaptMetaData(ExchangeMetaData exchangeMetaData, BitcoinChartsTicker[] tickers) {
-    Map<CurrencyPair, MarketMetaData> pairs = new HashMap<CurrencyPair, MarketMetaData>();
+    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
 
     for (BitcoinChartsTicker ticker : tickers) {
       BigDecimal anyPrice = firstNonNull(ticker.getAsk(), ticker.getBid(), ticker.getClose(), ticker.getHigh(), ticker.getHigh());
       int scale = anyPrice != null ? anyPrice.scale() : 0;
-      pairs.put(new CurrencyPair(Currency.BTC, Currency.getInstance(ticker.getSymbol())), new MarketMetaData(null, null, scale));
+      pairs.put(new CurrencyPair(Currency.BTC, Currency.getInstance(ticker.getSymbol())), new CurrencyPairMetaData(null, null, scale));
     }
 
     return new ExchangeMetaData(pairs, exchangeMetaData.getCurrencyMetaDataMap(), exchangeMetaData.getPublicRateLimits(),

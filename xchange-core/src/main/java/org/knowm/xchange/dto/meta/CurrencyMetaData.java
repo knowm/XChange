@@ -13,6 +13,11 @@ public class CurrencyMetaData {
   public CurrencyMetaData() {
   }
 
+  /**
+   * Constructor
+   *
+   * @param scale
+   */
   public CurrencyMetaData(int scale) {
     this.scale = scale;
   }

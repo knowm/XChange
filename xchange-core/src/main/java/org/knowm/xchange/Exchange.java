@@ -35,7 +35,7 @@ public interface Exchange {
    *
    * @return
    */
-  ExchangeMetaData getMetaData();
+  ExchangeMetaData getExchangeMetaData();
 
   /**
    * The nonce factory used to create a nonce value. Allows services to accept a placeholder that is replaced with generated value just before message
@@ -111,7 +111,7 @@ public interface Exchange {
   PollingAccountService getPollingAccountService();
 
   /**
-   * Initialize this instance with the remote meta data. Most exchanges require this method to be called before {@link #getMetaData()}. Some exchanges
+   * Initialize this instance with the remote meta data. Most exchanges require this method to be called before {@link #getExchangeMetaData()}. Some exchanges
    * require it before using some of their services.
    */
   void remoteInit() throws IOException, ExchangeException;

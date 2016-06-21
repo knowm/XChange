@@ -47,6 +47,6 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
     BitcoinChartsTicker[] tickers = ((BitcoinChartsMarketDataService) pollingMarketDataService).getBitcoinChartsTickers();
-    metaData = BitcoinChartsAdapters.adaptMetaData(metaData, tickers);
+    exchangeMetaData = BitcoinChartsAdapters.adaptMetaData(exchangeMetaData, tickers);
   }
 }

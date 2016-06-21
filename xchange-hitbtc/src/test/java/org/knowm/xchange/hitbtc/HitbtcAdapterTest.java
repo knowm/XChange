@@ -20,7 +20,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.MarketMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcIncrementalRefresh;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
@@ -100,11 +100,11 @@ public class HitbtcAdapterTest {
     HitbtcSymbols symbols = mapper.readValue(is, HitbtcSymbols.class);
 
     ExchangeMetaData adaptedMetaData = HitbtcAdapters.adaptToExchangeMetaData(symbols, new HitbtcMetaData());
-    Map<CurrencyPair, MarketMetaData> metaDataMap = adaptedMetaData.getMarketMetaDataMap();
+    Map<CurrencyPair, CurrencyPairMetaData> metaDataMap = adaptedMetaData.getCurrencyPairMetaDataMap();
 
     assertThat(metaDataMap.size()).isEqualTo(15);
 
-    MarketMetaData BTC_USD = metaDataMap.get(CurrencyPair.BTC_USD);
+    CurrencyPairMetaData BTC_USD = metaDataMap.get(CurrencyPair.BTC_USD);
     assertThat(BTC_USD.getTradingFee()).isEqualTo("0.001");
     assertThat(BTC_USD.getMinimumAmount()).isEqualTo("0.01");
     assertThat(BTC_USD.getPriceScale()).isEqualTo(2);

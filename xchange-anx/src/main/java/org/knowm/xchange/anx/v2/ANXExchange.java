@@ -15,6 +15,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 public class ANXExchange extends BaseExchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private ANXMetaData anxMetaData;
 
   @Override
   protected void initServices() {
@@ -43,15 +44,13 @@ public class ANXExchange extends BaseExchange {
     return nonceFactory;
   }
 
-  private ANXMetaData anxMetaData;
-
   public ANXMetaData getANXMetaData() {
     return anxMetaData;
   }
 
   @Override
-  protected void loadMetaData(InputStream is) {
+  protected void loadExchangeMetaData(InputStream is) {
     anxMetaData = loadMetaData(is, ANXMetaData.class);
-    metaData = anxMetaData;
+    exchangeMetaData = anxMetaData;
   }
 }

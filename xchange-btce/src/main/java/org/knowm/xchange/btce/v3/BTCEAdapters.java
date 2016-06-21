@@ -34,7 +34,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.MarketMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -227,13 +227,13 @@ public final class BTCEAdapters {
   }
 
   public static ExchangeMetaData toMetaData(BTCEExchangeInfo btceExchangeInfo, BTCEMetaData btceMetaData) {
-    Map<CurrencyPair, MarketMetaData> currencyPairs = new HashMap<CurrencyPair, MarketMetaData>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<Currency, CurrencyMetaData>();
 
     if (btceExchangeInfo != null)
       for (Entry<String, BTCEPairInfo> e : btceExchangeInfo.getPairs().entrySet()) {
         CurrencyPair pair = adaptCurrencyPair(e.getKey());
-        MarketMetaData marketMetaData = toMarketMetaData(e.getValue(), btceMetaData);
+        CurrencyPairMetaData marketMetaData = toMarketMetaData(e.getValue(), btceMetaData);
         currencyPairs.put(pair, marketMetaData);
 
         addCurrencyMetaData(pair.base, currencies, btceMetaData);
@@ -251,12 +251,12 @@ public final class BTCEAdapters {
     }
   }
 
-  public static MarketMetaData toMarketMetaData(BTCEPairInfo info, BTCEMetaData btceMetaData) {
+  public static CurrencyPairMetaData toMarketMetaData(BTCEPairInfo info, BTCEMetaData btceMetaData) {
     int priceScale = info.getDecimals();
     BigDecimal minimumAmount = withScale(info.getMinAmount(), btceMetaData.amountScale);
     BigDecimal feeFraction = info.getFee().movePointLeft(2);
 
-    return new MarketMetaData(feeFraction, minimumAmount, priceScale);
+    return new CurrencyPairMetaData(feeFraction, minimumAmount, priceScale);
   }
 
   private static BigDecimal withScale(BigDecimal value, int priceScale) {

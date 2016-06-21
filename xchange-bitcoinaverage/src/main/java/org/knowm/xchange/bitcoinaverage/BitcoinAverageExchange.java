@@ -46,11 +46,11 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
     BitcoinAverageTickers tickers = ((BitcoinAverageMarketDataServiceRaw) pollingMarketDataService).getBitcoinAverageAllTickers();
-    metaData = BitcoinAverageAdapters.adaptMetaData(tickers, bitcoinAverageMetaData);
+    exchangeMetaData = BitcoinAverageAdapters.adaptMetaData(tickers, bitcoinAverageMetaData);
   }
 
   @Override
-  protected void loadMetaData(InputStream is) {
+  protected void loadExchangeMetaData(InputStream is) {
     bitcoinAverageMetaData = loadMetaData(is, BitcoinAverageMetaData.class);
   }
 
