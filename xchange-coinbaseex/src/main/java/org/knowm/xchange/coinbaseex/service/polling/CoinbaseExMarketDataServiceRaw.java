@@ -1,9 +1,11 @@
 package org.knowm.xchange.coinbaseex.service.polling;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbaseex.CoinbaseEx;
+import org.knowm.xchange.coinbaseex.dto.marketdata.CoinbaseExProduct;
 import org.knowm.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
 import org.knowm.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
 import org.knowm.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
@@ -67,7 +69,7 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
   private boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
 
     boolean currencyPairSupported = false;
-    for (CurrencyPair cp : this.getExchangeSymbols()) {
+    for (CurrencyPair cp : exchange.getExchangeSymbols()) {
       if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
           && cp.counter.getCurrencyCode().equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
         currencyPairSupported = true;
@@ -76,5 +78,10 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
     }
 
     return currencyPairSupported;
+  }
+
+  public List<CoinbaseExProduct> getConbaseExProducts() throws IOException {
+
+    return coinbaseEx.getProducts();
   }
 }

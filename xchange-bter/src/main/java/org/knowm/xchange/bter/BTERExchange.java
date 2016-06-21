@@ -1,5 +1,7 @@
 package org.knowm.xchange.bter;
 
+import java.io.IOException;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -36,5 +38,18 @@ public class BTERExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+
+    // TODO Implement this.
+    // List<CurrencyPair>  currencies = ((BTERPollingMarketDataServiceRaw) pollingMarketDataService).getExchangeSymbols();
+    // other endpoints?
+    // hard-coded meta data from json file not available at an endpoint?
+    // TODO take all the info gathered above and create a `ExchangeMetaData` object via a new method in `*Adapters` class
+    // exchangeMetaData = *Adapters.adaptToExchangeMetaData(blah, blah);
+
+    super.remoteInit();
   }
 }

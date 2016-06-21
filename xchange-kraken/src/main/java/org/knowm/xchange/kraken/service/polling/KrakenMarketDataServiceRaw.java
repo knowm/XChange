@@ -6,10 +6,13 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.kraken.KrakenUtils;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPairs;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrades;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenSpreads;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenTicker;
+import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenSpreadsResult;
@@ -29,7 +32,7 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService {
 
   public KrakenTicker getKrakenTicker(CurrencyPair currencyPair) throws IOException {
 
-    String krakenCurrencyPair = createKrakenCurrencyPair(currencyPair);
+    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
     KrakenTickerResult tickerResult = kraken.getTicker(krakenCurrencyPair);
 
     return checkResult(tickerResult).get(krakenCurrencyPair);
@@ -44,7 +47,7 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService {
 
   public KrakenDepth getKrakenDepth(CurrencyPair currencyPair, long count) throws IOException {
 
-    String krakenCurrencyPair = createKrakenCurrencyPair(currencyPair);
+    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
     KrakenDepthResult result = kraken.getDepth(krakenCurrencyPair, count);
 
     return checkResult(result).get(krakenCurrencyPair);
@@ -57,7 +60,7 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService {
 
   public KrakenPublicTrades getKrakenTrades(CurrencyPair currencyPair, Long since) throws IOException {
 
-    String krakenCurrencyPair = createKrakenCurrencyPair(currencyPair);
+    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(currencyPair);
     KrakenPublicTradesResult result = kraken.getTrades(krakenCurrencyPair, since);
 
     return checkResult(result);
@@ -70,9 +73,17 @@ public class KrakenMarketDataServiceRaw extends KrakenBasePollingService {
 
   private KrakenSpreads getKrakenSpreads(Currency tradableIdentifier, Currency currency, Long since) throws IOException {
 
-    String krakenCurrencyPair = createKrakenCurrencyPair(tradableIdentifier, currency);
+    String krakenCurrencyPair = KrakenUtils.createKrakenCurrencyPair(tradableIdentifier, currency);
     KrakenSpreadsResult spreadsResult = kraken.getSpread(krakenCurrencyPair, since);
 
     return checkResult(spreadsResult);
   }
+
+  public KrakenAssetPairs getKrakenAssetPairs(CurrencyPair... currencyPairs) throws IOException {
+
+    KrakenAssetPairsResult assetPairsResult = kraken.getAssetPairs(delimitAssetPairs(currencyPairs));
+
+    return new KrakenAssetPairs(checkResult(assetPairsResult));
+  }
+
 }

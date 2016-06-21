@@ -102,4 +102,5 @@ public class BittrexMarketDataServiceRaw extends BittrexBasePollingService {
       throw new ExchangeException(response.getMessage());
     }
   }
+
 }

@@ -18,9 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ExchangeMetaData {
 
   private Map<CurrencyPair, CurrencyPairMetaData> currencyPairs;
-
   private Map<Currency, CurrencyMetaData> currency;
-
   private Set<RateLimit> publicRateLimits;
   private Set<RateLimit> privateRateLimits;
 

@@ -28,13 +28,6 @@ public class BleutradeExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public void remoteInit() throws IOException {
-    List<BleutradeCurrency> currencies = ((BleutradeMarketDataServiceRaw) pollingMarketDataService).getBleutradeCurrencies();
-    List<BleutradeMarket> markets = ((BleutradeMarketDataServiceRaw) pollingMarketDataService).getBleutradeMarkets();
-    exchangeMetaData = BleutradeAdapters.adaptToExchangeMetaData(currencies, markets);
-  }
-
-  @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
@@ -51,5 +44,12 @@ public class BleutradeExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+    List<BleutradeCurrency> currencies = ((BleutradeMarketDataServiceRaw) pollingMarketDataService).getBleutradeCurrencies();
+    List<BleutradeMarket> markets = ((BleutradeMarketDataServiceRaw) pollingMarketDataService).getBleutradeMarkets();
+    exchangeMetaData = BleutradeAdapters.adaptToExchangeMetaData(currencies, markets);
   }
 }

@@ -1,11 +1,19 @@
 package org.knowm.xchange.cryptsy.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.cryptsy.CryptsyAdapters;
+import org.knowm.xchange.cryptsy.CryptsyCurrencyUtils;
+import org.knowm.xchange.cryptsy.dto.marketdata.CryptsyCurrencyPairsReturn;
 import org.knowm.xchange.cryptsy.dto.marketdata.CryptsyGetMarketsReturn;
+import org.knowm.xchange.cryptsy.dto.marketdata.CryptsyMarketId;
 import org.knowm.xchange.cryptsy.dto.marketdata.CryptsyMarketTradesReturn;
 import org.knowm.xchange.cryptsy.dto.marketdata.CryptsyOrderBookReturn;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
@@ -60,5 +68,28 @@ public class CryptsyMarketDataServiceRaw extends CryptsyBasePollingService {
   public CryptsyGetMarketsReturn getCryptsyMarkets() throws IOException, ExchangeException {
 
     return checkResult(cryptsyAuthenticated.getmarkets(apiKey, signatureCreator, exchange.getNonceFactory()));
+  }
+
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+
+    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+
+    CryptsyCurrencyPairsReturn response = cryptsy.getCryptsyCurrencyPairs();
+    HashMap<String, CryptsyMarketId> map = response.getReturnValue();
+
+    CryptsyCurrencyUtils.marketIds_CurrencyPairs.clear();
+    CryptsyCurrencyUtils.currencyPairs_MarketIds.clear();
+
+    for (String pairString : map.keySet()) {
+      CurrencyPair currencyPair = CryptsyAdapters.adaptCurrencyPair(pairString);
+      String idString = map.get(pairString).getMarketid();
+      Integer marketId = Integer.valueOf(idString);
+
+      CryptsyCurrencyUtils.marketIds_CurrencyPairs.put(marketId, currencyPair);
+      CryptsyCurrencyUtils.currencyPairs_MarketIds.put(currencyPair, marketId);
+      currencyPairs.add(currencyPair);
+    }
+
+    return currencyPairs;
   }
 }

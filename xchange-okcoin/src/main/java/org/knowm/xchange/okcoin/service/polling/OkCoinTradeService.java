@@ -6,9 +6,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -29,6 +26,8 @@ import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPa
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OkCoinTradeService extends OkCoinTradeServiceRaw implements PollingTradeService {
 
@@ -38,7 +37,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
 
   /**
    * Constructor
-   * 
+   *
    * @param exchange
    */
   public OkCoinTradeService(Exchange exchange) {
@@ -49,7 +48,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   @Override
   public OpenOrders getOpenOrders() throws IOException {
 
-    List<CurrencyPair> exchangeSymbols = getExchangeSymbols();
+    List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
 
     List<OkCoinOrderResult> orderResults = new ArrayList<OkCoinOrderResult>(exchangeSymbols.size());
 
@@ -104,7 +103,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
     boolean ret = false;
     long id = Long.valueOf(orderId);
 
-    List<CurrencyPair> exchangeSymbols = getExchangeSymbols();
+    List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
     for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
       try {

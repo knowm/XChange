@@ -3,7 +3,7 @@ package org.knowm.xchange.itbit.v1.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.knowm.xchange.itbit.utils.ItBitDateDeserializer;
+import org.knowm.xchange.itbit.v1.ItBitDateDeserializer;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 

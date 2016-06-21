@@ -1,11 +1,6 @@
 package org.knowm.xchange.vaultoro.service.polling;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.polling.BasePollingService;
 import org.knowm.xchange.vaultoro.VaultoroAuthenticated;
@@ -34,11 +29,4 @@ public class VaultoroBasePollingService extends BaseExchangeService implements B
     this.signatureCreator = VaultoroDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>();
-    pairs.add(new CurrencyPair("GLD", "BTC"));
-    return pairs;
-  }
 }

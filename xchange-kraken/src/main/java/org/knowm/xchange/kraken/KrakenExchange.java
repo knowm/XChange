@@ -1,5 +1,7 @@
 package org.knowm.xchange.kraken;
 
+import java.io.IOException;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -40,5 +42,20 @@ public class KrakenExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+
+    // TODO Implement this.
+    //KrakenAssetPairs  currencies = ((KrakenMarketDataServiceRaw) pollingMarketDataService).getKrakenAssetPairs(CurrencyPair... currencyPairs) ();
+    // other endpoints?
+    // hard-coded meta data from json file not available at an endpoint?
+    // TODO take all the info gathered above and create a `ExchangeMetaData` object via a new method in `*Adapters` class
+    // exchangeMetaData = *Adapters.adaptToExchangeMetaData(blah, blah);
+
+    KrakenUtils.buildExchangeSymbols(getExchangeMetaData().getCurrencyPairMetaDataMap());
+
+    super.remoteInit();
   }
 }

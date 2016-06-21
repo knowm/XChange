@@ -1,7 +1,9 @@
 package org.knowm.xchange;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.polling.account.PollingAccountService;
@@ -31,11 +33,19 @@ public interface Exchange {
   ExchangeSpecification getExchangeSpecification();
 
   /**
-   * The MetaData defining some semi-static properties of an exchange such as currency pairs, trading fees, etc.
+   * The Meta Data defining some semi-static properties of an exchange such as currency pairs, trading fees, etc.
    *
    * @return
    */
   ExchangeMetaData getExchangeMetaData();
+
+  /**
+   * Returns a list of CurrencyPair objects. This list can either come originally from a loaded json file or from a remote call if the implementation
+   * override's the `remoteInit` method.
+   *
+   * @return
+   */
+  public List<CurrencyPair> getExchangeSymbols();
 
   /**
    * The nonce factory used to create a nonce value. Allows services to accept a placeholder that is replaced with generated value just before message
@@ -111,8 +121,8 @@ public interface Exchange {
   PollingAccountService getPollingAccountService();
 
   /**
-   * Initialize this instance with the remote meta data. Most exchanges require this method to be called before {@link #getExchangeMetaData()}. Some exchanges
-   * require it before using some of their services.
+   * Initialize this instance with the remote meta data. Most exchanges require this method to be called before {@link #getExchangeMetaData()}. Some
+   * exchanges require it before using some of their services.
    */
   void remoteInit() throws IOException, ExchangeException;
 }

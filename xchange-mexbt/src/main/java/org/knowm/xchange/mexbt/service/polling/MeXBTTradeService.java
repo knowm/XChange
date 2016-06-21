@@ -71,7 +71,7 @@ public class MeXBTTradeService extends MeXBTTradeServiceRaw implements PollingTr
   @Override
   public boolean cancelOrder(String orderId) throws ExchangeException, IOException {
     boolean cancelled = false;
-    for (CurrencyPair currencyPair : getExchangeSymbols()) {
+    for (CurrencyPair currencyPair : exchange.getExchangeSymbols()) {
       try {
         cancelOrder(toCurrencyPair(currencyPair), orderId);
         cancelled = true;

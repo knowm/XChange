@@ -1,4 +1,4 @@
-package org.knowm.xchange.itbit.utils;
+package org.knowm.xchange.itbit.v1;
 
 import java.io.IOException;
 import java.text.ParseException;

@@ -1,13 +1,7 @@
 package org.knowm.xchange.cryptonit.v2.service.polling;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptonit.v2.Cryptonit;
-import org.knowm.xchange.cryptonit.v2.CryptonitAdapters;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.polling.BasePollingService;
 import org.knowm.xchange.utils.CertHelper;
@@ -35,12 +29,4 @@ public class CryptonitBasePollingService extends BaseExchangeService implements 
     this.cryptonit = RestProxyFactory.createProxy(Cryptonit.class, exchange.getExchangeSpecification().getSslUri(), config);
   }
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-    currencyPairs.addAll(CryptonitAdapters.adaptCurrencyPairs(cryptonit.getPairs()));
-
-    return currencyPairs;
-  }
 }

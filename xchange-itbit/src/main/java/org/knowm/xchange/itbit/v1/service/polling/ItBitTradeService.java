@@ -37,7 +37,7 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
   @Override
   public OpenOrders getOpenOrders() throws IOException {
     List<ItBitOrder> orders = new ArrayList<>();
-    for (CurrencyPair currencyPair : getExchangeSymbols()) {
+    for (CurrencyPair currencyPair : exchange.getExchangeSymbols()) {
       orders.addAll(Arrays.asList(getItBitOpenOrders(currencyPair)));
     }
     ItBitOrder[] empty = {};
@@ -71,13 +71,9 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
       ++page;
     }
 
-    ItBitTradeHistory userTradeHistory = getUserTradeHistory(
-        ((TradeHistoryParamTransactionId) params).getTransactionId(),
-        page,
-        ((TradeHistoryParamPaging) params).getPageLength(),
-        ((TradeHistoryParamsTimeSpan) params).getStartTime(),
-        ((TradeHistoryParamsTimeSpan) params).getEndTime()
-    );
+    ItBitTradeHistory userTradeHistory = getUserTradeHistory(((TradeHistoryParamTransactionId) params).getTransactionId(), page,
+        ((TradeHistoryParamPaging) params).getPageLength(), ((TradeHistoryParamsTimeSpan) params).getStartTime(),
+        ((TradeHistoryParamsTimeSpan) params).getEndTime());
     return ItBitAdapters.adaptTradeHistory(userTradeHistory);
   }
 
@@ -100,12 +96,35 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
       this.endTime = endTime;
     }
 
-    @Override public void setTransactionId(String txId) { this.txId = txId; }
-    @Override public String getTransactionId() { return txId; }
-    @Override public void setStartTime(Date startTime) { this.startTime = startTime; }
-    @Override public Date getStartTime() { return startTime; }
-    @Override public void setEndTime(Date endTime) { this.endTime = endTime; }
-    @Override public Date getEndTime() { return endTime; }
+    @Override
+    public void setTransactionId(String txId) {
+      this.txId = txId;
+    }
+
+    @Override
+    public String getTransactionId() {
+      return txId;
+    }
+
+    @Override
+    public void setStartTime(Date startTime) {
+      this.startTime = startTime;
+    }
+
+    @Override
+    public Date getStartTime() {
+      return startTime;
+    }
+
+    @Override
+    public void setEndTime(Date endTime) {
+      this.endTime = endTime;
+    }
+
+    @Override
+    public Date getEndTime() {
+      return endTime;
+    }
   }
 
   @Override

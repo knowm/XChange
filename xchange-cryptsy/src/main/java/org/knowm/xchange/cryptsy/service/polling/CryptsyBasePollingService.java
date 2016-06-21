@@ -1,21 +1,11 @@
 package org.knowm.xchange.cryptsy.service.polling;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptsy.Cryptsy;
-import org.knowm.xchange.cryptsy.CryptsyAdapters;
 import org.knowm.xchange.cryptsy.CryptsyAuthenticated;
-import org.knowm.xchange.cryptsy.CryptsyCurrencyUtils;
 import org.knowm.xchange.cryptsy.CryptsyExchange;
 import org.knowm.xchange.cryptsy.dto.CryptsyGenericReturn;
-import org.knowm.xchange.cryptsy.dto.marketdata.CryptsyCurrencyPairsReturn;
-import org.knowm.xchange.cryptsy.dto.marketdata.CryptsyMarketId;
 import org.knowm.xchange.cryptsy.service.CryptsyHmacPostBodyDigest;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.polling.BasePollingService;
@@ -52,30 +42,6 @@ public class CryptsyBasePollingService extends BaseExchangeService implements Ba
     this.cryptsy = RestProxyFactory.createProxy(Cryptsy.class,
         (String) exchange.getExchangeSpecification().getParameter(CryptsyExchange.KEY_PUBLIC_API_URL));
 
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-
-    CryptsyCurrencyPairsReturn response = cryptsy.getCryptsyCurrencyPairs();
-    HashMap<String, CryptsyMarketId> map = response.getReturnValue();
-
-    CryptsyCurrencyUtils.marketIds_CurrencyPairs.clear();
-    CryptsyCurrencyUtils.currencyPairs_MarketIds.clear();
-
-    for (String pairString : map.keySet()) {
-      CurrencyPair currencyPair = CryptsyAdapters.adaptCurrencyPair(pairString);
-      String idString = map.get(pairString).getMarketid();
-      Integer marketId = Integer.valueOf(idString);
-
-      CryptsyCurrencyUtils.marketIds_CurrencyPairs.put(marketId, currencyPair);
-      CryptsyCurrencyUtils.currencyPairs_MarketIds.put(currencyPair, marketId);
-      currencyPairs.add(currencyPair);
-    }
-
-    return currencyPairs;
   }
 
   @SuppressWarnings("rawtypes")

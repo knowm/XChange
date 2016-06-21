@@ -7,6 +7,7 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.kraken.KrakenUtils;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositMethods;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
@@ -87,7 +88,7 @@ public class KrakenAccountServiceRaw extends KrakenBasePollingService {
     String valuationCurrencyCode = null;
 
     if (valuationCurrency != null) {
-      valuationCurrencyCode = getKrakenCurrencyCode(valuationCurrency);
+      valuationCurrencyCode = KrakenUtils.getKrakenCurrencyCode(valuationCurrency);
     }
 
     KrakenTradeBalanceInfoResult balanceResult = kraken.tradeBalance(null, valuationCurrencyCode, exchange.getExchangeSpecification().getApiKey(),

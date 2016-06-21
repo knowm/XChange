@@ -1,15 +1,8 @@
 package org.knowm.xchange.empoex.service.polling;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.empoex.EmpoEx;
 import org.knowm.xchange.empoex.EmpoExAuthenticated;
-import org.knowm.xchange.empoex.EmpoExUtils;
-import org.knowm.xchange.empoex.dto.marketdata.EmpoExTicker;
 import org.knowm.xchange.empoex.service.EmpoExHmacPostBodyDigest;
 import org.knowm.xchange.empoex.service.EmpoExPayloadDigest;
 import org.knowm.xchange.service.BaseExchangeService;
@@ -45,16 +38,4 @@ public class EmpoExBasePollingService extends BaseExchangeService implements Bas
 
   }
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-
-    List<EmpoExTicker> tickers = empoExAuthenticated.getEmpoExTickers();
-
-    for (EmpoExTicker ticker : tickers) {
-      currencyPairs.add(EmpoExUtils.toCurrencyPair(ticker.getPairname()));
-    }
-    return currencyPairs;
-  }
 }

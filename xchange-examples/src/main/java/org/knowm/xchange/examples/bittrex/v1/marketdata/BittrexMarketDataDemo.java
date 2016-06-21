@@ -23,10 +23,14 @@ import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class BittrexMarketDataDemo {
 
+  static Exchange exchange;
+
   public static void main(String[] args) throws IOException {
 
-    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class.getName());
+    exchange = ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class.getName());
     PollingMarketDataService pollingMarketDataService = exchange.getPollingMarketDataService();
+
+    System.out.println(exchange.getExchangeSymbols().toArray());
 
     generic(pollingMarketDataService);
     raw((BittrexMarketDataServiceRaw) pollingMarketDataService);
@@ -60,10 +64,7 @@ public class BittrexMarketDataDemo {
     ArrayList<BittrexSymbol> symbols = marketDataService.getBittrexSymbols();
     System.out.println(symbols);
 
-    ArrayList<CurrencyPair> pairs = new ArrayList<CurrencyPair>(marketDataService.getExchangeSymbols());
-    System.out.println(pairs);
-
-    CurrencyPair pair = pairs.get(new Random().nextInt(pairs.size()));
+    CurrencyPair pair = exchange.getExchangeSymbols().get(new Random().nextInt(exchange.getExchangeSymbols().size()));
     System.out.println("Market data for " + pair + ":");
     String pairString = BittrexUtils.toPairString(pair);
 
