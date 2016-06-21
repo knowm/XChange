@@ -39,9 +39,12 @@ public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
     return bitbay.getBitbayOrderBook(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
   }
 
-  public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair) throws IOException {
-
-    return bitbay.getBitbayTrades(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
+  public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair, Object[] args) throws IOException {
+    long since = 0;
+    if (args.length == 1) {
+      since = ((Number) args[0]).longValue();
+    }
+    return bitbay.getBitbayTrades(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString(), since);
   }
 
 }
