@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.knowm.xchange.bitkonan.dto.marketdata.BitKonanOrderBook;
-import org.knowm.xchange.bitkonan.dto.marketdata.BitKonanOrderBookElement;
-import org.knowm.xchange.bitkonan.dto.marketdata.BitKonanTicker;
+import org.knowm.xchange.bitkonan.dto.marketdata.*;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class BitKonanAdapters {
@@ -68,4 +68,15 @@ public class BitKonanAdapters {
     return orders;
   }
 
+  public static Trades adaptTrades(List<BitKonanTrade> bitKonanTrades, CurrencyPair currencyPair) {
+    List<Trade> tradeList = new ArrayList<>();
+    for (BitKonanTrade bitKonanTrade : bitKonanTrades) {
+      tradeList.add(adaptTrade(bitKonanTrade, currencyPair));
+    }
+    return new Trades(tradeList, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  private static Trade adaptTrade(BitKonanTrade konanTrade, CurrencyPair currencyPair) {
+    return new Trade(null, konanTrade.getBtc(), currencyPair, konanTrade.getUsd(), konanTrade.getTime(), null);
+  }
 }

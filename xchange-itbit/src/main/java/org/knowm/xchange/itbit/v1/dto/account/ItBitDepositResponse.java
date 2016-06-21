@@ -3,9 +3,8 @@ package org.knowm.xchange.itbit.v1.dto.account;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.itbit.v1.dto.ItBitBaseResponse;
 
-public class ItBitDepositResponse extends ItBitBaseResponse {
+public class ItBitDepositResponse {
 
   private final String id;
   private final String walletId;

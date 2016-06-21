@@ -26,22 +26,19 @@ public class ItBitTradesDemo {
   public static void main(String[] args) throws Exception {
 
     // Use the factory to get BTC-E exchange API using default settings
-    Exchange bitfinex = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
-    ExchangeSpecification defaultExchangeSpecification = bitfinex.getDefaultExchangeSpecification();
+    Exchange itbit = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
+    ExchangeSpecification defaultExchangeSpecification = itbit.getDefaultExchangeSpecification();
 
-    defaultExchangeSpecification.setUserName("xxx");
+    defaultExchangeSpecification.setUserName("userId/walletId");
     defaultExchangeSpecification.setApiKey("xxx");
     defaultExchangeSpecification.setSecretKey("xxx");
 
-    defaultExchangeSpecification.setExchangeSpecificParametersItem("walletId", "xx");
-    defaultExchangeSpecification.setExchangeSpecificParametersItem("userId", "xxx");
-
-    bitfinex.applySpecification(defaultExchangeSpecification);
+    itbit.applySpecification(defaultExchangeSpecification);
 
     // get all services
-    PollingMarketDataService marketDataService = bitfinex.getPollingMarketDataService();
-    PollingAccountService accout = bitfinex.getPollingAccountService();
-    PollingTradeService trades = bitfinex.getPollingTradeService();
+    PollingMarketDataService marketDataService = itbit.getPollingMarketDataService();
+    PollingAccountService accout = itbit.getPollingAccountService();
+    PollingTradeService trades = itbit.getPollingTradeService();
 
     OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair("XBT", "USD"));
     System.out.println("BIDS: " + orderBook.getBids());

@@ -1,21 +1,21 @@
 package org.knowm.xchange.itbit.v1.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.math.BigDecimal;
 
 public class ItBitTrade {
 
   private final BigDecimal amount;
-  private final long date;
+  private final String timestamp;
   private final BigDecimal price;
   private final long tid;
 
-  public ItBitTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price,
+  public ItBitTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") String timestamp, @JsonProperty("price") BigDecimal price,
       @JsonProperty("tid") long tid) {
 
     this.amount = amount;
-    this.date = date;
+    this.timestamp = timestamp;
     this.price = price;
     this.tid = tid;
   }
@@ -25,9 +25,9 @@ public class ItBitTrade {
     return amount;
   }
 
-  public long getDate() {
+  public String getTimestamp() {
 
-    return date;
+    return timestamp;
   }
 
   public BigDecimal getPrice() {
@@ -46,8 +46,8 @@ public class ItBitTrade {
     StringBuilder builder = new StringBuilder();
     builder.append("ItBitTrade [amount=");
     builder.append(amount);
-    builder.append(", date=");
-    builder.append(date);
+    builder.append(", timestamp=");
+    builder.append(timestamp);
     builder.append(", price=");
     builder.append(price);
     builder.append(", tid=");

@@ -3,9 +3,8 @@ package org.knowm.xchange.itbit.v1.dto.trade;
 import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.itbit.v1.dto.ItBitBaseResponse;
 
-public class ItBitOrder extends ItBitBaseResponse {
+public class ItBitOrder {
 
   private final String id;
   private final String walletId;

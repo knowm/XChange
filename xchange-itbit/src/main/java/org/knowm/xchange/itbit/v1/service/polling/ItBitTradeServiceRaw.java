@@ -8,13 +8,12 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.itbit.v1.ItBitAdapters;
+import org.knowm.xchange.itbit.v1.dto.ItBitException;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitPlaceOrderRequest;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
 
 public class ItBitTradeServiceRaw extends ItBitBasePollingService {
-
-  /** Wallet ID used for transactions with this instance */
-  private final String walletId;
 
   /**
    * Constructor
@@ -22,11 +21,7 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
    * @param exchange
    */
   public ItBitTradeServiceRaw(Exchange exchange) {
-
     super(exchange);
-
-    // wallet Id used for this instance.
-    walletId = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get("walletId");
   }
 
   public ItBitOrder[] getItBitOpenOrders(CurrencyPair currencyPair) throws IOException {
@@ -78,10 +73,22 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
     itBitAuthenticated.cancelOrder(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), walletId, orderId);
   }
 
-  public ItBitOrder[] getItBitTradeHistory(String currency, String pageNum, String pageLen) throws IOException {
+  public ItBitOrder[] getItBitOrderHistory(String currency, String pageNum, String pageLen) throws IOException {
 
     ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(), currency, pageNum, pageLen,
         "filled", walletId);
     return orders;
+  }
+
+  public ItBitTradeHistory getUserTradeHistory(
+      String lastExecutionId,
+      Integer page,
+      Integer perPage,
+      Date rangeStart,
+      Date rangeEnd
+  ) throws IOException, ItBitException {
+    return itBitAuthenticated.getUserTradeHistory(
+        signatureCreator, System.currentTimeMillis(), exchange.getNonceFactory(), walletId,
+        lastExecutionId, page, perPage, rangeStart, rangeEnd);
   }
 }
