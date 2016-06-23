@@ -13,6 +13,7 @@ public class CexIOTrade {
   private final BigDecimal price;
   private final long date;
   private final long tid;
+  private final String type;
 
   /**
    * Constructor
@@ -23,12 +24,13 @@ public class CexIOTrade {
    * @param tid
    */
   public CexIOTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price, @JsonProperty("date") long date,
-      @JsonProperty("tid") long tid) {
+      @JsonProperty("tid") long tid, @JsonProperty("type") String type) {
 
     this.price = price;
     this.amount = amount;
     this.tid = tid;
     this.date = date;
+    this.type = type;
   }
 
   public BigDecimal getAmount() {
@@ -51,10 +53,27 @@ public class CexIOTrade {
     return tid;
   }
 
+  public String getType() {
+
+    return type;
+  }
+
   @Override
   public String toString() {
 
-    return "CexIOTrade [amount=" + amount + ", price=" + price + ", date=" + date + ", tid=" + tid + "]";
+    StringBuilder builder = new StringBuilder();
+    builder.append("CexIOTrade [amount=");
+    builder.append(amount);
+    builder.append(", price=");
+    builder.append(price);
+    builder.append(", date=");
+    builder.append(date);
+    builder.append(", tid=");
+    builder.append(tid);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

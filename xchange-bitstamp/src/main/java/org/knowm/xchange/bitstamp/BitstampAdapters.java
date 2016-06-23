@@ -137,7 +137,7 @@ public final class BitstampAdapters {
    */
   public static Trade adaptTrade(BitstampTransaction tx, CurrencyPair currencyPair, int timeScale) {
 
-	OrderType orderType = tx.getType() == 0 ? OrderType.BID : OrderType.ASK;
+    OrderType orderType = tx.getType() == 0 ? OrderType.BID : OrderType.ASK;
     final String tradeId = String.valueOf(tx.getTid());
     Date date = DateUtils.fromMillisUtc(tx.getDate() * timeScale);// polled order books provide a timestamp in seconds, stream in ms
     return new Trade(orderType, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
