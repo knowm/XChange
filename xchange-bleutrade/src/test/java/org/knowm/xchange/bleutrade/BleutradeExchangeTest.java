@@ -13,10 +13,6 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
-
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
@@ -28,6 +24,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -164,15 +163,17 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.remoteInit();
 
     // then
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchange.getExchangeMetaData().getCurrencyMetaDataMap();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchange.getExchangeMetaData().getCurrencies();
     assertThat(currencyMetaDataMap).hasSize(2);
-    assertThat(currencyMetaDataMap.get(Currency.BTC).scale).isEqualTo(8);
-    assertThat(currencyMetaDataMap.get(Currency.LTC).scale).isEqualTo(8);
+    assertThat(currencyMetaDataMap.get(Currency.BTC).getScale()).isEqualTo(8);
+    assertThat(currencyMetaDataMap.get(Currency.LTC).getScale()).isEqualTo(8);
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchange.getExchangeMetaData().getCurrencyPairMetaDataMap();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchange.getExchangeMetaData().getCurrencyPairs();
     assertThat(marketMetaDataMap).hasSize(2);
+    //    System.out.println(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString());
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString())
-        .isEqualTo("MarketMetaData{tradingFee=0.0025, minimumAmount=0.10000000, priceScale=8}");
-    assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo("MarketMetaData{tradingFee=0.0025, minimumAmount=1E-8, priceScale=8}");
+        .isEqualTo("CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, priceScale=8]");
+    assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString())
+        .isEqualTo("CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, priceScale=8]");
   }
 }

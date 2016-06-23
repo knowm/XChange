@@ -1,5 +1,5 @@
 {
-  "currencyPair": {
+  "currency_pairs": {
     "BTC/CNY": {},
     "LTC/CNY": {},
     "SAK/CNY": {},
@@ -23,5 +23,5 @@
     "VRC/CNY": {},
     "MAX/CNY": {}
   },
-  "currency": {}
+  "currencies": {}
 }

@@ -244,7 +244,7 @@ public final class ANXAdapters {
 
     BigDecimal tradedCurrencyFillAmount = aNXTradeResult.getTradedCurrencyFillAmount();
     CurrencyPair currencyPair = adaptCurrencyPair(aNXTradeResult.getCurrencyPair());
-    int priceScale = meta.currencyPair.get(currencyPair).getPriceScale();
+    int priceScale = meta.getCurrencyPairs().get(currencyPair).getPriceScale();
     BigDecimal price = aNXTradeResult.getSettlementCurrencyFillAmount().divide(tradedCurrencyFillAmount, priceScale, BigDecimal.ROUND_HALF_EVEN);
     OrderType type = adaptSide(aNXTradeResult.getSide());
     // for fees, getWalletHistory should be used.

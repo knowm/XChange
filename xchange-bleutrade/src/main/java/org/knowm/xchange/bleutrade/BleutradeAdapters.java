@@ -28,8 +28,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
@@ -156,7 +156,7 @@ public class BleutradeAdapters {
 
     for (BleutradeMarket bleutradeMarket : bleutradeMarkets) {
       CurrencyPair currencyPair = CurrencyPairDeserializer.getCurrencyPairFromString(bleutradeMarket.getMarketName());
-      CurrencyPairMetaData marketMetaData = new CurrencyPairMetaData(txFee, bleutradeMarket.getMinTradeSize(), 8);
+      CurrencyPairMetaData marketMetaData = new CurrencyPairMetaData(txFee, bleutradeMarket.getMinTradeSize(), null, 8);
       marketMetaDataMap.put(currencyPair, marketMetaData);
     }
 

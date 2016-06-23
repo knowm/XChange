@@ -54,7 +54,7 @@ public class KrakenExchange extends BaseExchange implements Exchange {
     // TODO take all the info gathered above and create a `ExchangeMetaData` object via a new method in `*Adapters` class
     // exchangeMetaData = *Adapters.adaptToExchangeMetaData(blah, blah);
 
-    KrakenUtils.buildExchangeSymbols(getExchangeMetaData().getCurrencyPairMetaDataMap());
+    KrakenUtils.buildExchangeSymbols(getExchangeMetaData().getCurrencyPairs());
 
     super.remoteInit();
   }

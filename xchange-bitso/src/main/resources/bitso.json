@@ -1,10 +1,10 @@
 {
-  "currencyPair": {
+  "currency_pairs": {
     "BTC/MXN": {
-      "priceScale": 2
+      "price_scale": 2
     }
   },
-  "currency": {
+  "currencies": {
     "BTC": {
       "scale": 8
     },
@@ -12,11 +12,11 @@
       "scale": 2
     }
   },
-  "privateRateLimits": [
+  "private_rate_limits": [
     {
       "calls": 60,
-      "timeUnit": "minutes"
+      "time_unit": "minutes"
     }
   ],
-  "shareRateLimits": true
+  "share_rate_limits": true
 }

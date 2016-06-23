@@ -100,7 +100,7 @@ public class HitbtcAdapterTest {
     HitbtcSymbols symbols = mapper.readValue(is, HitbtcSymbols.class);
 
     ExchangeMetaData adaptedMetaData = HitbtcAdapters.adaptToExchangeMetaData(symbols, new HitbtcMetaData());
-    Map<CurrencyPair, CurrencyPairMetaData> metaDataMap = adaptedMetaData.getCurrencyPairMetaDataMap();
+    Map<CurrencyPair, CurrencyPairMetaData> metaDataMap = adaptedMetaData.getCurrencyPairs();
 
     assertThat(metaDataMap.size()).isEqualTo(15);
 

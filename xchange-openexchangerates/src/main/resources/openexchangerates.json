@@ -1,5 +1,5 @@
 {
-  "currencyPair": {
+  "currency_pairs": {
     "AED/USD": {},
     "AFN/USD": {},
     "ALL/USD": {},
@@ -162,5 +162,5 @@
     "ZMK/USD": {},
     "ZWL/USD": {}
   },
-  "currency": {}
+  "currencies": {}
 }

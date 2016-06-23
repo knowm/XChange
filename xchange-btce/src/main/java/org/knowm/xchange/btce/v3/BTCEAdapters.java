@@ -3,17 +3,12 @@ package org.knowm.xchange.btce.v3;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.knowm.xchange.btce.v3.dto.account.BTCEAccountInfo;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
@@ -33,8 +28,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -42,6 +37,8 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Various adapters for converting from BTCE DTOs to XChange DTOs
@@ -160,10 +157,10 @@ public final class BTCEAdapters {
     Map<String, BigDecimal> funds = btceAccountInfo.getFunds();
 
     for (String lcCurrency : funds.keySet()) {
-      /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */ 
+      /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
       BigDecimal fund = funds.get(lcCurrency);
       if (lcCurrency.equals("dsh")) {
-    	  lcCurrency = "dash";
+        lcCurrency = "dash";
       }
       Currency currency = Currency.getInstance(lcCurrency);
       balances.add(new Balance(currency, fund));
@@ -206,12 +203,12 @@ public final class BTCEAdapters {
   public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
 
     String[] currencies = btceCurrencyPair.split("_");
-    /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */ 
+    /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
     if (currencies[0].equals("dsh")) {
-    	currencies[0] = "dash";
+      currencies[0] = "dash";
     }
     if (currencies[1].equals("dsh")) {
-    	currencies[1] = "dash";
+      currencies[1] = "dash";
     }
     return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
   }
@@ -230,7 +227,7 @@ public final class BTCEAdapters {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<Currency, CurrencyMetaData>();
 
-    if (btceExchangeInfo != null)
+    if (btceExchangeInfo != null) {
       for (Entry<String, BTCEPairInfo> e : btceExchangeInfo.getPairs().entrySet()) {
         CurrencyPair pair = adaptCurrencyPair(e.getKey());
         CurrencyPairMetaData marketMetaData = toMarketMetaData(e.getValue(), btceMetaData);
@@ -239,10 +236,10 @@ public final class BTCEAdapters {
         addCurrencyMetaData(pair.base, currencies, btceMetaData);
         addCurrencyMetaData(pair.counter, currencies, btceMetaData);
       }
+    }
 
-    HashSet<RateLimit> publicRateLimits = new HashSet<>(
-        Collections.singleton(new RateLimit(btceMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)));
-    return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, Collections.<RateLimit> emptySet(), false);
+    RateLimit[] publicRateLimits = new RateLimit[] { new RateLimit(btceMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS) };
+    return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, null, false);
   }
 
   private static void addCurrencyMetaData(Currency symbol, Map<Currency, CurrencyMetaData> currencies, BTCEMetaData btceMetaData) {
@@ -256,7 +253,7 @@ public final class BTCEAdapters {
     BigDecimal minimumAmount = withScale(info.getMinAmount(), btceMetaData.amountScale);
     BigDecimal feeFraction = info.getFee().movePointLeft(2);
 
-    return new CurrencyPairMetaData(feeFraction, minimumAmount, priceScale);
+    return new CurrencyPairMetaData(feeFraction, minimumAmount, null, priceScale);
   }
 
   private static BigDecimal withScale(BigDecimal value, int priceScale) {
@@ -272,15 +269,14 @@ public final class BTCEAdapters {
   }
 
   public static String getPair(CurrencyPair currencyPair) {
-	/* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */	  
+    /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */
     String base = currencyPair.base.getCurrencyCode();
-    String counter = currencyPair.counter.getCurrencyCode();    
-	if (base.equals("DASH")) {
-		base = "DSH";
-	}
-	else if (counter.equals("DASH")) {
-		counter = "DSH";
-	} 
+    String counter = currencyPair.counter.getCurrencyCode();
+    if (base.equals("DASH")) {
+      base = "DSH";
+    } else if (counter.equals("DASH")) {
+      counter = "DSH";
+    }
     return (base + "_" + counter).toLowerCase();
   }
 

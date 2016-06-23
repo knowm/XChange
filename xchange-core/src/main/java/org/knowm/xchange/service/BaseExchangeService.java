@@ -33,7 +33,7 @@ public abstract class BaseExchangeService {
     verifyOrder(limitOrder, exchangeMetaData);
     BigDecimal price = limitOrder.getLimitPrice().stripTrailingZeros();
 
-    if (price.scale() > exchangeMetaData.getCurrencyPairMetaDataMap().get(limitOrder.getCurrencyPair()).getPriceScale()) {
+    if (price.scale() > exchangeMetaData.getCurrencyPairs().get(limitOrder.getCurrencyPair()).getPriceScale()) {
       throw new IllegalArgumentException("Unsupported price scale " + price.scale());
     }
   }
@@ -45,7 +45,7 @@ public abstract class BaseExchangeService {
 
   final protected void verifyOrder(Order order, ExchangeMetaData exchangeMetaData) {
 
-    CurrencyPairMetaData metaData = exchangeMetaData.getCurrencyPairMetaDataMap().get(order.getCurrencyPair());
+    CurrencyPairMetaData metaData = exchangeMetaData.getCurrencyPairs().get(order.getCurrencyPair());
     if (metaData == null) {
       throw new IllegalArgumentException("Invalid CurrencyPair");
     }

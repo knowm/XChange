@@ -1,5 +1,5 @@
 {
-  "currency": {
+  "currencies": {
     "BNC": {"scale": 8},
     "BTC": {"scale": 8},
     "EUR": {"scale": 8},

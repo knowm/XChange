@@ -176,7 +176,7 @@ public class PoloniexAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(Map<String, PoloniexCurrencyInfo> poloniexCurrencyInfo,
       Map<String, PoloniexMarketData> poloniexMarketData, ExchangeMetaData exchangeMetaData) {
 
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencyMetaDataMap();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencies();
     CurrencyMetaData currencyArchetype = currencyMetaDataMap.values().iterator().next();
 
     currencyMetaDataMap.clear();
@@ -191,7 +191,7 @@ public class PoloniexAdapters {
       currencyMetaDataMap.put(Currency.getInstance(entry.getKey()), currencyArchetype);
     }
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairMetaDataMap();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
     CurrencyPairMetaData marketArchetype = marketMetaDataMap.values().iterator().next();
 
     marketMetaDataMap.clear();

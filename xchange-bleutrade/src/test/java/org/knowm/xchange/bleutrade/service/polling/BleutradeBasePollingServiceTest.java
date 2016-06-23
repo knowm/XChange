@@ -59,7 +59,7 @@ public class BleutradeBasePollingServiceTest extends BleutradeServiceTestSupport
     // when
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
 
-    // We don;t test this because it relies on a remote call and it can change at any time. Would be more appropriate for an integration test
+    // We don't test this because it relies on a remote call and it can change at any time. Would be more appropriate for an integration test
     // then
     //    assertThat(exchangeSymbols).hasSize(176);
     //    assertThat(exchangeSymbols).contains(CurrencyPair.DOGE_BTC, BLEU_BTC_CP);

@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
-
 import org.knowm.xchange.bleutrade.BleutradeAdapters;
 import org.knowm.xchange.bleutrade.BleutradeAssert;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalancesReturn;
@@ -27,8 +26,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
@@ -152,12 +151,12 @@ public class BleutradeAdaptersTest extends BleutradeDtoTestSupport {
     ExchangeMetaData exchangeMetaData = BleutradeAdapters.adaptToExchangeMetaData(currenciesResponse.getResult(), marketsResponse.getResult());
 
     // then
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencyMetaDataMap();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencies();
     assertThat(currencyMetaDataMap).hasSize(2);
-    assertThat(currencyMetaDataMap.get(Currency.BTC).scale).isEqualTo(8);
-    assertThat(currencyMetaDataMap.get(Currency.LTC).scale).isEqualTo(8);
+    assertThat(currencyMetaDataMap.get(Currency.BTC).getScale()).isEqualTo(8);
+    assertThat(currencyMetaDataMap.get(Currency.LTC).getScale()).isEqualTo(8);
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairMetaDataMap();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
     assertThat(marketMetaDataMap).hasSize(2);
 
     // there is no reliable information about valid tradingFee calculation formula

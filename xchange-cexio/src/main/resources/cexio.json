@@ -1,62 +1,62 @@
 {
-  "currencyPair": {
+  "currency_pairs": {
     "BTC/USD": {
-      "priceScale": 4,
+      "price_scale": 4,
       "tradingFee": 0.002,
-      "minimumAmount": 0.010000000
+      "min_amount": 0.010000000
     },
     "BTC/EUR": {
-      "priceScale": 4,
+      "price_scale": 4,
       "tradingFee": 0.001,
-      "minimumAmount": 0.010000000
+      "min_amount": 0.010000000
     },
     "LTC/USD": {
-      "priceScale": 3,
+      "price_scale": 3,
       "tradingFee": 0.002,
-      "minimumAmount": 1.200000000
+      "min_amount": 1.200000000
     },
     "GHS/BTC": {
-      "priceScale": 8,
+      "price_scale": 8,
       "tradingFee": 0.0000,
-      "minimumAmount": 1.000000000
+      "min_amount": 1.000000000
     },
     "LTC/BTC": {
-      "priceScale": 8,
+      "price_scale": 8,
       "tradingFee": 0.0000,
-      "minimumAmount": 1.200000000
+      "min_amount": 1.200000000
     },
     "ETH/BTC": {
-      "priceScale": 8,
+      "price_scale": 8,
       "tradingFee": 0.0000,
-      "minimumAmount": 0.500000000
+      "min_amount": 0.500000000
     },
     "ETH/USD": {
-      "priceScale": 3,
+      "price_scale": 3,
       "tradingFee": 0.002,
-      "minimumAmount": 0.500000000
+      "min_amount": 0.500000000
     },
     "ETH/EUR": {
-      "priceScale": 3,
+      "price_scale": 3,
       "tradingFee": 0.001,
-      "minimumAmount": 0.500000000
+      "min_amount": 0.500000000
     },
     "LTC/EUR": {
-      "priceScale": 3,
+      "price_scale": 3,
       "tradingFee": 0.001,
-      "minimumAmount": 1.200000000
+      "min_amount": 1.200000000
     },
     "BTC/RUB": {
-      "priceScale": 2,
+      "price_scale": 2,
       "tradingFee": 0.001,
-      "minimumAmount": 0.010000000
+      "min_amount": 0.010000000
     }
   },
-  "currency": {},
-  "privateRateLimits": [
+  "currencies": {},
+  "private_rate_limits": [
     {
       "calls": 60,
-      "timeUnit": "minutes"
+      "time_unit": "minutes"
     }
   ],
-  "shareRateLimits": true
+  "share_rate_limits": true
 }

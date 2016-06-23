@@ -82,10 +82,10 @@ public class AllIntegration {
     ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
     assertThat(exchangeMetaData).isNotNull();
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairMetaDataMap();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
     assertThat(marketMetaDataMap).isNotEmpty();
 
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencyMetaDataMap();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencies();
     assertThat(currencyMetaDataMap).isNotNull();
   }
 
@@ -171,12 +171,12 @@ public class AllIntegration {
     exchange.remoteInit();
 
     Assume.assumeNotNull(exchange.getExchangeMetaData());
-    Assume.assumeNotNull(exchange.getExchangeMetaData().getCurrencyPairMetaDataMap());
+    Assume.assumeNotNull(exchange.getExchangeMetaData().getCurrencyPairs());
 
     // uncomment to test every single currencypair
     //return exchange.getMetaData().getMarketMetaDataMap().keySet();
 
-    return Collections.singletonList(exchange.getExchangeMetaData().getCurrencyPairMetaDataMap().keySet().iterator().next());
+    return Collections.singletonList(exchange.getExchangeMetaData().getCurrencyPairs().keySet().iterator().next());
   }
 
   @Test

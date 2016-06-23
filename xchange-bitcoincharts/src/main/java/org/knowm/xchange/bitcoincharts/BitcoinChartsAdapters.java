@@ -9,8 +9,8 @@ import org.knowm.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 
 /**
  * Various adapters for converting from BitcoinCharts DTOs to XChange DTOs
@@ -57,17 +57,18 @@ public final class BitcoinChartsAdapters {
     for (BitcoinChartsTicker ticker : tickers) {
       BigDecimal anyPrice = firstNonNull(ticker.getAsk(), ticker.getBid(), ticker.getClose(), ticker.getHigh(), ticker.getHigh());
       int scale = anyPrice != null ? anyPrice.scale() : 0;
-      pairs.put(new CurrencyPair(Currency.BTC, Currency.getInstance(ticker.getSymbol())), new CurrencyPairMetaData(null, null, scale));
+      pairs.put(new CurrencyPair(Currency.BTC, Currency.getInstance(ticker.getSymbol())), new CurrencyPairMetaData(null, null, null, scale));
     }
 
-    return new ExchangeMetaData(pairs, exchangeMetaData.getCurrencyMetaDataMap(), exchangeMetaData.getPublicRateLimits(),
+    return new ExchangeMetaData(pairs, exchangeMetaData.getCurrencies(), exchangeMetaData.getPublicRateLimits(),
         exchangeMetaData.getPrivateRateLimits(), exchangeMetaData.isShareRateLimits());
   }
 
   private static <T> T firstNonNull(T... objects) {
     for (T o : objects) {
-      if (o != null)
+      if (o != null) {
         return o;
+      }
     }
     return null;
   }

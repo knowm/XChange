@@ -1,20 +1,20 @@
 {
-  "currencyPair": {
+  "currency_pairs": {
     "BTC/USD": {
-      "priceScale": 8,
+      "price_scale": 8,
       "tradingFee": 0.002
     }
   },
-  "currency": {
+  "currencies": {
     "BTC": {
       "scale": 8
     }
   },
-  "privateRateLimits": [
+  "private_rate_limits": [
     {
       "calls": 180,
-      "timeUnit": "minutes"
+      "time_unit": "minutes"
     }
   ],
-  "shareRateLimits": true
+  "share_rate_limits": true
 }

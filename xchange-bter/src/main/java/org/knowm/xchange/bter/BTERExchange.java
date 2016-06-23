@@ -1,13 +1,17 @@
 package org.knowm.xchange.bter;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.bter.dto.marketdata.BTERMarketInfoWrapper.BTERMarketInfo;
 import org.knowm.xchange.bter.service.polling.BTERPollingAccountService;
 import org.knowm.xchange.bter.service.polling.BTERPollingMarketDataService;
+import org.knowm.xchange.bter.service.polling.BTERPollingMarketDataServiceRaw;
 import org.knowm.xchange.bter.service.polling.BTERPollingTradeService;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -43,13 +47,9 @@ public class BTERExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException {
 
-    // TODO Implement this.
-    // List<CurrencyPair>  currencies = ((BTERPollingMarketDataServiceRaw) pollingMarketDataService).getExchangeSymbols();
-    // other endpoints?
-    // hard-coded meta data from json file not available at an endpoint?
-    // TODO take all the info gathered above and create a `ExchangeMetaData` object via a new method in `*Adapters` class
-    // exchangeMetaData = *Adapters.adaptToExchangeMetaData(blah, blah);
-
-    super.remoteInit();
+    Map<CurrencyPair, BTERMarketInfo> currencyPair2BTERMarketInfoMap = ((BTERPollingMarketDataServiceRaw) pollingMarketDataService)
+        .getBTERMarketInfo();
+    exchangeMetaData = BTERAdapters.adaptToExchangeMetaData(currencyPair2BTERMarketInfoMap);
+    //    super.remoteInit();
   }
 }

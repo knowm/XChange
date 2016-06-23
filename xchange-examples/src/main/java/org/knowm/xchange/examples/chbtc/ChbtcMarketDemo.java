@@ -21,7 +21,7 @@ public class ChbtcMarketDemo {
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
 
     // BTC/CNY and ETH/CNY
-    Set<CurrencyPair> currencyPairs = exchange.getExchangeMetaData().getCurrencyPairMetaDataMap().keySet();
+    Set<CurrencyPair> currencyPairs = exchange.getExchangeMetaData().getCurrencyPairs().keySet();
 
     for (CurrencyPair currencyPair : currencyPairs) {
       System.out.println("#### Currency pair " + currencyPair);

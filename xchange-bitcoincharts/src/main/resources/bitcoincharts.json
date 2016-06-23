@@ -1,8 +1,8 @@
 {
-   "privateRateLimits": [
+   "private_rate_limits": [
       {
          "calls": 4,
-         "timeUnit": "hours"
+         "time_unit": "hours"
       }
    ]
 }
