@@ -55,7 +55,7 @@ public class BitstampTransaction {
 
   public int getType() {
 
-	    return type;
+    return type;
   }
   
   public BigDecimal calculateFeeBtc() {
@@ -77,7 +77,19 @@ public class BitstampTransaction {
   @Override
   public String toString() {
 
-    return "Transaction [date=" + date + ", tid=" + tid + ", price=" + price + ", amount=" + amount + "]";
+    StringBuilder builder = new StringBuilder();
+    builder.append("BitstampTransaction [date=");
+    builder.append(date);
+    builder.append(", tid=");
+    builder.append(tid);
+    builder.append(", price=");
+    builder.append(price);
+    builder.append(", amount=");
+    builder.append(amount);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
-
+ 
 }

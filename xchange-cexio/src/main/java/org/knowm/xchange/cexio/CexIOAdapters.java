@@ -15,6 +15,7 @@ import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -32,6 +33,8 @@ import org.knowm.xchange.utils.DateUtils;
 
 public class CexIOAdapters {
 
+  private static final String ORDER_TYPE_BUY = "buy";
+
   /**
    * Adapts a CexIOTrade to a Trade Object
    *
@@ -41,11 +44,12 @@ public class CexIOAdapters {
    */
   public static Trade adaptTrade(CexIOTrade trade, CurrencyPair currencyPair) {
 
+    
     BigDecimal amount = trade.getAmount();
     BigDecimal price = trade.getPrice();
     Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000L);
-    // Cex.IO API does not return trade type
-    return new Trade(null, amount, currencyPair, price, date, String.valueOf(trade.getTid()));
+    OrderType type = trade.getType().equals(ORDER_TYPE_BUY) ? OrderType.BID : OrderType.ASK;
+    return new Trade(type, amount, currencyPair, price, date, String.valueOf(trade.getTid()));
   }
 
   /**
