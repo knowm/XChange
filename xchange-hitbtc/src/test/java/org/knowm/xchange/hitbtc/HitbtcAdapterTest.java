@@ -9,9 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -19,8 +16,8 @@ import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcIncrementalRefresh;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
@@ -29,7 +26,9 @@ import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTime;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
-import org.knowm.xchange.hitbtc.dto.meta.HitbtcMetaData;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HitbtcAdapterTest {
 
@@ -99,7 +98,7 @@ public class HitbtcAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     HitbtcSymbols symbols = mapper.readValue(is, HitbtcSymbols.class);
 
-    ExchangeMetaData adaptedMetaData = HitbtcAdapters.adaptToExchangeMetaData(symbols, new HitbtcMetaData());
+    ExchangeMetaData adaptedMetaData = HitbtcAdapters.adaptToExchangeMetaData(symbols, null);
     Map<CurrencyPair, CurrencyPairMetaData> metaDataMap = adaptedMetaData.getCurrencyPairs();
 
     assertThat(metaDataMap.size()).isEqualTo(15);

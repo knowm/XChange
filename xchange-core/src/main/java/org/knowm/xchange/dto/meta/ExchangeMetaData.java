@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * This class is loaded during creation of the Exchange and is intended to hold both data that is readily available from an HTTP API request at an
  * exchange extended by semi-static data that is not available from an HTTP API, but is still important information to have. Examples include currency
- * pairs, max polling rates, scaling factors, etc. Form mreo info see: https://github.com/timmolter/XChange/wiki/Design-Notes
+ * pairs, max polling rates, scaling factors, etc. For more info see: https://github.com/timmolter/XChange/wiki/Design-Notes
  * <p/>
  * This class is used only in the API by the classes that merge metadata stored in custom JSON file and online info from the remote exchange.
  */
