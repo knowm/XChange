@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +21,16 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrade;
@@ -236,5 +242,25 @@ public class KrakenAdapters {
 
     List<String> orderIds = orderResponse.getTransactionIds();
     return (orderIds == null || orderIds.isEmpty()) ? "" : orderIds.get(0);
+  }
+
+  public static ExchangeMetaData adaptToExchangeMetaData(Map<String, KrakenAssetPair> krakenPairs, Map<String, KrakenAsset> krakenAssets) {
+    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
+    for (String krakenPairCode : krakenPairs.keySet()) {
+      KrakenAssetPair krakenPair = krakenPairs.get(krakenPairCode);
+      pairs.put(adaptCurrencyPair(krakenPairCode), adaptPair(krakenPair));
+    }
+
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+    for (String krakenAssetCode : krakenAssets.keySet()) {
+      KrakenAsset krakenAsset = krakenAssets.get(krakenAssetCode);
+      currencies.put(KrakenUtils.addCurrencyAndGetCode(krakenAssetCode), new CurrencyMetaData(krakenAsset.getScale()));
+    }
+    return new ExchangeMetaData(pairs, currencies, null, null, true);
+  }
+
+  private static CurrencyPairMetaData adaptPair(KrakenAssetPair krakenPair) {
+    // TODO
+    return null;
   }
 }

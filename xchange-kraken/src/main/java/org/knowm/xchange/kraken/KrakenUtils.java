@@ -1,14 +1,10 @@
 package org.knowm.xchange.kraken;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
@@ -52,21 +48,7 @@ public class KrakenUtils {
     throw new ExchangeException("Kraken does not support the currency code " + currency);
   }
 
-  public static void buildExchangeSymbols(Map<CurrencyPair, CurrencyPairMetaData> map) {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-
-    final Set<CurrencyPair> krakenCurrencyPairs = map.keySet();
-    for (CurrencyPair krakenCurrencyPair : krakenCurrencyPairs) {
-
-      Currency tradeCurrency = addCurrencyAndGetCode(krakenCurrencyPair.base.toString());
-      Currency priceCurrency = addCurrencyAndGetCode(krakenCurrencyPair.counter.toString());
-
-      currencyPairs.add(new CurrencyPair(tradeCurrency, priceCurrency));
-    }
-  }
-
-  private static Currency addCurrencyAndGetCode(String krakenCurrencyString) {
+  public static Currency addCurrencyAndGetCode(String krakenCurrencyString) {
 
     Currency currencyCode = KrakenAdapters.adaptCurrency(krakenCurrencyString);
     if (krakenCurrencyString.startsWith("X")) {
