@@ -2,7 +2,7 @@
   "currency_pairs": {
     "BTC/USD": {
       "price_scale": 8,
-      "tradingFee": 0.002
+      "trading_fee": 0.002
     }
   },
   "currencies": {

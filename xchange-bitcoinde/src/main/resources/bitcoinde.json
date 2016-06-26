@@ -2,7 +2,7 @@
   "currency_pairs": {
     "BTC/EUR": {
       "price_scale": 2,
-      "tradingFee": 0.5
+      "trading_fee": 0.5
     }
   },
   "currencies": {},
