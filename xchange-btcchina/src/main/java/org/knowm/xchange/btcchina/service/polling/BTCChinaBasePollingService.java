@@ -1,20 +1,10 @@
 package org.knowm.xchange.btcchina.service.polling;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcchina.BTCChina;
-import org.knowm.xchange.btcchina.BTCChinaAdapters;
-import org.knowm.xchange.btcchina.BTCChinaExchange;
 import org.knowm.xchange.btcchina.BTCChinaExchangeException;
 import org.knowm.xchange.btcchina.dto.BTCChinaResponse;
-import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import org.knowm.xchange.btcchina.service.BTCChinaDigest;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.polling.BasePollingService;
@@ -45,17 +35,6 @@ public class BTCChinaBasePollingService extends BaseExchangeService implements B
     this.btcChina = RestProxyFactory.createProxy(BTCChina.class, exchange.getExchangeSpecification().getSslUri());
     this.signatureCreator = BTCChinaDigest.createInstance(exchange.getExchangeSpecification().getApiKey(),
         exchange.getExchangeSpecification().getSecretKey());
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-    BTCChinaTicker btcChinaTicker = btcChina.getTicker(BTCChinaExchange.ALL_MARKET);
-    Map<CurrencyPair, Ticker> tickers = BTCChinaAdapters.adaptTickers(btcChinaTicker);
-    currencyPairs.addAll(tickers.keySet());
-
-    return currencyPairs;
   }
 
   @SuppressWarnings("rawtypes")

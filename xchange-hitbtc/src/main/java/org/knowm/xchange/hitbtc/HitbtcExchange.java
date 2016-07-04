@@ -30,15 +30,9 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  protected void loadMetaData(InputStream is) {
+  protected void loadExchangeMetaData(InputStream is) {
     hitbtcMetaData = loadMetaData(is, HitbtcMetaData.class);
-    metaData = HitbtcAdapters.adaptToExchangeMetaData(null, hitbtcMetaData);
-  }
-
-  @Override
-  public void remoteInit() throws IOException {
-    HitbtcSymbols hitbtcSymbols = ((HitbtcMarketDataServiceRaw) pollingMarketDataService).getHitbtcSymbols();
-    metaData = HitbtcAdapters.adaptToExchangeMetaData(hitbtcSymbols, hitbtcMetaData);
+    exchangeMetaData = HitbtcAdapters.adaptToExchangeMetaData(null, hitbtcMetaData.getCurrencies());
   }
 
   @Override
@@ -60,6 +54,12 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+    HitbtcSymbols hitbtcSymbols = ((HitbtcMarketDataServiceRaw) pollingMarketDataService).getHitbtcSymbols();
+    exchangeMetaData = HitbtcAdapters.adaptToExchangeMetaData(hitbtcSymbols, hitbtcMetaData.getCurrencies());
   }
 
 }

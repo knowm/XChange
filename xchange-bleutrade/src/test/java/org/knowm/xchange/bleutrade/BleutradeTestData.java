@@ -9,7 +9,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.meta.MarketMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class BleutradeTestData {
@@ -68,13 +68,13 @@ public class BleutradeTestData {
         .volume(new BigDecimal("2450.97496015")).timestamp(new Date(1406632770000L)).build();
   }
 
-  protected static MarketMetaData[] expectedMetaDataList() {
-    return new MarketMetaData[] { new MarketMetaData(new BigDecimal("0.0025"), new BigDecimal("0.10000000"), 8),
-        new MarketMetaData(new BigDecimal("0.0025"), new BigDecimal("0.00000001"), 8) };
+  protected static CurrencyPairMetaData[] expectedMetaDataList() {
+    return new CurrencyPairMetaData[] { new CurrencyPairMetaData(new BigDecimal("0.0025"), new BigDecimal("0.10000000"), null, 8),
+        new CurrencyPairMetaData(new BigDecimal("0.0025"), new BigDecimal("0.00000001"), null, 8) };
   }
 
   protected static String[] expectedMetaDataStr() {
-    return new String[] { "MarketMetaData{tradingFee=0.0025, minimumAmount=0.10000000, priceScale=8}",
-        "MarketMetaData{tradingFee=0.0025, minimumAmount=1E-8, priceScale=8}" };
+    return new String[] { "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, priceScale=8]",
+        "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, priceScale=8]" };
   }
 }

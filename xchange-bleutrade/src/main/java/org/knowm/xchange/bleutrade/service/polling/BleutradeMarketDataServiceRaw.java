@@ -95,7 +95,6 @@ public class BleutradeMarketDataServiceRaw extends BleutradeBasePollingService {
     }
 
     return response.getResult();
-
   }
 
   public List<BleutradeTrade> getBleutradeMarketHistory(CurrencyPair currencyPair, int count) throws IOException {

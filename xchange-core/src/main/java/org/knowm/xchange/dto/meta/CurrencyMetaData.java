@@ -4,17 +4,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CurrencyMetaData {
 
-  @JsonProperty
-  public int scale;
+  @JsonProperty("scale")
+  private final int scale;
 
   /**
    * Constructor
+   *
+   * @param scale
    */
-  public CurrencyMetaData() {
+  public CurrencyMetaData(@JsonProperty("scale") int scale) {
+    this.scale = scale;
   }
 
-  public CurrencyMetaData(int scale) {
-    this.scale = scale;
+  public int getScale() {
+    return scale;
   }
 
   @Override

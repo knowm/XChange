@@ -45,4 +45,5 @@ public class EmpoExMarketDataServiceRaw extends EmpoExBasePollingService {
     String pairString = EmpoExUtils.toPairString(currencyPair);
     return empoEx.getEmpoExDepth(pairString);
   }
+
 }

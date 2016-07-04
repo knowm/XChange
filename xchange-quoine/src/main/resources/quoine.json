@@ -1,25 +1,25 @@
 {
-   "currencyPair": {
-      "BTC/USD":{"priceScale":2},
-      "BTC/EUR":{"priceScale":2},
-      "BTC/JPY":{"priceScale":2},
-      "BTC/SGD":{"priceScale":2},
-      "BTC/HKD":{"priceScale":2},
-      "BTC/IDR":{"priceScale":2},
-      "BTC/AUD":{"priceScale":2},
-      "BTC/PHP":{"priceScale":2},
-      "BTC/CNY":{"priceScale":2},
-      "BTC/INR":{"priceScale":2},
-      "ETH/USD":{"priceScale":2},
-      "ETH/EUR":{"priceScale":2},
-      "ETH/JPY":{"priceScale":2},
-      "ETH/SGD":{"priceScale":2},
-      "ETH/HKD":{"priceScale":2},
-      "ETH/IDR":{"priceScale":2},
-      "ETH/AUD":{"priceScale":2},
-      "ETH/PHP":{"priceScale":2},
-      "ETH/CNY":{"priceScale":2},
-      "ETH/BTC":{"priceScale":5}
+   "currency_pairs": {
+      "BTC/USD":{"price_scale":2},
+      "BTC/EUR":{"price_scale":2},
+      "BTC/JPY":{"price_scale":2},
+      "BTC/SGD":{"price_scale":2},
+      "BTC/HKD":{"price_scale":2},
+      "BTC/IDR":{"price_scale":2},
+      "BTC/AUD":{"price_scale":2},
+      "BTC/PHP":{"price_scale":2},
+      "BTC/CNY":{"price_scale":2},
+      "BTC/INR":{"price_scale":2},
+      "ETH/USD":{"price_scale":2},
+      "ETH/EUR":{"price_scale":2},
+      "ETH/JPY":{"price_scale":2},
+      "ETH/SGD":{"price_scale":2},
+      "ETH/HKD":{"price_scale":2},
+      "ETH/IDR":{"price_scale":2},
+      "ETH/AUD":{"price_scale":2},
+      "ETH/PHP":{"price_scale":2},
+      "ETH/CNY":{"price_scale":2},
+      "ETH/BTC":{"price_scale":5}
    },
-   "currency":{}
+   "currencies":{}
 }

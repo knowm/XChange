@@ -1,12 +1,14 @@
 package org.knowm.xchange.btc38.service.polling;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btc38.Btc38;
 import org.knowm.xchange.btc38.dto.marketdata.Btc38Ticker;
 import org.knowm.xchange.btc38.dto.marketdata.Btc38TickerReturn;
+import org.knowm.xchange.currency.CurrencyPair;
 
 /**
  * Created by Yingzhe on 12/19/2014.
@@ -25,7 +27,7 @@ public class Btc38MarketDataServiceRaw extends Btc38BasePollingService<Btc38> {
 
   /**
    * Gets ticker from Btc38
-   * 
+   *
    * @param baseCurrency Base currency
    * @param targetCurrency Target currency
    * @return Btc38Ticker object
@@ -43,4 +45,31 @@ public class Btc38MarketDataServiceRaw extends Btc38BasePollingService<Btc38> {
     return ticker.getBuy() != null || ticker.getHigh() != null || ticker.getLast() != null || ticker.getLow() != null || ticker.getSell() != null
         || ticker.getVol() != null ? ticker : null;
   }
+
+  protected HashMap<String, CurrencyPair> getCurrencyPairMap() throws IOException {
+
+    HashMap<String, CurrencyPair> currencyPairMap = new HashMap<String, CurrencyPair>();
+
+    Map<String, Btc38TickerReturn> btcTickers = this.btc38.getMarketTicker("BTC");
+    Map<String, Btc38TickerReturn> cnyTickers = this.btc38.getMarketTicker("CNY");
+
+    if (btcTickers != null) {
+      for (String key : btcTickers.keySet()) {
+        String base = key.toUpperCase();
+        String target = "BTC";
+        currencyPairMap.put(base + "_" + target, new CurrencyPair(base, target));
+      }
+    }
+
+    if (cnyTickers != null) {
+      for (String key : cnyTickers.keySet()) {
+        String base = key.toUpperCase();
+        String target = "CNY";
+        currencyPairMap.put(base + "_" + target, new CurrencyPair(base, target));
+      }
+    }
+
+    return currencyPairMap;
+  }
+
 }

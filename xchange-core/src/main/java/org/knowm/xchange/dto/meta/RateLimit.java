@@ -15,15 +15,15 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  */
 public class RateLimit {
 
-  @JsonProperty
+  @JsonProperty("calls")
   public int calls = 1;
 
-  @JsonProperty
+  @JsonProperty("time_span")
+  public int timeSpan = 1;
+
+  @JsonProperty("time_unit")
   @JsonDeserialize(using = TimeUnitDeserializer.class)
   public TimeUnit timeUnit = TimeUnit.SECONDS;
-
-  @JsonProperty
-  public int timeSpan = 1;
 
   /**
    * Constructor
@@ -31,7 +31,15 @@ public class RateLimit {
   public RateLimit() {
   }
 
-  public RateLimit(int calls, int timeSpan, TimeUnit timeUnit) {
+  /**
+   * Constructor
+   *
+   * @param calls
+   * @param timeSpan
+   * @param timeUnit
+   */
+  public RateLimit(@JsonProperty("calls") int calls, @JsonProperty("time_span") int timeSpan, @JsonProperty("time_unit") TimeUnit timeUnit) {
+
     this.calls = calls;
     this.timeUnit = timeUnit;
     this.timeSpan = timeSpan;

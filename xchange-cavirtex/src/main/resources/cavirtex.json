@@ -1,21 +1,21 @@
 {
-  "currencyPair": {
+  "currency_pairs": {
     "BTC/CAD": {
-      "priceScale": 5
+      "price_scale": 5
     },
     "LTC/CAD": {
-      "priceScale": 5
+      "price_scale": 5
     },
     "BTC/LTC": {
-      "priceScale": 5
+      "price_scale": 5
     }
   },
-  "currency": {},
-  "privateRateLimits": [
+  "currencies": {},
+  "private_rate_limits": [
     {
       "calls": 1,
-      "timeUnit": "seconds"
+      "time_unit": "seconds"
     }
   ],
-  "shareRateLimits": true
+  "share_rate_limits": true
 }

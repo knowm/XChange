@@ -6,12 +6,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.knowm.xchange.bter.dto.BTEROrderType;
 import org.knowm.xchange.bter.dto.account.BTERFunds;
 import org.knowm.xchange.bter.dto.marketdata.BTERDepth;
+import org.knowm.xchange.bter.dto.marketdata.BTERMarketInfoWrapper.BTERMarketInfo;
 import org.knowm.xchange.bter.dto.marketdata.BTERPublicOrder;
 import org.knowm.xchange.bter.dto.marketdata.BTERTicker;
 import org.knowm.xchange.bter.dto.marketdata.BTERTradeHistory;
@@ -29,6 +32,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -177,6 +182,25 @@ public final class BTERAdapters {
 
     return new UserTrade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null, null,
         (Currency) null);
+  }
+
+  public static ExchangeMetaData adaptToExchangeMetaData(Map<CurrencyPair, BTERMarketInfo> currencyPair2BTERMarketInfoMap) {
+
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
+
+    for (Entry<CurrencyPair, BTERMarketInfo> entry : currencyPair2BTERMarketInfoMap.entrySet()) {
+
+      CurrencyPair currencyPair = entry.getKey();
+      BTERMarketInfo btermarketInfo = entry.getValue();
+
+      CurrencyPairMetaData currencyPairMetaData = new CurrencyPairMetaData(btermarketInfo.getFee(), btermarketInfo.getMinAmount(), null,
+          btermarketInfo.getDecimalPlaces());
+      currencyPairs.put(currencyPair, currencyPairMetaData);
+    }
+
+    ExchangeMetaData exchangeMetaData = new ExchangeMetaData(currencyPairs, null, null, null, null);
+
+    return exchangeMetaData;
   }
 
 }

@@ -40,6 +40,6 @@ public class BitbayMarketDataService extends BitbayMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return BitbayAdapters.adaptTrades(getBitbayTrades(currencyPair), currencyPair);
+    return BitbayAdapters.adaptTrades(getBitbayTrades(currencyPair, args), currencyPair);
   }
 }

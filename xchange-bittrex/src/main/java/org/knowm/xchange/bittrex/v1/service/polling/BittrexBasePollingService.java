@@ -1,15 +1,8 @@
 package org.knowm.xchange.bittrex.v1.service.polling;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bittrex.v1.BittrexAdapters;
 import org.knowm.xchange.bittrex.v1.BittrexAuthenticated;
-import org.knowm.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
 import org.knowm.xchange.bittrex.v1.service.BittrexDigest;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.polling.BasePollingService;
 
@@ -36,13 +29,4 @@ public class BittrexBasePollingService extends BaseExchangeService implements Ba
     this.signatureCreator = BittrexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-    for (BittrexSymbol symbol : bittrexAuthenticated.getSymbols().getSymbols()) {
-      currencyPairs.add(BittrexAdapters.adaptCurrencyPair(symbol));
-    }
-    return currencyPairs;
-  }
 }

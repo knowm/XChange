@@ -63,7 +63,7 @@ public class CexIOTradeServiceRaw extends CexIOBasePollingService {
 
     List<CexIOOrder> cexIOOrderList = new ArrayList<CexIOOrder>();
 
-    for (CurrencyPair currencyPair : exchange.getMetaData().getMarketMetaDataMap().keySet()) {
+    for (CurrencyPair currencyPair : exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
       cexIOOrderList.addAll(getCexIOOpenOrders(currencyPair));
     }
     return cexIOOrderList;

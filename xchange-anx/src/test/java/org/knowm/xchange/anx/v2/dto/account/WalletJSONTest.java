@@ -70,7 +70,7 @@ public class WalletJSONTest {
     ANXMetaData anxMetaData = ((ANXExchange) exchange).getANXMetaData();
 
     Set<String> metadataCurrencyStrings = new TreeSet<String>();
-    for (Currency currency : anxMetaData.getCurrencyMetaDataMap().keySet())
+    for (Currency currency : anxMetaData.getCurrencies().keySet())
       metadataCurrencyStrings.add(currency.toString());
 
     assertEquals(wallets.keySet(), metadataCurrencyStrings);

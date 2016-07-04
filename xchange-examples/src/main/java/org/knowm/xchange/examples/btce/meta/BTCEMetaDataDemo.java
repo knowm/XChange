@@ -42,7 +42,7 @@ public class BTCEMetaDataDemo {
   }
 
   private static void generic(Exchange exchange) throws IOException {
-    ExchangeMetaData metaData = (ExchangeMetaData) exchange.getMetaData();
+    ExchangeMetaData metaData = (ExchangeMetaData) exchange.getExchangeMetaData();
     System.out.println("BTCE generic meta data: " + metaData);
 
     exchange.getPollingTradeService()

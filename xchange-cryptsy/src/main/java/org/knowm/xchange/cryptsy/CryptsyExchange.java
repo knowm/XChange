@@ -1,5 +1,6 @@
 package org.knowm.xchange.cryptsy;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,5 +94,18 @@ public class CryptsyExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+
+    // TODO Implement this.
+    // List<CurrencyPair>  currencies = ((CryptsyMarketDataServiceRaw) pollingMarketDataService).getExchangeSymbols();
+    // other endpoints?
+    // hard-coded meta data from json file not available at an endpoint?
+    // TODO take all the info gathered above and create a `ExchangeMetaData` object via a new method in `*Adapters` class
+    // exchangeMetaData = *Adapters.adaptToExchangeMetaData(blah, blah);
+
+    super.remoteInit();
   }
 }

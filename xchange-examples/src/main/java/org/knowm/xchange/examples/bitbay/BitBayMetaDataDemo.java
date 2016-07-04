@@ -13,7 +13,7 @@ public class BitBayMetaDataDemo {
     // Use the factory to get bitbay exchange API using default settings
     Exchange anx = ExchangeFactory.INSTANCE.createExchange(BitbayExchange.class.getName());
 
-    System.out.println(anx.getMetaData().toString());
+    System.out.println(anx.getExchangeMetaData().toString());
 
   }
 

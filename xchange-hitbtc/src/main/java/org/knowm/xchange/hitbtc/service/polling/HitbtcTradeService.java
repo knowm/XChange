@@ -87,7 +87,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     }
 
     HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(offset, count, HitbtcAdapters.adaptCurrencyPair(pair));
-    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, exchange.getMetaData());
+    return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, exchange.getExchangeMetaData());
   }
 
   @Override

@@ -31,7 +31,7 @@ public class HitbtcMarketDataDemo {
     Exchange hitbtcExchange = HitbtcExampleUtils.createExchange();
 
     hitbtcExchange.remoteInit();
-    System.out.println("Market metadata: " + hitbtcExchange.getMetaData().getMarketMetaDataMap().toString());
+    System.out.println("Market metadata: " + hitbtcExchange.getExchangeMetaData().getCurrencyPairs().toString());
 
     PollingMarketDataService marketDataService = hitbtcExchange.getPollingMarketDataService();
 

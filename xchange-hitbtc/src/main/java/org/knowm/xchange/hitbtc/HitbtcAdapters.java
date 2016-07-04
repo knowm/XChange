@@ -18,8 +18,9 @@ import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.MarketMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -36,7 +37,6 @@ import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTime;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrade;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
-import org.knowm.xchange.hitbtc.dto.meta.HitbtcMetaData;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
@@ -268,7 +268,7 @@ public class HitbtcAdapters {
       CurrencyPair pair = adaptSymbol(t.getSymbol());
 
       // minimumAmount is equal to lot size
-      BigDecimal tradableAmount = t.getExecQuantity().multiply(metaData.getMarketMetaDataMap().get(pair).getMinimumAmount());
+      BigDecimal tradableAmount = t.getExecQuantity().multiply(metaData.getCurrencyPairs().get(pair).getMinimumAmount());
       Date timestamp = new Date(t.getTimestamp());
       String id = Long.toString(t.getTradeId());
 
@@ -326,19 +326,19 @@ public class HitbtcAdapters {
     return type == OrderType.BID ? HitbtcTrade.HitbtcTradeSide.BUY : HitbtcTrade.HitbtcTradeSide.SELL;
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(HitbtcSymbols symbols, HitbtcMetaData hitbtcMetaData) {
+  public static ExchangeMetaData adaptToExchangeMetaData(HitbtcSymbols symbols, Map<Currency, CurrencyMetaData> currencies) {
 
-    Map<CurrencyPair, MarketMetaData> marketMetaDataMap = new HashMap<CurrencyPair, MarketMetaData>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
     if (symbols != null) {
       for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
         CurrencyPair pair = adaptSymbol(symbol);
-        MarketMetaData meta = new MarketMetaData(symbol.getTakeLiquidityRate(), symbol.getLot(), symbol.getStep().scale());
+        CurrencyPairMetaData meta = new CurrencyPairMetaData(symbol.getTakeLiquidityRate(), symbol.getLot(), null, symbol.getStep().scale());
 
-        marketMetaDataMap.put(pair, meta);
+        currencyPairs.put(pair, meta);
       }
     }
 
-    return new ExchangeMetaData(marketMetaDataMap, hitbtcMetaData.currency, null, null, null);
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
   }
 
 }

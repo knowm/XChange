@@ -39,7 +39,7 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
  */
 public class BitstampTradeService extends BitstampTradeServiceRaw implements PollingTradeService {
 
-  private static final List<CurrencyPair> ALL_PAIRS = Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_EUR);
+  private static final List<CurrencyPair> ALL_PAIRS = Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_EUR, CurrencyPair.EUR_USD);
 
   public BitstampTradeService(Exchange exchange) {
     super(exchange);

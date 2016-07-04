@@ -33,7 +33,7 @@ public class JubiMarketDataServiceRaw extends JubiBasePollingService<Jubi> {
   public JubiTicker getJubiTicker(String baseCurrency, String targetCurrency) throws IOException {
 
     // Base currency needs to be in lower case, otherwise API throws an error
-    for (CurrencyPair cp : this.getExchangeSymbols()) {
+    for (CurrencyPair cp : exchange.getExchangeSymbols()) {
       if (cp.base.getCurrencyCode().equalsIgnoreCase(baseCurrency) && cp.counter.getCurrencyCode().equalsIgnoreCase(targetCurrency)) {
         return this.jubi.getTicker(baseCurrency.toLowerCase());
       }

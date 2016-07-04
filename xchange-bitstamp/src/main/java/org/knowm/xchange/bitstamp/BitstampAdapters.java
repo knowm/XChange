@@ -121,8 +121,7 @@ public final class BitstampAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades
-          .add(new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
+      trades.add(adaptTrade(tx, currencyPair, 1000));
     }
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);
@@ -138,9 +137,10 @@ public final class BitstampAdapters {
    */
   public static Trade adaptTrade(BitstampTransaction tx, CurrencyPair currencyPair, int timeScale) {
 
+    OrderType orderType = tx.getType() == 0 ? OrderType.BID : OrderType.ASK;
     final String tradeId = String.valueOf(tx.getTid());
     Date date = DateUtils.fromMillisUtc(tx.getDate() * timeScale);// polled order books provide a timestamp in seconds, stream in ms
-    return new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
+    return new Trade(orderType, tx.getAmount(), currencyPair, tx.getPrice(), date, tradeId);
   }
 
   /**

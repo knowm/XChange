@@ -1,6 +1,8 @@
 package org.knowm.xchange.bter.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
@@ -64,5 +66,11 @@ public class BTERPollingMarketDataServiceRaw extends BTERBasePollingService {
     BTERTradeHistory tradeHistory = bter.getTradeHistorySince(tradeableIdentifier, currency, tradeId);
 
     return handleResponse(tradeHistory);
+  }
+
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+
+    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>(bter.getPairs().getPairs());
+    return currencyPairs;
   }
 }

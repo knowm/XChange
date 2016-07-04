@@ -38,7 +38,7 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
   public OpenOrders getOpenOrders() throws IOException {
 
     BTEROpenOrders openOrders = super.getBTEROpenOrders();
-    Collection<CurrencyPair> currencyPairs = super.getExchangeSymbols();
+    Collection<CurrencyPair> currencyPairs = exchange.getExchangeSymbols();
 
     return BTERAdapters.adaptOpenOrders(openOrders, currencyPairs);
   }

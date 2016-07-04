@@ -26,7 +26,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.MarketMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
@@ -79,13 +79,13 @@ public class AllIntegration {
 
     exchange.remoteInit();
 
-    ExchangeMetaData exchangeMetaData = exchange.getMetaData();
+    ExchangeMetaData exchangeMetaData = exchange.getExchangeMetaData();
     assertThat(exchangeMetaData).isNotNull();
 
-    Map<CurrencyPair, MarketMetaData> marketMetaDataMap = exchangeMetaData.getMarketMetaDataMap();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
     assertThat(marketMetaDataMap).isNotEmpty();
 
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencyMetaDataMap();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencies();
     assertThat(currencyMetaDataMap).isNotNull();
   }
 
@@ -170,13 +170,13 @@ public class AllIntegration {
 
     exchange.remoteInit();
 
-    Assume.assumeNotNull(exchange.getMetaData());
-    Assume.assumeNotNull(exchange.getMetaData().getMarketMetaDataMap());
+    Assume.assumeNotNull(exchange.getExchangeMetaData());
+    Assume.assumeNotNull(exchange.getExchangeMetaData().getCurrencyPairs());
 
     // uncomment to test every single currencypair
     //return exchange.getMetaData().getMarketMetaDataMap().keySet();
 
-    return Collections.singletonList(exchange.getMetaData().getMarketMetaDataMap().keySet().iterator().next());
+    return Collections.singletonList(exchange.getExchangeMetaData().getCurrencyPairs().keySet().iterator().next());
   }
 
   @Test

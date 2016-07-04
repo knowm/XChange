@@ -48,9 +48,9 @@ public class BTCEExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  protected void loadMetaData(InputStream is) {
+  protected void loadExchangeMetaData(InputStream is) {
     btceMetaData = loadMetaData(is, BTCEMetaData.class);
-    metaData = BTCEAdapters.toMetaData(null, btceMetaData);
+    exchangeMetaData = BTCEAdapters.toMetaData(null, btceMetaData);
   }
 
   @Override
@@ -58,7 +58,7 @@ public class BTCEExchange extends BaseExchange implements Exchange {
     try {
       BTCEMarketDataService marketDataService = (BTCEMarketDataService) pollingMarketDataService;
       btceExchangeInfo = marketDataService.getBTCEInfo();
-      metaData = BTCEAdapters.toMetaData(btceExchangeInfo, btceMetaData);
+      exchangeMetaData = BTCEAdapters.toMetaData(btceExchangeInfo, btceMetaData);
     } catch (Exception e) {
       logger.warn("An exception occurred while loading the metadata file from the file. This may lead to unexpected results.", e);
     }

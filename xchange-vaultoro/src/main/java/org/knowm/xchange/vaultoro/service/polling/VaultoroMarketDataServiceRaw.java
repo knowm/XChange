@@ -2,6 +2,7 @@ package org.knowm.xchange.vaultoro.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
@@ -37,4 +38,11 @@ public class VaultoroMarketDataServiceRaw extends VaultoroBasePollingService {
     return vaultoro.getVaultoroTrades("month");
   }
 
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+
+    // TODO put this in the vautoro.json file in resources and call a real endpoint for the data in addition
+    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>();
+    pairs.add(new CurrencyPair("GLD", "BTC"));
+    return pairs;
+  }
 }

@@ -1,10 +1,11 @@
 package org.knowm.xchange.poloniex.service.polling;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.poloniex.Poloniex;
+import org.knowm.xchange.poloniex.PoloniexAuthenticated;
+import org.knowm.xchange.poloniex.service.PoloniexDigest;
+import org.knowm.xchange.service.BaseExchangeService;
+import org.knowm.xchange.service.polling.BasePollingService;
 
 /**
  * @author Zach Holmes
@@ -12,15 +13,6 @@ import java.util.Set;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.poloniex.Poloniex;
-import org.knowm.xchange.poloniex.PoloniexAuthenticated;
-import org.knowm.xchange.poloniex.PoloniexUtils;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
-import org.knowm.xchange.poloniex.service.PoloniexDigest;
-import org.knowm.xchange.service.BaseExchangeService;
-import org.knowm.xchange.service.polling.BasePollingService;
 
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.ParamsDigest;
@@ -58,19 +50,4 @@ public class PoloniexBasePollingService extends BaseExchangeService implements B
 
   }
 
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-
-    String command = "returnTicker";
-    HashMap<String, PoloniexMarketData> marketData = poloniex.getTicker(command);
-    Set<String> pairStrings = marketData.keySet();
-
-    for (String pairString : pairStrings) {
-      currencyPairs.add(PoloniexUtils.toCurrencyPair(pairString));
-    }
-
-    return currencyPairs;
-  }
 }

@@ -25,7 +25,7 @@ public class TickerFetchIntegration {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BleutradeExchange.class.getName());
     exchange.remoteInit();
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-    CurrencyPair market = exchange.getMetaData().getMarketMetaDataMap().keySet().iterator().next();
+    CurrencyPair market = exchange.getExchangeMetaData().getCurrencyPairs().keySet().iterator().next();
     Ticker ticker = marketDataService.getTicker(market);
     System.out.println(ticker.toString());
     assertThat(ticker).isNotNull();

@@ -3,9 +3,6 @@ package org.knowm.xchange.dto.meta;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import org.junit.Test;
 
 public class ExchangeMetaDataTest {
@@ -33,8 +30,7 @@ public class ExchangeMetaDataTest {
    */
   @Test
   public void testGetPollDelayMillisMulti() {
-    assertEquals(1000L, (long) ExchangeMetaData
-        .getPollDelayMillis(new HashSet<RateLimit>(Arrays.asList(new RateLimit(2, 1, SECONDS), new RateLimit(1, 1, SECONDS)))));
+    assertEquals(1000L, (long) ExchangeMetaData.getPollDelayMillis(new RateLimit[] { new RateLimit(2, 1, SECONDS), new RateLimit(1, 1, SECONDS) }));
   }
 
   /**
@@ -50,6 +46,6 @@ public class ExchangeMetaDataTest {
    */
   @Test
   public void testGetPollDelayMillisEmpty() {
-    assertEquals(null, ExchangeMetaData.getPollDelayMillis(new HashSet<RateLimit>()));
+    assertEquals(null, ExchangeMetaData.getPollDelayMillis(new RateLimit[0]));
   }
 }

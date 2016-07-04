@@ -62,4 +62,11 @@ public class CryptonitMarketDataServiceRaw extends CryptonitBasePollingService {
     return cryptonitTrades;
   }
 
+  //  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+  //
+  //    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+  //    currencyPairs.addAll(CryptonitAdapters.adaptCurrencyPairs(cryptonit.getPairs()));
+  //
+  //    return currencyPairs;
+  //  }
 }

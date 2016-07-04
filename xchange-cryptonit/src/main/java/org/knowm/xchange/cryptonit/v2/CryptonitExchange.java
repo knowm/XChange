@@ -1,5 +1,7 @@
 package org.knowm.xchange.cryptonit.v2;
 
+import java.io.IOException;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -32,5 +34,18 @@ public class CryptonitExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
     // No private API implemented. Not needed for this exchange at the moment.
     return null;
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+
+    // TODO Implement this.
+    // List<List<String>>  currencies = ((CryptonitMarketDataServiceRaw) pollingMarketDataService).getCryptonitTradingPairs() ();
+    // other endpoints?
+    // hard-coded meta data from json file not available at an endpoint?
+    // TODO take all the info gathered above and create a `ExchangeMetaData` object via a new method in `*Adapters` class
+    // exchangeMetaData = *Adapters.adaptToExchangeMetaData(blah, blah);
+
+    super.remoteInit();
   }
 }

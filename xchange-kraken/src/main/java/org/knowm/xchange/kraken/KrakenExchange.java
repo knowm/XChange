@@ -1,10 +1,15 @@
 package org.knowm.xchange.kraken;
 
+import java.io.IOException;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPairs;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssets;
 import org.knowm.xchange.kraken.service.polling.KrakenAccountService;
 import org.knowm.xchange.kraken.service.polling.KrakenMarketDataService;
+import org.knowm.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
 import org.knowm.xchange.kraken.service.polling.KrakenTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
@@ -40,5 +45,14 @@ public class KrakenExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+    KrakenAssetPairs assetPairs = ((KrakenMarketDataServiceRaw) pollingMarketDataService).getKrakenAssetPairs();
+    KrakenAssets assets = ((KrakenMarketDataServiceRaw) pollingMarketDataService).getKrakenAssets();
+    // other endpoints?
+    // hard-coded meta data from json file not available at an endpoint?
+    exchangeMetaData = KrakenAdapters.adaptToExchangeMetaData(assetPairs.getAssetPairMap(), assets.getAssetPairMap());
   }
 }

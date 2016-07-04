@@ -1,5 +1,5 @@
 {
-  "currencyPair": {
+  "currency_pairs": {
     "BTC/USD": {},
     "BTC/EUR": {},
     "BTC/HKD": {},
@@ -7,5 +7,5 @@
     "ETH/EUR": {},
     "REP/BTC": {}
   },
-  "currency": {}
+  "currencies": {}
 }

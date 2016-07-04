@@ -92,7 +92,7 @@ public class BitstampAdapterTest {
 
     // verify all fields filled
     assertThat(trade.getPrice().toString()).isEqualTo("13.14");
-    assertThat(trade.getType()).isNull();
+    assertThat(trade.getType()).isEqualTo(OrderType.BID);
     assertThat(trade.getTradableAmount()).isEqualTo(new BigDecimal("23.66362253"));
     assertThat(trade.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
@@ -113,7 +113,7 @@ public class BitstampAdapterTest {
     // verify all fields filled
     assertThat(trades.getTrades().get(0).getId()).isEqualTo("121984");
     assertThat(trades.getTrades().get(0).getPrice().toString()).isEqualTo("13.14");
-    assertThat(trades.getTrades().get(0).getType()).isNull();
+    assertThat(trades.getTrades().get(0).getType()).isEqualTo(OrderType.BID);
     assertThat(trades.getTrades().get(0).getTradableAmount()).isEqualTo(new BigDecimal("10.11643836"));
     assertThat(trades.getTrades().get(0).getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }

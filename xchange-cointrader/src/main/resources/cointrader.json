@@ -1,17 +1,17 @@
 {
-  "currencyPair": {
+  "currency_pairs": {
     "BTC/USD": {
-      "priceScale": 2
+      "price_scale": 2
     },
     "BTC/CAD": {
-      "priceScale": 2
+      "price_scale": 2
     }
   },
-  "currency": {},
-  "privateRateLimits": [
+  "currencies": {},
+  "private_rate_limits": [
     {
       "calls": 1
     }
   ],
-  "shareRateLimits": true
+  "share_rate_limits": true
 }

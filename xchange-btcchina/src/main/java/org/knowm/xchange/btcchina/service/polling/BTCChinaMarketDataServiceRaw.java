@@ -1,15 +1,20 @@
 package org.knowm.xchange.btcchina.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcchina.BTCChina;
+import org.knowm.xchange.btcchina.BTCChinaAdapters;
 import org.knowm.xchange.btcchina.BTCChinaExchange;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTrade;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Ticker;
 
 /**
  * Implementation of the market data service for BTCChina.
@@ -91,4 +96,13 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService {
     return btcChina.getHistoryData(market, since, limit, sinceType);
   }
 
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+
+    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    BTCChinaTicker btcChinaTicker = btcChina.getTicker(BTCChinaExchange.ALL_MARKET);
+    Map<CurrencyPair, Ticker> tickers = BTCChinaAdapters.adaptTickers(btcChinaTicker);
+    currencyPairs.addAll(tickers.keySet());
+
+    return currencyPairs;
+  }
 }

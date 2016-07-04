@@ -12,7 +12,7 @@ public class BitcoinChartsMetaDataDemo {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitcoinChartsExchange.class.getName());
     exchange.remoteInit();
-    System.out.println(exchange.getMetaData().toString());
+    System.out.println(exchange.getExchangeMetaData().toString());
   }
 
 }

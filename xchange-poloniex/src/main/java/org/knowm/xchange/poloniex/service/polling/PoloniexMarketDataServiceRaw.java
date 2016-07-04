@@ -9,6 +9,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.PoloniexUtils;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexChartData;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
@@ -161,4 +162,16 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService {
     }
   }
 
+  public PoloniexChartData[] getPoloniexChartData(CurrencyPair currencyPair, Long startTime, Long endTime, PoloniexChartDataPeriodType period)
+      throws IOException {
+    String command = "returnChartData";
+    String pairString = PoloniexUtils.toPairString(currencyPair);
+
+    try {
+      PoloniexChartData[] chartData = poloniex.getChartData(command, pairString, startTime, endTime, period.getPeriod());
+      return chartData;
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError());
+    }
+  }
 }

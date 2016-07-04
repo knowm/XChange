@@ -1,14 +1,9 @@
 package org.knowm.xchange.bter.service.polling;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bter.BTERAuthenticated;
 import org.knowm.xchange.bter.dto.BTERBaseResponse;
 import org.knowm.xchange.bter.service.BTERHmacPostBodyDigest;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.polling.BasePollingService;
@@ -34,13 +29,6 @@ public class BTERBasePollingService extends BaseExchangeService implements BaseP
     this.bter = RestProxyFactory.createProxy(BTERAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BTERHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-  }
-
-  @Override
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
-
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>(bter.getPairs().getPairs());
-    return currencyPairs;
   }
 
   protected <R extends BTERBaseResponse> R handleResponse(R response) {
