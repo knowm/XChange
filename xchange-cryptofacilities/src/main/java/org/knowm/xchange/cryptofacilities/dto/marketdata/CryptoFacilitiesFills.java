@@ -24,7 +24,7 @@ public class CryptoFacilitiesFills extends CryptoFacilitiesResult {
 
     super(result, error);
 
-    this.serverTime = DATE_FORMAT.parse(strServerTime);
+    this.serverTime = strServerTime == null ? null : DATE_FORMAT.parse(strServerTime);
     this.fills = fills;
   }
 

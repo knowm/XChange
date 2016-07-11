@@ -8,7 +8,6 @@ import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
@@ -22,33 +21,31 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBasePolling
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
   public CryptoFacilitiesTradeServiceRaw(Exchange exchange) {
 
     super(exchange);
   }
 
-  public CryptoFacilitiesOrder placeCryptoFacilitiesLimitOrder(LimitOrder order) throws IOException {
-    String type = "LMT";
-    String tradeable = order.getCurrencyPair().base.toString();
-    String unit = order.getCurrencyPair().counter.toString();
-    String dir = "Buy";
+  public CryptoFacilitiesOrder sendCryptoFacilitiesLimitOrder(LimitOrder order) throws IOException {
+    String orderType = "lmt";
+    String symbol = order.getCurrencyPair().base.toString();
+    String side = "buy";
     if (order.getType().equals(OrderType.ASK)) {
-      dir = "Sell";
+      side = "sell";
     }
-    BigDecimal qty = order.getTradableAmount();
-    BigDecimal price = order.getLimitPrice();
+    BigDecimal size = order.getTradableAmount();
+    BigDecimal limitPrice = order.getLimitPrice();
 
-    CryptoFacilitiesOrder ord = cryptoFacilities.placeOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory(), type, tradeable, unit, dir, qty, price);
+    CryptoFacilitiesOrder ord = cryptoFacilities.sendOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory(), orderType, symbol, side, size, limitPrice);
 
     return ord;
   }
 
-  public CryptoFacilitiesCancel cancelCryptoFacilitiesOrder(String uid, CurrencyPair currencyPair) throws IOException {
+  public CryptoFacilitiesCancel cancelCryptoFacilitiesOrder(String uid) throws IOException {
     CryptoFacilitiesCancel res = cryptoFacilities.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        exchange.getNonceFactory(), uid, currencyPair.base.toString(), currencyPair.counter.toString());
+        exchange.getNonceFactory(), uid);
 
     return res;
   }

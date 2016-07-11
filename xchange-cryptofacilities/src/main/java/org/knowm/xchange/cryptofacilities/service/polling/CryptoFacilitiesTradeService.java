@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptofacilities.CryptoFacilitiesAdapters;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -50,22 +49,13 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    return CryptoFacilitiesAdapters.adaptOrderId(super.placeCryptoFacilitiesLimitOrder(limitOrder));
+    return CryptoFacilitiesAdapters.adaptOrderId(super.sendCryptoFacilitiesLimitOrder(limitOrder));
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    OpenOrders openOrders = getOpenOrders();
-    CurrencyPair ccyPair = new CurrencyPair("", "");
-
-    for (LimitOrder order : openOrders.getOpenOrders()) {
-      if (orderId.equals(order.getId())) {
-        ccyPair = order.getCurrencyPair();
-      }
-    }
-
-    return CryptoFacilitiesAdapters.adaptCryptoFacilitiesCancel(super.cancelCryptoFacilitiesOrder(orderId, ccyPair));
+    return CryptoFacilitiesAdapters.adaptCryptoFacilitiesCancel(super.cancelCryptoFacilitiesOrder(orderId));
   }
 
   @Override

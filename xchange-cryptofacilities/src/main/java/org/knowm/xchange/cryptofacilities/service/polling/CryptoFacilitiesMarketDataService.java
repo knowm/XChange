@@ -36,7 +36,7 @@ public class CryptoFacilitiesMarketDataService extends CryptoFacilitiesMarketDat
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return CryptoFacilitiesAdapters.adaptOrderBook(getCryptoFacilitiesCumulativeBidAsk(currencyPair));
+    return CryptoFacilitiesAdapters.adaptOrderBook(getCryptoFacilitiesOrderBook(currencyPair));
   }
 
   @Override
