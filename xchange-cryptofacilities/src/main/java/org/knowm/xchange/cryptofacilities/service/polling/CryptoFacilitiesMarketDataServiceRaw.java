@@ -3,8 +3,8 @@ package org.knowm.xchange.cryptofacilities.service.polling;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCumulativeBidAsk;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesInstruments;
+import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrderBook;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTicker;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTickers;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -46,10 +46,12 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBasePo
     return instruments;
   }
 
-  public CryptoFacilitiesCumulativeBidAsk getCryptoFacilitiesCumulativeBidAsk(CurrencyPair currencyPair) {
-    CryptoFacilitiesCumulativeBidAsk cfcbidask = cryptoFacilities.getCumulativeBidAsk(currencyPair.base.toString(), currencyPair.counter.toString());
+  public CryptoFacilitiesOrderBook getCryptoFacilitiesOrderBook(CurrencyPair currencyPair) {
 
-    return cfcbidask;
+    CryptoFacilitiesOrderBook orderBook = cryptoFacilities.getOrderBook(currencyPair.base.toString());
+    orderBook.setCurrencyPair(currencyPair);
+
+    return orderBook;
   }
 
 }

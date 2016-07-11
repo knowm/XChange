@@ -33,18 +33,20 @@ public class CryptoFacilitiesOpenOrdersJSONTest {
 
     List<CryptoFacilitiesOpenOrder> orders = cryptoFacilitiesOpenOrders.getOrders();
 
-    assertThat(orders.size()).isEqualTo(1);
+    assertThat(orders.size()).isEqualTo(2);
 
     Iterator<CryptoFacilitiesOpenOrder> it = orders.iterator();
     CryptoFacilitiesOpenOrder ord = it.next();
 
-    assertThat(ord.getUid()).isEqualTo("25c3521c-979e-4b78-a4a1-a807f0597c28");
-    assertThat(ord.getTradeable()).isEqualTo("F-XBT:USD-Dec15");
-    assertThat(ord.getUnit()).isEqualTo("USD");
-    assertThat(ord.getDirection()).isEqualTo("Buy");
-    assertThat(ord.getQuantity()).isEqualTo(new BigDecimal("1"));
-    assertThat(ord.getType()).isEqualTo("LMT");
-    assertThat(ord.getLimitPrice()).isEqualTo(new BigDecimal("300.07"));
+    assertThat(ord.getStatus()).isEqualTo("partiallyFilled");    
+    assertThat(ord.getId()).isEqualTo("c18f0c17-9971-40e6-8e5b-10df05d422f0");
+    assertThat(ord.getType()).isEqualTo("lmt");
+    assertThat(ord.getSymbol()).isEqualTo("f-xbt:usd-sep16");
+    assertThat(ord.getDirection()).isEqualTo("sell");
+    assertThat(ord.getUnfilled()).isEqualTo(new BigDecimal("2"));
+    assertThat(ord.getFilled()).isEqualTo(new BigDecimal("3"));
+    assertThat(ord.getQuantity()).isEqualTo(new BigDecimal("5"));
+    assertThat(ord.getLimitPrice()).isEqualTo(new BigDecimal("430.11"));
   }
 
 }
