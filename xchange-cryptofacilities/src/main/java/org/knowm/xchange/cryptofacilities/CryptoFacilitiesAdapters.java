@@ -118,6 +118,7 @@ public class CryptoFacilitiesAdapters {
       for (CryptoFacilitiesOpenOrder ord : orders.getOrders()) {
         // how to handle stop-loss orders?
         // ignore anything but a plain limit order for now
+        if (ord.getType().equalsIgnoreCase("lmt")) {
           limitOrders.add(adaptLimitOrder(ord));
         }
       }
