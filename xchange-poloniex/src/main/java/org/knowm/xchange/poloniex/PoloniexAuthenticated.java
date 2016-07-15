@@ -79,4 +79,9 @@ public interface PoloniexAuthenticated {
   WithdrawalResponse withdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address, @FormParam("paymentId") @Nullable String paymentId) throws PoloniexException, IOException;
+
+  @POST
+  @FormParam("command")
+  HashMap<String, String> returnFeeInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
 }

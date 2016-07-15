@@ -5,6 +5,7 @@ package org.knowm.xchange.poloniex.service.polling;
  */
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -96,6 +97,16 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
       endTime = ((TradeHistoryParamsTimeSpan) params).getEndTime();
     }
     return getTradeHistory(currencyPair, DateUtils.toUnixTimeNullSafe(startTime), DateUtils.toUnixTimeNullSafe(endTime));
+  }
+
+  public BigDecimal getMakerFee() throws IOException {
+    String value = getFeeInfo().get("makerFee");
+    return new BigDecimal(value);
+  }
+
+  public BigDecimal getTakerFee() throws IOException {
+    String value = getFeeInfo().get("takerFee");
+    return new BigDecimal(value);
   }
 
   private UserTrades getTradeHistory(CurrencyPair currencyPair, final Long startTime, final Long endTime) throws IOException {
