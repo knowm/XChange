@@ -107,4 +107,12 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
     return response.get("success").toString().equals(new Integer(1).toString()) ? true : false;
   }
 
+  public HashMap<String, String> getFeeInfo() throws IOException {
+    HashMap<String, String> response = poloniexAuthenticated.returnFeeInfo(apiKey, signatureCreator, exchange.getNonceFactory());
+    if (response.containsKey("error")) {
+      throw new ExchangeException(response.get("error"));
+    }
+    return response;
+  }
+
 }
