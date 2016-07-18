@@ -46,7 +46,7 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBasePo
     return instruments;
   }
 
-  public CryptoFacilitiesOrderBook getCryptoFacilitiesOrderBook(CurrencyPair currencyPair) {
+  public CryptoFacilitiesOrderBook getCryptoFacilitiesOrderBook(CurrencyPair currencyPair) throws IOException {
 
     CryptoFacilitiesOrderBook orderBook = cryptoFacilities.getOrderBook(currencyPair.base.toString());
     orderBook.setCurrencyPair(currencyPair);
