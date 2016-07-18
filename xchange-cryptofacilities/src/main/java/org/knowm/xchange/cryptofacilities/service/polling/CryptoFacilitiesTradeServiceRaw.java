@@ -7,6 +7,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
+import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenPositions;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -71,5 +72,17 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBasePolling
     }
 
     return fills;
+  }
+
+  public CryptoFacilitiesOpenPositions getCryptoFacilitiesOpenPositions() throws IOException {
+    CryptoFacilitiesOpenPositions openPositions = null;
+
+    try {
+      openPositions = cryptoFacilities.openPositions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    } catch (Exception e) {
+      return null;
+    }
+
+    return openPositions;
   }
 }
