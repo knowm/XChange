@@ -15,6 +15,7 @@ import org.knowm.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccount;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
+import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenPositions;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
 
 import si.mazi.rescu.ParamsDigest;
@@ -59,6 +60,12 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
   @Path("/fills")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public CryptoFacilitiesFills fills(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
+  @POST
+  @Path("/openpositions")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  public CryptoFacilitiesOpenPositions openPositions(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
       @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
 }

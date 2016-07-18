@@ -1,5 +1,6 @@
 package org.knowm.xchange.cryptofacilities;
 
+import java.io.IOException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -20,14 +21,14 @@ public interface CryptoFacilities {
 
   @GET
   @Path("/tickers")
-  CryptoFacilitiesTickers getTickers();
+  CryptoFacilitiesTickers getTickers() throws IOException;
 
   @GET
   @Path("/orderbook")
-  CryptoFacilitiesOrderBook getOrderBook(@QueryParam("symbol") String symbol);
+  CryptoFacilitiesOrderBook getOrderBook(@QueryParam("symbol") String symbol) throws IOException;
 
   @GET
   @Path("/instruments")
-  CryptoFacilitiesInstruments getInstruments();
+  CryptoFacilitiesInstruments getInstruments() throws IOException;
 
 }
