@@ -1,23 +1,16 @@
 package si.mazi.rescu;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.lang.reflect.Method;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.knowm.xchange.poloniex.PoloniexAuthenticated;
 import org.knowm.xchange.poloniex.PoloniexException;
-import si.mazi.rescu.serialization.jackson.JacksonConfigureListener;
-import si.mazi.rescu.serialization.jackson.JacksonMapper;
+
+import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 import si.mazi.rescu.serialization.jackson.JacksonResponseReader;
 
-import java.lang.reflect.Method;
-
 public class PoloniexAccountJsonTest {
-
-  public static final JacksonMapper DUMMY = new JacksonMapper(new JacksonConfigureListener() {
-    @Override
-    public void configureObjectMapper(ObjectMapper objectMapper) {
-    }
-  });
 
   @Test
   public void testBalancesError() throws Exception {
@@ -29,7 +22,7 @@ public class PoloniexAccountJsonTest {
     RestMethodMetadata balances = RestMethodMetadata.create(apiMethod, "", "");
 
     try {
-      new JacksonResponseReader(DUMMY, false).read(invocationResult, balances);
+      new JacksonResponseReader(new DefaultJacksonObjectMapperFactory().createObjectMapper(), false).read(invocationResult, balances);
       Assert.assertTrue("Should have failed.", false);
     } catch (PoloniexException e) {
       Assert.assertTrue(e.getMessage().contains("Invalid API key/secret pair."));
