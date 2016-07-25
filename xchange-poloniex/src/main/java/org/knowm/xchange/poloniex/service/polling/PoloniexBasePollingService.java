@@ -7,17 +7,17 @@ import org.knowm.xchange.poloniex.service.PoloniexDigest;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.polling.BasePollingService;
 
-/**
- * @author Zach Holmes
- */
+import si.mazi.rescu.ClientConfig;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import si.mazi.rescu.ClientConfig;
-import si.mazi.rescu.ParamsDigest;
-import si.mazi.rescu.RestProxyFactory;
-import si.mazi.rescu.serialization.jackson.JacksonConfigureListener;
+/**
+ * @author Zach Holmes
+ */
 
 public class PoloniexBasePollingService extends BaseExchangeService implements BasePollingService {
 
@@ -37,7 +37,7 @@ public class PoloniexBasePollingService extends BaseExchangeService implements B
     super(exchange);
     // Fix for empty string array mapping exception
     ClientConfig config = new ClientConfig();
-    config.setJacksonConfigureListener(new JacksonConfigureListener() {
+    config.setJacksonObjectMapperFactory(new DefaultJacksonObjectMapperFactory() {
       @Override
       public void configureObjectMapper(ObjectMapper objectMapper) {
         objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
