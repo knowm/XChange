@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
 
 import org.knowm.xchange.bittrex.v1.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.v1.dto.marketdata.BittrexLevel;
@@ -26,8 +24,13 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class BittrexAdapters {
 
@@ -171,6 +174,27 @@ public final class BittrexAdapters {
     }
 
     return new UserTrade(orderType, amount, currencyPair, price, date, orderId, orderId, trade.getCommission(), currencyPair.counter);
+  }
+  
+  public static ExchangeMetaData adaptMetaData(List<BittrexSymbol> rawSymbols, ExchangeMetaData metaData) {
+
+    List<CurrencyPair> currencyPairs = BittrexAdapters.adaptCurrencyPairs(rawSymbols);
+
+    Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
+    Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
+    for (CurrencyPair c : currencyPairs) {
+      if (!pairsMap.keySet().contains(c)) {
+        pairsMap.put(c, null);
+      }
+      if (!currenciesMap.keySet().contains(c.base)) {
+        currenciesMap.put(c.base, null);
+      }
+      if (!currenciesMap.keySet().contains(c.base)) {
+        currenciesMap.put(c.counter, null);
+      }
+    }
+
+    return metaData;
   }
 
 }

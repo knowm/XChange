@@ -1,12 +1,15 @@
 package org.knowm.xchange.bittrex.v1;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
 import org.knowm.xchange.bittrex.v1.service.polling.BittrexAccountService;
 import org.knowm.xchange.bittrex.v1.service.polling.BittrexMarketDataService;
+import org.knowm.xchange.bittrex.v1.service.polling.BittrexMarketDataServiceRaw;
 import org.knowm.xchange.bittrex.v1.service.polling.BittrexTradeService;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
@@ -45,13 +48,10 @@ public class BittrexExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
-
-    // TODO Implement this.
-    // ArrayList<BittrexSymbol> bittrexSymbols = ((BittrexMarketDataServiceRaw) pollingMarketDataService). getBittrexSymbols();
-    // other endpoints?
-    // hard-coded meta data from json file not available at an endpoint?
-    // TODO take all the info and create a `ExchangeMetaData` object via a new method in `*Adapters` class
-    //    exchangeMetaData = *Adapters.adaptToExchangeMetaData(blah, blah);
-    super.remoteInit();
+    
+	  BittrexMarketDataServiceRaw dataService = (BittrexMarketDataServiceRaw) this.pollingMarketDataService;
+	  List<BittrexSymbol> bittrexSymbols = dataService.getBittrexSymbols();
+	  exchangeMetaData = BittrexAdapters.adaptMetaData(bittrexSymbols, exchangeMetaData);
+	  
   }
 }
