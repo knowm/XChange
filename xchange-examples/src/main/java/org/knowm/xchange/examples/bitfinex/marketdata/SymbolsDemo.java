@@ -20,7 +20,14 @@ public class SymbolsDemo {
     // Interested in the public polling market data feed (no authentication)
     PollingMarketDataService marketDataService = bitfinex.getPollingMarketDataService();
 
+    generic(bitfinex);
     raw((BitfinexMarketDataServiceRaw) marketDataService);
+  }
+  
+  private static void generic(Exchange bitfinex) {
+    
+    System.out.println(bitfinex.getExchangeSymbols().toString());
+    
   }
 
   private static void raw(BitfinexMarketDataServiceRaw marketDataService) throws IOException {
