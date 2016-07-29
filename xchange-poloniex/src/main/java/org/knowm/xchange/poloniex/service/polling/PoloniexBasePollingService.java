@@ -40,6 +40,7 @@ public class PoloniexBasePollingService extends BaseExchangeService implements B
     config.setJacksonObjectMapperFactory(new DefaultJacksonObjectMapperFactory() {
       @Override
       public void configureObjectMapper(ObjectMapper objectMapper) {
+        super.configureObjectMapper(objectMapper);
         objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
       }
     });
