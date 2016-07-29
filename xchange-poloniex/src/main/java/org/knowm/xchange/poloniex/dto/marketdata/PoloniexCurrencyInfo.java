@@ -6,20 +6,41 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PoloniexCurrencyInfo {
 
+  private final int id;
+  private final String name;
   private final BigDecimal txFee;
   private final int minConf;
+  private final String depositAddress;
   private final boolean disabled;
   private final boolean frozen;
   private final boolean delisted;
 
-  public PoloniexCurrencyInfo(@JsonProperty("txFee") BigDecimal txFee, @JsonProperty("minConf") int minConf,
-      @JsonProperty("disabled") boolean disabled, @JsonProperty("frozen") boolean frozen, @JsonProperty("delisted") boolean delisted) {
+  public PoloniexCurrencyInfo(@JsonProperty("id") int id, @JsonProperty("name") String name, @JsonProperty("txFee") BigDecimal txFee, @JsonProperty("minConf") int minConf,
+     @JsonProperty("depositAddress") String depositAddress, @JsonProperty("disabled") boolean disabled, @JsonProperty("frozen") boolean frozen, @JsonProperty("delisted") boolean delisted) {
 
+    this.id = id;
+    this.name = name;
     this.txFee = txFee;
     this.minConf = minConf;
+    this.depositAddress = depositAddress;
     this.disabled = disabled;
     this.frozen = frozen;
     this.delisted = delisted;
+  }
+  
+  public String getDepositAddress() {
+    
+    return depositAddress;
+  }
+  
+  public String getName() {
+    
+    return name;
+  }
+  
+  public int getId() {
+    
+    return id;
   }
 
   public BigDecimal getTxFee() {
@@ -50,7 +71,8 @@ public class PoloniexCurrencyInfo {
   @Override
   public String toString() {
 
-    return "PoloniexCurrencyInfo [txFee=" + txFee + ", minConf=" + minConf + ", disabled=" + disabled + ", frozen=" + frozen + ", delisted="
-        + delisted + "]";
+    return "PoloniexCurrencyInfo [id=" + id + ", name=" + name + ", txFee=" + txFee + ", minConf=" + minConf + ", depositAddress=" + depositAddress + ", disabled=" + disabled + ", frozen=" + frozen
+        + ", delisted=" + delisted + "]";
   }
+
 }

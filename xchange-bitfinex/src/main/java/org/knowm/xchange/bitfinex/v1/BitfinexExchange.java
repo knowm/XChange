@@ -1,13 +1,16 @@
 package org.knowm.xchange.bitfinex.v1;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitfinex.v1.service.polling.BitfinexAccountService;
 import org.knowm.xchange.bitfinex.v1.service.polling.BitfinexMarketDataService;
+import org.knowm.xchange.bitfinex.v1.service.polling.BitfinexMarketDataServiceRaw;
 import org.knowm.xchange.bitfinex.v1.service.polling.BitfinexTradeService;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
@@ -46,12 +49,10 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
 
-    // TODO Implement this. Should implement the `/symbols_details` endpoint  at http://docs.bitfinex.com/#symbols too , and build a complete ExchangeMetaData object.
-    //    List<String> symbols = ((BitfinexMarketDataServiceRaw) pollingMarketDataService).getBitfinexSymbols();
-    // TODO take all the info and create a `ExchangeMetaData` object via a new method in `BitfinexAdapters`
-    //    exchangeMetaData = BitfinexAdapters.adaptToExchangeMetaData(blah, blah);
-
-    super.remoteInit();
+    BitfinexMarketDataServiceRaw dataService = (BitfinexMarketDataServiceRaw) this.pollingMarketDataService;
+    List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
+    exchangeMetaData = BitfinexAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
+    
   }
 
 }
