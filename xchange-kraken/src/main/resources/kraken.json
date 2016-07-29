@@ -1,23 +1,73 @@
 {
-  "currencyPair": {
-    "XBT/EUR": {
-      "priceScale": 5
+  "currency_pairs": {
+    "BTC/EUR": {
+      "price_scale": 3,
+      "min_amount": 0.010000000      
     },
-    "XBT/USD": {
-      "priceScale": 5
+    "BTC/USD": {
+      "price_scale": 3,
+      "min_amount": 0.010000000      
     },
-    "XBT/GBP": {
-      "priceScale": 5
+    "BTC/CAD": {
+      "price_scale": 3,
+      "min_amount": 0.010000000      
     },
-    "XBT/JPY": {
-      "priceScale": 3
+    "BTC/GBP": {
+      "price_scale": 3,
+      "min_amount": 0.010000000      
+    },
+    "BTC/JPY": {
+      "price_scale": 1,
+      "min_amount": 0.010000000      
     },
     "LTC/EUR": {
-      "priceScale": 5
+      "price_scale": 5,
+      "min_amount": 0.010000000      
     },
     "LTC/USD": {
-      "priceScale": 5
+      "price_scale": 5,
+      "min_amount": 0.010000000      
+    },
+    "BTC/LTC": {
+      "price_scale": 5,
+      "min_amount": 0.010000000      
+    },
+    "BTC/DOGE": {
+      "price_scale": 1,
+      "min_amount": 0.010000000      
+    },
+    "BTC/XLM": {
+      "price_scale": 3,
+      "min_amount": 0.010000000      
+    },
+    "BTC/XRP": {
+      "price_scale": 3,
+      "min_amount": 0.010000000      
+    },
+    "ETH/BTC": {
+      "price_scale": 6,
+      "min_amount": 0.010000000      
+    },
+    "ETH/EUR": {
+      "price_scale": 5,
+      "min_amount": 0.010000000      
+    },
+    "ETH/USD": {
+      "price_scale": 5,
+      "min_amount": 0.010000000      
+    },
+    "ETH/CAD": {
+      "price_scale": 5,
+      "min_amount": 0.010000000      
+    },
+    "ETH/GBP": {
+      "price_scale": 5,
+      "min_amount": 0.010000000      
+    },
+    "ETH/JPY": {
+      "price_scale": 1,
+      "min_amount": 0.010000000      
     }
   },
-  "currency": {}
+  "currencies": {}
 }

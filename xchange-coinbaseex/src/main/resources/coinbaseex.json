@@ -1,8 +1,8 @@
 {
-  "currencyPair": {
+  "currency_pairs": {
     "BTC/USD": {
-      "priceScale": 8
+      "price_scale": 8
     }
   },
-  "currency": {}
+  "currencies": {}
 }

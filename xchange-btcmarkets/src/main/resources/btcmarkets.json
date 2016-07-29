@@ -1,0 +1,22 @@
+{
+  "currency_pairs": {
+    "BTC/AUD": {
+      "price_scale": 2
+    },
+    "LTC/AUD": {
+      "price_scale": 2
+    },
+    "LTC/BTC": {
+      "price_scale": 8
+    }
+  },
+  "currencies": {
+
+  },
+  "private_rate_limits": [
+    {
+      "calls": 1
+    }
+  ],
+  "share_rate_limits": true
+}

@@ -1,0 +1,143 @@
+XChange is developed by Knowm Inc. members and the open-source community.
+
+We thank all of our contributors: https://github.com/timmolter/xchange/graphs/contributors 
+
+For the detailed history of contributions of a given file, try
+
+    git blame file
+
+To see line-by-line credits and to see the change log even across renames and rewrites, try
+
+    git log --follow file
+
+Copyright is held by the original contributor according to the versioning history; see LICENSE.
+
+The following list of authors was automatically generated from the XChange project's git repo with the command:
+
+    git log --format='%aN' | sort -u
+
+Achterhoeker
+Alejandro Reyero
+Alex Nugent
+Alexey Syrtsev
+André Reiter
+Baffo32
+Benedict Wong
+Benedikt Bünz
+Boris Aksenov
+Bryan
+Bryan Hernandez
+Carbo Kuo
+Carlos Lopez-Camey
+Chris Rico
+Christian Strässle
+Cray Imperative
+Cristian Lucaci
+Dave Seyb
+David FRANCOIS
+Dolezal Zdenek
+Douggie
+Erland Lewin
+Felipe Micaroni Lalli
+GENiALi
+Gary Rowe
+Gianluigi
+Giridhar Nandigam
+Guillaume Labbé-Morissette
+Guillaume Morissette
+Ignacio Larranaga
+JH
+JK
+James Edwards
+Janosch Gräf
+Joe Zhou
+Jonathan Heusser
+Jonathan Tse
+Jonny Heggheim
+Kamil Żbikowski
+Karol Pysniak
+Karsten Nilsen
+Konstantin Alexandrov
+Konstantin Indjov
+Krystian Nowak
+Krzysiek
+Lukas Zaoralek
+Lukáš Krejza
+Macarse
+Marius Hillenbrand
+Martin Stachon
+Matija Mazi
+Matt Read
+Matt Whitlock
+Matthew Downey
+Michael Lagace
+Michael Lagacé
+Muffon
+Nicolas Pinot
+ObsessiveOrange
+Oleg Khomenko
+Panchen
+Peter N. Steinmetz
+Piotr Ladyzynski
+Piotr Ładyżyński
+Radu
+Rafał Krupiński
+Raphael Voellmy
+Ryan Sundberg
+Sebastiaan van Erk
+Sergey Belyakov
+Sergio Rodriguez
+Sikerdebaard
+Sumedha Saxena
+Thomas Muhm
+Tim Molter
+U-TORA\cristian.lucaci
+Vassilis Papavassiliou
+Victor Mezrin
+Ying Zhe Chong
+Zach Holmes
+alobarev
+apaygh
+artvel
+bolo
+bolobox
+bronko
+david-yam
+deveth0
+dhenry
+dimecoin
+doublesharp
+evdubs
+fenwulf
+gmorpheme
+jamespedwards42
+jclaruelle
+johndemic
+karol.pysniak@turbineam.com
+kpysniak
+lapoor
+lazy_p@163.com
+lazyp
+matija.mazi@gmail.com
+mazi
+mdeverdelhan
+mfarid
+mharris021
+miho
+nakedpony
+nimrood
+o
+piotr
+senecaso
+sikerdebaard
+skipster
+stachon
+stephane-coulomb
+swiesend
+tbosman
+tim
+timmolter
+veken0m
+vulicevic
+will
+ww3456

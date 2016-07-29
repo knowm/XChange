@@ -1,23 +1,23 @@
 {
-  "currencyPair": {
+  "currency_pairs": {
     "BTC/BRL": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "LTC/BRL": {
-      "priceScale": 8
+      "price_scale": 8
     }
   },
-  "currency": {},
-  "privateRateLimits":[
+  "currencies": {},
+  "private_rate_limits":[
     {
       "calls":60,
-      "timeUnit":"minutes"
+      "time_unit":"minutes"
     }
   ],
-  "publicRateLimits":[
+  "public_rate_limits":[
     {
       "calls":1,
-      "timeUnit":"minutes"
+      "time_unit":"minutes"
     }
   ]
 }

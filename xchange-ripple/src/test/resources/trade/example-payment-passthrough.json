@@ -1,0 +1,94 @@
+{
+  "payment": {
+    "source_account": "r9qdKsVyeSTc9P5mDP4s7qucQaLrhTfPcv",
+    "source_tag": "",
+    "source_amount": {
+      "currency": "BTC",
+      "value": "0.010000000003347",
+      "issuer": "r9qdKsVyeSTc9P5mDP4s7qucQaLrhTfPcv"
+    },
+    "source_slippage": "0",
+    "destination_account": "r9qdKsVyeSTc9P5mDP4s7qucQaLrhTfPcv",
+    "destination_tag": "",
+    "destination_amount": {
+      "currency": "CNY",
+      "value": "17.2701672",
+      "issuer": "r9qdKsVyeSTc9P5mDP4s7qucQaLrhTfPcv"
+    },
+    "invoice_id": "",
+    "paths": "[[{\"account\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\",\"type\":1,\"type_hex\":\"0000000000000001\"},{\"currency\":\"XRP\",\"type\":16,\"type_hex\":\"0000000000000010\"},{\"currency\":\"CNY\",\"issuer\":\"rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y\",\"type\":48,\"type_hex\":\"0000000000000030\"},{\"account\":\"rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y\",\"type\":1,\"type_hex\":\"0000000000000001\"}],[{\"account\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\",\"type\":1,\"type_hex\":\"0000000000000001\"},{\"currency\":\"CNY\",\"issuer\":\"rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y\",\"type\":48,\"type_hex\":\"0000000000000030\"},{\"account\":\"rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y\",\"type\":1,\"type_hex\":\"0000000000000001\"}],[{\"account\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\",\"type\":1,\"type_hex\":\"0000000000000001\"},{\"currency\":\"BTC\",\"issuer\":\"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B\",\"type\":48,\"type_hex\":\"0000000000000030\"},{\"currency\":\"CNY\",\"issuer\":\"rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y\",\"type\":48,\"type_hex\":\"0000000000000030\"},{\"account\":\"rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y\",\"type\":1,\"type_hex\":\"0000000000000001\"}],[{\"account\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\",\"type\":1,\"type_hex\":\"0000000000000001\"},{\"currency\":\"USD\",\"issuer\":\"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q\",\"type\":48,\"type_hex\":\"0000000000000030\"},{\"currency\":\"CNY\",\"issuer\":\"rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y\",\"type\":48,\"type_hex\":\"0000000000000030\"},{\"account\":\"rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y\",\"type\":1,\"type_hex\":\"0000000000000001\"}]]",
+    "no_direct_ripple": false,
+    "partial_payment": false,
+    "direction": "passthrough",
+    "timestamp": "2015-08-07T03:58:10.000Z",
+    "fee": "0.012",
+    "result": "tesSUCCESS",
+    "balance_changes": [
+      {
+        "currency": "XRP",
+        "value": "-349.559725",
+        "issuer": ""
+      },
+      {
+        "currency": "BTC",
+        "value": "0.009941478580724",
+        "issuer": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+      }
+    ],
+    "source_balance_changes": [
+      {
+        "currency": "XRP",
+        "value": "-0.012",
+        "issuer": ""
+      },
+      {
+        "currency": "BTC",
+        "value": "-0.009961361537885",
+        "issuer": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+      },
+      {
+        "currency": "CNY",
+        "value": "17.2701672",
+        "issuer": "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y"
+      }
+    ],
+    "destination_balance_changes": [
+      {
+        "currency": "XRP",
+        "value": "-0.012",
+        "issuer": ""
+      },
+      {
+        "currency": "BTC",
+        "value": "-0.009961361537885",
+        "issuer": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+      },
+      {
+        "currency": "CNY",
+        "value": "17.2701672",
+        "issuer": "rKiCet8SdvWxPXnAgYarFUXMh1zCPz432Y"
+      }
+    ],
+    "order_changes": [
+      {
+        "taker_pays": {
+          "currency": "BTC",
+          "value": "-0.00994147858072444",
+          "issuer": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+        },
+        "taker_gets": {
+          "currency": "XRP",
+          "value": "-349.559725",
+          "issuer": ""
+        },
+        "sequence": 9338,
+        "status": "open"
+      }
+    ]
+  },
+  "client_resource_id": "",
+  "hash": "GHRE072948B95345396B2D9A364363GDE521HRT67QQRGGRTHYTRUP0RRB631107",
+  "ledger": "15103564",
+  "state": "validated",
+  "success": true
+}

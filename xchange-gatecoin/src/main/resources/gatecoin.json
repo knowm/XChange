@@ -1,0 +1,11 @@
+{
+  "currency_pairs": {
+    "BTC/USD": {},
+    "BTC/EUR": {},
+    "BTC/HKD": {},
+    "ETH/BTC": {},
+    "ETH/EUR": {},
+    "REP/BTC": {}
+  },
+  "currencies": {}
+}

@@ -1,134 +1,134 @@
 {
-  "currencyPair": {
+  "currency_pairs": {
     "BTC/AUD": {
-      "minimumAmount": 0.01000000,
-      "maximumAmount": 100000.00000000,
-      "priceScale": 5
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
     },
     "BTC/CAD": {
-      "minimumAmount": 0.01000000,
-      "maximumAmount": 100000.00000000,
-      "priceScale": 5
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
     },
     "BTC/CNY": {
-      "minimumAmount": 0.01000000,
-      "maximumAmount": 100000.00000000,
-      "priceScale": 5
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
     },
     "BTC/EUR": {
-      "minimumAmount": 0.01000000,
-      "maximumAmount": 100000.00000000,
-      "priceScale": 5
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
     },
     "BTC/GBP": {
-      "minimumAmount": 0.01000000,
-      "maximumAmount": 100000.00000000,
-      "priceScale": 5
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
     },
     "BTC/HKD": {
-      "minimumAmount": 0.01000000,
-      "maximumAmount": 100000.00000000,
-      "priceScale": 5
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
     },
     "BTC/JPY": {
-      "minimumAmount": 0.01000000,
-      "maximumAmount": 100000.00000000,
-      "priceScale": 5
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
     },
     "BTC/NZD": {
-      "minimumAmount": 0.01000000,
-      "maximumAmount": 100000.00000000,
-      "priceScale": 5
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
     },
     "BTC/SGD": {
-      "minimumAmount": 0.01000000,
-      "maximumAmount": 100000.00000000,
-      "priceScale": 5
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
     },
     "BTC/USD": {
-      "minimumAmount": 0.01000000,
-      "maximumAmount": 100000.00000000,
-      "priceScale": 5
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 5
     },
     "DOGE/BTC": {
-      "minimumAmount": 10000.00000000,
-      "maximumAmount": 10000000000.00000000,
-      "priceScale": 8
+      "min_amount": 10000.00000000,
+      "max_amount": 10000000000.00000000,
+      "price_scale": 8
     },
     "EGD/AUD": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "EGD/CAD": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "EGD/CNY": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "EGD/EUR": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "EGD/GBP": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "EGD/HKD": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "EGD/JPY": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "EGD/NZD": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "EGD/SGD": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "EGD/USD": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "LTC/BTC": {
-      "minimumAmount": 0.10000000,
-      "maximumAmount": 10000000.00000000,
-      "priceScale": 5
+      "min_amount": 1.00000000,
+      "max_amount": 10000000.00000000,
+      "price_scale": 5
     },
     "START/AUD": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "START/CAD": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "START/EUR": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "START/GBP": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "START/HKD": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "START/JPY": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "START/NZD": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "START/SGD": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "START/USD": {
-      "priceScale": 8
+      "price_scale": 8
     },
     "STR/BTC": {
-      "minimumAmount": 0.01000000,
-      "maximumAmount": 100000.00000000,
-      "priceScale": 8
+      "min_amount": 0.01000000,
+      "max_amount": 100000.00000000,
+      "price_scale": 8
     },
     "XRP/BTC": {
-      "minimumAmount": 0.01000000,
-      "maximumAmount": 100000.00000000,
-      "priceScale": 8
+      "min_amount": 750.00000,
+      "max_amount": 100000.00000000,
+      "price_scale": 8
     }
   },
-  "currency": {
+  "currencies": {
     "AUD": {
       "scale": 2
     },
@@ -193,24 +193,24 @@
       "scale": 8
     }
   },
-  "makerTradingFee": 0.003,
-  "takerTradingFee": 0.006,
-  "privateRateLimits": [
+  "maker_trading_fee": 0.003,
+  "taker_trading_fee": 0.006,
+  "private_rate_limits": [
     {
       "calls": 30,
-      "timeUnit": "seconds"
+      "time_unit": "seconds"
     },
     {
       "calls": 60,
-      "timeSpan": 10,
-      "timeUnit": "seconds"
+      "time_span": 10,
+      "time_unit": "seconds"
     },
     {
       "calls": 50000,
-      "timeUnit": "hours"
+      "time_unit": "hours"
     }
   ],
-  "publicRateLimits": [
+  "public_rate_limits": [
     {
       "calls": 5
     }

@@ -12,6 +12,9 @@
 .classpath
 .project
 
+#NetBeans
+nb-configuration.xml
+
 # Generated
 target/
 javadoc/
@@ -22,6 +25,8 @@ META-INF/
 
 # Misc.
 .DS_Store
+*.swp
+*.swo
 
 # externalized configuration file for keys
 exchangeConfiguration.json

@@ -1,15 +1,16 @@
 {
-  "currencyPair": {
+  "currency_pairs": {
     "BTC/EUR": {
-      "priceScale": 2
+      "price_scale": 2,
+      "min_amount": 0.0040000000
     }
   },
-  "currency": {},
-  "privateRateLimits": [
+  "currencies": {},
+  "private_rate_limits": [
     {
       "calls": 180,
-      "timeUnit": "minutes"
+      "time_unit": "minutes"
     }
   ],
-  "shareRateLimits": true
+  "share_rate_limits": true
 }
