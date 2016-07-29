@@ -21,42 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.knowm.xchange.coinmate;
+package org.knowm.xchange.coinmate.dto.trade;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
-
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.marketdata.Ticker;
 
 /**
  * @author Martin Stachon
  */
-public class CoinmateAdapterTest {
+public class CoinmateCancelOrderWithInfoResponseData {
 
-  @Test
-  public void testTickerAdapter() throws IOException {
+  private final BigDecimal remainingAmount;
+  private final boolean success;
 
-    // Read in the JSON from the example resources
-    InputStream is = CoinmateAdapterTest.class.getResourceAsStream("/marketdata/example-ticker.json");
+  public CoinmateCancelOrderWithInfoResponseData(@JsonProperty("success") boolean success, @JsonProperty("remainingAmount") BigDecimal remainingAmount) {
+    this.success = success;
+    this.remainingAmount = remainingAmount;
+  }
 
-    // Use Jackson to parse it
-    ObjectMapper mapper = new ObjectMapper();
-    CoinmateTicker bitstampTicker = mapper.readValue(is, CoinmateTicker.class);
+  /**
+   * @return the remainingAmount
+   */
+  public BigDecimal getRemainingAmount() {
+    return remainingAmount;
+  }
 
-    Ticker ticker = CoinmateAdapters.adaptTicker(bitstampTicker, CurrencyPair.BTC_EUR);
-
-    assertThat(ticker.getLast().toString()).isEqualTo("254.08");
-    assertThat(ticker.getBid().toString()).isEqualTo("252.93");
-    assertThat(ticker.getAsk().toString()).isEqualTo("254.08");
-    assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("42.78294066"));
+  /**
+   * @return the success
+   */
+  public boolean isSuccess() {
+    return success;
   }
 
 }

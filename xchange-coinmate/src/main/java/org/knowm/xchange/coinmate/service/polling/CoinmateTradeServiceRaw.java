@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Coinmate.
+ * Copyright 2015-2016 Coinmate.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAuthenticated;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderWithInfoResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
@@ -73,6 +74,15 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
 
   public CoinmateCancelOrderResponse cancelCoinmateOrder(String orderId) throws IOException {
     CoinmateCancelOrderResponse response = coinmateAuthenticated.cancelOder(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+        exchange.getNonceFactory(), orderId);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+  
+  public CoinmateCancelOrderWithInfoResponse cancelCoinmateOrderWithInfo(String orderId) throws IOException {
+    CoinmateCancelOrderWithInfoResponse response = coinmateAuthenticated.cancelOderWithInfo(exchange.getExchangeSpecification().getUserName(), signatureCreator,
         exchange.getNonceFactory(), orderId);
 
     throwExceptionIfError(response);

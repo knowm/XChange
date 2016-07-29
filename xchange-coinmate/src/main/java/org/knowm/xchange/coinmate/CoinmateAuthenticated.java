@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Coinmate.
+ * Copyright 2015-2016 Coinmate.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,6 +36,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinmate.dto.account.CoinmateBalance;
 import org.knowm.xchange.coinmate.dto.account.CoinmateDepositAddresses;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderWithInfoResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
@@ -74,6 +75,12 @@ public interface CoinmateAuthenticated extends Coinmate {
   public CoinmateCancelOrderResponse cancelOder(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderId") String orderId) throws IOException;
 
+  // new in version 1.3
+  @POST
+  @Path("cancelOrderWithInfo")
+  public CoinmateCancelOrderWithInfoResponse cancelOderWithInfo(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderId") String orderId) throws IOException;
+  
   @POST
   @Path("buyLimit")
   public CoinmateTradeResponse buyLimit(@FormParam("clientId") String clientId, @FormParam("signature") ParamsDigest signer,
