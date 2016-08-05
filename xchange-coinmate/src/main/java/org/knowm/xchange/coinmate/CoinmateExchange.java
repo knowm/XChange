@@ -23,12 +23,15 @@
  */
 package org.knowm.xchange.coinmate;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinmate.service.polling.CoinmateAccountService;
 import org.knowm.xchange.coinmate.service.polling.CoinmateMarketDataService;
 import org.knowm.xchange.coinmate.service.polling.CoinmateTradeService;
+import org.knowm.xchange.utils.CertHelper;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -55,11 +58,21 @@ public class CoinmateExchange extends BaseExchange implements Exchange {
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
+      
+       try {
+          CertHelper.trustAllCerts(); //TODO FIXME before release!
+          System.setProperty("jsse.enableSNIExtension", "false");
+      } catch (Exception ex) {
+          Logger.getLogger(CoinmateExchange.class.getName()).log(Level.SEVERE, null, ex);
+      }
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
     exchangeSpecification.setSslUri("https://coinmate.io");
+    //exchangeSpecification.setSslUri("﻿https://104.45.25.164"); //TODO FIXME before release!
     exchangeSpecification.setHost("coinmate.io");
+    //exchangeSpecification.setHost("104.45.25.164");
     exchangeSpecification.setPort(80);
+    //exchangeSpecification.setPort(443);
     exchangeSpecification.setExchangeName("CoinMate");
     exchangeSpecification.setExchangeDescription("Bitcoin trading made simple.");
 
