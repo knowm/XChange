@@ -53,6 +53,6 @@ public class KrakenExchange extends BaseExchange implements Exchange {
     KrakenAssets assets = ((KrakenMarketDataServiceRaw) pollingMarketDataService).getKrakenAssets();
     // other endpoints?
     // hard-coded meta data from json file not available at an endpoint?
-    exchangeMetaData = KrakenAdapters.adaptToExchangeMetaData(assetPairs.getAssetPairMap(), assets.getAssetPairMap());
+    exchangeMetaData = KrakenAdapters.adaptToExchangeMetaData(exchangeMetaData, assetPairs.getAssetPairMap(), assets.getAssetPairMap());
   }
 }
