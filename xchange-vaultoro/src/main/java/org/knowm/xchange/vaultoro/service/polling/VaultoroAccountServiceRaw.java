@@ -27,7 +27,7 @@ public class VaultoroAccountServiceRaw extends VaultoroBasePollingService {
       VaultoroBalancesResponse response = vaultoro.getBalances(exchange.getNonceFactory(), apiKey, signatureCreator);
       return response.getData();
     } catch (VaultoroException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 

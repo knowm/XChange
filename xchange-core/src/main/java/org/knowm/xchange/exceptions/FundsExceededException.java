@@ -6,6 +6,10 @@ public class FundsExceededException extends ExchangeException {
     super(message);
   }
 
+  public FundsExceededException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
   public FundsExceededException() {
     super("Not enough funds are available.");
   }

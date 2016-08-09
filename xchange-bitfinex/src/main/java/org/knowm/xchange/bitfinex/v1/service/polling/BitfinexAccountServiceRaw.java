@@ -1,12 +1,12 @@
 package org.knowm.xchange.bitfinex.v1.service.polling;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.*;
 import org.knowm.xchange.exceptions.ExchangeException;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
 
@@ -27,7 +27,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
           new BitfinexBalancesRequest(String.valueOf(exchange.getNonceFactory().createValue())));
       return balances;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -38,7 +38,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
           new BitfinexMarginInfosRequest(String.valueOf(exchange.getNonceFactory().createValue())));
       return marginInfos;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -68,7 +68,7 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
         return null;
       }
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 

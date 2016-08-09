@@ -125,7 +125,7 @@ public abstract class BaseExchange implements Exchange {
       } catch (ExchangeException e) {
         throw e;
       } catch (IOException e) {
-        throw new ExchangeException(e.getMessage());
+        throw new ExchangeException(e);
       }
     }
   }

@@ -16,12 +16,6 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.annotation.Nullable;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * @author Zach Holmes
  */
@@ -44,7 +38,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBasePollingService {
       HashMap<String, PoloniexBalance> response = poloniexAuthenticated.returnCompleteBalances(apiKey, signatureCreator, exchange.getNonceFactory(), "all");
       return PoloniexAdapters.adaptPoloniexBalances(response);
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError());
+      throw new ExchangeException(e.getError(), e);
     }
   }
 
@@ -53,7 +47,7 @@ public class PoloniexAccountServiceRaw extends PoloniexBasePollingService {
           HashMap<String, PoloniexLoan[]> response = poloniexAuthenticated.returnActiveLoans(apiKey, signatureCreator, exchange.getNonceFactory());
           return PoloniexAdapters.adaptPoloniexLoans(response);
       } catch (PoloniexException e) {
-          throw new ExchangeException(e.getError());
+        throw new ExchangeException(e.getError(), e);
       }
   }
 

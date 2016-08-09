@@ -20,6 +20,17 @@ public class ExchangeException extends RuntimeException {
     super(message);
   }
 
+
+  /**
+   * Constructs an <code>ExchangeException</code> with the specified cause.
+   *
+   * @param cause the underlying cause.
+   */
+  public ExchangeException(Throwable cause) {
+
+    super(cause);
+  }
+
   /**
    * Constructs an <code>ExchangeException</code> with the specified detail message and cause.
    * 

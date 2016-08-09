@@ -35,7 +35,7 @@ public class BleutradeAccountServiceRaw extends BleutradeBasePollingService {
 
       return response.getResult();
     } catch (BleutradeException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -50,7 +50,7 @@ public class BleutradeAccountServiceRaw extends BleutradeBasePollingService {
 
       return response.getResult();
     } catch (BleutradeException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -65,7 +65,7 @@ public class BleutradeAccountServiceRaw extends BleutradeBasePollingService {
 
       return response.getResult();
     } catch (BleutradeException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
