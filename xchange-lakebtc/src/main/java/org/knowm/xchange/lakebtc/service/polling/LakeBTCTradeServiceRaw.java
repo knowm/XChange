@@ -1,21 +1,13 @@
 package org.knowm.xchange.lakebtc.service.polling;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.lakebtc.LakeBTCUtil;
-import org.knowm.xchange.lakebtc.dto.trade.LakeBTCBuyOrderRequest;
-import org.knowm.xchange.lakebtc.dto.trade.LakeBTCCancelRequest;
-import org.knowm.xchange.lakebtc.dto.trade.LakeBTCCancelResponse;
-import org.knowm.xchange.lakebtc.dto.trade.LakeBTCOrderResponse;
-import org.knowm.xchange.lakebtc.dto.trade.LakeBTCOrdersRequest;
-import org.knowm.xchange.lakebtc.dto.trade.LakeBTCOrdersResponse;
-import org.knowm.xchange.lakebtc.dto.trade.LakeBTCSellOrderRequest;
-import org.knowm.xchange.lakebtc.dto.trade.LakeBTCTradeResponse;
-import org.knowm.xchange.lakebtc.dto.trade.LakeBTCTradesRequest;
+import org.knowm.xchange.lakebtc.dto.trade.*;
+
+import java.io.IOException;
 
 /**
  * Created by cristian.lucaci on 12/19/2014.
@@ -50,7 +42,7 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBasePollingService {
       }
       return newOrder;
     } catch (IOException e) {
-      throw new ExchangeException("LakeBTC returned an error: " + e.getMessage());
+      throw new ExchangeException("LakeBTC returned an error", e);
     }
   }
 
@@ -72,7 +64,7 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBasePollingService {
       }
       return newOrder;
     } catch (IOException e) {
-      throw new ExchangeException("LakeBTC returned an error: " + e.getMessage());
+      throw new ExchangeException("LakeBTC returned an error", e);
     }
   }
 
@@ -80,7 +72,7 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBasePollingService {
     try {
       return lakeBTCAuthenticated.cancelOrder(signatureCreator, exchange.getNonceFactory(), new LakeBTCCancelRequest(orderId));
     } catch (Exception e) {
-      throw new ExchangeException("LakeBTC returned an error: " + e.getMessage());
+      throw new ExchangeException("LakeBTC returned an error", e);
     }
   }
 
@@ -89,7 +81,7 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBasePollingService {
     try {
       return lakeBTCAuthenticated.pastTrades(signatureCreator, exchange.getNonceFactory(), new LakeBTCTradesRequest(String.valueOf(timestamp)));
     } catch (IOException e) {
-      throw new ExchangeException("LakeBTC returned an error: " + e.getMessage());
+      throw new ExchangeException("LakeBTC returned an error", e);
     }
   }
 
