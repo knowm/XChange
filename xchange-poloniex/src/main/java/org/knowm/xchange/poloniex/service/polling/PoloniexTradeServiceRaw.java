@@ -4,9 +4,6 @@ package org.knowm.xchange.poloniex.service.polling;
  * @author Zach Holmes
  */
 
-import java.io.IOException;
-import java.util.HashMap;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -18,6 +15,9 @@ import org.knowm.xchange.poloniex.PoloniexUtils;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
 
@@ -56,7 +56,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
           PoloniexUtils.toPairString(limitOrder.getCurrencyPair()));
       return response;
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError());
+      throw new ExchangeException(e.getError(), e);
     }
   }
 
@@ -68,7 +68,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
           PoloniexUtils.toPairString(limitOrder.getCurrencyPair()));
       return response;
     } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError());
+      throw new ExchangeException(e.getError(), e);
     }
   }
 

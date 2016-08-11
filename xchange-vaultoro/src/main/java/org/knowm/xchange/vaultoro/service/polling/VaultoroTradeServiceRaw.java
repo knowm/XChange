@@ -37,7 +37,7 @@ public class VaultoroTradeServiceRaw extends VaultoroBasePollingService {
       VaultoroCancelOrderResponse response = vaultoro.cancel(orderId, exchange.getNonceFactory(), apiKey, signatureCreator);
       return response;
     } catch (VaultoroException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -47,7 +47,7 @@ public class VaultoroTradeServiceRaw extends VaultoroBasePollingService {
       VaultoroOrdersResponse response = vaultoro.getOrders(exchange.getNonceFactory(), apiKey, signatureCreator);
       return response.getData().get(0);
     } catch (VaultoroException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -89,13 +89,13 @@ public class VaultoroTradeServiceRaw extends VaultoroBasePollingService {
       try {
         return vaultoro.buy(baseSymbol, type, exchange.getNonceFactory(), apiKey, amount, price, signatureCreator);
       } catch (VaultoroException e) {
-        throw new ExchangeException(e.getMessage());
+        throw new ExchangeException(e);
       }
     } else {
       try {
         return vaultoro.sell(baseSymbol, type, exchange.getNonceFactory(), apiKey, amount, price, signatureCreator);
       } catch (VaultoroException e) {
-        throw new ExchangeException(e.getMessage());
+        throw new ExchangeException(e);
       }
     }
 

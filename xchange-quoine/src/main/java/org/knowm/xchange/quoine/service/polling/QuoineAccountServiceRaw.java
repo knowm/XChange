@@ -1,14 +1,13 @@
 package org.knowm.xchange.quoine.service.polling;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.quoine.dto.account.QuoineAccountInfo;
 import org.knowm.xchange.quoine.dto.account.QuoineTradingAccountInfo;
 import org.knowm.xchange.utils.Assert;
-
 import si.mazi.rescu.HttpStatusIOException;
+
+import java.io.IOException;
 
 public class QuoineAccountServiceRaw extends QuoineBasePollingService {
 
@@ -27,7 +26,7 @@ public class QuoineAccountServiceRaw extends QuoineBasePollingService {
     try {
       return quoine.getAccountInfo(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator);
     } catch (HttpStatusIOException e) {
-      throw new ExchangeException(e.getHttpBody());
+      throw new ExchangeException(e.getHttpBody(), e);
     }
   }
 
@@ -36,7 +35,7 @@ public class QuoineAccountServiceRaw extends QuoineBasePollingService {
     try {
       return quoine.getTradingAccountInfo(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator);
     } catch (HttpStatusIOException e) {
-      throw new ExchangeException(e.getHttpBody());
+      throw new ExchangeException(e.getHttpBody(), e);
     }
   }
 }
