@@ -53,7 +53,7 @@ public class CoinmateAccountServiceRaw extends CoinmateBasePollingService {
 
   public CoinmateBalance getCoinmateBalance() throws IOException {
 
-    CoinmateBalance coinmateBalance = coinmateAuthenticated.getBalances(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+    CoinmateBalance coinmateBalance = coinmateAuthenticated.getBalances(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), signatureCreator,
         exchange.getNonceFactory());
 
     throwExceptionIfError(coinmateBalance);
@@ -62,7 +62,7 @@ public class CoinmateAccountServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateTradeResponse coinmateBitcoinWithdrawal(BigDecimal amount, String address) throws IOException {
-    CoinmateTradeResponse response = coinmateAuthenticated.bitcoinWithdrawal(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+    CoinmateTradeResponse response = coinmateAuthenticated.bitcoinWithdrawal(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), signatureCreator,
         exchange.getNonceFactory(), amount, address);
 
     throwExceptionIfError(response);
@@ -71,7 +71,7 @@ public class CoinmateAccountServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateDepositAddresses coinmateBitcoinDepositAddresses() throws IOException {
-    CoinmateDepositAddresses addresses = coinmateAuthenticated.bitcoinDepositAddresses(exchange.getExchangeSpecification().getUserName(),
+    CoinmateDepositAddresses addresses = coinmateAuthenticated.bitcoinDepositAddresses(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(),
         signatureCreator, exchange.getNonceFactory());
 
     throwExceptionIfError(addresses);

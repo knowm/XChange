@@ -27,12 +27,13 @@ public class AccountInfoFetchIntegration {
     assertNotNull(service);
     AccountInfo info = service.getAccountInfo();
     assertNotNull(info);
-    System.out.println("Balance BTC: " + info.getWallet().getBalance(Currency.BTC).getTotal());
-    System.out.println("Available BTC: " + info.getWallet().getBalance(Currency.BTC).getAvailable());
-    System.out.println("Reserved BTC: " + info.getWallet().getBalance(Currency.BTC).getFrozen());
-    System.out.println("Balance EUR: " + info.getWallet().getBalance(Currency.EUR).getTotal());
-    System.out.println("Available EUR: " + info.getWallet().getBalance(Currency.EUR).getAvailable());
-    System.out.println("Reserved EUR: " + info.getWallet().getBalance(Currency.EUR).getFrozen());
+    Currency[] currencies = {Currency.BTC, Currency.EUR, Currency.CZK};
+    for (Currency curr : currencies) {
+        System.out.println(curr.toString() + " --- ");
+        System.out.println("Balance : " + info.getWallet().getBalance(curr).getTotal());
+        System.out.println("Available : " + info.getWallet().getBalance(curr).getAvailable());
+        System.out.println("Reserved : " + info.getWallet().getBalance(curr).getFrozen());
+    }
   }
 
   @Test

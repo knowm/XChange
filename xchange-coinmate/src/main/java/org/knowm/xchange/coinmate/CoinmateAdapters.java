@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Coinmate.
+ * Copyright 2015-2016 Coinmate.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -59,7 +59,11 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
  */
 public class CoinmateAdapters {
 
-  public static final CurrencyPair COINMATE_DEFAULT_PAIR = CurrencyPair.BTC_EUR;
+  // the currency pairs supported by the exchange
+  public static final CurrencyPair[] COINMATE_CURRENCY_PAIRS = {
+    CurrencyPair.BTC_EUR,
+    CurrencyPair.BTC_CZK,
+  };
 
   /**
    * Adapts a CoinmateTicker to a Ticker Object
@@ -150,9 +154,9 @@ public class CoinmateAdapters {
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
-  public static OpenOrders adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders) throws CoinmateException {
+  public static List<LimitOrder> adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders, CurrencyPair currencyPair) throws CoinmateException {
 
-    List<LimitOrder> ordersList = new ArrayList<LimitOrder>(coinmateOpenOrders.getData().size());
+    List<LimitOrder> ordersList = new ArrayList<>(coinmateOpenOrders.getData().size());
 
     for (CoinmateOpenOrdersEntry entry : coinmateOpenOrders.getData()) {
 
@@ -166,16 +170,13 @@ public class CoinmateAdapters {
         throw new CoinmateException("Unknown order type");
       }
 
-      // the api does not provide currency for open orders, so just assume the default pair
-      CurrencyPair currencyPair = COINMATE_DEFAULT_PAIR;
-
       LimitOrder limitOrder = new LimitOrder(orderType, entry.getAmount(), currencyPair, Long.toString(entry.getId()), new Date(entry.getTimestamp()),
           entry.getPrice());
 
       ordersList.add(limitOrder);
     }
 
-    return new OpenOrders(ordersList);
+    return ordersList;
   }
 
   public static String adaptOrder(TradeHistoryParamsSorted.Order order) {

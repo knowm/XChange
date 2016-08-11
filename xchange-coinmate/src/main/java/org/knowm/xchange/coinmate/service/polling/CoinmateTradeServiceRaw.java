@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Coinmate.
+ * Copyright 2015-2016 Coinmate.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAuthenticated;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
+import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderWithInfoResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTransactionHistory;
@@ -53,7 +54,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateTransactionHistory getCoinmateTradeHistory(int offset, int limit, String sort) throws IOException {
-    CoinmateTransactionHistory tradeHistory = coinmateAuthenticated.getTransactionHistory(exchange.getExchangeSpecification().getUserName(),
+    CoinmateTransactionHistory tradeHistory = coinmateAuthenticated.getTransactionHistory(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(),
         signatureCreator, exchange.getNonceFactory(), offset, limit, sort);
 
     throwExceptionIfError(tradeHistory);
@@ -62,7 +63,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateOpenOrders getCoinmateOpenOrders(String currencyPair) throws IOException {
-    CoinmateOpenOrders openOrders = coinmateAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+    CoinmateOpenOrders openOrders = coinmateAuthenticated.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), signatureCreator,
         exchange.getNonceFactory(), currencyPair);
 
     throwExceptionIfError(openOrders);
@@ -72,7 +73,16 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateCancelOrderResponse cancelCoinmateOrder(String orderId) throws IOException {
-    CoinmateCancelOrderResponse response = coinmateAuthenticated.cancelOder(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+    CoinmateCancelOrderResponse response = coinmateAuthenticated.cancelOder(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), signatureCreator,
+        exchange.getNonceFactory(), orderId);
+
+    throwExceptionIfError(response);
+
+    return response;
+  }
+  
+  public CoinmateCancelOrderWithInfoResponse cancelCoinmateOrderWithInfo(String orderId) throws IOException {
+    CoinmateCancelOrderWithInfoResponse response = coinmateAuthenticated.cancelOderWithInfo(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), signatureCreator,
         exchange.getNonceFactory(), orderId);
 
     throwExceptionIfError(response);
@@ -81,7 +91,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateTradeResponse buyCoinmateLimit(BigDecimal amount, BigDecimal price, String currencyPair) throws IOException {
-    CoinmateTradeResponse response = coinmateAuthenticated.buyLimit(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+    CoinmateTradeResponse response = coinmateAuthenticated.buyLimit(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), signatureCreator,
         exchange.getNonceFactory(), amount, price, currencyPair);
 
     throwExceptionIfError(response);
@@ -90,7 +100,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateTradeResponse sellCoinmateLimit(BigDecimal amount, BigDecimal price, String currencyPair) throws IOException {
-    CoinmateTradeResponse response = coinmateAuthenticated.sellLimit(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+    CoinmateTradeResponse response = coinmateAuthenticated.sellLimit(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), signatureCreator,
         exchange.getNonceFactory(), amount, price, currencyPair);
 
     throwExceptionIfError(response);
@@ -99,7 +109,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateTradeResponse buyCoinmateInstant(BigDecimal total, String currencyPair) throws IOException {
-    CoinmateTradeResponse response = coinmateAuthenticated.buyInstant(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+    CoinmateTradeResponse response = coinmateAuthenticated.buyInstant(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), signatureCreator,
         exchange.getNonceFactory(), total, currencyPair);
 
     throwExceptionIfError(response);
@@ -108,7 +118,7 @@ public class CoinmateTradeServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateTradeResponse sellCoinmateInstant(BigDecimal total, String currencyPair) throws IOException {
-    CoinmateTradeResponse response = coinmateAuthenticated.sellInstant(exchange.getExchangeSpecification().getUserName(), signatureCreator,
+    CoinmateTradeResponse response = coinmateAuthenticated.sellInstant(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), signatureCreator,
         exchange.getNonceFactory(), total, currencyPair);
 
     throwExceptionIfError(response);
