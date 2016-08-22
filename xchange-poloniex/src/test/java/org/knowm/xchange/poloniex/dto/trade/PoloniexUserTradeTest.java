@@ -21,7 +21,7 @@ public class PoloniexUserTradeTest {
   @Test
   public void testTradeHistoryMultiPair() throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = PoloniexUserTrade.class.getResourceAsStream("/tradedata/trade-history-multi-pair.json");
+    final InputStream is = PoloniexUserTrade.class.getResourceAsStream("/trade/trade-history-multi-pair.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final JavaType stringType = mapper.getTypeFactory().constructType(String.class, String.class);
@@ -51,7 +51,7 @@ public class PoloniexUserTradeTest {
   @Test
   public void testTradeHistorySinglePair() throws JsonParseException, JsonMappingException, IOException {
 
-    final InputStream is = PoloniexUserTrade.class.getResourceAsStream("/tradedata/trade-history-single-pair.json");
+    final InputStream is = PoloniexUserTrade.class.getResourceAsStream("/trade/trade-history-single-pair.json");
 
     final ObjectMapper mapper = new ObjectMapper();
     final JavaType tradeArray = mapper.getTypeFactory().constructArrayType(PoloniexUserTrade.class);
