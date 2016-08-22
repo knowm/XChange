@@ -28,7 +28,9 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
 import org.knowm.xchange.poloniex.PoloniexUtils;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexLimitOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
@@ -39,11 +41,6 @@ import org.knowm.xchange.utils.DateUtils;
 
 public class PoloniexTradeService extends PoloniexTradeServiceRaw implements PollingTradeService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public PoloniexTradeService(Exchange exchange) {
 
     super(exchange);
@@ -65,11 +62,21 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
+    PoloniexTradeResponse response;
     if (limitOrder.getType() == OrderType.BID) {
-      return buy(limitOrder).getOrderNumber().toString();
+      response = buy(limitOrder);
     } else {
-      return sell(limitOrder).getOrderNumber().toString();
+      response = sell(limitOrder);
     }
+
+    // The return value contains details of any trades that have been immediately executed as a result  
+    // of this order. Make these available to the application if it has provided a PoloniexLimitOrder. 
+    if (limitOrder instanceof PoloniexLimitOrder) {
+      PoloniexLimitOrder raw = (PoloniexLimitOrder) limitOrder;
+      raw.setResponse(response);
+    }
+
+    return response.getOrderNumber().toString();
   }
 
   @Override

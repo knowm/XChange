@@ -1,4 +1,4 @@
-package si.mazi.rescu;
+package org.knowm.xchange.poloniex.dto.account;
 
 import java.lang.reflect.Method;
 
@@ -7,13 +7,17 @@ import org.junit.Test;
 import org.knowm.xchange.poloniex.PoloniexAuthenticated;
 import org.knowm.xchange.poloniex.PoloniexException;
 
+import si.mazi.rescu.InvocationResult;
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.RestMethodMetadata;
+import si.mazi.rescu.SynchronizedValueFactory;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
 import si.mazi.rescu.serialization.jackson.JacksonResponseReader;
 
-public class PoloniexAccountJsonTest {
+public class PoloniexBalanceTest {
 
-  @Test
-  public void testBalancesError() throws Exception {
+  @Test(expected = PoloniexException.class)
+  public void balanceRejectTest() throws Exception {
 
     InvocationResult invocationResult = new InvocationResult("{\"error\":\"Invalid API key\\/secret pair.\"}", 200);
 
@@ -23,10 +27,9 @@ public class PoloniexAccountJsonTest {
 
     try {
       new JacksonResponseReader(new DefaultJacksonObjectMapperFactory().createObjectMapper(), false).read(invocationResult, balances);
-      Assert.assertTrue("Should have failed.", false);
     } catch (PoloniexException e) {
-      Assert.assertTrue(e.getMessage().contains("Invalid API key/secret pair."));
+      Assert.assertTrue(e.getMessage().startsWith("Invalid API key/secret pair."));
+      throw e;
     }
   }
-
 }

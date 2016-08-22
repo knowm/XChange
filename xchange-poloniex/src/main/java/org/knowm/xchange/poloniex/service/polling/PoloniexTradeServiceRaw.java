@@ -7,25 +7,27 @@ package org.knowm.xchange.poloniex.service.polling;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.poloniex.PoloniexAdapters;
+import org.knowm.xchange.poloniex.PoloniexAuthenticated;
 import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.PoloniexUtils;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexMoveResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexOrderFlags;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 
+import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public PoloniexTradeServiceRaw(Exchange exchange) {
 
     super(exchange);
@@ -49,62 +51,66 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
   }
 
   public PoloniexTradeResponse buy(LimitOrder limitOrder) throws IOException {
-
-    try {
-      PoloniexTradeResponse response = poloniexAuthenticated.buy(apiKey, signatureCreator, exchange.getNonceFactory(),
-          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
-          PoloniexUtils.toPairString(limitOrder.getCurrencyPair()));
-      return response;
-    } catch (PoloniexException e) {
-      throw new ExchangeException(e.getError(), e);
-    }
+    return orderEntry(limitOrder, "buy");
   }
 
   public PoloniexTradeResponse sell(LimitOrder limitOrder) throws IOException {
+    return orderEntry(limitOrder, "sell");
+  }
+
+  private PoloniexTradeResponse orderEntry(LimitOrder limitOrder, String name) throws IOException {
+    Integer fillOrKill;
+    if (limitOrder.getOrderFlags().contains(PoloniexOrderFlags.FILL_OR_KILL)) {
+      fillOrKill = 1;
+    } else {
+      fillOrKill = null;
+    }
+    
+    Integer immediateOrCancel;
+    if (limitOrder.getOrderFlags().contains(PoloniexOrderFlags.IMMEDIATE_OR_CANCEL)) {
+      immediateOrCancel = 1;
+    } else {
+      immediateOrCancel = null;
+    }
+    
+    Integer postOnly;
+    if (limitOrder.getOrderFlags().contains(PoloniexOrderFlags.POST_ONLY)) {
+      postOnly = 1;
+    } else {
+      postOnly = null;
+    }
 
     try {
-      PoloniexTradeResponse response = poloniexAuthenticated.sell(apiKey, signatureCreator, exchange.getNonceFactory(),
-          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
-          PoloniexUtils.toPairString(limitOrder.getCurrencyPair()));
+      Method method = PoloniexAuthenticated.class.getDeclaredMethod(name, String.class, ParamsDigest.class, SynchronizedValueFactory.class,
+          String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
+      PoloniexTradeResponse response = (PoloniexTradeResponse) method.invoke(poloniexAuthenticated, apiKey, signatureCreator,
+          exchange.getNonceFactory(), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
+          PoloniexUtils.toPairString(limitOrder.getCurrencyPair()), fillOrKill, immediateOrCancel, postOnly);
       return response;
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError(), e);
+    } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+      throw new ExchangeException(e.getMessage(), e);
+    }
+  }
+
+  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice) throws IOException {
+
+    try {
+      return poloniexAuthenticated.moveOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId, tradableAmount.toPlainString(),
+          limitPrice.toPlainString());
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError(), e);
     }
   }
 
   public boolean cancel(String orderId) throws IOException {
-
-    /*
-     * Need to look up CurrencyPair associated with orderId Poloniex is working on fixing this
-     */
-    OpenOrders openOrders = PoloniexAdapters.adaptPoloniexOpenOrders(returnOpenOrders());
-    for (LimitOrder order : openOrders.getOpenOrders()) {
-      if (order.getId().equals(orderId)) {
-        HashMap<String, String> response = poloniexAuthenticated.cancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId,
-            PoloniexUtils.toPairString(order.getCurrencyPair()));
-        if (response.containsKey("error")) {
-          throw new ExchangeException(response.get("error"));
-        } else {
-          return response.get("success").toString().equals(new Integer(1).toString()) ? true : false;
-        }
-      }
-    }
-
-    throw new ExchangeException("Unable to find order #" + orderId);
-
-  }
-
-  public boolean cancel(String orderId, CurrencyPair currencyPair) throws IOException {
-
-    /*
-     * No need to look up CurrencyPair associated with orderId, as the caller will provide it.
-     */
-    HashMap<String, String> response = poloniexAuthenticated.cancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId,
-        PoloniexUtils.toPairString(currencyPair));
+    HashMap<String, String> response = poloniexAuthenticated.cancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
     if (response.containsKey("error")) {
       throw new ExchangeException(response.get("error"));
+    } else {
+      return response.get("success").toString().equals(new Integer(1).toString()) ? true : false;
     }
-    return response.get("success").toString().equals(new Integer(1).toString()) ? true : false;
   }
 
   public HashMap<String, String> getFeeInfo() throws IOException {
