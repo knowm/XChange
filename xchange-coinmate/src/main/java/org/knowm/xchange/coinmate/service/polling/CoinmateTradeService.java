@@ -1,7 +1,7 @@
 /*
  * The MIT License
  * 
- * Copyright 2015 Coinmate.
+ * Copyright 2015-2016 Coinmate.
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
@@ -17,7 +17,9 @@
 package org.knowm.xchange.coinmate.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.CoinmateAdapters;
@@ -26,6 +28,7 @@ import org.knowm.xchange.coinmate.CoinmateUtils;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateCancelOrderResponse;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateOpenOrders;
 import org.knowm.xchange.coinmate.dto.trade.CoinmateTradeResponse;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -50,11 +53,14 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Pol
 
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    // BTC_EUR by default
-    String currencyPair = CoinmateUtils.getPair(CoinmateAdapters.COINMATE_DEFAULT_PAIR);
+    List<LimitOrder> orders = new ArrayList<>();
+    for (CurrencyPair currencyPair : CoinmateAdapters.COINMATE_CURRENCY_PAIRS) {
+      String currencyPairString = CoinmateUtils.getPair(currencyPair);
 
-    CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPair);
-    return CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders);
+      CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPairString);
+      orders.addAll(CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders, currencyPair));
+    }
+    return new OpenOrders(orders);
   }
 
   @Override

@@ -67,6 +67,14 @@ public interface Exchange {
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   void applySpecification(ExchangeSpecification exchangeSpecification);
+  
+  /**
+   * Applies any exchange specific parameters
+   * 
+   * @param exchangeSpecification The {@link ExchangeSpecification}
+   * @param doRemoteInit Call {@link remoteInit}
+   */
+  void applySpecification(ExchangeSpecification exchangeSpecification, boolean doRemoteInit);
 
   /**
    * <p>

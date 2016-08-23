@@ -42,17 +42,27 @@ import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
 public class CoinmateBasePollingServiceIntegration {
 
   @Test
-  public void tickerFetchTest() throws Exception {
+  public void tickerFetchTestEUR() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
-    Ticker ticker = marketDataService.getTicker(new CurrencyPair("BTC", "EUR"));
-    System.out.println(ticker.toString());
-    assertThat(ticker).isNotNull();
+    Ticker tickerEUR = marketDataService.getTicker(new CurrencyPair("BTC", "EUR"));
+    System.out.println(tickerEUR.toString());
+    assertThat(tickerEUR).isNotNull();
+  }
+  
+  @Test
+  public void tickerFetchTestCZK() throws Exception {
+
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    Ticker tickerCZK = marketDataService.getTicker(new CurrencyPair("BTC", "CZK"));
+    System.out.println(tickerCZK.toString());
+    assertThat(tickerCZK).isNotNull();
   }
 
   @Test
-  public void orderBookFetchTest() throws Exception {
+  public void orderBookFetchTestEUR() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
@@ -60,13 +70,33 @@ public class CoinmateBasePollingServiceIntegration {
     System.out.println(orderBook.toString());
     assertThat(orderBook).isNotNull();
   }
+  
+  @Test
+  public void orderBookFetchTestCZK() throws Exception {
+
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CZK);
+    System.out.println(orderBook.toString());
+    assertThat(orderBook).isNotNull();
+  }
 
   @Test
-  public void tradesFetchTest() throws Exception {
+  public void tradesFetchTestEUR() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
     PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
+    System.out.println(trades.getTrades().toString());
+    assertThat(trades).isNotNull();
+  }
+  
+  @Test
+  public void tradesFetchTestCZK() throws Exception {
+
+    Exchange exchange = ExchangeFactory.INSTANCE.createExchange(CoinmateExchange.class.getName());
+    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CZK);
     System.out.println(trades.getTrades().toString());
     assertThat(trades).isNotNull();
   }

@@ -36,9 +36,14 @@ public abstract class BaseExchange implements Exchange {
   protected PollingTradeService pollingTradeService;
   protected PollingAccountService pollingAccountService;
   protected StreamingExchangeService streamingExchangeService;
-
+  
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
+    applySpecification(exchangeSpecification, true);
+  }
+
+  @Override
+  public void applySpecification(ExchangeSpecification exchangeSpecification, boolean doRemoteInit) {
 
     ExchangeSpecification defaultSpecification = getDefaultExchangeSpecification();
 
@@ -113,13 +118,15 @@ public abstract class BaseExchange implements Exchange {
     }
 
     initServices();
-
-    try {
-      remoteInit();
-    } catch (ExchangeException e) {
-      throw e;
-    } catch (IOException e) {
-      throw new ExchangeException(e.getMessage());
+    
+    if (doRemoteInit) {
+      try {
+        remoteInit();
+      } catch (ExchangeException e) {
+        throw e;
+      } catch (IOException e) {
+        throw new ExchangeException(e);
+      }
     }
   }
 

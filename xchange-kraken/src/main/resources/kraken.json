@@ -69,5 +69,13 @@
       "min_amount": 0.010000000      
     }
   },
-  "currencies": {}
+  "currencies": {},
+  "public_rate_limits": [
+    {
+      "calls" : 1,
+      "time_span" : 6,
+      "time_unit": "seconds"
+    }
+  ],
+  "share_rate_limits" : false
 }

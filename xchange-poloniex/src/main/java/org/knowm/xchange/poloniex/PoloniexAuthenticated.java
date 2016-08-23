@@ -3,6 +3,7 @@ package org.knowm.xchange.poloniex;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 import org.knowm.xchange.poloniex.dto.account.WithdrawalResponse;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexMoveResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
@@ -60,19 +61,26 @@ public interface PoloniexAuthenticated {
   @FormParam("command")
   PoloniexTradeResponse buy(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") String amount, @FormParam("rate") String rate,
-      @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
+      @FormParam("currencyPair") String currencyPair, @FormParam("fillOrKill") Integer fillOrKill,
+      @FormParam("immediateOrCancel") Integer immediateOrCancel, @FormParam("postOnly") Integer postOnly) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")
   PoloniexTradeResponse sell(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") String amount, @FormParam("rate") String rate,
-      @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
+      @FormParam("currencyPair") String currencyPair, @FormParam("fillOrKill") Integer fillOrKill,
+      @FormParam("immediateOrCancel") Integer immediateOrCancel, @FormParam("postOnly") Integer postOnly) throws PoloniexException, IOException;
+
+  @POST
+  @FormParam("command")
+  PoloniexMoveResponse moveOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderNumber, @FormParam("amount") String amount,
+      @FormParam("rate") String rate) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")
   HashMap<String, String> cancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderNumber,
-      @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderNumber) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")

@@ -39,7 +39,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBasePollingService {
 
       return response.getResult().getOrderid();
     } catch (BleutradeException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -57,7 +57,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBasePollingService {
 
       return response.getResult().getOrderid();
     } catch (BleutradeException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -68,7 +68,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBasePollingService {
 
       return response.getSuccess();
     } catch (BleutradeException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -83,7 +83,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBasePollingService {
 
       return response.getResult();
     } catch (BleutradeException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 

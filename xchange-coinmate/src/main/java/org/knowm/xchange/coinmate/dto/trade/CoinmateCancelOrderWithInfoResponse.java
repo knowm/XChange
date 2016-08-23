@@ -21,29 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.knowm.xchange.coinmate;
+package org.knowm.xchange.coinmate.dto.trade;
 
-import org.knowm.xchange.currency.CurrencyPair;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
 
 /**
- * Conversion between XChange CurrencyPair and Coinmate API
  * @author Martin Stachon
  */
-public class CoinmateUtils {
+public class CoinmateCancelOrderWithInfoResponse extends CoinmateBaseResponse<CoinmateCancelOrderWithInfoResponseData> {
 
-  public static String getPair(CurrencyPair currencyPair) {
+  public CoinmateCancelOrderWithInfoResponse(@JsonProperty("error") boolean error, @JsonProperty("errorMessage") String errorMessage,
+          @JsonProperty("data") CoinmateCancelOrderWithInfoResponseData data) {
 
-    return currencyPair.base.getCurrencyCode().toUpperCase() + "_" + currencyPair.counter.getCurrencyCode().toUpperCase();
-  }
-
-  public static CurrencyPair getPair(String currencyPair) {
-    if ("BTC_EUR".equals(currencyPair)) {
-      return CurrencyPair.BTC_EUR;
-    } else if ("BTC_CZK".equals(currencyPair)) {
-      return CurrencyPair.BTC_CZK; 
-    } else {
-      return null;
-    }
+    super(error, errorMessage, data);
   }
 
 }

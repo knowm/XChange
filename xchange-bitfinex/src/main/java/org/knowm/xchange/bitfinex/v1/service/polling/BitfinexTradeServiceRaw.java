@@ -1,34 +1,12 @@
 package org.knowm.xchange.bitfinex.v1.service.polling;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderMultiRequest;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCreditResponse;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewHiddenOrderRequest;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOfferRequest;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrder;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderMultiRequest;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderMultiResponse;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderRequest;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusRequest;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusResponse;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusRequest;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.*;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
@@ -36,6 +14,10 @@ import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
 
@@ -56,7 +38,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
           new BitfinexNonceOnlyRequest("/v1/orders", String.valueOf(exchange.getNonceFactory().createValue())));
       return activeOrders;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -67,7 +49,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
           new BitfinexNonceOnlyRequest("/v1/offers", String.valueOf(exchange.getNonceFactory().createValue())));
       return activeOffers;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -83,7 +65,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
               "bitfinex", type, orderType));
       return newOrder;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -107,7 +89,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
       BitfinexOrderStatusResponse newOrder = bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, request);
       return newOrder;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -137,7 +119,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
       BitfinexNewOrderMultiResponse response = bitfinex.newOrderMulti(apiKey, payloadCreator, signatureCreator, request);
       return response;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -151,7 +133,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
               loanOrder.getTradableAmount(), loanOrder.getRate(), loanOrder.getDayPeriod(), direction));
       return newOrderResponse;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -166,7 +148,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
               loanOrder.getTradableAmount(), new BigDecimal("0.0"), loanOrder.getDayPeriod(), direction));
       return newOrderResponse;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -180,7 +162,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
       if (e.getMessage().equals("Order could not be cancelled.")) {
         return false;
       } else {
-        throw new ExchangeException(e.getMessage());
+        throw new ExchangeException(e);
       }
     }
   }
@@ -198,7 +180,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
           new BitfinexCancelOrderMultiRequest(String.valueOf(exchange.getNonceFactory().createValue()), cancelOrderIds));
       return true;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -209,7 +191,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
           new BitfinexCancelOfferRequest(String.valueOf(exchange.getNonceFactory().createValue()), Integer.valueOf(offerId)));
       return cancelResponse;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -220,7 +202,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
           new BitfinexOrderStatusRequest(String.valueOf(exchange.getNonceFactory().createValue()), Integer.valueOf(orderId)));
       return orderStatus;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
 
   }
@@ -232,7 +214,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
           new BitfinexOfferStatusRequest(String.valueOf(exchange.getNonceFactory().createValue()), Integer.valueOf(offerId)));
       return offerStatus;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -243,7 +225,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
           new BitfinexPastTradesRequest(String.valueOf(exchange.getNonceFactory().createValue()), symbol, timestamp, limit));
       return trades;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -254,7 +236,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
           new BitfinexActiveCreditsRequest(String.valueOf(exchange.getNonceFactory().createValue())));
       return credits;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -272,7 +254,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
           new BitfinexNonceOnlyRequest("/v1/positions", String.valueOf(exchange.getNonceFactory().createValue())));
       return activePositions;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 }

@@ -2,6 +2,9 @@
   "currency_pairs": {
     "BTC/EUR": {
       "price_scale": 2
+    },
+    "BTC/CZK": {
+      "price_scale": 2
     }
   },
   "currencies": {
@@ -9,6 +12,9 @@
       "scale": 8
     },
     "EUR": {
+      "scale": 2
+    },
+    "CZK": {
       "scale": 2
     }
   },

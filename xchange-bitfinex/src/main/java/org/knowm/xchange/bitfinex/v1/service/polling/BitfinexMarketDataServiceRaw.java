@@ -1,20 +1,16 @@
 package org.knowm.xchange.bitfinex.v1.service.polling;
 
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
+import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.*;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
-import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLend;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
  * <p>
@@ -42,7 +38,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService {
       BitfinexTicker bitfinexTicker = bitfinex.getTicker(pair);
       return bitfinexTicker;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -57,7 +53,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService {
       }
       return bitfinexDepth;
     } catch (BitfinexException e) {
-      throw new ExchangeException(e.getMessage());
+      throw new ExchangeException(e);
     }
   }
 
@@ -67,7 +63,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService {
       BitfinexLendDepth bitfinexLendDepth = bitfinex.getLendBook(currency, limitBids, limitAsks);
       return bitfinexLendDepth;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException("Bitfinex returned an error", e);
     }
   }
 
@@ -77,7 +73,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService {
       BitfinexTrade[] bitfinexTrades = bitfinex.getTrades(pair, sinceTimestamp);
       return bitfinexTrades;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException("Bitfinex returned an error", e);
     }
   }
 
@@ -87,7 +83,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService {
       BitfinexLend[] bitfinexLends = bitfinex.getLends(currency, sinceTimestamp, limitTrades);
       return bitfinexLends;
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException("Bitfinex returned an error" , e);
     }
   }
 
@@ -96,7 +92,7 @@ public class BitfinexMarketDataServiceRaw extends BitfinexBasePollingService {
     try {
       return bitfinex.getSymbols();
     } catch (BitfinexException e) {
-      throw new ExchangeException("Bitfinex returned an error: " + e.getMessage());
+      throw new ExchangeException("Bitfinex returned an error", e);
     }
   }
 
