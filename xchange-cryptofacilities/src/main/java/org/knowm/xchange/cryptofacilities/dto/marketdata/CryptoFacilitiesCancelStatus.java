@@ -32,7 +32,9 @@ public class CryptoFacilitiesCancelStatus {
     return status;
   }
 
+  @Override
   public String toString() {
-    return "CryptoFacilitiesCancelStatus [status=" + status + ", receivedTime=" + DATE_FORMAT.format(receivedTime) + "]";
+    return "CryptoFacilitiesCancelStatus [status=" + status + 
+            ", receivedTime=" + (receivedTime == null ? "" : DATE_FORMAT.format(receivedTime)) + "]";
   }
 }
