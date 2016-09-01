@@ -75,7 +75,18 @@ public class IndependentReserveAdapters {
       } else {
         throw new IllegalStateException("Unknown order found in Independent Reserve");
       }
-      LimitOrder limitOrder = new LimitOrder(type, order.getOutstanding(), CurrencyPair.BTC_USD, order.getOrderGuid(), order.getCreatedTimestampUtc(),
+
+      // getting valid order currency pair
+      String primaryAlias = order.getPrimaryCurrencyCode();
+      if (primaryAlias.equals("Xbt")) {
+        primaryAlias = "BTC";
+      }
+
+      Currency primary = Currency.getInstanceNoCreate(primaryAlias);
+      Currency secondary = Currency.getInstanceNoCreate(order.getSecondaryCurrencyCode());
+      CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
+
+      LimitOrder limitOrder = new LimitOrder(type, order.getOutstanding(), currencyPair, order.getOrderGuid(), order.getCreatedTimestampUtc(),
           order.getPrice());
       limitOrders.add(limitOrder);
     }
@@ -95,12 +106,20 @@ public class IndependentReserveAdapters {
         throw new IllegalStateException("Unknown order found in Independent Reserve");
       }
 
-      CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+      String primaryAlias = trade.getPrimaryCurrencyCode();
+      if (primaryAlias.equals("Xbt")) {
+        primaryAlias = "BTC";
+      }
 
-      if (!trade.getPrimaryCurrencyCode().equals("Xbt") || !trade.getSecondaryCurrencyCode().equals("Usd")) {
+      Currency primary = Currency.getInstanceNoCreate(primaryAlias);
+      Currency secondary = Currency.getInstanceNoCreate(trade.getSecondaryCurrencyCode());
+
+      if (primary == null || secondary == null) {
         throw new IllegalArgumentException("IndependentReserveTradeHistoryRequest - unknown value of currency code. Base was: "
             + trade.getPrimaryCurrencyCode() + " counter was " + trade.getSecondaryCurrencyCode());
       }
+
+      CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
 
       UserTrade ut = new UserTrade(type, trade.getVolumeTraded(), currencyPair, trade.getPrice(), trade.getTradeTimestampUtc(), trade.getTradeGuid(),
           trade.getOrderGuid(), null, (Currency) null);

@@ -1,7 +1,9 @@
 package org.knowm.xchange.independentreserve.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,11 +28,27 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
   }
 
   /**
-   * Assumes asking for the first 50 orders with the currency pair BTCUSD
+   * Assumes asking for the first 50 orders with the currency pair BTCUSD + ETHUSD
    */
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return IndependentReserveAdapters.adaptOpenOrders(getIndependentReserveOpenOrders(CurrencyPair.BTC_USD, 1));
+    OpenOrders btcOrders = IndependentReserveAdapters.adaptOpenOrders(getIndependentReserveOpenOrders(CurrencyPair.BTC_USD, 1));
+    OpenOrders ethOrders = IndependentReserveAdapters.adaptOpenOrders(getIndependentReserveOpenOrders(CurrencyPair.ETH_USD, 1));
+
+    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+
+    List<LimitOrder> btcList = btcOrders.getOpenOrders();
+    for(LimitOrder order : btcList) {
+      openOrders.add(order);
+    }
+
+    List<LimitOrder> ethList = ethOrders.getOpenOrders();
+    for(LimitOrder order : ethList) {
+      openOrders.add(order);
+    }
+
+    OpenOrders combined = new OpenOrders(openOrders);
+    return combined;
   }
 
   @Override
@@ -42,7 +60,7 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
   @Override
   public String placeLimitOrder(LimitOrder limitOrder)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return independentReservePlaceLimitOrder(CurrencyPair.BTC_USD, limitOrder.getType(), limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
+    return independentReservePlaceLimitOrder(limitOrder.getCurrencyPair(), limitOrder.getType(), limitOrder.getLimitPrice(), limitOrder.getTradableAmount());
   }
 
   @Override
