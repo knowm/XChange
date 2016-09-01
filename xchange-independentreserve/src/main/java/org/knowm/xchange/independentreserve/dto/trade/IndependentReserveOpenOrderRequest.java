@@ -13,6 +13,8 @@ public class IndependentReserveOpenOrderRequest extends AuthAggregate {
 
     if (primaryCurrencyCode.equals("BTC")) {
       primaryCurrencyCode = "Xbt";
+    } else if (primaryCurrencyCode.equals("ETH")) {
+      primaryCurrencyCode = "Eth";
     } else {
       throw new IllegalArgumentException("IndependentReserveOpenOrderRequest - unknown value of base currency code");
     }
