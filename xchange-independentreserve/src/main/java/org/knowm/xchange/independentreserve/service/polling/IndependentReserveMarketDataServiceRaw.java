@@ -20,6 +20,12 @@ public class IndependentReserveMarketDataServiceRaw extends IndependentReserveBa
   }
 
   public IndependentReserveOrderBook getIndependentReserveOrderBook(String baseSymbol, String counterSymbol) throws IOException {
+
+    // Independent Reserve works with Xbt
+    if (baseSymbol.equals("BTC")) {
+      baseSymbol = "Xbt";
+    }
+
     return independentReserve.getOrderBook(baseSymbol, counterSymbol);
   }
 }

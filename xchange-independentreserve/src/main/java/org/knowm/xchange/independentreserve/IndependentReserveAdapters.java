@@ -33,10 +33,18 @@ public class IndependentReserveAdapters {
   }
 
   public static OrderBook adaptOrderBook(IndependentReserveOrderBook independentReserveOrderBook) {
-    List<LimitOrder> bids = adaptOrders(independentReserveOrderBook.getBuyOrders(), Order.OrderType.BID,
-        new CurrencyPair(independentReserveOrderBook.getPrimaryCurrencyCode(), independentReserveOrderBook.getSecondaryCurrencyCode()));
-    List<LimitOrder> asks = adaptOrders(independentReserveOrderBook.getSellOrders(), Order.OrderType.ASK,
-        new CurrencyPair(independentReserveOrderBook.getPrimaryCurrencyCode(), independentReserveOrderBook.getSecondaryCurrencyCode()));
+
+    // reverse mapping Xbt (Independent Reserve) to BTC (XChange)
+    String base = independentReserveOrderBook.getPrimaryCurrencyCode();
+
+    if (base.equals("Xbt")) {
+      base = "BTC";
+    }
+
+    CurrencyPair currencyPair = new CurrencyPair(base, independentReserveOrderBook.getSecondaryCurrencyCode());
+
+    List<LimitOrder> bids = adaptOrders(independentReserveOrderBook.getBuyOrders(), Order.OrderType.BID, currencyPair);
+    List<LimitOrder> asks = adaptOrders(independentReserveOrderBook.getSellOrders(), Order.OrderType.ASK, currencyPair);
     Date timestamp = new Date(independentReserveOrderBook.getCreatedTimestampUtc());
 
     return new OrderBook(timestamp, asks, bids);
@@ -56,7 +64,7 @@ public class IndependentReserveAdapters {
 
     for (IndependentReserveAccount balanceAccount : independentReserveBalance.getIndependentReserveAccounts()) {
       Currency currency = Currency.getInstance(balanceAccount.getCurrencyCode().toUpperCase());
-      balances.add(new Balance(currency.getCommonlyUsedCurrency(), balanceAccount.getTotalBalance()));
+      balances.add(new Balance(currency.getCommonlyUsedCurrency(), balanceAccount.getTotalBalance(), balanceAccount.getAvailableBalance()));
     }
     return new Wallet(balances);
   }
