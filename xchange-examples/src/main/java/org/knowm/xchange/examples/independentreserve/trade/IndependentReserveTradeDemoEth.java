@@ -2,6 +2,7 @@ package org.knowm.xchange.examples.independentreserve.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.concurrent.TimeUnit;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -47,7 +48,9 @@ public class IndependentReserveTradeDemoEth {
     System.out.println("Trade history: " + tradeHistory.toString());
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
+  private static void printOpenOrders(PollingTradeService tradeService) throws IOException, InterruptedException {
+    // IR API caches data for some time, so we can get the same set of orders as we saw before
+    TimeUnit.SECONDS.sleep(1);
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());
   }

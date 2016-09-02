@@ -1,10 +1,13 @@
 package org.knowm.xchange.examples.independentreserve.account;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.examples.independentreserve.IndependentReserveDemoUtils;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
 import org.knowm.xchange.independentreserve.service.polling.IndependentReserveAccountService;
@@ -28,8 +31,16 @@ public class IndependentReserveAccountDemo {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();
-    System.out.println("USD balance: " + accountInfo.getWallet().getBalance(Currency.USD).getAvailable());
-    System.out.println("BTC balance: " + accountInfo.getWallet().getBalance(Currency.BTC).getAvailable());
+    System.out.println("Account balances: (available / available for withdrawal / total)");
+
+    Wallet wallet = accountInfo.getWallet();
+    Map<Currency, Balance> balances = wallet.getBalances();
+    for (Map.Entry<Currency, Balance> entry : balances.entrySet()) {
+      Balance balance = entry.getValue();
+      System.out.format("%s balance: %s / %s / %s\n", entry.getKey().getCurrencyCode(), balance.getAvailable(), balance.getAvailableForWithdrawal(),
+          balance.getTotal());
+
+    }
 
   }
 

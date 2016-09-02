@@ -13,9 +13,9 @@ import org.knowm.xchange.independentreserve.service.polling.IndependentReserveMa
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
- * Author: Kamil Zbikowski Date: 4/9/15 Demonstrate requesting Depth at Independent Reserve
+ * Author: Aleksey Baryshnikov Date: 2/9/16 Demonstrate requesting Ether Depth at Independent Reserve
  */
-public class DepthDemo {
+public class DepthDemoEth {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get IndependentReserve exchange API using default settings
@@ -31,10 +31,10 @@ public class DepthDemo {
 
   private static void generic(PollingMarketDataService marketDataService) throws IOException {
 
-    // Get the latest order book data for BTC/USD
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
+    // Get the latest order book data for ETH/USD
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.ETH_USD);
 
-    System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
+    System.out.println("Current Order Book size for ETH / USD: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
     System.out.println("First Ask: " + orderBook.getAsks().get(0).toString());
     System.out.println("Last Ask: " + orderBook.getAsks().get(orderBook.getAsks().size() - 1).toString());
@@ -47,10 +47,10 @@ public class DepthDemo {
 
   private static void raw(IndependentReserveMarketDataServiceRaw marketDataService) throws IOException {
 
-    // Get the latest order book data for BTC/USD
-    IndependentReserveOrderBook orderBook = marketDataService.getIndependentReserveOrderBook(Currency.BTC.getCurrencyCode(), Currency.USD.getCurrencyCode());
+    // Get the latest order book data for ETH/USD
+    IndependentReserveOrderBook orderBook = marketDataService.getIndependentReserveOrderBook(Currency.ETH.getCurrencyCode(), Currency.USD.getCurrencyCode());
 
-    System.out.println("Current Order Book size for BTC / USD: " + (orderBook.getSellOrders().size() + orderBook.getBuyOrders().size()));
+    System.out.println("Current Order Book size for ETH / USD: " + (orderBook.getSellOrders().size() + orderBook.getBuyOrders().size()));
 
     System.out.println("First Ask: " + orderBook.getSellOrders().get(0).toString());
 
