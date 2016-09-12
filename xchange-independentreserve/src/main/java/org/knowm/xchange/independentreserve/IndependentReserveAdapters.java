@@ -33,10 +33,18 @@ public class IndependentReserveAdapters {
   }
 
   public static OrderBook adaptOrderBook(IndependentReserveOrderBook independentReserveOrderBook) {
-    List<LimitOrder> bids = adaptOrders(independentReserveOrderBook.getBuyOrders(), Order.OrderType.BID,
-        new CurrencyPair(independentReserveOrderBook.getPrimaryCurrencyCode(), independentReserveOrderBook.getSecondaryCurrencyCode()));
-    List<LimitOrder> asks = adaptOrders(independentReserveOrderBook.getSellOrders(), Order.OrderType.ASK,
-        new CurrencyPair(independentReserveOrderBook.getPrimaryCurrencyCode(), independentReserveOrderBook.getSecondaryCurrencyCode()));
+
+    // reverse mapping Xbt (Independent Reserve) to BTC (XChange)
+    String base = independentReserveOrderBook.getPrimaryCurrencyCode();
+
+    if (base.equals("Xbt")) {
+      base = "BTC";
+    }
+
+    CurrencyPair currencyPair = new CurrencyPair(base, independentReserveOrderBook.getSecondaryCurrencyCode());
+
+    List<LimitOrder> bids = adaptOrders(independentReserveOrderBook.getBuyOrders(), Order.OrderType.BID, currencyPair);
+    List<LimitOrder> asks = adaptOrders(independentReserveOrderBook.getSellOrders(), Order.OrderType.ASK, currencyPair);
     Date timestamp = new Date(independentReserveOrderBook.getCreatedTimestampUtc());
 
     return new OrderBook(timestamp, asks, bids);
@@ -56,7 +64,7 @@ public class IndependentReserveAdapters {
 
     for (IndependentReserveAccount balanceAccount : independentReserveBalance.getIndependentReserveAccounts()) {
       Currency currency = Currency.getInstance(balanceAccount.getCurrencyCode().toUpperCase());
-      balances.add(new Balance(currency.getCommonlyUsedCurrency(), balanceAccount.getTotalBalance()));
+      balances.add(new Balance(currency.getCommonlyUsedCurrency(), balanceAccount.getTotalBalance(), balanceAccount.getAvailableBalance()));
     }
     return new Wallet(balances);
   }
@@ -75,7 +83,18 @@ public class IndependentReserveAdapters {
       } else {
         throw new IllegalStateException("Unknown order found in Independent Reserve");
       }
-      LimitOrder limitOrder = new LimitOrder(type, order.getOutstanding(), CurrencyPair.BTC_USD, order.getOrderGuid(), order.getCreatedTimestampUtc(),
+
+      // getting valid order currency pair
+      String primaryAlias = order.getPrimaryCurrencyCode();
+      if (primaryAlias.equals("Xbt")) {
+        primaryAlias = "BTC";
+      }
+
+      Currency primary = Currency.getInstanceNoCreate(primaryAlias);
+      Currency secondary = Currency.getInstanceNoCreate(order.getSecondaryCurrencyCode());
+      CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
+
+      LimitOrder limitOrder = new LimitOrder(type, order.getOutstanding(), currencyPair, order.getOrderGuid(), order.getCreatedTimestampUtc(),
           order.getPrice());
       limitOrders.add(limitOrder);
     }
@@ -95,12 +114,20 @@ public class IndependentReserveAdapters {
         throw new IllegalStateException("Unknown order found in Independent Reserve");
       }
 
-      CurrencyPair currencyPair = CurrencyPair.BTC_USD;
+      String primaryAlias = trade.getPrimaryCurrencyCode();
+      if (primaryAlias.equals("Xbt")) {
+        primaryAlias = "BTC";
+      }
 
-      if (!trade.getPrimaryCurrencyCode().equals("Xbt") || !trade.getSecondaryCurrencyCode().equals("Usd")) {
+      Currency primary = Currency.getInstanceNoCreate(primaryAlias);
+      Currency secondary = Currency.getInstanceNoCreate(trade.getSecondaryCurrencyCode());
+
+      if (primary == null || secondary == null) {
         throw new IllegalArgumentException("IndependentReserveTradeHistoryRequest - unknown value of currency code. Base was: "
             + trade.getPrimaryCurrencyCode() + " counter was " + trade.getSecondaryCurrencyCode());
       }
+
+      CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
 
       UserTrade ut = new UserTrade(type, trade.getVolumeTraded(), currencyPair, trade.getPrice(), trade.getTradeTimestampUtc(), trade.getTradeGuid(),
           trade.getOrderGuid(), null, (Currency) null);

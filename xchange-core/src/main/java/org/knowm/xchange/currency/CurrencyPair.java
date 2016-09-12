@@ -72,6 +72,8 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
   public static final CurrencyPair ETH_EUR = new CurrencyPair(Currency.ETH, Currency.EUR);
   public static final CurrencyPair ETH_JPY = new CurrencyPair(Currency.ETH, Currency.JPY);
   public static final CurrencyPair ETH_CNY = new CurrencyPair(Currency.ETH, Currency.CNY);
+  public static final CurrencyPair ETH_AUD = new CurrencyPair(Currency.ETH, Currency.AUD);
+  public static final CurrencyPair ETH_NZD = new CurrencyPair(Currency.ETH, Currency.NZD);
 
   public static final CurrencyPair XDC_BTC = new CurrencyPair(Currency.XDC, Currency.BTC);
 
