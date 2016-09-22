@@ -43,19 +43,20 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBasePol
   }
 
   /**
-   * @param currencyPair - currency pair
+   * @param primaryCurrency - optional primary currency code
+   * @param secondaryCurrency - optional secondary currency code
    * @param pageNumber -
    * @return
    * @throws IOException
    */
-  public IndependentReserveOpenOrdersResponse getIndependentReserveOpenOrders(CurrencyPair currencyPair, Integer pageNumber) throws IOException {
+  public IndependentReserveOpenOrdersResponse getIndependentReserveOpenOrders(String primaryCurrency, String secondaryCurrency, Integer pageNumber) throws IOException {
     if (pageNumber <= 0) {
       throw new IllegalArgumentException("Page number in IndependentReserve should be positive.");
     }
     Long nonce = exchange.getNonceFactory().createValue();
     String apiKey = exchange.getExchangeSpecification().getApiKey();
     IndependentReserveOpenOrderRequest independentReserveOpenOrderRequest = new IndependentReserveOpenOrderRequest(apiKey, nonce,
-        currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), pageNumber.toString(), TRADE_HISTORY_PAGE_SIZE);
+        primaryCurrency, secondaryCurrency, pageNumber.toString(), TRADE_HISTORY_PAGE_SIZE);
 
     independentReserveOpenOrderRequest.setSignature(
         signatureCreator.digestParamsToString(ExchangeEndpoint.GET_OPEN_ORDERS, nonce, independentReserveOpenOrderRequest.getParameters()));
