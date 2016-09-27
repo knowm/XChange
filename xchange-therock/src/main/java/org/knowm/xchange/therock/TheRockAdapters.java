@@ -36,7 +36,6 @@ public final class TheRockAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(List<TheRockBalance> trBalances, String userName) {
-
     ArrayList<Balance> balances = new ArrayList<>(trBalances.size());
     for (TheRockBalance blc : trBalances) {
       Currency currency = Currency.getInstance(blc.getCurrency());
