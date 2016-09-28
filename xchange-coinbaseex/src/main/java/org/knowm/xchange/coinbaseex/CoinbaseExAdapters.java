@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import org.knowm.xchange.coinbaseex.dto.account.CoinbaseExAccount;
@@ -27,6 +29,10 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
@@ -151,12 +157,23 @@ public class CoinbaseExAdapters {
     return new Trades(trades, TradeSortType.SortByID);
   }
 
-  public static List<CurrencyPair> adaptProductsToSupportedExchangeSymbols(List<CoinbaseExProduct> products) {
-    List<CurrencyPair> result = new ArrayList<CurrencyPair>();
-    for (CoinbaseExProduct product : products) {
-      result.add(new CurrencyPair(product.getBaseCurrency(), product.getTargetCurrency()));
-    }
-
-    return result;
+  public static CurrencyPair adaptCurrencyPair(CoinbaseExProduct product) {
+    return new CurrencyPair(product.getBaseCurrency(), product.getTargetCurrency());
   }
+
+  public static ExchangeMetaData adaptToExchangeMetaData(List<CoinbaseExProduct> products) {
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+    for (CoinbaseExProduct product : products) {
+      BigDecimal minSize = product.getBaseMinSize().setScale(product.getQuoteIncrement().scale(), BigDecimal.ROUND_UNNECESSARY);
+      BigDecimal maxSize = product.getBaseMaxSize().setScale(product.getQuoteIncrement().scale(), BigDecimal.ROUND_UNNECESSARY);
+      CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, maxSize, 8); // todo: 8 is a wild guess
+      CurrencyPair pair = adaptCurrencyPair(product);
+      currencyPairs.put(pair, cpmd);
+      currencies.put(pair.base, null);
+      currencies.put(pair.counter, null);
+    }
+    return new ExchangeMetaData(currencyPairs, currencies, new RateLimit[0], new RateLimit[0], true);
+  }
+
 }
