@@ -1,9 +1,10 @@
-package org.knowm.xchange.examples.therock;
+package org.knowm.xchange.examples.therock.account;
 
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.examples.therock.TheRockExampleUtils;
 import org.knowm.xchange.therock.service.polling.TheRockAccountServiceRaw;
 
 public class TheRockAccountDemo {
