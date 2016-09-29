@@ -1,4 +1,4 @@
-package org.knowm.xchange.examples.therock;
+package org.knowm.xchange.examples.therock.marketdata;
 
 import java.io.IOException;
 

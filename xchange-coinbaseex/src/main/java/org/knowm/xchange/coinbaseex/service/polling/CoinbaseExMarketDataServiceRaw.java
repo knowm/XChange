@@ -66,7 +66,7 @@ public class CoinbaseExMarketDataServiceRaw extends CoinbaseExBasePollingService
 
   }
 
-  private boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
+  public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
 
     boolean currencyPairSupported = false;
     for (CurrencyPair cp : exchange.getExchangeSymbols()) {

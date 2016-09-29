@@ -22,12 +22,12 @@ import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 @Produces(MediaType.APPLICATION_JSON)
 public interface TheRock {
 
-  //TODO review - inconistent https://www.therocktrading.com/pages/api
+  //TODO review - inconsistent https://www.therocktrading.com/pages/api
   @GET
   @Path("funds/{id}/ticker")
   TheRockTicker getTicker(@PathParam("id") Pair currencyPair) throws TheRockException, IOException;
 
-  //TODO review - inconistent https://www.therocktrading.com/pages/api
+  //TODO review - inconsistent https://www.therocktrading.com/pages/api
   @GET
   @Path("funds/{id}/orderbook")
   TheRockOrderBook getOrderbook(@PathParam("id") Pair currencyPair) throws TheRockException, IOException;

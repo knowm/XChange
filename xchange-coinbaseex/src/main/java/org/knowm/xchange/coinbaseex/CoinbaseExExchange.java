@@ -1,12 +1,15 @@
 package org.knowm.xchange.coinbaseex;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.coinbaseex.dto.marketdata.CoinbaseExProduct;
 import org.knowm.xchange.coinbaseex.service.polling.CoinbaseExAccountService;
 import org.knowm.xchange.coinbaseex.service.polling.CoinbaseExMarketDataService;
+import org.knowm.xchange.coinbaseex.service.polling.CoinbaseExMarketDataServiceRaw;
 import org.knowm.xchange.coinbaseex.service.polling.CoinbaseExTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
@@ -43,14 +46,7 @@ public class CoinbaseExExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException {
-
-    // TODO Implement this.
-    //  List<CoinbaseExProduct> products = ((CoinbaseExMarketDataServiceRaw) pollingMarketDataService). getConbaseExProducts()();
-    // other endpoints?
-    // hard-coded meta data from json file not available at an endpoint?
-    // TODO take all the info gathered above and create a `ExchangeMetaData` object via a new method in `*Adapters` class
-    // exchangeMetaData = *Adapters.adaptToExchangeMetaData(blah, blah);
-
-    super.remoteInit();
+    List<CoinbaseExProduct> products = ((CoinbaseExMarketDataServiceRaw) pollingMarketDataService).getConbaseExProducts();
+    exchangeMetaData = CoinbaseExAdapters.adaptToExchangeMetaData(products);
   }
 }
