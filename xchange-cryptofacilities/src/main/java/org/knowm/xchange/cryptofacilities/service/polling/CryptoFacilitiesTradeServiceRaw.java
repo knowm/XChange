@@ -11,6 +11,7 @@ import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenPos
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
  * @author Jean-Christophe Laruelle
@@ -41,48 +42,51 @@ public class CryptoFacilitiesTradeServiceRaw extends CryptoFacilitiesBasePolling
     CryptoFacilitiesOrder ord = cryptoFacilities.sendOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
         exchange.getNonceFactory(), orderType, symbol, side, size, limitPrice);
 
-    return ord;
+    if (ord.isSuccess()) {
+        return ord;
+    } else {
+        throw new ExchangeException("Error sending CF limit order: " + ord.getError());
+    }
   }
 
   public CryptoFacilitiesCancel cancelCryptoFacilitiesOrder(String uid) throws IOException {
     CryptoFacilitiesCancel res = cryptoFacilities.cancelOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
         exchange.getNonceFactory(), uid);
 
-    return res;
+    if (res.isSuccess()) {
+        return res;
+    } else {
+        throw new ExchangeException("Error cancelling CF order: " + res.getError());
+    }
   }
 
   public CryptoFacilitiesOpenOrders getCryptoFacilitiesOpenOrders() throws IOException {
-    CryptoFacilitiesOpenOrders openOrders = null;
-    try {
-      openOrders = cryptoFacilities.openOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
-    } catch (Exception e) {
-      return null;
+    CryptoFacilitiesOpenOrders openOrders = cryptoFacilities.openOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    
+    if (openOrders.isSuccess()) {
+        return openOrders;
+    } else {
+        throw new ExchangeException("Error getting CF open orders: " + openOrders.getError());
     }
-
-    return openOrders;
   }
 
   public CryptoFacilitiesFills getCryptoFacilitiesFills() throws IOException {
-    CryptoFacilitiesFills fills = null;
-
-    try {
-      fills = cryptoFacilities.fills(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
-    } catch (Exception e) {
-      return null;
+    CryptoFacilitiesFills fills = cryptoFacilities.fills(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    
+    if (fills.isSuccess()) {
+        return fills;
+    } else {
+        throw new ExchangeException("Error getting CF fills: " + fills.getError());
     }
-
-    return fills;
   }
 
   public CryptoFacilitiesOpenPositions getCryptoFacilitiesOpenPositions() throws IOException {
-    CryptoFacilitiesOpenPositions openPositions = null;
-
-    try {
-      openPositions = cryptoFacilities.openPositions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
-    } catch (Exception e) {
-      return null;
+    CryptoFacilitiesOpenPositions openPositions = cryptoFacilities.openPositions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+    
+    if (openPositions.isSuccess()) {
+        return openPositions;
+    } else {
+        throw new ExchangeException("Error getting CF open positions: " + openPositions.getError());
     }
-
-    return openPositions;
   }
 }
