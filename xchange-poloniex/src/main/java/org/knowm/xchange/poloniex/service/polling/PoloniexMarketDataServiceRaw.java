@@ -53,8 +53,8 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService {
   // lets wait a seconds and save our self a call for each ticker in our calling for loop.
 
   private HashMap<String, PoloniexMarketData> TickermarketData;
-  private final long cashe_delay = 1000L;
-  private long next_refresh = System.currentTimeMillis() + cashe_delay;
+  private final long cache_delay = 1000L;
+  private long next_refresh = System.currentTimeMillis() + cache_delay;
 
   public PoloniexTicker getPoloniexTicker(CurrencyPair currencyPair) throws IOException {
 
@@ -69,7 +69,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService {
         throw new ExchangeException(e.getError(), e);
       } finally {
         // also nice to take a short break on an error
-        next_refresh = now + cashe_delay;
+        next_refresh = now + cache_delay;
       }
     }
 
