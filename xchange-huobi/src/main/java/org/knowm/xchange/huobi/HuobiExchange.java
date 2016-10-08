@@ -34,14 +34,13 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)) {
-      exchangeSpecification.setSslUri("https://api.bitvc.com");
-      exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "NOT IMPLEMENTED");
-    }
+    concludeHostParams(exchangeSpecification);
   }
 
   @Override
   protected void initServices() {
+	concludeHostParams(exchangeSpecification);
+	  
     if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)
         && exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES).equals(true)) {
       FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
@@ -62,6 +61,14 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
       }
     }
+  }
+  
+  /** Adjust host parameters depending on exchange specific parameters */
+  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+	 if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)) {
+	    exchangeSpecification.setSslUri("https://api.bitvc.com");
+	    exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "NOT IMPLEMENTED");
+	 }
   }
 
   private static FuturesContract futuresContractOfConfig(ExchangeSpecification exchangeSpecification) {
