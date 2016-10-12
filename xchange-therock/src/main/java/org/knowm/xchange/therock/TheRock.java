@@ -18,7 +18,7 @@ import org.knowm.xchange.therock.dto.marketdata.TheRockTrade;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
 //see https://www.therocktrading.com/pages/api
-@Path("api")
+@Path("v1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface TheRock {
 
