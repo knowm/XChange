@@ -33,9 +33,6 @@ public interface TheRock {
   @Path("funds/{id}/orderbook")
   TheRockOrderBook getOrderbook(@PathParam("id") Pair currencyPair) throws TheRockException, IOException;
 
-  
-  
-  // get only trades executed after a certain timestamp ( format %Y-%m-%dT%H:%M:%S%:z ex. 2015-02-06T08:47:26+00:00 )
   @GET
   @Path("funds/{id}/trades")
   TheRockTrades getTrades(@PathParam("id") Pair currencyPair, @QueryParam("after") Date after) throws IOException;
