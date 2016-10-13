@@ -1,9 +1,16 @@
 package org.knowm.xchange.therock;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import static org.knowm.xchange.dto.Order.OrderType.ASK;
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
@@ -15,16 +22,11 @@ import org.knowm.xchange.therock.dto.account.TheRockBalance;
 import org.knowm.xchange.therock.dto.marketdata.TheRockBid;
 import org.knowm.xchange.therock.dto.marketdata.TheRockOrderBook;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTrade;
+import org.knowm.xchange.therock.dto.marketdata.TheRockTrade.Side;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTrades;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
-import org.knowm.xchange.utils.DateUtils;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import static org.knowm.xchange.dto.Order.OrderType.ASK;
-import static org.knowm.xchange.dto.Order.OrderType.BID;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 public final class TheRockAdapters {
 
@@ -67,7 +69,7 @@ public final class TheRockAdapters {
     long lastTradeId = 0;
     for (int i = 0; i < trades.getCount(); i++) {
       TheRockTrade trade = trades.getTrades()[i];
-      long tradeId = trade.getTid();
+      long tradeId = trade.getId();
       if (tradeId > lastTradeId)
         lastTradeId = tradeId;
       tradesList.add(adaptTrade(trade, currencyPair));
@@ -76,11 +78,8 @@ public final class TheRockAdapters {
   }
 
   public static Trade adaptTrade(TheRockTrade trade, CurrencyPair currencyPair) throws InvalidFormatException {
-
-    Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000);
-    final String tradeId = String.valueOf(trade.getTid());
-
-    return new Trade(null, trade.getAmount(), currencyPair, trade.getPrice(), date, tradeId);
+    final String tradeId = String.valueOf(trade.getId());
+    return new Trade(trade.getSide() == Side.sell ? OrderType.ASK : BID, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), tradeId);
   }
 
   /*

@@ -1,58 +1,54 @@
 package org.knowm.xchange.therock.dto.marketdata;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.math.BigDecimal;
-
 public class TheRockTrade {
+    
+    public static enum Side {
+        sell, buy;
+    }
 
     private final BigDecimal amount;
-    private final long date;
+    private final Date date;
     private final BigDecimal price;
-    private final long tid;
+    private final long id;
+    private final Side side;
+    
 
-    public TheRockTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price,
-                        @JsonProperty("tid") long tid) {
-
+    public TheRockTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") Date date, @JsonProperty("price") BigDecimal price,
+                        @JsonProperty("id") long id, @JsonProperty("side") Side tradeSide) {
         this.amount = amount;
         this.date = date;
         this.price = price;
-        this.tid = tid;
+        this.id = id;
+        this.side = tradeSide;
     }
 
     public BigDecimal getAmount() {
-
         return amount;
     }
 
-    public long getDate() {
-
+    public Date getDate() {
         return date;
     }
 
     public BigDecimal getPrice() {
-
         return price;
     }
 
-    public long getTid() {
-
-        return tid;
+    public long getId() {
+        return id;
+    }
+    
+    public Side getSide() {
+        return side;
     }
 
     @Override
     public String toString() {
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("ItBitTrade [amount=");
-        builder.append(amount);
-        builder.append(", timestamp=");
-        builder.append(date);
-        builder.append(", date=");
-        builder.append(price);
-        builder.append(", tid=");
-        builder.append(tid);
-        builder.append("]");
-        return builder.toString();
+        return "TheRockTrade [amount=" + amount + ", date=" + date + ", price=" + price + ", id=" + id + ", side=" + side + "]";
     }
 }
