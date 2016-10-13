@@ -3,7 +3,7 @@ package org.knowm.xchange.coinsetter.dto.trade;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import org.knowm.xchange.coinsetter.service.streaming.CoinsetterSocketIOServiceRaw;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Order status pushed from {@link CoinsetterSocketIOServiceRaw}.
@@ -21,8 +21,9 @@ public class CoinsetterOrderStatus {
   private final String symbol;
   private final String exchId;
 
-  public CoinsetterOrderStatus(UUID uuid, UUID customerUuid, BigDecimal filledQuantity, String orderType, String stage, BigDecimal requestedQuantity,
-      BigDecimal requestedPrice, String side, String symbol, String exchId) {
+  public CoinsetterOrderStatus(@JsonProperty("uuid") UUID uuid, @JsonProperty("customerUuid") UUID customerUuid, @JsonProperty("filledQuantity") BigDecimal filledQuantity,
+      @JsonProperty("orderType") String orderType, @JsonProperty("stage") String stage, @JsonProperty("requestedQuantity") BigDecimal requestedQuantity,
+      @JsonProperty("requestedPrice") BigDecimal requestedPrice, @JsonProperty("side") String side, @JsonProperty("symbol") String symbol, @JsonProperty("exchId") String exchId) {
 
     this.uuid = uuid;
     this.customerUuid = customerUuid;

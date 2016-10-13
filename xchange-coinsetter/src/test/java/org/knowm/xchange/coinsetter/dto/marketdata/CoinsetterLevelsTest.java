@@ -6,15 +6,15 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
-import org.knowm.xchange.coinsetter.GsonHelper;
+import org.knowm.xchange.coinsetter.ObjectMapperHelper;
 
 public class CoinsetterLevelsTest {
 
   @Test
   public void testCoinsetterLevels() throws IOException {
 
-    CoinsetterLevels coinsetterLevels = GsonHelper.fromJson(getClass().getResource("levels.json"), CoinsetterLevels.class);
+    CoinsetterLevels coinsetterLevels = ObjectMapperHelper.readValue(getClass().getResource("levels.json"), CoinsetterLevels.class);
+
     CoinsetterLevel[] levels = coinsetterLevels.getLevels();
     assertEquals(1, levels.length);
     assertEquals("ASK", levels[0].getSide());

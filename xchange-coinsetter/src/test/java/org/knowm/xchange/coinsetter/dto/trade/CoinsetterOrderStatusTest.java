@@ -3,19 +3,13 @@ package org.knowm.xchange.coinsetter.dto.trade;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.nio.charset.Charset;
 import java.util.UUID;
 
 import org.junit.Test;
-
-import com.google.gson.Gson;
+import org.knowm.xchange.coinsetter.ObjectMapperHelper;
 
 public class CoinsetterOrderStatusTest {
-
-  private final Gson gson = new Gson();
 
   @Test
   public void test() throws IOException {
@@ -35,15 +29,8 @@ public class CoinsetterOrderStatusTest {
 
   private CoinsetterOrderStatus getCoinsetterOrderStatus(String resource) throws IOException {
 
-    InputStream inputStream = getClass().getResourceAsStream(resource);
-    InputStreamReader reader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
-    try {
-      CoinsetterOrderStatus coinsetterOrderStatus = gson.fromJson(reader, CoinsetterOrderStatus.class);
-      return coinsetterOrderStatus;
-    } finally {
-      reader.close();
-      inputStream.close();
-    }
+    CoinsetterOrderStatus coinsetterOrderStatus = ObjectMapperHelper.readValue(getClass().getResource(resource), CoinsetterOrderStatus.class);
+    return coinsetterOrderStatus;
   }
 
 }

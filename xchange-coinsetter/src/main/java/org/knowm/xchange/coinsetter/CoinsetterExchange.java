@@ -8,10 +8,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.coinsetter.service.polling.CoinsetterAccountService;
 import org.knowm.xchange.coinsetter.service.polling.CoinsetterMarketDataService;
 import org.knowm.xchange.coinsetter.service.polling.CoinsetterTradeService;
-import org.knowm.xchange.coinsetter.service.streaming.CoinsetterSocketIOService;
-import org.knowm.xchange.coinsetter.service.streaming.CoinsetterStreamingConfiguration;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -46,6 +42,7 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
+
     this.pollingMarketDataService = new CoinsetterMarketDataService(this);
     this.pollingAccountService = new CoinsetterAccountService(this);
     this.pollingTradeService = new CoinsetterTradeService(this);
@@ -72,24 +69,8 @@ public class CoinsetterExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-
-    final CoinsetterStreamingConfiguration coinsetterStreamingConfiguration;
-
-    if (configuration == null) {
-      coinsetterStreamingConfiguration = new CoinsetterStreamingConfiguration();
-      coinsetterStreamingConfiguration.addAllMarketDataEvents();
-    } else if (configuration instanceof CoinsetterStreamingConfiguration) {
-      coinsetterStreamingConfiguration = (CoinsetterStreamingConfiguration) configuration;
-    } else {
-      throw new IllegalArgumentException("Coinsetter only supports CoinsetterStreamingConfiguration");
-    }
-
-    return new CoinsetterSocketIOService(this, coinsetterStreamingConfiguration);
-  }
-
-  @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
+
     // Coinsetter uses it's own session authentication scheme and does not use a nonce
     return null;
   }

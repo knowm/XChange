@@ -95,7 +95,6 @@
 		<module>xchange-clevercoin</module>
 		<module>xchange-coinbase</module>
 		<module>xchange-coinbaseex</module>
-		<module>xchange-coinfloor</module>
 		<module>xchange-coinmate</module>
 		<module>xchange-coinsetter</module>
 		<module>xchange-cointrader</module>
@@ -194,21 +193,7 @@
 			<dependency>
 				<groupId>org.knowm.xchart</groupId>
 				<artifactId>xchart</artifactId>
-				<version>3.2.0</version>
-			</dependency>
-
-			<!-- Websocket library -->
-			<dependency>
-				<groupId>org.java-websocket</groupId>
-				<artifactId>Java-WebSocket</artifactId>
-				<version>1.3.0</version>
-			</dependency>
-
-			<!-- Pusher -->
-			<dependency>
-				<groupId>com.pusher</groupId>
-				<artifactId>pusher-java-client</artifactId>
-				<version>0.3.1</version>
+				<version>3.2.1</version>
 			</dependency>
 
 			<dependency>
@@ -243,27 +228,6 @@
 				<version>1.5.3-bd</version>
 			</dependency>
 
-			<!-- SocketIO -->
-			<dependency>
-				<groupId>com.github.nkzawa</groupId>
-				<artifactId>socket.io-client</artifactId>
-				<version>0.2.0</version>
-			</dependency>
-
-			<!-- For Netty-based websockets -->
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-all</artifactId>
-				<version>4.1.0.Beta3</version>
-			</dependency>
-
-			<!-- For CoinsetterSocketIOService -->
-			<dependency>
-				<groupId>io.socket</groupId>
-				<artifactId>socket.io-client</artifactId>
-				<version>0.2.1</version>
-			</dependency>
-
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
@@ -287,7 +251,6 @@
 				<groupId>org.apache-extras.camel-extra</groupId>
 				<artifactId>camel-example-rcode</artifactId>
 				<version>2.12.3</version>
-				<type>jar</type>
 			</dependency>
 
 		</dependencies>

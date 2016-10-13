@@ -14,7 +14,6 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.OrderBookUpdate;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -26,11 +25,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcBalance;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcIncrementalRefresh;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSnapshotFullRefresh;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcStreamingOrder;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcStreamingTrade;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
@@ -84,8 +79,7 @@ public class HitbtcAdapters {
     BigDecimal volume = hitbtcTicker.getVolume();
     Date timestamp = new Date(hitbtcTicker.getTimestamp());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
-        .build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
   }
 
   public static List<Ticker> adaptTickers(Map<String, HitbtcTicker> hitbtcTickers) {
@@ -166,75 +160,6 @@ public class HitbtcAdapters {
     return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
   }
 
-  public static List<LimitOrder> adaptStreamingOrders(List<HitbtcStreamingOrder> orders, OrderType orderType, CurrencyPair currencyPair) {
-
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.size());
-
-    for (int i = 0; i < orders.size(); i++) {
-      HitbtcStreamingOrder order = orders.get(i);
-
-      LimitOrder limitOrder = new LimitOrder(orderType, order.getSize(), currencyPair, "", null, order.getPrice());
-
-      limitOrders.add(limitOrder);
-    }
-
-    return limitOrders;
-  }
-
-  public static OrderBook adaptSnapshotFullRefresh(HitbtcSnapshotFullRefresh hitbtcSnapshotFullRefresh) {
-
-    CurrencyPair currencyPair = adaptSymbol(hitbtcSnapshotFullRefresh.getSymbol());
-
-    List<LimitOrder> asks = adaptStreamingOrders(hitbtcSnapshotFullRefresh.getAsk(), OrderType.ASK, currencyPair);
-    List<LimitOrder> bids = adaptStreamingOrders(hitbtcSnapshotFullRefresh.getBid(), OrderType.BID, currencyPair);
-
-    return new OrderBook(null, asks, bids);
-  }
-
-  public static List<OrderBookUpdate> adaptIncrementalRefreshOrders(HitbtcIncrementalRefresh hitbtcIncrementalRefresh) {
-    return adaptIncrementalRefreshOrders(hitbtcIncrementalRefresh, null, null);
-  }
-
-  public static List<OrderBookUpdate> adaptIncrementalRefreshOrders(HitbtcIncrementalRefresh hitbtcIncrementalRefresh, BigDecimal volume,
-      Date timestamp) {
-
-    CurrencyPair currencyPair = adaptSymbol(hitbtcIncrementalRefresh.getSymbol());
-    List<HitbtcStreamingOrder> asks = hitbtcIncrementalRefresh.getAsk();
-    List<HitbtcStreamingOrder> bids = hitbtcIncrementalRefresh.getBid();
-
-    List<OrderBookUpdate> updates = new ArrayList<OrderBookUpdate>(asks.size() + bids.size());
-
-    if (updates.size() != 1) {
-      volume = null;
-    }
-
-    for (int i = 0; i < asks.size(); i++) {
-      HitbtcStreamingOrder order = asks.get(i);
-
-      OrderBookUpdate update = new OrderBookUpdate(OrderType.ASK, volume, currencyPair, order.getPrice(), timestamp, order.getSize());
-
-      updates.add(update);
-    }
-
-    for (int i = 0; i < bids.size(); i++) {
-      HitbtcStreamingOrder order = bids.get(i);
-
-      OrderBookUpdate update = new OrderBookUpdate(OrderType.BID, volume, currencyPair, order.getPrice(), timestamp, order.getSize());
-
-      updates.add(update);
-    }
-
-    return updates;
-  }
-
-  public static Trades adaptIncrementalRefreshTrades(HitbtcIncrementalRefresh hitbtcIncrementalRefresh) {
-
-    CurrencyPair currencyPair = adaptSymbol(hitbtcIncrementalRefresh.getSymbol());
-    List<HitbtcStreamingTrade> trades = hitbtcIncrementalRefresh.getTrade();
-
-    return adaptTrades(trades, currencyPair);
-  }
-
   public static OpenOrders adaptOpenOrders(HitbtcOrder[] openOrdersRaw) {
 
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>(openOrdersRaw.length);
@@ -244,8 +169,7 @@ public class HitbtcAdapters {
 
       OrderType type = adaptOrderType(o.getSide());
 
-      LimitOrder order = new LimitOrder(type, o.getExecQuantity(), adaptSymbol(o.getSymbol()), o.getClientOrderId(), new Date(o.getLastTimestamp()),
-          o.getOrderPrice());
+      LimitOrder order = new LimitOrder(type, o.getExecQuantity(), adaptSymbol(o.getSymbol()), o.getClientOrderId(), new Date(o.getLastTimestamp()), o.getOrderPrice());
 
       openOrders.add(order);
     }
@@ -272,8 +196,7 @@ public class HitbtcAdapters {
       Date timestamp = new Date(t.getTimestamp());
       String id = Long.toString(t.getTradeId());
 
-      UserTrade trade = new UserTrade(type, tradableAmount, pair, t.getExecPrice(), timestamp, id, t.getClientOrderId(), t.getFee(),
-          Currency.getInstance(pair.counter.getCurrencyCode()));
+      UserTrade trade = new UserTrade(type, tradableAmount, pair, t.getExecPrice(), timestamp, id, t.getClientOrderId(), t.getFee(), Currency.getInstance(pair.counter.getCurrencyCode()));
 
       trades.add(trade);
     }
@@ -304,7 +227,8 @@ public class HitbtcAdapters {
     if (order.getId() == null || "".equals(order.getId())) {
       // encoding side in client order id
       return order.getType().name().substring(0, 1) + DELIM + adaptCurrencyPair(order.getCurrencyPair()) + DELIM + nonce;
-    } else {
+    }
+    else {
       return order.getId();
     }
   }

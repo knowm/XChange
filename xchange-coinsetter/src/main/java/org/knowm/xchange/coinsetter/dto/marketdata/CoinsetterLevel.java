@@ -2,6 +2,8 @@ package org.knowm.xchange.coinsetter.dto.marketdata;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * cumulative available quantity in real time based on price level.
  */
@@ -14,7 +16,8 @@ public class CoinsetterLevel {
   private final String exchangeId;
   private final long timeStamp;
 
-  public CoinsetterLevel(int sequenceNumber, String side, int level, BigDecimal size, String exchangeId, long timeStamp) {
+  public CoinsetterLevel(@JsonProperty("sequenceNumber") int sequenceNumber, @JsonProperty("side") String side, @JsonProperty("level") int level, @JsonProperty("size") BigDecimal size,
+      @JsonProperty("exchangeId") String exchangeId, @JsonProperty("timeStamp") long timeStamp) {
 
     this.sequenceNumber = sequenceNumber;
     this.side = side;
@@ -57,8 +60,7 @@ public class CoinsetterLevel {
   @Override
   public String toString() {
 
-    return "CoinsetterLevel [sequenceNumber=" + sequenceNumber + ", side=" + side + ", level=" + level + ", size=" + size + ", exchangeId="
-        + exchangeId + ", timeStamp=" + timeStamp + "]";
+    return "CoinsetterLevel [sequenceNumber=" + sequenceNumber + ", side=" + side + ", level=" + level + ", size=" + size + ", exchangeId=" + exchangeId + ", timeStamp=" + timeStamp + "]";
   }
 
 }

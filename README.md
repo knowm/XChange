@@ -35,7 +35,7 @@ Now go ahead and [study some more examples](http://knowm.org/open-source/xchange
 * [x] active development
 * [x] very minimal 3rd party dependencies
 * [x] modular components
-* [x] polling and streaming capability
+* [x] polling capability (no streaming)
     
 ## More Info
 

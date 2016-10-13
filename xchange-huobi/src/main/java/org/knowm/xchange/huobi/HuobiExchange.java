@@ -10,9 +10,6 @@ import org.knowm.xchange.huobi.service.polling.GenericTradeService;
 import org.knowm.xchange.huobi.service.polling.HuobiAccountService;
 import org.knowm.xchange.huobi.service.polling.HuobiMarketDataService;
 import org.knowm.xchange.huobi.service.polling.HuobiTradeServiceRaw;
-import org.knowm.xchange.huobi.service.streaming.HuobiStreamingExchangeService;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -39,14 +36,15 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-	concludeHostParams(exchangeSpecification);
-	  
-    if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)
-        && exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES).equals(true)) {
+
+    concludeHostParams(exchangeSpecification);
+
+    if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true) && exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES).equals(true)) {
       FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
 
       pollingMarketDataService = new BitVcFuturesMarketDataService(this, contract);
-    } else {
+    }
+    else {
       pollingMarketDataService = new HuobiMarketDataService(this);
     }
 
@@ -55,30 +53,35 @@ public class HuobiExchange extends BaseExchange implements Exchange {
         pollingAccountService = new BitVcAccountService(this);
         pollingTradeService = new GenericTradeService(this, new BitVcTradeServiceRaw(this));
 
-      } else {
+      }
+      else {
         pollingAccountService = new HuobiAccountService(this);
         pollingTradeService = new GenericTradeService(this, new HuobiTradeServiceRaw(this));
 
       }
     }
   }
-  
+
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
-	 if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)) {
-	    exchangeSpecification.setSslUri("https://api.bitvc.com");
-	    exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "NOT IMPLEMENTED");
-	 }
+
+    if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)) {
+      exchangeSpecification.setSslUri("https://api.bitvc.com");
+      exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "NOT IMPLEMENTED");
+    }
   }
 
   private static FuturesContract futuresContractOfConfig(ExchangeSpecification exchangeSpecification) {
+
     FuturesContract contract;
 
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
       contract = (FuturesContract) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract");
-    } else if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract_String")) {
+    }
+    else if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract_String")) {
       contract = FuturesContract.valueOf((String) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract_String"));
-    } else {
+    }
+    else {
       throw new RuntimeException("`Futures_Contract` or `Futures_Contract_String` not defined in exchange specific parameters.");
     }
 
@@ -107,16 +110,9 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
+
     // BitVC doesn't require a nonce for it's authenticated API
     return null;
   }
 
-  @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-    if (!(Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC)) {
-      return new HuobiStreamingExchangeService(getExchangeSpecification(), configuration);
-    } else {
-      return super.getStreamingExchangeService(configuration);
-    }
-  }
 }
