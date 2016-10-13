@@ -2,19 +2,18 @@ package org.knowm.xchange.therock.dto.marketdata;
 
 import java.util.Arrays;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TheRockTrades {
 
-    private final int count;
     private final TheRockTrade[] trades;
 
-    public TheRockTrades(TheRockTrade[] trades) {
-
-        this.count = trades.length;
+    public TheRockTrades(@JsonProperty("trades") TheRockTrade[] trades, @JsonProperty("meta") Object ignored) {
         this.trades = trades;
     }
 
     public int getCount() {
-        return count;
+        return trades.length;
     }
 
     public TheRockTrade[] getTrades() {
@@ -23,10 +22,9 @@ public class TheRockTrades {
 
     @Override
     public String toString() {
-
         StringBuilder builder = new StringBuilder();
         builder.append("TheRockTrades [count=");
-        builder.append(count);
+        builder.append(trades.length);
         builder.append(", trades=");
         builder.append(Arrays.toString(trades));
         builder.append("]");
