@@ -33,13 +33,14 @@
 
 		<!-- For FIX API -->
 		<dependency>
-			<groupId>quickfixj</groupId>
+			<groupId>org.quickfixj</groupId>
 			<artifactId>quickfixj-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>quickfixj</groupId>
-			<artifactId>quickfixj-msg-fix44</artifactId>
+			<groupId>org.quickfixj</groupId>
+			<artifactId>quickfixj-messages-fix44</artifactId>
 		</dependency>
+
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>

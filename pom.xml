@@ -140,20 +140,6 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
-		<!-- For Quick FIX -->
-		<repository>
-			<id>MarketceteraRepo</id>
-			<url>http://repo.marketcetera.org/maven</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<!-- https://github.com/fatshotty/socket.io-java-client -->
-		<repository>
-			<id>keytwo.net</id>
-			<name>Keytwo.net Repository</name>
-			<url>http://audiobox.keytwo.net</url>
-		</repository>
 	</repositories>
 
 	<dependencyManagement>
@@ -164,16 +150,6 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>1.7.21</version>
-			</dependency>
-
-			<!-- SLF4J implementation for use in testing -->
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>1.1.7</version>
-				<!-- Test scope prevents this implementation bleeding out to consuming 
-					applications -->
-				<scope>test</scope>
 			</dependency>
 
 			<!-- Rest client -->
@@ -196,12 +172,6 @@
 				<version>3.2.1</version>
 			</dependency>
 
-			<dependency>
-				<groupId>org.bouncycastle</groupId>
-				<artifactId>bcprov-jdk15on</artifactId>
-				<version>1.50</version>
-			</dependency>
-
 			<!--For String Joining, etc. -->
 			<dependency>
 				<groupId>org.apache.commons</groupId>
@@ -209,23 +179,16 @@
 				<version>3.4</version>
 			</dependency>
 
-			<!-- For Bridging/routing all JUL log records to the SLF4J API. -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>jul-to-slf4j</artifactId>
-				<version>1.7.12</version>
-			</dependency>
-
 			<!-- For FIX API -->
 			<dependency>
-				<groupId>quickfixj</groupId>
+				<groupId>org.quickfixj</groupId>
 				<artifactId>quickfixj-core</artifactId>
-				<version>1.5.3-bd</version>
+				<version>1.6.2</version>
 			</dependency>
 			<dependency>
-				<groupId>quickfixj</groupId>
-				<artifactId>quickfixj-msg-fix44</artifactId>
-				<version>1.5.3-bd</version>
+				<groupId>org.quickfixj</groupId>
+				<artifactId>quickfixj-messages-fix44</artifactId>
+				<version>1.6.2</version>
 			</dependency>
 
 			<dependency>
@@ -240,17 +203,21 @@
 				<version>2.3.8</version>
 			</dependency>
 
+			<!-- SLF4J implementation for use in testing -->
 			<dependency>
-				<groupId>com.google.code.gson</groupId>
-				<artifactId>gson</artifactId>
-				<version>2.3.1</version>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.1.7</version>
+				<!-- Test scope prevents this implementation bleeding out to consuming 
+					applications -->
+				<scope>test</scope>
 			</dependency>
 
-			<!-- For Base64 encoding in Gatecoin API -->
+			<!-- Reflections - java runtime metadata analysis for integration testing -->
 			<dependency>
-				<groupId>org.apache-extras.camel-extra</groupId>
-				<artifactId>camel-example-rcode</artifactId>
-				<version>2.12.3</version>
+				<groupId>org.reflections</groupId>
+				<artifactId>reflections</artifactId>
+				<version>0.9.10</version>
 			</dependency>
 
 		</dependencies>
