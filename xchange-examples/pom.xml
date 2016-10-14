@@ -181,12 +181,6 @@
 			<artifactId>xchange-loyalbit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange Cryptsy exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-cryptsy</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange Hitbtc exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
