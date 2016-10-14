@@ -139,12 +139,6 @@
 			<artifactId>xchange-cexio</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange CleverCoin exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-clevercoin</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange Bter exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
