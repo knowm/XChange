@@ -7,19 +7,20 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTickers;
-import org.knowm.xchange.bitcoinaverage.dto.meta.BitcoinAverageMetaData;
 import org.knowm.xchange.bitcoinaverage.service.polling.BitcoinAverageMarketDataService;
 import org.knowm.xchange.bitcoinaverage.service.polling.BitcoinAverageMarketDataServiceRaw;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitcoinAverageExchange extends BaseExchange implements Exchange {
 
-  private BitcoinAverageMetaData bitcoinAverageMetaData;
+  private ExchangeMetaData exchangeMetaData;
 
   @Override
   protected void initServices() {
+
     this.pollingMarketDataService = new BitcoinAverageMarketDataService(this);
   }
 
@@ -31,30 +32,35 @@ public class BitcoinAverageExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setHost("bitcoinaverage.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitcoin Average");
-    exchangeSpecification
-        .setExchangeDescription("Bitcoin Average provides a more accurate price of bitcoin using weighted average for multiple exchanges.");
+    exchangeSpecification.setExchangeDescription("Bitcoin Average provides a more accurate price of bitcoin using weighted average for multiple exchanges.");
 
     return exchangeSpecification;
   }
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
+
     // No private API implemented. Not needed for this exchange at the moment.
     return null;
   }
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
+
     BitcoinAverageTickers tickers = ((BitcoinAverageMarketDataServiceRaw) pollingMarketDataService).getBitcoinAverageAllTickers();
-    exchangeMetaData = BitcoinAverageAdapters.adaptMetaData(tickers, bitcoinAverageMetaData);
+    exchangeMetaData = BitcoinAverageAdapters.adaptMetaData(tickers, exchangeMetaData);
+    // String json = ObjectMapperHelper.toJSON(exchangeMetaData);
+    // System.out.println("json: " + json);
   }
 
   @Override
   protected void loadExchangeMetaData(InputStream is) {
-    bitcoinAverageMetaData = loadMetaData(is, BitcoinAverageMetaData.class);
+
+    exchangeMetaData = loadMetaData(is, ExchangeMetaData.class);
   }
 
-  public BitcoinAverageMetaData getBitcoinAverageMetaData() {
-    return bitcoinAverageMetaData;
+  public ExchangeMetaData getBitcoinAverageMetaData() {
+
+    return exchangeMetaData;
   }
 }
