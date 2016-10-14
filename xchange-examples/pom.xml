@@ -31,12 +31,6 @@
 			<artifactId>xchange-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange VirtEx exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-cavirtex</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange Open Exchange Rates exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
