@@ -36,7 +36,7 @@ public class ExchangeSpecification {
 
   private String metaDataJsonFileOverride = null;
 
-  private boolean shouldLoadRemoteMetaData;
+  private boolean shouldLoadRemoteMetaData = false; // default value
 
   private final String exchangeClassName;
 

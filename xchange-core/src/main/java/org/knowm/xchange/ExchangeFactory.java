@@ -1,10 +1,9 @@
 package org.knowm.xchange;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -17,13 +16,8 @@ import org.knowm.xchange.utils.Assert;
 public enum ExchangeFactory {
 
   INSTANCE;
-    
-  private boolean doRemoteInit = true;
-  
-  // flags
-  public static final int DO_REMOTE_INIT_TRUE = 10000;
-  public static final int DO_REMOTE_INIT_FALSE = 10001;
 
+  // flags
   private final Logger log = LoggerFactory.getLogger(ExchangeFactory.class);
 
   /**
@@ -31,27 +25,6 @@ public enum ExchangeFactory {
    */
   private ExchangeFactory() {
 
-  }
-  
-  /**
-   * Adds a flag, for example, disabling remoteInit when the {@link Exchange} is created
-   * @param flag See public static final ints in this class
-   * @return this
-   */
-  public ExchangeFactory setFlag(int flag) {
-
-    switch (flag) {
-    case DO_REMOTE_INIT_TRUE:
-      doRemoteInit = true;
-      break;
-    case DO_REMOTE_INIT_FALSE:
-      doRemoteInit = false;
-      break;
-    default:
-      throw new IllegalArgumentException("That is not a valid flag for ExchangeFactory.");
-    }
-
-    return this;
   }
 
   /**
@@ -80,7 +53,7 @@ public enum ExchangeFactory {
       if (Exchange.class.isAssignableFrom(exchangeProviderClass)) {
         // Instantiate through the default constructor and use the default exchange specification
         Exchange exchange = (Exchange) exchangeProviderClass.newInstance();
-        exchange.applySpecification(exchange.getDefaultExchangeSpecification(), doRemoteInit);
+        exchange.applySpecification(exchange.getDefaultExchangeSpecification());
         return exchange;
       } else {
         throw new ExchangeException("Class '" + exchangeClassName + "' does not implement Exchange");
@@ -131,7 +104,5 @@ public enum ExchangeFactory {
     // Cannot be here due to exceptions
 
   }
-  
-  
 
 }

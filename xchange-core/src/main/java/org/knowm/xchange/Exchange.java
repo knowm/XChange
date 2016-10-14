@@ -67,14 +67,6 @@ public interface Exchange {
   void applySpecification(ExchangeSpecification exchangeSpecification);
 
   /**
-   * Applies any exchange specific parameters
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   * @param doRemoteInit Call {@link remoteInit}
-   */
-  void applySpecification(ExchangeSpecification exchangeSpecification, boolean doRemoteInit);
-
-  /**
    * <p>
    * A market data service typically consists of a regularly updated list of the available prices for the various symbols
    * </p>

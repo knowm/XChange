@@ -16,8 +16,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class BitcoinAverageExchange extends BaseExchange implements Exchange {
 
-  private ExchangeMetaData exchangeMetaData;
-
   @Override
   protected void initServices() {
 

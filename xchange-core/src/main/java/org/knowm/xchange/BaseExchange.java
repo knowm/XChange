@@ -37,19 +37,12 @@ public abstract class BaseExchange implements Exchange {
   @Override
   public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
-    applySpecification(exchangeSpecification, true);
-  }
-
-  @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification, boolean doRemoteInit) {
-
     ExchangeSpecification defaultSpecification = getDefaultExchangeSpecification();
 
     // Check if default is for everything
     if (exchangeSpecification == null) {
       this.exchangeSpecification = defaultSpecification;
-    }
-    else {
+    } else {
       // Using a configured exchange
       // fill in null params with the default ones
       if (exchangeSpecification.getExchangeName() == null) {
@@ -69,8 +62,7 @@ public abstract class BaseExchange implements Exchange {
       }
       if (exchangeSpecification.getExchangeSpecificParameters() == null) {
         exchangeSpecification.setExchangeSpecificParameters(defaultSpecification.getExchangeSpecificParameters());
-      }
-      else {
+      } else {
         // add default value unless it is overridden by current spec
         for (Map.Entry<String, Object> entry : defaultSpecification.getExchangeSpecificParameters().entrySet()) {
           if (exchangeSpecification.getExchangeSpecificParametersItem(entry.getKey()) == null) {
@@ -96,8 +88,7 @@ public abstract class BaseExchange implements Exchange {
         IOUtils.closeQuietly(is);
       }
 
-    }
-    else if (this.exchangeSpecification.getExchangeName() != null) { // load the metadata from the classpath
+    } else if (this.exchangeSpecification.getExchangeName() != null) { // load the metadata from the classpath
 
       InputStream is = null;
       try {
@@ -107,14 +98,14 @@ public abstract class BaseExchange implements Exchange {
         IOUtils.closeQuietly(is);
       }
 
-    }
-    else {
-      logger.warn("No \"exchange name\" found in the ExchangeSpecification. The name is used to load the meta data file from the classpath and may lead to unexpected results.");
+    } else {
+      logger.warn(
+          "No \"exchange name\" found in the ExchangeSpecification. The name is used to load the meta data file from the classpath and may lead to unexpected results.");
     }
 
     initServices();
 
-    if (doRemoteInit) {
+    if (this.exchangeSpecification.isShouldLoadRemoteMetaData()) {
       try {
         remoteInit();
       } catch (ExchangeException e) {
