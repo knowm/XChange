@@ -18,9 +18,8 @@ public class CryptoFacilitiesOrderStatus {
   private final String status;
   private final String order_id;
 
-  public CryptoFacilitiesOrderStatus(@JsonProperty("receivedTime") String strReceivedTime, 
-                                     @JsonProperty("status") String status,
-                                     @JsonProperty("order_id") String order_id) throws ParseException {
+  public CryptoFacilitiesOrderStatus(@JsonProperty("receivedTime") String strReceivedTime, @JsonProperty("status") String status,
+      @JsonProperty("order_id") String order_id) throws ParseException {
 
     this.receivedTime = strReceivedTime == null ? null : DATE_FORMAT.parse(strReceivedTime);
     this.status = status;

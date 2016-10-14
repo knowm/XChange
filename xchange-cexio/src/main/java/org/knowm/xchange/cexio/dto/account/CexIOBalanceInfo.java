@@ -204,7 +204,8 @@ public class CexIOBalanceInfo {
 
     return MessageFormat.format(
         "CexIOBalanceInfo[error={0}, timestamp={1}, username={2}, BTC={3}, LTC={4}, NMC={5}, IXC={6}, DVC={7}, GHS={8}, USD={9}, DRK={10}, EUR={11} ETH={12}]",
-        error, timestamp, username, balanceBTC, balanceLTC, balanceNMC, balanceIXC, balanceDVC, balanceGHS, balanceUSD, balanceDRK, balanceEUR, balanceETH);
+        error, timestamp, username, balanceBTC, balanceLTC, balanceNMC, balanceIXC, balanceDVC, balanceGHS, balanceUSD, balanceDRK, balanceEUR,
+        balanceETH);
   }
 
 }

@@ -175,7 +175,7 @@ public final class BittrexAdapters {
 
     return new UserTrade(orderType, amount, currencyPair, price, date, orderId, orderId, trade.getCommission(), currencyPair.counter);
   }
-  
+
   public static ExchangeMetaData adaptMetaData(List<BittrexSymbol> rawSymbols, ExchangeMetaData metaData) {
 
     List<CurrencyPair> currencyPairs = BittrexAdapters.adaptCurrencyPairs(rawSymbols);

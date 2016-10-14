@@ -1,7 +1,8 @@
 package org.knowm.xchange.btce.v3.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btce.v3.dto.BTCEReturn;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Ondřej Novotný

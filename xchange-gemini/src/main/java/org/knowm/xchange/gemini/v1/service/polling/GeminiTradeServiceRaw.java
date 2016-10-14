@@ -1,5 +1,9 @@
 package org.knowm.xchange.gemini.v1.service.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -13,11 +17,25 @@ import org.knowm.xchange.gemini.v1.GeminiUtils;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
-import org.knowm.xchange.gemini.v1.dto.trade.*;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiActiveCreditsRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiActivePositionsResponse;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelOfferRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelOrderMultiRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelOrderRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiCreditResponse;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewHiddenOrderRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewOfferRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewOrder;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewOrderMultiRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewOrderMultiResponse;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiNewOrderRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiNonceOnlyRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiOfferStatusRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiOfferStatusResponse;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiPastTradesRequest;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 
 public class GeminiTradeServiceRaw extends GeminiBasePollingService {
 
@@ -69,8 +87,7 @@ public class GeminiTradeServiceRaw extends GeminiBasePollingService {
     }
   }
 
-  public GeminiOrderStatusResponse placeGeminiLimitOrder(LimitOrder limitOrder, GeminiOrderType GeminiOrderType, boolean hidden)
-      throws IOException {
+  public GeminiOrderStatusResponse placeGeminiLimitOrder(LimitOrder limitOrder, GeminiOrderType GeminiOrderType, boolean hidden) throws IOException {
 
     String pair = GeminiUtils.toPairString(limitOrder.getCurrencyPair());
     String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
@@ -129,23 +146,22 @@ public class GeminiTradeServiceRaw extends GeminiBasePollingService {
 
     try {
       GeminiOfferStatusResponse newOrderResponse = Gemini.newOffer(apiKey, payloadCreator, signatureCreator,
-          new GeminiNewOfferRequest(String.valueOf(exchange.getNonceFactory().createValue()), loanOrder.getCurrency(),
-              loanOrder.getTradableAmount(), loanOrder.getRate(), loanOrder.getDayPeriod(), direction));
+          new GeminiNewOfferRequest(String.valueOf(exchange.getNonceFactory().createValue()), loanOrder.getCurrency(), loanOrder.getTradableAmount(),
+              loanOrder.getRate(), loanOrder.getDayPeriod(), direction));
       return newOrderResponse;
     } catch (GeminiException e) {
       throw new ExchangeException(e);
     }
   }
 
-  public GeminiOfferStatusResponse placeGeminiFloatingRateLoanOrder(FloatingRateLoanOrder loanOrder, GeminiOrderType orderType)
-      throws IOException {
+  public GeminiOfferStatusResponse placeGeminiFloatingRateLoanOrder(FloatingRateLoanOrder loanOrder, GeminiOrderType orderType) throws IOException {
 
     String direction = loanOrder.getType() == OrderType.BID ? "loan" : "lend";
 
     try {
       GeminiOfferStatusResponse newOrderResponse = Gemini.newOffer(apiKey, payloadCreator, signatureCreator,
-          new GeminiNewOfferRequest(String.valueOf(exchange.getNonceFactory().createValue()), loanOrder.getCurrency(),
-              loanOrder.getTradableAmount(), new BigDecimal("0.0"), loanOrder.getDayPeriod(), direction));
+          new GeminiNewOfferRequest(String.valueOf(exchange.getNonceFactory().createValue()), loanOrder.getCurrency(), loanOrder.getTradableAmount(),
+              new BigDecimal("0.0"), loanOrder.getDayPeriod(), direction));
       return newOrderResponse;
     } catch (GeminiException e) {
       throw new ExchangeException(e);

@@ -79,7 +79,8 @@ public class HitbtcAdapters {
     BigDecimal volume = hitbtcTicker.getVolume();
     Date timestamp = new Date(hitbtcTicker.getTimestamp());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
   }
 
   public static List<Ticker> adaptTickers(Map<String, HitbtcTicker> hitbtcTickers) {
@@ -169,7 +170,8 @@ public class HitbtcAdapters {
 
       OrderType type = adaptOrderType(o.getSide());
 
-      LimitOrder order = new LimitOrder(type, o.getExecQuantity(), adaptSymbol(o.getSymbol()), o.getClientOrderId(), new Date(o.getLastTimestamp()), o.getOrderPrice());
+      LimitOrder order = new LimitOrder(type, o.getExecQuantity(), adaptSymbol(o.getSymbol()), o.getClientOrderId(), new Date(o.getLastTimestamp()),
+          o.getOrderPrice());
 
       openOrders.add(order);
     }
@@ -196,7 +198,8 @@ public class HitbtcAdapters {
       Date timestamp = new Date(t.getTimestamp());
       String id = Long.toString(t.getTradeId());
 
-      UserTrade trade = new UserTrade(type, tradableAmount, pair, t.getExecPrice(), timestamp, id, t.getClientOrderId(), t.getFee(), Currency.getInstance(pair.counter.getCurrencyCode()));
+      UserTrade trade = new UserTrade(type, tradableAmount, pair, t.getExecPrice(), timestamp, id, t.getClientOrderId(), t.getFee(),
+          Currency.getInstance(pair.counter.getCurrencyCode()));
 
       trades.add(trade);
     }
@@ -227,8 +230,7 @@ public class HitbtcAdapters {
     if (order.getId() == null || "".equals(order.getId())) {
       // encoding side in client order id
       return order.getType().name().substring(0, 1) + DELIM + adaptCurrencyPair(order.getCurrencyPair()) + DELIM + nonce;
-    }
-    else {
+    } else {
       return order.getId();
     }
   }

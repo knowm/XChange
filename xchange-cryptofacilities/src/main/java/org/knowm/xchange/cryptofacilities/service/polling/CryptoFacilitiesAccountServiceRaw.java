@@ -24,12 +24,13 @@ public class CryptoFacilitiesAccountServiceRaw extends CryptoFacilitiesBasePolli
 
   public CryptoFacilitiesAccount getCryptoFacilitiesAccount() throws IOException {
 
-    CryptoFacilitiesAccount cryptoFacilitiesAccount = cryptoFacilities.account(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());    
+    CryptoFacilitiesAccount cryptoFacilitiesAccount = cryptoFacilities.account(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+        exchange.getNonceFactory());
 
     if (cryptoFacilitiesAccount.isSuccess()) {
-        return cryptoFacilitiesAccount;
+      return cryptoFacilitiesAccount;
     } else {
-        throw new ExchangeException("Error getting CF account info: " + cryptoFacilitiesAccount.getError());
+      throw new ExchangeException("Error getting CF account info: " + cryptoFacilitiesAccount.getError());
     }
   }
 

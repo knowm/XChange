@@ -43,7 +43,8 @@ public final class BitcoinChartsAdapters {
         BigDecimal volume = bitcoinChartsTickers[i].getVolume();
         Date timeStamp = new Date(bitcoinChartsTickers[i].getLatestTrade() * 1000L);
 
-        return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timeStamp).build();
+        return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timeStamp)
+            .build();
 
       }
     }
@@ -60,7 +61,8 @@ public final class BitcoinChartsAdapters {
       pairs.put(new CurrencyPair(Currency.BTC, Currency.getInstance(ticker.getSymbol())), new CurrencyPairMetaData(null, null, null, scale));
     }
 
-    return new ExchangeMetaData(pairs, exchangeMetaData.getCurrencies(), exchangeMetaData.getPublicRateLimits(), exchangeMetaData.getPrivateRateLimits(), exchangeMetaData.isShareRateLimits());
+    return new ExchangeMetaData(pairs, exchangeMetaData.getCurrencies(), exchangeMetaData.getPublicRateLimits(),
+        exchangeMetaData.getPrivateRateLimits(), exchangeMetaData.isShareRateLimits());
   }
 
   private static <T> T firstNonNull(T... objects) {

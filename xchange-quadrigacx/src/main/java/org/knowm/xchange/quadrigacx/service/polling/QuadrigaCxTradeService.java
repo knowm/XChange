@@ -1,5 +1,13 @@
 package org.knowm.xchange.quadrigacx.service.polling;
 
+import static org.knowm.xchange.dto.Order.OrderType.BID;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -19,14 +27,6 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements PollingTradeService {
 
@@ -118,12 +118,9 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
       currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
     }
     /*
-    if (params instanceof TradeHistoryParamOffset) {
-      offset = ((TradeHistoryParamOffset)params).getOffset();
-    }
-    if (params instanceof TradeHistoryParamsSorted) {
-      sort = ((TradeHistoryParamsSorted)params).getOrder();
-    }*/
+     * if (params instanceof TradeHistoryParamOffset) { offset = ((TradeHistoryParamOffset)params).getOffset(); } if (params instanceof
+     * TradeHistoryParamsSorted) { sort = ((TradeHistoryParamsSorted)params).getOrder(); }
+     */
     QuadrigaCxUserTransaction[] txs = getQuadrigaCxUserTransactions(currencyPair, limit);
 
     return QuadrigaCxAdapters.adaptTradeHistory(txs, currencyPair);

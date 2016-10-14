@@ -1,5 +1,11 @@
 package org.knowm.xchange.poloniex.service.polling;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.util.HashMap;
+
 /**
  * @author Zach Holmes
  */
@@ -19,12 +25,6 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.util.HashMap;
 
 public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
 
@@ -65,14 +65,14 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
     } else {
       fillOrKill = null;
     }
-    
+
     Integer immediateOrCancel;
     if (limitOrder.getOrderFlags().contains(PoloniexOrderFlags.IMMEDIATE_OR_CANCEL)) {
       immediateOrCancel = 1;
     } else {
       immediateOrCancel = null;
     }
-    
+
     Integer postOnly;
     if (limitOrder.getOrderFlags().contains(PoloniexOrderFlags.POST_ONLY)) {
       postOnly = 1;

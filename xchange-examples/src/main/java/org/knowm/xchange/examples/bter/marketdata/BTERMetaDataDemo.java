@@ -11,8 +11,6 @@ public class BTERMetaDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    //    exchange.remoteInit();
-
     ExchangeSpecification exSpec = new BTERExchange().getDefaultExchangeSpecification();
     exSpec.setShouldLoadRemoteMetaData(true);
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exSpec);

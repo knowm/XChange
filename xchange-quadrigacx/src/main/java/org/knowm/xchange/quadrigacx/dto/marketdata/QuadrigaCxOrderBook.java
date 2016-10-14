@@ -1,10 +1,11 @@
 package org.knowm.xchange.quadrigacx.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import java.math.BigDecimal;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 public class QuadrigaCxOrderBook {
 

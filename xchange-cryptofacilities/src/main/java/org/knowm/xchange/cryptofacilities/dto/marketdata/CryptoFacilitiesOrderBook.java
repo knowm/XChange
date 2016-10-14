@@ -1,14 +1,15 @@
 package org.knowm.xchange.cryptofacilities.dto.marketdata;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.math.BigDecimal;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Panchen
@@ -55,7 +56,8 @@ public class CryptoFacilitiesOrderBook extends CryptoFacilitiesResult {
   public String toString() {
 
     if (isSuccess()) {
-      return "CryptoFacilitiesOrderBook [ccyPair=" + currencyPair + ", serverTime=" + DATE_FORMAT.format(serverTime) + ", orderBook=" + bidsAsks.toString() + "]";
+      return "CryptoFacilitiesOrderBook [ccyPair=" + currencyPair + ", serverTime=" + DATE_FORMAT.format(serverTime) + ", orderBook="
+          + bidsAsks.toString() + "]";
     } else {
       return super.toString();
     }

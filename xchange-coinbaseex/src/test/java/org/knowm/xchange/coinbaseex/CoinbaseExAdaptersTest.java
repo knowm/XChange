@@ -9,13 +9,13 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.coinbaseex.dto.marketdata.CoinbaseExProductBook;
 import org.knowm.xchange.coinbaseex.dto.marketdata.CoinbaseExProductStats;
 import org.knowm.xchange.coinbaseex.dto.marketdata.CoinbaseExProductTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Created by Yingzhe on 4/8/2015.

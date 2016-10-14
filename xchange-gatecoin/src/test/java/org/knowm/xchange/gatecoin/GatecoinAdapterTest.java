@@ -8,8 +8,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -22,6 +20,8 @@ import org.knowm.xchange.gatecoin.dto.marketdata.GatecoinTicker;
 import org.knowm.xchange.gatecoin.dto.marketdata.Results.GatecoinTickerResult;
 import org.knowm.xchange.gatecoin.dto.marketdata.Results.GatecoinTransactionResult;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinTradeHistoryResult;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Tests the GatecoinAdapter class

@@ -7,13 +7,13 @@ import org.knowm.xchange.poloniex.service.PoloniexDigest;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.polling.BasePollingService;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.serialization.jackson.DefaultJacksonObjectMapperFactory;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Zach Holmes

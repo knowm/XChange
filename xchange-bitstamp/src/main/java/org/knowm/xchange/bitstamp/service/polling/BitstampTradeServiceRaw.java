@@ -64,12 +64,8 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
     return bitstampAuthenticatedV2.getOpenOrders(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair));
   }
 
-  public BitstampOrder placeBitstampOrder(
-      CurrencyPair pair,
-      BitstampAuthenticatedV2.Side side,
-      BigDecimal tradableAmount,
-      BigDecimal price
-  ) throws IOException {
+  public BitstampOrder placeBitstampOrder(CurrencyPair pair, BitstampAuthenticatedV2.Side side, BigDecimal tradableAmount, BigDecimal price)
+      throws IOException {
     return bitstampAuthenticatedV2.placeOrder(apiKey, signatureCreator, nonceFactory, side, new BitstampV2.Pair(pair), tradableAmount, price);
   }
 
@@ -77,24 +73,19 @@ public class BitstampTradeServiceRaw extends BitstampBasePollingService {
     return bitstampAuthenticated.cancelOrder(apiKey, signatureCreator, nonceFactory, orderId);
   }
 
-  public BitstampUserTransaction[] getBitstampUserTransactions(
-      Long numberOfTransactions,
-      CurrencyPair pair
-  ) throws IOException {
-    return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions, null, null);
+  public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, CurrencyPair pair) throws IOException {
+    return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions, null,
+        null);
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions) throws IOException {
     return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, numberOfTransactions, null, null);
   }
 
-  public BitstampUserTransaction[] getBitstampUserTransactions(
-      Long numberOfTransactions,
-      CurrencyPair pair,
-      Long offset,
-      String sort
-  ) throws IOException {
-    return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions, offset, sort);
+  public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, CurrencyPair pair, Long offset, String sort)
+      throws IOException {
+    return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions,
+        offset, sort);
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, Long offset, String sort) throws IOException {

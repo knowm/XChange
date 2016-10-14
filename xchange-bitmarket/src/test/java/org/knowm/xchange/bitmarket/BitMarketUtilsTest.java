@@ -4,7 +4,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.junit.Ignore;
 import org.junit.Test;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 

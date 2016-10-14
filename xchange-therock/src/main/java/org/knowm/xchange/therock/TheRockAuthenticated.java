@@ -31,7 +31,7 @@ public interface TheRockAuthenticated {
   String X_TRT_NONCE = "X-TRT-NONCE";
 
   //account
-  
+
   @GET
   @Path("balances/{currency}")
   TheRockBalance balance(@HeaderParam("X-TRT-KEY") String publicKey, @HeaderParam("X-TRT-SIGN") TheRockDigest signer,
@@ -48,9 +48,8 @@ public interface TheRockAuthenticated {
   TheRockWithdrawalResponse withdraw(@HeaderParam("X-TRT-KEY") String publicKey, @HeaderParam("X-TRT-SIGN") TheRockDigest signer,
       @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, TheRockWithdrawal withdrawal) throws TheRockException, IOException;
 
-  
   //trading
-  
+
   @POST
   @Path("funds/{fund_id}/orders")
   TheRockOrder placeOrder(@PathParam("fund_id") TheRock.Pair currencyPair, @HeaderParam("X-TRT-KEY") String publicKey,
@@ -72,7 +71,7 @@ public interface TheRockAuthenticated {
   @GET
   @Path("funds/{fund_id}/orders/{id}")
   TheRockOrder showOrder(@PathParam("fund_id") TheRock.Pair currencyPair, @PathParam("id") Long orderId, @HeaderParam("X-TRT-KEY") String publicKey,
-	  @HeaderParam("X-TRT-SIGN") TheRockDigest signer, @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory)
-	  throws TheRockException, IOException;
-  
+      @HeaderParam("X-TRT-SIGN") TheRockDigest signer, @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory)
+      throws TheRockException, IOException;
+
 }

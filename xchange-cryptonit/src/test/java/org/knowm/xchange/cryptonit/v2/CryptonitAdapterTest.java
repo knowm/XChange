@@ -10,9 +10,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.CollectionLikeType;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitTicker;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitTradesJSONTest;
@@ -22,6 +19,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionLikeType;
 
 /**
  * Tests the cryptonitAdapter class

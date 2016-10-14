@@ -35,8 +35,8 @@ public class CurrencyPairMetaData {
    * @param maximumAmount
    * @param priceScale
    */
-  public CurrencyPairMetaData(@JsonProperty("trading_fee") BigDecimal tradingFee, @JsonProperty("min_amount") BigDecimal minimumAmount, @JsonProperty("max_amount") BigDecimal maximumAmount,
-      @JsonProperty("price_scale") Integer priceScale) {
+  public CurrencyPairMetaData(@JsonProperty("trading_fee") BigDecimal tradingFee, @JsonProperty("min_amount") BigDecimal minimumAmount,
+      @JsonProperty("max_amount") BigDecimal maximumAmount, @JsonProperty("price_scale") Integer priceScale) {
 
     this.tradingFee = tradingFee;
     this.minimumAmount = minimumAmount;
@@ -67,7 +67,8 @@ public class CurrencyPairMetaData {
   @Override
   public String toString() {
 
-    return "CurrencyPairMetaData [tradingFee=" + tradingFee + ", minimumAmount=" + minimumAmount + ", maximumAmount=" + maximumAmount + ", priceScale=" + priceScale + "]";
+    return "CurrencyPairMetaData [tradingFee=" + tradingFee + ", minimumAmount=" + minimumAmount + ", maximumAmount=" + maximumAmount
+        + ", priceScale=" + priceScale + "]";
   }
 
 }

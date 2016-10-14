@@ -2,11 +2,12 @@ package org.knowm.xchange.bter.dto.trade;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bter.BTERAdapters;
 import org.knowm.xchange.bter.dto.BTERBaseResponse;
 import org.knowm.xchange.bter.dto.BTEROrderType;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by David Henry on 2/19/14.

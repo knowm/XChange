@@ -3,13 +3,13 @@ package org.knowm.xchange.btce.v3;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.ExchangeSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
 
 /**
  * @author Peter N. Steinmetz Date: 3/30/15 Time: 4:28 PM

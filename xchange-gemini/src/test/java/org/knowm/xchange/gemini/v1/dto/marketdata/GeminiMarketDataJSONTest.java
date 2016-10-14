@@ -8,14 +8,11 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.gemini.v1.GeminiAdapters;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
-import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendDepth;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class GeminiMarketDataJSONTest {
 

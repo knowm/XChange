@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

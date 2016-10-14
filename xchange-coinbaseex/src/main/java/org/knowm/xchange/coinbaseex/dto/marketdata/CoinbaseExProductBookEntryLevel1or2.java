@@ -2,7 +2,7 @@ package org.knowm.xchange.coinbaseex.dto.marketdata;
 
 import java.math.BigDecimal;
 
-public class CoinbaseExProductBookEntryLevel1or2  extends CoinbaseExProductBookEntry {
+public class CoinbaseExProductBookEntryLevel1or2 extends CoinbaseExProductBookEntry {
 
   private final int numOrdersOnLevel;
 
@@ -14,8 +14,5 @@ public class CoinbaseExProductBookEntryLevel1or2  extends CoinbaseExProductBookE
   public int getNumOrdersOnLevel() {
     return numOrdersOnLevel;
   }
-
-
-
 
 }

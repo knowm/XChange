@@ -3,8 +3,9 @@ package org.knowm.xchange.ripple.dto.account;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.ripple.dto.RippleCommon;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class RippleAccountBalances extends RippleCommon {
 

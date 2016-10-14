@@ -1,15 +1,16 @@
 package org.knowm.xchange.quadrigacx.service.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.quadrigacx.QuadrigaCxAuthenticated;
 import org.knowm.xchange.quadrigacx.dto.account.QuadrigaCxBalance;
 import org.knowm.xchange.quadrigacx.dto.account.QuadrigaCxDepositAddress;
 import org.knowm.xchange.quadrigacx.service.QuadrigaCxDigest;
-import si.mazi.rescu.RestProxyFactory;
 
-import java.io.IOException;
-import java.math.BigDecimal;
+import si.mazi.rescu.RestProxyFactory;
 
 public class QuadrigaCxAccountServiceRaw extends QuadrigaCxBasePollingService {
 
@@ -58,7 +59,7 @@ public class QuadrigaCxAccountServiceRaw extends QuadrigaCxBasePollingService {
   public String withdrawEther(BigDecimal amount, final String address) throws IOException {
 
     final String response = quadrigacxAuthenticated.withdrawEther(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-            exchange.getNonceFactory(), amount, address);
+        exchange.getNonceFactory(), amount, address);
     if (!"ok".equals(response)) {
       throw new ExchangeException("Withdrawing funds from QuadrigaCx failed: " + response);
     }
@@ -69,7 +70,7 @@ public class QuadrigaCxAccountServiceRaw extends QuadrigaCxBasePollingService {
   public QuadrigaCxDepositAddress getQuadrigaCxEtherDepositAddress() throws IOException {
 
     final QuadrigaCxDepositAddress response = quadrigacxAuthenticated.getEtherDepositAddress(exchange.getExchangeSpecification().getApiKey(),
-            signatureCreator, exchange.getNonceFactory());
+        signatureCreator, exchange.getNonceFactory());
     if (response.getError() != null) {
       throw new ExchangeException("Requesting Ether deposit address failed: " + response.getError());
     }

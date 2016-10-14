@@ -49,7 +49,6 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
@@ -60,10 +59,7 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
 public class CoinmateAdapters {
 
   // the currency pairs supported by the exchange
-  public static final CurrencyPair[] COINMATE_CURRENCY_PAIRS = {
-    CurrencyPair.BTC_EUR,
-    CurrencyPair.BTC_CZK,
-  };
+  public static final CurrencyPair[] COINMATE_CURRENCY_PAIRS = { CurrencyPair.BTC_EUR, CurrencyPair.BTC_CZK, };
 
   /**
    * Adapts a CoinmateTicker to a Ticker Object

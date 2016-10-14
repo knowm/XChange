@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderBook;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeRate;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTrade;
@@ -18,6 +16,8 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author matthewdowney

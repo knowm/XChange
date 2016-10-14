@@ -1,11 +1,11 @@
 package org.knowm.xchange.therock.dto.trade;
 
 import java.math.BigDecimal;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import org.knowm.xchange.therock.TheRock;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 /**
  * @author Matija Mazi
@@ -46,8 +46,8 @@ public class TheRockOrder {
   }
 
   public TheRock.Pair getFundId() {
-	    return fundId;
-	  }
+    return fundId;
+  }
 
   public Side getSide() {
     return side;
@@ -58,7 +58,7 @@ public class TheRockOrder {
   }
 
   public String getStatus() {
-	    return status;
+    return status;
   }
 
   public BigDecimal getAmount() {
@@ -74,31 +74,31 @@ public class TheRockOrder {
   }
 
   public String getConditionalType() {
-	return conditionalType;
+    return conditionalType;
   }
 
   public BigDecimal getConditionalPrice() {
-	return conditionalPrice;
+    return conditionalPrice;
   }
 
   public String getDate() {
-	return date;
+    return date;
   }
 
   public String getCloseOn() {
-	return closeOn;
+    return closeOn;
   }
 
   public boolean isDark() {
-	return dark;
+    return dark;
   }
 
   public BigDecimal getLeverage() {
-	return leverage;
+    return leverage;
   }
 
   public long getPositionId() {
-	return positionId;
+    return positionId;
   }
 
   @Override

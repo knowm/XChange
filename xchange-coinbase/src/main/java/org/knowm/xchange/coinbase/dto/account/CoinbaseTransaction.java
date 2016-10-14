@@ -5,6 +5,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
+import org.knowm.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus.CoinbaseTransactionStatusDeserializer;
+import org.knowm.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
+import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
+import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,12 +20,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
-import org.knowm.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus.CoinbaseTransactionStatusDeserializer;
-import org.knowm.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
-import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
-import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
-import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
 /**
  * @author jamespedwards42

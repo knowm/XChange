@@ -32,10 +32,11 @@ public final class BitstampBalance {
    * @param btcAvailable
    * @param fee
    */
-  public BitstampBalance(@JsonProperty("usd_balance") BigDecimal usdBalance, @JsonProperty("eur_balance") BigDecimal eurBalance, @JsonProperty("btc_balance") BigDecimal btcBalance,
-                         @JsonProperty("usd_reserved") BigDecimal usdReserved, @JsonProperty("eur_reserved") BigDecimal eurReserved, @JsonProperty("btc_reserved") BigDecimal btcReserved,
-                         @JsonProperty("usd_available") BigDecimal usdAvailable, @JsonProperty("eur_available") BigDecimal eurAvailable, @JsonProperty("btc_available") BigDecimal btcAvailable,
-                         @JsonProperty("fee") BigDecimal fee, @JsonProperty("error") String error) {
+  public BitstampBalance(@JsonProperty("usd_balance") BigDecimal usdBalance, @JsonProperty("eur_balance") BigDecimal eurBalance,
+      @JsonProperty("btc_balance") BigDecimal btcBalance, @JsonProperty("usd_reserved") BigDecimal usdReserved,
+      @JsonProperty("eur_reserved") BigDecimal eurReserved, @JsonProperty("btc_reserved") BigDecimal btcReserved,
+      @JsonProperty("usd_available") BigDecimal usdAvailable, @JsonProperty("eur_available") BigDecimal eurAvailable,
+      @JsonProperty("btc_available") BigDecimal btcAvailable, @JsonProperty("fee") BigDecimal fee, @JsonProperty("error") String error) {
 
     this.usdBalance = usdBalance;
     this.eurBalance = eurBalance;
@@ -75,7 +76,6 @@ public final class BitstampBalance {
     return eurReserved;
   }
 
-
   public BigDecimal getBtcReserved() {
 
     return btcReserved;
@@ -109,7 +109,8 @@ public final class BitstampBalance {
   @Override
   public String toString() {
 
-    return String.format("Balance{usdBalance=%s, eurBalance=%s, btcBalance=%s, usdReserved=%s, eurReserved=%s,  btcReserved=%s, usdAvailable=%s, eurAvailable=%s, btcAvailable=%s, fee=%s}",
+    return String.format(
+        "Balance{usdBalance=%s, eurBalance=%s, btcBalance=%s, usdReserved=%s, eurReserved=%s,  btcReserved=%s, usdAvailable=%s, eurAvailable=%s, btcAvailable=%s, fee=%s}",
         usdBalance, eurBalance, btcBalance, usdReserved, eurReserved, btcReserved, usdAvailable, eurAvailable, btcAvailable, fee);
   }
 }

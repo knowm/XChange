@@ -1,6 +1,11 @@
 package org.knowm.xchange.gemini.v1;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -11,19 +16,13 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.gemini.v1.GeminiAdapters;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWalletJSONTest;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class GeminiAdaptersTest {
 
@@ -32,7 +31,7 @@ public class GeminiAdaptersTest {
   private final static String SYMBOL = "BTCUSD";
 
   @Test
-  public void shouldAdaptBalances() throws IOException{
+  public void shouldAdaptBalances() throws IOException {
     // Read in the JSON from the example resources
     InputStream is = GeminiWalletJSONTest.class.getResourceAsStream("/v1/account/example-account-info-balance.json");
 
@@ -111,8 +110,8 @@ public class GeminiAdaptersTest {
   }
 
   /**
-   * Create 60 {@link GeminiOrderStatusResponse}s. The values increase as array index does. The timestamps increase by 1 second + 1 minute + 1 hour
-   * + 1 day in order to test the correct handling of the given timestamp.
+   * Create 60 {@link GeminiOrderStatusResponse}s. The values increase as array index does. The timestamps increase by 1 second + 1 minute + 1 hour +
+   * 1 day in order to test the correct handling of the given timestamp.
    *
    * @return The generated responses.
    */
@@ -161,8 +160,8 @@ public class GeminiAdaptersTest {
   }
 
   /**
-   * Create 60 {@link GeminiTradeResponse}s. The values increase as array index does. The timestamps increase by 1 second + 1 minute + 1 hour + 1
-   * day in order to test the correct handling of the given timestamp.
+   * Create 60 {@link GeminiTradeResponse}s. The values increase as array index does. The timestamps increase by 1 second + 1 minute + 1 hour + 1 day
+   * in order to test the correct handling of the given timestamp.
    *
    * @return The generated responses.
    */

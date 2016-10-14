@@ -39,10 +39,8 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
   @Path("/sendorder")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public CryptoFacilitiesOrder sendOrder(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
-      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("orderType") String orderType, 
-      @QueryParam("symbol") String symbol, @QueryParam("side") String side, @QueryParam("size") BigDecimal size, 
-      @QueryParam("limitPrice") BigDecimal limitPrice)
-      throws IOException;
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("orderType") String orderType, @QueryParam("symbol") String symbol,
+      @QueryParam("side") String side, @QueryParam("size") BigDecimal size, @QueryParam("limitPrice") BigDecimal limitPrice) throws IOException;
 
   @POST
   @Path("/cancelorder")

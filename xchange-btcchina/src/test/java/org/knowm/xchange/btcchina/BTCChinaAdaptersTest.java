@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaTransaction;
@@ -24,6 +22,8 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BTCChinaAdaptersTest {
 

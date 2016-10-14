@@ -3,9 +3,6 @@ package org.knowm.xchange.campbx.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.campbx.dto.CampBXResponse;
 import org.knowm.xchange.campbx.dto.account.MyFunds;
@@ -15,6 +12,8 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Matija Mazi

@@ -1,15 +1,20 @@
 package org.knowm.xchange.poloniex.service.polling;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.PoloniexUtils;
-import org.knowm.xchange.poloniex.dto.marketdata.*;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexChartData;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
 
 public class PoloniexMarketDataServiceRaw extends PoloniexBasePollingService {
 

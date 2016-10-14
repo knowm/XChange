@@ -10,7 +10,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
-import org.knowm.xchange.gemini.v1.dto.account.*;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiMarginInfosRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiMarginInfosResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiActiveCreditsRequest;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiActivePositionsResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiCancelOfferRequest;
@@ -45,8 +52,7 @@ public interface GeminiAuthenticated extends Gemini {
   @POST
   @Path("order/new/multi")
   GeminiNewOrderMultiResponse newOrderMulti(@HeaderParam("X-GEMINI-APIKEY") String apiKey, @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, GeminiNewOrderMultiRequest newOrderMultiRequest)
-      throws IOException, GeminiException;
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, GeminiNewOrderMultiRequest newOrderMultiRequest) throws IOException, GeminiException;
 
   @POST
   @Path("offer/new")
@@ -65,9 +71,9 @@ public interface GeminiAuthenticated extends Gemini {
 
   @POST
   @Path("order/cancel/multi")
-  GeminiCancelOrderMultiResponse cancelOrderMulti(@HeaderParam("X-GEMINI-APIKEY") String apiKey, @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, GeminiCancelOrderMultiRequest cancelOrderRequest)
-      throws IOException, GeminiException;
+  GeminiCancelOrderMultiResponse cancelOrderMulti(@HeaderParam("X-GEMINI-APIKEY") String apiKey,
+      @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload, @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
+      GeminiCancelOrderMultiRequest cancelOrderRequest) throws IOException, GeminiException;
 
   @POST
   @Path("offer/cancel")
@@ -86,8 +92,9 @@ public interface GeminiAuthenticated extends Gemini {
 
   @POST
   @Path("positions")
-  GeminiActivePositionsResponse[] activePositions(@HeaderParam("X-GEMINI-APIKEY") String apiKey, @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, GeminiNonceOnlyRequest nonceOnlyRequest) throws IOException, GeminiException;
+  GeminiActivePositionsResponse[] activePositions(@HeaderParam("X-GEMINI-APIKEY") String apiKey,
+      @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload, @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature,
+      GeminiNonceOnlyRequest nonceOnlyRequest) throws IOException, GeminiException;
 
   @POST
   @Path("order/status")
@@ -111,8 +118,7 @@ public interface GeminiAuthenticated extends Gemini {
   @POST
   @Path("credits")
   GeminiCreditResponse[] activeCredits(@HeaderParam("X-GEMINI-APIKEY") String apiKey, @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, GeminiActiveCreditsRequest activeCreditsRequest)
-      throws IOException, GeminiException;
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, GeminiActiveCreditsRequest activeCreditsRequest) throws IOException, GeminiException;
 
   @POST
   @Path("margin_infos")
@@ -126,7 +132,7 @@ public interface GeminiAuthenticated extends Gemini {
 
   @POST
   @Path("deposit/new")
-  GeminiDepositAddressResponse requestDeposit(@HeaderParam("X-GEMINI-APIKEY") String apiKey, @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload, @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, GeminiDepositAddressRequest depositRequest) throws IOException, GeminiException;
-
+  GeminiDepositAddressResponse requestDeposit(@HeaderParam("X-GEMINI-APIKEY") String apiKey, @HeaderParam("X-GEMINI-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-GEMINI-SIGNATURE") ParamsDigest signature, GeminiDepositAddressRequest depositRequest) throws IOException, GeminiException;
 
 }

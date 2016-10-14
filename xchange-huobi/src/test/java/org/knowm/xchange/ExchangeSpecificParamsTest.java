@@ -3,7 +3,6 @@ package org.knowm.xchange;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
 import org.knowm.xchange.huobi.HuobiExchange;
 
 public class ExchangeSpecificParamsTest {

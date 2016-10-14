@@ -38,7 +38,7 @@ public class CryptoFacilitiesOpenOrdersJSONTest {
     Iterator<CryptoFacilitiesOpenOrder> it = orders.iterator();
     CryptoFacilitiesOpenOrder ord = it.next();
 
-    assertThat(ord.getStatus()).isEqualTo("partiallyFilled");    
+    assertThat(ord.getStatus()).isEqualTo("partiallyFilled");
     assertThat(ord.getId()).isEqualTo("c18f0c17-9971-40e6-8e5b-10df05d422f0");
     assertThat(ord.getType()).isEqualTo("lmt");
     assertThat(ord.getSymbol()).isEqualTo("f-xbt:usd-sep16");

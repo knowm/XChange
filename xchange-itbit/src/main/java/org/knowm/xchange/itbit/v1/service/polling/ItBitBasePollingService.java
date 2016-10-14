@@ -37,13 +37,14 @@ public class ItBitBasePollingService extends BaseExchangeService implements Base
 
     this.itBitPublic = RestProxyFactory.createProxy(ItBit.class, exchange.getExchangeSpecification().getSslUri());
 
-    this.userId =  (String)  exchange.getExchangeSpecification().getExchangeSpecificParametersItem("userId");
+    this.userId = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("userId");
     this.walletId = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("walletId");
 
     if ((this.userId == null || this.walletId == null) && exchange.getExchangeSpecification().getUserName() != null) {
       String[] userIdAndWalletId = exchange.getExchangeSpecification().getUserName().split("/");
       if (userIdAndWalletId.length != 2) {
-        throw new IllegalArgumentException("Please specify the userId and walletId either in the ExchangeSpecification specific parameters, or in the userName field as userId/walletId.");
+        throw new IllegalArgumentException(
+            "Please specify the userId and walletId either in the ExchangeSpecification specific parameters, or in the userName field as userId/walletId.");
       }
       this.userId = userIdAndWalletId[0];
       this.walletId = userIdAndWalletId[1];

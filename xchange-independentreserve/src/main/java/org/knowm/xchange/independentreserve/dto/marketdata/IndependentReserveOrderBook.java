@@ -2,9 +2,10 @@ package org.knowm.xchange.independentreserve.dto.marketdata;
 
 import java.util.List;
 
+import org.knowm.xchange.utils.DateUtils;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import org.knowm.xchange.utils.DateUtils;
 
 /**
  * Author: Kamil Zbikowski Date: 4/9/15

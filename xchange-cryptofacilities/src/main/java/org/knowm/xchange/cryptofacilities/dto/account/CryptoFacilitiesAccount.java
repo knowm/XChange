@@ -3,8 +3,9 @@ package org.knowm.xchange.cryptofacilities.dto.account;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Panchen

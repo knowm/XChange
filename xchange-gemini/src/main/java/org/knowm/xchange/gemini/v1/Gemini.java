@@ -45,8 +45,8 @@ public interface Gemini {
 
   @GET
   @Path("lends/{currency}")
-  GeminiLend[] getLends(@PathParam("currency") String currency, @QueryParam("timestamp") long timestamp,
-      @QueryParam("limit_trades") int limit_trades) throws IOException, GeminiException;
+  GeminiLend[] getLends(@PathParam("currency") String currency, @QueryParam("timestamp") long timestamp, @QueryParam("limit_trades") int limit_trades)
+      throws IOException, GeminiException;
 
   @GET
   @Path("symbols")

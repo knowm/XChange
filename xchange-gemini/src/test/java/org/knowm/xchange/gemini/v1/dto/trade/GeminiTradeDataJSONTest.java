@@ -11,8 +11,6 @@ import java.math.BigDecimal;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
-import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

@@ -1,6 +1,11 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
 import org.junit.Test;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWalletJSONTest;
@@ -17,12 +22,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BitfinexAdaptersTest {
 
@@ -31,7 +31,7 @@ public class BitfinexAdaptersTest {
   private final static String SYMBOL = "BTCUSD";
 
   @Test
-  public void shouldAdaptBalances() throws IOException{
+  public void shouldAdaptBalances() throws IOException {
     // Read in the JSON from the example resources
     InputStream is = BitfinexWalletJSONTest.class.getResourceAsStream("/v1/account/example-account-info-balance.json");
 

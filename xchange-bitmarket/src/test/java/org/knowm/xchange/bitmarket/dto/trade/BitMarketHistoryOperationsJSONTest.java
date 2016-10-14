@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
 import org.knowm.xchange.bitmarket.dto.BitMarketDtoTestSupport;
 
 /**

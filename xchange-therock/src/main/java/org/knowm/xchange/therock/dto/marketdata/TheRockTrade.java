@@ -6,49 +6,48 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TheRockTrade {
-    
-    public static enum Side {
-        sell, buy;
-    }
 
-    private final BigDecimal amount;
-    private final Date date;
-    private final BigDecimal price;
-    private final long id;
-    private final Side side;
-    
+  public static enum Side {
+    sell, buy;
+  }
 
-    public TheRockTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") Date date, @JsonProperty("price") BigDecimal price,
-                        @JsonProperty("id") long id, @JsonProperty("side") Side tradeSide) {
-        this.amount = amount;
-        this.date = date;
-        this.price = price;
-        this.id = id;
-        this.side = tradeSide;
-    }
+  private final BigDecimal amount;
+  private final Date date;
+  private final BigDecimal price;
+  private final long id;
+  private final Side side;
 
-    public BigDecimal getAmount() {
-        return amount;
-    }
+  public TheRockTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") Date date, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("id") long id, @JsonProperty("side") Side tradeSide) {
+    this.amount = amount;
+    this.date = date;
+    this.price = price;
+    this.id = id;
+    this.side = tradeSide;
+  }
 
-    public Date getDate() {
-        return date;
-    }
+  public BigDecimal getAmount() {
+    return amount;
+  }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
+  public Date getDate() {
+    return date;
+  }
 
-    public long getId() {
-        return id;
-    }
-    
-    public Side getSide() {
-        return side;
-    }
+  public BigDecimal getPrice() {
+    return price;
+  }
 
-    @Override
-    public String toString() {
-        return "TheRockTrade [amount=" + amount + ", date=" + date + ", price=" + price + ", id=" + id + ", side=" + side + "]";
-    }
+  public long getId() {
+    return id;
+  }
+
+  public Side getSide() {
+    return side;
+  }
+
+  @Override
+  public String toString() {
+    return "TheRockTrade [amount=" + amount + ", date=" + date + ", price=" + price + ", id=" + id + ", side=" + side + "]";
+  }
 }

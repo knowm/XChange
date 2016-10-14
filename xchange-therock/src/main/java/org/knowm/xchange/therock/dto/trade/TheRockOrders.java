@@ -11,7 +11,7 @@ public class TheRockOrders {
 
   private TheRockOrder[] orders;
   private TheRockMeta meta;
-	
+
   protected TheRockOrders() {
   }
 
@@ -19,12 +19,12 @@ public class TheRockOrders {
     this.orders = orders;
   }
 
-  public TheRockOrder[] getOrders(){
-	return orders;
+  public TheRockOrder[] getOrders() {
+    return orders;
   }
 
   public TheRockMeta getMeta() {
-	return meta;
+    return meta;
   }
-  
+
 }

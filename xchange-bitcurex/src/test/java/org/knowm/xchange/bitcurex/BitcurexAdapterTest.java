@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.bitcurex.dto.marketdata.BitcurexAccountJSONTest;
 import org.knowm.xchange.bitcurex.dto.marketdata.BitcurexDepth;
 import org.knowm.xchange.bitcurex.dto.marketdata.BitcurexDepthJSONTest;
@@ -26,6 +24,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Tests the BitcurexAdapter class

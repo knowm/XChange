@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.bter.dto.BTEROrderType;
 import org.knowm.xchange.bter.dto.marketdata.BTERMarketInfoWrapper.BTERMarketInfo;
 import org.knowm.xchange.bter.dto.marketdata.BTERTradeHistory.BTERPublicTrade;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BTERMarketDataJsonTest {
 

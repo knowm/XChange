@@ -36,9 +36,9 @@ public class TheRockMarketDataServiceRaw extends TheRockBasePollingService {
       if (arg instanceof Number) {
         after = new Date(((Number) arg).longValue() * 1000);
       } else if (arg instanceof Date) {
-          after = (Date) arg;
+        after = (Date) arg;
       }
-        
+
     }
     return theRock.getTrades(currencyPair, after);
   }

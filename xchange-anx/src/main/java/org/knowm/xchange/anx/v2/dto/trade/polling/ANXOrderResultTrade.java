@@ -1,7 +1,8 @@
 package org.knowm.xchange.anx.v2.dto.trade.polling;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.anx.v2.dto.ANXValue;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing Open Orders from ANX

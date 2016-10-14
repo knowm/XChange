@@ -37,7 +37,7 @@ public class GeminiMarginInfosResponse {
   private BigDecimal leverage;
   @JsonProperty("margin_requirement")
   private BigDecimal marginRequirement;
-  @JsonProperty("margin_limits")	
+  @JsonProperty("margin_limits")
   private List<GeminiMarginLimit> marginLimits = new ArrayList<GeminiMarginLimit>();
   @JsonProperty("message")
   private String message;

@@ -10,9 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.therock.TheRock;
 import org.knowm.xchange.therock.dto.account.TheRockBalance;
@@ -21,6 +18,8 @@ import org.knowm.xchange.therock.dto.account.TheRockWithdrawalResponse;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTicker;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 import org.knowm.xchange.therock.dto.trade.TheRockOrders;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TheRockDtoTest {
 

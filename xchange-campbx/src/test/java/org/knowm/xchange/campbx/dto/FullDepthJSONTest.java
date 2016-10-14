@@ -7,9 +7,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
+import org.knowm.xchange.campbx.dto.marketdata.CampBXOrderBook;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.campbx.dto.marketdata.CampBXOrderBook;
 
 /**
  * Test BitStamp Full Depth JSON parsing

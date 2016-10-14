@@ -3,8 +3,9 @@ package org.knowm.xchange.blockchain.dto;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.blockchain.BlockchainUtils;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * NOTE: Divide by 10^8 to get the decimal value of BTC amounts

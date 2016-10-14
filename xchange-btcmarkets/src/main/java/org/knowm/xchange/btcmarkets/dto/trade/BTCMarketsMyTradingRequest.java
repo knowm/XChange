@@ -2,9 +2,10 @@ package org.knowm.xchange.btcmarkets.dto.trade;
 
 import java.util.Date;
 
+import org.knowm.xchange.utils.jackson.UnixTimestampSerializer;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.knowm.xchange.utils.jackson.UnixTimestampSerializer;
 
 /**
  * Used for open orders, order history, trade history.

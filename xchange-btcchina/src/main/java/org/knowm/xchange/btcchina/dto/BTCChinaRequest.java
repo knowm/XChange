@@ -1,8 +1,9 @@
 package org.knowm.xchange.btcchina.dto;
 
+import org.knowm.xchange.btcchina.BTCChinaUtils;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
-import org.knowm.xchange.btcchina.BTCChinaUtils;
 
 /**
  * @author David Yam

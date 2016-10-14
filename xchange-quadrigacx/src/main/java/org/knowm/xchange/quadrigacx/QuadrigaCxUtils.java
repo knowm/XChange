@@ -1,11 +1,11 @@
 package org.knowm.xchange.quadrigacx;
 
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeException;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
  * A central place for shared QuadrigaCx properties
@@ -36,8 +36,8 @@ public final class QuadrigaCxUtils {
     }
   }
 
-  public static String currencyPairToBook(CurrencyPair currencyPair){
-    return currencyPair.base.getCurrencyCode().toLowerCase() + "_" +  currencyPair.counter.getCurrencyCode().toLowerCase();
+  public static String currencyPairToBook(CurrencyPair currencyPair) {
+    return currencyPair.base.getCurrencyCode().toLowerCase() + "_" + currencyPair.counter.getCurrencyCode().toLowerCase();
   }
 
 }

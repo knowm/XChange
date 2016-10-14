@@ -17,7 +17,6 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 
-
 /**
  * @author Matija Mazi
  * @author Pnk
@@ -30,8 +29,8 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
 
   @Override
   public String placeMarketOrder(MarketOrder order) throws IOException, ExchangeException {
-    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getTradableAmount(), null, TheRockAdapters.adaptSide(order.getType()),
-        TheRockOrder.Type.market);
+    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getTradableAmount(), null,
+        TheRockAdapters.adaptSide(order.getType()), TheRockOrder.Type.market);
     return placedOrder.getId().toString();
   }
 
@@ -47,7 +46,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
    */
   @Override
   public OpenOrders getOpenOrders() throws NotAvailableFromExchangeException {
-	throw new NotAvailableFromExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
   /**
@@ -55,7 +54,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
    */
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-	throw new NotAvailableFromExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
   /**
@@ -64,7 +63,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
   @Override
   public Collection<Order> getOrder(String... orderIds)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-	throw new NotAvailableFromExchangeException();
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override

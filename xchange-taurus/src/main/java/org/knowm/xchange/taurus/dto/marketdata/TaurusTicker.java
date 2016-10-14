@@ -3,9 +3,10 @@ package org.knowm.xchange.taurus.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.knowm.xchange.utils.jackson.UnixTimestampDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.utils.jackson.UnixTimestampDeserializer;
 
 /**
  * @author Matija Mazi

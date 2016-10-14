@@ -39,12 +39,12 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
     concludeHostParams(exchangeSpecification);
 
-    if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true) && exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES).equals(true)) {
+    if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)
+        && exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES).equals(true)) {
       FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
 
       pollingMarketDataService = new BitVcFuturesMarketDataService(this, contract);
-    }
-    else {
+    } else {
       pollingMarketDataService = new HuobiMarketDataService(this);
     }
 
@@ -53,8 +53,7 @@ public class HuobiExchange extends BaseExchange implements Exchange {
         pollingAccountService = new BitVcAccountService(this);
         pollingTradeService = new GenericTradeService(this, new BitVcTradeServiceRaw(this));
 
-      }
-      else {
+      } else {
         pollingAccountService = new HuobiAccountService(this);
         pollingTradeService = new GenericTradeService(this, new HuobiTradeServiceRaw(this));
 
@@ -77,11 +76,9 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
       contract = (FuturesContract) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract");
-    }
-    else if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract_String")) {
+    } else if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract_String")) {
       contract = FuturesContract.valueOf((String) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Contract_String"));
-    }
-    else {
+    } else {
       throw new RuntimeException("`Futures_Contract` or `Futures_Contract_String` not defined in exchange specific parameters.");
     }
 

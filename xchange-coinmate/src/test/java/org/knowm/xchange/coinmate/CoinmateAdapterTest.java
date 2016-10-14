@@ -30,11 +30,11 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Martin Stachon

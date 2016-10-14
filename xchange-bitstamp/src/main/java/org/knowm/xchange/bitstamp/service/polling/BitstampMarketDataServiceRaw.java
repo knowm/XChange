@@ -71,8 +71,7 @@ public class BitstampMarketDataServiceRaw extends BitstampBasePollingService {
     return transactions;
   }
 
-  public BitstampTransaction[] getTransactions(CurrencyPair pair, @Nullable BitstampTime time)
-      throws IOException {
+  public BitstampTransaction[] getTransactions(CurrencyPair pair, @Nullable BitstampTime time) throws IOException {
 
     return bitstampV2.getTransactions(new BitstampV2.Pair(pair), time);
   }

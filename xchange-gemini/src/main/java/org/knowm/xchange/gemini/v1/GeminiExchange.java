@@ -52,7 +52,7 @@ public class GeminiExchange extends BaseExchange implements Exchange {
     GeminiMarketDataServiceRaw dataService = (GeminiMarketDataServiceRaw) this.pollingMarketDataService;
     List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
     exchangeMetaData = GeminiAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
-    
+
   }
 
 }

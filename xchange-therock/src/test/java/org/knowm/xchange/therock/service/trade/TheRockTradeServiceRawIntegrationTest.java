@@ -15,35 +15,35 @@ import org.knowm.xchange.therock.service.polling.TheRockTradeServiceRaw;
 /**
  * Remove abstract modifier and read parent class notes in order to run the integration test
  */
-public abstract class TheRockTradeServiceRawIntegrationTest extends AbstractTheRockTradeServiceIntegrationTest{
+public abstract class TheRockTradeServiceRawIntegrationTest extends AbstractTheRockTradeServiceIntegrationTest {
 
-	private static TheRockTradeServiceRaw createUnit(){
-		return new TheRockTradeServiceRaw(createExchange());
-	}
-	
-	@Test
-	public void testGetOrders() throws IOException{
-		TheRockTradeServiceRaw unit = createUnit();
-		TheRockOrders result = unit.getTheRockOrders(CurrencyPair.BTC_EUR);
-		assert result.getOrders() != null;
-		assert result.getMeta() != null;
-	}
+  private static TheRockTradeServiceRaw createUnit() {
+    return new TheRockTradeServiceRaw(createExchange());
+  }
 
-	@Test
-	public void testSuccessfulLifecycle() throws IOException{
-		//create
-		TheRockTradeServiceRaw unit = createUnit();
-		BigDecimal amount = new BigDecimal("0.01");
-		BigDecimal price = new BigDecimal("50.0");
-		TheRock.Pair pair = new TheRock.Pair(CurrencyPair.BTC_EUR);
-		TheRockOrder order = new TheRockOrder(pair, Side.buy, Type.limit, amount, price);
-		TheRockOrder result = unit.placeTheRockOrder(CurrencyPair.BTC_EUR, order);
-		assert result.getId() != null;
-		//get
-		result = unit.showTheRockOrder(CurrencyPair.BTC_EUR, result.getId());
-		assert result.getId() != null;
-		//cancel
-		unit.cancelTheRockOrder(CurrencyPair.BTC_EUR, result.getId());
-	}
-	
+  @Test
+  public void testGetOrders() throws IOException {
+    TheRockTradeServiceRaw unit = createUnit();
+    TheRockOrders result = unit.getTheRockOrders(CurrencyPair.BTC_EUR);
+    assert result.getOrders() != null;
+    assert result.getMeta() != null;
+  }
+
+  @Test
+  public void testSuccessfulLifecycle() throws IOException {
+    //create
+    TheRockTradeServiceRaw unit = createUnit();
+    BigDecimal amount = new BigDecimal("0.01");
+    BigDecimal price = new BigDecimal("50.0");
+    TheRock.Pair pair = new TheRock.Pair(CurrencyPair.BTC_EUR);
+    TheRockOrder order = new TheRockOrder(pair, Side.buy, Type.limit, amount, price);
+    TheRockOrder result = unit.placeTheRockOrder(CurrencyPair.BTC_EUR, order);
+    assert result.getId() != null;
+    //get
+    result = unit.showTheRockOrder(CurrencyPair.BTC_EUR, result.getId());
+    assert result.getId() != null;
+    //cancel
+    unit.cancelTheRockOrder(CurrencyPair.BTC_EUR, result.getId());
+  }
+
 }

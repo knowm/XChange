@@ -80,15 +80,9 @@ public class ItBitTradeServiceRaw extends ItBitBasePollingService {
     return orders;
   }
 
-  public ItBitTradeHistory getUserTradeHistory(
-      String lastExecutionId,
-      Integer page,
-      Integer perPage,
-      Date rangeStart,
-      Date rangeEnd
-  ) throws IOException, ItBitException {
-    return itBitAuthenticated.getUserTradeHistory(
-        signatureCreator, System.currentTimeMillis(), exchange.getNonceFactory(), walletId,
-        lastExecutionId, page, perPage, rangeStart, rangeEnd);
+  public ItBitTradeHistory getUserTradeHistory(String lastExecutionId, Integer page, Integer perPage, Date rangeStart, Date rangeEnd)
+      throws IOException, ItBitException {
+    return itBitAuthenticated.getUserTradeHistory(signatureCreator, System.currentTimeMillis(), exchange.getNonceFactory(), walletId, lastExecutionId,
+        page, perPage, rangeStart, rangeEnd);
   }
 }

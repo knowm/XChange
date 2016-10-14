@@ -8,14 +8,14 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.loyalbit.dto.account.LoyalbitBalance;
 import org.knowm.xchange.loyalbit.dto.marketdata.LoyalbitOrderBook;
 import org.knowm.xchange.loyalbit.dto.trade.LoyalbitOrder;
 import org.knowm.xchange.loyalbit.dto.trade.LoyalbitSubmitOrderResponse;
 import org.knowm.xchange.loyalbit.dto.trade.LoyalbitUserTransaction;
+
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
 public class LoyalbitDtoTest {

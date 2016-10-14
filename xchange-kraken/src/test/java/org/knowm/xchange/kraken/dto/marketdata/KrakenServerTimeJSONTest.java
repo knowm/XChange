@@ -7,10 +7,10 @@ import java.io.InputStream;
 import java.util.Locale;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenServerTimeResult;
 import org.knowm.xchange.utils.DateUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KrakenServerTimeJSONTest {
 

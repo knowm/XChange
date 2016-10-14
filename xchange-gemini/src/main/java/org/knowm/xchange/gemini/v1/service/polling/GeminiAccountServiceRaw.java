@@ -1,12 +1,19 @@
 package org.knowm.xchange.gemini.v1.service.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.gemini.v1.dto.GeminiException;
-import org.knowm.xchange.gemini.v1.dto.account.*;
-
-import java.io.IOException;
-import java.math.BigDecimal;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiMarginInfosRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiMarginInfosResponse;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
+import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
 
 public class GeminiAccountServiceRaw extends GeminiBasePollingService {
 
@@ -54,23 +61,22 @@ public class GeminiAccountServiceRaw extends GeminiBasePollingService {
       String type = "unknown";
       if (currency.equalsIgnoreCase("BTC")) {
         type = "bitcoin";
-      }else if (currency.equalsIgnoreCase("LTC")) {
+      } else if (currency.equalsIgnoreCase("LTC")) {
         type = "litecoin";
-      }else if (currency.equalsIgnoreCase("ETH")) {
+      } else if (currency.equalsIgnoreCase("ETH")) {
         type = "ethereum";
       }
 
       GeminiDepositAddressResponse requestDepositAddressResponse = Gemini.requestDeposit(apiKey, payloadCreator, signatureCreator,
-                      new GeminiDepositAddressRequest(String.valueOf(exchange.getNonceFactory().createValue()), type, "exchange",0));
+          new GeminiDepositAddressRequest(String.valueOf(exchange.getNonceFactory().createValue()), type, "exchange", 0));
       if (requestDepositAddressResponse != null) {
         return requestDepositAddressResponse;
-      }else{
+      } else {
         return null;
       }
     } catch (GeminiException e) {
       throw new ExchangeException(e);
     }
   }
-
 
 }

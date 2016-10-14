@@ -54,11 +54,12 @@ public class HitbtcMarketDataDemo {
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
     System.out.println("Trades, default. Size=" + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, 0L, HitbtcTrades.HitbtcTradesSortField.SORT_BY_TRADE_ID, HitbtcTrades.HitbtcTradesSortDirection.SORT_ASCENDING, 0L, 10L);
+    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, 0L, HitbtcTrades.HitbtcTradesSortField.SORT_BY_TRADE_ID,
+        HitbtcTrades.HitbtcTradesSortDirection.SORT_ASCENDING, 0L, 10L);
     System.out.println("Trades, first 10, Size= " + trades.getTrades().size());
 
-    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - 1000 * 60, HitbtcTrades.HitbtcTradesSortField.SORT_BY_TIMESTAMP,
-        HitbtcTrades.HitbtcTradesSortDirection.SORT_DESCENDING, 0L, 1000L);
+    trades = marketDataService.getTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - 1000 * 60,
+        HitbtcTrades.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcTrades.HitbtcTradesSortDirection.SORT_DESCENDING, 0L, 1000L);
     System.out.println("Trades, last minute, Size= " + trades.getTrades().size());
     System.out.println(trades.toString());
   }
@@ -92,11 +93,12 @@ public class HitbtcMarketDataDemo {
     HitbtcTrades trades = marketDataService.getHitbtcTradesRecent(CurrencyPair.BTC_USD, 1000);
     System.out.println("Trades, recent, Size= " + trades.getHitbtcTrades().size());
 
-    trades = marketDataService.getHitbtcTrades(CurrencyPair.BTC_USD, 0, HitbtcTrades.HitbtcTradesSortField.SORT_BY_TRADE_ID, HitbtcTrades.HitbtcTradesSortDirection.SORT_ASCENDING, 0, 10);
+    trades = marketDataService.getHitbtcTrades(CurrencyPair.BTC_USD, 0, HitbtcTrades.HitbtcTradesSortField.SORT_BY_TRADE_ID,
+        HitbtcTrades.HitbtcTradesSortDirection.SORT_ASCENDING, 0, 10);
     System.out.println("Trades, first 10, Size= " + trades.getHitbtcTrades().size());
 
-    trades = marketDataService.getHitbtcTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - 1000 * 60, HitbtcTrades.HitbtcTradesSortField.SORT_BY_TIMESTAMP,
-        HitbtcTrades.HitbtcTradesSortDirection.SORT_ASCENDING, 0, 1000);
+    trades = marketDataService.getHitbtcTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - 1000 * 60,
+        HitbtcTrades.HitbtcTradesSortField.SORT_BY_TIMESTAMP, HitbtcTrades.HitbtcTradesSortDirection.SORT_ASCENDING, 0, 1000);
     System.out.println("Trades, last minute, Size= " + trades.getHitbtcTrades().size());
     System.out.println(trades.toString());
   }

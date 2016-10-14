@@ -1,7 +1,8 @@
 package org.knowm.xchange.loyalbit.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.loyalbit.dto.LoyalbitBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LoyalbitSubmitOrderResponse extends LoyalbitBaseResponse {
 

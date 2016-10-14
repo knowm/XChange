@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -28,6 +25,9 @@ import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
 import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Tests the MercadoBitcoinAdapter class

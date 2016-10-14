@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaOrders;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test Transaction[] JSON parsing

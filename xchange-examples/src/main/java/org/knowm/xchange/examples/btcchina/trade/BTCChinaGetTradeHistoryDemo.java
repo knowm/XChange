@@ -3,7 +3,6 @@ package org.knowm.xchange.examples.btcchina.trade;
 import java.io.IOException;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;

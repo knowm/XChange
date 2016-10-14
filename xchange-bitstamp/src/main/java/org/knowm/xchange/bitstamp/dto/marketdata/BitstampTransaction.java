@@ -57,7 +57,7 @@ public class BitstampTransaction {
 
     return type;
   }
-  
+
   public BigDecimal calculateFeeBtc() {
 
     return roundUp(amount.multiply(new BigDecimal(.5))).divide(new BigDecimal(100.));
@@ -91,5 +91,5 @@ public class BitstampTransaction {
     builder.append("]");
     return builder.toString();
   }
- 
+
 }

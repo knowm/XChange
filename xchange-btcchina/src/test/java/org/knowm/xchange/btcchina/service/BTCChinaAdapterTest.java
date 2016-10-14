@@ -8,9 +8,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.btcchina.BTCChinaAdapters;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
@@ -24,6 +21,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.utils.DateUtils;
+
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Tests the BTCChinaAdapter class

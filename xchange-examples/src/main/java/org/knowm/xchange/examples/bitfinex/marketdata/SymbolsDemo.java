@@ -23,11 +23,11 @@ public class SymbolsDemo {
     generic(bitfinex);
     raw((BitfinexMarketDataServiceRaw) marketDataService);
   }
-  
+
   private static void generic(Exchange bitfinex) {
-    
+
     System.out.println(bitfinex.getExchangeSymbols().toString());
-    
+
   }
 
   private static void raw(BitfinexMarketDataServiceRaw marketDataService) throws IOException {

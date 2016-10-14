@@ -5,10 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.knowm.xchange.currency.CurrencyPair;
 
 /**
  * A central place for shared Bittrex properties
