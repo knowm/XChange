@@ -157,12 +157,6 @@
 			<artifactId>xchange-bter</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange Coinsetter exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-coinsetter</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange ANX exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>

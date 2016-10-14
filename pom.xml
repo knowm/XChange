@@ -95,7 +95,6 @@
 		<module>xchange-coinbase</module>
 		<module>xchange-coinbaseex</module>
 		<module>xchange-coinmate</module>
-		<module>xchange-coinsetter</module>
 		<module>xchange-cointrader</module>
 		<module>xchange-core</module>
 		<module>xchange-cryptofacilities</module>
@@ -104,6 +103,7 @@
 		<module>xchange-empoex</module>
 		<module>xchange-examples</module>
 		<module>xchange-gatecoin</module>
+		<module>xchange-gemini</module>
 		<module>xchange-hitbtc</module>
 		<module>xchange-itbit</module>
 		<module>xchange-independentreserve</module>
@@ -124,7 +124,6 @@
 		<module>xchange-therock</module>
 		<module>xchange-vaultoro</module>
 		<module>xchange-vircurex</module>
-		<module>xchange-gemini</module>
 	</modules>
 
 	<repositories>
