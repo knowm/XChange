@@ -34,16 +34,6 @@
 			<artifactId>rescu</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>net.iharder</groupId>
-			<artifactId>base64</artifactId>
-		</dependency>
-
  		<dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>

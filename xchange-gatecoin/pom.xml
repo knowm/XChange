@@ -37,11 +37,6 @@
 			<artifactId>xchange-core</artifactId>
 			<version>4.1.0-SNAPSHOT</version>
 		</dependency>
-
-		<dependency>
-			<groupId>net.iharder</groupId>
-			<artifactId>base64</artifactId>
-		</dependency>
 	</dependencies>
 
 </project>

@@ -29,7 +29,6 @@
 			<artifactId>xchange-core</artifactId>
 			<version>4.1.0-SNAPSHOT</version>
 		</dependency>
-
 	</dependencies>
 
 </project>
