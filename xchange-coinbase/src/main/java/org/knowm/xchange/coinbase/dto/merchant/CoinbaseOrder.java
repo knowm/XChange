@@ -1,17 +1,11 @@
 package org.knowm.xchange.coinbase.dto.merchant;
 
+
+// NOTE: Order of imports matters. put fasterxml ones before xchange. Fails when compiling with Maven for some reason. 
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-
-import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
-import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
-import org.knowm.xchange.coinbase.dto.merchant.CoinbaseButton.CoinbaseButtonInfo;
-import org.knowm.xchange.coinbase.dto.merchant.CoinbaseOrder.CoinbaseOrderStatus.CoinbaseOrderStatusDeserializer;
-import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
-import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
-import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
-import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
@@ -22,6 +16,15 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
+import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
+import org.knowm.xchange.coinbase.dto.merchant.CoinbaseButton.CoinbaseButtonInfo;
+import org.knowm.xchange.coinbase.dto.merchant.CoinbaseOrder.CoinbaseOrderStatus.CoinbaseOrderStatusDeserializer;
+import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
+import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
+import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
 
 /**
  * @author jamespedwards42
