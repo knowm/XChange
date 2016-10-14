@@ -1,6 +1,0 @@
-Cointrader Exchange API specification
-================================
-
-Documentation
--------------
-http://docs.cointrader.apiary.io/
