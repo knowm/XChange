@@ -36,21 +36,20 @@ public final class BitcoinChartsTicker {
    * @param symbol
    * @param volume
    */
-  public BitcoinChartsTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("avg") BigDecimal avg, @JsonProperty("bid") BigDecimal bid,
-      @JsonProperty("close") BigDecimal close, @JsonProperty("currency") String currency, @JsonProperty("currency_volume") BigDecimal currencyVolume,
-      @JsonProperty("high") BigDecimal high, @JsonProperty("latest_trade") long latestTrade, @JsonProperty("low") BigDecimal low,
-      @JsonProperty("symbol") String symbol, @JsonProperty("volume") BigDecimal volume) {
+  public BitcoinChartsTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("avg") BigDecimal avg, @JsonProperty("bid") BigDecimal bid, @JsonProperty("close") BigDecimal close,
+      @JsonProperty("currency") String currency, @JsonProperty("currency_volume") BigDecimal currencyVolume, @JsonProperty("high") BigDecimal high, @JsonProperty("latest_trade") long latestTrade,
+      @JsonProperty("low") BigDecimal low, @JsonProperty("symbol") String symbol, @JsonProperty("volume") BigDecimal volume) {
 
     this.ask = ask;
     this.avg = avg;
     this.bid = bid;
     this.close = close;
-    this.currency = currency;
+    this.currency = currency.toUpperCase();
     this.currencyVolume = currencyVolume;
     this.high = high;
     this.latestTrade = latestTrade;
     this.low = low;
-    this.symbol = symbol;
+    this.symbol = symbol.toUpperCase();
     this.volume = volume;
   }
 
@@ -112,8 +111,8 @@ public final class BitcoinChartsTicker {
   @Override
   public String toString() {
 
-    return "BitcoinChartsTickers [ask=" + ask + ", avg=" + avg + ", bid=" + bid + ", close=" + close + ", currency=" + currency + ", currencyVolume="
-        + currencyVolume + ", high=" + high + ", latestTrade=" + latestTrade + ", low=" + low + ", symbol=" + symbol + ", volume=" + volume + "]";
+    return "BitcoinChartsTickers [ask=" + ask + ", avg=" + avg + ", bid=" + bid + ", close=" + close + ", currency=" + currency + ", currencyVolume=" + currencyVolume + ", high=" + high
+        + ", latestTrade=" + latestTrade + ", low=" + low + ", symbol=" + symbol + ", volume=" + volume + "]";
   }
 
 }
