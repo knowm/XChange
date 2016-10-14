@@ -206,10 +206,10 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<!-- XChange BTCCentral exchange support -->
+		<!-- XChange Paymium exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-btccentral</artifactId>
+			<artifactId>xchange-paymium</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange BTCTrade exchange support -->
