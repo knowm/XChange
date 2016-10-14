@@ -93,7 +93,6 @@
 		<module>xchange-coinbase</module>
 		<module>xchange-coinbaseex</module>
 		<module>xchange-coinmate</module>
-		<module>xchange-cointrader</module>
 		<module>xchange-core</module>
 		<module>xchange-cryptofacilities</module>
 		<module>xchange-cryptonit</module>
