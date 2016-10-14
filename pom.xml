@@ -379,6 +379,9 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<skipSource>false</skipSource>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -391,6 +394,9 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
 			</plugin>
 
 
