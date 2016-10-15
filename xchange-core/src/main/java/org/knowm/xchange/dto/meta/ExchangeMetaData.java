@@ -5,11 +5,10 @@ import java.util.Map;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.ObjectMapperHelper;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * This class is loaded during creation of the Exchange and is intended to hold both data that is readily available from an HTTP API request at an
@@ -93,15 +92,7 @@ public class ExchangeMetaData {
 
   @JsonIgnore
   public String toJSONString() {
-
-    ObjectMapper mapper = new ObjectMapper();
-
-    try {
-      return mapper.writeValueAsString(this);
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
-    }
-    return "Problem serializing ExchangeMetaData";
+    return ObjectMapperHelper.toJSON(this);
   }
 
   @Override

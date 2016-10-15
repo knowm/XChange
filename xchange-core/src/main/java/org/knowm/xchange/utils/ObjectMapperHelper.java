@@ -38,7 +38,7 @@ public class ObjectMapperHelper {
 
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-    String json = "";
+    String json = "Problem serializing " + valueType.getClass();
     try {
       json = objectMapper.writeValueAsString(valueType);
     } catch (JsonProcessingException e) {
