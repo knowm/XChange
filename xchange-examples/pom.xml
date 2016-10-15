@@ -121,10 +121,10 @@
 			<artifactId>xchange-coinbase</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange Coinbase (Exchange) support -->
+		<!-- XChange GDAX support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-coinbaseex</artifactId>
+			<artifactId>xchange-gdax</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange BitcoinAverage support -->

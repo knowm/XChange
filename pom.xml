@@ -91,7 +91,6 @@
 		<module>xchange-cexio</module>
 		<module>xchange-chbtc</module>
 		<module>xchange-coinbase</module>
-		<module>xchange-coinbaseex</module>
 		<module>xchange-coinmate</module>
 		<module>xchange-core</module>
 		<module>xchange-cryptofacilities</module>
@@ -99,6 +98,7 @@
 		<module>xchange-empoex</module>
 		<module>xchange-examples</module>
 		<module>xchange-gatecoin</module>
+		<module>xchange-gdax</module>
 		<module>xchange-gemini</module>
 		<module>xchange-hitbtc</module>
 		<module>xchange-itbit</module>

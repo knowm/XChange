@@ -1,5 +1,6 @@
 package org.knowm.xchange.dto.meta;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import org.knowm.xchange.currency.Currency;
@@ -90,12 +91,6 @@ public class ExchangeMetaData {
     return result;
   }
 
-  @Override
-  public String toString() {
-    return "ExchangeMetaData [currencyPairs=" + currencyPairs + ", currency=" + currencies + ", publicRateLimits=" + publicRateLimits
-        + ", privateRateLimits=" + privateRateLimits + ", shareRateLimits=" + shareRateLimits + "]";
-  }
-
   @JsonIgnore
   public String toJSONString() {
 
@@ -107,6 +102,13 @@ public class ExchangeMetaData {
       e.printStackTrace();
     }
     return "Problem serializing ExchangeMetaData";
+  }
+
+  @Override
+  public String toString() {
+    return "ExchangeMetaData [currencyPairs=" + currencyPairs + ", currencies=" + currencies + ", publicRateLimits="
+        + Arrays.toString(publicRateLimits) + ", privateRateLimits=" + Arrays.toString(privateRateLimits) + ", shareRateLimits=" + shareRateLimits
+        + "]";
   }
 
 }

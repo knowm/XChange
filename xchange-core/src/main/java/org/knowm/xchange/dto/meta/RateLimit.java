@@ -61,4 +61,10 @@ public class RateLimit {
       return TimeUnit.valueOf(jp.getValueAsString().toUpperCase());
     }
   }
+
+  @Override
+  public String toString() {
+    return "RateLimit [calls=" + calls + ", timeSpan=" + timeSpan + ", timeUnit=" + timeUnit + "]";
+  }
+
 }
