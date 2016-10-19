@@ -91,7 +91,7 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   public TradeHistoryParams createTradeHistoryParams() {
 
     DefaultTradeHistoryParamPaging params = new DefaultTradeHistoryParamPaging();
-    params.setPageNumber(1);
+    params.setPageNumber(0);
     params.setPageLength(100);
     return params;
   }
