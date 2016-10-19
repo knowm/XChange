@@ -47,7 +47,7 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
 
     final CoinbaseTransfer transfer = marketOrder.getType().equals(OrderType.BID) ? super.buy(marketOrder.getTradableAmount())
         : super.sell(marketOrder.getTradableAmount());
-    return transfer.getTransactionId();
+    return transfer.getId();
   }
 
   @Override
