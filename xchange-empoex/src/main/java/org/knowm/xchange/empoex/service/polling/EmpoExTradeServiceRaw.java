@@ -1,5 +1,10 @@
 package org.knowm.xchange.empoex.service.polling;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.empoex.EmpoExErrorException;
@@ -8,11 +13,6 @@ import org.knowm.xchange.empoex.EmpoExUtils;
 import org.knowm.xchange.empoex.dto.trade.EmpoExOpenOrder;
 import org.knowm.xchange.empoex.dto.trade.EmpoExOrderResponse;
 import org.knowm.xchange.exceptions.ExchangeException;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class EmpoExTradeServiceRaw extends EmpoExBasePollingService {
 

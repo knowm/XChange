@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.knowm.xchange.bitkonan.dto.marketdata.*;
+import org.knowm.xchange.bitkonan.dto.marketdata.BitKonanOrderBook;
+import org.knowm.xchange.bitkonan.dto.marketdata.BitKonanOrderBookElement;
+import org.knowm.xchange.bitkonan.dto.marketdata.BitKonanTicker;
+import org.knowm.xchange.bitkonan.dto.marketdata.BitKonanTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;

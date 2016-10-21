@@ -7,9 +7,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
+import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinTradeHistoryResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinTradeHistoryResult;
 
 public class UserTradesJSONTest {
 

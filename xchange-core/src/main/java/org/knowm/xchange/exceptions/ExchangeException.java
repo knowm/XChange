@@ -20,7 +20,6 @@ public class ExchangeException extends RuntimeException {
     super(message);
   }
 
-
   /**
    * Constructs an <code>ExchangeException</code> with the specified cause.
    *

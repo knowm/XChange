@@ -25,46 +25,29 @@ public interface BitstampAuthenticatedV2 {
 
   @POST
   @Path("open_orders/{pair}/")
-  BitstampOrder[] getOpenOrders(
-      @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @PathParam("pair") BitstampV2.Pair pair
-  ) throws BitstampException, IOException;
+  BitstampOrder[] getOpenOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("pair") BitstampV2.Pair pair) throws BitstampException, IOException;
 
   @POST
   @Path("{side}/{pair}/")
-  BitstampOrder placeOrder(
-      @FormParam("key") String apiKey,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @PathParam("side") Side side,
-      @PathParam("pair") BitstampV2.Pair pair,
-      @FormParam("amount") BigDecimal amount,
-      @FormParam("price") BigDecimal price
-  ) throws BitstampException, IOException;
+  BitstampOrder placeOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("side") Side side, @PathParam("pair") BitstampV2.Pair pair,
+      @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price) throws BitstampException, IOException;
 
   @POST
   @Path("user_transactions/")
-  BitstampUserTransaction[] getUserTransactions(
-      @FormParam("key") String apiKey,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("limit") Long numberOfTransactions,
-      @FormParam("offset") Long offset,
-      @FormParam("sort") String sort
-  ) throws BitstampException, IOException;
+  BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("limit") Long numberOfTransactions, @FormParam("offset") Long offset,
+      @FormParam("sort") String sort) throws BitstampException, IOException;
 
   @POST
   @Path("user_transactions/{pair}/")
-  BitstampUserTransaction[] getUserTransactions(
-      @FormParam("key") String apiKey,
-      @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @PathParam("pair") BitstampV2.Pair pair,
-      @FormParam("limit") Long numberOfTransactions,
-      @FormParam("offset") Long offset,
-      @FormParam("sort") String sort
-  ) throws BitstampException, IOException;
+  BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("pair") BitstampV2.Pair pair,
+      @FormParam("limit") Long numberOfTransactions, @FormParam("offset") Long offset, @FormParam("sort") String sort)
+      throws BitstampException, IOException;
 
-  enum Side {buy, sell}
+  enum Side {
+    buy, sell
+  }
 }

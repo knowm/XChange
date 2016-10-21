@@ -9,8 +9,6 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.polling.account.PollingAccountService;
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -67,14 +65,6 @@ public interface Exchange {
    * @param exchangeSpecification The {@link ExchangeSpecification}
    */
   void applySpecification(ExchangeSpecification exchangeSpecification);
-  
-  /**
-   * Applies any exchange specific parameters
-   * 
-   * @param exchangeSpecification The {@link ExchangeSpecification}
-   * @param doRemoteInit Call {@link remoteInit}
-   */
-  void applySpecification(ExchangeSpecification exchangeSpecification, boolean doRemoteInit);
 
   /**
    * <p>
@@ -87,20 +77,6 @@ public interface Exchange {
    * @return The exchange's market data service
    */
   PollingMarketDataService getPollingMarketDataService();
-
-  /**
-   * <p>
-   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
-   * </p>
-   * <p>
-   * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of
-   * the listener to allow event callbacks to take place.
-   * </p>
-   *
-   * @param configuration The exchange-specific configuration to be applied after creation
-   * @return The exchange's "push" market data service
-   */
-  StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration);
 
   /**
    * <p>

@@ -7,9 +7,9 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.junit.Test;
+import org.knowm.xchange.ripple.dto.RippleAmount;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.ripple.dto.RippleAmount;
 
 public class RippleOrderBookTest {
 

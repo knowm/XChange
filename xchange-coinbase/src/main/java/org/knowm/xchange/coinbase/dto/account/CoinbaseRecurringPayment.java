@@ -2,14 +2,15 @@ package org.knowm.xchange.coinbase.dto.account;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRecurringPaymentType;
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRepeat;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author jamespedwards42

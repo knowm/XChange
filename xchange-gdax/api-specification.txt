@@ -1,0 +1,8 @@
+GDX Exchange API specification
+================================
+
+Public API
+
+Documentation
+-------------
+https://docs.gdax.com/#introduction

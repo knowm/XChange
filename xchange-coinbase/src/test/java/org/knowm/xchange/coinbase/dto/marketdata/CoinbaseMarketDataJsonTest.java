@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.Scanner;
 
 import org.junit.Test;
+import org.knowm.xchange.utils.DateUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapLikeType;
-import org.knowm.xchange.utils.DateUtils;
 
 /**
  * @author jamespedwards42

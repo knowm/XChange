@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.junit.Test;
+import org.knowm.xchange.campbx.dto.account.MyFunds;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.campbx.dto.account.MyFunds;
 
 /**
  * Test BitStamp Full Depth JSON parsing

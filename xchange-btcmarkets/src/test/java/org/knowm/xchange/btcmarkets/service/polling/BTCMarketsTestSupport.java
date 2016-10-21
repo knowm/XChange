@@ -7,8 +7,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.powermock.reflect.Whitebox;
-
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsDtoTestSupport;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
@@ -21,6 +19,7 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.powermock.reflect.Whitebox;
 
 /**
  * Test utilities for btnmarkets tests.

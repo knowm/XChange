@@ -1,13 +1,14 @@
 package org.knowm.xchange.quoine.service.polling;
 
+import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.quoine.dto.account.QuoineAccountInfo;
 import org.knowm.xchange.quoine.dto.account.QuoineTradingAccountInfo;
 import org.knowm.xchange.utils.Assert;
-import si.mazi.rescu.HttpStatusIOException;
 
-import java.io.IOException;
+import si.mazi.rescu.HttpStatusIOException;
 
 public class QuoineAccountServiceRaw extends QuoineBasePollingService {
 

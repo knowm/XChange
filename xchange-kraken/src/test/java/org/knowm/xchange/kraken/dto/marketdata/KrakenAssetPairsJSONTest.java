@@ -10,9 +10,9 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
 
 public class KrakenAssetPairsJSONTest {
 

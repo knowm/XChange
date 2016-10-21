@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.anx.v2.dto.ANXValue;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Data object representing Account Info from ANX

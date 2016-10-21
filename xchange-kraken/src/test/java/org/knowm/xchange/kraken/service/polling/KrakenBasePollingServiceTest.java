@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;

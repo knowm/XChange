@@ -9,6 +9,13 @@ import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.bitcoinium.BitcoiniumExchange;
+import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
+import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook.CondensedOrder;
+import org.knowm.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
@@ -17,14 +24,6 @@ import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
 import org.knowm.xchart.style.Styler.LegendPosition;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitcoinium.BitcoiniumExchange;
-import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
-import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook.CondensedOrder;
-import org.knowm.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
-
 /**
  * Demonstrates plotting an OrderBook with XChart
  *
@@ -32,6 +31,7 @@ import org.knowm.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceR
  */
 public class BitcoiniumRealtimeOrderbookDemo {
 
+  XYChart chart;
   BitcoiniumMarketDataServiceRaw bitcoiniumMarketDataService;
   public static final String BIDS_SERIES_NAME = "bids";
   List<Float> xAxisBidData;
@@ -86,8 +86,10 @@ public class BitcoiniumRealtimeOrderbookDemo {
         try {
           updateData();
           // update chart
-          chartPanel.updateSeries(BIDS_SERIES_NAME, xAxisBidData, yAxisBidData, null);
-          chartPanel.updateSeries(ASKS_SERIES_NAME, xAxisAskData, yAxisAskData, null);
+          chart.updateXYSeries(BIDS_SERIES_NAME, xAxisBidData, yAxisBidData, null);
+          chart.updateXYSeries(ASKS_SERIES_NAME, xAxisAskData, yAxisAskData, null);
+          chartPanel.revalidate();
+          chartPanel.repaint();
         } catch (IOException e) {
           e.printStackTrace();
         }
@@ -95,7 +97,8 @@ public class BitcoiniumRealtimeOrderbookDemo {
     };
 
     Timer timer = new Timer();
-    timer.scheduleAtFixedRate(chartUpdaterTask, 0, 10000); // every ten seconds
+    timer.scheduleAtFixedRate(chartUpdaterTask, 0, 10000); // every ten
+    // seconds
 
   }
 
@@ -106,7 +109,7 @@ public class BitcoiniumRealtimeOrderbookDemo {
     updateData();
 
     // create chart
-    XYChart chart = new XYChartBuilder().width(800).height(400).title("Real-time Bitcoinium Order Book - BITSTAMP_BTC_USD").xAxisTitle("BTC")
+    chart = new XYChartBuilder().width(800).height(400).title("Real-time Bitcoinium Order Book - BITSTAMP_BTC_USD").xAxisTitle("BTC")
         .yAxisTitle("USD").build();
 
     // Customize Chart

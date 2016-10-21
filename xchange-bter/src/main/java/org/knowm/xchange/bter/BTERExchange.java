@@ -50,6 +50,5 @@ public class BTERExchange extends BaseExchange implements Exchange {
     Map<CurrencyPair, BTERMarketInfo> currencyPair2BTERMarketInfoMap = ((BTERPollingMarketDataServiceRaw) pollingMarketDataService)
         .getBTERMarketInfo();
     exchangeMetaData = BTERAdapters.adaptToExchangeMetaData(currencyPair2BTERMarketInfoMap);
-    //    super.remoteInit();
   }
 }

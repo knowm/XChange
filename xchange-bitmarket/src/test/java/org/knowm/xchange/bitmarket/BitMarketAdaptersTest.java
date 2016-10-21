@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-
 import org.knowm.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketTicker;

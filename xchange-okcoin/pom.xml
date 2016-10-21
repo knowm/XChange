@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.knowm.xchange</groupId>
 		<artifactId>xchange-parent</artifactId>
-		<version>4.0.1-SNAPSHOT</version>
+		<version>4.1.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>xchange-okcoin</artifactId>
@@ -27,11 +27,6 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-core</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
 		</dependency>
 
 	</dependencies>

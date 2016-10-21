@@ -2,8 +2,9 @@ package org.knowm.xchange.bter.dto.trade;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bter.dto.BTERBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by David Henry on 2/19/14.

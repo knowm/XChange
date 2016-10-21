@@ -28,9 +28,9 @@ public class CryptoFacilitiesCancelOrderJSONTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(cryptoFacilitiesCancel.isSuccess()).isTrue();
     assertThat(cryptoFacilitiesCancel.getStatus()).isEqualTo("cancelled");
-    
-//    assertThat(cryptoFacilitiesCancel.isSuccess()).isFalse();
-//    assertThat(cryptoFacilitiesCancel.getError().equalsIgnoreCase("apiLimitExceeded")).isTrue();
+
+    //    assertThat(cryptoFacilitiesCancel.isSuccess()).isFalse();
+    //    assertThat(cryptoFacilitiesCancel.getError().equalsIgnoreCase("apiLimitExceeded")).isTrue();
   }
 
 }

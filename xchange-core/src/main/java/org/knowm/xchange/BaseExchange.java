@@ -16,8 +16,6 @@ import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.polling.account.PollingAccountService;
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,15 +33,9 @@ public abstract class BaseExchange implements Exchange {
   protected PollingMarketDataService pollingMarketDataService;
   protected PollingTradeService pollingTradeService;
   protected PollingAccountService pollingAccountService;
-  protected StreamingExchangeService streamingExchangeService;
-  
-  @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification) {
-    applySpecification(exchangeSpecification, true);
-  }
 
   @Override
-  public void applySpecification(ExchangeSpecification exchangeSpecification, boolean doRemoteInit) {
+  public void applySpecification(ExchangeSpecification exchangeSpecification) {
 
     ExchangeSpecification defaultSpecification = getDefaultExchangeSpecification();
 
@@ -62,17 +54,11 @@ public abstract class BaseExchange implements Exchange {
       if (exchangeSpecification.getSslUri() == null) {
         exchangeSpecification.setSslUri(defaultSpecification.getSslUri());
       }
-      if (exchangeSpecification.getSslUriStreaming() == null) {
-        exchangeSpecification.setSslUriStreaming(defaultSpecification.getSslUriStreaming());
-      }
       if (exchangeSpecification.getHost() == null) {
         exchangeSpecification.setHost(defaultSpecification.getHost());
       }
       if (exchangeSpecification.getPlainTextUri() == null) {
         exchangeSpecification.setPlainTextUri(defaultSpecification.getPlainTextUri());
-      }
-      if (exchangeSpecification.getPlainTextUriStreaming() == null) {
-        exchangeSpecification.setPlainTextUriStreaming(defaultSpecification.getPlainTextUriStreaming());
       }
       if (exchangeSpecification.getExchangeSpecificParameters() == null) {
         exchangeSpecification.setExchangeSpecificParameters(defaultSpecification.getExchangeSpecificParameters());
@@ -118,9 +104,10 @@ public abstract class BaseExchange implements Exchange {
     }
 
     initServices();
-    
-    if (doRemoteInit) {
+
+    if (this.exchangeSpecification.isShouldLoadRemoteMetaData()) {
       try {
+        logger.info("Calling Remote Init...");
         remoteInit();
       } catch (ExchangeException e) {
         throw e;
@@ -132,12 +119,14 @@ public abstract class BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
+
     logger.info(
         "No remote initialization implemented for {}. The exchange meta data for this exchange is loaded from a json file containing hard-coded exchange meta-data. This may or may not be OK for you, and you should understand exactly how this works. Each exchange can either 1) rely on the hard-coded json file that comes packaged with XChange's jar, 2) provide your own override json file, 3) properly implement the `remoteInit()` method for the exchange (please submit a pull request so the whole community can benefit) or 4) a combination of hard-coded JSON and remote API calls. For more info see: https://github.com/timmolter/XChange/wiki/Design-Notes#exchange-metadata",
         exchangeSpecification.getExchangeName());
   }
 
   protected void loadExchangeMetaData(InputStream is) {
+
     exchangeMetaData = loadMetaData(is, ExchangeMetaData.class);
   }
 
@@ -160,6 +149,7 @@ public abstract class BaseExchange implements Exchange {
 
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
+
     return new ArrayList<CurrencyPair>(getExchangeMetaData().getCurrencyPairs().keySet());
   }
 
@@ -176,6 +166,7 @@ public abstract class BaseExchange implements Exchange {
 
   @Override
   public ExchangeMetaData getExchangeMetaData() {
+
     return exchangeMetaData;
   }
 
@@ -195,12 +186,6 @@ public abstract class BaseExchange implements Exchange {
   public PollingAccountService getPollingAccountService() {
 
     return pollingAccountService;
-  }
-
-  @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-
-    return streamingExchangeService;
   }
 
   @Override

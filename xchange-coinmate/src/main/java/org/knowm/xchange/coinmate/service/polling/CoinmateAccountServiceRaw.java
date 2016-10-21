@@ -53,8 +53,8 @@ public class CoinmateAccountServiceRaw extends CoinmateBasePollingService {
 
   public CoinmateBalance getCoinmateBalance() throws IOException {
 
-    CoinmateBalance coinmateBalance = coinmateAuthenticated.getBalances(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), signatureCreator,
-        exchange.getNonceFactory());
+    CoinmateBalance coinmateBalance = coinmateAuthenticated.getBalances(exchange.getExchangeSpecification().getApiKey(),
+        exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory());
 
     throwExceptionIfError(coinmateBalance);
 
@@ -62,8 +62,8 @@ public class CoinmateAccountServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateTradeResponse coinmateBitcoinWithdrawal(BigDecimal amount, String address) throws IOException {
-    CoinmateTradeResponse response = coinmateAuthenticated.bitcoinWithdrawal(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(), signatureCreator,
-        exchange.getNonceFactory(), amount, address);
+    CoinmateTradeResponse response = coinmateAuthenticated.bitcoinWithdrawal(exchange.getExchangeSpecification().getApiKey(),
+        exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory(), amount, address);
 
     throwExceptionIfError(response);
 
@@ -71,8 +71,8 @@ public class CoinmateAccountServiceRaw extends CoinmateBasePollingService {
   }
 
   public CoinmateDepositAddresses coinmateBitcoinDepositAddresses() throws IOException {
-    CoinmateDepositAddresses addresses = coinmateAuthenticated.bitcoinDepositAddresses(exchange.getExchangeSpecification().getApiKey(), exchange.getExchangeSpecification().getUserName(),
-        signatureCreator, exchange.getNonceFactory());
+    CoinmateDepositAddresses addresses = coinmateAuthenticated.bitcoinDepositAddresses(exchange.getExchangeSpecification().getApiKey(),
+        exchange.getExchangeSpecification().getUserName(), signatureCreator, exchange.getNonceFactory());
 
     throwExceptionIfError(addresses);
 

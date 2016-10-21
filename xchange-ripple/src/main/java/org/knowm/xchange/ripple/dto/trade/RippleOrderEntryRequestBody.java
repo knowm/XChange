@@ -1,8 +1,9 @@
 package org.knowm.xchange.ripple.dto.trade;
 
+import org.knowm.xchange.ripple.dto.RippleAmount;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.knowm.xchange.ripple.dto.RippleAmount;
 
 @JsonPropertyOrder({ "type", "taker_pays", "taker_gets" })
 public class RippleOrderEntryRequestBody {

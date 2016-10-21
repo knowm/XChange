@@ -75,5 +75,7 @@ public class ItBitUserTrade {
     return rebateCurrency;
   }
 
-  public enum Direction { buy, sell }
+  public enum Direction {
+    buy, sell
+  }
 }

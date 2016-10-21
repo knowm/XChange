@@ -15,11 +15,11 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.therock.TheRockAdapters;
-import org.knowm.xchange.therock.dto.TheRockException;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 
 /**
  * @author Matija Mazi
+ * @author Pnk
  */
 public class TheRockTradeService extends TheRockTradeServiceRaw implements PollingTradeService {
 
@@ -28,37 +28,46 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder order) throws IOException, TheRockException {
-    final TheRockOrder placedOrder = placeOrder(order.getCurrencyPair(), order.getTradableAmount(), null, TheRockAdapters.adaptSide(order.getType()),
-        TheRockOrder.Type.market);
+  public String placeMarketOrder(MarketOrder order) throws IOException, ExchangeException {
+    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getTradableAmount(), null,
+        TheRockAdapters.adaptSide(order.getType()), TheRockOrder.Type.market);
     return placedOrder.getId().toString();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder order) throws IOException, TheRockException {
-    final TheRockOrder placedOrder = placeOrder(order.getCurrencyPair(), order.getTradableAmount(), order.getLimitPrice(),
+  public String placeLimitOrder(LimitOrder order) throws IOException, ExchangeException {
+    final TheRockOrder placedOrder = placeTheRockOrder(order.getCurrencyPair(), order.getTradableAmount(), order.getLimitPrice(),
         TheRockAdapters.adaptSide(order.getType()), TheRockOrder.Type.limit);
     return placedOrder.getId().toString();
   }
 
+  /**
+   * Not available from exchange since TheRock needs currency pair in order to return open orders
+   */
   @Override
-  public OpenOrders getOpenOrders() throws IOException, TheRockException {
-    throw new NotYetImplementedForExchangeException();
+  public OpenOrders getOpenOrders() throws NotAvailableFromExchangeException {
+    throw new NotAvailableFromExchangeException();
   }
 
+  /**
+   * Not available from exchange since TheRock needs currency pair in order to cancel an order
+   */
   @Override
-  public boolean cancelOrder(String orderId) throws IOException, TheRockException {
-    throw new NotYetImplementedForExchangeException();
+  public boolean cancelOrder(String orderId) throws IOException {
+    throw new NotAvailableFromExchangeException();
+  }
+
+  /**
+   * Not available from exchange since TheRock needs currency pair in order to return/show the order
+   */
+  @Override
+  public Collection<Order> getOrder(String... orderIds)
+      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
-  }
-
-  @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

@@ -5,13 +5,12 @@ import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.powermock.reflect.Whitebox;
-
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.service.polling.BTCMarketsTestSupport;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+import org.powermock.reflect.Whitebox;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 

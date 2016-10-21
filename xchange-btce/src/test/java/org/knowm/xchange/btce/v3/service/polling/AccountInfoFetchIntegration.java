@@ -3,7 +3,6 @@ package org.knowm.xchange.btce.v3.service.polling;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btce.v3.ExchangeUtils;
 import org.knowm.xchange.dto.account.AccountInfo;

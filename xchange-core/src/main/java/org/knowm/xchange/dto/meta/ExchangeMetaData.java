@@ -1,14 +1,14 @@
 package org.knowm.xchange.dto.meta;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.utils.ObjectMapperHelper;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * This class is loaded during creation of the Exchange and is intended to hold both data that is readily available from an HTTP API request at an
@@ -90,23 +90,16 @@ public class ExchangeMetaData {
     return result;
   }
 
-  @Override
-  public String toString() {
-    return "ExchangeMetaData [currencyPairs=" + currencyPairs + ", currency=" + currencies + ", publicRateLimits=" + publicRateLimits
-        + ", privateRateLimits=" + privateRateLimits + ", shareRateLimits=" + shareRateLimits + "]";
-  }
-
   @JsonIgnore
   public String toJSONString() {
+    return ObjectMapperHelper.toJSON(this);
+  }
 
-    ObjectMapper mapper = new ObjectMapper();
-
-    try {
-      return mapper.writeValueAsString(this);
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
-    }
-    return "Problem serializing ExchangeMetaData";
+  @Override
+  public String toString() {
+    return "ExchangeMetaData [currencyPairs=" + currencyPairs + ", currencies=" + currencies + ", publicRateLimits="
+        + Arrays.toString(publicRateLimits) + ", privateRateLimits=" + Arrays.toString(privateRateLimits) + ", shareRateLimits=" + shareRateLimits
+        + "]";
   }
 
 }

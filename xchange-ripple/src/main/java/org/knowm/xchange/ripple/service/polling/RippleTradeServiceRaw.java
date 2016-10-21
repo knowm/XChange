@@ -11,9 +11,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -38,6 +35,8 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyP
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RippleTradeServiceRaw extends RippleBasePollingService {
 

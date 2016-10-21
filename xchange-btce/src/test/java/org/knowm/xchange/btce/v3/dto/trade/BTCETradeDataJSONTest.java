@@ -9,10 +9,10 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.btce.v3.dto.BTCEReturn;
 import org.knowm.xchange.btce.v3.dto.trade.BTCETradeHistoryResult.Type;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test BTCETradeData JSON parsing

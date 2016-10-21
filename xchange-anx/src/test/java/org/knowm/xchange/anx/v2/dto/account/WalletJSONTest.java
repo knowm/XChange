@@ -11,9 +11,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.anx.v2.ANXExchange;
@@ -21,6 +18,9 @@ import org.knowm.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
 import org.knowm.xchange.anx.v2.dto.account.polling.ANXWallet;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMetaData;
 import org.knowm.xchange.currency.Currency;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test BitStamp Full Depth JSON parsing

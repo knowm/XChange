@@ -13,9 +13,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
@@ -24,6 +21,8 @@ import org.knowm.xchange.btcchina.service.polling.BTCChinaTradeService.BTCChinaT
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BTCChinaTradeStat {
 

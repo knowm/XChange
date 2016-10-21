@@ -5,8 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Neil Panchen

@@ -7,8 +7,6 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -17,6 +15,8 @@ import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCMarketDataJsonTest;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTicker;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LakeBTCAdapterTest {
 

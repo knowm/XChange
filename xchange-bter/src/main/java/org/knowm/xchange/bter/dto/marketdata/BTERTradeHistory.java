@@ -3,9 +3,10 @@ package org.knowm.xchange.bter.dto.marketdata;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bter.dto.BTERBaseResponse;
 import org.knowm.xchange.bter.dto.BTEROrderType;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTERTradeHistory extends BTERBaseResponse {
 

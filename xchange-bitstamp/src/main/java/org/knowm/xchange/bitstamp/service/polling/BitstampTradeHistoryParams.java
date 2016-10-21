@@ -6,7 +6,8 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
 
-public class BitstampTradeHistoryParams implements TradeHistoryParamCurrencyPair, TradeHistoryParamsSorted, TradeHistoryParamOffset, TradeHistoryParamPaging {
+public class BitstampTradeHistoryParams
+    implements TradeHistoryParamCurrencyPair, TradeHistoryParamsSorted, TradeHistoryParamOffset, TradeHistoryParamPaging {
   private CurrencyPair currencyPair;
   private Order order;
   private Integer offset;

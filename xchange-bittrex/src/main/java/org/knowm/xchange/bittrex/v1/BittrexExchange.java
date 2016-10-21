@@ -22,6 +22,7 @@ public class BittrexExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
+
     this.pollingMarketDataService = new BittrexMarketDataService(this);
     this.pollingAccountService = new BittrexAccountService(this);
     this.pollingTradeService = new BittrexTradeService(this);
@@ -48,10 +49,10 @@ public class BittrexExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
-    
-	  BittrexMarketDataServiceRaw dataService = (BittrexMarketDataServiceRaw) this.pollingMarketDataService;
-	  List<BittrexSymbol> bittrexSymbols = dataService.getBittrexSymbols();
-	  exchangeMetaData = BittrexAdapters.adaptMetaData(bittrexSymbols, exchangeMetaData);
-	  
+
+    BittrexMarketDataServiceRaw dataService = (BittrexMarketDataServiceRaw) this.pollingMarketDataService;
+    List<BittrexSymbol> bittrexSymbols = dataService.getBittrexSymbols();
+    exchangeMetaData = BittrexAdapters.adaptMetaData(bittrexSymbols, exchangeMetaData);
   }
+
 }

@@ -5,6 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
+import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
+import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
+import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
+import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
+import org.knowm.xchange.utils.DateUtils;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -12,12 +19,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
-import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
-import org.knowm.xchange.coinbase.dto.serialization.CoinbaseCentsDeserializer;
-import org.knowm.xchange.coinbase.dto.serialization.CoinbaseMoneyDeserializer;
-import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer.CoinbaseTransferDeserializer;
-import org.knowm.xchange.utils.DateUtils;
 
 /**
  * @author jamespedwards42

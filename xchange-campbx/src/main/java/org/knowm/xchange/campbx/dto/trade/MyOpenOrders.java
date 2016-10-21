@@ -3,9 +3,10 @@ package org.knowm.xchange.campbx.dto.trade;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.campbx.dto.CampBXOrder;
 import org.knowm.xchange.campbx.dto.CampBXResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi

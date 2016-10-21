@@ -8,6 +8,7 @@ import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrderBo
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTicker;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesTickers;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
  * @author Jean-Christophe Laruelle
@@ -27,7 +28,7 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBasePo
 
   public CryptoFacilitiesTicker getCryptoFacilitiesTicker(CurrencyPair currencyPair) throws IOException {
 
-    CryptoFacilitiesTicker ticker = cryptoFacilities.getTickers().getTicker(currencyPair.base.toString());
+    CryptoFacilitiesTicker ticker = getCryptoFacilitiesTickers().getTicker(currencyPair.base.toString());
 
     return ticker;
   }
@@ -36,22 +37,34 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBasePo
 
     CryptoFacilitiesTickers tickers = cryptoFacilities.getTickers();
 
-    return tickers;
+    if (tickers.isSuccess()) {
+      return tickers;
+    } else {
+      throw new ExchangeException("Error getting CF tickers: " + tickers.getError());
+    }
   }
 
   public CryptoFacilitiesInstruments getCryptoFacilitiesInstruments() throws IOException {
 
     CryptoFacilitiesInstruments instruments = cryptoFacilities.getInstruments();
 
-    return instruments;
+    if (instruments.isSuccess()) {
+      return instruments;
+    } else {
+      throw new ExchangeException("Error getting CF instruments: " + instruments.getError());
+    }
   }
 
   public CryptoFacilitiesOrderBook getCryptoFacilitiesOrderBook(CurrencyPair currencyPair) throws IOException {
 
     CryptoFacilitiesOrderBook orderBook = cryptoFacilities.getOrderBook(currencyPair.base.toString());
-    orderBook.setCurrencyPair(currencyPair);
 
-    return orderBook;
+    if (orderBook.isSuccess()) {
+      orderBook.setCurrencyPair(currencyPair);
+      return orderBook;
+    } else {
+      throw new ExchangeException("Error getting CF order book: " + orderBook.getError());
+    }
   }
 
 }

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import java.util.Map;
 
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btce.v3.ExchangeUtils;
 import org.knowm.xchange.btce.v3.dto.trade.BTCETransHistoryResult;

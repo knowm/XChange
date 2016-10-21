@@ -7,6 +7,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.knowm.xchange.bter.BTERAdapters;
+import org.knowm.xchange.bter.dto.marketdata.BTERMarketInfoWrapper.BTERMarketInfoWrapperDeserializer;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -14,10 +19,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.bter.BTERAdapters;
-import org.knowm.xchange.bter.dto.marketdata.BTERMarketInfoWrapper.BTERMarketInfoWrapperDeserializer;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.exceptions.ExchangeException;
 
 @JsonDeserialize(using = BTERMarketInfoWrapperDeserializer.class)
 public class BTERMarketInfoWrapper {

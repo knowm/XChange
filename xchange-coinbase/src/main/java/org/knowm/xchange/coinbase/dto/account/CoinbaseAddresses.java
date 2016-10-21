@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.knowm.xchange.coinbase.dto.CoinbasePagedResult;
+import org.knowm.xchange.coinbase.dto.account.CoinbaseAddresses.CoinbaseAddressesDeserializer;
+import org.knowm.xchange.utils.DateUtils;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,9 +18,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import org.knowm.xchange.coinbase.dto.CoinbasePagedResult;
-import org.knowm.xchange.coinbase.dto.account.CoinbaseAddresses.CoinbaseAddressesDeserializer;
-import org.knowm.xchange.utils.DateUtils;
 
 /**
  * @author jamespedwards42

@@ -6,8 +6,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.gatecoin.service.polling.GatecoinAccountService;
 import org.knowm.xchange.gatecoin.service.polling.GatecoinMarketDataService;
 import org.knowm.xchange.gatecoin.service.polling.GatecoinTradeService;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -42,12 +40,6 @@ public class GatecoinExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Gatecoin");
     return exchangeSpecification;
-  }
-
-  @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-
-    throw new IllegalArgumentException("Gatecoin only supports GatecoinStreamingConfiguration");
   }
 
   @Override

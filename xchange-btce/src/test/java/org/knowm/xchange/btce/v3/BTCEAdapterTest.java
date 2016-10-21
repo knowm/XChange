@@ -9,8 +9,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCEDepth;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCEDepthJSONTest;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCEDepthWrapper;
@@ -28,6 +26,8 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Tests the BTCEAdapter class

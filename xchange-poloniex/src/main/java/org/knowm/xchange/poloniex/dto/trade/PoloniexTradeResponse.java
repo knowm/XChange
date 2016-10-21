@@ -3,9 +3,10 @@ package org.knowm.xchange.poloniex.dto.trade;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 
 import si.mazi.rescu.ExceptionalReturnContentException;
 

@@ -1,7 +1,8 @@
 package org.knowm.xchange.bter.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bter.dto.BTERBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTERPlaceOrderReturn extends BTERBaseResponse {
 

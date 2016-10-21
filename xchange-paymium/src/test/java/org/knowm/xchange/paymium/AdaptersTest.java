@@ -7,17 +7,17 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketDepth;
-import org.knowm.xchange.paymium.dto.marketdata.PaymiumTicker;
-import org.knowm.xchange.paymium.dto.marketdata.PaymiumTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketDepth;
+import org.knowm.xchange.paymium.dto.marketdata.PaymiumTicker;
+import org.knowm.xchange.paymium.dto.marketdata.PaymiumTrade;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AdaptersTest {
 

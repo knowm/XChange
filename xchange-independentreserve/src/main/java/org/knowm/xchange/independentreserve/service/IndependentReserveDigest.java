@@ -7,11 +7,10 @@ import java.util.Map;
 
 import javax.crypto.Mac;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
 import org.knowm.xchange.service.BaseParamsDigest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.RestInvocation;
 

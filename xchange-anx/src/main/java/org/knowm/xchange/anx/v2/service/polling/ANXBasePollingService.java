@@ -1,5 +1,7 @@
 package org.knowm.xchange.anx.v2.service.polling;
 
+import java.io.IOException;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.anx.v2.dto.ANXException;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -7,9 +9,8 @@ import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.polling.BasePollingService;
-import si.mazi.rescu.HttpStatusIOException;
 
-import java.io.IOException;
+import si.mazi.rescu.HttpStatusIOException;
 
 public class ANXBasePollingService extends BaseExchangeService implements BasePollingService {
 

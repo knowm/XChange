@@ -244,25 +244,26 @@ public class KrakenAdapters {
     return (orderIds == null || orderIds.isEmpty()) ? "" : orderIds.get(0);
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData originalMetaData, Map<String, KrakenAssetPair> krakenPairs, Map<String, KrakenAsset> krakenAssets) {
+  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData originalMetaData, Map<String, KrakenAssetPair> krakenPairs,
+      Map<String, KrakenAsset> krakenAssets) {
+
     Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
+    pairs.putAll(originalMetaData.getCurrencyPairs());
     for (String krakenPairCode : krakenPairs.keySet()) {
       KrakenAssetPair krakenPair = krakenPairs.get(krakenPairCode);
       pairs.put(adaptCurrencyPair(krakenPairCode), adaptPair(krakenPair));
     }
 
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+    currencies.putAll(originalMetaData.getCurrencies());
     for (String krakenAssetCode : krakenAssets.keySet()) {
       KrakenAsset krakenAsset = krakenAssets.get(krakenAssetCode);
       currencies.put(KrakenUtils.addCurrencyAndGetCode(krakenAssetCode), new CurrencyMetaData(krakenAsset.getScale()));
     }
-    return new ExchangeMetaData(
-            pairs,
-            currencies,
-            originalMetaData == null?null:originalMetaData.getPublicRateLimits(),
-            originalMetaData == null?null:originalMetaData.getPrivateRateLimits(),
-            originalMetaData == null?null:originalMetaData.isShareRateLimits()
-            );
+    return new ExchangeMetaData(pairs, currencies, originalMetaData == null ? null : originalMetaData.getPublicRateLimits(),
+        originalMetaData == null ? null : originalMetaData.getPrivateRateLimits(),
+        originalMetaData == null ? null : originalMetaData.isShareRateLimits());
+
   }
 
   private static CurrencyPairMetaData adaptPair(KrakenAssetPair krakenPair) {

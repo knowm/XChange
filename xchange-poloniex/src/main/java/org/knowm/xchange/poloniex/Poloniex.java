@@ -14,7 +14,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.poloniex.dto.marketdata.*;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexChartData;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 
 @Path("public")
 @Produces(MediaType.APPLICATION_JSON)

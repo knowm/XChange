@@ -35,7 +35,7 @@ Now go ahead and [study some more examples](http://knowm.org/open-source/xchange
 * [x] active development
 * [x] very minimal 3rd party dependencies
 * [x] modular components
-* [x] polling and streaming capability
+* [x] polling capability (no streaming)
     
 ## More Info
 
@@ -99,7 +99,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    4.0.1-SNAPSHOT
+    4.1.0-SNAPSHOT
     
 ## Building with Maven
 

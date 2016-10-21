@@ -7,9 +7,9 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction.TransactionType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction.TransactionType;
 
 /**
  * Test UserTransactions[] JSON parsing

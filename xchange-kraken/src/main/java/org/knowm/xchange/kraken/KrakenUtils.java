@@ -15,6 +15,27 @@ public class KrakenUtils {
   private static final Set<Currency> FIAT_CURRENCIES = new HashSet<Currency>();
   private static final Set<Currency> DIGITAL_CURRENCIES = new HashSet<Currency>();
 
+  static {
+
+    FIAT_CURRENCIES.add(KrakenAdapters.adaptCurrency("USD"));
+    FIAT_CURRENCIES.add(KrakenAdapters.adaptCurrency("EUR"));
+    FIAT_CURRENCIES.add(KrakenAdapters.adaptCurrency("JPY"));
+    FIAT_CURRENCIES.add(KrakenAdapters.adaptCurrency("KRW"));
+    FIAT_CURRENCIES.add(KrakenAdapters.adaptCurrency("GBP"));
+    FIAT_CURRENCIES.add(KrakenAdapters.adaptCurrency("CAD"));
+
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("BTC"));
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("DAO"));
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("ETH"));
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("LTC"));
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("NMC"));
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XBT"));
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XDG"));
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XLM"));
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XRP"));
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XVN"));
+  }
+
   /**
    * Private Constructor
    */

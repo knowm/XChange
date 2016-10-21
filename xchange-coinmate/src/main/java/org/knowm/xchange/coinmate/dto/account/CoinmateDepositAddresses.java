@@ -25,8 +25,9 @@ package org.knowm.xchange.coinmate.dto.account;
 
 import java.util.ArrayList;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.coinmate.dto.CoinmateBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Martin Stachon

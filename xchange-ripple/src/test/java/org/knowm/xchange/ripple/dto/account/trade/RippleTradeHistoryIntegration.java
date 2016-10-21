@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;

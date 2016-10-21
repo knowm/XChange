@@ -1,7 +1,8 @@
 package org.knowm.xchange.ripple.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.ripple.dto.RippleCommon;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class RippleAccountSettings extends RippleCommon {
 

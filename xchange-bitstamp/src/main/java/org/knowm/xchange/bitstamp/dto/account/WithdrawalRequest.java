@@ -3,9 +3,10 @@ package org.knowm.xchange.bitstamp.dto.account;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.bitstamp.util.WithdrawalRequestStatusDeserializer;
 import org.knowm.xchange.bitstamp.util.WithdrawalRequestTypeDeserializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import si.mazi.rescu.serialization.jackson.serializers.SqlTimeDeserializer;
 

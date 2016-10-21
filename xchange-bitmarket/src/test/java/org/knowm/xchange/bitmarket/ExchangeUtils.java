@@ -3,12 +3,11 @@ package org.knowm.xchange.bitmarket;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author by kfonal

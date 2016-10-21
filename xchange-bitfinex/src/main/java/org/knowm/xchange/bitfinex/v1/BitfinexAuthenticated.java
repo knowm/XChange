@@ -10,7 +10,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
-import org.knowm.xchange.bitfinex.v1.dto.account.*;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressRequest;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
@@ -126,7 +133,7 @@ public interface BitfinexAuthenticated extends Bitfinex {
 
   @POST
   @Path("deposit/new")
-  BitfinexDepositAddressResponse requestDeposit(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexDepositAddressRequest depositRequest) throws IOException, BitfinexException;
-
+  BitfinexDepositAddressResponse requestDeposit(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexDepositAddressRequest depositRequest) throws IOException, BitfinexException;
 
 }

@@ -1,7 +1,8 @@
 package org.knowm.xchange.btctrade.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btctrade.dto.BTCTradeResult;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCTradeWallet extends BTCTradeResult {
 

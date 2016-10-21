@@ -5,14 +5,13 @@ import java.io.InputStream;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.btcchina.service.fix.BTCChinaApplication;
 import org.knowm.xchange.btcchina.service.fix.fix44.BTCChinaMessageFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import quickfix.ConfigError;
 import quickfix.DoNotSend;

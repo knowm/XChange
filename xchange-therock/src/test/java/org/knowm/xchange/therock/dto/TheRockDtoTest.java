@@ -10,8 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.therock.TheRock;
 import org.knowm.xchange.therock.dto.account.TheRockBalance;
@@ -19,8 +17,10 @@ import org.knowm.xchange.therock.dto.account.TheRockBalances;
 import org.knowm.xchange.therock.dto.account.TheRockWithdrawalResponse;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTicker;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
+import org.knowm.xchange.therock.dto.trade.TheRockOrders;
 
-@SuppressWarnings("ThrowableResultOfMethodCallIgnored")
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class TheRockDtoTest {
 
   private static ObjectMapper mapper = new ObjectMapper();
@@ -55,8 +55,26 @@ public class TheRockDtoTest {
   public void testOrder() throws Exception {
     final TheRockOrder json = parse(TheRockOrder.class);
     assertThat(json.getId()).isEqualTo(4325578);
-    assertThat(json.getPrice()).isEqualTo(new BigDecimal("0.0102"));
     assertThat(json.getFundId()).isEqualTo(new TheRock.Pair(CurrencyPair.BTC_EUR));
+    assertThat(json.getPrice()).isEqualTo(new BigDecimal("0.0102"));
+  }
+
+  @Test
+  public void testOrders() throws Exception {
+    final TheRockOrders json = parse(TheRockOrders.class);
+    TheRockOrder order1 = json.getOrders()[0];
+    assertThat(order1.getId()).isEqualTo(54000000);
+    assertThat(order1.getFundId()).isEqualTo(new TheRock.Pair(CurrencyPair.BTC_EUR));
+    assertThat(order1.getPrice()).isEqualTo(new BigDecimal("506.46"));
+    assertThat(order1.getAmount()).isEqualTo(new BigDecimal("0.624"));
+    assertThat(order1.getAmountUnfilled()).isEqualTo(new BigDecimal("0.624"));
+
+    final TheRockOrder order2 = json.getOrders()[1];
+    assertThat(order2.getId()).isEqualTo(54000001);
+    assertThat(order2.getFundId()).isEqualTo(new TheRock.Pair(CurrencyPair.BTC_EUR));
+    assertThat(order2.getPrice()).isEqualTo(new BigDecimal("504.11"));
+    assertThat(order2.getAmount()).isEqualTo(new BigDecimal("0.399"));
+    assertThat(order2.getAmountUnfilled()).isEqualTo(new BigDecimal("0.399"));
   }
 
   @Test

@@ -7,8 +7,6 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.bitkonan.dto.marketdata.BitKonanMarketDataJsonTest;
 import org.knowm.xchange.bitkonan.dto.marketdata.BitKonanOrderBook;
 import org.knowm.xchange.bitkonan.dto.marketdata.BitKonanTicker;
@@ -16,6 +14,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.trade.LimitOrder;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BitKonanAdapterTest {
 

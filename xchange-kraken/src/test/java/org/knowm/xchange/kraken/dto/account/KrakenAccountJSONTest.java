@@ -9,12 +9,12 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KrakenAccountJSONTest {
 

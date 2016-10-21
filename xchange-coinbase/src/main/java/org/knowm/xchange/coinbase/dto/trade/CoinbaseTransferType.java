@@ -2,6 +2,10 @@ package org.knowm.xchange.coinbase.dto.trade;
 
 import java.io.IOException;
 
+import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
+import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
+import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransferType.CoinbaseTransferTypeDeserializer;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -10,9 +14,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
-import org.knowm.xchange.coinbase.dto.serialization.EnumLowercaseJsonSerializer;
-import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransferType.CoinbaseTransferTypeDeserializer;
 
 /**
  * @author jamespedwards42

@@ -1,9 +1,0 @@
-Coinsetter Exchange API specification
-================================
-
-Public API
-
-Documentation
--------------
-https://www.coinsetter.com/api
-

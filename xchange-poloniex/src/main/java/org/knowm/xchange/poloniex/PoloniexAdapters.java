@@ -1,5 +1,12 @@
 package org.knowm.xchange.poloniex;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.LoanOrder;
@@ -11,8 +18,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.FixedRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
@@ -20,13 +27,14 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.poloniex.dto.LoanInfo;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
-import org.knowm.xchange.poloniex.dto.marketdata.*;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexCurrencyInfo;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexDepth;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexLevel;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
+import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
-
-import java.math.BigDecimal;
-import java.util.*;
-
 
 /**
  * @author Zach Holmes
@@ -118,13 +126,14 @@ public class PoloniexAdapters {
 
   public static LoanInfo adaptPoloniexLoans(HashMap<String, PoloniexLoan[]> poloniexLoans) {
 
-    Map<String,List<LoanOrder>> loans = new HashMap<String,List<LoanOrder>>();
+    Map<String, List<LoanOrder>> loans = new HashMap<String, List<LoanOrder>>();
 
     for (Map.Entry<String, PoloniexLoan[]> item : poloniexLoans.entrySet()) {
       List<LoanOrder> loanOrders = new ArrayList<>();
       for (PoloniexLoan poloniexLoan : item.getValue()) {
         Date date = PoloniexUtils.stringToDate(poloniexLoan.getDate());
-        loanOrders.add(new FixedRateLoanOrder(OrderType.ASK, poloniexLoan.getCurrency(), poloniexLoan.getAmount(), poloniexLoan.getRange(), poloniexLoan.getId(), date, poloniexLoan.getRate())); //TODO
+        loanOrders.add(new FixedRateLoanOrder(OrderType.ASK, poloniexLoan.getCurrency(), poloniexLoan.getAmount(), poloniexLoan.getRange(),
+            poloniexLoan.getId(), date, poloniexLoan.getRate())); //TODO
       }
       loans.put(item.getKey(), loanOrders);
     }

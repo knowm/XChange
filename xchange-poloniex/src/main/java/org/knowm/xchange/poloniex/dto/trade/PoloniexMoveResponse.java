@@ -1,14 +1,14 @@
 package org.knowm.xchange.poloniex.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 public class PoloniexMoveResponse {
 

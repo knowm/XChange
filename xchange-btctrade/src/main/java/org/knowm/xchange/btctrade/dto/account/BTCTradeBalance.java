@@ -2,8 +2,9 @@ package org.knowm.xchange.btctrade.dto.account;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btctrade.dto.BTCTradeResult;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BTCTradeBalance extends BTCTradeResult {
 

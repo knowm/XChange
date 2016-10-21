@@ -2,10 +2,9 @@ package org.knowm.xchange.dto.account;
 
 import java.math.BigDecimal;
 
+import org.knowm.xchange.currency.Currency;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.knowm.xchange.currency.Currency;
 
 /**
  * <p>

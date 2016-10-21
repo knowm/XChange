@@ -4,7 +4,6 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmarket.ExchangeUtils;
 import org.knowm.xchange.dto.account.AccountInfo;

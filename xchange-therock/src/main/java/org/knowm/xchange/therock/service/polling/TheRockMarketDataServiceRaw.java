@@ -1,6 +1,7 @@
 package org.knowm.xchange.therock.service.polling;
 
 import java.io.IOException;
+import java.util.Date;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.therock.TheRock;
@@ -29,12 +30,16 @@ public class TheRockMarketDataServiceRaw extends TheRockBasePollingService {
   }
 
   public TheRockTrades getTheRockTrades(TheRock.Pair currencyPair, Object[] args) throws IOException {
-    long since = 0;
+    Date after = null;
     if (args.length == 1) {
-      since = ((Number) args[0]).longValue();
-    }
+      Object arg = args[0];
+      if (arg instanceof Number) {
+        after = new Date(((Number) arg).longValue() * 1000);
+      } else if (arg instanceof Date) {
+        after = (Date) arg;
+      }
 
-    TheRockTrades trades = new TheRockTrades(theRock.getTrades(currencyPair, since));
-    return trades;
+    }
+    return theRock.getTrades(currencyPair, after);
   }
 }
