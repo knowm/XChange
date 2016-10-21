@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.knowm.xchange</groupId>
     <artifactId>xchange-parent</artifactId>
-    <version>4.0.1-SNAPSHOT</version>
+    <version>4.1.1-SNAPSHOT</version>
   </parent>
   <groupId>org.knowm.xchange</groupId>
   <artifactId>xchange-ccex</artifactId>
-  <version>4.0.1-SNAPSHOT</version>
+  <version>4.1.1-SNAPSHOT</version>
   <name>XChange C-Cex</name>
 	<description>XChange implementation for the C-CEX.com - Crypto-currency exchange / MultiWallet</description>
 
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>org.knowm.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>4.0.1-SNAPSHOT</version>
+			<version>4.1.1-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>
