@@ -82,7 +82,8 @@ public interface PoloniexAuthenticated {
   @FormParam("command")
   PoloniexMoveResponse moveOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderNumber, @FormParam("amount") String amount,
-      @FormParam("rate") String rate) throws PoloniexException, IOException;
+      @FormParam("rate") String rate, @FormParam("immediateOrCancel") Integer immediateOrCancel, @FormParam("postOnly") Integer postOnly)
+      throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")
