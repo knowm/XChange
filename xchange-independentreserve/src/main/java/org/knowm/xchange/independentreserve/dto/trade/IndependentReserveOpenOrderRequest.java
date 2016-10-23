@@ -25,6 +25,8 @@ public class IndependentReserveOpenOrderRequest extends AuthAggregate {
     if (secondaryCurrencyCode != null) {
       if (secondaryCurrencyCode.equals("USD")) {
         secondaryCurrencyCode = "Usd";
+      } else if (secondaryCurrencyCode.equals("AUD")) {
+        secondaryCurrencyCode = "Aud";
       } else {
         throw new IllegalArgumentException("IndependentReserveOpenOrderRequest - unknown value of counter currency code");
       }
