@@ -94,14 +94,34 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
     }
   }
 
-  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice) throws IOException {
+  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice, PoloniexOrderFlags flag)
+      throws IOException {
+
+    Integer immediateOrCancel;
+    if (flag == PoloniexOrderFlags.IMMEDIATE_OR_CANCEL) {
+      immediateOrCancel = 1;
+    } else {
+      immediateOrCancel = null;
+    }
+
+    Integer postOnly;
+    if (flag == PoloniexOrderFlags.POST_ONLY) {
+      postOnly = 1;
+    } else {
+      postOnly = null;
+    }
 
     try {
       return poloniexAuthenticated.moveOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId, tradableAmount.toPlainString(),
-          limitPrice.toPlainString());
+          limitPrice.toPlainString(), immediateOrCancel, postOnly);
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError(), e);
     }
+  }
+
+  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice) throws IOException {
+
+    return move(orderId, tradableAmount, limitPrice, null);
   }
 
   public boolean cancel(String orderId) throws IOException {
