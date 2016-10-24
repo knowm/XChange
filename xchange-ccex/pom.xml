@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.knowm.xchange</groupId>
-    <artifactId>xchange-parent</artifactId>
-    <version>4.1.1-SNAPSHOT</version>
-  </parent>
-  <groupId>org.knowm.xchange</groupId>
-  <artifactId>xchange-ccex</artifactId>
-  <version>4.1.1-SNAPSHOT</version>
-  <name>XChange C-Cex</name>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.knowm.xchange</groupId>
+		<artifactId>xchange-parent</artifactId>
+		<version>4.1.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>xchange-ccex</artifactId>
+	<name>XChange C-Cex</name>
 	<description>XChange implementation for the C-CEX.com - Crypto-currency exchange / MultiWallet</description>
 
 	<url>http://knowm.org/open-source/xchange/</url>
@@ -25,9 +24,9 @@
 	<dependencies>
 
 		<dependency>
-			<groupId>org.knowm.xchange</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-core</artifactId>
-			<version>4.1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 	</dependencies>
