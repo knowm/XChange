@@ -118,7 +118,8 @@
 		<module>xchange-therock</module>
 		<module>xchange-vaultoro</module>
 		<module>xchange-vircurex</module>
-	</modules>
+    <module>xchange-ccex</module>
+  </modules>
 
 	<repositories>
 		<repository>

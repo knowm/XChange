@@ -329,6 +329,16 @@
 			<artifactId>reflections</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>xchange-ccex</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.knowm.xchange</groupId>
+			<artifactId>xchange-ccex</artifactId>
+			<version>4.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 </project>
