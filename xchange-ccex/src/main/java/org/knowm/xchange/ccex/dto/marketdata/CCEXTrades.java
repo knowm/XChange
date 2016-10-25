@@ -27,7 +27,6 @@ public class CCEXTrades {
 	 * 
 	 * @return The success
 	 */
-	@JsonProperty("success")
 	public Boolean getSuccess() {
 		return success;
 	}
@@ -36,7 +35,6 @@ public class CCEXTrades {
 	 * 
 	 * @return The message
 	 */
-	@JsonProperty("message")
 	public String getMessage() {
 		return message;
 	}
@@ -45,7 +43,6 @@ public class CCEXTrades {
 	 * 
 	 * @return The message
 	 */
-	@JsonProperty("result")
 	public List<CCEXTrade> getResult() {
 		return result;
 	}

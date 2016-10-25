@@ -23,7 +23,6 @@ public class CCEXBuySellData {
 	 * 
 	 * @return The quantity
 	 */
-	@JsonProperty("Quantity")
 	public BigDecimal getQuantity() {
 		return quantity;
 	}
@@ -32,7 +31,6 @@ public class CCEXBuySellData {
 	 * 
 	 * @return The rate
 	 */
-	@JsonProperty("Rate")
 	public BigDecimal getRate() {
 		return rate;
 	}

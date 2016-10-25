@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.ccex.dto.marketdata.CCEXGetorderbook;
+import org.knowm.xchange.ccex.dto.marketdata.CCEXMarkets;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXTrades;
 import org.knowm.xchange.ccex.dto.ticker.CCEXPairs;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -19,6 +20,10 @@ import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 @Produces(MediaType.APPLICATION_JSON)
 public interface CCEX {
 
+	@GET
+	@Path("api_pub.html?a=getmarkets")
+	CCEXMarkets getProducts() throws IOException;
+	
 	@GET
 	@Path("pairs.json")
 	CCEXPairs getPairs() throws IOException;

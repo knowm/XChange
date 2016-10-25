@@ -27,7 +27,6 @@ public class CCEXGetorderbook {
 	 * 
 	 * @return The success
 	 */
-	@JsonProperty("success")
 	public Boolean getSuccess() {
 		return success;
 	}
@@ -36,7 +35,6 @@ public class CCEXGetorderbook {
 	 * 
 	 * @return The message
 	 */
-	@JsonProperty("message")
 	public String getMessage() {
 		return message;
 	}
@@ -45,20 +43,17 @@ public class CCEXGetorderbook {
 	 * 
 	 * @return The result
 	 */
-	@JsonProperty("result")
 	public CCEXBuySellResult getResult() {
 		return result;
 	}
 
 	/** (price, amount) */
 	public List<CCEXBuySellData> getBids() {
-
 		return this.result.getBuy();
 	}
 
 	/** (price, amount) */
 	public List<CCEXBuySellData> getAsks() {
-
 		return this.result.getSell();
 	}
 

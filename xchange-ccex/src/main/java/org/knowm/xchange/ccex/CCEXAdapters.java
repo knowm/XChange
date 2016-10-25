@@ -1,16 +1,21 @@
 package org.knowm.xchange.ccex;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import org.knowm.xchange.ccex.dto.marketdata.CCEXBuySellData;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXGetorderbook;
+import org.knowm.xchange.ccex.dto.marketdata.CCEXMarket;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXTrade;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXTrades;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -18,6 +23,9 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
 public class CCEXAdapters {
@@ -78,7 +86,28 @@ public class CCEXAdapters {
 		return new LimitOrder(orderType, priceAndAmount.getQuantity(), currencyPair, "", null,
 				priceAndAmount.getRate());
 	}
+	
+	public static CurrencyPair adaptCurrencyPair(CCEXMarket product) {
+	    return new CurrencyPair(product.getBaseCurrency(), product.getMarketCurrency());
+	  }
 
+	public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData,
+			List<CCEXMarket> products) {
+		Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+		Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+
+		for (CCEXMarket product : products) {
+			BigDecimal minSize = product.getMinTradeSize();
+			CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, null, 0);
+			CurrencyPair pair = adaptCurrencyPair(product);
+			currencyPairs.put(pair, cpmd);
+			currencies.put(pair.base, null);
+			currencies.put(pair.counter, null);
+		}
+
+		return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
+	}
+	
 	public static CurrencyPair adaptCurrencyPair(String pair) {
 
 		final String[] currencies = pair.toUpperCase().split("-");

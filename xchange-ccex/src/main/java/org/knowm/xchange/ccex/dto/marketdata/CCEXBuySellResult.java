@@ -24,7 +24,6 @@ public class CCEXBuySellResult {
 	 * 
 	 * @return The buy
 	 */
-	@JsonProperty("buy")
 	public List<CCEXBuySellData> getBuy() {
 		return buy;
 	}
@@ -33,7 +32,6 @@ public class CCEXBuySellResult {
 	 * 
 	 * @return The sell
 	 */
-	@JsonProperty("sell")
 	public List<CCEXBuySellData> getSell() {
 		return sell;
 	}

@@ -14,69 +14,66 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-"pairs"
-})
+@JsonPropertyOrder({ "pairs" })
 public class CCEXPairs {
 
-@JsonProperty("pairs")
-private List<String> pairs = new ArrayList<String>();
-@JsonIgnore
-private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+	@JsonProperty("pairs")
+	private List<String> pairs = new ArrayList<String>();
+	@JsonIgnore
+	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-/**
-* No args constructor for use in serialization
-* 
-*/
-public CCEXPairs() {
-}
+	/**
+	 * No args constructor for use in serialization
+	 * 
+	 */
+	public CCEXPairs() {
+	}
 
-/**
-* 
-* @param pairs
-*/
-public CCEXPairs(List<String> pairs) {
-this.pairs = pairs;
-}
+	/**
+	 * 
+	 * @param pairs
+	 */
+	public CCEXPairs(List<String> pairs) {
+		this.pairs = pairs;
+	}
 
-/**
-* 
-* @return
-* The pairs
-*/
-@JsonProperty("pairs")
-public List<String> getPairs() {
-return pairs;
-}
+	/**
+	 * 
+	 * @return The pairs
+	 */
+	@JsonProperty("pairs")
+	public List<String> getPairs() {
+		return pairs;
+	}
 
-/**
-* 
-* @param pairs
-* The pairs
-*/
-@JsonProperty("pairs")
-public void setPairs(List<String> pairs) {
-this.pairs = pairs;
-}
+	/**
+	 * 
+	 * @param pairs
+	 *            The pairs
+	 */
+	@JsonProperty("pairs")
+	public void setPairs(List<String> pairs) {
+		this.pairs = pairs;
+	}
 
-public CCEXPairs withPairs(List<String> pairs) {
-this.pairs = pairs;
-return this;
-}
+	public CCEXPairs withPairs(List<String> pairs) {
+		this.pairs = pairs;
+		return this;
+	}
 
-@JsonAnyGetter
-public Map<String, Object> getAdditionalProperties() {
-return this.additionalProperties;
-}
+	@JsonAnyGetter
+	public Map<String, Object> getAdditionalProperties() {
+		return this.additionalProperties;
+	}
 
-@JsonAnySetter
-public void setAdditionalProperty(String name, Object value) {
-this.additionalProperties.put(name, value);
-}
+	@JsonAnySetter
+	public void setAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
+	}
 
-public CCEXPairs withAdditionalProperty(String name, Object value) {
-this.additionalProperties.put(name, value);
-return this;
-}
+	public CCEXPairs withAdditionalProperty(String name, Object value) {
+		this.additionalProperties.put(name, value);
+		return this;
+	}
 
 }

@@ -119,7 +119,8 @@
 		<module>xchange-vaultoro</module>
 		<module>xchange-vircurex</module>
     <module>xchange-ccex</module>
-  </modules>
+    <module>xchange-livecoin</module>
+	</modules>
 
 	<repositories>
 		<repository>
