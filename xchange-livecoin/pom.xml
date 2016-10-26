@@ -7,7 +7,7 @@
 		<version>4.1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>xchange-livecoin</artifactId>
-	<name>Livecoin</name>
+	<name>XChange Livecoin</name>
 	<description>A convenient way to buy and sell Bitcoin</description>
 
 	<url>http://knowm.org/open-source/xchange/</url>

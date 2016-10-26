@@ -5,13 +5,13 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class LIVECOINRestrictions {
+public class LivecoinRestrictions {
 
 	private final Boolean success;
-	private List<LIVECOINRestriction> restrictions = new ArrayList<LIVECOINRestriction>();
+	private List<LivecoinRestriction> restrictions = new ArrayList<LivecoinRestriction>();
 
-	public LIVECOINRestrictions(@JsonProperty("success") Boolean success,
-			@JsonProperty("restrictions") List<LIVECOINRestriction> restrictions) {
+	public LivecoinRestrictions(@JsonProperty("success") Boolean success,
+			@JsonProperty("restrictions") List<LivecoinRestriction> restrictions) {
 		super();
 		this.success = success;
 		this.restrictions = restrictions;
@@ -21,7 +21,7 @@ public class LIVECOINRestrictions {
 		return success;
 	}
 
-	public List<LIVECOINRestriction> getRestrictions() {
+	public List<LivecoinRestriction> getRestrictions() {
 		return restrictions;
 	}
 

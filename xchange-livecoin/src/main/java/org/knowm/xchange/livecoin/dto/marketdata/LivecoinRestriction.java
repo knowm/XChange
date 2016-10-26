@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class LIVECOINRestriction {
+public class LivecoinRestriction {
 
 	private String currencyPair;
 	private BigDecimal minLimitQuantity;
 	private Integer priceScale;
 
-	public LIVECOINRestriction(@JsonProperty("currencyPair") String currencyPair,
+	public LivecoinRestriction(@JsonProperty("currencyPair") String currencyPair,
 			@JsonProperty("minLimitQuantity") BigDecimal minLimitQuantity,
 			@JsonProperty("priceScale") Integer priceScale) {
 		super();
