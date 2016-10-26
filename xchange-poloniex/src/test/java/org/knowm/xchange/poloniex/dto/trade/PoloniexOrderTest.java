@@ -110,7 +110,7 @@ public class PoloniexOrderTest {
     InvocationResult invocationResult = new InvocationResult("{\"success\":0,\"error\":\"Not enough LTC.\"}", 200);
 
     Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("moveOrder", String.class, ParamsDigest.class, SynchronizedValueFactory.class,
-        String.class, String.class, String.class);
+        String.class, String.class, String.class, Integer.class, Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
 
     try {
