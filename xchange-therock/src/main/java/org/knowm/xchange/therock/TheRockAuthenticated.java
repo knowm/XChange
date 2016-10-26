@@ -24,7 +24,6 @@ import org.knowm.xchange.therock.service.TheRockDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("v1")
-@Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public interface TheRockAuthenticated {
 
@@ -44,6 +43,7 @@ public interface TheRockAuthenticated {
       @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory) throws TheRockException, IOException;
 
   @POST
+  @Consumes(MediaType.APPLICATION_JSON)
   @Path("atms/withdraw")
   TheRockWithdrawalResponse withdraw(@HeaderParam("X-TRT-KEY") String publicKey, @HeaderParam("X-TRT-SIGN") TheRockDigest signer,
       @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, TheRockWithdrawal withdrawal) throws TheRockException, IOException;
@@ -51,6 +51,7 @@ public interface TheRockAuthenticated {
   //trading
 
   @POST
+  @Consumes(MediaType.APPLICATION_JSON)
   @Path("funds/{fund_id}/orders")
   TheRockOrder placeOrder(@PathParam("fund_id") TheRock.Pair currencyPair, @HeaderParam("X-TRT-KEY") String publicKey,
       @HeaderParam("X-TRT-SIGN") TheRockDigest signer, @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, TheRockOrder order)
