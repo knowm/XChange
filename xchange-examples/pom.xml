@@ -344,6 +344,11 @@
 			<artifactId>xchange-livecoin</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.knowm.xchange</groupId>
+			<artifactId>xchange-yobit</artifactId>
+			<version>4.1.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 </project>
