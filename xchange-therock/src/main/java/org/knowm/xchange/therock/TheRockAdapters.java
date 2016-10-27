@@ -18,6 +18,8 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.therock.dto.account.TheRockBalance;
 import org.knowm.xchange.therock.dto.marketdata.TheRockBid;
 import org.knowm.xchange.therock.dto.marketdata.TheRockOrderBook;
@@ -25,6 +27,8 @@ import org.knowm.xchange.therock.dto.marketdata.TheRockTrade;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTrade.Side;
 import org.knowm.xchange.therock.dto.marketdata.TheRockTrades;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
+import org.knowm.xchange.therock.dto.trade.TheRockUserTrade;
+import org.knowm.xchange.therock.dto.trade.TheRockUserTrades;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
@@ -81,6 +85,29 @@ public final class TheRockAdapters {
     final String tradeId = String.valueOf(trade.getId());
     return new Trade(trade.getSide() == Side.sell ? OrderType.ASK : BID, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), tradeId);
   }
+  
+  public static UserTrade adaptUserTrade(TheRockUserTrade trade, CurrencyPair currencyPair) throws InvalidFormatException {
+      final String tradeId = String.valueOf(trade.getId());
+      //return new UserTrade(trade.getSide() == Side.sell ? OrderType.ASK : BID, trade.getAmount(), currencyPair, trade.getPrice(), trade.getDate(), tradeId);
+      return new UserTrade.Builder().id(tradeId).tradableAmount(trade.getAmount()).currencyPair(currencyPair).price(trade.getPrice())
+              .timestamp(trade.getDate()).orderId(String.valueOf(trade.getOrderId()))
+              .type(trade.getSide() == Side.buy ? OrderType.BID : OrderType.ASK)
+              .feeAmount(trade.getFeeAmount()).feeCurrency(trade.getFeeCurrency() == null ? null : new Currency(trade.getFeeCurrency()))
+              .build(); 
+  }
+  public static UserTrades adaptUserTrades(TheRockUserTrades trades, CurrencyPair currencyPair) throws InvalidFormatException {
+
+      List<UserTrade> tradesList = new ArrayList<>(trades.getCount());
+      long lastTradeId = 0;
+      for (int i = 0; i < trades.getCount(); i++) {
+        TheRockUserTrade trade = trades.getTrades()[i];
+        long tradeId = trade.getId();
+        if (tradeId > lastTradeId)
+          lastTradeId = tradeId;
+        tradesList.add(adaptUserTrade(trade, currencyPair));
+      }
+      return new UserTrades(tradesList, lastTradeId, Trades.TradeSortType.SortByID);
+    }
 
   /*
    * public static LimitOrder adaptOrder(TheRockOrder o) { return new LimitOrder(adaptOrderType(o.getSide()), o.getAmount(), o.getFundId().pair,

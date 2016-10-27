@@ -2,6 +2,7 @@ package org.knowm.xchange.therock.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -12,6 +13,7 @@ import org.knowm.xchange.therock.TheRockAuthenticated;
 import org.knowm.xchange.therock.dto.TheRockException;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 import org.knowm.xchange.therock.dto.trade.TheRockOrders;
+import org.knowm.xchange.therock.dto.trade.TheRockUserTrades;
 import org.knowm.xchange.therock.service.TheRockDigest;
 
 import si.mazi.rescu.RestProxyFactory;
@@ -68,11 +70,16 @@ public class TheRockTradeServiceRaw extends TheRockBasePollingService {
       throw new ExchangeException(e);
     }
   }
-
-  /*
-   * public TheRockUserTrade[] getTheRockUserTransactions(CurrencyPair currencyPair, Integer offset, Integer limit, Long sinceTradeId) throws
-   * IOException { TheRockTradeHistoryResponse result = theRockAuthenticated.getTradeHistory( exchange.getExchangeSpecification().getApiKey(),
-   * signatureCreator, new TheRock.Pair(currencyPair), new TheRockTradeHistoryRequest(limit, offset, sinceTradeId)); return result.getData(); }
-   */
+  
+    public TheRockUserTrades getTheRockUserTrades(CurrencyPair currencyPair, Long sinceTradeId, Date after, Date before)
+            throws IOException {
+        try {
+            
+            return theRockAuthenticated.trades(new TheRock.Pair(currencyPair), exchange.getExchangeSpecification().getApiKey(),
+                    signatureCreator, exchange.getNonceFactory(), sinceTradeId, after, before);
+        } catch (Throwable e) {
+            throw new ExchangeException(e);
+        }
+    }
 
 }
