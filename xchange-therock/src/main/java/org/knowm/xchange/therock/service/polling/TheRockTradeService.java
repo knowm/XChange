@@ -79,7 +79,9 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
       Long sinceTradeId = null;        // get all trades starting from a specific trade_id
       if (params instanceof TradeHistoryParamsIdSpan) {
           TradeHistoryParamsIdSpan trId = (TradeHistoryParamsIdSpan) params;
-          sinceTradeId = Long.valueOf(trId.getStartId());
+          try {
+            sinceTradeId = Long.valueOf(trId.getStartId());
+        } catch (Throwable ignored) {}
       }
       Date after = null;
       Date before = null;

@@ -76,7 +76,7 @@ public class TheRockTradeServiceRaw extends TheRockBasePollingService {
         try {
             
             return theRockAuthenticated.trades(new TheRock.Pair(currencyPair), exchange.getExchangeSpecification().getApiKey(),
-                    signatureCreator, exchange.getNonceFactory(), sinceTradeId, after, before);
+                    signatureCreator, exchange.getNonceFactory(), sinceTradeId, after, before, 200);
         } catch (Throwable e) {
             throw new ExchangeException(e);
         }

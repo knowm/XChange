@@ -84,6 +84,7 @@ public interface TheRockAuthenticated {
   @Path("funds/{fund_id}/trades")
   TheRockUserTrades trades(@PathParam("fund_id") TheRock.Pair currencyPair, @HeaderParam(X_TRT_KEY) String publicKey,
       @HeaderParam(X_TRT_SIGN) TheRockDigest signer, @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory
-      , @QueryParam("trade_id") Long sinceTradeId, @QueryParam("after") Date after, @QueryParam("before") Date before)
+      , @QueryParam("trade_id") Long sinceTradeId, @QueryParam("after") Date after, @QueryParam("before") Date before
+      , @QueryParam("per_page") int perPage)
       throws TheRockException, IOException;
 }
