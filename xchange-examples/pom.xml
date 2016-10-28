@@ -345,9 +345,9 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.knowm.xchange</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-yobit</artifactId>
-			<version>4.1.1-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
