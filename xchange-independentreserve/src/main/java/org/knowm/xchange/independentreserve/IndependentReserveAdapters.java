@@ -45,7 +45,7 @@ public class IndependentReserveAdapters {
 
     List<LimitOrder> bids = adaptOrders(independentReserveOrderBook.getBuyOrders(), Order.OrderType.BID, currencyPair);
     List<LimitOrder> asks = adaptOrders(independentReserveOrderBook.getSellOrders(), Order.OrderType.ASK, currencyPair);
-    Date timestamp = new Date(independentReserveOrderBook.getCreatedTimestampUtc());
+    Date timestamp = independentReserveOrderBook.getCreatedTimestamp();
 
     return new OrderBook(timestamp, asks, bids);
   }
@@ -94,7 +94,7 @@ public class IndependentReserveAdapters {
       Currency secondary = Currency.getInstanceNoCreate(order.getSecondaryCurrencyCode());
       CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
 
-      LimitOrder limitOrder = new LimitOrder(type, order.getOutstanding(), currencyPair, order.getOrderGuid(), order.getCreatedTimestampUtc(),
+      LimitOrder limitOrder = new LimitOrder(type, order.getOutstanding(), currencyPair, order.getOrderGuid(), order.getCreatedTimestamp(),
           order.getPrice());
       limitOrders.add(limitOrder);
     }
@@ -129,7 +129,7 @@ public class IndependentReserveAdapters {
 
       CurrencyPair currencyPair = new CurrencyPair(primary, secondary);
 
-      UserTrade ut = new UserTrade(type, trade.getVolumeTraded(), currencyPair, trade.getPrice(), trade.getTradeTimestampUtc(), trade.getTradeGuid(),
+      UserTrade ut = new UserTrade(type, trade.getVolumeTraded(), currencyPair, trade.getPrice(), trade.getTradeTimestamp(), trade.getTradeGuid(),
           trade.getOrderGuid(), null, (Currency) null);
 
       userTrades.add(ut);
