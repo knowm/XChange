@@ -26,8 +26,8 @@ public class CCEXMarketDataServiceRaw extends CCEXBasePollingService {
 		this.ccex = RestProxyFactory.createProxy(CCEX.class, exchange.getExchangeSpecification().getSslUri());
 	}
 
-	public CCEXGetorderbook getCCEXOrderBook(CurrencyPair pair) throws IOException {
-		return ccex.getOrderBook(new CCEX.Pair(pair));
+	public CCEXGetorderbook getCCEXOrderBook(CurrencyPair pair, int depth) throws IOException {
+		return ccex.getOrderBook(new CCEX.Pair(pair), depth);
 	}
 
 	public CCEXTrades getCCEXTrades(CurrencyPair pair) throws IOException {

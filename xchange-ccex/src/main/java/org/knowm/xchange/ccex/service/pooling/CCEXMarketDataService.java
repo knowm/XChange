@@ -24,7 +24,16 @@ public class CCEXMarketDataService extends CCEXMarketDataServiceRaw implements P
 
 	@Override
 	public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-		return CCEXAdapters.adaptOrderBook(getCCEXOrderBook(currencyPair), currencyPair);
+		
+		int depth = 50;
+		if (args != null && args.length > 0) {
+			if (args[0] instanceof Number) {
+				Number arg = (Number) args[0];
+				depth = arg.intValue();
+			}
+		}
+		
+		return CCEXAdapters.adaptOrderBook(getCCEXOrderBook(currencyPair, depth), currencyPair);
 	}
 
 	@Override

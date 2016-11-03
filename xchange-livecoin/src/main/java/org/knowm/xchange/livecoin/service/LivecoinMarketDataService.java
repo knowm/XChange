@@ -28,7 +28,16 @@ public class LivecoinMarketDataService extends LivecoinMarketDataServiceRaw impl
 
 	@Override
 	public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-		return LivecoinAdapters.adaptOrderBook(getOrderBook(currencyPair), currencyPair);
+		
+		int depth = 50;
+		if (args != null && args.length > 0) {
+			if (args[0] instanceof Number) {
+				Number arg = (Number) args[0];
+				depth = arg.intValue();
+			}
+		}
+		
+		return LivecoinAdapters.adaptOrderBook(getOrderBookRaw(currencyPair, depth), currencyPair);
 	}
 
 	@Override

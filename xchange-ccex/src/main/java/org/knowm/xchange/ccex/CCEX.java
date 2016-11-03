@@ -33,8 +33,8 @@ public interface CCEX {
 	 * is represented as a list of data.
 	 */
 	@GET
-	@Path("api_pub.html?a=getorderbook&market={pair}&type=both&depth=100")
-	public CCEXGetorderbook getOrderBook(@PathParam("pair") Pair pair) throws IOException;
+	@Path("api_pub.html?a=getorderbook&market={pair}&type=both&depth={depth}")
+	public CCEXGetorderbook getOrderBook(@PathParam("pair") Pair pair, @PathParam("depth") int depth) throws IOException;
 
 	/**
 	 * Returns Latest trades that have occured for a specific market.
