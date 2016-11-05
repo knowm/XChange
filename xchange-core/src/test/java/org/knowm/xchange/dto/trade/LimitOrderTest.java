@@ -37,6 +37,7 @@ public class LimitOrderTest {
     assertThat(copy.getId()).isEqualTo(id);
     assertThat(copy.getOrderFlags()).hasSize(1);
     assertThat(copy.getOrderFlags()).contains(TestFlags.TEST1);
+    assertThat(copy.hasFlag(TestFlags.TEST1));
   }
 
   @Test
@@ -61,7 +62,9 @@ public class LimitOrderTest {
     assertThat(copy.getId()).isEqualTo(original.getId());
     assertThat(copy.getOrderFlags()).hasSize(2);
     assertThat(copy.getOrderFlags()).contains(TestFlags.TEST1);
+    assertThat(copy.hasFlag(TestFlags.TEST1));
     assertThat(copy.getOrderFlags()).contains(TestFlags.TEST3);
+    assertThat(copy.hasFlag(TestFlags.TEST3));
   }
 
   @Test

@@ -60,21 +60,21 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
 
   private PoloniexTradeResponse orderEntry(LimitOrder limitOrder, String name) throws IOException {
     Integer fillOrKill;
-    if (limitOrder.getOrderFlags().contains(PoloniexOrderFlags.FILL_OR_KILL)) {
+    if (limitOrder.hasFlag(PoloniexOrderFlags.FILL_OR_KILL)) {
       fillOrKill = 1;
     } else {
       fillOrKill = null;
     }
 
     Integer immediateOrCancel;
-    if (limitOrder.getOrderFlags().contains(PoloniexOrderFlags.IMMEDIATE_OR_CANCEL)) {
+    if (limitOrder.hasFlag(PoloniexOrderFlags.IMMEDIATE_OR_CANCEL)) {
       immediateOrCancel = 1;
     } else {
       immediateOrCancel = null;
     }
 
     Integer postOnly;
-    if (limitOrder.getOrderFlags().contains(PoloniexOrderFlags.POST_ONLY)) {
+    if (limitOrder.hasFlag(PoloniexOrderFlags.POST_ONLY)) {
       postOnly = 1;
     } else {
       postOnly = null;

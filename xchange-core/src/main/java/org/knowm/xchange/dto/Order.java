@@ -232,6 +232,11 @@ public abstract class Order {
     return flags;
   }
 
+  public boolean hasFlag(IOrderFlags flag) {
+
+    return flags.contains(flag);
+  }
+
   public void addOrderFlag(IOrderFlags flag) {
 
     flags.add(flag);
