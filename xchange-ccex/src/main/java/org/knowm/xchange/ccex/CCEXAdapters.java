@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import org.knowm.xchange.ccex.dto.account.CCEXBalance;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXBuySellData;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXGetorderbook;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXMarket;
@@ -19,6 +20,8 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -33,27 +36,28 @@ public class CCEXAdapters {
 	private CCEXAdapters() {
 
 	}
-	
+
 	public static Trades adaptTrades(CCEXTrades cCEXTrades, CurrencyPair currencyPair) {
 
-	    List<Trade> trades = new ArrayList<Trade>();
-	    List<CCEXTrade> cCEXTradestmp = cCEXTrades.getResult();
-	    
-	    for (CCEXTrade cCEXTrade: cCEXTradestmp) {
-	      trades.add(adaptCCEXPublicTrade(cCEXTrade, currencyPair));
-	    }
+		List<Trade> trades = new ArrayList<Trade>();
+		List<CCEXTrade> cCEXTradestmp = cCEXTrades.getResult();
 
-	    return new Trades(trades, TradeSortType.SortByTimestamp);
-	  }
+		for (CCEXTrade cCEXTrade : cCEXTradestmp) {
+			trades.add(adaptCCEXPublicTrade(cCEXTrade, currencyPair));
+		}
 
-	  public static Trade adaptCCEXPublicTrade(CCEXTrade cCEXTrade, CurrencyPair currencyPair) {
+		return new Trades(trades, TradeSortType.SortByTimestamp);
+	}
 
-	    OrderType type = cCEXTrade.getOrderType().equalsIgnoreCase("BUY") ? OrderType.BID : OrderType.ASK;
-	    Date timestamp = stringToDate(cCEXTrade.getTimestamp());
-	    
-	    Trade trade = new Trade(type, cCEXTrade.getQuantity(), currencyPair, cCEXTrade.getPrice(), timestamp, cCEXTrade.getId());
-	    return trade;
-	  }
+	public static Trade adaptCCEXPublicTrade(CCEXTrade cCEXTrade, CurrencyPair currencyPair) {
+
+		OrderType type = cCEXTrade.getOrderType().equalsIgnoreCase("BUY") ? OrderType.BID : OrderType.ASK;
+		Date timestamp = stringToDate(cCEXTrade.getTimestamp());
+
+		Trade trade = new Trade(type, cCEXTrade.getQuantity(), currencyPair, cCEXTrade.getPrice(), timestamp,
+				cCEXTrade.getId());
+		return trade;
+	}
 
 	/**
 	 * Adapts a org.knowm.xchange.ccex.api.model.OrderBook to a OrderBook Object
@@ -86,10 +90,10 @@ public class CCEXAdapters {
 		return new LimitOrder(orderType, priceAndAmount.getQuantity(), currencyPair, "", null,
 				priceAndAmount.getRate());
 	}
-	
+
 	public static CurrencyPair adaptCurrencyPair(CCEXMarket product) {
-	    return new CurrencyPair(product.getBaseCurrency(), product.getMarketCurrency());
-	  }
+		return new CurrencyPair(product.getBaseCurrency(), product.getMarketCurrency());
+	}
 
 	public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData,
 			List<CCEXMarket> products) {
@@ -107,21 +111,35 @@ public class CCEXAdapters {
 
 		return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
 	}
-	
+
 	public static CurrencyPair adaptCurrencyPair(String pair) {
 
 		final String[] currencies = pair.toUpperCase().split("-");
 		return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
 	}
-	
+
 	public static Date stringToDate(String dateString) {
 
-	    try {
-	      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	      sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-	      return sdf.parse(dateString);
-	    } catch (ParseException e) {
-	      return new Date(0);
-	    }
-	  }
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+			return sdf.parse(dateString);
+		} catch (ParseException e) {
+			return new Date(0);
+		}
+	}
+
+	public static Wallet adaptWallet(List<CCEXBalance> balances) {
+
+		List<Balance> wallets = new ArrayList<Balance>(balances.size());
+
+		for (CCEXBalance balance : balances) {
+			wallets.add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getBalance(),
+					balance.getAvailable(),
+					balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()),
+					BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, balance.getPending()));
+		}
+
+		return new Wallet(wallets);
+	}
 }
