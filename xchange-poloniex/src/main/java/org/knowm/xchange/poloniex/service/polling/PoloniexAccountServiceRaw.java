@@ -2,6 +2,7 @@ package org.knowm.xchange.poloniex.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import org.knowm.xchange.poloniex.PoloniexException;
 import org.knowm.xchange.poloniex.dto.LoanInfo;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
+import org.knowm.xchange.utils.DateUtils;
 
 /**
  * @author Zach Holmes
@@ -73,6 +76,11 @@ public class PoloniexAccountServiceRaw extends PoloniexBasePollingService {
   public String withdrawFunds(Currency currency, BigDecimal amount, String address, @Nullable String paymentId) throws IOException {
     return poloniexAuthenticated
         .withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency.getCurrencyCode(), amount, address, paymentId).getResponse();
+  }
+  
+  public PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(Date start, Date end) throws IOException {
+      return poloniexAuthenticated.returnDepositsWithdrawals(apiKey, signatureCreator, exchange.getNonceFactory()
+              , DateUtils.toUnixTimeNullSafe(start), DateUtils.toUnixTimeNullSafe(end));
   }
 
 }
