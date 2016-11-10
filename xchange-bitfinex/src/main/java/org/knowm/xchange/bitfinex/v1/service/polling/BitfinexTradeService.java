@@ -8,6 +8,7 @@ import java.util.Date;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -59,7 +60,12 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    BitfinexOrderStatusResponse newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT, false);
+    BitfinexOrderStatusResponse newOrder;
+    if (limitOrder.hasFlag(BitfinexOrderFlags.FILL_OR_KILL)) {
+      newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.FILL_OR_KILL);
+    } else {
+      newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT);
+    }
 
     return String.valueOf(newOrder.getId());
   }

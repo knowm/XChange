@@ -16,7 +16,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderMultiRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOrderRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCreditResponse;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewHiddenOrderRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexLimitOrder;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOfferRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrder;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderMultiRequest;
@@ -25,6 +25,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNewOrderRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexNonceOnlyRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderFlags;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
@@ -87,25 +88,36 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
     }
   }
 
-  public BitfinexOrderStatusResponse placeBitfinexLimitOrder(LimitOrder limitOrder, BitfinexOrderType bitfinexOrderType, boolean hidden)
+  public BitfinexOrderStatusResponse placeBitfinexLimitOrder(LimitOrder limitOrder, BitfinexOrderType bitfinexOrderType)
       throws IOException {
 
     String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
     String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
     String orderType = bitfinexOrderType.toString();
 
-    BitfinexNewOrderRequest request;
-    if (hidden) {
-      request = new BitfinexNewHiddenOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), pair, limitOrder.getTradableAmount(),
-          limitOrder.getLimitPrice(), "bitfinex", type, orderType);
+    boolean isHidden;
+    if (limitOrder.hasFlag(BitfinexOrderFlags.HIDDEN)) {
+      isHidden = true;
     } else {
-      request = new BitfinexNewOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), pair, limitOrder.getTradableAmount(),
-          limitOrder.getLimitPrice(), "bitfinex", type, orderType);
+      isHidden = false;
+    }
+    boolean isPostOnly;
+    if (limitOrder.hasFlag(BitfinexOrderFlags.POST_ONLY)) {
+      isPostOnly = true;
+    } else {
+      isPostOnly = false;
     }
 
+    BitfinexNewOrderRequest request = new BitfinexNewOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), pair,
+        limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), "bitfinex", type, orderType, isHidden, isPostOnly);
+
     try {
-      BitfinexOrderStatusResponse newOrder = bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, request);
-      return newOrder;
+      BitfinexOrderStatusResponse response = bitfinex.newOrder(apiKey, payloadCreator, signatureCreator, request);
+      if(limitOrder instanceof BitfinexLimitOrder) {
+        BitfinexLimitOrder bitfinexOrder = (BitfinexLimitOrder) limitOrder;
+        bitfinexOrder.setResponse(response);
+      }
+      return response;
     } catch (BitfinexException e) {
       throw new ExchangeException(e);
     }

@@ -2,12 +2,14 @@ package org.knowm.xchange.kraken.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.kraken.KrakenUtils;
+import org.knowm.xchange.kraken.dto.account.DepostitStatus;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositMethods;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
@@ -16,6 +18,8 @@ import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
 import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.kraken.dto.account.Withdraw;
 import org.knowm.xchange.kraken.dto.account.WithdrawInfo;
+import org.knowm.xchange.kraken.dto.account.WithdrawStatus;
+import org.knowm.xchange.kraken.dto.account.results.DepositStatusResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenDepositMethodsResults;
@@ -25,6 +29,7 @@ import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawInfoResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawResult;
+import org.knowm.xchange.kraken.dto.account.results.WithdrawStatusResult;
 
 /**
  * @author jamespedwards42
@@ -76,7 +81,18 @@ public class KrakenAccountServiceRaw extends KrakenBasePollingService {
         signatureCreator, exchange.getNonceFactory());
     return checkResult(withdrawResult);
   }
-
+  
+  public List<DepostitStatus> getDepositStatus(String assetPairs, String assets, String method) throws IOException {
+      DepositStatusResult result = kraken.getDepositStatus(assetPairs, assets,  method, exchange.getExchangeSpecification().getApiKey(),
+          signatureCreator, exchange.getNonceFactory());
+      return checkResult(result);
+    }
+  public List<WithdrawStatus> getWithdrawStatus(String assetPairs, String assets, String method) throws IOException {
+      WithdrawStatusResult result = kraken.getWithdrawStatus(assetPairs, assets,  method, exchange.getExchangeSpecification().getApiKey(),
+          signatureCreator, exchange.getNonceFactory());
+      return checkResult(result);
+    }
+  
   /**
    * @param valuationCurrency - Base asset used to determine balance (can be null, defaults to USD). The asset should be provided in the form of a
    *        standard currency code, i.e., EUR. It will be converted to the appropriate Kraken Asset code.

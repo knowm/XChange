@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.poloniex.dto.account.PoloniexBalance;
 import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
 import org.knowm.xchange.poloniex.dto.account.WithdrawalResponse;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexMoveResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexTradeResponse;
@@ -82,7 +83,8 @@ public interface PoloniexAuthenticated {
   @FormParam("command")
   PoloniexMoveResponse moveOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderNumber, @FormParam("amount") String amount,
-      @FormParam("rate") String rate) throws PoloniexException, IOException;
+      @FormParam("rate") String rate, @FormParam("immediateOrCancel") Integer immediateOrCancel, @FormParam("postOnly") Integer postOnly)
+      throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")
@@ -99,4 +101,10 @@ public interface PoloniexAuthenticated {
   @FormParam("command")
   HashMap<String, String> returnFeeInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
+  
+  @POST
+  @FormParam("command")
+  PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+          @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("start") Long startTime, @FormParam("end") Long endTime)
+          throws PoloniexException, IOException;
 }
