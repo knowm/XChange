@@ -26,8 +26,7 @@ public class CCEXAccountService extends CCEXAccountServiceRaw implements Polling
 	@Override
 	public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws ExchangeException,
 			NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new NotAvailableFromExchangeException();
 	}
 
 	@Override

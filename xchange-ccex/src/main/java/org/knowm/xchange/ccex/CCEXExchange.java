@@ -10,6 +10,7 @@ import org.knowm.xchange.ccex.dto.marketdata.CCEXMarket;
 import org.knowm.xchange.ccex.service.pooling.CCEXAccountService;
 import org.knowm.xchange.ccex.service.pooling.CCEXMarketDataService;
 import org.knowm.xchange.ccex.service.pooling.CCEXMarketDataServiceRaw;
+import org.knowm.xchange.ccex.service.pooling.CCEXTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -38,7 +39,7 @@ public class CCEXExchange extends BaseExchange implements Exchange{
 	@Override
 	protected void initServices() {
 		this.pollingMarketDataService = new CCEXMarketDataService(this);
-		this.pollingTradeService = null;
+		this.pollingTradeService = new CCEXTradeService(this);
 	    this.pollingAccountService = new CCEXAccountService(this);
 	}
 	

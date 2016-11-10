@@ -4,13 +4,11 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ccex.CCEXAdapters;
+import org.knowm.xchange.ccex.CCEXUtils;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
 
 /**
@@ -37,10 +35,9 @@ public class CCEXMarketDataService extends CCEXMarketDataServiceRaw implements P
 	}
 
 	@Override
-	public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException,
-			NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+		
+		return CCEXAdapters.adaptTicker(getTicker(currencyPair), currencyPair);
 	}
 
 	@Override

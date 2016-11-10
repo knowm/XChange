@@ -16,6 +16,9 @@ import org.knowm.xchange.ccex.dto.marketdata.CCEXGetorderbook;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXMarket;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXTrade;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXTrades;
+import org.knowm.xchange.ccex.dto.ticker.CCEXPriceResponse;
+import org.knowm.xchange.ccex.dto.trade.CCEXOpenorder;
+import org.knowm.xchange.ccex.dto.trade.CCEXOrderhistory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -23,6 +26,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -30,6 +34,7 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 
 public class CCEXAdapters {
 
@@ -141,5 +146,71 @@ public class CCEXAdapters {
 		}
 
 		return new Wallet(wallets);
+	}
+
+	public static List<LimitOrder> adaptOpenOrders(List<CCEXOpenorder> cCexOpenOrders) {
+
+		List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+
+		for (CCEXOpenorder order : cCexOpenOrders) {
+			openOrders.add(adaptOpenOrder(order));
+		}
+
+		return openOrders;
+	}
+
+	public static LimitOrder adaptOpenOrder(CCEXOpenorder cCEXOpenOrder) {
+
+		OrderType type = cCEXOpenOrder.getOrderType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
+		String[] currencies = cCEXOpenOrder.getExchange().split("-");
+		CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
+
+		return new LimitOrder(type, cCEXOpenOrder.getQuantityRemaining(), pair, cCEXOpenOrder.getOrderUuid(), null,
+				cCEXOpenOrder.getLimit());
+	}
+
+	public static List<UserTrade> adaptUserTrades(List<CCEXOrderhistory> cCEXOrderhistory) {
+
+		List<UserTrade> trades = new ArrayList<UserTrade>();
+
+		for (CCEXOrderhistory cCEXTrade : cCEXOrderhistory) {
+			trades.add(adaptUserTrade(cCEXTrade));
+		}
+		return trades;
+	}
+
+	public static UserTrade adaptUserTrade(CCEXOrderhistory trade) {
+
+		String[] currencies = trade.getExchange().split("-");
+		CurrencyPair currencyPair = new CurrencyPair(currencies[1], currencies[0]);
+
+		OrderType orderType = trade.getOrderType().equalsIgnoreCase("LIMIT_BUY") ? OrderType.BID : OrderType.ASK;
+		BigDecimal amount = trade.getQuantity().subtract(trade.getQuantityRemaining());
+		Date date = CCEXUtils.toDate(trade.getTimeStamp());
+		String orderId = String.valueOf(trade.getOrderUuid());
+
+		BigDecimal price = trade.getPricePerUnit();
+
+		if (price == null) {
+			price = trade.getLimit();
+		}
+
+		return new UserTrade(orderType, amount, currencyPair, price, date, orderId, orderId, trade.getCommission(),
+				currencyPair.counter);
+	}
+
+	public static Ticker adaptTicker(CCEXPriceResponse cCEXTicker, CurrencyPair currencyPair) {
+
+		BigDecimal last = cCEXTicker.getLastbuy();
+		BigDecimal bid = cCEXTicker.getBuy();
+		BigDecimal ask = cCEXTicker.getSell();
+		BigDecimal high = cCEXTicker.getHigh();
+		BigDecimal low = cCEXTicker.getLow();
+		BigDecimal volume = cCEXTicker.getBuysupport();
+
+		Date timestamp = new Date(cCEXTicker.getUpdated());
+
+		return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low)
+				.volume(volume).timestamp(timestamp).build();
 	}
 }
