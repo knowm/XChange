@@ -20,13 +20,13 @@ public class YoBitMarketDataServiceRaw extends YoBitBasePollingService<YoBit> {
 		return data;
 	}
 
-	public YoBitOrderBook getOrderBook(CurrencyPair currencyPair) throws IOException {
+	public YoBitOrderBook getOrderBookA(CurrencyPair currencyPair, Long limit) throws IOException {
 		/*
 		 * if (!this.checkProductExists(currencyPair)) { return null; }
 		 */
 
 		return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toLowerCase(),
-				currencyPair.counter.getCurrencyCode().toLowerCase());
+				currencyPair.counter.getCurrencyCode().toLowerCase(), limit);
 	}
 
 	public YoBitTrades getTrades(CurrencyPair currencyPair) throws IOException {

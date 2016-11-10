@@ -28,7 +28,16 @@ public class YoBitMarketDataService extends YoBitMarketDataServiceRaw implements
 
 	@Override
 	public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-		return YoBitAdapters.adaptOrderBook(getOrderBook(currencyPair), currencyPair);
+
+		long level = 50;
+		if (args != null && args.length > 0) {
+			if (args[0] instanceof Number) {
+				Number arg = (Number) args[0];
+				level = arg.intValue();
+			}
+		}
+
+		return YoBitAdapters.adaptOrderBook(getOrderBookA(currencyPair, level), currencyPair);
 	}
 
 	@Override
