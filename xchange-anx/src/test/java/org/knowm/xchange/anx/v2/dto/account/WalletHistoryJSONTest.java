@@ -6,10 +6,10 @@ import java.math.BigDecimal;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.knowm.xchange.anx.v2.dto.account.polling.ANXWalletHistoryWrapper;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.anx.v2.dto.account.polling.ANXWalletHistoryWrapper;
 
 //import static org.fest.assertions.api.Assertions.assertThat;
 

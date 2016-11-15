@@ -3,6 +3,8 @@ package org.knowm.xchange.independentreserve.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.xml.bind.DatatypeConverter;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -10,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class IndependentReserveOpenOrder {
   private final BigDecimal avgPrice;
-  private final Date createdTimestampUtc;
+  private final Date createdTimestamp;
   private final BigDecimal feePercent;
   private final String orderGuid;
   private final String orderType;
@@ -22,13 +24,13 @@ public class IndependentReserveOpenOrder {
   private final BigDecimal value;
   private final BigDecimal volume;
 
-  public IndependentReserveOpenOrder(@JsonProperty("AvgPrice") BigDecimal avgPrice, @JsonProperty("CreatedTimestampUtc") Date createdTimestampUtc,
+  public IndependentReserveOpenOrder(@JsonProperty("AvgPrice") BigDecimal avgPrice, @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc,
       @JsonProperty("FeePercent") BigDecimal feePercent, @JsonProperty("OrderGuid") String orderGuid, @JsonProperty("OrderType") String orderType,
       @JsonProperty("Outstanding") BigDecimal outstanding, @JsonProperty("Price") BigDecimal price,
       @JsonProperty("PrimaryCurrencyCode") String primaryCurrencyCode, @JsonProperty("SecondaryCurrencyCode") String secondaryCurrencyCode,
       @JsonProperty("Status") String status, @JsonProperty("Value") BigDecimal value, @JsonProperty("Volume") BigDecimal volume) {
     this.avgPrice = avgPrice;
-    this.createdTimestampUtc = createdTimestampUtc;
+    this.createdTimestamp = DatatypeConverter.parseDateTime(createdTimestampUtc).getTime();
     this.feePercent = feePercent;
     this.orderGuid = orderGuid;
     this.orderType = orderType;
@@ -45,8 +47,8 @@ public class IndependentReserveOpenOrder {
     return avgPrice;
   }
 
-  public Date getCreatedTimestampUtc() {
-    return createdTimestampUtc;
+  public Date getCreatedTimestamp() {
+    return createdTimestamp;
   }
 
   public BigDecimal getFeePercent() {
@@ -91,7 +93,7 @@ public class IndependentReserveOpenOrder {
 
   @Override
   public String toString() {
-    return "IndependentReserveOpenOrder{" + "avgPrice=" + avgPrice + ", createdTimestampUtc=" + createdTimestampUtc + ", feePercent=" + feePercent
+    return "IndependentReserveOpenOrder{" + "avgPrice=" + avgPrice + ", createdTimestamp=" + createdTimestamp + ", feePercent=" + feePercent
         + ", orderGuid='" + orderGuid + '\'' + ", orderType='" + orderType + '\'' + ", outstanding=" + outstanding + ", price=" + price
         + ", primaryCurrencyCode='" + primaryCurrencyCode + '\'' + ", secondaryCurrencyCode='" + secondaryCurrencyCode + '\'' + ", status='" + status
         + '\'' + ", value=" + value + ", volume=" + volume + '}';

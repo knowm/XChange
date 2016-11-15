@@ -1,9 +1,10 @@
 package org.knowm.xchange.bitmarket.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bitmarket.dto.BitMarketAPILimit;
 import org.knowm.xchange.bitmarket.dto.BitMarketBaseResponse;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketBalance;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author kfonal

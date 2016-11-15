@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.ripple.dto.RippleAmount;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RipplePaymentTransaction implements IRippleTradeTransaction {
 

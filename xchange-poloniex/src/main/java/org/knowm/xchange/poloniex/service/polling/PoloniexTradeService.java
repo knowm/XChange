@@ -121,16 +121,20 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
     List<UserTrade> trades = new ArrayList<UserTrade>();
     if (currencyPair == null) {
       HashMap<String, PoloniexUserTrade[]> poloniexUserTrades = returnTradeHistory(startTime, endTime);
-      for (Map.Entry<String, PoloniexUserTrade[]> mapEntry : poloniexUserTrades.entrySet()) {
-        currencyPair = PoloniexUtils.toCurrencyPair(mapEntry.getKey());
-        for (PoloniexUserTrade poloniexUserTrade : mapEntry.getValue()) {
-          trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+      if (poloniexUserTrades != null) {
+        for (Map.Entry<String, PoloniexUserTrade[]> mapEntry : poloniexUserTrades.entrySet()) {
+          currencyPair = PoloniexUtils.toCurrencyPair(mapEntry.getKey());
+          for (PoloniexUserTrade poloniexUserTrade : mapEntry.getValue()) {
+            trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+          }
         }
       }
     } else {
       PoloniexUserTrade[] poloniexUserTrades = returnTradeHistory(currencyPair, startTime, endTime);
-      for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
-        trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+      if (poloniexUserTrades != null) {
+        for (PoloniexUserTrade poloniexUserTrade : poloniexUserTrades) {
+          trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+        }
       }
     }
 

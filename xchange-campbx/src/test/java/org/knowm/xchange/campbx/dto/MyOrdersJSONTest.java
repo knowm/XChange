@@ -7,9 +7,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
+import org.knowm.xchange.campbx.dto.trade.MyOpenOrders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.campbx.dto.trade.MyOpenOrders;
 
 /**
  * Test BitStamp Full Depth JSON parsing

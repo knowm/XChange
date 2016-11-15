@@ -19,6 +19,8 @@ public class IndependentReservePlaceLimitOrderRequest extends AuthAggregate {
     }
     if (secondaryCurrencyCode.equals("USD")) {
       secondaryCurrencyCode = "Usd";
+    } else if (secondaryCurrencyCode.equals("AUD")) {
+      secondaryCurrencyCode = "Aud";
     } else {
       throw new IllegalArgumentException("IndependentReserveOpenOrderRequest - unknown value of counter currency code");
     }

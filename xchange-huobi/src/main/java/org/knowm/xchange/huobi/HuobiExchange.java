@@ -10,9 +10,6 @@ import org.knowm.xchange.huobi.service.polling.GenericTradeService;
 import org.knowm.xchange.huobi.service.polling.HuobiAccountService;
 import org.knowm.xchange.huobi.service.polling.HuobiMarketDataService;
 import org.knowm.xchange.huobi.service.polling.HuobiTradeServiceRaw;
-import org.knowm.xchange.huobi.service.streaming.HuobiStreamingExchangeService;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -34,14 +31,14 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
     super.applySpecification(exchangeSpecification);
 
-    if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)) {
-      exchangeSpecification.setSslUri("https://api.bitvc.com");
-      exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "NOT IMPLEMENTED");
-    }
+    concludeHostParams(exchangeSpecification);
   }
 
   @Override
   protected void initServices() {
+
+    concludeHostParams(exchangeSpecification);
+
     if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)
         && exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES).equals(true)) {
       FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
@@ -64,7 +61,17 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     }
   }
 
+  /** Adjust host parameters depending on exchange specific parameters */
+  private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
+
+    if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)) {
+      exchangeSpecification.setSslUri("https://api.bitvc.com");
+      exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "NOT IMPLEMENTED");
+    }
+  }
+
   private static FuturesContract futuresContractOfConfig(ExchangeSpecification exchangeSpecification) {
+
     FuturesContract contract;
 
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
@@ -100,16 +107,9 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
+
     // BitVC doesn't require a nonce for it's authenticated API
     return null;
   }
 
-  @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-    if (!(Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC)) {
-      return new HuobiStreamingExchangeService(getExchangeSpecification(), configuration);
-    } else {
-      return super.getStreamingExchangeService(configuration);
-    }
-  }
 }

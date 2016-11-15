@@ -10,8 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.btctrade.dto.account.BTCTradeBalance;
 import org.knowm.xchange.btctrade.dto.account.BTCTradeWallet;
 import org.knowm.xchange.btctrade.dto.marketdata.BTCTradeDepth;
@@ -29,6 +27,8 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.exceptions.ExchangeException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BTCTradeAdaptersTest {
 

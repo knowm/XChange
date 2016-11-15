@@ -1,8 +1,8 @@
 package org.knowm.xchange.quadrigacx.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class QuadrigaCxTransaction {
 

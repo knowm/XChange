@@ -3,7 +3,6 @@ package org.knowm.xchange.coinmate.service.polling;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.ExchangeUtils;
 import org.knowm.xchange.currency.Currency;
@@ -27,12 +26,12 @@ public class AccountInfoFetchIntegration {
     assertNotNull(service);
     AccountInfo info = service.getAccountInfo();
     assertNotNull(info);
-    Currency[] currencies = {Currency.BTC, Currency.EUR, Currency.CZK};
+    Currency[] currencies = { Currency.BTC, Currency.EUR, Currency.CZK };
     for (Currency curr : currencies) {
-        System.out.println(curr.toString() + " --- ");
-        System.out.println("Balance : " + info.getWallet().getBalance(curr).getTotal());
-        System.out.println("Available : " + info.getWallet().getBalance(curr).getAvailable());
-        System.out.println("Reserved : " + info.getWallet().getBalance(curr).getFrozen());
+      System.out.println(curr.toString() + " --- ");
+      System.out.println("Balance : " + info.getWallet().getBalance(curr).getTotal());
+      System.out.println("Available : " + info.getWallet().getBalance(curr).getAvailable());
+      System.out.println("Reserved : " + info.getWallet().getBalance(curr).getFrozen());
     }
   }
 

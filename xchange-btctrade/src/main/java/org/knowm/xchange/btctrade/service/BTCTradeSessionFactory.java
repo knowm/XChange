@@ -3,10 +3,9 @@ package org.knowm.xchange.btctrade.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.knowm.xchange.Exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.knowm.xchange.Exchange;
 
 /**
  * {@link BTCTradeSession} factory to ensure the polling service instances, which using the same API key, share the same secret data and nonce.

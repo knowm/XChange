@@ -52,7 +52,7 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
     BitfinexMarketDataServiceRaw dataService = (BitfinexMarketDataServiceRaw) this.pollingMarketDataService;
     List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
     exchangeMetaData = BitfinexAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
-    
+
   }
 
 }

@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.junit.Test;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;

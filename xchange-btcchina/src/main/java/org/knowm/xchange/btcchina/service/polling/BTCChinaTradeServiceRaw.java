@@ -3,9 +3,6 @@ package org.knowm.xchange.btcchina.service.polling;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcchina.BTCChina;
 import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaBuyIcebergOrderRequest;
@@ -35,6 +32,8 @@ import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetStopOrderRespons
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetStopOrdersResponse;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaIntegerResponse;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaTransactionsResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.HttpStatusIOException;
 

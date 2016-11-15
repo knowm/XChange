@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -365,6 +369,20 @@ public final class BTCChinaAdapters {
     default:
       return null;
     }
+
+  }
+
+  public static ExchangeMetaData adaptToExchangeMetaData(Map<String, BTCChinaTickerObject> products) {
+
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+
+    for (String product : products.keySet()) {
+      CurrencyPair pair = adaptCurrencyPair(product);
+      currencies.put(pair.base, null);
+      currencies.put(pair.counter, null);
+    }
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, false);
 
   }
 

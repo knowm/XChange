@@ -5,7 +5,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 
 import org.junit.Test;
-
 import org.knowm.xchange.bitmarket.BitMarketAssert;
 import org.knowm.xchange.bitmarket.BitMarketTestSupport;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;

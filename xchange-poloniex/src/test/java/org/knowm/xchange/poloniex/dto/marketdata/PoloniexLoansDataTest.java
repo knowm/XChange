@@ -1,19 +1,20 @@
 package org.knowm.xchange.poloniex.dto.marketdata;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
-import org.knowm.xchange.currency.Currency;
-import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.poloniex.dto.account.PoloniexLoan;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PoloniexLoansDataTest {
 

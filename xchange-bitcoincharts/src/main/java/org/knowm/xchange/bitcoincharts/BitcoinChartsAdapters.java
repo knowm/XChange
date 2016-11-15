@@ -52,6 +52,7 @@ public final class BitcoinChartsAdapters {
   }
 
   public static ExchangeMetaData adaptMetaData(ExchangeMetaData exchangeMetaData, BitcoinChartsTicker[] tickers) {
+
     Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
 
     for (BitcoinChartsTicker ticker : tickers) {
@@ -65,6 +66,7 @@ public final class BitcoinChartsAdapters {
   }
 
   private static <T> T firstNonNull(T... objects) {
+
     for (T o : objects) {
       if (o != null) {
         return o;

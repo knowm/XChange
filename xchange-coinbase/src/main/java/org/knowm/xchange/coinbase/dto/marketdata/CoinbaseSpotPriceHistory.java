@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.utils.DateUtils;
+
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 /**
  * @author jamespedwards42

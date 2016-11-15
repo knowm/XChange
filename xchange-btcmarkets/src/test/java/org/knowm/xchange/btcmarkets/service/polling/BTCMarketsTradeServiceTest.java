@@ -14,13 +14,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
-
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
 import org.knowm.xchange.btcmarkets.BTCMarketsExchange;
@@ -45,6 +38,12 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 

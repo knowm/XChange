@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;

@@ -9,10 +9,6 @@ import java.math.RoundingMode;
 import java.text.ParseException;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -36,6 +32,10 @@ import org.knowm.xchange.ripple.dto.trade.RippleUserTrade;
 import org.knowm.xchange.ripple.service.polling.params.RippleMarketDataParams;
 import org.knowm.xchange.ripple.service.polling.params.RippleTradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RippleAdaptersTest implements ITransferFeeSource {
 

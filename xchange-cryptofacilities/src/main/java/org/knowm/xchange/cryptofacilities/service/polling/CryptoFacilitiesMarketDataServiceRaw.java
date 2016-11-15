@@ -38,9 +38,9 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBasePo
     CryptoFacilitiesTickers tickers = cryptoFacilities.getTickers();
 
     if (tickers.isSuccess()) {
-        return tickers;
+      return tickers;
     } else {
-        throw new ExchangeException("Error getting CF tickers: " + tickers.getError());
+      throw new ExchangeException("Error getting CF tickers: " + tickers.getError());
     }
   }
 
@@ -49,9 +49,9 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBasePo
     CryptoFacilitiesInstruments instruments = cryptoFacilities.getInstruments();
 
     if (instruments.isSuccess()) {
-        return instruments;
+      return instruments;
     } else {
-        throw new ExchangeException("Error getting CF instruments: " + instruments.getError());
+      throw new ExchangeException("Error getting CF instruments: " + instruments.getError());
     }
   }
 
@@ -60,10 +60,10 @@ public class CryptoFacilitiesMarketDataServiceRaw extends CryptoFacilitiesBasePo
     CryptoFacilitiesOrderBook orderBook = cryptoFacilities.getOrderBook(currencyPair.base.toString());
 
     if (orderBook.isSuccess()) {
-        orderBook.setCurrencyPair(currencyPair);
-        return orderBook;
+      orderBook.setCurrencyPair(currencyPair);
+      return orderBook;
     } else {
-        throw new ExchangeException("Error getting CF order book: " + orderBook.getError());
+      throw new ExchangeException("Error getting CF order book: " + orderBook.getError());
     }
   }
 

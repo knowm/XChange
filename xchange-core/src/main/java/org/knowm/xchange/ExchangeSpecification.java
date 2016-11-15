@@ -30,17 +30,13 @@ public class ExchangeSpecification {
 
   private String plainTextUri;
 
-  private String sslUriStreaming;
-
-  private String plainTextUriStreaming;
-
   private String host;
 
   private int port = 80;
 
   private String metaDataJsonFileOverride = null;
 
-  private boolean shouldLoadRemoteMetaData;
+  private boolean shouldLoadRemoteMetaData = true; // default value
 
   private final String exchangeClassName;
 
@@ -209,46 +205,6 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Set the URI for plain text streaming.
-   *
-   * @return the plaintext streaming URI
-   */
-  public String getPlainTextUriStreaming() {
-
-    return plainTextUriStreaming;
-  }
-
-  /**
-   * Set the URI for plain text streaming.
-   *
-   * @param plainTextUriStreaming the plaintext streaming URI
-   */
-  public void setPlainTextUriStreaming(String plainTextUriStreaming) {
-
-    this.plainTextUriStreaming = plainTextUriStreaming;
-  }
-
-  /**
-   * Get the URI for SSL streaming.
-   *
-   * @return the URI for ssl streaming
-   */
-  public String getSslUriStreaming() {
-
-    return sslUriStreaming;
-  }
-
-  /**
-   * Set the URI for SSL streaming.
-   *
-   * @param sslUriStreaming the URI for ssl streaming
-   */
-  public void setSslUriStreaming(String sslUriStreaming) {
-
-    this.sslUriStreaming = sslUriStreaming;
-  }
-
-  /**
    * Get the arbitrary exchange-specific parameters to be passed to the exchange implementation.
    *
    * @return a Map of named exchange-specific parameter values
@@ -400,6 +356,7 @@ public class ExchangeSpecification {
    * @return
    */
   public boolean isShouldLoadRemoteMetaData() {
+
     return shouldLoadRemoteMetaData;
   }
 
@@ -409,6 +366,7 @@ public class ExchangeSpecification {
    * @param shouldLoadRemoteMetaData
    */
   public void setShouldLoadRemoteMetaData(boolean shouldLoadRemoteMetaData) {
+
     this.shouldLoadRemoteMetaData = shouldLoadRemoteMetaData;
   }
 

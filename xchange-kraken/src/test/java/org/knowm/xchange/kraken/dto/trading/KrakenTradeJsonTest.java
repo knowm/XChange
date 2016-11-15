@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderDescription;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
@@ -24,6 +22,8 @@ import org.knowm.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.KrakenTradeHistory;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KrakenTradeJsonTest {
 

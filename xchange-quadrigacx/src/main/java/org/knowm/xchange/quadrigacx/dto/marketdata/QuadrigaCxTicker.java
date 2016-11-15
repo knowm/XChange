@@ -1,12 +1,13 @@
 package org.knowm.xchange.quadrigacx.dto.marketdata;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import si.mazi.rescu.ExceptionalReturnContentException;
-import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
-
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
+import si.mazi.rescu.serialization.jackson.serializers.TimestampDeserializer;
 
 public class QuadrigaCxTicker {
 
@@ -80,8 +81,8 @@ public class QuadrigaCxTicker {
   @Override
   public String toString() {
 
-    return "QuadrigaCxTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid + ", ask=" + ask
-        + ", timestamp=" + timestamp + "]";
+    return "QuadrigaCxTicker [last=" + last + ", high=" + high + ", low=" + low + ", vwap=" + vwap + ", volume=" + volume + ", bid=" + bid + ", ask="
+        + ask + ", timestamp=" + timestamp + "]";
   }
 
 }

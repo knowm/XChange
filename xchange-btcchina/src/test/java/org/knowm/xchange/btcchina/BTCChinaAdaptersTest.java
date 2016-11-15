@@ -10,9 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
@@ -24,6 +21,8 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BTCChinaAdaptersTest {
 
@@ -67,32 +66,6 @@ public class BTCChinaAdaptersTest {
     assertEquals(new BigDecimal("3790.95"), trade.getPrice());
     assertEquals(1402922707000L, trade.getTimestamp().getTime());
     assertEquals("12158242", trade.getId());
-  }
-
-  @Test
-  public void testAdaptOrderBookBTCChinaDepth() throws IOException {
-
-    BTCChinaDepth btcChinaDepth = mapper.readValue(getClass().getResource("/marketdata/example-depth-data.json"), BTCChinaDepth.class);
-    OrderBook orderBook = BTCChinaAdapters.adaptOrderBook(btcChinaDepth, CurrencyPair.BTC_CNY);
-
-    List<LimitOrder> bids = orderBook.getBids();
-    List<LimitOrder> asks = orderBook.getAsks();
-
-    // bid 4.51@544.83
-    assertEquals(new BigDecimal("544.83"), bids.get(0).getLimitPrice());
-    assertEquals(new BigDecimal("4.51"), bids.get(0).getTradableAmount());
-
-    // bid 4.19@543.38
-    assertEquals(new BigDecimal("543.38"), bids.get(1).getLimitPrice());
-    assertEquals(new BigDecimal("4.19"), bids.get(1).getTradableAmount());
-
-    // ask 49.234@546
-    assertEquals(new BigDecimal("546"), asks.get(0).getLimitPrice());
-    assertEquals(new BigDecimal("49.234"), asks.get(0).getTradableAmount());
-
-    // ask 10.934@547
-    assertEquals(new BigDecimal("547"), asks.get(1).getLimitPrice());
-    assertEquals(new BigDecimal("10.934"), asks.get(1).getTradableAmount());
   }
 
   @Test

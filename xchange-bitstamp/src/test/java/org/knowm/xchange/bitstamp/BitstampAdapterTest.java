@@ -9,8 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTicker;
@@ -25,6 +23,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.UserTrades;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Tests the BitstampAdapter class

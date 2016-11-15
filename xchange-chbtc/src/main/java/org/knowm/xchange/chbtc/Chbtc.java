@@ -39,6 +39,5 @@ public interface Chbtc {
 
   @GET
   @Path("{currency}/getTrades")
-  ChbtcTrade[] getTransactions(@PathParam("currency") String currency, @QueryParam("since") Integer sinceTid)
-      throws HttpStatusIOException;
+  ChbtcTrade[] getTransactions(@PathParam("currency") String currency, @QueryParam("since") Integer sinceTid) throws HttpStatusIOException;
 }

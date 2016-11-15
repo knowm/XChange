@@ -7,9 +7,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcchina.BTCChinaAdapters;
 import org.knowm.xchange.btcchina.BTCChinaExchangeException;
@@ -35,6 +32,8 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.utils.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of the trade service for BTCChina.

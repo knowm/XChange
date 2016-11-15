@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinmate.ExchangeUtils;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -24,7 +23,7 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 public class TradeServiceIntegration {
 
   @Test
-  public void transactionHistoryTest() throws Exception { 
+  public void transactionHistoryTest() throws Exception {
     Exchange exchange = ExchangeUtils.createExchangeFromJsonConfiguration();
     if (exchange == null) {
       return; // forces pass if not configuration is available

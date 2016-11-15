@@ -3,7 +3,6 @@ package org.knowm.xchange;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.junit.Test;
-
 import org.knowm.xchange.currency.CurrencyPair;
 
 public class CurrencyPairTest {

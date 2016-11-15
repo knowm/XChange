@@ -5,7 +5,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ripple.RippleExchange;

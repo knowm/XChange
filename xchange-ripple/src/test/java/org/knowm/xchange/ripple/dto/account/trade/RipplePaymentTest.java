@@ -7,11 +7,11 @@ import java.io.InputStream;
 import java.text.ParseException;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.dto.RippleAmount;
 import org.knowm.xchange.ripple.dto.trade.RipplePaymentTransaction;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RipplePaymentTest {
 

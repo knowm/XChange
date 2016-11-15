@@ -2,9 +2,10 @@ package org.knowm.xchange.kraken.dto.marketdata;
 
 import java.util.Date;
 
+import org.knowm.xchange.utils.jackson.Rfc1123DateDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.utils.jackson.Rfc1123DateDeserializer;
 
 public class KrakenServerTime {
 

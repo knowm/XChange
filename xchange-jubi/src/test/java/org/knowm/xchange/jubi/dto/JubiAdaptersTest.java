@@ -7,12 +7,12 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.jubi.JubiAdapters;
 import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Created by Yingzhe on 3/17/2015.

@@ -22,6 +22,7 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
+
     this.pollingMarketDataService = new BitcoinChartsMarketDataService(this);
   }
 
@@ -40,13 +41,17 @@ public class BitcoinChartsExchange extends BaseExchange implements Exchange {
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
+
     // No private API implemented. Not needed for this exchange at the moment.
     return null;
   }
 
   @Override
   public void remoteInit() throws IOException, ExchangeException {
+
     BitcoinChartsTicker[] tickers = ((BitcoinChartsMarketDataService) pollingMarketDataService).getBitcoinChartsTickers();
     exchangeMetaData = BitcoinChartsAdapters.adaptMetaData(exchangeMetaData, tickers);
+    // String json = ObjectMapperHelper.toJSON(exchangeMetaData);
+    // System.out.println("json: " + json);
   }
 }

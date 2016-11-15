@@ -1,12 +1,13 @@
 package org.knowm.xchange.quadrigacx.dto.trade;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
+import org.knowm.xchange.quadrigacx.QuadrigaCxUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.quadrigacx.QuadrigaCxUtils;
-
-import java.math.BigDecimal;
-import java.util.Date;
 
 public final class QuadrigaCxOrder {
 

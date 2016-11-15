@@ -2,9 +2,6 @@ package org.knowm.xchange.btcchina.service.polling;
 
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcchina.BTCChinaAdapters;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaDepth;
@@ -15,6 +12,8 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of the market data service for BTCChina.

@@ -28,10 +28,10 @@ public class PoloniexOrderTest {
     final InputStream is = getClass().getResourceAsStream("/trade/order-entry.json");
     final ObjectMapper mapper = new ObjectMapper();
     final PoloniexTradeResponse response = mapper.readValue(is, PoloniexTradeResponse.class);
-    
+
     assertThat(response.getOrderNumber()).isEqualTo(21343142352L);
     assertThat(response.getPoloniexPublicTrades().size()).isEqualTo(1);
-    
+
     PoloniexPublicTrade trade = response.getPoloniexPublicTrades().get(0);
     assertThat(trade.getAmount()).isEqualTo("0.10000000");
     assertThat(trade.getDate()).isEqualTo("2016-08-19 12:06:35");
@@ -46,7 +46,7 @@ public class PoloniexOrderTest {
     final InputStream is = getClass().getResourceAsStream("/trade/order-entry-ioc.json");
     final ObjectMapper mapper = new ObjectMapper();
     final PoloniexTradeResponse response = mapper.readValue(is, PoloniexTradeResponse.class);
-    
+
     assertThat(response.getOrderNumber()).isEqualTo(213743244249L);
     assertThat(response.getPoloniexPublicTrades().size()).isEqualTo(0);
     assertThat(response.getAmountUnfilled()).isEqualTo("1.00000000");
@@ -57,8 +57,8 @@ public class PoloniexOrderTest {
 
     InvocationResult invocationResult = new InvocationResult("{\"error\":\"Not enough LTC.\"}", 200);
 
-    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("buy", String.class, ParamsDigest.class,
-        SynchronizedValueFactory.class, String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
+    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("buy", String.class, ParamsDigest.class, SynchronizedValueFactory.class,
+        String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
 
     try {
@@ -74,10 +74,10 @@ public class PoloniexOrderTest {
     final InputStream is = getClass().getResourceAsStream("/trade/order-move.json");
     final ObjectMapper mapper = new ObjectMapper();
     final PoloniexMoveResponse response = mapper.readValue(is, PoloniexMoveResponse.class);
-    
+
     assertThat(response.getOrderNumber()).isEqualTo(214232442242L);
     assertThat(response.getPoloniexPublicTrades().size()).isEqualTo(1);
-    
+
     PoloniexPublicTrade trade = response.getPoloniexPublicTrades().get("BTC_LTC").get(0);
     assertThat(trade.getAmount()).isEqualTo("0.10000000");
     assertThat(trade.getDate()).isEqualTo("2016-08-21 13:08:40");
@@ -92,8 +92,8 @@ public class PoloniexOrderTest {
 
     InvocationResult invocationResult = new InvocationResult("{\"error\":\"Not enough LTC.\"}", 200);
 
-    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("sell", String.class, ParamsDigest.class,
-        SynchronizedValueFactory.class, String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
+    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("sell", String.class, ParamsDigest.class, SynchronizedValueFactory.class,
+        String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
 
     try {
@@ -109,8 +109,8 @@ public class PoloniexOrderTest {
 
     InvocationResult invocationResult = new InvocationResult("{\"success\":0,\"error\":\"Not enough LTC.\"}", 200);
 
-    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("moveOrder", String.class, ParamsDigest.class,
-        SynchronizedValueFactory.class, String.class, String.class, String.class);
+    Method apiMethod = PoloniexAuthenticated.class.getDeclaredMethod("moveOrder", String.class, ParamsDigest.class, SynchronizedValueFactory.class,
+        String.class, String.class, String.class, Integer.class, Integer.class);
     RestMethodMetadata data = RestMethodMetadata.create(apiMethod, "", "");
 
     try {

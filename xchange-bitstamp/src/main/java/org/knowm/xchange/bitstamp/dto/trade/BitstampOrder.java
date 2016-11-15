@@ -5,11 +5,11 @@ import java.util.Date;
 
 import org.knowm.xchange.bitstamp.BitstampUtils;
 
-import si.mazi.rescu.ExceptionalReturnContentException;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import si.mazi.rescu.ExceptionalReturnContentException;
 
 /**
  * @author Matija Mazi
@@ -24,10 +24,9 @@ public final class BitstampOrder {
   private BigDecimal amount;
   private String errorMessage;
 
-  public BitstampOrder(
-      @JsonProperty("status") String status, @JsonProperty("reason") Object reason,
-      @JsonProperty("id") int id, @JsonProperty("datetime") String datetime, @JsonProperty("type") int type,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
+  public BitstampOrder(@JsonProperty("status") String status, @JsonProperty("reason") Object reason, @JsonProperty("id") int id,
+      @JsonProperty("datetime") String datetime, @JsonProperty("type") int type, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("error") @JsonDeserialize(using = BitstampErrorDeserializer.class) String errorMessage) {
 
     if ("error".equals(status)) {

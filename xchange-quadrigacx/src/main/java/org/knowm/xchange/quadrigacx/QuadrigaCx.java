@@ -1,13 +1,18 @@
 package org.knowm.xchange.quadrigacx;
 
+import java.io.IOException;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+
 import org.knowm.xchange.quadrigacx.dto.QuadrigaCxException;
 import org.knowm.xchange.quadrigacx.dto.marketdata.QuadrigaCxOrderBook;
 import org.knowm.xchange.quadrigacx.dto.marketdata.QuadrigaCxTicker;
 import org.knowm.xchange.quadrigacx.dto.marketdata.QuadrigaCxTransaction;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
 
 @Path("v2")
 @Produces(MediaType.APPLICATION_JSON)
@@ -18,7 +23,8 @@ public interface QuadrigaCx {
    */
   @GET
   @Path("order_book?book={base}_{counter}")
-  public QuadrigaCxOrderBook getOrderBook(@PathParam("base") String base, @PathParam("counter") String counter) throws QuadrigaCxException, IOException;
+  public QuadrigaCxOrderBook getOrderBook(@PathParam("base") String base, @PathParam("counter") String counter)
+      throws QuadrigaCxException, IOException;
 
   @GET
   @Path("ticker?book={base}_{counter}")
@@ -29,13 +35,15 @@ public interface QuadrigaCx {
    */
   @GET
   @Path("transactions?book={base}_{counter}")
-  public QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base, @PathParam("counter") String counter) throws QuadrigaCxException, IOException;
+  public QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base, @PathParam("counter") String counter)
+      throws QuadrigaCxException, IOException;
 
   /**
    * Returns descending list of transactions.
    */
   @GET
   @Path("transactions?book={base}_{counter}")
-  public QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base, @PathParam("counter") String counter, @QueryParam("time") String time) throws QuadrigaCxException, IOException;
+  public QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base, @PathParam("counter") String counter,
+      @QueryParam("time") String time) throws QuadrigaCxException, IOException;
 
 }

@@ -31,7 +31,7 @@ public class BitstampMarketDataService extends BitstampMarketDataServiceRaw impl
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    BitstampTime time = args.length > 0 ? (BitstampTime)args[0] : null;
+    BitstampTime time = args.length > 0 ? (BitstampTime) args[0] : null;
     return BitstampAdapters.adaptTrades(getTransactions(currencyPair, time), currencyPair);
   }
 

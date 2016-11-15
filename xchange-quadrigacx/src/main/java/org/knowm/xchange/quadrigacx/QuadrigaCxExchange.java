@@ -7,6 +7,7 @@ import org.knowm.xchange.quadrigacx.service.polling.QuadrigaCxAccountService;
 import org.knowm.xchange.quadrigacx.service.polling.QuadrigaCxMarketDataService;
 import org.knowm.xchange.quadrigacx.service.polling.QuadrigaCxTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class QuadrigaCxExchange extends BaseExchange implements Exchange {

@@ -1,0 +1,22 @@
+package org.knowm.xchange.bitfinex.v1.dto.trade;
+
+import org.knowm.xchange.dto.Order.IOrderFlags;
+
+public enum BitfinexOrderFlags implements IOrderFlags {
+
+  /**
+   * This type of order is a limit order that must be filled in its entirety or cancelled (killed).
+   */
+  FILL_OR_KILL,
+
+  /**
+   * This is an order which does not appear in the orderbook, and thus doesn't influence other market participants. the taker fee will apply
+   * to any trades.
+   */
+  HIDDEN,
+
+  /**
+   * These are orders that allow you to be sure to always pay the maker fee.
+   */
+  POST_ONLY
+}

@@ -55,13 +55,13 @@ public final class BitstampAdapters {
     final BigDecimal usdWithdrawing = bitstampBalance.getUsdBalance().subtract(bitstampBalance.getUsdAvailable())
         .subtract(bitstampBalance.getUsdReserved());
     final BigDecimal eurWithdrawing = bitstampBalance.getEurBalance().subtract(bitstampBalance.getEurAvailable())
-            .subtract(bitstampBalance.getEurReserved());
+        .subtract(bitstampBalance.getEurReserved());
     final BigDecimal btcWithdrawing = bitstampBalance.getBtcBalance().subtract(bitstampBalance.getBtcAvailable())
         .subtract(bitstampBalance.getBtcReserved());
     Balance usdBalance = new Balance(Currency.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(),
         bitstampBalance.getUsdReserved(), ZERO, ZERO, usdWithdrawing, ZERO);
     Balance eurBalance = new Balance(Currency.EUR, bitstampBalance.getEurBalance(), bitstampBalance.getEurAvailable(),
-            bitstampBalance.getEurReserved(), ZERO, ZERO, eurWithdrawing, ZERO);
+        bitstampBalance.getEurReserved(), ZERO, ZERO, eurWithdrawing, ZERO);
     Balance btcBalance = new Balance(Currency.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),
         bitstampBalance.getBtcReserved(), ZERO, ZERO, btcWithdrawing, ZERO);
 

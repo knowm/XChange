@@ -12,10 +12,6 @@ import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -38,6 +34,10 @@ import org.knowm.xchange.kraken.dto.trade.KrakenUserTrade;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenTradeHistoryResult.KrakenTradeHistory;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KrakenAdaptersTest {
 

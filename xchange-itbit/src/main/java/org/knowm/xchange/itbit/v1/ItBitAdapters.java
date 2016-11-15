@@ -12,8 +12,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -38,8 +39,7 @@ import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitUserTrade;
 import org.knowm.xchange.utils.DateUtils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 public final class ItBitAdapters {
 
@@ -207,8 +207,8 @@ public final class ItBitAdapters {
       OrderType orderType = itBitTrade.getDirection().equals(ItBitUserTrade.Direction.buy) ? OrderType.BID : OrderType.ASK;
       CurrencyPair currencyPair = new CurrencyPair(instrument.substring(0, 3), instrument.substring(3, 6));
 
-      trades.add(new UserTrade(orderType, itBitTrade.getCurrency1Amount(), currencyPair, itBitTrade.getRate(),
-          itBitTrade.getTimestamp(), null, itBitTrade.getOrderId(), itBitTrade.getCommissionPaid(), new Currency(itBitTrade.getCommissionCurrency())));
+      trades.add(new UserTrade(orderType, itBitTrade.getCurrency1Amount(), currencyPair, itBitTrade.getRate(), itBitTrade.getTimestamp(), null,
+          itBitTrade.getOrderId(), itBitTrade.getCommissionPaid(), new Currency(itBitTrade.getCommissionCurrency())));
     }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);

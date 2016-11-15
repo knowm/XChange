@@ -14,10 +14,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
-
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bleutrade.BleutradeAssert;
 import org.knowm.xchange.bleutrade.BleutradeAuthenticated;
@@ -38,6 +34,9 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
 @RunWith(PowerMockRunner.class)
 public class BleutradeMarketDataServiceTest extends BleutradeServiceTestSupport {

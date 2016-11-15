@@ -1,5 +1,11 @@
 package org.knowm.xchange.poloniex.service.polling;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.util.HashMap;
+
 /**
  * @author Zach Holmes
  */
@@ -19,12 +25,6 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
-
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.util.HashMap;
 
 public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
 
@@ -60,21 +60,21 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
 
   private PoloniexTradeResponse orderEntry(LimitOrder limitOrder, String name) throws IOException {
     Integer fillOrKill;
-    if (limitOrder.getOrderFlags().contains(PoloniexOrderFlags.FILL_OR_KILL)) {
+    if (limitOrder.hasFlag(PoloniexOrderFlags.FILL_OR_KILL)) {
       fillOrKill = 1;
     } else {
       fillOrKill = null;
     }
-    
+
     Integer immediateOrCancel;
-    if (limitOrder.getOrderFlags().contains(PoloniexOrderFlags.IMMEDIATE_OR_CANCEL)) {
+    if (limitOrder.hasFlag(PoloniexOrderFlags.IMMEDIATE_OR_CANCEL)) {
       immediateOrCancel = 1;
     } else {
       immediateOrCancel = null;
     }
-    
+
     Integer postOnly;
-    if (limitOrder.getOrderFlags().contains(PoloniexOrderFlags.POST_ONLY)) {
+    if (limitOrder.hasFlag(PoloniexOrderFlags.POST_ONLY)) {
       postOnly = 1;
     } else {
       postOnly = null;
@@ -94,14 +94,34 @@ public class PoloniexTradeServiceRaw extends PoloniexBasePollingService {
     }
   }
 
-  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice) throws IOException {
+  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice, PoloniexOrderFlags flag)
+      throws IOException {
+
+    Integer immediateOrCancel;
+    if (flag == PoloniexOrderFlags.IMMEDIATE_OR_CANCEL) {
+      immediateOrCancel = 1;
+    } else {
+      immediateOrCancel = null;
+    }
+
+    Integer postOnly;
+    if (flag == PoloniexOrderFlags.POST_ONLY) {
+      postOnly = 1;
+    } else {
+      postOnly = null;
+    }
 
     try {
       return poloniexAuthenticated.moveOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId, tradableAmount.toPlainString(),
-          limitPrice.toPlainString());
+          limitPrice.toPlainString(), immediateOrCancel, postOnly);
     } catch (PoloniexException e) {
       throw new ExchangeException(e.getError(), e);
     }
+  }
+
+  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice) throws IOException {
+
+    return move(orderId, tradableAmount, limitPrice, null);
   }
 
   public boolean cancel(String orderId) throws IOException {

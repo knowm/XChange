@@ -53,9 +53,9 @@ public final class BTCChinaTradeRequest {
 
     NewOrderSingle message = new NewOrderSingle(new ClOrdID(clOrdId), new Side(side), new TransactTime(), new OrdType(ordType));
     message.set(new Account(account));
-    message.set(new OrderQty(orderQty));
+    message.set(new OrderQty(orderQty.doubleValue()));
     if (price != null) {
-      message.set(new Price(price));
+      message.set(new Price(price.doubleValue()));
     }
     message.set(new Symbol(symbol));
     return message;

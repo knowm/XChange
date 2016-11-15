@@ -9,8 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -25,6 +23,8 @@ import org.knowm.xchange.taurus.dto.marketdata.TaurusOrderBook;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusTicker;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusTransaction;
 import org.knowm.xchange.taurus.dto.trade.TaurusUserTransaction;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Tests the TaurusAdapter class

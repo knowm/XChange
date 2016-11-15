@@ -6,10 +6,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketDepth;
-import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketOrder;
-import org.knowm.xchange.paymium.dto.marketdata.PaymiumTicker;
-import org.knowm.xchange.paymium.dto.marketdata.PaymiumTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -17,6 +13,10 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketDepth;
+import org.knowm.xchange.paymium.dto.marketdata.PaymiumMarketOrder;
+import org.knowm.xchange.paymium.dto.marketdata.PaymiumTicker;
+import org.knowm.xchange.paymium.dto.marketdata.PaymiumTrade;
 
 public class PaymiumAdapters {
 
@@ -86,8 +86,8 @@ public class PaymiumAdapters {
     List<Trade> trades = new ArrayList<Trade>();
 
     for (PaymiumTrade PaymiumTrade : PaymiumTrades) {
-      Trade trade = new Trade(null, PaymiumTrade.getTraded_btc(), currencyPair, PaymiumTrade.getPrice(),
-          new Date(PaymiumTrade.getCreated_at_int()), PaymiumTrade.getUuid().toString());
+      Trade trade = new Trade(null, PaymiumTrade.getTraded_btc(), currencyPair, PaymiumTrade.getPrice(), new Date(PaymiumTrade.getCreated_at_int()),
+          PaymiumTrade.getUuid().toString());
 
       trades.add(trade);
     }

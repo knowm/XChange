@@ -1,14 +1,14 @@
 package org.knowm.xchange.quadrigacx.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.quadrigacx.util.QuadrigaCxTransactionTypeDeserializer;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.knowm.xchange.quadrigacx.util.QuadrigaCxTransactionTypeDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public final class QuadrigaCxUserTransaction {
 
@@ -34,8 +34,8 @@ public final class QuadrigaCxUserTransaction {
    */
 
   public QuadrigaCxUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id, @JsonProperty("order_id") String order_id,
-      @JsonProperty("type") @JsonDeserialize(using = QuadrigaCxTransactionTypeDeserializer.class) TransactionType type, @JsonProperty("rate") BigDecimal rate,
-      @JsonProperty("fee") BigDecimal fee, @JsonProperty("method") String method) {
+      @JsonProperty("type") @JsonDeserialize(using = QuadrigaCxTransactionTypeDeserializer.class) TransactionType type,
+      @JsonProperty("rate") BigDecimal rate, @JsonProperty("fee") BigDecimal fee, @JsonProperty("method") String method) {
 
     this.datetime = datetime;
     this.id = id;
@@ -98,7 +98,7 @@ public final class QuadrigaCxUserTransaction {
 
   @JsonAnySetter
   public void setCurrencyAmount(String currency, BigDecimal ammount) {
-    this.currencyAmount.put(currency,ammount);
+    this.currencyAmount.put(currency, ammount);
   }
 
   public BigDecimal getCurrencyAmount(String currency) {
@@ -107,16 +107,8 @@ public final class QuadrigaCxUserTransaction {
 
   @Override
   public String toString() {
-    return "QuadrigaCxUserTransaction{" +
-            "datetime='" + datetime + '\'' +
-            ", id=" + id +
-            ", order_id='" + order_id + '\'' +
-            ", type=" + type +
-            ", rate=" + rate +
-            ", fee=" + fee +
-            ", method='" + method + '\'' +
-            ", currencyAmount=" + currencyAmount +
-            '}';
+    return "QuadrigaCxUserTransaction{" + "datetime='" + datetime + '\'' + ", id=" + id + ", order_id='" + order_id + '\'' + ", type=" + type
+        + ", rate=" + rate + ", fee=" + fee + ", method='" + method + '\'' + ", currencyAmount=" + currencyAmount + '}';
   }
 
   public enum TransactionType {

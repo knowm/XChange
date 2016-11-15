@@ -5,8 +5,9 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.bleutrade.BleutradeTestData;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BleutradeDtoTestSupport extends BleutradeTestData {
 

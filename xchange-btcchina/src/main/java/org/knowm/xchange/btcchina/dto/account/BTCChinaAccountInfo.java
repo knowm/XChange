@@ -2,8 +2,9 @@ package org.knowm.xchange.btcchina.dto.account;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.btcchina.dto.BTCChinaValue;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author David Yam

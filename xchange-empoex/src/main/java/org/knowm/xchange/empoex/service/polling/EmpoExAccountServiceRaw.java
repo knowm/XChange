@@ -1,13 +1,13 @@
 package org.knowm.xchange.empoex.service.polling;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.empoex.EmpoExErrorException;
 import org.knowm.xchange.empoex.dto.account.EmpoExBalance;
 import org.knowm.xchange.exceptions.ExchangeException;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 public class EmpoExAccountServiceRaw extends EmpoExBasePollingService {
 

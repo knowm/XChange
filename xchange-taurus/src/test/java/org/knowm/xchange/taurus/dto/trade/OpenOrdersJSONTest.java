@@ -9,9 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 import org.junit.Test;
+import org.knowm.xchange.dto.Order;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.dto.Order;
 
 /**
  * Test Transaction[] JSON parsing

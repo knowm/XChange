@@ -8,9 +8,6 @@ import org.knowm.xchange.okcoin.service.polling.OkCoinFuturesMarketDataService;
 import org.knowm.xchange.okcoin.service.polling.OkCoinFuturesTradeService;
 import org.knowm.xchange.okcoin.service.polling.OkCoinMarketDataService;
 import org.knowm.xchange.okcoin.service.polling.OkCoinTradeService;
-import org.knowm.xchange.okcoin.service.streaming.OkCoinStreamingExchangeService;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -31,6 +28,7 @@ public class OkCoinExchange extends BaseExchange {
 
   @Override
   protected void initServices() {
+
     concludeHostParams(exchangeSpecification);
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null
@@ -53,16 +51,18 @@ public class OkCoinExchange extends BaseExchange {
 
   /** Adjust host parameters depending on exchange specific parameters */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
-    if (exchangeSpecification.getExchangeSpecificParameters() != null && exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)) {
+
+    if (exchangeSpecification.getExchangeSpecificParameters() != null
+        && exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)) {
       exchangeSpecification.setSslUri("https://www.okcoin.com/api");
       exchangeSpecification.setHost("www.okcoin.com");
       exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.com:10440/websocket/okcoinapi");
     }
   }
 
-
   /** Extract futures leverage used by spec */
   private static int futuresLeverageOfConfig(ExchangeSpecification exchangeSpecification) {
+
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Leverage")) {
       return Integer.valueOf((String) exchangeSpecification.getExchangeSpecificParameters().get("Futures_Leverage"));
     } else {
@@ -73,6 +73,7 @@ public class OkCoinExchange extends BaseExchange {
 
   /** Extract contract used by spec */
   public static FuturesContract futuresContractOfConfig(ExchangeSpecification exchangeSpecification) {
+
     FuturesContract contract;
 
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Contract")) {
@@ -106,12 +107,8 @@ public class OkCoinExchange extends BaseExchange {
   }
 
   @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-    return new OkCoinStreamingExchangeService(getExchangeSpecification(), configuration);
-  }
-
-  @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
+
     // This exchange doesn't use a nonce for authentication
     return null;
   }

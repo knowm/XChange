@@ -26,7 +26,6 @@ package org.knowm.xchange.coinmate.service.polling;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.coinmate.CoinmateExchange;
@@ -50,7 +49,7 @@ public class CoinmateBasePollingServiceIntegration {
     System.out.println(tickerEUR.toString());
     assertThat(tickerEUR).isNotNull();
   }
-  
+
   @Test
   public void tickerFetchTestCZK() throws Exception {
 
@@ -70,7 +69,7 @@ public class CoinmateBasePollingServiceIntegration {
     System.out.println(orderBook.toString());
     assertThat(orderBook).isNotNull();
   }
-  
+
   @Test
   public void orderBookFetchTestCZK() throws Exception {
 
@@ -90,7 +89,7 @@ public class CoinmateBasePollingServiceIntegration {
     System.out.println(trades.getTrades().toString());
     assertThat(trades).isNotNull();
   }
-  
+
   @Test
   public void tradesFetchTestCZK() throws Exception {
 

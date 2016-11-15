@@ -49,6 +49,7 @@ public class KrakenExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException {
+
     KrakenAssetPairs assetPairs = ((KrakenMarketDataServiceRaw) pollingMarketDataService).getKrakenAssetPairs();
     KrakenAssets assets = ((KrakenMarketDataServiceRaw) pollingMarketDataService).getKrakenAssets();
     // other endpoints?

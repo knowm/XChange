@@ -24,6 +24,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
+
     this.pollingMarketDataService = new HitbtcMarketDataService(this);
     this.pollingTradeService = new HitbtcTradeService(this);
     this.pollingAccountService = new HitbtcAccountService(this);
@@ -31,6 +32,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void loadExchangeMetaData(InputStream is) {
+
     hitbtcMetaData = loadMetaData(is, HitbtcMetaData.class);
     exchangeMetaData = HitbtcAdapters.adaptToExchangeMetaData(null, hitbtcMetaData.getCurrencies());
   }
@@ -42,7 +44,6 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setSslUri("https://api.hitbtc.com");
     exchangeSpecification.setHost("hitbtc.com");
     exchangeSpecification.setPort(80);
-    exchangeSpecification.setPlainTextUriStreaming("ws://api.hitbtc.com/");
     exchangeSpecification.setExchangeName("Hitbtc");
     exchangeSpecification.setExchangeDescription("Hitbtc is a Bitcoin exchange.");
     exchangeSpecification.setExchangeSpecificParametersItem("demo-api", "http://demo-api.hitbtc.com");
@@ -58,6 +59,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException {
+
     HitbtcSymbols hitbtcSymbols = ((HitbtcMarketDataServiceRaw) pollingMarketDataService).getHitbtcSymbols();
     exchangeMetaData = HitbtcAdapters.adaptToExchangeMetaData(hitbtcSymbols, hitbtcMetaData.getCurrencies());
   }

@@ -6,7 +6,8 @@
 	<appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
 		<!-- Simplified standard logging encoder -->
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%contextName] [%thread] %-5level %logger{36} - %msg %xEx%n</pattern>
+			<pattern>%d{HH:mm:ss.SSS} [%contextName] [%thread] %-5level
+				%logger{36} - %msg %xEx%n</pattern>
 		</encoder>
 	</appender>
 
@@ -28,7 +29,8 @@
 		</rollingPolicy>
 
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} ${HOSTNAME} [%thread] %-5level %logger{36} - %msg %xEx%n</pattern>
+			<pattern>%d{HH:mm:ss.SSS} ${HOSTNAME} [%thread] %-5level %logger{36}
+				- %msg %xEx%n</pattern>
 		</encoder>
 
 	</appender>

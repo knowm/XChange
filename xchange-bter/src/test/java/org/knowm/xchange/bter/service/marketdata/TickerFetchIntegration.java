@@ -3,7 +3,6 @@ package org.knowm.xchange.bter.service.marketdata;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import org.junit.Test;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bter.BTERExchange;

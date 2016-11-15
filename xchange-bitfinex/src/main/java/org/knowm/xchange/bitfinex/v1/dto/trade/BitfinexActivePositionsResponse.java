@@ -2,8 +2,9 @@ package org.knowm.xchange.bitfinex.v1.dto.trade;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.dto.Order.OrderType;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitfinexActivePositionsResponse {
 

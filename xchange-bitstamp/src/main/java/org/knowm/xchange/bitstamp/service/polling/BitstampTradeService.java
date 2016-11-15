@@ -100,10 +100,10 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
       currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
     }
     if (params instanceof TradeHistoryParamOffset) {
-      offset = ((TradeHistoryParamOffset)params).getOffset();
+      offset = ((TradeHistoryParamOffset) params).getOffset();
     }
     if (params instanceof TradeHistoryParamsSorted) {
-      sort = ((TradeHistoryParamsSorted)params).getOrder();
+      sort = ((TradeHistoryParamsSorted) params).getOrder();
     }
     BitstampUserTransaction[] txs = getBitstampUserTransactions(limit, currencyPair, offset, sort == null ? null : sort.toString());
     return BitstampAdapters.adaptTradeHistory(txs);

@@ -1,14 +1,14 @@
 package org.knowm.xchange.quadrigacx.service.polling;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.quadrigacx.QuadrigaCxAdapters;
 import org.knowm.xchange.quadrigacx.dto.account.QuadrigaCxBalance;
 import org.knowm.xchange.service.polling.account.PollingAccountService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 
 public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw implements PollingAccountService {
 
@@ -21,7 +21,8 @@ public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw implem
   public AccountInfo getAccountInfo() throws IOException {
 
     QuadrigaCxBalance quadrigaCxBalance = getQuadrigaCxBalance();
-    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), quadrigaCxBalance.getFee(), QuadrigaCxAdapters.adaptWallet(quadrigaCxBalance));
+    return new AccountInfo(exchange.getExchangeSpecification().getUserName(), quadrigaCxBalance.getFee(),
+        QuadrigaCxAdapters.adaptWallet(quadrigaCxBalance));
   }
 
   @Override
@@ -36,6 +37,7 @@ public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw implem
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
 
-    return currency.equals(Currency.BTC) ? getQuadrigaCxBitcoinDepositAddress().getDepositAddress() : getQuadrigaCxEtherDepositAddress().getDepositAddress();
+    return currency.equals(Currency.BTC) ? getQuadrigaCxBitcoinDepositAddress().getDepositAddress()
+        : getQuadrigaCxEtherDepositAddress().getDepositAddress();
   }
 }

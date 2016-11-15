@@ -7,9 +7,9 @@ import java.io.InputStream;
 import java.util.Map;
 
 import org.junit.Test;
+import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
 
 public class KrakenAssetsJSONTest {
 

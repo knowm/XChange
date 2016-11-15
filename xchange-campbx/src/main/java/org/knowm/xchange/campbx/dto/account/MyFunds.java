@@ -5,8 +5,9 @@ package org.knowm.xchange.campbx.dto.account;
  */
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.campbx.dto.CampBXResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class MyFunds extends CampBXResponse {
 

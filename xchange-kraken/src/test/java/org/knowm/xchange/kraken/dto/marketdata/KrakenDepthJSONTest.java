@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 
 /**
  * Test KrakenDepth JSON parsing

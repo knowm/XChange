@@ -92,23 +92,16 @@ public class CryptoFacilitiesAdapters {
   public static OrderStatus adaptOrderStatus(String cryptoFacilitiesOrderStatus) {
 
     if (cryptoFacilitiesOrderStatus != null && cryptoFacilitiesOrderStatus.equalsIgnoreCase("untouched"))
-        return OrderStatus.NEW;
+      return OrderStatus.NEW;
     if (cryptoFacilitiesOrderStatus != null && cryptoFacilitiesOrderStatus.equalsIgnoreCase("partiallyFilled"))
-        return OrderStatus.PARTIALLY_FILLED;
-    
+      return OrderStatus.PARTIALLY_FILLED;
+
     return OrderStatus.PENDING_NEW;
   }
-  
+
   public static LimitOrder adaptLimitOrder(CryptoFacilitiesOpenOrder ord) {
-    return new LimitOrder(adaptOrderType(ord.getDirection()), 
-                            ord.getQuantity(),
-                            new CurrencyPair(ord.getSymbol(), ord.getSymbol().substring(6, 9)), 
-                            ord.getId(), 
-                            ord.getTimestamp(), 
-                            ord.getLimitPrice(),
-                            BigDecimal.ZERO,
-                            ord.getFilled(),
-                            adaptOrderStatus(ord.getStatus()));
+    return new LimitOrder(adaptOrderType(ord.getDirection()), ord.getQuantity(), new CurrencyPair(ord.getSymbol(), ord.getSymbol().substring(6, 9)),
+        ord.getId(), ord.getTimestamp(), ord.getLimitPrice(), BigDecimal.ZERO, ord.getFilled(), adaptOrderStatus(ord.getStatus()));
   }
 
   public static OpenOrders adaptOpenOrders(CryptoFacilitiesOpenOrders orders) {
@@ -129,8 +122,8 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static UserTrade adaptFill(CryptoFacilitiesFill fill) {
-    return new UserTrade(adaptOrderType(fill.getSide()), fill.getSize(), new CurrencyPair(fill.getSymbol(), fill.getSymbol().substring(6, 9)), fill.getPrice(),
-        fill.getFillTime(), fill.getFillId(), fill.getOrderId(), null, (Currency) null);
+    return new UserTrade(adaptOrderType(fill.getSide()), fill.getSize(), new CurrencyPair(fill.getSymbol(), fill.getSymbol().substring(6, 9)),
+        fill.getPrice(), fill.getFillTime(), fill.getFillId(), fill.getOrderId(), null, (Currency) null);
   }
 
   public static UserTrades adaptFills(CryptoFacilitiesFills cryptoFacilitiesFills) {

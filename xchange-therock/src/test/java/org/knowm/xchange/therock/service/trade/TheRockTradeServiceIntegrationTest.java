@@ -13,22 +13,22 @@ import org.knowm.xchange.therock.service.polling.TheRockTradeServiceRaw;
 /**
  * Remove abstract modifier and read parent class notes in order to run the integration test
  */
-public abstract class TheRockTradeServiceIntegrationTest extends AbstractTheRockTradeServiceIntegrationTest{
+public abstract class TheRockTradeServiceIntegrationTest extends AbstractTheRockTradeServiceIntegrationTest {
 
   TheRockTradeServiceRaw unit = createUnit();
 
-  private static TheRockTradeService createUnit(){
-	return new TheRockTradeService(createExchange());
+  private static TheRockTradeService createUnit() {
+    return new TheRockTradeService(createExchange());
   }
-	
+
   @Test
-  public void testPlaceLimitOrder() throws IOException{
-	TheRockTradeService unit = createUnit();
-	BigDecimal amount = new BigDecimal("0.01");
-	BigDecimal price = new BigDecimal("50.0");
-	LimitOrder limitOrder = new LimitOrder(OrderType.BID, amount, CurrencyPair.BTC_EUR, null, null, price);
-	String id = unit.placeLimitOrder(limitOrder);
-	assert id != null;
+  public void testPlaceLimitOrder() throws IOException {
+    TheRockTradeService unit = createUnit();
+    BigDecimal amount = new BigDecimal("0.01");
+    BigDecimal price = new BigDecimal("50.0");
+    LimitOrder limitOrder = new LimitOrder(OrderType.BID, amount, CurrencyPair.BTC_EUR, null, null, price);
+    String id = unit.placeLimitOrder(limitOrder);
+    assert id != null;
   }
 
 }

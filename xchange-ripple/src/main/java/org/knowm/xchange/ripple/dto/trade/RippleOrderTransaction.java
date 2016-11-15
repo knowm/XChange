@@ -4,9 +4,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.ripple.dto.RippleAmount;
 import org.knowm.xchange.ripple.dto.RippleCommon;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RippleOrderTransaction extends RippleCommon implements IRippleTradeTransaction {
 

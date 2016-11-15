@@ -3,10 +3,11 @@ package org.knowm.xchange.coinbase.dto.account;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.knowm.xchange.coinbase.dto.CoinbaseBaseResponse;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author jamespedwards42

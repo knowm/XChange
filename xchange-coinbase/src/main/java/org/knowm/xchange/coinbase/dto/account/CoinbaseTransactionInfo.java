@@ -2,9 +2,10 @@ package org.knowm.xchange.coinbase.dto.account;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author jamespedwards42

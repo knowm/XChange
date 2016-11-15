@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseAccountChange.CoinbaseCache;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseTransactionStatus;
 import org.knowm.xchange.coinbase.dto.common.CoinbaseRecurringPaymentStatus;
@@ -18,6 +16,8 @@ import org.knowm.xchange.coinbase.dto.common.CoinbaseRepeat;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.merchant.CoinbaseMerchant;
 import org.knowm.xchange.utils.DateUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author jamespedwards42

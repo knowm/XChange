@@ -2,9 +2,10 @@ package org.knowm.xchange.bitso.dto.trade;
 
 import java.math.BigDecimal;
 
+import org.knowm.xchange.bitso.util.BitsoTransactionTypeDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.bitso.util.BitsoTransactionTypeDeserializer;
 
 /**
  * @author Piotr Ładyżyński

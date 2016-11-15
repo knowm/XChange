@@ -3,10 +3,11 @@ package org.knowm.xchange.bitso.dto.trade;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.knowm.xchange.bitso.BitsoUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.knowm.xchange.bitso.BitsoUtils;
 
 /**
  * @author Piotr Ładyżyński

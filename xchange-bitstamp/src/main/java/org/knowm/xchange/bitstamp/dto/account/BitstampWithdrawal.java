@@ -1,7 +1,8 @@
 package org.knowm.xchange.bitstamp.dto.account;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bitstamp.dto.BitstampBaseResponse;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Matija Mazi

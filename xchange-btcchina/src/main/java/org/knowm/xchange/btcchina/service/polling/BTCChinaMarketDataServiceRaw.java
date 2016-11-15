@@ -36,6 +36,7 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBasePollingService {
     super(exchange);
   }
 
+  // TODO fix this json deserialization
   public Map<String, BTCChinaTickerObject> getBTCChinaTickers() throws IOException {
 
     return btcChina.getTicker(BTCChinaExchange.ALL_MARKET);

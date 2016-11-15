@@ -1,7 +1,8 @@
 package org.knowm.xchange.gatecoin.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.gatecoin.dto.marketdata.ResponseStatus;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import si.mazi.rescu.ExceptionalReturnContentException;
 

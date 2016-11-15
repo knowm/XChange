@@ -44,7 +44,6 @@ public class CexIOAdapters {
    */
   public static Trade adaptTrade(CexIOTrade trade, CurrencyPair currencyPair) {
 
-    
     BigDecimal amount = trade.getAmount();
     BigDecimal price = trade.getPrice();
     Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000L);
