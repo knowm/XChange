@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 public final class BittrexAdapters {
 
   public static final Logger log = LoggerFactory.getLogger(BittrexAdapters.class);
-
+  
   private BittrexAdapters() {
 
   }
@@ -72,11 +72,11 @@ public final class BittrexAdapters {
     OrderType type = bittrexOpenOrder.getOrderType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
     String[] currencies = bittrexOpenOrder.getExchange().split("-");
     CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
-
-    return new BittrexLimitOrder(type, bittrexOpenOrder.getQuantityRemaining(), pair, bittrexOpenOrder.getOrderUuid(), null,
+    
+    return new BittrexLimitOrder(type, bittrexOpenOrder.getQuantityRemaining(), pair, bittrexOpenOrder.getOrderUuid(), BittrexUtils.toDate(bittrexOpenOrder.getOpened()),
         bittrexOpenOrder.getLimit(), bittrexOpenOrder.getQuantityRemaining(), bittrexOpenOrder.getPricePerUnit());
   }
-
+  
   public static List<LimitOrder> adaptOrders(BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);

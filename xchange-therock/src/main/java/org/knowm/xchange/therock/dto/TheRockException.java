@@ -30,7 +30,7 @@ public class TheRockException extends HttpStatusExceptionSupport {
   public static class Error {
     private String message;
     private Integer code;
-    private Map<String, String> meta;
+    private Map<String, Object> meta;
 
     public String getMessage() {
       return message;
@@ -40,7 +40,7 @@ public class TheRockException extends HttpStatusExceptionSupport {
       return code;
     }
 
-    public Map<String, String> getMeta() {
+    public Map<String, Object> getMeta() {
       return meta;
     }
 

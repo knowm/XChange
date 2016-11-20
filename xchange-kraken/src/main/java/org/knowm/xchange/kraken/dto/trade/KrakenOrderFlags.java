@@ -17,10 +17,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public enum KrakenOrderFlags implements IOrderFlags {
 
-  VIQC, // volume in quote currency
   FCIB, // prefer fee in base currency
   FCIQ, // prefer fee in quote currency
-  NOMPP; // no market price protection
+  NOMPP, // no market price protection
+  POST, // for market maker orders 
+  VIQC; // volume in quote currency
 
   @Override
   public String toString() {

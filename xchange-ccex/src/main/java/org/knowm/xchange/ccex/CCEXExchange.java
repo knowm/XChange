@@ -7,28 +7,18 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXMarket;
-import org.knowm.xchange.ccex.dto.marketdata.CCEXTrade;
+import org.knowm.xchange.ccex.service.pooling.CCEXAccountService;
 import org.knowm.xchange.ccex.service.pooling.CCEXMarketDataService;
 import org.knowm.xchange.ccex.service.pooling.CCEXMarketDataServiceRaw;
-import org.knowm.xchange.utils.ObjectMapperHelper;
-import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+import org.knowm.xchange.ccex.service.pooling.CCEXTradeService;
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class CCEXExchange extends BaseExchange implements Exchange{
 
-	private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
-	/*
-	@Override
-	  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
+	private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
-	    if (configuration instanceof CCEXStreamingConfiguration) {
-	      return new CCEXPusherService(this, (CCEXStreamingConfiguration) configuration);
-	    }
-
-	    throw new IllegalArgumentException("C-CEX only supports CCEXStreamingConfiguration");
-	  }
-	*/
 	@Override
 	public SynchronizedValueFactory<Long> getNonceFactory() {
 		return nonceFactory;
@@ -49,8 +39,8 @@ public class CCEXExchange extends BaseExchange implements Exchange{
 	@Override
 	protected void initServices() {
 		this.pollingMarketDataService = new CCEXMarketDataService(this);
-		this.pollingTradeService = null;
-	    this.pollingAccountService = null;
+		this.pollingTradeService = new CCEXTradeService(this);
+	    this.pollingAccountService = new CCEXAccountService(this);
 	}
 	
 	@Override

@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.knowm.xchange.kraken.dto.account.results.DepositStatusResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenDepositAddressResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenDepositMethodsResults;
@@ -21,6 +22,7 @@ import org.knowm.xchange.kraken.dto.account.results.KrakenTradeBalanceInfoResult
 import org.knowm.xchange.kraken.dto.account.results.KrakenTradeVolumeResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawInfoResult;
 import org.knowm.xchange.kraken.dto.account.results.WithdrawResult;
+import org.knowm.xchange.kraken.dto.account.results.WithdrawStatusResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenCancelOrderResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenClosedOrdersResult;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenOpenOrdersResult;
@@ -178,5 +180,20 @@ public interface KrakenAuthenticated extends Kraken {
   public WithdrawResult withdraw(@FormParam("aclass") String assetPairs, @FormParam("asset") String assets, @FormParam("key") String key,
       @FormParam("amount") BigDecimal amount, @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
+
+ @POST
+ @Path("private/DepositStatus")
+ @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+ public DepositStatusResult getDepositStatus(@FormParam("aclass") String assetPairs, @FormParam("asset") String assets, @FormParam("method") String method
+         , @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer
+         , @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
+ @POST
+ @Path("private/WithdrawStatus")
+ @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+ public WithdrawStatusResult getWithdrawStatus(@FormParam("aclass") String assetPairs, @FormParam("asset") String assets, @FormParam("method") String method
+         , @HeaderParam("API-Key") String apiKey, @HeaderParam("API-Sign") ParamsDigest signer
+         , @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
 }

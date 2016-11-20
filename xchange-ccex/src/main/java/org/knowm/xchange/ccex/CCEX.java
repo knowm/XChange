@@ -13,6 +13,7 @@ import org.knowm.xchange.ccex.dto.marketdata.CCEXGetorderbook;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXMarkets;
 import org.knowm.xchange.ccex.dto.marketdata.CCEXTrades;
 import org.knowm.xchange.ccex.dto.ticker.CCEXPairs;
+import org.knowm.xchange.ccex.dto.ticker.CCEXTickerResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 
@@ -27,14 +28,18 @@ public interface CCEX {
 	@GET
 	@Path("pairs.json")
 	CCEXPairs getPairs() throws IOException;
+	
+	@GET
+	@Path("{lpair}-{rpair}.json")
+	CCEXTickerResponse getTicker(@PathParam("lpair") String lpair, @PathParam("rpair") String rpair) throws IOException;
 
 	/**
 	 * Returns "bids" and "asks". Each is a list of open orders and each order
 	 * is represented as a list of data.
 	 */
 	@GET
-	@Path("api_pub.html?a=getorderbook&market={pair}&type=both&depth=100")
-	public CCEXGetorderbook getOrderBook(@PathParam("pair") Pair pair) throws IOException;
+	@Path("api_pub.html?a=getorderbook&market={pair}&type=both&depth={depth}")
+	public CCEXGetorderbook getOrderBook(@PathParam("pair") Pair pair, @PathParam("depth") int depth) throws IOException;
 
 	/**
 	 * Returns Latest trades that have occured for a specific market.

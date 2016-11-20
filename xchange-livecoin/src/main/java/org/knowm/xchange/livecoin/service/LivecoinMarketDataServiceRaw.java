@@ -22,13 +22,13 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBasePollingService<Liv
 		return data.getRestrictions();
 	}
 
-	public LivecoinOrderBook getOrderBook(CurrencyPair currencyPair) throws IOException {
+	public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth) throws IOException {
 		if (!this.checkProductExists(currencyPair)) {
 			return null;
 		}
 
 		return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toUpperCase(),
-				currencyPair.counter.getCurrencyCode().toUpperCase());
+				currencyPair.counter.getCurrencyCode().toUpperCase(), depth);
 	}
 
 	public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
