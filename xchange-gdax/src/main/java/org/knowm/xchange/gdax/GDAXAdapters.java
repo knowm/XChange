@@ -53,23 +53,24 @@ public class GDAXAdapters {
 
     //    System.out.println("before: " + rawDate);
     try {
-      if (rawDate.length() == 21) {
+      if (rawDate.length() == 20 && rawDate.endsWith("Z")) {
+        rawDate = rawDate.substring(0, 19) + ".000Z";
+      } else if (rawDate.length() == 21) {
         rawDate = rawDate.substring(0, 20) + "000";
       } else if (rawDate.length() == 22) {
         rawDate = rawDate.substring(0, 21) + "00";
       } else if (rawDate.length() == 23) {
         rawDate = rawDate.substring(0, 22) + "0";
       } else {
-        rawDate = rawDate.substring(0, 23);
-
+        rawDate = rawDate.substring(0, rawDate.length() < 23 ? rawDate.length() : 23);
       }
       //      System.out.println("after: " + rawDate);
       //      System.out.println("");
 
       return dateFormat.parse(rawDate);
     } catch (ParseException e) {
-      //      System.out.println(rawDate);
-      //      e.printStackTrace();
+      System.err.println("rawDate: " + rawDate);
+      e.printStackTrace();
       return null;
     }
   }
