@@ -2,71 +2,71 @@
   "currency_pairs": {
     "BTC/EUR": {
       "price_scale": 3,
-      "min_amount": 0.010000000      
+      "min_amount": 0.001000000
     },
     "BTC/USD": {
       "price_scale": 3,
-      "min_amount": 0.010000000      
+      "min_amount": 0.001000000
     },
     "BTC/CAD": {
       "price_scale": 3,
-      "min_amount": 0.010000000      
+      "min_amount": 0.001000000
     },
     "BTC/GBP": {
       "price_scale": 3,
-      "min_amount": 0.010000000      
+      "min_amount": 0.001000000
     },
     "BTC/JPY": {
       "price_scale": 1,
-      "min_amount": 0.010000000      
+      "min_amount": 0.001000000
     },
     "LTC/EUR": {
       "price_scale": 5,
-      "min_amount": 0.010000000      
+      "min_amount": 0.100000000
     },
     "LTC/USD": {
       "price_scale": 5,
-      "min_amount": 0.010000000      
+      "min_amount": 0.100000000
     },
     "BTC/LTC": {
       "price_scale": 5,
-      "min_amount": 0.010000000      
+      "min_amount": 0.001000000
     },
     "BTC/DOGE": {
       "price_scale": 1,
-      "min_amount": 0.010000000      
+      "min_amount": 0.001000000
     },
     "BTC/XLM": {
       "price_scale": 3,
-      "min_amount": 0.010000000      
+      "min_amount": 0.001000000
     },
     "BTC/XRP": {
       "price_scale": 3,
-      "min_amount": 0.010000000      
+      "min_amount": 0.001000000
     },
     "ETH/BTC": {
       "price_scale": 6,
-      "min_amount": 0.010000000      
+      "min_amount": 0.050000000
     },
     "ETH/EUR": {
       "price_scale": 5,
-      "min_amount": 0.010000000      
+      "min_amount": 0.050000000
     },
     "ETH/USD": {
       "price_scale": 5,
-      "min_amount": 0.010000000      
+      "min_amount": 0.050000000
     },
     "ETH/CAD": {
       "price_scale": 5,
-      "min_amount": 0.010000000      
+      "min_amount": 0.050000000
     },
     "ETH/GBP": {
       "price_scale": 5,
-      "min_amount": 0.010000000      
+      "min_amount": 0.050000000
     },
     "ETH/JPY": {
       "price_scale": 1,
-      "min_amount": 0.010000000      
+      "min_amount": 0.050000000
     }
   },
   "currencies": {},
