@@ -13,6 +13,7 @@ import org.knowm.xchange.therock.TheRockAuthenticated;
 import org.knowm.xchange.therock.dto.TheRockException;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 import org.knowm.xchange.therock.dto.trade.TheRockOrders;
+import org.knowm.xchange.therock.dto.trade.TheRockTransaction;
 import org.knowm.xchange.therock.dto.trade.TheRockUserTrades;
 import org.knowm.xchange.therock.service.TheRockDigest;
 
@@ -82,4 +83,12 @@ public class TheRockTradeServiceRaw extends TheRockBasePollingService {
         }
     }
 
+    public TheRockTransaction[] getTheRockTransactions(String type, Date after, Date before) throws IOException {
+        try {
+            return theRockAuthenticated.transactions(exchange.getExchangeSpecification().getApiKey(),
+                    signatureCreator, exchange.getNonceFactory(), type, after, before).getTransactions();
+        } catch (Throwable e) {
+            throw new ExchangeException(e);
+        }
+    }
 }
