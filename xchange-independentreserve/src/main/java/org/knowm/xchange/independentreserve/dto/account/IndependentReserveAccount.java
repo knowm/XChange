@@ -43,4 +43,12 @@ public class IndependentReserveAccount {
   public BigDecimal getTotalBalance() {
     return totalBalance;
   }
+
+  @Override
+  public String toString() {
+    return "IndependentReserveAccount [accountGuid=" + accountGuid + ", accountStatus=" + accountStatus + ", availableBalance="
+        + availableBalance + ", currencyCode=" + currencyCode + ", totalBalance=" + totalBalance + "]";
+  }
+  
+  
 }

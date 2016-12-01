@@ -2,6 +2,7 @@ package org.knowm.xchange.independentreserve.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -15,6 +16,9 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLim
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransaction.Type;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsResponse;
 import org.knowm.xchange.independentreserve.service.IndependentReserveDigest;
 import org.knowm.xchange.independentreserve.util.ExchangeEndpoint;
 
@@ -25,6 +29,7 @@ import si.mazi.rescu.RestProxyFactory;
  */
 public class IndependentReserveTradeServiceRaw extends IndependentReserveBasePollingService {
   private final String TRADE_HISTORY_PAGE_SIZE = "50";
+  private final int TRANSACTION_HISTORY_PAGE_SIZE = 50;
   private final IndependentReserveDigest signatureCreator;
   private final IndependentReserveAuthenticated independentReserveAuthenticated;
 
@@ -129,5 +134,19 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBasePol
 
     return trades;
   }
+  
+  public IndependentReserveTransactionsResponse getIndependentReserveTransactions(String accountGuid, Date fromTimestampUtc
+          , Date toTimestampUtc, Type[] txTypes, Integer pageNumber) throws IOException {
+      if (pageNumber <= 0) {
+        throw new IllegalArgumentException("Page number in IndependentReserve should be positive.");
+      }
+      Long nonce = exchange.getNonceFactory().createValue();
+      String apiKey = exchange.getExchangeSpecification().getApiKey();
+      IndependentReserveTransactionsRequest req = new IndependentReserveTransactionsRequest(apiKey, nonce, accountGuid
+              , fromTimestampUtc, toTimestampUtc, txTypes, pageNumber, TRANSACTION_HISTORY_PAGE_SIZE);
+      req.setSignature(
+          signatureCreator.digestParamsToString(ExchangeEndpoint.GET_TRANSACTIONS, nonce, req.getParameters()));
+      return independentReserveAuthenticated.getTransactions(req);
+    }
 
 }

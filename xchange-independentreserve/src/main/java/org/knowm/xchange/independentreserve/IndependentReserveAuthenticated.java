@@ -19,6 +19,8 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLim
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsResponse;
 
 /**
  * Author: Kamil Zbikowski Date: 4/10/15
@@ -54,5 +56,11 @@ public interface IndependentReserveAuthenticated {
   @Path("CancelOrder")
   @Consumes(MediaType.APPLICATION_JSON)
   public IndependentReserveCancelOrderResponse cancelOrder(IndependentReserveCancelOrderRequest independentReserveCancelOrderRequest)
+      throws IndependentReserveHttpStatusException, IOException;
+  
+  @POST
+  @Path("GetTransactions")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public IndependentReserveTransactionsResponse getTransactions(IndependentReserveTransactionsRequest independentReserveTransactionsRequest)
       throws IndependentReserveHttpStatusException, IOException;
 }
