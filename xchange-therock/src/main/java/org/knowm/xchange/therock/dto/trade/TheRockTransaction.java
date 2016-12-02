@@ -64,5 +64,10 @@ public class TheRockTransaction {
             return "TransferDetail [method=" + method + ", id=" + id + ", recipient=" + recipient + ", confirmations="
                     + confirmations + "]";
         }
+
+        public String getMethod() { return method; }
+        public String getId() { return id; }
+        public String getRecipient() { return recipient; }
+        public int getConfirmations() { return confirmations; }
     }
 }
