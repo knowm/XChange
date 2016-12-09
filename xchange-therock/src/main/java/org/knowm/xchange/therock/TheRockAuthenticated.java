@@ -21,6 +21,7 @@ import org.knowm.xchange.therock.dto.account.TheRockWithdrawal;
 import org.knowm.xchange.therock.dto.account.TheRockWithdrawalResponse;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 import org.knowm.xchange.therock.dto.trade.TheRockOrders;
+import org.knowm.xchange.therock.dto.trade.TheRockTransactions;
 import org.knowm.xchange.therock.dto.trade.TheRockUserTrades;
 import org.knowm.xchange.therock.service.TheRockDigest;
 
@@ -86,5 +87,12 @@ public interface TheRockAuthenticated {
       @HeaderParam(X_TRT_SIGN) TheRockDigest signer, @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory
       , @QueryParam("trade_id") Long sinceTradeId, @QueryParam("after") Date after, @QueryParam("before") Date before
       , @QueryParam("per_page") int perPage)
+      throws TheRockException, IOException;
+  
+  @GET
+  @Path("transactions")
+  TheRockTransactions transactions(@HeaderParam(X_TRT_KEY) String publicKey, @HeaderParam(X_TRT_SIGN) TheRockDigest signer
+      , @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, @QueryParam("type") String type
+      , @QueryParam("after") Date after, @QueryParam("before") Date before)
       throws TheRockException, IOException;
 }

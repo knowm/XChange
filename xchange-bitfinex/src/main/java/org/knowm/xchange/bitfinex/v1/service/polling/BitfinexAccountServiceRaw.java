@@ -2,6 +2,7 @@ package org.knowm.xchange.bitfinex.v1.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
@@ -9,6 +10,8 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryRequest;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
@@ -48,6 +51,17 @@ public class BitfinexAccountServiceRaw extends BitfinexBasePollingService {
       throw new ExchangeException(e);
     }
   }
+  
+  public BitfinexDepositWithdrawalHistoryResponse[] getDepositWithdrawalHistory(String currency, String method, Date since, Date until,
+          Integer limit) throws IOException {
+      try {
+        BitfinexDepositWithdrawalHistoryRequest request = new BitfinexDepositWithdrawalHistoryRequest(String.valueOf(exchange.getNonceFactory().createValue())
+                , currency, method, since, until, limit);
+        return bitfinex.depositWithdrawalHistory(apiKey, payloadCreator, signatureCreator, request);
+      } catch (BitfinexException e) {
+        throw new ExchangeException(e);
+      }
+    }
 
   public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address) throws IOException {
 
