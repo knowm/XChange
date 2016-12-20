@@ -355,6 +355,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.5.1</version>
 				<configuration>
+					<quiet>true</quiet>
 					<source>1.7</source>
 					<target>1.7</target>
 					<showDeprecation>true</showDeprecation>
@@ -384,6 +385,7 @@
 					</execution>
 				</executions>
 				<configuration>
+					<quiet>true</quiet>
 					<skipSource>false</skipSource>
 				</configuration>
 			</plugin>
@@ -400,6 +402,7 @@
 					</execution>
 				</executions>
 				<configuration>
+					<quiet>true</quiet>
 					<skip>false</skip>
 				</configuration>
 			</plugin>
