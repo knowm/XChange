@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = LedgerTypeDeserializer.class)
 public enum LedgerType {
 
-  DEPOSIT, WITHDRAWAL, TRADE, MARGIN;
+  DEPOSIT, WITHDRAWAL, TRADE, MARGIN, CREDIT, ROLLOVER;
 
   @Override
   public String toString() {
@@ -27,7 +27,11 @@ public enum LedgerType {
 
   public static LedgerType fromString(String ledgerTypeString) {
 
-    return fromString.get(ledgerTypeString.toLowerCase());
+    LedgerType ledgerType = fromString.get(ledgerTypeString.toLowerCase());
+    if (ledgerType == null) {
+        throw new RuntimeException("Not supported kraken ledger type: " + ledgerTypeString);
+    }
+    return ledgerType;
   }
 
   private static final Map<String, LedgerType> fromString = new HashMap<String, LedgerType>();
