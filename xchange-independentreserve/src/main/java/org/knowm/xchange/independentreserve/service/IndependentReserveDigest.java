@@ -39,7 +39,7 @@ public class IndependentReserveDigest extends BaseParamsDigest {
     throw new IllegalStateException("For Independent Reserve one should use digestParamsToString method instead");
   }
 
-  public String digestParamsToString(ExchangeEndpoint endpoint, Long nonce, Map<String, String> parameters) {
+  public String digestParamsToString(ExchangeEndpoint endpoint, Long nonce, Map<String, Object> parameters) {
     Mac mac256 = getMac();
 
     String url = ExchangeEndpoint.getUrlBasingOnEndpoint(sslUri, endpoint) + ",";
@@ -56,8 +56,24 @@ public class IndependentReserveDigest extends BaseParamsDigest {
 
     if (parameters != null && parameters.size() > 0) {
       List<String> namedParameters = new ArrayList<String>();
-      for (Map.Entry<String, String> parameter : parameters.entrySet()) {
-        String namedParameter = parameter.getKey() + "=" + parameter.getValue();
+      for (Map.Entry<String, Object> parameter : parameters.entrySet()) {
+        Object value = parameter.getValue();
+        String valueStr;
+        if (value == null) {
+            valueStr = null;
+        } else if (value instanceof Object[]) {
+            valueStr = "";
+            for (Object o : (Object[]) value) {
+                if (valueStr.length() != 0) {
+                    valueStr += ',';
+                }
+                valueStr += String.valueOf(o);
+            }
+        } else {
+            valueStr = String.valueOf(value);
+        }
+        
+        String namedParameter = parameter.getKey() + "=" + valueStr;
         namedParameters.add(namedParameter);
       }
       String joinedNamedParameters = "";

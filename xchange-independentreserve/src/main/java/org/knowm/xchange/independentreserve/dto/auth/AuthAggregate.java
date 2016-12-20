@@ -14,12 +14,12 @@ public class AuthAggregate {
   private String signature;
   private final Long nonce;
 
-  protected Map<String, String> parameters;
+  protected Map<String, Object> parameters;
 
   public AuthAggregate(String apiKey, Long nonce) {
     this.apiKey = apiKey;
     this.nonce = nonce;
-    this.parameters = new LinkedHashMap<String, String>();
+    this.parameters = new LinkedHashMap<>();
   }
 
   public String getApiKey() {
@@ -39,12 +39,12 @@ public class AuthAggregate {
   }
 
   @JsonAnyGetter
-  public Map<String, String> getParameters() {
+  public Map<String, Object> getParameters() {
     return parameters;
   }
 
   @JsonAnySetter
-  public void setParameters(Map<String, String> parameters) {
+  public void setParameters(Map<String, Object> parameters) {
     this.parameters = parameters;
   }
 }
