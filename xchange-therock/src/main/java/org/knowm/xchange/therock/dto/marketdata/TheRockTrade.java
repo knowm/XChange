@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class TheRockTrade {
 
   public static enum Side {
-    sell, buy;
+    sell, buy, close_long, close_short;
   }
 
   private final BigDecimal amount;

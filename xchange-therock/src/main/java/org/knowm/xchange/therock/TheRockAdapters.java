@@ -73,6 +73,9 @@ public final class TheRockAdapters {
     long lastTradeId = 0;
     for (int i = 0; i < trades.getCount(); i++) {
       TheRockTrade trade = trades.getTrades()[i];
+      if (trade.getSide() != Side.buy && trade.getSide() != Side.sell) {
+          continue;     // process buys and sells only
+      }
       long tradeId = trade.getId();
       if (tradeId > lastTradeId)
         lastTradeId = tradeId;
