@@ -3,20 +3,15 @@ package org.knowm.xchange.bitbay.service.polling;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitbay.Bitbay;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayOrderBook;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTicker;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 
-import si.mazi.rescu.RestProxyFactory;
-
 /**
  * @author kpysniak
  */
 public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
-
-  private final Bitbay bitbay;
 
   /**
    * Constructor
@@ -26,7 +21,6 @@ public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
   protected BitbayMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitbay = RestProxyFactory.createProxy(Bitbay.class, exchange.getExchangeSpecification().getSslUri());
   }
 
   public BitbayTicker getBitbayTicker(CurrencyPair currencyPair) throws IOException {
