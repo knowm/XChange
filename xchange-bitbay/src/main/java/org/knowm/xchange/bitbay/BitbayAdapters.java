@@ -127,7 +127,9 @@ public class BitbayAdapters {
     List<LimitOrder> result = new ArrayList<>();
 
     for (BitbayOrder order : orders) {
-      result.add(createOrder(order));
+      if ("active".equals(order.getStatus())) {
+        result.add(createOrder(order));
+      }
     }
 
     return new OpenOrders(result);
