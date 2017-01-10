@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -18,6 +19,7 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyP
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
@@ -56,7 +58,12 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    CurrencyPair currencyPair = null;
+    if (params instanceof OpenOrdersParamCurrencyPair) {
+      currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+    }
+
+    return TheRockAdapters.adaptOrders(getTheRockOrders(currencyPair));
   }
 
   /**
