@@ -10,11 +10,7 @@ import org.knowm.xchange.btce.v3.BTCEAdapters;
 import org.knowm.xchange.btce.v3.BTCEAuthenticated;
 import org.knowm.xchange.btce.v3.BTCEExchange;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
-import org.knowm.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
-import org.knowm.xchange.btce.v3.dto.trade.BTCEOrder;
-import org.knowm.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
-import org.knowm.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
-import org.knowm.xchange.btce.v3.dto.trade.BTCETransHistoryResult;
+import org.knowm.xchange.btce.v3.dto.trade.*;
 import org.knowm.xchange.btce.v3.service.polling.trade.params.BTCETradeHistoryParams;
 import org.knowm.xchange.btce.v3.service.polling.trade.params.BTCETransHistoryParams;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -27,11 +23,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.polling.trade.params.*;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
 /**
@@ -54,6 +47,11 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
     Map<Long, BTCEOrder> orders = getBTCEActiveOrders(null);
     return BTCEAdapters.adaptOrders(orders);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   /**

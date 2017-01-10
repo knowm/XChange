@@ -23,6 +23,7 @@ import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPa
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements PollingTradeService {
 
@@ -41,6 +42,11 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
 
     HitbtcOrder[] openOrdersRaw = getOpenOrdersRaw();
     return HitbtcAdapters.adaptOpenOrders(openOrdersRaw);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

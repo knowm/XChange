@@ -17,6 +17,7 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 public class IndependentReserveTradeService extends IndependentReserveTradeServiceRaw implements PollingTradeService {
 
@@ -32,6 +33,11 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
     // get orders for all currencies
     OpenOrders orders = IndependentReserveAdapters.adaptOpenOrders(getIndependentReserveOpenOrders(null, null, 1));
     return orders;
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

@@ -24,6 +24,7 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 public class RippleTradeService extends RippleTradeServiceRaw implements PollingTradeService {
 
@@ -46,6 +47,11 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return RippleAdapters.adaptOpenOrders(getOpenAccountOrders(), ripple.getRoundingScale());
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

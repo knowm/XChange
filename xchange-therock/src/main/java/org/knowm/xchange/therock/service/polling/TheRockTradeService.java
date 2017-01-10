@@ -18,6 +18,7 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyP
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 
@@ -51,6 +52,11 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
   @Override
   public OpenOrders getOpenOrders() throws NotAvailableFromExchangeException {
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   /**

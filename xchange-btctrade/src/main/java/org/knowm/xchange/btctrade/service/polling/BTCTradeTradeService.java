@@ -22,6 +22,7 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
 public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements PollingTradeService {
@@ -40,6 +41,11 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
   public OpenOrders getOpenOrders() throws IOException {
 
     return BTCTradeAdapters.adaptOpenOrders(getBTCTradeOrders(0, "open"));
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

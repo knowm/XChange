@@ -21,11 +21,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.polling.trade.params.*;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
 public class BitfinexTradeService extends BitfinexTradeServiceRaw implements PollingTradeService {
@@ -47,6 +44,11 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     } else {
       return BitfinexAdapters.adaptOrders(activeOrders);
     }
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

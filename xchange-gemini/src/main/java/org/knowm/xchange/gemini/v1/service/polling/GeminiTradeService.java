@@ -20,11 +20,8 @@ import org.knowm.xchange.gemini.v1.GeminiOrderType;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamsTimeSpan;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.polling.trade.params.*;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
 public class GeminiTradeService extends GeminiTradeServiceRaw implements PollingTradeService {
@@ -46,6 +43,11 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements Polling
     } else {
       return GeminiAdapters.adaptOrders(activeOrders);
     }
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

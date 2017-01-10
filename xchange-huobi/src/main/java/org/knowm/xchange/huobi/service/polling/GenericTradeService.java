@@ -1,12 +1,7 @@
 package org.knowm.xchange.huobi.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,6 +21,7 @@ import org.knowm.xchange.huobi.service.TradeServiceRaw;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 public class GenericTradeService extends BaseExchangeService implements PollingTradeService {
 
@@ -69,6 +65,11 @@ public class GenericTradeService extends BaseExchangeService implements PollingT
     }
 
     return new OpenOrders(openOrders);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

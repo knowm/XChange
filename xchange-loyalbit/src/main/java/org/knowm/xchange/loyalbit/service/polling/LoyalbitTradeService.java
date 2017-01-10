@@ -26,6 +26,7 @@ import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPa
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 /**
  * @author Matija Mazi
@@ -45,6 +46,11 @@ public class LoyalbitTradeService extends LoyalbitTradeServiceRaw implements Pol
       limitOrders.add(LoyalbitAdapters.adaptOrder(loyalbitOrder));
     }
     return new OpenOrders(limitOrders);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

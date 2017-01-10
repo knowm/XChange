@@ -21,6 +21,7 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implements PollingTradeService {
 
@@ -41,6 +42,11 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
     Collection<CurrencyPair> currencyPairs = exchange.getExchangeSymbols();
 
     return BTERAdapters.adaptOpenOrders(openOrders, currencyPairs);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

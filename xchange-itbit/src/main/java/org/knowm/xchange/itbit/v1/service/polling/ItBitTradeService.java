@@ -1,11 +1,7 @@
 package org.knowm.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -21,11 +17,8 @@ import org.knowm.xchange.itbit.v1.ItBitAdapters;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamTransactionId;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.polling.trade.params.*;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTradeService {
 
@@ -42,6 +35,11 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
     }
     ItBitOrder[] empty = {};
     return ItBitAdapters.adaptPrivateOrders(orders.isEmpty() ? empty : Arrays.copyOf(orders.toArray(), orders.size(), ItBitOrder[].class));
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

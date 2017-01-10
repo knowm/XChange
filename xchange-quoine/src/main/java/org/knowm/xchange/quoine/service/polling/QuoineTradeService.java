@@ -18,6 +18,7 @@ import org.knowm.xchange.quoine.dto.trade.QuoineOrderResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 /**
  * @author Matija Mazi
@@ -39,6 +40,11 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements Polling
     QuoineOrdersList quoineOrdersList = listQuoineOrders(null);
     return QuoineAdapters.adapteOpenOrders(quoineOrdersList);
 
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

@@ -27,6 +27,7 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements PollingTradeService {
 
@@ -56,6 +57,11 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
       }
     }
     return new OpenOrders(limitOrders);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

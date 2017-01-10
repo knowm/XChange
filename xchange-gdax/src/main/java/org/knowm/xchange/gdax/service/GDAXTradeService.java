@@ -19,6 +19,7 @@ import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import org.knowm.xchange.gdax.dto.trade.GDAXTradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 public class GDAXTradeService extends GDAXTradeServiceRaw implements PollingTradeService {
 
@@ -33,6 +34,11 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements PollingTrad
     GDAXOrder[] coinbaseExOpenOrders = getCoinbaseExOpenOrders();
 
     return GDAXAdapters.adaptOpenOrders(coinbaseExOpenOrders);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

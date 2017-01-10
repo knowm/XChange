@@ -16,6 +16,7 @@ import org.knowm.xchange.lakebtc.dto.trade.LakeBTCCancelResponse;
 import org.knowm.xchange.lakebtc.dto.trade.LakeBTCOrderResponse;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements PollingTradeService {
 
@@ -32,6 +33,11 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Polli
   @Override
   public OpenOrders getOpenOrders() throws IOException {
     throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

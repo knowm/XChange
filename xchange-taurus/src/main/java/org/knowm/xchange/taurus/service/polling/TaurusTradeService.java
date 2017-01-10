@@ -20,11 +20,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamOffset;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.polling.trade.params.*;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.taurus.TaurusAdapters;
 import org.knowm.xchange.taurus.dto.TaurusException;
 import org.knowm.xchange.taurus.dto.trade.TaurusOrder;
@@ -51,6 +48,11 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements Polling
       limitOrders.add(new LimitOrder(orderType, taurusOrder.getAmount(), CurrencyPair.BTC_CAD, id, taurusOrder.getDatetime(), price));
     }
     return new OpenOrders(limitOrders);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

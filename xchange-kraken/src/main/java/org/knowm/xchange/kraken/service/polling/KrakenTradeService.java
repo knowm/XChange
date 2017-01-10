@@ -18,6 +18,7 @@ import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamsT
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
 public class KrakenTradeService extends KrakenTradeServiceRaw implements PollingTradeService {
@@ -36,6 +37,11 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   public OpenOrders getOpenOrders() throws IOException {
 
     return KrakenAdapters.adaptOpenOrders(super.getKrakenOpenOrders());
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

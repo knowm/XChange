@@ -17,6 +17,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 /**
  * Author: brox Since: 2/6/14
@@ -40,6 +41,11 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
     List<CexIOOrder> cexIOOrderList = getCexIOOpenOrders();
 
     return CexIOAdapters.adaptOpenOrders(cexIOOrderList);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

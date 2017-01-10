@@ -27,6 +27,7 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 /**
  * @author Piotr Ładyżyński
@@ -57,6 +58,11 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements PollingTr
           .add(new LimitOrder(orderType, bitsoOrder.getAmount(), new CurrencyPair(Currency.BTC, Currency.MXN), id, bitsoOrder.getTime(), price));
     }
     return new OpenOrders(limitOrders);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override
