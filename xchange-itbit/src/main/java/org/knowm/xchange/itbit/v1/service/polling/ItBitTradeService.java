@@ -18,6 +18,7 @@ import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.*;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTradeService {
@@ -39,7 +40,18 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    CurrencyPair currencyPair = null;
+    if (params instanceof OpenOrdersParamCurrencyPair) {
+      currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+    }
+
+    // In case of no currency pair - return all currency pairs.
+    if (currencyPair == null) {
+      return getOpenOrders();
+    }
+
+    ItBitOrder[] itBitOpenOrders = getItBitOpenOrders(currencyPair);
+    return ItBitAdapters.adaptPrivateOrders(itBitOpenOrders);
   }
 
   @Override
