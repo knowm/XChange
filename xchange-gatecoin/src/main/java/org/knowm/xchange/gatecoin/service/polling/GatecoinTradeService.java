@@ -28,6 +28,7 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
 /**
@@ -60,6 +61,11 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Pol
           DateUtils.fromMillisUtc(Long.valueOf(gatecoinOrder.getDate()) * 1000L), price));
     }
     return new OpenOrders(limitOrders);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

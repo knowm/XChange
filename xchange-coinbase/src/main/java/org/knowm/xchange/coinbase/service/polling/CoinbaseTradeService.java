@@ -20,6 +20,7 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 /**
  * @author jamespedwards42
@@ -40,6 +41,11 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   public OpenOrders getOpenOrders() throws NotAvailableFromExchangeException {
 
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

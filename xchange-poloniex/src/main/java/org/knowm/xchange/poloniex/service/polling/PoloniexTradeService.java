@@ -6,23 +6,14 @@ package org.knowm.xchange.poloniex.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -37,6 +28,7 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyP
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsAll;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
 public class PoloniexTradeService extends PoloniexTradeServiceRaw implements PollingTradeService {
@@ -51,6 +43,11 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
 
     HashMap<String, PoloniexOpenOrder[]> poloniexOpenOrders = returnOpenOrders();
     return PoloniexAdapters.adaptPoloniexOpenOrders(poloniexOpenOrders);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

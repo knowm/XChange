@@ -41,6 +41,7 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPagingSorted;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 /**
  * @author Martin Stachon
@@ -61,6 +62,11 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Pol
       orders.addAll(CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders, currencyPair));
     }
     return new OpenOrders(orders);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

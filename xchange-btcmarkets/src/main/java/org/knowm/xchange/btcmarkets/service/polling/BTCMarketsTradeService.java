@@ -28,6 +28,7 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 /**
  * @author Matija Mazi
@@ -71,6 +72,11 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     BTCMarketsOrders openOrders = getBTCMarketsOpenOrders(currencyPair, 50, null);
 
     return BTCMarketsAdapters.adaptOpenOrders(openOrders);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

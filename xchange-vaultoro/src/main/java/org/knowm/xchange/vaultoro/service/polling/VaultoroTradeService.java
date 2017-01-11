@@ -14,6 +14,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.vaultoro.VaultoroAdapters;
 import org.knowm.xchange.vaultoro.dto.trade.VaultoroCancelOrderResponse;
 import org.knowm.xchange.vaultoro.dto.trade.VaultoroNewOrderResponse;
@@ -56,6 +57,11 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Pol
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     return VaultoroAdapters.adaptVaultoroOpenOrders(getVaultoroOrders());
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

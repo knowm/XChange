@@ -1,13 +1,7 @@
 package org.knowm.xchange.okcoin.service.polling;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -31,6 +25,7 @@ import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,6 +72,11 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     }
 
     return OkCoinAdapters.adaptOpenOrdersFutures(orderResults);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

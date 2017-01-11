@@ -18,6 +18,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 public class CCEXTradeService extends CCEXTradeServiceRaw implements PollingTradeService{
 
@@ -31,7 +32,12 @@ public class CCEXTradeService extends CCEXTradeServiceRaw implements PollingTrad
 		return new OpenOrders(CCEXAdapters.adaptOpenOrders(getCCEXOpenOrders()));
 	}
 
-	@Override
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
+  }
+
+  @Override
 	public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException,
 			NotYetImplementedForExchangeException, IOException {
 		throw new NotAvailableFromExchangeException();
@@ -59,7 +65,7 @@ public class CCEXTradeService extends CCEXTradeServiceRaw implements PollingTrad
 		return PARAMS_ZERO;
 	}
 
-	@Override
+  @Override
 	public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException,
 			NotYetImplementedForExchangeException, IOException {
 		throw new NotYetImplementedForExchangeException();

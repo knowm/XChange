@@ -18,6 +18,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 /**
  * @author Z. Dolezal
@@ -33,6 +34,11 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements Polling
 
     List<BitbayOrder> response = getBitbayOpenOrders();
     return BitbayAdapters.adaptOpenOrders(response);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override

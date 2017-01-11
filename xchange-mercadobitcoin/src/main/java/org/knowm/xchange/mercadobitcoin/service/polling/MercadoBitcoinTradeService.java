@@ -25,11 +25,8 @@ import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsIdSpan;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.polling.trade.params.*;
+import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 
 /**
  * @author Felipe Micaroni Lalli
@@ -60,6 +57,11 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
     limitOrders.addAll(MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currency.LTC, Currency.BRL), openOrdersLitecoinResult));
 
     return new OpenOrders(limitOrders);
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders();
   }
 
   @Override
