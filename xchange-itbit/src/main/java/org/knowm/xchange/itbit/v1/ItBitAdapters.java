@@ -2,16 +2,8 @@ package org.knowm.xchange.itbit.v1;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.text.*;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -234,5 +226,13 @@ public final class ItBitAdapters {
 
   public static String formatCryptoAmount(BigDecimal amount) {
     return getCryptoFormat().format(amount);
+  }
+
+  public static Currency adaptCurrency(Currency currency) {
+    // ItBit uses XBT instead of BTC.
+    if ("BTC".equals(currency.getCurrencyCode())) {
+      return Currency.XBT;
+    }
+    return currency;
   }
 }
