@@ -22,6 +22,7 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsTimeSpan
 import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.therock.TheRockAdapters;
+import org.knowm.xchange.therock.TheRockExchange;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 
 /**
@@ -71,7 +72,12 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
    */
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-    throw new NotAvailableFromExchangeException();
+    CurrencyPair cp = (CurrencyPair) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(TheRockExchange.CURRENCY_PAIR);
+    if (cp == null) {
+      throw new ExchangeException("Provide currencyPair attribute via setExchangeSpecificParameters.");
+    }
+
+    return "deleted".equals(cancelTheRockOrder(cp, Long.parseLong(orderId)).getStatus());
   }
 
   /**
