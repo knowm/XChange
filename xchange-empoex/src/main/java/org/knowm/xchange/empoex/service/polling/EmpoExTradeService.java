@@ -32,13 +32,12 @@ public class EmpoExTradeService extends EmpoExTradeServiceRaw implements Polling
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    return EmpoExAdapters.adaptOpenOrders(super.getEmpoExOpenOrders());
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    return EmpoExAdapters.adaptOpenOrders(super.getEmpoExOpenOrders());
   }
 
   @Override
@@ -73,6 +72,11 @@ public class EmpoExTradeService extends EmpoExTradeServiceRaw implements Polling
   public TradeHistoryParams createTradeHistoryParams() {
 
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

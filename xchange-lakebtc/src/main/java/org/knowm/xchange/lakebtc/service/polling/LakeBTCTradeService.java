@@ -32,12 +32,12 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Polli
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
@@ -66,6 +66,11 @@ public class LakeBTCTradeService extends LakeBTCTradeServiceRaw implements Polli
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

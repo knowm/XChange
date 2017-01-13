@@ -54,6 +54,12 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Pol
 
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    // TODO rewrite to use OpenOrdersParams
     List<LimitOrder> orders = new ArrayList<>();
     for (CurrencyPair currencyPair : CoinmateAdapters.COINMATE_CURRENCY_PAIRS) {
       String currencyPairString = CoinmateUtils.getPair(currencyPair);
@@ -62,11 +68,6 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Pol
       orders.addAll(CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders, currencyPair));
     }
     return new OpenOrders(orders);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -122,6 +123,11 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Pol
     params.setPageNumber(0);
     params.setOrder(TradeHistoryParamsSorted.Order.asc);
     return params;
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

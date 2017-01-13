@@ -39,6 +39,11 @@ public class LoyalbitTradeService extends LoyalbitTradeServiceRaw implements Pol
 
   @Override
   public OpenOrders getOpenOrders() throws IOException, LoyalbitException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     LoyalbitOrder[] openOrders = getLoyalbitOpenOrders();
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
@@ -46,11 +51,6 @@ public class LoyalbitTradeService extends LoyalbitTradeServiceRaw implements Pol
       limitOrders.add(LoyalbitAdapters.adaptOrder(loyalbitOrder));
     }
     return new OpenOrders(limitOrders);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -91,6 +91,11 @@ public class LoyalbitTradeService extends LoyalbitTradeServiceRaw implements Pol
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new DefaultTradeHistoryParamPagingSorted(100, TradeHistoryParamsSorted.Order.desc);
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

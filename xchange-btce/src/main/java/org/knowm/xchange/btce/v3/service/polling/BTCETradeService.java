@@ -44,14 +44,13 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    Map<Long, BTCEOrder> orders = getBTCEActiveOrders(null);
-    return BTCEAdapters.adaptOrders(orders);
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    Map<Long, BTCEOrder> orders = getBTCEActiveOrders(null);
+    return BTCEAdapters.adaptOrders(orders);
   }
 
   /**
@@ -160,6 +159,11 @@ public class BTCETradeService extends BTCETradeServiceRaw implements PollingTrad
   @Override
   public org.knowm.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
     return new BTCETradeHistoryParams();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

@@ -53,15 +53,20 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
    * Not available from exchange since TheRock needs currency pair in order to return open orders
    */
   @Override
-  public OpenOrders getOpenOrders() throws NotAvailableFromExchangeException {
-    throw new NotAvailableFromExchangeException();
+  public OpenOrders getOpenOrders() throws IOException {
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     CurrencyPair currencyPair = null;
+
     if (params instanceof OpenOrdersParamCurrencyPair) {
       currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+    }
+
+    if (currencyPair == null) {
+      throw new ExchangeException("CurrencyPair parameter must not be null.");
     }
 
     return TheRockAdapters.adaptOrders(getTheRockOrders(currencyPair));
@@ -116,5 +121,10 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Polli
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return new TheRockOpenOrdersParams();
   }
 }

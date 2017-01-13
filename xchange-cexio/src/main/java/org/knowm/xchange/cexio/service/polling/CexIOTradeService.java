@@ -37,15 +37,14 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    List<CexIOOrder> cexIOOrderList = getCexIOOpenOrders();
-
-    return CexIOAdapters.adaptOpenOrders(cexIOOrderList);
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    List<CexIOOrder> cexIOOrderList = getCexIOOpenOrders();
+
+    return CexIOAdapters.adaptOpenOrders(cexIOOrderList);
   }
 
   @Override
@@ -77,6 +76,11 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements PollingTr
   @Override
   public org.knowm.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

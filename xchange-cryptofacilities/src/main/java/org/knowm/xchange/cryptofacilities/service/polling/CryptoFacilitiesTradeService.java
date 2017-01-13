@@ -35,14 +35,12 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    return CryptoFacilitiesAdapters.adaptOpenOrders(super.getCryptoFacilitiesOpenOrders());
-
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    return CryptoFacilitiesAdapters.adaptOpenOrders(super.getCryptoFacilitiesOpenOrders());
   }
 
   @Override
@@ -73,6 +71,11 @@ public class CryptoFacilitiesTradeService extends CryptoFacilitiesTradeServiceRa
   @Override
   public org.knowm.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
+    return null;
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
     return null;
   }
 

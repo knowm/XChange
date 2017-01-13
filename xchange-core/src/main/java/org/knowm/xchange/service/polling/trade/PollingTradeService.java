@@ -40,14 +40,16 @@ public interface PollingTradeService extends BasePollingService {
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
+   * @deprecated Use {@link #getOpenOrders(OpenOrdersParams)} instead. Will be removed in the future release.
    */
+  @Deprecated
   OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Gets the open orders
    *
    * @param params The parameters describing the filter. Note that {@link OpenOrdersParams} is an empty interface. Exchanges should implement its
-   * own params object.
+   * own params object. Params should be create with {@link #createOpenOrdersParams()}.
    *
    * @return the open orders, null if some sort of error occurred. Implementers should log the error.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
@@ -137,6 +139,13 @@ public interface PollingTradeService extends BasePollingService {
    * that created the object.
    */
   TradeHistoryParams createTradeHistoryParams();
+
+  /**
+   * Create {@link OpenOrdersParams} object specific to this exchange. Object created by this method may be used to discover supported and required
+   * {@link #getOpenOrders(OpenOrdersParams)} parameters and should be passed only to the method in the same class as the createOpenOrdersParams
+   * that created the object.
+   */
+  OpenOrdersParams createOpenOrdersParams();
 
   /**
    * Verify the order against the exchange meta data. Most implementations will require that {@link org.knowm.xchange.Exchange#remoteInit()} be called

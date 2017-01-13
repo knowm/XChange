@@ -36,7 +36,11 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
 
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     BitfinexOrderStatusResponse[] activeOrders = getBitfinexOpenOrders();
 
     if (activeOrders.length <= 0) {
@@ -44,11 +48,6 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
     } else {
       return BitfinexAdapters.adaptOrders(activeOrders);
     }
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -121,6 +120,11 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Pol
   public org.knowm.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new BitfinexTradeHistoryParams(new Date(0), 50, CurrencyPair.BTC_USD);
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan

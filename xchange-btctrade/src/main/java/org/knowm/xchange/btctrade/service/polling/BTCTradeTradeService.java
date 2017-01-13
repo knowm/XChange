@@ -39,13 +39,12 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    return BTCTradeAdapters.adaptOpenOrders(getBTCTradeOrders(0, "open"));
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    return BTCTradeAdapters.adaptOpenOrders(getBTCTradeOrders(0, "open"));
   }
 
   @Override
@@ -99,6 +98,11 @@ public class BTCTradeTradeService extends BTCTradeTradeServiceRaw implements Pol
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new DefaultTradeHistoryParamsTimeSpan(new Date(0));
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

@@ -56,7 +56,11 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
 
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     final List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
 
     List<LimitOrder> page;
@@ -70,11 +74,6 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
     } while (page.size() >= BTCChinaGetOrdersRequest.DEFAULT_LIMIT);
 
     return new OpenOrders(limitOrders);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -183,6 +182,11 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Pol
   public org.knowm.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new BTCChinaTradeHistoryParams();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   public static class BTCChinaTradeHistoryParams extends DefaultTradeHistoryParamPaging

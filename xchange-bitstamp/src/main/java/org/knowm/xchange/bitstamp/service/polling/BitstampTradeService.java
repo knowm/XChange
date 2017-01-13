@@ -40,6 +40,12 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
 
   @Override
   public OpenOrders getOpenOrders() throws IOException, BitstampException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    // TODO use params instead of currencyPair from exchange specification
     CurrencyPair cp = (CurrencyPair) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(BitstampExchange.CURRENCY_PAIR);
     Collection<CurrencyPair> pairs = cp != null ? Collections.singleton(cp) : ALL_PAIRS;
     List<LimitOrder> limitOrders = new ArrayList<>();
@@ -53,11 +59,6 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
       }
     }
     return new OpenOrders(limitOrders);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -111,6 +112,11 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Pol
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new BitstampTradeHistoryParams(CurrencyPair.BTC_USD, 1000);
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

@@ -39,14 +39,13 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    HitbtcOrder[] openOrdersRaw = getOpenOrdersRaw();
-    return HitbtcAdapters.adaptOpenOrders(openOrdersRaw);
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    HitbtcOrder[] openOrdersRaw = getOpenOrdersRaw();
+    return HitbtcAdapters.adaptOpenOrders(openOrdersRaw);
   }
 
   @Override
@@ -100,6 +99,11 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new HitbtcTradeHistoryParams();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   public static class HitbtcTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {

@@ -50,7 +50,12 @@ public class GenericTradeService extends BaseExchangeService implements PollingT
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
 
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    // TODO use params for currency pair
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
     for (CurrencyPair currencyPair : exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
       HuobiOrder[] orders = tradeServiceRaw.getOrders(coinTypes.get(currencyPair));
@@ -65,11 +70,6 @@ public class GenericTradeService extends BaseExchangeService implements PollingT
     }
 
     return new OpenOrders(openOrders);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -122,5 +122,10 @@ public class GenericTradeService extends BaseExchangeService implements PollingT
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 }

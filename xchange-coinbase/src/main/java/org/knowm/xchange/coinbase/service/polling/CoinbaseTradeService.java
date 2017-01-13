@@ -38,14 +38,13 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws NotAvailableFromExchangeException {
-
-    throw new NotAvailableFromExchangeException();
+  public OpenOrders getOpenOrders() throws NotAvailableFromExchangeException, IOException {
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
@@ -100,6 +99,11 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
     params.setPageNumber(0);
     params.setPageLength(100);
     return params;
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
 }

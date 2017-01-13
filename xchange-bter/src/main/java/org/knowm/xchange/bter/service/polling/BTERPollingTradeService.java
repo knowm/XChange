@@ -37,16 +37,15 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    BTEROpenOrders openOrders = super.getBTEROpenOrders();
-    Collection<CurrencyPair> currencyPairs = exchange.getExchangeSymbols();
-
-    return BTERAdapters.adaptOpenOrders(openOrders, currencyPairs);
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    BTEROpenOrders openOrders = super.getBTEROpenOrders();
+    Collection<CurrencyPair> currencyPairs = exchange.getExchangeSymbols();
+
+    return BTERAdapters.adaptOpenOrders(openOrders, currencyPairs);
   }
 
   @Override
@@ -92,6 +91,11 @@ public class BTERPollingTradeService extends BTERPollingTradeServiceRaw implemen
   public TradeHistoryParamCurrencyPair createTradeHistoryParams() {
 
     return new DefaultTradeHistoryParamCurrencyPair();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

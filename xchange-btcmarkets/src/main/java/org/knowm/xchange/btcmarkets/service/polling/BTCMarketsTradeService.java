@@ -69,14 +69,15 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
 
   @Override
   public OpenOrders getOpenOrders() throws IOException, BTCMarketsException {
-    BTCMarketsOrders openOrders = getBTCMarketsOpenOrders(currencyPair, 50, null);
-
-    return BTCMarketsAdapters.adaptOpenOrders(openOrders);
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    // TODO use params instead of currencyPair from exchange specification
+    BTCMarketsOrders openOrders = getBTCMarketsOpenOrders(currencyPair, 50, null);
+
+    return BTCMarketsAdapters.adaptOpenOrders(openOrders);
   }
 
   @Override
@@ -102,6 +103,11 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
   @Override
   public HistoryParams createTradeHistoryParams() {
     return new HistoryParams();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   public static class HistoryParams implements TradeHistoryParamPaging, TradeHistoryParamsTimeSpan {

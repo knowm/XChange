@@ -43,7 +43,12 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
 
   @Override
   public OpenOrders getOpenOrders() throws IOException, QuadrigaCxException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
 
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    // TODO use params to specify currency pair
     Collection<CurrencyPair> pairs = exchange.getExchangeSymbols();
     List<LimitOrder> limitOrders = new ArrayList<>();
 
@@ -57,11 +62,6 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
       }
     }
     return new OpenOrders(limitOrders);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -136,6 +136,11 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new QuadrigaCxTradeHistoryParams(CurrencyPair.BTC_CAD, 1000);
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

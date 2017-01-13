@@ -48,7 +48,12 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
 
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    // TODO use params to specify currency pair
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
 
     List<OkCoinOrderResult> orderResults = new ArrayList<OkCoinOrderResult>(exchangeSymbols.size());
@@ -67,11 +72,6 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
     }
 
     return OkCoinAdapters.adaptOpenOrders(orderResults);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -160,6 +160,11 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   public org.knowm.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new OkCoinTradeHistoryParams();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   public static class OkCoinTradeHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamCurrencyPair {

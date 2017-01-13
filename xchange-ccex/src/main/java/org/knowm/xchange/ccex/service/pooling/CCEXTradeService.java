@@ -28,13 +28,12 @@ public class CCEXTradeService extends CCEXTradeServiceRaw implements PollingTrad
 
 	@Override
 	public OpenOrders getOpenOrders() throws IOException {
-		
-		return new OpenOrders(CCEXAdapters.adaptOpenOrders(getCCEXOpenOrders()));
+		return getOpenOrders(createOpenOrdersParams());
 	}
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    return new OpenOrders(CCEXAdapters.adaptOpenOrders(getCCEXOpenOrders()));
   }
 
   @Override
@@ -64,6 +63,11 @@ public class CCEXTradeService extends CCEXTradeServiceRaw implements PollingTrad
 	public TradeHistoryParams createTradeHistoryParams() {
 		return PARAMS_ZERO;
 	}
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
+  }
 
   @Override
 	public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException,

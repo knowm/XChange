@@ -30,13 +30,12 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Pol
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    return getVircurexOpenOrders();
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    return getVircurexOpenOrders();
   }
 
   @Override
@@ -67,6 +66,11 @@ public class VircurexTradeService extends VircurexTradeServiceRaw implements Pol
   public org.knowm.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override
