@@ -1,7 +1,8 @@
 package org.knowm.xchange.itbit.v1.service.polling;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -30,12 +31,7 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-    List<ItBitOrder> orders = new ArrayList<>();
-    for (CurrencyPair currencyPair : exchange.getExchangeSymbols()) {
-      orders.addAll(Arrays.asList(getItBitOpenOrders(currencyPair)));
-    }
-    ItBitOrder[] empty = {};
-    return ItBitAdapters.adaptPrivateOrders(orders.isEmpty() ? empty : Arrays.copyOf(orders.toArray(), orders.size(), ItBitOrder[].class));
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
@@ -47,12 +43,13 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
 
     // In case of no currency pair - return all currency pairs.
     if (currencyPair == null) {
-      return getOpenOrders();
+      throw new ExchangeException("CurrencyPair parameter must not be null.");
     }
 
     ItBitOrder[] itBitOpenOrders = getItBitOpenOrders(currencyPair);
     return ItBitAdapters.adaptPrivateOrders(itBitOpenOrders);
   }
+
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
@@ -90,6 +87,11 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements PollingTr
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new ItBitTradeHistoryParams(50, 0, null, null, null);
+  }
+
+  @Override
+  public ItBitOpenOrdersParams createOpenOrdersParams() {
+    return new ItBitOpenOrdersParams();
   }
 
   public static class ItBitTradeHistoryParams extends DefaultTradeHistoryParamPaging

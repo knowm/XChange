@@ -47,7 +47,11 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Pol
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
 
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     GatecoinOrderResult openOrdersResult = getGatecoinOpenOrders();
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
@@ -61,11 +65,6 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Pol
           DateUtils.fromMillisUtc(Long.valueOf(gatecoinOrder.getDate()) * 1000L), price));
     }
     return new OpenOrders(limitOrders);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -136,6 +135,11 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Pol
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new GatecoinTradeHistoryParams(1000);
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

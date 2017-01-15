@@ -35,7 +35,11 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements Polling
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
 
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     GeminiOrderStatusResponse[] activeOrders = getGeminiOpenOrders();
 
     if (activeOrders.length <= 0) {
@@ -43,11 +47,6 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements Polling
     } else {
       return GeminiAdapters.adaptOrders(activeOrders);
     }
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -115,6 +114,11 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements Polling
   public org.knowm.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new GeminiTradeHistoryParams(new Date(0), 50, CurrencyPair.BTC_USD);
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   public static class GeminiTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan

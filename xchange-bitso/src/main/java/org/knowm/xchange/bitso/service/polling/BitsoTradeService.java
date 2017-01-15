@@ -46,7 +46,11 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements PollingTr
 
   @Override
   public OpenOrders getOpenOrders() throws IOException, BitsoException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
 
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     BitsoOrder[] openOrders = getBitsoOpenOrders();
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
@@ -58,11 +62,6 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements PollingTr
           .add(new LimitOrder(orderType, bitsoOrder.getAmount(), new CurrencyPair(Currency.BTC, Currency.MXN), id, bitsoOrder.getTime(), price));
     }
     return new OpenOrders(limitOrders);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -111,6 +110,11 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements PollingTr
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new DefaultTradeHistoryParamPaging(1000);
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

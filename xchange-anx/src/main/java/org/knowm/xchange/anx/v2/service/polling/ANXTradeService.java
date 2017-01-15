@@ -43,13 +43,12 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    return new OpenOrders(ANXAdapters.adaptOrders(getANXOpenOrders()));
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    return new OpenOrders(ANXAdapters.adaptOrders(getANXOpenOrders()));
   }
 
   @Override
@@ -120,6 +119,11 @@ public class ANXTradeService extends ANXTradeServiceRaw implements PollingTradeS
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new DefaultTradeHistoryParamsTimeSpan();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

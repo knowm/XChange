@@ -48,6 +48,11 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     MyOpenOrders myOpenOrders = getCampBXOpenOrders();
     logger.debug("myOpenOrders = {}", myOpenOrders);
@@ -79,11 +84,6 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
     } else {
       throw new ExchangeException("Error calling getOpenOrders(): " + myOpenOrders.getError());
     }
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -146,6 +146,11 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements Polling
   public org.knowm.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

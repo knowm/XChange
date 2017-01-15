@@ -37,14 +37,13 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements P
 
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
-    BitMarketOrdersResponse response = getBitMarketOpenOrders();
-    return BitMarketAdapters.adaptOpenOrders(response.getData());
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    BitMarketOrdersResponse response = getBitMarketOpenOrders();
+    return BitMarketAdapters.adaptOpenOrders(response.getData());
   }
 
   @Override
@@ -82,6 +81,11 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements P
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new BitMarketHistoryParams();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

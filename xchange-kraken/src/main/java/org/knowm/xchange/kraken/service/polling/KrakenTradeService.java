@@ -35,13 +35,12 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    return KrakenAdapters.adaptOpenOrders(super.getKrakenOpenOrders());
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    return KrakenAdapters.adaptOpenOrders(super.getKrakenOpenOrders());
   }
 
   @Override
@@ -94,6 +93,11 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements Polling
   public org.knowm.xchange.service.polling.trade.params.TradeHistoryParams createTradeHistoryParams() {
 
     return new KrakenTradeHistoryParams();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   public static class KrakenTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamOffset {

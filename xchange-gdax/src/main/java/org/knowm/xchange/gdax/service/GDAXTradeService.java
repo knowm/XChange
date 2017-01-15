@@ -30,15 +30,14 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements PollingTrad
 
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
-    GDAXOrder[] coinbaseExOpenOrders = getCoinbaseExOpenOrders();
-
-    return GDAXAdapters.adaptOpenOrders(coinbaseExOpenOrders);
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    GDAXOrder[] coinbaseExOpenOrders = getCoinbaseExOpenOrders();
+
+    return GDAXAdapters.adaptOpenOrders(coinbaseExOpenOrders);
   }
 
   @Override
@@ -73,6 +72,11 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements PollingTrad
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
+    return null;
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
     return null;
   }
 

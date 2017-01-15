@@ -31,14 +31,13 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements Polling
 
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
-    List<BitbayOrder> response = getBitbayOpenOrders();
-    return BitbayAdapters.adaptOpenOrders(response);
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    List<BitbayOrder> response = getBitbayOpenOrders();
+    return BitbayAdapters.adaptOpenOrders(response);
   }
 
   @Override
@@ -70,6 +69,11 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements Polling
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

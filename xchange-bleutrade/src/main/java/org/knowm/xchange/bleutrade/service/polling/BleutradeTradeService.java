@@ -32,13 +32,12 @@ public class BleutradeTradeService extends BleutradeTradeServiceRaw implements P
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    return BleutradeAdapters.adaptBleutradeOpenOrders(getBleutradeOpenOrders());
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    return BleutradeAdapters.adaptBleutradeOpenOrders(getBleutradeOpenOrders());
   }
 
   @Override
@@ -73,6 +72,11 @@ public class BleutradeTradeService extends BleutradeTradeServiceRaw implements P
   public TradeHistoryParams createTradeHistoryParams() {
 
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

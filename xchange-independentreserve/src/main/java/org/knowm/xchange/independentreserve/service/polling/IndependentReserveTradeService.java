@@ -30,14 +30,14 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
    */
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    // get orders for all currencies
-    OpenOrders orders = IndependentReserveAdapters.adaptOpenOrders(getIndependentReserveOpenOrders(null, null, 1));
-    return orders;
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    // get orders for all currencies
+    OpenOrders orders = IndependentReserveAdapters.adaptOpenOrders(getIndependentReserveOpenOrders(null, null, 1));
+    return orders;
   }
 
   @Override
@@ -77,5 +77,10 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
   @Override
   public TradeHistoryParamPaging createTradeHistoryParams() {
     return new DefaultTradeHistoryParamPaging(null, 0);
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 }

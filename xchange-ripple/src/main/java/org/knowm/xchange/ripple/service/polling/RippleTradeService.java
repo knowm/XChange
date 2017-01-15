@@ -46,12 +46,12 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
    */
   @Override
   public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return RippleAdapters.adaptOpenOrders(getOpenAccountOrders(), ripple.getRoundingScale());
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    return RippleAdapters.adaptOpenOrders(getOpenAccountOrders(), ripple.getRoundingScale());
   }
 
   @Override
@@ -135,5 +135,10 @@ public class RippleTradeService extends RippleTradeServiceRaw implements Polling
     final RippleTradeHistoryParams params = new RippleTradeHistoryParams();
     params.setAccount(exchange.getExchangeSpecification().getApiKey());
     return params;
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 }

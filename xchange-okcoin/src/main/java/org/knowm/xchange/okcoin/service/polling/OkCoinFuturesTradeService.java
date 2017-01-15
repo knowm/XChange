@@ -53,6 +53,12 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    // TODO use params for currency pair
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
 
     List<OkCoinFuturesOrderResult> orderResults = new ArrayList<OkCoinFuturesOrderResult>(exchangeSymbols.size());
@@ -72,11 +78,6 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     }
 
     return OkCoinAdapters.adaptOpenOrdersFutures(orderResults);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -180,6 +181,11 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   @Override
   public OkCoinFuturesTradeHistoryParams createTradeHistoryParams() {
     return new OkCoinFuturesTradeHistoryParams(50, 0, CurrencyPair.BTC_USD, futuresContract, null);
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   // TODO if Futures ever get a generic interface, move this interface to xchange-core

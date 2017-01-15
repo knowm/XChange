@@ -45,7 +45,12 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
 
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    // TODO use currency pair param
     MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersBitcoinResult = getMercadoBitcoinUserOrders("btc_brl", null, "active", null,
         null, null, null);
     MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersLitecoinResult = getMercadoBitcoinUserOrders("ltc_brl", null, "active", null,
@@ -57,11 +62,6 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
     limitOrders.addAll(MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currency.LTC, Currency.BRL), openOrdersLitecoinResult));
 
     return new OpenOrders(limitOrders);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -155,6 +155,11 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new MercadoTradeHistoryParams(CurrencyPair.BTC_BRL);
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   public static class MercadoTradeHistoryParams extends DefaultTradeHistoryParamCurrencyPair

@@ -54,14 +54,18 @@ public class VaultoroTradeService extends VaultoroTradeServiceRaw implements Pol
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
+  }
 
-    return VaultoroAdapters.adaptVaultoroOpenOrders(getVaultoroOrders());
+  @Override
+  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    return VaultoroAdapters.adaptVaultoroOpenOrders(getVaultoroOrders());
   }
 
   @Override

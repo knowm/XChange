@@ -50,13 +50,12 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Polli
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    return new OpenOrders(BittrexAdapters.adaptOpenOrders(getBittrexOpenOrders()));
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    return new OpenOrders(BittrexAdapters.adaptOpenOrders(getBittrexOpenOrders()));
   }
 
   @Override
@@ -73,6 +72,11 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Polli
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return PARAMS_ZERO;
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

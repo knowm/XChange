@@ -38,6 +38,11 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements Polling
 
   @Override
   public OpenOrders getOpenOrders() throws IOException, TaurusException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     TaurusOrder[] openOrders = getTaurusOpenOrders();
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
@@ -48,11 +53,6 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements Polling
       limitOrders.add(new LimitOrder(orderType, taurusOrder.getAmount(), CurrencyPair.BTC_CAD, id, taurusOrder.getDatetime(), price));
     }
     return new OpenOrders(limitOrders);
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
   }
 
   @Override
@@ -96,6 +96,11 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements Polling
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
     return new DefaultTradeHistoryParamPaging(1000);
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override

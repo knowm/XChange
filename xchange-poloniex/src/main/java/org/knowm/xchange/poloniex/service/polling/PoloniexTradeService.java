@@ -40,14 +40,13 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
 
   @Override
   public OpenOrders getOpenOrders() throws IOException {
-
-    HashMap<String, PoloniexOpenOrder[]> poloniexOpenOrders = returnOpenOrders();
-    return PoloniexAdapters.adaptPoloniexOpenOrders(poloniexOpenOrders);
+    return getOpenOrders(createOpenOrdersParams());
   }
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return getOpenOrders();
+    HashMap<String, PoloniexOpenOrder[]> poloniexOpenOrders = returnOpenOrders();
+    return PoloniexAdapters.adaptPoloniexOpenOrders(poloniexOpenOrders);
   }
 
   @Override
@@ -146,6 +145,11 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   public TradeHistoryParams createTradeHistoryParams() {
 
     return new PoloniexTradeHistoryParams();
+  }
+
+  @Override
+  public OpenOrdersParams createOpenOrdersParams() {
+    return null;
   }
 
   @Override
