@@ -1,0 +1,39 @@
+package info.bitrich.xchangestream.bitstamp;
+
+import info.bitrich.xchangestream.core.StreamingExchange;
+import info.bitrich.xchangestream.core.StreamingMarketDataService;
+import info.bitrich.xchangestream.pusher.PusherStreamingService;
+import io.reactivex.Completable;
+import org.knowm.xchange.bitstamp.BitstampExchange;
+
+public class BitstampStreamingExchange extends BitstampExchange implements StreamingExchange {
+    private static final String API_KEY = "de504dc5763aeef9ff52";
+    private final PusherStreamingService streamingService;
+
+    private BitstampStreamingMarketDataService streamingMarketDataService;
+
+    public BitstampStreamingExchange() {
+        streamingService = new PusherStreamingService(API_KEY);
+    }
+
+    @Override
+    protected void initServices() {
+        super.initServices();
+        streamingMarketDataService = new BitstampStreamingMarketDataService(streamingService);
+    }
+
+    @Override
+    public Completable connect() {
+        return streamingService.connect();
+    }
+
+    @Override
+    public Completable disconnect() {
+        return streamingService.disconnect();
+    }
+
+    @Override
+    public StreamingMarketDataService getStreamingMarketDataService() {
+        return streamingMarketDataService;
+    }
+}

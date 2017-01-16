@@ -1,0 +1,70 @@
+package info.bitrich.xchangestream.pusher;
+
+import com.pusher.client.Pusher;
+import com.pusher.client.channel.Channel;
+import com.pusher.client.connection.ConnectionEventListener;
+import com.pusher.client.connection.ConnectionState;
+import com.pusher.client.connection.ConnectionStateChange;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collections;
+import java.util.List;
+
+public class PusherStreamingService {
+    private static final Logger LOG = LoggerFactory.getLogger(PusherStreamingService.class);
+
+    private final Pusher pusher;
+
+    public PusherStreamingService(String apiKey) {
+        pusher = new Pusher(apiKey);
+    }
+
+    public Completable connect() {
+        return Completable.create(e -> pusher.connect(new ConnectionEventListener() {
+            @Override
+            public void onConnectionStateChange(ConnectionStateChange change) {
+                LOG.info("State changed to " + change.getCurrentState() +
+                        " from " + change.getPreviousState());
+                if (ConnectionState.CONNECTED.equals(change.getCurrentState())) {
+                    e.onComplete();
+                }
+            }
+
+            @Override
+            public void onError(String message, String code, Exception throwable) {
+                e.onError(throwable);
+            }
+        }, ConnectionState.ALL));
+    }
+
+    public Completable disconnect() {
+        return Completable.create(completable -> {
+            pusher.disconnect();
+            completable.onComplete();
+        });
+    }
+
+    public Observable<String> subscribeChannel(String channelName, String eventName) {
+        return subscribeChannel(channelName, Collections.singletonList(eventName));
+    }
+
+    public Observable<String> subscribeChannel(String channelName, List<String> eventsName) {
+        LOG.info("Subscribing to channel {}.", channelName);
+        return Observable.<String>create(e -> {
+            if (!ConnectionState.CONNECTED.equals(pusher.getConnection().getState())) {
+                e.onError(new IllegalStateException("Not connected to the exchange WebSocket API."));
+                return;
+            }
+            Channel channel = pusher.subscribe(channelName);
+            for (String event : eventsName) {
+                channel.bind(event, (channel1, ev, data) -> {
+                    LOG.debug("Incoming data: {}", data);
+                    e.onNext(data);
+                });
+            }
+        }).doOnDispose(() -> pusher.unsubscribe(channelName));
+    }
+}
