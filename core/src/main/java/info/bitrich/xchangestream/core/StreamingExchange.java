@@ -6,12 +6,14 @@ import org.knowm.xchange.Exchange;
 public interface StreamingExchange extends Exchange {
     /**
      * Connects to the WebSocket API of the exchange.
+     *
      * @return {@link Completable} that completes upon successful connection.
      */
     Completable connect();
 
     /**
      * Disconnect from the WebSocket API.
+     *
      * @return {@link Completable} that completes upon successful disconnect.
      */
     Completable disconnect();

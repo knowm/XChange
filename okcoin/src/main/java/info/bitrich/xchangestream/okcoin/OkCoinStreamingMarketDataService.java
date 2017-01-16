@@ -8,6 +8,7 @@ import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinDepth;
@@ -41,6 +42,7 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
         return service.subscribeChannel(channel)
                 .map(s -> {
                     ObjectMapper mapper = new ObjectMapper();
+                    // TODO: fix parsing of BigDecimal attribute val that has format: 1,625.23
                     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                     OkCoinTicker okCoinTicker = mapper.treeToValue(s.get("data"), OkCoinTicker.class);
                     return OkCoinAdapters.adaptTicker(new OkCoinTickerResponse(okCoinTicker), currencyPair);
@@ -48,7 +50,7 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
     }
 
     @Override
-    public Observable<Trades> getTrades(CurrencyPair currencyPair, Object... args) {
+    public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
         String channel = String.format("ok_%s%s_trades", currencyPair.base.toString().toLowerCase(), currencyPair.counter.toString().toLowerCase());
 
         return service.subscribeChannel(channel)
@@ -65,6 +67,6 @@ public class OkCoinStreamingMarketDataService implements StreamingMarketDataServ
                     }
 
                     return OkCoinAdapters.adaptTrades(okCoinTrades, currencyPair);
-                });
+                }).flatMapIterable(Trades::getTrades);
     }
 }

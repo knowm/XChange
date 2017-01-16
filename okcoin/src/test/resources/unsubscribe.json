@@ -1,0 +1,4 @@
+{
+  "event": "removeChannel",
+  "channel": "orderbook"
+}
