@@ -15,24 +15,18 @@ public class BitstampManualExample {
         StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitstampStreamingExchange.class.getName());
         exchange.connect().blockingAwait();
 
-        Disposable subscribe = exchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BTC_USD).subscribe(orderBook -> {
+        exchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BTC_USD).subscribe(orderBook -> {
             LOG.info("First ask: {}", orderBook.getAsks().get(0));
             LOG.info("First bid: {}", orderBook.getBids().get(0));
         });
-//
-//        exchange.getStreamingMarketDataService().getTicker(CurrencyPair.BTC_USD).subscribe(ticker -> {
-//            LOG.info("Ticker {}", ticker);
-//        });
 
+        Disposable subscribe = exchange.getStreamingMarketDataService().getTrades(CurrencyPair.BTC_USD).subscribe(trade -> {
+            LOG.info("Trade {}", trade);
+        });
 
-        try {
-            Thread.sleep(20000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        subscribe.dispose();
 
-        LOG.info("Dispose");
-//        subscribe.dispose();
+        exchange.disconnect().subscribe(() -> LOG.info("Disconnected from the Exchange"));
 
         try {
             Thread.sleep(100000);

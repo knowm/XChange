@@ -1,7 +1,11 @@
-# XChange-stream [![Build Status](https://travis-ci.org/bitrich-info/XChange-stream.svg?branch=master)](https://travis-ci.org/bitrich-info/XChange-stream)
+# XChange-stream [![Build Status](https://travis-ci.org/bitrich-info/xchange-stream.svg?branch=master)](https://travis-ci.org/bitrich-info/XChange-stream)
 XChange-stream is a Java library providing a simple and consistent streaming API for interacting with Bitcoin and other crypto currency exchanges via WebSocket protocol.
 
 It is build on top of of [XChange library](https://github.com/timmolter/XChange) providing new interfaces for streaming API. User can subscribe for live update via reactive streams of [RxJava library](https://github.com/ReactiveX/RxJava).
+
+## Note - alpha version
+
+Library is in preview state and is being prepared for the initial release. Feel free to discuss any ideas and comments under issues section.
 
 ## Example
 
@@ -15,9 +19,20 @@ exchange.connect().blockingAwait();
 exchange.getStreamingMarketDataService().getTrades(CurrencyPair.BTC_USD).subscribe(trade -> {
     LOG.info("Incoming trade: {}", trade);
 });
+
+// Subscribe order book data
+Disposable subscription = exchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BTC_USD).subscribe(orderBook -> {
+    // Do something
+});
+
+// Unsubscribe from data
+subscription.dispose();
+
+// Disconnect from exchange (non-blocking)
+exchange.disconnect().subscribe(() -> LOG.info("Disconnected from the Exchange"));
 ```
 
-## Usage
+## Installation
 
 TODO: Xchange-stream WILL be on Maven Central when initial release will be made. Add following into your `pom.xml`.
 
