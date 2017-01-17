@@ -3,9 +3,9 @@ XChange-stream is a Java library providing a simple and consistent streaming API
 
 It is build on top of of [XChange library](https://github.com/timmolter/XChange) providing new interfaces for streaming API. User can subscribe for live update via reactive streams of [RxJava library](https://github.com/ReactiveX/RxJava).
 
-## Note - alpha version
+## NOTE: Library Preview
 
-Library is in preview state and is being prepared for the initial release. Feel free to discuss any ideas and comments under issues section.
+Library is in the preview state and is being prepared for the initial release. Large changes can be made in any public interface. Feel free to discuss any ideas and comments under issues section.
 
 ## Example
 
