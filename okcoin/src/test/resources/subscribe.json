@@ -1,4 +1,1 @@
-{
-  "event": "addChannel",
-  "channel": "orderbook"
-}
+{"event":"addChannel","channel":"orderbook"}
