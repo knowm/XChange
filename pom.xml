@@ -10,10 +10,12 @@
     <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>core</module>
-        <module>bitstamp</module>
-        <module>okcoin</module>
         <module>core-pusher</module>
         <module>core-netty</module>
+        <module>core-wamp</module>
+        <module>exchange-bitstamp</module>
+        <module>exchange-okcoin</module>
+        <module>exchange-poloniex</module>
     </modules>
 
     <repositories>

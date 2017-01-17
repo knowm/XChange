@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bitstamp</artifactId>
+    <artifactId>exchange-okcoin</artifactId>
 
     <dependencies>
         <dependency>
@@ -19,14 +19,13 @@
         </dependency>
         <dependency>
             <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>core-pusher</artifactId>
+            <artifactId>core-netty</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-bitstamp</artifactId>
+            <artifactId>xchange-okcoin</artifactId>
             <version>${xchange.version}</version>
         </dependency>
     </dependencies>
-
 </project>
