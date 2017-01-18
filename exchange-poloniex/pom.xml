@@ -11,7 +11,6 @@
 
     <artifactId>exchange-poloniex</artifactId>
 
-
     <dependencies>
         <dependency>
             <groupId>info.bitrich.xchange-stream</groupId>

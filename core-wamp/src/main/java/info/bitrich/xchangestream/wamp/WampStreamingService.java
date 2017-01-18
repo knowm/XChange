@@ -1,5 +1,6 @@
 package info.bitrich.xchangestream.wamp;
 
+import hu.akarnokd.rxjava.interop.RxJavaInterop;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.slf4j.Logger;
@@ -71,8 +72,6 @@ public class WampStreamingService {
             return Observable.error(new IllegalStateException("Not connected to the exchange WebSocket API."));
         }
 
-        // TODO onDispose unsubscribe.
-        // TODO better way of transform rxjava1 observable to rxjava2 observable?
-        return Observable.create(e -> client.makeSubscription(channel).subscribe(e::onNext));
+        return RxJavaInterop.toV2Observable(client.makeSubscription(channel));
     }
 }
