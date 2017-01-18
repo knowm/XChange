@@ -22,6 +22,13 @@ public class PusherStreamingService {
         pusher = new Pusher(apiKey);
     }
 
+    /**
+     * Testing constructor
+     */
+    protected PusherStreamingService(Pusher pusher) {
+        this.pusher = pusher;
+    }
+
     public Completable connect() {
         return Completable.create(e -> pusher.connect(new ConnectionEventListener() {
             @Override
