@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>core-wamp</artifactId>
+            <artifactId>service-wamp</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
