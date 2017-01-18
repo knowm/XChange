@@ -20,21 +20,13 @@ public class PoloniexManualExample {
 //            LOG.info("First bid: {}", orderBook.getBids().get(0));
 //        }, throwable -> LOG.error("ERROR in getting order book: ", throwable));
 
-        Disposable subscribe = exchange.getStreamingMarketDataService().getTicker(CurrencyPair.BTC_USD).subscribe(ticker -> {
+        Disposable subscribe = exchange.getStreamingMarketDataService().getTicker(CurrencyPair.LTC_BTC).subscribe(ticker -> {
             LOG.info("TICKER: {}", ticker);
         }, throwable -> LOG.error("ERROR in getting ticker: ", throwable));
 
 //        exchange.getStreamingMarketDataService().getTrades(CurrencyPair.BTC_USD).subscribe(trade -> {
 //            LOG.info("TRADE: {}", trade);
 //        }, throwable -> LOG.error("ERROR in getting trades: ", throwable));
-
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        subscribe.dispose();
 
         try {
             Thread.sleep(10000);
