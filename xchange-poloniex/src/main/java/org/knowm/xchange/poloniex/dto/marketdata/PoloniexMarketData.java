@@ -24,20 +24,8 @@ public class PoloniexMarketData {
 
   @JsonProperty("high24hr")
   private BigDecimal high24hr;
-
-  public BigDecimal getHigh24hr() {
-
-    return high24hr;
-  }
-
   @JsonProperty("low24hr")
   private BigDecimal low24hr;
-
-  public BigDecimal getLow24hr() {
-
-    return low24hr;
-  }
-
   @JsonProperty("last")
   private BigDecimal last;
   @JsonProperty("lowestAsk")
@@ -52,6 +40,22 @@ public class PoloniexMarketData {
   private BigDecimal quoteVolume;
   @JsonIgnore
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+  public BigDecimal getHigh24hr() {
+    return high24hr;
+  }
+
+  public void setHigh24hr(BigDecimal high24hr) {
+    this.high24hr = high24hr;
+  }
+
+  public void setLow24hr(BigDecimal low24hr) {
+    this.low24hr = low24hr;
+  }
+
+  public BigDecimal getLow24hr() {
+    return low24hr;
+  }
 
   @JsonProperty("last")
   public BigDecimal getLast() {
