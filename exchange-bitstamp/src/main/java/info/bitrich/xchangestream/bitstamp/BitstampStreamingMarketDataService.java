@@ -35,7 +35,7 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
                     BitstampOrderBook bitstampOrderBook = mapper.readValue(s, BitstampOrderBook.class);
                     bitstampOrderBook = new BitstampOrderBook(new Date().getTime(), bitstampOrderBook.getBids(), bitstampOrderBook.getAsks());
 
-                    return BitstampAdapters.adaptOrderBook(bitstampOrderBook, CurrencyPair.BTC_USD, 1000);
+                    return BitstampAdapters.adaptOrderBook(bitstampOrderBook, currencyPair, 1000);
                 });
     }
 
@@ -55,7 +55,7 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
                     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                     BitstampWebSocketTransaction transactions = mapper.readValue(s, BitstampWebSocketTransaction.class);
 
-                    return BitstampAdapters.adaptTrade(transactions, CurrencyPair.BTC_USD, 1000);
+                    return BitstampAdapters.adaptTrade(transactions, currencyPair, 1000);
                 });
     }
 

@@ -22,7 +22,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 public class BitstampStreamingMarketDataServiceTest {
@@ -41,24 +42,24 @@ public class BitstampStreamingMarketDataServiceTest {
         // Given order book in JSON
         String orderBook = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("order-book.json").toURI())));
 
-        when(streamingService.subscribeChannel(any(), anyString())).thenReturn(Observable.just(orderBook));
+        when(streamingService.subscribeChannel(eq("order_book_btceur"), eq("data"))).thenReturn(Observable.just(orderBook));
 
         List<LimitOrder> bids = new ArrayList<>();
-        bids.add(new LimitOrder(Order.OrderType.BID, new BigDecimal("0.922"), CurrencyPair.BTC_USD, "", null, new BigDecimal("819.9")));
-        bids.add(new LimitOrder(Order.OrderType.BID, new BigDecimal("0.085"), CurrencyPair.BTC_USD, "", null, new BigDecimal("818.63")));
+        bids.add(new LimitOrder(Order.OrderType.BID, new BigDecimal("0.922"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("819.9")));
+        bids.add(new LimitOrder(Order.OrderType.BID, new BigDecimal("0.085"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("818.63")));
 
         List<LimitOrder> asks = new ArrayList<>();
-        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("2.89"), CurrencyPair.BTC_USD, "", null, new BigDecimal("821.7")));
-        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("5.18"), CurrencyPair.BTC_USD, "", null, new BigDecimal("821.65")));
-        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.035"), CurrencyPair.BTC_USD, "", null, new BigDecimal("821.6")));
+        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("2.89"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("821.7")));
+        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("5.18"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("821.65")));
+        asks.add(new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.035"), CurrencyPair.BTC_EUR, "", null, new BigDecimal("821.6")));
 
         // Call get order book observable
-        TestObserver<OrderBook> test = marketDataService.getOrderBook(CurrencyPair.BTC_USD).test();
+        TestObserver<OrderBook> test = marketDataService.getOrderBook(CurrencyPair.BTC_EUR).test();
 
         // We get order book object in correct order
         test.assertValue(orderBook1 -> {
-            assertThat(orderBook1.getAsks()).isEqualTo(asks);
-            assertThat(orderBook1.getBids()).isEqualTo(bids);
+            assertThat(orderBook1.getAsks()).as("Asks").isEqualTo(asks);
+            assertThat(orderBook1.getBids()).as("Bids").isEqualTo(bids);
             return true;
         });
     }
@@ -68,7 +69,7 @@ public class BitstampStreamingMarketDataServiceTest {
         // Given order book in JSON
         String trade = new String(Files.readAllBytes(Paths.get(ClassLoader.getSystemResource("trade.json").toURI())));
 
-        when(streamingService.subscribeChannel(any(), anyList())).thenReturn(Observable.just(trade));
+        when(streamingService.subscribeChannel(eq("live_orders"), anyList())).thenReturn(Observable.just(trade));
 
         Trade expected = new Trade(Order.OrderType.ASK, new BigDecimal("34.390000000000001"), CurrencyPair.BTC_USD, new BigDecimal("914.38999999999999"), new Date(1484858423000L), "177827396");
 
@@ -76,11 +77,19 @@ public class BitstampStreamingMarketDataServiceTest {
         TestObserver<Trade> test = marketDataService.getTrades(CurrencyPair.BTC_USD).test();
 
         // We get order book object in correct order
-        test.assertValue(expected);
+        test.assertValue(trade1 -> {
+            assertThat(trade1.getId()).as("Id").isEqualTo(expected.getId());
+            assertThat(trade1.getCurrencyPair()).as("Currency pair").isEqualTo(expected.getCurrencyPair());
+            assertThat(trade1.getPrice()).as("Price").isEqualTo(expected.getPrice());
+            assertThat(trade1.getTimestamp()).as("Timestamp").isEqualTo(expected.getTimestamp());
+            assertThat(trade1.getTradableAmount()).as("Amount").isEqualTo(expected.getTradableAmount());
+            assertThat(trade1.getType()).as("Type").isEqualTo(expected.getType());
+            return true;
+        });
     }
 
     @Test(expected = NotAvailableFromExchangeException.class)
     public void testGetTicker() throws Exception {
-        marketDataService.getTicker(CurrencyPair.BTC_USD).test();
+        marketDataService.getTicker(CurrencyPair.BTC_EUR).test();
     }
 }
