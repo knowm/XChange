@@ -7,6 +7,12 @@ It is build on top of of [XChange library](https://github.com/timmolter/XChange)
 
 Library is in the preview state and is being prepared for the initial release. Large changes can be made in any public interface. Feel free to discuss any ideas and comments under issues section.
 
+Anyone willing to implement support for more exchanges is welcomed.
+
+### When will be the first release?
+
+Soon. First release should be when [XChange](https://github.com/timmolter/XChange) version 4.1.1 will be released.
+
 ## Example
 
 ```java
@@ -31,6 +37,7 @@ subscription.dispose();
 // Disconnect from exchange (non-blocking)
 exchange.disconnect().subscribe(() -> LOG.info("Disconnected from the Exchange"));
 ```
+More information about reactive streams can be found at [RxJava wiki](https://github.com/ReactiveX/RxJava/wiki). 
 
 ## Installation
 
@@ -42,7 +49,7 @@ TODO: Xchange-stream WILL be on Maven Central when initial release will be made.
 <dependency>
     <groupId>info.bitrich</groupId>
     <artifactId>xchange-stream</artifactId>
-    <version>1.x.x</version>
+    <version>x.y.z</version>
 </dependency>
 ```
 
@@ -51,7 +58,7 @@ TODO: Xchange-stream WILL be on Maven Central when initial release will be made.
 ##### Gradle
 
 ```
-compile 'info.bitrich:xchange-stream:1.x.x'
+compile 'info.bitrich:xchange-stream:x.y.z'
 ```
 
 ## Licence
