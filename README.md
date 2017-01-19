@@ -13,6 +13,14 @@ Anyone willing to implement support for more exchanges is welcomed.
 
 Soon. First release should be when [XChange](https://github.com/timmolter/XChange) version 4.1.1 will be released.
 
+### Why build is failing?
+
+Wait for the pull request in XChange will be accepted.
+
+### What API should expect?
+
+For now: live updates of order books and trades. Private WebSocket API maybe later - but support in exchanges is low.
+
 ## Example
 
 ```java
