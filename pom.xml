@@ -7,7 +7,7 @@
     <groupId>info.bitrich.xchange-stream</groupId>
     <artifactId>xchange-stream-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>4.1.1-SNAPSHOT</version>
     <modules>
         <module>core</module>
         <module>service-pusher</module>
@@ -16,6 +16,7 @@
         <module>exchange-bitstamp</module>
         <module>exchange-okcoin</module>
         <module>exchange-poloniex</module>
+        <module>exchange-coinmate</module>
     </modules>
 
     <repositories>
