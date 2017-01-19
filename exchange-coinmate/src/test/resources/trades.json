@@ -1,0 +1,16 @@
+[
+  {
+    "date": 1484863030522,
+    "price": 855.29,
+    "amount": 0.08233888,
+    "buyOrderId": 11175383,
+    "sellOrderId": 11175341
+  },
+  {
+    "date": 1484863028887,
+    "price": 855.13,
+    "amount": 0.00200428,
+    "buyOrderId": 11175383,
+    "sellOrderId": 11174771
+  }
+]
