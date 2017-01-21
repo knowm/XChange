@@ -2,7 +2,7 @@ package info.bitrich.xchangestream.bitstamp;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.pusher.PusherStreamingService;
+import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
 import io.reactivex.Completable;
 import org.knowm.xchange.bitstamp.BitstampExchange;
 

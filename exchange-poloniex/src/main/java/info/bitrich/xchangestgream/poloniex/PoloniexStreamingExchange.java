@@ -2,7 +2,7 @@ package info.bitrich.xchangestgream.poloniex;
 
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.wamp.WampStreamingService;
+import info.bitrich.xchangestream.service.wamp.WampStreamingService;
 import io.reactivex.Completable;
 import org.knowm.xchange.poloniex.PoloniexExchange;
 

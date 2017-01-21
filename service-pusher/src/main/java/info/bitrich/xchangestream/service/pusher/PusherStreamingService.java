@@ -1,10 +1,11 @@
-package info.bitrich.xchangestream.pusher;
+package info.bitrich.xchangestream.service.pusher;
 
 import com.pusher.client.Pusher;
 import com.pusher.client.channel.Channel;
 import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
+import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.slf4j.Logger;
@@ -62,7 +63,7 @@ public class PusherStreamingService {
         LOG.info("Subscribing to channel {}.", channelName);
         return Observable.<String>create(e -> {
             if (!ConnectionState.CONNECTED.equals(pusher.getConnection().getState())) {
-                e.onError(new IllegalStateException("Not connected to the exchange WebSocket API."));
+                e.onError(new NotConnectedException());
                 return;
             }
             Channel channel = pusher.subscribe(channelName);

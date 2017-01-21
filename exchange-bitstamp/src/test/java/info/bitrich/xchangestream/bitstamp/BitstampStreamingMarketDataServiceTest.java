@@ -1,6 +1,6 @@
 package info.bitrich.xchangestream.bitstamp;
 
-import info.bitrich.xchangestream.pusher.PusherStreamingService;
+import info.bitrich.xchangestream.service.pusher.PusherStreamingService;
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;
 import org.junit.Before;

@@ -17,6 +17,7 @@
         <module>exchange-okcoin</module>
         <module>exchange-poloniex</module>
         <module>exchange-coinmate</module>
+        <module>service-core</module>
     </modules>
 
     <repositories>

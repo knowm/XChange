@@ -2,8 +2,8 @@ package info.bitrich.xchangestream.okcoin;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import info.bitrich.xchangestream.netty.JsonNettyStreamingService;
 import info.bitrich.xchangestream.okcoin.dto.WebSocketMessage;
+import info.bitrich.xchangestream.service.netty.JsonNettyStreamingService;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 import java.io.IOException;

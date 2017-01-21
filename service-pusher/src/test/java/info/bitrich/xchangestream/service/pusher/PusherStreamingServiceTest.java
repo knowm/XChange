@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.pusher;
+package info.bitrich.xchangestream.service.pusher;
 
 import com.pusher.client.Pusher;
 import com.pusher.client.channel.Channel;
@@ -7,6 +7,7 @@ import com.pusher.client.connection.ConnectionEventListener;
 import com.pusher.client.connection.ConnectionState;
 import com.pusher.client.connection.ConnectionStateChange;
 import com.pusher.client.connection.websocket.WebSocketConnection;
+import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import io.reactivex.observers.TestObserver;
 import org.junit.Before;
 import org.junit.Test;
@@ -84,7 +85,7 @@ public class PusherStreamingServiceTest {
         TestObserver<String> test = streamingService.subscribeChannel("channelName", "eventName").test();
 
         // There are no errors and stream is not terminated.
-        test.assertError(IllegalStateException.class);
+        test.assertError(NotConnectedException.class);
         verify(pusher, never()).subscribe("channelName");
     }
 }

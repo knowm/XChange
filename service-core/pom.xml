@@ -9,19 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>service-pusher</artifactId>
+    <artifactId>service-core</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>service-core</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.pusher</groupId>
-            <artifactId>pusher-java-client</artifactId>
-            <version>1.4.0</version>
-        </dependency>
-    </dependencies>
 
 </project>

@@ -1,7 +1,7 @@
 package info.bitrich.xchangestgream.poloniex;
 
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
-import info.bitrich.xchangestream.wamp.WampStreamingService;
+import info.bitrich.xchangestream.service.wamp.WampStreamingService;
 import io.reactivex.Observable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;

@@ -1,4 +1,4 @@
-package info.bitrich.xchangestream.netty;
+package info.bitrich.xchangestream.service.netty;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

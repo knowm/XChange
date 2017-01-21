@@ -1,5 +1,6 @@
-package info.bitrich.xchangestream.netty;
+package info.bitrich.xchangestream.service.netty;
 
+import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -155,7 +156,7 @@ public abstract class NettyStreamingService<T> {
 
         return Observable.<T>create(e -> {
             if (webSocketChannel == null || !webSocketChannel.isOpen()) {
-                e.onError(new IllegalStateException("Not connected to the exchange WebSocket API."));
+                e.onError(new NotConnectedException());
             }
 
             channels.put(channelName, e);

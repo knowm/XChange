@@ -1,6 +1,7 @@
-package info.bitrich.xchangestream.wamp;
+package info.bitrich.xchangestream.service.wamp;
 
 import hu.akarnokd.rxjava.interop.RxJavaInterop;
+import info.bitrich.xchangestream.service.exception.NotConnectedException;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import org.slf4j.Logger;
@@ -70,7 +71,7 @@ public class WampStreamingService {
 
     public Observable<PubSubData> subscribeChannel(String channel) {
         if (!(connectedState instanceof WampClient.ConnectedState)) {
-            return Observable.error(new IllegalStateException("Not connected to the exchange WebSocket API."));
+            return Observable.error(new NotConnectedException());
         }
 
         return RxJavaInterop.toV2Observable(client.makeSubscription(channel));
