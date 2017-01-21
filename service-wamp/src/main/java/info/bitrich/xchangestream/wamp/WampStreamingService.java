@@ -48,15 +48,16 @@ public class WampStreamingService {
             }
 
             client.statusChanged().subscribe(state -> {
+                LOG.debug("State changed: {}", state);
+                if (state instanceof WampClient.DisconnectedState && connectedState instanceof WampClient.ConnectingState) {
+                    if (((WampClient.DisconnectedState) state).disconnectReason() != null) {
+                        completable.onError(((WampClient.DisconnectedState) state).disconnectReason());
+                    } else {
+                        completable.onError(new IllegalStateException("Cannot connect to the exchange."));
+                    }
+                }
+
                 connectedState = state;
-                // TODO error state to complete completable.
-//                if (state instanceof WampClient.DisconnectedState) {
-//                    if (((WampClient.DisconnectedState) state).disconnectReason() != null) {
-//                        completable.onError(((WampClient.DisconnectedState) state).disconnectReason());
-//                    } else {
-//                        completable.onError(new IllegalStateException("Cannot connect to the exchange."));
-//                    }
-//                }
 
                 if (state instanceof WampClient.ConnectedState) {
                     completable.onComplete();

@@ -3,7 +3,6 @@ package info.bitrich.xchangestream.poloniex;
 import info.bitrich.xchangestgream.poloniex.PoloniexStreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
-import io.reactivex.disposables.Disposable;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,7 @@ public class PoloniexManualExample {
 //            LOG.info("First bid: {}", orderBook.getBids().get(0));
 //        }, throwable -> LOG.error("ERROR in getting order book: ", throwable));
 
-        Disposable subscribe = exchange.getStreamingMarketDataService().getTicker(CurrencyPair.LTC_BTC).subscribe(ticker -> {
+        exchange.getStreamingMarketDataService().getTicker(CurrencyPair.LTC_BTC).subscribe(ticker -> {
             LOG.info("TICKER: {}", ticker);
         }, throwable -> LOG.error("ERROR in getting ticker: ", throwable));
 
