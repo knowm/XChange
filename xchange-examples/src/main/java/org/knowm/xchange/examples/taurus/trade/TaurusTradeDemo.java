@@ -9,9 +9,9 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.taurus.TaurusDemoUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.taurus.dto.trade.TaurusOrder;
-import org.knowm.xchange.taurus.service.polling.TaurusTradeServiceRaw;
+import org.knowm.xchange.taurus.service.TaurusTradeServiceRaw;
 
 /**
  * <p>
@@ -27,13 +27,13 @@ public class TaurusTradeDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange taurus = TaurusDemoUtils.createExchange();
-    PollingTradeService tradeService = taurus.getPollingTradeService();
+    TradeService tradeService = taurus.getTradeService();
 
     generic(tradeService);
     raw((TaurusTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException {
+  private static void generic(TradeService tradeService) throws IOException {
 
     printOpenOrders(tradeService);
 
@@ -51,7 +51,7 @@ public class TaurusTradeDemo {
     printOpenOrders(tradeService);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
+  private static void printOpenOrders(TradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());

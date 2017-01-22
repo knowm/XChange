@@ -4,11 +4,10 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.ccex.CCEXExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.yobit.YoBitExchange;
 
 /**
@@ -21,7 +20,7 @@ public class YoBitBookDemo {
 		Exchange yoBitExchange = ExchangeFactory.INSTANCE.createExchange(YoBitExchange.class.getName());
 
 		// Interested in the public market data feed (no authentication)
-		PollingMarketDataService marketDataService = yoBitExchange.getPollingMarketDataService();
+		MarketDataService marketDataService = yoBitExchange.getMarketDataService();
 
 		System.out.println("fetching data...");
 

@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitmarket.ExchangeUtils;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * @author kfonal
@@ -28,7 +28,7 @@ public class TradeHistoryFetchIntegration {
       return; // forces pass if there is no keys passed
     }
 
-    PollingTradeService service = exchange.getPollingTradeService();
+    TradeService service = exchange.getTradeService();
     assertNotNull(service);
 
     //verify history info exists

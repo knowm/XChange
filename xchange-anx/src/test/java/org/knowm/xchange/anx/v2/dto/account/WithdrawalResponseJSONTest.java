@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Ignore;
-import org.knowm.xchange.anx.v2.dto.account.polling.ANXWithdrawalResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

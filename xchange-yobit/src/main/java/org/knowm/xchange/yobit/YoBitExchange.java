@@ -34,14 +34,14 @@ public class YoBitExchange extends BaseExchange implements Exchange {
 
 	@Override
 	protected void initServices() {
-		this.pollingMarketDataService = new YoBitMarketDataService(this);
-		this.pollingAccountService = null; // new LIVECOINAccountService(this);
-		this.pollingTradeService = null; // new LIVECOINTradeService(this);
+		this.marketDataService = new YoBitMarketDataService(this);
+		this.accountService = null; // new LIVECOINAccountService(this);
+		this.tradeService = null; // new LIVECOINTradeService(this);
 	}
 
 	@Override
 	public void remoteInit() throws IOException {
-		YoBitInfo products = ((YoBitMarketDataServiceRaw) pollingMarketDataService).getProducts();
+		YoBitInfo products = ((YoBitMarketDataServiceRaw) marketDataService).getProducts();
 		exchangeMetaData = YoBitAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
 		//System.out.println("JSON: " + ObjectMapperHelper.toJSON(exchangeMetaData));
 	}

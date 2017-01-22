@@ -17,11 +17,11 @@ import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import org.knowm.xchange.gdax.dto.trade.GDAXTradeHistoryParams;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.polling.trade.params.orders.OpenOrdersParams;
+import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
-public class GDAXTradeService extends GDAXTradeServiceRaw implements PollingTradeService {
+public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeService {
 
   public GDAXTradeService(Exchange exchange) {
 

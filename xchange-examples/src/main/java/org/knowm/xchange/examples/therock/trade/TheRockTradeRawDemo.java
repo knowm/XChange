@@ -11,7 +11,7 @@ import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder.Side;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder.Type;
 import org.knowm.xchange.therock.dto.trade.TheRockOrders;
-import org.knowm.xchange.therock.service.polling.TheRockTradeServiceRaw;
+import org.knowm.xchange.therock.service.TheRockTradeServiceRaw;
 
 public class TheRockTradeRawDemo {
 
@@ -23,7 +23,7 @@ public class TheRockTradeRawDemo {
   }
 
   private static void raw(Exchange theRockExchange) throws IOException, InterruptedException {
-    TheRockTradeServiceRaw tradeService = (TheRockTradeServiceRaw) theRockExchange.getPollingTradeService();
+    TheRockTradeServiceRaw tradeService = (TheRockTradeServiceRaw) theRockExchange.getTradeService();
 
     //create order
     BigDecimal amount = new BigDecimal("0.01");

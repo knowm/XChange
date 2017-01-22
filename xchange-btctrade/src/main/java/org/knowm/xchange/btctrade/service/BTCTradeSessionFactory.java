@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * {@link BTCTradeSession} factory to ensure the polling service instances, which using the same API key, share the same secret data and nonce.
+ * {@link BTCTradeSession} factory to ensure the service instances, which using the same API key, share the same secret data and nonce.
  */
 public enum BTCTradeSessionFactory {
 

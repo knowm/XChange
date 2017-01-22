@@ -3,9 +3,9 @@ package org.knowm.xchange.gatecoin;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.gatecoin.service.polling.GatecoinAccountService;
-import org.knowm.xchange.gatecoin.service.polling.GatecoinMarketDataService;
-import org.knowm.xchange.gatecoin.service.polling.GatecoinTradeService;
+import org.knowm.xchange.gatecoin.service.GatecoinAccountService;
+import org.knowm.xchange.gatecoin.service.GatecoinMarketDataService;
+import org.knowm.xchange.gatecoin.service.GatecoinTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -26,9 +26,9 @@ public class GatecoinExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
 
-    this.pollingMarketDataService = new GatecoinMarketDataService(this);
-    this.pollingTradeService = new GatecoinTradeService(this);
-    this.pollingAccountService = new GatecoinAccountService(this);
+    this.marketDataService = new GatecoinMarketDataService(this);
+    this.tradeService = new GatecoinTradeService(this);
+    this.accountService = new GatecoinAccountService(this);
   }
 
   @Override

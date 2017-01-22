@@ -18,7 +18,7 @@ Usage is very simple: Create an Exchange instance, get the appropriate service, 
 
     Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
-    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
+    MarketDataService marketDataService = bitstamp.getMarketDataService();
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
 
@@ -35,8 +35,7 @@ Now go ahead and [study some more examples](http://knowm.org/open-source/xchange
 * [x] active development
 * [x] very minimal 3rd party dependencies
 * [x] modular components
-* [x] polling capability (no streaming)
-    
+
 ## More Info
 
 Project Site: <http://knowm.org/open-source/xchange>  
@@ -99,7 +98,7 @@ For snapshots, add the following repository to your pom.xml file.
     
 The current snapshot version is: 
 
-    4.1.1-SNAPSHOT
+    4.2.0-SNAPSHOT
     
 ## Building with Maven
 

@@ -8,7 +8,7 @@ import org.knowm.xchange.ccex.CCEXExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting OrderBook from C-CEX and plotting it using XChart.
@@ -20,7 +20,7 @@ public class OrderBookDemo {
 		Exchange ccexExchange = ExchangeFactory.INSTANCE.createExchange(CCEXExchange.class.getName());
 
 		// Interested in the public market data feed (no authentication)
-		PollingMarketDataService marketDataService = ccexExchange.getPollingMarketDataService();
+		MarketDataService marketDataService = ccexExchange.getMarketDataService();
 
 		System.out.println("fetching data...");
 

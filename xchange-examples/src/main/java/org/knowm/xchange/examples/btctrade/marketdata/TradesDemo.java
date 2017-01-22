@@ -7,10 +7,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btctrade.BTCTradeExchange;
 import org.knowm.xchange.btctrade.dto.marketdata.BTCTradeTrade;
-import org.knowm.xchange.btctrade.service.polling.BTCTradeMarketDataServiceRaw;
+import org.knowm.xchange.btctrade.service.BTCTradeMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting trades at BTCTrade.
@@ -27,8 +27,8 @@ public class TradesDemo {
 
   private static void generic(Exchange exchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication).
-    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication).
+    MarketDataService marketDataService = exchange.getMarketDataService();
 
     // Get the latest 500 trade data for BTC/CNY.
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CNY);
@@ -43,8 +43,8 @@ public class TradesDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication).
-    BTCTradeMarketDataServiceRaw marketDataService = (BTCTradeMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication).
+    BTCTradeMarketDataServiceRaw marketDataService = (BTCTradeMarketDataServiceRaw) exchange.getMarketDataService();
 
     // Get the latest 500 trade data for BTC/CNY.
     BTCTradeTrade[] trades = marketDataService.getBTCTradeTrades();

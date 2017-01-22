@@ -6,14 +6,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.knowm.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
-import org.knowm.xchange.anx.v2.dto.account.polling.ANXWallet;
+import org.knowm.xchange.anx.v2.dto.account.ANXAccountInfo;
+import org.knowm.xchange.anx.v2.dto.account.ANXWallet;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXOrder;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXTicker;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXTrade;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMetaData;
-import org.knowm.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
-import org.knowm.xchange.anx.v2.dto.trade.polling.ANXTradeResult;
+import org.knowm.xchange.anx.v2.dto.trade.ANXOpenOrder;
+import org.knowm.xchange.anx.v2.dto.trade.ANXTradeResult;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;

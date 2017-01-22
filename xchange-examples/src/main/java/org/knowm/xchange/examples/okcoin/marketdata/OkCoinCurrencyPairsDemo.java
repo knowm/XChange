@@ -6,7 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.okcoin.OkCoinExchange;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class OkCoinCurrencyPairsDemo {
 
@@ -23,8 +23,8 @@ public class OkCoinCurrencyPairsDemo {
 
   private static void generic(Exchange okcoinExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = okcoinExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = okcoinExchange.getMarketDataService();
   }
 
 }

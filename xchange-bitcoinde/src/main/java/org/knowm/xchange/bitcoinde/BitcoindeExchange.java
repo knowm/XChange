@@ -3,7 +3,7 @@ package org.knowm.xchange.bitcoinde;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitcoinde.service.polling.BitcoindeMarketDataService;
+import org.knowm.xchange.bitcoinde.service.BitcoindeMarketDataService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -27,9 +27,9 @@ public class BitcoindeExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BitcoindeMarketDataService(this);
-    this.pollingTradeService = null;
-    this.pollingAccountService = null;
+    this.marketDataService = new BitcoindeMarketDataService(this);
+    this.tradeService = null;
+    this.accountService = null;
   }
 
   @Override

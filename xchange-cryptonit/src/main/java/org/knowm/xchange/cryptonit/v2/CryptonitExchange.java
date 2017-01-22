@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.cryptonit.v2.service.polling.CryptonitMarketDataService;
+import org.knowm.xchange.cryptonit.v2.service.CryptonitMarketDataService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -13,7 +13,7 @@ public class CryptonitExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new CryptonitMarketDataService(this);
+    this.marketDataService = new CryptonitMarketDataService(this);
   }
 
   @Override
@@ -40,7 +40,7 @@ public class CryptonitExchange extends BaseExchange implements Exchange {
   public void remoteInit() throws IOException {
 
     // TODO Implement this.
-    // List<List<String>>  currencies = ((CryptonitMarketDataServiceRaw) pollingMarketDataService).getCryptonitTradingPairs() ();
+    // List<List<String>>  currencies = ((CryptonitMarketDataServiceRaw) marketDataService).getCryptonitTradingPairs() ();
     // other endpoints?
     // hard-coded meta data from json file not available at an endpoint?
     // TODO take all the info gathered above and create a `ExchangeMetaData` object via a new method in `*Adapters` class

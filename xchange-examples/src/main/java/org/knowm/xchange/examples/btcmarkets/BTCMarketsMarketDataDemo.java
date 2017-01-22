@@ -6,11 +6,11 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btcmarkets.BTCMarketsExchange;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
-import org.knowm.xchange.btcmarkets.service.polling.BTCMarketsMarketDataServiceRaw;
+import org.knowm.xchange.btcmarkets.service.BTCMarketsMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BTCMarketsMarketDataDemo {
 
@@ -22,8 +22,8 @@ public class BTCMarketsMarketDataDemo {
   }
 
   private static void generic(Exchange btcMarketsExchange) throws IOException {
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService btcMarketsMarketDataService = btcMarketsExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService btcMarketsMarketDataService = btcMarketsExchange.getMarketDataService();
 
     // Get the (daily) ticker
     System.out.println("Ticker: " + btcMarketsMarketDataService.getTicker(CurrencyPair.BTC_AUD));
@@ -39,8 +39,8 @@ public class BTCMarketsMarketDataDemo {
   }
 
   private static void raw(Exchange btcMarketsExchange) throws IOException {
-    // Interested in the public polling market data feed (no authentication)
-    BTCMarketsMarketDataServiceRaw btcMarketsMarketDataService = (BTCMarketsMarketDataServiceRaw) btcMarketsExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    BTCMarketsMarketDataServiceRaw btcMarketsMarketDataService = (BTCMarketsMarketDataServiceRaw) btcMarketsExchange.getMarketDataService();
 
     // Get the weekly ticker
     System.out.println("Ticker: " + btcMarketsMarketDataService.getBTCMarketsTicker(CurrencyPair.BTC_AUD));

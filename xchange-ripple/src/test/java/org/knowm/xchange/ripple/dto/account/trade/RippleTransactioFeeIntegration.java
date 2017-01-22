@@ -8,14 +8,14 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ripple.RippleExchange;
-import org.knowm.xchange.ripple.service.polling.RippleTradeService;
+import org.knowm.xchange.ripple.service.RippleTradeService;
 
 public class RippleTransactioFeeIntegration {
 
   @Test
   public void getTransactionFeeTest() {
     final Exchange exchange = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
-    final RippleTradeService tradeService = (RippleTradeService) exchange.getPollingTradeService();
+    final RippleTradeService tradeService = (RippleTradeService) exchange.getTradeService();
 
     final BigDecimal transactionFee = tradeService.getTransactionFee();
     assertThat(transactionFee).isGreaterThan(BigDecimal.ZERO);

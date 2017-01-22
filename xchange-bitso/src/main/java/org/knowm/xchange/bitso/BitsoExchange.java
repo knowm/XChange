@@ -3,9 +3,9 @@ package org.knowm.xchange.bitso;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitso.service.polling.BitsoAccountService;
-import org.knowm.xchange.bitso.service.polling.BitsoMarketDataService;
-import org.knowm.xchange.bitso.service.polling.BitsoTradeService;
+import org.knowm.xchange.bitso.service.BitsoAccountService;
+import org.knowm.xchange.bitso.service.BitsoMarketDataService;
+import org.knowm.xchange.bitso.service.BitsoTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -19,9 +19,9 @@ public class BitsoExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BitsoMarketDataService(this);
-    this.pollingAccountService = new BitsoAccountService(this);
-    this.pollingTradeService = new BitsoTradeService(this);
+    this.marketDataService = new BitsoMarketDataService(this);
+    this.accountService = new BitsoAccountService(this);
+    this.tradeService = new BitsoTradeService(this);
   }
 
   @Override

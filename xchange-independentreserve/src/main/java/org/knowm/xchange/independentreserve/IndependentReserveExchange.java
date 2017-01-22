@@ -3,9 +3,9 @@ package org.knowm.xchange.independentreserve;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.independentreserve.service.polling.IndependentReserveAccountService;
-import org.knowm.xchange.independentreserve.service.polling.IndependentReserveMarketDataService;
-import org.knowm.xchange.independentreserve.service.polling.IndependentReserveTradeService;
+import org.knowm.xchange.independentreserve.service.IndependentReserveAccountService;
+import org.knowm.xchange.independentreserve.service.IndependentReserveMarketDataService;
+import org.knowm.xchange.independentreserve.service.IndependentReserveTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -16,9 +16,9 @@ public class IndependentReserveExchange extends BaseExchange implements Exchange
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new IndependentReserveMarketDataService(this);
-    this.pollingTradeService = new IndependentReserveTradeService(this);
-    this.pollingAccountService = new IndependentReserveAccountService(this);
+    this.marketDataService = new IndependentReserveMarketDataService(this);
+    this.tradeService = new IndependentReserveTradeService(this);
+    this.accountService = new IndependentReserveAccountService(this);
   }
 
   @Override

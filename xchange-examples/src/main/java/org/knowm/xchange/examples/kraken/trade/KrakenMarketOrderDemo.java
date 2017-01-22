@@ -9,8 +9,8 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
-import org.knowm.xchange.kraken.service.polling.KrakenTradeServiceRaw;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.kraken.service.KrakenTradeServiceRaw;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class KrakenMarketOrderDemo {
 
@@ -26,7 +26,7 @@ public class KrakenMarketOrderDemo {
   private static void generic(Exchange krakenExchange) throws IOException {
 
     // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = krakenExchange.getPollingTradeService();
+    TradeService tradeService = krakenExchange.getTradeService();
 
     // place a marketOrder with volume 0.01
     OrderType orderType = (OrderType.BID);
@@ -41,7 +41,7 @@ public class KrakenMarketOrderDemo {
   private static void raw(Exchange krakenExchange) throws IOException {
 
     // Interested in the private trading functionality (authentication)
-    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getTradeService();
 
     // place a marketOrder with volume 0.01
     OrderType orderType = (OrderType.BID);

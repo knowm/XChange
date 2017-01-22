@@ -68,5 +68,5 @@ the point of order entry. If identification of unfunded orders is important they
 ## Trade History
 
 The trade history query relies on querying notifications, and then for every order type querying the corresponding hash. This has the potential to 
-generate a large number of API calls and be slow. A [RippleTradeHistoryParams](src/main/java/org/knowm/xchange/ripple/service/polling/params/RippleTradeHistoryParams.java)
+generate a large number of API calls and be slow. A [RippleTradeHistoryParams](src/main/java/org/knowm/xchange/ripple/service/params/RippleTradeHistoryParams.java)
 object can be used to target the query more efficiently in line with the applications requirements. 

@@ -8,10 +8,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.gemini.v1.service.polling.GeminiAccountService;
-import org.knowm.xchange.gemini.v1.service.polling.GeminiMarketDataService;
-import org.knowm.xchange.gemini.v1.service.polling.GeminiMarketDataServiceRaw;
-import org.knowm.xchange.gemini.v1.service.polling.GeminiTradeService;
+import org.knowm.xchange.gemini.v1.service.GeminiAccountService;
+import org.knowm.xchange.gemini.v1.service.GeminiMarketDataService;
+import org.knowm.xchange.gemini.v1.service.GeminiMarketDataServiceRaw;
+import org.knowm.xchange.gemini.v1.service.GeminiTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -22,9 +22,9 @@ public class GeminiExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new GeminiMarketDataService(this);
-    this.pollingAccountService = new GeminiAccountService(this);
-    this.pollingTradeService = new GeminiTradeService(this);
+    this.marketDataService = new GeminiMarketDataService(this);
+    this.accountService = new GeminiAccountService(this);
+    this.tradeService = new GeminiTradeService(this);
   }
 
   @Override
@@ -49,7 +49,7 @@ public class GeminiExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException, ExchangeException {
 
-    GeminiMarketDataServiceRaw dataService = (GeminiMarketDataServiceRaw) this.pollingMarketDataService;
+    GeminiMarketDataServiceRaw dataService = (GeminiMarketDataServiceRaw) this.marketDataService;
     List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
     exchangeMetaData = GeminiAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
 

@@ -8,8 +8,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.gatecoin.GatecoinExchange;
 import org.knowm.xchange.gatecoin.dto.marketdata.GatecoinTransaction;
-import org.knowm.xchange.gatecoin.service.polling.GatecoinMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.gatecoin.service.GatecoinMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * @author sumdeha
@@ -20,14 +20,14 @@ public class GatecoinTradesDemo {
     // Use the factory to get gatecoin exchange API using default settings
     Exchange gatecoin = ExchangeFactory.INSTANCE.createExchange(GatecoinExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = gatecoin.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = gatecoin.getMarketDataService();
 
     generic(marketDataService);
     raw((GatecoinMarketDataServiceRaw) marketDataService);
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
     System.out.println(trades.getTrades().toString());

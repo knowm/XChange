@@ -6,10 +6,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btce.v3.BTCEExchange;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
-import org.knowm.xchange.btce.v3.service.polling.BTCEMarketDataServiceRaw;
+import org.knowm.xchange.btce.v3.service.BTCEMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.CertHelper;
 
 /**
@@ -29,8 +29,8 @@ public class BTCETickerDemo {
 
   private static void generic(Exchange exchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = exchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to CAD
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
@@ -45,8 +45,8 @@ public class BTCETickerDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     BTCETickerWrapper ticker = marketDataService.getBTCETicker("btc_usd");

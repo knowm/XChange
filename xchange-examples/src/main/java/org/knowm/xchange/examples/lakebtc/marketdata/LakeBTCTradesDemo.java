@@ -7,8 +7,8 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.lakebtc.LakeBTCExamplesUtils;
-import org.knowm.xchange.lakebtc.service.polling.LakeBTCMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.lakebtc.service.LakeBTCMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Created by Cristi on 12/22/2014.
@@ -23,7 +23,7 @@ public class LakeBTCTradesDemo {
 
   private static void generic(Exchange lakebtcExchange) throws IOException {
 
-    PollingMarketDataService marketDataService = lakebtcExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = lakebtcExchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CNY, 0L);
     System.out.println(trades);
     System.out.println("Trades(0): " + trades.getTrades().get(0).toString());
@@ -36,7 +36,7 @@ public class LakeBTCTradesDemo {
   }
 
   private static void raw(Exchange lakeBtcExchange) throws IOException {
-    LakeBTCMarketDataServiceRaw marketDataService = (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getPollingMarketDataService();
+    LakeBTCMarketDataServiceRaw marketDataService = (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getMarketDataService();
     BigDecimal[][] trades = marketDataService.getLakeBTCOrderBookCNY().getAsks();
 
     System.out.println("Ask size: " + trades.length);

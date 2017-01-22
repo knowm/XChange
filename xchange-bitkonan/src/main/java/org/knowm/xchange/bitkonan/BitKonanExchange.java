@@ -3,7 +3,7 @@ package org.knowm.xchange.bitkonan;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitkonan.service.polling.BitKonanMarketDataService;
+import org.knowm.xchange.bitkonan.service.BitKonanMarketDataService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -11,7 +11,7 @@ public class BitKonanExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BitKonanMarketDataService(this);
+    this.marketDataService = new BitKonanMarketDataService(this);
   }
 
   @Override

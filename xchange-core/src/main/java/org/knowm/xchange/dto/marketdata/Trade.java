@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Data object representing a Trade
@@ -43,7 +44,7 @@ public class Trade {
 
   /**
    * This constructor is called to create a public Trade object in
-   * {@link org.knowm.xchange.service.polling.marketdata.PollingMarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)}
+   * {@link MarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)}
    * implementations) since it's missing the orderId and fee parameters.
    *
    * @param type The trade type (BID side or ASK side)

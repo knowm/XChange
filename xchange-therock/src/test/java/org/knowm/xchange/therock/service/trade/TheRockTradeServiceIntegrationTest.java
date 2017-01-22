@@ -8,9 +8,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.therock.service.polling.TheRockOpenOrdersParams;
-import org.knowm.xchange.therock.service.polling.TheRockTradeService;
-import org.knowm.xchange.therock.service.polling.TheRockTradeServiceRaw;
+import org.knowm.xchange.therock.service.TheRockOpenOrdersParams;
+import org.knowm.xchange.therock.service.TheRockTradeService;
+import org.knowm.xchange.therock.service.TheRockTradeServiceRaw;
 
 /**
  * Remove abstract modifier and read parent class notes in order to run the integration test

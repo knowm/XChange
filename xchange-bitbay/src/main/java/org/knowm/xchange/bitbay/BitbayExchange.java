@@ -3,9 +3,9 @@ package org.knowm.xchange.bitbay;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitbay.service.polling.BitbayAccountService;
-import org.knowm.xchange.bitbay.service.polling.BitbayMarketDataService;
-import org.knowm.xchange.bitbay.service.polling.BitbayTradeService;
+import org.knowm.xchange.bitbay.service.BitbayAccountService;
+import org.knowm.xchange.bitbay.service.BitbayMarketDataService;
+import org.knowm.xchange.bitbay.service.BitbayTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -32,9 +32,9 @@ public class BitbayExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BitbayMarketDataService(this);
-    this.pollingTradeService = new BitbayTradeService(this);
-    this.pollingAccountService = new BitbayAccountService(this);
+    this.marketDataService = new BitbayMarketDataService(this);
+    this.tradeService = new BitbayTradeService(this);
+    this.accountService = new BitbayAccountService(this);
   }
 
   @Override

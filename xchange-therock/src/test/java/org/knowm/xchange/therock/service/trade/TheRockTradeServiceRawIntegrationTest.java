@@ -10,7 +10,7 @@ import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder.Side;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder.Type;
 import org.knowm.xchange.therock.dto.trade.TheRockOrders;
-import org.knowm.xchange.therock.service.polling.TheRockTradeServiceRaw;
+import org.knowm.xchange.therock.service.TheRockTradeServiceRaw;
 
 /**
  * Remove abstract modifier and read parent class notes in order to run the integration test

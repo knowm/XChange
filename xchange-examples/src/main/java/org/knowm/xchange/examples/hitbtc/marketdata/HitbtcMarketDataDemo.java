@@ -15,8 +15,8 @@ import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTime;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
-import org.knowm.xchange.hitbtc.service.polling.HitbtcMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.hitbtc.service.HitbtcMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class HitbtcMarketDataDemo {
 
@@ -27,14 +27,14 @@ public class HitbtcMarketDataDemo {
     hitbtcExchange.remoteInit();
     System.out.println("Market metadata: " + hitbtcExchange.getExchangeMetaData().getCurrencyPairs().toString());
 
-    PollingMarketDataService marketDataService = hitbtcExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = hitbtcExchange.getMarketDataService();
 
     generic(marketDataService);
     raw((HitbtcMarketDataServiceRaw) marketDataService);
 
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     System.out.println("BTC / USD Ticker: " + ticker.toString());

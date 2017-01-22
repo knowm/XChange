@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.examples.poloniex.PoloniexExamplesUtils;
-import org.knowm.xchange.poloniex.service.polling.PoloniexAccountServiceRaw;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.poloniex.service.PoloniexAccountServiceRaw;
+import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.utils.CertHelper;
 
 /**
@@ -21,13 +21,13 @@ public class PoloniexAccountDemo {
     CertHelper.trustAllCerts();
 
     Exchange poloniex = PoloniexExamplesUtils.getExchange();
-    PollingAccountService accountService = poloniex.getPollingAccountService();
+    AccountService accountService = poloniex.getAccountService();
 
     generic(accountService);
     raw((PoloniexAccountServiceRaw) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws IOException {
+  private static void generic(AccountService accountService) throws IOException {
 
     System.out.println("----------GENERIC----------");
     System.out.println(accountService.requestDepositAddress(Currency.BTC));

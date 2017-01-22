@@ -3,9 +3,9 @@ package org.knowm.xchange.cexio;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.cexio.service.polling.CexIOAccountService;
-import org.knowm.xchange.cexio.service.polling.CexIOMarketDataService;
-import org.knowm.xchange.cexio.service.polling.CexIOTradeService;
+import org.knowm.xchange.cexio.service.CexIOAccountService;
+import org.knowm.xchange.cexio.service.CexIOMarketDataService;
+import org.knowm.xchange.cexio.service.CexIOTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2014NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -16,9 +16,9 @@ public class CexIOExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new CexIOMarketDataService(this);
-    this.pollingAccountService = new CexIOAccountService(this);
-    this.pollingTradeService = new CexIOTradeService(this);
+    this.marketDataService = new CexIOMarketDataService(this);
+    this.accountService = new CexIOAccountService(this);
+    this.tradeService = new CexIOTradeService(this);
   }
 
   @Override

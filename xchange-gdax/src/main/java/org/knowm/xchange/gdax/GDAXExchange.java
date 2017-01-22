@@ -21,9 +21,9 @@ public class GDAXExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new GDAXMarketDataService(this);
-    this.pollingAccountService = new GDAXAccountService(this);
-    this.pollingTradeService = new GDAXTradeService(this);
+    this.marketDataService = new GDAXMarketDataService(this);
+    this.accountService = new GDAXAccountService(this);
+    this.tradeService = new GDAXTradeService(this);
   }
 
   @Override
@@ -47,7 +47,7 @@ public class GDAXExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException {
 
-    List<GDAXProduct> products = ((GDAXMarketDataServiceRaw) pollingMarketDataService).getConbaseExProducts();
+    List<GDAXProduct> products = ((GDAXMarketDataServiceRaw) marketDataService).getConbaseExProducts();
     exchangeMetaData = GDAXAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
     //    System.out.println("JSON: " + ObjectMapperHelper.toJSON(exchangeMetaData));
   }

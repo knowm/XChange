@@ -15,7 +15,7 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
 /**
  * Created by Yingzhe on 4/6/2015.
  */
-public class GDAXMarketDataServiceRaw extends GDAXBasePollingService<GDAX> {
+public class GDAXMarketDataServiceRaw extends GDAXBaseService<GDAX> {
 
   public GDAXMarketDataServiceRaw(Exchange exchange) {
 

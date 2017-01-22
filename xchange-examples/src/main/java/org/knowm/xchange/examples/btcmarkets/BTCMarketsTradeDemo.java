@@ -3,19 +3,19 @@ package org.knowm.xchange.examples.btcmarkets;
 import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.btcmarkets.service.polling.BTCMarketsTradeService;
+import org.knowm.xchange.btcmarkets.service.BTCMarketsTradeService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class BTCMarketsTradeDemo {
 
   public static void main(String[] args) throws Exception {
     Exchange btcMarketsExchange = BTCMarketsExampleUtils.createTestExchange();
-    PollingTradeService tradeService = btcMarketsExchange.getPollingTradeService();
+    TradeService tradeService = btcMarketsExchange.getTradeService();
 
     System.out.println("Open Orders: " + tradeService.getOpenOrders());
 

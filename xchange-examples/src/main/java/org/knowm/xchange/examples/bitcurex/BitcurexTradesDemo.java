@@ -7,10 +7,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitcurex.BitcurexExchange;
 import org.knowm.xchange.bitcurex.dto.marketdata.BitcurexTrade;
-import org.knowm.xchange.bitcurex.service.polling.BitcurexMarketDataServiceRaw;
+import org.knowm.xchange.bitcurex.service.BitcurexMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Trades at Bitcurex
@@ -27,8 +27,8 @@ public class BitcurexTradesDemo {
 
   private static void requestData(Exchange bitcurex, CurrencyPair pair) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitcurex.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = bitcurex.getMarketDataService();
 
     // // Get the latest trade data for BTC/EUR
     // Trades trades = marketDataService.getTrades(CurrencyPair.BTC_EUR);
@@ -38,7 +38,7 @@ public class BitcurexTradesDemo {
     raw((BitcurexMarketDataServiceRaw) marketDataService, pair.counter.getCurrencyCode());
   }
 
-  private static void generic(PollingMarketDataService marketDataService, CurrencyPair pair) throws IOException {
+  private static void generic(MarketDataService marketDataService, CurrencyPair pair) throws IOException {
 
     // Get the latest trade data for BTC/EUR
     Trades trades = marketDataService.getTrades(pair);

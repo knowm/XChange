@@ -6,11 +6,11 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitso.dto.account.BitsoBalance;
 import org.knowm.xchange.bitso.dto.account.BitsoDepositAddress;
-import org.knowm.xchange.bitso.service.polling.BitsoAccountServiceRaw;
+import org.knowm.xchange.bitso.service.BitsoAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.bitso.BitsoDemoUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 /**
  * <p>
@@ -28,13 +28,13 @@ public class BitsoAccountDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange bitso = BitsoDemoUtils.createExchange();
-    PollingAccountService accountService = bitso.getPollingAccountService();
+    AccountService accountService = bitso.getAccountService();
 
     generic(accountService);
     raw((BitsoAccountServiceRaw) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws IOException {
+  private static void generic(AccountService accountService) throws IOException {
 
     // Get the account information
     AccountInfo wallet = accountService.getAccountInfo();

@@ -8,11 +8,11 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinium.BitcoiniumExchange;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumOrderbook;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
-import org.knowm.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
+import org.knowm.xchange.bitcoinium.service.BitcoiniumMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Market Data from CampBX
@@ -32,8 +32,8 @@ public class BitcoiniumMarketDataDemo {
 
   private static void generic(Exchange exchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService bitcoiniumGenericMarketDataService = exchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService bitcoiniumGenericMarketDataService = exchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     Ticker ticker = bitcoiniumGenericMarketDataService.getTicker(new CurrencyPair("BTC", "BITSTAMP_USD"));
@@ -51,8 +51,8 @@ public class BitcoiniumMarketDataDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    BitcoiniumMarketDataServiceRaw bitcoiniumSpecificMarketDataService = (BitcoiniumMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    BitcoiniumMarketDataServiceRaw bitcoiniumSpecificMarketDataService = (BitcoiniumMarketDataServiceRaw) exchange.getMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
     BitcoiniumTicker bitcoiniumTicker = bitcoiniumSpecificMarketDataService.getBitcoiniumTicker("BTC", "BITSTAMP_USD");

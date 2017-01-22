@@ -10,8 +10,8 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.examples.independentreserve.IndependentReserveDemoUtils;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
-import org.knowm.xchange.independentreserve.service.polling.IndependentReserveAccountService;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.independentreserve.service.IndependentReserveAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 /**
  * Author: Kamil Zbikowski Date: 4/10/15
@@ -21,13 +21,13 @@ public class IndependentReserveAccountDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange independentReserve = IndependentReserveDemoUtils.createExchange();
-    PollingAccountService accountService = independentReserve.getPollingAccountService();
+    AccountService accountService = independentReserve.getAccountService();
 
     generic(accountService);
     raw((IndependentReserveAccountService) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws IOException {
+  private static void generic(AccountService accountService) throws IOException {
 
     // Get the account information
     AccountInfo accountInfo = accountService.getAccountInfo();

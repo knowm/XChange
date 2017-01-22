@@ -3,13 +3,13 @@ package org.knowm.xchange.huobi;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.huobi.service.polling.BitVcAccountService;
-import org.knowm.xchange.huobi.service.polling.BitVcFuturesMarketDataService;
-import org.knowm.xchange.huobi.service.polling.BitVcTradeServiceRaw;
-import org.knowm.xchange.huobi.service.polling.GenericTradeService;
-import org.knowm.xchange.huobi.service.polling.HuobiAccountService;
-import org.knowm.xchange.huobi.service.polling.HuobiMarketDataService;
-import org.knowm.xchange.huobi.service.polling.HuobiTradeServiceRaw;
+import org.knowm.xchange.huobi.service.BitVcAccountService;
+import org.knowm.xchange.huobi.service.BitVcFuturesMarketDataService;
+import org.knowm.xchange.huobi.service.BitVcTradeServiceRaw;
+import org.knowm.xchange.huobi.service.GenericTradeService;
+import org.knowm.xchange.huobi.service.HuobiAccountService;
+import org.knowm.xchange.huobi.service.HuobiMarketDataService;
+import org.knowm.xchange.huobi.service.HuobiTradeServiceRaw;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -43,19 +43,19 @@ public class HuobiExchange extends BaseExchange implements Exchange {
         && exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES).equals(true)) {
       FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
 
-      pollingMarketDataService = new BitVcFuturesMarketDataService(this, contract);
+      marketDataService = new BitVcFuturesMarketDataService(this, contract);
     } else {
-      pollingMarketDataService = new HuobiMarketDataService(this);
+      marketDataService = new HuobiMarketDataService(this);
     }
 
     if (exchangeSpecification.getApiKey() != null) {
       if ((Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC)) {
-        pollingAccountService = new BitVcAccountService(this);
-        pollingTradeService = new GenericTradeService(this, new BitVcTradeServiceRaw(this));
+        accountService = new BitVcAccountService(this);
+        tradeService = new GenericTradeService(this, new BitVcTradeServiceRaw(this));
 
       } else {
-        pollingAccountService = new HuobiAccountService(this);
-        pollingTradeService = new GenericTradeService(this, new HuobiTradeServiceRaw(this));
+        accountService = new HuobiAccountService(this);
+        tradeService = new GenericTradeService(this, new HuobiTradeServiceRaw(this));
 
       }
     }
@@ -93,14 +93,14 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     spec.setExchangeDescription("Huobi-Family Exchange (Huobi, BitVC, BitVC Futures)");
 
     /* by default we request market data from huobi and execute on bitvc */
-    spec.setPlainTextUri("http://market.huobi.com/staticmarket");
+    spec.setPlainTextUri("rest://market.huobi.com/staticmarket");
     spec.setSslUri("https://api.huobi.com/apiv3");
 
     /* set to true if trade and account service should be from BitVc too */
     spec.setExchangeSpecificParametersItem(USE_BITVC, false);
     spec.setExchangeSpecificParametersItem(USE_BITVC_FUTURES, false);
-    spec.setExchangeSpecificParametersItem(HUOBI_MARKET_DATA, "http://market.huobi.com/staticmarket");
-    spec.setExchangeSpecificParametersItem("Websocket_SslUri", "http://hq.huobi.com");
+    spec.setExchangeSpecificParametersItem(HUOBI_MARKET_DATA, "rest://market.huobi.com/staticmarket");
+    spec.setExchangeSpecificParametersItem("Websocket_SslUri", "rest://hq.huobi.com");
 
     return spec;
   }

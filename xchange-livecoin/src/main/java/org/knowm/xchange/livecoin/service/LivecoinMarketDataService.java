@@ -11,9 +11,9 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.livecoin.LivecoinAdapters;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
-public class LivecoinMarketDataService extends LivecoinMarketDataServiceRaw implements PollingMarketDataService {
+public class LivecoinMarketDataService extends LivecoinMarketDataServiceRaw implements MarketDataService {
 
 	public LivecoinMarketDataService(Exchange exchange) {
 		super(exchange);

@@ -6,7 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.anx.v2.ANXExamplesUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * Test requesting all open orders at MtGox
@@ -18,7 +18,7 @@ public class TradesDemo {
     Exchange anx = ANXExamplesUtils.createExchange();
 
     // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = anx.getPollingTradeService();
+    TradeService tradeService = anx.getTradeService();
 
     Trades trades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     for (Trade trade : trades.getTrades()) {

@@ -9,7 +9,7 @@ import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
 
-public class YoBitMarketDataServiceRaw extends YoBitBasePollingService<YoBit> {
+public class YoBitMarketDataServiceRaw extends YoBitBaseService<YoBit> {
 
 	protected YoBitMarketDataServiceRaw(Exchange exchange) {
 		super(YoBit.class, exchange);

@@ -10,7 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.taurus.dto.TaurusException;
 import org.knowm.xchange.taurus.dto.account.TaurusBalance;
 import org.knowm.xchange.taurus.dto.trade.TaurusOrder;

@@ -35,14 +35,14 @@ public class LivecoinExchange extends BaseExchange implements Exchange {
 
 	@Override
 	protected void initServices() {
-		this.pollingMarketDataService = new LivecoinMarketDataService(this);
-		this.pollingAccountService = null; // new LIVECOINAccountService(this);
-		this.pollingTradeService = null; // new LIVECOINTradeService(this);
+		this.marketDataService = new LivecoinMarketDataService(this);
+		this.accountService = null; // new LIVECOINAccountService(this);
+		this.tradeService = null; // new LIVECOINTradeService(this);
 	}
 
 	@Override
 	public void remoteInit() throws IOException {
-		List<LivecoinRestriction> products = ((LivecoinMarketDataServiceRaw) pollingMarketDataService)
+		List<LivecoinRestriction> products = ((LivecoinMarketDataServiceRaw) marketDataService)
 				.getConbaseExProducts();
 		exchangeMetaData = LivecoinAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
 		// System.out.println("JSON: " +

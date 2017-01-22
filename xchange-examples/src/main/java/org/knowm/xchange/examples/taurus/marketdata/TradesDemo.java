@@ -8,11 +8,11 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.taurus.Taurus;
 import org.knowm.xchange.taurus.TaurusExchange;
 import org.knowm.xchange.taurus.dto.marketdata.TaurusTransaction;
-import org.knowm.xchange.taurus.service.polling.TaurusMarketDataServiceRaw;
+import org.knowm.xchange.taurus.service.TaurusMarketDataServiceRaw;
 
 /**
  * Demonstrate requesting Trades at Taurus
@@ -23,14 +23,14 @@ public class TradesDemo {
     // Use the factory to get Taurus exchange API using default settings
     Exchange taurus = ExchangeFactory.INSTANCE.createExchange(TaurusExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = taurus.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = taurus.getMarketDataService();
 
     generic(marketDataService);
     raw((TaurusMarketDataServiceRaw) marketDataService);
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
     // Get the latest trade data for BTC/CAD
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_CAD);
     printTrades(trades.getTrades(), "default");

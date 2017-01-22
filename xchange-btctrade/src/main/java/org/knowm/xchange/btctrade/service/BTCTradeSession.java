@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btctrade.BTCTradeAdapters;
 import org.knowm.xchange.btctrade.dto.BTCTradeSecretData;
-import org.knowm.xchange.btctrade.service.polling.BTCTradeSecretDataService;
 
 import si.mazi.rescu.ParamsDigest;
 

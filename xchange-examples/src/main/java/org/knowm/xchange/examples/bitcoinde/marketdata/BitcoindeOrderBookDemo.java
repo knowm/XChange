@@ -7,10 +7,10 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinde.BitcoindeExchange;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderBook;
-import org.knowm.xchange.bitcoinde.service.polling.BitcoindeMarketDataServiceRaw;
+import org.knowm.xchange.bitcoinde.service.BitcoindeMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BitcoindeOrderBookDemo {
 
@@ -31,14 +31,14 @@ public class BitcoindeOrderBookDemo {
     Exchange bitcoindeExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     /* create a data service from the exchange */
-    PollingMarketDataService marketDataService = bitcoindeExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = bitcoindeExchange.getMarketDataService();
 
     generic(marketDataService);
     raw((BitcoindeMarketDataServiceRaw) marketDataService);
 
   }
 
-  public static void generic(PollingMarketDataService marketDataService) throws IOException {
+  public static void generic(MarketDataService marketDataService) throws IOException {
 
     /* get OrderBook data */
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_EUR);

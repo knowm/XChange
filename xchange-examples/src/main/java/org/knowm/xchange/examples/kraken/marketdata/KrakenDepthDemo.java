@@ -8,8 +8,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
-import org.knowm.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.kraken.service.KrakenMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class KrakenDepthDemo {
 
@@ -24,8 +24,8 @@ public class KrakenDepthDemo {
 
   private static void generic(Exchange krakenExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService krakenMarketDataService = krakenExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService krakenMarketDataService = krakenExchange.getMarketDataService();
 
     // Get the latest full order book data for NMC/XRP
     OrderBook orderBook = krakenMarketDataService.getOrderBook(CurrencyPair.BTC_EUR);
@@ -40,8 +40,8 @@ public class KrakenDepthDemo {
 
   private static void raw(Exchange krakenExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getMarketDataService();
 
     // Get the latest full order book data
     KrakenDepth depth = krakenMarketDataService.getKrakenDepth(CurrencyPair.BTC_EUR, Long.MAX_VALUE);

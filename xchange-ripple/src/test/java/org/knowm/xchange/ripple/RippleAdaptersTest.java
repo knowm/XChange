@@ -29,9 +29,9 @@ import org.knowm.xchange.ripple.dto.trade.RippleLimitOrder;
 import org.knowm.xchange.ripple.dto.trade.RippleOrderTransaction;
 import org.knowm.xchange.ripple.dto.trade.RipplePaymentTransaction;
 import org.knowm.xchange.ripple.dto.trade.RippleUserTrade;
-import org.knowm.xchange.ripple.service.polling.params.RippleMarketDataParams;
-import org.knowm.xchange.ripple.service.polling.params.RippleTradeHistoryParams;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.ripple.service.params.RippleMarketDataParams;
+import org.knowm.xchange.ripple.service.params.RippleTradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;

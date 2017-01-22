@@ -8,7 +8,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.livecoin.LivecoinExchange;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting OrderBook from Livecoin.
@@ -20,7 +20,7 @@ public class OrderBookDemo {
 		Exchange livecoinExchange = ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class.getName());
 
 		// Interested in the public market data feed (no authentication)
-		PollingMarketDataService marketDataService = livecoinExchange.getPollingMarketDataService();
+		MarketDataService marketDataService = livecoinExchange.getMarketDataService();
 
 		System.out.println("fetching data...");
 

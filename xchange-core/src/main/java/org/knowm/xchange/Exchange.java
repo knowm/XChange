@@ -6,9 +6,9 @@ import java.util.List;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.trade.TradeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -76,7 +76,7 @@ public interface Exchange {
    *
    * @return The exchange's market data service
    */
-  PollingMarketDataService getPollingMarketDataService();
+  MarketDataService getMarketDataService();
 
   /**
    * <p>
@@ -87,9 +87,9 @@ public interface Exchange {
    * {@link ExchangeSpecification}
    * </p>
    *
-   * @return The exchange's polling trade service
+   * @return The exchange's trade service
    */
-  PollingTradeService getPollingTradeService();
+  TradeService getTradeService();
 
   /**
    * <p>
@@ -100,9 +100,9 @@ public interface Exchange {
    * {@link ExchangeSpecification}
    * </p>
    *
-   * @return The exchange's polling account service
+   * @return The exchange's account service
    */
-  PollingAccountService getPollingAccountService();
+  AccountService getAccountService();
 
   /**
    * Initialize this instance with the remote meta data. Most exchanges require this method to be called before {@link #getExchangeMetaData()}. Some

@@ -10,10 +10,10 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.yobit.YoBitAdapters;
 
-public class YoBitMarketDataService extends YoBitMarketDataServiceRaw implements PollingMarketDataService {
+public class YoBitMarketDataService extends YoBitMarketDataServiceRaw implements MarketDataService {
 
 	public YoBitMarketDataService(Exchange exchange) {
 		super(exchange);

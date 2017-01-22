@@ -6,8 +6,8 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.lakebtc.LakeBTCExamplesUtils;
 import org.knowm.xchange.lakebtc.dto.trade.LakeBTCTradeResponse;
-import org.knowm.xchange.lakebtc.service.polling.LakeBTCTradeServiceRaw;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.lakebtc.service.LakeBTCTradeServiceRaw;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class LakeBTCTradeHistoryDemo {
 
@@ -19,7 +19,7 @@ public class LakeBTCTradeHistoryDemo {
 
   private static void generic(Exchange lakebtcExchange) throws IOException {
 
-    PollingTradeService tradeService = lakebtcExchange.getPollingTradeService();
+    TradeService tradeService = lakebtcExchange.getTradeService();
 
     // Get the trade history
     Trades trades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
@@ -28,7 +28,7 @@ public class LakeBTCTradeHistoryDemo {
   }
 
   private static void raw(Exchange lakeBtcExchange) throws IOException {
-    LakeBTCTradeServiceRaw tradeService = (LakeBTCTradeServiceRaw) lakeBtcExchange.getPollingTradeService();
+    LakeBTCTradeServiceRaw tradeService = (LakeBTCTradeServiceRaw) lakeBtcExchange.getTradeService();
 
     // Get the trade history
     LakeBTCTradeResponse[] trades = tradeService.getLakeBTCTradeHistory(0);

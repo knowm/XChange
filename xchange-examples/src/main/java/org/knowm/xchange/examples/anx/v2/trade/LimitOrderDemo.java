@@ -9,7 +9,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.anx.v2.ANXExamplesUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * Test placing a limit order at ANX
@@ -21,7 +21,7 @@ public class LimitOrderDemo {
     Exchange anx = ANXExamplesUtils.createExchange();
 
     // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = anx.getPollingTradeService();
+    TradeService tradeService = anx.getTradeService();
 
     // place a limit order for a random amount of BTC at USD 1.25
     OrderType orderType = (OrderType.ASK);

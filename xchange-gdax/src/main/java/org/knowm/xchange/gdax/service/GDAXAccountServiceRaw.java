@@ -10,7 +10,7 @@ import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
 import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
 
-public class GDAXAccountServiceRaw extends GDAXBasePollingService<GDAX> {
+public class GDAXAccountServiceRaw extends GDAXBaseService<GDAX> {
 
   public GDAXAccountServiceRaw(Exchange exchange) {
 

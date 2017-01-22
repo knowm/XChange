@@ -7,11 +7,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ccex.dto.account.CCEXBalance;
-import org.knowm.xchange.ccex.service.pooling.CCEXAccountServiceRaw;
+import org.knowm.xchange.ccex.service.CCEXAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.examples.ccex.CCEXExamplesUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 public class CCEXAccountDemo {
 	
@@ -19,14 +19,14 @@ public class CCEXAccountDemo {
 
 	    Exchange exchange = CCEXExamplesUtils.getExchange();
 
-	    PollingAccountService accountService = exchange.getPollingAccountService();
+	    AccountService accountService = exchange.getAccountService();
 
 	    generic(accountService);
 	    TimeUnit.SECONDS.sleep(1);
 	    raw((CCEXAccountServiceRaw) accountService);
 	  }
 
-	  private static void generic(PollingAccountService accountService) throws IOException, InterruptedException {
+	  private static void generic(AccountService accountService) throws IOException, InterruptedException {
 
 	    System.out.println("----------GENERIC---------");
 

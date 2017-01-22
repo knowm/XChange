@@ -12,15 +12,15 @@ import org.knowm.xchange.examples.quoine.QuoineExamplesUtils;
 import org.knowm.xchange.quoine.dto.trade.Model;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrderResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
-import org.knowm.xchange.quoine.service.polling.QuoineTradeServiceRaw;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.quoine.service.QuoineTradeServiceRaw;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class TradeDemo {
 
   public static void main(String[] args) throws IOException {
 
     Exchange exchange = QuoineExamplesUtils.createExchange();
-    PollingTradeService tradeService = exchange.getPollingTradeService();
+    TradeService tradeService = exchange.getTradeService();
 
     generic(tradeService);
     raw((QuoineTradeServiceRaw) tradeService);
@@ -45,7 +45,7 @@ public class TradeDemo {
     }
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException {
+  private static void generic(TradeService tradeService) throws IOException {
 
     // place a limit buy order
     LimitOrder limitOrder = new LimitOrder((OrderType.ASK), new BigDecimal(".1"), CurrencyPair.BTC_USD, "", null, new BigDecimal("200.00"));

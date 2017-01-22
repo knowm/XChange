@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.examples.lakebtc.LakeBTCExamplesUtils;
 import org.knowm.xchange.lakebtc.dto.account.LakeBTCAccountInfoResponse;
-import org.knowm.xchange.lakebtc.service.polling.LakeBTCAccountServiceRaw;
+import org.knowm.xchange.lakebtc.service.LakeBTCAccountServiceRaw;
 
 public class LakeBTCAccountRawSpecificDemo {
 
@@ -13,7 +13,7 @@ public class LakeBTCAccountRawSpecificDemo {
 
     Exchange lakebtcExchange = LakeBTCExamplesUtils.createTestExchange();
 
-    LakeBTCAccountServiceRaw rawLakeBtcAcctService = (LakeBTCAccountServiceRaw) lakebtcExchange.getPollingAccountService();
+    LakeBTCAccountServiceRaw rawLakeBtcAcctService = (LakeBTCAccountServiceRaw) lakebtcExchange.getAccountService();
 
     LakeBTCAccountInfoResponse balanceInfo = rawLakeBtcAcctService.getLakeBTCAccountInfo();
     System.out.println(balanceInfo);

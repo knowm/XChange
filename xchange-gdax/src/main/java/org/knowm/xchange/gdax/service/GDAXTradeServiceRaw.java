@@ -11,7 +11,7 @@ import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
 import org.knowm.xchange.gdax.dto.trade.GDAXTradeHistoryParams;
 
-public class GDAXTradeServiceRaw extends GDAXBasePollingService<GDAX> {
+public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
 
   public GDAXTradeServiceRaw(Exchange exchange) {
 

@@ -29,7 +29,7 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.retries.IPredicate;
 import org.knowm.xchange.utils.retries.Retries;
 import org.reflections.Reflections;
@@ -182,21 +182,21 @@ public class AllIntegration {
   @Test
   public void testGetTicker() throws Throwable {
 
-    Method method = PollingMarketDataService.class.getMethod("getTicker", CurrencyPair.class, Object[].class);
-    testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
+    Method method = MarketDataService.class.getMethod("getTicker", CurrencyPair.class, Object[].class);
+    testExchangeMethod(exchange.getMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
   }
 
   @Test
   public void testGetOrderBook() throws Throwable {
 
-    Method method = PollingMarketDataService.class.getMethod("getOrderBook", CurrencyPair.class, Object[].class);
-    testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
+    Method method = MarketDataService.class.getMethod("getOrderBook", CurrencyPair.class, Object[].class);
+    testExchangeMethod(exchange.getMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
   }
 
   @Test
   public void testGetTrades() throws Throwable {
 
-    Method method = PollingMarketDataService.class.getMethod("getTrades", CurrencyPair.class, Object[].class);
-    testExchangeMethod(exchange.getPollingMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
+    Method method = MarketDataService.class.getMethod("getTrades", CurrencyPair.class, Object[].class);
+    testExchangeMethod(exchange.getMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
   }
 }
