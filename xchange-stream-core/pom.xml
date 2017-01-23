@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>xchange-stream</artifactId>
+    <artifactId>xchange-stream-core</artifactId>
 
     <dependencies>
         <dependency>

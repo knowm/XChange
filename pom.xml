@@ -10,7 +10,7 @@
     <version>4.2.0-SNAPSHOT</version>
 
     <modules>
-        <module>xchange-stream</module>
+        <module>xchange-stream-core</module>
         <module>service-pusher</module>
         <module>service-netty</module>
         <module>service-wamp</module>

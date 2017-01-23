@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>xchange-stream</artifactId>
+            <artifactId>xchange-stream-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
