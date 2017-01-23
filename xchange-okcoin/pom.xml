@@ -9,22 +9,22 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>exchange-coinmate</artifactId>
+    <artifactId>xchange-okcoin</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>xchange-stream</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>service-pusher</artifactId>
+            <artifactId>service-netty</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-coinmate</artifactId>
+            <artifactId>xchange-okcoin</artifactId>
             <version>${xchange.version}</version>
         </dependency>
     </dependencies>

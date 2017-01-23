@@ -9,20 +9,23 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>core</artifactId>
+    <artifactId>xchange-poloniex</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>service-core</artifactId>
+            <artifactId>xchange-stream</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>info.bitrich.xchange-stream</groupId>
+            <artifactId>service-wamp</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.knowm.xchange</groupId>
-            <artifactId>xchange-core</artifactId>
+            <artifactId>xchange-poloniex</artifactId>
             <version>${xchange.version}</version>
         </dependency>
     </dependencies>
-
 </project>

@@ -10,15 +10,15 @@
     <version>4.2.0-SNAPSHOT</version>
 
     <modules>
-        <module>core</module>
+        <module>xchange-stream</module>
         <module>service-pusher</module>
         <module>service-netty</module>
         <module>service-wamp</module>
-        <module>exchange-bitstamp</module>
-        <module>exchange-okcoin</module>
-        <module>exchange-poloniex</module>
-        <module>exchange-coinmate</module>
         <module>service-core</module>
+        <module>xchange-bitstamp</module>
+        <module>xchange-okcoin</module>
+        <module>xchange-poloniex</module>
+        <module>xchange-coinmate</module>
     </modules>
 
     <name>xchange-stream</name>

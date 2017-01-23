@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>exchange-bitstamp</artifactId>
+    <artifactId>xchange-bitstamp</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>info.bitrich.xchange-stream</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>xchange-stream</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
