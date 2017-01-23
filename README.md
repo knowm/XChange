@@ -5,7 +5,7 @@ It is build on top of of [XChange library](https://github.com/timmolter/XChange)
 
 ## NOTE: Library Preview
 
-Library is in the preview state and is being prepared for the initial release. Large changes can be made in any public interface. Feel free to discuss any ideas and comments under issues section.
+Library is in the preview state and is being prepared for the initial release. Feel free to discuss any ideas and comments under issues section.
 
 Anyone willing to implement support for more exchanges is welcomed.
 
@@ -13,15 +13,52 @@ Anyone willing to implement support for more exchanges is welcomed.
 
 Soon. First release should be when [XChange](https://github.com/timmolter/XChange) version 4.1.1 will be released.
 
-### Why build is failing?
+## Why use it?
 
-Wait for the pull request in XChange will be accepted.
+- Easy to use - no need to hack WebSocket and other backends.
+- Consistent & simple API across all implemented exchanges.
+- Extends well-known & active Java library [XChange](http://knowm.org/open-source/xchange/).
+- [Reactive streams](http://reactivex.io/) are fun to work with. 
+- Modular extensibility.
 
-### What API should expect?
+## Getting started
 
-For now: live updates of order books and trades. Private WebSocket API maybe later - but support in exchanges is low.
+### Include in your project
 
-## Example
+Xchange-stream is on Maven Central. You will need `xchange-stream-core` dependency and `xchange-XYZ` where XYZ is supported exchange (eg. `xchange-bitstamp`). Add following into your `pom.xml`.
+
+
+#### Maven
+
+```xml
+<dependency>
+    <groupId>info.bitrich.xchange-stream</groupId>
+    <artifactId>xchange-stream-core</artifactId>
+    <version>x.y.z</version>
+</dependency>
+
+<dependency>
+    <groupId>info.bitrich.xchange-stream</groupId>
+    <artifactId>xchange-XYZ</artifactId>
+    <version>x.y.z</version>
+</dependency>
+```
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/info.bitrcih/xchange-stream/badge.svg?style=flat)](http://mvnrepository.com/artifact/eu.dozd/mongo-mapper)
+
+For snapshots, add the following repository to your `pom.xml` file.
+
+```xml
+<repository>
+  <id>sonatype-oss-snapshot</id>
+  <snapshots/>
+  <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+</repository>
+```
+
+### Example
+
+Use the library same as the XChange. But instead of `ExchangeFacotory` use `StreamingExchangeFactory` that creates `StreamingExchange` instead of `Exchange`. Then you can call `getStreaminMarkeDataService` as well as `getPolling*Service`.
 
 ```java
 StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitstampStreamingExchange.class.getName());
@@ -30,16 +67,22 @@ StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(Bi
 exchange.connect().blockingAwait();
 
 // Subscribe to live trades update.
-exchange.getStreamingMarketDataService().getTrades(CurrencyPair.BTC_USD).subscribe(trade -> {
-    LOG.info("Incoming trade: {}", trade);
-});
+exchange.getStreamingMarketDataService()
+        .getTrades(CurrencyPair.BTC_USD)
+        .subscribe(trade -> {
+            LOG.info("Incoming trade: {}", trade);
+        }, throwable -> {
+            LOG.error("Error in subscribing trades.", throwable);
+        });
 
-// Subscribe order book data
-Disposable subscription = exchange.getStreamingMarketDataService().getOrderBook(CurrencyPair.BTC_USD).subscribe(orderBook -> {
-    // Do something
-});
+// Subscribe order book data with the reference to the subscription.
+Disposable subscription = exchange.getStreamingMarketDataService()
+                                  .getOrderBook(CurrencyPair.BTC_USD)
+                                  .subscribe(orderBook -> {
+                                       // Do something
+                                  });
 
-// Unsubscribe from data
+// Unsubscribe from data order book.
 subscription.dispose();
 
 // Disconnect from exchange (non-blocking)
@@ -47,27 +90,24 @@ exchange.disconnect().subscribe(() -> LOG.info("Disconnected from the Exchange")
 ```
 More information about reactive streams can be found at [RxJava wiki](https://github.com/ReactiveX/RxJava/wiki). 
 
-## Installation
+## What is supported
 
-TODO: Xchange-stream WILL be on Maven Central when initial release will be made. Add following into your `pom.xml`.
+Listening for live updates of
 
-##### Maven
+Exchange | order books | trades | tickers
+-------- | ----------- | ------ | -------
+**Bitstamp** | :heavy_check_mark: | :heavy_check_mark: | :x: 
+**Coinmate** | :heavy_check_mark: | :heavy_check_mark: | :x: 
+**OKCoin** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
+**Poloniex** | :construction: | :construction: | :heavy_check_mark:
 
-```
-<dependency>
-    <groupId>info.bitrich</groupId>
-    <artifactId>xchange-stream</artifactId>
-    <version>x.y.z</version>
-</dependency>
-```
+- :heavy_check_mark: - implemented
+- :construction: - missing but can be implemented
+- :x: - not supported by the exchange
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/info.bitrcih/xchange-stream/badge.svg?style=flat)](http://mvnrepository.com/artifact/eu.dozd/mongo-mapper)
 
-##### Gradle
-
-```
-compile 'info.bitrich:xchange-stream:x.y.z'
-```
+If you missing specific exchange implementation, feel free to propose pull request or open issue with some sweet BTC bounty. 
+ 
 
 ## Licence
 Copyright 2017 Zdenek Dolezal, Michal Oprendek
