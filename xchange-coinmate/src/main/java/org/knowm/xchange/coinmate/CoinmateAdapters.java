@@ -76,8 +76,9 @@ public class CoinmateAdapters {
     BigDecimal high = coinmateTicker.getData().getHigh();
     BigDecimal low = coinmateTicker.getData().getLow();
     BigDecimal volume = coinmateTicker.getData().getAmount();
+    Date timestamp = new Date(coinmateTicker.getData().getTimestamp() * 1000L);
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp).build();
 
   }
 
