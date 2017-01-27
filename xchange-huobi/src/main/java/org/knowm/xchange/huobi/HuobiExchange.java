@@ -93,14 +93,14 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     spec.setExchangeDescription("Huobi-Family Exchange (Huobi, BitVC, BitVC Futures)");
 
     /* by default we request market data from huobi and execute on bitvc */
-    spec.setPlainTextUri("rest://market.huobi.com/staticmarket");
+    spec.setPlainTextUri("http://market.huobi.com/staticmarket");
     spec.setSslUri("https://api.huobi.com/apiv3");
 
     /* set to true if trade and account service should be from BitVc too */
     spec.setExchangeSpecificParametersItem(USE_BITVC, false);
     spec.setExchangeSpecificParametersItem(USE_BITVC_FUTURES, false);
-    spec.setExchangeSpecificParametersItem(HUOBI_MARKET_DATA, "rest://market.huobi.com/staticmarket");
-    spec.setExchangeSpecificParametersItem("Websocket_SslUri", "rest://hq.huobi.com");
+    spec.setExchangeSpecificParametersItem(HUOBI_MARKET_DATA, "http://market.huobi.com/staticmarket");
+    spec.setExchangeSpecificParametersItem("Websocket_SslUri", "http://hq.huobi.com");
 
     return spec;
   }

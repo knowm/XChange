@@ -17,7 +17,7 @@ public class ChbtcExchange extends BaseExchange implements Exchange {
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("rest://api.chbtc.com");
+    exchangeSpecification.setSslUri("http://api.chbtc.com");
     exchangeSpecification.setHost("chbtc.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("CHBTC");

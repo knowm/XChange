@@ -46,7 +46,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Hitbtc");
     exchangeSpecification.setExchangeDescription("Hitbtc is a Bitcoin exchange.");
-    exchangeSpecification.setExchangeSpecificParametersItem("demo-api", "rest://demo-api.hitbtc.com");
+    exchangeSpecification.setExchangeSpecificParametersItem("demo-api", "http://demo-api.hitbtc.com");
 
     return exchangeSpecification;
   }

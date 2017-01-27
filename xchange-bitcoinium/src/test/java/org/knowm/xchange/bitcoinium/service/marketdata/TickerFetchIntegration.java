@@ -21,7 +21,7 @@ public class TickerFetchIntegration {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BitcoiniumExchange.class.getName());
     exchangeSpecification.setApiKey("42djci5kmbtyzrvglfdw3e2dgmh5mr37");
-    exchangeSpecification.setPlainTextUri("rest://bitcoinium.com");
+    exchangeSpecification.setPlainTextUri("http://bitcoinium.com");
     System.out.println(exchangeSpecification.toString());
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
     MarketDataService marketDataService = exchange.getMarketDataService();

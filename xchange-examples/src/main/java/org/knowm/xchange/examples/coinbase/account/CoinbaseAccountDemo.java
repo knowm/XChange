@@ -116,7 +116,7 @@ public class CoinbaseAccountDemo {
     CoinbaseAddress receiveAddress = accountService.getCoinbaseReceiveAddress();
     System.out.println(receiveAddress);
 
-    CoinbaseAddress generatedReceiveAddress = accountService.generateCoinbaseReceiveAddress("rest://www.example.com/callback", "test");
+    CoinbaseAddress generatedReceiveAddress = accountService.generateCoinbaseReceiveAddress("http://www.example.com/callback", "test");
     System.out.println(generatedReceiveAddress);
 
     CoinbaseAddresses addresses = accountService.getCoinbaseAddresses();
