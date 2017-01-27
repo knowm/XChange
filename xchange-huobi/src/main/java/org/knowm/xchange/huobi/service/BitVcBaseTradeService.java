@@ -9,7 +9,7 @@ public class BitVcBaseTradeService extends HuobiBaseService {
 
   protected final BitVc bitvc;
   protected final String accessKey;
-  protected final HuobiDigest digest;
+  protected HuobiDigest digest;
 
   /**
    * Constructor
@@ -23,7 +23,7 @@ public class BitVcBaseTradeService extends HuobiBaseService {
     final String baseUrl = exchange.getExchangeSpecification().getSslUri();
     bitvc = RestProxyFactory.createProxy(BitVc.class, baseUrl);
     accessKey = exchange.getExchangeSpecification().getApiKey();
-    digest = new HuobiDigest(exchange.getExchangeSpecification().getSecretKey());
+    digest = new HuobiDigest(exchange.getExchangeSpecification().getSecretKey(), "secret_key");
   }
 
   protected long nextCreated() {

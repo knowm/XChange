@@ -27,7 +27,7 @@ public class BitVcFuturesMarketDataServiceRaw extends HuobiBaseService {
 
     super(exchange);
 
-    this.bitvc = RestProxyFactory.createProxy(BitVcFutures.class, "rest://market.bitvc.com/futures/");
+    this.bitvc = RestProxyFactory.createProxy(BitVcFutures.class, "http://market.bitvc.com/futures/");
     this.contract = contract;
   }
 
