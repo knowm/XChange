@@ -17,7 +17,6 @@
 package org.knowm.xchange.coinmate.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -41,6 +40,7 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPagingSorted;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /**
@@ -59,14 +59,18 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    // TODO rewrite to use OpenOrdersParams
-    List<LimitOrder> orders = new ArrayList<>();
-    for (CurrencyPair currencyPair : CoinmateAdapters.COINMATE_CURRENCY_PAIRS) {
-      String currencyPairString = CoinmateUtils.getPair(currencyPair);
-
-      CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPairString);
-      orders.addAll(CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders, currencyPair));
+    CurrencyPair currencyPair = null;
+    if (params instanceof OpenOrdersParamCurrencyPair) {
+      currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
     }
+
+    if (currencyPair == null) {
+      throw new ExchangeException("CurrencyPair parameter must not be null.");
+    }
+
+    String currencyPairString = CoinmateUtils.getPair(currencyPair);
+    CoinmateOpenOrders coinmateOpenOrders = getCoinmateOpenOrders(currencyPairString);
+    List<LimitOrder> orders = CoinmateAdapters.adaptOpenOrders(coinmateOpenOrders, currencyPair);
     return new OpenOrders(orders);
   }
 
@@ -126,8 +130,8 @@ public class CoinmateTradeService extends CoinmateTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+  public CoinmateOpenOrdersParams createOpenOrdersParams() {
+    return new CoinmateOpenOrdersParams();
   }
 
   @Override
