@@ -48,7 +48,7 @@ public class BitVcFuturesTradeService extends BitVcFuturesServiceRaw implements 
 
     public BitVcFuturesTradeService(final Exchange exchange, final FuturesContract futuresContract) {
         super(exchange);
-        
+
         this.futuresContract = futuresContract;
     }
 

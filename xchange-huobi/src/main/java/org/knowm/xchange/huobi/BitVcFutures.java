@@ -36,10 +36,6 @@ public interface BitVcFutures {
      * Non-XChange compatible methods
      */
 
-  /*
-   * @GET
-   * @Path("index_price_{symbol}") public BitVcIndex getIndex(@PathParam("symbol") String symbol) throws IOException;
-   */
     @GET
     @Path("exchange_rate.js")
     public BitVcExchangeRate getExchangeRate() throws IOException;
@@ -54,7 +50,6 @@ public interface BitVcFutures {
             @FormParam("sign") ParamsDigest sign,
             @FormParam("orderType") int orderType,
             @FormParam("tradeType") int tradeType,
-          /* @FormParam("joinedType") int joinedType ??? */
             @FormParam("price") double price,
             @FormParam("money") double amount) throws IOException;
 
