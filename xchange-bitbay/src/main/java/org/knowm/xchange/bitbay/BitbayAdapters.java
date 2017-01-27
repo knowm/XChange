@@ -147,6 +147,7 @@ public class BitbayAdapters {
       throw new IllegalArgumentException(e);
     }
 
-    return new LimitOrder(type, bitbayOrder.getAmount(), currencyPair, String.valueOf(bitbayOrder.getId()), date, bitbayOrder.getPrice());
+    return new LimitOrder(type, bitbayOrder.getAmount(), currencyPair, String.valueOf(bitbayOrder.getId()), date, bitbayOrder.getStartPrice()
+        .divide(bitbayOrder.getStartAmount()));
   }
 }
