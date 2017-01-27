@@ -8,6 +8,7 @@ import java.util.Date;
 
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.dto.Order.OrderType;
 
@@ -24,9 +25,10 @@ public class LimitOrderTest {
     final BigDecimal limitPrice = new BigDecimal("251.64");
     final Date timestamp = new Date();
     final String id = "id";
+    final Order.OrderStatus status = Order.OrderStatus.FILLED;
 
     final LimitOrder.Builder builder = (LimitOrder.Builder) new LimitOrder.Builder(type, currencyPair).tradableAmount(tradableAmount)
-        .limitPrice(limitPrice).timestamp(timestamp).id(id).flag(TestFlags.TEST1);
+        .limitPrice(limitPrice).timestamp(timestamp).id(id).flag(TestFlags.TEST1).orderStatus(status);
     final LimitOrder copy = builder.build();
 
     assertThat(copy.getType()).isEqualTo(type);
@@ -38,6 +40,7 @@ public class LimitOrderTest {
     assertThat(copy.getOrderFlags()).hasSize(1);
     assertThat(copy.getOrderFlags()).contains(TestFlags.TEST1);
     assertThat(copy.hasFlag(TestFlags.TEST1));
+    assertThat(copy.getStatus()).isEqualTo(status);
   }
 
   @Test
@@ -48,10 +51,12 @@ public class LimitOrderTest {
     final BigDecimal limitPrice = new BigDecimal("250.34");
     final Date timestamp = new Date();
     final String id = "id";
+    final Order.OrderStatus status = Order.OrderStatus.FILLED;
 
     final LimitOrder original = new LimitOrder(type, tradableAmount, currencyPair, id, timestamp, limitPrice);
     original.addOrderFlag(TestFlags.TEST1);
     original.addOrderFlag(TestFlags.TEST3);
+    original.setOrderStatus(status);
     final LimitOrder copy = LimitOrder.Builder.from(original).build();
 
     assertThat(copy.getType()).isEqualTo(original.getType());
@@ -65,6 +70,7 @@ public class LimitOrderTest {
     assertThat(copy.hasFlag(TestFlags.TEST1));
     assertThat(copy.getOrderFlags()).contains(TestFlags.TEST3);
     assertThat(copy.hasFlag(TestFlags.TEST3));
+    assertThat(copy.getStatus()).isEqualTo(status);
   }
 
   @Test

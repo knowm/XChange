@@ -120,7 +120,8 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     public static Builder from(Order order) {
 
       Builder builder = (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount())
-          .timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags());
+          .timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags()).orderStatus(order.getStatus())
+          .averagePrice(order.getAveragePrice());
       if (order instanceof LimitOrder) {
         LimitOrder limitOrder = (LimitOrder) order;
         builder.limitPrice(limitOrder.getLimitPrice());
@@ -166,7 +167,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     public LimitOrder build() {
 
-      LimitOrder order = new LimitOrder(orderType, tradableAmount, currencyPair, id, timestamp, limitPrice);
+      LimitOrder order = new LimitOrder(orderType, tradableAmount, currencyPair, id, timestamp, limitPrice, averagePrice, null, status);
       order.setOrderFlags(flags);
       return order;
     }
