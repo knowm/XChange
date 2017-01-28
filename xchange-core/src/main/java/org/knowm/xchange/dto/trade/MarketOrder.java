@@ -21,6 +21,19 @@ public class MarketOrder extends Order {
    * @param tradableAmount The amount to trade
    * @param currencyPair The identifier (e.g. BTC/USD)
    * @param id An id (usually provided by the exchange)
+   * @param timestamp a Date object representing the order's timestamp according to the exchange's server, null if not provided
+   * @param averagePrice the weighted average price of any fills belonging to the order
+   * @param status the status of the order at the exchange or broker
+   */
+  public MarketOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice, BigDecimal cumulativeAmount, OrderStatus status) {
+    super(type, tradableAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
+  }
+
+  /**
+   * @param type Either BID (buying) or ASK (selling)
+   * @param tradableAmount The amount to trade
+   * @param currencyPair The identifier (e.g. BTC/USD)
+   * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order
    */
   public MarketOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp) {
@@ -59,7 +72,7 @@ public class MarketOrder extends Order {
     public static Builder from(Order order) {
 
       return (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount()).timestamp(order.getTimestamp())
-          .id(order.getId()).flags(order.getOrderFlags());
+          .id(order.getId()).flags(order.getOrderFlags()).averagePrice(order.getAveragePrice()).orderStatus(order.getStatus());
     }
 
     @Override
@@ -106,10 +119,8 @@ public class MarketOrder extends Order {
 
     public MarketOrder build() {
 
-      MarketOrder order = new MarketOrder(orderType, tradableAmount, currencyPair, id, timestamp);
+      MarketOrder order = new MarketOrder(orderType, tradableAmount, currencyPair, id, timestamp, averagePrice, null, status);
       order.setOrderFlags(flags);
-      order.setAveragePrice(averagePrice);
-      order.setOrderStatus(status);
       return order;
     }
   }

@@ -19,7 +19,7 @@ public class RippleExchange extends BaseExchange implements Exchange {
 
   public static final String REST_API_RIPPLE_LABS = "https://api.ripple.com/";
 
-  public static final String REST_API_LOCALHOST_PLAIN_TEXT = "rest://localhost:5990/";
+  public static final String REST_API_LOCALHOST_PLAIN_TEXT = "http://localhost:5990/";
 
   private static final String README = "https://github.com/timmolter/XChange/tree/develop/xchange-ripple";
 

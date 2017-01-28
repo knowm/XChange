@@ -33,7 +33,7 @@ public class Btc38Exchange extends BaseExchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("rest://api.btc38.com");
+    exchangeSpecification.setSslUri("http://api.btc38.com");
     exchangeSpecification.setHost("api.btc38.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Btc38");

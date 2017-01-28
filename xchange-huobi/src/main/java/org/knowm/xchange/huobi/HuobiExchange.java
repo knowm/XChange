@@ -105,7 +105,7 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     spec.setExchangeSpecificParametersItem(USE_BITVC, false);
     spec.setExchangeSpecificParametersItem(USE_BITVC_FUTURES_MARKET_DATA, false);
     spec.setExchangeSpecificParametersItem(HUOBI_MARKET_DATA, "http://market.huobi.com/staticmarket");
-    spec.setExchangeSpecificParametersItem("Websocket_SslUri", "rest://hq.huobi.com");
+    spec.setExchangeSpecificParametersItem("Websocket_SslUri", "http://hq.huobi.com");
 
     return spec;
   }

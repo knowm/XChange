@@ -39,11 +39,11 @@ public class ExchangeSpecificParamsTest {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(HuobiExchange.class.getName());
 
     ExchangeSpecification bfxSpec = exchange.getDefaultExchangeSpecification();
-    bfxSpec.setExchangeSpecificParametersItem(HuobiExchange.HUOBI_MARKET_DATA, "rest://market.huobi.com/");
+    bfxSpec.setExchangeSpecificParametersItem(HuobiExchange.HUOBI_MARKET_DATA, "http://market.huobi.com/");
 
     exchange.applySpecification(bfxSpec);
 
-    assertEquals(exchange.getExchangeSpecification().getExchangeSpecificParametersItem(HuobiExchange.HUOBI_MARKET_DATA), "rest://market.huobi.com/");
+    assertEquals(exchange.getExchangeSpecification().getExchangeSpecificParametersItem(HuobiExchange.HUOBI_MARKET_DATA), "http://market.huobi.com/");
 
   }
 

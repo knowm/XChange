@@ -32,7 +32,7 @@ public class CampBXAccountDataDemo {
     System.out.println("depositAddr = " + depositAddr);
 
     String txid = accountService.withdrawFunds(Currency.BTC, new BigDecimal("0.1"), "1FgpMU9CgQffjLK5YoR2yK5XGj5cq4iCBf");
-    System.out.println("See the withdrawal transaction: rest://blockchain.info/tx-index/" + txid);
+    System.out.println("See the withdrawal transaction: http://blockchain.info/tx-index/" + txid);
   }
 
 }

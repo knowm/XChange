@@ -48,7 +48,7 @@ public class TradeServiceIntegration {
     assertNotNull(exchange);
     TradeService service = exchange.getTradeService();
     assertNotNull(service);
-    OpenOrders orders = service.getOpenOrders();
+    OpenOrders orders = service.getOpenOrders(service.createOpenOrdersParams());
     assertNotNull(orders);
     System.out.println("Got " + orders.getOpenOrders().size() + " orders.");
     for (LimitOrder order : orders.getOpenOrders()) {
