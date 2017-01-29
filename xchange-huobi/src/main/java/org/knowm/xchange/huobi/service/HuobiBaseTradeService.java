@@ -21,7 +21,7 @@ public class HuobiBaseTradeService extends HuobiBaseService {
 
     huobi = RestProxyFactory.createProxy(Huobi.class, exchange.getExchangeSpecification().getSslUri());
     accessKey = exchange.getExchangeSpecification().getApiKey();
-    digest = new HuobiDigest(exchange.getExchangeSpecification().getSecretKey());
+    digest = new HuobiDigest(exchange.getExchangeSpecification().getSecretKey(), "secret_key");
   }
 
   protected long nextCreated() {
