@@ -2,6 +2,7 @@ package org.knowm.xchange.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -115,6 +116,18 @@ public class MarketOrder extends Order {
     public Builder timestamp(Date timestamp) {
 
       return (Builder) super.timestamp(timestamp);
+    }
+
+    @Override
+    public Builder flags(Set<IOrderFlags> flags) {
+
+      return (Builder) super.flags(flags);
+    }
+
+    @Override
+    public Builder flag(IOrderFlags flag) {
+
+      return (Builder) super.flag(flag);
     }
 
     public MarketOrder build() {

@@ -27,9 +27,8 @@ public class LimitOrderTest {
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
 
-    final LimitOrder.Builder builder = (LimitOrder.Builder) new LimitOrder.Builder(type, currencyPair).tradableAmount(tradableAmount)
-        .limitPrice(limitPrice).timestamp(timestamp).id(id).flag(TestFlags.TEST1).orderStatus(status);
-    final LimitOrder copy = builder.build();
+    final LimitOrder copy = new LimitOrder.Builder(type, currencyPair).tradableAmount(tradableAmount)
+        .limitPrice(limitPrice).orderStatus(status).timestamp(timestamp).id(id).flag(TestFlags.TEST1).build();
 
     assertThat(copy.getType()).isEqualTo(type);
     assertThat(copy.getTradableAmount()).isEqualTo(tradableAmount);
