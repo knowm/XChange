@@ -48,10 +48,10 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     }
 
     if (exchangeSpecification.getApiKey() != null) {
-      if ((Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC)) {
+      if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)) {
 
           // BitVc futures execution or spot execution
-          if ((Boolean) exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES_EXECUTION)) {
+          if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES_EXECUTION).equals(true)) {
               accountService = new BitVcFuturesAccountService(this);
               tradeService =  new BitVcFuturesTradeService(this, futuresContractOfConfig(exchangeSpecification));
           } else {
