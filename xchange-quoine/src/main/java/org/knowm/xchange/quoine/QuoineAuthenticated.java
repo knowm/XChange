@@ -13,12 +13,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.quoine.dto.account.QuoineAccountInfo;
-import org.knowm.xchange.quoine.dto.account.QuoineTradingAccountInfo;
-import org.knowm.xchange.quoine.dto.trade.QuoineNewOrderRequest;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrderDetailsResponse;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrderResponse;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
+import org.knowm.xchange.quoine.dto.account.*;
+import org.knowm.xchange.quoine.dto.trade.*;
 
 import si.mazi.rescu.ParamsDigest;
 
@@ -26,40 +22,64 @@ import si.mazi.rescu.ParamsDigest;
 @Produces(MediaType.APPLICATION_JSON)
 public interface QuoineAuthenticated extends Quoine {
 
-  @GET
-  @Path("accounts")
-  public QuoineAccountInfo getAccountInfo(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5,
-      @HeaderParam("Date") String date, @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer) throws IOException;
+    @GET
+    @Path("fiat_accounts")
+    public FiatAccount[] getFiatAccountInfo(
+            @HeaderParam("X-Quoine-API-Version") int apiVersion,
+            @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+            @HeaderParam("Content-Type") String contentType) throws IOException;
 
-  @GET
-  @Path("trading_accounts")
-  public QuoineTradingAccountInfo[] getTradingAccountInfo(@HeaderParam("Content-Type") String contentType,
-      @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date, @HeaderParam("NONCE") String nonce,
-      @HeaderParam("Authorization") ParamsDigest signer) throws IOException;
+    @GET
+    @Path("crypto_accounts")
+    public BitcoinAccount[] getCryptoAccountInfo(
+            @HeaderParam("X-Quoine-API-Version") int apiVersion,
+            @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+            @HeaderParam("Content-Type") String contentType) throws IOException;
 
-  @POST
-  @Path("orders")
-  @Consumes(MediaType.APPLICATION_JSON)
-  public QuoineOrderResponse placeOrder(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5,
-      @HeaderParam("Date") String date, @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer,
-      QuoineNewOrderRequest quoineNewOrderRequest) throws IOException;
+    @GET
+    @Path("accounts/balance")
+    public QuoineAccountBalance[] getAllBalance(
+            @HeaderParam("X-Quoine-API-Version") int apiVersion,
+            @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+            @HeaderParam("Content-Type") String contentType) throws IOException;
 
-  @PUT
-  @Path("orders/{order_id}/cancel")
-  public QuoineOrderResponse cancelOrder(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5,
-      @HeaderParam("Date") String date, @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer,
-      @PathParam("order_id") String orderID) throws IOException;
+    @GET
+    @Path("trading_accounts")
+    public QuoineTradingAccountInfo[] getTradingAccountInfo(
+            @HeaderParam("X-Quoine-API-Version") int apiVersion,
+            @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+            @HeaderParam("Content-Type") String contentType) throws IOException;
 
-  @GET
-  @Path("orders/{order_id}")
-  public QuoineOrderDetailsResponse orderDetails(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5,
-      @HeaderParam("Date") String date, @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer,
-      @PathParam("order_id") String orderID) throws IOException;
+    @POST
+    @Path("orders/")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public QuoineOrderResponse placeOrder(
+            @HeaderParam("X-Quoine-API-Version") int apiVersion,
+            @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+            @HeaderParam("Content-Type") String contentTyp,
+            QuoineNewOrderRequestWrapper quoineNewOrderRequestWrapper) throws IOException;
 
-  @GET
-  @Path("orders")
-  public QuoineOrdersList listOrders(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5,
-      @HeaderParam("Date") String date, @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer,
-      @QueryParam("currency_pair_code") String currencyPair) throws IOException;
+    @PUT
+    @Path("orders/{order_id}/cancel")
+    public QuoineOrderResponse cancelOrder(
+            @HeaderParam("X-Quoine-API-Version") int apiVersion,
+            @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+            @HeaderParam("Content-Type") String contentTyp,
+            @PathParam("order_id") String orderID) throws IOException;
+
+    @GET
+    @Path("orders/{order_id}")
+    public QuoineOrderDetailsResponse orderDetails(
+            @HeaderParam("X-Quoine-API-Version") int apiVersion,
+            @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+            @HeaderParam("Content-Type") String contentTyp,
+            @PathParam("order_id") String orderID) throws IOException;
+
+    @GET
+    @Path("orders")
+    public QuoineOrdersList listOrders(
+            @HeaderParam("X-Quoine-API-Version") int apiVersion,
+            @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+            @HeaderParam("Content-Type") String contentTyp) throws IOException;
 
 }

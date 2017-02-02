@@ -18,12 +18,13 @@ import si.mazi.rescu.RestProxyFactory;
 
 public class QuoineBaseService extends BaseExchangeService implements BaseService {
 
+  protected static final int QUOINE_API_VERSION = 2;
+
   protected QuoineAuthenticated quoine;
 
   protected final QuoineSignatureDigest signatureCreator;
-  protected final ParamsDigest contentMD5Creator;
   protected final String contentType = "application/json";
-  protected final String userID;
+  protected final String tokenID;
   protected final String secret;
 
   /**
@@ -37,31 +38,18 @@ public class QuoineBaseService extends BaseExchangeService implements BaseServic
 
     quoine = RestProxyFactory.createProxy(QuoineAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
 
-    this.userID = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(QuoineExchange.KEY_USER_ID);
+    this.tokenID = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(QuoineExchange.KEY_TOKEN_ID);
     this.secret = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(QuoineExchange.KEY_USER_SECRET);
-    if (this.userID != null && this.secret != null) {
-      this.signatureCreator = new QuoineSignatureDigest(this.userID, this.secret);
-      this.contentMD5Creator = signatureCreator.getContentMD5Digester();
+
+    if (this.tokenID != null && this.secret != null) {
+      this.signatureCreator = new QuoineSignatureDigest(this.tokenID, this.secret);
     } else {
       this.signatureCreator = null;
-      this.contentMD5Creator = null;
     }
   }
 
   protected RuntimeException handleHttpError(HttpStatusIOException exception) throws IOException {
 
     throw new ExchangeException(exception.getHttpBody(), exception);
-  }
-
-  protected String getDate() {
-
-    SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-    format.setTimeZone(TimeZone.getTimeZone("GMT"));
-    return format.format(new Date());
-  }
-
-  protected String getNonce() {
-
-    return String.format("%032d", exchange.getNonceFactory().createValue());
   }
 }

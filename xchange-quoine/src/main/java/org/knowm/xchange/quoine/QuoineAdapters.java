@@ -44,19 +44,19 @@ public class QuoineAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<BigDecimal[]> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-    for (List<BigDecimal> ask : orders) {
-      checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
+    for (BigDecimal[] ask : orders) {
+      checkArgument(ask.length == 2, "Expected a pair (price, amount) but got {0} elements.", ask.length);
       limitOrders.add(createOrder(currencyPair, ask, orderType));
     }
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+  public static LimitOrder createOrder(CurrencyPair currencyPair, BigDecimal[] priceAndAmount, Order.OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
+    return new LimitOrder(orderType, priceAndAmount[1], currencyPair, "", null, priceAndAmount[0]);
   }
 
   public static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
@@ -69,20 +69,27 @@ public class QuoineAdapters {
   public static Wallet adaptTradingWallet(QuoineTradingAccountInfo[] quoineWallet) {
     List<Balance> balances = new ArrayList<Balance>(quoineWallet.length);
 
-    // btc position is sum of all positions in margin. Asuming all currencies are using the same margin level.
-    BigDecimal btcPosition = BigDecimal.ZERO;
-
     for (int i = 0; i < quoineWallet.length; i++) {
       QuoineTradingAccountInfo info = quoineWallet[i];
 
-      balances.add(new Balance(Currency.getInstance(info.getCollateralCurrency()), info.getFreeMargin()));
+      balances.add(new Balance(Currency.getInstance(info.getFundingCurrency()), info.getFreeMargin()));
 
-      btcPosition = btcPosition.add(info.getPosition());
     }
 
-    balances.add(new Balance(Currency.BTC, btcPosition));
+    return new Wallet(balances);
+  }
+
+  public static Wallet adaptFiatAccountWallet(FiatAccount[] fiatAccounts) {
+
+    List<Balance> balances = new ArrayList<Balance>();
+
+    for (FiatAccount fiatAccount : fiatAccounts) {
+      Balance fiatBalance = new Balance(Currency.getInstance(fiatAccount.getCurrency()), fiatAccount.getBalance(), fiatAccount.getBalance());
+      balances.add(fiatBalance);
+    }
 
     return new Wallet(balances);
+
   }
 
   public static Wallet adaptWallet(QuoineAccountInfo quoineWallet) {
@@ -95,7 +102,7 @@ public class QuoineAdapters {
     balances.add(btcBalance);
 
     for (FiatAccount fiatAccount : quoineWallet.getFiatAccounts()) {
-      Balance fiatBalance = new Balance(Currency.getInstance(fiatAccount.getCurrency()), fiatAccount.getBalance(), fiatAccount.getFreeBalance());
+      Balance fiatBalance = new Balance(Currency.getInstance(fiatAccount.getCurrency()), fiatAccount.getBalance(), fiatAccount.getBalance());
       balances.add(fiatBalance);
     }
 

@@ -6,11 +6,7 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.quoine.QuoineUtils;
-import org.knowm.xchange.quoine.dto.trade.QuoineNewMarginOrderRequest;
-import org.knowm.xchange.quoine.dto.trade.QuoineNewOrderRequest;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrderDetailsResponse;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrderResponse;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
+import org.knowm.xchange.quoine.dto.trade.*;
 
 import si.mazi.rescu.HttpStatusIOException;
 
@@ -40,11 +36,13 @@ public class QuoineTradeServiceRaw extends QuoineBaseService {
 
   public QuoineOrderResponse placeLimitOrder(CurrencyPair currencyPair, String type, BigDecimal tradableAmount, BigDecimal price) throws IOException {
 
+    int productId = QuoineUtils.toID(currencyPair);
+
     QuoineNewOrderRequest quoineNewOrderRequest = useMargin
-        ? new QuoineNewMarginOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount, price, leverageLevel)
-        : new QuoineNewOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount, price);
+        ? new QuoineNewMarginOrderRequest("limit", productId, type, tradableAmount, price, leverageLevel, currencyPair.counter.getCurrencyCode())
+        : new QuoineNewOrderRequest("limit", productId, type, tradableAmount, price);
     try {
-      return quoine.placeOrder(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, quoineNewOrderRequest);
+      return quoine.placeOrder(QUOINE_API_VERSION, signatureCreator, contentType, new QuoineNewOrderRequestWrapper(quoineNewOrderRequest));
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
@@ -52,11 +50,13 @@ public class QuoineTradeServiceRaw extends QuoineBaseService {
 
   public QuoineOrderResponse placeMarketOrder(CurrencyPair currencyPair, String type, BigDecimal tradableAmount) throws IOException {
 
+    int productId = QuoineUtils.toID(currencyPair);
+
     QuoineNewOrderRequest quoineNewOrderRequest = useMargin
-        ? new QuoineNewMarginOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount, null, leverageLevel)
-        : new QuoineNewOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount, null);
+        ? new QuoineNewMarginOrderRequest("market", productId, type, tradableAmount, null, leverageLevel, currencyPair.counter.getCurrencyCode())
+        : new QuoineNewOrderRequest("market", productId, type, tradableAmount, null);
     try {
-      return quoine.placeOrder(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, quoineNewOrderRequest);
+      return quoine.placeOrder(QUOINE_API_VERSION, signatureCreator, contentType, new QuoineNewOrderRequestWrapper(quoineNewOrderRequest));
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
@@ -65,7 +65,7 @@ public class QuoineTradeServiceRaw extends QuoineBaseService {
   public QuoineOrderResponse cancelQuoineOrder(String orderID) throws IOException {
 
     try {
-      return quoine.cancelOrder(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, orderID);
+      return quoine.cancelOrder(QUOINE_API_VERSION, signatureCreator, contentType, orderID);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
@@ -74,16 +74,16 @@ public class QuoineTradeServiceRaw extends QuoineBaseService {
   public QuoineOrderDetailsResponse getQuoineOrderDetails(String orderID) throws IOException {
 
     try {
-      return quoine.orderDetails(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, orderID);
+      return quoine.orderDetails(QUOINE_API_VERSION, signatureCreator, contentType, orderID);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
   }
 
-  public QuoineOrdersList listQuoineOrders(String currencyPair) throws IOException {
+  public QuoineOrdersList listQuoineOrders() throws IOException {
 
     try {
-      return quoine.listOrders(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, currencyPair);
+      return quoine.listOrders(QUOINE_API_VERSION, signatureCreator, contentType);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
