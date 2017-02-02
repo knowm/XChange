@@ -28,7 +28,7 @@ public class QuoineTradeServiceRaw extends QuoineBaseService {
     this.useMargin = useMargin;
 
     if (useMargin) {
-      leverageLevel = (Integer) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("Leverage_Level");
+      leverageLevel = Integer.valueOf((String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("Leverage_Level"));
     } else {
       leverageLevel = 0;
     }
