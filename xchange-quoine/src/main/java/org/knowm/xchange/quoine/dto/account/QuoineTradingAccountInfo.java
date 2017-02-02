@@ -22,8 +22,7 @@ public final class QuoineTradingAccountInfo {
   private final Date updatedAt;
   private final String pusher_channel;
   private final BigDecimal marginPercent;
-  private final BigDecimal collateral;
-  private final String collateralCurrency;
+  private final String fundingCurrency;
 
   public QuoineTradingAccountInfo(@JsonProperty("id") String id, @JsonProperty("leverage_level") int leverageLevel,
       @JsonProperty("current_leverage_level") int currentLeverageLevel, @JsonProperty("equity") BigDecimal equity,
@@ -31,8 +30,7 @@ public final class QuoineTradingAccountInfo {
       @JsonProperty("status") String status, @JsonProperty("product_code") String productCode,
       @JsonProperty("currency_pair_code") String currencyPairCode, @JsonProperty("pnl") BigDecimal pnl, @JsonProperty("position") BigDecimal position,
       @JsonProperty("balance") BigDecimal balance, @JsonProperty("updated_at") Date updatedAt, @JsonProperty("pusher_channel") String pusher_channel,
-      @JsonProperty("margin_percent") BigDecimal marginPercent, @JsonProperty("collateral") BigDecimal collateral,
-      @JsonProperty("collateral_currency") String collateralCurrency) {
+      @JsonProperty("margin_percent") BigDecimal marginPercent, @JsonProperty("funding_currency") String fundingCurrency) {
     super();
     this.id = id;
     this.leverageLevel = leverageLevel;
@@ -50,8 +48,7 @@ public final class QuoineTradingAccountInfo {
     this.updatedAt = updatedAt;
     this.pusher_channel = pusher_channel;
     this.marginPercent = marginPercent;
-    this.collateral = collateral;
-    this.collateralCurrency = collateralCurrency;
+    this.fundingCurrency = fundingCurrency;
   }
 
   public String getId() {
@@ -118,12 +115,8 @@ public final class QuoineTradingAccountInfo {
     return marginPercent;
   }
 
-  public BigDecimal getCollateral() {
-    return collateral;
-  }
-
-  public String getCollateralCurrency() {
-    return collateralCurrency;
+  public String getFundingCurrency() {
+    return fundingCurrency;
   }
 
   @Override

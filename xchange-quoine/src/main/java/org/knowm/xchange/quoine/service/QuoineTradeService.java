@@ -41,7 +41,7 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeSe
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    QuoineOrdersList quoineOrdersList = listQuoineOrders(null);
+    QuoineOrdersList quoineOrdersList = listQuoineOrders();
     return QuoineAdapters.adapteOpenOrders(quoineOrdersList);
   }
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.quoine.QuoineExamplesUtils;
+import org.knowm.xchange.quoine.dto.account.FiatAccount;
 import org.knowm.xchange.quoine.dto.account.QuoineAccountInfo;
 import org.knowm.xchange.quoine.service.QuoineAccountServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
@@ -34,9 +35,9 @@ public class AccountInfoDemo {
 
   private static void raw(QuoineAccountServiceRaw quoineAccountServiceRaw) throws IOException {
 
-    QuoineAccountInfo quoineAccountInfo = quoineAccountServiceRaw.getQuoineAccountInfo();
+    final FiatAccount[] quoineFiatAccountInfo = quoineAccountServiceRaw.getQuoineFiatAccountInfo();
 
-    System.out.println(quoineAccountInfo.toString());
+    System.out.println(quoineFiatAccountInfo.toString());
   }
 
 }

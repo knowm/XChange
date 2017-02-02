@@ -8,6 +8,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.quoine.QuoineAdapters;
+import org.knowm.xchange.quoine.dto.account.FiatAccount;
 import org.knowm.xchange.quoine.dto.account.QuoineAccountInfo;
 import org.knowm.xchange.quoine.dto.account.QuoineTradingAccountInfo;
 import org.knowm.xchange.service.account.AccountService;
@@ -41,8 +42,8 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
       return new AccountInfo(QuoineAdapters.adaptTradingWallet(quoineTradingAccountInfo));
 
     } else {
-      QuoineAccountInfo quoineAccountInfo = getQuoineAccountInfo();
-      return new AccountInfo(QuoineAdapters.adaptWallet(quoineAccountInfo));
+      final FiatAccount[] quoineFiatAccountInfo = getQuoineFiatAccountInfo();
+      return new AccountInfo(QuoineAdapters.adaptFiatAccountWallet(quoineFiatAccountInfo));
     }
   }
 
