@@ -38,8 +38,8 @@ public class TradeDemo {
     QuoineOrderResponse quoineOrderResponse = tradeServiceRaw.cancelQuoineOrder(orderID);
     System.out.println(quoineOrderResponse.toString());
 
-    // list all orders for BTC/USD
-    QuoineOrdersList quoineOrdersList = tradeServiceRaw.listQuoineOrders("BTCUSD");
+    // list all orders 
+    QuoineOrdersList quoineOrdersList = tradeServiceRaw.listQuoineOrders();
     for (Model model : quoineOrdersList.getModels()) {
       System.out.println(model.toString());
     }

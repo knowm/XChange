@@ -21,7 +21,7 @@ public class QuoineOrdersListDemo {
   private static void raw(QuoineTradeServiceRaw tradeServiceRaw) throws IOException {
 
     // list orders
-    QuoineOrdersList quoineOrdersList = tradeServiceRaw.listQuoineOrders("BTCUSD");
+    QuoineOrdersList quoineOrdersList = tradeServiceRaw.listQuoineOrders();
     System.out.println(quoineOrdersList.toString());
   }
 
