@@ -43,6 +43,8 @@ Example Code: <http://knowm.org/open-source/xchange/xchange-example-code>
 Change Log: <http://knowm.org/open-source/xchange/xchange-change-log/>  
 Java Docs: <http://knowm.org/javadocs/xchange/index.html>  
 
+Looking for streaming API? Use library [xchange-stream](https://github.com/bitrich-info/xchange-stream) based on XChange.
+
 ## Wiki
 
 Home: https://github.com/timmolter/XChange/wiki  
