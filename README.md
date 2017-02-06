@@ -34,7 +34,7 @@ Xchange-stream is on Maven Central. You will need `xchange-stream-core` dependen
 </dependency>
 ```
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/info.bitrcih/xchange-stream-core/badge.svg?style=flat)](http://mvnrepository.com/artifact/info.bitrich/exchange-stream-core)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/info.bitrich.xchange-stream/xchange-stream-core/badge.svg?style=flat)](https://search.maven.org/#search%7Cga%7C1%7Ca%3A%22xchange-stream-core%22)
 
 For snapshots, add the following repository to your `pom.xml` file.
 
