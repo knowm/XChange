@@ -34,7 +34,7 @@ Xchange-stream is on Maven Central. You will need `xchange-stream-core` dependen
 </dependency>
 ```
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/info.bitrcih/xchange-stream/badge.svg?style=flat)](http://mvnrepository.com/artifact/eu.dozd/mongo-mapper)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/info.bitrcih/xchange-stream-core/badge.svg?style=flat)](http://mvnrepository.com/artifact/info.bitrich/exchange-stream-core)
 
 For snapshots, add the following repository to your `pom.xml` file.
 
