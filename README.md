@@ -3,16 +3,6 @@ XChange-stream is a Java library providing a simple and consistent streaming API
 
 It is build on top of of [XChange library](https://github.com/timmolter/XChange) providing new interfaces for streaming API. User can subscribe for live update via reactive streams of [RxJava library](https://github.com/ReactiveX/RxJava).
 
-## NOTE: Library Preview
-
-Library is in the preview state and is being prepared for the initial release. Feel free to discuss any ideas and comments under issues section.
-
-Anyone willing to implement support for more exchanges is welcomed.
-
-### When will be the first release?
-
-Soon. First release should be when [XChange](https://github.com/timmolter/XChange) version 4.1.1 will be released.
-
 ## Why use it?
 
 - Easy to use - no need to hack WebSocket and other backends.
@@ -55,6 +45,11 @@ For snapshots, add the following repository to your `pom.xml` file.
   <url>https://oss.sonatype.org/content/repositories/snapshots</url>
 </repository>
 ```
+
+#### Versioning 
+
+Xchange-stream follows major and minor version from XChange library. So version 4.2.x is based on latest 4.2. release of XChange.
+
 
 ### Example
 
