@@ -14,6 +14,16 @@
       "price_scale": 2,
       "trading_fee": 0.0020,
       "min_amount": 5.000000000
+    },
+    "XRP/USD": {
+      "price_scale": 5,
+      "trading_fee": 0.0025,
+      "min_amount": 1000.00000000
+    },
+    "XRP/EUR": {
+      "price_scale": 5,
+      "trading_fee": 0.0025,
+      "min_amount": 1000.00000000
     }
   },
   "currencies": {
@@ -25,8 +35,10 @@
     },
     "EUR": {
       "scale": 2
+    },
+    "XRP": {
+      "scale": 8
     }
-
   },
   "private_rate_limits": [
     {
