@@ -96,7 +96,7 @@ public class BitVcFuturesTradeService extends BitVcFuturesServiceRaw implements 
                 bitvc.placeLimitOrder(accessKey, 1, futuresContract.getName(), requestTimestamp(), digest,
                         tradeTypes.getOrderType(), tradeTypes.getTradeType(), limitOrder.getLimitPrice().doubleValue(), limitOrder.getTradableAmount().doubleValue());
 
-        return String.valueOf(result);
+        return String.valueOf(result.getId());
     }
 
     @Override
