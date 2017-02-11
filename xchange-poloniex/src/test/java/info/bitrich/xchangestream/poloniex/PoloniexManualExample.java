@@ -1,6 +1,5 @@
 package info.bitrich.xchangestream.poloniex;
 
-import info.bitrich.xchangestgream.poloniex.PoloniexStreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchange;
 import info.bitrich.xchangestream.core.StreamingExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;

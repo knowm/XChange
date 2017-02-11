@@ -1,4 +1,4 @@
-package info.bitrich.xchangestgream.poloniex;
+package info.bitrich.xchangestream.poloniex;
 
 import info.bitrich.xchangestream.core.StreamingMarketDataService;
 import info.bitrich.xchangestream.service.wamp.WampStreamingService;
