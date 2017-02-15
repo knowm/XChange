@@ -29,7 +29,12 @@ public enum KrakenOrderType {
 
     return fromString.get(orderTypeString.replace('-', '_').toLowerCase());
   }
-
+  
+  public String toApiFormat() {
+      
+      return name().toLowerCase().replace("_", "-");
+  }
+  
   private static final Map<String, KrakenOrderType> fromString = new HashMap<String, KrakenOrderType>();
 
   static {
