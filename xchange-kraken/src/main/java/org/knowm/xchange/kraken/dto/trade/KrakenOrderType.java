@@ -5,21 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderType.KrakenOrderTypeDeserializer;
-import org.knowm.xchange.kraken.dto.trade.KrakenOrderType.KrakenOrderTypeSerializer;
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-@JsonSerialize(using = KrakenOrderTypeSerializer.class)
 @JsonDeserialize(using = KrakenOrderTypeDeserializer.class)
 public enum KrakenOrderType {
 
@@ -37,6 +31,7 @@ public enum KrakenOrderType {
   }
   
   public String toApiFormat() {
+      
       return name().toLowerCase().replace("_", "-");
   }
   
@@ -48,16 +43,6 @@ public enum KrakenOrderType {
 
     fromString.put("l", LIMIT);
     fromString.put("m", MARKET);
-  }
-
-  static class KrakenOrderTypeSerializer extends JsonSerializer<KrakenOrderType> {
-
-    @Override
-    public void serialize(KrakenOrderType value, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException, JsonProcessingException {
-        
-        gen.writeString(value.toApiFormat());
-    }
   }
 
   static class KrakenOrderTypeDeserializer extends JsonDeserializer<KrakenOrderType> {
