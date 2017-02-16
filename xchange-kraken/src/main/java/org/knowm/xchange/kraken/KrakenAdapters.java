@@ -251,7 +251,7 @@ public class KrakenAdapters {
     pairs.putAll(originalMetaData.getCurrencyPairs());
     for (String krakenPairCode : krakenPairs.keySet()) {
       KrakenAssetPair krakenPair = krakenPairs.get(krakenPairCode);
-      pairs.put(adaptCurrencyPair(krakenPairCode), adaptPair(krakenPair));
+      pairs.put(adaptCurrencyPair(krakenPairCode), adaptPair(krakenPair, pairs.get(adaptCurrencyPair(krakenPairCode))));
     }
 
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
@@ -266,8 +266,11 @@ public class KrakenAdapters {
 
   }
 
-  private static CurrencyPairMetaData adaptPair(KrakenAssetPair krakenPair) {
-    // TODO
-    return null;
+  private static CurrencyPairMetaData adaptPair(KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
+    if (OriginalMeta != null) {
+    	return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), OriginalMeta.getMinimumAmount(), OriginalMeta.getMaximumAmount(), krakenPair.getPairScale());
+    } else {
+    	return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), null, null, krakenPair.getPairScale());    	
+    }
   }
 }
