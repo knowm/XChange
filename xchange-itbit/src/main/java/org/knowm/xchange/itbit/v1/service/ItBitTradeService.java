@@ -1,7 +1,10 @@
 package org.knowm.xchange.itbit.v1.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Date;
 
 import org.knowm.xchange.Exchange;
@@ -43,11 +46,16 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
 
     // In case of no currency pair - return all currency pairs.
     if (currencyPair == null) {
-      throw new ExchangeException("CurrencyPair parameter must not be null.");
+      List<ItBitOrder> orders = new ArrayList<>();
+      for (CurrencyPair tmpCurrencyPair : this.exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
+      	orders.addAll(Arrays.asList(getItBitOpenOrders(tmpCurrencyPair)));
+      }
+      ItBitOrder[] empty = {};
+      return ItBitAdapters.adaptPrivateOrders(orders.isEmpty() ? empty : Arrays.copyOf(orders.toArray(), orders.size(), ItBitOrder[].class));
+    } else {
+      ItBitOrder[] itBitOpenOrders = getItBitOpenOrders(currencyPair);
+      return ItBitAdapters.adaptPrivateOrders(itBitOpenOrders);
     }
-
-    ItBitOrder[] itBitOpenOrders = getItBitOpenOrders(currencyPair);
-    return ItBitAdapters.adaptPrivateOrders(itBitOpenOrders);
   }
 
 
