@@ -34,6 +34,10 @@ public class KrakenUtils {
     DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XLM"));
     DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XRP"));
     DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XVN"));
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("ETC"));  
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XMR"));
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("ZEC"));
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("REP"));
   }
 
   /**
