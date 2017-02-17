@@ -18,8 +18,40 @@
     },
     "ETH/BTC": {
       "price_scale": 6,
+      "min_amount": 0.100000000
+    },
+    "ETC/USD": {
+      "price_scale": 4,
       "min_amount": 0.10000000
-    }    
+    },
+    "ETC/BTC": {
+      "price_scale": 6,
+      "min_amount": 0.100000000
+    },
+    "BFX/USD": {
+      "price_scale": 4,
+      "min_amount": 0.10000000
+    },
+    "BFX/BTC": {
+      "price_scale": 6,
+      "min_amount": 0.100000000
+    },
+    "ZEC/BTC": {
+      "price_scale": 6,
+      "min_amount": 0.000100000
+    },
+    "ZEC/USD": {
+      "price_scale": 4,
+      "min_amount": 0.000100000
+    },
+    "XMR/BTC": {
+      "price_scale": 6,
+      "min_amount": 0.100000000
+    },
+    "XMR/USD": {
+      "price_scale": 4,
+      "min_amount": 0.100000000
+    }
   },
   "currencies": {
     "BTC": {
@@ -27,4 +59,3 @@
     }
   }
 }
-
