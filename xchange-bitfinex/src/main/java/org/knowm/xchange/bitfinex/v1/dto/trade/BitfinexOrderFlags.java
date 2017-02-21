@@ -18,5 +18,10 @@ public enum BitfinexOrderFlags implements IOrderFlags {
   /**
    * These are orders that allow you to be sure to always pay the maker fee.
    */
-  POST_ONLY
+  POST_ONLY,
+
+  /**
+   * For order amends indicates that the new order should use the remaining amount of the original order.
+   */
+  USE_REMAINING
 }
