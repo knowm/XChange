@@ -42,7 +42,7 @@ public class QuoineBaseService extends BaseExchangeService implements BaseServic
     this.secret = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(QuoineExchange.KEY_USER_SECRET);
 
     if (this.tokenID != null && this.secret != null) {
-      this.signatureCreator = new QuoineSignatureDigest(this.tokenID, this.secret);
+      this.signatureCreator = new QuoineSignatureDigest(this.tokenID, this.secret, exchange.getNonceFactory());
     } else {
       this.signatureCreator = null;
     }

@@ -16,22 +16,21 @@ import net.iharder.Base64;
 import si.mazi.rescu.Params;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 public class QuoineSignatureDigest implements ParamsDigest {
 
     private final JWTCreator.Builder builder;
     private final String tokenID;
     private final byte[] userSecret;
+    private final SynchronizedValueFactory<Long> nonceFactory;
 
-    public QuoineSignatureDigest(String tokenID, String userSecret) {
+    public QuoineSignatureDigest(String tokenID, String userSecret, SynchronizedValueFactory<Long> nonceFactory) {
         this.tokenID = tokenID;
         this.userSecret = userSecret.getBytes();
+        this.nonceFactory = nonceFactory;
 
         this.builder = JWT.create();
-    }
-
-    public ParamsDigest getContentMD5Digester() {
-        return new QuoineContentMD5Digest();
     }
 
     @Override
@@ -41,34 +40,10 @@ public class QuoineSignatureDigest implements ParamsDigest {
 
         final String sign = builder
                 .withClaim("path", path)
-                .withClaim("nonce", String.valueOf(System.nanoTime()))
+                .withClaim("nonce", String.valueOf(nonceFactory.createValue()))
                 .withClaim("token_id", tokenID)
                 .sign(Algorithm.HMAC256(userSecret));
 
         return sign;
-    }
-
-    private String getContentMD5(String content) {
-        if(content == null || "".equals(content)) {
-            return "";
-        }
-        String digest = null;
-        try {
-            byte[] bytesOfMessage = content.getBytes("UTF-8");
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            digest = Base64.encodeBytes(md.digest(bytesOfMessage));
-        } catch(NoSuchAlgorithmException | UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return digest;
-    }
-
-    private class QuoineContentMD5Digest implements ParamsDigest {
-
-        @Override
-        public String digestParams(RestInvocation restInvocation) {
-
-            return getContentMD5(restInvocation.getRequestBody());
-        }
     }
 }
