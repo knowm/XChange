@@ -14,6 +14,16 @@
             "nextvolume":"1000.0000",
             "tiervolume":"0.0000"
          }
+      },
+      "fees_maker":{
+         "XXBTZUSD":{
+            "fee":"0.1600",
+            "minfee":"0.0000",
+            "maxfee":"0.1600",
+            "nextfee":"0.1400",
+            "nextvolume":"1000.0000",
+            "tiervolume":"0.0000"
+         }
       }
    }
 }
