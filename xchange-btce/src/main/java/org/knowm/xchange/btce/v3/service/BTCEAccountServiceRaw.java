@@ -54,7 +54,7 @@ public class BTCEAccountServiceRaw extends BTCEBaseService {
    */
   public String withdraw(String currency, BigDecimal amount, String address) {
     BTCEWithDrawInfoReturn info = btce.WithdrawCoin(apiKey, signatureCreator, exchange.getNonceFactory(), currency, amount, address);
-
+    checkResult(info);
     return String.valueOf(info.getReturnValue().gettId());
   }
 
