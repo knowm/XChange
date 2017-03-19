@@ -1,0 +1,50 @@
+{
+  "currency_pairs": {
+    "XBT/GBP": {
+      "trading_fee": "0",
+      "min_amount": "0.0001",
+      "price_scale": 0
+    },
+    "XBT/EUR": {
+      "trading_fee": "0",
+      "min_amount": "0.0001",
+      "price_scale": 0
+    },
+    "XBT/USD": {
+      "trading_fee": "0",
+      "min_amount": "0.0001",
+      "price_scale": 0
+    },
+    "XBT/PLN": {
+      "trading_fee": "0",
+      "min_amount": "0.0001",
+      "price_scale": 0
+    }
+  },
+  "currencies": {
+    "XBT": {
+      "scale": 4
+    },
+    "GBP": {
+      "scale": 2
+    },
+    "EUR": {
+      "scale": 2
+    },
+    "USD": {
+      "scale": 2
+    },
+    "PLN": {
+      "scale": 2
+    }
+  },
+  "public_rate_limits": [],
+  "private_rate_limits": [
+    {
+      "calls": 20000,
+      "time_span": 1000,
+      "time_unit": "SECONDS"
+    }
+  ],
+  "share_rate_limits": false
+}
