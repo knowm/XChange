@@ -9,7 +9,6 @@ import java.util.*;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
-import org.knowm.xchange.bitstamp.BitstampExchange;
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
@@ -32,8 +31,6 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
  */
 public class BitstampTradeService extends BitstampTradeServiceRaw implements TradeService {
 
-  private static final List<CurrencyPair> ALL_PAIRS = Arrays.asList(CurrencyPair.BTC_USD, CurrencyPair.BTC_EUR, CurrencyPair.EUR_USD);
-
   public BitstampTradeService(Exchange exchange) {
     super(exchange);
   }
@@ -46,8 +43,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     // TODO use params instead of currencyPair from exchange specification
-    CurrencyPair cp = (CurrencyPair) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(BitstampExchange.CURRENCY_PAIR);
-    Collection<CurrencyPair> pairs = cp != null ? Collections.singleton(cp) : ALL_PAIRS;
+    Collection<CurrencyPair> pairs = exchange.getExchangeSymbols();
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (CurrencyPair pair : pairs) {
       BitstampOrder[] openOrders = getBitstampOpenOrders(pair);

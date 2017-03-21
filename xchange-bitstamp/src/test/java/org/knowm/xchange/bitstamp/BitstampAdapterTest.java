@@ -52,6 +52,8 @@ public class BitstampAdapterTest {
     assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getTotal()).isEqualTo("6.99990000");
     assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getAvailable()).isEqualTo("6.99990000");
     assertThat(accountInfo.getWallet().getBalance(Currency.BTC).getFrozen()).isEqualTo("0");
+    assertThat(accountInfo.getWallet().getBalance(Currency.XRP).getCurrency()).isEqualTo(Currency.XRP);
+    assertThat(accountInfo.getWallet().getBalance(Currency.XRP).getTotal()).isEqualTo("7771.05654");
   }
 
   @Test

@@ -15,8 +15,6 @@ import si.mazi.rescu.SynchronizedValueFactory;
  */
 public class BitstampExchange extends BaseExchange implements Exchange {
 
-  public static final String CURRENCY_PAIR = "CURRENCY_PAIR";
-
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override

@@ -34,6 +34,7 @@ public class QuoineExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setSslUri("https://api.quoine.com");
     exchangeSpecification.setExchangeName("Quoine");
     exchangeSpecification.setExchangeSpecificParametersItem("Use_Margin", false);
+    exchangeSpecification.setExchangeSpecificParametersItem("Leverage_Level", "1");
     return exchangeSpecification;
   }
 
