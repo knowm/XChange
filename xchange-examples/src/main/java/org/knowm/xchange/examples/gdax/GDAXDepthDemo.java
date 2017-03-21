@@ -9,7 +9,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.gdax.GDAXExchange;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
 import org.knowm.xchange.gdax.service.GDAXMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class GDAXDepthDemo {
 
@@ -18,15 +18,15 @@ public class GDAXDepthDemo {
     // Use the factory to get GDAX exchange API using default settings
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(GDAXExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = exchange.getMarketDataService();
 
     generic(marketDataService);
     raw((GDAXMarketDataServiceRaw) marketDataService);
 
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
     // Get the latest order book data for BTC/CAD
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD, 3);

@@ -6,7 +6,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.anx.v2.ANXExamplesUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * Test placing a limit order at ANX
@@ -18,7 +18,7 @@ public class CancelOrderDemo {
     Exchange anx = ANXExamplesUtils.createExchange();
 
     // Interested in the private trading functionality (authentication)
-    PollingTradeService tradeService = anx.getPollingTradeService();
+    TradeService tradeService = anx.getTradeService();
 
     boolean success = tradeService.cancelOrder("5aaef0f5-8c90-4a93-a097-0bad2dd475c5");
     System.out.println("success= " + success);

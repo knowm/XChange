@@ -9,11 +9,11 @@ import org.knowm.xchange.btcchina.dto.account.BTCChinaDeposit;
 import org.knowm.xchange.btcchina.dto.account.BTCChinaWithdrawal;
 import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
 import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaAccountServiceRaw;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.btcchina.BTCChinaExamplesUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.utils.CertHelper;
 
 /**
@@ -30,7 +30,7 @@ import org.knowm.xchange.utils.CertHelper;
 public class BTCChinaAccountDemo {
 
   static Exchange btcchina = BTCChinaExamplesUtils.getExchange();
-  static PollingAccountService accountService = btcchina.getPollingAccountService();
+  static AccountService accountService = btcchina.getAccountService();
 
   public static void main(String[] args) throws Exception {
 

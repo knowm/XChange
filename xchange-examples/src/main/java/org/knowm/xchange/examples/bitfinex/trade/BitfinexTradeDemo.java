@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
-import org.knowm.xchange.bitfinex.v1.service.polling.BitfinexTradeServiceRaw;
+import org.knowm.xchange.bitfinex.v1.service.BitfinexTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -22,7 +22,7 @@ public class BitfinexTradeDemo {
 
   private static void raw(Exchange bfx) throws IOException {
 
-    BitfinexTradeServiceRaw tradeService = (BitfinexTradeServiceRaw) bfx.getPollingTradeService();
+    BitfinexTradeServiceRaw tradeService = (BitfinexTradeServiceRaw) bfx.getTradeService();
     LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, CurrencyPair.BTC_USD).limitPrice(new BigDecimal("481.69"))
         .tradableAmount(new BigDecimal("0.001")).build();
     tradeService.placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT);

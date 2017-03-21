@@ -11,7 +11,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * <p>
@@ -32,7 +32,7 @@ public class CampBXTradeDemo {
     exSpec.setUserName("XChange");
     exSpec.setPassword("The Java API");
 
-    PollingTradeService tradeService = campbx.getPollingTradeService();
+    TradeService tradeService = campbx.getTradeService();
 
     printOpenOrders(tradeService);
 
@@ -54,7 +54,7 @@ public class CampBXTradeDemo {
     printOpenOrders(tradeService);
   }
 
-  private static void printOpenOrders(PollingTradeService tradeService) throws IOException {
+  private static void printOpenOrders(TradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());

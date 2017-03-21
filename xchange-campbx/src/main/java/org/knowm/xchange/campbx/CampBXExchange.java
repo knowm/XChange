@@ -3,9 +3,9 @@ package org.knowm.xchange.campbx;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.campbx.service.polling.CampBXAccountService;
-import org.knowm.xchange.campbx.service.polling.CampBXMarketDataService;
-import org.knowm.xchange.campbx.service.polling.CampBXTradeService;
+import org.knowm.xchange.campbx.service.CampBXAccountService;
+import org.knowm.xchange.campbx.service.CampBXMarketDataService;
+import org.knowm.xchange.campbx.service.CampBXTradeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -43,9 +43,9 @@ public class CampBXExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new CampBXMarketDataService(this);
-    this.pollingTradeService = new CampBXTradeService(this);
-    this.pollingAccountService = new CampBXAccountService(this);
+    this.marketDataService = new CampBXMarketDataService(this);
+    this.tradeService = new CampBXTradeService(this);
+    this.accountService = new CampBXAccountService(this);
   }
 
   @Override

@@ -5,26 +5,26 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitOrders;
 import org.knowm.xchange.cryptonit.v2.dto.marketdata.CryptonitTicker;
-import org.knowm.xchange.cryptonit.v2.service.polling.CryptonitMarketDataServiceRaw;
+import org.knowm.xchange.cryptonit.v2.service.CryptonitMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.cryptonit.CryptonitExampleUtils;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class CrypotnitMarketDataDemo {
 
   public static void main(String[] args) throws Exception {
 
     Exchange cryptonitExchange = CryptonitExampleUtils.createExchange();
-    PollingMarketDataService marketDataService = cryptonitExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = cryptonitExchange.getMarketDataService();
 
     generic(marketDataService);
     raw((CryptonitMarketDataServiceRaw) marketDataService);
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
     System.out.println(ticker);

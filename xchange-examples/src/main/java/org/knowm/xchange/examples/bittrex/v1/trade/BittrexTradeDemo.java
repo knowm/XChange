@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bittrex.v1.service.polling.BittrexTradeServiceRaw;
+import org.knowm.xchange.bittrex.v1.service.BittrexTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.examples.bittrex.v1.BittrexExamplesUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class BittrexTradeDemo {
 
@@ -17,14 +17,14 @@ public class BittrexTradeDemo {
 
     Exchange exchange = BittrexExamplesUtils.getExchange();
 
-    PollingTradeService tradeService = exchange.getPollingTradeService();
+    TradeService tradeService = exchange.getTradeService();
 
     generic(tradeService);
     raw((BittrexTradeServiceRaw) tradeService);
 
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException {
+  private static void generic(TradeService tradeService) throws IOException {
 
     CurrencyPair pair = new CurrencyPair("ZET", "BTC");
     LimitOrder limitOrder = new LimitOrder.Builder(OrderType.BID, pair).limitPrice(new BigDecimal("0.00001000")).tradableAmount(new BigDecimal("100"))

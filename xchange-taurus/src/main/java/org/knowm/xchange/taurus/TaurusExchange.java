@@ -3,9 +3,9 @@ package org.knowm.xchange.taurus;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.taurus.service.polling.TaurusAccountService;
-import org.knowm.xchange.taurus.service.polling.TaurusMarketDataService;
-import org.knowm.xchange.taurus.service.polling.TaurusTradeService;
+import org.knowm.xchange.taurus.service.TaurusAccountService;
+import org.knowm.xchange.taurus.service.TaurusMarketDataService;
+import org.knowm.xchange.taurus.service.TaurusTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -19,9 +19,9 @@ public class TaurusExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new TaurusMarketDataService(this);
-    this.pollingTradeService = new TaurusTradeService(this);
-    this.pollingAccountService = new TaurusAccountService(this);
+    this.marketDataService = new TaurusMarketDataService(this);
+    this.tradeService = new TaurusTradeService(this);
+    this.accountService = new TaurusAccountService(this);
   }
 
   @Override

@@ -3,9 +3,9 @@ package org.knowm.xchange.loyalbit;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.loyalbit.service.polling.LoyalbitAccountService;
-import org.knowm.xchange.loyalbit.service.polling.LoyalbitMarketDataService;
-import org.knowm.xchange.loyalbit.service.polling.LoyalbitTradeService;
+import org.knowm.xchange.loyalbit.service.LoyalbitAccountService;
+import org.knowm.xchange.loyalbit.service.LoyalbitMarketDataService;
+import org.knowm.xchange.loyalbit.service.LoyalbitTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -19,9 +19,9 @@ public class LoyalbitExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new LoyalbitMarketDataService(this);
-    this.pollingTradeService = new LoyalbitTradeService(this);
-    this.pollingAccountService = new LoyalbitAccountService(this);
+    this.marketDataService = new LoyalbitMarketDataService(this);
+    this.tradeService = new LoyalbitTradeService(this);
+    this.accountService = new LoyalbitAccountService(this);
   }
 
   @Override

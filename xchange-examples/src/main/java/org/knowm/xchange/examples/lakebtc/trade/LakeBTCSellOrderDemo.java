@@ -9,8 +9,8 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.examples.lakebtc.LakeBTCExamplesUtils;
 import org.knowm.xchange.lakebtc.dto.trade.LakeBTCOrderResponse;
-import org.knowm.xchange.lakebtc.service.polling.LakeBTCTradeServiceRaw;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.lakebtc.service.LakeBTCTradeServiceRaw;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * Created by Cristi on 12/22/2014.
@@ -25,7 +25,7 @@ public class LakeBTCSellOrderDemo {
 
   private static void generic(Exchange lakebtcExchange) throws IOException {
 
-    PollingTradeService tradeService = lakebtcExchange.getPollingTradeService();
+    TradeService tradeService = lakebtcExchange.getTradeService();
 
     System.out.println("Open Orders: " + tradeService.getOpenOrders());
 
@@ -38,7 +38,7 @@ public class LakeBTCSellOrderDemo {
   }
 
   private static void raw(Exchange lakeBtcExchange) throws IOException {
-    LakeBTCTradeServiceRaw tradeService = (LakeBTCTradeServiceRaw) lakeBtcExchange.getPollingTradeService();
+    LakeBTCTradeServiceRaw tradeService = (LakeBTCTradeServiceRaw) lakeBtcExchange.getTradeService();
 
     System.out.println("Open Orders: " + tradeService.getLakeBTCOrders());
 

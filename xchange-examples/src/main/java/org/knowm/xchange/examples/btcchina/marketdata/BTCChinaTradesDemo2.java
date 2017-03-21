@@ -7,7 +7,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.btcchina.BTCChinaExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * @author timmolter Demonstrate requesting Trades at BTC China given a since as a timestamp
@@ -17,8 +17,8 @@ public class BTCChinaTradesDemo2 {
   // Use the factory to get the VirtEx exchange API using default settings
   static Exchange btcchina = ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName());
 
-  // Interested in the public polling market data feed (no authentication)
-  static PollingMarketDataService marketDataService = btcchina.getPollingMarketDataService();
+  // Interested in the public market data feed (no authentication)
+  static MarketDataService marketDataService = btcchina.getMarketDataService();
 
   public static void main(String[] args) throws IOException {
 

@@ -8,7 +8,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitkonan.BitKonanExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class TradesFetchIntegration {
 
@@ -16,7 +16,7 @@ public class TradesFetchIntegration {
   public void tradesFetchTest() throws Exception {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(BitKonanExchange.class.getName());
-    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    MarketDataService marketDataService = exchange.getMarketDataService();
     Trades trades = marketDataService.getTrades(new CurrencyPair("BTC", "USD"));
     System.out.println(trades.toString());
     assertThat(trades).isNotNull();

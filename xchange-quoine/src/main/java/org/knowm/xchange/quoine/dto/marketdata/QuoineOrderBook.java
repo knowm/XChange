@@ -10,9 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class QuoineOrderBook {
 
-  private final List<List<BigDecimal>> buyPriceLevels;
+  private final List<BigDecimal[]> buyPriceLevels;
 
-  private final List<List<BigDecimal>> sellPriceLevels;
+  private final List<BigDecimal[]> sellPriceLevels;
 
   /**
    * Constructor
@@ -20,18 +20,18 @@ public final class QuoineOrderBook {
    * @param buyPriceLevels
    * @param sellPriceLevels
    */
-  public QuoineOrderBook(@JsonProperty("buy_price_levels") List<List<BigDecimal>> buyPriceLevels,
-      @JsonProperty("sell_price_levels") List<List<BigDecimal>> sellPriceLevels) {
+  public QuoineOrderBook(@JsonProperty("buy_price_levels") List<BigDecimal[]> buyPriceLevels,
+      @JsonProperty("sell_price_levels") List<BigDecimal[]> sellPriceLevels) {
 
     this.buyPriceLevels = buyPriceLevels;
     this.sellPriceLevels = sellPriceLevels;
   }
 
-  public List<List<BigDecimal>> getBuyPriceLevels() {
+  public List<BigDecimal[]> getBuyPriceLevels() {
     return buyPriceLevels;
   }
 
-  public List<List<BigDecimal>> getSellPriceLevels() {
+  public List<BigDecimal[]> getSellPriceLevels() {
     return sellPriceLevels;
   }
 

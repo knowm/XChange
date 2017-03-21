@@ -6,10 +6,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitcurex.BitcurexExchange;
 import org.knowm.xchange.bitcurex.dto.marketdata.BitcurexDepth;
-import org.knowm.xchange.bitcurex.service.polling.BitcurexMarketDataServiceRaw;
+import org.knowm.xchange.bitcurex.service.BitcurexMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Order Book at Bitcurex
@@ -26,14 +26,14 @@ public class BitcurexDepthDemo {
 
   private static void requestData(Exchange bitcurex, CurrencyPair pair) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitcurex.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = bitcurex.getMarketDataService();
 
     generic(marketDataService, pair);
     raw((BitcurexMarketDataServiceRaw) marketDataService, pair.counter.getCurrencyCode());
   }
 
-  private static void generic(PollingMarketDataService marketDataService, CurrencyPair pair) throws IOException {
+  private static void generic(MarketDataService marketDataService, CurrencyPair pair) throws IOException {
 
     // Get the latest order book data for BTC/CAD
     OrderBook orderBook = marketDataService.getOrderBook(pair);

@@ -1,6 +1,6 @@
 package org.knowm.xchange.gdax.dto.trade;
 
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 public class GDAXTradeHistoryParams implements TradeHistoryParams {
 

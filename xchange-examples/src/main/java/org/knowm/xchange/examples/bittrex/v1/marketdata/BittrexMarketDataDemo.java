@@ -14,12 +14,12 @@ import org.knowm.xchange.bittrex.v1.dto.marketdata.BittrexDepth;
 import org.knowm.xchange.bittrex.v1.dto.marketdata.BittrexSymbol;
 import org.knowm.xchange.bittrex.v1.dto.marketdata.BittrexTicker;
 import org.knowm.xchange.bittrex.v1.dto.marketdata.BittrexTrade;
-import org.knowm.xchange.bittrex.v1.service.polling.BittrexMarketDataServiceRaw;
+import org.knowm.xchange.bittrex.v1.service.BittrexMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BittrexMarketDataDemo {
 
@@ -28,16 +28,16 @@ public class BittrexMarketDataDemo {
   public static void main(String[] args) throws IOException {
 
     exchange = ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class.getName());
-    PollingMarketDataService pollingMarketDataService = exchange.getPollingMarketDataService();
+    MarketDataService marketDataService = exchange.getMarketDataService();
 
     System.out.println(exchange.getExchangeSymbols().toArray());
 
-    generic(pollingMarketDataService);
-    raw((BittrexMarketDataServiceRaw) pollingMarketDataService);
+    generic(marketDataService);
+    raw((BittrexMarketDataServiceRaw) marketDataService);
 
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
     System.out.println("----------GENERIC---------");
 

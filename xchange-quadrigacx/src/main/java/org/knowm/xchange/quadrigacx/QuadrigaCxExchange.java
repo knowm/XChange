@@ -3,9 +3,9 @@ package org.knowm.xchange.quadrigacx;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.quadrigacx.service.polling.QuadrigaCxAccountService;
-import org.knowm.xchange.quadrigacx.service.polling.QuadrigaCxMarketDataService;
-import org.knowm.xchange.quadrigacx.service.polling.QuadrigaCxTradeService;
+import org.knowm.xchange.quadrigacx.service.QuadrigaCxAccountService;
+import org.knowm.xchange.quadrigacx.service.QuadrigaCxMarketDataService;
+import org.knowm.xchange.quadrigacx.service.QuadrigaCxTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -16,9 +16,9 @@ public class QuadrigaCxExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new QuadrigaCxMarketDataService(this);
-    this.pollingAccountService = new QuadrigaCxAccountService(this);
-    this.pollingTradeService = new QuadrigaCxTradeService(this);
+    this.marketDataService = new QuadrigaCxMarketDataService(this);
+    this.accountService = new QuadrigaCxAccountService(this);
+    this.tradeService = new QuadrigaCxTradeService(this);
   }
 
   @Override

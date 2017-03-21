@@ -6,9 +6,9 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bleutrade.BleutradeExchange;
-import org.knowm.xchange.bleutrade.service.polling.BleutradeMarketDataServiceRaw;
+import org.knowm.xchange.bleutrade.service.BleutradeMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BleutradeMarketDataDemo {
 
@@ -20,13 +20,13 @@ public class BleutradeMarketDataDemo {
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(BleutradeExchange.class.getName());
     Exchange bleutrade = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
-    PollingMarketDataService dataService = bleutrade.getPollingMarketDataService();
+    MarketDataService dataService = bleutrade.getMarketDataService();
 
     generic(dataService);
     raw((BleutradeMarketDataServiceRaw) dataService);
   }
 
-  private static void generic(PollingMarketDataService dataService) throws IOException, InterruptedException {
+  private static void generic(MarketDataService dataService) throws IOException, InterruptedException {
 
     System.out.println(dataService.getTicker(currencyPair));
     Thread.sleep(1000);

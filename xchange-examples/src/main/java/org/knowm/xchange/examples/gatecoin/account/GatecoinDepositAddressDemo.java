@@ -7,8 +7,8 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.examples.gatecoin.GatecoinDemoUtils;
 import org.knowm.xchange.gatecoin.dto.account.GatecoinDepositAddress;
 import org.knowm.xchange.gatecoin.dto.account.Results.GatecoinDepositAddressResult;
-import org.knowm.xchange.gatecoin.service.polling.GatecoinAccountServiceRaw;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.gatecoin.service.GatecoinAccountServiceRaw;
+import org.knowm.xchange.service.account.AccountService;
 
 /**
  * @author sumedha
@@ -17,13 +17,13 @@ public class GatecoinDepositAddressDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange gatecoin = GatecoinDemoUtils.createExchange();
-    PollingAccountService accountService = gatecoin.getPollingAccountService();
+    AccountService accountService = gatecoin.getAccountService();
 
     generic(accountService);
     raw((GatecoinAccountServiceRaw) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws IOException {
+  private static void generic(AccountService accountService) throws IOException {
 
     String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit address: " + depositAddress);

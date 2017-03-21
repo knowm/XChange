@@ -5,12 +5,12 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.taurus.TaurusDemoUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 import org.knowm.xchange.taurus.dto.trade.TaurusUserTransaction;
-import org.knowm.xchange.taurus.service.polling.TaurusTradeServiceRaw;
+import org.knowm.xchange.taurus.service.TaurusTradeServiceRaw;
 
 /**
  * <p>
@@ -26,13 +26,13 @@ public class TaurusUserTradeHistoryDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange taurus = TaurusDemoUtils.createExchange();
-    PollingTradeService tradeService = taurus.getPollingTradeService();
+    TradeService tradeService = taurus.getTradeService();
 
     generic(tradeService);
     raw((TaurusTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException {
+  private static void generic(TradeService tradeService) throws IOException {
 
     Trades trades = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     System.out.println(trades);

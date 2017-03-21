@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
-import org.knowm.xchange.kraken.service.polling.KrakenAccountServiceRaw;
+import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
 
 /**
  * <p>
@@ -28,13 +28,13 @@ public class KrakenAccountDemo {
 
   private static void generic(Exchange krakenExchange) throws IOException {
 
-    AccountInfo accountInfo = krakenExchange.getPollingAccountService().getAccountInfo();
+    AccountInfo accountInfo = krakenExchange.getAccountService().getAccountInfo();
     System.out.println("Account Info: " + accountInfo.toString());
   }
 
   private static void raw(Exchange krakenExchange) throws IOException {
 
-    KrakenAccountServiceRaw rawKrakenAcctService = (KrakenAccountServiceRaw) krakenExchange.getPollingAccountService();
+    KrakenAccountServiceRaw rawKrakenAcctService = (KrakenAccountServiceRaw) krakenExchange.getAccountService();
     System.out.println("Balance Info: " + rawKrakenAcctService.getKrakenBalance());
   }
 }

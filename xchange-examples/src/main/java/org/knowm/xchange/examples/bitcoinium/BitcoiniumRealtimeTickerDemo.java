@@ -15,7 +15,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinium.BitcoiniumExchange;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumTicker;
 import org.knowm.xchange.bitcoinium.dto.marketdata.BitcoiniumTickerHistory;
-import org.knowm.xchange.bitcoinium.service.polling.BitcoiniumMarketDataServiceRaw;
+import org.knowm.xchange.bitcoinium.service.BitcoiniumMarketDataServiceRaw;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
@@ -51,8 +51,8 @@ public class BitcoiniumRealtimeTickerDemo {
     System.out.println(exchangeSpecification.toString());
     Exchange bitcoiniumExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
-    // Interested in the public polling market data feed (no authentication)
-    bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    bitcoiniumMarketDataService = (BitcoiniumMarketDataServiceRaw) bitcoiniumExchange.getMarketDataService();
 
     // Setup the panel
     final XChartPanel<XYChart> chartPanel = buildPanel();

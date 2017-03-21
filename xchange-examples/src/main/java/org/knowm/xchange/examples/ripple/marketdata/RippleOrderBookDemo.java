@@ -8,9 +8,9 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.ripple.RippleExchange;
 import org.knowm.xchange.ripple.dto.marketdata.RippleOrderBook;
-import org.knowm.xchange.ripple.service.polling.RippleMarketDataServiceRaw;
-import org.knowm.xchange.ripple.service.polling.params.RippleMarketDataParams;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.ripple.service.RippleMarketDataServiceRaw;
+import org.knowm.xchange.ripple.service.params.RippleMarketDataParams;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting an order book from Ripple. You can access both the raw data from Ripple or the XChange generic DTO data format.
@@ -21,8 +21,8 @@ public class RippleOrderBookDemo {
     // Use the factory to get Riiple exchange API using default settings
     final Exchange ripple = ExchangeFactory.INSTANCE.createExchange(RippleExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    final PollingMarketDataService marketDataService = ripple.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    final MarketDataService marketDataService = ripple.getMarketDataService();
 
     // Ripple specific objects
     raw((RippleMarketDataServiceRaw) marketDataService);
@@ -31,7 +31,7 @@ public class RippleOrderBookDemo {
     generic(marketDataService);
   }
 
-  private static void generic(final PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(final MarketDataService marketDataService) throws IOException {
     final RippleMarketDataParams params = new RippleMarketDataParams();
 
     // rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B is Bitstamp's account

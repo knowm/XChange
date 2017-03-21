@@ -51,7 +51,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 
 /**
  * @author Martin Stachon
@@ -101,13 +101,17 @@ public class CoinmateAdapters {
     List<Trade> trades = new ArrayList<Trade>(coinmateTransactions.getData().size());
 
     for (CoinmateTransactionsEntry coinmateEntry : coinmateTransactions.getData()) {
-      Trade trade = new Trade(null, coinmateEntry.getAmount(), CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()), coinmateEntry.getPrice(),
-          new Date(coinmateEntry.getTimestamp()), coinmateEntry.getTransactionId());
+      Trade trade = adaptTrade(coinmateEntry);
       trades.add(trade);
     }
 
     //TODO correct sort order?
     return new Trades(trades, Trades.TradeSortType.SortByID);
+  }
+
+  public static Trade adaptTrade(CoinmateTransactionsEntry coinmateEntry) {
+    return new Trade(null, coinmateEntry.getAmount(), CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()), coinmateEntry.getPrice(),
+        new Date(coinmateEntry.getTimestamp()), coinmateEntry.getTransactionId());
   }
 
   public static Wallet adaptWallet(CoinmateBalance coinmateBalance) {

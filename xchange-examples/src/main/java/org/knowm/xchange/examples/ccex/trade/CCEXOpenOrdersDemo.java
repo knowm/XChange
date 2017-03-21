@@ -6,7 +6,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.examples.ccex.CCEXExamplesUtils;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class CCEXOpenOrdersDemo {
 
@@ -14,12 +14,12 @@ public class CCEXOpenOrdersDemo {
 
 		Exchange exchange = CCEXExamplesUtils.getExchange();
 
-		PollingTradeService tradeService = exchange.getPollingTradeService();
+		TradeService tradeService = exchange.getTradeService();
 
 		generic(tradeService);
 	}
 
-	private static void generic(PollingTradeService tradeService) throws IOException, InterruptedException {
+	private static void generic(TradeService tradeService) throws IOException, InterruptedException {
 		List<LimitOrder> limitOrders = tradeService.getOpenOrders().getOpenOrders();
 
 		for (LimitOrder temp : limitOrders) {

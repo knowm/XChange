@@ -3,7 +3,7 @@ package org.knowm.xchange.oer;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.oer.service.polling.OERMarketDataService;
+import org.knowm.xchange.oer.service.OERMarketDataService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -11,7 +11,7 @@ public class OERExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new OERMarketDataService(this);
+    this.marketDataService = new OERMarketDataService(this);
   }
 
   @Override

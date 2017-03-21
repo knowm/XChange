@@ -7,8 +7,8 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinde.BitcoindeExchange;
 import org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeRate;
-import org.knowm.xchange.bitcoinde.service.polling.BitcoindeMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.bitcoinde.service.BitcoindeMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BitcoindeTickerDemo {
 
@@ -29,7 +29,7 @@ public class BitcoindeTickerDemo {
     Exchange bitcoindeExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     /* create a data service from the exchange */
-    PollingMarketDataService marketDataService = bitcoindeExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = bitcoindeExchange.getMarketDataService();
 
     /*
      * We can't get a real ticker since Bitcoin.de doesn't support it, but we can get an exchange rate. Use a BitcoindeRate object for this.

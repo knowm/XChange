@@ -3,9 +3,9 @@ package org.knowm.xchange.btcchina;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaAccountService;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaMarketDataService;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaTradeService;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaAccountService;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaMarketDataService;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaTradeService;
 import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -34,12 +34,12 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
 
-    this.pollingTradeService = new BTCChinaTradeService(this);
-    this.pollingAccountService = new BTCChinaAccountService(this);
+    this.tradeService = new BTCChinaTradeService(this);
+    this.accountService = new BTCChinaAccountService(this);
 
     // TODO use exchangeSpecificParameters
     exchangeSpecification.setSslUri("https://data.btcchina.com");
-    this.pollingMarketDataService = new BTCChinaMarketDataService(this);
+    this.marketDataService = new BTCChinaMarketDataService(this);
   }
 
   @Override
@@ -66,7 +66,7 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
   //
   //    // TODO Implement this.
   //
-  //    Map<String, BTCChinaTickerObject> products = ((BTCChinaMarketDataServiceRaw) pollingMarketDataService).getBTCChinaTickers();
+  //    Map<String, BTCChinaTickerObject> products = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaTickers();
   //    exchangeMetaData = BTCChinaAdapters.adaptToExchangeMetaData(products);
   //    //    System.out.println("JSON: " + ObjectMapperHelper.toJSON(exchangeMetaData));
   //

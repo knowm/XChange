@@ -9,19 +9,21 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
 
+import java.io.IOException;
+
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Quoine {
 
   @GET
   @Path("products/code/CASH/{currency_pair_code}")
-  QuoineProduct getQuoineProduct(@PathParam("currency_pair_code") String currencyPairCode);
+  QuoineProduct getQuoineProduct(@PathParam("currency_pair_code") String currencyPairCode) throws IOException;
 
   @GET
   @Path("products")
-  QuoineProduct[] getQuoineProducts();
+  QuoineProduct[] getQuoineProducts() throws IOException;
 
   @GET
   @Path("products/{product_id}/price_levels")
-  QuoineOrderBook getOrderBook(@PathParam("product_id") int currencyPairCode);
+  QuoineOrderBook getOrderBook(@PathParam("product_id") int currencyPairCode) throws IOException;
 }

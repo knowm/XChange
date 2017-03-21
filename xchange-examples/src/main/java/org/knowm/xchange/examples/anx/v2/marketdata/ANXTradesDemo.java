@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXTrade;
-import org.knowm.xchange.anx.v2.service.polling.ANXMarketDataServiceRaw;
+import org.knowm.xchange.anx.v2.service.ANXMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.anx.v2.ANXExamplesUtils;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class ANXTradesDemo {
 
@@ -17,7 +17,7 @@ public class ANXTradesDemo {
 
     Exchange anx = ANXExamplesUtils.createExchange();
 
-    PollingMarketDataService marketDataService = anx.getPollingMarketDataService();
+    MarketDataService marketDataService = anx.getMarketDataService();
 
     generic(marketDataService);
     raw((ANXMarketDataServiceRaw) marketDataService);
@@ -25,7 +25,7 @@ public class ANXTradesDemo {
 
   private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
 
-  public static void generic(PollingMarketDataService marketDataService) throws IOException {
+  public static void generic(MarketDataService marketDataService) throws IOException {
 
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - DAY_IN_MILLIS);
     System.out.println(trades);

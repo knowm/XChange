@@ -11,7 +11,7 @@ import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestrictions;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 
-public class LivecoinMarketDataServiceRaw extends LivecoinBasePollingService<Livecoin> {
+public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> {
 
 	public LivecoinMarketDataServiceRaw(Exchange exchange) {
 		super(Livecoin.class, exchange);

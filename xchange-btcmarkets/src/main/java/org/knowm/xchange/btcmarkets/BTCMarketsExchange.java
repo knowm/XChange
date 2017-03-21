@@ -3,9 +3,9 @@ package org.knowm.xchange.btcmarkets;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.btcmarkets.service.polling.BTCMarketsAccountService;
-import org.knowm.xchange.btcmarkets.service.polling.BTCMarketsMarketDataService;
-import org.knowm.xchange.btcmarkets.service.polling.BTCMarketsTradeService;
+import org.knowm.xchange.btcmarkets.service.BTCMarketsAccountService;
+import org.knowm.xchange.btcmarkets.service.BTCMarketsMarketDataService;
+import org.knowm.xchange.btcmarkets.service.BTCMarketsTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -24,10 +24,10 @@ public class BTCMarketsExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BTCMarketsMarketDataService(this);
+    this.marketDataService = new BTCMarketsMarketDataService(this);
     if (exchangeSpecification.getApiKey() != null && exchangeSpecification.getSecretKey() != null) {
-      this.pollingTradeService = new BTCMarketsTradeService(this);
-      this.pollingAccountService = new BTCMarketsAccountService(this);
+      this.tradeService = new BTCMarketsTradeService(this);
+      this.accountService = new BTCMarketsAccountService(this);
     }
   }
 

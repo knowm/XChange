@@ -23,7 +23,7 @@ import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsUserTrade;
-import org.knowm.xchange.btcmarkets.service.polling.BTCMarketsTestSupport;
+import org.knowm.xchange.btcmarkets.service.BTCMarketsTestSupport;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;

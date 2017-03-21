@@ -8,9 +8,9 @@ import java.util.TimeZone;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.ripple.service.polling.RippleAccountService;
-import org.knowm.xchange.ripple.service.polling.RippleMarketDataService;
-import org.knowm.xchange.ripple.service.polling.RippleTradeService;
+import org.knowm.xchange.ripple.service.RippleAccountService;
+import org.knowm.xchange.ripple.service.RippleMarketDataService;
+import org.knowm.xchange.ripple.service.RippleTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -48,9 +48,9 @@ public class RippleExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    pollingMarketDataService = new RippleMarketDataService(this);
-    pollingTradeService = new RippleTradeService(this);
-    pollingAccountService = new RippleAccountService(this);
+    marketDataService = new RippleMarketDataService(this);
+    tradeService = new RippleTradeService(this);
+    accountService = new RippleAccountService(this);
   }
 
   @Override
@@ -99,7 +99,7 @@ public class RippleExchange extends BaseExchange implements Exchange {
   }
 
   public void clearOrderDetailsCache() {
-    ((RippleTradeService) pollingTradeService).clearOrderDetailsStore();
+    ((RippleTradeService) tradeService).clearOrderDetailsStore();
   }
 
   /**

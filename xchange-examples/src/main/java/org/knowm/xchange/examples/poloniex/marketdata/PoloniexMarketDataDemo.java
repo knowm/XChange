@@ -9,8 +9,8 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.poloniex.PoloniexExchange;
-import org.knowm.xchange.poloniex.service.polling.PoloniexMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.poloniex.service.PoloniexMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.CertHelper;
 
 /**
@@ -27,14 +27,14 @@ public class PoloniexMarketDataDemo {
     CertHelper.trustAllCerts();
 
     poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
-    PollingMarketDataService dataService = poloniex.getPollingMarketDataService();
+    MarketDataService dataService = poloniex.getMarketDataService();
     currencyPair = new CurrencyPair(Currency.XMR, Currency.BTC);
 
     generic(dataService);
     raw((PoloniexMarketDataServiceRaw) dataService);
   }
 
-  private static void generic(PollingMarketDataService dataService) throws IOException {
+  private static void generic(MarketDataService dataService) throws IOException {
 
     System.out.println("----------GENERIC----------");
     System.out.println(dataService.getTicker(currencyPair));

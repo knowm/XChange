@@ -11,7 +11,7 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.taurus.TaurusExchange;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
@@ -31,7 +31,7 @@ public class TaurusDepthChartDemo {
     Exchange taurusExchange = ExchangeFactory.INSTANCE.createExchange(TaurusExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    PollingMarketDataService marketDataService = taurusExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = taurusExchange.getMarketDataService();
 
     System.out.println("fetching data...");
 

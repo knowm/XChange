@@ -13,9 +13,9 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.examples.poloniex.PoloniexExamplesUtils;
 import org.knowm.xchange.poloniex.PoloniexAdapters;
-import org.knowm.xchange.poloniex.service.polling.PoloniexTradeService;
-import org.knowm.xchange.poloniex.service.polling.PoloniexTradeServiceRaw;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.poloniex.service.PoloniexTradeService;
+import org.knowm.xchange.poloniex.service.PoloniexTradeServiceRaw;
+import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.utils.CertHelper;
 
 /**
@@ -32,7 +32,7 @@ public class PoloniexTradeDemo {
     CertHelper.trustAllCerts();
 
     Exchange poloniex = PoloniexExamplesUtils.getExchange();
-    PollingTradeService tradeService = poloniex.getPollingTradeService();
+    TradeService tradeService = poloniex.getTradeService();
     currencyPair = new CurrencyPair(Currency.XMR, Currency.BTC);
 
     /*
@@ -44,7 +44,7 @@ public class PoloniexTradeDemo {
     raw((PoloniexTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException, InterruptedException {
+  private static void generic(TradeService tradeService) throws IOException, InterruptedException {
 
     System.out.println("----------GENERIC----------");
 

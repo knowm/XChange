@@ -14,7 +14,7 @@ import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTransaction;
-import org.knowm.xchange.bitstamp.service.polling.BitstampMarketDataServiceRaw;
+import org.knowm.xchange.bitstamp.service.BitstampMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 

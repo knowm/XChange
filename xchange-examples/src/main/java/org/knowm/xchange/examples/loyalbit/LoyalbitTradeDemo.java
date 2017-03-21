@@ -8,13 +8,13 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class LoyalbitTradeDemo {
 
   public static void main(String[] args) throws IOException {
     Exchange loyalbitExchange = LoyalbitExampleUtils.createTestExchange();
-    PollingTradeService tradeService = loyalbitExchange.getPollingTradeService();
+    TradeService tradeService = loyalbitExchange.getTradeService();
 
     System.out.println("Open Orders: " + tradeService.getOpenOrders());
 

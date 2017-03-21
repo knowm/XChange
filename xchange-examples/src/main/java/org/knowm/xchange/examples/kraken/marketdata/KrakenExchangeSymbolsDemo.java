@@ -8,8 +8,8 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPairs;
-import org.knowm.xchange.kraken.service.polling.KrakenMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.kraken.service.KrakenMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class KrakenExchangeSymbolsDemo {
 
@@ -24,15 +24,15 @@ public class KrakenExchangeSymbolsDemo {
 
   private static void generic(Exchange krakenExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService krakenMarketDataService = krakenExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService krakenMarketDataService = krakenExchange.getMarketDataService();
 
   }
 
   private static void raw(Exchange krakenExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    KrakenMarketDataServiceRaw krakenMarketDataService = (KrakenMarketDataServiceRaw) krakenExchange.getMarketDataService();
 
     KrakenAssetPairs krakenAssetPairs = krakenMarketDataService.getKrakenAssetPairs();
     for (Entry<String, KrakenAssetPair> assetPairEntry : krakenAssetPairs.getAssetPairMap().entrySet()) {

@@ -37,6 +37,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexReplaceOrderRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 
 import si.mazi.rescu.ParamsDigest;
@@ -77,6 +78,11 @@ public interface BitfinexAuthenticated extends Bitfinex {
   BitfinexCancelOrderMultiResponse cancelOrderMulti(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexCancelOrderMultiRequest cancelOrderRequest)
       throws IOException, BitfinexException;
+
+  @POST
+  @Path("order/cancel/replace")
+  BitfinexOrderStatusResponse replaceOrder(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexReplaceOrderRequest newOrderRequest) throws IOException, BitfinexException;
 
   @POST
   @Path("offer/cancel")

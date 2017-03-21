@@ -6,11 +6,11 @@ import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.v1.dto.account.BittrexBalance;
-import org.knowm.xchange.bittrex.v1.service.polling.BittrexAccountServiceRaw;
+import org.knowm.xchange.bittrex.v1.service.BittrexAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.examples.bittrex.v1.BittrexExamplesUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 public class BittrexAccountDemo {
 
@@ -18,13 +18,13 @@ public class BittrexAccountDemo {
 
     Exchange exchange = BittrexExamplesUtils.getExchange();
 
-    PollingAccountService accountService = exchange.getPollingAccountService();
+    AccountService accountService = exchange.getAccountService();
 
     generic(accountService);
     raw((BittrexAccountServiceRaw) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws IOException {
+  private static void generic(AccountService accountService) throws IOException {
 
     System.out.println("----------GENERIC---------");
 

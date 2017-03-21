@@ -8,8 +8,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.loyalbit.LoyalbitExchange;
 import org.knowm.xchange.loyalbit.dto.marketdata.LoyalbitOrderBook;
-import org.knowm.xchange.loyalbit.service.polling.LoyalbitMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.loyalbit.service.LoyalbitMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class LoyalbitMarketDataDemo {
 
@@ -24,8 +24,8 @@ public class LoyalbitMarketDataDemo {
 
   private static void generic(Exchange loyalbitExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService loyalbitMarketDataService = loyalbitExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService loyalbitMarketDataService = loyalbitExchange.getMarketDataService();
 
     // Get the ticker
     System.out.println("Ticker: " + loyalbitMarketDataService.getTicker(CurrencyPair.BTC_USD));
@@ -43,8 +43,8 @@ public class LoyalbitMarketDataDemo {
 
   private static void raw(Exchange loyalbitExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    LoyalbitMarketDataServiceRaw loyalbitMarketDataService = (LoyalbitMarketDataServiceRaw) loyalbitExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    LoyalbitMarketDataServiceRaw loyalbitMarketDataService = (LoyalbitMarketDataServiceRaw) loyalbitExchange.getMarketDataService();
 
     // Get the ticker
     System.out.println("Ticker: " + loyalbitMarketDataService.getLoyalbitTicker());

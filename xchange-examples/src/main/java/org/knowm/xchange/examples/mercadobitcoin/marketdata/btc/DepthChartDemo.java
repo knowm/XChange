@@ -12,7 +12,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
@@ -33,7 +33,7 @@ public class DepthChartDemo {
     Exchange mercadoExchange = ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
 
     // Interested in the public market data feed (no authentication)
-    PollingMarketDataService marketDataService = mercadoExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = mercadoExchange.getMarketDataService();
 
     System.out.println("fetching data...");
 

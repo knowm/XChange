@@ -10,7 +10,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinde.BitcoindeExchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class BitcoindeOrderBookIntegration {
 
@@ -33,7 +33,7 @@ public class BitcoindeOrderBookIntegration {
     Exchange bitcoindeExchange = ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
 
     /* create a data service from the exchange */
-    PollingMarketDataService marketDataService = bitcoindeExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = bitcoindeExchange.getMarketDataService();
 
     /* display the first ask of our OrderBook */
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_EUR);

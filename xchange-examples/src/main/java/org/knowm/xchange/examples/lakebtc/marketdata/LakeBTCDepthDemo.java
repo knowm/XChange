@@ -7,8 +7,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.examples.lakebtc.LakeBTCExamplesUtils;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCOrderBook;
-import org.knowm.xchange.lakebtc.service.polling.LakeBTCMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.lakebtc.service.LakeBTCMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Created by Cristi on 12/22/2014.
@@ -23,7 +23,7 @@ public class LakeBTCDepthDemo {
 
   private static void generic(Exchange lakebtcExchange) throws IOException {
 
-    PollingMarketDataService marketDataService = lakebtcExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = lakebtcExchange.getMarketDataService();
 
     // Get the latest full order book data for NMC/XRP
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
@@ -38,7 +38,7 @@ public class LakeBTCDepthDemo {
   }
 
   private static void raw(Exchange lakeBtcExchange) throws IOException {
-    LakeBTCMarketDataServiceRaw marketDataService = (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getPollingMarketDataService();
+    LakeBTCMarketDataServiceRaw marketDataService = (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getMarketDataService();
 
     // Get the latest full order book data
     LakeBTCOrderBook orderBook = marketDataService.getLakeBTCOrderBookCNY();

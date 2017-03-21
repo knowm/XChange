@@ -13,8 +13,8 @@ import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
 import org.knowm.xchange.kraken.dto.trade.results.KrakenCancelOrderResult.KrakenCancelOrderResponse;
-import org.knowm.xchange.kraken.service.polling.KrakenTradeServiceRaw;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.kraken.service.KrakenTradeServiceRaw;
+import org.knowm.xchange.service.trade.TradeService;
 
 public class KrakenCancelOrderDemo {
 
@@ -28,7 +28,7 @@ public class KrakenCancelOrderDemo {
 
   private static void generic(Exchange krakenExchange) throws IOException {
 
-    PollingTradeService tradeService = krakenExchange.getPollingTradeService();
+    TradeService tradeService = krakenExchange.getTradeService();
 
     System.out.println("Open Orders: " + tradeService.getOpenOrders().toString());
 
@@ -47,7 +47,7 @@ public class KrakenCancelOrderDemo {
 
   private static void raw(Exchange krakenExchange) throws IOException {
 
-    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getPollingTradeService();
+    KrakenTradeServiceRaw tradeService = (KrakenTradeServiceRaw) krakenExchange.getTradeService();
 
     System.out.println("Open Orders: " + tradeService.getKrakenOpenOrders());
 

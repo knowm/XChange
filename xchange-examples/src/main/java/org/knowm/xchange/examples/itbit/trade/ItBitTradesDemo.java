@@ -14,9 +14,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.itbit.v1.ItBitExchange;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * Tests all calls to itBit
@@ -36,9 +36,9 @@ public class ItBitTradesDemo {
     itbit.applySpecification(defaultExchangeSpecification);
 
     // get all services
-    PollingMarketDataService marketDataService = itbit.getPollingMarketDataService();
-    PollingAccountService accout = itbit.getPollingAccountService();
-    PollingTradeService trades = itbit.getPollingTradeService();
+    MarketDataService marketDataService = itbit.getMarketDataService();
+    AccountService accout = itbit.getAccountService();
+    TradeService trades = itbit.getTradeService();
 
     OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair("XBT", "USD"));
     System.out.println("BIDS: " + orderBook.getBids());

@@ -8,10 +8,10 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btctrade.BTCTradeExchange;
 import org.knowm.xchange.btctrade.dto.account.BTCTradeBalance;
 import org.knowm.xchange.btctrade.dto.account.BTCTradeWallet;
-import org.knowm.xchange.btctrade.service.polling.BTCTradeAccountServiceRaw;
+import org.knowm.xchange.btctrade.service.BTCTradeAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 public class AccountInfoDemo {
 
@@ -32,7 +32,7 @@ public class AccountInfoDemo {
 
   private static void generic(Exchange exchange) throws IOException {
 
-    PollingAccountService accountService = exchange.getPollingAccountService();
+    AccountService accountService = exchange.getAccountService();
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("Account info: " + accountInfo);
 
@@ -42,7 +42,7 @@ public class AccountInfoDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    BTCTradeAccountServiceRaw accountService = (BTCTradeAccountServiceRaw) exchange.getPollingAccountService();
+    BTCTradeAccountServiceRaw accountService = (BTCTradeAccountServiceRaw) exchange.getAccountService();
     BTCTradeBalance balance = accountService.getBTCTradeBalance();
 
     System.out.println("Balance result: " + balance.getResult());

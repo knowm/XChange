@@ -12,9 +12,9 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
-public class GDAXAccountService extends GDAXAccountServiceRaw implements PollingAccountService {
+public class GDAXAccountService extends GDAXAccountServiceRaw implements AccountService {
 
   public GDAXAccountService(Exchange exchange) {
 

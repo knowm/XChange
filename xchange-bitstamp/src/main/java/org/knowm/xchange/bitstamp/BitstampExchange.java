@@ -3,9 +3,9 @@ package org.knowm.xchange.bitstamp;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitstamp.service.polling.BitstampAccountService;
-import org.knowm.xchange.bitstamp.service.polling.BitstampMarketDataService;
-import org.knowm.xchange.bitstamp.service.polling.BitstampTradeService;
+import org.knowm.xchange.bitstamp.service.BitstampAccountService;
+import org.knowm.xchange.bitstamp.service.BitstampMarketDataService;
+import org.knowm.xchange.bitstamp.service.BitstampTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -15,16 +15,14 @@ import si.mazi.rescu.SynchronizedValueFactory;
  */
 public class BitstampExchange extends BaseExchange implements Exchange {
 
-  public static final String CURRENCY_PAIR = "CURRENCY_PAIR";
-
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
 
-    this.pollingMarketDataService = new BitstampMarketDataService(this);
-    this.pollingTradeService = new BitstampTradeService(this);
-    this.pollingAccountService = new BitstampAccountService(this);
+    this.marketDataService = new BitstampMarketDataService(this);
+    this.tradeService = new BitstampTradeService(this);
+    this.accountService = new BitstampAccountService(this);
   }
 
   @Override

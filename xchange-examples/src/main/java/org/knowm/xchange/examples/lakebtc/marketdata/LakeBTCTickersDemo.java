@@ -8,8 +8,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.examples.lakebtc.LakeBTCExamplesUtils;
 import org.knowm.xchange.lakebtc.dto.marketdata.LakeBTCTickers;
-import org.knowm.xchange.lakebtc.service.polling.LakeBTCMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.lakebtc.service.LakeBTCMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Created by Cristi on 12/22/2014.
@@ -24,7 +24,7 @@ public class LakeBTCTickersDemo {
 
   private static void generic(Exchange lakebtcExchange) throws IOException {
 
-    PollingMarketDataService marketDataService = lakebtcExchange.getPollingMarketDataService();
+    MarketDataService marketDataService = lakebtcExchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
 
     System.out.println("Ticker: " + ticker.toString());
@@ -45,7 +45,7 @@ public class LakeBTCTickersDemo {
   }
 
   private static void raw(Exchange lakeBtcExchange) throws IOException {
-    LakeBTCMarketDataServiceRaw marketDataService = (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getPollingMarketDataService();
+    LakeBTCMarketDataServiceRaw marketDataService = (LakeBTCMarketDataServiceRaw) lakeBtcExchange.getMarketDataService();
     LakeBTCTickers tickers = marketDataService.getLakeBTCTickers();
 
     System.out.println("Ticker: " + tickers.getCny().toString());

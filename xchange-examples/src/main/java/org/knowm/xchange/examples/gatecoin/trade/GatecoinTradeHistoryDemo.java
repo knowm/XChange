@@ -7,9 +7,9 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.examples.gatecoin.GatecoinDemoUtils;
 import org.knowm.xchange.gatecoin.dto.trade.GatecoinTradeHistory;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinTradeHistoryResult;
-import org.knowm.xchange.gatecoin.service.polling.GatecoinTradeService;
-import org.knowm.xchange.gatecoin.service.polling.GatecoinTradeServiceRaw;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.gatecoin.service.GatecoinTradeService;
+import org.knowm.xchange.gatecoin.service.GatecoinTradeServiceRaw;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * @author sumedha
@@ -18,13 +18,13 @@ public class GatecoinTradeHistoryDemo {
 
   public static void main(String[] args) throws IOException {
     Exchange gatecoin = GatecoinDemoUtils.createExchange();
-    PollingTradeService tradeService = gatecoin.getPollingTradeService();
+    TradeService tradeService = gatecoin.getTradeService();
 
     generic(tradeService);
     raw((GatecoinTradeServiceRaw) tradeService);
   }
 
-  private static void generic(PollingTradeService tradeService) throws IOException {
+  private static void generic(TradeService tradeService) throws IOException {
 
     UserTrades result = tradeService.getTradeHistory(tradeService.createTradeHistoryParams());
     System.out.println("Trade history returned " + result);

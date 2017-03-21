@@ -19,10 +19,10 @@ import org.knowm.xchange.okcoin.OkCoinExchange;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinTrade;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinPosition;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinPositionResult;
-import org.knowm.xchange.okcoin.service.polling.OkCoinFuturesTradeService;
-import org.knowm.xchange.okcoin.service.polling.OkCoinMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.okcoin.service.OkCoinFuturesTradeService;
+import org.knowm.xchange.okcoin.service.OkCoinMarketDataServiceRaw;
+import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class OkCoinTradesDemo {
 
@@ -45,17 +45,17 @@ public class OkCoinTradesDemo {
   }
 
   private static void futures(Exchange okcoinExchange) throws IOException {
-    PollingAccountService pollingAccountService = okcoinExchange.getPollingAccountService();
+    AccountService accountService = okcoinExchange.getAccountService();
 
-    AccountInfo accountInfo = pollingAccountService.getAccountInfo();
+    AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println(accountInfo);
 
-    OkCoinFuturesTradeService pollingTradeService = (OkCoinFuturesTradeService) okcoinExchange.getPollingTradeService();
+    OkCoinFuturesTradeService tradeService = (OkCoinFuturesTradeService) okcoinExchange.getTradeService();
 
-    OpenOrders openOrders = pollingTradeService.getOpenOrders();
+    OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println(openOrders);
 
-    OkCoinPositionResult futuresPosition = pollingTradeService.getFuturesPosition(OkCoinAdapters.adaptSymbol(CurrencyPair.BTC_USD),
+    OkCoinPositionResult futuresPosition = tradeService.getFuturesPosition(OkCoinAdapters.adaptSymbol(CurrencyPair.BTC_USD),
         FuturesContract.ThisWeek);
     OkCoinPosition[] positions = futuresPosition.getPositions();
 
@@ -63,18 +63,18 @@ public class OkCoinTradesDemo {
       System.out.println(positions[i].getContractId());
     }
 
-    String placeLimitOrder = pollingTradeService
+    String placeLimitOrder = tradeService
         .placeLimitOrder(new LimitOrder(OrderType.BID, new BigDecimal("1"), CurrencyPair.BTC_USD, "0", new Date(), new BigDecimal("200")));
     System.out.println(placeLimitOrder);
 
-    boolean cancelOrder = pollingTradeService.cancelOrder(placeLimitOrder);
+    boolean cancelOrder = tradeService.cancelOrder(placeLimitOrder);
     System.out.println("Cancelled " + cancelOrder);
   }
 
   private static void generic(Exchange okcoinExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = okcoinExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = okcoinExchange.getMarketDataService();
 
     // Get the latest trade data for BTC_CNY
     Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD, FuturesContract.ThisWeek);
@@ -90,8 +90,8 @@ public class OkCoinTradesDemo {
 
   private static void raw(Exchange okcoinExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    OkCoinMarketDataServiceRaw okCoinMarketDataServiceRaw = (OkCoinMarketDataServiceRaw) okcoinExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    OkCoinMarketDataServiceRaw okCoinMarketDataServiceRaw = (OkCoinMarketDataServiceRaw) okcoinExchange.getMarketDataService();
 
     // Get the latest trade data for BTC_USD
     OkCoinTrade[] trades = okCoinMarketDataServiceRaw.getTrades(CurrencyPair.BTC_CNY);

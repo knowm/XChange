@@ -2,6 +2,7 @@ package org.knowm.xchange.dto.trade;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -120,7 +121,8 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
     public static Builder from(Order order) {
 
       Builder builder = (Builder) new Builder(order.getType(), order.getCurrencyPair()).tradableAmount(order.getTradableAmount())
-          .timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags());
+          .timestamp(order.getTimestamp()).id(order.getId()).flags(order.getOrderFlags()).orderStatus(order.getStatus())
+          .averagePrice(order.getAveragePrice());
       if (order instanceof LimitOrder) {
         LimitOrder limitOrder = (LimitOrder) order;
         builder.limitPrice(limitOrder.getLimitPrice());
@@ -158,6 +160,30 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
       return (Builder) super.timestamp(timestamp);
     }
 
+    @Override
+    public Builder orderStatus(Order.OrderStatus status) {
+
+      return (Builder) super.orderStatus(status);
+    }
+
+    @Override
+    public Builder averagePrice(BigDecimal averagePrice) {
+
+      return (Builder) super.averagePrice(averagePrice);
+    }
+
+    @Override
+    public Builder flag(IOrderFlags flag) {
+
+      return (Builder) super.flag(flag);
+    }
+
+    @Override
+    public Builder flags(Set<IOrderFlags> flags) {
+
+      return (Builder) super.flags(flags);
+    }
+
     public Builder limitPrice(BigDecimal limitPrice) {
 
       this.limitPrice = limitPrice;
@@ -166,7 +192,7 @@ public class LimitOrder extends Order implements Comparable<LimitOrder> {
 
     public LimitOrder build() {
 
-      LimitOrder order = new LimitOrder(orderType, tradableAmount, currencyPair, id, timestamp, limitPrice);
+      LimitOrder order = new LimitOrder(orderType, tradableAmount, currencyPair, id, timestamp, limitPrice, averagePrice, null, status);
       order.setOrderFlags(flags);
       return order;
     }

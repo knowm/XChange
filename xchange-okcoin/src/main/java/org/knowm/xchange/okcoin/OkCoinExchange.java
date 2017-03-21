@@ -2,12 +2,12 @@ package org.knowm.xchange.okcoin;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.okcoin.service.polling.OkCoinAccountService;
-import org.knowm.xchange.okcoin.service.polling.OkCoinFuturesAccountService;
-import org.knowm.xchange.okcoin.service.polling.OkCoinFuturesMarketDataService;
-import org.knowm.xchange.okcoin.service.polling.OkCoinFuturesTradeService;
-import org.knowm.xchange.okcoin.service.polling.OkCoinMarketDataService;
-import org.knowm.xchange.okcoin.service.polling.OkCoinTradeService;
+import org.knowm.xchange.okcoin.service.OkCoinAccountService;
+import org.knowm.xchange.okcoin.service.OkCoinFuturesAccountService;
+import org.knowm.xchange.okcoin.service.OkCoinFuturesMarketDataService;
+import org.knowm.xchange.okcoin.service.OkCoinFuturesTradeService;
+import org.knowm.xchange.okcoin.service.OkCoinMarketDataService;
+import org.knowm.xchange.okcoin.service.OkCoinTradeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -35,16 +35,16 @@ public class OkCoinExchange extends BaseExchange {
         && exchangeSpecification.getExchangeSpecificParametersItem("Use_Futures").equals(true)) {
       FuturesContract contract = futuresContractOfConfig(exchangeSpecification);
 
-      this.pollingMarketDataService = new OkCoinFuturesMarketDataService(this, contract);
+      this.marketDataService = new OkCoinFuturesMarketDataService(this, contract);
       if (exchangeSpecification.getApiKey() != null) {
-        this.pollingAccountService = new OkCoinFuturesAccountService(this);
-        this.pollingTradeService = new OkCoinFuturesTradeService(this, contract, futuresLeverageOfConfig(exchangeSpecification));
+        this.accountService = new OkCoinFuturesAccountService(this);
+        this.tradeService = new OkCoinFuturesTradeService(this, contract, futuresLeverageOfConfig(exchangeSpecification));
       }
     } else {
-      this.pollingMarketDataService = new OkCoinMarketDataService(this);
+      this.marketDataService = new OkCoinMarketDataService(this);
       if (exchangeSpecification.getApiKey() != null) {
-        this.pollingAccountService = new OkCoinAccountService(this);
-        this.pollingTradeService = new OkCoinTradeService(this);
+        this.accountService = new OkCoinAccountService(this);
+        this.tradeService = new OkCoinTradeService(this);
       }
     }
   }

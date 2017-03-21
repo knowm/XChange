@@ -6,10 +6,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.bitstamp.BitstampExchange;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
-import org.knowm.xchange.bitstamp.service.polling.BitstampMarketDataServiceRaw;
+import org.knowm.xchange.bitstamp.service.BitstampMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Depth at Bitstamp
@@ -21,15 +21,15 @@ public class DepthDemo {
     // Use the factory to get Bitstamp exchange API using default settings
     Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = bitstamp.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = bitstamp.getMarketDataService();
 
     generic(marketDataService);
     raw((BitstampMarketDataServiceRaw) marketDataService);
 
   }
 
-  private static void generic(PollingMarketDataService marketDataService) throws IOException {
+  private static void generic(MarketDataService marketDataService) throws IOException {
 
     // Get the latest order book data for BTC/CAD
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);

@@ -19,11 +19,11 @@ import org.knowm.xchange.coinbase.dto.account.CoinbaseTransactions;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUsers;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
-import org.knowm.xchange.coinbase.service.polling.CoinbaseAccountService;
+import org.knowm.xchange.coinbase.service.CoinbaseAccountService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.coinbase.CoinbaseDemoUtils;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.account.AccountService;
 
 /**
  * @author jamespedwards42
@@ -33,13 +33,13 @@ public class CoinbaseAccountDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange coinbase = CoinbaseDemoUtils.createExchange();
-    PollingAccountService accountService = coinbase.getPollingAccountService();
+    AccountService accountService = coinbase.getAccountService();
 
     generic(accountService);
     raw((CoinbaseAccountService) accountService);
   }
 
-  private static void generic(PollingAccountService accountService) throws IOException {
+  private static void generic(AccountService accountService) throws IOException {
 
     AccountInfo accountInfo = accountService.getAccountInfo();
     System.out.println("Account Info: " + accountInfo);

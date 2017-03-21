@@ -2,7 +2,7 @@ package org.knowm.xchange.jubi;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.jubi.service.polling.JubiMarketDataService;
+import org.knowm.xchange.jubi.service.JubiMarketDataService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -17,7 +17,7 @@ public class JubiExchange extends BaseExchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new JubiMarketDataService(this);
+    this.marketDataService = new JubiMarketDataService(this);
   }
 
   @Override
