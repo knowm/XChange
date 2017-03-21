@@ -45,7 +45,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     CurrencyPair cp = null;
     try {
       cp = (CurrencyPair) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(BTCMarketsExchange.CURRENCY_PAIR);
-    } catch (ClassCastException ignored) {
+    } catch (ClassCastException e) {
+      throw new IllegalArgumentException(e);
     }
     currencyPair = cp;
   }

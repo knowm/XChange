@@ -1,6 +1,7 @@
 package org.knowm.xchange.btcmarkets.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 import java.io.IOException;
@@ -68,6 +69,18 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
   @Test
   public void shouldConstructObject() {
     assertThat(Whitebox.getInternalState(marketsTradeService, "currencyPair")).isEqualTo(CurrencyPair.BTC_AUD);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldFailToConstructObjectOnCorruptedContext() {
+    // given
+    exchange.getExchangeSpecification().getExchangeSpecificParameters().put(BTCMarketsExchange.CURRENCY_PAIR, "BTC/AUD");
+
+    // when
+    marketsTradeService = new BTCMarketsTradeService(exchange);
+
+    // then
+    fail("BTCMarketsTradeService should throw IllegalArgumentException when exchange context contains CurrencyPair parameter of wrong type");
   }
 
   @Test
