@@ -13,6 +13,10 @@ import java.util.Map;
 import org.knowm.xchange.btcchina.dto.BTCChinaResponse;
 import org.knowm.xchange.btcchina.dto.BTCChinaValue;
 import org.knowm.xchange.btcchina.dto.account.BTCChinaAccountInfo;
+import org.knowm.xchange.btcchina.dto.account.BTCChinaDeposit;
+import org.knowm.xchange.btcchina.dto.account.BTCChinaWithdrawal;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
@@ -28,6 +32,8 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundsRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -386,4 +392,28 @@ public final class BTCChinaAdapters {
 
   }
 
+  public static FundsInfo adaptFundsInfo(final BTCChinaGetDepositsResponse depositsResponse, final BTCChinaGetWithdrawalsResponse withdrawalsResponse){
+
+    final List<FundsRecord> fundsRecords = new ArrayList<FundsRecord>();
+
+    if (depositsResponse != null && depositsResponse.getResult() != null) {
+      final BTCChinaDeposit[] deposits = depositsResponse.getResult().getDeposits();
+      for (final BTCChinaDeposit deposit : deposits) {
+        FundsRecord fundsRecordEntry = new FundsRecord(deposit.getAddress(), deposit.getDate() * 1000L, deposit.getCurrency(),
+                deposit.getAmount(), String.valueOf(deposit.getId()), "DEPOSIT", deposit.getStatus(), null, null);
+        fundsRecords.add(fundsRecordEntry);
+      }
+    }
+
+    if (withdrawalsResponse != null && withdrawalsResponse.getResult() != null) {
+      final BTCChinaWithdrawal[] withdrawals = withdrawalsResponse.getResult().getWithdrawals();
+      for (final BTCChinaWithdrawal withdrawal : withdrawals) {
+        FundsRecord fundsRecordEntry = new FundsRecord(withdrawal.getAddress(), withdrawal.getDate() * 1000L, withdrawal.getCurrency(),
+                withdrawal.getAmount(), String.valueOf(withdrawal.getId()), "WITHDRAWAL", withdrawal.getStatus(), null, null);
+        fundsRecords.add(fundsRecordEntry);
+      }
+    }
+
+    return new FundsInfo(fundsRecords);
+  }
 }

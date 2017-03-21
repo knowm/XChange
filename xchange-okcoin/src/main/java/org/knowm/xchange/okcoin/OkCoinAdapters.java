@@ -1,23 +1,13 @@
 package org.knowm.xchange.okcoin;
 
-import static org.knowm.xchange.currency.Currency.BTC;
-import static org.knowm.xchange.currency.Currency.LTC;
-import static org.knowm.xchange.currency.Currency.USD;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundsRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -28,9 +18,11 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFunds;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesInfoCross;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
+import org.knowm.xchange.okcoin.dto.account.OkCoinRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinUserInfo;
 import org.knowm.xchange.okcoin.dto.account.OkcoinFuturesFundsCross;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinDepth;
@@ -42,6 +34,18 @@ import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult.TransactionType;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrder;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import static org.knowm.xchange.currency.Currency.BTC;
+import static org.knowm.xchange.currency.Currency.LTC;
+import static org.knowm.xchange.currency.Currency.USD;
 
 public final class OkCoinAdapters {
 
@@ -318,4 +322,30 @@ public final class OkCoinAdapters {
 
     return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
   }
+
+  public static FundsInfo adaptFundsInfo(final OkCoinAccountRecords[] okCoinAccountRecordsList) {
+    final List<FundsRecord> fundsRecords = new ArrayList<FundsRecord>();
+    if (okCoinAccountRecordsList != null && okCoinAccountRecordsList.length > 0){
+      final OkCoinAccountRecords depositRecord = okCoinAccountRecordsList[0];
+      if (depositRecord != null){
+        for (OkCoinRecords okCoinRecordEntry : depositRecord.getRecords()) {
+          fundsRecords.add(new FundsRecord(okCoinRecordEntry.getAddress(),okCoinRecordEntry.getDate(),
+                  depositRecord.getSymbol(), okCoinRecordEntry.getAmount(), okCoinRecordEntry.getAddress(),
+                  "DEPOSIT", okCoinRecordEntry.getStatus(), null, okCoinRecordEntry.getFee())
+          );
+        }
+      }
+      final OkCoinAccountRecords withdrawalRecord = okCoinAccountRecordsList[1];
+      if (withdrawalRecord != null){
+        for (OkCoinRecords okCoinRecordEntry : withdrawalRecord.getRecords()) {
+          fundsRecords.add(new FundsRecord(okCoinRecordEntry.getAddress(),okCoinRecordEntry.getDate(),
+                  withdrawalRecord.getSymbol(), okCoinRecordEntry.getAmount(), okCoinRecordEntry.getAddress(),
+                  "WITHDRAWAL", okCoinRecordEntry.getStatus(), null, okCoinRecordEntry.getFee())
+          );
+        }
+      }
+    }
+    return new FundsInfo(fundsRecords);
+  }
+
 }

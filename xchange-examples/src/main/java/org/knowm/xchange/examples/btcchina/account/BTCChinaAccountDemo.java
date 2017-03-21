@@ -1,7 +1,5 @@
 package org.knowm.xchange.examples.btcchina.account;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcchina.dto.BTCChinaResponse;
 import org.knowm.xchange.btcchina.dto.account.BTCChinaAccountInfo;
@@ -9,12 +7,17 @@ import org.knowm.xchange.btcchina.dto.account.BTCChinaDeposit;
 import org.knowm.xchange.btcchina.dto.account.BTCChinaWithdrawal;
 import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
 import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaAccountService;
 import org.knowm.xchange.btcchina.service.rest.BTCChinaAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundsInfo;
 import org.knowm.xchange.examples.btcchina.BTCChinaExamplesUtils;
+import org.knowm.xchange.examples.util.AccountServiceTestUtil;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.utils.CertHelper;
+
+import java.io.IOException;
 
 /**
  * @author ObsessiveOrange
@@ -52,6 +55,16 @@ public class BTCChinaAccountDemo {
     // API key has no withdraw rights - returns 401 unauthorized
     // String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");
     // System.out.println("withdrawResult = " + withdrawResult);
+
+    fundsInfo(accountService);
+  }
+
+  private static void fundsInfo(AccountService accountService) throws IOException {
+    // Get the funds information
+    BTCChinaAccountService.BTCChinaFundsInfoHistoryParams histParams =
+            new BTCChinaAccountService.BTCChinaFundsInfoHistoryParams(Currency.BTC);
+    FundsInfo fundsInfo = accountService.getFundsInfo(histParams);
+    AccountServiceTestUtil.printFundsInfo(fundsInfo);
   }
 
   public static void raw() throws IOException {

@@ -1,13 +1,9 @@
 package org.knowm.xchange.bitfinex.v1;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWalletJSONTest;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
@@ -16,13 +12,19 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundsRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+
+import static org.junit.Assert.assertEquals;
 
 public class BitfinexAdaptersTest {
 
@@ -184,5 +186,32 @@ public class BitfinexAdaptersTest {
     }
 
     return responses;
+  }
+
+  @Test
+  public void testAdaptFundsInfoHistory() throws IOException {
+    // Read in the JSON from the example resources
+    InputStream is = BitfinexAdaptersTest.class.getResourceAsStream("/v1/account/example-deposit-withdrawal-info-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BitfinexDepositWithdrawalHistoryResponse[] response = mapper.readValue(is, BitfinexDepositWithdrawalHistoryResponse[].class);
+
+    FundsInfo fundsInfo = BitfinexAdapters.adaptFundsInfo(response);
+
+    assertEquals(2, fundsInfo.getFundsRecordList().size());
+    for (FundsRecord record : fundsInfo.getFundsRecordList()){
+      if (record.getFundsType().equalsIgnoreCase(BitfinexDepositWithdrawalHistoryResponse.Type.DEPOSIT.name())){
+        assertEquals(new BigDecimal("0.01"), record.getAmount());
+        assertEquals("jlsd98087sdfkjldsflj432kjlsdf8", record.getAddress());
+        assertEquals("offchain deposit", record.getRef());
+        assertEquals(Currency.BTC.getCurrencyCode(), record.getCcy());
+      } else {
+        assertEquals(new BigDecimal("0.07"), record.getAmount());
+        assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ", record.getAddress());
+        assertEquals("offchain transfer", record.getRef());
+        assertEquals(Currency.BTC.getCurrencyCode(), record.getCcy());
+      }
+    }
   }
 }

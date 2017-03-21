@@ -1,20 +1,11 @@
 package org.knowm.xchange.kraken;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundsRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -29,6 +20,8 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
+import org.knowm.xchange.kraken.dto.account.KrakenLedger;
+import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
@@ -41,6 +34,17 @@ import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
 import org.knowm.xchange.kraken.dto.trade.KrakenTrade;
 import org.knowm.xchange.kraken.dto.trade.KrakenType;
 import org.knowm.xchange.kraken.dto.trade.KrakenUserTrade;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class KrakenAdapters {
 
@@ -269,5 +273,27 @@ public class KrakenAdapters {
   private static CurrencyPairMetaData adaptPair(KrakenAssetPair krakenPair) {
     // TODO
     return null;
+  }
+
+  public static FundsInfo adaptFundsInfo(Map<String, KrakenLedger> krakenLedgerInfo) {
+
+    List<FundsRecord> fundsRecords = new ArrayList<FundsRecord>();
+    for (Entry<String, KrakenLedger> ledgerEntry : krakenLedgerInfo.entrySet()) {
+      KrakenLedger krakenLedger = ledgerEntry.getValue();
+      if (krakenLedger.getLedgerType() != null){
+        final Currency currency = adaptCurrency(krakenLedger.getAsset());
+        if (currency != null){
+          FundsRecord fundsRecordEntry = new FundsRecord(null, (long)krakenLedger.getUnixTime() * 1000L,
+                  currency.getCurrencyCode(), krakenLedger.getTransactionAmount(), krakenLedger.getRefId(),
+                  krakenLedger.getLedgerType().toString().toUpperCase(), null, krakenLedger.getBalance(),
+                  krakenLedger.getFee());
+          if (fundsRecordEntry.getFundsType().equals(LedgerType.DEPOSIT.name()) ||
+                  fundsRecordEntry.getFundsType().equals(LedgerType.WITHDRAWAL.name())){
+            fundsRecords.add(fundsRecordEntry);
+          }
+        }
+      }
+    }
+    return new FundsInfo(fundsRecords);
   }
 }

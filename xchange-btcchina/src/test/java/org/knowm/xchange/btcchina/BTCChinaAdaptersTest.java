@@ -1,6 +1,24 @@
 package org.knowm.xchange.btcchina;
 
-import static org.junit.Assert.assertEquals;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
+import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
+import org.knowm.xchange.btcchina.dto.trade.BTCChinaTransaction;
+import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
+import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderStatus;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundsRecord;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.trade.LimitOrder;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -9,20 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
-import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
-import org.knowm.xchange.btcchina.dto.trade.BTCChinaTransaction;
-import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
-import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order.OrderStatus;
-import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.trade.LimitOrder;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.Assert.assertEquals;
 
 public class BTCChinaAdaptersTest {
 
@@ -132,5 +137,18 @@ public class BTCChinaAdaptersTest {
     assertEquals(OrderStatus.REJECTED, BTCChinaAdapters.adaptOrderStatus("error"));
     assertEquals(OrderStatus.REJECTED, BTCChinaAdapters.adaptOrderStatus("insufficient_balance"));
   }
+  @Test
+  public void testAdaptFundsInfoHistory() throws JsonParseException, JsonMappingException, IOException {
 
+    final BTCChinaGetDepositsResponse depositsResponse = mapper.readValue(getClass().getResource("dto/account/response/getDeposits.json"),
+            BTCChinaGetDepositsResponse.class);
+    final BTCChinaGetWithdrawalsResponse withdrawalResponse = mapper.readValue(getClass().getResource("dto/account/response/getWithdrawals.json"),
+            BTCChinaGetWithdrawalsResponse.class);
+    final FundsInfo fundsInfo = BTCChinaAdapters.adaptFundsInfo(depositsResponse, withdrawalResponse);
+    final FundsRecord record = fundsInfo.getFundsRecordList().get(1);
+    assertEquals("mkrmyZyM9jBYGw5EB3wWmfgJ4Mvqnu7gEu", record.getAddress());
+    assertEquals("BTC", record.getCcy());
+    assertEquals(new BigDecimal("2"), record.getAmount());
+    assertEquals("completed", record.getStatus());
+  }
 }

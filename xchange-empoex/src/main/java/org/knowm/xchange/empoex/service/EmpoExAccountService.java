@@ -6,9 +6,13 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundsInfo;
 import org.knowm.xchange.empoex.EmpoExAdapters;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 public class EmpoExAccountService extends EmpoExAccountServiceRaw implements AccountService {
 
@@ -39,5 +43,10 @@ public class EmpoExAccountService extends EmpoExAccountServiceRaw implements Acc
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
 
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public FundsInfo getFundsInfo(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+    throw new NotYetImplementedForExchangeException();
   }
 }

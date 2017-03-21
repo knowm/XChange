@@ -6,11 +6,16 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gatecoin.GatecoinAdapters;
 import org.knowm.xchange.gatecoin.dto.account.GatecoinDepositAddress;
 import org.knowm.xchange.gatecoin.dto.account.Results.GatecoinDepositAddressResult;
 import org.knowm.xchange.gatecoin.dto.account.Results.GatecoinWithdrawResult;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 /**
  * @author Sumedha
@@ -56,5 +61,10 @@ public class GatecoinAccountService extends GatecoinAccountServiceRaw implements
     } else {
       return result.getResponseStatus().getMessage();
     }
+  }
+
+  @Override
+  public FundsInfo getFundsInfo(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+    throw new NotYetImplementedForExchangeException();
   }
 }

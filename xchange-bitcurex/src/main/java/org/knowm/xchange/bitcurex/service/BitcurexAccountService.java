@@ -7,8 +7,12 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitcurex.BitcurexAdapters;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 public class BitcurexAccountService extends BitcurexAccountServiceRaw implements AccountService {
 
@@ -40,4 +44,8 @@ public class BitcurexAccountService extends BitcurexAccountServiceRaw implements
     return getFunds().getAddress();
   }
 
+  @Override
+  public FundsInfo getFundsInfo(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+    throw new NotYetImplementedForExchangeException();
+  }
 }

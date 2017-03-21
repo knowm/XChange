@@ -6,7 +6,12 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.taurus.TaurusAdapters;
 
 /**
@@ -31,5 +36,10 @@ public class TaurusAccountService extends TaurusAccountServiceRaw implements Acc
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
     return getTaurusBitcoinDepositAddress();
+  }
+
+  @Override
+  public FundsInfo getFundsInfo(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+    throw new NotYetImplementedForExchangeException();
   }
 }

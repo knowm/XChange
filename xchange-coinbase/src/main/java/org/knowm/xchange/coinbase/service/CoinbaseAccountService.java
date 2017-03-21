@@ -11,7 +11,12 @@ import org.knowm.xchange.coinbase.dto.account.CoinbaseTransaction.CoinbaseSendMo
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUsers;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 /**
  * @author jamespedwards42
@@ -55,4 +60,8 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw impl
     return receiveAddress.getAddress();
   }
 
+  @Override
+  public FundsInfo getFundsInfo(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+    throw new NotYetImplementedForExchangeException();
+  }
 }

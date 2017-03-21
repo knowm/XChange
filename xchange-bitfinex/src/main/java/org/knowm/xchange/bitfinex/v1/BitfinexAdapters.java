@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendLevel;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
@@ -21,6 +22,8 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundsRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -308,5 +311,24 @@ public final class BitfinexAdapters {
     }
 
     return metaData;
+  }
+
+  public static FundsInfo adaptFundsInfo(BitfinexDepositWithdrawalHistoryResponse[] bitfinexDepositWithdrawalHistoryResponses){
+    final List<FundsRecord> fundsRecords = new ArrayList<FundsRecord>();
+    for (BitfinexDepositWithdrawalHistoryResponse responseEntry : bitfinexDepositWithdrawalHistoryResponses) {
+      String address = responseEntry.getAddress();
+      String description = responseEntry.getDescription();
+      if (responseEntry.getCurrency().equals(Currency.BTC.getCurrencyCode()) &&
+              responseEntry.getType() == BitfinexDepositWithdrawalHistoryResponse.Type.WITHDRAWAL &&
+              description.contains(",")){
+        description = description.substring(description.indexOf("txid: ")+ "txid: ".length());
+      }
+      FundsRecord fundsRecordEntry = new FundsRecord(address, responseEntry.getTimestamp().getTime(),
+              responseEntry.getCurrency(), responseEntry.getAmount(), description,
+              responseEntry.getType().name(), responseEntry.getStatus(), null, null);
+
+      fundsRecords.add(fundsRecordEntry);
+    }
+    return new FundsInfo(fundsRecords);
   }
 }
