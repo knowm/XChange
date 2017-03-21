@@ -1,14 +1,13 @@
 package org.knowm.xchange.examples.independentreserve.trade;
 
-import java.io.IOException;
+import static org.knowm.xchange.examples.independentreserve.trade.IndependentReserveTradeDemo.printOpenOrders;
+
 import java.math.BigDecimal;
-import java.util.concurrent.TimeUnit;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.examples.independentreserve.IndependentReserveDemoUtils;
 import org.knowm.xchange.service.trade.TradeService;
@@ -18,7 +17,7 @@ import org.knowm.xchange.service.trade.TradeService;
  * manually add ETH everywhere BTC was hardcoded. But this will still fail if you traded NZD or AUD currencies even for Bitcoin.
  */
 public class IndependentReserveTradeDemoEth {
-  public static void main(String[] args) throws IOException, InterruptedException {
+  public static void main(String[] args) throws Exception {
 
     Exchange independentReserve = IndependentReserveDemoUtils.createExchange();
     TradeService tradeService = independentReserve.getTradeService();
@@ -26,7 +25,7 @@ public class IndependentReserveTradeDemoEth {
     generic(tradeService);
   }
 
-  private static void generic(TradeService tradeService) throws IOException, InterruptedException {
+  private static void generic(TradeService tradeService) throws Exception {
     printOpenOrders(tradeService);
 
     // place a limit buy order
@@ -46,10 +45,4 @@ public class IndependentReserveTradeDemoEth {
     System.out.println("Trade history: " + tradeHistory.toString());
   }
 
-  private static void printOpenOrders(TradeService tradeService) throws IOException, InterruptedException {
-    // IR API caches data for some time, so we can get the same set of orders as we saw before
-    TimeUnit.SECONDS.sleep(1);
-    OpenOrders openOrders = tradeService.getOpenOrders();
-    System.out.println("Open Orders: " + openOrders.toString());
-  }
 }

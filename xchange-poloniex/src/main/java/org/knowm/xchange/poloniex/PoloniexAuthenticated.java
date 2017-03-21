@@ -48,10 +48,28 @@ public interface PoloniexAuthenticated {
   HashMap<String, String> returnDepositAddresses(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
 
+  /**
+   * This only works with "all" as currencyPair (for explicit currency pairs, just PoloniexOpenOrder[] is returned and not a Map).
+   */
   @POST
   @FormParam("command")
   HashMap<String, PoloniexOpenOrder[]> returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
+
+  /* TODO: replace the above method with the two methods (plus the enum) below to support currency pairs. This change is not backwards compatible. */
+/*
+  enum AllPairs { all }
+
+  @POST
+  @FormParam("command")
+  HashMap<String, PoloniexOpenOrder[]> returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") AllPairs all) throws PoloniexException, IOException;
+
+  @POST
+  @FormParam("command")
+  PoloniexOpenOrder[] returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
+*/
 
   @POST
   @FormParam("command")

@@ -10,7 +10,11 @@ import org.knowm.xchange.btce.v3.BTCEAdapters;
 import org.knowm.xchange.btce.v3.BTCEAuthenticated;
 import org.knowm.xchange.btce.v3.BTCEExchange;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
-import org.knowm.xchange.btce.v3.dto.trade.*;
+import org.knowm.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
+import org.knowm.xchange.btce.v3.dto.trade.BTCEOrder;
+import org.knowm.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
+import org.knowm.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
+import org.knowm.xchange.btce.v3.dto.trade.BTCETransHistoryResult;
 import org.knowm.xchange.btce.v3.service.trade.params.BTCETradeHistoryParams;
 import org.knowm.xchange.btce.v3.service.trade.params.BTCETransHistoryParams;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -23,7 +27,12 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 
@@ -49,6 +58,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements TradeServic
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    // todo: use the currency pair from params
     Map<Long, BTCEOrder> orders = getBTCEActiveOrders(null);
     return BTCEAdapters.adaptOrders(orders);
   }
@@ -163,7 +173,7 @@ public class BTCETradeService extends BTCETradeServiceRaw implements TradeServic
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   @Override
