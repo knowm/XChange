@@ -141,7 +141,7 @@ public class PoloniexAdapters {
     return new LoanInfo(loans.get("provided"), loans.get("used"));
   }
 
-  public static OpenOrders adaptPoloniexOpenOrders(HashMap<String, PoloniexOpenOrder[]> poloniexOpenOrders) {
+  public static OpenOrders adaptPoloniexOpenOrders(Map<String, PoloniexOpenOrder[]> poloniexOpenOrders) {
 
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
     for (String pairString : poloniexOpenOrders.keySet()) {
