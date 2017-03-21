@@ -25,9 +25,12 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /**
@@ -43,9 +46,6 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     try {
       cp = (CurrencyPair) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(BTCMarketsExchange.CURRENCY_PAIR);
     } catch (ClassCastException ignored) {
-    }
-    if (cp == null) {
-      throw new IllegalArgumentException("The CURRENCY_PAIR exchange-specific parameter must be set in the exchange specification.");
     }
     currencyPair = cp;
   }
@@ -74,8 +74,7 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    // TODO use params instead of currencyPair from exchange specification
-    BTCMarketsOrders openOrders = getBTCMarketsOpenOrders(currencyPair, 50, null);
+    BTCMarketsOrders openOrders = getBTCMarketsOpenOrders(((OpenOrdersParamCurrencyPair)params).getCurrencyPair(), 50, null);
 
     return BTCMarketsAdapters.adaptOpenOrders(openOrders);
   }
@@ -96,8 +95,15 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     if (params instanceof TradeHistoryParamsTimeSpan) {
       since = ((TradeHistoryParamsTimeSpan) params).getStartTime();
     }
-    final BTCMarketsTradeHistory response = getBTCMarketsUserTransactions(currencyPair, limit, since);
-    return BTCMarketsAdapters.adaptTradeHistory(response.getTrades(), currencyPair);
+    CurrencyPair cp = this.currencyPair;
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      final CurrencyPair paramsCp = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      if (paramsCp != null) {
+        cp = paramsCp;
+      }
+    }
+    final BTCMarketsTradeHistory response = getBTCMarketsUserTransactions(cp, limit, since);
+    return BTCMarketsAdapters.adaptTradeHistory(response.getTrades(), cp);
   }
 
   @Override
@@ -107,12 +113,13 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    return new DefaultOpenOrdersParamCurrencyPair(currencyPair);
   }
 
-  public static class HistoryParams implements TradeHistoryParamPaging, TradeHistoryParamsTimeSpan {
+  public static class HistoryParams implements TradeHistoryParamPaging, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrencyPair {
     private Integer limit = 100;
     private Date since;
+    private CurrencyPair currencyPair;
 
     @Override
     public Integer getPageLength() {
@@ -152,6 +159,16 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     @Override
     public Date getEndTime() {
       throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
+    }
+
+    @Override
+    public void setCurrencyPair(CurrencyPair currencyPair) {
+      this.currencyPair = currencyPair;
     }
   }
 
