@@ -5,10 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.HashMap;
-
-/**
- * @author Zach Holmes
- */
+import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,6 +23,10 @@ import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
+/**
+ * @author Zach Holmes
+ */
+
 public class PoloniexTradeServiceRaw extends PoloniexBaseService {
 
   public PoloniexTradeServiceRaw(Exchange exchange) {
@@ -33,9 +34,12 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
     super(exchange);
   }
 
-  public HashMap<String, PoloniexOpenOrder[]> returnOpenOrders() throws IOException {
+  public Map<String, PoloniexOpenOrder[]> returnOpenOrders() throws IOException {
+    return poloniexAuthenticated.returnOpenOrders(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexAuthenticated.AllPairs.all);
+  }
 
-    return poloniexAuthenticated.returnOpenOrders(apiKey, signatureCreator, exchange.getNonceFactory(), "all");
+  public PoloniexOpenOrder[] returnOpenOrders(CurrencyPair currencyPair) throws IOException {
+    return poloniexAuthenticated.returnOpenOrders(apiKey, signatureCreator, exchange.getNonceFactory(), PoloniexUtils.toPairString(currencyPair));
   }
 
   public PoloniexUserTrade[] returnTradeHistory(CurrencyPair currencyPair, Long startTime, Long endTime) throws IOException {

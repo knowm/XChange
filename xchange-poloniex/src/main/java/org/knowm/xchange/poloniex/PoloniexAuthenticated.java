@@ -3,6 +3,7 @@ package org.knowm.xchange.poloniex;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 import javax.ws.rs.Consumes;
@@ -48,28 +49,17 @@ public interface PoloniexAuthenticated {
   HashMap<String, String> returnDepositAddresses(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
 
-  /**
-   * This only works with "all" as currencyPair (for explicit currency pairs, just PoloniexOpenOrder[] is returned and not a Map).
-   */
   @POST
   @FormParam("command")
-  HashMap<String, PoloniexOpenOrder[]> returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
-
-  /* TODO: replace the above method with the two methods (plus the enum) below to support currency pairs. This change is not backwards compatible. */
-/*
-  enum AllPairs { all }
-
-  @POST
-  @FormParam("command")
-  HashMap<String, PoloniexOpenOrder[]> returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") AllPairs all) throws PoloniexException, IOException;
+  Map<String, PoloniexOpenOrder[]> returnOpenOrders(
+      @HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") AllPairs all
+  ) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")
   PoloniexOpenOrder[] returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
-*/
 
   @POST
   @FormParam("command")
@@ -125,4 +115,6 @@ public interface PoloniexAuthenticated {
   PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
           @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("start") Long startTime, @FormParam("end") Long endTime)
           throws PoloniexException, IOException;
+
+  enum AllPairs { all }
 }
