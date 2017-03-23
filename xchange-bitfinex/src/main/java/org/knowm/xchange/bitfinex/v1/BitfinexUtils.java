@@ -15,9 +15,17 @@ public final class BitfinexUtils {
 
   }
 
+  public static String adaptXchangeCurrency(String xchangeSymbol) {
+	  String currency = xchangeSymbol.toLowerCase();
+	  if (currency.equals("dash")) {
+		  currency = "dsh";
+	  }
+	  return currency;
+  }
+  
   public static String toPairString(CurrencyPair currencyPair) {
 
-    return currencyPair.base.toString().toLowerCase() + currencyPair.counter.toString().toLowerCase();
+    return adaptXchangeCurrency(currencyPair.base.toString()) + adaptXchangeCurrency(currencyPair.counter.toString());
   }
   
     /**
