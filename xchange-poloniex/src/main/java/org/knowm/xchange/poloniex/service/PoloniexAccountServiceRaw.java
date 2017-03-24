@@ -36,6 +36,16 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
     super(exchange);
   }
 
+  public List<Balance> getExchangeWallet() throws IOException {
+    try {
+      HashMap<String, PoloniexBalance> response = poloniexAuthenticated.returnCompleteBalances(apiKey, signatureCreator, exchange.getNonceFactory(),
+          null);
+      return PoloniexAdapters.adaptPoloniexBalances(response);
+    } catch (PoloniexException e) {
+      throw new ExchangeException(e.getError(), e);
+    }
+  }
+
   public List<Balance> getWallets() throws IOException {
     try {
       // using account="all" for margin + lending balances
