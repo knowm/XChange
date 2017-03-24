@@ -11,9 +11,9 @@ public class BitfinexCancelOrderMultiRequest {
   protected String nonce;
 
   @JsonProperty("order_ids")
-  protected int[] orderIds;
+  protected long[] orderIds;
 
-  public BitfinexCancelOrderMultiRequest(String nonce, int[] orderIds) {
+  public BitfinexCancelOrderMultiRequest(String nonce, long[] orderIds) {
 
     this.request = "/v1/order/cancel/multi";
     this.nonce = nonce;
@@ -36,11 +36,11 @@ public class BitfinexCancelOrderMultiRequest {
     this.nonce = nonce;
   }
 
-  public int[] getOrderIds() {
+  public long[] getOrderIds() {
     return orderIds;
   }
 
-  public void setOrderIds(int[] orderIds) {
+  public void setOrderIds(long[] orderIds) {
     this.orderIds = orderIds;
   }
 
