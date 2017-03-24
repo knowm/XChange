@@ -230,10 +230,10 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
   public boolean cancelBitfinexOrderMulti(List<String> orderIds) throws IOException {
 
-    int[] cancelOrderIds = new int[orderIds.size()];
+    long[] cancelOrderIds = new long[orderIds.size()];
 
     for (int i = 0; i < cancelOrderIds.length; i++) {
-      cancelOrderIds[i] = Integer.valueOf(orderIds.get(i));
+      cancelOrderIds[i] = Long.valueOf(orderIds.get(i));
     }
 
     try {
