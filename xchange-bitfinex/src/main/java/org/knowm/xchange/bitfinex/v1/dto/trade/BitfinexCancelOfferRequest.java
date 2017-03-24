@@ -13,9 +13,9 @@ public class BitfinexCancelOfferRequest {
 
   @JsonProperty("offer_id")
   @JsonRawValue
-  private int offerId;
+  private long offerId;
 
-  public BitfinexCancelOfferRequest(String nonce, int offerId) {
+  public BitfinexCancelOfferRequest(String nonce, long offerId) {
 
     this.request = "/v1/offer/cancel";
     this.nonce = nonce;

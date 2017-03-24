@@ -13,7 +13,7 @@ public class BitfinexOrderStatusRequest {
 
   @JsonProperty("order_id")
   @JsonRawValue
-  private int orderId;
+  private long orderId;
 
   /**
    * Constructor
@@ -21,7 +21,7 @@ public class BitfinexOrderStatusRequest {
    * @param nonce
    * @param orderId
    */
-  public BitfinexOrderStatusRequest(String nonce, int orderId) {
+  public BitfinexOrderStatusRequest(String nonce, long orderId) {
 
     this.request = "/v1/order/status";
     this.orderId = orderId;

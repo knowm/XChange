@@ -168,8 +168,8 @@ public class BitfinexAdaptersTest {
   private BitfinexTradeResponse[] initTradeResponses() {
 
     BitfinexTradeResponse[] responses = new BitfinexTradeResponse[60];
-    int tradeId = 2000;
-    int orderId = 1000;
+    long tradeId = 2000;
+    long orderId = 1000;
 
     for (int i = 0; i < responses.length; i++) {
       BigDecimal price = new BigDecimal(350l + i);
