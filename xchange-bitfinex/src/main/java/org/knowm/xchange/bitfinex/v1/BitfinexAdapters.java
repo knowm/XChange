@@ -48,6 +48,13 @@ public final class BitfinexAdapters {
 
   }
 
+  public static String adaptBitfinexCurrency(String bitfinexSymbol) {
+	  String currency = bitfinexSymbol.toUpperCase();
+	  if (currency.equals("DSH")) {
+		  currency = "DASH";
+	  }
+	  return currency;
+  }
   public static List<CurrencyPair> adaptCurrencyPairs(Collection<String> bitfinexSymbol) {
 
     List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
@@ -59,8 +66,8 @@ public final class BitfinexAdapters {
 
   public static CurrencyPair adaptCurrencyPair(String bitfinexSymbol) {
 
-    String tradableIdentifier = bitfinexSymbol.substring(0, 3).toUpperCase();
-    String transactionCurrency = bitfinexSymbol.substring(3).toUpperCase();
+    String tradableIdentifier = adaptBitfinexCurrency(bitfinexSymbol.substring(0, 3));
+    String transactionCurrency = adaptBitfinexCurrency(bitfinexSymbol.substring(3));
     return new CurrencyPair(tradableIdentifier, transactionCurrency);
   }
 
@@ -231,7 +238,7 @@ public final class BitfinexAdapters {
     // for each currency we have multiple balances types: exchange, trading, deposit.
     // each of those may be partially frozen/available
     for (BitfinexBalancesResponse balance : response) {
-      String currencyName = balance.getCurrency().toUpperCase();
+      String currencyName = adaptBitfinexCurrency(balance.getCurrency());
       BigDecimal[] balanceDetail = balancesByCurrency.get(currencyName);
       if (balanceDetail == null) {
         balanceDetail = new BigDecimal[] { balance.getAmount(), balance.getAvailable() };
