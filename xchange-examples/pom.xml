@@ -323,6 +323,10 @@
 			<groupId>org.knowm.xchart</groupId>
 			<artifactId>xchart</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.github.mmazi</groupId>
+			<artifactId>rescu</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.reflections</groupId>
