@@ -30,7 +30,7 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    List<Balance> balances = getWallets();
+    List<Balance> balances = getExchangeWallet();
     return new AccountInfo(new Wallet(balances));
   }
 
