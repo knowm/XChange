@@ -1,15 +1,20 @@
 package org.knowm.xchange.bitfinex.v1.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 public class BitfinexAccountService extends BitfinexAccountServiceRaw implements AccountService {
 
@@ -55,5 +60,35 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
     final BitfinexDepositAddressResponse response = super.requestDepositAddressRaw(currency.getCurrencyCode());
     return response.getAddress();
+  }
+
+  @Override
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+    BitfinexFundingHistoryParams histParams = (BitfinexFundingHistoryParams) params;
+
+    return BitfinexAdapters.adaptFundingHistory(getDepositWithdrawalHistory(histParams.getCcy().getCurrencyCode(),
+            null, histParams.getStartTime(), histParams.getEndTime(), histParams.getLimit()));
+  }
+
+  public static class BitfinexFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan {
+
+    private final Integer limit;
+    private final Currency ccy;
+
+    public BitfinexFundingHistoryParams(final Date startTime, final Date endTime, final Integer limit, final Currency ccy) {
+
+      super(startTime, endTime);
+
+      this.limit = limit;
+      this.ccy = ccy;
+    }
+
+    public Integer getLimit() {
+      return limit;
+    }
+
+    public Currency getCcy() {
+      return ccy;
+    }
   }
 }

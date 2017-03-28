@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.okcoin.dto.account.OKCoinWithdraw;
+import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
 import org.knowm.xchange.okcoin.dto.account.OkCoinUserInfo;
 
@@ -42,6 +43,13 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
         key, amount.toString());
 
     return returnOrThrow(withdrawResult);
+  }
+
+  public OkCoinAccountRecords getAccountRecords(String symbol, String type, String currentPage, String pageLength) throws IOException{
+
+    OkCoinAccountRecords accountRecords = okCoin.getAccountRecords(apikey, symbol, type, currentPage, pageLength, signatureCreator);
+
+    return returnOrThrow(accountRecords);
   }
 
 }
