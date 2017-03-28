@@ -12,8 +12,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.FundsInfo;
-import org.knowm.xchange.dto.account.FundsRecord;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -23,6 +22,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -189,7 +189,7 @@ public class BitfinexAdaptersTest {
   }
 
   @Test
-  public void testAdaptFundsInfoHistory() throws IOException {
+  public void testAdaptFundingHistory() throws IOException {
     // Read in the JSON from the example resources
     InputStream is = BitfinexAdaptersTest.class.getResourceAsStream("/v1/account/example-deposit-withdrawal-info-data.json");
 
@@ -197,20 +197,19 @@ public class BitfinexAdaptersTest {
     ObjectMapper mapper = new ObjectMapper();
     BitfinexDepositWithdrawalHistoryResponse[] response = mapper.readValue(is, BitfinexDepositWithdrawalHistoryResponse[].class);
 
-    FundsInfo fundsInfo = BitfinexAdapters.adaptFundsInfo(response);
+    List<FundingRecord> fundingRecords = BitfinexAdapters.adaptFundingHistory(response);
 
-    assertEquals(2, fundsInfo.getFundsRecordList().size());
-    for (FundsRecord record : fundsInfo.getFundsRecordList()){
-      if (record.getFundsType().equalsIgnoreCase(BitfinexDepositWithdrawalHistoryResponse.Type.DEPOSIT.name())){
+    for (FundingRecord record : fundingRecords){
+      if (record.getType().equalsIgnoreCase(BitfinexDepositWithdrawalHistoryResponse.Type.DEPOSIT.name())){
         assertEquals(new BigDecimal("0.01"), record.getAmount());
         assertEquals("jlsd98087sdfkjldsflj432kjlsdf8", record.getAddress());
-        assertEquals("offchain deposit", record.getRef());
-        assertEquals(Currency.BTC.getCurrencyCode(), record.getCcy());
+        assertEquals("offchain deposit", record.getId());
+        assertEquals(Currency.BTC.getCurrencyCode(), record.getCurrency());
       } else {
         assertEquals(new BigDecimal("0.07"), record.getAmount());
         assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ", record.getAddress());
-        assertEquals("offchain transfer", record.getRef());
-        assertEquals(Currency.BTC.getCurrencyCode(), record.getCcy());
+        assertEquals("offchain transfer", record.getId());
+        assertEquals(Currency.BTC.getCurrencyCode(), record.getCurrency());
       }
     }
   }

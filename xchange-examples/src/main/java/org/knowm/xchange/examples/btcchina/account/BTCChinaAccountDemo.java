@@ -11,13 +11,14 @@ import org.knowm.xchange.btcchina.service.rest.BTCChinaAccountService;
 import org.knowm.xchange.btcchina.service.rest.BTCChinaAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.examples.btcchina.BTCChinaExamplesUtils;
 import org.knowm.xchange.examples.util.AccountServiceTestUtil;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.utils.CertHelper;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author ObsessiveOrange
@@ -56,15 +57,15 @@ public class BTCChinaAccountDemo {
     // String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");
     // System.out.println("withdrawResult = " + withdrawResult);
 
-    fundsInfo(accountService);
+    fundsHistory(accountService);
   }
 
-  private static void fundsInfo(AccountService accountService) throws IOException {
+  private static void fundsHistory(AccountService accountService) throws IOException {
     // Get the funds information
-    BTCChinaAccountService.BTCChinaFundsInfoHistoryParams histParams =
-            new BTCChinaAccountService.BTCChinaFundsInfoHistoryParams(Currency.BTC);
-    FundsInfo fundsInfo = accountService.getFundsInfo(histParams);
-    AccountServiceTestUtil.printFundsInfo(fundsInfo);
+    BTCChinaAccountService.BTCChinaFundingHistoryParams histParams =
+            new BTCChinaAccountService.BTCChinaFundingHistoryParams(Currency.BTC);
+    List<FundingRecord> fundingRecords = accountService.getFundingHistory(histParams);
+    AccountServiceTestUtil.printFundingHistory(fundingRecords);
   }
 
   public static void raw() throws IOException {

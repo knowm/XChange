@@ -6,8 +6,7 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundsInfo;
-import org.knowm.xchange.dto.account.FundsRecord;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -34,6 +33,7 @@ import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult.TransactionType;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrder;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
+import org.knowm.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -76,10 +76,10 @@ public final class OkCoinAdapters {
   }
 
   public static Ticker adaptTicker(OkCoinTickerResponse tickerResponse, CurrencyPair currencyPair) {
-    long date = tickerResponse.getDate();
+    final Date date = adaptDate(tickerResponse.getDate());
     return new Ticker.Builder().currencyPair(currencyPair).high(tickerResponse.getTicker().getHigh()).low(tickerResponse.getTicker().getLow())
         .bid(tickerResponse.getTicker().getBuy()).ask(tickerResponse.getTicker().getSell()).last(tickerResponse.getTicker().getLast())
-        .volume(tickerResponse.getTicker().getVol()).timestamp(new Date(date * 1000L)).build();
+        .volume(tickerResponse.getTicker().getVol()).timestamp(date).build();
   }
 
   public static OrderBook adaptOrderBook(OkCoinDepth depth, CurrencyPair currencyPair) {
@@ -323,29 +323,33 @@ public final class OkCoinAdapters {
     return new UserTrades(trades, lastTradeId, TradeSortType.SortByID);
   }
 
-  public static FundsInfo adaptFundsInfo(final OkCoinAccountRecords[] okCoinAccountRecordsList) {
-    final List<FundsRecord> fundsRecords = new ArrayList<FundsRecord>();
+  private static Date adaptDate(long date) {
+    return DateUtils.fromMillisUtc(date * 1000L);
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(final OkCoinAccountRecords[] okCoinAccountRecordsList) {
+    final List<FundingRecord> fundingRecords = new ArrayList<FundingRecord>();
     if (okCoinAccountRecordsList != null && okCoinAccountRecordsList.length > 0){
       final OkCoinAccountRecords depositRecord = okCoinAccountRecordsList[0];
       if (depositRecord != null){
         for (OkCoinRecords okCoinRecordEntry : depositRecord.getRecords()) {
-          fundsRecords.add(new FundsRecord(okCoinRecordEntry.getAddress(),okCoinRecordEntry.getDate(),
+          fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(),adaptDate(okCoinRecordEntry.getDate()),
                   depositRecord.getSymbol(), okCoinRecordEntry.getAmount(), okCoinRecordEntry.getAddress(),
-                  "DEPOSIT", okCoinRecordEntry.getStatus(), null, okCoinRecordEntry.getFee())
+                  FundingRecord.Type.DEPOSIT, okCoinRecordEntry.getStatus(), null, okCoinRecordEntry.getFee(), null)
           );
         }
       }
       final OkCoinAccountRecords withdrawalRecord = okCoinAccountRecordsList[1];
       if (withdrawalRecord != null){
         for (OkCoinRecords okCoinRecordEntry : withdrawalRecord.getRecords()) {
-          fundsRecords.add(new FundsRecord(okCoinRecordEntry.getAddress(),okCoinRecordEntry.getDate(),
+          fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(),adaptDate(okCoinRecordEntry.getDate()),
                   withdrawalRecord.getSymbol(), okCoinRecordEntry.getAmount(), okCoinRecordEntry.getAddress(),
-                  "WITHDRAWAL", okCoinRecordEntry.getStatus(), null, okCoinRecordEntry.getFee())
+                  FundingRecord.Type.WITHDRAWAL, okCoinRecordEntry.getStatus(), null, okCoinRecordEntry.getFee(), null)
           );
         }
       }
     }
-    return new FundsInfo(fundsRecords);
+    return fundingRecords;
   }
 
 }

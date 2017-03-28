@@ -3,7 +3,7 @@ package org.knowm.xchange.kraken.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -18,6 +18,7 @@ import org.knowm.xchange.utils.DateUtils;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class KrakenAccountService extends KrakenAccountServiceRaw implements AccountService {
 
@@ -49,8 +50,8 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
   }
 
   @Override
-  public FundsInfo getFundsInfo(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
-    KrakenFundsInfoHistoryParams histParams = (KrakenFundsInfoHistoryParams) params;
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+    KrakenFundingHistoryParams histParams = (KrakenFundingHistoryParams) params;
     String startTime = null;
     if (histParams.getStartTime() != null){
       startTime = String.valueOf(DateUtils.toUnixTime(histParams.getStartTime()));
@@ -64,16 +65,16 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
       offset = String.valueOf(histParams.getOffset());
     }
 
-    return KrakenAdapters.adaptFundsInfo(getKrakenLedgerInfo(null, startTime, endTime, offset, histParams.assets));
+    return KrakenAdapters.adaptFundingHistory(getKrakenLedgerInfo(null, startTime, endTime, offset, histParams.assets));
   }
 
 
-  public static class KrakenFundsInfoHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamOffset{
+  public static class KrakenFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamOffset{
 
     private Long offset;
     private Currency[] assets;
 
-    public KrakenFundsInfoHistoryParams(final Date startTime, final Date endTime, final Long offset, final Currency... assets) {
+    public KrakenFundingHistoryParams(final Date startTime, final Date endTime, final Long offset, final Currency... assets) {
       super(startTime, endTime);
       this.offset = offset;
       this.assets = assets;

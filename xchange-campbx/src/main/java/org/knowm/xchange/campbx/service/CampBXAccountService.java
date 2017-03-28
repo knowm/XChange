@@ -2,6 +2,7 @@ package org.knowm.xchange.campbx.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.campbx.dto.CampBXResponse;
@@ -9,7 +10,7 @@ import org.knowm.xchange.campbx.dto.account.MyFunds;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
@@ -79,7 +80,7 @@ public class CampBXAccountService extends CampBXAccountServiceRaw implements Acc
   }
 
   @Override
-  public FundsInfo getFundsInfo(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
     throw new NotYetImplementedForExchangeException();
   }
 }

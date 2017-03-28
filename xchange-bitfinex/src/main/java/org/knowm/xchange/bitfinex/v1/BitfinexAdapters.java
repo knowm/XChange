@@ -22,8 +22,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundsInfo;
-import org.knowm.xchange.dto.account.FundsRecord;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -313,22 +312,23 @@ public final class BitfinexAdapters {
     return metaData;
   }
 
-  public static FundsInfo adaptFundsInfo(BitfinexDepositWithdrawalHistoryResponse[] bitfinexDepositWithdrawalHistoryResponses){
-    final List<FundsRecord> fundsRecords = new ArrayList<FundsRecord>();
+  public static List<FundingRecord> adaptFundingHistory(BitfinexDepositWithdrawalHistoryResponse[] bitfinexDepositWithdrawalHistoryResponses){
+    final List<FundingRecord> fundingRecords = new ArrayList<FundingRecord>();
     for (BitfinexDepositWithdrawalHistoryResponse responseEntry : bitfinexDepositWithdrawalHistoryResponses) {
       String address = responseEntry.getAddress();
       String description = responseEntry.getDescription();
+      String txnId = "";
       if (responseEntry.getCurrency().equals(Currency.BTC.getCurrencyCode()) &&
-              responseEntry.getType() == BitfinexDepositWithdrawalHistoryResponse.Type.WITHDRAWAL &&
+              responseEntry.getType() == FundingRecord.Type.WITHDRAWAL &&
               description.contains(",")){
-        description = description.substring(description.indexOf("txid: ")+ "txid: ".length());
+        txnId = description.substring(description.indexOf("txid: ")+ "txid: ".length());
       }
-      FundsRecord fundsRecordEntry = new FundsRecord(address, responseEntry.getTimestamp().getTime(),
-              responseEntry.getCurrency(), responseEntry.getAmount(), description,
-              responseEntry.getType().name(), responseEntry.getStatus(), null, null);
+      FundingRecord fundingRecordEntry = new FundingRecord(address, responseEntry.getTimestamp(),
+              responseEntry.getCurrency(), responseEntry.getAmount(), txnId, responseEntry.getType(),
+              responseEntry.getStatus(), null, null, description);
 
-      fundsRecords.add(fundsRecordEntry);
+      fundingRecords.add(fundingRecordEntry);
     }
-    return new FundsInfo(fundsRecords);
+    return fundingRecords;
   }
 }

@@ -3,7 +3,7 @@ package org.knowm.xchange.okcoin.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -16,6 +16,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class OkCoinAccountService extends OkCoinAccountServiceRaw implements AccountService {
 
@@ -54,8 +55,8 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
   }
 
   @Override
-  public FundsInfo getFundsInfo(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
-    final OkCoinFundsInfoHistoryParams histParams = (OkCoinFundsInfoHistoryParams) params;
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+    final OkCoinFundingHistoryParams histParams = (OkCoinFundingHistoryParams) params;
     final OkCoinAccountRecords depositRecord = getAccountRecords(histParams.getSymbol(), "0",
             String.valueOf(histParams.getPageNumber() != null ? histParams.getPageNumber() : 1),
             String.valueOf(histParams.getPageLength() != null ? histParams.getPageLength() : 1));
@@ -63,14 +64,14 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
             String.valueOf(histParams.getPageNumber() != null ? histParams.getPageNumber() : 1),
             String.valueOf(histParams.getPageLength() != null ? histParams.getPageLength() : 1));
     final OkCoinAccountRecords[] okCoinAccountRecordsList = new OkCoinAccountRecords[] {depositRecord, withdrawalRecord};
-    return OkCoinAdapters.adaptFundsInfo(okCoinAccountRecordsList);
+    return OkCoinAdapters.adaptFundingHistory(okCoinAccountRecordsList);
   }
 
-  public static class OkCoinFundsInfoHistoryParams extends DefaultTradeHistoryParamPaging {
+  public static class OkCoinFundingHistoryParams extends DefaultTradeHistoryParamPaging {
 
     private final String symbol;
 
-    public OkCoinFundsInfoHistoryParams(final Integer pageNumber, final Integer pageLength, final String symbol) {
+    public OkCoinFundingHistoryParams(final Integer pageNumber, final Integer pageLength, final String symbol) {
       super(pageLength, pageNumber);
       this.symbol = symbol;
     }

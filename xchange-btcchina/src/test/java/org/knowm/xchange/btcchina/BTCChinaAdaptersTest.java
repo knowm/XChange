@@ -13,8 +13,7 @@ import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.FundsInfo;
-import org.knowm.xchange.dto.account.FundsRecord;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -138,16 +137,16 @@ public class BTCChinaAdaptersTest {
     assertEquals(OrderStatus.REJECTED, BTCChinaAdapters.adaptOrderStatus("insufficient_balance"));
   }
   @Test
-  public void testAdaptFundsInfoHistory() throws JsonParseException, JsonMappingException, IOException {
+  public void testAdaptFundingHistory() throws JsonParseException, JsonMappingException, IOException {
 
     final BTCChinaGetDepositsResponse depositsResponse = mapper.readValue(getClass().getResource("dto/account/response/getDeposits.json"),
             BTCChinaGetDepositsResponse.class);
     final BTCChinaGetWithdrawalsResponse withdrawalResponse = mapper.readValue(getClass().getResource("dto/account/response/getWithdrawals.json"),
             BTCChinaGetWithdrawalsResponse.class);
-    final FundsInfo fundsInfo = BTCChinaAdapters.adaptFundsInfo(depositsResponse, withdrawalResponse);
-    final FundsRecord record = fundsInfo.getFundsRecordList().get(1);
+    final List<FundingRecord> fundingRecords = BTCChinaAdapters.adaptFundingHistory(depositsResponse, withdrawalResponse);
+    final FundingRecord record = fundingRecords.get(1);
     assertEquals("mkrmyZyM9jBYGw5EB3wWmfgJ4Mvqnu7gEu", record.getAddress());
-    assertEquals("BTC", record.getCcy());
+    assertEquals("BTC", record.getCurrency());
     assertEquals(new BigDecimal("2"), record.getAmount());
     assertEquals("completed", record.getStatus());
   }

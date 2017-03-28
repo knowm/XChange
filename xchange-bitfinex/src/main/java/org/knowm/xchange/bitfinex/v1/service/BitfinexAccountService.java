@@ -6,7 +6,7 @@ import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -14,6 +14,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class BitfinexAccountService extends BitfinexAccountServiceRaw implements AccountService {
 
@@ -62,19 +63,19 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
   }
 
   @Override
-  public FundsInfo getFundsInfo(TradeHistoryParams params) throws IOException {
-    BitfinexFundsInfoHistoryParams histParams = (BitfinexFundsInfoHistoryParams) params;
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+    BitfinexFundingHistoryParams histParams = (BitfinexFundingHistoryParams) params;
 
-    return BitfinexAdapters.adaptFundsInfo(getDepositWithdrawalHistory(histParams.getCcy().getCurrencyCode(),
+    return BitfinexAdapters.adaptFundingHistory(getDepositWithdrawalHistory(histParams.getCcy().getCurrencyCode(),
             null, histParams.getStartTime(), histParams.getEndTime(), histParams.getLimit()));
   }
 
-  public static class BitfinexFundsInfoHistoryParams extends DefaultTradeHistoryParamsTimeSpan {
+  public static class BitfinexFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan {
 
     private final Integer limit;
     private final Currency ccy;
 
-    public BitfinexFundsInfoHistoryParams(final Date startTime, final Date endTime, final Integer limit, final Currency ccy) {
+    public BitfinexFundingHistoryParams(final Date startTime, final Date endTime, final Integer limit, final Currency ccy) {
 
       super(startTime, endTime);
 

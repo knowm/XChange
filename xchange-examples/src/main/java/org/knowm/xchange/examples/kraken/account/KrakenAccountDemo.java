@@ -3,7 +3,7 @@ package org.knowm.xchange.examples.kraken.account;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
 import org.knowm.xchange.examples.util.AccountServiceTestUtil;
 import org.knowm.xchange.kraken.service.KrakenAccountService;
@@ -12,6 +12,7 @@ import org.knowm.xchange.service.account.AccountService;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -37,7 +38,7 @@ public class KrakenAccountDemo {
     AccountInfo accountInfo = krakenExchange.getAccountService().getAccountInfo();
     System.out.println("Account Info: " + accountInfo.toString());
 
-    fundsInfo(krakenExchange.getAccountService());
+    fundingHistory(krakenExchange.getAccountService());
   }
 
   private static void raw(Exchange krakenExchange) throws IOException {
@@ -46,12 +47,12 @@ public class KrakenAccountDemo {
     System.out.println("Balance Info: " + rawKrakenAcctService.getKrakenBalance());
   }
 
-  private static void fundsInfo(AccountService accountService) throws IOException {
+  private static void fundingHistory(AccountService accountService) throws IOException {
     // Get the funds information
     Date startDate = new Date(System.currentTimeMillis() - (1 * 12 * 30 * 24 * 60 * 60 * 1000L)); // approx 1 year history
-    KrakenAccountService.KrakenFundsInfoHistoryParams histParams =
-            new KrakenAccountService.KrakenFundsInfoHistoryParams(startDate, null, null, new Currency[] {Currency.BTC, Currency.USD});
-    FundsInfo fundsInfo = accountService.getFundsInfo(histParams);
-    AccountServiceTestUtil.printFundsInfo(fundsInfo);
+    KrakenAccountService.KrakenFundingHistoryParams histParams =
+            new KrakenAccountService.KrakenFundingHistoryParams(startDate, null, null, new Currency[] {Currency.BTC, Currency.USD});
+    List<FundingRecord> fundingRecords = accountService.getFundingHistory(histParams);
+    AccountServiceTestUtil.printFundingHistory(fundingRecords);
   }
 }

@@ -4,8 +4,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
-import org.knowm.xchange.dto.account.FundsInfo;
-import org.knowm.xchange.dto.account.FundsRecord;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -278,25 +277,26 @@ public class KrakenAdapters {
     }
   }
 
-  public static FundsInfo adaptFundsInfo(Map<String, KrakenLedger> krakenLedgerInfo) {
+  public static List<FundingRecord> adaptFundingHistory(Map<String, KrakenLedger> krakenLedgerInfo) {
 
-    List<FundsRecord> fundsRecords = new ArrayList<FundsRecord>();
+    final List<FundingRecord> fundingRecords = new ArrayList<FundingRecord>();
     for (Entry<String, KrakenLedger> ledgerEntry : krakenLedgerInfo.entrySet()) {
       KrakenLedger krakenLedger = ledgerEntry.getValue();
       if (krakenLedger.getLedgerType() != null){
         final Currency currency = adaptCurrency(krakenLedger.getAsset());
         if (currency != null){
-          FundsRecord fundsRecordEntry = new FundsRecord(null, (long)krakenLedger.getUnixTime() * 1000L,
+          Date timestamp = new Date((long) (krakenLedger.getUnixTime() * 1000L));
+          FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp,
                   currency.getCurrencyCode(), krakenLedger.getTransactionAmount(), krakenLedger.getRefId(),
-                  krakenLedger.getLedgerType().toString().toUpperCase(), null, krakenLedger.getBalance(),
-                  krakenLedger.getFee());
-          if (fundsRecordEntry.getFundsType().equals(LedgerType.DEPOSIT.name()) ||
-                  fundsRecordEntry.getFundsType().equals(LedgerType.WITHDRAWAL.name())){
-            fundsRecords.add(fundsRecordEntry);
+                  FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
+                  null, krakenLedger.getBalance(), krakenLedger.getFee(), null);
+          if (fundingRecordEntry.getType().equals(LedgerType.DEPOSIT.name()) ||
+                  fundingRecordEntry.getType().equals(LedgerType.WITHDRAWAL.name())){
+            fundingRecords.add(fundingRecordEntry);
           }
         }
       }
     }
-    return new FundsInfo(fundsRecords);
+    return fundingRecords;
   }
 }

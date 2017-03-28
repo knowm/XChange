@@ -2,13 +2,14 @@ package org.knowm.xchange.anx.v2.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.anx.ANXUtils;
 import org.knowm.xchange.anx.v2.ANXAdapters;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.account.FundsInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -61,7 +62,7 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
   }
 
   @Override
-  public FundsInfo getFundsInfo(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
     throw new NotYetImplementedForExchangeException();
   }
 }

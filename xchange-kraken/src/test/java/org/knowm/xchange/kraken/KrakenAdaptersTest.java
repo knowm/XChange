@@ -8,8 +8,7 @@ import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
-import org.knowm.xchange.dto.account.FundsInfo;
-import org.knowm.xchange.dto.account.FundsRecord;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -219,7 +218,7 @@ public class KrakenAdaptersTest {
   }
 
   @Test
-  public void testAdaptFundsInfoHistory() throws JsonParseException, JsonMappingException, IOException {
+  public void testAdaptFundingHistory() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
     InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/account/example-ledgerinfo-data.json");
@@ -230,15 +229,14 @@ public class KrakenAdaptersTest {
     KrakenLedgerResult.KrakenLedgers ledgers = krakenResult.getResult();
     Map<String, KrakenLedger> ledgerMap = ledgers.getLedgerMap();
 
-    FundsInfo fundsInfo = KrakenAdapters.adaptFundsInfo(ledgerMap);
-    List<FundsRecord> records = fundsInfo.getFundsRecordList();
+    List<FundingRecord> records = KrakenAdapters.adaptFundingHistory(ledgerMap);
 
     assertThat(records.size()).isEqualTo(3);
-    FundsRecord fundsRecord = records.get(1);
-    assertThat(fundsRecord).isInstanceOf(FundsRecord.class);
-    assertThat(fundsRecord.getFundsType()).isEqualTo("WITHDRAWAL");
-    assertThat(fundsRecord.getAmount()).isEqualTo(new BigDecimal("-15.9857300000"));
-    assertThat(fundsRecord.getFee().doubleValue()).isEqualTo(new BigDecimal("0.02").doubleValue());
-    assertThat(fundsRecord.getBalance().doubleValue()).isEqualTo(BigDecimal.ZERO.doubleValue());
+    FundingRecord fundingRecord = records.get(1);
+    assertThat(fundingRecord).isInstanceOf(FundingRecord.class);
+    assertThat(fundingRecord.getType()).isEqualTo("WITHDRAWAL");
+    assertThat(fundingRecord.getAmount()).isEqualTo(new BigDecimal("-15.9857300000"));
+    assertThat(fundingRecord.getFee().doubleValue()).isEqualTo(new BigDecimal("0.02").doubleValue());
+    assertThat(fundingRecord.getBalance().doubleValue()).isEqualTo(BigDecimal.ZERO.doubleValue());
   }
 }
