@@ -13,7 +13,7 @@ public class BitfinexCancelOrderRequest {
 
   @JsonProperty("order_id")
   @JsonRawValue
-  private int orderId;
+  private long orderId;
 
   /**
    * Constructor
@@ -21,7 +21,7 @@ public class BitfinexCancelOrderRequest {
    * @param nonce
    * @param orderId
    */
-  public BitfinexCancelOrderRequest(String nonce, int orderId) {
+  public BitfinexCancelOrderRequest(String nonce, long orderId) {
 
     this.request = "/v1/order/cancel";
     this.orderId = orderId;

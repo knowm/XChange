@@ -3,6 +3,7 @@ package org.knowm.xchange.poloniex;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 import javax.ws.rs.Consumes;
@@ -50,7 +51,14 @@ public interface PoloniexAuthenticated {
 
   @POST
   @FormParam("command")
-  HashMap<String, PoloniexOpenOrder[]> returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+  Map<String, PoloniexOpenOrder[]> returnOpenOrders(
+      @HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") AllPairs all
+  ) throws PoloniexException, IOException;
+
+  @POST
+  @FormParam("command")
+  PoloniexOpenOrder[] returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
 
   @POST
@@ -107,4 +115,6 @@ public interface PoloniexAuthenticated {
   PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
           @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("start") Long startTime, @FormParam("end") Long endTime)
           throws PoloniexException, IOException;
+
+  enum AllPairs { all }
 }

@@ -4,7 +4,9 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAdapters;
@@ -23,7 +25,12 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /**
@@ -41,9 +48,8 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    // TODO use params instead of currencyPair from exchange specification
-    Collection<CurrencyPair> pairs = exchange.getExchangeSymbols();
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, IOException {
+    Collection<CurrencyPair> pairs = DefaultOpenOrdersParamCurrencyPair.getPairs(params, exchange);
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (CurrencyPair pair : pairs) {
       BitstampOrder[] openOrders = getBitstampOpenOrders(pair);
@@ -112,7 +118,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   @Override

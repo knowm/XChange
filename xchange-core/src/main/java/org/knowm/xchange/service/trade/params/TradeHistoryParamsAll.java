@@ -1,5 +1,7 @@
 package org.knowm.xchange.service.trade.params;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 import org.knowm.xchange.currency.CurrencyPair;
@@ -11,7 +13,7 @@ import org.knowm.xchange.service.trade.TradeService;
  * {@link TradeService#getTradeHistory(TradeHistoryParams)} .
  */
 public class TradeHistoryParamsAll
-    implements TradeHistoryParamsTimeSpan, TradeHistoryParamPaging, TradeHistoryParamsIdSpan, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair {
+    implements TradeHistoryParamsTimeSpan, TradeHistoryParamPaging, TradeHistoryParamsIdSpan, TradeHistoryParamOffset, TradeHistoryParamCurrencyPair, TradeHistoryParamMultiCurrencyPair {
 
   private Integer pageLength;
   private Integer pageNumber;
@@ -21,6 +23,7 @@ public class TradeHistoryParamsAll
   private Date endTime;
   private Long offset;
   private CurrencyPair pair;
+  private Collection<CurrencyPair> pairs = Collections.emptySet();
 
   @Override
   public void setPageLength(Integer count) {
@@ -119,5 +122,17 @@ public class TradeHistoryParamsAll
   public void setCurrencyPair(CurrencyPair pair) {
 
     this.pair = pair;
+  }
+
+  @Override
+  public void setCurrencyPairs(Collection<CurrencyPair> value) {
+    
+    pairs = value;
+  }
+
+  @Override
+  public Collection<CurrencyPair> getCurrencyPairs() {
+    
+    return pairs;
   }
 }

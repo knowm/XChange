@@ -81,6 +81,7 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
     return null;
+    // TODO: return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   @Override

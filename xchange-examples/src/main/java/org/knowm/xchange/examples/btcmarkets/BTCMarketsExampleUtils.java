@@ -4,7 +4,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.BTCMarketsExchange;
-import org.knowm.xchange.currency.CurrencyPair;
 
 public class BTCMarketsExampleUtils {
 
@@ -14,7 +13,6 @@ public class BTCMarketsExampleUtils {
   public static Exchange createTestExchange() {
     Exchange btcMarketsExchange = ExchangeFactory.INSTANCE.createExchange(BTCMarketsExchange.class.getName());
     ExchangeSpecification spec = btcMarketsExchange.getExchangeSpecification();
-    spec.getExchangeSpecificParameters().put(BTCMarketsExchange.CURRENCY_PAIR, CurrencyPair.BTC_AUD);
 
     // Set your actual credentials here for the demos to work.
     spec.setApiKey("<Put your API key here.>");

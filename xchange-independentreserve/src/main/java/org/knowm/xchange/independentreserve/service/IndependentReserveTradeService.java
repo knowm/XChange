@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -17,6 +18,8 @@ import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class IndependentReserveTradeService extends IndependentReserveTradeServiceRaw implements TradeService {
@@ -35,9 +38,17 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    // get orders for all currencies
-    OpenOrders orders = IndependentReserveAdapters.adaptOpenOrders(getIndependentReserveOpenOrders(null, null, 1));
-    return orders;
+    // null: get orders for all currencies
+    String primaryCurrency = null;
+    String secondaryCurrency = null;
+    if (params instanceof OpenOrdersParamCurrencyPair) {
+      final CurrencyPair cp = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+      if (cp != null) {
+        primaryCurrency = cp.base.getCurrencyCode();
+        secondaryCurrency = cp.counter.getCurrencyCode();
+      }
+    }
+    return IndependentReserveAdapters.adaptOpenOrders(getIndependentReserveOpenOrders(primaryCurrency, secondaryCurrency, 1));
   }
 
   @Override
@@ -81,6 +92,6 @@ public class IndependentReserveTradeService extends IndependentReserveTradeServi
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+    return new DefaultOpenOrdersParamCurrencyPair();
   }
 }
