@@ -1,7 +1,0 @@
-Loyalbit Exchange API specification
-================================
-
-Documentation
--------------
-https://www.loyalbit.com/trading/api
-
