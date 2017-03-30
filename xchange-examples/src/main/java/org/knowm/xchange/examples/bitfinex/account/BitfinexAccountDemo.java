@@ -2,13 +2,15 @@ package org.knowm.xchange.examples.bitfinex.account;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
-import org.knowm.xchange.bitfinex.v1.service.BitfinexAccountService;
 import org.knowm.xchange.bitfinex.v1.service.BitfinexAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.examples.bitfinex.BitfinexDemoUtils;
 import org.knowm.xchange.examples.util.AccountServiceTestUtil;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 import java.io.IOException;
 import java.util.Date;
@@ -34,14 +36,16 @@ public class BitfinexAccountDemo {
 
   private static void fundingHistory(AccountService accountService) throws IOException {
     // Get the funds information
-    Date startDate = new Date(System.currentTimeMillis() - (1 * 12 * 30 * 24 * 60 * 60 * 1000L)); // approx 1 year history
-    BitfinexAccountService.BitfinexFundingHistoryParams histParams =
-            new BitfinexAccountService.BitfinexFundingHistoryParams(startDate, null, null, Currency.BTC);
-    List<FundingRecord> fundingRecords = accountService.getFundingHistory(histParams);
-    AccountServiceTestUtil.printFundingHistory(fundingRecords);
+    TradeHistoryParams params = accountService.createFundingHistoryParams();
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
+      timeSpanParam.setStartTime(new Date(System.currentTimeMillis() - (1 * 12 * 30 * 24 * 60 * 60 * 1000L)));
+    }
+    if (params instanceof TradeHistoryParamCurrency) {
+      ((TradeHistoryParamCurrency) params).setCurrency(Currency.BTC);
+    }
 
-    histParams = new BitfinexAccountService.BitfinexFundingHistoryParams(startDate, null, null, Currency.USD);
-    fundingRecords = accountService.getFundingHistory(histParams);
+    List<FundingRecord> fundingRecords = accountService.getFundingHistory(params);
     AccountServiceTestUtil.printFundingHistory(fundingRecords);
   }
 

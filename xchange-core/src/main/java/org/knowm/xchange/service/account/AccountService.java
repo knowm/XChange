@@ -71,6 +71,13 @@ public interface AccountService extends BaseService {
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
+   * Create {@link TradeHistoryParams} object specific to this exchange. Object created by this method may be used to discover supported and required
+   * {@link #getFundingHistory(TradeHistoryParams)} parameters and should be passed only to the method in the same class as the createFundingHistoryParams
+   * that created the object.
+   */
+  TradeHistoryParams createFundingHistoryParams();
+
+  /**
    * @return Funds txn history (deposit and withrawal)
    * @throws ExchangeException
    * @throws NotAvailableFromExchangeException

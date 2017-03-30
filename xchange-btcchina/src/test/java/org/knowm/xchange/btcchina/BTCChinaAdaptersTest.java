@@ -144,10 +144,20 @@ public class BTCChinaAdaptersTest {
     final BTCChinaGetWithdrawalsResponse withdrawalResponse = mapper.readValue(getClass().getResource("dto/account/response/getWithdrawals.json"),
             BTCChinaGetWithdrawalsResponse.class);
     final List<FundingRecord> fundingRecords = BTCChinaAdapters.adaptFundingHistory(depositsResponse, withdrawalResponse);
-    final FundingRecord record = fundingRecords.get(1);
-    assertEquals("mkrmyZyM9jBYGw5EB3wWmfgJ4Mvqnu7gEu", record.getAddress());
-    assertEquals("BTC", record.getCurrency());
-    assertEquals(new BigDecimal("2"), record.getAmount());
-    assertEquals("completed", record.getStatus());
+    final FundingRecord depositRecord = fundingRecords.get(1);
+    final FundingRecord withdrawalRecord = fundingRecords.get(3);
+
+    assertEquals("mkrmyZyM9jBYGw5EB3wWmfgJ4Mvqnu7gEu", depositRecord.getAddress());
+    assertEquals("BTC", depositRecord.getCurrency());
+    assertEquals(new BigDecimal("2"), depositRecord.getAmount());
+    assertEquals("completed", depositRecord.getStatus());
+
+    assertEquals("15MGzXJnfugniyy7ZDw3hSjkm4tHPHzHba", withdrawalRecord.getAddress());
+    assertEquals("BTC", withdrawalRecord.getCurrency());
+    assertEquals(new BigDecimal("0.1"), withdrawalRecord.getAmount());
+    assertEquals("pending", withdrawalRecord.getStatus());
+
+    assertEquals(FundingRecord.Type.DEPOSIT, depositRecord.getType());
+    assertEquals(FundingRecord.Type.WITHDRAWAL, withdrawalRecord.getType());
   }
 }

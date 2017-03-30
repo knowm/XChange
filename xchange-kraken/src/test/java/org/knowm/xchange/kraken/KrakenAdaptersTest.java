@@ -234,7 +234,7 @@ public class KrakenAdaptersTest {
     assertThat(records.size()).isEqualTo(3);
     FundingRecord fundingRecord = records.get(1);
     assertThat(fundingRecord).isInstanceOf(FundingRecord.class);
-    assertThat(fundingRecord.getType()).isEqualTo("WITHDRAWAL");
+    assertThat(fundingRecord.getType()).isEqualTo(FundingRecord.Type.WITHDRAWAL);
     assertThat(fundingRecord.getAmount()).isEqualTo(new BigDecimal("-15.9857300000"));
     assertThat(fundingRecord.getFee().doubleValue()).isEqualTo(new BigDecimal("0.02").doubleValue());
     assertThat(fundingRecord.getBalance().doubleValue()).isEqualTo(BigDecimal.ZERO.doubleValue());

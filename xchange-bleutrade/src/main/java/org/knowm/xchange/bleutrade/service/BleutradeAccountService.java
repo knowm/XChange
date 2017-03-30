@@ -48,6 +48,11 @@ public class BleutradeAccountService extends BleutradeAccountServiceRaw implemen
   }
 
   @Override
+  public TradeHistoryParams createFundingHistoryParams() {
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
     throw new NotYetImplementedForExchangeException();
   }

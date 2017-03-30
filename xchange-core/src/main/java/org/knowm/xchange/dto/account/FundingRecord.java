@@ -107,7 +107,7 @@ public final class FundingRecord {
     }
 
     public static Type fromString(String ledgerTypeString) {
-      return fromString.get(ledgerTypeString.toLowerCase());
+      return fromString.get(ledgerTypeString.toUpperCase());
     }
   }
 

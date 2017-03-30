@@ -48,6 +48,11 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
   }
 
   @Override
+  public TradeHistoryParams createFundingHistoryParams() {
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
     throw new NotYetImplementedForExchangeException();
   }

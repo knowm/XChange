@@ -6,9 +6,11 @@ import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
 import org.knowm.xchange.examples.util.AccountServiceTestUtil;
-import org.knowm.xchange.kraken.service.KrakenAccountService;
 import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencies;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 import java.io.IOException;
 import java.util.Date;
@@ -49,10 +51,18 @@ public class KrakenAccountDemo {
 
   private static void fundingHistory(AccountService accountService) throws IOException {
     // Get the funds information
-    Date startDate = new Date(System.currentTimeMillis() - (1 * 12 * 30 * 24 * 60 * 60 * 1000L)); // approx 1 year history
-    KrakenAccountService.KrakenFundingHistoryParams histParams =
-            new KrakenAccountService.KrakenFundingHistoryParams(startDate, null, null, new Currency[] {Currency.BTC, Currency.USD});
-    List<FundingRecord> fundingRecords = accountService.getFundingHistory(histParams);
+    TradeHistoryParams params = accountService.createFundingHistoryParams();
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
+      timeSpanParam.setStartTime(new Date(System.currentTimeMillis() - (1 * 12 * 30 * 24 * 60 * 60 * 1000L)));
+    }
+
+    if (params instanceof TradeHistoryParamCurrencies) {
+      final TradeHistoryParamCurrencies currenciesParam = (TradeHistoryParamCurrencies) params;
+      currenciesParam.setCurrencies(new Currency[] {Currency.BTC, Currency.USD});
+    }
+
+    List<FundingRecord> fundingRecords = accountService.getFundingHistory(params);
     AccountServiceTestUtil.printFundingHistory(fundingRecords);
   }
 }

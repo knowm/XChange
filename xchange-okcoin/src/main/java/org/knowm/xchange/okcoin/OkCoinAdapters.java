@@ -69,6 +69,11 @@ public final class OkCoinAdapters {
     return currencyPair.base.getCurrencyCode().toLowerCase() + "_" + currencyPair.counter.getCurrencyCode().toLowerCase();
   }
 
+  public static String adaptSymbol(Currency currency) {
+
+    return currency.getCurrencyCode().toLowerCase();
+  }
+
   public static CurrencyPair adaptSymbol(String symbol) {
 
     String[] currencies = symbol.toUpperCase().split("_");

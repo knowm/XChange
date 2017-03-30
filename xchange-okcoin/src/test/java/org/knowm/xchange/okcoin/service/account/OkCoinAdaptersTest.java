@@ -32,7 +32,7 @@ public class OkCoinAdaptersTest {
     assertThat(records.size()).isEqualTo(3);
     FundingRecord fundingRecord = records.get(1);
     assertThat(fundingRecord).isInstanceOf(FundingRecord.class);
-    assertThat(fundingRecord.getType()).isEqualTo("DEPOSIT");
+    assertThat(fundingRecord.getType()).isEqualTo(FundingRecord.Type.DEPOSIT);
     assertThat(fundingRecord.getAmount()).isEqualTo(new BigDecimal("50"));
     assertThat(fundingRecord.getFee().doubleValue()).isEqualTo(new BigDecimal("0.07").doubleValue());
     assertThat(fundingRecord.getAddress()).isEqualTo("1lEWjmlkmlhTqcYj3l33sg980slkjtdqd");

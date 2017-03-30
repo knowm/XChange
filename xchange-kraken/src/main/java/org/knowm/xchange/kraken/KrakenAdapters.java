@@ -281,17 +281,17 @@ public class KrakenAdapters {
 
     final List<FundingRecord> fundingRecords = new ArrayList<FundingRecord>();
     for (Entry<String, KrakenLedger> ledgerEntry : krakenLedgerInfo.entrySet()) {
-      KrakenLedger krakenLedger = ledgerEntry.getValue();
+      final KrakenLedger krakenLedger = ledgerEntry.getValue();
       if (krakenLedger.getLedgerType() != null){
         final Currency currency = adaptCurrency(krakenLedger.getAsset());
         if (currency != null){
-          Date timestamp = new Date((long) (krakenLedger.getUnixTime() * 1000L));
-          FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp,
-                  currency.getCurrencyCode(), krakenLedger.getTransactionAmount(), krakenLedger.getRefId(),
-                  FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
-                  null, krakenLedger.getBalance(), krakenLedger.getFee(), null);
-          if (fundingRecordEntry.getType().equals(LedgerType.DEPOSIT.name()) ||
-                  fundingRecordEntry.getType().equals(LedgerType.WITHDRAWAL.name())){
+          final Date timestamp = new Date((long) (krakenLedger.getUnixTime() * 1000L));
+          final FundingRecord.Type type = FundingRecord.Type.fromString(krakenLedger.getLedgerType().name());
+          if (type != null){
+            FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp,
+                    currency.getCurrencyCode(), krakenLedger.getTransactionAmount(), krakenLedger.getRefId(),
+                    FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
+                    null, krakenLedger.getBalance(), krakenLedger.getFee(), null);
             fundingRecords.add(fundingRecordEntry);
           }
         }

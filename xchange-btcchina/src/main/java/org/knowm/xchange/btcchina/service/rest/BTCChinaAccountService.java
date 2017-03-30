@@ -8,12 +8,15 @@ import org.knowm.xchange.btcchina.dto.account.BTCChinaAccountInfo;
 import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
 import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 import java.io.IOException;
@@ -61,23 +64,27 @@ public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements
   }
 
   @Override
+  public TradeHistoryParams createFundingHistoryParams() {
+    return new BTCChinaFundingHistoryParams(Currency.BTC);
+  }
+
+  @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
-    BTCChinaFundingHistoryParams histParams = (BTCChinaFundingHistoryParams) params;
-    BTCChinaGetDepositsResponse depositsResponse = getDeposits(histParams.getCcy().getCurrencyCode(), false);
-    BTCChinaGetWithdrawalsResponse withdrawalsResponse = getWithdrawals(histParams.getCcy().getCurrencyCode(), false);
+    String currency = null;
+    if (params instanceof TradeHistoryParamCurrency && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
+      currency = ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode();
+    } else {
+      throw new ExchangeException("Currency must be supplied");
+    }
+
+    BTCChinaGetDepositsResponse depositsResponse = getDeposits(currency, false);
+    BTCChinaGetWithdrawalsResponse withdrawalsResponse = getWithdrawals(currency, false);
     return BTCChinaAdapters.adaptFundingHistory(depositsResponse, withdrawalsResponse);
   }
 
-  public static class BTCChinaFundingHistoryParams implements TradeHistoryParams {
-
-    private final Currency ccy;
-
-    public BTCChinaFundingHistoryParams(final Currency ccy) {
-      this.ccy = ccy;
-    }
-
-    public Currency getCcy() {
-      return ccy;
+  public static class BTCChinaFundingHistoryParams extends DefaultTradeHistoryParamCurrency {
+    public BTCChinaFundingHistoryParams(Currency currency) {
+      super(currency);
     }
   }
 }

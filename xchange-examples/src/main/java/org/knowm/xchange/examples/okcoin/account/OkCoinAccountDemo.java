@@ -1,11 +1,14 @@
 package org.knowm.xchange.examples.okcoin.account;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.examples.okcoin.OkCoinExampleUtils;
 import org.knowm.xchange.examples.util.AccountServiceTestUtil;
-import org.knowm.xchange.okcoin.service.OkCoinAccountService;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,9 +27,17 @@ public class OkCoinAccountDemo {
 
   private static void fundingHistory(AccountService accountService) throws IOException {
     // Get the funds information
-    OkCoinAccountService.OkCoinFundingHistoryParams histParams =
-            new OkCoinAccountService.OkCoinFundingHistoryParams(1, 50, "btc_cny");
-    final List<FundingRecord> fundingRecords = accountService.getFundingHistory(histParams);
+    TradeHistoryParams params = accountService.createFundingHistoryParams();
+    if (params instanceof TradeHistoryParamPaging) {
+      TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
+      pagingParams.setPageLength(50);
+      pagingParams.setPageNumber(1);
+    }
+    if (params instanceof TradeHistoryParamCurrency) {
+       ((TradeHistoryParamCurrency) params).setCurrency(Currency.CNY);
+    }
+
+    final List<FundingRecord> fundingRecords = accountService.getFundingHistory(params);
     AccountServiceTestUtil.printFundingHistory(fundingRecords);
   }
 }

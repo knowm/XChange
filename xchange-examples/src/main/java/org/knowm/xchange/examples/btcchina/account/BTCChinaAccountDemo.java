@@ -7,7 +7,6 @@ import org.knowm.xchange.btcchina.dto.account.BTCChinaDeposit;
 import org.knowm.xchange.btcchina.dto.account.BTCChinaWithdrawal;
 import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
 import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
-import org.knowm.xchange.btcchina.service.rest.BTCChinaAccountService;
 import org.knowm.xchange.btcchina.service.rest.BTCChinaAccountServiceRaw;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -15,6 +14,8 @@ import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.examples.btcchina.BTCChinaExamplesUtils;
 import org.knowm.xchange.examples.util.AccountServiceTestUtil;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.utils.CertHelper;
 
 import java.io.IOException;
@@ -57,14 +58,18 @@ public class BTCChinaAccountDemo {
     // String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");
     // System.out.println("withdrawResult = " + withdrawResult);
 
-    fundsHistory(accountService);
+    fundingHistory(accountService);
   }
 
-  private static void fundsHistory(AccountService accountService) throws IOException {
+  private static void fundingHistory(AccountService accountService) throws IOException {
     // Get the funds information
-    BTCChinaAccountService.BTCChinaFundingHistoryParams histParams =
-            new BTCChinaAccountService.BTCChinaFundingHistoryParams(Currency.BTC);
-    List<FundingRecord> fundingRecords = accountService.getFundingHistory(histParams);
+
+    TradeHistoryParams params = accountService.createFundingHistoryParams();
+    if (params instanceof TradeHistoryParamCurrency) {
+      ((TradeHistoryParamCurrency) params).setCurrency(Currency.BTC);
+    }
+
+    List<FundingRecord> fundingRecords = accountService.getFundingHistory(params);
     AccountServiceTestUtil.printFundingHistory(fundingRecords);
   }
 
