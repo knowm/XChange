@@ -10,20 +10,10 @@
       "trading_fee": 0.001,
       "min_amount": 0.010000000
     },
-    "LTC/USD": {
-      "price_scale": 3,
-      "trading_fee": 0.002,
-      "min_amount": 1.200000000
-    },
     "GHS/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0000,
       "min_amount": 1.000000000
-    },
-    "LTC/BTC": {
-      "price_scale": 8,
-      "trading_fee": 0.0000,
-      "min_amount": 1.200000000
     },
     "ETH/BTC": {
       "price_scale": 8,
@@ -39,11 +29,6 @@
       "price_scale": 3,
       "trading_fee": 0.001,
       "min_amount": 0.500000000
-    },
-    "LTC/EUR": {
-      "price_scale": 3,
-      "trading_fee": 0.001,
-      "min_amount": 1.200000000
     },
     "BTC/RUB": {
       "price_scale": 2,
