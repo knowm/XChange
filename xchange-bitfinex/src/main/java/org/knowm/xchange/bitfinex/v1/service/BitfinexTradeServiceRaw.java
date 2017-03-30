@@ -10,6 +10,7 @@ import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
@@ -49,6 +50,15 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
   public BitfinexTradeServiceRaw(Exchange exchange) {
 
     super(exchange);
+  }
+
+  public BitfinexAccountInfosResponse[] getBitfinexAccountInfos() throws IOException {
+    try {
+      return bitfinex.accountInfos(apiKey, payloadCreator, signatureCreator,
+          new BitfinexNonceOnlyRequest("/v1/account_infos", String.valueOf(exchange.getNonceFactory().createValue())));
+    } catch (BitfinexException e) {
+      throw new ExchangeException(e);
+    }
   }
 
   public BitfinexOrderStatusResponse[] getBitfinexOpenOrders() throws IOException {
