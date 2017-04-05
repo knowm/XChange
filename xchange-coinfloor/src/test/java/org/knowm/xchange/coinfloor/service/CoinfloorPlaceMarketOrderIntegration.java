@@ -18,7 +18,7 @@ public class CoinfloorPlaceMarketOrderIntegration {
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Test
-  public void placeLimitOrderTest() throws IOException {
+  public void placeMarketOrderTest() throws IOException {
     final ExchangeSpecification specification = new ExchangeSpecification(CoinfloorExchange.class);
 
     String username = System.getProperty("xchange.coinfloor.username");
