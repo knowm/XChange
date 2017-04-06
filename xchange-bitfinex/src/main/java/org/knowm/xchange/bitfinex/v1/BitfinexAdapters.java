@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendLevel;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLevel;
@@ -21,6 +22,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -315,5 +317,25 @@ public final class BitfinexAdapters {
     }
 
     return metaData;
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(BitfinexDepositWithdrawalHistoryResponse[] bitfinexDepositWithdrawalHistoryResponses){
+    final List<FundingRecord> fundingRecords = new ArrayList<FundingRecord>();
+    for (BitfinexDepositWithdrawalHistoryResponse responseEntry : bitfinexDepositWithdrawalHistoryResponses) {
+      String address = responseEntry.getAddress();
+      String description = responseEntry.getDescription();
+      String txnId = "";
+      final Currency currency = Currency.getInstance(responseEntry.getCurrency());
+      if (currency == Currency.BTC && responseEntry.getType() == FundingRecord.Type.WITHDRAWAL &&
+              description.contains(",")){
+        txnId = description.substring(description.indexOf("txid: ")+ "txid: ".length());
+      }
+      FundingRecord fundingRecordEntry = new FundingRecord(address, responseEntry.getTimestamp(),
+              currency, responseEntry.getAmount(), txnId, responseEntry.getType(),
+              responseEntry.getStatus(), null, null, description);
+
+      fundingRecords.add(fundingRecordEntry);
+    }
+    return fundingRecords;
   }
 }

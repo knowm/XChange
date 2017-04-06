@@ -2,13 +2,25 @@ package org.knowm.xchange.kraken.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencies;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.utils.DateUtils;
 
 public class KrakenAccountService extends KrakenAccountServiceRaw implements AccountService {
 
@@ -39,9 +51,76 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     return KrakenAdapters.adaptKrakenDepositAddress(depositAddresses);
   }
 
-  // public WithdrawInfo[] getWithdrawInfo(String assetPairs, String assets,
-  // String key, BigDecimal amount)
-  // throws IOException {
-  // return getWithdrawInfo(assetPairs, assets, key, amount);
-  // }
+  @Override
+  public TradeHistoryParams createFundingHistoryParams() {
+    return new KrakenFundingHistoryParams(null, null, null, new Currency[] {Currency.BTC, Currency.USD});
+  }
+
+  @Override
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+    String startTime = null;
+    String endTime = null;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
+      if (timeSpanParam.getStartTime() != null){
+        startTime = String.valueOf(DateUtils.toUnixTime(timeSpanParam.getStartTime()));
+      }
+      if (timeSpanParam.getEndTime() != null){
+        endTime = String.valueOf(DateUtils.toUnixTime(timeSpanParam.getEndTime()));
+      }
+    }
+
+    String offset = null;
+    if (params instanceof TradeHistoryParamOffset) {
+      final TradeHistoryParamOffset offsetParam = (TradeHistoryParamOffset) params;
+      if (offsetParam.getOffset() != null){
+        offset = String.valueOf(offsetParam.getOffset());
+      }
+    }
+
+    Currency[] currencies = null;
+    if (params instanceof TradeHistoryParamCurrencies) {
+      final TradeHistoryParamCurrencies currenciesParam = (TradeHistoryParamCurrencies) params;
+      if (currenciesParam.getCurrencies() != null){
+        currencies = currenciesParam.getCurrencies();
+      }
+    }
+
+    return KrakenAdapters.adaptFundingHistory(getKrakenLedgerInfo(null, startTime, endTime, offset, currencies));
+  }
+
+
+  public static class KrakenFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan
+          implements TradeHistoryParamOffset, TradeHistoryParamCurrencies{
+
+    private Long offset;
+    private Currency[] currencies;
+
+    public KrakenFundingHistoryParams(final Date startTime, final Date endTime, final Long offset, final Currency... currencies) {
+      super(startTime, endTime);
+      this.offset = offset;
+      this.currencies = currencies;
+    }
+
+    @Override
+    public void setOffset(final Long offset) {
+      this.offset = offset;
+    }
+
+    @Override
+    public Long getOffset() {
+      return offset;
+    }
+
+    @Override
+    public void setCurrencies(Currency[] currencies) {
+      this.currencies = currencies;
+    }
+
+    @Override
+    public Currency[] getCurrencies() {
+      return this.currencies;
+    }
+  }
+
 }

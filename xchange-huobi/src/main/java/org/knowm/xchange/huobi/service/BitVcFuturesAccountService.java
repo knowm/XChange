@@ -1,17 +1,20 @@
 package org.knowm.xchange.huobi.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.huobi.BitVcFuturesAdapter;
 import org.knowm.xchange.huobi.dto.account.BitVcFuturesAccountInfo;
 import org.knowm.xchange.service.account.AccountService;
-
-import java.io.IOException;
-import java.math.BigDecimal;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 public class BitVcFuturesAccountService extends BitVcFuturesServiceRaw implements AccountService {
     public BitVcFuturesAccountService(final Exchange exchange) {
@@ -32,5 +35,15 @@ public class BitVcFuturesAccountService extends BitVcFuturesServiceRaw implement
     @Override
     public String requestDepositAddress(final Currency currency, final String... strings) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
         return null;
+    }
+
+    @Override
+    public TradeHistoryParams createFundingHistoryParams() {
+        throw new NotAvailableFromExchangeException();
+    }
+
+    @Override
+    public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+        throw new NotYetImplementedForExchangeException();
     }
 }

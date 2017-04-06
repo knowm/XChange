@@ -3,6 +3,8 @@ package org.knowm.xchange.bitfinex.v1.dto.account;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.knowm.xchange.dto.account.FundingRecord;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitfinexDepositWithdrawalHistoryResponse {
@@ -17,7 +19,7 @@ public class BitfinexDepositWithdrawalHistoryResponse {
     private String method;
 
     @JsonProperty("type")
-    private Type type;
+    private FundingRecord.Type type;
 
     @JsonProperty("amount")
     private BigDecimal amount;
@@ -44,7 +46,7 @@ public class BitfinexDepositWithdrawalHistoryResponse {
     public long getId() { return id; }
     public String getCurrency() { return currency; }
     public String getMethod() { return method; }
-    public Type getType() { return type; }
+    public FundingRecord.Type getType() { return type; }
     public BigDecimal getAmount() { return amount; }
     public String getDescription() { return description; }
     public String getAddress() { return address; }
@@ -54,7 +56,4 @@ public class BitfinexDepositWithdrawalHistoryResponse {
         return new Date(timestamp.scaleByPowerOfTen(3).longValue());
     }
 
-    public static enum Type {
-        WITHDRAWAL, DEPOSIT;
-    }
 }

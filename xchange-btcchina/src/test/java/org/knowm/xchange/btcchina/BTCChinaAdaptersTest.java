@@ -10,18 +10,24 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BTCChinaAdaptersTest {
@@ -132,5 +138,28 @@ public class BTCChinaAdaptersTest {
     assertEquals(OrderStatus.REJECTED, BTCChinaAdapters.adaptOrderStatus("error"));
     assertEquals(OrderStatus.REJECTED, BTCChinaAdapters.adaptOrderStatus("insufficient_balance"));
   }
+  @Test
+  public void testAdaptFundingHistory() throws JsonParseException, JsonMappingException, IOException {
 
+    final BTCChinaGetDepositsResponse depositsResponse = mapper.readValue(getClass().getResource("dto/account/response/getDeposits.json"),
+            BTCChinaGetDepositsResponse.class);
+    final BTCChinaGetWithdrawalsResponse withdrawalResponse = mapper.readValue(getClass().getResource("dto/account/response/getWithdrawals.json"),
+            BTCChinaGetWithdrawalsResponse.class);
+    final List<FundingRecord> fundingRecords = BTCChinaAdapters.adaptFundingHistory(depositsResponse, withdrawalResponse);
+    final FundingRecord depositRecord = fundingRecords.get(1);
+    final FundingRecord withdrawalRecord = fundingRecords.get(3);
+
+    assertEquals("mkrmyZyM9jBYGw5EB3wWmfgJ4Mvqnu7gEu", depositRecord.getAddress());
+    assertEquals(Currency.BTC, depositRecord.getCurrency());
+    assertEquals(new BigDecimal("2"), depositRecord.getAmount());
+    assertEquals("completed", depositRecord.getStatus());
+
+    assertEquals("15MGzXJnfugniyy7ZDw3hSjkm4tHPHzHba", withdrawalRecord.getAddress());
+    assertEquals(Currency.BTC, withdrawalRecord.getCurrency());
+    assertEquals(new BigDecimal("0.1"), withdrawalRecord.getAmount());
+    assertEquals("pending", withdrawalRecord.getStatus());
+
+    assertEquals(FundingRecord.Type.DEPOSIT, depositRecord.getType());
+    assertEquals(FundingRecord.Type.WITHDRAWAL, withdrawalRecord.getType());
+  }
 }
