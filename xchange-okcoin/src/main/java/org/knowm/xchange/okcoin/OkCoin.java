@@ -12,6 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.okcoin.dto.account.OKCoinWithdraw;
+import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
 import org.knowm.xchange.okcoin.dto.account.OkCoinUserInfo;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinDepth;
@@ -143,4 +144,9 @@ public interface OkCoin {
       @FormParam("chargefee") String chargefee, @FormParam("trade_pwd") String trade_pwd, @FormParam("withdraw_address") String withdraw_address,
       @FormParam("withdraw_amount") String withdraw_amount) throws IOException;
 
+  @POST
+  @Path("account_records.do")
+  OkCoinAccountRecords getAccountRecords(@FormParam("api_key") String apikey, @FormParam("symbol") String symbol, @FormParam("type") String type,
+                                         @FormParam("current_page") String currentPage, @FormParam("page_length") String pageLength, @FormParam("sign") ParamsDigest sign)
+          throws IOException;
 }
