@@ -10,6 +10,7 @@ import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetMarketDepthResponse;
 import org.knowm.xchange.btcchina.dto.trade.response.BTCChinaGetOrdersResponse;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -148,12 +149,12 @@ public class BTCChinaAdaptersTest {
     final FundingRecord withdrawalRecord = fundingRecords.get(3);
 
     assertEquals("mkrmyZyM9jBYGw5EB3wWmfgJ4Mvqnu7gEu", depositRecord.getAddress());
-    assertEquals("BTC", depositRecord.getCurrency());
+    assertEquals(Currency.BTC, depositRecord.getCurrency());
     assertEquals(new BigDecimal("2"), depositRecord.getAmount());
     assertEquals("completed", depositRecord.getStatus());
 
     assertEquals("15MGzXJnfugniyy7ZDw3hSjkm4tHPHzHba", withdrawalRecord.getAddress());
-    assertEquals("BTC", withdrawalRecord.getCurrency());
+    assertEquals(Currency.BTC, withdrawalRecord.getCurrency());
     assertEquals(new BigDecimal("0.1"), withdrawalRecord.getAmount());
     assertEquals("pending", withdrawalRecord.getStatus());
 

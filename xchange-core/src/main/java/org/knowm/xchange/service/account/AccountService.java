@@ -78,7 +78,7 @@ public interface AccountService extends BaseService {
   TradeHistoryParams createFundingHistoryParams();
 
   /**
-   * @return Funds txn history (deposit and withrawal)
+   * @return list of funding history if available or an empty list otherwise. This should never return null.
    * @throws ExchangeException
    * @throws NotAvailableFromExchangeException
    * @throws NotYetImplementedForExchangeException

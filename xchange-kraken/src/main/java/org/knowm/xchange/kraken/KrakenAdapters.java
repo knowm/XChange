@@ -289,7 +289,7 @@ public class KrakenAdapters {
           final FundingRecord.Type type = FundingRecord.Type.fromString(krakenLedger.getLedgerType().name());
           if (type != null){
             FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp,
-                    currency.getCurrencyCode(), krakenLedger.getTransactionAmount(), krakenLedger.getRefId(),
+                    currency, krakenLedger.getTransactionAmount(), krakenLedger.getRefId(),
                     FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
                     null, krakenLedger.getBalance(), krakenLedger.getFee(), null);
             fundingRecords.add(fundingRecordEntry);
