@@ -2,15 +2,25 @@ package org.knowm.xchange.btcchina.service.rest;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcchina.BTCChinaAdapters;
 import org.knowm.xchange.btcchina.dto.BTCChinaID;
 import org.knowm.xchange.btcchina.dto.BTCChinaResponse;
 import org.knowm.xchange.btcchina.dto.account.BTCChinaAccountInfo;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 /**
  * Implementation of the account data service for BTCChina.
@@ -50,5 +60,30 @@ public class BTCChinaAccountService extends BTCChinaAccountServiceRaw implements
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
 
     return requestBTCChinaDepositAddress(currency.toString());
+  }
+
+  @Override
+  public TradeHistoryParams createFundingHistoryParams() {
+    return new BTCChinaFundingHistoryParams(Currency.BTC);
+  }
+
+  @Override
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+    String currency = null;
+    if (params instanceof TradeHistoryParamCurrency && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
+      currency = ((TradeHistoryParamCurrency) params).getCurrency().getCurrencyCode();
+    } else {
+      throw new ExchangeException("Currency must be supplied");
+    }
+
+    BTCChinaGetDepositsResponse depositsResponse = getDeposits(currency, false);
+    BTCChinaGetWithdrawalsResponse withdrawalsResponse = getWithdrawals(currency, false);
+    return BTCChinaAdapters.adaptFundingHistory(depositsResponse, withdrawalsResponse);
+  }
+
+  public static class BTCChinaFundingHistoryParams extends DefaultTradeHistoryParamCurrency {
+    public BTCChinaFundingHistoryParams(Currency currency) {
+      super(currency);
+    }
   }
 }
