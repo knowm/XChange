@@ -20,6 +20,7 @@ import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
@@ -46,6 +47,11 @@ import si.mazi.rescu.ParamsDigest;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface BitfinexAuthenticated extends Bitfinex {
+
+  @POST
+  @Path("account_infos")
+  BitfinexAccountInfosResponse[] accountInfos(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexNonceOnlyRequest accountInfosRequest) throws IOException, BitfinexException;
 
   @POST
   @Path("order/new")

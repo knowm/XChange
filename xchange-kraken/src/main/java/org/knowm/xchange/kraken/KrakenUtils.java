@@ -6,6 +6,7 @@ import java.util.Set;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.kraken.KrakenAdapters;
 
 /**
  * @author timmolter
@@ -58,6 +59,11 @@ public class KrakenUtils {
   }
 
   public static String getKrakenCurrencyCode(Currency currency) {
+      
+      String c = currency.getCurrencyCode();
+      if ("USDT".equals(c) || "KFEE".equals(c)) {
+          return c;
+      }
 
     if (FIAT_CURRENCIES.contains(currency)) {
       return "Z" + currency;

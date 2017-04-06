@@ -48,12 +48,6 @@
 			<artifactId>xchange-bitcurex</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- XChange BitKonan exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-bitkonan</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 		<!-- XChange Bitstamp exchange support -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -166,12 +160,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>xchange-lakebtc</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- XChange Loyalbit exchange support -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>xchange-loyalbit</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!-- XChange Hitbtc exchange support -->
