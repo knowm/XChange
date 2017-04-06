@@ -22,7 +22,7 @@ public class CoinfloorUserTransactionTest {
     assertThat(transactions).hasSize(4);
 
     CoinfloorUserTransaction btcDeposit = transactions[0];
-    assertThat(btcDeposit.getDateTime()).isEqualTo("2017-03-15 10:22:09");
+    assertThat(btcDeposit.getDateTime()).isEqualTo("2017-04-05 19:46:49");
     assertThat(btcDeposit.getType()).isEqualTo(CoinfloorUserTransaction.TransactionType.DEPOSIT);
     assertThat(btcDeposit.isDeposit()).isTrue();
     assertThat(btcDeposit.isWithdrawal()).isFalse();
@@ -37,7 +37,7 @@ public class CoinfloorUserTransactionTest {
     assertThat(btcDeposit.getOrderId()).isEqualTo(0);
 
     CoinfloorUserTransaction gbpWithdrawal = transactions[1];
-    assertThat(gbpWithdrawal.getDateTime()).isEqualTo("2017-03-14 20:21:42");
+    assertThat(gbpWithdrawal.getDateTime()).isEqualTo("2017-04-04 20:21:42");
     assertThat(gbpWithdrawal.getType()).isEqualTo(CoinfloorUserTransaction.TransactionType.WITHDRAWAL);
     assertThat(gbpWithdrawal.isDeposit()).isFalse();
     assertThat(gbpWithdrawal.isWithdrawal()).isTrue();
@@ -52,7 +52,7 @@ public class CoinfloorUserTransactionTest {
     assertThat(gbpWithdrawal.getOrderId()).isEqualTo(0);
 
     CoinfloorUserTransaction tradeSell = transactions[2];
-    assertThat(tradeSell.getDateTime()).isEqualTo("2017-03-13 02:02:52");
+    assertThat(tradeSell.getDateTime()).isEqualTo("2017-04-03 02:02:52");
     assertThat(tradeSell.getType()).isEqualTo(CoinfloorUserTransaction.TransactionType.TRADE);
     assertThat(tradeSell.isDeposit()).isFalse();
     assertThat(tradeSell.isWithdrawal()).isFalse();
