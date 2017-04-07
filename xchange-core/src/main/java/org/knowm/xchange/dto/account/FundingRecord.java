@@ -34,7 +34,7 @@ public final class FundingRecord {
 
 
   /**
-   * Amount deposited/withdrawn in given transaction currency
+   * Amount deposited/withdrawn in given transaction currency (always positive)
    */
   private final BigDecimal amount;
 
@@ -70,7 +70,7 @@ public final class FundingRecord {
   private final BigDecimal balance;
 
   /**
-   * Transaction Fee Amount in given transaction currency
+   * Transaction Fee Amount in given transaction currency (always positive)
    */
   private final BigDecimal fee;
 
@@ -80,13 +80,13 @@ public final class FundingRecord {
    * @param address Crypto currency address for deposit/withdrawal
    * @param date Date/Time of transaction
    * @param currency The transaction currency
-   * @param amount Amount deposited/withdrawn
+   * @param amount Amount deposited/withdrawn (always positive)
    * @param internalId Internal transaction identifier, specific to the Exchange
    * @param externalId External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash
    * @param type Transaction Type {@link Type}
    * @param status Status of the transaction whenever available (e.g. Open, Completed or any descriptive status of transaction)
    * @param balance Balance of the associated account after the transaction is performed
-   * @param fee Transaction Fee Amount
+   * @param fee Transaction Fee Amount (always positive)
    * @param description Description of the transaction. It is a good idea to put here any extra info sent back from the exchange that doesn't fit elsewhere so users can still access it.
    */
   public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
@@ -96,13 +96,13 @@ public final class FundingRecord {
     this.address = address;
     this.date = date;
     this.currency = currency;
-    this.amount = amount;
+    this.amount = amount == null ? null : amount.abs();
     this.internalId = internalId;
     this.externalId = externalId;
     this.type = type;
     this.status = status;
     this.balance = balance;
-    this.fee = fee;
+    this.fee = fee == null ? null : fee.abs();
     this.description = description;
   }
 
@@ -128,7 +128,7 @@ public final class FundingRecord {
   }
 
   /**
-   * @return Amount deposited/withdrawn in given transaction currency
+   * @return Amount deposited/withdrawn in given transaction currency (always positive)
    */
   public BigDecimal getAmount() {
     return amount;
@@ -170,7 +170,7 @@ public final class FundingRecord {
   }
 
   /**
-   * @return Transaction Fee Amount in given transaction currency
+   * @return Transaction Fee Amount in given transaction currency (always positive)
    */
   public BigDecimal getFee() {
     return fee;
