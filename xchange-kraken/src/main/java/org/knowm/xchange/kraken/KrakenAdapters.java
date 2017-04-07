@@ -286,10 +286,11 @@ public class KrakenAdapters {
           final Date timestamp = new Date((long) (krakenLedger.getUnixTime() * 1000L));
           final FundingRecord.Type type = FundingRecord.Type.fromString(krakenLedger.getLedgerType().name());
           if (type != null){
+            final String internalId = krakenLedger.getRefId(); // ir ledgerEntry.getKey()?
             FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp,
-                    currency, krakenLedger.getTransactionAmount(), krakenLedger.getRefId(), null,
+                    currency, krakenLedger.getTransactionAmount(), internalId, null,
                     FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
-                    null, krakenLedger.getBalance(), krakenLedger.getFee(), null);
+                    "COMPLETE", krakenLedger.getBalance(), krakenLedger.getFee(), null);
             fundingRecords.add(fundingRecordEntry);
           }
         }
