@@ -340,7 +340,7 @@ public final class OkCoinAdapters {
         final Currency depositCurrency = Currency.getInstance(depositRecord.getSymbol());
         for (OkCoinRecords okCoinRecordEntry : depositRecord.getRecords()) {
           fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(),adaptDate(okCoinRecordEntry.getDate()),
-                  depositCurrency, okCoinRecordEntry.getAmount(), okCoinRecordEntry.getAddress(),
+                  depositCurrency, okCoinRecordEntry.getAmount(), null, null,
                   FundingRecord.Type.DEPOSIT, okCoinRecordEntry.getStatus(), null, okCoinRecordEntry.getFee(), null)
           );
         }
@@ -350,7 +350,7 @@ public final class OkCoinAdapters {
         final Currency withdrawalCurrency = Currency.getInstance(withdrawalRecord.getSymbol());
         for (OkCoinRecords okCoinRecordEntry : withdrawalRecord.getRecords()) {
           fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(),adaptDate(okCoinRecordEntry.getDate()),
-                  withdrawalCurrency, okCoinRecordEntry.getAmount(), okCoinRecordEntry.getAddress(),
+                  withdrawalCurrency, okCoinRecordEntry.getAmount(), null, null,
                   FundingRecord.Type.WITHDRAWAL, okCoinRecordEntry.getStatus(), null, okCoinRecordEntry.getFee(), null)
           );
         }
