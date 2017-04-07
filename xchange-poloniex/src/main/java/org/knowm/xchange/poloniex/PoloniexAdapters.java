@@ -1,5 +1,8 @@
 package org.knowm.xchange.poloniex;
 
+import static org.knowm.xchange.dto.account.FundingRecord.Type.DEPOSIT;
+import static org.knowm.xchange.dto.account.FundingRecord.Type.WITHDRAWAL;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +15,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.LoanOrder;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -33,8 +37,11 @@ import org.knowm.xchange.poloniex.dto.marketdata.PoloniexLevel;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexMarketData;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexPublicTrade;
 import org.knowm.xchange.poloniex.dto.marketdata.PoloniexTicker;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexDeposit;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexOpenOrder;
 import org.knowm.xchange.poloniex.dto.trade.PoloniexUserTrade;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexWithdrawal;
 
 /**
  * @author Zach Holmes
@@ -210,5 +217,21 @@ public class PoloniexAdapters {
     }
 
     return exchangeMetaData;
+  }
+
+  public static List<FundingRecord> adaptFundingRecords(PoloniexDepositsWithdrawalsResponse poloFundings) {
+    final ArrayList<FundingRecord> fundingRecords = new ArrayList<>();
+    for (PoloniexDeposit d : poloFundings.getDeposits()) {
+      fundingRecords.add(new FundingRecord(d.getAddress(), d.getTimestamp(), new Currency(d.getCurrency()),
+          d.getAmount(), null, d.getTxid(), DEPOSIT, d.getStatus(), null, null, null));
+    }
+    for (PoloniexWithdrawal w : poloFundings.getWithdrawals()) {
+      final String[] statusParts = w.getStatus().split(": *");
+      final String status = statusParts[0];
+      final String externalId = statusParts.length == 1 ? null : statusParts[1];
+      fundingRecords.add(new FundingRecord(w.getAddress(), w.getTimestamp(), new Currency(w.getCurrency()),
+          w.getAmount(), String.valueOf(w.getWithdrawalNumber()), externalId, WITHDRAWAL, status, null, null, null));
+    }
+    return fundingRecords;
   }
 }

@@ -2,6 +2,7 @@ package org.knowm.xchange.poloniex.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
@@ -11,10 +12,12 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.poloniex.PoloniexAdapters;
+import org.knowm.xchange.poloniex.dto.trade.PoloniexDepositsWithdrawalsResponse;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 /**
  * @author Zach Holmes
@@ -53,11 +56,21 @@ public class PoloniexAccountService extends PoloniexAccountServiceRaw implements
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotAvailableFromExchangeException();
+    final DefaultTradeHistoryParamsTimeSpan params = new DefaultTradeHistoryParamsTimeSpan();
+    params.setStartTime(new Date(System.currentTimeMillis() - 366L * 24 * 60 * 60 * 1000)); // just over one year
+    params.setEndTime(new Date());
+    return params;
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
-    throw new NotYetImplementedForExchangeException();
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, IOException{
+    Date start = null;
+    Date end = null;
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      start = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+      end = ((TradeHistoryParamsTimeSpan) params).getEndTime();
+    }
+    final PoloniexDepositsWithdrawalsResponse poloFundings = returnDepositsWithdrawals(start, end);
+    return PoloniexAdapters.adaptFundingRecords(poloFundings);
   }
 }
