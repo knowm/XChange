@@ -38,12 +38,15 @@ public final class FundingRecord {
    */
   private final BigDecimal amount;
 
+  /**
+   * Internal transaction identifier, specific to the Exchange.
+   */
+  private final String internalId;
 
   /**
-   * Transaction id or reference whenever available
+   * External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash.
    */
-  private final String id;
-
+  private final String externalId;
 
   /**
    * Description of the transaction
@@ -78,21 +81,24 @@ public final class FundingRecord {
    * @param date Date/Time of transaction
    * @param currency The transaction currency
    * @param amount Amount deposited/withdrawn
-   * @param id Transaction id or reference whenever available
+   * @param internalId Internal transaction identifier, specific to the Exchange
+   * @param externalId External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash
    * @param type Transaction Type {@link Type}
    * @param status Status of the transaction whenever available (e.g. Open, Completed or any descriptive status of transaction)
    * @param balance Balance of the associated account after the transaction is performed
    * @param fee Transaction Fee Amount
    * @param description Description of the transaction
    */
-  public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount, final String id,
+  public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
+                       final String internalId, final String externalId,
                        final Type type, final String status, final BigDecimal balance, final BigDecimal fee,
                        final String description){
     this.address = address;
     this.date = date;
     this.currency = currency;
     this.amount = amount;
-    this.id = id;
+    this.internalId = internalId;
+    this.externalId = externalId;
     this.type = type;
     this.status = status;
     this.balance = balance;
@@ -129,10 +135,17 @@ public final class FundingRecord {
   }
 
   /**
-   * @return Transaction id or reference whenever available
+   * @return Internal transaction identifier, specific to the Exchange.
    */
-  public String getId() {
-    return id;
+  public String getInternalId() {
+    return internalId;
+  }
+
+  /**
+   * @return External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash.
+   */
+  public String getExternalId() {
+    return externalId;
   }
 
   /**
@@ -177,7 +190,8 @@ public final class FundingRecord {
             ", date=" + date +
             ", currency='" + currency + '\'' +
             ", amount=" + amount +
-            ", id='" + id + '\'' +
+            ", internalId='" + internalId + '\'' +
+            ", externalId='" + externalId + '\'' +
             ", description='" + description + '\'' +
             ", type='" + type + '\'' +
             ", status='" + status + '\'' +

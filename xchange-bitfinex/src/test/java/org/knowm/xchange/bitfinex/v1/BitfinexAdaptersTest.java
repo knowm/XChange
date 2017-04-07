@@ -204,13 +204,13 @@ public class BitfinexAdaptersTest {
       if (record.getType().name().equalsIgnoreCase(FundingRecord.Type.DEPOSIT.name())){
         assertEquals(new BigDecimal("0.01"), record.getAmount());
         assertEquals("jlsd98087sdfkjldsflj432kjlsdf8", record.getAddress());
-        assertEquals("", record.getId());
+        assertEquals("", record.getExternalId());
         assertEquals(Currency.BTC, record.getCurrency());
       } else {
         assertEquals(new BigDecimal("0.07"), record.getAmount());
         assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ", record.getAddress());
         assertEquals("3QXYWgRGX2BPYBpUDBssGbeWEa5zq6snBZ, txid: offchain transfer", record.getDescription());
-        assertEquals("offchain transfer", record.getId());
+        assertEquals("offchain transfer", record.getExternalId());
         assertEquals(Currency.BTC, record.getCurrency());
       }
     }
