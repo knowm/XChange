@@ -204,7 +204,7 @@ public class BitfinexAdaptersTest {
       if (record.getType().name().equalsIgnoreCase(FundingRecord.Type.DEPOSIT.name())){
         assertEquals(new BigDecimal("0.01"), record.getAmount());
         assertEquals("jlsd98087sdfkjldsflj432kjlsdf8", record.getAddress());
-        assertEquals("", record.getExternalId());
+        assertEquals(null, record.getExternalId());
         assertEquals(Currency.BTC, record.getCurrency());
       } else {
         assertEquals(new BigDecimal("0.07"), record.getAmount());
