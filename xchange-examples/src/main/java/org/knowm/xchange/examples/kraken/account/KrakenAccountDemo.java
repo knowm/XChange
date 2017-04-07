@@ -12,6 +12,7 @@ import org.knowm.xchange.examples.kraken.KrakenExampleUtils;
 import org.knowm.xchange.examples.util.AccountServiceTestUtil;
 import org.knowm.xchange.kraken.service.KrakenAccountServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencies;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -55,6 +56,10 @@ public class KrakenAccountDemo {
     if (params instanceof TradeHistoryParamsTimeSpan) {
       final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
       timeSpanParam.setStartTime(new Date(System.currentTimeMillis() - (1 * 12 * 30 * 24 * 60 * 60 * 1000L)));
+    }
+
+    if (params instanceof HistoryParamsFundingType) {
+      ((HistoryParamsFundingType) params).setType(FundingRecord.Type.DEPOSIT);
     }
 
     if (params instanceof TradeHistoryParamCurrencies) {

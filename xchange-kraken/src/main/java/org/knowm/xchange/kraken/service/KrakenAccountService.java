@@ -14,8 +14,10 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
+import org.knowm.xchange.kraken.dto.account.LedgerType;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.HistoryParamsFundingType;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencies;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -86,15 +88,23 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
       }
     }
 
-    return KrakenAdapters.adaptFundingHistory(getKrakenLedgerInfo(null, startTime, endTime, offset, currencies));
+    LedgerType ledgerType = null;
+    if (params instanceof HistoryParamsFundingType) {
+      final FundingRecord.Type type = ((HistoryParamsFundingType) params).getType();
+      ledgerType = type == FundingRecord.Type.DEPOSIT ? LedgerType.DEPOSIT
+          : type == FundingRecord.Type.WITHDRAWAL ? LedgerType.WITHDRAWAL
+          : null;
+    }
+    return KrakenAdapters.adaptFundingHistory(getKrakenLedgerInfo(ledgerType, startTime, endTime, offset, currencies));
   }
 
 
   public static class KrakenFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan
-          implements TradeHistoryParamOffset, TradeHistoryParamCurrencies{
+          implements TradeHistoryParamOffset, TradeHistoryParamCurrencies, HistoryParamsFundingType {
 
     private Long offset;
     private Currency[] currencies;
+    private FundingRecord.Type type;
 
     public KrakenFundingHistoryParams(final Date startTime, final Date endTime, final Long offset, final Currency... currencies) {
       super(startTime, endTime);
@@ -120,6 +130,16 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     @Override
     public Currency[] getCurrencies() {
       return this.currencies;
+    }
+
+    @Override
+    public FundingRecord.Type getType() {
+      return type;
+    }
+
+    @Override
+    public void setType(FundingRecord.Type type) {
+      this.type = type;
     }
   }
 
