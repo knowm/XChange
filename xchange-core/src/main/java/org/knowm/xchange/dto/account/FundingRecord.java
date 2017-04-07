@@ -87,7 +87,7 @@ public final class FundingRecord {
    * @param status Status of the transaction whenever available (e.g. Open, Completed or any descriptive status of transaction)
    * @param balance Balance of the associated account after the transaction is performed
    * @param fee Transaction Fee Amount
-   * @param description Description of the transaction
+   * @param description Description of the transaction. It is a good idea to put here any extra info sent back from the exchange that doesn't fit elsewhere so users can still access it.
    */
   public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
                        final String internalId, final String externalId,
