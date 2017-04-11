@@ -10,6 +10,7 @@ import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.websocketx.*;
+import io.netty.handler.codec.http.websocketx.extensions.WebSocketClientExtensionHandler;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
@@ -30,7 +31,7 @@ public abstract class NettyStreamingService<T> {
 
     private final URI uri;
     private Channel webSocketChannel;
-    private Map<String, ObservableEmitter<T>> channels = new ConcurrentHashMap<>();
+    protected Map<String, ObservableEmitter<T>> channels = new ConcurrentHashMap<>();
 
     public NettyStreamingService(String apiUrl) {
         try {
@@ -78,10 +79,9 @@ public abstract class NettyStreamingService<T> {
 
                 EventLoopGroup group = new NioEventLoopGroup();
 
-                final WebSocketClientHandler handler =
-                        new WebSocketClientHandler(WebSocketClientHandshakerFactory.newHandshaker(
-                                uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders()),
-                                this::massegeHandler);
+                final WebSocketClientHandler handler = getWebSocketClientHandler(WebSocketClientHandshakerFactory.newHandshaker(
+                  uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders()),
+                  this::massegeHandler);
 
                 Bootstrap b = new Bootstrap();
                 b.group(group)
@@ -96,7 +96,7 @@ public abstract class NettyStreamingService<T> {
                                 p.addLast(
                                         new HttpClientCodec(),
                                         new HttpObjectAggregator(8192),
-                                        WebSocketClientCompressionHandler.INSTANCE,
+                                        getWebSocketClientExtensionHandler(),
                                         handler);
                             }
                         });
@@ -211,5 +211,14 @@ public abstract class NettyStreamingService<T> {
         }
 
         emitter.onError(t);
+    }
+    
+    protected WebSocketClientExtensionHandler getWebSocketClientExtensionHandler(){
+        return WebSocketClientCompressionHandler.INSTANCE;
+    }
+    
+    protected WebSocketClientHandler getWebSocketClientHandler(WebSocketClientHandshaker handshaker, 
+                                                               WebSocketClientHandler.WebSocketMessageHandler handler){
+        return new WebSocketClientHandler(handshaker, handler);
     }
 }
