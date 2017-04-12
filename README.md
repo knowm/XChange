@@ -53,7 +53,7 @@ Xchange-stream follows major and minor version from XChange library. So version 
 
 ### Example
 
-Use the library same as the XChange. But instead of `ExchangeFacotory` use `StreamingExchangeFactory` that creates `StreamingExchange` instead of `Exchange`. Then you can call `getStreaminMarkeDataService` as well as `getPolling*Service`.
+Use the library same as the XChange. But instead of `ExchangeFactory` use `StreamingExchangeFactory` that creates `StreamingExchange` instead of `Exchange`. Then you can call `getStreaminMarkeDataService` as well as `getPolling*Service`.
 
 ```java
 StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitstampStreamingExchange.class.getName());
@@ -95,16 +95,18 @@ Exchange | order books | trades | tickers
 **Coinmate** | :heavy_check_mark: | :heavy_check_mark: | :x: 
 **OKCoin** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **Poloniex** | :construction: | :construction: | :heavy_check_mark:
+**GDAX** | :construction: | :heavy_check_mark: | :heavy_check_mark: 
 
 - :heavy_check_mark: - implemented
 - :construction: - missing but can be implemented
 - :x: - not supported by the exchange
 
+GDAX authenticated live updates is not yet supported, hopefully it will be added in the near future. 
 
 If you missing specific exchange implementation, feel free to propose pull request or open issue with some sweet BTC bounty. 
  
 
-## Licence
+## License
 Copyright 2017 Zdenek Dolezal, Michal Oprendek
 
 Licensed under the Apache License, Version 2.0 (the "License");
