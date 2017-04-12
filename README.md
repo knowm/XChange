@@ -53,7 +53,7 @@ Xchange-stream follows major and minor version from XChange library. So version 
 
 ### Example
 
-Use the library same as the XChange. But instead of `ExchangeFacotory` use `StreamingExchangeFactory` that creates `StreamingExchange` instead of `Exchange`. Then you can call `getStreaminMarkeDataService` as well as `getPolling*Service`.
+Use the library same as the XChange. But instead of `ExchangeFactory` use `StreamingExchangeFactory` that creates `StreamingExchange` instead of `Exchange`. Then you can call `getStreaminMarkeDataService` as well as `getPolling*Service`.
 
 ```java
 StreamingExchange exchange = StreamingExchangeFactory.INSTANCE.createExchange(BitstampStreamingExchange.class.getName());
