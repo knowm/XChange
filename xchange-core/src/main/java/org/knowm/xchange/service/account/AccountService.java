@@ -2,14 +2,17 @@ package org.knowm.xchange.service.account;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.BaseService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 /**
  * <p>
@@ -67,5 +70,19 @@ public interface AccountService extends BaseService {
   public String requestDepositAddress(Currency currency, String... args)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
-  // TODO: Transaction history (deposits, withrawals, etc.)
+  /**
+   * Create {@link TradeHistoryParams} object specific to this exchange. Object created by this method may be used to discover supported and required
+   * {@link #getFundingHistory(TradeHistoryParams)} parameters and should be passed only to the method in the same class as the createFundingHistoryParams
+   * that created the object.
+   */
+  TradeHistoryParams createFundingHistoryParams();
+
+  /**
+   * @return list of funding history if available or an empty list otherwise. This should never return null.
+   * @throws ExchangeException
+   * @throws NotAvailableFromExchangeException
+   * @throws NotYetImplementedForExchangeException
+   * @throws IOException
+     */
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 }
