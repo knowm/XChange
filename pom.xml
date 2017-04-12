@@ -17,6 +17,7 @@
         <module>xchange-okcoin</module>
         <module>xchange-poloniex</module>
         <module>xchange-coinmate</module>
+        <module>xchange-gdax</module>
     </modules>
 
     <name>xchange-stream</name>
