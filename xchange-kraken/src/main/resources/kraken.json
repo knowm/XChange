@@ -131,7 +131,20 @@
     "ZEC/USD": {
       "price_scale": 6,
       "min_amount": 0.010000000
+    },
+    "DASH/BTC": {
+      "price_scale": 6,
+      "min_amount": 0.010000000
+    },
+    "DASH/EUR": {
+      "price_scale": 6,
+      "min_amount": 0.010000000
+    },
+    "DASH/USD": {
+      "price_scale": 6,
+      "min_amount": 0.010000000
     }
+    
   },
   "currencies": {},
   "public_rate_limits": [
