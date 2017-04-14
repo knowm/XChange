@@ -61,7 +61,7 @@ public class KrakenUtils {
   public static String getKrakenCurrencyCode(Currency currency) {
       
       String c = currency.getCurrencyCode();
-      if ("USDT".equals(c) || "KFEE".equals(c)) {
+      if ("USDT".equals(c) || "KFEE".equals(c) || "DASH".equals(c)) {
           return c;
       }
 
