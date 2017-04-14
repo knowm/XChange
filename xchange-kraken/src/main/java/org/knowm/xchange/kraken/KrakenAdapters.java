@@ -160,7 +160,7 @@ public class KrakenAdapters {
   }
 
   public static Currency adaptCurrency(String krakenCurrencyCode) {
-    String currencyCode = (krakenCurrencyCode.length() == 4 && !"USDT".equals(krakenCurrencyCode) && !"KFEE".equals(krakenCurrencyCode)) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
+    String currencyCode = (krakenCurrencyCode.length() == 4 && !"USDT".equals(krakenCurrencyCode) && !"KFEE".equals(krakenCurrencyCode) && !"DASH".equals(krakenCurrencyCode) ) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
 
     return Currency.getInstance(currencyCode).getCommonlyUsedCurrency();
   }
