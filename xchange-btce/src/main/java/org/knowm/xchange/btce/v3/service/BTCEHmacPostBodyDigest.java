@@ -16,7 +16,8 @@ import si.mazi.rescu.RestInvocation;
  * This may be used for REST APIs where some parameters' values must be digests of other parameters. An example is the MtGox API v1, where the
  * Rest-Sign header parameter must be a digest of the request body (which is composed of
  *
- * @FormParams). </p>
+ * @FormParams).
+ * </p>
  */
 public class BTCEHmacPostBodyDigest extends BaseParamsDigest {
 

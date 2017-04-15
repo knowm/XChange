@@ -55,8 +55,8 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
   public BitfinexDepositWithdrawalHistoryResponse[] getDepositWithdrawalHistory(String currency, String method, Date since, Date until,
       Integer limit) throws IOException {
     try {
-      BitfinexDepositWithdrawalHistoryRequest request = new BitfinexDepositWithdrawalHistoryRequest(String.valueOf(exchange.getNonceFactory().createValue())
-          , currency, method, since, until, limit);
+      BitfinexDepositWithdrawalHistoryRequest request = new BitfinexDepositWithdrawalHistoryRequest(
+          String.valueOf(exchange.getNonceFactory().createValue()), currency, method, since, until, limit);
       return bitfinex.depositWithdrawalHistory(apiKey, payloadCreator, signatureCreator, request);
     } catch (BitfinexException e) {
       throw new ExchangeException(e);
@@ -69,8 +69,8 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
 
   public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address, String paymentId) throws IOException {
 
-    BitfinexWithdrawalResponse[] withdrawRepsonse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator,
-        new BitfinexWithdrawalRequest(String.valueOf(exchange.getNonceFactory().createValue()), withdrawType, walletSelected, amount, address, paymentId));
+    BitfinexWithdrawalResponse[] withdrawRepsonse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator, new BitfinexWithdrawalRequest(
+        String.valueOf(exchange.getNonceFactory().createValue()), withdrawType, walletSelected, amount, address, paymentId));
     return withdrawRepsonse[0].getWithdrawalId();
   }
 

@@ -41,12 +41,10 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-
-/*    if (useMargin) {
-      QuoineTradingAccountInfo[] quoineTradingAccountInfo = getQuoineTradingAccountInfo();
-      return new AccountInfo(QuoineAdapters.adaptTradingWallet(quoineTradingAccountInfo));
-
-    } else { */
+    /*
+     * if (useMargin) { QuoineTradingAccountInfo[] quoineTradingAccountInfo = getQuoineTradingAccountInfo(); return new
+     * AccountInfo(QuoineAdapters.adaptTradingWallet(quoineTradingAccountInfo)); } else {
+     */
     final FiatAccount[] quoineFiatAccountInfo = getQuoineFiatAccountInfo();
     return new AccountInfo(QuoineAdapters.adaptFiatAccountWallet(quoineFiatAccountInfo));
     /* } */
@@ -70,7 +68,8 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(
+      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

@@ -37,8 +37,8 @@ public interface BTCMarketsAuthenticated {
   @Path("order/create")
   @Consumes(MediaType.APPLICATION_JSON)
   BTCMarketsPlaceOrderResponse placeOrder(@HeaderParam("apikey") String publicKey,
-      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory, @HeaderParam("signature") BTCMarketsDigest signer, BTCMarketsOrder order)
-      throws BTCMarketsException, IOException;
+      @HeaderParam("timestamp") SynchronizedValueFactory<Long> nonceFactory, @HeaderParam("signature") BTCMarketsDigest signer,
+      BTCMarketsOrder order) throws BTCMarketsException, IOException;
 
   @POST
   @Path("order/cancel")

@@ -22,7 +22,8 @@ public interface Livecoin {
 
   @GET
   @Path("exchange/order_book?currencyPair={baseCurrency}/{targetCurrency}&depth={depth}")
-  LivecoinOrderBook getOrderBook(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency, @PathParam("depth") int depth) throws IOException;
+  LivecoinOrderBook getOrderBook(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency,
+      @PathParam("depth") int depth) throws IOException;
 
   @GET
   @Path("exchange/last_trades?currencyPair={baseCurrency}/{targetCurrency}")

@@ -37,11 +37,10 @@ public interface MercadoBitcoinAuthenticated {
 
   @POST
   @Path("/")
-  MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> getOrderList(@HeaderParam("Key") String key,
-      @HeaderParam("Sign") ParamsDigest sign, @FormParam("method") String method, @FormParam("tonce") long tonce,
-      @Nonnull @FormParam("pair") String pair, @Nullable @FormParam("type") String type, @FormParam("status") @Nullable String status,
-      @FormParam("fromId") @Nullable String fromId, @FormParam("endId") @Nullable String endId, @FormParam("since") @Nullable Long since,
-      @FormParam("end") @Nullable Long end) throws IOException;
+  MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> getOrderList(@HeaderParam("Key") String key, @HeaderParam("Sign") ParamsDigest sign,
+      @FormParam("method") String method, @FormParam("tonce") long tonce, @Nonnull @FormParam("pair") String pair,
+      @Nullable @FormParam("type") String type, @FormParam("status") @Nullable String status, @FormParam("fromId") @Nullable String fromId,
+      @FormParam("endId") @Nullable String endId, @FormParam("since") @Nullable Long since, @FormParam("end") @Nullable Long end) throws IOException;
 
   @POST
   @Path("/")

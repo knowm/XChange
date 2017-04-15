@@ -51,8 +51,8 @@ public class VaultoroTradeServiceRaw extends VaultoroBaseService {
     }
   }
 
-  public VaultoroNewOrderResponse placeLimitOrder(CurrencyPair currencyPair, OrderType orderType, BigDecimal amount, BigDecimal price)
-      throws IOException {
+  public VaultoroNewOrderResponse placeLimitOrder(CurrencyPair currencyPair, OrderType orderType, BigDecimal amount,
+      BigDecimal price) throws IOException {
 
     return placeOrder("limit", currencyPair, orderType, amount, price);
 
@@ -64,8 +64,8 @@ public class VaultoroTradeServiceRaw extends VaultoroBaseService {
 
   }
 
-  private VaultoroNewOrderResponse placeOrder(String type, CurrencyPair currencyPair, OrderType orderType, BigDecimal amount, BigDecimal price)
-      throws IOException {
+  private VaultoroNewOrderResponse placeOrder(String type, CurrencyPair currencyPair, OrderType orderType, BigDecimal amount,
+      BigDecimal price) throws IOException {
 
     String baseSymbol = currencyPair.base.getCurrencyCode().toLowerCase();
 

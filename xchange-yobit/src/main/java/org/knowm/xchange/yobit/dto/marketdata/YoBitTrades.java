@@ -36,8 +36,7 @@ public class YoBitTrades {
     private List<YoBitTrade> trades = new ArrayList<>();
 
     @Override
-    public YoBitTrades deserialize(JsonParser p, DeserializationContext ctxt)
-        throws IOException, JsonProcessingException {
+    public YoBitTrades deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = p.getCodec();
       JsonNode node = oc.readTree(p);

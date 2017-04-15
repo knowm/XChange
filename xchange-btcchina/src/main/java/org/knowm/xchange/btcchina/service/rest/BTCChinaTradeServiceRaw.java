@@ -193,24 +193,24 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBaseService {
   /**
    * @see BTCChinaTransactionsRequest#BTCChinaTransactionsRequest(String, Integer, Integer, Integer, String)
    */
-  public BTCChinaTransactionsResponse getTransactions(String type, Integer limit, Integer offset, Integer since, String sincetype)
-      throws IOException {
+  public BTCChinaTransactionsResponse getTransactions(String type, Integer limit, Integer offset, Integer since,
+      String sincetype) throws IOException {
 
     BTCChinaTransactionsRequest request = new BTCChinaTransactionsRequest(type, limit, offset, since, sincetype);
     BTCChinaTransactionsResponse response = btcChina.getTransactions(signatureCreator, exchange.getNonceFactory(), request);
     return checkResult(response);
   }
 
-  public BTCChinaIntegerResponse buyIcebergOrder(BigDecimal price, BigDecimal amount, BigDecimal disclosedAmount, BigDecimal variance, String market)
-      throws IOException {
+  public BTCChinaIntegerResponse buyIcebergOrder(BigDecimal price, BigDecimal amount, BigDecimal disclosedAmount, BigDecimal variance,
+      String market) throws IOException {
 
     BTCChinaBuyIcebergOrderRequest request = new BTCChinaBuyIcebergOrderRequest(price, amount, disclosedAmount, variance, market);
     BTCChinaIntegerResponse response = btcChina.buyIcebergOrder(signatureCreator, exchange.getNonceFactory(), request);
     return checkResult(response);
   }
 
-  public BTCChinaIntegerResponse sellIcebergOrder(BigDecimal price, BigDecimal amount, BigDecimal disclosedAmount, BigDecimal variance, String market)
-      throws IOException {
+  public BTCChinaIntegerResponse sellIcebergOrder(BigDecimal price, BigDecimal amount, BigDecimal disclosedAmount, BigDecimal variance,
+      String market) throws IOException {
 
     BTCChinaSellIcebergOrderRequest request = new BTCChinaSellIcebergOrderRequest(price, amount, disclosedAmount, variance, market);
     BTCChinaIntegerResponse response = btcChina.sellIcebergOrder(signatureCreator, exchange.getNonceFactory(), request);
@@ -273,8 +273,8 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBaseService {
   /**
    * @see BTCChinaGetStopOrdersRequest
    */
-  public BTCChinaGetStopOrdersResponse getStopOrders(String status, String type, BigDecimal stopPrice, Integer limit, Integer offset, String market)
-      throws IOException {
+  public BTCChinaGetStopOrdersResponse getStopOrders(String status, String type, BigDecimal stopPrice, Integer limit, Integer offset,
+      String market) throws IOException {
 
     BTCChinaGetStopOrdersRequest request = new BTCChinaGetStopOrdersRequest(status, type, stopPrice, limit, offset, market);
     BTCChinaGetStopOrdersResponse response = btcChina.getStopOrders(signatureCreator, exchange.getNonceFactory(), request);

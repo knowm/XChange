@@ -50,8 +50,7 @@ public class LivecoinAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  private static List<LimitOrder> toLimitOrderList(LivecoinAsksBidsData[] levels, OrderType orderType,
-      CurrencyPair currencyPair) {
+  private static List<LimitOrder> toLimitOrderList(LivecoinAsksBidsData[] levels, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> allLevels = new ArrayList<>(levels.length);
     for (int i = 0; i < levels.length; i++) {
@@ -64,14 +63,12 @@ public class LivecoinAdapters {
 
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData,
-      List<LivecoinRestriction> products) {
+  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, List<LivecoinRestriction> products) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     for (LivecoinRestriction product : products) {
-      BigDecimal minSize = product.getMinLimitQuantity().setScale(product.getPriceScale(),
-          BigDecimal.ROUND_UNNECESSARY);
+      BigDecimal minSize = product.getMinLimitQuantity().setScale(product.getPriceScale(), BigDecimal.ROUND_UNNECESSARY);
       CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, null, 8);
       CurrencyPair pair = adaptCurrencyPair(product);
       currencyPairs.put(pair, cpmd);
@@ -90,8 +87,7 @@ public class LivecoinAdapters {
 
       OrderType type = trade.getType().equals("SELL") ? OrderType.BID : OrderType.ASK;
 
-      Trade t = new Trade(type, trade.getQuantity(), currencyPair, trade.getPrice(), parseDate(trade.getTime()),
-          String.valueOf(trade.getId()));
+      Trade t = new Trade(type, trade.getQuantity(), currencyPair, trade.getPrice(), parseDate(trade.getTime()), String.valueOf(trade.getId()));
       trades.add(t);
     }
 

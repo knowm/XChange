@@ -46,31 +46,19 @@ public interface BitVcFutures {
 
   @POST
   @Path("order/save")
-  BitVcFuturesPlaceOrderResult placeLimitOrder(
-      @FormParam("accessKey") String accessKey,
-      @FormParam("coinType") int coinType,
-      @FormParam("contractType") String contractType,
-      @FormParam("created") long created,
-      @FormParam("sign") ParamsDigest sign,
-      @FormParam("orderType") int orderType,
-      @FormParam("tradeType") int tradeType,
-      @FormParam("price") double price,
+  BitVcFuturesPlaceOrderResult placeLimitOrder(@FormParam("accessKey") String accessKey, @FormParam("coinType") int coinType,
+      @FormParam("contractType") String contractType, @FormParam("created") long created, @FormParam("sign") ParamsDigest sign,
+      @FormParam("orderType") int orderType, @FormParam("tradeType") int tradeType, @FormParam("price") double price,
       @FormParam("money") double amount) throws IOException;
 
   @POST
   @Path("balance")
-  BitVcFuturesAccountInfo balance(
-      @FormParam("accessKey") String accessKey,
-      @FormParam("coinType") int coinType,
-      @FormParam("created") long created,
+  BitVcFuturesAccountInfo balance(@FormParam("accessKey") String accessKey, @FormParam("coinType") int coinType, @FormParam("created") long created,
       @FormParam("sign") ParamsDigest sign);
 
   @POST
   @Path("holdOrder/list")
-  BitVcFuturesPositionByContract positions(
-      @FormParam("accessKey") String accessKey,
-      @FormParam("coinType") int coinType,
-      @FormParam("created") long created,
-      @FormParam("sign") ParamsDigest sign);
+  BitVcFuturesPositionByContract positions(@FormParam("accessKey") String accessKey, @FormParam("coinType") int coinType,
+      @FormParam("created") long created, @FormParam("sign") ParamsDigest sign);
 
 }

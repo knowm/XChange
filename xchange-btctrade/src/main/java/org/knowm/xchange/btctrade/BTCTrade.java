@@ -112,9 +112,8 @@ public interface BTCTrade {
    */
   @POST
   @Path("orders")
-  BTCTradeOrder[] getOrders(@FormParam("since") long since, @FormParam("type") String type,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
-      throws IOException;
+  BTCTradeOrder[] getOrders(@FormParam("since") long since, @FormParam("type") String type, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+      @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Returns order information.
@@ -139,8 +138,8 @@ public interface BTCTrade {
    */
   @POST
   @Path("cancel_order")
-  BTCTradeResult cancelOrder(@FormParam("id") String id, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
+  BTCTradeResult cancelOrder(@FormParam("id") String id, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key,
+      @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Places a buy order.
@@ -154,8 +153,8 @@ public interface BTCTrade {
   @POST
   @Path("buy")
   BTCTradePlaceOrderResult buy(@FormParam("amount") String amount, @FormParam("price") String price,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
-      throws IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key,
+      @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Places a sell order.
@@ -169,7 +168,7 @@ public interface BTCTrade {
   @POST
   @Path("sell")
   BTCTradePlaceOrderResult sell(@FormParam("amount") String amount, @FormParam("price") String price,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
-      throws IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key,
+      @FormParam("signature") ParamsDigest signature) throws IOException;
 
 }

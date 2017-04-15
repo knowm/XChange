@@ -45,8 +45,7 @@ public class BTCEMetaDataDemo {
     ExchangeMetaData metaData = (ExchangeMetaData) exchange.getExchangeMetaData();
     System.out.println("BTCE generic meta data: " + metaData);
 
-    exchange.getTradeService()
-        .verifyOrder(new MarketOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_EUR).tradableAmount(BigDecimal.ONE).build());
+    exchange.getTradeService().verifyOrder(new MarketOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_EUR).tradableAmount(BigDecimal.ONE).build());
   }
 
 }

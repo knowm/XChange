@@ -38,9 +38,8 @@ public class BitfinexDepositWithdrawalHistoryResponse {
 
   @Override
   public String toString() {
-    return "BitfinexDepositWithdrawalHistoryResponse [id=" + id + ", currency=" + currency + ", method=" + method + ", type="
-        + type + ", amount=" + amount + ", description=" + description + ", address=" + address + ", status=" + status
-        + ", timestamp=" + getTimestamp() + "]";
+    return "BitfinexDepositWithdrawalHistoryResponse [id=" + id + ", currency=" + currency + ", method=" + method + ", type=" + type + ", amount="
+        + amount + ", description=" + description + ", address=" + address + ", status=" + status + ", timestamp=" + getTimestamp() + "]";
   }
 
   public long getId() {

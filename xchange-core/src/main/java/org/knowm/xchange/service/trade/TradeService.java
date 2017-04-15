@@ -36,11 +36,11 @@ public interface TradeService extends BaseService {
    * Gets the open orders
    *
    * @return the open orders, null if some sort of error occurred. Implementers should log the error.
-   * @throws ExchangeException                     - Indication that the exchange reported some kind of error with the request or response
-   * @throws NotAvailableFromExchangeException     - Indication that the exchange does not support the requested function or data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
-   *                                               implemented
-   * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
+   * implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    * @deprecated Use {@link #getOpenOrders(OpenOrdersParams)} instead. Will be removed in the future release.
    */
   @Deprecated
@@ -49,58 +49,58 @@ public interface TradeService extends BaseService {
   /**
    * Gets the open orders
    *
-   * @param params The parameters describing the filter. Note that {@link OpenOrdersParams} is an empty interface. Exchanges should implement its
-   * own params object. Params should be create with {@link #createOpenOrdersParams()}.
+   * @param params The parameters describing the filter. Note that {@link OpenOrdersParams} is an empty interface. Exchanges should implement its own
+   * params object. Params should be create with {@link #createOpenOrdersParams()}.
    * @return the open orders, null if some sort of error occurred. Implementers should log the error.
-   * @throws ExchangeException                     - Indication that the exchange reported some kind of error with the request or response
-   * @throws NotAvailableFromExchangeException     - Indication that the exchange does not support the requested function or data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
-   *                                               implemented
-   * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
+   * implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Place a market order
    *
    * @param marketOrder
    * @return the order ID
-   * @throws ExchangeException                     - Indication that the exchange reported some kind of error with the request or response
-   * @throws NotAvailableFromExchangeException     - Indication that the exchange does not support the requested function or data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
-   *                                               implemented
-   * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
+   * implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  String placeMarketOrder(MarketOrder marketOrder)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  String placeMarketOrder(
+      MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Place a limit order
    *
    * @param limitOrder
    * @return the order ID
-   * @throws ExchangeException                     - Indication that the exchange reported some kind of error with the request or response
-   * @throws NotAvailableFromExchangeException     - Indication that the exchange does not support the requested function or data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
-   *                                               implemented
-   * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
+   * implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  String placeLimitOrder(LimitOrder limitOrder)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  String placeLimitOrder(
+      LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * cancels order with matching orderId
    *
    * @param orderId
    * @return true if order was successfully cancelled, false otherwise.
-   * @throws ExchangeException                     - Indication that the exchange reported some kind of error with the request or response
-   * @throws NotAvailableFromExchangeException     - Indication that the exchange does not support the requested function or data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
-   *                                               implemented
-   * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
+   * implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  boolean cancelOrder(String orderId)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  boolean cancelOrder(String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Fetch the history of user trades.
@@ -113,21 +113,21 @@ public interface TradeService extends BaseService {
    * {@link TradeHistoryParams}. Note that whether an interface is required or supported will vary from exchange to exchange and it's described only
    * through the javadoc.
    * <p/>
-   * There is also implementation of all the common interfaces, {@link TradeHistoryParamsAll} , that,
-   * with all properties set non-null, should work with any exchange.
+   * There is also implementation of all the common interfaces, {@link TradeHistoryParamsAll} , that, with all properties set non-null, should work
+   * with any exchange.
    * <p/>
    * Some exchanges allow extra parameters, not covered by any common interface. To access them, you will have to use the object returned by
    * {@link #createTradeHistoryParams()} and cast it to the exchange-specific type.
    *
    * @param params The parameters describing the filter. Note that {@link TradeHistoryParams} is an empty interface. Exact set of interfaces that are
-   * required or supported by this method is described by the type of object returned from {@link #createTradeHistoryParams()} and the javadoc
-   * of the method.
+   * required or supported by this method is described by the type of object returned from {@link #createTradeHistoryParams()} and the javadoc of the
+   * method.
    * @return UserTrades as returned by the exchange API
-   * @throws ExchangeException                     - Indication that the exchange reported some kind of error with the request or response
-   * @throws NotAvailableFromExchangeException     - Indication that the exchange does not support the requested function or data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
-   *                                               implemented
-   * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
+   * implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    * @see #createTradeHistoryParams()
    * @see TradeHistoryParamsAll
    */
@@ -142,8 +142,8 @@ public interface TradeService extends BaseService {
 
   /**
    * Create {@link OpenOrdersParams} object specific to this exchange. Object created by this method may be used to discover supported and required
-   * {@link #getOpenOrders(OpenOrdersParams)} parameters and should be passed only to the method in the same class as the createOpenOrdersParams
-   * that created the object.
+   * {@link #getOpenOrders(OpenOrdersParams)} parameters and should be passed only to the method in the same class as the createOpenOrdersParams that
+   * created the object.
    */
   OpenOrdersParams createOpenOrdersParams();
 
@@ -163,13 +163,13 @@ public interface TradeService extends BaseService {
    * get's the latest order form the order book that with matching orderId
    *
    * @return the order as it is on the exchange.
-   * @throws ExchangeException                     - Indication that the exchange reported some kind of error with the request or response
-   * @throws NotAvailableFromExchangeException     - Indication that the exchange does not support the requested function or data
+   * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
+   * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
    * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the requested function or data, but it has not yet been
-   *                                               implemented
-   * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
+   * implemented
+   * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
 }

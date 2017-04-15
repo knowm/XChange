@@ -41,7 +41,6 @@ public interface Bleutrade {
 
   @GET
   @Path("public/getmarkethistory")
-  BleutradeMarketHistoryReturn getBleutradeMarketHistory(@QueryParam("market") String market, @QueryParam("count") int count)
-      throws IOException;
+  BleutradeMarketHistoryReturn getBleutradeMarketHistory(@QueryParam("market") String market, @QueryParam("count") int count) throws IOException;
 
 }

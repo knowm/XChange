@@ -21,8 +21,8 @@ public class QuoineNewOrderRequest {
   @JsonProperty("price")
   private final BigDecimal price; //  Price of BTC you want to trade.
 
-//  @JsonProperty("price_range")
-//  private final boolean priceRange;
+  //  @JsonProperty("price_range")
+  //  private final boolean priceRange;
 
   public QuoineNewOrderRequest(String orderType, int productId, String side, BigDecimal quantity, BigDecimal price) {
     this.orderType = orderType;
@@ -54,8 +54,8 @@ public class QuoineNewOrderRequest {
 
   @Override
   public String toString() {
-    return "QuoineNewOrderRequest [orderType=" + orderType + ", productId=" + productId + ", side="
-        + side + ", quantity=" + quantity + ", price=" + price + "]";
+    return "QuoineNewOrderRequest [orderType=" + orderType + ", productId=" + productId + ", side=" + side + ", quantity=" + quantity + ", price="
+        + price + "]";
   }
 
 }

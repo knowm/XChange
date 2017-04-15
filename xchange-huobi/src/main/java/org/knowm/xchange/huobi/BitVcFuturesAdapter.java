@@ -96,7 +96,8 @@ public class BitVcFuturesAdapter {
 
     List<LimitOrder> orders = new ArrayList<>(weekPositions.length);
     for (BitVcFuturesPosition position : weekPositions) {
-      orders.add(new LimitOrder(position.getTradeType() == 1 ? OrderType.BID : OrderType.ASK, position.getAmount(), CurrencyPair.BTC_CNY, String.valueOf(position.getId()), new Date(), position.getPrice()));
+      orders.add(new LimitOrder(position.getTradeType() == 1 ? OrderType.BID : OrderType.ASK, position.getAmount(), CurrencyPair.BTC_CNY,
+          String.valueOf(position.getId()), new Date(), position.getPrice()));
     }
 
     return new OpenOrders(orders);

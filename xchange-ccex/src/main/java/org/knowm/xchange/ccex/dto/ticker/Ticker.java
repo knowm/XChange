@@ -50,8 +50,8 @@ public class Ticker {
    * @param avg
    * @param low
    */
-  public Ticker(Double high, Double low, Double avg, Double lastbuy, Double lastsell, Double buy, Double sell,
-      Double lastprice, Double buysupport, Integer updated) {
+  public Ticker(Double high, Double low, Double avg, Double lastbuy, Double lastsell, Double buy, Double sell, Double lastprice, Double buysupport,
+      Integer updated) {
     this.high = high;
     this.low = low;
     this.avg = avg;

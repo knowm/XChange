@@ -19,10 +19,10 @@ public class GDAXFill {
   private final boolean settled;
   private final String side;
 
-  public GDAXFill(@JsonProperty("trade_id") String tradeId, @JsonProperty("product_id") String productId,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("size") BigDecimal size, @JsonProperty("order_id") String orderId,
-      @JsonProperty("created_at") String createdAt, @JsonProperty("liquidity") String liquidity, @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("settled") boolean settled, @JsonProperty("side") String side) {
+  public GDAXFill(@JsonProperty("trade_id") String tradeId, @JsonProperty("product_id") String productId, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("size") BigDecimal size, @JsonProperty("order_id") String orderId, @JsonProperty("created_at") String createdAt,
+      @JsonProperty("liquidity") String liquidity, @JsonProperty("fee") BigDecimal fee, @JsonProperty("settled") boolean settled,
+      @JsonProperty("side") String side) {
     this.tradeId = tradeId;
     this.productId = productId;
     this.price = price;

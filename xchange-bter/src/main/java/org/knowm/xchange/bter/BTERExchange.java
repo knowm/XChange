@@ -47,8 +47,7 @@ public class BTERExchange extends BaseExchange implements Exchange {
   @Override
   public void remoteInit() throws IOException {
 
-    Map<CurrencyPair, BTERMarketInfo> currencyPair2BTERMarketInfoMap = ((BTERMarketDataServiceRaw) marketDataService)
-        .getBTERMarketInfo();
+    Map<CurrencyPair, BTERMarketInfo> currencyPair2BTERMarketInfoMap = ((BTERMarketDataServiceRaw) marketDataService).getBTERMarketInfo();
     exchangeMetaData = BTERAdapters.adaptToExchangeMetaData(currencyPair2BTERMarketInfoMap);
   }
 }

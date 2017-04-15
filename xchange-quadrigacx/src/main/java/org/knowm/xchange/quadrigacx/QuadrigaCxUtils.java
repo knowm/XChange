@@ -37,7 +37,7 @@ public final class QuadrigaCxUtils {
    */
   public static Date parseDate(String dateString) {
     try {
-      synchronized (DATE_FORMAT) {       // SimpleDateFormat is not thread safe, therefore synchronize it
+      synchronized (DATE_FORMAT) { // SimpleDateFormat is not thread safe, therefore synchronize it
         return DATE_FORMAT.parse(dateString);
       }
     } catch (ParseException e) {

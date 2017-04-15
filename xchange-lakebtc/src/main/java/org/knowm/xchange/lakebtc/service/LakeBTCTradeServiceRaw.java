@@ -67,7 +67,8 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBaseService {
         case ASK:
           newOrder = lakeBTCAuthenticated.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
               //unit price, amount, currency concatenated by commas
-              new LakeBTCSellOrderRequest(String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getTradableAmount().toString(), pair)));
+              new LakeBTCSellOrderRequest(
+                  String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getTradableAmount().toString(), pair)));
           break;
       }
       return newOrder;

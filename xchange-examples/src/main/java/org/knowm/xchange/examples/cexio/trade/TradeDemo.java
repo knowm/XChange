@@ -34,8 +34,8 @@ public class TradeDemo {
 
   }
 
-  private static void generic(TradeService tradeService)
-      throws NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  private static void generic(
+      TradeService tradeService) throws NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     printOpenOrders(tradeService);
 

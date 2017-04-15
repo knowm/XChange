@@ -58,7 +58,7 @@ public interface Hitbtc {
 
   @GET
   @Path("public/{currencyPair}/trades/recent")
-  HitbtcTrades getTradesRecent(@PathParam("currencyPair") String currencyPair,
-      @DefaultValue("1000") @QueryParam("max_results") String max_results, @DefaultValue("object") @QueryParam("format_item") String format_item,
+  HitbtcTrades getTradesRecent(@PathParam("currencyPair") String currencyPair, @DefaultValue("1000") @QueryParam("max_results") String max_results,
+      @DefaultValue("object") @QueryParam("format_item") String format_item,
       @DefaultValue("true") @QueryParam("side") String side) throws IOException, HitbtcException;
 }

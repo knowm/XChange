@@ -13,12 +13,9 @@ public class BitVcFuturesPosition {
   private final double usedMargin;
   private final int storeId;
 
-  public BitVcFuturesPosition(@JsonProperty("id") final int id,
-      @JsonProperty("tradeType") final int tradeType,
-      @JsonProperty("price") final BigDecimal price,
-      @JsonProperty("money") final BigDecimal amount,
-      @JsonProperty("holdProfitLoss") final double holdProfitLoss,
-      @JsonProperty("usedMargin") final double usedMargin,
+  public BitVcFuturesPosition(@JsonProperty("id") final int id, @JsonProperty("tradeType") final int tradeType,
+      @JsonProperty("price") final BigDecimal price, @JsonProperty("money") final BigDecimal amount,
+      @JsonProperty("holdProfitLoss") final double holdProfitLoss, @JsonProperty("usedMargin") final double usedMargin,
       @JsonProperty("storeId") final int storeId) {
     this.id = id;
     this.tradeType = tradeType;

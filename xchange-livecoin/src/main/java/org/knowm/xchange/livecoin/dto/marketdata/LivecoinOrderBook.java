@@ -13,8 +13,7 @@ public class LivecoinOrderBook {
   private final LivecoinAsksBidsData[] asks;
   private final LivecoinAsksBidsData[] bids;
 
-  public LivecoinOrderBook(@JsonProperty("timestamp") Long timestamp, @JsonProperty("asks") Object[][] asks,
-      @JsonProperty("bids") Object[][] bids) {
+  public LivecoinOrderBook(@JsonProperty("timestamp") Long timestamp, @JsonProperty("asks") Object[][] asks, @JsonProperty("bids") Object[][] bids) {
     super();
 
     this.timestamp = timestamp;
@@ -63,8 +62,7 @@ public class LivecoinOrderBook {
 
   @Override
   public String toString() {
-    return "LivecoinOrderBook [timestamp=" + timestamp + ", asks=" + Arrays.toString(asks) + ", bids="
-        + Arrays.toString(bids) + "]";
+    return "LivecoinOrderBook [timestamp=" + timestamp + ", asks=" + Arrays.toString(asks) + ", bids=" + Arrays.toString(bids) + "]";
   }
 
 }

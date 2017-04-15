@@ -34,23 +34,24 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     GDAXOrder[] coinbaseExOpenOrders = getCoinbaseExOpenOrders();
 
     return GDAXAdapters.adaptOpenOrders(coinbaseExOpenOrders);
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(
+      MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     GDAXIdResponse response = placeCoinbaseExMarketOrder(marketOrder);
 
     return response.getId();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(
+      LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     GDAXIdResponse response = placeCoinbaseExLimitOrder(limitOrder);
 
@@ -58,8 +59,8 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
   }
 
   @Override
-  public boolean cancelOrder(String orderId)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(
+      String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     return cancelCoinbaseExOrder(orderId);
   }
@@ -81,8 +82,8 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

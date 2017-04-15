@@ -26,7 +26,8 @@ public class MarketOrder extends Order {
    * @param averagePrice the weighted average price of any fills belonging to the order
    * @param status the status of the order at the exchange or broker
    */
-  public MarketOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice, BigDecimal cumulativeAmount, OrderStatus status) {
+  public MarketOrder(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
+      BigDecimal cumulativeAmount, OrderStatus status) {
     super(type, tradableAmount, currencyPair, id, timestamp, averagePrice, cumulativeAmount, status);
   }
 

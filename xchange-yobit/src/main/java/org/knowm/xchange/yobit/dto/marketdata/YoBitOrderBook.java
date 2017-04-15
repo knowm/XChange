@@ -42,8 +42,7 @@ public class YoBitOrderBook {
     private List<YoBitAsksBidsData> bids = new ArrayList<>();
 
     @Override
-    public YoBitOrderBook deserialize(JsonParser jp, DeserializationContext ctxt)
-        throws IOException, JsonProcessingException {
+    public YoBitOrderBook deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);
@@ -70,11 +69,9 @@ public class YoBitOrderBook {
 
                 if (arrNode.isArray()) {
                   if (tmp.getKey().equals("asks")) {
-                    asks.add(new YoBitAsksBidsData(BigDecimal.valueOf(arrNode.get(1).asDouble()),
-                        BigDecimal.valueOf(arrNode.get(0).asDouble())));
+                    asks.add(new YoBitAsksBidsData(BigDecimal.valueOf(arrNode.get(1).asDouble()), BigDecimal.valueOf(arrNode.get(0).asDouble())));
                   } else {
-                    bids.add(new YoBitAsksBidsData(BigDecimal.valueOf(arrNode.get(1).asDouble()),
-                        BigDecimal.valueOf(arrNode.get(0).asDouble())));
+                    bids.add(new YoBitAsksBidsData(BigDecimal.valueOf(arrNode.get(1).asDouble()), BigDecimal.valueOf(arrNode.get(0).asDouble())));
                   }
                 }
               }

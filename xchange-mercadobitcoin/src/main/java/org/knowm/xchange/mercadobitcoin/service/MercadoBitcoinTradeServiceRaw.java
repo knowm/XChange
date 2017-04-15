@@ -83,8 +83,8 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBaseService {
    * @return See {@link org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinCancelOrderResult} .
    * @throws IOException
    */
-  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> mercadoBitcoinCancelOrder(@Nonnull String pair, @Nonnull String orderId)
-      throws IOException {
+  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinCancelOrderResult> mercadoBitcoinCancelOrder(@Nonnull String pair,
+      @Nonnull String orderId) throws IOException {
 
     String method = CANCEL_ORDER;
     long tonce = exchange.getNonceFactory().createValue();

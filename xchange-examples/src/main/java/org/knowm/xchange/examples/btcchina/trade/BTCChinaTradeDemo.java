@@ -19,13 +19,13 @@ import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * @author ObsessiveOrange
- *         <p>
- *         Example showing the following:
- *         </p>
- *         <ul>
- *         <li>Connect to BTCChina exchange with authentication</li>
- *         <li>Enter, review and cancel limit orders</li>
- *         </ul>
+ * <p>
+ * Example showing the following:
+ * </p>
+ * <ul>
+ * <li>Connect to BTCChina exchange with authentication</li>
+ * <li>Enter, review and cancel limit orders</li>
+ * </ul>
  */
 public class BTCChinaTradeDemo {
 

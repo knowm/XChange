@@ -21,13 +21,11 @@ public class IndependentReserveTransaction {
   private final String status;
   private final Type type;
 
-  public IndependentReserveTransaction(@JsonProperty("Balance") BigDecimal balance
-      , @JsonProperty("BitcoinTransactionId") String bitcoinTransactionId
-      , @JsonProperty("bitcoinTransactionOutputIndex") String bitcoinTransactionOutputIndex
-      , @JsonProperty("Comment") String comment, @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc
-      , @JsonProperty("Credit") BigDecimal credit, @JsonProperty("CurrencyCode") String currencyCode
-      , @JsonProperty("Debit") BigDecimal debit, @JsonProperty("SettleTimestampUtc") String settleTimestampUtc
-      , @JsonProperty("Status") String status, @JsonProperty("Type") Type type) {
+  public IndependentReserveTransaction(@JsonProperty("Balance") BigDecimal balance, @JsonProperty("BitcoinTransactionId") String bitcoinTransactionId,
+      @JsonProperty("bitcoinTransactionOutputIndex") String bitcoinTransactionOutputIndex, @JsonProperty("Comment") String comment,
+      @JsonProperty("CreatedTimestampUtc") String createdTimestampUtc, @JsonProperty("Credit") BigDecimal credit,
+      @JsonProperty("CurrencyCode") String currencyCode, @JsonProperty("Debit") BigDecimal debit,
+      @JsonProperty("SettleTimestampUtc") String settleTimestampUtc, @JsonProperty("Status") String status, @JsonProperty("Type") Type type) {
     super();
     this.balance = balance;
     this.bitcoinTransactionId = bitcoinTransactionId;
@@ -88,10 +86,9 @@ public class IndependentReserveTransaction {
 
   @Override
   public String toString() {
-    return "IndependentReserveTransaction [balance=" + balance + ", bitcoinTransactionId=" + bitcoinTransactionId
-        + ", bitcoinTransactionOutputIndex=" + bitcoinTransactionOutputIndex + ", comment=" + comment
-        + ", createdTimestamp=" + createdTimestamp + ", credit=" + credit + ", currencyCode=" + currencyCode + ", debit="
-        + debit + ", settleTimestamp=" + settleTimestamp + ", status=" + status + ", type=" + type + "]";
+    return "IndependentReserveTransaction [balance=" + balance + ", bitcoinTransactionId=" + bitcoinTransactionId + ", bitcoinTransactionOutputIndex="
+        + bitcoinTransactionOutputIndex + ", comment=" + comment + ", createdTimestamp=" + createdTimestamp + ", credit=" + credit + ", currencyCode="
+        + currencyCode + ", debit=" + debit + ", settleTimestamp=" + settleTimestamp + ", status=" + status + ", type=" + type + "]";
   }
 
   public enum Type {

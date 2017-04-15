@@ -99,8 +99,7 @@ public class CoinbaseOrder extends CoinbaseBaseResponse {
 
     static class CoinbaseOrderStatusDeserializer extends JsonDeserializer<CoinbaseOrderStatus> {
 
-      private static final EnumFromStringHelper<CoinbaseOrderStatus> FROM_STRING_HELPER = new EnumFromStringHelper<>(
-          CoinbaseOrderStatus.class);
+      private static final EnumFromStringHelper<CoinbaseOrderStatus> FROM_STRING_HELPER = new EnumFromStringHelper<>(CoinbaseOrderStatus.class);
 
       @Override
       public CoinbaseOrderStatus deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {

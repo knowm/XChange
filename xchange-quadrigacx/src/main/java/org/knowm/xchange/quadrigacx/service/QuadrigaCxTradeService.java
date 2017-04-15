@@ -47,7 +47,8 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     // TODO use params to specify currency pair
     Collection<CurrencyPair> pairs = exchange.getExchangeSymbols();
     List<LimitOrder> limitOrders = new ArrayList<>();
@@ -144,8 +145,8 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

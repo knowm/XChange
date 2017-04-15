@@ -160,8 +160,8 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     return trade;
   }
 
-  public List<IRippleTradeTransaction> getTradesForAccount(final TradeHistoryParams params, final String account)
-      throws RippleException, IOException {
+  public List<IRippleTradeTransaction> getTradesForAccount(final TradeHistoryParams params,
+      final String account) throws RippleException, IOException {
     final Integer pageLength;
     final Integer pageNumber;
     if (params instanceof TradeHistoryParamPaging) {

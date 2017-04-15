@@ -59,7 +59,8 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(
+      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     String startTime = null;
     String endTime = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
@@ -91,9 +92,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     LedgerType ledgerType = null;
     if (params instanceof HistoryParamsFundingType) {
       final FundingRecord.Type type = ((HistoryParamsFundingType) params).getType();
-      ledgerType = type == FundingRecord.Type.DEPOSIT ? LedgerType.DEPOSIT
-          : type == FundingRecord.Type.WITHDRAWAL ? LedgerType.WITHDRAWAL
-          : null;
+      ledgerType = type == FundingRecord.Type.DEPOSIT ? LedgerType.DEPOSIT : type == FundingRecord.Type.WITHDRAWAL ? LedgerType.WITHDRAWAL : null;
     }
     return KrakenAdapters.adaptFundingHistory(getKrakenLedgerInfo(ledgerType, startTime, endTime, offset, currencies));
   }

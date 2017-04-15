@@ -49,23 +49,23 @@ public class CoinmateMarketDataService extends CoinmateMarketDataServiceRaw impl
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair,
+      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     return CoinmateAdapters.adaptTicker(getCoinmateTicker(CoinmateUtils.getPair(currencyPair)), currencyPair);
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair,
+      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     return CoinmateAdapters.adaptOrderBook(getCoinmateOrderBook(CoinmateUtils.getPair(currencyPair), true), currencyPair);
 
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair,
+      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return CoinmateAdapters.adaptTrades(getCoinmateTransactions(TRANSACTIONS_MINUTES_INTO_HISTORY));
   }
 

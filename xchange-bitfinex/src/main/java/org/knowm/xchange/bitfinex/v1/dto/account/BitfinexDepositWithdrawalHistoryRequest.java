@@ -50,8 +50,7 @@ public class BitfinexDepositWithdrawalHistoryRequest {
   @JsonInclude(Include.NON_NULL)
   private final Integer limit;
 
-  public BitfinexDepositWithdrawalHistoryRequest(String nonce, String currency, String method, Date since, Date until,
-      Integer limit) {
+  public BitfinexDepositWithdrawalHistoryRequest(String nonce, String currency, String method, Date since, Date until, Integer limit) {
     this.request = "/v1/history/movements";
     this.nonce = String.valueOf(nonce);
     this.currency = currency;

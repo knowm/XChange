@@ -59,8 +59,7 @@ public class CCEXAdapters {
     OrderType type = cCEXTrade.getOrderType().equalsIgnoreCase("BUY") ? OrderType.BID : OrderType.ASK;
     Date timestamp = stringToDate(cCEXTrade.getTimestamp());
 
-    Trade trade = new Trade(type, cCEXTrade.getQuantity(), currencyPair, cCEXTrade.getPrice(), timestamp,
-        cCEXTrade.getId());
+    Trade trade = new Trade(type, cCEXTrade.getQuantity(), currencyPair, cCEXTrade.getPrice(), timestamp, cCEXTrade.getId());
     return trade;
   }
 
@@ -78,8 +77,7 @@ public class CCEXAdapters {
     return new OrderBook(date, asks, bids);
   }
 
-  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType,
-      List<CCEXBuySellData> orders) {
+  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<CCEXBuySellData> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (CCEXBuySellData ask : orders) {
@@ -88,19 +86,16 @@ public class CCEXAdapters {
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(CurrencyPair currencyPair, CCEXBuySellData priceAndAmount,
-      Order.OrderType orderType) {
+  public static LimitOrder createOrder(CurrencyPair currencyPair, CCEXBuySellData priceAndAmount, Order.OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount.getQuantity(), currencyPair, "", null,
-        priceAndAmount.getRate());
+    return new LimitOrder(orderType, priceAndAmount.getQuantity(), currencyPair, "", null, priceAndAmount.getRate());
   }
 
   public static CurrencyPair adaptCurrencyPair(CCEXMarket product) {
     return new CurrencyPair(product.getBaseCurrency(), product.getMarketCurrency());
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData,
-      List<CCEXMarket> products) {
+  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, List<CCEXMarket> products) {
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
@@ -138,10 +133,9 @@ public class CCEXAdapters {
     List<Balance> wallets = new ArrayList<>(balances.size());
 
     for (CCEXBalance balance : balances) {
-      wallets.add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getBalance(),
-          balance.getAvailable(),
-          balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()),
-          BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, balance.getPending()));
+      wallets.add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getBalance(), balance.getAvailable(),
+          balance.getBalance().subtract(balance.getAvailable()).subtract(balance.getPending()), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO,
+          balance.getPending()));
     }
 
     return new Wallet(wallets);
@@ -164,8 +158,7 @@ public class CCEXAdapters {
     String[] currencies = cCEXOpenOrder.getExchange().split("-");
     CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
 
-    return new LimitOrder(type, cCEXOpenOrder.getQuantityRemaining(), pair, cCEXOpenOrder.getOrderUuid(), null,
-        cCEXOpenOrder.getLimit());
+    return new LimitOrder(type, cCEXOpenOrder.getQuantityRemaining(), pair, cCEXOpenOrder.getOrderUuid(), null, cCEXOpenOrder.getLimit());
   }
 
   public static List<UserTrade> adaptUserTrades(List<CCEXOrderhistory> cCEXOrderhistory) {
@@ -194,8 +187,7 @@ public class CCEXAdapters {
       price = trade.getLimit();
     }
 
-    return new UserTrade(orderType, amount, currencyPair, price, date, orderId, orderId, trade.getCommission(),
-        currencyPair.counter);
+    return new UserTrade(orderType, amount, currencyPair, price, date, orderId, orderId, trade.getCommission(), currencyPair.counter);
   }
 
   public static Ticker adaptTicker(CCEXPriceResponse cCEXTicker, CurrencyPair currencyPair) {
@@ -209,7 +201,7 @@ public class CCEXAdapters {
 
     Date timestamp = new Date(cCEXTicker.getUpdated());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low)
-        .volume(volume).timestamp(timestamp).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+        .build();
   }
 }

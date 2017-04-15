@@ -93,8 +93,7 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
       limit = limitParams.getLimit();
     }
 
-    return BitfinexAdapters.adaptFundingHistory(getDepositWithdrawalHistory(currency,
-        null, startTime, endTime, limit));
+    return BitfinexAdapters.adaptFundingHistory(getDepositWithdrawalHistory(currency, null, startTime, endTime, limit));
   }
 
   public static class BitfinexFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan

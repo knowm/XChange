@@ -13,8 +13,8 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 public class CustomCurrencyPairSerializer extends JsonSerializer<CurrencyPair> {
 
   @Override
-  public void serialize(CurrencyPair currencyPair, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-      throws IOException, JsonProcessingException {
+  public void serialize(CurrencyPair currencyPair, JsonGenerator jsonGenerator,
+      SerializerProvider serializerProvider) throws IOException, JsonProcessingException {
 
     //    jsonGenerator.writeStartObject();
     jsonGenerator.writeString(currencyPair.toString());

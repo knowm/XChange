@@ -22,15 +22,14 @@ public class YoBitMarketDataServiceRaw extends YoBitBaseService<YoBit> {
 
   public YoBitOrderBook getOrderBookA(CurrencyPair currencyPair, Long limit) throws IOException {
     /*
-		 * if (!this.checkProductExists(currencyPair)) { return null; }
-		 */
+     * if (!this.checkProductExists(currencyPair)) { return null; }
+     */
 
-    return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toLowerCase(),
-        currencyPair.counter.getCurrencyCode().toLowerCase(), limit);
+    return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toLowerCase(), currencyPair.counter.getCurrencyCode().toLowerCase(),
+        limit);
   }
 
   public YoBitTrades getTrades(CurrencyPair currencyPair) throws IOException {
-    return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode().toLowerCase(),
-        currencyPair.counter.getCurrencyCode().toLowerCase());
+    return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode().toLowerCase(), currencyPair.counter.getCurrencyCode().toLowerCase());
   }
 }

@@ -28,12 +28,14 @@ public class BitVcFuturesAccountService extends BitVcFuturesServiceRaw implement
   }
 
   @Override
-  public String withdrawFunds(final Currency currency, final BigDecimal bigDecimal, final String s) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(final Currency currency, final BigDecimal bigDecimal,
+      final String s) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return null;
   }
 
   @Override
-  public String requestDepositAddress(final Currency currency, final String... strings) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String requestDepositAddress(final Currency currency,
+      final String... strings) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return null;
   }
 
@@ -43,7 +45,8 @@ public class BitVcFuturesAccountService extends BitVcFuturesServiceRaw implement
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(
+      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

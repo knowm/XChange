@@ -15,9 +15,9 @@ public class PoloniexWithdrawal {
   private final String status;
   private final String ipAddress;
 
-  public PoloniexWithdrawal(@JsonProperty("withdrawalNumber") long withdrawalNumber, @JsonProperty("currency") String currency
-      , @JsonProperty("address") String address, @JsonProperty("amount") BigDecimal amount
-      , @JsonProperty("timestamp") long timestamp, @JsonProperty("status") String status, @JsonProperty("ipAddress") String ipAddress) {
+  public PoloniexWithdrawal(@JsonProperty("withdrawalNumber") long withdrawalNumber, @JsonProperty("currency") String currency,
+      @JsonProperty("address") String address, @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("status") String status, @JsonProperty("ipAddress") String ipAddress) {
     super();
     this.withdrawalNumber = withdrawalNumber;
     this.currency = currency;
@@ -58,8 +58,8 @@ public class PoloniexWithdrawal {
 
   @Override
   public String toString() {
-    return "PoloniexWithdrawal [withdrawalNumber=" + withdrawalNumber + ", currency=" + currency + ", address=" + address
-        + ", amount=" + amount + ", timestamp=" + timestamp + ", status=" + status + ", ipAddress=" + ipAddress + "]";
+    return "PoloniexWithdrawal [withdrawalNumber=" + withdrawalNumber + ", currency=" + currency + ", address=" + address + ", amount=" + amount
+        + ", timestamp=" + timestamp + ", status=" + status + ", ipAddress=" + ipAddress + "]";
   }
 
 }

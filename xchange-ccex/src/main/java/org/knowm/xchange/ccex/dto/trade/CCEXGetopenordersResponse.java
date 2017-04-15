@@ -10,9 +10,7 @@ public class CCEXGetopenordersResponse {
   private String message;
   private List<CCEXOpenorder> result;
 
-  public CCEXGetopenordersResponse(
-      @JsonProperty("success") boolean success,
-      @JsonProperty("message") String message,
+  public CCEXGetopenordersResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
       @JsonProperty("result") List<CCEXOpenorder> result) {
     super();
     this.success = success;

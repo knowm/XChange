@@ -25,8 +25,8 @@ public class YoBitPair {
   private BigDecimal fee_buyer;
   private BigDecimal fee_seller;
 
-  public YoBitPair(Integer decimal_places, BigDecimal min_price, BigDecimal max_price, BigDecimal min_amount,
-      BigDecimal min_total, Integer hidden, BigDecimal fee, BigDecimal fee_buyer, BigDecimal fee_seller) {
+  public YoBitPair(Integer decimal_places, BigDecimal min_price, BigDecimal max_price, BigDecimal min_amount, BigDecimal min_total, Integer hidden,
+      BigDecimal fee, BigDecimal fee_buyer, BigDecimal fee_seller) {
     super();
     this.decimal_places = decimal_places;
     this.min_price = min_price;
@@ -77,9 +77,8 @@ public class YoBitPair {
 
   @Override
   public String toString() {
-    return "YoBitPair [decimal_places=" + decimal_places + ", min_price=" + min_price + ", max_price=" + max_price
-        + ", min_amount=" + min_amount + ", min_total=" + min_total + ", hidden=" + hidden + ", fee=" + fee
-        + ", fee_buyer=" + fee_buyer + ", fee_seller=" + fee_seller + "]";
+    return "YoBitPair [decimal_places=" + decimal_places + ", min_price=" + min_price + ", max_price=" + max_price + ", min_amount=" + min_amount
+        + ", min_total=" + min_total + ", hidden=" + hidden + ", fee=" + fee + ", fee_buyer=" + fee_buyer + ", fee_seller=" + fee_seller + "]";
   }
 
   static class YoBitPairDeserializer extends JsonDeserializer<YoBitPair> {
@@ -102,13 +101,11 @@ public class YoBitPair {
       final BigDecimal fee_buyer = getNumberIfPresent(tickerNode.path("fee_buyer"));
       final BigDecimal fee_seller = getNumberIfPresent(tickerNode.path("fee_seller"));
 
-      return new YoBitPair(decimal_places, min_price, max_price, min_amount, min_total, hidden, fee, fee_buyer,
-          fee_seller);
+      return new YoBitPair(decimal_places, min_price, max_price, min_amount, min_total, hidden, fee, fee_buyer, fee_seller);
     }
 
     @Override
-    public YoBitPair deserialize(JsonParser jp, DeserializationContext ctxt)
-        throws IOException, JsonProcessingException {
+    public YoBitPair deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jp.getCodec();
       final JsonNode tickerNode = oc.readTree(jp);

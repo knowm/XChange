@@ -9,7 +9,8 @@ public class BitfinexFee {
   private final BigDecimal makerFees;
   private final BigDecimal takerFees;
 
-  public BitfinexFee(@JsonProperty("pairs") String pairs, @JsonProperty("maker_fees") BigDecimal makerFees, @JsonProperty("taker_fees") BigDecimal takerFees) {
+  public BitfinexFee(@JsonProperty("pairs") String pairs, @JsonProperty("maker_fees") BigDecimal makerFees,
+      @JsonProperty("taker_fees") BigDecimal takerFees) {
     this.pairs = pairs;
     this.makerFees = makerFees;
     this.takerFees = takerFees;

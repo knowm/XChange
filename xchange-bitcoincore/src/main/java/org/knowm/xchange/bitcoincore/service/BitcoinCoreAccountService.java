@@ -23,22 +23,21 @@ public class BitcoinCoreAccountService extends BitcoinCoreAccountServiceRaw impl
   }
 
   @Override
-  public AccountInfo getAccountInfo()
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     final BitcoinCoreBalanceResponse balance = getBalance();
     final BitcoinCoreBalanceResponse unconfirmed = getUnconfirmedBalance();
     return BitcoinCoreAdapters.adaptAccountInfo(balance, unconfirmed);
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public String withdrawFunds(Currency currency, BigDecimal amount,
+      String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public String requestDepositAddress(Currency currency, String... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
+  public String requestDepositAddress(Currency currency,
+      String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException {
     throw new UnsupportedOperationException();
   }
 
@@ -48,7 +47,8 @@ public class BitcoinCoreAccountService extends BitcoinCoreAccountServiceRaw impl
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(
+      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

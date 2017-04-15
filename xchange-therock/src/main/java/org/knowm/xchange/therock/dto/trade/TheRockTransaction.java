@@ -16,10 +16,9 @@ public class TheRockTransaction {
   private final Long tradeId;
   private final TransferDetail transferDetail;
 
-  public TheRockTransaction(@JsonProperty("id") long id, @JsonProperty("date") Date date, @JsonProperty("type") String type
-      , @JsonProperty("price") BigDecimal price, @JsonProperty("currency") String currency
-      , @JsonProperty("order_id") Long orderId, @JsonProperty("trade_id") Long tradeId
-      , @JsonProperty("transfer_detail") TransferDetail transferDetail) {
+  public TheRockTransaction(@JsonProperty("id") long id, @JsonProperty("date") Date date, @JsonProperty("type") String type,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("currency") String currency, @JsonProperty("order_id") Long orderId,
+      @JsonProperty("trade_id") Long tradeId, @JsonProperty("transfer_detail") TransferDetail transferDetail) {
     this.id = id;
     this.date = date;
     this.type = type;
@@ -64,8 +63,8 @@ public class TheRockTransaction {
 
   @Override
   public String toString() {
-    return "TheRockTransaction [id=" + id + ", date=" + date + ", type=" + type + ", price=" + price + ", currency=" + currency
-        + ", orderId=" + orderId + ", tradeId=" + tradeId + ", transferDetail=" + transferDetail + "]";
+    return "TheRockTransaction [id=" + id + ", date=" + date + ", type=" + type + ", price=" + price + ", currency=" + currency + ", orderId="
+        + orderId + ", tradeId=" + tradeId + ", transferDetail=" + transferDetail + "]";
   }
 
   public static class TransferDetail {
@@ -74,8 +73,8 @@ public class TheRockTransaction {
     private final String recipient;
     private final int confirmations;
 
-    public TransferDetail(@JsonProperty("method") String method, @JsonProperty("id") String id
-        , @JsonProperty("recipient") String recipient, @JsonProperty("confirmations") int confirmations) {
+    public TransferDetail(@JsonProperty("method") String method, @JsonProperty("id") String id, @JsonProperty("recipient") String recipient,
+        @JsonProperty("confirmations") int confirmations) {
       this.method = method;
       this.id = id;
       this.recipient = recipient;
@@ -84,8 +83,7 @@ public class TheRockTransaction {
 
     @Override
     public String toString() {
-      return "TransferDetail [method=" + method + ", id=" + id + ", recipient=" + recipient + ", confirmations="
-          + confirmations + "]";
+      return "TransferDetail [method=" + method + ", id=" + id + ", recipient=" + recipient + ", confirmations=" + confirmations + "]";
     }
 
     public String getMethod() {

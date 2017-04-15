@@ -25,8 +25,8 @@ public class Btc38MarketDataService extends Btc38MarketDataServiceRaw implements
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair,
+      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     // Request data
     Btc38Ticker btc38Ticker = getBtc38Ticker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
@@ -36,15 +36,15 @@ public class Btc38MarketDataService extends Btc38MarketDataServiceRaw implements
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair,
+      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair,
+      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotYetImplementedForExchangeException();
   }

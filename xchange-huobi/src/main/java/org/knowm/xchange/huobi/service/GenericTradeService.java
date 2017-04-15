@@ -30,7 +30,7 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 public class GenericTradeService extends BaseExchangeService implements TradeService {
 
   private final Map<CurrencyPair, Integer> coinTypes;
-  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
   private final TradeServiceRaw tradeServiceRaw;
 
   /**
@@ -58,7 +58,8 @@ public class GenericTradeService extends BaseExchangeService implements TradeSer
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     // TODO use params for currency pair
     List<LimitOrder> openOrders = new ArrayList<>();
     for (CurrencyPair currencyPair : exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
@@ -118,8 +119,8 @@ public class GenericTradeService extends BaseExchangeService implements TradeSer
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

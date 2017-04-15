@@ -44,8 +44,8 @@ public class Trade {
 
   /**
    * This constructor is called to create a public Trade object in
-   * {@link MarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)}
-   * implementations) since it's missing the orderId and fee parameters.
+   * {@link MarketDataService#getTrades(org.knowm.xchange.currency.CurrencyPair, Object...)} implementations) since it's missing the orderId and fee
+   * parameters.
    *
    * @param type The trade type (BID side or ASK side)
    * @param tradableAmount The depth of this trade

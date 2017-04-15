@@ -98,8 +98,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
     }
   }
 
-  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice, PoloniexOrderFlags flag)
-      throws IOException {
+  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice, PoloniexOrderFlags flag) throws IOException {
 
     Integer immediateOrCancel;
     if (flag == PoloniexOrderFlags.IMMEDIATE_OR_CANCEL) {

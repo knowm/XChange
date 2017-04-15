@@ -23,14 +23,14 @@ import org.knowm.xchange.utils.CertHelper;
 
 /**
  * @author ObsessiveOrange
- *         <p>
- *         Example showing the following:
- *         </p>
- *         <ul>
- *         <li>Connect to BTCChina exchange with authentication</li>
- *         <li>View account balance</li>
- *         <li>Get the bitcoin deposit address</li>
- *         </ul>
+ * <p>
+ * Example showing the following:
+ * </p>
+ * <ul>
+ * <li>Connect to BTCChina exchange with authentication</li>
+ * <li>View account balance</li>
+ * <li>Get the bitcoin deposit address</li>
+ * </ul>
  */
 public class BTCChinaAccountDemo {
 

@@ -51,8 +51,8 @@ public interface BitVc {
 
   @POST
   @Path("api/order/list")
-  HuobiOrderResult getOrders(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType,
-      @FormParam("created") long created, @FormParam("sign") ParamsDigest sign) throws IOException;
+  HuobiOrderResult getOrders(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType, @FormParam("created") long created,
+      @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   @Path("api/order/{id}")
@@ -68,12 +68,12 @@ public interface BitVc {
   @POST
   @Path("api/order/{side}")
   HuobiPlaceOrderResult placeMarketOrder(@FormParam("access_key") String accessKey, @FormParam("amount") String amount,
-      @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("sign") ParamsDigest sign, @PathParam("side") String side)
-      throws IOException;
+      @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("sign") ParamsDigest sign,
+      @PathParam("side") String side) throws IOException;
 
   @POST
   @Path("api/order/cancel/{id2}")
   HuobiCancelOrderResult cancelOrder(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType,
-      @FormParam("created") long created, @FormParam("id") long id, @FormParam("sign") ParamsDigest sign, @PathParam("id2") long id2)
-      throws IOException;
+      @FormParam("created") long created, @FormParam("id") long id, @FormParam("sign") ParamsDigest sign,
+      @PathParam("id2") long id2) throws IOException;
 }

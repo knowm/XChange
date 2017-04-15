@@ -36,8 +36,7 @@ public class BleutradeTestData {
   }
 
   protected static LimitOrder[] expectedPlacedOrders() {
-    return new LimitOrder[]{
-        new LimitOrder(Order.OrderType.BID, new BigDecimal("10.00000000"), CurrencyPair.BTC_AUD, "", null, new BigDecimal("1.1")),
+    return new LimitOrder[]{new LimitOrder(Order.OrderType.BID, new BigDecimal("10.00000000"), CurrencyPair.BTC_AUD, "", null, new BigDecimal("1.1")),
         new LimitOrder(Order.OrderType.ASK, new BigDecimal("20.00000000"), CurrencyPair.BTC_AUD, "", null, new BigDecimal("2.2"))};
   }
 

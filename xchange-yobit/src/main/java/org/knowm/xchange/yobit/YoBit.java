@@ -22,7 +22,8 @@ public interface YoBit {
 
   @GET
   @Path("api/3/depth/{baseCurrency}_{targetCurrency}")
-  YoBitOrderBook getOrderBook(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency, @QueryParam("limit") long limit) throws IOException;
+  YoBitOrderBook getOrderBook(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency,
+      @QueryParam("limit") long limit) throws IOException;
 
   @GET
   @Path("api/3/trades/{baseCurrency}_{targetCurrency}")
