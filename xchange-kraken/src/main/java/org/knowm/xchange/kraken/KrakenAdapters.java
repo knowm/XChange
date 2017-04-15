@@ -290,7 +290,7 @@ public class KrakenAdapters {
             FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp,
                     currency, krakenLedger.getTransactionAmount(), internalId, null,
                     FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
-                    "COMPLETE", krakenLedger.getBalance(), krakenLedger.getFee(), null);
+                    FundingRecord.Status.COMPLETE, krakenLedger.getBalance(), krakenLedger.getFee(), null);
             fundingRecords.add(fundingRecordEntry);
           }
         }
