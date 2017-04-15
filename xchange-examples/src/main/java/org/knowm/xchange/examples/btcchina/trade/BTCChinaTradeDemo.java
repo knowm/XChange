@@ -18,10 +18,8 @@ import org.knowm.xchange.examples.btcchina.BTCChinaExamplesUtils;
 import org.knowm.xchange.service.trade.TradeService;
 
 /**
- * @author ObsessiveOrange
- * <p>
  * Example showing the following:
- * </p>
+ * <p>
  * <ul>
  * <li>Connect to BTCChina exchange with authentication</li>
  * <li>Enter, review and cancel limit orders</li>

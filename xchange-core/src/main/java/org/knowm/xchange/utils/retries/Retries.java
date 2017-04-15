@@ -19,8 +19,7 @@ public class Retries {
    * @param retryableException An instance of {@link org.knowm.xchange.utils.retries.IPredicate} that will be used to check if the exception caught is
    * retryable, which can be any complex criteria that the user defines.
    * @return
-   * @throws Exception If the exception isn't retryable, it's immediately thrown again. If it is retryable, then a RunTimeException is thrown after
-   * the allowed number of retries is exhausted.
+   * @throws Exception If the exception isn't retryable, it's immediately thrown again. If it is retryable, then a RunTimeException is thrown after the allowed number of retries is exhausted.
    * @author Matija Mazi and Bryan Hernandez
    */
   public static <V> V callWithRetries(int nAttempts, int initialRetrySec, Callable<V> action,
