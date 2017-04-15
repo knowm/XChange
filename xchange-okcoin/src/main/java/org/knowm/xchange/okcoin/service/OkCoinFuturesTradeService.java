@@ -1,7 +1,13 @@
 package org.knowm.xchange.okcoin.service;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -31,7 +37,7 @@ import org.slf4j.LoggerFactory;
 
 public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements TradeService {
 
-  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
   private final Logger log = LoggerFactory.getLogger(OkCoinFuturesTradeService.class);
 
   private final int leverRate;
@@ -92,7 +98,9 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     }
   }
 
-  /** Liquidate long or short contract (depending on market order order type) using a market order */
+  /**
+   * Liquidate long or short contract (depending on market order order type) using a market order
+   */
   public String liquidateMarketOrder(MarketOrder marketOrder) throws IOException {
 
     long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()),
@@ -113,7 +121,9 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     }
   }
 
-  /** Liquidate long or short contract using a limit order */
+  /**
+   * Liquidate long or short contract using a limit order
+   */
   public String liquidateLimitOrder(LimitOrder limitOrder) throws IOException {
 
     long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()),

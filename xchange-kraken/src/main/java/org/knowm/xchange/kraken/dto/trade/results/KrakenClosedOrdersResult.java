@@ -12,7 +12,7 @@ public class KrakenClosedOrdersResult extends KrakenResult<KrakenClosedOrders> {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */

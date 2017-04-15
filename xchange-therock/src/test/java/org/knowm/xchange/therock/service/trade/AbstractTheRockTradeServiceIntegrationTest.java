@@ -8,7 +8,7 @@ public abstract class AbstractTheRockTradeServiceIntegrationTest {
 
   /**
    * Substitute apiKey, secretKey and userName in order to run the inherited integration tests
-   * 
+   *
    * @return an instance of class TheRockExchange
    */
   protected static Exchange createExchange() {

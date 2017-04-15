@@ -15,7 +15,7 @@ public class BTCEDepth {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

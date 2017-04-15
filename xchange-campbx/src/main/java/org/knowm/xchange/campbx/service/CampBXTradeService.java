@@ -133,7 +133,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
 
   private String composeOrderId(CampBX.OrderType type, String id) {
 
-    return ID_FORMAT.format(new Object[] { type, id });
+    return ID_FORMAT.format(new Object[]{type, id});
   }
 
   @Override

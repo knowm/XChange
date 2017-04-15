@@ -86,7 +86,7 @@ public interface BTCTrade {
   @POST
   @Path("balance")
   BTCTradeBalance getBalance(@FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key,
-                             @FormParam("signature") ParamsDigest signature) throws IOException;
+      @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Returns the deposit address.
@@ -99,7 +99,7 @@ public interface BTCTrade {
   @POST
   @Path("wallet")
   BTCTradeWallet getWallet(@FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key,
-                           @FormParam("signature") ParamsDigest signature) throws IOException;
+      @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Return orders.
@@ -113,7 +113,7 @@ public interface BTCTrade {
   @POST
   @Path("orders")
   BTCTradeOrder[] getOrders(@FormParam("since") long since, @FormParam("type") String type,
-                            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
       throws IOException;
 
   /**
@@ -127,7 +127,7 @@ public interface BTCTrade {
   @POST
   @Path("fetch_order")
   BTCTradeOrder getOrder(@FormParam("id") String id, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key,
-                         @FormParam("signature") ParamsDigest signature) throws IOException;
+      @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Cancels order.
@@ -140,7 +140,7 @@ public interface BTCTrade {
   @POST
   @Path("cancel_order")
   BTCTradeResult cancelOrder(@FormParam("id") String id, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-                             @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
+      @FormParam("key") String key, @FormParam("signature") ParamsDigest signature) throws IOException;
 
   /**
    * Places a buy order.
@@ -154,7 +154,7 @@ public interface BTCTrade {
   @POST
   @Path("buy")
   BTCTradePlaceOrderResult buy(@FormParam("amount") String amount, @FormParam("price") String price,
-                               @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
       throws IOException;
 
   /**
@@ -169,7 +169,7 @@ public interface BTCTrade {
   @POST
   @Path("sell")
   BTCTradePlaceOrderResult sell(@FormParam("amount") String amount, @FormParam("price") String price,
-                                @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("key") String key, @FormParam("signature") ParamsDigest signature)
       throws IOException;
 
 }

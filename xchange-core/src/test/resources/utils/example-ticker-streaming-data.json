@@ -1,85 +1,85 @@
 {
-   "ticker":{
-      "vol":{
-         "value_int":"1547500497509",
-         "value":"15475.00497509",
-         "display":"15,475.00497509 BTC",
-         "display_short":"15,475.00 BTC",
-         "currency":"BTC"
-      },
-      "vwap":{
-         "value_int":"509838",
-         "value":"5.09838",
-         "display":"$5.09838",
-         "display_short":"$5.10",
-         "currency":"USD"
-      },
-      "last":{
-         "value_int":"510991",
-         "value":"5.10991",
-         "display":"$5.10991",
-         "display_short":"$5.11",
-         "currency":"USD"
-      },
-      "sell":{
-         "value_int":"511000",
-         "value":"5.11000",
-         "display":"$5.11000",
-         "display_short":"$5.11",
-         "currency":"USD"
-      },
-      "buy":{
-         "value_int":"510991",
-         "value":"5.10991",
-         "display":"$5.10991",
-         "display_short":"$5.11",
-         "currency":"USD"
-      },
-      "last_orig":{
-         "value_int":"510991",
-         "value":"5.10991",
-         "display":"$5.10991",
-         "display_short":"$5.11",
-         "currency":"USD"
-      },
-      "last_all":{
-         "value_int":"510991",
-         "value":"5.10991",
-         "display":"$5.10991",
-         "display_short":"$5.11",
-         "currency":"USD"
-      },
-      "high":{
-         "value_int":"512500",
-         "value":"5.12500",
-         "display":"$5.12500",
-         "display_short":"$5.13",
-         "currency":"USD"
-      },
-      "last_local":{
-         "value_int":"510991",
-         "value":"5.10991",
-         "display":"$5.10991",
-         "display_short":"$5.11",
-         "currency":"USD"
-      },
-      "avg":{
-         "value_int":"509888",
-         "value":"5.09888",
-         "display":"$5.09888",
-         "display_short":"$5.10",
-         "currency":"USD"
-      },
-      "low":{
-         "value_int":"507000",
-         "value":"5.07000",
-         "display":"$5.07000",
-         "display_short":"$5.07",
-         "currency":"USD"
-      }
-   },
-   "op":"private",
-   "origin":"broadcast",
-   "channel":"d5f06780-30a8-4a48-a2f8-7ed181b4a13f",
-   "private":"ticker"
+  "ticker": {
+    "vol": {
+      "value_int": "1547500497509",
+      "value": "15475.00497509",
+      "display": "15,475.00497509 BTC",
+      "display_short": "15,475.00 BTC",
+      "currency": "BTC"
+    },
+    "vwap": {
+      "value_int": "509838",
+      "value": "5.09838",
+      "display": "$5.09838",
+      "display_short": "$5.10",
+      "currency": "USD"
+    },
+    "last": {
+      "value_int": "510991",
+      "value": "5.10991",
+      "display": "$5.10991",
+      "display_short": "$5.11",
+      "currency": "USD"
+    },
+    "sell": {
+      "value_int": "511000",
+      "value": "5.11000",
+      "display": "$5.11000",
+      "display_short": "$5.11",
+      "currency": "USD"
+    },
+    "buy": {
+      "value_int": "510991",
+      "value": "5.10991",
+      "display": "$5.10991",
+      "display_short": "$5.11",
+      "currency": "USD"
+    },
+    "last_orig": {
+      "value_int": "510991",
+      "value": "5.10991",
+      "display": "$5.10991",
+      "display_short": "$5.11",
+      "currency": "USD"
+    },
+    "last_all": {
+      "value_int": "510991",
+      "value": "5.10991",
+      "display": "$5.10991",
+      "display_short": "$5.11",
+      "currency": "USD"
+    },
+    "high": {
+      "value_int": "512500",
+      "value": "5.12500",
+      "display": "$5.12500",
+      "display_short": "$5.13",
+      "currency": "USD"
+    },
+    "last_local": {
+      "value_int": "510991",
+      "value": "5.10991",
+      "display": "$5.10991",
+      "display_short": "$5.11",
+      "currency": "USD"
+    },
+    "avg": {
+      "value_int": "509888",
+      "value": "5.09888",
+      "display": "$5.09888",
+      "display_short": "$5.10",
+      "currency": "USD"
+    },
+    "low": {
+      "value_int": "507000",
+      "value": "5.07000",
+      "display": "$5.07000",
+      "display_short": "$5.07",
+      "currency": "USD"
+    }
+  },
+  "op": "private",
+  "origin": "broadcast",
+  "channel": "d5f06780-30a8-4a48-a2f8-7ed181b4a13f",
+  "private": "ticker"
 }

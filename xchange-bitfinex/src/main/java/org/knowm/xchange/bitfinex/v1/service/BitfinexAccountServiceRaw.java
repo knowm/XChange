@@ -51,22 +51,22 @@ public class BitfinexAccountServiceRaw extends BitfinexBaseService {
       throw new ExchangeException(e);
     }
   }
-  
+
   public BitfinexDepositWithdrawalHistoryResponse[] getDepositWithdrawalHistory(String currency, String method, Date since, Date until,
-          Integer limit) throws IOException {
-      try {
-        BitfinexDepositWithdrawalHistoryRequest request = new BitfinexDepositWithdrawalHistoryRequest(String.valueOf(exchange.getNonceFactory().createValue())
-                , currency, method, since, until, limit);
-        return bitfinex.depositWithdrawalHistory(apiKey, payloadCreator, signatureCreator, request);
-      } catch (BitfinexException e) {
-        throw new ExchangeException(e);
-      }
+      Integer limit) throws IOException {
+    try {
+      BitfinexDepositWithdrawalHistoryRequest request = new BitfinexDepositWithdrawalHistoryRequest(String.valueOf(exchange.getNonceFactory().createValue())
+          , currency, method, since, until, limit);
+      return bitfinex.depositWithdrawalHistory(apiKey, payloadCreator, signatureCreator, request);
+    } catch (BitfinexException e) {
+      throw new ExchangeException(e);
     }
+  }
 
   public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address) throws IOException {
-      return withdraw(withdrawType, walletSelected, amount, address, null);
+    return withdraw(withdrawType, walletSelected, amount, address, null);
   }
-  
+
   public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address, String paymentId) throws IOException {
 
     BitfinexWithdrawalResponse[] withdrawRepsonse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator,

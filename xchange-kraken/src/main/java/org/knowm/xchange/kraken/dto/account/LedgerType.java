@@ -29,7 +29,7 @@ public enum LedgerType {
 
     LedgerType ledgerType = fromString.get(ledgerTypeString.toLowerCase());
     if (ledgerType == null) {
-        throw new RuntimeException("Not supported kraken ledger type: " + ledgerTypeString);
+      throw new RuntimeException("Not supported kraken ledger type: " + ledgerTypeString);
     }
     return ledgerType;
   }

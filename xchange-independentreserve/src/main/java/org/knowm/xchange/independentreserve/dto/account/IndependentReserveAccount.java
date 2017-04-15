@@ -49,6 +49,5 @@ public class IndependentReserveAccount {
     return "IndependentReserveAccount [accountGuid=" + accountGuid + ", accountStatus=" + accountStatus + ", availableBalance="
         + availableBalance + ", currencyCode=" + currencyCode + ", totalBalance=" + totalBalance + "]";
   }
-  
-  
+
 }

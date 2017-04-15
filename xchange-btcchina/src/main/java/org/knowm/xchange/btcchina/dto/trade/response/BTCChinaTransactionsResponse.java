@@ -10,7 +10,7 @@ public class BTCChinaTransactionsResponse extends BTCChinaResponse<BTCChinaTrans
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param result
    */

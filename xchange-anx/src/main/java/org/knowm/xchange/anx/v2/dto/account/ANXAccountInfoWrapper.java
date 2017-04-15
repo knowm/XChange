@@ -13,7 +13,7 @@ public class ANXAccountInfoWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param anxAccountInfo
    * @param error

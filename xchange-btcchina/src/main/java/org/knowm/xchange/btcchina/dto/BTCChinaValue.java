@@ -17,7 +17,7 @@ public class BTCChinaValue {
 
   /**
    * Constructor
-   * 
+   *
    * @param currency
    * @param symbol
    * @param amount

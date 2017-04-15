@@ -15,7 +15,7 @@ public class VircurexAccountInfoReturn {
 
   /**
    * Constructor
-   * 
+   *
    * @param aStatus
    * @param anAccount
    * @param someBalances

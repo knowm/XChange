@@ -10,6 +10,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 public final class CoinfloorUtils {
 
   private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
   static {
     DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
   }

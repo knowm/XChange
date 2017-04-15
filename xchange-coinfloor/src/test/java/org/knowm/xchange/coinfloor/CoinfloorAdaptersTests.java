@@ -95,8 +95,8 @@ public class CoinfloorAdaptersTests {
     InputStream btcusdStream = getClass().getResourceAsStream("/account/example-balance-btcusd.json");
     CoinfloorBalance btcusd = mapper.readValue(btcusdStream, CoinfloorBalance.class);
 
-    Currency[] currencies = { Currency.BTC, Currency.GBP, Currency.USD, Currency.EUR };
-    CoinfloorBalance[] rawBalances = { btcgbp, btcusd };
+    Currency[] currencies = {Currency.BTC, Currency.GBP, Currency.USD, Currency.EUR};
+    CoinfloorBalance[] rawBalances = {btcgbp, btcusd};
     AccountInfo info = CoinfloorAdapters.adaptAccountInfo(Arrays.asList(currencies), Arrays.asList(rawBalances));
 
     assertThat(info.getWallet().getBalances()).hasSize(3);

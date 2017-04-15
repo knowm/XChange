@@ -1,42 +1,42 @@
 {
-    "success": 1,
-    "return": {
-        "51": {
-            "status": "canceled",
-            "created": "1377265355",
-            "price": "6.85000",
-            "volume": "17.82000000",
-            "pair": "ltc_brl",
-            "type": "buy",
-            "operations": {}
+  "success": 1,
+  "return": {
+    "51": {
+      "status": "canceled",
+      "created": "1377265355",
+      "price": "6.85000",
+      "volume": "17.82000000",
+      "pair": "ltc_brl",
+      "type": "buy",
+      "operations": {}
+    },
+    "1212": {
+      "status": "completed",
+      "created": "1378929161",
+      "price": "6.00000",
+      "volume": "165.47309607",
+      "pair": "ltc_brl",
+      "type": "sell",
+      "operations": {
+        "441": {
+          "volume": "24.90600000",
+          "price": "6.01000",
+          "rate": "0.70",
+          "created": "1378929161"
         },
-        "1212": {
-            "status": "completed",
-            "created": "1378929161",
-            "price": "6.00000",
-            "volume": "165.47309607",
-            "pair": "ltc_brl",
-            "type": "sell",
-            "operations": {
-                "441": {
-                    "volume": "24.90600000",
-                    "price": "6.01000",
-                    "rate": "0.70",
-                    "created": "1378929161"
-                },
-                "442": {
-                    "volume": "30.00000000",
-                    "price": "6.00000",
-                    "rate": "0.70",
-                    "created": "1378929161"
-                },
-                "443": {
-                    "volume": "20.00000000",
-                    "price": "6.00000",
-                    "rate": "0.70",
-                    "created": "1378929161"
-                }
-            }
+        "442": {
+          "volume": "30.00000000",
+          "price": "6.00000",
+          "rate": "0.70",
+          "created": "1378929161"
+        },
+        "443": {
+          "volume": "20.00000000",
+          "price": "6.00000",
+          "rate": "0.70",
+          "created": "1378929161"
         }
+      }
     }
+  }
 }

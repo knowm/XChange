@@ -14,7 +14,7 @@ public class BTCEReturn<V> {
 
   /**
    * Constructor
-   * 
+   *
    * @param success
    * @param returnValue
    * @param error

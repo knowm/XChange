@@ -131,7 +131,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBaseService {
    * Place a buy order.
    *
    * @param price The price in quote currency to buy 1 base currency. Max 2 decimals for BTC/CNY and LTC/CNY markets. 4 decimals for LTC/BTC market.
-   *        Market order is executed by setting price to 'null'.
+   * Market order is executed by setting price to 'null'.
    * @param amount The amount of LTC/BTC to buy. Supports 4 decimal places for BTC and 3 decimal places for LTC.
    * @param market [ BTCCNY | LTCCNY | LTCBTC ]
    * @return order ID.
@@ -156,7 +156,7 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBaseService {
    * Place a sell order.
    *
    * @param price The price in quote currency to sell 1 base currency. Max 2 decimals for BTC/CNY and LTC/CNY markets. 4 decimals for LTC/BTC market.
-   *        Market order is executed by setting price to 'null'.
+   * Market order is executed by setting price to 'null'.
    * @param amount The amount of LTC/BTC to sell. Supports 4 decimal places for BTC and 3 decimal places for LTC.
    * @param market [ BTCCNY | LTCCNY | LTCBTC ]
    * @return order ID.

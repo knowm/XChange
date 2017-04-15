@@ -25,7 +25,7 @@ public final class BitcoinAverageTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param bid
    * @param ask
    * @param volume

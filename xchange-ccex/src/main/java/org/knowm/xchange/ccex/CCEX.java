@@ -21,58 +21,58 @@ import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
 @Produces(MediaType.APPLICATION_JSON)
 public interface CCEX {
 
-	@GET
-	@Path("api_pub.html?a=getmarkets")
-	CCEXMarkets getProducts() throws IOException;
-	
-	@GET
-	@Path("pairs.json")
-	CCEXPairs getPairs() throws IOException;
-	
-	@GET
-	@Path("{lpair}-{rpair}.json")
-	CCEXTickerResponse getTicker(@PathParam("lpair") String lpair, @PathParam("rpair") String rpair) throws IOException;
+  @GET
+  @Path("api_pub.html?a=getmarkets")
+  CCEXMarkets getProducts() throws IOException;
 
-	/**
-	 * Returns "bids" and "asks". Each is a list of open orders and each order
-	 * is represented as a list of data.
-	 */
-	@GET
-	@Path("api_pub.html?a=getorderbook&market={pair}&type=both&depth={depth}")
+  @GET
+  @Path("pairs.json")
+  CCEXPairs getPairs() throws IOException;
+
+  @GET
+  @Path("{lpair}-{rpair}.json")
+  CCEXTickerResponse getTicker(@PathParam("lpair") String lpair, @PathParam("rpair") String rpair) throws IOException;
+
+  /**
+   * Returns "bids" and "asks". Each is a list of open orders and each order
+   * is represented as a list of data.
+   */
+  @GET
+  @Path("api_pub.html?a=getorderbook&market={pair}&type=both&depth={depth}")
   CCEXGetorderbook getOrderBook(@PathParam("pair") Pair pair, @PathParam("depth") int depth) throws IOException;
 
-	/**
-	 * Returns Latest trades that have occured for a specific market.
-	 */
-	@GET
-	@Path("api_pub.html?a=getmarkethistory&market={pair}&count=100")
-	CCEXTrades getTrades(@PathParam("pair") Pair pair) throws IOException;
-	
-	class Pair {
-		public final CurrencyPair pair;
+  /**
+   * Returns Latest trades that have occured for a specific market.
+   */
+  @GET
+  @Path("api_pub.html?a=getmarkethistory&market={pair}&count=100")
+  CCEXTrades getTrades(@PathParam("pair") Pair pair) throws IOException;
 
-		public Pair(CurrencyPair pair) {
-			this.pair = pair;
-		}
+  class Pair {
+    public final CurrencyPair pair;
 
-		public Pair(String pair) {
-			this(CurrencyPairDeserializer.getCurrencyPairFromString(pair));
-		}
+    public Pair(CurrencyPair pair) {
+      this.pair = pair;
+    }
 
-		@Override
-		public boolean equals(Object o) {
-			return this == o || !(o == null || getClass() != o.getClass()) && Objects.equals(pair, ((Pair) o).pair);
-		}
+    public Pair(String pair) {
+      this(CurrencyPairDeserializer.getCurrencyPairFromString(pair));
+    }
 
-		@Override
-		public int hashCode() {
-			return Objects.hash(pair);
-		}
+    @Override
+    public boolean equals(Object o) {
+      return this == o || !(o == null || getClass() != o.getClass()) && Objects.equals(pair, ((Pair) o).pair);
+    }
 
-		@Override
-		public String toString() {
-			return String.format("%s-%s", pair.base.getCurrencyCode().toLowerCase(),
-					pair.counter.getCurrencyCode().toLowerCase());
-		}
-	}
+    @Override
+    public int hashCode() {
+      return Objects.hash(pair);
+    }
+
+    @Override
+    public String toString() {
+      return String.format("%s-%s", pair.base.getCurrencyCode().toLowerCase(),
+          pair.counter.getCurrencyCode().toLowerCase());
+    }
+  }
 }

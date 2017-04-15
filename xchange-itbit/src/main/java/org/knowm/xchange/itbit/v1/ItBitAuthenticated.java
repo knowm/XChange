@@ -68,7 +68,9 @@ public interface ItBitAuthenticated {
       @HeaderParam("X-Auth-Nonce") SynchronizedValueFactory<Long> valueFactory, @PathParam("walletId") String walletId,
       ItBitPlaceOrderRequest request) throws IOException, ItBitException;
 
-  /** Returns empty body, return object is always null */
+  /**
+   * Returns empty body, return object is always null
+   */
   @DELETE
   @Path("wallets/{walletId}/orders/{orderId}")
   Object cancelOrder(@HeaderParam("Authorization") ParamsDigest signer, @HeaderParam("X-Auth-Timestamp") long timestamp,

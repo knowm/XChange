@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "Order_ID", "status" })
+@JsonPropertyOrder({"Order_ID", "status"})
 public class VaultoroCancelOrderData {
 
   @JsonProperty("Order_ID")

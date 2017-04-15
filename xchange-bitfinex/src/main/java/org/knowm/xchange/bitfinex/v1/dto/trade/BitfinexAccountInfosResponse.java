@@ -1,8 +1,8 @@
 package org.knowm.xchange.bitfinex.v1.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitfinexAccountInfosResponse {
 
@@ -11,8 +11,8 @@ public class BitfinexAccountInfosResponse {
   private final BitfinexFee[] fees;
 
   public BitfinexAccountInfosResponse(@JsonProperty("maker_fees") BigDecimal makerFees,
-          @JsonProperty("taker_fees") BigDecimal takerFees,
-          @JsonProperty("fees") BitfinexFee[] fees) {
+      @JsonProperty("taker_fees") BigDecimal takerFees,
+      @JsonProperty("fees") BitfinexFee[] fees) {
     this.makerFees = makerFees;
     this.takerFees = takerFees;
     this.fees = fees;

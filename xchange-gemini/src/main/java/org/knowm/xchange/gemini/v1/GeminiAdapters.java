@@ -234,7 +234,7 @@ public final class GeminiAdapters {
       String currencyName = balance.getCurrency().toUpperCase();
       BigDecimal[] balanceDetail = balancesByCurrency.get(currencyName);
       if (balanceDetail == null) {
-        balanceDetail = new BigDecimal[] { balance.getAmount(), balance.getAvailable() };
+        balanceDetail = new BigDecimal[]{balance.getAmount(), balance.getAvailable()};
       } else {
         balanceDetail[0] = balanceDetail[0].add(balance.getAmount());
         balanceDetail[1] = balanceDetail[1].add(balance.getAvailable());

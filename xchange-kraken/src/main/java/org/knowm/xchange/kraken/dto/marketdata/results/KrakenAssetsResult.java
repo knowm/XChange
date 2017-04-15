@@ -11,7 +11,7 @@ public class KrakenAssetsResult extends KrakenResult<Map<String, KrakenAsset>> {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */

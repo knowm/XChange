@@ -13,7 +13,7 @@ public class BTCETradesWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param tradesMap
    */
   @JsonCreator

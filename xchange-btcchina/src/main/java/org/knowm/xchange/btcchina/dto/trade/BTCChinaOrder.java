@@ -22,7 +22,7 @@ public class BTCChinaOrder {
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param type
    * @param price

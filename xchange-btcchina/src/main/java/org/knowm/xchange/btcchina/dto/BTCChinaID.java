@@ -11,7 +11,7 @@ public class BTCChinaID {
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    */
   public BTCChinaID(@JsonProperty("id") String id) {

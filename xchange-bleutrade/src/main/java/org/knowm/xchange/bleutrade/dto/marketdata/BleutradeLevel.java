@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "Quantity", "Rate" })
+@JsonPropertyOrder({"Quantity", "Rate"})
 public class BleutradeLevel {
 
   @JsonProperty("Quantity")

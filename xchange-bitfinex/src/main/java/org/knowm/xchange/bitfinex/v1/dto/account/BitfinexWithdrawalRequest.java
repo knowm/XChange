@@ -26,14 +26,13 @@ public class BitfinexWithdrawalRequest {
   private final String amount;
   @JsonProperty("address")
   private final String address;
-  
+
   @JsonProperty("payment_id")
   private final String paymentId;
-  
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    * @param withdrawType
    * @param walletSelected

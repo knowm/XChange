@@ -112,13 +112,13 @@ public class CoinfloorUserTransaction {
   public OrderType getSide() {
     if (isTrade()) {
       switch (getAmount().signum()) {
-      case 0:
-      default:
-        return null; // deposit or withdrawal
-      case 1:
-        return OrderType.BID;
-      case -1:
-        return OrderType.ASK;
+        case 0:
+        default:
+          return null; // deposit or withdrawal
+        case 1:
+          return OrderType.BID;
+        case -1:
+          return OrderType.ASK;
       }
     } else {
       return null;
@@ -177,14 +177,14 @@ public class CoinfloorUserTransaction {
     @Override
     public TransactionType deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
       switch (jp.getValueAsInt()) {
-      case 0:
-        return TransactionType.DEPOSIT;
-      case 1:
-        return TransactionType.WITHDRAWAL;
-      case 2:
-        return TransactionType.TRADE;
-      default:
-        return TransactionType.UNKNOWN;
+        case 0:
+          return TransactionType.DEPOSIT;
+        case 1:
+          return TransactionType.WITHDRAWAL;
+        case 2:
+          return TransactionType.TRADE;
+        default:
+          return TransactionType.UNKNOWN;
       }
     }
   }

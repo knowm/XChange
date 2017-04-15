@@ -13,7 +13,7 @@ public class BTCETickerWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param resultV3
    */
   @JsonCreator

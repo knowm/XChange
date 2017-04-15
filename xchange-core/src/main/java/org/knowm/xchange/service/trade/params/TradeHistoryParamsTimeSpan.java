@@ -1,8 +1,8 @@
 package org.knowm.xchange.service.trade.params;
 
-import org.knowm.xchange.service.trade.TradeService;
-
 import java.util.Date;
+
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * Parameters type for {@link TradeService#getTradeHistory(TradeHistoryParams)} with start and end

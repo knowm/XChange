@@ -123,12 +123,12 @@ public class HitbtcAdapters {
   public static OrderType adaptSide(HitbtcTrade.HitbtcTradeSide side) {
 
     switch (side) {
-    case BUY:
-      return OrderType.BID;
-    case SELL:
-      return OrderType.ASK;
-    default:
-      return null;
+      case BUY:
+        return OrderType.BID;
+      case SELL:
+        return OrderType.ASK;
+      default:
+        return null;
     }
   }
 

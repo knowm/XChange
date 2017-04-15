@@ -21,7 +21,7 @@ public class BTCChinaTransactionsRequest extends BTCChinaRequest {
    * Constructs a getting transactions log request.
    *
    * @param type Fetch transactions by type. Default is 'all'. Available types 'all | fundbtc | withdrawbtc | fundmoney | withdrawmoney | refundmoney
-   *        | buybtc | sellbtc | buyltc | sellltc | tradefee | rebate '
+   * | buybtc | sellbtc | buyltc | sellltc | tradefee | rebate '
    * @param limit Limit the number of transactions, default value is 10.
    * @param offset Start index used for pagination, default value is 0.
    * @param since To fetch the transactions from this point, which can either be an order id or a unix timestamp, default value is 0.

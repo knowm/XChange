@@ -39,13 +39,17 @@ public class QuadrigaCxOrderBook {
     return timestamp;
   }
 
-  /** (price, amount) */
+  /**
+   * (price, amount)
+   */
   public List<List<BigDecimal>> getBids() {
 
     return bids;
   }
 
-  /** (price, amount) */
+  /**
+   * (price, amount)
+   */
   public List<List<BigDecimal>> getAsks() {
 
     return asks;

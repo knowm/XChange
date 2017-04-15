@@ -15,7 +15,7 @@ public class ANXTradesWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param anxTrades
    * @param error

@@ -31,14 +31,18 @@ public class TheRockAccountServiceRaw extends TheRockBaseService {
     this.signatureCreator = new TheRockDigest(spec.getSecretKey());
   }
 
-  /** Withdraw using the default method */
+  /**
+   * Withdraw using the default method
+   */
   public TheRockWithdrawalResponse withdrawDefault(Currency currency, BigDecimal amount, String destinationAddress)
       throws TheRockException, IOException {
     final TheRockWithdrawal withdrawal = TheRockWithdrawal.createDefaultWithdrawal(currency.getCurrencyCode(), amount, destinationAddress);
     return theRockAuthenticated.withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), withdrawal);
   }
 
-  /** Withdraw to Ripple */
+  /**
+   * Withdraw to Ripple
+   */
   public TheRockWithdrawalResponse withdrawRipple(Currency currency, BigDecimal amount, String destinationAddress)
       throws TheRockException, IOException {
     final TheRockWithdrawal withdrawal = TheRockWithdrawal.createRippleWithdrawal(currency.getCurrencyCode(), amount, destinationAddress);

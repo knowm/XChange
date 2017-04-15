@@ -9,7 +9,7 @@ public class KrakenServerTimeResult extends KrakenResult<KrakenServerTime> {
 
   /**
    * Constructor
-   * 
+   *
    * @param error
    * @param result
    */

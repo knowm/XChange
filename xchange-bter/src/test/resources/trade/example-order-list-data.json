@@ -1,13 +1,13 @@
 {
-   "result":true,
-   "orders":[
-      {
-         "id":"12941907",
-         "sell_type":"LTC",
-         "buy_type":"BTC",
-         "sell_amount":"0.384",
-         "buy_amount":"0.010176"
-      }
-   ],
-   "msg":"Success"
+  "result": true,
+  "orders": [
+    {
+      "id": "12941907",
+      "sell_type": "LTC",
+      "buy_type": "BTC",
+      "sell_amount": "0.384",
+      "buy_amount": "0.010176"
+    }
+  ],
+  "msg": "Success"
 }

@@ -87,10 +87,10 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
     return poloniexAuthenticated
         .withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency.getCurrencyCode(), amount, address, paymentId).getResponse();
   }
-  
+
   public PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(Date start, Date end) throws IOException {
-      return poloniexAuthenticated.returnDepositsWithdrawals(apiKey, signatureCreator, exchange.getNonceFactory()
-              , DateUtils.toUnixTimeNullSafe(start), DateUtils.toUnixTimeNullSafe(end));
+    return poloniexAuthenticated.returnDepositsWithdrawals(apiKey, signatureCreator, exchange.getNonceFactory()
+        , DateUtils.toUnixTimeNullSafe(start), DateUtils.toUnixTimeNullSafe(end));
   }
 
 }

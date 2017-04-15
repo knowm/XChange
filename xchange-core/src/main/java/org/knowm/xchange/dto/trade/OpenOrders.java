@@ -16,7 +16,7 @@ public final class OpenOrders {
 
   /**
    * Constructor
-   * 
+   *
    * @param openOrders The list of open orders
    */
   public OpenOrders(List<LimitOrder> openOrders) {

@@ -9,7 +9,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 /**
  * Transaction History paging params which combine id and time parameters and sort order.
- * 
+ *
  * @author Peter N. Steinmetz Date: 4/3/15 Time: 8:29 AM
  */
 public class BTCETransHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan {

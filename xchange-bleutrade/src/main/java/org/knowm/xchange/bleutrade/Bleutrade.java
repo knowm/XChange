@@ -37,7 +37,7 @@ public interface Bleutrade {
   @GET
   @Path("public/getorderbook")
   BleutradeOrderBookReturn getBleutradeOrderBook(@QueryParam("market") String market, @QueryParam("type") String type,
-                                                 @QueryParam("depth") int depth) throws IOException;
+      @QueryParam("depth") int depth) throws IOException;
 
   @GET
   @Path("public/getmarkethistory")

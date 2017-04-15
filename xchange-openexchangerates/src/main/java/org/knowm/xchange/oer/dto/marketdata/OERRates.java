@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The exchange rates. Purposely made not immutable due to lack of motivation to create monster constructor
- * 
+ *
  * @author timmolter
  */
 public class OERRates {

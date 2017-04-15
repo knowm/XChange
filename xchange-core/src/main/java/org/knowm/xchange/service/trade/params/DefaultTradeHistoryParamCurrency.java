@@ -10,7 +10,7 @@ public class DefaultTradeHistoryParamCurrency implements TradeHistoryParamCurren
   }
 
   public DefaultTradeHistoryParamCurrency(Currency currency) {
-    this.currency  = currency;
+    this.currency = currency;
   }
 
   @Override

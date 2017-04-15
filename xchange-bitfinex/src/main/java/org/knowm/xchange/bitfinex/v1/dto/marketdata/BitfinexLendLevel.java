@@ -14,7 +14,7 @@ public class BitfinexLendLevel {
 
   /**
    * Constructor
-   * 
+   *
    * @param rate
    * @param amount
    * @param period

@@ -55,7 +55,9 @@ public interface GDAX {
   @Path("products/{baseCurrency}-{targetCurrency}/trades")
   GDAXTrade[] getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
 
-  /** Authenticated calls */
+  /**
+   * Authenticated calls
+   */
 
   @GET
   @Path("accounts")

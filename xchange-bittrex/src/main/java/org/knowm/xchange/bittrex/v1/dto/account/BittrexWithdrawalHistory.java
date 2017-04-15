@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "PaymentUuid", "Currency", "Amount", "Opened", "Authorized", "PendingPayment", "TxCost", "TxId", "Canceled", "InvalidAddress" })
+@JsonPropertyOrder({"PaymentUuid", "Currency", "Amount", "Opened", "Authorized", "PendingPayment", "TxCost", "TxId", "Canceled", "InvalidAddress"})
 public class BittrexWithdrawalHistory {
   @JsonProperty("PaymentUuid")
   private String paymentUuid;

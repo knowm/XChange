@@ -17,7 +17,7 @@ public class BTEROpenOrder {
 
   /**
    * Constructor
-   * 
+   *
    * @param id orderId
    * @param sellAmount amount to sell
    * @param buyAmount amount to buy

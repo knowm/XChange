@@ -24,7 +24,7 @@ public class BTCETradeHistoryResult {
 
   /**
    * Constructor
-   * 
+   *
    * @param timestamp
    * @param isYourOrder
    * @param orderId

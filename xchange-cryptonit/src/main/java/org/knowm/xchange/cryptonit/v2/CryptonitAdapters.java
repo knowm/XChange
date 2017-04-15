@@ -38,7 +38,7 @@ public final class CryptonitAdapters {
 
   /**
    * Adapts a CryptonitOrder to a LimitOrder
-   * 
+   *
    * @param amount
    * @param price
    * @param orderTypeString
@@ -56,7 +56,7 @@ public final class CryptonitAdapters {
 
   /**
    * Adapts CryptonitOrders to a List of LimitOrders
-   * 
+   *
    * @param cryptonitOrders
    * @param orderType
    * @param id
@@ -83,7 +83,7 @@ public final class CryptonitAdapters {
 
   /**
    * Adapts a CryptonitTrade to a Trade Object
-   * 
+   *
    * @param cryptonitTrade A Cryptonit trade
    * @return The XChange Trade
    */
@@ -97,7 +97,7 @@ public final class CryptonitAdapters {
 
   /**
    * Adapts a CryptonitTrade[] to a Trades Object
-   * 
+   *
    * @param cryptonitTrades The Cryptonit trade data
    * @return The trades
    */
@@ -119,7 +119,7 @@ public final class CryptonitAdapters {
 
   /**
    * Adapts a cryptonitTicker to a Ticker Object
-   * 
+   *
    * @param cryptonitTicker
    * @return
    */

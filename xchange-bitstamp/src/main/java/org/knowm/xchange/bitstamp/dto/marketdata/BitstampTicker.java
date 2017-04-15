@@ -20,7 +20,7 @@ public final class BitstampTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param last
    * @param high
    * @param low

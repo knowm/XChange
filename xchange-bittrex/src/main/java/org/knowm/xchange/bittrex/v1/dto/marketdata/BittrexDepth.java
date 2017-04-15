@@ -11,7 +11,7 @@ public class BittrexDepth {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

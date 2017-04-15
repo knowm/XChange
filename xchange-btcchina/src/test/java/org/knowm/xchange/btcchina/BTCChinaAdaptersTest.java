@@ -138,13 +138,14 @@ public class BTCChinaAdaptersTest {
     assertEquals(OrderStatus.REJECTED, BTCChinaAdapters.adaptOrderStatus("error"));
     assertEquals(OrderStatus.REJECTED, BTCChinaAdapters.adaptOrderStatus("insufficient_balance"));
   }
+
   @Test
   public void testAdaptFundingHistory() throws JsonParseException, JsonMappingException, IOException {
 
     final BTCChinaGetDepositsResponse depositsResponse = mapper.readValue(getClass().getResource("dto/account/response/getDeposits.json"),
-            BTCChinaGetDepositsResponse.class);
+        BTCChinaGetDepositsResponse.class);
     final BTCChinaGetWithdrawalsResponse withdrawalResponse = mapper.readValue(getClass().getResource("dto/account/response/getWithdrawals.json"),
-            BTCChinaGetWithdrawalsResponse.class);
+        BTCChinaGetWithdrawalsResponse.class);
     final List<FundingRecord> fundingRecords = BTCChinaAdapters.adaptFundingHistory(depositsResponse, withdrawalResponse);
     final FundingRecord depositRecord = fundingRecords.get(1);
     final FundingRecord withdrawalRecord = fundingRecords.get(3);

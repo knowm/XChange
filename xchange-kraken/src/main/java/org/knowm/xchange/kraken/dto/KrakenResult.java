@@ -13,7 +13,7 @@ public class KrakenResult<V> {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */

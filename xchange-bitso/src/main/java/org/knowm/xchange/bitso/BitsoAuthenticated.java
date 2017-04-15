@@ -31,18 +31,18 @@ public interface BitsoAuthenticated {
   @POST
   @Path("open_orders/")
   BitsoOrder[] getOpenOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-                             @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitsoException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitsoException, IOException;
 
   @POST
   @Path("buy/")
   BitsoOrder buy(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-                 @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
       throws BitsoException, IOException;
 
   @POST
   @Path("sell/")
   BitsoOrder sell(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-                  @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
       throws BitsoException, IOException;
 
   /**
@@ -51,18 +51,18 @@ public interface BitsoAuthenticated {
   @POST
   @Path("cancel_order/")
   boolean cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-                      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") String orderId) throws BitsoException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") String orderId) throws BitsoException, IOException;
 
   @POST
   @Path("user_transactions/")
   BitsoUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-                                             @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("limit") long numberOfTransactions) throws BitsoException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("limit") long numberOfTransactions) throws BitsoException, IOException;
 
   @POST
   @Path("user_transactions/")
   BitsoUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-                                             @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("limit") long numberOfTransactions, @FormParam("offset") long offset,
-                                             @FormParam("sort") String sort) throws BitsoException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("limit") long numberOfTransactions, @FormParam("offset") long offset,
+      @FormParam("sort") String sort) throws BitsoException, IOException;
 
   @POST
   @Path("balance/")

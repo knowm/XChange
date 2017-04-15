@@ -1,59 +1,59 @@
 {
-    "high": {
-        "currency": "USD",
-        "display": "725.38123 USD",
-        "display_short": "725.38 USD",
-        "value": "725.38123",
-        "value_int": "72538123"
-    },
-    "low": {
-        "currency": "USD",
-        "display": "380.00000 USD",
-        "display_short": "380.00 USD",
-        "value": "380.00000",
-        "value_int": "38000000"
-    },
-    "avg": {
-        "currency": "USD",
-        "display": "429.34018 USD",
-        "display_short": "429.34 USD",
-        "value": "429.34018",
-        "value_int": "42934018"
-    },
-    "vwap": {
-        "currency": "USD",
-        "display": "429.34018 USD",
-        "display_short": "429.34 USD",
-        "value": "429.34018",
-        "value_int": "42934018"
-    },
-    "vol": {
-        "currency": "BTC",
-        "display": "7.00000000 BTC",
-        "display_short": "7.00 BTC",
-        "value": "7.00000000",
-        "value_int": "700000000"
-    },
-    "last": {
-        "currency": "USD",
-        "display": "725.38123 USD",
-        "display_short": "725.38 USD",
-        "value": "725.38123",
-        "value_int": "72538123"
-    },
-    "buy": {
-        "currency": "USD",
-        "display": "38.85148 USD",
-        "display_short": "38.85 USD",
-        "value": "38.85148",
-        "value_int": "3885148"
-    },
-    "sell": {
-        "currency": "USD",
-        "display": "897.25596 USD",
-        "display_short": "897.26 USD",
-        "value": "897.25596",
-        "value_int": "89725596"
-    },
-    "now": 1393388594814000
+  "high": {
+    "currency": "USD",
+    "display": "725.38123 USD",
+    "display_short": "725.38 USD",
+    "value": "725.38123",
+    "value_int": "72538123"
+  },
+  "low": {
+    "currency": "USD",
+    "display": "380.00000 USD",
+    "display_short": "380.00 USD",
+    "value": "380.00000",
+    "value_int": "38000000"
+  },
+  "avg": {
+    "currency": "USD",
+    "display": "429.34018 USD",
+    "display_short": "429.34 USD",
+    "value": "429.34018",
+    "value_int": "42934018"
+  },
+  "vwap": {
+    "currency": "USD",
+    "display": "429.34018 USD",
+    "display_short": "429.34 USD",
+    "value": "429.34018",
+    "value_int": "42934018"
+  },
+  "vol": {
+    "currency": "BTC",
+    "display": "7.00000000 BTC",
+    "display_short": "7.00 BTC",
+    "value": "7.00000000",
+    "value_int": "700000000"
+  },
+  "last": {
+    "currency": "USD",
+    "display": "725.38123 USD",
+    "display_short": "725.38 USD",
+    "value": "725.38123",
+    "value_int": "72538123"
+  },
+  "buy": {
+    "currency": "USD",
+    "display": "38.85148 USD",
+    "display_short": "38.85 USD",
+    "value": "38.85148",
+    "value_int": "3885148"
+  },
+  "sell": {
+    "currency": "USD",
+    "display": "897.25596 USD",
+    "display_short": "897.26 USD",
+    "value": "897.25596",
+    "value_int": "89725596"
+  },
+  "now": 1393388594814000
 }

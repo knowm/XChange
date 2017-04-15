@@ -43,15 +43,15 @@ public class Trades {
     this.tradeSortType = tradeSortType;
 
     switch (tradeSortType) {
-    case SortByTimestamp:
-      Collections.sort(this.trades, TRADE_TIMESTAMP_COMPARATOR);
-      break;
-    case SortByID:
-      Collections.sort(this.trades, TRADE_ID_COMPARATOR);
-      break;
+      case SortByTimestamp:
+        Collections.sort(this.trades, TRADE_TIMESTAMP_COMPARATOR);
+        break;
+      case SortByID:
+        Collections.sort(this.trades, TRADE_ID_COMPARATOR);
+        break;
 
-    default:
-      break;
+      default:
+        break;
     }
   }
 

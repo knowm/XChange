@@ -20,7 +20,7 @@ public interface IndependentReserve {
   @GET
   @Path("/GetOrderBook")
   IndependentReserveOrderBook getOrderBook(@QueryParam("primaryCurrencyCode") String primaryCurrencyCode,
-                                           @QueryParam("secondaryCurrencyCode") String secondaryCurrencyCode) throws IOException;
+      @QueryParam("secondaryCurrencyCode") String secondaryCurrencyCode) throws IOException;
 
   //    @GET
   //    @Path("ticker/")

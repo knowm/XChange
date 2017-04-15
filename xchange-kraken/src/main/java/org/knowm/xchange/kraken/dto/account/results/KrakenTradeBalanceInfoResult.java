@@ -9,7 +9,7 @@ public class KrakenTradeBalanceInfoResult extends KrakenResult<KrakenTradeBalanc
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */

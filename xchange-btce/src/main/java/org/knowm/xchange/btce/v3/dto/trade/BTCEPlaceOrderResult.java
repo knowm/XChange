@@ -18,7 +18,7 @@ public class BTCEPlaceOrderResult {
 
   /**
    * Constructor
-   * 
+   *
    * @param orderId
    * @param received
    * @param remains

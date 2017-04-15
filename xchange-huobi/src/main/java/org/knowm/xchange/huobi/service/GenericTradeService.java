@@ -1,7 +1,12 @@
 package org.knowm.xchange.huobi.service;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -25,7 +30,7 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 public class GenericTradeService extends BaseExchangeService implements TradeService {
 
   private final Map<CurrencyPair, Integer> coinTypes;
-  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
   private final TradeServiceRaw tradeServiceRaw;
 
   /**

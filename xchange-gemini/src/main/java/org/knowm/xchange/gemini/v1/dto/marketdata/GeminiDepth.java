@@ -11,7 +11,7 @@ public class GeminiDepth {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

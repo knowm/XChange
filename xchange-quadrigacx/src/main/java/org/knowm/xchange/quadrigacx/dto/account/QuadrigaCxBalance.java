@@ -34,15 +34,15 @@ public final class QuadrigaCxBalance {
     String[] parts = currencyBalance.split("_");
     if (parts.length > 1) {
       switch (parts[1]) {
-      case "reserved":
-        this.currencyReserved.put(parts[0], amount);
-        break;
-      case "available":
-        this.currencyAvailable.put(parts[0], amount);
-        break;
-      case "balance":
-        this.currencyBalance.put(parts[0], amount);
-        break;
+        case "reserved":
+          this.currencyReserved.put(parts[0], amount);
+          break;
+        case "available":
+          this.currencyAvailable.put(parts[0], amount);
+          break;
+        case "balance":
+          this.currencyBalance.put(parts[0], amount);
+          break;
       }
       Currency currency = new Currency(parts[0]);
       if (!currencies.contains(currency))

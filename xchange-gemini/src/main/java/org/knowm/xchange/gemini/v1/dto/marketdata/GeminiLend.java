@@ -12,7 +12,7 @@ public class GeminiLend {
 
   /**
    * Constructor
-   * 
+   *
    * @param rate
    * @param amountLent
    * @param timestamp

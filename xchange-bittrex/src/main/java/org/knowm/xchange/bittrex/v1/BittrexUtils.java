@@ -13,23 +13,23 @@ import org.knowm.xchange.currency.CurrencyPair;
  */
 public final class BittrexUtils {
 
-    private static final String TIMEZONE = "UTC";
+  private static final String TIMEZONE = "UTC";
 
-    /**
-     * private Constructor
-     */
-    private BittrexUtils() {
+  /**
+   * private Constructor
+   */
+  private BittrexUtils() {
 
-    }
+  }
 
-    public static String toPairString(CurrencyPair currencyPair) {
-        return currencyPair.counter.getCurrencyCode().toUpperCase() + "-" + currencyPair.base.getCurrencyCode().toUpperCase();
-    }
+  public static String toPairString(CurrencyPair currencyPair) {
+    return currencyPair.counter.getCurrencyCode().toUpperCase() + "-" + currencyPair.base.getCurrencyCode().toUpperCase();
+  }
 
-    public static Date toDate(String date) {
-        Calendar cal = DatatypeConverter.parseDateTime(date);
-        cal.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
-        return cal.getTime();
-    }
+  public static Date toDate(String date) {
+    Calendar cal = DatatypeConverter.parseDateTime(date);
+    cal.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
+    return cal.getTime();
+  }
 
 }

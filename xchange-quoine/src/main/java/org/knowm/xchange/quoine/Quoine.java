@@ -1,5 +1,7 @@
 package org.knowm.xchange.quoine;
 
+import java.io.IOException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -8,8 +10,6 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
-
-import java.io.IOException;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)

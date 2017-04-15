@@ -238,7 +238,7 @@ public final class BTCEAdapters {
       }
     }
 
-    RateLimit[] publicRateLimits = new RateLimit[] { new RateLimit(btceMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS) };
+    RateLimit[] publicRateLimits = new RateLimit[]{new RateLimit(btceMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)};
     return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, null, false);
   }
 

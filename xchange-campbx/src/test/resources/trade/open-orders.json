@@ -1,21 +1,21 @@
 {
-    "Buy":[
-        {
-            "Info":"No open Buy Orders"
-        }
-    ],
-    "Sell":[
-        {
-            "Order Entered":"2013-02-19 10:21:15",
-            "Order Expiry":"2013-05-29 00:00:00",
-            "Order Type":"Quick Sell",
-            "Margin Percent":"None",
-            "Quantity":"0.10000000",
-            "Price":"110.00",
-            "Stop-loss":"No",
-            "Fill Type":"Incr",
-            "Dark Pool":"No",
-            "Order ID":"599254"
-        }
-    ]
+  "Buy": [
+    {
+      "Info": "No open Buy Orders"
+    }
+  ],
+  "Sell": [
+    {
+      "Order Entered": "2013-02-19 10:21:15",
+      "Order Expiry": "2013-05-29 00:00:00",
+      "Order Type": "Quick Sell",
+      "Margin Percent": "None",
+      "Quantity": "0.10000000",
+      "Price": "110.00",
+      "Stop-loss": "No",
+      "Fill Type": "Incr",
+      "Dark Pool": "No",
+      "Order ID": "599254"
+    }
+  ]
 }

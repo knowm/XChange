@@ -8,9 +8,10 @@ public class OkCoinAccountRecords extends OkCoinErrorResult {
   private final OkCoinRecords[] records;
   private final String symbol;
   private final int errorCode;
+
   public OkCoinAccountRecords(@JsonProperty("error_code") final int errorCode,
-                              @JsonProperty("records") final OkCoinRecords[] records, @JsonProperty("symbol") final String symbol) {
-    super(true,errorCode);
+      @JsonProperty("records") final OkCoinRecords[] records, @JsonProperty("symbol") final String symbol) {
+    super(true, errorCode);
     this.errorCode = errorCode;
     this.records = records;
     this.symbol = symbol;
@@ -24,11 +25,11 @@ public class OkCoinAccountRecords extends OkCoinErrorResult {
     return symbol;
   }
 
-  public int getErrorCode(){
+  public int getErrorCode() {
     return errorCode;
   }
 
-  public boolean isResult(){
+  public boolean isResult() {
     return (errorCode == 0);
   }
 

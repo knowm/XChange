@@ -21,7 +21,7 @@ public final class ANXTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param high
    * @param low
    * @param avg

@@ -11,7 +11,7 @@ public class Btc38TickerReturn {
 
   /**
    * Constructor for wrapper object for Btc38Ticker
-   * 
+   *
    * @param ticker
    */
   public Btc38TickerReturn(@JsonProperty("ticker") Btc38Ticker ticker) {

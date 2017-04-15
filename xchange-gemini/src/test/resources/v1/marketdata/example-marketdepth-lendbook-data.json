@@ -1,807 +1,706 @@
 {
-	"bids": 
-	[
-		{
-			"rate": "52.0471",
-			"amount": "25022.54768806",
-			"period": 30,
-			"timestamp": "1406370353.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "52.0125",
-			"amount": "204291.27550293",
-			"period": 30,
-			"timestamp": "1406304902.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "51.8646",
-			"amount": "10000.0",
-			"period": 30,
-			"timestamp": "1405960141.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "51.83",
-			"amount": "20000.0",
-			"period": 30,
-			"timestamp": "1404606222.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "51.465",
-			"amount": "10000.0",
-			"period": 30,
-			"timestamp": "1405389362.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "51.465",
-			"amount": "100000.0",
-			"period": 30,
-			"timestamp": "1404535378.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "51.1",
-			"amount": "500.0",
-			"period": 30,
-			"timestamp": "1404140936.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "48.545",
-			"amount": "3129.50787763",
-			"period": 2,
-			"timestamp": "1406091485.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "47.815",
-			"amount": "10000.0",
-			"period": 30,
-			"timestamp": "1401450153.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "47.523",
-			"amount": "60000.0",
-			"period": 30,
-			"timestamp": "1403018507.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "47.4865",
-			"amount": "40000.0",
-			"period": 30,
-			"timestamp": "1404446498.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "47.45",
-			"amount": "100000.0",
-			"period": 2,
-			"timestamp": "1406091413.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "47.45",
-			"amount": "1000.0",
-			"period": 30,
-			"timestamp": "1402054137.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "45.6615",
-			"amount": "20000.0",
-			"period": 2,
-			"timestamp": "1406361255.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "44.53",
-			"amount": "14301.57",
-			"period": 2,
-			"timestamp": "1405583324.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "43.8",
-			"amount": "130000.0",
-			"period": 30,
-			"timestamp": "1403198833.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "43.8",
-			"amount": "1000.0",
-			"period": 30,
-			"timestamp": "1402054128.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "43.8",
-			"amount": "4000.0",
-			"period": 30,
-			"timestamp": "1402142436.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "43.1065",
-			"amount": "10300.0",
-			"period": 30,
-			"timestamp": "1402759823.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "40.15",
-			"amount": "450.0",
-			"period": 30,
-			"timestamp": "1405347150.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "40.15",
-			"amount": "200.0",
-			"period": 30,
-			"timestamp": "1401496575.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "40.15",
-			"amount": "1000.0",
-			"period": 30,
-			"timestamp": "1402054110.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "40.15",
-			"amount": "70.0",
-			"period": 30,
-			"timestamp": "1402612994.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "40.15",
-			"amount": "16000.0",
-			"period": 30,
-			"timestamp": "1402835562.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "37.23",
-			"amount": "11909.678424",
-			"period": 2,
-			"timestamp": "1405414523.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "36.5",
-			"amount": "1400.0",
-			"period": 2,
-			"timestamp": "1405690070.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "36.5",
-			"amount": "250.0",
-			"period": 30,
-			"timestamp": "1404110354.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "36.5",
-			"amount": "169.01760718",
-			"period": 30,
-			"timestamp": "1403115992.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "36.5",
-			"amount": "100.0",
-			"period": 30,
-			"timestamp": "1404219208.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "36.5",
-			"amount": "2000.0",
-			"period": 30,
-			"timestamp": "1402054119.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "36.5",
-			"amount": "4000.0",
-			"period": 30,
-			"timestamp": "1402639811.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "36.5",
-			"amount": "5000.0",
-			"period": 30,
-			"timestamp": "1402315633.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "36.5",
-			"amount": "100.0",
-			"period": 30,
-			"timestamp": "1402709224.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "35.04",
-			"amount": "300.0",
-			"period": 30,
-			"timestamp": "1402080925.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "34.675",
-			"amount": "0.00202916",
-			"period": 30,
-			"timestamp": "1404495400.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "32.85",
-			"amount": "500.0",
-			"period": 30,
-			"timestamp": "1402080884.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "29.2",
-			"amount": "200.0",
-			"period": 30,
-			"timestamp": "1401611109.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "24.455",
-			"amount": "500.0",
-			"period": 30,
-			"timestamp": "1402080861.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "21.9",
-			"amount": "2000.0",
-			"period": 30,
-			"timestamp": "1405175182.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "21.535",
-			"amount": "780.0",
-			"period": 30,
-			"timestamp": "1400836131.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "20.075",
-			"amount": "200.0",
-			"period": 30,
-			"timestamp": "1401496617.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "18.25",
-			"amount": "50.0",
-			"period": 2,
-			"timestamp": "1402052703.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "14.6",
-			"amount": "1000.0",
-			"period": 5,
-			"timestamp": "1399645350.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "10.95",
-			"amount": "1000.0",
-			"period": 30,
-			"timestamp": "1396200031.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "4.161",
-			"amount": "1420.0",
-			"period": 30,
-			"timestamp": "1398470159.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "4.015",
-			"amount": "2000.0",
-			"period": 30,
-			"timestamp": "1397643878.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "4.015",
-			"amount": "1520.0",
-			"period": 30,
-			"timestamp": "1399330489.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "4.015",
-			"amount": "1437.0",
-			"period": 30,
-			"timestamp": "1398418982.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "4.015",
-			"amount": "2000.0",
-			"period": 30,
-			"timestamp": "1398017104.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "4.015",
-			"amount": "2000.0",
-			"period": 30,
-			"timestamp": "1397728971.0",
-			"frr": "No"
-		}
-	],
-
-	"asks": 
-	[
-		{
-			"rate": "53.7645",
-			"amount": "5293.48",
-			"period": 2,
-			"timestamp": "1406415760.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.188",
-			"amount": "1199.94",
-			"period": 2,
-			"timestamp": "1406415919.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.2209",
-			"amount": "545.97502557",
-			"period": 7,
-			"timestamp": "1406415756.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.2975",
-			"amount": "9384.68",
-			"period": 2,
-			"timestamp": "1406415922.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.2975",
-			"amount": "4483.61",
-			"period": 3,
-			"timestamp": "1406415824.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.334",
-			"amount": "10250.0",
-			"period": 2,
-			"timestamp": "1406415922.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.3705",
-			"amount": "10250.0",
-			"period": 2,
-			"timestamp": "1406415922.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.4069",
-			"amount": "600.0",
-			"period": 2,
-			"timestamp": "1406415467.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.407",
-			"amount": "10250.0",
-			"period": 2,
-			"timestamp": "1406415921.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.4435",
-			"amount": "10250.0",
-			"period": 2,
-			"timestamp": "1406415921.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.48",
-			"amount": "5578.74500323",
-			"period": 3,
-			"timestamp": "1406414567.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.48",
-			"amount": "5682.4914208",
-			"period": 3,
-			"timestamp": "1406414894.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.48",
-			"amount": "709.31785472",
-			"period": 3,
-			"timestamp": "1406415167.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.48",
-			"amount": "1365.22170361",
-			"period": 3,
-			"timestamp": "1406414303.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.48",
-			"amount": "6066.1867011",
-			"period": 3,
-			"timestamp": "1406415496.0",
-			"frr": "No"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "34.83925473",
-			"period": 14,
-			"timestamp": "1406348247.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "443.56862043",
-			"period": 30,
-			"timestamp": "1406415482.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "29.71083925",
-			"period": 30,
-			"timestamp": "1406415482.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "29.65501078",
-			"period": 30,
-			"timestamp": "1406415481.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "474.55372528",
-			"period": 10,
-			"timestamp": "1406410448.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "30.60657815",
-			"period": 30,
-			"timestamp": "1406415473.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "118.41556653",
-			"period": 30,
-			"timestamp": "1406415472.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "29.35493021",
-			"period": 30,
-			"timestamp": "1406415472.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "578.08279864",
-			"period": 3,
-			"timestamp": "1406415500.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "958.45482657",
-			"period": 3,
-			"timestamp": "1406415737.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "270.54480026",
-			"period": 30,
-			"timestamp": "1406415143.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "328.36285797",
-			"period": 30,
-			"timestamp": "1406414898.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "561.82041353",
-			"period": 3,
-			"timestamp": "1406415740.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "642.05580314",
-			"period": 3,
-			"timestamp": "1406414889.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "31.91758916",
-			"period": 30,
-			"timestamp": "1406414887.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "202.64217807",
-			"period": 10,
-			"timestamp": "1406414886.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "846.72018131",
-			"period": 30,
-			"timestamp": "1406414871.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "822.35332959",
-			"period": 30,
-			"timestamp": "1406414871.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "37.80684186",
-			"period": 30,
-			"timestamp": "1406414571.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "40.55703611",
-			"period": 30,
-			"timestamp": "1406414570.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "1160.32784493",
-			"period": 30,
-			"timestamp": "1406414570.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "32.12553168",
-			"period": 30,
-			"timestamp": "1406414569.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "1167.17001886",
-			"period": 30,
-			"timestamp": "1406414568.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "190.999",
-			"period": 5,
-			"timestamp": "1406415754.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "677.20643735",
-			"period": 30,
-			"timestamp": "1406414565.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "1189.14992785",
-			"period": 30,
-			"timestamp": "1406414564.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "16830.99669393",
-			"period": 2,
-			"timestamp": "1405247454.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "19479.63866157",
-			"period": 2,
-			"timestamp": "1405277182.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "12768.75355985",
-			"period": 2,
-			"timestamp": "1405290904.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "21279.68201353",
-			"period": 2,
-			"timestamp": "1405295453.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "11564.50376289",
-			"period": 2,
-			"timestamp": "1405297862.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "18469.52047475",
-			"period": 2,
-			"timestamp": "1405300259.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "22108.11298982",
-			"period": 2,
-			"timestamp": "1405343154.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "21928.16157702",
-			"period": 2,
-			"timestamp": "1405376162.0",
-			"frr": "Yes"
-		},
-
-		{
-			"rate": "55.6565",
-			"amount": "20581.66484778",
-			"period": 2,
-			"timestamp": "1405397526.0",
-			"frr": "Yes"
-		}
-	]
+  "bids": [
+    {
+      "rate": "52.0471",
+      "amount": "25022.54768806",
+      "period": 30,
+      "timestamp": "1406370353.0",
+      "frr": "No"
+    },
+    {
+      "rate": "52.0125",
+      "amount": "204291.27550293",
+      "period": 30,
+      "timestamp": "1406304902.0",
+      "frr": "No"
+    },
+    {
+      "rate": "51.8646",
+      "amount": "10000.0",
+      "period": 30,
+      "timestamp": "1405960141.0",
+      "frr": "No"
+    },
+    {
+      "rate": "51.83",
+      "amount": "20000.0",
+      "period": 30,
+      "timestamp": "1404606222.0",
+      "frr": "No"
+    },
+    {
+      "rate": "51.465",
+      "amount": "10000.0",
+      "period": 30,
+      "timestamp": "1405389362.0",
+      "frr": "No"
+    },
+    {
+      "rate": "51.465",
+      "amount": "100000.0",
+      "period": 30,
+      "timestamp": "1404535378.0",
+      "frr": "No"
+    },
+    {
+      "rate": "51.1",
+      "amount": "500.0",
+      "period": 30,
+      "timestamp": "1404140936.0",
+      "frr": "No"
+    },
+    {
+      "rate": "48.545",
+      "amount": "3129.50787763",
+      "period": 2,
+      "timestamp": "1406091485.0",
+      "frr": "No"
+    },
+    {
+      "rate": "47.815",
+      "amount": "10000.0",
+      "period": 30,
+      "timestamp": "1401450153.0",
+      "frr": "No"
+    },
+    {
+      "rate": "47.523",
+      "amount": "60000.0",
+      "period": 30,
+      "timestamp": "1403018507.0",
+      "frr": "No"
+    },
+    {
+      "rate": "47.4865",
+      "amount": "40000.0",
+      "period": 30,
+      "timestamp": "1404446498.0",
+      "frr": "No"
+    },
+    {
+      "rate": "47.45",
+      "amount": "100000.0",
+      "period": 2,
+      "timestamp": "1406091413.0",
+      "frr": "No"
+    },
+    {
+      "rate": "47.45",
+      "amount": "1000.0",
+      "period": 30,
+      "timestamp": "1402054137.0",
+      "frr": "No"
+    },
+    {
+      "rate": "45.6615",
+      "amount": "20000.0",
+      "period": 2,
+      "timestamp": "1406361255.0",
+      "frr": "No"
+    },
+    {
+      "rate": "44.53",
+      "amount": "14301.57",
+      "period": 2,
+      "timestamp": "1405583324.0",
+      "frr": "No"
+    },
+    {
+      "rate": "43.8",
+      "amount": "130000.0",
+      "period": 30,
+      "timestamp": "1403198833.0",
+      "frr": "No"
+    },
+    {
+      "rate": "43.8",
+      "amount": "1000.0",
+      "period": 30,
+      "timestamp": "1402054128.0",
+      "frr": "No"
+    },
+    {
+      "rate": "43.8",
+      "amount": "4000.0",
+      "period": 30,
+      "timestamp": "1402142436.0",
+      "frr": "No"
+    },
+    {
+      "rate": "43.1065",
+      "amount": "10300.0",
+      "period": 30,
+      "timestamp": "1402759823.0",
+      "frr": "No"
+    },
+    {
+      "rate": "40.15",
+      "amount": "450.0",
+      "period": 30,
+      "timestamp": "1405347150.0",
+      "frr": "No"
+    },
+    {
+      "rate": "40.15",
+      "amount": "200.0",
+      "period": 30,
+      "timestamp": "1401496575.0",
+      "frr": "No"
+    },
+    {
+      "rate": "40.15",
+      "amount": "1000.0",
+      "period": 30,
+      "timestamp": "1402054110.0",
+      "frr": "No"
+    },
+    {
+      "rate": "40.15",
+      "amount": "70.0",
+      "period": 30,
+      "timestamp": "1402612994.0",
+      "frr": "No"
+    },
+    {
+      "rate": "40.15",
+      "amount": "16000.0",
+      "period": 30,
+      "timestamp": "1402835562.0",
+      "frr": "No"
+    },
+    {
+      "rate": "37.23",
+      "amount": "11909.678424",
+      "period": 2,
+      "timestamp": "1405414523.0",
+      "frr": "No"
+    },
+    {
+      "rate": "36.5",
+      "amount": "1400.0",
+      "period": 2,
+      "timestamp": "1405690070.0",
+      "frr": "No"
+    },
+    {
+      "rate": "36.5",
+      "amount": "250.0",
+      "period": 30,
+      "timestamp": "1404110354.0",
+      "frr": "No"
+    },
+    {
+      "rate": "36.5",
+      "amount": "169.01760718",
+      "period": 30,
+      "timestamp": "1403115992.0",
+      "frr": "No"
+    },
+    {
+      "rate": "36.5",
+      "amount": "100.0",
+      "period": 30,
+      "timestamp": "1404219208.0",
+      "frr": "No"
+    },
+    {
+      "rate": "36.5",
+      "amount": "2000.0",
+      "period": 30,
+      "timestamp": "1402054119.0",
+      "frr": "No"
+    },
+    {
+      "rate": "36.5",
+      "amount": "4000.0",
+      "period": 30,
+      "timestamp": "1402639811.0",
+      "frr": "No"
+    },
+    {
+      "rate": "36.5",
+      "amount": "5000.0",
+      "period": 30,
+      "timestamp": "1402315633.0",
+      "frr": "No"
+    },
+    {
+      "rate": "36.5",
+      "amount": "100.0",
+      "period": 30,
+      "timestamp": "1402709224.0",
+      "frr": "No"
+    },
+    {
+      "rate": "35.04",
+      "amount": "300.0",
+      "period": 30,
+      "timestamp": "1402080925.0",
+      "frr": "No"
+    },
+    {
+      "rate": "34.675",
+      "amount": "0.00202916",
+      "period": 30,
+      "timestamp": "1404495400.0",
+      "frr": "No"
+    },
+    {
+      "rate": "32.85",
+      "amount": "500.0",
+      "period": 30,
+      "timestamp": "1402080884.0",
+      "frr": "No"
+    },
+    {
+      "rate": "29.2",
+      "amount": "200.0",
+      "period": 30,
+      "timestamp": "1401611109.0",
+      "frr": "No"
+    },
+    {
+      "rate": "24.455",
+      "amount": "500.0",
+      "period": 30,
+      "timestamp": "1402080861.0",
+      "frr": "No"
+    },
+    {
+      "rate": "21.9",
+      "amount": "2000.0",
+      "period": 30,
+      "timestamp": "1405175182.0",
+      "frr": "No"
+    },
+    {
+      "rate": "21.535",
+      "amount": "780.0",
+      "period": 30,
+      "timestamp": "1400836131.0",
+      "frr": "No"
+    },
+    {
+      "rate": "20.075",
+      "amount": "200.0",
+      "period": 30,
+      "timestamp": "1401496617.0",
+      "frr": "No"
+    },
+    {
+      "rate": "18.25",
+      "amount": "50.0",
+      "period": 2,
+      "timestamp": "1402052703.0",
+      "frr": "No"
+    },
+    {
+      "rate": "14.6",
+      "amount": "1000.0",
+      "period": 5,
+      "timestamp": "1399645350.0",
+      "frr": "No"
+    },
+    {
+      "rate": "10.95",
+      "amount": "1000.0",
+      "period": 30,
+      "timestamp": "1396200031.0",
+      "frr": "No"
+    },
+    {
+      "rate": "4.161",
+      "amount": "1420.0",
+      "period": 30,
+      "timestamp": "1398470159.0",
+      "frr": "No"
+    },
+    {
+      "rate": "4.015",
+      "amount": "2000.0",
+      "period": 30,
+      "timestamp": "1397643878.0",
+      "frr": "No"
+    },
+    {
+      "rate": "4.015",
+      "amount": "1520.0",
+      "period": 30,
+      "timestamp": "1399330489.0",
+      "frr": "No"
+    },
+    {
+      "rate": "4.015",
+      "amount": "1437.0",
+      "period": 30,
+      "timestamp": "1398418982.0",
+      "frr": "No"
+    },
+    {
+      "rate": "4.015",
+      "amount": "2000.0",
+      "period": 30,
+      "timestamp": "1398017104.0",
+      "frr": "No"
+    },
+    {
+      "rate": "4.015",
+      "amount": "2000.0",
+      "period": 30,
+      "timestamp": "1397728971.0",
+      "frr": "No"
+    }
+  ],
+  "asks": [
+    {
+      "rate": "53.7645",
+      "amount": "5293.48",
+      "period": 2,
+      "timestamp": "1406415760.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.188",
+      "amount": "1199.94",
+      "period": 2,
+      "timestamp": "1406415919.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.2209",
+      "amount": "545.97502557",
+      "period": 7,
+      "timestamp": "1406415756.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.2975",
+      "amount": "9384.68",
+      "period": 2,
+      "timestamp": "1406415922.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.2975",
+      "amount": "4483.61",
+      "period": 3,
+      "timestamp": "1406415824.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.334",
+      "amount": "10250.0",
+      "period": 2,
+      "timestamp": "1406415922.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.3705",
+      "amount": "10250.0",
+      "period": 2,
+      "timestamp": "1406415922.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.4069",
+      "amount": "600.0",
+      "period": 2,
+      "timestamp": "1406415467.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.407",
+      "amount": "10250.0",
+      "period": 2,
+      "timestamp": "1406415921.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.4435",
+      "amount": "10250.0",
+      "period": 2,
+      "timestamp": "1406415921.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.48",
+      "amount": "5578.74500323",
+      "period": 3,
+      "timestamp": "1406414567.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.48",
+      "amount": "5682.4914208",
+      "period": 3,
+      "timestamp": "1406414894.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.48",
+      "amount": "709.31785472",
+      "period": 3,
+      "timestamp": "1406415167.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.48",
+      "amount": "1365.22170361",
+      "period": 3,
+      "timestamp": "1406414303.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.48",
+      "amount": "6066.1867011",
+      "period": 3,
+      "timestamp": "1406415496.0",
+      "frr": "No"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "34.83925473",
+      "period": 14,
+      "timestamp": "1406348247.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "443.56862043",
+      "period": 30,
+      "timestamp": "1406415482.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "29.71083925",
+      "period": 30,
+      "timestamp": "1406415482.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "29.65501078",
+      "period": 30,
+      "timestamp": "1406415481.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "474.55372528",
+      "period": 10,
+      "timestamp": "1406410448.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "30.60657815",
+      "period": 30,
+      "timestamp": "1406415473.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "118.41556653",
+      "period": 30,
+      "timestamp": "1406415472.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "29.35493021",
+      "period": 30,
+      "timestamp": "1406415472.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "578.08279864",
+      "period": 3,
+      "timestamp": "1406415500.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "958.45482657",
+      "period": 3,
+      "timestamp": "1406415737.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "270.54480026",
+      "period": 30,
+      "timestamp": "1406415143.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "328.36285797",
+      "period": 30,
+      "timestamp": "1406414898.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "561.82041353",
+      "period": 3,
+      "timestamp": "1406415740.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "642.05580314",
+      "period": 3,
+      "timestamp": "1406414889.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "31.91758916",
+      "period": 30,
+      "timestamp": "1406414887.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "202.64217807",
+      "period": 10,
+      "timestamp": "1406414886.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "846.72018131",
+      "period": 30,
+      "timestamp": "1406414871.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "822.35332959",
+      "period": 30,
+      "timestamp": "1406414871.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "37.80684186",
+      "period": 30,
+      "timestamp": "1406414571.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "40.55703611",
+      "period": 30,
+      "timestamp": "1406414570.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "1160.32784493",
+      "period": 30,
+      "timestamp": "1406414570.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "32.12553168",
+      "period": 30,
+      "timestamp": "1406414569.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "1167.17001886",
+      "period": 30,
+      "timestamp": "1406414568.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "190.999",
+      "period": 5,
+      "timestamp": "1406415754.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "677.20643735",
+      "period": 30,
+      "timestamp": "1406414565.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "1189.14992785",
+      "period": 30,
+      "timestamp": "1406414564.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "16830.99669393",
+      "period": 2,
+      "timestamp": "1405247454.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "19479.63866157",
+      "period": 2,
+      "timestamp": "1405277182.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "12768.75355985",
+      "period": 2,
+      "timestamp": "1405290904.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "21279.68201353",
+      "period": 2,
+      "timestamp": "1405295453.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "11564.50376289",
+      "period": 2,
+      "timestamp": "1405297862.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "18469.52047475",
+      "period": 2,
+      "timestamp": "1405300259.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "22108.11298982",
+      "period": 2,
+      "timestamp": "1405343154.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "21928.16157702",
+      "period": 2,
+      "timestamp": "1405376162.0",
+      "frr": "Yes"
+    },
+    {
+      "rate": "55.6565",
+      "amount": "20581.66484778",
+      "period": 2,
+      "timestamp": "1405397526.0",
+      "frr": "Yes"
+    }
+  ]
 }

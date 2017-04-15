@@ -22,7 +22,7 @@ public class BittrexLimitOrder extends LimitOrder {
   /**
    * If an order has not yet received any fills then the quantity remaining will be the same as the total tradable amount. The quantity remaining
    * reduces to zero as fills occur.
-   * 
+   *
    * @return the volume of the order that has not yet executed
    */
   public BigDecimal getQuantityRemaining() {
@@ -31,7 +31,7 @@ public class BittrexLimitOrder extends LimitOrder {
 
   /**
    * The average price obtained for any trades that have filled the order.
-   * 
+   *
    * @return
    */
   public BigDecimal getPricePerUnit() {

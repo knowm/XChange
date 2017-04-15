@@ -14,7 +14,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.dto.Order.IOrderFlags;
 import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags;
-import org.knowm.xchange.kraken.service.KrakenBaseService;
 
 public class KrakenBaseServiceTest {
 

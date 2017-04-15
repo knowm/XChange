@@ -14,7 +14,7 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
 
   /**
    * Constructor
-   * 
+   *
    * @param exchange
    */
   protected OkCoinTradeServiceRaw(Exchange exchange) {
@@ -46,7 +46,9 @@ public class OkCoinTradeServiceRaw extends OKCoinBaseTradeService {
     return returnOrThrow(orderResult);
   }
 
-  /** OkCoin.com Futures API **/
+  /**
+   * OkCoin.com Futures API
+   **/
 
   public OkCoinTradeResult futuresTrade(String symbol, String type, String price, String amount, FuturesContract contract, int matchPrice,
       int leverRate) throws IOException {

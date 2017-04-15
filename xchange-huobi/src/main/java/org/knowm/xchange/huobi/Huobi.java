@@ -22,28 +22,28 @@ public interface Huobi {
 
   @POST
   HuobiAccountInfo getAccountInfo(@FormParam("access_key") String accessKey, @FormParam("created") long created,
-                                  @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
+      @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   HuobiOrder[] getOrders(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType, @FormParam("created") long created,
-                         @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
+      @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   HuobiOrderInfo getOrderInfo(@FormParam("access_key") String accessKey, @FormParam("id") long orderId, @FormParam("coin_type") int coinType,
-                              @FormParam("created") long created, @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
+      @FormParam("created") long created, @FormParam("method") String method, @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   HuobiPlaceOrderResult placeLimitOrder(@FormParam("access_key") String accessKey, @FormParam("amount") String amount,
-                                        @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("price") String price, @FormParam("method") String method,
-                                        @FormParam("sign") ParamsDigest sign) throws IOException;
+      @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("price") String price, @FormParam("method") String method,
+      @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   HuobiPlaceOrderResult placeMarketOrder(@FormParam("access_key") String accessKey, @FormParam("amount") String amount,
-                                         @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("method") String method,
-                                         @FormParam("sign") ParamsDigest sign) throws IOException;
+      @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("method") String method,
+      @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   HuobiCancelOrderResult cancelOrder(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType,
-                                     @FormParam("created") long created, @FormParam("id") long id, @FormParam("method") String method, @FormParam("sign") ParamsDigest sign)
+      @FormParam("created") long created, @FormParam("id") long id, @FormParam("method") String method, @FormParam("sign") ParamsDigest sign)
       throws IOException;
 }

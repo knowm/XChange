@@ -82,14 +82,14 @@ public final class BitsoAdapters {
     for (BitsoTransaction tx : transactions) {
       Order.OrderType type;
       switch (tx.getSide()) {
-      case "buy":
-        type = Order.OrderType.ASK;
-        break;
-      case "sell":
-        type = Order.OrderType.BID;
-        break;
-      default:
-        type = null;
+        case "buy":
+          type = Order.OrderType.ASK;
+          break;
+        case "sell":
+          type = Order.OrderType.BID;
+          break;
+        default:
+          type = null;
       }
       final long tradeId = tx.getTid();
       if (tradeId > lastTradeId) {

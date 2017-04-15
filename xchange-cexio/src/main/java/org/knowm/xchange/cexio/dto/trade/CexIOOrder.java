@@ -17,13 +17,15 @@ public class CexIOOrder {
   private final BigDecimal pending;
   private final String errorMessage;
 
-  /** non-JSON fields */
+  /**
+   * non-JSON fields
+   */
   private String tradableIdentifier;
   private String transactionCurrency;
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param time
    * @param type

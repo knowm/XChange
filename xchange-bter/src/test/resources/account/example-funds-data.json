@@ -1,12 +1,12 @@
 {
-   "result":"true",
-   "available_funds":{
-      "BTC":"0.00010165",
-      "LTC":"0.00166859",
-      "FTC":"0.00003326",
-      "CNY":"0.01018463"
-   },
-   "locked_funds":{
-      "LTC":"0.384"
-   }
+  "result": "true",
+  "available_funds": {
+    "BTC": "0.00010165",
+    "LTC": "0.00166859",
+    "FTC": "0.00003326",
+    "CNY": "0.01018463"
+  },
+  "locked_funds": {
+    "LTC": "0.384"
+  }
 }

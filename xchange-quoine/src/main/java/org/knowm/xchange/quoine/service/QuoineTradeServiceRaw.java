@@ -6,7 +6,12 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.quoine.QuoineUtils;
-import org.knowm.xchange.quoine.dto.trade.*;
+import org.knowm.xchange.quoine.dto.trade.QuoineNewMarginOrderRequest;
+import org.knowm.xchange.quoine.dto.trade.QuoineNewOrderRequest;
+import org.knowm.xchange.quoine.dto.trade.QuoineNewOrderRequestWrapper;
+import org.knowm.xchange.quoine.dto.trade.QuoineOrderDetailsResponse;
+import org.knowm.xchange.quoine.dto.trade.QuoineOrderResponse;
+import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 
 import si.mazi.rescu.HttpStatusIOException;
 

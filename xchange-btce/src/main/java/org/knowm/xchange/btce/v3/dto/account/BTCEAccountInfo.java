@@ -19,7 +19,7 @@ public class BTCEAccountInfo {
 
   /**
    * Constructor
-   * 
+   *
    * @param transactionCount The number of transactions
    * @param openOrders The open orders
    * @param serverTime The server time (Unix time)
@@ -74,7 +74,7 @@ public class BTCEAccountInfo {
 
     /**
      * Constructor
-     * 
+     *
      * @param info
      * @param trade
      * @param withdraw

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test MercadoBitcoinTicker JSON parsing
- * 
+ *
  * @author Felipe Micaroni Lalli
  */
 public class TickerJSONTest {

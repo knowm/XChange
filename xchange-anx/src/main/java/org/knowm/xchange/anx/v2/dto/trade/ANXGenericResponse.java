@@ -13,7 +13,7 @@ public final class ANXGenericResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param data
    * @param error

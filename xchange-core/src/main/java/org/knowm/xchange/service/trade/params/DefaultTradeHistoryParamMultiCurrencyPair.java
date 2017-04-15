@@ -8,10 +8,10 @@ import org.knowm.xchange.currency.CurrencyPair;
 public class DefaultTradeHistoryParamMultiCurrencyPair implements TradeHistoryParamMultiCurrencyPair {
 
   private Collection<CurrencyPair> pairs = Collections.emptySet();
-  
+
   @Override
   public void setCurrencyPairs(Collection<CurrencyPair> value) {
-    pairs = value; 
+    pairs = value;
   }
 
   @Override

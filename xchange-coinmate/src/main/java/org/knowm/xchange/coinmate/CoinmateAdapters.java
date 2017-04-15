@@ -59,7 +59,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 public class CoinmateAdapters {
 
   // the currency pairs supported by the exchange
-  public static final CurrencyPair[] COINMATE_CURRENCY_PAIRS = { CurrencyPair.BTC_EUR, CurrencyPair.BTC_CZK, };
+  public static final CurrencyPair[] COINMATE_CURRENCY_PAIRS = {CurrencyPair.BTC_EUR, CurrencyPair.BTC_CZK,};
 
   /**
    * Adapts a CoinmateTicker to a Ticker Object
@@ -181,12 +181,12 @@ public class CoinmateAdapters {
 
   public static String adaptOrder(TradeHistoryParamsSorted.Order order) {
     switch (order) {
-    case asc:
-      return "ASC";
-    case desc:
-      return "DESC";
-    default:
-      throw new IllegalArgumentException();
+      case asc:
+        return "ASC";
+      case desc:
+        return "DESC";
+      default:
+        throw new IllegalArgumentException();
     }
   }
 }

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Data object representing a Exchange Rates from Open ExchangeRates
  * </p>
  * Auto-generated using the simplest types possible with conversion delegated to the adapter
- * 
+ *
  * @author timmolter
  */
 public final class OERTickers {
@@ -18,7 +18,7 @@ public final class OERTickers {
 
   /**
    * Constructor
-   * 
+   *
    * @param rates
    * @param timestamp
    */

@@ -3,7 +3,7 @@ package org.knowm.xchange.ripple.dto.trade;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "secret", "order" })
+@JsonPropertyOrder({"secret", "order"})
 public class RippleOrderEntryRequest {
 
   @JsonProperty("secret")

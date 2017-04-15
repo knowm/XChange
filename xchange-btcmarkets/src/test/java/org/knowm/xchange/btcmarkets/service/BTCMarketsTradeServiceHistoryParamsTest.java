@@ -6,7 +6,6 @@ import static org.junit.Assert.fail;
 import java.util.Date;
 
 import org.junit.Test;
-import org.knowm.xchange.btcmarkets.service.BTCMarketsTradeService;
 
 public class BTCMarketsTradeServiceHistoryParamsTest {
 

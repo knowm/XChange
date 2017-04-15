@@ -13,7 +13,7 @@ public class ANXWalletHistoryWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param anxWalletHistory
    * @param error

@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btce.v3.ExchangeUtils;
 import org.knowm.xchange.btce.v3.dto.trade.BTCETransHistoryResult;
-import org.knowm.xchange.btce.v3.service.BTCETradeService;
 import org.knowm.xchange.btce.v3.service.trade.params.BTCETransHistoryParams;
 
 /**

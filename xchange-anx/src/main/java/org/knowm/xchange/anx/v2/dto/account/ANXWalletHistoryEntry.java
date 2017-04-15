@@ -22,7 +22,7 @@ public final class ANXWalletHistoryEntry {
 
   /**
    * Constructor
-   * 
+   *
    * @param index
    * @param date
    * @param type

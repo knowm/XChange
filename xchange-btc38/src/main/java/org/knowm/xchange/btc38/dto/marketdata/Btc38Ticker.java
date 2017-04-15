@@ -18,7 +18,7 @@ public class Btc38Ticker {
 
   /**
    * Constructor for Btc38Ticker without data
-   * 
+   *
    * @param emptyString Not used
    */
   public Btc38Ticker(String emptyString) {
@@ -33,7 +33,7 @@ public class Btc38Ticker {
 
   /**
    * Constructor for Btc38Ticker
-   * 
+   *
    * @param buy Buy price
    * @param high High price
    * @param last Last price

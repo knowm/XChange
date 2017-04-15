@@ -21,7 +21,7 @@ public class GeminiPastTradesRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    * @param symbol
    * @param timestamp

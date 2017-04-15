@@ -13,7 +13,7 @@ public class BTCEDepthWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param resultV3
    */
   @JsonCreator

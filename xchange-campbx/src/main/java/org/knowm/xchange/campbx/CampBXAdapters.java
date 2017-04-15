@@ -20,7 +20,7 @@ public final class CampBXAdapters {
 
   /**
    * CampBXOrderBook to a OrderBook Object
-   * 
+   *
    * @param orderBook
    * @param currencyPair (e.g. BTC/USD)
    * @return
@@ -56,7 +56,7 @@ public final class CampBXAdapters {
 
   /**
    * Adapts a CampBXTicker to a Ticker Object
-   * 
+   *
    * @param campbxTicker
    * @param currencyPair (e.g. BTC/USD)
    * @return

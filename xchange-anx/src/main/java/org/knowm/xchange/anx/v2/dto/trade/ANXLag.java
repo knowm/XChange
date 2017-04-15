@@ -14,7 +14,7 @@ public class ANXLag {
 
   /**
    * Constructor
-   * 
+   *
    * @param lag
    * @param lagDecimal
    * @param lagText

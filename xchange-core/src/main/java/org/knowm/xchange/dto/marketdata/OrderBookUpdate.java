@@ -14,7 +14,9 @@ public final class OrderBookUpdate {
 
   private final LimitOrder limitOrder;
 
-  /** this is the total volume at this price in the order book */
+  /**
+   * this is the total volume at this price in the order book
+   */
   private final BigDecimal totalVolume;
 
   /**

@@ -22,7 +22,7 @@ public final class GeminiUtils {
 
   /**
    * can be “bitcoin”, “litecoin” or “ethereum” or “tether” or “wire”.
-   * 
+   *
    * @param currency
    * @return
    */

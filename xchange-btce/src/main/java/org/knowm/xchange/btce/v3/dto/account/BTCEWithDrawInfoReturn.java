@@ -11,7 +11,7 @@ public class BTCEWithDrawInfoReturn extends BTCEReturn<BTCEWithdrawInfo> {
 
   /**
    * Constructor
-   * 
+   *
    * @param success True if successful
    * @param value The BTC-e account info
    * @param error Any error

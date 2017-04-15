@@ -16,7 +16,7 @@ public class BitcoindeTrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param tid
    * @param price
    * @param amount

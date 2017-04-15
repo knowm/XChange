@@ -11,7 +11,7 @@ public class GeminiLendDepth {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

@@ -21,7 +21,7 @@ public final class ANXOrderResultTrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param amount
    * @param currency
    * @param date

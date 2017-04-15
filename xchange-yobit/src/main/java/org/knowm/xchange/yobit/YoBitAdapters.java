@@ -28,73 +28,73 @@ import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
 
 public class YoBitAdapters {
 
-	public static CurrencyPair adaptCurrencyPair(String pair) {
-		final String[] currencies = pair.toUpperCase().split("_");
-		return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
-	}
+  public static CurrencyPair adaptCurrencyPair(String pair) {
+    final String[] currencies = pair.toUpperCase().split("_");
+    return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
+  }
 
-	public static OrderBook adaptOrderBook(YoBitOrderBook book, CurrencyPair currencyPair) {
+  public static OrderBook adaptOrderBook(YoBitOrderBook book, CurrencyPair currencyPair) {
 
-		List<LimitOrder> asks = toLimitOrderList(book.getAsks(), OrderType.ASK, currencyPair);
-		List<LimitOrder> bids = toLimitOrderList(book.getBids(), OrderType.BID, currencyPair);
+    List<LimitOrder> asks = toLimitOrderList(book.getAsks(), OrderType.ASK, currencyPair);
+    List<LimitOrder> bids = toLimitOrderList(book.getBids(), OrderType.BID, currencyPair);
 
-		return new OrderBook(null, asks, bids);
-	}
+    return new OrderBook(null, asks, bids);
+  }
 
-	public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, YoBitInfo products) {
-		Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
-		Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, YoBitInfo products) {
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
-		for (Entry<CurrencyPair, YoBitPair> ee : products.getPairs().getPrice().entrySet()) {
-			BigDecimal minSize = ee.getValue().getMin_amount();
-			CurrencyPairMetaData cpmd = new CurrencyPairMetaData(ee.getValue().getFee(), minSize, null, 8);
-			CurrencyPair pair = ee.getKey();
-			currencyPairs.put(pair, cpmd);
-			currencies.put(pair.base, null);
-			currencies.put(pair.counter, null);
-		}
+    for (Entry<CurrencyPair, YoBitPair> ee : products.getPairs().getPrice().entrySet()) {
+      BigDecimal minSize = ee.getValue().getMin_amount();
+      CurrencyPairMetaData cpmd = new CurrencyPairMetaData(ee.getValue().getFee(), minSize, null, 8);
+      CurrencyPair pair = ee.getKey();
+      currencyPairs.put(pair, cpmd);
+      currencies.put(pair.base, null);
+      currencies.put(pair.counter, null);
+    }
 
-		return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
-	}
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
+  }
 
-	private static List<LimitOrder> toLimitOrderList(List<YoBitAsksBidsData> levels, OrderType orderType,
-			CurrencyPair currencyPair) {
+  private static List<LimitOrder> toLimitOrderList(List<YoBitAsksBidsData> levels, OrderType orderType,
+      CurrencyPair currencyPair) {
 
-		List<LimitOrder> allLevels = new ArrayList<>(levels.size());
-		for (int i = 0; i < levels.size(); i++) {
-			YoBitAsksBidsData ask = levels.get(i);
+    List<LimitOrder> allLevels = new ArrayList<>(levels.size());
+    for (int i = 0; i < levels.size(); i++) {
+      YoBitAsksBidsData ask = levels.get(i);
 
-			allLevels.add(new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
-		}
+      allLevels.add(new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
+    }
 
-		return allLevels;
+    return allLevels;
 
-	}
+  }
 
-	public static Trades adaptTrades(YoBitTrades coinbaseTrades, CurrencyPair currencyPair) {
+  public static Trades adaptTrades(YoBitTrades coinbaseTrades, CurrencyPair currencyPair) {
 
-		List<YoBitTrade> ctrades = coinbaseTrades.getTrades();
+    List<YoBitTrade> ctrades = coinbaseTrades.getTrades();
 
-		List<Trade> trades = new ArrayList<>(ctrades.size());
+    List<Trade> trades = new ArrayList<>(ctrades.size());
 
-		int lastTrade = 0;
+    int lastTrade = 0;
 
-		for (int i = 0; i < ctrades.size(); i++) {
-			YoBitTrade trade = ctrades.get(i);
+    for (int i = 0; i < ctrades.size(); i++) {
+      YoBitTrade trade = ctrades.get(i);
 
-			OrderType type = trade.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
+      OrderType type = trade.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
 
-			Trade t = new Trade(type, trade.getAmount(), currencyPair, trade.getPrice(),
-					parseDate(trade.getTimestamp()), String.valueOf(trade.getTid()));
-			trades.add(t);
-			lastTrade = i;
-		}
+      Trade t = new Trade(type, trade.getAmount(), currencyPair, trade.getPrice(),
+          parseDate(trade.getTimestamp()), String.valueOf(trade.getTid()));
+      trades.add(t);
+      lastTrade = i;
+    }
 
-		return new Trades(trades, ctrades.get(lastTrade).getTid(), TradeSortType.SortByID);
-	}
+    return new Trades(trades, ctrades.get(lastTrade).getTid(), TradeSortType.SortByID);
+  }
 
-	private static Date parseDate(Long rawDateLong) {
-		return new java.util.Date((long) rawDateLong * 1000);
-	}
+  private static Date parseDate(Long rawDateLong) {
+    return new java.util.Date((long) rawDateLong * 1000);
+  }
 
 }

@@ -1,72 +1,72 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <message>
-	<header>
-		<field name="BeginString" tag="8"><![CDATA[FIX.4.4]]></field>
-		<field name="BodyLength" tag="9"><![CDATA[493]]></field>
-		<field name="MsgSeqNum" tag="34"><![CDATA[2]]></field>
-		<field enum="MarketDataSnapshotFullRefresh" name="MsgType" tag="35"><![CDATA[W]]></field>
-		<field name="SenderCompID" tag="49"><![CDATA[BTCC-FIX-SERVER]]></field>
-		<field name="SendingTime" tag="52"><![CDATA[20141016-15:07:29.039]]></field>
-		<field name="TargetCompID" tag="56"><![CDATA[9dfa65ee-e023-48fb-a8c1-cba6ea4b01ff]]></field>
-	</header>
-	<body>
-		<field name="Symbol" tag="55"><![CDATA[BTCCNY]]></field>
-		<field name="NoMDEntries" tag="268"><![CDATA[8]]></field>
-		<groups name="NoMDEntries" tag="268">
-			<group>
-				<field enum="BID" name="MDEntryType" tag="269"><![CDATA[0]]></field>
-				<field name="MDEntryPx" tag="270"><![CDATA[2328.08]]></field>
-				<field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
-				<field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
-			</group>
-			<group>
-				<field enum="OFFER" name="MDEntryType" tag="269"><![CDATA[1]]></field>
-				<field name="MDEntryPx" tag="270"><![CDATA[2329.14]]></field>
-				<field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
-				<field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
-			</group>
-			<group>
-				<field enum="TRADE" name="MDEntryType" tag="269"><![CDATA[2]]></field>
-				<field name="MDEntryPx" tag="270"><![CDATA[2328.09]]></field>
-				<field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
-				<field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
-			</group>
-			<group>
-				<field enum="CLOSING_PRICE" name="MDEntryType" tag="269"><![CDATA[5]]></field>
-				<field name="MDEntryPx" tag="270"><![CDATA[2415.8]]></field>
-				<field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
-				<field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
-			</group>
-			<group>
-				<field enum="TRADING_SESSION_HIGH_PRICE" name="MDEntryType"
-					tag="269"><![CDATA[7]]></field>
-				<field name="MDEntryPx" tag="270"><![CDATA[2447.87]]></field>
-				<field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
-				<field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
-			</group>
-			<group>
-				<field enum="TRADING_SESSION_LOW_PRICE" name="MDEntryType"
-					tag="269"><![CDATA[8]]></field>
-				<field name="MDEntryPx" tag="270"><![CDATA[2316]]></field>
-				<field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
-				<field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
-			</group>
-			<group>
-				<field enum="TRADING_SESSION_VWAP_PRICE" name="MDEntryType"
-					tag="269"><![CDATA[9]]></field>
-				<field name="MDEntryPx" tag="270"><![CDATA[2387.06]]></field>
-				<field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
-				<field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
-			</group>
-			<group>
-				<field enum="TRADE_VOLUME" name="MDEntryType" tag="269"><![CDATA[B]]></field>
-				<field name="MDEntrySize" tag="271"><![CDATA[56083.6739]]></field>
-				<field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
-				<field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
-			</group>
-		</groups>
-	</body>
-	<trailer>
-		<field name="CheckSum" tag="10"><![CDATA[043]]></field>
-	</trailer>
+    <header>
+        <field name="BeginString" tag="8"><![CDATA[FIX.4.4]]></field>
+        <field name="BodyLength" tag="9"><![CDATA[493]]></field>
+        <field name="MsgSeqNum" tag="34"><![CDATA[2]]></field>
+        <field enum="MarketDataSnapshotFullRefresh" name="MsgType" tag="35"><![CDATA[W]]></field>
+        <field name="SenderCompID" tag="49"><![CDATA[BTCC-FIX-SERVER]]></field>
+        <field name="SendingTime" tag="52"><![CDATA[20141016-15:07:29.039]]></field>
+        <field name="TargetCompID" tag="56"><![CDATA[9dfa65ee-e023-48fb-a8c1-cba6ea4b01ff]]></field>
+    </header>
+    <body>
+        <field name="Symbol" tag="55"><![CDATA[BTCCNY]]></field>
+        <field name="NoMDEntries" tag="268"><![CDATA[8]]></field>
+        <groups name="NoMDEntries" tag="268">
+            <group>
+                <field enum="BID" name="MDEntryType" tag="269"><![CDATA[0]]></field>
+                <field name="MDEntryPx" tag="270"><![CDATA[2328.08]]></field>
+                <field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
+                <field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
+            </group>
+            <group>
+                <field enum="OFFER" name="MDEntryType" tag="269"><![CDATA[1]]></field>
+                <field name="MDEntryPx" tag="270"><![CDATA[2329.14]]></field>
+                <field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
+                <field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
+            </group>
+            <group>
+                <field enum="TRADE" name="MDEntryType" tag="269"><![CDATA[2]]></field>
+                <field name="MDEntryPx" tag="270"><![CDATA[2328.09]]></field>
+                <field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
+                <field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
+            </group>
+            <group>
+                <field enum="CLOSING_PRICE" name="MDEntryType" tag="269"><![CDATA[5]]></field>
+                <field name="MDEntryPx" tag="270"><![CDATA[2415.8]]></field>
+                <field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
+                <field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
+            </group>
+            <group>
+                <field enum="TRADING_SESSION_HIGH_PRICE" name="MDEntryType"
+                       tag="269"><![CDATA[7]]></field>
+                <field name="MDEntryPx" tag="270"><![CDATA[2447.87]]></field>
+                <field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
+                <field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
+            </group>
+            <group>
+                <field enum="TRADING_SESSION_LOW_PRICE" name="MDEntryType"
+                       tag="269"><![CDATA[8]]></field>
+                <field name="MDEntryPx" tag="270"><![CDATA[2316]]></field>
+                <field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
+                <field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
+            </group>
+            <group>
+                <field enum="TRADING_SESSION_VWAP_PRICE" name="MDEntryType"
+                       tag="269"><![CDATA[9]]></field>
+                <field name="MDEntryPx" tag="270"><![CDATA[2387.06]]></field>
+                <field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
+                <field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
+            </group>
+            <group>
+                <field enum="TRADE_VOLUME" name="MDEntryType" tag="269"><![CDATA[B]]></field>
+                <field name="MDEntrySize" tag="271"><![CDATA[56083.6739]]></field>
+                <field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
+                <field name="MDEntryTime" tag="273"><![CDATA[15:07:25.000]]></field>
+            </group>
+        </groups>
+    </body>
+    <trailer>
+        <field name="CheckSum" tag="10"><![CDATA[043]]></field>
+    </trailer>
 </message>

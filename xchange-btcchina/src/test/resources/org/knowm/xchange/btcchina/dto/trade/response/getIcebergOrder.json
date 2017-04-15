@@ -1,27 +1,29 @@
 {
-	"result": {
-		"iceberg_order": {
-			"id": 1,
-			"type": "bid",
-			"price": "40.00",
-			"market": "BTCCNY",
-			"amount": "12.00000000",
-			"amount_original": "12.00000000",
-			"disclosed_amount": "5.00000000",
-			"variance": "0.10",
-			"date": 1405412126,
-			"status": "open",
-			"order": [{
-				"id": 3301,
-				"type": "bid",
-				"price": "40.00",
-				"currency": "CNY",
-				"amount": "4.67700000",
-				"amount_original": "4.67700000",
-				"date": 1405412126,
-				"status": "open"
-			}]
-		}
-	},
-	"id": "1"
+  "result": {
+    "iceberg_order": {
+      "id": 1,
+      "type": "bid",
+      "price": "40.00",
+      "market": "BTCCNY",
+      "amount": "12.00000000",
+      "amount_original": "12.00000000",
+      "disclosed_amount": "5.00000000",
+      "variance": "0.10",
+      "date": 1405412126,
+      "status": "open",
+      "order": [
+        {
+          "id": 3301,
+          "type": "bid",
+          "price": "40.00",
+          "currency": "CNY",
+          "amount": "4.67700000",
+          "amount_original": "4.67700000",
+          "date": 1405412126,
+          "status": "open"
+        }
+      ]
+    }
+  },
+  "id": "1"
 }

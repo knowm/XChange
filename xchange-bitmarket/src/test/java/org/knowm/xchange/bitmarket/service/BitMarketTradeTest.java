@@ -27,8 +27,6 @@ import org.knowm.xchange.bitmarket.dto.trade.BitMarketOrder;
 import org.knowm.xchange.bitmarket.dto.trade.BitMarketOrdersResponse;
 import org.knowm.xchange.bitmarket.dto.trade.BitMarketTrade;
 import org.knowm.xchange.bitmarket.dto.trade.BitMarketTradeResponse;
-import org.knowm.xchange.bitmarket.service.BitMarketTradeService;
-import org.knowm.xchange.bitmarket.service.BitMarketHistoryParams;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;

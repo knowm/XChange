@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test KrakenTicker JSON parsing
- * 
+ *
  * @author Raphael Voellmy
  */
 public class KrakenTickerJSONTest {

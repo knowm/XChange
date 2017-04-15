@@ -18,7 +18,7 @@ public final class BlockchainUtils {
 
   /**
    * Converts long amount into a BigMoney amount
-   * 
+   *
    * @param price
    * @return
    */

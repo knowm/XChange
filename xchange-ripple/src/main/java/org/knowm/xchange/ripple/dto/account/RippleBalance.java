@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "value", "currency", "counterparty" })
+@JsonPropertyOrder({"value", "currency", "counterparty"})
 public final class RippleBalance {
 
   @JsonProperty("value")

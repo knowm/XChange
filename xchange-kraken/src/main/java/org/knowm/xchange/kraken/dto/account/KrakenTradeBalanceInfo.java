@@ -17,7 +17,7 @@ public class KrakenTradeBalanceInfo {
 
   /**
    * Constructor
-   * 
+   *
    * @param tradeBalance
    * @param margin
    * @param unrealizedGainsLosses

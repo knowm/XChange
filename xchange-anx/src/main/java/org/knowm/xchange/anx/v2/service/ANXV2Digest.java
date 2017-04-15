@@ -16,7 +16,7 @@ public class ANXV2Digest extends BaseParamsDigest {
 
   /**
    * Constructor
-   * 
+   *
    * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
@@ -41,7 +41,7 @@ public class ANXV2Digest extends BaseParamsDigest {
 
     Mac mac = getMac();
     mac.update(restInvocation.getMethodPath().getBytes());
-    mac.update(new byte[] { 0 });
+    mac.update(new byte[]{0});
     mac.update(restInvocation.getRequestBody().getBytes());
 
     return Base64.encodeBytes(mac.doFinal()).trim();

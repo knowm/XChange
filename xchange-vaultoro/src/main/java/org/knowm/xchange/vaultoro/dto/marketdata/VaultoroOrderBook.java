@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "b", "s" })
+@JsonPropertyOrder({"b", "s"})
 public class VaultoroOrderBook {
 
   @JsonProperty("b")

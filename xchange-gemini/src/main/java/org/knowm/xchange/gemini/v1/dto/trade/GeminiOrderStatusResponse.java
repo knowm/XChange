@@ -23,7 +23,7 @@ public class GeminiOrderStatusResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param symbol
    * @param exchange

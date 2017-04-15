@@ -58,7 +58,7 @@ public class BTCChinaTradeStat {
     final String type = "all";
     final Integer startId = null;
 
-    for (int pageNumber = 0;; pageNumber++) {
+    for (int pageNumber = 0; ; pageNumber++) {
       log.trace("pageNumber: {}", pageNumber);
 
       final BTCChinaTradeHistoryParams params = new BTCChinaTradeHistoryParams(pageLength, pageNumber, type, startTime, startId);
@@ -103,18 +103,18 @@ public class BTCChinaTradeStat {
 
     for (UserTrade trade : trades) {
       switch (trade.getType()) {
-      case BID:
-        bidCount++;
-        totalBid = totalBid.add(trade.getPrice().multiply(trade.getTradableAmount()));
-        totalBidTradable = totalBidTradable.add(trade.getTradableAmount());
-        break;
-      case ASK:
-        askCount++;
-        totalAsk = totalAsk.add(trade.getPrice().multiply(trade.getTradableAmount()));
-        totalAskTradable = totalAskTradable.add(trade.getTradableAmount());
-        break;
-      default:
-        break;
+        case BID:
+          bidCount++;
+          totalBid = totalBid.add(trade.getPrice().multiply(trade.getTradableAmount()));
+          totalBidTradable = totalBidTradable.add(trade.getTradableAmount());
+          break;
+        case ASK:
+          askCount++;
+          totalAsk = totalAsk.add(trade.getPrice().multiply(trade.getTradableAmount()));
+          totalAskTradable = totalAskTradable.add(trade.getTradableAmount());
+          break;
+        default:
+          break;
       }
     }
 

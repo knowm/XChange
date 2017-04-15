@@ -18,7 +18,7 @@ public class HitbtcTrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param date
    * @param price
    * @param amount

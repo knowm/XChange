@@ -8,7 +8,7 @@ public class GeminiCancelOrderMultiResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    */
   public GeminiCancelOrderMultiResponse(@JsonProperty("result") String result) {
