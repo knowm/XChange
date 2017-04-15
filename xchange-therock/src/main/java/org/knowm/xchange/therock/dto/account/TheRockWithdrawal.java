@@ -10,7 +10,9 @@ public class TheRockWithdrawal {
 
   private String currency;
 
-  /** Should be null for the default method (ie. not Ripple) */
+  /**
+   * Should be null for the default method (ie. not Ripple)
+   */
   private Method withdrawMethod;
 
   private String destinationAddress;

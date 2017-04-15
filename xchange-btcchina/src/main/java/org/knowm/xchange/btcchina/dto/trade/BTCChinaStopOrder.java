@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * A stop order allows you to put a “stop price” which will trigger an order to be placed when the stop price is reached.
- * 
+ *
  * @see <a href="http://btcchina.org/api-trade-documentation-en#stop_order">Trade API(English)</a>
  * @see <a href="http://btcchina.org/api-trade-documentation-zh#stop_order">Trade API(Chinese)</a>
  */
@@ -44,7 +44,7 @@ public class BTCChinaStopOrder {
 
   /**
    * Returns the stop order id.
-   * 
+   *
    * @return the stop order id.
    */
   public int getId() {
@@ -54,7 +54,7 @@ public class BTCChinaStopOrder {
 
   /**
    * Returns the stop order type.
-   * 
+   *
    * @return the stop order type, could be {@code bid} or {@code ask}.
    */
   public String getType() {
@@ -64,7 +64,7 @@ public class BTCChinaStopOrder {
 
   /**
    * Returns the price to trigger the stop order.
-   * 
+   *
    * @return the price for 1 BTC/LTC to trigger the stop order. Can be dynamically set by the system if trailing amount/percentage is specified.
    */
   public BigDecimal getStopPrice() {
@@ -74,7 +74,7 @@ public class BTCChinaStopOrder {
 
   /**
    * Returns the trailing amount to determine the stop price.
-   * 
+   *
    * @return the trailing amount to determine the stop price.
    */
   public BigDecimal getTrailingAmount() {
@@ -84,7 +84,7 @@ public class BTCChinaStopOrder {
 
   /**
    * Returns the trailing percentage to determine the stop price.
-   * 
+   *
    * @return the trailing percentage to determine the stop price.
    */
   public BigDecimal getTrailingPercentage() {
@@ -94,7 +94,7 @@ public class BTCChinaStopOrder {
 
   /**
    * Returns the price for 1 BTC/LTC for the order to be placed.
-   * 
+   *
    * @return the price for 1 BTC/LTC for the order to be placed.
    */
   public BigDecimal getPrice() {
@@ -104,7 +104,7 @@ public class BTCChinaStopOrder {
 
   /**
    * Returns the market.
-   * 
+   *
    * @return [BTCCNY|LTCCNY|LTCBTC]
    */
   public String getMarket() {
@@ -114,7 +114,7 @@ public class BTCChinaStopOrder {
 
   /**
    * Returns the amount used for the order to be placed.
-   * 
+   *
    * @return the amount used for the order to be placed.
    */
   public BigDecimal getAmount() {
@@ -124,7 +124,7 @@ public class BTCChinaStopOrder {
 
   /**
    * Returns the create time in Unix time in seconds since 1 January 1970.
-   * 
+   *
    * @return the create time in Unix time in seconds since 1 January 1970.
    */
   public long getDate() {
@@ -134,7 +134,7 @@ public class BTCChinaStopOrder {
 
   /**
    * Returns the status of the stop order.
-   * 
+   *
    * @return [ open | closed | cancelled | error ]
    */
   public String getStatus() {
@@ -144,7 +144,7 @@ public class BTCChinaStopOrder {
 
   /**
    * Returns the order id of the order created from this stop order, or null if stop order still open or cancelled.
-   * 
+   *
    * @return the order id of the order created from this stop order, or null if stop order still open or cancelled.
    */
   public Integer getOrderId() {

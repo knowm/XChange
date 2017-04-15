@@ -47,13 +47,9 @@ public class BTCEBaseService extends BaseExchangeService implements BaseService 
         }
       }
       throw new ExchangeException(error);
-    }
-
-    else if (result.getReturnValue() == null) {
+    } else if (result.getReturnValue() == null) {
       throw new ExchangeException("Didn't receive any return value. Message: " + error);
-    }
-
-    else if (error != null) {
+    } else if (error != null) {
       throw new ExchangeException(error);
     }
   }

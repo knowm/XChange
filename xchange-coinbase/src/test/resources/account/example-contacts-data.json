@@ -1,12 +1,12 @@
 {
-   "contacts":[
-      {
-         "contact":{
-            "email":"test@test.com"
-         }
+  "contacts": [
+    {
+      "contact": {
+        "email": "test@test.com"
       }
-   ],
-   "total_count":1,
-   "num_pages":1,
-   "current_page":1
+    }
+  ],
+  "total_count": 1,
+  "num_pages": 1,
+  "current_page": 1
 }

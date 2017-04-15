@@ -17,7 +17,7 @@ public final class ANXOrderResult {
 
   /**
    * Constructor
-   * 
+   *
    * @param avgCost
    * @param orderId
    * @param totalAmount

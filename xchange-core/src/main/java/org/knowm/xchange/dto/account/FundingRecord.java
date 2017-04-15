@@ -32,24 +32,20 @@ public final class FundingRecord {
    */
   private final Currency currency;
 
-
   /**
    * Amount deposited/withdrawn in given transaction currency
    */
   private final BigDecimal amount;
-
 
   /**
    * Transaction id or reference whenever available
    */
   private final String id;
 
-
   /**
    * Description of the transaction
    */
   private final String description;
-
 
   /**
    * Transaction Type
@@ -86,8 +82,8 @@ public final class FundingRecord {
    * @param description Description of the transaction
    */
   public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount, final String id,
-                       final Type type, final String status, final BigDecimal balance, final BigDecimal fee,
-                       final String description){
+      final Type type, final String status, final BigDecimal balance, final BigDecimal fee,
+      final String description) {
     this.address = address;
     this.date = date;
     this.currency = currency;
@@ -173,17 +169,17 @@ public final class FundingRecord {
   @Override
   public String toString() {
     return "FundingRecord{" +
-            "address='" + address + '\'' +
-            ", date=" + date +
-            ", currency='" + currency + '\'' +
-            ", amount=" + amount +
-            ", id='" + id + '\'' +
-            ", description='" + description + '\'' +
-            ", type='" + type + '\'' +
-            ", status='" + status + '\'' +
-            ", balance=" + balance +
-            ", fee=" + fee +
-            '}';
+        "address='" + address + '\'' +
+        ", date=" + date +
+        ", currency='" + currency + '\'' +
+        ", amount=" + amount +
+        ", id='" + id + '\'' +
+        ", description='" + description + '\'' +
+        ", type='" + type + '\'' +
+        ", status='" + status + '\'' +
+        ", balance=" + balance +
+        ", fee=" + fee +
+        '}';
   }
 
   /**

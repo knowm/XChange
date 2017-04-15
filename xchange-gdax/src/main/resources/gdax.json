@@ -1,48 +1,48 @@
 {
-  "currency_pairs" : {
-    "BTC/GBP" : {
-      "min_amount" : 0.01,
-      "max_amount" : 10000.00,
-      "price_scale" : 8
+  "currency_pairs": {
+    "BTC/GBP": {
+      "min_amount": 0.01,
+      "max_amount": 10000.00,
+      "price_scale": 8
     },
-    "BTC/USD" : {
-      "min_amount" : 0.01,
-      "max_amount" : 10000.00,
-      "price_scale" : 8
+    "BTC/USD": {
+      "min_amount": 0.01,
+      "max_amount": 10000.00,
+      "price_scale": 8
     },
-    "ETH/USD" : {
-      "min_amount" : 0.01,
-      "max_amount" : 1000000.00,
-      "price_scale" : 8
+    "ETH/USD": {
+      "min_amount": 0.01,
+      "max_amount": 1000000.00,
+      "price_scale": 8
     },
-    "BTC/EUR" : {
-      "min_amount" : 0.01,
-      "max_amount" : 10000.00,
-      "price_scale" : 8
+    "BTC/EUR": {
+      "min_amount": 0.01,
+      "max_amount": 10000.00,
+      "price_scale": 8
     },
-    "ETH/BTC" : {
-      "min_amount" : 0.01000,
-      "max_amount" : 1000000.00000,
-      "price_scale" : 8
+    "ETH/BTC": {
+      "min_amount": 0.01000,
+      "max_amount": 1000000.00000,
+      "price_scale": 8
     },
-    "LTC/USD" : {
-      "min_amount" : 0.01,
-      "max_amount" : 1000000.00,
-      "price_scale" : 8
+    "LTC/USD": {
+      "min_amount": 0.01,
+      "max_amount": 1000000.00,
+      "price_scale": 8
     },
-    "LTC/BTC" : {
-      "min_amount" : 0.01000,
-      "max_amount" : 1000000.00000,
-      "price_scale" : 8
+    "LTC/BTC": {
+      "min_amount": 0.01000,
+      "max_amount": 1000000.00000,
+      "price_scale": 8
     }
   },
-  "currencies" : {
-    "EUR" : null,
-    "LTC" : null,
-    "USD" : null,
-    "BTC" : null,
-    "ETH" : null,
-    "GBP" : null
+  "currencies": {
+    "EUR": null,
+    "LTC": null,
+    "USD": null,
+    "BTC": null,
+    "ETH": null,
+    "GBP": null
   },
   "public_rate_limits": [
     {
@@ -50,7 +50,7 @@
       "time_span": 1,
       "time_unit": "SECONDS"
     }
-  ],  
+  ],
   "private_rate_limits": [
     {
       "calls": 5,

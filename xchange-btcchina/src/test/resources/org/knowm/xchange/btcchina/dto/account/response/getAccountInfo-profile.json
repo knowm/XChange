@@ -1,20 +1,20 @@
 {
-	"result": {
-		"profile": {
-			"username": "xchange",
-			"trade_password_enabled": true,
-			"otp_enabled": false,
-			"trade_fee": 0,
-			"trade_fee_cnyltc": 0,
-			"trade_fee_btcltc": 0,
-			"daily_btc_limit": 10,
-			"daily_ltc_limit": 400,
-			"btc_deposit_address": "1r56Yu5GsVAS7tnQP9iY7Ey9DEVZ38Ytx",
-			"btc_withdrawal_address": "",
-			"ltc_deposit_address": "LhW2HGPy5j2yFhBZ2uamZxgjbCjvL7iUzG",
-			"ltc_withdrawal_address": "",
-			"api_key_permission": 3
-		}
-	},
-	"id": "2"
+  "result": {
+    "profile": {
+      "username": "xchange",
+      "trade_password_enabled": true,
+      "otp_enabled": false,
+      "trade_fee": 0,
+      "trade_fee_cnyltc": 0,
+      "trade_fee_btcltc": 0,
+      "daily_btc_limit": 10,
+      "daily_ltc_limit": 400,
+      "btc_deposit_address": "1r56Yu5GsVAS7tnQP9iY7Ey9DEVZ38Ytx",
+      "btc_withdrawal_address": "",
+      "ltc_deposit_address": "LhW2HGPy5j2yFhBZ2uamZxgjbCjvL7iUzG",
+      "ltc_withdrawal_address": "",
+      "api_key_permission": 3
+    }
+  },
+  "id": "2"
 }

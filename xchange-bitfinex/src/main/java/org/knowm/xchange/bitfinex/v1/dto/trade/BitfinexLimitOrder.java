@@ -26,7 +26,7 @@ public class BitfinexLimitOrder extends LimitOrder {
   public BitfinexOrderStatusResponse getResponse() {
     return response;
   }
-  
+
   public static class Builder extends LimitOrder.Builder {
 
     public Builder(OrderType orderType, CurrencyPair currencyPair) {

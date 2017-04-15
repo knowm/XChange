@@ -11,7 +11,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demo requesting polling Ticker at BitcoinCharts
- * 
+ *
  * @author timmolter
  */
 public class BitcoinChartsTickerDemo {

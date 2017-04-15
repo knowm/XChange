@@ -41,37 +41,39 @@ public interface BitVc {
   @Path("detail_{symbol}_json.js")
   HuobiOrderBookTAS getDetail(@PathParam("symbol") String symbol) throws IOException;
 
-  /** Private **/
+  /**
+   * Private
+   **/
   @POST
   @Path("api/accountInfo/get")
   BitVcAccountInfo getAccountInfo(@FormParam("access_key") String accessKey, @FormParam("created") long created,
-                                  @FormParam("sign") ParamsDigest sign) throws IOException;
+      @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   @Path("api/order/list")
   HuobiOrderResult getOrders(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType,
-                             @FormParam("created") long created, @FormParam("sign") ParamsDigest sign) throws IOException;
+      @FormParam("created") long created, @FormParam("sign") ParamsDigest sign) throws IOException;
 
   @POST
   @Path("api/order/{id}")
   HuobiOrder getOrder(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType, @FormParam("created") long created,
-                      @FormParam("sign") ParamsDigest sign, @PathParam("id") long id) throws IOException;
+      @FormParam("sign") ParamsDigest sign, @PathParam("id") long id) throws IOException;
 
   @POST
   @Path("api/order/{side}")
   HuobiPlaceOrderResult placeLimitOrder(@FormParam("access_key") String accessKey, @FormParam("amount") String amount,
-                                        @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("price") String price,
-                                        @FormParam("sign") ParamsDigest sign, @PathParam("side") String side) throws IOException;
+      @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("price") String price,
+      @FormParam("sign") ParamsDigest sign, @PathParam("side") String side) throws IOException;
 
   @POST
   @Path("api/order/{side}")
   HuobiPlaceOrderResult placeMarketOrder(@FormParam("access_key") String accessKey, @FormParam("amount") String amount,
-                                         @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("sign") ParamsDigest sign, @PathParam("side") String side)
+      @FormParam("coin_type") int coinType, @FormParam("created") long created, @FormParam("sign") ParamsDigest sign, @PathParam("side") String side)
       throws IOException;
 
   @POST
   @Path("api/order/cancel/{id2}")
   HuobiCancelOrderResult cancelOrder(@FormParam("access_key") String accessKey, @FormParam("coin_type") int coinType,
-                                     @FormParam("created") long created, @FormParam("id") long id, @FormParam("sign") ParamsDigest sign, @PathParam("id2") long id2)
+      @FormParam("created") long created, @FormParam("id") long id, @FormParam("sign") ParamsDigest sign, @PathParam("id2") long id2)
       throws IOException;
 }

@@ -55,19 +55,19 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    return new KrakenFundingHistoryParams(null, null, null, new Currency[] {Currency.BTC, Currency.USD});
+    return new KrakenFundingHistoryParams(null, null, null, new Currency[]{Currency.BTC, Currency.USD});
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     String startTime = null;
     String endTime = null;
     if (params instanceof TradeHistoryParamsTimeSpan) {
       final TradeHistoryParamsTimeSpan timeSpanParam = (TradeHistoryParamsTimeSpan) params;
-      if (timeSpanParam.getStartTime() != null){
+      if (timeSpanParam.getStartTime() != null) {
         startTime = String.valueOf(DateUtils.toUnixTime(timeSpanParam.getStartTime()));
       }
-      if (timeSpanParam.getEndTime() != null){
+      if (timeSpanParam.getEndTime() != null) {
         endTime = String.valueOf(DateUtils.toUnixTime(timeSpanParam.getEndTime()));
       }
     }
@@ -75,7 +75,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     String offset = null;
     if (params instanceof TradeHistoryParamOffset) {
       final TradeHistoryParamOffset offsetParam = (TradeHistoryParamOffset) params;
-      if (offsetParam.getOffset() != null){
+      if (offsetParam.getOffset() != null) {
         offset = String.valueOf(offsetParam.getOffset());
       }
     }
@@ -83,7 +83,7 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     Currency[] currencies = null;
     if (params instanceof TradeHistoryParamCurrencies) {
       final TradeHistoryParamCurrencies currenciesParam = (TradeHistoryParamCurrencies) params;
-      if (currenciesParam.getCurrencies() != null){
+      if (currenciesParam.getCurrencies() != null) {
         currencies = currenciesParam.getCurrencies();
       }
     }
@@ -98,9 +98,8 @@ public class KrakenAccountService extends KrakenAccountServiceRaw implements Acc
     return KrakenAdapters.adaptFundingHistory(getKrakenLedgerInfo(ledgerType, startTime, endTime, offset, currencies));
   }
 
-
   public static class KrakenFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan
-          implements TradeHistoryParamOffset, TradeHistoryParamCurrencies, HistoryParamsFundingType {
+      implements TradeHistoryParamOffset, TradeHistoryParamCurrencies, HistoryParamsFundingType {
 
     private Long offset;
     private Currency[] currencies;

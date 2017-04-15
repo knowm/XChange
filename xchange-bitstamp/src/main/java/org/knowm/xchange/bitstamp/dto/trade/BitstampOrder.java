@@ -18,7 +18,9 @@ public final class BitstampOrder {
 
   private int id;
   private String datetime;
-  /** 0 - buy (bid); 1 - sell (ask) */
+  /**
+   * 0 - buy (bid); 1 - sell (ask)
+   */
   private int type;
   private BigDecimal price;
   private BigDecimal amount;

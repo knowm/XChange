@@ -9,12 +9,12 @@ import si.mazi.rescu.RestProxyFactory;
 
 public class YoBitBaseService<T extends YoBit> extends BaseExchangeService implements BaseService {
 
-	protected final T coinbaseEx;
+  protected final T coinbaseEx;
 
-	protected YoBitBaseService(Class<T> type, Exchange exchange) {
-		super(exchange);
+  protected YoBitBaseService(Class<T> type, Exchange exchange) {
+    super(exchange);
 
-		this.coinbaseEx = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
-	}
+    this.coinbaseEx = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+  }
 
 }

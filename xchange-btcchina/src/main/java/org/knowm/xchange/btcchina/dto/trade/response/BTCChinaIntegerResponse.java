@@ -9,7 +9,7 @@ public class BTCChinaIntegerResponse extends BTCChinaResponse<Integer> {
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param result
    */

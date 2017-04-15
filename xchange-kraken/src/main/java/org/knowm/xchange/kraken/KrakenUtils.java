@@ -6,7 +6,6 @@ import java.util.Set;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.kraken.KrakenAdapters;
 
 /**
  * @author timmolter
@@ -35,7 +34,7 @@ public class KrakenUtils {
     DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XLM"));
     DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XRP"));
     DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XVN"));
-    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("ETC"));  
+    DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("ETC"));
     DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("XMR"));
     DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("ZEC"));
     DIGITAL_CURRENCIES.add(KrakenAdapters.adaptCurrency("REP"));
@@ -59,11 +58,11 @@ public class KrakenUtils {
   }
 
   public static String getKrakenCurrencyCode(Currency currency) {
-      
-      String c = currency.getCurrencyCode();
-      if ("USDT".equals(c) || "KFEE".equals(c) || "DASH".equals(c)) {
-          return c;
-      }
+
+    String c = currency.getCurrencyCode();
+    if ("USDT".equals(c) || "KFEE".equals(c) || "DASH".equals(c)) {
+      return c;
+    }
 
     if (FIAT_CURRENCIES.contains(currency)) {
       return "Z" + currency;

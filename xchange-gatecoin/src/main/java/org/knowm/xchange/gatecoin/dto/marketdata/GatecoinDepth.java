@@ -1,4 +1,3 @@
-
 package org.knowm.xchange.gatecoin.dto.marketdata;
 
 import java.math.BigDecimal;

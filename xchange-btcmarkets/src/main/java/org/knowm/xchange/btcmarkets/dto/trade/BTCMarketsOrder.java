@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-@JsonPropertyOrder({ "currency", "instrument", "price", "volume", "orderSide", "ordertype", "clientRequestId" })
+@JsonPropertyOrder({"currency", "instrument", "price", "volume", "orderSide", "ordertype", "clientRequestId"})
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BTCMarketsOrder {
 

@@ -29,7 +29,7 @@ public class GeminiWithdrawalRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    * @param withdrawType
    * @param walletSelected

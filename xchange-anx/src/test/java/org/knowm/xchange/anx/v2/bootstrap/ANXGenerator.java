@@ -56,12 +56,12 @@ public class ANXGenerator {
       .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
   static Set<Currency> cryptos = new HashSet<>(Arrays.asList(BTC, LTC, DOGE, STR, XRP, START, EGD));
-  static Currency[] fiats = { USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY, CNY };
+  static Currency[] fiats = {USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY, CNY};
 
   // counter currencies for STARTCoin - all fiats but CNY
-  static Currency[] fiatsStart = { USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY };
+  static Currency[] fiatsStart = {USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY};
 
-  static CurrencyPair[] pairsOther = { LTC_BTC, DOGE_BTC, STR_BTC, XRP_BTC };
+  static CurrencyPair[] pairsOther = {LTC_BTC, DOGE_BTC, STR_BTC, XRP_BTC};
 
   // base currency -> min order size
   static Map<Currency, BigDecimal> minAmount = new HashMap<>();

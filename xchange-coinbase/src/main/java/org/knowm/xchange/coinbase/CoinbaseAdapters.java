@@ -76,10 +76,10 @@ public final class CoinbaseAdapters {
   public static OrderType adaptOrderType(CoinbaseTransferType transferType) {
 
     switch (transferType) {
-    case BUY:
-      return OrderType.BID;
-    case SELL:
-      return OrderType.ASK;
+      case BUY:
+        return OrderType.BID;
+      case SELL:
+        return OrderType.ASK;
     }
     return null;
   }

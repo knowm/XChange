@@ -3,7 +3,15 @@ package org.knowm.xchange.huobi;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.huobi.service.*;
+import org.knowm.xchange.huobi.service.BitVcAccountService;
+import org.knowm.xchange.huobi.service.BitVcFuturesAccountService;
+import org.knowm.xchange.huobi.service.BitVcFuturesMarketDataService;
+import org.knowm.xchange.huobi.service.BitVcFuturesTradeService;
+import org.knowm.xchange.huobi.service.BitVcTradeServiceRaw;
+import org.knowm.xchange.huobi.service.GenericTradeService;
+import org.knowm.xchange.huobi.service.HuobiAccountService;
+import org.knowm.xchange.huobi.service.HuobiMarketDataService;
+import org.knowm.xchange.huobi.service.HuobiTradeServiceRaw;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -15,14 +23,22 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
   public static final String TRADE_PASSWORD_PARAMETER = "trade_password";
 
-  /** Potentially different market data endpoints should be settable */
+  /**
+   * Potentially different market data endpoints should be settable
+   */
   public static final String HUOBI_MARKET_DATA = "huobi_uri_marketdata";
 
-  /** Using BitVc Spot for execution */
+  /**
+   * Using BitVc Spot for execution
+   */
   public static final String USE_BITVC = "use_bitvc";
-  /** Use BitVc Futures for market data */
+  /**
+   * Use BitVc Futures for market data
+   */
   public static final String USE_BITVC_FUTURES_MARKET_DATA = "use_bitvc_futures";
-  /** Use BitVc Futures for execution */
+  /**
+   * Use BitVc Futures for execution
+   */
   public static final String USE_BITVC_FUTURES_EXECUTION = "use_bitvc_futures_execution";
 
   @Override
@@ -38,11 +54,10 @@ public class HuobiExchange extends BaseExchange implements Exchange {
 
     concludeHostParams(exchangeSpecification);
 
-
     if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)
         && exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES_MARKET_DATA).equals(true)) {
 
-        marketDataService = new BitVcFuturesMarketDataService(this, futuresContractOfConfig(exchangeSpecification));
+      marketDataService = new BitVcFuturesMarketDataService(this, futuresContractOfConfig(exchangeSpecification));
     } else {
       marketDataService = new HuobiMarketDataService(this);
     }
@@ -50,14 +65,14 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     if (exchangeSpecification.getApiKey() != null) {
       if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)) {
 
-          // BitVc futures execution or spot execution
-          if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES_EXECUTION).equals(true)) {
-              accountService = new BitVcFuturesAccountService(this);
-              tradeService =  new BitVcFuturesTradeService(this, futuresContractOfConfig(exchangeSpecification));
-          } else {
-              accountService = new BitVcAccountService(this);
-              tradeService = new GenericTradeService(this, new BitVcTradeServiceRaw(this));
-          }
+        // BitVc futures execution or spot execution
+        if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC_FUTURES_EXECUTION).equals(true)) {
+          accountService = new BitVcFuturesAccountService(this);
+          tradeService = new BitVcFuturesTradeService(this, futuresContractOfConfig(exchangeSpecification));
+        } else {
+          accountService = new BitVcAccountService(this);
+          tradeService = new GenericTradeService(this, new BitVcTradeServiceRaw(this));
+        }
       } else {
         accountService = new HuobiAccountService(this);
         tradeService = new GenericTradeService(this, new HuobiTradeServiceRaw(this));
@@ -66,7 +81,9 @@ public class HuobiExchange extends BaseExchange implements Exchange {
     }
   }
 
-  /** Adjust host parameters depending on exchange specific parameters */
+  /**
+   * Adjust host parameters depending on exchange specific parameters
+   */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParametersItem(USE_BITVC).equals(true)) {

@@ -18,7 +18,6 @@ import org.knowm.xchange.bitmarket.BitMarketTestSupport;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketOrderBook;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketTicker;
 import org.knowm.xchange.bitmarket.dto.marketdata.BitMarketTrade;
-import org.knowm.xchange.bitmarket.service.BitMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;

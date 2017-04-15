@@ -77,7 +77,7 @@ public interface CampBX {
   @POST
   @Path("tradeenter.php")
   CampBXResponse tradeEnter(@FormParam("user") String user, @FormParam("pass") String password, @FormParam("TradeMode") TradeMode mode,
-                            @FormParam("Quantity") BigDecimal quantity, @FormParam("Price") BigDecimal price) throws IOException;
+      @FormParam("Quantity") BigDecimal quantity, @FormParam("Price") BigDecimal price) throws IOException;
 
   /**
    * An API call to place an advanced order can be made in following format:
@@ -110,16 +110,16 @@ public interface CampBX {
   @POST
   @Path("tradeadv.php")
   CampBXResponse tradeAdvancedEnter(@Nonnull @FormParam("user") String user, @Nonnull @FormParam("pass") String password,
-                                    @Nonnull @FormParam("TradeMode") AdvTradeMode mode, @Nonnull @FormParam("Quantity") BigDecimal quantity,
-                                    @Nonnull @FormParam("Price") BigDecimal price, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
-                                    @FormParam("Expiry") String expiry) throws IOException;
+      @Nonnull @FormParam("TradeMode") AdvTradeMode mode, @Nonnull @FormParam("Quantity") BigDecimal quantity,
+      @Nonnull @FormParam("Price") BigDecimal price, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
+      @FormParam("Expiry") String expiry) throws IOException;
 
   @POST
   @Path("tradeadv.php")
   CampBXResponse tradeAdvancedMarketEnter(@Nonnull @FormParam("user") String user, @Nonnull @FormParam("pass") String password,
-                                          @Nonnull @FormParam("TradeMode") AdvTradeMode mode, @Nonnull @FormParam("Quantity") BigDecimal quantity,
-                                          @Nonnull @FormParam("Price") MarketPrice market, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
-                                          @FormParam("Expiry") String expiry) throws IOException;
+      @Nonnull @FormParam("TradeMode") AdvTradeMode mode, @Nonnull @FormParam("Quantity") BigDecimal quantity,
+      @Nonnull @FormParam("Price") MarketPrice market, @FormParam("FillType") FillType fillType, @FormParam("DarkPool") DarkPool darkPool,
+      @FormParam("Expiry") String expiry) throws IOException;
 
   /**
    * An API call to cancel an open order can be made in following format: <blockquote> https://CampBX.com/api/tradecancel.php POST: user=USERNAME
@@ -131,7 +131,7 @@ public interface CampBX {
   @POST
   @Path("tradecancel.php")
   CampBXResponse tradeCancel(@FormParam("user") String user, @FormParam("pass") String password, @FormParam("Type") OrderType type,
-                             @FormParam("OrderID") Long orderId) throws IOException;
+      @FormParam("OrderID") Long orderId) throws IOException;
 
   /**
    * An API call to get Bitcoin deposit address for your account can be made in following format: <blockquote> https://CampBX.com/api/getbtcaddr.php
@@ -157,7 +157,7 @@ public interface CampBX {
   @POST
   @Path("sendbtc.php")
   CampBXResponse withdrawBtc(@FormParam("user") String user, @FormParam("pass") String password, @FormParam("BTCTo") String btcToAddress,
-                             @FormParam("BTCAmt") BigDecimal amount) throws IOException;
+      @FormParam("BTCAmt") BigDecimal amount) throws IOException;
 
   enum TradeMode {
     QuickBuy, QuickSell

@@ -160,7 +160,7 @@ public class KrakenAdapters {
   }
 
   public static Currency adaptCurrency(String krakenCurrencyCode) {
-    String currencyCode = (krakenCurrencyCode.length() == 4 && !"USDT".equals(krakenCurrencyCode) && !"KFEE".equals(krakenCurrencyCode) && !"DASH".equals(krakenCurrencyCode) ) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
+    String currencyCode = (krakenCurrencyCode.length() == 4 && !"USDT".equals(krakenCurrencyCode) && !"KFEE".equals(krakenCurrencyCode) && !"DASH".equals(krakenCurrencyCode)) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
 
     return Currency.getInstance(currencyCode).getCommonlyUsedCurrency();
   }
@@ -269,9 +269,9 @@ public class KrakenAdapters {
 
   private static CurrencyPairMetaData adaptPair(KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
     if (OriginalMeta != null) {
-        return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), OriginalMeta.getMinimumAmount(), OriginalMeta.getMaximumAmount(), krakenPair.getPairScale());
+      return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), OriginalMeta.getMinimumAmount(), OriginalMeta.getMaximumAmount(), krakenPair.getPairScale());
     } else {
-        return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), null, null, krakenPair.getPairScale());        
+      return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), null, null, krakenPair.getPairScale());
     }
   }
 
@@ -280,16 +280,16 @@ public class KrakenAdapters {
     final List<FundingRecord> fundingRecords = new ArrayList<>();
     for (Entry<String, KrakenLedger> ledgerEntry : krakenLedgerInfo.entrySet()) {
       final KrakenLedger krakenLedger = ledgerEntry.getValue();
-      if (krakenLedger.getLedgerType() != null){
+      if (krakenLedger.getLedgerType() != null) {
         final Currency currency = adaptCurrency(krakenLedger.getAsset());
-        if (currency != null){
+        if (currency != null) {
           final Date timestamp = new Date((long) (krakenLedger.getUnixTime() * 1000L));
           final FundingRecord.Type type = FundingRecord.Type.fromString(krakenLedger.getLedgerType().name());
-          if (type != null){
+          if (type != null) {
             FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp,
-                    currency, krakenLedger.getTransactionAmount(), krakenLedger.getRefId(),
-                    FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
-                    null, krakenLedger.getBalance(), krakenLedger.getFee(), null);
+                currency, krakenLedger.getTransactionAmount(), krakenLedger.getRefId(),
+                FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
+                null, krakenLedger.getBalance(), krakenLedger.getFee(), null);
             fundingRecords.add(fundingRecordEntry);
           }
         }

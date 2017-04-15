@@ -10,21 +10,21 @@ import org.knowm.xchange.service.trade.TradeService;
 
 public class CCEXTradesHistoryDemo {
 
-	public static void main(String[] args) throws IOException, InterruptedException {
+  public static void main(String[] args) throws IOException, InterruptedException {
 
-		Exchange exchange = CCEXExamplesUtils.getExchange();
+    Exchange exchange = CCEXExamplesUtils.getExchange();
 
-		TradeService tradeService = exchange.getTradeService();
+    TradeService tradeService = exchange.getTradeService();
 
-		generic(tradeService);
-	}
+    generic(tradeService);
+  }
 
-	private static void generic(TradeService tradeService) throws IOException, InterruptedException {
-		List<Trade> history = tradeService.getTradeHistory(null).getTrades();
+  private static void generic(TradeService tradeService) throws IOException, InterruptedException {
+    List<Trade> history = tradeService.getTradeHistory(null).getTrades();
 
-		for (Trade temp : history) {
-			System.out.println(temp.toString());
-		}
-	}
+    for (Trade temp : history) {
+      System.out.println(temp.toString());
+    }
+  }
 
 }

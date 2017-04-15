@@ -23,7 +23,7 @@ public final class ANXOpenOrder {
 
   /**
    * Constructor
-   * 
+   *
    * @param oid
    * @param currency
    * @param item

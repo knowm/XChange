@@ -1,18 +1,18 @@
 {
-    "error": false,
-    "errorMessage": null,
-    "data": {
-        "EUR": {
-            "currency": "EUR",
-            "balance": 20925.48295,
-            "reserved": 9.009,
-            "available": 20916.47395
-        },
-        "BTC": {
-            "currency": "BTC",
-            "balance": 9934.56163999,
-            "reserved": 8.008,
-            "available": 9926.55363999
-        }
+  "error": false,
+  "errorMessage": null,
+  "data": {
+    "EUR": {
+      "currency": "EUR",
+      "balance": 20925.48295,
+      "reserved": 9.009,
+      "available": 20916.47395
+    },
+    "BTC": {
+      "currency": "BTC",
+      "balance": 9934.56163999,
+      "reserved": 8.008,
+      "available": 9926.55363999
     }
+  }
 }

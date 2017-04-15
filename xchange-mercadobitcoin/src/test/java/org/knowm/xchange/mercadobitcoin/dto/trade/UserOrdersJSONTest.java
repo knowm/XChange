@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test MercadoBitcoinUserOrders JSON parsing
- * 
+ *
  * @author Felipe Micaroni Lalli
  */
 public class UserOrdersJSONTest {

@@ -63,7 +63,7 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
 
   /**
    * @param params Can optionally implement {@link TradeHistoryParamOffset} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types
-   *        will be ignored.
+   * will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {

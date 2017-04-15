@@ -15,7 +15,7 @@ public final class ANXWalletHistory {
 
   /**
    * Constructor
-   * 
+   *
    * @param records
    * @param anxWalletHistoryEntries
    */

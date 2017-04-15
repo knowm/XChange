@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "Id", "Amount", "Currency", "LastUpdated", "TxId", "CryptoAddress" })
+@JsonPropertyOrder({"Id", "Amount", "Currency", "LastUpdated", "TxId", "CryptoAddress"})
 public class BittrexDepositHistory {
   @JsonProperty("Id")
   private Long id;

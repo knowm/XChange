@@ -66,7 +66,6 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     return response.getAddress();
   }
 
-
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
     return new BitfinexFundingHistoryParams(null, null, null, Currency.BTC);
@@ -95,11 +94,11 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     }
 
     return BitfinexAdapters.adaptFundingHistory(getDepositWithdrawalHistory(currency,
-            null, startTime, endTime, limit));
+        null, startTime, endTime, limit));
   }
 
   public static class BitfinexFundingHistoryParams extends DefaultTradeHistoryParamsTimeSpan
-          implements TradeHistoryParamCurrency, TradeHistoryParamLimit {
+      implements TradeHistoryParamCurrency, TradeHistoryParamLimit {
 
     private Integer limit;
     private Currency currency;

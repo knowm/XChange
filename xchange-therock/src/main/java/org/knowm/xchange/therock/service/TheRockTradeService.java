@@ -96,26 +96,27 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-      if (!(params instanceof TradeHistoryParamCurrencyPair)) {
-          throw new ExchangeException("TheRock API recquires " + TradeHistoryParamCurrencyPair.class.getName());
+    if (!(params instanceof TradeHistoryParamCurrencyPair)) {
+      throw new ExchangeException("TheRock API recquires " + TradeHistoryParamCurrencyPair.class.getName());
+    }
+    TradeHistoryParamCurrencyPair pairParams = (TradeHistoryParamCurrencyPair) params;
+    Long sinceTradeId = null;        // get all trades starting from a specific trade_id
+    if (params instanceof TradeHistoryParamsIdSpan) {
+      TradeHistoryParamsIdSpan trId = (TradeHistoryParamsIdSpan) params;
+      try {
+        sinceTradeId = Long.valueOf(trId.getStartId());
+      } catch (Throwable ignored) {
       }
-      TradeHistoryParamCurrencyPair pairParams = (TradeHistoryParamCurrencyPair) params;
-      Long sinceTradeId = null;        // get all trades starting from a specific trade_id
-      if (params instanceof TradeHistoryParamsIdSpan) {
-          TradeHistoryParamsIdSpan trId = (TradeHistoryParamsIdSpan) params;
-          try {
-            sinceTradeId = Long.valueOf(trId.getStartId());
-        } catch (Throwable ignored) {}
-      }
-      Date after = null;
-      Date before = null;
-      
-      if (params instanceof TradeHistoryParamsTimeSpan) {
-          TradeHistoryParamsTimeSpan time = (TradeHistoryParamsTimeSpan) params;
-          after = time.getStartTime();
-          before = time.getEndTime();
-      }
-      return TheRockAdapters.adaptUserTrades(getTheRockUserTrades(pairParams.getCurrencyPair(), sinceTradeId, after, before), pairParams.getCurrencyPair());
+    }
+    Date after = null;
+    Date before = null;
+
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan time = (TradeHistoryParamsTimeSpan) params;
+      after = time.getStartTime();
+      before = time.getEndTime();
+    }
+    return TheRockAdapters.adaptUserTrades(getTheRockUserTrades(pairParams.getCurrencyPair(), sinceTradeId, after, before), pairParams.getCurrencyPair());
   }
 
   @Override

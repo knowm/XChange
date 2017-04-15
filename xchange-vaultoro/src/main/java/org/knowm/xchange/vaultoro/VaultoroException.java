@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @SuppressWarnings("serial")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "status", "data" })
+@JsonPropertyOrder({"status", "data"})
 public class VaultoroException extends RuntimeException {
 
   @JsonProperty("status")

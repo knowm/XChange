@@ -34,7 +34,7 @@ public interface RipplePublic {
   @GET
   @Path("accounts/{address}/order_book/{base}/{counter}")
   RippleOrderBook getOrderBook(@PathParam("address") final String address, @PathParam("base") final String base,
-                               @PathParam("counter") final String counter, @QueryParam("limit") final String limit) throws IOException, RippleException;
+      @PathParam("counter") final String counter, @QueryParam("limit") final String limit) throws IOException, RippleException;
 
   /**
    * Returns the account balances for this address. This is public information in the ledger (secret not needed).
@@ -79,8 +79,8 @@ public interface RipplePublic {
   @GET
   @Path("accounts/{address}/notifications")
   RippleNotifications notifications(@PathParam("address") final String address, @QueryParam("exclude_failed") final Boolean excludeFailed,
-                                    @QueryParam("earliest_first") final Boolean earliestFirst, @QueryParam("results_per_page") final Integer resultsPerPage,
-                                    @QueryParam("page") final Integer page, @QueryParam("start_ledger") final Long startLedger, @QueryParam("end_ledger") final Long endLedger)
+      @QueryParam("earliest_first") final Boolean earliestFirst, @QueryParam("results_per_page") final Integer resultsPerPage,
+      @QueryParam("page") final Integer page, @QueryParam("start_ledger") final Long startLedger, @QueryParam("end_ledger") final Long endLedger)
       throws IOException, RippleException;
 
   /**

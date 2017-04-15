@@ -21,7 +21,7 @@ public final class HitbtcTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param ask
    * @param bid
    * @param last

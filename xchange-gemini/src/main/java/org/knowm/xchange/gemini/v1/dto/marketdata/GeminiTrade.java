@@ -15,7 +15,7 @@ public class GeminiTrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param price
    * @param amount
    * @param timestamp

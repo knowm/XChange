@@ -51,7 +51,7 @@ public class AllIntegration {
         continue;
       }
 
-      exchangeClasses.add(new Object[] { exchangeClass, exchangeClass.getSimpleName() });
+      exchangeClasses.add(new Object[]{exchangeClass, exchangeClass.getSimpleName()});
     }
 
     return exchangeClasses;
@@ -183,20 +183,20 @@ public class AllIntegration {
   public void testGetTicker() throws Throwable {
 
     Method method = MarketDataService.class.getMethod("getTicker", CurrencyPair.class, Object[].class);
-    testExchangeMethod(exchange.getMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
+    testExchangeMethod(exchange.getMarketDataService(), method, getCurrencyPairs(), (Object) new Object[]{});
   }
 
   @Test
   public void testGetOrderBook() throws Throwable {
 
     Method method = MarketDataService.class.getMethod("getOrderBook", CurrencyPair.class, Object[].class);
-    testExchangeMethod(exchange.getMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
+    testExchangeMethod(exchange.getMarketDataService(), method, getCurrencyPairs(), (Object) new Object[]{});
   }
 
   @Test
   public void testGetTrades() throws Throwable {
 
     Method method = MarketDataService.class.getMethod("getTrades", CurrencyPair.class, Object[].class);
-    testExchangeMethod(exchange.getMarketDataService(), method, getCurrencyPairs(), (Object) new Object[] {});
+    testExchangeMethod(exchange.getMarketDataService(), method, getCurrencyPairs(), (Object) new Object[]{});
   }
 }

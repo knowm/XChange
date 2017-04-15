@@ -60,19 +60,19 @@ public class IndependentReserveDigest extends BaseParamsDigest {
         Object value = parameter.getValue();
         StringBuilder valueStr;
         if (value == null) {
-            valueStr = null;
+          valueStr = null;
         } else if (value instanceof Object[]) {
-            valueStr = new StringBuilder();
-            for (Object o : (Object[]) value) {
-                if (valueStr.length() != 0) {
-                    valueStr.append(',');
-                }
-                valueStr.append(String.valueOf(o));
+          valueStr = new StringBuilder();
+          for (Object o : (Object[]) value) {
+            if (valueStr.length() != 0) {
+              valueStr.append(',');
             }
+            valueStr.append(String.valueOf(o));
+          }
         } else {
-            valueStr = new StringBuilder(String.valueOf(value));
+          valueStr = new StringBuilder(String.valueOf(value));
         }
-        
+
         String namedParameter = parameter.getKey() + "=" + valueStr;
         namedParameters.add(namedParameter);
       }

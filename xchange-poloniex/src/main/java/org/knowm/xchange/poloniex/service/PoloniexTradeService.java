@@ -102,7 +102,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   /**
    * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams
-   *        types will be ignored.
+   * types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {

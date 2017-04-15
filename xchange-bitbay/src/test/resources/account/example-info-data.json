@@ -1,29 +1,29 @@
 {
-    "balances": {
-        "BTC": {
-            "available": "1.00000000",
-            "locked": "0.10000000"
-        },
-        "EUR": {
-            "available": "2.00",
-            "locked": "0.20"
-        },
-        "LSK": {
-            "available": "0.00000000",
-            "locked": "0.00000000"
-        },
-        "LTC": {
-            "available": "0.00000000",
-            "locked": "0.00000000"
-        },
-        "PLN": {
-            "available": "0.00",
-            "locked": "0.00"
-        },
-        "USD": {
-            "available": "2.00",
-            "locked": "0.20"
-        }
+  "balances": {
+    "BTC": {
+      "available": "1.00000000",
+      "locked": "0.10000000"
     },
-    "success": 1
+    "EUR": {
+      "available": "2.00",
+      "locked": "0.20"
+    },
+    "LSK": {
+      "available": "0.00000000",
+      "locked": "0.00000000"
+    },
+    "LTC": {
+      "available": "0.00000000",
+      "locked": "0.00000000"
+    },
+    "PLN": {
+      "available": "0.00",
+      "locked": "0.00"
+    },
+    "USD": {
+      "available": "2.00",
+      "locked": "0.20"
+    }
+  },
+  "success": 1
 }

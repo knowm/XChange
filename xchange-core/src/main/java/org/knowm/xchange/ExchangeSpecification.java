@@ -40,7 +40,9 @@ public class ExchangeSpecification {
 
   private final String exchangeClassName;
 
-  /** arbitrary exchange params that can be set for unique cases */
+  /**
+   * arbitrary exchange params that can be set for unique cases
+   */
   private Map<String, Object> exchangeSpecificParameters = new HashMap<>();
 
   /**
@@ -236,7 +238,6 @@ public class ExchangeSpecification {
 
   /**
    * Set an item in the arbitrary exchange-specific parameters to be passed to the exchange implementation.
-   *
    */
   public void setExchangeSpecificParametersItem(String key, Object value) {
 

@@ -1,63 +1,61 @@
 {
-  "hash":"2222222222222222222222222222222222222222222222222222222222222222",
-  "ledger":22222222,
-  "validated":true,
-  "timestamp":"2022-22-22T22:22:22.222Z",
-  "fee":"0.012",
-  "action":"order_create",
-  "direction":"outgoing",
-  "order":{
-    "account":"r222222222222222222222222222222222",
-    "taker_pays":{
-      "currency":"BTC",
-      "value":"0.501508355451214",
-      "counterparty":"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+  "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+  "ledger": 22222222,
+  "validated": true,
+  "timestamp": "2022-22-22T22:22:22.222Z",
+  "fee": "0.012",
+  "action": "order_create",
+  "direction": "outgoing",
+  "order": {
+    "account": "r222222222222222222222222222222222",
+    "taker_pays": {
+      "currency": "BTC",
+      "value": "0.501508355451214",
+      "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
     },
-    "taker_gets":{
-      "currency":"BTC",
-      "value":"0.5",
-      "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+    "taker_gets": {
+      "currency": "BTC",
+      "value": "0.5",
+      "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
     },
-    "passive":false,
-    "immediate_or_cancel":false,
-    "fill_or_kill":false,
-    "type":"buy",
-    "sequence":0
+    "passive": false,
+    "immediate_or_cancel": false,
+    "fill_or_kill": false,
+    "type": "buy",
+    "sequence": 0
   },
-  "balance_changes":[
+  "balance_changes": [
     {
-      "counterparty":"",
-      "currency":"XRP",
-      "value":"-0.012"
+      "counterparty": "",
+      "currency": "XRP",
+      "value": "-0.012"
     },
     {
-      "counterparty":"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q",
-      "currency":"BTC",
-      "value":"0.50150835545121407952"
+      "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q",
+      "currency": "BTC",
+      "value": "0.50150835545121407952"
     },
     {
-      "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
-      "currency":"BTC",
-      "value":"-0.501"
+      "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B",
+      "currency": "BTC",
+      "value": "-0.501"
     }
-    
   ],
-  "order_changes":[
+  "order_changes": [
     {
-      "taker_pays":{
-        "currency":"BTC",
-        "value":"0.501508355451214",
-        "counterparty":"rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
+      "taker_pays": {
+        "currency": "BTC",
+        "value": "0.501508355451214",
+        "counterparty": "rMwjYedjc7qqtKYVLiAccJSmCwih4LnE2q"
       },
-      "taker_gets":{
-        "currency":"BTC",
-        "value":"0.5",
-        "counterparty":"rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
+      "taker_gets": {
+        "currency": "BTC",
+        "value": "0.5",
+        "counterparty": "rvYAfWj5gh67oV6fW32ZzP3Aw4Eubs59B"
       },
-      "sequence":2222,
-      "status":"closed"
+      "sequence": 2222,
+      "status": "closed"
     }
-    
   ],
-  "success":true
+  "success": true
 }

@@ -73,7 +73,7 @@ public abstract class BaseExchange implements Exchange {
 
       this.exchangeSpecification = exchangeSpecification;
     }
-    
+
     if (this.exchangeSpecification.getMetaDataJsonFileOverride() != null) { // load the metadata from the file system
 
       InputStream is = null;

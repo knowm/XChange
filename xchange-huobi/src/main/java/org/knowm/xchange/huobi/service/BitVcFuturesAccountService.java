@@ -17,33 +17,33 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 public class BitVcFuturesAccountService extends BitVcFuturesServiceRaw implements AccountService {
-    public BitVcFuturesAccountService(final Exchange exchange) {
-        super(exchange);
-    }
+  public BitVcFuturesAccountService(final Exchange exchange) {
+    super(exchange);
+  }
 
-    @Override
-    public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        final BitVcFuturesAccountInfo accountInfo = bitvc.balance(accessKey, 1, requestTimestamp(), digest);
-        return BitVcFuturesAdapter.adaptAccountInfo(accountInfo);
-    }
+  @Override
+  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    final BitVcFuturesAccountInfo accountInfo = bitvc.balance(accessKey, 1, requestTimestamp(), digest);
+    return BitVcFuturesAdapter.adaptAccountInfo(accountInfo);
+  }
 
-    @Override
-    public String withdrawFunds(final Currency currency, final BigDecimal bigDecimal, final String s) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        return null;
-    }
+  @Override
+  public String withdrawFunds(final Currency currency, final BigDecimal bigDecimal, final String s) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return null;
+  }
 
-    @Override
-    public String requestDepositAddress(final Currency currency, final String... strings) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        return null;
-    }
+  @Override
+  public String requestDepositAddress(final Currency currency, final String... strings) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    return null;
+  }
 
-    @Override
-    public TradeHistoryParams createFundingHistoryParams() {
-        throw new NotAvailableFromExchangeException();
-    }
+  @Override
+  public TradeHistoryParams createFundingHistoryParams() {
+    throw new NotAvailableFromExchangeException();
+  }
 
-    @Override
-    public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
-        throw new NotYetImplementedForExchangeException();
-    }
+  @Override
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 }

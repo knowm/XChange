@@ -15,7 +15,7 @@ public class HitbtcOrderBook {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

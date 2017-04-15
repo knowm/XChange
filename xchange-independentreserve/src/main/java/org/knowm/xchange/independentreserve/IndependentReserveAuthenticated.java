@@ -57,7 +57,7 @@ public interface IndependentReserveAuthenticated {
   @Consumes(MediaType.APPLICATION_JSON)
   IndependentReserveCancelOrderResponse cancelOrder(IndependentReserveCancelOrderRequest independentReserveCancelOrderRequest)
       throws IndependentReserveHttpStatusException, IOException;
-  
+
   @POST
   @Path("GetTransactions")
   @Consumes(MediaType.APPLICATION_JSON)

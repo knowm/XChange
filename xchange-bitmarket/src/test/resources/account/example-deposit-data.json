@@ -1,10 +1,9 @@
 {
-  "success":true,
+  "success": true,
   "data": "BITMarket",
-  "limit":
-  {
-    "used" : 1,
-    "allowed" : 200,
-    "expires" : 1395750600
+  "limit": {
+    "used": 1,
+    "allowed": 200,
+    "expires": 1395750600
   }
 }

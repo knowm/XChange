@@ -24,7 +24,7 @@ public class KrakenAssetPair {
 
   /**
    * Constructor
-   * 
+   *
    * @param altName
    * @param classBase
    * @param base

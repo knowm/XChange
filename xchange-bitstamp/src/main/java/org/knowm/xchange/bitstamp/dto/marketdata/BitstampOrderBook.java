@@ -16,7 +16,7 @@ public class BitstampOrderBook {
 
   /**
    * Constructor
-   * 
+   *
    * @param timestamp
    * @param bids
    * @param asks
@@ -37,13 +37,17 @@ public class BitstampOrderBook {
     return timestamp;
   }
 
-  /** (price, amount) */
+  /**
+   * (price, amount)
+   */
   public List<List<BigDecimal>> getBids() {
 
     return bids;
   }
 
-  /** (price, amount) */
+  /**
+   * (price, amount)
+   */
   public List<List<BigDecimal>> getAsks() {
 
     return asks;

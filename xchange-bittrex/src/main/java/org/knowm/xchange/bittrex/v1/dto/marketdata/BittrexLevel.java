@@ -11,7 +11,7 @@ public class BittrexLevel {
 
   /**
    * Constructor
-   * 
+   *
    * @param rate
    * @param quantity
    */

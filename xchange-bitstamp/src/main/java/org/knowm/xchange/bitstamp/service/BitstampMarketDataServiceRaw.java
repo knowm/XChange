@@ -32,7 +32,9 @@ public class BitstampMarketDataServiceRaw extends BitstampBaseService {
     this.bitstampV2 = RestProxyFactory.createProxy(BitstampV2.class, exchange.getExchangeSpecification().getSslUri());
   }
 
-  /** @deprecated Use {@link #getBitstampTicker(CurrencyPair)}. */
+  /**
+   * @deprecated Use {@link #getBitstampTicker(CurrencyPair)}.
+   */
   @Deprecated
   public BitstampTicker getBitstampTicker() throws IOException {
     return getBitstampTicker(CurrencyPair.BTC_USD);
@@ -42,7 +44,9 @@ public class BitstampMarketDataServiceRaw extends BitstampBaseService {
     return bitstampV2.getTicker(new BitstampV2.Pair(pair));
   }
 
-  /** @deprecated Use {@link #getBitstampOrderBook(CurrencyPair)}. */
+  /**
+   * @deprecated Use {@link #getBitstampOrderBook(CurrencyPair)}.
+   */
   @Deprecated
   public BitstampOrderBook getBitstampOrderBook() throws IOException {
     return getBitstampOrderBook(CurrencyPair.BTC_USD);

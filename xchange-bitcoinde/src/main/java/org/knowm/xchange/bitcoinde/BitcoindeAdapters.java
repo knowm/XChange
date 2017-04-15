@@ -32,7 +32,7 @@ public final class BitcoindeAdapters {
 
   /**
    * Adapt a org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderBook object to an OrderBook object.
-   * 
+   *
    * @param bitcoindeOrderBook the exchange specific OrderBook object
    * @param currencyPair (e.g. BTC/USD)
    * @return The XChange OrderBook
@@ -67,7 +67,7 @@ public final class BitcoindeAdapters {
 
   /**
    * Adapt a org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeRate object to a Ticker object.
-   * 
+   *
    * @param bitcoindeRate The exchange specific rate
    * @param currencyPair (e.g. BTC/USD)
    * @return The XChange Ticker
@@ -80,7 +80,7 @@ public final class BitcoindeAdapters {
 
   /**
    * Adapt a org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTrade[] object to a Trades object.
-   * 
+   *
    * @param bitcoindeTrades Exchange specific trades
    * @param currencyPair (e.g. BTC/USD)
    * @return The XChange Trades

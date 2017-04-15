@@ -20,7 +20,7 @@ public interface Btc38 {
 
   /**
    * Gets all tickers from Btc38 for a particular target currency URL: http://api.btc38.com/v1/ticker.php?c=all&mk_type=cny
-   * 
+   *
    * @param marketType Target currency
    * @return Map of tickers
    * @throws IOException

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test Transaction[] JSON parsing
- * 
+ *
  * @author Felipe Micaroni Lalli
  */
 public class TradesJSONTest {

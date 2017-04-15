@@ -64,18 +64,18 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     String symbol = null;
     if (params instanceof TradeHistoryParamCurrency && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
       symbol = OkCoinAdapters.adaptSymbol(((TradeHistoryParamCurrency) params).getCurrency());
     }
-    if (symbol == null){
+    if (symbol == null) {
       if (params instanceof TradeHistoryParamCurrencyPair && ((TradeHistoryParamCurrencyPair) params).getCurrencyPair() != null) {
         symbol = OkCoinAdapters.adaptSymbol(((TradeHistoryParamCurrencyPair) params).getCurrencyPair());
       }
     }
 
-    if (symbol == null){
+    if (symbol == null) {
       throw new ExchangeException("Symbol must be supplied");
     }
 
@@ -83,9 +83,9 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
     Integer pageNumber = null;
     if (params instanceof TradeHistoryParamPaging) {
       TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
-      if (pagingParams.getPageLength() != null){
+      if (pagingParams.getPageLength() != null) {
         pageLength = pagingParams.getPageLength();
-        if (pageLength > 50){
+        if (pageLength > 50) {
           pageLength = 50;
         }
       }
@@ -94,18 +94,18 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
 
     final OkCoinAccountRecords depositRecord = getAccountRecords(symbol, "0", String.valueOf(pageNumber), String.valueOf(pageLength));
     final OkCoinAccountRecords withdrawalRecord = getAccountRecords(symbol, "1", String.valueOf(pageNumber), String.valueOf(pageLength));
-    final OkCoinAccountRecords[] okCoinAccountRecordsList = new OkCoinAccountRecords[] {depositRecord, withdrawalRecord};
+    final OkCoinAccountRecords[] okCoinAccountRecordsList = new OkCoinAccountRecords[]{depositRecord, withdrawalRecord};
     return OkCoinAdapters.adaptFundingHistory(okCoinAccountRecordsList);
   }
 
   public static class OkCoinFundingHistoryParams extends DefaultTradeHistoryParamPaging
-    implements TradeHistoryParamCurrency, TradeHistoryParamCurrencyPair{
+      implements TradeHistoryParamCurrency, TradeHistoryParamCurrencyPair {
 
     private Currency currency;
     private CurrencyPair currencyPair;
 
     public OkCoinFundingHistoryParams(final Integer pageNumber, final Integer pageLength,
-                                      final Currency currency, final CurrencyPair currencyPair) {
+        final Currency currency, final CurrencyPair currencyPair) {
       super(pageLength, pageNumber);
       this.currency = currency;
       this.currencyPair = currencyPair;

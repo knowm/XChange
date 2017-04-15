@@ -96,8 +96,8 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
    * </ul>
    *
    * @param params Can optionally implement {@RippleTradeHistoryAccount}, {@RippleTradeHistoryCount}, {@RippleTradeHistoryHashLimit},
-   *        {@RippleTradeHistoryPreferredCurrencies}, {@link TradeHistoryParamPaging}, {@TradeHistoryParamCurrencyPair},
-   *        {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
+   * {@RippleTradeHistoryPreferredCurrencies}, {@link TradeHistoryParamPaging}, {@TradeHistoryParamCurrencyPair},
+   * {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(final TradeHistoryParams params) throws IOException {

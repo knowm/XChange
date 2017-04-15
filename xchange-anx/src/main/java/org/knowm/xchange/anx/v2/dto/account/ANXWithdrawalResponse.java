@@ -14,7 +14,7 @@ public final class ANXWithdrawalResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param transactionId
    */
   public ANXWithdrawalResponse(@JsonProperty("trx") String transactionId) {

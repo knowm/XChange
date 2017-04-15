@@ -17,7 +17,7 @@ public class GeminiCancelOrderRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    * @param orderId
    */

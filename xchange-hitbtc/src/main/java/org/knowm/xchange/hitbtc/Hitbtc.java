@@ -52,13 +52,13 @@ public interface Hitbtc {
   @GET
   @Path("public/{currencyPair}/trades")
   HitbtcTrades getTrades(@PathParam("currencyPair") String currencyPair, @QueryParam("from") String from, @QueryParam("by") String sortBy,
-                         @QueryParam("sort") String sort, @QueryParam("start_index") String startIndex,
-                         @DefaultValue("1000") @QueryParam("max_results") String max_results, @DefaultValue("object") @QueryParam("format_item") String format_item,
-                         @DefaultValue("true") @QueryParam("side") String side) throws IOException, HitbtcException;
+      @QueryParam("sort") String sort, @QueryParam("start_index") String startIndex,
+      @DefaultValue("1000") @QueryParam("max_results") String max_results, @DefaultValue("object") @QueryParam("format_item") String format_item,
+      @DefaultValue("true") @QueryParam("side") String side) throws IOException, HitbtcException;
 
   @GET
   @Path("public/{currencyPair}/trades/recent")
   HitbtcTrades getTradesRecent(@PathParam("currencyPair") String currencyPair,
-                               @DefaultValue("1000") @QueryParam("max_results") String max_results, @DefaultValue("object") @QueryParam("format_item") String format_item,
-                               @DefaultValue("true") @QueryParam("side") String side) throws IOException, HitbtcException;
+      @DefaultValue("1000") @QueryParam("max_results") String max_results, @DefaultValue("object") @QueryParam("format_item") String format_item,
+      @DefaultValue("true") @QueryParam("side") String side) throws IOException, HitbtcException;
 }

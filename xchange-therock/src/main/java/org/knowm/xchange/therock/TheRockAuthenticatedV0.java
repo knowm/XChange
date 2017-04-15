@@ -16,8 +16,7 @@ import org.knowm.xchange.therock.service.TheRockDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
- * The old API V0 https://api.therocktrading.com/doc/v0/index.html#api-Trading_API-GetOrders 
- *
+ * The old API V0 https://api.therocktrading.com/doc/v0/index.html#api-Trading_API-GetOrders
  */
 @Path("api")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -27,7 +26,6 @@ public interface TheRockAuthenticatedV0 {
   String X_TRT_NONCE = "X-TRT-NONCE";
 
   //account
-
 
   @POST
   @Path("get_orders")

@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <message>
-	<header>
-		<field name="BeginString" tag="8"><![CDATA[FIX.4.4]]></field>
-		<field name="BodyLength" tag="9"><![CDATA[211]]></field>
-		<field name="MsgSeqNum" tag="34"><![CDATA[5]]></field>
-		<field enum="MarketDataIncrementalRefresh" name="MsgType" tag="35"><![CDATA[X]]></field>
-		<field name="SenderCompID" tag="49"><![CDATA[BTCC-FIX-SERVER]]></field>
-		<field name="SendingTime" tag="52"><![CDATA[20141016-18:05:16.747]]></field>
-		<field name="TargetCompID" tag="56"><![CDATA[9dfa65ee-e023-48fb-a8c1-cba6ea4b01ff]]></field>
-	</header>
-	<body>
-		<field name="NoMDEntries" tag="268"><![CDATA[2]]></field>
-		<groups name="NoMDEntries" tag="268">
-			<group>
-				<field enum="CHANGE" name="MDUpdateAction" tag="279"><![CDATA[1]]></field>
-				<field enum="OFFER" name="MDEntryType" tag="269"><![CDATA[1]]></field>
-				<field name="MDEntryPx" tag="270"><![CDATA[2325.53]]></field>
-				<field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
-				<field name="MDEntryTime" tag="273"><![CDATA[18:05:16.000]]></field>
-			</group>
-			<group>
-				<field enum="CHANGE" name="MDUpdateAction" tag="279"><![CDATA[1]]></field>
-				<field enum="TRADE_VOLUME" name="MDEntryType" tag="269"><![CDATA[B]]></field>
-				<field name="MDEntrySize" tag="271"><![CDATA[53826.1999]]></field>
-				<field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
-				<field name="MDEntryTime" tag="273"><![CDATA[18:05:16.000]]></field>
-			</group>
-		</groups>
-	</body>
-	<trailer>
-		<field name="CheckSum" tag="10"><![CDATA[203]]></field>
-	</trailer>
+    <header>
+        <field name="BeginString" tag="8"><![CDATA[FIX.4.4]]></field>
+        <field name="BodyLength" tag="9"><![CDATA[211]]></field>
+        <field name="MsgSeqNum" tag="34"><![CDATA[5]]></field>
+        <field enum="MarketDataIncrementalRefresh" name="MsgType" tag="35"><![CDATA[X]]></field>
+        <field name="SenderCompID" tag="49"><![CDATA[BTCC-FIX-SERVER]]></field>
+        <field name="SendingTime" tag="52"><![CDATA[20141016-18:05:16.747]]></field>
+        <field name="TargetCompID" tag="56"><![CDATA[9dfa65ee-e023-48fb-a8c1-cba6ea4b01ff]]></field>
+    </header>
+    <body>
+        <field name="NoMDEntries" tag="268"><![CDATA[2]]></field>
+        <groups name="NoMDEntries" tag="268">
+            <group>
+                <field enum="CHANGE" name="MDUpdateAction" tag="279"><![CDATA[1]]></field>
+                <field enum="OFFER" name="MDEntryType" tag="269"><![CDATA[1]]></field>
+                <field name="MDEntryPx" tag="270"><![CDATA[2325.53]]></field>
+                <field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
+                <field name="MDEntryTime" tag="273"><![CDATA[18:05:16.000]]></field>
+            </group>
+            <group>
+                <field enum="CHANGE" name="MDUpdateAction" tag="279"><![CDATA[1]]></field>
+                <field enum="TRADE_VOLUME" name="MDEntryType" tag="269"><![CDATA[B]]></field>
+                <field name="MDEntrySize" tag="271"><![CDATA[53826.1999]]></field>
+                <field name="MDEntryDate" tag="272"><![CDATA[20141016]]></field>
+                <field name="MDEntryTime" tag="273"><![CDATA[18:05:16.000]]></field>
+            </group>
+        </groups>
+    </body>
+    <trailer>
+        <field name="CheckSum" tag="10"><![CDATA[203]]></field>
+    </trailer>
 </message>

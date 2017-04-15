@@ -33,37 +33,37 @@ public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
   @Path("/account")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesAccount account(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
-                                  @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("/sendorder")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesOrder sendOrder(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
-                                  @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("orderType") String orderType, @QueryParam("symbol") String symbol,
-                                  @QueryParam("side") String side, @QueryParam("size") BigDecimal size, @QueryParam("limitPrice") BigDecimal limitPrice) throws IOException;
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("orderType") String orderType, @QueryParam("symbol") String symbol,
+      @QueryParam("side") String side, @QueryParam("size") BigDecimal size, @QueryParam("limitPrice") BigDecimal limitPrice) throws IOException;
 
   @POST
   @Path("/cancelorder")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesCancel cancelOrder(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
-                                     @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("order_id") String order_id) throws IOException;
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("order_id") String order_id) throws IOException;
 
   @POST
   @Path("/openorders")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesOpenOrders openOrders(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
-                                        @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("/fills")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesFills fills(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
-                              @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("/openpositions")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   CryptoFacilitiesOpenPositions openPositions(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
-                                              @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
 }

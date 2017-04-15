@@ -13,7 +13,7 @@ public class GeminiBalancesResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param type
    * @param currency
    * @param amount

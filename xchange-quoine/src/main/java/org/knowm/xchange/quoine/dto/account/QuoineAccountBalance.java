@@ -8,7 +8,7 @@ public final class QuoineAccountBalance {
   private final double balance;
 
   public QuoineAccountBalance(@JsonProperty("currency") String currency,
-                              @JsonProperty("balance") double balance) {
+      @JsonProperty("balance") double balance) {
     this.currency = currency;
     this.balance = balance;
   }

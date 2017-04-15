@@ -75,7 +75,7 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements M
    * Get recent trades from exchange
    *
    * @param args Optional arguments. This implementation assumes args[0] is integer value limiting number of trade items to get. -1 or missing -> use
-   *        default 2000 max fetch value int from 1 to 2000 -> use API v.3 to get corresponding number of trades
+   * default 2000 max fetch value int from 1 to 2000 -> use API v.3 to get corresponding number of trades
    * @return Trades object
    * @throws IOException
    */

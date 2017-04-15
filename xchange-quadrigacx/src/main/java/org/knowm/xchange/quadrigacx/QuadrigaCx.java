@@ -44,6 +44,6 @@ public interface QuadrigaCx {
   @GET
   @Path("transactions?book={base}_{counter}")
   QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base, @PathParam("counter") String counter,
-                                          @QueryParam("time") String time) throws QuadrigaCxException, IOException;
+      @QueryParam("time") String time) throws QuadrigaCxException, IOException;
 
 }

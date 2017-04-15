@@ -11,7 +11,7 @@ public class BTCEPlaceOrderReturn extends BTCEReturn<BTCEPlaceOrderResult> {
 
   /**
    * Constructor
-   * 
+   *
    * @param success
    * @param value
    * @param error

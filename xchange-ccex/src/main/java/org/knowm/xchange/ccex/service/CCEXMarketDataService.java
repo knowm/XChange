@@ -15,33 +15,33 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
  */
 public class CCEXMarketDataService extends CCEXMarketDataServiceRaw implements MarketDataService {
 
-	public CCEXMarketDataService(Exchange exchange) {
-		super(exchange);
-	}
+  public CCEXMarketDataService(Exchange exchange) {
+    super(exchange);
+  }
 
-	@Override
-	public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-		
-		int depth = 50;
-		if (args != null && args.length > 0) {
-			if (args[0] instanceof Number) {
-				Number arg = (Number) args[0];
-				depth = arg.intValue();
-			}
-		}
-		
-		return CCEXAdapters.adaptOrderBook(getCCEXOrderBook(currencyPair, depth), currencyPair);
-	}
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-	@Override
-	public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
-		
-		return CCEXAdapters.adaptTicker(getTicker(currencyPair), currencyPair);
-	}
+    int depth = 50;
+    if (args != null && args.length > 0) {
+      if (args[0] instanceof Number) {
+        Number arg = (Number) args[0];
+        depth = arg.intValue();
+      }
+    }
 
-	@Override
-	public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-		return CCEXAdapters.adaptTrades(getCCEXTrades(currencyPair), currencyPair);
-	}
+    return CCEXAdapters.adaptOrderBook(getCCEXOrderBook(currencyPair, depth), currencyPair);
+  }
+
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
+
+    return CCEXAdapters.adaptTicker(getTicker(currencyPair), currencyPair);
+  }
+
+  @Override
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    return CCEXAdapters.adaptTrades(getCCEXTrades(currencyPair), currencyPair);
+  }
 
 }

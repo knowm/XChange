@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
-@JsonPropertyOrder(value = { "pair", "timestamp", "bid", "bidBP", "ask", "askBP", "low", "high", "open" })
+@JsonPropertyOrder(value = {"pair", "timestamp", "bid", "bidBP", "ask", "askBP", "low", "high", "open"})
 public class TrueFxTicker {
   private static final BigDecimal BASIS_POINT_MULTIPLIER = new BigDecimal("0.00001");
 

@@ -94,7 +94,7 @@ public class CertHelper {
       };
 
       SSLContext sslContext = SSLContext.getInstance("TLS");
-      sslContext.init(null, new TrustManager[] { trustManager }, null);
+      sslContext.init(null, new TrustManager[]{trustManager}, null);
       return sslContext.getSocketFactory();
 
     } catch (GeneralSecurityException e) {
@@ -225,7 +225,7 @@ public class CertHelper {
   @Deprecated
   public static void trustAllCerts() throws Exception {
 
-    TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+    TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
 
       @Override
       public java.security.cert.X509Certificate[] getAcceptedIssuers() {
@@ -242,7 +242,7 @@ public class CertHelper {
       public void checkServerTrusted(X509Certificate[] certs, String authType) {
 
       }
-    } };
+    }};
 
     // Install the all-trusting trust manager
     SSLContext sc = SSLContext.getInstance("SSL");

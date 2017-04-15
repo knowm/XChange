@@ -28,7 +28,7 @@ public class OkCoinAdaptersTest {
     is = OkCoinAdaptersTest.class.getResourceAsStream("/account/example-accountrecords-withdrawal-data.json");
     OkCoinAccountRecords okCoinAccountWithdrawalRecords = mapper.readValue(is, OkCoinAccountRecords.class);
 
-    final List<FundingRecord> records = OkCoinAdapters.adaptFundingHistory(new OkCoinAccountRecords[] {okCoinAccountDepositRecords, okCoinAccountWithdrawalRecords});
+    final List<FundingRecord> records = OkCoinAdapters.adaptFundingHistory(new OkCoinAccountRecords[]{okCoinAccountDepositRecords, okCoinAccountWithdrawalRecords});
 
     assertThat(records.size()).isEqualTo(3);
     FundingRecord fundingRecord = records.get(1);

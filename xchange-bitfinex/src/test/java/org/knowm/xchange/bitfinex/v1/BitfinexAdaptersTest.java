@@ -200,8 +200,8 @@ public class BitfinexAdaptersTest {
 
     List<FundingRecord> fundingRecords = BitfinexAdapters.adaptFundingHistory(response);
 
-    for (FundingRecord record : fundingRecords){
-      if (record.getType().name().equalsIgnoreCase(FundingRecord.Type.DEPOSIT.name())){
+    for (FundingRecord record : fundingRecords) {
+      if (record.getType().name().equalsIgnoreCase(FundingRecord.Type.DEPOSIT.name())) {
         assertEquals(new BigDecimal("0.01"), record.getAmount());
         assertEquals("jlsd98087sdfkjldsflj432kjlsdf8", record.getAddress());
         assertEquals("", record.getId());

@@ -21,5 +21,5 @@ public interface BitcurexAuthenticated {
   @POST
   @Path("getFunds")
   BitcurexFunds getFunds(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest signer,
-                         @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 }

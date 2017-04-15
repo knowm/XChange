@@ -1,42 +1,42 @@
 {
-   "transfers":[
-      {
-         "transfer":{
-            "id":"52f4411667c71baf9000003c",
-            "created_at":"2014-02-06T18:12:38-08:00",
-            "fees":{
-               "coinbase":{
-                  "cents":905,
-                  "currency_iso":"USD"
-               },
-               "bank":{
-                  "cents":15,
-                  "currency_iso":"USD"
-               }
-            },
-            "payout_date":"2014-02-06T18:12:37-08:00",
-            "transaction_id":"52f4411767c71baf9000003f",
-            "_type":"AchDebit",
-            "code":"52f4411667c71baf9000003c",
-            "type":"Buy",
-            "status":"Completed",
-            "btc":{
-               "amount":"1.20000000",
-               "currency":"BTC"
-            },
-            "subtotal":{
-               "amount":"905.10",
-               "currency":"USD"
-            },
-            "total":{
-               "amount":"914.30",
-               "currency":"USD"
-            },
-            "description":"Bought 1.20 BTC for $914.30.  \n\nPaid for with Bank ****. Your bitcoin will arrive by the end of day on Thursday Feb  6, 2014."
-         }
+  "transfers": [
+    {
+      "transfer": {
+        "id": "52f4411667c71baf9000003c",
+        "created_at": "2014-02-06T18:12:38-08:00",
+        "fees": {
+          "coinbase": {
+            "cents": 905,
+            "currency_iso": "USD"
+          },
+          "bank": {
+            "cents": 15,
+            "currency_iso": "USD"
+          }
+        },
+        "payout_date": "2014-02-06T18:12:37-08:00",
+        "transaction_id": "52f4411767c71baf9000003f",
+        "_type": "AchDebit",
+        "code": "52f4411667c71baf9000003c",
+        "type": "Buy",
+        "status": "Completed",
+        "btc": {
+          "amount": "1.20000000",
+          "currency": "BTC"
+        },
+        "subtotal": {
+          "amount": "905.10",
+          "currency": "USD"
+        },
+        "total": {
+          "amount": "914.30",
+          "currency": "USD"
+        },
+        "description": "Bought 1.20 BTC for $914.30.  \n\nPaid for with Bank ****. Your bitcoin will arrive by the end of day on Thursday Feb  6, 2014."
       }
-   ],
-   "total_count":1,
-   "num_pages":1,
-   "current_page":1
+    }
+  ],
+  "total_count": 1,
+  "num_pages": 1,
+  "current_page": 1
 }

@@ -13,7 +13,7 @@ public class ANXWithdrawalResponseWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param anxWithdrawalResponse
    * @param error

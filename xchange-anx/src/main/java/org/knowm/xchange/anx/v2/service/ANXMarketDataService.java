@@ -46,7 +46,7 @@ public class ANXMarketDataService extends ANXMarketDataServiceRaw implements Mar
    * Get market depth from exchange
    *
    * @param args Optional arguments. Exchange-specific. This implementation assumes: absent or "full" -> get full OrderBook "partial" -> get partial
-   *        OrderBook
+   * OrderBook
    * @return The OrderBook
    * @throws java.io.IOException
    */

@@ -66,14 +66,14 @@ public class PoloniexMarketDataService extends PoloniexMarketDataServiceRaw impl
 
     if (args != null) {
       switch (args.length) {
-      case 2:
-        if (args[1] != null && args[1] instanceof Long) {
-          endTime = (Long) args[1];
-        }
-      case 1:
-        if (args[0] != null && args[0] instanceof Long) {
-          startTime = (Long) args[0];
-        }
+        case 2:
+          if (args[1] != null && args[1] instanceof Long) {
+            endTime = (Long) args[1];
+          }
+        case 1:
+          if (args[0] != null && args[0] instanceof Long) {
+            startTime = (Long) args[0];
+          }
       }
     }
     PoloniexPublicTrade[] poloniexPublicTrades = null;

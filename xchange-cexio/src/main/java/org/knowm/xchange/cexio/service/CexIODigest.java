@@ -19,7 +19,7 @@ public class CexIODigest extends BaseParamsDigest {
 
   /**
    * Constructor
-   * 
+   *
    * @param secretKeyBase64
    * @param clientId Account user name
    * @param apiKey @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).

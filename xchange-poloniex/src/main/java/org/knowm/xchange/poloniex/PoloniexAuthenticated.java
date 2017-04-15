@@ -109,12 +109,12 @@ public interface PoloniexAuthenticated {
   @FormParam("command")
   HashMap<String, String> returnFeeInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
-  
+
   @POST
   @FormParam("command")
   PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-          @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("start") Long startTime, @FormParam("end") Long endTime)
-          throws PoloniexException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("start") Long startTime, @FormParam("end") Long endTime)
+      throws PoloniexException, IOException;
 
-  enum AllPairs { all }
+  enum AllPairs {all}
 }

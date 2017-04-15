@@ -11,13 +11,13 @@ public class BitfinexOrderStatusRequest {
   @JsonProperty("nonce")
   protected String nonce;
 
-  @JsonProperty("order_id") 
+  @JsonProperty("order_id")
   @JsonRawValue
   private long orderId;
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    * @param orderId
    */

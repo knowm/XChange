@@ -312,9 +312,9 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
   }
 
   public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address) throws IOException {
-     return withdraw(withdrawType, walletSelected, amount, address, null);
+    return withdraw(withdrawType, walletSelected, amount, address, null);
   }
-  
+
   public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address, String paymentId) throws IOException {
 
     BitfinexWithdrawalResponse[] withdrawRepsonse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator,

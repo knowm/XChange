@@ -16,15 +16,15 @@ import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 @Produces(MediaType.APPLICATION_JSON)
 public interface Livecoin {
 
-	@GET
-	@Path("exchange/restrictions")
-	LivecoinRestrictions getProducts() throws IOException;
+  @GET
+  @Path("exchange/restrictions")
+  LivecoinRestrictions getProducts() throws IOException;
 
-	@GET
-	@Path("exchange/order_book?currencyPair={baseCurrency}/{targetCurrency}&depth={depth}")
-	LivecoinOrderBook getOrderBook(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency, @PathParam("depth") int depth) throws IOException;
-	
-	@GET
-	@Path("exchange/last_trades?currencyPair={baseCurrency}/{targetCurrency}")
-	LivecoinTrade[] getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
+  @GET
+  @Path("exchange/order_book?currencyPair={baseCurrency}/{targetCurrency}&depth={depth}")
+  LivecoinOrderBook getOrderBook(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency, @PathParam("depth") int depth) throws IOException;
+
+  @GET
+  @Path("exchange/last_trades?currencyPair={baseCurrency}/{targetCurrency}")
+  LivecoinTrade[] getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
 }

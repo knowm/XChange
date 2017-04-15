@@ -1,20 +1,53 @@
-{"asks":
-	[
-		{"price":241.89,"volume":1.13},
-		{"price":242,"volume":1.88},
-		{"price":248.02,"volume":1.63},
-		{"price":249.42,"volume":1.36},
-		{"price":500,"volume":0.00029817}
-	],
-"bids":
-	[
-		{"price":240,"volume":10},
-		{"price":238.57,"volume":0.02},
-		{"price":238,"volume":8},
-		{"price":232.22,"volume":0.87},
-		{"price":230,"volume":0.92311692},
-		{"price":228.45,"volume":0.56}
-	],
-"responseStatus":
-	{"message":"OK"}
+{
+  "asks": [
+    {
+      "price": 241.89,
+      "volume": 1.13
+    },
+    {
+      "price": 242,
+      "volume": 1.88
+    },
+    {
+      "price": 248.02,
+      "volume": 1.63
+    },
+    {
+      "price": 249.42,
+      "volume": 1.36
+    },
+    {
+      "price": 500,
+      "volume": 0.00029817
+    }
+  ],
+  "bids": [
+    {
+      "price": 240,
+      "volume": 10
+    },
+    {
+      "price": 238.57,
+      "volume": 0.02
+    },
+    {
+      "price": 238,
+      "volume": 8
+    },
+    {
+      "price": 232.22,
+      "volume": 0.87
+    },
+    {
+      "price": 230,
+      "volume": 0.92311692
+    },
+    {
+      "price": 228.45,
+      "volume": 0.56
+    }
+  ],
+  "responseStatus": {
+    "message": "OK"
+  }
 }   

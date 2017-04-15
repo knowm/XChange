@@ -11,7 +11,7 @@ public class KrakenQueryOrderResult extends KrakenResult<Map<String, KrakenOrder
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */

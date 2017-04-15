@@ -8,7 +8,7 @@ import org.knowm.xchange.bitcoincharts.dto.marketdata.BitcoinChartsTicker;
 
 /**
  * Demonstrates using the REST proxy to get the raw deserialized JSON object from BitcoinCharts
- * 
+ *
  * @author timmolter
  */
 public class BitcoinChartsRawDataDemo {

@@ -18,7 +18,7 @@ public class BitcoindeMarketDataService extends BitcoindeMarketDataServiceRaw im
 
   /**
    * Constructor
-   * 
+   *
    * @param exchange
    */
   public BitcoindeMarketDataService(Exchange exchange) {

@@ -25,7 +25,11 @@ import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /**
@@ -123,7 +127,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
 
   /**
    * @param params Required parameter types: {@link TradeHistoryParamCurrencyPair}. Supported types: {@link TradeHistoryParamsIdSpan},
-   *        {@link TradeHistoryParamsTimeSpan}.
+   * {@link TradeHistoryParamsTimeSpan}.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {

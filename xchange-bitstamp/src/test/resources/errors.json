@@ -1,5 +1,23 @@
-{"error": "Invalid username and/or password"}
-{"error": "API access disabled. Check your user settings."}
-{"error": {"__all__": ["You need $1.26 to open that order. You have only $0.0 available. Check your account balance for details."]}}
-{"error": "Order not found"}
-{"error": {"__all__": ["Minimum order size is $1"]}}
+{
+  "error": "Invalid username and/or password"
+}
+{
+  "error": "API access disabled. Check your user settings."
+}
+{
+  "error": {
+    "__all__": [
+      "You need $1.26 to open that order. You have only $0.0 available. Check your account balance for details."
+    ]
+  }
+}
+{
+  "error": "Order not found"
+}
+{
+  "error": {
+    "__all__": [
+      "Minimum order size is $1"
+    ]
+  }
+}

@@ -1,51 +1,51 @@
 {
-   "recurring_payments":[
-      {
-         "recurring_payment":{
-            "id":"5302f9f55d701853720000ea",
-            "type":"buy",
-            "status":"active",
-            "created_at":"2014-02-17T22:13:09-08:00",
-            "to":"",
-            "from":"",
-            "start_type":"on",
-            "times":-1,
-            "times_run":0,
-            "repeat":"monthly",
-            "last_run":null,
-            "next_run":"2014-03-01T07:00:00-08:00",
-            "notes":"For Demo",
-            "description":"Buy 0.01 BTC",
-            "amount":{
-               "amount":"0.01000000",
-               "currency":"BTC"
-            }
-         }
-      },
-      {
-         "recurring_payment":{
-            "id":"5302f99ac380cea503000110",
-            "type":"request",
-            "status":"active",
-            "created_at":"2014-02-17T22:11:38-08:00",
-            "to":"",
-            "from":"demo@demo.com",
-            "start_type":"on",
-            "times":-1,
-            "times_run":0,
-            "repeat":"weekly",
-            "last_run":null,
-            "next_run":"2014-02-19T08:00:00-08:00",
-            "notes":"demo",
-            "description":"Request 0.01 BTC from demo@demo.com",
-            "amount":{
-               "amount":"0.01000000",
-               "currency":"BTC"
-            }
-         }
+  "recurring_payments": [
+    {
+      "recurring_payment": {
+        "id": "5302f9f55d701853720000ea",
+        "type": "buy",
+        "status": "active",
+        "created_at": "2014-02-17T22:13:09-08:00",
+        "to": "",
+        "from": "",
+        "start_type": "on",
+        "times": -1,
+        "times_run": 0,
+        "repeat": "monthly",
+        "last_run": null,
+        "next_run": "2014-03-01T07:00:00-08:00",
+        "notes": "For Demo",
+        "description": "Buy 0.01 BTC",
+        "amount": {
+          "amount": "0.01000000",
+          "currency": "BTC"
+        }
       }
-   ],
-   "total_count":2,
-   "num_pages":1,
-   "current_page":1
+    },
+    {
+      "recurring_payment": {
+        "id": "5302f99ac380cea503000110",
+        "type": "request",
+        "status": "active",
+        "created_at": "2014-02-17T22:11:38-08:00",
+        "to": "",
+        "from": "demo@demo.com",
+        "start_type": "on",
+        "times": -1,
+        "times_run": 0,
+        "repeat": "weekly",
+        "last_run": null,
+        "next_run": "2014-02-19T08:00:00-08:00",
+        "notes": "demo",
+        "description": "Request 0.01 BTC from demo@demo.com",
+        "amount": {
+          "amount": "0.01000000",
+          "currency": "BTC"
+        }
+      }
+    }
+  ],
+  "total_count": 2,
+  "num_pages": 1,
+  "current_page": 1
 }

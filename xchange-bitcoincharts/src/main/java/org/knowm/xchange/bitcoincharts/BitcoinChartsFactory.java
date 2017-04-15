@@ -16,7 +16,7 @@ public class BitcoinChartsFactory {
 
   /**
    * Get a RestProxy for BitcoinCharts
-   * 
+   *
    * @return the Rest Proxy
    */
   public static BitcoinCharts createInstance() {

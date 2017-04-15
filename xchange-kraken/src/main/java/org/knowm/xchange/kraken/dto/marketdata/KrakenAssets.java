@@ -8,7 +8,7 @@ public class KrakenAssets {
 
   /**
    * Constructor
-   * 
+   *
    * @param assetInfoMap
    */
   public KrakenAssets(Map<String, KrakenAsset> assetInfoMap) {

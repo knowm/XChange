@@ -22,7 +22,7 @@ public final class ANXDepthUpdate {
 
   /**
    * Constructor
-   * 
+   *
    * @param tradeType
    * @param priceInt
    * @param volumeInt

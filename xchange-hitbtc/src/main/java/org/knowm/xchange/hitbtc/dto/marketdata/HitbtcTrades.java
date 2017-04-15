@@ -13,7 +13,7 @@ public class HitbtcTrades {
 
   /**
    * Constructor
-   * 
+   *
    * @param hitbtcTrades
    */
   public HitbtcTrades(@JsonProperty("trades") List<HitbtcTrade> hitbtcTrades) {

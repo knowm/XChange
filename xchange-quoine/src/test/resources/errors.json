@@ -1,7 +1,7 @@
 {
-   "error":{
-      "quantity":[
-         "less_than_order_size"
-      ]
-   }
+  "error": {
+    "quantity": [
+      "less_than_order_size"
+    ]
+  }
 }

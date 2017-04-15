@@ -13,7 +13,7 @@ public class HitbtcSymbols {
 
   /**
    * Constructor
-   * 
+   *
    * @param hitbtcSymbols
    */
   public HitbtcSymbols(@JsonProperty("symbols") List<HitbtcSymbol> hitbtcSymbols) {

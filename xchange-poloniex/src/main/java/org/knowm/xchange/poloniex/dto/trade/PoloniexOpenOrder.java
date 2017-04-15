@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "orderNumber", "type", "rate", "amount", "total", "date" })
+@JsonPropertyOrder({"orderNumber", "type", "rate", "amount", "total", "date"})
 public class PoloniexOpenOrder {
 
   @JsonProperty("orderNumber")

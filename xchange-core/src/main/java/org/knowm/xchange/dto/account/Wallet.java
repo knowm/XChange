@@ -66,7 +66,7 @@ public final class Wallet {
   }
 
   /**
-   * @see #Wallet(String,String,Collection)
+   * @see #Wallet(String, String, Collection)
    */
   public Wallet(String id, Collection<Balance> balances) {
 
@@ -74,7 +74,7 @@ public final class Wallet {
   }
 
   /**
-   * @see #Wallet(String,String,Collection)
+   * @see #Wallet(String, String, Collection)
    */
   public Wallet(String id, Balance... balances) {
 
@@ -82,7 +82,7 @@ public final class Wallet {
   }
 
   /**
-   * @see #Wallet(String,String,Collection)
+   * @see #Wallet(String, String, Collection)
    */
   public Wallet(Collection<Balance> balances) {
 
@@ -90,7 +90,7 @@ public final class Wallet {
   }
 
   /**
-   * @see #Wallet(String,String,Collection)
+   * @see #Wallet(String, String, Collection)
    */
   public Wallet(Balance... balances) {
 

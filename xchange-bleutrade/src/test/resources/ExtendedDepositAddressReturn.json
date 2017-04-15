@@ -1,10 +1,10 @@
 {
-  "success" : true,
-  "message" : "",
-  "result" : {
-    "Currency" : "BTC",
-    "Address" : "1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9",
-    "foo" : 1
+  "success": true,
+  "message": "",
+  "result": {
+    "Currency": "BTC",
+    "Address": "1NKh9X1z4Q4AbBnEgNiKU177GMyeQUexC9",
+    "foo": 1
   },
-  "ext" : "extended value"
+  "ext": "extended value"
 }

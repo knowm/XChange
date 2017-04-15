@@ -12,7 +12,7 @@ public class GeminiLevel {
 
   /**
    * Constructor
-   * 
+   *
    * @param price
    * @param amount
    * @param timestamp

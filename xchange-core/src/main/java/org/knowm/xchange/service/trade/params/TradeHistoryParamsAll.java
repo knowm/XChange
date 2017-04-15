@@ -126,13 +126,13 @@ public class TradeHistoryParamsAll
 
   @Override
   public void setCurrencyPairs(Collection<CurrencyPair> value) {
-    
+
     pairs = value;
   }
 
   @Override
   public Collection<CurrencyPair> getCurrencyPairs() {
-    
+
     return pairs;
   }
 }

@@ -33,7 +33,7 @@ public final class AccountInfo {
   private final Map<String, Wallet> wallets;
 
   /**
-   * @see #AccountInfo(String,BigDecimal,Collection)
+   * @see #AccountInfo(String, BigDecimal, Collection)
    */
   public AccountInfo(Wallet... wallets) {
 
@@ -42,7 +42,7 @@ public final class AccountInfo {
   }
 
   /**
-   * @see #AccountInfo(String,BigDecimal,Collection)
+   * @see #AccountInfo(String, BigDecimal, Collection)
    */
   public AccountInfo(Collection<Wallet> wallets) {
 
@@ -50,7 +50,7 @@ public final class AccountInfo {
   }
 
   /**
-   * @see #AccountInfo(String,BigDecimal,Collection)
+   * @see #AccountInfo(String, BigDecimal, Collection)
    */
   public AccountInfo(String username, Wallet... wallets) {
 
@@ -58,7 +58,7 @@ public final class AccountInfo {
   }
 
   /**
-   * @see #AccountInfo(String,BigDecimal,Collection)
+   * @see #AccountInfo(String, BigDecimal, Collection)
    */
   public AccountInfo(String username, Collection<Wallet> wallets) {
 
@@ -95,7 +95,7 @@ public final class AccountInfo {
   }
 
   /**
-   * @see #AccountInfo(String,BigDecimal,Collection)
+   * @see #AccountInfo(String, BigDecimal, Collection)
    */
   public AccountInfo(String username, BigDecimal tradingFee, Wallet... wallets) {
 
