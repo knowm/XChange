@@ -38,7 +38,7 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
     this.accountService = new BTCChinaAccountService(this);
 
     // TODO use exchangeSpecificParameters
-    exchangeSpecification.setSslUri("https://data.btcchina.com");
+    exchangeSpecification.setSslUri("https://api.btcc.com");
     this.marketDataService = new BTCChinaMarketDataService(this);
   }
 
