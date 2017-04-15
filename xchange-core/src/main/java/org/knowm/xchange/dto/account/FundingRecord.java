@@ -51,8 +51,7 @@ public final class FundingRecord {
   /**
    * Description of the transaction
    */
-  private final String description;
-
+  private String description;
 
   /**
    * Transaction Type
@@ -62,7 +61,7 @@ public final class FundingRecord {
   /**
    * Status of the transaction whenever available (e.g. Open, Completed or any descriptive status of transaction)
    */
-  private final String status;
+  private final Status status;
 
   /**
    * Balance of the associated account after the transaction is performed
@@ -84,14 +83,44 @@ public final class FundingRecord {
    * @param internalId Internal transaction identifier, specific to the Exchange
    * @param externalId External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash
    * @param type Transaction Type {@link Type}
-   * @param status Status of the transaction whenever available (e.g. Open, Completed or any descriptive status of transaction)
+   * @param status Status of the transaction whenever available (e.g. Pending, Completed or any descriptive status of transaction). Will be naively converted to Status enum if possible, or else be prefixed to description.
+   * @param balance Balance of the associated account after the transaction is performed
+   * @param fee Transaction Fee Amount (always positive)
+   * @param description Description of the transaction. It is a good idea to put here any extra info sent back from the exchange that doesn't fit elsewhere so users can still access it.
+   *
+   * @deprecated Use the constructor with enum status parameter.
+   */
+  @Deprecated
+  public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
+                       final String internalId, final String externalId,
+                       final Type type, final String status, final BigDecimal balance, final BigDecimal fee,
+                       final String description){
+    this(address, date, currency, amount, internalId, externalId, type, Status.parse(status), balance, fee, description);
+    if (this.status == null && status != null) {
+      this.description = this.description == null || this.description.isEmpty()
+          ? status
+          : status + ": " + this.description;
+    }
+  }
+
+  /**
+   * Constructs a {@link FundingRecord}.
+   *
+   * @param address Crypto currency address for deposit/withdrawal
+   * @param date Date/Time of transaction
+   * @param currency The transaction currency
+   * @param amount Amount deposited/withdrawn (always positive)
+   * @param internalId Internal transaction identifier, specific to the Exchange
+   * @param externalId External Transaction id that identifies the transaction within the public ledger, eg. blockchain transaction hash
+   * @param type Transaction Type {@link Type}
+   * @param status Status of the transaction whenever available
    * @param balance Balance of the associated account after the transaction is performed
    * @param fee Transaction Fee Amount (always positive)
    * @param description Description of the transaction. It is a good idea to put here any extra info sent back from the exchange that doesn't fit elsewhere so users can still access it.
    */
   public FundingRecord(final String address, final Date date, final Currency currency, final BigDecimal amount,
                        final String internalId, final String externalId,
-                       final Type type, final String status, final BigDecimal balance, final BigDecimal fee,
+                       final Type type, final Status status, final BigDecimal balance, final BigDecimal fee,
                        final String description){
     this.address = address;
     this.date = date;
@@ -158,7 +187,7 @@ public final class FundingRecord {
   /**
    * @return Status of the transaction whenever available (e.g. Open, Completed or any descriptive status of transaction)
    */
-  public String getStatus() {
+  public Status getStatus() {
     return status;
   }
 
@@ -185,19 +214,8 @@ public final class FundingRecord {
 
   @Override
   public String toString() {
-    return "FundingRecord{" +
-            "address='" + address + '\'' +
-            ", date=" + date +
-            ", currency='" + currency + '\'' +
-            ", amount=" + amount +
-            ", internalId='" + internalId + '\'' +
-            ", externalId='" + externalId + '\'' +
-            ", description='" + description + '\'' +
-            ", type='" + type + '\'' +
-            ", status='" + status + '\'' +
-            ", balance=" + balance +
-            ", fee=" + fee +
-            '}';
+    return String.format("FundingRecord{address='%s', date=%s, currency=%s, amount=%s, internalId=%s, externalId=%s, description='%s', type=%s, status=%s, balance=%s, fee=%s}",
+        address, date, currency, amount, internalId, externalId, description, type, status, balance, fee);
   }
 
   /**
@@ -220,4 +238,36 @@ public final class FundingRecord {
     }
   }
 
+  public enum Status {
+    /** The user has requested the withdrawal or deposit, or the exchange has detected an initiated deposit,
+     * but the exchange still has to fully process the funding.
+     * The funds are not available to the user. The funding request may possibly still be cancelled though. */
+    PROCESSING,
+
+    /** The exchange has processed the transfer fully and successfully.
+     * The funding typically cannot be cancelled any more.
+     * For withdrawals, the funds are gone from the exchange, though they may have not reached their destination yet.
+     * For deposits, the funds are available to the user. */
+    COMPLETE,
+
+    /** The transfer was cancelled by the user. */
+    CANCELLED,
+
+    /** The transfer has failed for any reason other than user cancellation after it was initiated and before it was successfully processed.
+     * For withdrawals, the funds are available to the user again. */
+    FAILED,
+
+    ;
+
+    public static Status parse(String str) {
+      if (str == null) {
+        return null;
+      }
+      try {
+        return valueOf(str.toUpperCase());
+      } catch (IllegalArgumentException e) {
+        return null;
+      }
+    }
+  }
 }
