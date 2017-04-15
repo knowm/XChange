@@ -41,7 +41,7 @@ public class ExchangeSpecification {
   private final String exchangeClassName;
 
   /** arbitrary exchange params that can be set for unique cases */
-  private Map<String, Object> exchangeSpecificParameters = new HashMap<String, Object>();
+  private Map<String, Object> exchangeSpecificParameters = new HashMap<>();
 
   /**
    * Dynamic binding
@@ -237,7 +237,6 @@ public class ExchangeSpecification {
   /**
    * Set an item in the arbitrary exchange-specific parameters to be passed to the exchange implementation.
    *
-   * @param exchangeSpecificParameters a Map of named exchange-specific parameter values
    */
   public void setExchangeSpecificParametersItem(String key, Object value) {
 

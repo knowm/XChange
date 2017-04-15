@@ -16,7 +16,7 @@ import java.util.TreeSet;
  */
 public class Currency implements Comparable<Currency> {
 
-  private static final Map<String, Currency> currencies = new HashMap<String, Currency>();
+  private static final Map<String, Currency> currencies = new HashMap<>();
 
   /**
    * Global currency codes
@@ -234,7 +234,7 @@ public class Currency implements Comparable<Currency> {
    */
   public static SortedSet<Currency> getAvailableCurrencies() {
 
-    return new TreeSet<Currency>(currencies.values());
+    return new TreeSet<>(currencies.values());
   }
 
   private final String code;
@@ -439,7 +439,7 @@ public class Currency implements Comparable<Currency> {
     public CurrencyAttributes(String commonCode, String name, String unicode, String... alternativeCodes) {
 
       if (alternativeCodes.length > 0) {
-        this.codes = new TreeSet<String>(Arrays.asList(alternativeCodes));
+        this.codes = new TreeSet<>(Arrays.asList(alternativeCodes));
         this.codes.add(commonCode);
       } else {
         this.codes = Collections.singleton(commonCode);

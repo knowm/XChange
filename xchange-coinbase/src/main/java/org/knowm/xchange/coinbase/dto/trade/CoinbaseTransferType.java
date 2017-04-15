@@ -26,7 +26,7 @@ public enum CoinbaseTransferType {
 
   static class CoinbaseTransferTypeDeserializer extends JsonDeserializer<CoinbaseTransferType> {
 
-    private static final EnumFromStringHelper<CoinbaseTransferType> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseTransferType>(
+    private static final EnumFromStringHelper<CoinbaseTransferType> FROM_STRING_HELPER = new EnumFromStringHelper<>(
         CoinbaseTransferType.class);
 
     @Override

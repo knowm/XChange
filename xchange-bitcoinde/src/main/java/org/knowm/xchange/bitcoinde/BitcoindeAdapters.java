@@ -35,7 +35,6 @@ public final class BitcoindeAdapters {
    * 
    * @param bitcoindeOrderBook the exchange specific OrderBook object
    * @param currencyPair (e.g. BTC/USD)
-   * @param date the date of
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(BitcoindeOrderBook bitcoindeOrderBook, CurrencyPair currencyPair) {
@@ -50,7 +49,7 @@ public final class BitcoindeAdapters {
    */
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, BigDecimal[][] orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (BigDecimal[] order : orders) {
       limitOrders.add(createOrder(currencyPair, order, orderType, null, null));
     }
@@ -88,7 +87,7 @@ public final class BitcoindeAdapters {
    */
   public static Trades adaptTrades(BitcoindeTrade[] bitcoindeTrades, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (BitcoindeTrade bitcoindeTrade : bitcoindeTrades) {
       final long tid = bitcoindeTrade.getTid();

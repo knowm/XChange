@@ -1,6 +1,7 @@
 package org.knowm.xchange.examples.gatecoin.marketdata;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -38,6 +39,6 @@ public class GatecoinDepthDemo {
 
     GatecoinDepth[] asks = marketDataService.getGatecoinOrderBook(CurrencyPair.BTC_USD.toString()).getAsks();
 
-    System.out.println(asks);
+    System.out.println(Arrays.toString(asks));
   }
 }

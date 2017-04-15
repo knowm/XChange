@@ -43,7 +43,7 @@ public class CCEXPrices {
 		public CCEXPrices deserialize(JsonParser jp, DeserializationContext ctxt)
 				throws IOException, JsonProcessingException {
 
-			Map<CurrencyPair, CCEXPrice> priceMap = new HashMap<CurrencyPair, CCEXPrice>();
+			Map<CurrencyPair, CCEXPrice> priceMap = new HashMap<>();
 			ObjectCodec oc = jp.getCodec();
 			JsonNode node = oc.readTree(jp);
 			if (node.isObject()) {

@@ -34,7 +34,7 @@ public enum LedgerType {
     return ledgerType;
   }
 
-  private static final Map<String, LedgerType> fromString = new HashMap<String, LedgerType>();
+  private static final Map<String, LedgerType> fromString = new HashMap<>();
 
   static {
     for (LedgerType ledgerType : values())

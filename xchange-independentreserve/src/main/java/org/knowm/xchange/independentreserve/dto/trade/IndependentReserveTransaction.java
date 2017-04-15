@@ -62,8 +62,8 @@ public class IndependentReserveTransaction {
                 + debit + ", settleTimestamp=" + settleTimestamp + ", status=" + status + ", type=" + type + "]";
     }
     
-    public static enum Type {
-        Deposit, Withdrawal, Brokerage, Trade;
+    public enum Type {
+        Deposit, Withdrawal, Brokerage, Trade
     }
     
     

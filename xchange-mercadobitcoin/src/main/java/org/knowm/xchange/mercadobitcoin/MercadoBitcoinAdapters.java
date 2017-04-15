@@ -62,7 +62,7 @@ public final class MercadoBitcoinAdapters {
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
       checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));
@@ -113,7 +113,7 @@ public final class MercadoBitcoinAdapters {
    */
   public static Trades adaptTrades(MercadoBitcoinTransaction[] transactions, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (MercadoBitcoinTransaction tx : transactions) {
       final long tradeId = tx.getTid();
@@ -146,7 +146,7 @@ public final class MercadoBitcoinAdapters {
 
   public static List<LimitOrder> adaptOrders(CurrencyPair currencyPair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> input) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     MercadoBitcoinUserOrders orders = input.getTheReturn();
 

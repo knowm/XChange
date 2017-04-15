@@ -143,7 +143,7 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
 
   public enum CoinbaseTransferStatus {
 
-    PENDING, COMPLETED, CANCELED, REVERSED;
+    PENDING, COMPLETED, CANCELED, REVERSED
   }
 
   static class CoinbaseTransferDeserializer extends JsonDeserializer<CoinbaseTransfer> {
@@ -156,7 +156,7 @@ public class CoinbaseTransfer extends CoinbaseBaseResponse {
 
       final JsonNode successNode = node.path("success");
       boolean success = true;
-      final List<String> errors = new ArrayList<String>();
+      final List<String> errors = new ArrayList<>();
       if (successNode.isBoolean()) {
         success = successNode.asBoolean();
         final JsonNode errorsNode = node.path("errors");

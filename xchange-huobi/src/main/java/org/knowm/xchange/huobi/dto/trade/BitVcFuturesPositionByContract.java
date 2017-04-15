@@ -2,8 +2,6 @@ package org.knowm.xchange.huobi.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.math.BigDecimal;
-
 public class BitVcFuturesPositionByContract {
 
     private final BitVcFuturesPosition[] weekPositions;

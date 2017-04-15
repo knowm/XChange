@@ -37,27 +37,27 @@ public interface BitstampAuthenticated {
   @POST
   @Path("open_orders/")
   @Deprecated
-  public BitstampOrder[] getOpenOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
+  BitstampOrder[] getOpenOrders(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                                @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
 
   /**
-   * @deprecated Use {@link BitstampAuthenticatedV2#buy(String, ParamsDigest, SynchronizedValueFactory, BitstampV2.Pair, BigDecimal, BigDecimal)}.
+   * @deprecated Use .
    */
   @POST
   @Path("buy/")
   @Deprecated
-  public BitstampOrder buy(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
+  BitstampOrder buy(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                    @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
       throws BitstampException, IOException;
 
   /**
-   * @deprecated Use {@link BitstampAuthenticatedV2#sell(String, ParamsDigest, SynchronizedValueFactory, BitstampV2.Pair, BigDecimal, BigDecimal)}.
+   * @deprecated Use .
    */
   @POST
   @Path("sell/")
   @Deprecated
-  public BitstampOrder sell(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
+  BitstampOrder sell(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                     @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
       throws BitstampException, IOException;
 
   /**
@@ -65,58 +65,58 @@ public interface BitstampAuthenticated {
    */
   @POST
   @Path("cancel_order/")
-  public boolean cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") int orderId) throws BitstampException, IOException;
+  boolean cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") int orderId) throws BitstampException, IOException;
 
   @POST
   @Path("balance/")
-  public BitstampBalance getBalance(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
+  BitstampBalance getBalance(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                             @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
 
   @POST
   @Path("user_transactions/")
-  public BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("limit") long numberOfTransactions) throws BitstampException, IOException;
+  BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                                                @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("limit") long numberOfTransactions) throws BitstampException, IOException;
 
   @POST
   @Path("user_transactions/")
-  public BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("limit") long numberOfTransactions, @FormParam("offset") long offset,
-      @FormParam("sort") String sort) throws BitstampException, IOException;
+  BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                                                @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("limit") long numberOfTransactions, @FormParam("offset") long offset,
+                                                @FormParam("sort") String sort) throws BitstampException, IOException;
 
   @POST
   @Path("bitcoin_deposit_address/")
-  public BitstampDepositAddress getBitcoinDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
+  BitstampDepositAddress getBitcoinDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                                                  @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
 
   @POST
   @Path("bitcoin_withdrawal/")
-  public BitstampWithdrawal withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
+  BitstampWithdrawal withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                                     @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
       throws BitstampException, IOException;
 
   @POST
   @Path("unconfirmed_btc/")
-  public DepositTransaction[] getUnconfirmedDeposits(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
+  DepositTransaction[] getUnconfirmedDeposits(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                                              @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
 
   @POST
   @Path("withdrawal_requests/")
-  public WithdrawalRequest[] getWithdrawalRequests(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
+  WithdrawalRequest[] getWithdrawalRequests(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                                            @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
 
   /**
    * Note that due to a bug on Bitstamp's side, withdrawal always fails if two-factor authentication is enabled for the account.
    */
   @POST
   @Path("ripple_withdrawal/")
-  public boolean withdrawToRipple(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("currency") String currency,
-      @FormParam("address") String rippleAddress) throws BitstampException, IOException;
+  boolean withdrawToRipple(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                           @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("currency") String currency,
+                           @FormParam("address") String rippleAddress) throws BitstampException, IOException;
 
   @POST
   @Path("ripple_address/")
-  public BitstampRippleDepositAddress getRippleDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
+  BitstampRippleDepositAddress getRippleDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                                                       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
 
 }

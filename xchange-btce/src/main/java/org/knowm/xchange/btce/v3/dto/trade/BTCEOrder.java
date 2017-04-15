@@ -77,7 +77,7 @@ public class BTCEOrder {
         timestampCreated, status);
   }
 
-  public static enum Type {
+  public enum Type {
     buy, sell
   }
 }

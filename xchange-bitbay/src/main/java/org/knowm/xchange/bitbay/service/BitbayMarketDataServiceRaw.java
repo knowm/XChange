@@ -25,12 +25,12 @@ public class BitbayMarketDataServiceRaw extends BitbayBaseService {
 
   public BitbayTicker getBitbayTicker(CurrencyPair currencyPair) throws IOException {
 
-    return bitbay.getBitbayTicker(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
+    return bitbay.getBitbayTicker(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode());
   }
 
   public BitbayOrderBook getBitbayOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    return bitbay.getBitbayOrderBook(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
+    return bitbay.getBitbayOrderBook(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode());
   }
 
   public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair, Object[] args) throws IOException {
@@ -38,7 +38,7 @@ public class BitbayMarketDataServiceRaw extends BitbayBaseService {
     if (args.length == 1) {
       since = ((Number) args[0]).longValue();
     }
-    return bitbay.getBitbayTrades(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString(), since);
+    return bitbay.getBitbayTrades(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode(), since);
   }
 
 }

@@ -33,7 +33,7 @@ public class YoBitTrades {
 
 	static class YoBitTradesDeserializer extends JsonDeserializer<YoBitTrades> {
 
-		private List<YoBitTrade> trades = new ArrayList<YoBitTrade>();
+		private List<YoBitTrade> trades = new ArrayList<>();
 		
 		@Override
 		public YoBitTrades deserialize(JsonParser p, DeserializationContext ctxt)

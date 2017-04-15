@@ -101,7 +101,7 @@ public class BTERTicker extends BTERBaseResponse {
       final BigDecimal low = getNumberIfPresent(tickerNode.path("low"));
       final BigDecimal sell = getNumberIfPresent(tickerNode.path("sell"));
       final BigDecimal buy = getNumberIfPresent(tickerNode.path("buy"));
-      final Map<String, BigDecimal> volumes = new HashMap<String, BigDecimal>();
+      final Map<String, BigDecimal> volumes = new HashMap<>();
 
       if (tickerNode instanceof ObjectNode) {
         final ObjectNode tickerDataObjectNode = (ObjectNode) tickerNode;

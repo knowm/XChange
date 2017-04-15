@@ -83,7 +83,7 @@ public final class AccountInfo {
       Wallet wallet = wallets.iterator().next();
       this.wallets = Collections.singletonMap(wallet.getId(), wallet);
     } else {
-      this.wallets = new HashMap<String, Wallet>();
+      this.wallets = new HashMap<>();
       for (Wallet wallet : wallets) {
         if (this.wallets.containsKey(wallet.getId())) {
           throw new IllegalArgumentException("duplicate wallets passed to AccountInfo");

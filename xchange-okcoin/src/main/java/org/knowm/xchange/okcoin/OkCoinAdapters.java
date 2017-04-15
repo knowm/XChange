@@ -98,7 +98,7 @@ public final class OkCoinAdapters {
 
   public static Trades adaptTrades(OkCoinTrade[] trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradeList = new ArrayList<Trade>(trades.length);
+    List<Trade> tradeList = new ArrayList<>(trades.length);
     for (int i = 0; i < trades.length; i++) {
       OkCoinTrade trade = trades[i];
       tradeList.add(adaptTrade(trade, currencyPair));
@@ -111,7 +111,7 @@ public final class OkCoinAdapters {
 
     OkCoinFunds funds = userInfo.getInfo().getFunds();
 
-    Map<String, Balance.Builder> builders = new TreeMap<String, Balance.Builder>();
+    Map<String, Balance.Builder> builders = new TreeMap<>();
 
     for (Map.Entry<String, BigDecimal> available : funds.getFree().entrySet()) {
       builders.put(available.getKey(), new Balance.Builder().currency(Currency.getInstance(available.getKey())).available(available.getValue()));
@@ -154,7 +154,7 @@ public final class OkCoinAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(List<OkCoinOrderResult> orderResults) {
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> openOrders = new ArrayList<>();
 
     for (int i = 0; i < orderResults.size(); i++) {
       OkCoinOrderResult orderResult = orderResults.get(i);
@@ -168,7 +168,7 @@ public final class OkCoinAdapters {
   }
 
   public static OpenOrders adaptOpenOrdersFutures(List<OkCoinFuturesOrderResult> orderResults) {
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> openOrders = new ArrayList<>();
 
     for (int i = 0; i < orderResults.size(); i++) {
       OkCoinFuturesOrderResult orderResult = orderResults.get(i);
@@ -183,7 +183,7 @@ public final class OkCoinAdapters {
 
   public static UserTrades adaptTrades(OkCoinOrderResult orderResult) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>(orderResult.getOrders().length);
+    List<UserTrade> trades = new ArrayList<>(orderResult.getOrders().length);
     for (int i = 0; i < orderResult.getOrders().length; i++) {
       OkCoinOrder order = orderResult.getOrders()[i];
 
@@ -198,7 +198,7 @@ public final class OkCoinAdapters {
 
   public static UserTrades adaptTradesFutures(OkCoinFuturesOrderResult orderResult) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>(orderResult.getOrders().length);
+    List<UserTrade> trades = new ArrayList<>(orderResult.getOrders().length);
     for (int i = 0; i < orderResult.getOrders().length; i++) {
       OkCoinFuturesOrder order = orderResult.getOrders()[i];
 
@@ -213,7 +213,7 @@ public final class OkCoinAdapters {
 
   private static List<LimitOrder> adaptLimitOrders(OrderType type, BigDecimal[][] list, CurrencyPair currencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(list.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(list.length);
     for (int i = 0; i < list.length; i++) {
       BigDecimal[] data = list[i];
       limitOrders.add(adaptLimitOrder(type, data, currencyPair, null, null));
@@ -302,7 +302,7 @@ public final class OkCoinAdapters {
 
   public static UserTrades adaptTradeHistory(OkCoinFuturesTradeHistoryResult[] okCoinFuturesTradeHistoryResult) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (OkCoinFuturesTradeHistoryResult okCoinFuturesTrade : okCoinFuturesTradeHistoryResult) {
       //  if (okCoinFuturesTrade.getType().equals(OkCoinFuturesTradeHistoryResult.TransactionType.)) { // skip account deposits and withdrawals.
@@ -333,7 +333,7 @@ public final class OkCoinAdapters {
   }
 
   public static List<FundingRecord> adaptFundingHistory(final OkCoinAccountRecords[] okCoinAccountRecordsList) {
-    final List<FundingRecord> fundingRecords = new ArrayList<FundingRecord>();
+    final List<FundingRecord> fundingRecords = new ArrayList<>();
     if (okCoinAccountRecordsList != null && okCoinAccountRecordsList.length > 0){
       final OkCoinAccountRecords depositRecord = okCoinAccountRecordsList[0];
       if (depositRecord != null){

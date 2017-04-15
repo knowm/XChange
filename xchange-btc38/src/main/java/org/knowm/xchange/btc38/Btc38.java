@@ -27,5 +27,5 @@ public interface Btc38 {
    */
   @GET
   @Path("ticker.php?c=all&mk_type={marketType}")
-  public Map<String, Btc38TickerReturn> getMarketTicker(@PathParam("marketType") String marketType) throws IOException;
+  Map<String, Btc38TickerReturn> getMarketTicker(@PathParam("marketType") String marketType) throws IOException;
 }

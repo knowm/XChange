@@ -50,7 +50,7 @@ public class KrakenSpreads {
     @Override
     public KrakenSpreads deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      List<KrakenSpread> krakenTrades = new ArrayList<KrakenSpread>();
+      List<KrakenSpread> krakenTrades = new ArrayList<>();
       long last = 0;
       ObjectCodec oc = jsonParser.getCodec();
       JsonNode node = oc.readTree(jsonParser);

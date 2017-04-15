@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CCEXBuySellResult {
 
-	private List<CCEXBuySellData> buy = new ArrayList<CCEXBuySellData>();	
-	private List<CCEXBuySellData> sell = new ArrayList<CCEXBuySellData>();
+	private List<CCEXBuySellData> buy = new ArrayList<>();
+	private List<CCEXBuySellData> sell = new ArrayList<>();
 
 	/**
 	 * 

@@ -46,7 +46,7 @@ public final class CoinbaseAdapters {
 
   public static UserTrades adaptTrades(CoinbaseTransfers transfers) {
 
-    final List<UserTrade> trades = new ArrayList<UserTrade>();
+    final List<UserTrade> trades = new ArrayList<>();
     for (CoinbaseTransfer transfer : transfers.getTransfers()) {
       trades.add(adaptTrade(transfer));
     }

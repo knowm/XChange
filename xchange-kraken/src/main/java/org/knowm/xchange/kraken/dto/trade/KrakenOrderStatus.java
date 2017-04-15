@@ -30,7 +30,7 @@ public enum KrakenOrderStatus {
     return fromString.get(orderStatusString.toLowerCase());
   }
 
-  private static final Map<String, KrakenOrderStatus> fromString = new HashMap<String, KrakenOrderStatus>();
+  private static final Map<String, KrakenOrderStatus> fromString = new HashMap<>();
 
   static {
     for (KrakenOrderStatus orderStatus : values())

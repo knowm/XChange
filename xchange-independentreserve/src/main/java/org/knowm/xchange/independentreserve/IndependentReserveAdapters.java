@@ -51,7 +51,7 @@ public class IndependentReserveAdapters {
   }
 
   private static List<LimitOrder> adaptOrders(List<OrderBookOrder> buyOrders, Order.OrderType type, CurrencyPair currencyPair) {
-    final List<LimitOrder> orders = new ArrayList<LimitOrder>();
+    final List<LimitOrder> orders = new ArrayList<>();
     for (OrderBookOrder obo : buyOrders) {
       LimitOrder limitOrder = new LimitOrder(type, obo.getVolume(), currencyPair, null, null, obo.getPrice());
       orders.add(limitOrder);
@@ -60,7 +60,7 @@ public class IndependentReserveAdapters {
   }
 
   public static Wallet adaptWallet(IndependentReserveBalance independentReserveBalance) {
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
 
     for (IndependentReserveAccount balanceAccount : independentReserveBalance.getIndependentReserveAccounts()) {
       Currency currency = Currency.getInstance(balanceAccount.getCurrencyCode().toUpperCase());
@@ -70,7 +70,7 @@ public class IndependentReserveAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(IndependentReserveOpenOrdersResponse independentReserveOrders) {
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     List<IndependentReserveOpenOrder> independentReserveOrdersList = independentReserveOrders.getIndependentReserveOrders();
     for (IndependentReserveOpenOrder order : independentReserveOrdersList) {
       String orderType = order.getOrderType();
@@ -102,7 +102,7 @@ public class IndependentReserveAdapters {
   }
 
   public static UserTrades adaptTradeHistory(IndependentReserveTradeHistoryResponse independentReserveTradeHistoryResponse) {
-    List<UserTrade> userTrades = new ArrayList<UserTrade>();
+    List<UserTrade> userTrades = new ArrayList<>();
     for (IndependentReserveTrade trade : independentReserveTradeHistoryResponse.getIndependentReserveTrades()) {
       Order.OrderType type;
       String orderType = trade.getOrderType();

@@ -118,8 +118,8 @@ public class BitcoiniumRealtimeTickerDemo {
     System.out.println(bitcoiniumTickerHistory.toString());
 
     // build ticker history chart series data
-    xAxisData = new ArrayList<Date>();
-    yAxisData = new ArrayList<Float>();
+    xAxisData = new ArrayList<>();
+    yAxisData = new ArrayList<>();
     for (int i = 0; i < bitcoiniumTickerHistory.getCondensedTickers().length; i++) {
 
       BitcoiniumTicker bitcoiniumTicker = bitcoiniumTickerHistory.getCondensedTickers()[i];

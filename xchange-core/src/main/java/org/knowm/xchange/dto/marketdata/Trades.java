@@ -38,7 +38,7 @@ public class Trades {
    */
   public Trades(List<Trade> trades, long lastID, TradeSortType tradeSortType) {
 
-    this.trades = new ArrayList<Trade>(trades);
+    this.trades = new ArrayList<>(trades);
     this.lastID = lastID;
     this.tradeSortType = tradeSortType;
 

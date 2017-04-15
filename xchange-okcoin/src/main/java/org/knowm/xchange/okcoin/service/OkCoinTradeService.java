@@ -56,7 +56,7 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements TradeSe
     // TODO use params to specify currency pair
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
 
-    List<OkCoinOrderResult> orderResults = new ArrayList<OkCoinOrderResult>(exchangeSymbols.size());
+    List<OkCoinOrderResult> orderResults = new ArrayList<>(exchangeSymbols.size());
 
     for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);

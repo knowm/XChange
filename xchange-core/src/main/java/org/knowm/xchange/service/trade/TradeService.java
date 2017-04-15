@@ -163,7 +163,6 @@ public interface TradeService extends BaseService {
   /**
    * get's the latest order form the order book that with matching orderId
    *
-   * @param orderId
    * @return the order as it is on the exchange.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data

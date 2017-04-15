@@ -44,7 +44,7 @@ public final class EmpoExAdapters {
 
   public static Trades adaptEmpoExTrades(List<EmpoExTrade> raw, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
 
     for (EmpoExTrade trade : raw) {
 
@@ -64,8 +64,8 @@ public final class EmpoExAdapters {
     List<EmpoExLevel> rawAsks = raw.get("sell");
     List<EmpoExLevel> rawBids = raw.get("buy");
 
-    List<LimitOrder> asks = new ArrayList<LimitOrder>();
-    List<LimitOrder> bids = new ArrayList<LimitOrder>();
+    List<LimitOrder> asks = new ArrayList<>();
+    List<LimitOrder> bids = new ArrayList<>();
 
     for (EmpoExLevel ask : rawAsks) {
 
@@ -86,7 +86,7 @@ public final class EmpoExAdapters {
 
   public static Wallet adaptBalances(List<EmpoExBalance> raw) {
 
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
 
     for (EmpoExBalance empoExBalance : raw) {
 
@@ -99,7 +99,7 @@ public final class EmpoExAdapters {
 
   public static OpenOrders adaptOpenOrders(Map<String, List<EmpoExOpenOrder>> raw) {
 
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> openOrders = new ArrayList<>();
 
     for (String pairString : raw.keySet()) {
 

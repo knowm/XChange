@@ -42,7 +42,7 @@ public class YoBitPairs {
 		public YoBitPairs deserialize(JsonParser jp, DeserializationContext ctxt)
 				throws IOException, JsonProcessingException {
 
-			Map<CurrencyPair, YoBitPair> priceMap = new HashMap<CurrencyPair, YoBitPair>();
+			Map<CurrencyPair, YoBitPair> priceMap = new HashMap<>();
 			ObjectCodec oc = jp.getCodec();
 			JsonNode node = oc.readTree(jp);
 			if (node.isObject()) {

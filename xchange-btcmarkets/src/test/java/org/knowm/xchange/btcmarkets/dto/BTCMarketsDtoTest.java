@@ -84,7 +84,6 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getErrorCode()).isNull();
     assertThat(response.getErrorMessage()).isNull();
-    ;
   }
 
   @Test
@@ -96,7 +95,6 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getErrorCode()).isNull();
     assertThat(response.getErrorMessage()).isNull();
-    ;
   }
 
   @Test
@@ -114,7 +112,6 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     BTCMarketsException response1 = responses.get(0);
     assertThat(response1.getSuccess()).isTrue();
     assertThat(response1.getErrorCode()).isNull();
-    ;
     assertThat(response1.getMessage()).contains("(HTTP status code: 0)");
     assertThat(response1.getId()).isEqualTo(6840125484L);
 

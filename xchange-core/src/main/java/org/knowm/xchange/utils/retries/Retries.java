@@ -11,7 +11,7 @@ public class Retries {
 
   /**
    * Allows a client to attempt a call and retry a finite amount of times if the exception thrown is the right kind. The retries back off
-   * exponentially. For examples: @see {@link org.knowm.xchange.examples.core.utils.RetriesDemo}
+   * exponentially.
    * 
    * @author Matija Mazi and Bryan Hernandez
    * @param nAttempts Number of attempts before giving up

@@ -48,7 +48,7 @@ public class Btc38MarketDataServiceRaw extends Btc38BaseService<Btc38> {
 
   protected HashMap<String, CurrencyPair> getCurrencyPairMap() throws IOException {
 
-    HashMap<String, CurrencyPair> currencyPairMap = new HashMap<String, CurrencyPair>();
+    HashMap<String, CurrencyPair> currencyPairMap = new HashMap<>();
 
     Map<String, Btc38TickerReturn> btcTickers = this.btc38.getMarketTicker("BTC");
     Map<String, Btc38TickerReturn> cnyTickers = this.btc38.getMarketTicker("CNY");

@@ -133,7 +133,7 @@ public class MercadoBitcoinAdapterTest {
 
     List<LimitOrder> orders = MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currency.LTC, Currency.BRL), apiResult);
 
-    Map<String, LimitOrder> orderById = new HashMap<String, LimitOrder>();
+    Map<String, LimitOrder> orderById = new HashMap<>();
 
     for (LimitOrder order : orders) {
       orderById.put(order.getId(), order);

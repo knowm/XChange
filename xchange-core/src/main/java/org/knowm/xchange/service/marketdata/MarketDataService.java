@@ -30,7 +30,6 @@ public interface MarketDataService extends BaseService {
    * Get a ticker representing the current exchange rate
    * </p>
    * 
-   * @param CurrencyPair currencyPair (e.g. BTC/USD)
    * @return The Ticker, null if some sort of error occurred. Implementers should log the error.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
    * @throws NotAvailableFromExchangeException - Indication that the exchange does not support the requested function or data
@@ -46,7 +45,6 @@ public interface MarketDataService extends BaseService {
    * Get an order book representing the current offered exchange rates (market depth)
    * </p>
    * 
-   * @param CurrencyPair currencyPair (e.g. BTC/USD)
    * @param args Optional arguments. Exchange-specific
    * @return The OrderBook, null if some sort of error occurred. Implementers should log the error.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response
@@ -63,7 +61,6 @@ public interface MarketDataService extends BaseService {
    * Get the trades recently performed by the exchange
    * </p>
    * 
-   * @param CurrencyPair currencyPair (e.g. BTC/USD)
    * @param args Optional arguments. Exchange-specific
    * @return The Trades, null if some sort of error occurred. Implementers should log the error.
    * @throws ExchangeException - Indication that the exchange reported some kind of error with the request or response

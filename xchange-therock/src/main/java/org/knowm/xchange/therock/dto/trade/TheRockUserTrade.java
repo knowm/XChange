@@ -84,7 +84,7 @@ public class TheRockUserTrade {
         }
     }
 
-    private static enum TransactionType {
+    private enum TransactionType {
         sold_currency_to_fund, released_currency_to_fund, paid_commission, bought_currency_from_fund, acquired_currency_from_fund, unknown;
         
         @JsonCreator

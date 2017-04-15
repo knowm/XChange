@@ -194,7 +194,7 @@ public final class FundingRecord {
   public enum Type {
     WITHDRAWAL, DEPOSIT;
 
-    private static final Map<String, Type> fromString = new HashMap<String, Type>();
+    private static final Map<String, Type> fromString = new HashMap<>();
 
     static {
       for (Type type : values())

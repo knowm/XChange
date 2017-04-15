@@ -12,7 +12,7 @@ public class HuobiOrderInfo {
 
     private final int statusCode;
 
-    private HuobiOrderStatus(final int code) {
+    HuobiOrderStatus(final int code) {
       this.statusCode = code;
     }
 

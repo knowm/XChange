@@ -122,7 +122,7 @@ public class BitcoiniumRealtimeOrderbookDemo {
     series = chart.addSeries(ASKS_SERIES_NAME, xAxisAskData, yAxisAskData);
     series.setMarker(SeriesMarkers.NONE);
 
-    return new XChartPanel<XYChart>(chart);
+    return new XChartPanel<>(chart);
   }
 
   private void updateData() throws IOException {
@@ -153,7 +153,7 @@ public class BitcoiniumRealtimeOrderbookDemo {
 
   private static List<Float> getPriceData(CondensedOrder[] condensedOrders) {
 
-    List<Float> priceData = new ArrayList<Float>();
+    List<Float> priceData = new ArrayList<>();
     for (int i = 0; i < condensedOrders.length; i++) {
       priceData.add(condensedOrders[i].getPrice().floatValue());
     }
@@ -162,7 +162,7 @@ public class BitcoiniumRealtimeOrderbookDemo {
 
   private static List<Float> getVolumeData(CondensedOrder[] condensedOrders) {
 
-    List<Float> volumeData = new ArrayList<Float>();
+    List<Float> volumeData = new ArrayList<>();
     for (int i = 0; i < condensedOrders.length; i++) {
       volumeData.add(condensedOrders[i].getVolume().floatValue());
     }

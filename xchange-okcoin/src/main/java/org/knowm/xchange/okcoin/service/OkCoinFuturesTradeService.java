@@ -61,7 +61,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     // TODO use params for currency pair
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
 
-    List<OkCoinFuturesOrderResult> orderResults = new ArrayList<OkCoinFuturesOrderResult>(exchangeSymbols.size());
+    List<OkCoinFuturesOrderResult> orderResults = new ArrayList<>(exchangeSymbols.size());
 
     for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
@@ -251,14 +251,12 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   public Collection<Order> getOrder(String... orderIds)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
-    List<Order> openOrders = new ArrayList<Order>();
-    List<OkCoinFuturesOrder> orderResults = new ArrayList<OkCoinFuturesOrder>(exchangeSymbols.size());
-    List<String> orderIdsRequest = new ArrayList<String>();
-    Set<String> orderSet = new HashSet<String>();
+    List<Order> openOrders = new ArrayList<>();
+    List<OkCoinFuturesOrder> orderResults = new ArrayList<>(exchangeSymbols.size());
+    List<String> orderIdsRequest = new ArrayList<>();
+    Set<String> orderSet = new HashSet<>();
 
-    for (int i = 0; i < orderIds.length; i++) {
-      orderSet.add(orderIds[i]);
-    }
+    Collections.addAll(orderSet, orderIds);
 
     for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
@@ -274,7 +272,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
               OkCoinAdapters.adaptSymbol(symbol), futuresContract);
           orderIdsRequest.clear();
           if (orderResult.getOrders().length > 0) {
-            orderResults.addAll(new ArrayList<OkCoinFuturesOrder>(Arrays.asList(orderResult.getOrders())));
+            orderResults.addAll(new ArrayList<>(Arrays.asList(orderResult.getOrders())));
           }
 
         }

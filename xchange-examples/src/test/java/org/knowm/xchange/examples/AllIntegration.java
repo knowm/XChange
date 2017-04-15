@@ -42,7 +42,7 @@ public class AllIntegration {
   @Parameterized.Parameters(name = "{index}:{1}")
   public static Iterable<Object[]> data() {
 
-    List<Object[]> exchangeClasses = new ArrayList<Object[]>();
+    List<Object[]> exchangeClasses = new ArrayList<>();
 
     // Find every Exchange
     Reflections reflections = new Reflections("org.knowm.xchange");
@@ -107,8 +107,8 @@ public class AllIntegration {
     Assume.assumeNotNull(service);
 
     String methodName = method.getName();
-    Collection<R> results = new ArrayList<R>(firstArgumentOptions.size());
-    final ArrayList<Object> arguments = new ArrayList<Object>(restStaticArguments.length + 1);
+    Collection<R> results = new ArrayList<>(firstArgumentOptions.size());
+    final ArrayList<Object> arguments = new ArrayList<>(restStaticArguments.length + 1);
     arguments.add(null);
     arguments.addAll(Arrays.asList(restStaticArguments));
 

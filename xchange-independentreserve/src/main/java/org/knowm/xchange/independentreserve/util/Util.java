@@ -20,7 +20,6 @@ public class Util {
     /**
      * Format a date String for IR
      *
-     * @param date
      * @return formatted date for Independent Reserve
      */
     public static String formatDate(Date d) {

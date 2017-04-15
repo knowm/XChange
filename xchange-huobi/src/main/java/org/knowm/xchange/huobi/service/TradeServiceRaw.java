@@ -11,14 +11,14 @@ import org.knowm.xchange.huobi.dto.trade.HuobiPlaceOrderResult;
 
 public interface TradeServiceRaw {
 
-  public HuobiOrder[] getOrders(int coinType) throws IOException;
+  HuobiOrder[] getOrders(int coinType) throws IOException;
 
-  public HuobiOrderInfo getOrderInfo(long orderId, int coinType) throws IOException;
+  HuobiOrderInfo getOrderInfo(long orderId, int coinType) throws IOException;
 
-  public HuobiPlaceOrderResult placeLimitOrder(OrderType type, int coinType, BigDecimal price, BigDecimal amount) throws IOException;
+  HuobiPlaceOrderResult placeLimitOrder(OrderType type, int coinType, BigDecimal price, BigDecimal amount) throws IOException;
 
-  public HuobiPlaceOrderResult placeMarketOrder(OrderType type, int coinType, BigDecimal amount) throws IOException;
+  HuobiPlaceOrderResult placeMarketOrder(OrderType type, int coinType, BigDecimal amount) throws IOException;
 
-  public HuobiCancelOrderResult cancelOrder(int coinType, long id) throws IOException;
+  HuobiCancelOrderResult cancelOrder(int coinType, long id) throws IOException;
 
 }

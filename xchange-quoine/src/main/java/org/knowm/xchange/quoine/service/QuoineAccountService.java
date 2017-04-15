@@ -40,13 +40,6 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    /**
-     * Account information in Quoine is complicated. If using margin it's probably best
-     * to separately call `getQuoineTradingAccountInfo` in order to get position exposures and pnl.
-     *
-     * However for account valuation purposes it is probably better to always use getQuoineFiatAccountInfo
-     * which gives a total balance, including the margin activity.
-     */
 
 
 /*    if (useMargin) {

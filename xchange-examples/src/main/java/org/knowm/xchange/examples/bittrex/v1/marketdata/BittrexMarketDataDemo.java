@@ -30,7 +30,7 @@ public class BittrexMarketDataDemo {
     exchange = ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
 
-    System.out.println(exchange.getExchangeSymbols().toArray());
+    System.out.println(Arrays.toString(exchange.getExchangeSymbols().toArray()));
 
     generic(marketDataService);
     raw((BittrexMarketDataServiceRaw) marketDataService);

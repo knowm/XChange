@@ -26,7 +26,7 @@ public enum CoinbaseRepeat {
 
   static class CoinbaseRepeatDeserializer extends JsonDeserializer<CoinbaseRepeat> {
 
-    private static final EnumFromStringHelper<CoinbaseRepeat> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseRepeat>(CoinbaseRepeat.class);
+    private static final EnumFromStringHelper<CoinbaseRepeat> FROM_STRING_HELPER = new EnumFromStringHelper<>(CoinbaseRepeat.class);
 
     @Override
     public CoinbaseRepeat deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {

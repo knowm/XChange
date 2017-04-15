@@ -45,7 +45,7 @@ public class ItBitAccountServiceRaw extends ItBitBaseService {
 
   public String requestItBitDepositAddress(String currency, String... args) throws IOException {
 
-    Map<String, String> metadata = new HashMap<String, String>();
+    Map<String, String> metadata = new HashMap<>();
     for (int i = 0; i < args.length - 1; i += 2) {
       metadata.put(args[i], args[i + 1]);
     }

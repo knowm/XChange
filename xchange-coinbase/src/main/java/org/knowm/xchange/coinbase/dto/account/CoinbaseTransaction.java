@@ -123,7 +123,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
 
     static class CoinbaseTransactionStatusDeserializer extends JsonDeserializer<CoinbaseTransactionStatus> {
 
-      private static final EnumFromStringHelper<CoinbaseTransactionStatus> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseTransactionStatus>(
+      private static final EnumFromStringHelper<CoinbaseTransactionStatus> FROM_STRING_HELPER = new EnumFromStringHelper<>(
           CoinbaseTransactionStatus.class);
 
       @Override

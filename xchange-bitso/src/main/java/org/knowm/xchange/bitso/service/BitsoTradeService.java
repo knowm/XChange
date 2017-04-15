@@ -53,7 +53,7 @@ public class BitsoTradeService extends BitsoTradeServiceRaw implements TradeServ
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     BitsoOrder[] openOrders = getBitsoOpenOrders();
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (BitsoOrder bitsoOrder : openOrders) {
       OrderType orderType = bitsoOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
       String id = bitsoOrder.getId();

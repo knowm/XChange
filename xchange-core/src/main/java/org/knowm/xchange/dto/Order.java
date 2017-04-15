@@ -81,7 +81,7 @@ public abstract class Order {
   }
 
   public interface IOrderFlags {
-  };
+  }
 
   /**
    * Order type i.e. bid or ask
@@ -126,7 +126,7 @@ public abstract class Order {
   /**
    * Any applicable order flags
    */
-  private final Set<IOrderFlags> flags = new HashSet<IOrderFlags>();
+  private final Set<IOrderFlags> flags = new HashSet<>();
 
   /**
    * @param type Either BID (buying) or ASK (selling)
@@ -322,7 +322,7 @@ public abstract class Order {
     protected BigDecimal averagePrice;
     protected OrderStatus status;
 
-    protected final Set<IOrderFlags> flags = new HashSet<IOrderFlags>();
+    protected final Set<IOrderFlags> flags = new HashSet<>();
 
     protected Builder(OrderType orderType, CurrencyPair currencyPair) {
 

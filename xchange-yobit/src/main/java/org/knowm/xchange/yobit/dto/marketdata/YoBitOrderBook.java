@@ -38,8 +38,8 @@ public class YoBitOrderBook {
 
 	static class YoBitOrderBookDeserializer extends JsonDeserializer<YoBitOrderBook> {
 
-		private List<YoBitAsksBidsData> asks = new ArrayList<YoBitAsksBidsData>();
-		private List<YoBitAsksBidsData> bids = new ArrayList<YoBitAsksBidsData>();
+		private List<YoBitAsksBidsData> asks = new ArrayList<>();
+		private List<YoBitAsksBidsData> bids = new ArrayList<>();
 
 		@Override
 		public YoBitOrderBook deserialize(JsonParser jp, DeserializationContext ctxt)

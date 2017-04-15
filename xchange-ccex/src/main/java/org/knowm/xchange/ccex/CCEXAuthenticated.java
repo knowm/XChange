@@ -25,7 +25,7 @@ public interface CCEXAuthenticated extends CCEX {
 
 	@GET
 	@Path("api.html?a=getbalances&apikey={apikey}&nonce={nonce}")
-	public CCEXBalancesResponse balances(@PathParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature, @PathParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+  CCEXBalancesResponse balances(@PathParam("apikey") String apikey, @HeaderParam("apisign") ParamsDigest signature, @PathParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
 	@GET
 	@Path("api.html?a=getbalance&apikey={apikey}&nonce={nonce}&currency={currency}")

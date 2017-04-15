@@ -85,7 +85,7 @@ public class HitbtcAdapters {
 
   public static List<Ticker> adaptTickers(Map<String, HitbtcTicker> hitbtcTickers) {
 
-    List<Ticker> tickers = new ArrayList<Ticker>(hitbtcTickers.size());
+    List<Ticker> tickers = new ArrayList<>(hitbtcTickers.size());
 
     for (Map.Entry<String, HitbtcTicker> ticker : hitbtcTickers.entrySet()) {
 
@@ -105,7 +105,7 @@ public class HitbtcAdapters {
 
   private static List<LimitOrder> adaptMarketOrderToLimitOrder(BigDecimal[][] hitbtcOrders, OrderType orderType, CurrencyPair currencyPair) {
 
-    List<LimitOrder> orders = new ArrayList<LimitOrder>(hitbtcOrders.length);
+    List<LimitOrder> orders = new ArrayList<>(hitbtcOrders.length);
 
     for (int i = 0; i < hitbtcOrders.length; i++) {
       BigDecimal[] hitbtcOrder = hitbtcOrders[i];
@@ -140,7 +140,7 @@ public class HitbtcAdapters {
 
   public static Trades adaptTrades(List<? extends HitbtcTrade> allHitbtcTrades, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>(allHitbtcTrades.size());
+    List<Trade> trades = new ArrayList<>(allHitbtcTrades.size());
     long lastTradeId = 0;
     for (int i = 0; i < allHitbtcTrades.size(); i++) {
       HitbtcTrade hitbtcTrade = allHitbtcTrades.get(i);
@@ -163,7 +163,7 @@ public class HitbtcAdapters {
 
   public static OpenOrders adaptOpenOrders(HitbtcOrder[] openOrdersRaw) {
 
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>(openOrdersRaw.length);
+    List<LimitOrder> openOrders = new ArrayList<>(openOrdersRaw.length);
 
     for (int i = 0; i < openOrdersRaw.length; i++) {
       HitbtcOrder o = openOrdersRaw[i];
@@ -186,7 +186,7 @@ public class HitbtcAdapters {
 
   public static UserTrades adaptTradeHistory(HitbtcOwnTrade[] tradeHistoryRaw, ExchangeMetaData metaData) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>(tradeHistoryRaw.length);
+    List<UserTrade> trades = new ArrayList<>(tradeHistoryRaw.length);
     for (int i = 0; i < tradeHistoryRaw.length; i++) {
       HitbtcOwnTrade t = tradeHistoryRaw[i];
       OrderType type = adaptOrderType(t.getSide());
@@ -209,7 +209,7 @@ public class HitbtcAdapters {
 
   public static Wallet adaptWallet(HitbtcBalance[] walletRaw) {
 
-    List<Balance> balances = new ArrayList<Balance>(walletRaw.length);
+    List<Balance> balances = new ArrayList<>(walletRaw.length);
 
     for (HitbtcBalance balanceRaw : walletRaw) {
 
@@ -254,7 +254,7 @@ public class HitbtcAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(HitbtcSymbols symbols, Map<Currency, CurrencyMetaData> currencies) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     if (symbols != null) {
       for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
         CurrencyPair pair = adaptSymbol(symbol);

@@ -30,7 +30,7 @@ public class BitcoinChartsTickerDemo {
 
     double value = ticker.getLast().doubleValue();
 
-    String currency = ticker.getCurrencyPair().counter.getCurrencyCode().toString();
+    String currency = ticker.getCurrencyPair().counter.getCurrencyCode();
     System.out.println("bitstampUSD Last: " + currency + "-" + value);
     System.out.println("bitstampUSD Last: " + ticker.getLast().toString());
 

@@ -67,7 +67,7 @@ public final class BTCChinaAdapters {
    */
   public static List<LimitOrder> adaptOrders(BigDecimal[][] btcchinaOrders, CurrencyPair currencyPair, OrderType orderType) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(btcchinaOrders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(btcchinaOrders.length);
 
     for (BigDecimal[] btcchinaOrder : btcchinaOrders) {
       limitOrders.add(adaptOrder(btcchinaOrder[1], btcchinaOrder[0], currencyPair, orderType));
@@ -115,7 +115,7 @@ public final class BTCChinaAdapters {
    */
   public static Trades adaptTrades(BTCChinaTrade[] btcchinaTrades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>(btcchinaTrades.length);
+    List<Trade> tradesList = new ArrayList<>(btcchinaTrades.length);
     long latestTradeId = 0;
     for (BTCChinaTrade btcchinaTrade : btcchinaTrades) {
       long tradeId = btcchinaTrade.getTid();
@@ -152,7 +152,7 @@ public final class BTCChinaAdapters {
 
   public static Map<CurrencyPair, Ticker> adaptTickers(BTCChinaTicker btcChinaTicker) {
 
-    Map<CurrencyPair, Ticker> tickers = new LinkedHashMap<CurrencyPair, Ticker>(btcChinaTicker.size());
+    Map<CurrencyPair, Ticker> tickers = new LinkedHashMap<>(btcChinaTicker.size());
     for (Map.Entry<String, BTCChinaTickerObject> entry : btcChinaTicker.entrySet()) {
       CurrencyPair currencyPair = adaptCurrencyPairFromTickerMarketKey(entry.getKey());
       tickers.put(currencyPair, adaptTicker(entry.getValue(), currencyPair));
@@ -172,7 +172,7 @@ public final class BTCChinaAdapters {
 
   public static Wallet adaptWallet(Map<String, BTCChinaValue> balances, Map<String, BTCChinaValue> frozens, Map<String, BTCChinaValue> loans) {
 
-    List<Balance> wallet = new ArrayList<Balance>(balances.size());
+    List<Balance> wallet = new ArrayList<>(balances.size());
 
     for (Map.Entry<String, BTCChinaValue> entry : balances.entrySet()) {
       BTCChinaValue frozen = frozens.get(entry.getKey());
@@ -214,7 +214,7 @@ public final class BTCChinaAdapters {
 
   public static List<LimitOrder> adaptLimitOrders(BTCChinaMarketDepthOrder[] orders, OrderType orderType, CurrencyPair currencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
     for (BTCChinaMarketDepthOrder order : orders) {
       limitOrders.add(adaptLimitOrder(order, orderType, currencyPair));
     }
@@ -228,7 +228,7 @@ public final class BTCChinaAdapters {
 
   public static List<LimitOrder> adaptOrders(BTCChinaOrder[] orders, CurrencyPair currencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
 
     for (BTCChinaOrder order : orders) {
       LimitOrder limitOrder = adaptLimitOrder(order, currencyPair);
@@ -240,7 +240,7 @@ public final class BTCChinaAdapters {
 
   public static List<LimitOrder> adaptOrders(BTCChinaOrders orders, CurrencyPair specifiedCurrencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     BTCChinaOrder[] certainCurrencyPairOrders = orders.getOrdersArray();
     if (certainCurrencyPairOrders != null) {
@@ -313,7 +313,7 @@ public final class BTCChinaAdapters {
    */
   public static UserTrades adaptTransactions(List<BTCChinaTransaction> transactions) {
 
-    List<UserTrade> tradeHistory = new ArrayList<UserTrade>(transactions.size());
+    List<UserTrade> tradeHistory = new ArrayList<>(transactions.size());
 
     for (BTCChinaTransaction transaction : transactions) {
       UserTrade adaptTransaction = adaptTransaction(transaction);
@@ -393,7 +393,7 @@ public final class BTCChinaAdapters {
 
   public static List<FundingRecord> adaptFundingHistory(final BTCChinaGetDepositsResponse depositsResponse, final BTCChinaGetWithdrawalsResponse withdrawalsResponse){
 
-    final List<FundingRecord> fundingRecords = new ArrayList<FundingRecord>();
+    final List<FundingRecord> fundingRecords = new ArrayList<>();
 
     if (depositsResponse != null && depositsResponse.getResult() != null) {
       final BTCChinaDeposit[] deposits = depositsResponse.getResult().getDeposits();

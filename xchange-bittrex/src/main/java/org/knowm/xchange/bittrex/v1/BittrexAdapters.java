@@ -42,7 +42,7 @@ public final class BittrexAdapters {
 
   public static List<CurrencyPair> adaptCurrencyPairs(Collection<BittrexSymbol> bittrexSymbol) {
 
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    List<CurrencyPair> currencyPairs = new ArrayList<>();
     for (BittrexSymbol symbol : bittrexSymbol) {
       currencyPairs.add(adaptCurrencyPair(symbol));
     }
@@ -58,7 +58,7 @@ public final class BittrexAdapters {
 
   public static List<LimitOrder> adaptOpenOrders(List<BittrexOpenOrder> bittrexOpenOrders) {
 
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> openOrders = new ArrayList<>();
 
     for (BittrexOpenOrder order : bittrexOpenOrders) {
       openOrders.add(adaptOpenOrder(order));
@@ -79,7 +79,7 @@ public final class BittrexAdapters {
   
   public static List<LimitOrder> adaptOrders(BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
 
     for (BittrexLevel order : orders) {
       limitOrders.add(adaptOrder(order.getAmount(), order.getPrice(), currencyPair, orderType, id));
@@ -107,7 +107,7 @@ public final class BittrexAdapters {
 
   public static Trades adaptTrades(BittrexTrade[] trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>(trades.length);
+    List<Trade> tradesList = new ArrayList<>(trades.length);
     long lastTradeId = 0;
     for (BittrexTrade trade : trades) {
       long tradeId = Long.valueOf(trade.getId());
@@ -136,7 +136,7 @@ public final class BittrexAdapters {
 
   public static Wallet adaptWallet(List<BittrexBalance> balances) {
 
-    List<Balance> wallets = new ArrayList<Balance>(balances.size());
+    List<Balance> wallets = new ArrayList<>(balances.size());
 
     for (BittrexBalance balance : balances) {
       wallets.add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getBalance(), balance.getAvailable(),
@@ -149,7 +149,7 @@ public final class BittrexAdapters {
 
   public static List<UserTrade> adaptUserTrades(List<BittrexUserTrade> bittrexUserTrades) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
 
     for (BittrexUserTrade bittrexTrade : bittrexUserTrades) {
       trades.add(adaptUserTrade(bittrexTrade));

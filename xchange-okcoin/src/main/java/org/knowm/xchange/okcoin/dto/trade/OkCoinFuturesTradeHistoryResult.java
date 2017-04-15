@@ -17,7 +17,6 @@ public class OkCoinFuturesTradeHistoryResult extends OkCoinErrorResult {
    * Constructor
    * 
    * @param amount
-   * @param date
    * @param price
    * @param type
    * @param tid

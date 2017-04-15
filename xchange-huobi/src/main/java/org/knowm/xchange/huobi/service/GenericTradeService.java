@@ -38,7 +38,7 @@ public class GenericTradeService extends BaseExchangeService implements TradeSer
     super(exchange);
     this.tradeServiceRaw = tradeServiceRaw;
 
-    coinTypes = new HashMap<CurrencyPair, Integer>(2);
+    coinTypes = new HashMap<>(2);
     coinTypes.put(CurrencyPair.BTC_CNY, 1);
     coinTypes.put(CurrencyPair.LTC_CNY, 2);
   }
@@ -55,7 +55,7 @@ public class GenericTradeService extends BaseExchangeService implements TradeSer
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     // TODO use params for currency pair
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> openOrders = new ArrayList<>();
     for (CurrencyPair currencyPair : exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
       HuobiOrder[] orders = tradeServiceRaw.getOrders(coinTypes.get(currencyPair));
 

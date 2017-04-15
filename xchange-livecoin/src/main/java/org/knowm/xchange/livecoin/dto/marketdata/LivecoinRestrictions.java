@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class LivecoinRestrictions {
 
 	private final Boolean success;
-	private List<LivecoinRestriction> restrictions = new ArrayList<LivecoinRestriction>();
+	private List<LivecoinRestriction> restrictions = new ArrayList<>();
 
 	public LivecoinRestrictions(@JsonProperty("success") Boolean success,
 			@JsonProperty("restrictions") List<LivecoinRestriction> restrictions) {

@@ -60,7 +60,7 @@ public class CampBXTradeService extends CampBXTradeServiceRaw implements TradeSe
     if (!myOpenOrders.isError()) {
 
       // TODO move to adapter class
-      List<LimitOrder> orders = new ArrayList<LimitOrder>();
+      List<LimitOrder> orders = new ArrayList<>();
       for (CampBXOrder cbo : myOpenOrders.getBuy()) {
         if (cbo.isError() || cbo.isInfo()) {
           logger.debug("Skipping non-order in Buy: " + cbo);

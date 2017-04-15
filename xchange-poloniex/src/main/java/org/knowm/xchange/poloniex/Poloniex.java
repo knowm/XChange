@@ -1,9 +1,5 @@
 package org.knowm.xchange.poloniex;
 
-/**
- * @author Zach Holmes
- */
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

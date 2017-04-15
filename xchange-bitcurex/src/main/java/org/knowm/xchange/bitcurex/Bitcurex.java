@@ -18,14 +18,14 @@ public interface Bitcurex {
 
   @GET
   @Path("{currency}/ticker.json")
-  public BitcurexTicker getTicker(@PathParam("currency") String currency) throws IOException;
+  BitcurexTicker getTicker(@PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("{currency}/orderbook.json")
-  public BitcurexDepth getFullDepth(@PathParam("currency") String currency) throws IOException;
+  BitcurexDepth getFullDepth(@PathParam("currency") String currency) throws IOException;
 
   @GET
   @Path("{currency}/trades.json")
-  public BitcurexTrade[] getTrades(@PathParam("currency") String currency) throws IOException;
+  BitcurexTrade[] getTrades(@PathParam("currency") String currency) throws IOException;
 
 }

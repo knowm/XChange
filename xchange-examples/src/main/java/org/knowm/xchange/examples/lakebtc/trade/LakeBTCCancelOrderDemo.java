@@ -2,6 +2,7 @@ package org.knowm.xchange.examples.lakebtc.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -46,7 +47,7 @@ public class LakeBTCCancelOrderDemo {
   private static void raw(Exchange lakeBtcExchange) throws IOException {
     LakeBTCTradeServiceRaw tradeService = (LakeBTCTradeServiceRaw) lakeBtcExchange.getTradeService();
 
-    System.out.println("Open Orders: " + tradeService.getLakeBTCOrders());
+    System.out.println("Open Orders: " + Arrays.toString(tradeService.getLakeBTCOrders()));
 
     // place a limit buy order
     LimitOrder limitOrder = new LimitOrder((Order.OrderType.ASK), new BigDecimal(".01"), CurrencyPair.BTC_LTC, "", null, new BigDecimal("51.25"));

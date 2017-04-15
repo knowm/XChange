@@ -62,7 +62,7 @@ public class CryptoFacilitiesAdapters {
 
   public static AccountInfo adaptAccount(CryptoFacilitiesAccount cryptoFacilitiesAccount, String username) {
 
-    List<Balance> balances = new ArrayList<Balance>(cryptoFacilitiesAccount.getBalances().size());
+    List<Balance> balances = new ArrayList<>(cryptoFacilitiesAccount.getBalances().size());
     Balance balance;
 
     for (Entry<String, BigDecimal> balancePair : cryptoFacilitiesAccount.getBalances().entrySet()) {
@@ -105,7 +105,7 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(CryptoFacilitiesOpenOrders orders) {
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     if (orders != null && orders.isSuccess()) {
       for (CryptoFacilitiesOpenOrder ord : orders.getOrders()) {
@@ -127,7 +127,7 @@ public class CryptoFacilitiesAdapters {
   }
 
   public static UserTrades adaptFills(CryptoFacilitiesFills cryptoFacilitiesFills) {
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
 
     if (cryptoFacilitiesFills != null && cryptoFacilitiesFills.isSuccess()) {
       for (CryptoFacilitiesFill fill : cryptoFacilitiesFills.getFills()) {
@@ -147,7 +147,7 @@ public class CryptoFacilitiesAdapters {
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
       checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));

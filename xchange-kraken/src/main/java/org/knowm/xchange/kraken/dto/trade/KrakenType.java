@@ -36,7 +36,7 @@ public enum KrakenType {
     return type == OrderType.ASK ? KrakenType.SELL : KrakenType.BUY;
   }
 
-  private static final Map<String, KrakenType> fromString = new HashMap<String, KrakenType>();
+  private static final Map<String, KrakenType> fromString = new HashMap<>();
 
   static {
     for (KrakenType type : values())

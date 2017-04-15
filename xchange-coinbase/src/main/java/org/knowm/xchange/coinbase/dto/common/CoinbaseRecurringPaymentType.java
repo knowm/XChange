@@ -26,7 +26,7 @@ public enum CoinbaseRecurringPaymentType {
 
   static class CoinbaseRecurringPaymentTypeDeserializer extends JsonDeserializer<CoinbaseRecurringPaymentType> {
 
-    private static final EnumFromStringHelper<CoinbaseRecurringPaymentType> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseRecurringPaymentType>(
+    private static final EnumFromStringHelper<CoinbaseRecurringPaymentType> FROM_STRING_HELPER = new EnumFromStringHelper<>(
         CoinbaseRecurringPaymentType.class);
 
     @Override

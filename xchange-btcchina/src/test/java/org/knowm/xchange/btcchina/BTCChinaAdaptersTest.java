@@ -41,7 +41,7 @@ public class BTCChinaAdaptersTest {
     Map<CurrencyPair, Ticker> tickers = BTCChinaAdapters.adaptTickers(btcChinaTicker);
     assertEquals(3, tickers.size());
 
-    assertEquals(new HashSet<CurrencyPair>(Arrays.asList(CurrencyPair.BTC_CNY, CurrencyPair.LTC_CNY, CurrencyPair.LTC_BTC)), tickers.keySet());
+    assertEquals(new HashSet<>(Arrays.asList(CurrencyPair.BTC_CNY, CurrencyPair.LTC_CNY, CurrencyPair.LTC_BTC)), tickers.keySet());
 
     Ticker btccny = tickers.get(CurrencyPair.BTC_CNY);
     assertEquals(new BigDecimal("2894.97"), btccny.getHigh());

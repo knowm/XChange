@@ -56,7 +56,7 @@ public class LakeBTCAdapters {
   }
 
   private static List<LimitOrder> transformArrayToLimitOrders(BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (BigDecimal[] order : orders) {
       limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, null, order[0]));
     }
@@ -78,7 +78,7 @@ public class LakeBTCAdapters {
    */
   public static Trades adaptTrades(LakeBTCTradeResponse[] transactions, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (LakeBTCTradeResponse trade : transactions) {
       final OrderType orderType = trade.getType().startsWith("buy") ? OrderType.BID : OrderType.ASK;
@@ -116,7 +116,7 @@ public class LakeBTCAdapters {
    */
   public static UserTrades adaptTradeHistory(LakeBTCTradeResponse[] transactions) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (LakeBTCTradeResponse trade : transactions) {
       final OrderType orderType = trade.getType().startsWith("buy") ? OrderType.BID : OrderType.ASK;

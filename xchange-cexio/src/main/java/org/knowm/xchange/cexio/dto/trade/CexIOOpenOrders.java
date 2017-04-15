@@ -29,7 +29,7 @@ public class CexIOOpenOrders {
 
   public CexIOOpenOrders() {
 
-    this.openOrders = new ArrayList<CexIOOrder>();
+    this.openOrders = new ArrayList<>();
   }
 
   public List<CexIOOrder> getOpenOrders() {
@@ -71,7 +71,7 @@ public class CexIOOpenOrders {
         }
       }
 
-      final List<CexIOOrder> openOrders = new ArrayList<CexIOOrder>();
+      final List<CexIOOrder> openOrders = new ArrayList<>();
       if (openOrdersNode.isArray()) {
         for (JsonNode openOrderNode : openOrdersNode) {
           final long id = openOrderNode.path("id").asLong();

@@ -23,13 +23,13 @@ public interface LakeBTC {
    */
   @GET
   @Path("ticker")
-  public LakeBTCTickers getLakeBTCTickers() throws IOException;
+  LakeBTCTickers getLakeBTCTickers() throws IOException;
 
   @GET
   @Path("bcorderbook")
-  public LakeBTCOrderBook getLakeBTCOrderBookUSD() throws IOException;
+  LakeBTCOrderBook getLakeBTCOrderBookUSD() throws IOException;
 
   @GET
   @Path("bcorderbook_cny")
-  public LakeBTCOrderBook getLakeBTCOrderBookCNY() throws IOException;
+  LakeBTCOrderBook getLakeBTCOrderBookCNY() throws IOException;
 }

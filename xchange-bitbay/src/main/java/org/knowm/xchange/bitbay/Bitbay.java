@@ -22,13 +22,13 @@ public interface Bitbay {
    */
   @GET
   @Path("{currencyPair}/ticker.json")
-  public BitbayTicker getBitbayTicker(@PathParam("currencyPair") String currencyPair) throws IOException;
+  BitbayTicker getBitbayTicker(@PathParam("currencyPair") String currencyPair) throws IOException;
 
   @GET
   @Path("{currencyPair}/orderbook.json")
-  public BitbayOrderBook getBitbayOrderBook(@PathParam("currencyPair") String currencyPair) throws IOException;
+  BitbayOrderBook getBitbayOrderBook(@PathParam("currencyPair") String currencyPair) throws IOException;
 
   @GET
   @Path("{currencyPair}/trades.json")
-  public BitbayTrade[] getBitbayTrades(@PathParam("currencyPair") String currencyPair, @QueryParam("since") long sinceId) throws IOException;
+  BitbayTrade[] getBitbayTrades(@PathParam("currencyPair") String currencyPair, @QueryParam("since") long sinceId) throws IOException;
 }

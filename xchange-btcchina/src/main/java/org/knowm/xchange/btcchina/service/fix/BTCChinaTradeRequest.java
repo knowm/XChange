@@ -109,9 +109,7 @@ public final class BTCChinaTradeRequest {
     final String hash;
     try {
       hash = BTCChinaUtils.getSignature(params, secretKey);
-    } catch (InvalidKeyException e) {
-      throw new IllegalArgumentException(e);
-    } catch (NoSuchAlgorithmException e) {
+    } catch (InvalidKeyException | NoSuchAlgorithmException e) {
       throw new IllegalArgumentException(e);
     }
 
