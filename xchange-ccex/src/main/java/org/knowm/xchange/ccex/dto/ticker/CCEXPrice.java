@@ -26,8 +26,8 @@ public class CCEXPrice {
   private final BigDecimal lastprice;
   private final int updated;
 
-  private CCEXPrice(BigDecimal high, BigDecimal low, BigDecimal avg, BigDecimal lastbuy, BigDecimal lastsell,
-      BigDecimal buy, BigDecimal sell, BigDecimal lastprice, int updated) {
+  private CCEXPrice(BigDecimal high, BigDecimal low, BigDecimal avg, BigDecimal lastbuy, BigDecimal lastsell, BigDecimal buy, BigDecimal sell,
+      BigDecimal lastprice, int updated) {
 
     this.high = high;
     this.low = low;
@@ -79,9 +79,8 @@ public class CCEXPrice {
 
   @Override
   public String toString() {
-    return "CCEXPrice [high=" + high + ", low=" + low + ", avg=" + avg + ", lastbuy=" + lastbuy + ", lastsell="
-        + lastsell + ", buy=" + buy + ", sell=" + sell + ", lastprice=" + lastprice + ", updated=" + updated
-        + "]";
+    return "CCEXPrice [high=" + high + ", low=" + low + ", avg=" + avg + ", lastbuy=" + lastbuy + ", lastsell=" + lastsell + ", buy=" + buy
+        + ", sell=" + sell + ", lastprice=" + lastprice + ", updated=" + updated + "]";
   }
 
   static class CCEXPriceDeserializer extends JsonDeserializer<CCEXPrice> {
@@ -108,8 +107,7 @@ public class CCEXPrice {
     }
 
     @Override
-    public CCEXPrice deserialize(JsonParser jp, DeserializationContext ctxt)
-        throws IOException, JsonProcessingException {
+    public CCEXPrice deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       final ObjectCodec oc = jp.getCodec();
       final JsonNode tickerNode = oc.readTree(jp);

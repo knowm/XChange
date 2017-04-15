@@ -16,8 +16,8 @@ public class BTCChinaBuyStopOrderRequest extends BTCChinaStopOrderRequest {
    * Construct request for {@code buyStopOrder}.
    *
    * @param stopPrice The price in quote currency to trigger the order creation. The limit/market order will be triggered immediately if the last
-   * price is more than or equal to this stop price. Max 2 decimals for BTC/CNY and LTC/CNY markets. 4 decimals for LTC/BTC market. The stop
-   * price can only be specified if trailing amount or trailing percentage is not specified.
+   * price is more than or equal to this stop price. Max 2 decimals for BTC/CNY and LTC/CNY markets. 4 decimals for LTC/BTC market. The stop price can
+   * only be specified if trailing amount or trailing percentage is not specified.
    * @param price The price in quote currency to buy 1 base currency for the order to be created when the stop price is reached. Max 2 decimals for
    * BTC/CNY and LTC/CNY markets. 4 decimals for LTC/BTC market. Market order is executed by setting price to 'null'.
    * @param amount The total amount of LTC/BTC to buy for the order to be created when the stop price is reached. Supports 4 decimal places for BTC

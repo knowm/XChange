@@ -14,8 +14,8 @@ public class QuoineNewMarginOrderRequest extends QuoineNewOrderRequest {
   @JsonProperty("order_direction")
   private final String orderDirection;
 
-  public QuoineNewMarginOrderRequest(String orderType, int productCode, String side, BigDecimal quantity, BigDecimal price,
-      int leverageLevel, String fundingCurrency) {
+  public QuoineNewMarginOrderRequest(String orderType, int productCode, String side, BigDecimal quantity, BigDecimal price, int leverageLevel,
+      String fundingCurrency) {
     super(orderType, productCode, side, quantity, price);
 
     this.leverageLevel = leverageLevel;

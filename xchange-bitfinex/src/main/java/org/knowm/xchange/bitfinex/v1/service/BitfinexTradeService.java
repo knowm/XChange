@@ -45,7 +45,8 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     BitfinexOrderStatusResponse[] activeOrders = getBitfinexOpenOrders();
 
     if (activeOrders.length <= 0) {
@@ -185,8 +186,8 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

@@ -39,7 +39,8 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return KrakenAdapters.adaptOpenOrders(super.getKrakenOpenOrders());
   }
 
@@ -116,8 +117,8 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

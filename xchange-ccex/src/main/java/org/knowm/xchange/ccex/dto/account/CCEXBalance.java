@@ -12,11 +12,8 @@ public class CCEXBalance {
   private BigDecimal Pending;
   private String CryptoAddress;
 
-  public CCEXBalance(
-      @JsonProperty("Currency") String currency,
-      @JsonProperty("Balance") BigDecimal balance,
-      @JsonProperty("Available") BigDecimal available,
-      @JsonProperty("Pending") BigDecimal pending,
+  public CCEXBalance(@JsonProperty("Currency") String currency, @JsonProperty("Balance") BigDecimal balance,
+      @JsonProperty("Available") BigDecimal available, @JsonProperty("Pending") BigDecimal pending,
       @JsonProperty("CryptoAddress") String cryptoAddress) {
     super();
     Currency = currency;
@@ -68,7 +65,7 @@ public class CCEXBalance {
 
   @Override
   public String toString() {
-    return "CCEXBalance [Currency=" + Currency + ", Balance=" + Balance + ", Available=" + Available + ", Pending="
-        + Pending + ", CryptoAddress=" + CryptoAddress + "]";
+    return "CCEXBalance [Currency=" + Currency + ", Balance=" + Balance + ", Available=" + Available + ", Pending=" + Pending + ", CryptoAddress="
+        + CryptoAddress + "]";
   }
 }

@@ -9,8 +9,8 @@ public class OkCoinAccountRecords extends OkCoinErrorResult {
   private final String symbol;
   private final int errorCode;
 
-  public OkCoinAccountRecords(@JsonProperty("error_code") final int errorCode,
-      @JsonProperty("records") final OkCoinRecords[] records, @JsonProperty("symbol") final String symbol) {
+  public OkCoinAccountRecords(@JsonProperty("error_code") final int errorCode, @JsonProperty("records") final OkCoinRecords[] records,
+      @JsonProperty("symbol") final String symbol) {
     super(true, errorCode);
     this.errorCode = errorCode;
     this.records = records;

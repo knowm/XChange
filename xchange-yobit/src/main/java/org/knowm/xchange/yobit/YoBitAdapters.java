@@ -57,8 +57,7 @@ public class YoBitAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
   }
 
-  private static List<LimitOrder> toLimitOrderList(List<YoBitAsksBidsData> levels, OrderType orderType,
-      CurrencyPair currencyPair) {
+  private static List<LimitOrder> toLimitOrderList(List<YoBitAsksBidsData> levels, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> allLevels = new ArrayList<>(levels.size());
     for (int i = 0; i < levels.size(); i++) {
@@ -84,8 +83,7 @@ public class YoBitAdapters {
 
       OrderType type = trade.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
 
-      Trade t = new Trade(type, trade.getAmount(), currencyPair, trade.getPrice(),
-          parseDate(trade.getTimestamp()), String.valueOf(trade.getTid()));
+      Trade t = new Trade(type, trade.getAmount(), currencyPair, trade.getPrice(), parseDate(trade.getTimestamp()), String.valueOf(trade.getTid()));
       trades.add(t);
       lastTrade = i;
     }

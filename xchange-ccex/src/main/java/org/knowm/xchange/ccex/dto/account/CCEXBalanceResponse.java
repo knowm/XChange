@@ -8,9 +8,7 @@ public class CCEXBalanceResponse {
   private String message;
   private CCEXBalance result;
 
-  public CCEXBalanceResponse(
-      @JsonProperty("success") boolean success,
-      @JsonProperty("message") String message,
+  public CCEXBalanceResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
       @JsonProperty("result") CCEXBalance result) {
     super();
     this.success = success;

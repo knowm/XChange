@@ -10,9 +10,7 @@ public class CCEXGetorderhistoryResponse {
   private String message;
   private List<CCEXOrderhistory> result;
 
-  public CCEXGetorderhistoryResponse(
-      @JsonProperty("success") boolean success,
-      @JsonProperty("message") String message,
+  public CCEXGetorderhistoryResponse(@JsonProperty("success") boolean success, @JsonProperty("message") String message,
       @JsonProperty("result") List<CCEXOrderhistory> result) {
     super();
     this.success = success;

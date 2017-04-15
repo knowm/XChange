@@ -41,7 +41,8 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     List<CexIOOrder> cexIOOrderList = getCexIOOpenOrders();
 
     return CexIOAdapters.adaptOpenOrders(cexIOOrderList);
@@ -85,8 +86,8 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

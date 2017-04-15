@@ -19,10 +19,10 @@ public class WithdrawStatus {
   private final String status;
   private final String statusProp;
 
-  public WithdrawStatus(@JsonProperty("method") String method, @JsonProperty("aclass") String aclass
-      , @JsonProperty("asset") String asset, @JsonProperty("refid") String refid, @JsonProperty("txid") String txid
-      , @JsonProperty("info") String info, @JsonProperty("amount") BigDecimal amount, @JsonProperty("fee") BigDecimal fee
-      , @JsonProperty("time") long unixTimestamp, @JsonProperty("status") String status, @JsonProperty("status-prop") String statusProp) {
+  public WithdrawStatus(@JsonProperty("method") String method, @JsonProperty("aclass") String aclass, @JsonProperty("asset") String asset,
+      @JsonProperty("refid") String refid, @JsonProperty("txid") String txid, @JsonProperty("info") String info,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("fee") BigDecimal fee, @JsonProperty("time") long unixTimestamp,
+      @JsonProperty("status") String status, @JsonProperty("status-prop") String statusProp) {
     super();
     this.method = method;
     this.aclass = aclass;
@@ -83,9 +83,8 @@ public class WithdrawStatus {
 
   @Override
   public String toString() {
-    return "WithdrawStatus [method=" + method + ", aclass=" + aclass + ", asset=" + asset + ", refid=" + refid + ", txid=" + txid
-        + ", info=" + info + ", amount=" + amount + ", fee=" + fee + ", timestamp=" + timestamp + ", status=" + status
-        + ", statusProp=" + statusProp + "]";
+    return "WithdrawStatus [method=" + method + ", aclass=" + aclass + ", asset=" + asset + ", refid=" + refid + ", txid=" + txid + ", info=" + info
+        + ", amount=" + amount + ", fee=" + fee + ", timestamp=" + timestamp + ", status=" + status + ", statusProp=" + statusProp + "]";
   }
 
 }

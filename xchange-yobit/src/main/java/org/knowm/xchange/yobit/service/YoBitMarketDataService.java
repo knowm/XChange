@@ -20,8 +20,8 @@ public class YoBitMarketDataService extends YoBitMarketDataServiceRaw implements
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException,
-      NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair,
+      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     // TODO Auto-generated method stub
     return null;
   }

@@ -89,8 +89,8 @@ public class PoloniexAccountServiceRaw extends PoloniexBaseService {
   }
 
   public PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(Date start, Date end) throws IOException {
-    return poloniexAuthenticated.returnDepositsWithdrawals(apiKey, signatureCreator, exchange.getNonceFactory()
-        , DateUtils.toUnixTimeNullSafe(start), DateUtils.toUnixTimeNullSafe(end));
+    return poloniexAuthenticated.returnDepositsWithdrawals(apiKey, signatureCreator, exchange.getNonceFactory(), DateUtils.toUnixTimeNullSafe(start),
+        DateUtils.toUnixTimeNullSafe(end));
   }
 
 }

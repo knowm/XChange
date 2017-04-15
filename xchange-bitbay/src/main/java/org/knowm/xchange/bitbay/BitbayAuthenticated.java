@@ -41,18 +41,15 @@ public interface BitbayAuthenticated {
    * <p>
    * Input:
    * <p>
-   * type : offer type bid/buy or ask/sell
-   * currency : shortcut of main currency for offer (e.g. “BTC”)
-   * amount : quantity of main currency
-   * payment_currency : shortcut of currency used to pay for offer (e.g. “PLN”)
-   * rate : rate for offer
+   * type : offer type bid/buy or ask/sell currency : shortcut of main currency for offer (e.g. “BTC”) amount : quantity of main currency
+   * payment_currency : shortcut of currency used to pay for offer (e.g. “PLN”) rate : rate for offer
    */
   @POST
   @FormParam("method")
   BitbayTradeResponse trade(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
-      @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("type") String type,
-      @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount,
-      @FormParam("payment_currency") String paymentCurrency, @FormParam("rate") BigDecimal rate) throws IOException;
+      @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("type") String type, @FormParam("currency") String currency,
+      @FormParam("amount") BigDecimal amount, @FormParam("payment_currency") String paymentCurrency,
+      @FormParam("rate") BigDecimal rate) throws IOException;
 
   /**
    * cancel - removes offer from the stock market

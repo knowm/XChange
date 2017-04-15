@@ -34,8 +34,7 @@ public interface CCEX {
   CCEXTickerResponse getTicker(@PathParam("lpair") String lpair, @PathParam("rpair") String rpair) throws IOException;
 
   /**
-   * Returns "bids" and "asks". Each is a list of open orders and each order
-   * is represented as a list of data.
+   * Returns "bids" and "asks". Each is a list of open orders and each order is represented as a list of data.
    */
   @GET
   @Path("api_pub.html?a=getorderbook&market={pair}&type=both&depth={depth}")
@@ -71,8 +70,7 @@ public interface CCEX {
 
     @Override
     public String toString() {
-      return String.format("%s-%s", pair.base.getCurrencyCode().toLowerCase(),
-          pair.counter.getCurrencyCode().toLowerCase());
+      return String.format("%s-%s", pair.base.getCurrencyCode().toLowerCase(), pair.counter.getCurrencyCode().toLowerCase());
     }
   }
 }

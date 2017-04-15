@@ -41,13 +41,13 @@ public class DepthChartDemo {
     System.out.println("received data.");
 
     for (LimitOrder limitOrder : orderBook.getBids()) {
-      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: "
-          + limitOrder.getLimitPrice() + " Amount: " + limitOrder.getTradableAmount());
+      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
+          + limitOrder.getTradableAmount());
     }
 
     for (LimitOrder limitOrder : orderBook.getAsks()) {
-      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: "
-          + limitOrder.getLimitPrice() + " Amount: " + limitOrder.getTradableAmount());
+      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
+          + limitOrder.getTradableAmount());
     }
 
     System.out.println("plotting...");

@@ -27,8 +27,8 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
       return null;
     }
 
-    return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toUpperCase(),
-        currencyPair.counter.getCurrencyCode().toUpperCase(), depth);
+    return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase(),
+        depth);
   }
 
   public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {

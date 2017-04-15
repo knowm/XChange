@@ -165,12 +165,10 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
         new Object[]{true, "", 0, Collections.singletonList(expectedBtcMarketsUserTrades.get(0))});
 
     BTCMarketsTradeHistory pagingResponse = Whitebox.invokeConstructor(BTCMarketsTradeHistory.class,
-        new Class[]{Boolean.class, String.class, Integer.class, List.class},
-        new Object[]{true, "", 0, expectedBtcMarketsUserTrades.subList(1, 3)});
+        new Class[]{Boolean.class, String.class, Integer.class, List.class}, new Object[]{true, "", 0, expectedBtcMarketsUserTrades.subList(1, 3)});
 
     BTCMarketsTradeHistory timeSpanResponse = Whitebox.invokeConstructor(BTCMarketsTradeHistory.class,
-        new Class[]{Boolean.class, String.class, Integer.class, List.class},
-        new Object[]{true, "", 0, expectedBtcMarketsUserTrades.subList(2, 4)});
+        new Class[]{Boolean.class, String.class, Integer.class, List.class}, new Object[]{true, "", 0, expectedBtcMarketsUserTrades.subList(2, 4)});
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
 

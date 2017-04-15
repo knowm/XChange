@@ -29,8 +29,7 @@ public interface TheRockAuthenticatedV0 {
 
   @POST
   @Path("get_orders")
-  TheRockOrder placeOrder(@HeaderParam("X-TRT-KEY") String publicKey,
-      @HeaderParam("X-TRT-SIGN") TheRockDigest signer, @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, TheRockOrder order)
-      throws TheRockException, IOException;
+  TheRockOrder placeOrder(@HeaderParam("X-TRT-KEY") String publicKey, @HeaderParam("X-TRT-SIGN") TheRockDigest signer,
+      @HeaderParam(X_TRT_NONCE) SynchronizedValueFactory<Long> nonceFactory, TheRockOrder order) throws TheRockException, IOException;
 
 }

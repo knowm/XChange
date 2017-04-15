@@ -48,8 +48,8 @@ public interface Coinmate {
 
   @GET
   @Path("orderBook")
-  CoinmateOrderBook getOrderBook(@QueryParam("currencyPair") String currencyPair, @QueryParam("groupByPriceLimit") boolean groupByPriceLimit)
-      throws IOException;
+  CoinmateOrderBook getOrderBook(@QueryParam("currencyPair") String currencyPair,
+      @QueryParam("groupByPriceLimit") boolean groupByPriceLimit) throws IOException;
 
   @GET
   @Path("transactions")

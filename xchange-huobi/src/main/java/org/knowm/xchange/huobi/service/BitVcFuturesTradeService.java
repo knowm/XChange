@@ -56,17 +56,20 @@ public class BitVcFuturesTradeService extends BitVcFuturesServiceRaw implements 
   }
 
   @Override
-  public OpenOrders getOpenOrders(final OpenOrdersParams openOrdersParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      final OpenOrdersParams openOrdersParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return getOpenOrders();
   }
 
   @Override
-  public String placeMarketOrder(final MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(
+      final MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return null;
   }
 
   @Override
-  public String placeLimitOrder(final LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(
+      final LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     final TradeTypes tradeTypes;
     switch (limitOrder.getType()) {
       case BID:
@@ -89,15 +92,15 @@ public class BitVcFuturesTradeService extends BitVcFuturesServiceRaw implements 
         break;
     }
 
-    final BitVcFuturesPlaceOrderResult result =
-        bitvc.placeLimitOrder(accessKey, 1, futuresContract.getName(), requestTimestamp(), digest,
-            tradeTypes.getOrderType(), tradeTypes.getTradeType(), limitOrder.getLimitPrice().doubleValue(), limitOrder.getTradableAmount().doubleValue());
+    final BitVcFuturesPlaceOrderResult result = bitvc.placeLimitOrder(accessKey, 1, futuresContract.getName(), requestTimestamp(), digest,
+        tradeTypes.getOrderType(), tradeTypes.getTradeType(), limitOrder.getLimitPrice().doubleValue(), limitOrder.getTradableAmount().doubleValue());
 
     return String.valueOf(result.getId());
   }
 
   @Override
-  public boolean cancelOrder(final String s) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(
+      final String s) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return false;
   }
 
@@ -127,7 +130,8 @@ public class BitVcFuturesTradeService extends BitVcFuturesServiceRaw implements 
   }
 
   @Override
-  public Collection<Order> getOrder(final String... strings) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      final String... strings) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return null;
   }
 }

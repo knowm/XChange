@@ -327,13 +327,11 @@ public final class BitfinexAdapters {
       String description = responseEntry.getDescription();
       String txnId = "";
       final Currency currency = Currency.getInstance(responseEntry.getCurrency());
-      if (currency == Currency.BTC && responseEntry.getType() == FundingRecord.Type.WITHDRAWAL &&
-          description.contains(",")) {
+      if (currency == Currency.BTC && responseEntry.getType() == FundingRecord.Type.WITHDRAWAL && description.contains(",")) {
         txnId = description.substring(description.indexOf("txid: ") + "txid: ".length());
       }
-      FundingRecord fundingRecordEntry = new FundingRecord(address, responseEntry.getTimestamp(),
-          currency, responseEntry.getAmount(), txnId, responseEntry.getType(),
-          responseEntry.getStatus(), null, null, description);
+      FundingRecord fundingRecordEntry = new FundingRecord(address, responseEntry.getTimestamp(), currency, responseEntry.getAmount(), txnId,
+          responseEntry.getType(), responseEntry.getStatus(), null, null, description);
 
       fundingRecords.add(fundingRecordEntry);
     }

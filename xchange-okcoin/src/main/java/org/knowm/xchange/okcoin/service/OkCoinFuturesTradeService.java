@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 
 public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements TradeService {
 
-  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
   private final Logger log = LoggerFactory.getLogger(OkCoinFuturesTradeService.class);
 
   private final int leverRate;
@@ -63,7 +63,8 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     // TODO use params for currency pair
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
 
@@ -258,8 +259,8 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
     List<Order> openOrders = new ArrayList<>();
     List<OkCoinFuturesOrder> orderResults = new ArrayList<>(exchangeSymbols.size());

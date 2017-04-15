@@ -30,8 +30,8 @@ public interface EmpoExAuthenticated extends EmpoEx {
 
   @GET
   @Path("trade/cancel/{apiKey}/{orderId}/")
-  Map<String, Boolean> cancelEmpoExOrder(@PathParam("apiKey") String apiKey, @PathParam("orderId") String orderId)
-      throws IOException, EmpoExException;
+  Map<String, Boolean> cancelEmpoExOrder(@PathParam("apiKey") String apiKey,
+      @PathParam("orderId") String orderId) throws IOException, EmpoExException;
 
   @GET
   @Path("trade/buy/{apiKey}/{pairString}/{amount}/{price}/")

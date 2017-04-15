@@ -41,14 +41,14 @@ public class RippleMarketDataService extends RippleMarketDataServiceRaw implemen
   }
 
   @Override
-  public Ticker getTicker(final CurrencyPair currencyPair, final Object... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(final CurrencyPair currencyPair,
+      final Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
-  public Trades getTrades(final CurrencyPair currencyPair, final Object... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(final CurrencyPair currencyPair,
+      final Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

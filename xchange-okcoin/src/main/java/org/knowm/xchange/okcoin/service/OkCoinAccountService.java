@@ -64,7 +64,8 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(
+      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     String symbol = null;
     if (params instanceof TradeHistoryParamCurrency && ((TradeHistoryParamCurrency) params).getCurrency() != null) {
       symbol = OkCoinAdapters.adaptSymbol(((TradeHistoryParamCurrency) params).getCurrency());
@@ -104,8 +105,7 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
     private Currency currency;
     private CurrencyPair currencyPair;
 
-    public OkCoinFundingHistoryParams(final Integer pageNumber, final Integer pageLength,
-        final Currency currency, final CurrencyPair currencyPair) {
+    public OkCoinFundingHistoryParams(final Integer pageNumber, final Integer pageLength, final Currency currency, final CurrencyPair currencyPair) {
       super(pageLength, pageNumber);
       this.currency = currency;
       this.currencyPair = currencyPair;

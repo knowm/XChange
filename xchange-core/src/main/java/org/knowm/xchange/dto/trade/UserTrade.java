@@ -31,8 +31,7 @@ public class UserTrade extends Trade {
   private final Currency feeCurrency;
 
   /**
-   * This constructor is called to construct user's trade objects (in
-   * {@link TradeService#getTradeHistory(TradeHistoryParams)} implementations).
+   * This constructor is called to construct user's trade objects (in {@link TradeService#getTradeHistory(TradeHistoryParams)} implementations).
    *
    * @param type The trade type (BID side or ASK side)
    * @param tradableAmount The depth of this trade

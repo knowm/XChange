@@ -10,10 +10,8 @@ public class BitVcFuturesAccountInfo {
   private final BigDecimal availableMargin;
   private final BigDecimal frozenMargin;
 
-  public BitVcFuturesAccountInfo(
-      @JsonProperty("masterUsedMargin") final BigDecimal usedMargin,
-      @JsonProperty("availableMargin") final BigDecimal availableMargin,
-      @JsonProperty("frozenMargin") final BigDecimal frozenMargin) {
+  public BitVcFuturesAccountInfo(@JsonProperty("masterUsedMargin") final BigDecimal usedMargin,
+      @JsonProperty("availableMargin") final BigDecimal availableMargin, @JsonProperty("frozenMargin") final BigDecimal frozenMargin) {
 
     this.usedMargin = usedMargin;
     this.availableMargin = availableMargin;

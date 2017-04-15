@@ -13,9 +13,8 @@ public class PoloniexDepositsWithdrawalsResponse {
   private final List<PoloniexWithdrawal> withdrawals;
 
   @JsonCreator
-  public PoloniexDepositsWithdrawalsResponse(@JsonProperty("error") String error
-      , @JsonProperty("deposits") List<PoloniexDeposit> deposits
-      , @JsonProperty("withdrawals") List<PoloniexWithdrawal> withdrawals) {
+  public PoloniexDepositsWithdrawalsResponse(@JsonProperty("error") String error, @JsonProperty("deposits") List<PoloniexDeposit> deposits,
+      @JsonProperty("withdrawals") List<PoloniexWithdrawal> withdrawals) {
     if (error != null) {
       throw new ExchangeException(error);
     }

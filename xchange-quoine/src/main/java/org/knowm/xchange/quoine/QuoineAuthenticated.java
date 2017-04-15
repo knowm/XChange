@@ -29,62 +29,43 @@ public interface QuoineAuthenticated extends Quoine {
 
   @GET
   @Path("fiat_accounts")
-  FiatAccount[] getFiatAccountInfo(
-      @HeaderParam("X-Quoine-API-Version") int apiVersion,
-      @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+  FiatAccount[] getFiatAccountInfo(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
       @HeaderParam("Content-Type") String contentType) throws IOException;
 
   @GET
   @Path("crypto_accounts")
-  BitcoinAccount[] getCryptoAccountInfo(
-      @HeaderParam("X-Quoine-API-Version") int apiVersion,
-      @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+  BitcoinAccount[] getCryptoAccountInfo(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
       @HeaderParam("Content-Type") String contentType) throws IOException;
 
   @GET
   @Path("accounts/balance")
-  QuoineAccountBalance[] getAllBalance(
-      @HeaderParam("X-Quoine-API-Version") int apiVersion,
-      @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+  QuoineAccountBalance[] getAllBalance(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
       @HeaderParam("Content-Type") String contentType) throws IOException;
 
   @GET
   @Path("trading_accounts")
-  QuoineTradingAccountInfo[] getTradingAccountInfo(
-      @HeaderParam("X-Quoine-API-Version") int apiVersion,
-      @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
-      @HeaderParam("Content-Type") String contentType) throws IOException;
+  QuoineTradingAccountInfo[] getTradingAccountInfo(@HeaderParam("X-Quoine-API-Version") int apiVersion,
+      @HeaderParam("X-Quoine-Auth") ParamsDigest signer, @HeaderParam("Content-Type") String contentType) throws IOException;
 
   @POST
   @Path("orders/")
   @Consumes(MediaType.APPLICATION_JSON)
-  QuoineOrderResponse placeOrder(
-      @HeaderParam("X-Quoine-API-Version") int apiVersion,
-      @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
-      @HeaderParam("Content-Type") String contentTyp,
-      QuoineNewOrderRequestWrapper quoineNewOrderRequestWrapper) throws IOException;
+  QuoineOrderResponse placeOrder(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+      @HeaderParam("Content-Type") String contentTyp, QuoineNewOrderRequestWrapper quoineNewOrderRequestWrapper) throws IOException;
 
   @PUT
   @Path("orders/{order_id}/cancel")
-  QuoineOrderResponse cancelOrder(
-      @HeaderParam("X-Quoine-API-Version") int apiVersion,
-      @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
-      @HeaderParam("Content-Type") String contentTyp,
-      @PathParam("order_id") String orderID) throws IOException;
+  QuoineOrderResponse cancelOrder(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+      @HeaderParam("Content-Type") String contentTyp, @PathParam("order_id") String orderID) throws IOException;
 
   @GET
   @Path("orders/{order_id}")
-  QuoineOrderDetailsResponse orderDetails(
-      @HeaderParam("X-Quoine-API-Version") int apiVersion,
-      @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
-      @HeaderParam("Content-Type") String contentTyp,
-      @PathParam("order_id") String orderID) throws IOException;
+  QuoineOrderDetailsResponse orderDetails(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+      @HeaderParam("Content-Type") String contentTyp, @PathParam("order_id") String orderID) throws IOException;
 
   @GET
   @Path("orders")
-  QuoineOrdersList listOrders(
-      @HeaderParam("X-Quoine-API-Version") int apiVersion,
-      @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
+  QuoineOrdersList listOrders(@HeaderParam("X-Quoine-API-Version") int apiVersion, @HeaderParam("X-Quoine-Auth") ParamsDigest signer,
       @HeaderParam("Content-Type") String contentTyp) throws IOException;
 
 }

@@ -10,8 +10,8 @@ public enum BitfinexOrderFlags implements IOrderFlags {
   FILL_OR_KILL,
 
   /**
-   * This is an order which does not appear in the orderbook, and thus doesn't influence other market participants. the taker fee will apply
-   * to any trades.
+   * This is an order which does not appear in the orderbook, and thus doesn't influence other market participants. the taker fee will apply to any
+   * trades.
    */
   HIDDEN,
 

@@ -12,8 +12,8 @@ public class BitfinexReplaceOrderRequest extends BitfinexNewOrderRequest {
   @JsonProperty("use_remaining")
   protected boolean useRemaining = false;
 
-  public BitfinexReplaceOrderRequest(String nonce, long replaceOrderId, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side,
-      String type, boolean isHidden, boolean isPostOnly, boolean useRemaining) {
+  public BitfinexReplaceOrderRequest(String nonce, long replaceOrderId, String symbol, BigDecimal amount, BigDecimal price, String exchange,
+      String side, String type, boolean isHidden, boolean isPostOnly, boolean useRemaining) {
 
     super(nonce, symbol, amount, price, exchange, side, type, isHidden, isPostOnly);
 

@@ -58,7 +58,8 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     CurrencyPair currencyPair = null;
 
     if (params instanceof OpenOrdersParamCurrencyPair) {
@@ -89,8 +90,8 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
    * Not available from exchange since TheRock needs currency pair in order to return/show the order
    */
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 
@@ -100,7 +101,7 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
       throw new ExchangeException("TheRock API recquires " + TradeHistoryParamCurrencyPair.class.getName());
     }
     TradeHistoryParamCurrencyPair pairParams = (TradeHistoryParamCurrencyPair) params;
-    Long sinceTradeId = null;        // get all trades starting from a specific trade_id
+    Long sinceTradeId = null; // get all trades starting from a specific trade_id
     if (params instanceof TradeHistoryParamsIdSpan) {
       TradeHistoryParamsIdSpan trId = (TradeHistoryParamsIdSpan) params;
       try {
@@ -116,7 +117,8 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
       after = time.getStartTime();
       before = time.getEndTime();
     }
-    return TheRockAdapters.adaptUserTrades(getTheRockUserTrades(pairParams.getCurrencyPair(), sinceTradeId, after, before), pairParams.getCurrencyPair());
+    return TheRockAdapters.adaptUserTrades(getTheRockUserTrades(pairParams.getCurrencyPair(), sinceTradeId, after, before),
+        pairParams.getCurrencyPair());
   }
 
   @Override

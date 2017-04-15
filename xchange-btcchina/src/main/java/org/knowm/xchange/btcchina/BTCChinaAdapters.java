@@ -391,15 +391,17 @@ public final class BTCChinaAdapters {
 
   }
 
-  public static List<FundingRecord> adaptFundingHistory(final BTCChinaGetDepositsResponse depositsResponse, final BTCChinaGetWithdrawalsResponse withdrawalsResponse) {
+  public static List<FundingRecord> adaptFundingHistory(final BTCChinaGetDepositsResponse depositsResponse,
+      final BTCChinaGetWithdrawalsResponse withdrawalsResponse) {
 
     final List<FundingRecord> fundingRecords = new ArrayList<>();
 
     if (depositsResponse != null && depositsResponse.getResult() != null) {
       final BTCChinaDeposit[] deposits = depositsResponse.getResult().getDeposits();
       for (final BTCChinaDeposit deposit : deposits) {
-        FundingRecord fundingRecordEntry = new FundingRecord(deposit.getAddress(), adaptDate(deposit.getDate()), Currency.getInstance(deposit.getCurrency()),
-            deposit.getAmount(), String.valueOf(deposit.getId()), FundingRecord.Type.DEPOSIT, deposit.getStatus(), null, null, null);
+        FundingRecord fundingRecordEntry = new FundingRecord(deposit.getAddress(), adaptDate(deposit.getDate()),
+            Currency.getInstance(deposit.getCurrency()), deposit.getAmount(), String.valueOf(deposit.getId()), FundingRecord.Type.DEPOSIT,
+            deposit.getStatus(), null, null, null);
         fundingRecords.add(fundingRecordEntry);
       }
     }
@@ -407,8 +409,9 @@ public final class BTCChinaAdapters {
     if (withdrawalsResponse != null && withdrawalsResponse.getResult() != null) {
       final BTCChinaWithdrawal[] withdrawals = withdrawalsResponse.getResult().getWithdrawals();
       for (final BTCChinaWithdrawal withdrawal : withdrawals) {
-        FundingRecord fundingRecordEntry = new FundingRecord(withdrawal.getAddress(), adaptDate(withdrawal.getDate()), Currency.getInstance(withdrawal.getCurrency()),
-            withdrawal.getAmount(), String.valueOf(withdrawal.getId()), FundingRecord.Type.WITHDRAWAL, withdrawal.getStatus(), null, null, null);
+        FundingRecord fundingRecordEntry = new FundingRecord(withdrawal.getAddress(), adaptDate(withdrawal.getDate()),
+            Currency.getInstance(withdrawal.getCurrency()), withdrawal.getAmount(), String.valueOf(withdrawal.getId()), FundingRecord.Type.WITHDRAWAL,
+            withdrawal.getStatus(), null, null, null);
         fundingRecords.add(fundingRecordEntry);
       }
     }

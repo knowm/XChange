@@ -52,6 +52,6 @@ public final class BitcoinAverageAdapters {
     for (String currency : tickers.getTickers().keySet()) {
       currencyPairs.put(new CurrencyPair(BTC, Currency.getInstance(currency)), null);
     }
-    return new ExchangeMetaData(currencyPairs, Collections.<Currency, CurrencyMetaData>emptyMap(), null, null, null);
+    return new ExchangeMetaData(currencyPairs, Collections.<Currency, CurrencyMetaData> emptyMap(), null, null, null);
   }
 }

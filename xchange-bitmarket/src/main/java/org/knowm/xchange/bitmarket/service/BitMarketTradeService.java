@@ -40,29 +40,30 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements T
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     BitMarketOrdersResponse response = getBitMarketOpenOrders();
     return BitMarketAdapters.adaptOpenOrders(response.getData());
   }
 
   @Override
-  public String placeMarketOrder(MarketOrder marketOrder)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(
+      MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public String placeLimitOrder(LimitOrder limitOrder)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(
+      LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     BitMarketTradeResponse response = placeBitMarketOrder(limitOrder);
     return String.valueOf(response.getData().getId());
   }
 
   @Override
-  public boolean cancelOrder(String id)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(
+      String id) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     cancelBitMarketOrder(id);
     return true;
@@ -88,8 +89,8 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements T
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

@@ -20,11 +20,11 @@ public class Retries {
    * retryable, which can be any complex criteria that the user defines.
    * @return
    * @throws Exception If the exception isn't retryable, it's immediately thrown again. If it is retryable, then a RunTimeException is thrown after
-   *                   the allowed number of retries is exhausted.
+   * the allowed number of retries is exhausted.
    * @author Matija Mazi and Bryan Hernandez
    */
-  public static <V> V callWithRetries(int nAttempts, int initialRetrySec, Callable<V> action, IPredicate<Exception> retryableException)
-      throws Exception {
+  public static <V> V callWithRetries(int nAttempts, int initialRetrySec, Callable<V> action,
+      IPredicate<Exception> retryableException) throws Exception {
     int retryDelaySec = initialRetrySec;
     for (int attemptsLeftAfterThis = nAttempts - 1; attemptsLeftAfterThis >= 0; attemptsLeftAfterThis--) {
       try {

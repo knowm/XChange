@@ -148,8 +148,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     }
   }
 
-  public HitbtcExecutionReportResponse cancelOrderRaw(String clientOrderId, String cancelRequestClientOrderId, String symbol, String side)
-      throws IOException {
+  public HitbtcExecutionReportResponse cancelOrderRaw(String clientOrderId, String cancelRequestClientOrderId, String symbol,
+      String side) throws IOException {
 
     try {
       return hitbtc.postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, clientOrderId, cancelRequestClientOrderId, symbol,

@@ -42,8 +42,7 @@ public class LivecoinExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException {
-    List<LivecoinRestriction> products = ((LivecoinMarketDataServiceRaw) marketDataService)
-        .getConbaseExProducts();
+    List<LivecoinRestriction> products = ((LivecoinMarketDataServiceRaw) marketDataService).getConbaseExProducts();
     exchangeMetaData = LivecoinAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
     // System.out.println("JSON: " +
     // ObjectMapperHelper.toJSON(exchangeMetaData));

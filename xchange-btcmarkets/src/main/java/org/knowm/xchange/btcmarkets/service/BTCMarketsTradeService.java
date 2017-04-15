@@ -61,8 +61,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     return placeOrder(order.getCurrencyPair(), order.getType(), order.getTradableAmount(), order.getLimitPrice(), BTCMarketsOrder.Type.Limit);
   }
 
-  private String placeOrder(CurrencyPair currencyPair, Order.OrderType orderSide, BigDecimal amount, BigDecimal price, BTCMarketsOrder.Type orderType)
-      throws IOException {
+  private String placeOrder(CurrencyPair currencyPair, Order.OrderType orderSide, BigDecimal amount, BigDecimal price,
+      BTCMarketsOrder.Type orderType) throws IOException {
     BTCMarketsOrder.Side side = orderSide == BID ? BTCMarketsOrder.Side.Bid : BTCMarketsOrder.Side.Ask;
     final BTCMarketsPlaceOrderResponse orderResponse = placeBTCMarketsOrder(currencyPair, amount, price, side, orderType);
     return Long.toString(orderResponse.getId());
@@ -74,7 +74,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     BTCMarketsOrders openOrders = getBTCMarketsOpenOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair(), 50, null);
 
     return BTCMarketsAdapters.adaptOpenOrders(openOrders);
@@ -174,8 +175,8 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

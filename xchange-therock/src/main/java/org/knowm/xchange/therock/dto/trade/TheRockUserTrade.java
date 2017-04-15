@@ -19,10 +19,8 @@ public class TheRockUserTrade {
   private final long orderId;
   private final TheRockUserTradeTransaction feeTransaction;
 
-  public TheRockUserTrade(
-      @JsonProperty("id") long id, @JsonProperty("fund_id") String fundId
-      , @JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price
-      , @JsonProperty("date") Date date, @JsonProperty("side") Side tradeSide,
+  public TheRockUserTrade(@JsonProperty("id") long id, @JsonProperty("fund_id") String fundId, @JsonProperty("amount") BigDecimal amount,
+      @JsonProperty("price") BigDecimal price, @JsonProperty("date") Date date, @JsonProperty("side") Side tradeSide,
       @JsonProperty("order_id") long orderId, @JsonProperty("transactions") TheRockUserTradeTransaction[] transactions) {
     this.id = id;
     this.fundId = fundId;
@@ -93,9 +91,8 @@ public class TheRockUserTrade {
     private final BigDecimal price;
     private final String currency;
 
-    public TheRockUserTradeTransaction(@JsonProperty("id") long id, @JsonProperty("date") Date date
-        , @JsonProperty("type") TransactionType type, @JsonProperty("price") BigDecimal price
-        , @JsonProperty("currency") String currency) {
+    public TheRockUserTradeTransaction(@JsonProperty("id") long id, @JsonProperty("date") Date date, @JsonProperty("type") TransactionType type,
+        @JsonProperty("price") BigDecimal price, @JsonProperty("currency") String currency) {
       super();
       this.id = id;
       this.date = date;

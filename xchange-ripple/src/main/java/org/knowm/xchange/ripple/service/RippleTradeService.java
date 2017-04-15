@@ -49,13 +49,14 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return RippleAdapters.adaptOpenOrders(getOpenAccountOrders(), ripple.getRoundingScale());
   }
 
   @Override
-  public String placeMarketOrder(final MarketOrder order)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeMarketOrder(
+      final MarketOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -63,8 +64,8 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
    * @param order this should be a RippleLimitOrder object with the base and counter counterparties populated for any currency other than XRP.
    */
   @Override
-  public String placeLimitOrder(final LimitOrder order)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String placeLimitOrder(
+      final LimitOrder order) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     if (order instanceof RippleLimitOrder) {
       return placeOrder((RippleLimitOrder) order, ripple.validateOrderRequests());
     } else {
@@ -73,8 +74,8 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public boolean cancelOrder(final String orderId)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public boolean cancelOrder(
+      final String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return cancelOrder(orderId, ripple.validateOrderRequests());
   }
 
@@ -85,19 +86,18 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
    * this trade history query will result in many API calls without returning any trade history. In order to reduce the time and resources used in
    * these repeated calls In order to reduce the number of API calls a number of different methods can be used:
    * <ul>
-   * <li><b>RippleTradeHistoryHashLimit</b> set the  to the last known trade, this query will
-   * then terminate once it has been found.</li>
-   * <li><b>RippleTradeHistoryCount</b> set the  to restrict the number of trades to return,
-   * the default is {@link RippleTradeHistoryCount#DEFAULT_TRADE_COUNT_LIMIT}.</li>
-   * <li><b>RippleTradeHistoryCount</b> set the  to restrict the number of API calls that
-   * will be made during a single trade history query, the default is {@link RippleTradeHistoryCount#DEFAULT_API_CALL_COUNT}.</li>
+   * <li><b>RippleTradeHistoryHashLimit</b> set the to the last known trade, this query will then terminate once it has been found.</li>
+   * <li><b>RippleTradeHistoryCount</b> set the to restrict the number of trades to return, the default is
+   * {@link RippleTradeHistoryCount#DEFAULT_TRADE_COUNT_LIMIT}.</li>
+   * <li><b>RippleTradeHistoryCount</b> set the to restrict the number of API calls that will be made during a single trade history query, the default
+   * is {@link RippleTradeHistoryCount#DEFAULT_API_CALL_COUNT}.</li>
    * <li><b>TradeHistoryParamsTimeSpan</b> set the {@link TradeHistoryParamsTimeSpan#setStartTime(java.util.Date)} to limit the number of trades
    * searched for to those done since the given start time.</li> TradeHistoryParamsTimeSpan
    * </ul>
    *
    * @param params Can optionally implement {@RippleTradeHistoryAccount}, {@RippleTradeHistoryCount}, {@RippleTradeHistoryHashLimit},
-   * {@RippleTradeHistoryPreferredCurrencies}, {@link TradeHistoryParamPaging}, {@TradeHistoryParamCurrencyPair},
-   * {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams types will be ignored.
+   * {@RippleTradeHistoryPreferredCurrencies}, {@link TradeHistoryParamPaging}, {@TradeHistoryParamCurrencyPair}, {@link TradeHistoryParamsTimeSpan}.
+   * All other TradeHistoryParams types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(final TradeHistoryParams params) throws IOException {
@@ -124,8 +124,8 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

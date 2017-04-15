@@ -146,8 +146,8 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    * @return
    * @throws IOException
    */
-  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, String start, String end, String offset, Currency... assets)
-      throws IOException {
+  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, String start, String end, String offset,
+      Currency... assets) throws IOException {
 
     String ledgerTypeString = (ledgerType == null) ? "all" : ledgerType.toString().toLowerCase();
 

@@ -70,7 +70,6 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @GET
   @Path("payment/address/{currency}")
-  HitbtcDepositAddressResponse getHitbtcDepositAddress(@PathParam("currency") String currency,
-      @HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory,
-      @QueryParam("apikey") String apiKey) throws IOException, HitbtcException;
+  HitbtcDepositAddressResponse getHitbtcDepositAddress(@PathParam("currency") String currency, @HeaderParam("X-Signature") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey) throws IOException, HitbtcException;
 }

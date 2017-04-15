@@ -33,14 +33,14 @@ public interface QuadrigaCxAuthenticated {
   @POST
   @Path("buy")
   QuadrigaCxOrder buy(@FormParam("book") String book, @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
-      throws QuadrigaCxException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("price") BigDecimal price) throws QuadrigaCxException, IOException;
 
   @POST
   @Path("sell")
   QuadrigaCxOrder sell(@FormParam("book") String book, @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
-      throws QuadrigaCxException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("price") BigDecimal price) throws QuadrigaCxException, IOException;
 
   /**
    * @return true if order has been canceled.
@@ -60,8 +60,8 @@ public interface QuadrigaCxAuthenticated {
   @Path("user_transactions")
   QuadrigaCxUserTransaction[] getUserTransactions(@FormParam("book") String book, @FormParam("key") String apiKey,
       @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("limit") long numberOfTransactions, @FormParam("offset") long offset, @FormParam("sort") String sort)
-      throws QuadrigaCxException, IOException;
+      @FormParam("limit") long numberOfTransactions, @FormParam("offset") long offset,
+      @FormParam("sort") String sort) throws QuadrigaCxException, IOException;
 
   @POST
   @Path("balance")
@@ -81,12 +81,12 @@ public interface QuadrigaCxAuthenticated {
   @POST
   @Path("bitcoin_withdrawal")
   String withdrawBitcoin(@FormParam("key") String apiKey, @FormParam("signature") QuadrigaCxDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
-      throws QuadrigaCxException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address) throws QuadrigaCxException, IOException;
 
   @POST
   @Path("ether_withdrawal")
   String withdrawEther(@FormParam("key") String apiKey, @FormParam("signature") QuadrigaCxDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("address") String address)
-      throws QuadrigaCxException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address) throws QuadrigaCxException, IOException;
 }

@@ -27,8 +27,8 @@ public interface Bitfinex {
 
   @GET
   @Path("book/{symbol}")
-  BitfinexDepth getBook(@PathParam("symbol") String symbol, @QueryParam("limit_bids") int limit_bids, @QueryParam("limit_asks") int limit_asks)
-      throws IOException, BitfinexException;
+  BitfinexDepth getBook(@PathParam("symbol") String symbol, @QueryParam("limit_bids") int limit_bids,
+      @QueryParam("limit_asks") int limit_asks) throws IOException, BitfinexException;
 
   @GET
   @Path("book/{symbol}")

@@ -73,8 +73,9 @@ public final class BittrexAdapters {
     String[] currencies = bittrexOpenOrder.getExchange().split("-");
     CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
 
-    return new BittrexLimitOrder(type, bittrexOpenOrder.getQuantityRemaining(), pair, bittrexOpenOrder.getOrderUuid(), BittrexUtils.toDate(bittrexOpenOrder.getOpened()),
-        bittrexOpenOrder.getLimit(), bittrexOpenOrder.getQuantityRemaining(), bittrexOpenOrder.getPricePerUnit());
+    return new BittrexLimitOrder(type, bittrexOpenOrder.getQuantityRemaining(), pair, bittrexOpenOrder.getOrderUuid(),
+        BittrexUtils.toDate(bittrexOpenOrder.getOpened()), bittrexOpenOrder.getLimit(), bittrexOpenOrder.getQuantityRemaining(),
+        bittrexOpenOrder.getPricePerUnit());
   }
 
   public static List<LimitOrder> adaptOrders(BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {

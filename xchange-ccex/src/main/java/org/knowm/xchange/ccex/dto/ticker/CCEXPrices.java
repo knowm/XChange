@@ -40,8 +40,7 @@ public class CCEXPrices {
   static class CCEXPricesDeserializer extends JsonDeserializer<CCEXPrices> {
 
     @Override
-    public CCEXPrices deserialize(JsonParser jp, DeserializationContext ctxt)
-        throws IOException, JsonProcessingException {
+    public CCEXPrices deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
       Map<CurrencyPair, CCEXPrice> priceMap = new HashMap<>();
       ObjectCodec oc = jp.getCodec();

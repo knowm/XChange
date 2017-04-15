@@ -21,8 +21,7 @@ public class CCEXTradeServiceRaw extends CCEXBaseService {
   }
 
   public List<CCEXOpenorder> getCCEXOpenOrders() throws IOException {
-    CCEXGetopenordersResponse response = cCEXAuthenticated.getopenorders(apiKey, signatureCreator,
-        exchange.getNonceFactory());
+    CCEXGetopenordersResponse response = cCEXAuthenticated.getopenorders(apiKey, signatureCreator, exchange.getNonceFactory());
 
     if (response.isSuccess()) {
       return response.getResult();
@@ -34,8 +33,7 @@ public class CCEXTradeServiceRaw extends CCEXBaseService {
 
   public List<CCEXOrderhistory> getCCEXTradeHistory() throws IOException {
 
-    CCEXGetorderhistoryResponse response = cCEXAuthenticated.getorderhistory(apiKey, signatureCreator,
-        exchange.getNonceFactory());
+    CCEXGetorderhistoryResponse response = cCEXAuthenticated.getorderhistory(apiKey, signatureCreator, exchange.getNonceFactory());
 
     if (response.isSuccess()) {
       return response.getResult();
@@ -46,8 +44,7 @@ public class CCEXTradeServiceRaw extends CCEXBaseService {
 
   public boolean cancelCCEXLimitOrder(String uuid) throws IOException {
 
-    CCEXCancelResponse response = cCEXAuthenticated.cancel(apiKey, signatureCreator, exchange.getNonceFactory(),
-        uuid);
+    CCEXCancelResponse response = cCEXAuthenticated.cancel(apiKey, signatureCreator, exchange.getNonceFactory(), uuid);
 
     if (response.isSuccess()) {
       return true;
@@ -63,9 +60,8 @@ public class CCEXTradeServiceRaw extends CCEXBaseService {
     String rpair = limitOrder.getCurrencyPair().counter.toString().toLowerCase();
 
     if (limitOrder.getType() == OrderType.BID) {
-      CCEXBuySellLimitResponse response = cCEXAuthenticated.buylimit(apiKey, signatureCreator,
-          exchange.getNonceFactory(), lpair, rpair, limitOrder.getTradableAmount().toPlainString(),
-          limitOrder.getLimitPrice().toPlainString());
+      CCEXBuySellLimitResponse response = cCEXAuthenticated.buylimit(apiKey, signatureCreator, exchange.getNonceFactory(), lpair, rpair,
+          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
 
       if (response.isSuccess()) {
         return response.getResult().getUuid();
@@ -74,9 +70,8 @@ public class CCEXTradeServiceRaw extends CCEXBaseService {
       }
 
     } else {
-      CCEXBuySellLimitResponse response = cCEXAuthenticated.selllimit(apiKey, signatureCreator,
-          exchange.getNonceFactory(), lpair, rpair, limitOrder.getTradableAmount().toPlainString(),
-          limitOrder.getLimitPrice().toPlainString());
+      CCEXBuySellLimitResponse response = cCEXAuthenticated.selllimit(apiKey, signatureCreator, exchange.getNonceFactory(), lpair, rpair,
+          limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString());
 
       if (response.isSuccess()) {
         return response.getResult().getUuid();
