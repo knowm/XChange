@@ -77,7 +77,6 @@
 		<module>xchange-bitso</module>
 		<module>xchange-bitstamp</module>
 		<module>xchange-bittrex</module>
-		<module>xchange-huobi</module>
 		<module>xchange-bleutrade</module>
 		<module>xchange-blockchain</module>
 		<module>xchange-btc38</module>
@@ -102,6 +101,7 @@
 		<module>xchange-gdax</module>
 		<module>xchange-gemini</module>
 		<module>xchange-hitbtc</module>
+		<module>xchange-huobi</module>
 		<module>xchange-itbit</module>
 		<module>xchange-independentreserve</module>
 		<module>xchange-jubi</module>
@@ -144,7 +144,7 @@
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.7.21</version>
+				<version>1.7.25</version>
 			</dependency>
 
 			<!-- Rest client -->
@@ -158,26 +158,26 @@
 			<dependency>
 				<groupId>org.knowm.xchart</groupId>
 				<artifactId>xchart</artifactId>
-				<version>3.2.1</version>
+				<version>3.3.0</version>
 			</dependency>
 
 			<!--For String Joining, etc. -->
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-lang3</artifactId>
-				<version>3.4</version>
+				<version>3.5</version>
 			</dependency>
 
 			<!-- For FIX API -->
 			<dependency>
 				<groupId>org.quickfixj</groupId>
 				<artifactId>quickfixj-core</artifactId>
-				<version>1.6.2</version>
+				<version>1.6.3</version>
 			</dependency>
 			<dependency>
 				<groupId>org.quickfixj</groupId>
 				<artifactId>quickfixj-messages-fix44</artifactId>
-				<version>1.6.2</version>
+				<version>1.6.3</version>
 			</dependency>
 
 			<dependency>
@@ -190,7 +190,7 @@
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
-				<version>1.1.7</version>
+				<version>1.2.3</version>
 				<!-- Test scope prevents this implementation bleeding out to consuming 
 					applications -->
 				<scope>test</scope>
@@ -200,7 +200,7 @@
 			<dependency>
 				<groupId>org.reflections</groupId>
 				<artifactId>reflections</artifactId>
-				<version>0.9.10</version>
+				<version>0.9.11</version>
 			</dependency>
 
 		</dependencies>
@@ -221,7 +221,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>1.7.21</version>
+			<version>1.7.25</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -355,7 +355,6 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.1</version>
 				<configuration>
-					<quiet>true</quiet>
 					<source>1.7</source>
 					<target>1.7</target>
 					<showDeprecation>true</showDeprecation>
@@ -390,7 +389,7 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
+					<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.10.4</version>
 				<executions>
 					<execution>
