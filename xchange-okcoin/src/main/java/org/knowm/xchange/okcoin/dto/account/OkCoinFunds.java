@@ -17,7 +17,7 @@ public class OkCoinFunds {
 
     this.free = free;
     this.freezed = freezed;
-    this.borrow = borrow == null ? Collections.<String, BigDecimal> emptyMap() : borrow;
+    this.borrow = borrow == null ? Collections.<String, BigDecimal>emptyMap() : borrow;
   }
 
   public Map<String, BigDecimal> getFree() {

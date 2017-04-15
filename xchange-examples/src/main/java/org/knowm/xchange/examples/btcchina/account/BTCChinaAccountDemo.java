@@ -22,10 +22,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.utils.CertHelper;
 
 /**
- * @author ObsessiveOrange
- * <p>
  * Example showing the following:
- * </p>
+ * <p>
  * <ul>
  * <li>Connect to BTCChina exchange with authentication</li>
  * <li>View account balance</li>
