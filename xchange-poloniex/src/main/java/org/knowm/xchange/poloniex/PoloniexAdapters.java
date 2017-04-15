@@ -223,12 +223,15 @@ public class PoloniexAdapters {
     final ArrayList<FundingRecord> fundingRecords = new ArrayList<>();
     for (PoloniexDeposit d : poloFundings.getDeposits()) {
       fundingRecords.add(new FundingRecord(d.getAddress(), d.getTimestamp(), new Currency(d.getCurrency()),
-          d.getAmount(), null, d.getTxid(), DEPOSIT, d.getStatus(), null, null, d.getStatus()));
+          d.getAmount(), null, d.getTxid(), DEPOSIT, FundingRecord.Status.parse(d.getStatus()), null, null, d.getStatus()));
     }
     for (PoloniexWithdrawal w : poloFundings.getWithdrawals()) {
       final String[] statusParts = w.getStatus().split(": *");
-      final String status = statusParts[0];
-      // Known status values: COMPLETED, PENDING, PROCESSING. The latter two may be treated as the same here (or well defined + documented if different).
+      final String statusStr = statusParts[0];
+      FundingRecord.Status status = FundingRecord.Status.parse(statusStr);
+      if ("PENDING".equals(statusStr) && status == null) {
+        status = FundingRecord.Status.PROCESSING;
+      }
       final String externalId = statusParts.length == 1 ? null : statusParts[1];
       fundingRecords.add(new FundingRecord(w.getAddress(), w.getTimestamp(), new Currency(w.getCurrency()),
           w.getAmount(), String.valueOf(w.getWithdrawalNumber()), externalId, WITHDRAWAL, status, null, null, w.getStatus()));
