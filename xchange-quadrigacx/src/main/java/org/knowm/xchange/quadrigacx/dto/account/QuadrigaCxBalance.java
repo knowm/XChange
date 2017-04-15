@@ -13,10 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class QuadrigaCxBalance {
 
-  private Map<String, BigDecimal> currencyReserved = new HashMap<String, BigDecimal>();
-  private Map<String, BigDecimal> currencyAvailable = new HashMap<String, BigDecimal>();
-  private Map<String, BigDecimal> currencyBalance = new HashMap<String, BigDecimal>();
-  private List<Currency> currencies = new ArrayList<Currency>();
+  private Map<String, BigDecimal> currencyReserved = new HashMap<>();
+  private Map<String, BigDecimal> currencyAvailable = new HashMap<>();
+  private Map<String, BigDecimal> currencyBalance = new HashMap<>();
+  private List<Currency> currencies = new ArrayList<>();
 
   private final BigDecimal fee;
 

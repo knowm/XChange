@@ -150,7 +150,7 @@ public abstract class BaseExchange implements Exchange {
   @Override
   public List<CurrencyPair> getExchangeSymbols() {
 
-    return new ArrayList<CurrencyPair>(getExchangeMetaData().getCurrencyPairs().keySet());
+    return new ArrayList<>(getExchangeMetaData().getCurrencyPairs().keySet());
   }
 
   public String getMetaDataFileName(ExchangeSpecification exchangeSpecification) {

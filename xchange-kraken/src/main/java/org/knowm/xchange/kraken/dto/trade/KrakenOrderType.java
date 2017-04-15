@@ -35,7 +35,7 @@ public enum KrakenOrderType {
       return name().toLowerCase().replace("_", "-");
   }
   
-  private static final Map<String, KrakenOrderType> fromString = new HashMap<String, KrakenOrderType>();
+  private static final Map<String, KrakenOrderType> fromString = new HashMap<>();
 
   static {
     for (KrakenOrderType orderType : values())

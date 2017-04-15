@@ -40,7 +40,7 @@ public final class VircurexAdapters {
 
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> someOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
 
     for (BigDecimal[] order : someOrders) {
@@ -52,7 +52,7 @@ public final class VircurexAdapters {
 
   public static AccountInfo adaptAccountInfo(VircurexAccountInfoReturn vircurexAccountInfo) {
 
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
     Map<String, Map<String, BigDecimal>> funds = vircurexAccountInfo.getAvailableFunds();
 
     for (String lcCurrency : funds.keySet()) {
@@ -65,7 +65,7 @@ public final class VircurexAdapters {
 
   public static List<LimitOrder> adaptOpenOrders(List<VircurexOpenOrder> openOrders) {
 
-    ArrayList<LimitOrder> adaptedOrders = new ArrayList<LimitOrder>();
+    ArrayList<LimitOrder> adaptedOrders = new ArrayList<>();
 
     for (VircurexOpenOrder vircurexOpenOrder : openOrders) {
 

@@ -60,7 +60,7 @@ public class CexIOAdapters {
    */
   public static Trades adaptTrades(CexIOTrade[] cexioTrades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>();
+    List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
     for (CexIOTrade trade : cexioTrades) {
       long tradeId = trade.getTid();
@@ -117,7 +117,7 @@ public class CexIOAdapters {
    */
   public static Wallet adaptWallet(CexIOBalanceInfo balance) {
 
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
 
     // Adapt to XChange DTOs
     if (balance.getBalanceBTC() != null) {
@@ -190,7 +190,7 @@ public class CexIOAdapters {
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> o : orders) {
       checkArgument(o.size() == 2, "Expected a pair (price, amount) but got {0} elements.", o.size());
       limitOrders.add(createOrder(currencyPair, o, orderType));
@@ -212,7 +212,7 @@ public class CexIOAdapters {
 
   public static OpenOrders adaptOpenOrders(List<CexIOOrder> cexIOOrderList) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (CexIOOrder cexIOOrder : cexIOOrderList) {
       Order.OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? Order.OrderType.BID : Order.OrderType.ASK;

@@ -19,8 +19,8 @@ import org.knowm.xchange.kraken.service.KrakenBaseService;
 public class KrakenBaseServiceTest {
 
   private enum OtherExchangeFlags implements IOrderFlags {
-    OTHER;
-  };
+    OTHER
+  }
 
   @Test
   public void testDelimitSetOrderFlags() {
@@ -30,7 +30,7 @@ public class KrakenBaseServiceTest {
 
     assertThat(service.delimitSet(null)).isNull();
 
-    Set<IOrderFlags> flags = new HashSet<IOrderFlags>();
+    Set<IOrderFlags> flags = new HashSet<>();
     assertThat(service.delimitSet(flags)).isNull();
 
     flags.add(KrakenOrderFlags.NOMPP);

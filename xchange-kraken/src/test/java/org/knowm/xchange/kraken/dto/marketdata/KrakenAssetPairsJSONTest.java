@@ -21,7 +21,7 @@ public class KrakenAssetPairsJSONTest {
   @Before
   public void before() {
 
-    List<KrakenFee> fees = new ArrayList<KrakenFee>();
+    List<KrakenFee> fees = new ArrayList<>();
     fees.add(new KrakenFee(new BigDecimal("0"), new BigDecimal("0.3")));
     expectedAssetPairInfo = new KrakenAssetPair("XBTUSD", "currency", "XXBT", "currency", "ZUSD", "unit", 5, 8, new BigDecimal(1),
         new ArrayList<String>(), fees, "ZUSD", new BigDecimal(80), new BigDecimal(40));

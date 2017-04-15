@@ -1,9 +1,5 @@
 package org.knowm.xchange.poloniex.service;
 
-/**
- * @author Zach Holmes
- */
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -137,7 +133,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   private UserTrades getTradeHistory(CurrencyPair currencyPair, final Long startTime, final Long endTime) throws IOException {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     if (currencyPair == null) {
       HashMap<String, PoloniexUserTrade[]> poloniexUserTrades = returnTradeHistory(startTime, endTime);
       if (poloniexUserTrades != null) {

@@ -32,7 +32,6 @@ public final class BitcoiniumUtils {
    *
    * @param tradableIdentifier
    * @param currency
-   * @param exchange
    * @return
    */
   public static String createCurrencyPairString(String tradableIdentifier, String currency) {

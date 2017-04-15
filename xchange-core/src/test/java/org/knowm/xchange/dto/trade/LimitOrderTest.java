@@ -14,7 +14,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 
 public class LimitOrderTest {
   private enum TestFlags implements IOrderFlags {
-    TEST1, TEST2, TEST3;
+    TEST1, TEST2, TEST3
   }
 
   @Test

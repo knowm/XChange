@@ -49,7 +49,7 @@ public class BitMarketAdapters {
    */
   public static Wallet adaptWallet(BitMarketBalance balance) {
 
-    List<Balance> balances = new ArrayList<Balance>(balance.getAvailable().size());
+    List<Balance> balances = new ArrayList<>(balance.getAvailable().size());
 
     for (Map.Entry<String, BigDecimal> entry : balance.getAvailable().entrySet()) {
       Currency currency = Currency.getInstance(entry.getKey());
@@ -83,7 +83,7 @@ public class BitMarketAdapters {
 
   private static List<LimitOrder> transformArrayToLimitOrders(BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (BigDecimal[] order : orders) {
       limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
@@ -102,7 +102,7 @@ public class BitMarketAdapters {
 
   public static Trades adaptTrades(BitMarketTrade[] bitMarketTrades, CurrencyPair currencyPair) {
 
-    List<Trade> tradeList = new ArrayList<Trade>();
+    List<Trade> tradeList = new ArrayList<>();
 
     for (BitMarketTrade bitMarketTrade : bitMarketTrades) {
 
@@ -118,7 +118,7 @@ public class BitMarketAdapters {
 
   public static OpenOrders adaptOpenOrders(Map<String, Map<String, List<BitMarketOrder>>> ordersMap) {
 
-    List<LimitOrder> orders = new ArrayList<LimitOrder>();
+    List<LimitOrder> orders = new ArrayList<>();
 
     for (Map.Entry<String, Map<String, List<BitMarketOrder>>> rootEntry : ordersMap.entrySet()) {
       for (Map.Entry<String, List<BitMarketOrder>> entry : rootEntry.getValue().entrySet()) {
@@ -139,7 +139,7 @@ public class BitMarketAdapters {
 
   public static UserTrades adaptTradeHistory(BitMarketHistoryTrades historyTrades, BitMarketHistoryOperations historyOperations) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
 
     for (BitMarketHistoryTrade trade : historyTrades.getTrades()) {
       trades.add(createHistoryTrade(trade, historyOperations));

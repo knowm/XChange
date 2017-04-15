@@ -102,7 +102,7 @@ public class GeminiMarketDataServiceRaw extends GeminiBaseService {
 
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    List<CurrencyPair> currencyPairs = new ArrayList<>();
     for (String symbol : Gemini.getSymbols()) {
       currencyPairs.add(GeminiAdapters.adaptCurrencyPair(symbol));
     }

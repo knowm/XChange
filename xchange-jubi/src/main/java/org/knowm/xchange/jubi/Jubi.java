@@ -25,5 +25,5 @@ public interface Jubi {
    */
   @GET
   @Path("ticker/?coin={baseCurrency}")
-  public JubiTicker getTicker(@PathParam("baseCurrency") String baseCurrency) throws IOException;
+  JubiTicker getTicker(@PathParam("baseCurrency") String baseCurrency) throws IOException;
 }

@@ -13,7 +13,7 @@ public enum ExchangeEndpoint {
     this.endpointName = endpointName;
   }
 
-  public final static String getUrlBasingOnEndpoint(String sslUri, ExchangeEndpoint endpoint) {
+  public static String getUrlBasingOnEndpoint(String sslUri, ExchangeEndpoint endpoint) {
     return sslUri + "/Private/" + endpoint.endpointName;
 
   }

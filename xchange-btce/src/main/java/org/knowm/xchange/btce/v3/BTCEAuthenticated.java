@@ -131,7 +131,6 @@ public interface BTCEAuthenticated extends BTCE {
   /**
    * Author: Ondřej Novtný
    * 
-   * @param currency Currency to withdraw
    * @param amount Amount of withdrawal
    * @param address Withdrawall address
    * @return

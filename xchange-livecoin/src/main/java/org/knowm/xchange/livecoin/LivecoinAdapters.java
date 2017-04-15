@@ -1,7 +1,6 @@
 package org.knowm.xchange.livecoin;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,7 +53,7 @@ public class LivecoinAdapters {
 	private static List<LimitOrder> toLimitOrderList(LivecoinAsksBidsData[] levels, OrderType orderType,
 			CurrencyPair currencyPair) {
 
-		List<LimitOrder> allLevels = new ArrayList<LimitOrder>(levels.length);
+		List<LimitOrder> allLevels = new ArrayList<>(levels.length);
 		for (int i = 0; i < levels.length; i++) {
 			LivecoinAsksBidsData ask = levels[i];
 
@@ -84,7 +83,7 @@ public class LivecoinAdapters {
 
 	public static Trades adaptTrades(LivecoinTrade[] coinbaseExTrades, CurrencyPair currencyPair) {
 
-		List<Trade> trades = new ArrayList<Trade>(coinbaseExTrades.length);
+		List<Trade> trades = new ArrayList<>(coinbaseExTrades.length);
 
 		for (int i = 0; i < coinbaseExTrades.length; i++) {
 			LivecoinTrade trade = coinbaseExTrades[i];

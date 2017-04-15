@@ -129,7 +129,7 @@ public final class BTCChinaFIXAdapters {
   public static Wallet adaptWallet(AccountInfoResponse message) throws FieldNotFound {
 
     List<Group> groups = message.getGroups(org.knowm.xchange.btcchina.service.fix.field.Balance.FIELD);
-    List<Balance> balances = new ArrayList<Balance>(groups.size());
+    List<Balance> balances = new ArrayList<>(groups.size());
     for (Group group : groups) {
       Balance balance = new Balance(Currency.getInstance(group.getField(new quickfix.field.Currency()).getValue()),
           group.getField(new Amount()).getValue());

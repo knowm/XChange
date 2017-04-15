@@ -53,8 +53,7 @@ public class BTCChinaClient {
       protected void onAccountInfo(String accReqId, AccountInfo accountInfo, SessionID id) {
 
         log.info("accReqId: {}, accountInfo: {}", accReqId, accountInfo);
-      };
-
+      }
     };
 
     InputStream inputStream = BTCChinaClient.class.getResourceAsStream("client.cfg");

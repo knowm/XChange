@@ -27,19 +27,19 @@ public interface QuadrigaCxAuthenticated {
 
   @POST
   @Path("open_orders")
-  public QuadrigaCxOrder[] getOpenOrders(@FormParam("book") String book, @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws QuadrigaCxException, IOException;
+  QuadrigaCxOrder[] getOpenOrders(@FormParam("book") String book, @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                                  @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws QuadrigaCxException, IOException;
 
   @POST
   @Path("buy")
-  public QuadrigaCxOrder buy(@FormParam("book") String book, @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
+  QuadrigaCxOrder buy(@FormParam("book") String book, @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
       throws QuadrigaCxException, IOException;
 
   @POST
   @Path("sell")
-  public QuadrigaCxOrder sell(@FormParam("book") String book, @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
+  QuadrigaCxOrder sell(@FormParam("book") String book, @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, @FormParam("price") BigDecimal price)
       throws QuadrigaCxException, IOException;
 
   /**
@@ -47,20 +47,20 @@ public interface QuadrigaCxAuthenticated {
    */
   @POST
   @Path("cancel_order")
-  public boolean cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") String orderId) throws QuadrigaCxException, IOException;
+  boolean cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") String orderId) throws QuadrigaCxException, IOException;
 
   @POST
   @Path("user_transactions")
-  public QuadrigaCxUserTransaction[] getUserTransactions(@FormParam("book") String book, @FormParam("key") String apiKey,
-      @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("limit") long numberOfTransactions) throws QuadrigaCxException, IOException;
+  QuadrigaCxUserTransaction[] getUserTransactions(@FormParam("book") String book, @FormParam("key") String apiKey,
+                                                  @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+                                                  @FormParam("limit") long numberOfTransactions) throws QuadrigaCxException, IOException;
 
   @POST
   @Path("user_transactions")
-  public QuadrigaCxUserTransaction[] getUserTransactions(@FormParam("book") String book, @FormParam("key") String apiKey,
-      @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("limit") long numberOfTransactions, @FormParam("offset") long offset, @FormParam("sort") String sort)
+  QuadrigaCxUserTransaction[] getUserTransactions(@FormParam("book") String book, @FormParam("key") String apiKey,
+                                                  @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+                                                  @FormParam("limit") long numberOfTransactions, @FormParam("offset") long offset, @FormParam("sort") String sort)
       throws QuadrigaCxException, IOException;
 
   @POST

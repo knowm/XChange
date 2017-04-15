@@ -55,7 +55,7 @@ public final class BitsoAdapters {
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
       checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));
@@ -77,7 +77,7 @@ public final class BitsoAdapters {
    */
   public static Trades adaptTrades(BitsoTransaction[] transactions, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (BitsoTransaction tx : transactions) {
       Order.OrderType type;
@@ -111,7 +111,7 @@ public final class BitsoAdapters {
 
   public static UserTrades adaptTradeHistory(BitsoUserTransaction[] bitsoUserTransactions) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (BitsoUserTransaction bitsoUserTransaction : bitsoUserTransactions) {
       if (bitsoUserTransaction.getType().equals(BitsoUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.

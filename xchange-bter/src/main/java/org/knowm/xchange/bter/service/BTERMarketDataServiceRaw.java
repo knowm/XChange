@@ -70,7 +70,7 @@ public class BTERMarketDataServiceRaw extends BTERBaseService {
 
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>(bter.getPairs().getPairs());
+    List<CurrencyPair> currencyPairs = new ArrayList<>(bter.getPairs().getPairs());
     return currencyPairs;
   }
 }

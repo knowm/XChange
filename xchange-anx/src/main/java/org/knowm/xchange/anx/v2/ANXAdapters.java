@@ -92,7 +92,7 @@ public final class ANXAdapters {
    */
   public static List<LimitOrder> adaptOrders(List<ANXOrder> anxOrders, String tradedCurrency, String currency, String orderType, String id) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (ANXOrder anxOrder : anxOrders) {
       limitOrders.add(adaptOrder(anxOrder.getAmount(), anxOrder.getPrice(), tradedCurrency, currency, orderType, id, new Date(anxOrder.getStamp())));
@@ -103,7 +103,7 @@ public final class ANXAdapters {
 
   public static List<LimitOrder> adaptOrders(ANXOpenOrder[] anxOpenOrders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (ANXOpenOrder anxOpenOrder : anxOpenOrders) {
       limitOrders.add(adaptOrder(anxOpenOrder.getAmount().getValue(), anxOpenOrder.getPrice().getValue(), anxOpenOrder.getItem(),
@@ -138,7 +138,7 @@ public final class ANXAdapters {
    */
   public static Wallet adaptWallet(Map<String, ANXWallet> anxWallets) {
 
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
 
     for (ANXWallet anxWallet : anxWallets.values()) {
       Balance balance = adaptBalance(anxWallet);
@@ -177,7 +177,7 @@ public final class ANXAdapters {
    */
   public static Trades adaptTrades(List<ANXTrade> anxTrades) {
 
-    List<Trade> tradesList = new ArrayList<Trade>();
+    List<Trade> tradesList = new ArrayList<>();
     long latestTid = 0;
     for (ANXTrade anxTrade : anxTrades) {
       long tid = anxTrade.getTid();
@@ -231,7 +231,7 @@ public final class ANXAdapters {
 
   public static UserTrades adaptUserTrades(ANXTradeResult[] anxTradeResults, ANXMetaData meta) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>(anxTradeResults.length);
+    List<UserTrade> trades = new ArrayList<>(anxTradeResults.length);
     for (ANXTradeResult tradeResult : anxTradeResults) {
       trades.add(adaptUserTrade(tradeResult, meta));
     }

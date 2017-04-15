@@ -60,7 +60,7 @@ public class YoBitAdapters {
 	private static List<LimitOrder> toLimitOrderList(List<YoBitAsksBidsData> levels, OrderType orderType,
 			CurrencyPair currencyPair) {
 
-		List<LimitOrder> allLevels = new ArrayList<LimitOrder>(levels.size());
+		List<LimitOrder> allLevels = new ArrayList<>(levels.size());
 		for (int i = 0; i < levels.size(); i++) {
 			YoBitAsksBidsData ask = levels.get(i);
 
@@ -75,7 +75,7 @@ public class YoBitAdapters {
 
 		List<YoBitTrade> ctrades = coinbaseTrades.getTrades();
 
-		List<Trade> trades = new ArrayList<Trade>(ctrades.size());
+		List<Trade> trades = new ArrayList<>(ctrades.size());
 
 		int lastTrade = 0;
 

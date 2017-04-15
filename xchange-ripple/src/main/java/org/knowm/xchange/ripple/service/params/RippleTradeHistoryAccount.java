@@ -7,5 +7,5 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
  */
 public interface RippleTradeHistoryAccount extends TradeHistoryParams {
 
-  public String getAccount();
+  String getAccount();
 }

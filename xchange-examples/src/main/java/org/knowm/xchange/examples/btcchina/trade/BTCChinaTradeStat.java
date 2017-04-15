@@ -53,7 +53,7 @@ public class BTCChinaTradeStat {
    */
   private List<UserTrade> getUserTrades(Date startTime, Date endTime) throws IOException {
     final long start = startTime.getTime(), end = endTime.getTime();
-    final List<UserTrade> trades = new ArrayList<UserTrade>();
+    final List<UserTrade> trades = new ArrayList<>();
     final Integer pageLength = 1000;
     final String type = "all";
     final Integer startId = null;

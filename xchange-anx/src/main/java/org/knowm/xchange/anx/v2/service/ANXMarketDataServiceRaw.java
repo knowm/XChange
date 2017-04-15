@@ -69,7 +69,7 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
     try {
       if (i == 2) {
         ANXTicker anxTicker = getANXTicker(pathCurrencyPair);
-        Map<String, ANXTicker> ticker = new HashMap<String, ANXTicker>();
+        Map<String, ANXTicker> ticker = new HashMap<>();
         ticker.put(pathCurrencyPair.base.getCurrencyCode() + pathCurrencyPair.counter.getCurrencyCode(), anxTicker);
         return ticker;
       }
@@ -113,7 +113,7 @@ public class ANXMarketDataServiceRaw extends ANXBaseService {
     try {
       if (i == 2) {
         ANXDepthWrapper anxDepthWrapper = getANXFullOrderBook(pathCurrencyPair);
-        Map<String, ANXDepth> book = new HashMap<String, ANXDepth>();
+        Map<String, ANXDepth> book = new HashMap<>();
         book.put(pathCurrencyPair.base.getCurrencyCode() + pathCurrencyPair.counter.getCurrencyCode(), anxDepthWrapper.getAnxDepth());
         return book;
       }

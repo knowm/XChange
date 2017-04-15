@@ -49,8 +49,6 @@ public class Trade {
    *
    * @param type The trade type (BID side or ASK side)
    * @param tradableAmount The depth of this trade
-   * @param tradableIdentifier The exchange identifier (e.g. "BTC/USD")
-   * @param transactionCurrency The transaction currency (e.g. USD in BTC/USD)
    * @param price The price (either the bid or the ask)
    * @param timestamp The timestamp of the trade according to the exchange's server, null if not provided
    * @param id The id of the trade

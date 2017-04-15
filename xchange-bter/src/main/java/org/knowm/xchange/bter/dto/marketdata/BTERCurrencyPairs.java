@@ -43,7 +43,7 @@ public class BTERCurrencyPairs {
     @Override
     public BTERCurrencyPairs deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      final Set<CurrencyPair> pairs = new HashSet<CurrencyPair>();
+      final Set<CurrencyPair> pairs = new HashSet<>();
       final ObjectCodec oc = jp.getCodec();
       final JsonNode node = oc.readTree(jp);
       if (node.isArray()) {

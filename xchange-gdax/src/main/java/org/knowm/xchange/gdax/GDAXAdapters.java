@@ -98,7 +98,7 @@ public class GDAXAdapters {
 
   private static List<LimitOrder> toLimitOrderList(GDAXProductBookEntry[] levels, OrderType orderType, CurrencyPair currencyPair) {
 
-    List<LimitOrder> allLevels = new ArrayList<LimitOrder>(levels.length);
+    List<LimitOrder> allLevels = new ArrayList<>(levels.length);
     for (int i = 0; i < levels.length; i++) {
       GDAXProductBookEntry ask = levels[i];
 
@@ -110,7 +110,7 @@ public class GDAXAdapters {
   }
 
   public static Wallet adaptAccountInfo(GDAXAccount[] coinbaseExAccountInfo) {
-    List<Balance> balances = new ArrayList<Balance>(coinbaseExAccountInfo.length);
+    List<Balance> balances = new ArrayList<>(coinbaseExAccountInfo.length);
 
     for (int i = 0; i < coinbaseExAccountInfo.length; i++) {
       GDAXAccount account = coinbaseExAccountInfo[i];
@@ -122,7 +122,7 @@ public class GDAXAdapters {
   }
 
   public static OpenOrders adaptOpenOrders(GDAXOrder[] coinbaseExOpenOrders) {
-    List<LimitOrder> orders = new ArrayList<LimitOrder>(coinbaseExOpenOrders.length);
+    List<LimitOrder> orders = new ArrayList<>(coinbaseExOpenOrders.length);
 
     for (int i = 0; i < coinbaseExOpenOrders.length; i++) {
       GDAXOrder order = coinbaseExOpenOrders[i];
@@ -140,7 +140,7 @@ public class GDAXAdapters {
   }
 
   public static UserTrades adaptTradeHistory(GDAXFill[] coinbaseExFills) {
-    List<UserTrade> trades = new ArrayList<UserTrade>(coinbaseExFills.length);
+    List<UserTrade> trades = new ArrayList<>(coinbaseExFills.length);
 
     for (int i = 0; i < coinbaseExFills.length; i++) {
       GDAXFill fill = coinbaseExFills[i];
@@ -161,7 +161,7 @@ public class GDAXAdapters {
 
   public static Trades adaptTrades(GDAXTrade[] coinbaseExTrades, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>(coinbaseExTrades.length);
+    List<Trade> trades = new ArrayList<>(coinbaseExTrades.length);
 
     for (int i = 0; i < coinbaseExTrades.length; i++) {
       GDAXTrade trade = coinbaseExTrades[i];

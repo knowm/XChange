@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RippleNotifications extends RippleCommon {
 
-  private List<RippleNotification> notifications = new ArrayList<RippleNotification>();
+  private List<RippleNotification> notifications = new ArrayList<>();
 
   public List<RippleNotification> getNotifications() {
     return notifications;

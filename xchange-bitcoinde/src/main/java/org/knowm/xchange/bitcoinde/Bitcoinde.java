@@ -20,13 +20,13 @@ public interface Bitcoinde {
 
   @GET
   @Path("rate.json")
-  public BitcoindeRate getRate() throws IOException;
+  BitcoindeRate getRate() throws IOException;
 
   @GET
   @Path("orderbook.json")
-  public BitcoindeOrderBook getOrderBook() throws IOException;
+  BitcoindeOrderBook getOrderBook() throws IOException;
 
   @GET
   @Path("trades.json")
-  public BitcoindeTrade[] getTrades() throws IOException;
+  BitcoindeTrade[] getTrades() throws IOException;
 }

@@ -39,7 +39,7 @@ public class BleutradeAdapters {
   public static Set<CurrencyPair> adaptBleutradeCurrencyPairs(BleutradeMarketsReturn response) {
 
     List<BleutradeMarket> markets = response.getResult();
-    Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();
+    Set<CurrencyPair> currencyPairs = new HashSet<>();
 
     for (BleutradeMarket market : markets) {
       currencyPairs.add(BleutradeUtils.toCurrencyPair(market.getMarketName()));
@@ -69,8 +69,8 @@ public class BleutradeAdapters {
     List<BleutradeLevel> bleutradeAsks = bleutradeOrderBook.getSell();
     List<BleutradeLevel> bleutradeBids = bleutradeOrderBook.getBuy();
 
-    List<LimitOrder> asks = new ArrayList<LimitOrder>();
-    List<LimitOrder> bids = new ArrayList<LimitOrder>();
+    List<LimitOrder> asks = new ArrayList<>();
+    List<LimitOrder> bids = new ArrayList<>();
 
     for (BleutradeLevel ask : bleutradeAsks) {
 
@@ -93,7 +93,7 @@ public class BleutradeAdapters {
 
   public static Trades adaptBleutradeMarketHistory(List<BleutradeTrade> bleutradeTrades, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
 
     for (BleutradeTrade bleutradeTrade : bleutradeTrades) {
 
@@ -111,7 +111,7 @@ public class BleutradeAdapters {
 
   public static Wallet adaptBleutradeBalances(List<BleutradeBalance> bleutradeBalances) {
 
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
 
     for (BleutradeBalance bleutradeBalance : bleutradeBalances) {
       balances.add(new Balance(Currency.getInstance(bleutradeBalance.getCurrency()), bleutradeBalance.getBalance(), bleutradeBalance.getAvailable(),
@@ -124,7 +124,7 @@ public class BleutradeAdapters {
 
   public static OpenOrders adaptBleutradeOpenOrders(List<BleutradeOpenOrder> bleutradeOpenOrders) {
 
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> openOrders = new ArrayList<>();
 
     for (BleutradeOpenOrder bleuTradeOpenOrder : bleutradeOpenOrders) {
 
@@ -143,8 +143,8 @@ public class BleutradeAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(List<BleutradeCurrency> bleutradeCurrencies, List<BleutradeMarket> bleutradeMarkets) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = new HashMap<CurrencyPair, CurrencyPairMetaData>();
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<Currency, CurrencyMetaData>();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = new HashMap<>();
 
     for (BleutradeCurrency bleutradeCurrency : bleutradeCurrencies) {
       // the getTxFee parameter is the withdrawal charge in the currency in question

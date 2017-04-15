@@ -73,7 +73,7 @@ public class OkCoinDigest implements ParamsDigest {
         nameValueMap.remove("price");
       }
     }
-    final List<Map.Entry<String, String>> nameValueList = new ArrayList<Map.Entry<String, String>>(nameValueMap.entrySet());
+    final List<Map.Entry<String, String>> nameValueList = new ArrayList<>(nameValueMap.entrySet());
     Collections.sort(nameValueList, comparator);
 
     final Params newParams = Params.of();

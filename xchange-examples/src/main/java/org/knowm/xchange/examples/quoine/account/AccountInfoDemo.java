@@ -1,12 +1,12 @@
 package org.knowm.xchange.examples.quoine.account;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.quoine.QuoineExamplesUtils;
 import org.knowm.xchange.quoine.dto.account.FiatAccount;
-import org.knowm.xchange.quoine.dto.account.QuoineAccountInfo;
 import org.knowm.xchange.quoine.service.QuoineAccountServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
 
@@ -37,7 +37,7 @@ public class AccountInfoDemo {
 
     final FiatAccount[] quoineFiatAccountInfo = quoineAccountServiceRaw.getQuoineFiatAccountInfo();
 
-    System.out.println(quoineFiatAccountInfo.toString());
+    System.out.println(Arrays.toString(quoineFiatAccountInfo));
   }
 
 }

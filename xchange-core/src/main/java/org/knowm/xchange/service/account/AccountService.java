@@ -37,7 +37,7 @@ public interface AccountService extends BaseService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
    * Withdraw funds from this account. Allows to withdraw digital currency funds from the exchange account to an external address
@@ -52,7 +52,7 @@ public interface AccountService extends BaseService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
+  String withdrawFunds(Currency currency, BigDecimal amount, String address)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
@@ -67,7 +67,7 @@ public interface AccountService extends BaseService {
    *         implemented
    * @throws IOException - Indication that a networking error occurred while fetching JSON data
    */
-  public String requestDepositAddress(Currency currency, String... args)
+  String requestDepositAddress(Currency currency, String... args)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 
   /**
@@ -84,5 +84,5 @@ public interface AccountService extends BaseService {
    * @throws NotYetImplementedForExchangeException
    * @throws IOException
      */
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
+  List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException;
 }

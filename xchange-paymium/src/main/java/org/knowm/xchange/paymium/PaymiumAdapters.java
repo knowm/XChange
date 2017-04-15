@@ -70,7 +70,7 @@ public class PaymiumAdapters {
   private static List<LimitOrder> adaptMarketOrderToLimitOrder(List<PaymiumMarketOrder> PaymiumMarketOrders, OrderType orderType,
       CurrencyPair currencyPair) {
 
-    List<LimitOrder> orders = new ArrayList<LimitOrder>(PaymiumMarketOrders.size());
+    List<LimitOrder> orders = new ArrayList<>(PaymiumMarketOrders.size());
 
     for (PaymiumMarketOrder PaymiumMarketOrder : PaymiumMarketOrders) {
       LimitOrder limitOrder = new LimitOrder(orderType, PaymiumMarketOrder.getAmount(), currencyPair, null,
@@ -83,7 +83,7 @@ public class PaymiumAdapters {
 
   public static Trades adaptTrade(PaymiumTrade[] PaymiumTrades, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
 
     for (PaymiumTrade PaymiumTrade : PaymiumTrades) {
       Trade trade = new Trade(null, PaymiumTrade.getTraded_btc(), currencyPair, PaymiumTrade.getPrice(), new Date(PaymiumTrade.getCreated_at_int()),

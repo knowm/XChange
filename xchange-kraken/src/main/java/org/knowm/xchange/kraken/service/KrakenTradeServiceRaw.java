@@ -33,7 +33,6 @@ public class KrakenTradeServiceRaw extends KrakenBaseService {
    * Constructor
    *
    * @param exchange
-   * @param nonceFactory
    */
   public KrakenTradeServiceRaw(Exchange exchange) {
 

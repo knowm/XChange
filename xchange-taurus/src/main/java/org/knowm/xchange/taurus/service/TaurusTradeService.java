@@ -45,7 +45,7 @@ public class TaurusTradeService extends TaurusTradeServiceRaw implements TradeSe
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     TaurusOrder[] openOrders = getTaurusOpenOrders();
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (TaurusOrder taurusOrder : openOrders) {
       OrderType orderType = taurusOrder.getType();
       String id = taurusOrder.getId();

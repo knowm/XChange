@@ -37,12 +37,12 @@ public class CryptoFacilitiesOpenOrders extends CryptoFacilitiesResult {
   public String toString() {
 
     if (isSuccess()) {
-      String res = "CryptoFacilitiesOpenOrders [orders=";
+      StringBuilder res = new StringBuilder("CryptoFacilitiesOpenOrders [orders=");
       for (CryptoFacilitiesOpenOrder ord : orders)
-        res = res + ord.toString() + ", ";
-      res = res + " ]";
+        res.append(ord.toString()).append(", ");
+      res.append(" ]");
 
-      return res;
+      return res.toString();
     } else {
       return super.toString();
     }

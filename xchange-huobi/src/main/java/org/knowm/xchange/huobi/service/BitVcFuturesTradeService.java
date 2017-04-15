@@ -9,7 +9,6 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
-import org.knowm.xchange.huobi.BitVcFutures;
 import org.knowm.xchange.huobi.BitVcFuturesAdapter;
 import org.knowm.xchange.huobi.FuturesContract;
 import org.knowm.xchange.huobi.dto.trade.BitVcFuturesPlaceOrderResult;
@@ -17,7 +16,6 @@ import org.knowm.xchange.huobi.dto.trade.BitVcFuturesPositionByContract;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
-import si.mazi.rescu.RestProxyFactory;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -43,10 +41,9 @@ public class BitVcFuturesTradeService extends BitVcFuturesServiceRaw implements 
         public int getTradeType() {
             return tradeType;
         }
-    };
+    }
 
-
-    public BitVcFuturesTradeService(final Exchange exchange, final FuturesContract futuresContract) {
+  public BitVcFuturesTradeService(final Exchange exchange, final FuturesContract futuresContract) {
         super(exchange);
 
         this.futuresContract = futuresContract;

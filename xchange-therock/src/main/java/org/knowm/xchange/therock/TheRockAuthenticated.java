@@ -31,9 +31,9 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Produces(MediaType.APPLICATION_JSON)
 public interface TheRockAuthenticated {
 
-  final String X_TRT_SIGN = "X-TRT-SIGN";
-  final String X_TRT_KEY = "X-TRT-KEY";
-  final String X_TRT_NONCE = "X-TRT-NONCE";
+  String X_TRT_SIGN = "X-TRT-SIGN";
+  String X_TRT_KEY = "X-TRT-KEY";
+  String X_TRT_NONCE = "X-TRT-NONCE";
 
   //account
 

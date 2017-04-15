@@ -44,7 +44,7 @@ public class CCEXAdapters {
 
 	public static Trades adaptTrades(CCEXTrades cCEXTrades, CurrencyPair currencyPair) {
 
-		List<Trade> trades = new ArrayList<Trade>();
+		List<Trade> trades = new ArrayList<>();
 		List<CCEXTrade> cCEXTradestmp = cCEXTrades.getResult();
 
 		for (CCEXTrade cCEXTrade : cCEXTradestmp) {
@@ -82,7 +82,7 @@ public class CCEXAdapters {
 	public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType,
 			List<CCEXBuySellData> orders) {
 
-		List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+		List<LimitOrder> limitOrders = new ArrayList<>();
 		for (CCEXBuySellData ask : orders) {
 			limitOrders.add(createOrder(currencyPair, ask, orderType));
 		}
@@ -136,7 +136,7 @@ public class CCEXAdapters {
 
 	public static Wallet adaptWallet(List<CCEXBalance> balances) {
 
-		List<Balance> wallets = new ArrayList<Balance>(balances.size());
+		List<Balance> wallets = new ArrayList<>(balances.size());
 
 		for (CCEXBalance balance : balances) {
 			wallets.add(new Balance(Currency.getInstance(balance.getCurrency().toUpperCase()), balance.getBalance(),
@@ -150,7 +150,7 @@ public class CCEXAdapters {
 
 	public static List<LimitOrder> adaptOpenOrders(List<CCEXOpenorder> cCexOpenOrders) {
 
-		List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+		List<LimitOrder> openOrders = new ArrayList<>();
 
 		for (CCEXOpenorder order : cCexOpenOrders) {
 			openOrders.add(adaptOpenOrder(order));
@@ -171,7 +171,7 @@ public class CCEXAdapters {
 
 	public static List<UserTrade> adaptUserTrades(List<CCEXOrderhistory> cCEXOrderhistory) {
 
-		List<UserTrade> trades = new ArrayList<UserTrade>();
+		List<UserTrade> trades = new ArrayList<>();
 
 		for (CCEXOrderhistory cCEXTrade : cCEXOrderhistory) {
 			trades.add(adaptUserTrade(cCEXTrade));

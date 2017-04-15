@@ -2,6 +2,7 @@ package org.knowm.xchange.coinfloor.dto.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -48,11 +49,11 @@ public class CoinfloorUserTransaction {
 
   public CurrencyPair getCurrencyPair() {
     if (isTrade()) {
-      if (btc_gbp != BigDecimal.ZERO) {
+      if (!Objects.equals(btc_gbp, BigDecimal.ZERO)) {
         return CurrencyPair.BTC_GBP;
-      } else if (btc_usd != BigDecimal.ZERO) {
+      } else if (!Objects.equals(btc_usd, BigDecimal.ZERO)) {
         return CurrencyPair.BTC_USD;
-      } else if (btc_eur != BigDecimal.ZERO) {
+      } else if (!Objects.equals(btc_eur, BigDecimal.ZERO)) {
         return CurrencyPair.BTC_EUR;
       }
     }
@@ -61,11 +62,11 @@ public class CoinfloorUserTransaction {
 
   public BigDecimal getPrice() {
     if (isTrade()) {
-      if (btc_gbp != BigDecimal.ZERO) {
+      if (!Objects.equals(btc_gbp, BigDecimal.ZERO)) {
         return btc_gbp;
-      } else if (btc_usd != BigDecimal.ZERO) {
+      } else if (!Objects.equals(btc_usd, BigDecimal.ZERO)) {
         return btc_usd;
-      } else if (btc_eur != BigDecimal.ZERO) {
+      } else if (!Objects.equals(btc_eur, BigDecimal.ZERO)) {
         return btc_eur;
       }
     }
@@ -168,7 +169,7 @@ public class CoinfloorUserTransaction {
   }
 
   public enum TransactionType {
-    DEPOSIT, WITHDRAWAL, TRADE, UNKNOWN;
+    DEPOSIT, WITHDRAWAL, TRADE, UNKNOWN
   }
 
   public static class CoinfloorTransactionTypeDeserializer extends JsonDeserializer<TransactionType> {

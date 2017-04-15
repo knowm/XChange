@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.knowm.xchange.bittrex.v1.dto.account;
 
 import java.math.BigDecimal;

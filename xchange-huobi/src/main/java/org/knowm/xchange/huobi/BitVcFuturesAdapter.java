@@ -56,7 +56,7 @@ public class BitVcFuturesAdapter {
 
   private static List<LimitOrder> adaptOrderBook(BigDecimal[][] orders, OrderType type, CurrencyPair currencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
 
     for (int i = 0; i < orders.length; i++) {
       BigDecimal[] order = orders[i];
@@ -69,7 +69,7 @@ public class BitVcFuturesAdapter {
 
   public static Trades adaptTrades(BitVcFuturesTrade[] trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradeList = new ArrayList<Trade>(trades.length);
+    List<Trade> tradeList = new ArrayList<>(trades.length);
     for (BitVcFuturesTrade trade : trades) {
       tradeList.add(adaptTrade(trade, currencyPair));
     }

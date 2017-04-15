@@ -26,7 +26,7 @@ public enum CoinbaseAccountChangeCategory {
 
   static class CoinbaseCategoryDeserializer extends JsonDeserializer<CoinbaseAccountChangeCategory> {
 
-    private static final EnumFromStringHelper<CoinbaseAccountChangeCategory> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseAccountChangeCategory>(
+    private static final EnumFromStringHelper<CoinbaseAccountChangeCategory> FROM_STRING_HELPER = new EnumFromStringHelper<>(
         CoinbaseAccountChangeCategory.class);
 
     @Override

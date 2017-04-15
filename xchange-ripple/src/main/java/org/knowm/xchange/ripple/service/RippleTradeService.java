@@ -18,7 +18,6 @@ import org.knowm.xchange.ripple.dto.trade.IRippleTradeTransaction;
 import org.knowm.xchange.ripple.dto.trade.RippleLimitOrder;
 import org.knowm.xchange.ripple.service.params.RippleTradeHistoryAccount;
 import org.knowm.xchange.ripple.service.params.RippleTradeHistoryCount;
-import org.knowm.xchange.ripple.service.params.RippleTradeHistoryHashLimit;
 import org.knowm.xchange.ripple.service.params.RippleTradeHistoryParams;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
@@ -86,11 +85,11 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
    * this trade history query will result in many API calls without returning any trade history. In order to reduce the time and resources used in
    * these repeated calls In order to reduce the number of API calls a number of different methods can be used:
    * <ul>
-   * <li><b>RippleTradeHistoryHashLimit</b> set the {@link RippleTradeHistoryHashLimit#setHashLimit(String)} to the last known trade, this query will
+   * <li><b>RippleTradeHistoryHashLimit</b> set the  to the last known trade, this query will
    * then terminate once it has been found.</li>
-   * <li><b>RippleTradeHistoryCount</b> set the {@link RippleTradeHistoryCount#setTradeCountLimit(int)} to restrict the number of trades to return,
+   * <li><b>RippleTradeHistoryCount</b> set the  to restrict the number of trades to return,
    * the default is {@link RippleTradeHistoryCount#DEFAULT_TRADE_COUNT_LIMIT}.</li>
-   * <li><b>RippleTradeHistoryCount</b> set the {@link RippleTradeHistoryCount#setApiCallCountLimit(int)} to restrict the number of API calls that
+   * <li><b>RippleTradeHistoryCount</b> set the  to restrict the number of API calls that
    * will be made during a single trade history query, the default is {@link RippleTradeHistoryCount#DEFAULT_API_CALL_COUNT}.</li>
    * <li><b>TradeHistoryParamsTimeSpan</b> set the {@link TradeHistoryParamsTimeSpan#setStartTime(java.util.Date)} to limit the number of trades
    * searched for to those done since the given start time.</li> TradeHistoryParamsTimeSpan

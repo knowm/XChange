@@ -21,10 +21,10 @@ public enum BTCTradeSessionFactory {
 
   private Map<String, BTCTradeSession> sessions;
 
-  private BTCTradeSessionFactory() {
+  BTCTradeSessionFactory() {
 
     log.debug("Intializing session factory.");
-    sessions = new HashMap<String, BTCTradeSession>();
+    sessions = new HashMap<>();
   }
 
   /**

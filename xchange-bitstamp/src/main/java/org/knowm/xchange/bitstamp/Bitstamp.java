@@ -26,24 +26,24 @@ public interface Bitstamp {
    */
   @GET
   @Path("order_book/")
-  public BitstampOrderBook getOrderBook() throws IOException;
+  BitstampOrderBook getOrderBook() throws IOException;
 
   @GET
   @Path("ticker/")
-  public BitstampTicker getTicker() throws IOException;
+  BitstampTicker getTicker() throws IOException;
 
   /**
    * Returns descending list of transactions.
    */
   @GET
   @Path("transactions/")
-  public BitstampTransaction[] getTransactions() throws IOException;
+  BitstampTransaction[] getTransactions() throws IOException;
 
   /**
    * Returns descending list of transactions.
    */
   @GET
   @Path("transactions/")
-  public BitstampTransaction[] getTransactions(@QueryParam("time") String time) throws IOException;
+  BitstampTransaction[] getTransactions(@QueryParam("time") String time) throws IOException;
 
 }

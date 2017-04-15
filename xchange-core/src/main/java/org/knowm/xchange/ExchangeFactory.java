@@ -23,7 +23,7 @@ public enum ExchangeFactory {
   /**
    * Constructor
    */
-  private ExchangeFactory() {
+  ExchangeFactory() {
 
   }
 

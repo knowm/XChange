@@ -88,7 +88,7 @@ public class BTCETradeHistoryResult {
         type, amount, rate, timestamp, orderId, isYourOrder);
   }
 
-  public static enum Type {
+  public enum Type {
     buy, sell
   }
 }

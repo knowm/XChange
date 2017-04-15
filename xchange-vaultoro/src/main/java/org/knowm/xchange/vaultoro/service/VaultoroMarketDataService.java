@@ -51,8 +51,8 @@ public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw impl
 
     List<VaultoroOrderBook> vaultoroOrderBooks = super.getVaultoroOrderBook(arg0);
 
-    List<VaultoroOrder> asks = new ArrayList<VaultoroOrder>();
-    List<VaultoroOrder> bids = new ArrayList<VaultoroOrder>();
+    List<VaultoroOrder> asks = new ArrayList<>();
+    List<VaultoroOrder> bids = new ArrayList<>();
 
     for (VaultoroOrderBook vaultoroOrderBook : vaultoroOrderBooks) {
       asks.addAll(vaultoroOrderBook.getSells());

@@ -26,7 +26,7 @@ public enum CoinbaseButtonStyle {
 
   static class CoinbaseButtonStyleDeserializer extends JsonDeserializer<CoinbaseButtonStyle> {
 
-    private static final EnumFromStringHelper<CoinbaseButtonStyle> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseButtonStyle>(
+    private static final EnumFromStringHelper<CoinbaseButtonStyle> FROM_STRING_HELPER = new EnumFromStringHelper<>(
         CoinbaseButtonStyle.class);
 
     @Override

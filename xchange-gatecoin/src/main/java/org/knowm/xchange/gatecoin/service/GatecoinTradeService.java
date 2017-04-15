@@ -54,7 +54,7 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Tra
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     GatecoinOrderResult openOrdersResult = getGatecoinOpenOrders();
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (GatecoinOrder gatecoinOrder : openOrdersResult.getOrders()) {
       /* get side is order side (ask or bid) get type is order type, (limit or market) */
       OrderType orderType = gatecoinOrder.getSide() == 0 ? OrderType.BID : OrderType.ASK;

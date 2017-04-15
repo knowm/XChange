@@ -23,7 +23,7 @@ import org.knowm.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 public class HitbtcTradeServiceRaw extends HitbtcBaseService {
 
   // TODO move this to metadata
-  private static Map<CurrencyPair, BigDecimal> LOT_SIZES = new HashMap<CurrencyPair, BigDecimal>();
+  private static Map<CurrencyPair, BigDecimal> LOT_SIZES = new HashMap<>();
 
   static {
 

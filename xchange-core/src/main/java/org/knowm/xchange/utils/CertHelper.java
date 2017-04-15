@@ -112,13 +112,13 @@ public class CertHelper {
    */
   public static SSLSocketFactory createRestrictedSSLSocketFactory(String... disabledProtocolsAndCiphers) {
 
-    final Set<String> disabled = new CopyOnWriteArraySet<String>(Arrays.asList(disabledProtocolsAndCiphers));
+    final Set<String> disabled = new CopyOnWriteArraySet<>(Arrays.asList(disabledProtocolsAndCiphers));
 
     return new SSLSocketFactory() {
 
       private String[] filter(String[] original, String[] supported) throws IOException {
 
-        Set<String> filtered = new CopyOnWriteArraySet<String>(Arrays.asList(original));
+        Set<String> filtered = new CopyOnWriteArraySet<>(Arrays.asList(original));
         filtered.removeAll(disabled);
 
         if (filtered.isEmpty()) {

@@ -169,7 +169,7 @@ public class CoinbaseButton extends CoinbaseBaseResponse {
   @JsonIgnore
   public List<String> getSuggestedPrices() {
 
-    final List<String> suggestedPrices = new ArrayList<String>();
+    final List<String> suggestedPrices = new ArrayList<>();
     suggestedPrices.add(button.price1);
     suggestedPrices.add(button.price2);
     suggestedPrices.add(button.price3);

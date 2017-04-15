@@ -65,7 +65,7 @@ public class HuobiDigest implements ParamsDigest {
     nameValueMap.remove("sign");
     nameValueMap.put(secretKeyDigestName, secretKey);
 
-    final List<Map.Entry<String, String>> nameValueList = new ArrayList<Map.Entry<String, String>>(nameValueMap.entrySet());
+    final List<Map.Entry<String, String>> nameValueList = new ArrayList<>(nameValueMap.entrySet());
     Collections.sort(nameValueList, comparator);
 
     final Params newParams = Params.of();

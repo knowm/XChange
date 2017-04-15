@@ -41,7 +41,7 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
 
   public List<CexIOOrder> getCexIOOpenOrders(CurrencyPair currencyPair) throws IOException {
 
-    List<CexIOOrder> cexIOOrderList = new ArrayList<CexIOOrder>();
+    List<CexIOOrder> cexIOOrderList = new ArrayList<>();
 
     String tradableIdentifier = currencyPair.base.getCurrencyCode();
     String transactionCurrency = currencyPair.counter.getCurrencyCode();
@@ -60,7 +60,7 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
 
   public List<CexIOOrder> getCexIOOpenOrders() throws IOException {
 
-    List<CexIOOrder> cexIOOrderList = new ArrayList<CexIOOrder>();
+    List<CexIOOrder> cexIOOrderList = new ArrayList<>();
 
     for (CurrencyPair currencyPair : exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
       cexIOOrderList.addAll(getCexIOOpenOrders(currencyPair));

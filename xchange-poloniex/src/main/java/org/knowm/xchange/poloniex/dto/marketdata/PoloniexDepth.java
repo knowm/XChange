@@ -1,9 +1,5 @@
 package org.knowm.xchange.poloniex.dto.marketdata;
 
-/**
- * @author Zach Holmes
- */
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -14,9 +14,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class MyOpenOrders extends CampBXResponse {
 
   @JsonProperty("Buy")
-  private List<CampBXOrder> buy = new ArrayList<CampBXOrder>();
+  private List<CampBXOrder> buy = new ArrayList<>();
   @JsonProperty("Sell")
-  private List<CampBXOrder> sell = new ArrayList<CampBXOrder>();
+  private List<CampBXOrder> sell = new ArrayList<>();
 
   public List<CampBXOrder> getBuy() {
 

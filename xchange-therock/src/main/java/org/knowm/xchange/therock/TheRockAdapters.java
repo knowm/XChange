@@ -71,7 +71,7 @@ public final class TheRockAdapters {
 
   public static Trades adaptTrades(TheRockTrades trades, CurrencyPair currencyPair) throws InvalidFormatException {
 
-    List<Trade> tradesList = new ArrayList<Trade>(trades.getCount());
+    List<Trade> tradesList = new ArrayList<>(trades.getCount());
     long lastTradeId = 0;
     for (int i = 0; i < trades.getCount(); i++) {
       TheRockTrade trade = trades.getTrades()[i];

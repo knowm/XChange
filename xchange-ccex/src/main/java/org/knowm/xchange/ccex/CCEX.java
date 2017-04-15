@@ -39,14 +39,14 @@ public interface CCEX {
 	 */
 	@GET
 	@Path("api_pub.html?a=getorderbook&market={pair}&type=both&depth={depth}")
-	public CCEXGetorderbook getOrderBook(@PathParam("pair") Pair pair, @PathParam("depth") int depth) throws IOException;
+  CCEXGetorderbook getOrderBook(@PathParam("pair") Pair pair, @PathParam("depth") int depth) throws IOException;
 
 	/**
 	 * Returns Latest trades that have occured for a specific market.
 	 */
 	@GET
 	@Path("api_pub.html?a=getmarkethistory&market={pair}&count=100")
-	public CCEXTrades getTrades(@PathParam("pair") Pair pair) throws IOException;
+	CCEXTrades getTrades(@PathParam("pair") Pair pair) throws IOException;
 	
 	class Pair {
 		public final CurrencyPair pair;

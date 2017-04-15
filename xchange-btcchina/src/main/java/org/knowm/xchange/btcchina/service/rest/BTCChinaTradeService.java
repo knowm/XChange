@@ -61,13 +61,13 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Tra
 
   @Override
   public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    final List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    final List<LimitOrder> limitOrders = new ArrayList<>();
 
     List<LimitOrder> page;
     do {
       BTCChinaGetOrdersResponse response = getBTCChinaOrders(true, BTCChinaGetOrdersRequest.ALL_MARKET, null, limitOrders.size());
 
-      page = new ArrayList<LimitOrder>();
+      page = new ArrayList<>();
       page.addAll(BTCChinaAdapters.adaptOrders(response.getResult(), null));
 
       limitOrders.addAll(page);

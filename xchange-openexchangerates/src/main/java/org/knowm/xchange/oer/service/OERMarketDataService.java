@@ -39,20 +39,14 @@ public class OERMarketDataService extends OERMarketDataServiceRaw implements Mar
     Method method = null;
     try {
       method = OERRates.class.getMethod("get" + currencyPair.base.getCurrencyCode(), null);
-    } catch (SecurityException e) {
-      throw new ExchangeException("Problem getting exchange rate!", e);
-    } catch (NoSuchMethodException e) {
+    } catch (SecurityException | NoSuchMethodException e) {
       throw new ExchangeException("Problem getting exchange rate!", e);
     }
 
     Double exchangeRate = null;
     try {
       exchangeRate = (Double) method.invoke(rates, null);
-    } catch (IllegalArgumentException e) {
-      throw new ExchangeException("Problem getting exchange rate!", e);
-    } catch (IllegalAccessException e) {
-      throw new ExchangeException("Problem getting exchange rate!", e);
-    } catch (InvocationTargetException e) {
+    } catch (IllegalArgumentException | InvocationTargetException | IllegalAccessException e) {
       throw new ExchangeException("Problem getting exchange rate!", e);
     }
 

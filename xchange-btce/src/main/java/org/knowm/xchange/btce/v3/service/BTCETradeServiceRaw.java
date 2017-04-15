@@ -46,7 +46,7 @@ public class BTCETradeServiceRaw extends BTCEBaseService {
 
     BTCEOpenOrdersReturn orders = btce.ActiveOrders(apiKey, signatureCreator, exchange.getNonceFactory(), pair);
     if ("no orders".equals(orders.getError())) {
-      return new HashMap<Long, BTCEOrder>();
+      return new HashMap<>();
     }
     checkResult(orders);
     return orders.getReturnValue();

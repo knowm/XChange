@@ -1,6 +1,7 @@
 package org.knowm.xchange.coinfloor.dto.account;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.Balance;
@@ -46,13 +47,13 @@ public class CoinfloorBalance {
 
   public boolean hasCurrency(Currency currency) {
     if (currency.equals(Currency.BTC)) {
-      return btcBalance != BigDecimal.ZERO;
+      return !Objects.equals(btcBalance, BigDecimal.ZERO);
     } else if (currency.equals(Currency.GBP)) {
-      return gbpBalance != BigDecimal.ZERO;
+      return !Objects.equals(gbpBalance, BigDecimal.ZERO);
     } else if (currency.equals(Currency.EUR)) {
-      return eurBalance != BigDecimal.ZERO;
+      return !Objects.equals(eurBalance, BigDecimal.ZERO);
     } else if (currency.equals(Currency.USD)) {
-      return usdBalance != BigDecimal.ZERO;
+      return !Objects.equals(usdBalance, BigDecimal.ZERO);
     } else {
       return false;
     }

@@ -106,7 +106,7 @@ public class CexIOOrder {
         : String.format("Order{id=%s, time=%s, type=%s, price=%s, amount=%s, pending=%s}", id, time, type, price, amount, pending);
   }
 
-  public static enum Type {
+  public enum Type {
 
     buy, sell
   }

@@ -76,13 +76,13 @@ public class PoloniexAdapters {
 
   public static List<LimitOrder> adaptPoloniexPublicOrders(List<List<BigDecimal>> rawLevels, OrderType orderType, CurrencyPair currencyPair) {
 
-    List<PoloniexLevel> levels = new ArrayList<PoloniexLevel>();
+    List<PoloniexLevel> levels = new ArrayList<>();
 
     for (List<BigDecimal> rawLevel : rawLevels) {
       levels.add(adaptRawPoloniexLevel(rawLevel));
     }
 
-    List<LimitOrder> orders = new ArrayList<LimitOrder>();
+    List<LimitOrder> orders = new ArrayList<>();
 
     for (PoloniexLevel level : levels) {
 
@@ -100,7 +100,7 @@ public class PoloniexAdapters {
 
   public static Trades adaptPoloniexPublicTrades(PoloniexPublicTrade[] poloniexPublicTrades, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
 
     for (PoloniexPublicTrade poloniexTrade : poloniexPublicTrades) {
       trades.add(adaptPoloniexPublicTrade(poloniexTrade, currencyPair));
@@ -120,7 +120,7 @@ public class PoloniexAdapters {
 
   public static List<Balance> adaptPoloniexBalances(HashMap<String, PoloniexBalance> poloniexBalances) {
 
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
 
     for (Map.Entry<String, PoloniexBalance> item : poloniexBalances.entrySet()) {
 
@@ -133,7 +133,7 @@ public class PoloniexAdapters {
 
   public static LoanInfo adaptPoloniexLoans(HashMap<String, PoloniexLoan[]> poloniexLoans) {
 
-    Map<String, List<LoanOrder>> loans = new HashMap<String, List<LoanOrder>>();
+    Map<String, List<LoanOrder>> loans = new HashMap<>();
 
     for (Map.Entry<String, PoloniexLoan[]> item : poloniexLoans.entrySet()) {
       List<LoanOrder> loanOrders = new ArrayList<>();
@@ -150,7 +150,7 @@ public class PoloniexAdapters {
 
   public static OpenOrders adaptPoloniexOpenOrders(Map<String, PoloniexOpenOrder[]> poloniexOpenOrders) {
 
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> openOrders = new ArrayList<>();
     for (String pairString : poloniexOpenOrders.keySet()) {
       CurrencyPair currencyPair = PoloniexUtils.toCurrencyPair(pairString);
 

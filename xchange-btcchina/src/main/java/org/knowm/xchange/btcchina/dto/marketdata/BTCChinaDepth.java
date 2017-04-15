@@ -1,6 +1,7 @@
 package org.knowm.xchange.btcchina.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -44,6 +45,6 @@ public final class BTCChinaDepth {
   @Override
   public String toString() {
 
-    return "BTCChinaDepth [asks=" + asks + ", bids=" + bids + ", date=" + date + "]";
+    return "BTCChinaDepth [asks=" + Arrays.deepToString(asks) + ", bids=" + Arrays.deepToString(bids) + ", date=" + date + "]";
   }
 }

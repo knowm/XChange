@@ -67,7 +67,7 @@ public class WalletJSONTest {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ANXExchange.class.getName());
     ANXMetaData anxMetaData = ((ANXExchange) exchange).getANXMetaData();
 
-    Set<String> metadataCurrencyStrings = new TreeSet<String>();
+    Set<String> metadataCurrencyStrings = new TreeSet<>();
     for (Currency currency : anxMetaData.getCurrencies().keySet())
       metadataCurrencyStrings.add(currency.toString());
 

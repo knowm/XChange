@@ -77,7 +77,7 @@ public final class BTERAdapters {
 
   public static List<LimitOrder> adaptOrders(List<BTERPublicOrder> orders, CurrencyPair currencyPair, OrderType orderType) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (BTERPublicOrder bterOrder : orders) {
       limitOrders.add(adaptOrder(bterOrder, currencyPair, orderType));
@@ -110,7 +110,7 @@ public final class BTERAdapters {
 
   public static OpenOrders adaptOpenOrders(BTEROpenOrders openOrders, Collection<CurrencyPair> currencyPairs) {
 
-    List<LimitOrder> adaptedOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> adaptedOrders = new ArrayList<>();
     for (BTEROpenOrder openOrder : openOrders.getOrders()) {
       adaptedOrders.add(adaptOrder(openOrder, currencyPairs));
     }
@@ -133,7 +133,7 @@ public final class BTERAdapters {
 
   public static Trades adaptTrades(BTERTradeHistory tradeHistory, CurrencyPair currencyPair) {
 
-    List<Trade> tradeList = new ArrayList<Trade>();
+    List<Trade> tradeList = new ArrayList<>();
     long lastTradeId = 0;
     for (BTERPublicTrade trade : tradeHistory.getTrades()) {
       String tradeIdString = trade.getTradeId();
@@ -152,7 +152,7 @@ public final class BTERAdapters {
 
   public static Wallet adaptWallet(BTERFunds bterAccountInfo) {
 
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
     for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
       Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
       BigDecimal amount = funds.getValue();
@@ -166,7 +166,7 @@ public final class BTERAdapters {
 
   public static UserTrades adaptUserTrades(List<BTERTrade> userTrades) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     for (BTERTrade userTrade : userTrades) {
       trades.add(adaptUserTrade(userTrade));
     }
@@ -186,7 +186,7 @@ public final class BTERAdapters {
 
   public static ExchangeMetaData adaptToExchangeMetaData(Map<CurrencyPair, BTERMarketInfo> currencyPair2BTERMarketInfoMap) {
 
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
 
     for (Entry<CurrencyPair, BTERMarketInfo> entry : currencyPair2BTERMarketInfoMap.entrySet()) {
 

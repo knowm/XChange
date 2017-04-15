@@ -13,8 +13,8 @@ import org.knowm.xchange.kraken.KrakenAdapters;
  */
 public class KrakenUtils {
 
-  private static final Set<Currency> FIAT_CURRENCIES = new HashSet<Currency>();
-  private static final Set<Currency> DIGITAL_CURRENCIES = new HashSet<Currency>();
+  private static final Set<Currency> FIAT_CURRENCIES = new HashSet<>();
+  private static final Set<Currency> DIGITAL_CURRENCIES = new HashSet<>();
 
   static {
 

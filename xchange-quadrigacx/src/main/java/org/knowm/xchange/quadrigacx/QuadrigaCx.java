@@ -23,19 +23,19 @@ public interface QuadrigaCx {
    */
   @GET
   @Path("order_book?book={base}_{counter}")
-  public QuadrigaCxOrderBook getOrderBook(@PathParam("base") String base, @PathParam("counter") String counter)
+  QuadrigaCxOrderBook getOrderBook(@PathParam("base") String base, @PathParam("counter") String counter)
       throws QuadrigaCxException, IOException;
 
   @GET
   @Path("ticker?book={base}_{counter}")
-  public QuadrigaCxTicker getTicker(@PathParam("base") String base, @PathParam("counter") String counter) throws QuadrigaCxException, IOException;
+  QuadrigaCxTicker getTicker(@PathParam("base") String base, @PathParam("counter") String counter) throws QuadrigaCxException, IOException;
 
   /**
    * Returns descending list of transactions.
    */
   @GET
   @Path("transactions?book={base}_{counter}")
-  public QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base, @PathParam("counter") String counter)
+  QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base, @PathParam("counter") String counter)
       throws QuadrigaCxException, IOException;
 
   /**
@@ -43,7 +43,7 @@ public interface QuadrigaCx {
    */
   @GET
   @Path("transactions?book={base}_{counter}")
-  public QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base, @PathParam("counter") String counter,
-      @QueryParam("time") String time) throws QuadrigaCxException, IOException;
+  QuadrigaCxTransaction[] getTransactions(@PathParam("base") String base, @PathParam("counter") String counter,
+                                          @QueryParam("time") String time) throws QuadrigaCxException, IOException;
 
 }

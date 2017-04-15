@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CCEXTrades {
 	private final Boolean success;
 	private final String message;
-	private List<CCEXTrade> result = new ArrayList<CCEXTrade>();
+	private List<CCEXTrade> result = new ArrayList<>();
 
 	/**
 	 * 

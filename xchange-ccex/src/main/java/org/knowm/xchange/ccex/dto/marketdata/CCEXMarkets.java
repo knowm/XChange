@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CCEXMarkets {
 	private final Boolean success;
 	private final String message;
-	private List<CCEXMarket> result = new ArrayList<CCEXMarket>();
+	private List<CCEXMarket> result = new ArrayList<>();
 	
 	public CCEXMarkets(
 			@JsonProperty("success") Boolean success, 
