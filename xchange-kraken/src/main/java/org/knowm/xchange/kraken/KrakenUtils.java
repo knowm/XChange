@@ -48,7 +48,14 @@ public class KrakenUtils {
   }
 
   public static String createKrakenCurrencyPair(CurrencyPair currencyPair) {
-
+    // DASH is a strange exception for X and Z adds.
+  	if ("DASH".equals(currencyPair.base.getCurrencyCode())) {
+		  Currency counter = currencyPair.counter;
+		  if (counter.getIso4217Currency() != null) {
+			  counter = currencyPair.counter.getIso4217Currency();
+	    }		
+	    return currencyPair.base.getCurrencyCode() + counter.getCurrencyCode();	
+	  }
     return createKrakenCurrencyPair(currencyPair.base, currencyPair.counter);
   }
 
