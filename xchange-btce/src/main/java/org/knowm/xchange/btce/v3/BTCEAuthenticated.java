@@ -16,6 +16,7 @@ import org.knowm.xchange.btce.v3.dto.account.BTCEWithDrawInfoReturn;
 import org.knowm.xchange.btce.v3.dto.trade.BTCECancelOrderReturn;
 import org.knowm.xchange.btce.v3.dto.trade.BTCEOpenOrdersReturn;
 import org.knowm.xchange.btce.v3.dto.trade.BTCEOrder;
+import org.knowm.xchange.btce.v3.dto.trade.BTCEOrderInfoReturn;
 import org.knowm.xchange.btce.v3.dto.trade.BTCEPlaceOrderReturn;
 import org.knowm.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
 import org.knowm.xchange.btce.v3.dto.trade.BTCETransHistoryReturn;
@@ -127,6 +128,19 @@ public interface BTCEAuthenticated extends BTCE {
   enum SortOrder {
     ASC, DESC
   }
+  
+  /**
+   * POST to retrieve order info from BTCE exchange.
+   *
+   * @param orderId The ID of the order to display
+   * @return JSON like {success=1, return={<code>orderId</code>={pair="btc_usd",type="sell",start_amount=13.345, amount=12.345,
+   * rate=485, timestamp_created=1342448420, status=0}}}
+   */
+  @POST
+  @Path("tapi")
+  @FormParam("method")
+  BTCEOrderInfoReturn OrderInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("order_id") Long orderId) throws IOException;
 
   /**
    * Author: Ondřej Novtný
