@@ -17,9 +17,11 @@ import org.knowm.xchange.btce.v3.dto.marketdata.BTCETicker;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCETrade;
 import org.knowm.xchange.btce.v3.dto.meta.BTCEMetaData;
 import org.knowm.xchange.btce.v3.dto.trade.BTCEOrder;
+import org.knowm.xchange.btce.v3.dto.trade.BTCEOrderInfoResult;
 import org.knowm.xchange.btce.v3.dto.trade.BTCETradeHistoryResult;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
@@ -198,6 +200,40 @@ public final class BTCEAdapters {
       trades.add(new UserTrade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId, null, (Currency) null));
     }
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
+  }
+
+  /**
+   * Adapts a BTCEOrderInfoResult to a LimitOrder
+   *
+   * @param orderId Order original id
+   * @param orderInfo
+   * @return
+   */
+  public static LimitOrder adaptOrderInfo(String orderId, BTCEOrderInfoResult orderInfo) {
+      
+    OrderType orderType = orderInfo.getType() == BTCEOrderInfoResult.Type.buy ? OrderType.BID : OrderType.ASK;
+    BigDecimal price = orderInfo.getRate();
+    Date timestamp = DateUtils.fromMillisUtc(orderInfo.getTimestampCreated() * 1000L);
+    CurrencyPair currencyPair = adaptCurrencyPair(orderInfo.getPair());
+    OrderStatus orderStatus = null;
+    switch (orderInfo.getStatus()) {
+        case 0:
+            if (orderInfo.getAmount().compareTo(orderInfo.getStartAmount()) == 0){
+                orderStatus = OrderStatus.NEW;
+            } else {
+                orderStatus = OrderStatus.PARTIALLY_FILLED;
+            }
+            break;
+        case 1:
+            orderStatus = OrderStatus.FILLED;
+            break;
+        case 2:
+        case 3:
+            orderStatus = OrderStatus.CANCELED;
+            break;
+    }
+
+    return new LimitOrder(orderType, orderInfo.getStartAmount(), currencyPair, orderId, timestamp, price, price, orderInfo.getStartAmount().subtract(orderInfo.getAmount()), orderStatus);
   }
 
   public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
