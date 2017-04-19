@@ -9,25 +9,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PoloniexDepositsWithdrawalsResponse {
 
-    private final List<PoloniexDeposit> deposits;
-    private final List<PoloniexWithdrawal> withdrawals;
+  private final List<PoloniexDeposit> deposits;
+  private final List<PoloniexWithdrawal> withdrawals;
 
-    @JsonCreator
-    public PoloniexDepositsWithdrawalsResponse(@JsonProperty("error") String error
-            , @JsonProperty("deposits") List<PoloniexDeposit> deposits
-            , @JsonProperty("withdrawals") List<PoloniexWithdrawal> withdrawals) {
-        if (error != null) {
-            throw new ExchangeException(error);
-        }
-        this.deposits = deposits;
-        this.withdrawals = withdrawals;
+  @JsonCreator
+  public PoloniexDepositsWithdrawalsResponse(@JsonProperty("error") String error, @JsonProperty("deposits") List<PoloniexDeposit> deposits,
+      @JsonProperty("withdrawals") List<PoloniexWithdrawal> withdrawals) {
+    if (error != null) {
+      throw new ExchangeException(error);
     }
+    this.deposits = deposits;
+    this.withdrawals = withdrawals;
+  }
 
-    public List<PoloniexDeposit> getDeposits() { return deposits; }
-    public List<PoloniexWithdrawal> getWithdrawals() { return withdrawals; }
+  public List<PoloniexDeposit> getDeposits() {
+    return deposits;
+  }
 
-    @Override
-    public String toString() {
-        return "DepositsWithdrawalsResponse [deposits=" + deposits + ", withdrawals=" + withdrawals + "]";
-    }
+  public List<PoloniexWithdrawal> getWithdrawals() {
+    return withdrawals;
+  }
+
+  @Override
+  public String toString() {
+    return "DepositsWithdrawalsResponse [deposits=" + deposits + ", withdrawals=" + withdrawals + "]";
+  }
 }

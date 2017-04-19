@@ -14,5 +14,3 @@ public class WithdrawStatusResult extends KrakenResult<List<WithdrawStatus>> {
   }
 
 }
-
-

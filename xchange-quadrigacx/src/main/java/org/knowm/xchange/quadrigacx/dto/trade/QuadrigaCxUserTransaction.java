@@ -19,7 +19,7 @@ public final class QuadrigaCxUserTransaction {
   private final BigDecimal rate;
   private final BigDecimal fee;
   private final String method;
-  private Map<String, BigDecimal> currencyAmount = new HashMap<String, BigDecimal>();
+  private Map<String, BigDecimal> currencyAmount = new HashMap<>();
 
   /**
    * Constructor

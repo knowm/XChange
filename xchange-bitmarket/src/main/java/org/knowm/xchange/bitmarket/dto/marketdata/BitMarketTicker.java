@@ -19,7 +19,7 @@ public final class BitMarketTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param ask
    * @param bid
    * @param last

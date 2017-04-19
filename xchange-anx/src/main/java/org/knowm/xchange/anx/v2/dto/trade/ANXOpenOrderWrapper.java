@@ -13,7 +13,7 @@ public class ANXOpenOrderWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param anxOpenOrders
    * @param error

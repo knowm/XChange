@@ -67,7 +67,7 @@ public abstract class RippleAdapters {
   public static AccountInfo adaptAccountInfo(final RippleAccountBalances account, final String username) {
 
     // Adapt account balances to XChange balances
-    final Map<String, List<Balance>> balances = new HashMap<String, List<Balance>>();
+    final Map<String, List<Balance>> balances = new HashMap<>();
     for (final RippleBalance balance : account.getBalances()) {
       final String walletId;
       if (balance.getCurrency().equals("XRP")) {
@@ -81,7 +81,7 @@ public abstract class RippleAdapters {
       balances.get(walletId).add(new Balance(Currency.getInstance(balance.getCurrency()), balance.getValue()));
     }
 
-    final List<Wallet> accountInfo = new ArrayList<Wallet>(balances.size());
+    final List<Wallet> accountInfo = new ArrayList<>(balances.size());
     for (final Map.Entry<String, List<Balance>> wallet : balances.entrySet()) {
       accountInfo.add(new Wallet(wallet.getKey(), wallet.getValue()));
     }
@@ -140,7 +140,7 @@ public abstract class RippleAdapters {
 
   public static List<LimitOrder> createOrders(final CurrencyPair currencyPair, final OrderType orderType, final List<RippleOrder> orders,
       final String baseCounterparty, final String counterCounterparty) {
-    final List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    final List<LimitOrder> limitOrders = new ArrayList<>();
     for (final RippleOrder rippleOrder : orders) {
 
       // Taker Pays = the amount the taker must pay to consume this order.
@@ -172,7 +172,7 @@ public abstract class RippleAdapters {
    * Counterparties set in additional data since there is no other way of the application receiving this information.
    */
   public static OpenOrders adaptOpenOrders(final RippleAccountOrders rippleOrders, final int scale) {
-    final List<LimitOrder> list = new ArrayList<LimitOrder>(rippleOrders.getOrders().size());
+    final List<LimitOrder> list = new ArrayList<>(rippleOrders.getOrders().size());
     for (final RippleAccountOrdersBody order : rippleOrders.getOrders()) {
 
       final OrderType orderType;
@@ -360,7 +360,7 @@ public abstract class RippleAdapters {
 
   public static UserTrades adaptTrades(final Collection<IRippleTradeTransaction> tradesForAccount, final TradeHistoryParams params,
       final RippleAccountService accountService, final int roundingScale) throws IOException {
-    final List<UserTrade> trades = new ArrayList<UserTrade>();
+    final List<UserTrade> trades = new ArrayList<>();
     for (final IRippleTradeTransaction orderDetails : tradesForAccount) {
       final UserTrade trade = adaptTrade(orderDetails, params, accountService, roundingScale);
       if (trade == null) {

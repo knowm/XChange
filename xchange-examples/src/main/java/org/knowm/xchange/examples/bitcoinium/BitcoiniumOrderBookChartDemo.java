@@ -78,7 +78,7 @@ public class BitcoiniumOrderBookChartDemo {
 
   private static List<Float> getPriceData(CondensedOrder[] condensedOrders) {
 
-    List<Float> priceData = new ArrayList<Float>();
+    List<Float> priceData = new ArrayList<>();
     for (int i = 0; i < condensedOrders.length; i++) {
       priceData.add(condensedOrders[i].getPrice().floatValue());
     }
@@ -87,7 +87,7 @@ public class BitcoiniumOrderBookChartDemo {
 
   private static List<Float> getVolumeData(CondensedOrder[] condensedOrders) {
 
-    List<Float> volumeData = new ArrayList<Float>();
+    List<Float> volumeData = new ArrayList<>();
     for (int i = 0; i < condensedOrders.length; i++) {
       volumeData.add(condensedOrders[i].getVolume().floatValue());
     }

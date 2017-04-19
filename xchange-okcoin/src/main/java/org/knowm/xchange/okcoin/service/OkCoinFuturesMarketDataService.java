@@ -12,7 +12,9 @@ import org.knowm.xchange.okcoin.OkCoinAdapters;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class OkCoinFuturesMarketDataService extends OkCoinMarketDataServiceRaw implements MarketDataService {
-  /** Default contract to use */
+  /**
+   * Default contract to use
+   */
   private final FuturesContract futuresContract;
 
   /**

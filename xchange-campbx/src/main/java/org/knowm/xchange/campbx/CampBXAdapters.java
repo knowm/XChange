@@ -20,7 +20,7 @@ public final class CampBXAdapters {
 
   /**
    * CampBXOrderBook to a OrderBook Object
-   * 
+   *
    * @param orderBook
    * @param currencyPair (e.g. BTC/USD)
    * @return
@@ -34,7 +34,7 @@ public final class CampBXAdapters {
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
       checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));
@@ -56,7 +56,7 @@ public final class CampBXAdapters {
 
   /**
    * Adapts a CampBXTicker to a Ticker Object
-   * 
+   *
    * @param campbxTicker
    * @param currencyPair (e.g. BTC/USD)
    * @return

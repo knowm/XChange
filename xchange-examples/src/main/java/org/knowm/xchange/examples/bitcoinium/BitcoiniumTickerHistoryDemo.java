@@ -44,8 +44,8 @@ public class BitcoiniumTickerHistoryDemo {
 
     System.out.println(bitcoiniumTickerHistory.toString());
 
-    List<Date> xAxisData = new ArrayList<Date>();
-    List<Float> yAxisData = new ArrayList<Float>();
+    List<Date> xAxisData = new ArrayList<>();
+    List<Float> yAxisData = new ArrayList<>();
     for (int i = 0; i < bitcoiniumTickerHistory.getCondensedTickers().length; i++) {
 
       BitcoiniumTicker bitcoiniumTicker = bitcoiniumTickerHistory.getCondensedTickers()[i];

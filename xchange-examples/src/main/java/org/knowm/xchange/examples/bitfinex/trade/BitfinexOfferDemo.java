@@ -42,7 +42,7 @@ public class BitfinexOfferDemo {
     System.out.println("Open offers response: " + Arrays.toString(openOffers));
 
     for (BitfinexOfferStatusResponse offer : openOffers) {
-      BitfinexOfferStatusResponse cancelResponse = tradeService.cancelBitfinexOffer(Integer.toString(offer.getId()));
+      BitfinexOfferStatusResponse cancelResponse = tradeService.cancelBitfinexOffer(Long.toString(offer.getId()));
       System.out.println("Cancel offer response: " + cancelResponse);
     }
   }

@@ -21,46 +21,45 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(using = YoBitPricesDeserializer.class)
 public class YoBitPairs {
-	private final Map<CurrencyPair, YoBitPair> pair;
+  private final Map<CurrencyPair, YoBitPair> pair;
 
-	private YoBitPairs(Map<CurrencyPair, YoBitPair> pair) {
-		this.pair = pair;
-	}
+  private YoBitPairs(Map<CurrencyPair, YoBitPair> pair) {
+    this.pair = pair;
+  }
 
-	public Map<CurrencyPair, YoBitPair> getPrice() {
-		return pair;
-	}
+  public Map<CurrencyPair, YoBitPair> getPrice() {
+    return pair;
+  }
 
-	@Override
-	public String toString() {
-		return "YoBitPairs [pair=" + pair + "]";
-	}
+  @Override
+  public String toString() {
+    return "YoBitPairs [pair=" + pair + "]";
+  }
 
-	static class YoBitPricesDeserializer extends JsonDeserializer<YoBitPairs> {
+  static class YoBitPricesDeserializer extends JsonDeserializer<YoBitPairs> {
 
-		@Override
-		public YoBitPairs deserialize(JsonParser jp, DeserializationContext ctxt)
-				throws IOException, JsonProcessingException {
+    @Override
+    public YoBitPairs deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-			Map<CurrencyPair, YoBitPair> priceMap = new HashMap<CurrencyPair, YoBitPair>();
-			ObjectCodec oc = jp.getCodec();
-			JsonNode node = oc.readTree(jp);
-			if (node.isObject()) {
-				Iterator<Entry<String, JsonNode>> priceEntryIter = node.fields();
-				while (priceEntryIter.hasNext()) {
-					Entry<String, JsonNode> priceEntryNode = priceEntryIter.next();
+      Map<CurrencyPair, YoBitPair> priceMap = new HashMap<>();
+      ObjectCodec oc = jp.getCodec();
+      JsonNode node = oc.readTree(jp);
+      if (node.isObject()) {
+        Iterator<Entry<String, JsonNode>> priceEntryIter = node.fields();
+        while (priceEntryIter.hasNext()) {
+          Entry<String, JsonNode> priceEntryNode = priceEntryIter.next();
 
-					String pairString = priceEntryNode.getKey();
-					CurrencyPair pair = YoBitAdapters.adaptCurrencyPair(pairString);
+          String pairString = priceEntryNode.getKey();
+          CurrencyPair pair = YoBitAdapters.adaptCurrencyPair(pairString);
 
-					JsonNode priceNode = priceEntryNode.getValue();
-					YoBitPair price = YoBitPairDeserializer.deserializeFromNode(priceNode);
+          JsonNode priceNode = priceEntryNode.getValue();
+          YoBitPair price = YoBitPairDeserializer.deserializeFromNode(priceNode);
 
-					priceMap.put(pair, price);
-				}
-			}
+          priceMap.put(pair, price);
+        }
+      }
 
-			return new YoBitPairs(priceMap);
-		}
-	}
+      return new YoBitPairs(priceMap);
+    }
+  }
 }

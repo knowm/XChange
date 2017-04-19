@@ -39,7 +39,7 @@ public class CoinbaseAdapterTest {
   public void testAdaptAccountInfo() throws IOException {
 
     Balance balance = new Balance(Currency.BTC, new BigDecimal("7.10770000"));
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
     balances.add(balance);
     AccountInfo expectedAccountInfo = new AccountInfo("demo@demo.com", new Wallet(balances));
 
@@ -99,12 +99,8 @@ public class CoinbaseAdapterTest {
 
     is = CoinbaseAdapterTest.class.getResourceAsStream("/marketdata/example-spot-rate-history-data.json");
     String spotPriceHistoryString;
-    Scanner scanner = null;
-    try {
-      scanner = new Scanner(is);
+    try (Scanner scanner = new Scanner(is)) {
       spotPriceHistoryString = scanner.useDelimiter("\\A").next();
-    } finally {
-      scanner.close();
     }
 
     CoinbaseSpotPriceHistory spotPriceHistory = CoinbaseSpotPriceHistory.fromRawString(spotPriceHistoryString);

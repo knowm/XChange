@@ -18,7 +18,7 @@ import si.mazi.rescu.RestInvocation;
 
 public class HuobiDigest implements ParamsDigest {
 
-  private static final char[] DIGITS_LOWER = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+  private static final char[] DIGITS_LOWER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
   private final String secretKey;
   private final String secretKeyDigestName;
@@ -31,7 +31,6 @@ public class HuobiDigest implements ParamsDigest {
       return o1.getKey().compareTo(o2.getKey());
     }
   };
-
 
   public HuobiDigest(String secretKey, String secretKeySignatureName) {
 
@@ -65,7 +64,7 @@ public class HuobiDigest implements ParamsDigest {
     nameValueMap.remove("sign");
     nameValueMap.put(secretKeyDigestName, secretKey);
 
-    final List<Map.Entry<String, String>> nameValueList = new ArrayList<Map.Entry<String, String>>(nameValueMap.entrySet());
+    final List<Map.Entry<String, String>> nameValueList = new ArrayList<>(nameValueMap.entrySet());
     Collections.sort(nameValueList, comparator);
 
     final Params newParams = Params.of();

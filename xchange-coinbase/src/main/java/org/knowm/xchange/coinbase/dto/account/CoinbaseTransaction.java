@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-//NOTE: Order of imports matters. put fasterxml ones before xchange. Fails when compiling with Maven for some reason. 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,6 +20,8 @@ import org.knowm.xchange.coinbase.dto.account.CoinbaseUser.CoinbaseUserInfo;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
 import org.knowm.xchange.coinbase.dto.serialization.EnumFromStringHelper;
 import org.knowm.xchange.utils.jackson.ISO8601DateDeserializer;
+
+//NOTE: Order of imports matters. put fasterxml ones before xchange. Fails when compiling with Maven for some reason.
 
 /**
  * @author jamespedwards42
@@ -123,7 +123,7 @@ public class CoinbaseTransaction extends CoinbaseBaseResponse implements Coinbas
 
     static class CoinbaseTransactionStatusDeserializer extends JsonDeserializer<CoinbaseTransactionStatus> {
 
-      private static final EnumFromStringHelper<CoinbaseTransactionStatus> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseTransactionStatus>(
+      private static final EnumFromStringHelper<CoinbaseTransactionStatus> FROM_STRING_HELPER = new EnumFromStringHelper<>(
           CoinbaseTransactionStatus.class);
 
       @Override

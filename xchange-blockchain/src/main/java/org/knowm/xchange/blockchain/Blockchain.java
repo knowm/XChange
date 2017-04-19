@@ -21,7 +21,7 @@ public interface Blockchain {
 
   @GET
   @Path("address/{address}?format=json")
-  public BitcoinAddress getBitcoinAddress(@PathParam("address") String address) throws IOException;
+  BitcoinAddress getBitcoinAddress(@PathParam("address") String address) throws IOException;
 
   /**
    * @param addresses - Pipe (|) separated addresses
@@ -29,5 +29,5 @@ public interface Blockchain {
    */
   @GET
   @Path("multiaddr")
-  public BitcoinAddresses getBitcoinAddresses(@QueryParam("active") String addresses) throws IOException;
+  BitcoinAddresses getBitcoinAddresses(@QueryParam("active") String addresses) throws IOException;
 }

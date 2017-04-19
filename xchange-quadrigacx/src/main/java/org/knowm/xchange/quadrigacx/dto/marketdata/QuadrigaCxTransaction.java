@@ -14,7 +14,7 @@ public class QuadrigaCxTransaction {
 
   /**
    * Constructor
-   * 
+   *
    * @param date Unix timestamp date and time
    * @param tid Transaction id
    * @param price BTC price

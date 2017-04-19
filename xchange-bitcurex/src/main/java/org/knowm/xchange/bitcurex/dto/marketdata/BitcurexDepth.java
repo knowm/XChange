@@ -12,7 +12,7 @@ public class BitcurexDepth {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

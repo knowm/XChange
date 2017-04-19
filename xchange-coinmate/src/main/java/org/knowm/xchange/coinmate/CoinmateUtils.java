@@ -27,7 +27,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 
 /**
  * Conversion between XChange CurrencyPair and Coinmate API
- * 
+ *
  * @author Martin Stachon
  */
 public class CoinmateUtils {

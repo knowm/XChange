@@ -1,49 +1,49 @@
 {
-   "recurring_payments":[
-      {
-         "recurring_payment":{
-            "id":"530522c5610d7c296200015b",
-            "created_at":"2014-02-19T13:31:49-08:00",
-            "status":"active",
-            "custom":"",
-            "button":{
-               "type":"subscription",
-               "name":"Rent",
-               "description":"Rent Test",
-               "id":"efb115b9c24100b59a4977c4dbcc5ca1"
-            }
-         }
-      },
-      {
-         "recurring_payment":{
-            "id":"530522a12b8d66acb5000166",
-            "created_at":"2014-02-19T13:31:13-08:00",
-            "status":"canceled",
-            "custom":"",
-            "button":{
-               "type":"subscription",
-               "name":"Rent",
-               "description":"Rent Test",
-               "id":"efb115b9c24100b59a4977c4dbcc5ca1"
-            }
-         }
-      },
-      {
-         "recurring_payment":{
-            "id":"530521a574f68a2a0000015f",
-            "created_at":"2014-02-19T13:27:01-08:00",
-            "status":"canceled",
-            "custom":"",
-            "button":{
-               "type":"subscription",
-               "name":"Rent",
-               "description":"Rent Test",
-               "id":"efb115b9c24100b59a4977c4dbcc5ca1"
-            }
-         }
+  "recurring_payments": [
+    {
+      "recurring_payment": {
+        "id": "530522c5610d7c296200015b",
+        "created_at": "2014-02-19T13:31:49-08:00",
+        "status": "active",
+        "custom": "",
+        "button": {
+          "type": "subscription",
+          "name": "Rent",
+          "description": "Rent Test",
+          "id": "efb115b9c24100b59a4977c4dbcc5ca1"
+        }
       }
-   ],
-   "total_count":3,
-   "num_pages":1,
-   "current_page":1
+    },
+    {
+      "recurring_payment": {
+        "id": "530522a12b8d66acb5000166",
+        "created_at": "2014-02-19T13:31:13-08:00",
+        "status": "canceled",
+        "custom": "",
+        "button": {
+          "type": "subscription",
+          "name": "Rent",
+          "description": "Rent Test",
+          "id": "efb115b9c24100b59a4977c4dbcc5ca1"
+        }
+      }
+    },
+    {
+      "recurring_payment": {
+        "id": "530521a574f68a2a0000015f",
+        "created_at": "2014-02-19T13:27:01-08:00",
+        "status": "canceled",
+        "custom": "",
+        "button": {
+          "type": "subscription",
+          "name": "Rent",
+          "description": "Rent Test",
+          "id": "efb115b9c24100b59a4977c4dbcc5ca1"
+        }
+      }
+    }
+  ],
+  "total_count": 3,
+  "num_pages": 1,
+  "current_page": 1
 }

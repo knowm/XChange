@@ -46,7 +46,7 @@ public class QuoineAdapters {
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<BigDecimal[]> orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (BigDecimal[] ask : orders) {
       checkArgument(ask.length == 2, "Expected a pair (price, amount) but got {0} elements.", ask.length);
       limitOrders.add(createOrder(currencyPair, ask, orderType));
@@ -67,7 +67,7 @@ public class QuoineAdapters {
   }
 
   public static Wallet adaptTradingWallet(QuoineTradingAccountInfo[] quoineWallet) {
-    List<Balance> balances = new ArrayList<Balance>(quoineWallet.length);
+    List<Balance> balances = new ArrayList<>(quoineWallet.length);
 
     for (int i = 0; i < quoineWallet.length; i++) {
       QuoineTradingAccountInfo info = quoineWallet[i];
@@ -81,7 +81,7 @@ public class QuoineAdapters {
 
   public static Wallet adaptFiatAccountWallet(FiatAccount[] fiatAccounts) {
 
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
 
     for (FiatAccount fiatAccount : fiatAccounts) {
       Balance fiatBalance = new Balance(Currency.getInstance(fiatAccount.getCurrency()), fiatAccount.getBalance(), fiatAccount.getBalance());
@@ -94,7 +94,7 @@ public class QuoineAdapters {
 
   public static Wallet adaptWallet(QuoineAccountInfo quoineWallet) {
 
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
 
     // Adapt to XChange DTOs
     Balance btcBalance = new Balance(Currency.getInstance(quoineWallet.getBitcoinAccount().getCurrency()),
@@ -112,7 +112,7 @@ public class QuoineAdapters {
 
   public static OpenOrders adapteOpenOrders(QuoineOrdersList quoineOrdersList) {
 
-    List<LimitOrder> openOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> openOrders = new ArrayList<>();
     for (Model model : quoineOrdersList.getModels()) {
       if (model.getStatus().equals("live")) {
 

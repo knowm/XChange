@@ -29,24 +29,23 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
   }
 
   @Override
-  public AccountInfo getAccountInfo()
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     BitMarketAccountInfo accountInfo = getBitMarketAccountInfo().getData();
     return new AccountInfo(exchange.getExchangeSpecification().getUserName(), BitMarketAdapters.adaptWallet(accountInfo.getBalance()));
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount,
+      String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     BitMarketWithdrawResponse response = withdrawFromBitMarket(currency.toString(), amount, address);
     return response.getData();
   }
 
   @Override
-  public String requestDepositAddress(Currency currency, String... strings)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String requestDepositAddress(Currency currency,
+      String... strings) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     BitMarketDepositResponse response = depositToBitMarket(currency.toString());
     return response.getData();
@@ -58,7 +57,8 @@ public class BitMarketAccountService extends BitMarketAccountServiceRaw implemen
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+  public List<FundingRecord> getFundingHistory(
+      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

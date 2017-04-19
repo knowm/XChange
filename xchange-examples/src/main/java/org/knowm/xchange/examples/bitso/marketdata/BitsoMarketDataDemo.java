@@ -18,7 +18,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Depth at Bitso
- * 
+ *
  * @author Piotr Ładyżyński
  */
 public class BitsoMarketDataDemo {
@@ -55,7 +55,7 @@ public class BitsoMarketDataDemo {
     System.out.println(orderBook.toString());
 
     // Get trades within the last hour
-    Object[] args = { "hour" };
+    Object[] args = {"hour"};
     List<Trade> trades = marketDataService.getTrades(cp, args).getTrades();
     System.out.println("Number Trades within last hour: " + trades.size());
     for (Trade t : trades) {

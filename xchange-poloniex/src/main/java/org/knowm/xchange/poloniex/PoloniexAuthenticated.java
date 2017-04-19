@@ -51,10 +51,8 @@ public interface PoloniexAuthenticated {
 
   @POST
   @FormParam("command")
-  Map<String, PoloniexOpenOrder[]> returnOpenOrders(
-      @HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") AllPairs all
-  ) throws PoloniexException, IOException;
+  Map<String, PoloniexOpenOrder[]> returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") AllPairs all) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")
@@ -91,8 +89,8 @@ public interface PoloniexAuthenticated {
   @FormParam("command")
   PoloniexMoveResponse moveOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderNumber, @FormParam("amount") String amount,
-      @FormParam("rate") String rate, @FormParam("immediateOrCancel") Integer immediateOrCancel, @FormParam("postOnly") Integer postOnly)
-      throws PoloniexException, IOException;
+      @FormParam("rate") String rate, @FormParam("immediateOrCancel") Integer immediateOrCancel,
+      @FormParam("postOnly") Integer postOnly) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")
@@ -109,12 +107,14 @@ public interface PoloniexAuthenticated {
   @FormParam("command")
   HashMap<String, String> returnFeeInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
-  
+
   @POST
   @FormParam("command")
   PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-          @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("start") Long startTime, @FormParam("end") Long endTime)
-          throws PoloniexException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("start") Long startTime,
+      @FormParam("end") Long endTime) throws PoloniexException, IOException;
 
-  enum AllPairs { all }
+  enum AllPairs {
+    all
+  }
 }

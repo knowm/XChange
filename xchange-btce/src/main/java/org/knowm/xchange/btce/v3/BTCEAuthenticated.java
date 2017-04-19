@@ -40,7 +40,7 @@ public interface BTCEAuthenticated extends BTCE {
    * @param since When to start displaying? UNIX time default 0
    * @param end When to finish displaying? UNIX time default +inf
    * @return {success=1, return={funds={usd=0, rur=0, eur=0, btc=0.1, ltc=0, nmc=0}, rights={info=1, trade=1, withdraw=1}, transaction_count=1,
-   *         open_orders=0, server_time=1357678428}}
+   * open_orders=0, server_time=1357678428}}
    */
   @POST
   @Path("tapi")
@@ -114,7 +114,7 @@ public interface BTCEAuthenticated extends BTCE {
    * @param since When to start displaying; UNIX time default 0
    * @param end When to finish displaying; UNIX time default +inf
    * @return JSON like {success=1, return={tradeId={type=sell, amount=1.00000000, currency="BTC", status=2, description="BTC Payment",
-   *         timestamp=1234}}}
+   * timestamp=1234}}}
    */
   @POST
   @Path("tapi")
@@ -130,8 +130,7 @@ public interface BTCEAuthenticated extends BTCE {
 
   /**
    * Author: Ondřej Novtný
-   * 
-   * @param currency Currency to withdraw
+   *
    * @param amount Amount of withdrawal
    * @param address Withdrawall address
    * @return

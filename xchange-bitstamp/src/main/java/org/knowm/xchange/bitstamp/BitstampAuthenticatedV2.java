@@ -44,8 +44,8 @@ public interface BitstampAuthenticatedV2 {
   @Path("user_transactions/{pair}/")
   BitstampUserTransaction[] getUserTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @PathParam("pair") BitstampV2.Pair pair,
-      @FormParam("limit") Long numberOfTransactions, @FormParam("offset") Long offset, @FormParam("sort") String sort)
-      throws BitstampException, IOException;
+      @FormParam("limit") Long numberOfTransactions, @FormParam("offset") Long offset,
+      @FormParam("sort") String sort) throws BitstampException, IOException;
 
   enum Side {
     buy, sell

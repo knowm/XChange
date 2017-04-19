@@ -40,22 +40,13 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
-    /**
-     * Account information in Quoine is complicated. If using margin it's probably best
-     * to separately call `getQuoineTradingAccountInfo` in order to get position exposures and pnl.
-     *
-     * However for account valuation purposes it is probably better to always use getQuoineFiatAccountInfo
-     * which gives a total balance, including the margin activity.
+
+    /*
+     * if (useMargin) { QuoineTradingAccountInfo[] quoineTradingAccountInfo = getQuoineTradingAccountInfo(); return new
+     * AccountInfo(QuoineAdapters.adaptTradingWallet(quoineTradingAccountInfo)); } else {
      */
-
-
-/*    if (useMargin) {
-      QuoineTradingAccountInfo[] quoineTradingAccountInfo = getQuoineTradingAccountInfo();
-      return new AccountInfo(QuoineAdapters.adaptTradingWallet(quoineTradingAccountInfo));
-
-    } else { */
-      final FiatAccount[] quoineFiatAccountInfo = getQuoineFiatAccountInfo();
-      return new AccountInfo(QuoineAdapters.adaptFiatAccountWallet(quoineFiatAccountInfo));
+    final FiatAccount[] quoineFiatAccountInfo = getQuoineFiatAccountInfo();
+    return new AccountInfo(QuoineAdapters.adaptFiatAccountWallet(quoineFiatAccountInfo));
     /* } */
   }
 
@@ -77,7 +68,8 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
+  public List<FundingRecord> getFundingHistory(
+      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 }

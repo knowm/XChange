@@ -15,23 +15,22 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
  */
 public class TradeDemo {
 
-	public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-		Exchange livecoinExchange = ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class.getName());
+    Exchange livecoinExchange = ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class.getName());
 
-		// Interested in the public market data feed (no authentication)
-		MarketDataService marketDataService = livecoinExchange.getMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = livecoinExchange.getMarketDataService();
 
-		System.out.println("fetching data...");
-		
-		Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
+    System.out.println("fetching data...");
 
-		System.out.println("received data.");
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
 
-		for (Trade trade : trades.getTrades()) {
-			System.out.println(trade.getType() + " " + trade.getCurrencyPair() + " Price: "
-					+ trade.getPrice() + " Amount: " + trade.getTradableAmount());
-		}
-	}
+    System.out.println("received data.");
+
+    for (Trade trade : trades.getTrades()) {
+      System.out.println(trade.getType() + " " + trade.getCurrencyPair() + " Price: " + trade.getPrice() + " Amount: " + trade.getTradableAmount());
+    }
+  }
 
 }

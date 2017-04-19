@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "OrderId", "Exchange", "Type", "Quantity", "QuantityRemaining", "QuantityBaseTraded", "Price", "Status", "Created", "Comments" })
+@JsonPropertyOrder({"OrderId", "Exchange", "Type", "Quantity", "QuantityRemaining", "QuantityBaseTraded", "Price", "Status", "Created", "Comments"})
 public class BleutradeOpenOrder {
 
   @JsonProperty("OrderId")

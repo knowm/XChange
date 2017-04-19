@@ -129,7 +129,7 @@ public class BitMarketTradeServiceRaw extends BitMarketBaseService {
 
     //combine results from both historic operations - for base and coiunter currency
     int combinedTotal = response.getData().getTotal() + response2.getData().getTotal();
-    ArrayList<BitMarketHistoryOperation> combinedOperations = new ArrayList<BitMarketHistoryOperation>(combinedTotal);
+    ArrayList<BitMarketHistoryOperation> combinedOperations = new ArrayList<>(combinedTotal);
     combinedOperations.addAll(response.getData().getOperations());
     combinedOperations.addAll(response2.getData().getOperations());
 

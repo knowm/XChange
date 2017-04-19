@@ -15,8 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "Uuid", "OrderUuid", "Exchange", "OrderType", "Quantity", "QuantityRemaining", "Limit", "CommissionPaid", "Price",
-    "PricePerUnit", "Opened", "Closed", "CancelInitiated", "ImmediateOrCancel", "IsConditional", "Condition", "ConditionTarget" })
+@JsonPropertyOrder({"Uuid", "OrderUuid", "Exchange", "OrderType", "Quantity", "QuantityRemaining", "Limit", "CommissionPaid", "Price", "PricePerUnit", "Opened", "Closed", "CancelInitiated", "ImmediateOrCancel", "IsConditional", "Condition", "ConditionTarget"})
 public class BittrexOpenOrder {
 
   @JsonProperty("Uuid")

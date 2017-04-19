@@ -33,7 +33,7 @@ public class EmpoExTradeServiceRaw extends EmpoExBaseService {
     } catch (EmpoExErrorException e) {
 
       if (e.getError().equals("No open orders")) {
-        return new HashMap<String, List<EmpoExOpenOrder>>();
+        return new HashMap<>();
       } else {
         throw new ExchangeException(e.getError(), e);
       }

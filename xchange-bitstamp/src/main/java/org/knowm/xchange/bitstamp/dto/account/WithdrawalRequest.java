@@ -54,11 +54,11 @@ public class WithdrawalRequest {
     return String.format("WithdrawalRequest{id=%d, datetime=%s, type=%s, amount=%s, status=%s}", id, datetime, type, amount, status);
   }
 
-  public static enum Type {
+  public enum Type {
     SEPA, bitcoin, wire, type3, type4, type5, rippleUSD, rippleBTC
   }
 
-  public static enum Status {
+  public enum Status {
     open, in_process, finished, canceled, failed
   }
 }

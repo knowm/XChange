@@ -1,6 +1,7 @@
 package org.knowm.xchange.examples.lakebtc.trade;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -32,7 +33,7 @@ public class LakeBTCTradeHistoryDemo {
 
     // Get the trade history
     LakeBTCTradeResponse[] trades = tradeService.getLakeBTCTradeHistory(0);
-    System.out.println(trades);
+    System.out.println(Arrays.toString(trades));
 
   }
 }

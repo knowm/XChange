@@ -19,7 +19,7 @@
     "ETH/BTC": {
       "price_scale": 6,
       "min_amount": 0.10000000
-    }    
+    }
   },
   "currencies": {
     "BTC": {

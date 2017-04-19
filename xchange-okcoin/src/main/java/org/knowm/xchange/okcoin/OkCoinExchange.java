@@ -49,7 +49,9 @@ public class OkCoinExchange extends BaseExchange {
     }
   }
 
-  /** Adjust host parameters depending on exchange specific parameters */
+  /**
+   * Adjust host parameters depending on exchange specific parameters
+   */
   private static void concludeHostParams(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null
@@ -60,7 +62,9 @@ public class OkCoinExchange extends BaseExchange {
     }
   }
 
-  /** Extract futures leverage used by spec */
+  /**
+   * Extract futures leverage used by spec
+   */
   private static int futuresLeverageOfConfig(ExchangeSpecification exchangeSpecification) {
 
     if (exchangeSpecification.getExchangeSpecificParameters().containsKey("Futures_Leverage")) {
@@ -71,7 +75,9 @@ public class OkCoinExchange extends BaseExchange {
     }
   }
 
-  /** Extract contract used by spec */
+  /**
+   * Extract contract used by spec
+   */
   public static FuturesContract futuresContractOfConfig(ExchangeSpecification exchangeSpecification) {
 
     FuturesContract contract;

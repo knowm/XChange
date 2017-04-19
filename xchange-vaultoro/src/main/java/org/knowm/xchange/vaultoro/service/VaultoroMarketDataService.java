@@ -46,13 +46,13 @@ public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw impl
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair arg0, Object... arg1)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair arg0,
+      Object... arg1) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     List<VaultoroOrderBook> vaultoroOrderBooks = super.getVaultoroOrderBook(arg0);
 
-    List<VaultoroOrder> asks = new ArrayList<VaultoroOrder>();
-    List<VaultoroOrder> bids = new ArrayList<VaultoroOrder>();
+    List<VaultoroOrder> asks = new ArrayList<>();
+    List<VaultoroOrder> bids = new ArrayList<>();
 
     for (VaultoroOrderBook vaultoroOrderBook : vaultoroOrderBooks) {
       asks.addAll(vaultoroOrderBook.getSells());
@@ -67,16 +67,16 @@ public class VaultoroMarketDataService extends VaultoroMarketDataServiceRaw impl
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair arg0, Object... arg1)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair arg0,
+      Object... arg1) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     BigDecimal latest = super.getLast(arg0);
     return VaultoroAdapters.adaptVaultoroLatest(latest);
   }
 
   @Override
-  public Trades getTrades(CurrencyPair arg0, Object... arg1)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair arg0,
+      Object... arg1) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     List<VaultoroTrade> vaultoroTrades = super.getVaultoroTrades(arg0);
     return VaultoroAdapters.adaptVaultoroTransactions(vaultoroTrades, arg0);

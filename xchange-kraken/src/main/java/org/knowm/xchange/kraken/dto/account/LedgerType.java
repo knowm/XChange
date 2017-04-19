@@ -29,12 +29,12 @@ public enum LedgerType {
 
     LedgerType ledgerType = fromString.get(ledgerTypeString.toLowerCase());
     if (ledgerType == null) {
-        throw new RuntimeException("Not supported kraken ledger type: " + ledgerTypeString);
+      throw new RuntimeException("Not supported kraken ledger type: " + ledgerTypeString);
     }
     return ledgerType;
   }
 
-  private static final Map<String, LedgerType> fromString = new HashMap<String, LedgerType>();
+  private static final Map<String, LedgerType> fromString = new HashMap<>();
 
   static {
     for (LedgerType ledgerType : values())

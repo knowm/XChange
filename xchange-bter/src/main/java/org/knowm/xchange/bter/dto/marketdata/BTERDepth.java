@@ -16,7 +16,7 @@ public class BTERDepth extends BTERBaseResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

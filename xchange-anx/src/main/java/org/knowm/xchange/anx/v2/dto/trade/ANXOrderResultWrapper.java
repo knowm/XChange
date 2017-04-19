@@ -13,7 +13,7 @@ public class ANXOrderResultWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param anxOrderResult
    * @param error

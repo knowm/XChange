@@ -67,10 +67,10 @@ public class BTCChinaMarketDataService extends BTCChinaMarketDataServiceRaw impl
    *
    * @param currencyPair market symbol.
    * @param args 2 arguments:
-   *        <ol>
-   *        <li>the starting trade ID(exclusive), null means the latest trades;</li>
-   *        <li>the limit(number of records fetched, the range is [0,5000]), default is 100.</li>
-   *        <ol>
+   * <ol>
+   * <li>the starting trade ID(exclusive), null means the latest trades;</li>
+   * <li>the limit(number of records fetched, the range is [0,5000]), default is 100.</li>
+   * <ol>
    */
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {

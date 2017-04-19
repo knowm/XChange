@@ -14,36 +14,36 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class YoBitExchange extends BaseExchange implements Exchange {
 
-	private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
-	@Override
-	public SynchronizedValueFactory<Long> getNonceFactory() {
-		return nonceFactory;
-	}
+  @Override
+  public SynchronizedValueFactory<Long> getNonceFactory() {
+    return nonceFactory;
+  }
 
-	@Override
-	public ExchangeSpecification getDefaultExchangeSpecification() {
-		ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-		exchangeSpecification.setSslUri("https://yobit.net");
-		exchangeSpecification.setHost("yobit.net");
-		exchangeSpecification.setPort(80);
-		exchangeSpecification.setExchangeName("YoBit");
-		exchangeSpecification.setExchangeDescription("YoBit.Net - Ethereum (ETH) Exchange");
-		return exchangeSpecification;
-	}
+  @Override
+  public ExchangeSpecification getDefaultExchangeSpecification() {
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
+    exchangeSpecification.setSslUri("https://yobit.net");
+    exchangeSpecification.setHost("yobit.net");
+    exchangeSpecification.setPort(80);
+    exchangeSpecification.setExchangeName("YoBit");
+    exchangeSpecification.setExchangeDescription("YoBit.Net - Ethereum (ETH) Exchange");
+    return exchangeSpecification;
+  }
 
-	@Override
-	protected void initServices() {
-		this.marketDataService = new YoBitMarketDataService(this);
-		this.accountService = null; // new LIVECOINAccountService(this);
-		this.tradeService = null; // new LIVECOINTradeService(this);
-	}
+  @Override
+  protected void initServices() {
+    this.marketDataService = new YoBitMarketDataService(this);
+    this.accountService = null; // new LIVECOINAccountService(this);
+    this.tradeService = null; // new LIVECOINTradeService(this);
+  }
 
-	@Override
-	public void remoteInit() throws IOException {
-		YoBitInfo products = ((YoBitMarketDataServiceRaw) marketDataService).getProducts();
-		exchangeMetaData = YoBitAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
-		//System.out.println("JSON: " + ObjectMapperHelper.toJSON(exchangeMetaData));
-	}
+  @Override
+  public void remoteInit() throws IOException {
+    YoBitInfo products = ((YoBitMarketDataServiceRaw) marketDataService).getProducts();
+    exchangeMetaData = YoBitAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
+    //System.out.println("JSON: " + ObjectMapperHelper.toJSON(exchangeMetaData));
+  }
 
 }

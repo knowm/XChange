@@ -51,13 +51,13 @@ public class BleutradeServiceTestSupport extends BleutradeTestData {
   }
 
   protected static String[] expectedBleutradeTickersStr() {
-    return new String[] {
+    return new String[]{
         "BleutradeTicker [MarketName=BLEU_BTC, PrevDay=0.00095000, High=0.00105000, Low=0.00086000, "
             + "Last=0.00101977, Average=0.00103455, Volume=2450.97496015, BaseVolume=2.40781647, "
             + "TimeStamp=2014-07-29 11:19:30, Bid=0.00100000, Ask=0.00101977, IsActive=true, " + "additionalProperties={}]",
         "BleutradeTicker [MarketName=LTC_BTC, PrevDay=0.00095000, High=0.01333000, Low=0.01167001, "
             + "Last=0.01333000, Average=0.01235000, Volume=14.46077245, BaseVolume=0.18765956, "
-            + "TimeStamp=2014-07-29 11:48:02, Bid=0.01268311, Ask=0.01333000, IsActive=true, " + "additionalProperties={}]" };
+            + "TimeStamp=2014-07-29 11:48:02, Bid=0.01268311, Ask=0.01333000, IsActive=true, " + "additionalProperties={}]"};
   }
 
   protected static List<BleutradeLevel> expectedBleutradeLevelBuys() {
@@ -86,11 +86,11 @@ public class BleutradeServiceTestSupport extends BleutradeTestData {
   }
 
   protected static String[] expectedBleutradeCurrenciesStr() {
-    return new String[] {
+    return new String[]{
         "BleutradeCurrency [Currency=BTC, CurrencyLong=Bitcoin, MinConfirmation=2, TxFee=0.00080000, IsActive=true, "
             + "CoinType=BITCOIN, additionalProperties={}]",
         "BleutradeCurrency [Currency=LTC, CurrencyLong=Litecoin, MinConfirmation=4, TxFee=0.02000000, IsActive=true, "
-            + "CoinType=BITCOIN, additionalProperties={}]" };
+            + "CoinType=BITCOIN, additionalProperties={}]"};
   }
 
   protected static List<BleutradeMarket> expectedBleutradeMarkets() {
@@ -100,11 +100,11 @@ public class BleutradeServiceTestSupport extends BleutradeTestData {
   }
 
   protected static String[] expectedBleutradeMarketsStr() {
-    return new String[] {
+    return new String[]{
         "BleutradeMarket [MarketCurrency=DOGE, BaseCurrency=BTC, MarketCurrencyLong=Dogecoin, BaseCurrencyLong=Bitcoin, "
             + "MinTradeSize=0.10000000, MarketName=DOGE_BTC, IsActive=true, additionalProperties={}]",
         "BleutradeMarket [MarketCurrency=BLEU, BaseCurrency=BTC, MarketCurrencyLong=Bleutrade Share, "
-            + "BaseCurrencyLong=Bitcoin, MinTradeSize=1E-8, MarketName=BLEU_BTC, IsActive=true, additionalProperties={}]" };
+            + "BaseCurrencyLong=Bitcoin, MinTradeSize=1E-8, MarketName=BLEU_BTC, IsActive=true, additionalProperties={}]"};
   }
 
   protected static List<BleutradeBalance> expectedBleutradeAccountInfo() {

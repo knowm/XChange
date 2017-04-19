@@ -46,7 +46,7 @@ public class CoinfloorAdapters {
 
   private static List<LimitOrder> createOrders(CurrencyPair pair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> priceAndAmount : orders) {
 
       if (priceAndAmount.size() != 2) {
@@ -59,7 +59,7 @@ public class CoinfloorAdapters {
   }
 
   public static Trades adaptTrades(CoinfloorTransaction[] transactions, CurrencyPair pair) {
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (CoinfloorTransaction tx : transactions) {
       long tradeId = tx.getTid();
@@ -92,7 +92,7 @@ public class CoinfloorAdapters {
   }
 
   public static UserTrades adaptTradeHistory(Collection<CoinfloorUserTransaction> transactions) {
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (CoinfloorUserTransaction transaction : transactions) {
       if (transaction.isTrade() == false) {

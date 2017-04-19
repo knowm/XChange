@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class BitbayTradeResponse extends BitbayBaseResponse {
   private final long orderId;
 
-  public BitbayTradeResponse(@JsonProperty("order_id") long orderId,
-                             @JsonProperty("success") boolean success, @JsonProperty("code") int code, @JsonProperty("message") String errorMsg) {
+  public BitbayTradeResponse(@JsonProperty("order_id") long orderId, @JsonProperty("success") boolean success, @JsonProperty("code") int code,
+      @JsonProperty("message") String errorMsg) {
 
     super(success, code, errorMsg);
 

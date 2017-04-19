@@ -20,7 +20,7 @@ public class BTCChinaTickerObject implements Serializable {
 
   /**
    * Constructor
-   * 
+   *
    * @param buy Latest bid price.
    * @param sell Latest ask price.
    * @param high Highest price in last 24h.

@@ -70,24 +70,24 @@ public class TheRockTradeServiceRaw extends TheRockBaseService {
       throw new ExchangeException(e);
     }
   }
-  
-    public TheRockUserTrades getTheRockUserTrades(CurrencyPair currencyPair, Long sinceTradeId, Date after, Date before)
-            throws IOException {
-        try {
-            
-            return theRockAuthenticated.trades(new TheRock.Pair(currencyPair), exchange.getExchangeSpecification().getApiKey(),
-                    signatureCreator, exchange.getNonceFactory(), sinceTradeId, after, before, 200);
-        } catch (Throwable e) {
-            throw new ExchangeException(e);
-        }
-    }
 
-    public TheRockTransaction[] getTheRockTransactions(String type, Date after, Date before) throws IOException {
-        try {
-            return theRockAuthenticated.transactions(exchange.getExchangeSpecification().getApiKey(),
-                    signatureCreator, exchange.getNonceFactory(), type, after, before).getTransactions();
-        } catch (Throwable e) {
-            throw new ExchangeException(e);
-        }
+  public TheRockUserTrades getTheRockUserTrades(CurrencyPair currencyPair, Long sinceTradeId, Date after, Date before) throws IOException {
+    try {
+
+      return theRockAuthenticated.trades(new TheRock.Pair(currencyPair), exchange.getExchangeSpecification().getApiKey(), signatureCreator,
+          exchange.getNonceFactory(), sinceTradeId, after, before, 200);
+    } catch (Throwable e) {
+      throw new ExchangeException(e);
     }
+  }
+
+  public TheRockTransaction[] getTheRockTransactions(String type, Date after, Date before) throws IOException {
+    try {
+      return theRockAuthenticated
+          .transactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), type, after, before)
+          .getTransactions();
+    } catch (Throwable e) {
+      throw new ExchangeException(e);
+    }
+  }
 }

@@ -29,7 +29,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @GET
   @Path("trading/orders/active")
-  public HitbtcOrdersResponse getHitbtcActiveOrders(@HeaderParam("X-Signature") ParamsDigest signature,
+  HitbtcOrdersResponse getHitbtcActiveOrders(@HeaderParam("X-Signature") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey
   /* @QueryParam("symbols") String symbols */) throws IOException, HitbtcException;
 
@@ -42,7 +42,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @POST
   @Path("trading/new_order")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public HitbtcExecutionReportResponse postHitbtcNewOrder(@HeaderParam("X-Signature") ParamsDigest signature,
+  HitbtcExecutionReportResponse postHitbtcNewOrder(@HeaderParam("X-Signature") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
       @FormParam("clientOrderId") String clientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side,
       @FormParam("price") BigDecimal price, @FormParam("quantity") BigInteger quantity, // 1 lot = 0.01 BTC
@@ -51,26 +51,25 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @POST
   @Path("trading/cancel_order")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public HitbtcExecutionReportResponse postHitbtcCancelOrder(@HeaderParam("X-Signature") ParamsDigest signature,
+  HitbtcExecutionReportResponse postHitbtcCancelOrder(@HeaderParam("X-Signature") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
       @FormParam("clientOrderId") String clientOrderId, @FormParam("cancelRequestClientOrderId") String cancelRequestClientOrderId,
       @FormParam("symbol") String symbol, @FormParam("side") String side) throws IOException, HitbtcException;
 
   @GET
   @Path("trading/trades")
-  public HitbtcTradeResponse getHitbtcTrades(@HeaderParam("X-Signature") ParamsDigest signature,
+  HitbtcTradeResponse getHitbtcTrades(@HeaderParam("X-Signature") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey, @QueryParam("by") String by,
       @QueryParam("start_index") int start_index, @QueryParam("max_results") int max_results, @QueryParam("symbols") String symbols,
       @QueryParam("sort") String sort, @QueryParam("from") String from, @QueryParam("till") String till) throws IOException, HitbtcException;
 
   @GET
   @Path("trading/balance")
-  public HitbtcBalanceResponse getHitbtcBalance(@HeaderParam("X-Signature") ParamsDigest signature,
+  HitbtcBalanceResponse getHitbtcBalance(@HeaderParam("X-Signature") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey) throws IOException, HitbtcException;
 
   @GET
   @Path("payment/address/{currency}")
-  public HitbtcDepositAddressResponse getHitbtcDepositAddress(@PathParam("currency") String currency,
-      @HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory,
-      @QueryParam("apikey") String apiKey) throws IOException, HitbtcException;
+  HitbtcDepositAddressResponse getHitbtcDepositAddress(@PathParam("currency") String currency, @HeaderParam("X-Signature") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey) throws IOException, HitbtcException;
 }

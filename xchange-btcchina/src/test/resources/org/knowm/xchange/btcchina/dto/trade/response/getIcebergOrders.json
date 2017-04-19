@@ -1,57 +1,65 @@
 {
-	"result": {
-		"iceberg_orders": [{
-			"id": 2,
-			"type": "ask",
-			"price": "40.00",
-			"market": "BTCCNY",
-			"amount": "0.00000000",
-			"amount_original": "5.00000000",
-			"disclosed_amount": "5.00000000",
-			"variance": "0.00",
-			"date": 1405412293,
-			"status": "closed",
-			"order": [{
-				"id": 3304,
-				"type": "ask",
-				"price": "40.00",
-				"currency": "CNY",
-				"amount": "0.00000000",
-				"amount_original": "5.00000000",
-				"date": 1405412293,
-				"status": "closed"
-			}]
-		}, {
-			"id": 1,
-			"type": "bid",
-			"price": "40.00",
-			"market": "BTCCNY",
-			"amount": "7.00000000",
-			"amount_original": "12.00000000",
-			"disclosed_amount": "5.00000000",
-			"variance": "0.00",
-			"date": 1405412292,
-			"status": "open",
-			"order": [{
-				"id": 3305,
-				"type": "bid",
-				"price": "40.00",
-				"currency": "CNY",
-				"amount": "5.00000000",
-				"amount_original": "5.00000000",
-				"date": 1405412294,
-				"status": "open"
-			}, {
-				"id": 3303,
-				"type": "bid",
-				"price": "40.00",
-				"currency": "CNY",
-				"amount": "0.00000000",
-				"amount_original": "5.00000000",
-				"date": 1405412292,
-				"status": "closed"
-			}]
-		}]
-	},
-	"id": "1"
+  "result": {
+    "iceberg_orders": [
+      {
+        "id": 2,
+        "type": "ask",
+        "price": "40.00",
+        "market": "BTCCNY",
+        "amount": "0.00000000",
+        "amount_original": "5.00000000",
+        "disclosed_amount": "5.00000000",
+        "variance": "0.00",
+        "date": 1405412293,
+        "status": "closed",
+        "order": [
+          {
+            "id": 3304,
+            "type": "ask",
+            "price": "40.00",
+            "currency": "CNY",
+            "amount": "0.00000000",
+            "amount_original": "5.00000000",
+            "date": 1405412293,
+            "status": "closed"
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "type": "bid",
+        "price": "40.00",
+        "market": "BTCCNY",
+        "amount": "7.00000000",
+        "amount_original": "12.00000000",
+        "disclosed_amount": "5.00000000",
+        "variance": "0.00",
+        "date": 1405412292,
+        "status": "open",
+        "order": [
+          {
+            "id": 3305,
+            "type": "bid",
+            "price": "40.00",
+            "currency": "CNY",
+            "amount": "5.00000000",
+            "amount_original": "5.00000000",
+            "date": 1405412294,
+            "status": "open"
+          },
+          {
+            "id": 3303,
+            "type": "bid",
+            "price": "40.00",
+            "currency": "CNY",
+            "amount": "0.00000000",
+            "amount_original": "5.00000000",
+            "date": 1405412292,
+            "status": "closed"
+          }
+        ]
+      }
+    ]
+  },
+  "id": "1"
 }

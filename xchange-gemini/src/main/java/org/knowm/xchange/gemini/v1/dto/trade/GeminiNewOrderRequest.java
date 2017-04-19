@@ -32,7 +32,7 @@ public class GeminiNewOrderRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    * @param symbol
    * @param amount

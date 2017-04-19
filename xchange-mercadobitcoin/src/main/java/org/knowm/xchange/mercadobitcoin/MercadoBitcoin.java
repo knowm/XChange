@@ -26,46 +26,46 @@ public interface MercadoBitcoin {
    */
   @GET
   @Path("/v1/orderbook/")
-  public MercadoBitcoinOrderBook getOrderBookBTC() throws IOException;
+  MercadoBitcoinOrderBook getOrderBookBTC() throws IOException;
 
   /**
    * Returns "bids" and "asks". Each is a list of open orders and each order is represented as a list of price and amount.
    */
   @GET
   @Path("/v1/orderbook_litecoin/")
-  public MercadoBitcoinOrderBook getOrderBookLTC() throws IOException;
+  MercadoBitcoinOrderBook getOrderBookLTC() throws IOException;
 
   @GET
   @Path("/v2/ticker/")
-  public MercadoBitcoinTicker getTickerBTC() throws IOException;
+  MercadoBitcoinTicker getTickerBTC() throws IOException;
 
   @GET
   @Path("/v2/ticker_litecoin/")
-  public MercadoBitcoinTicker getTickerLTC() throws IOException;
+  MercadoBitcoinTicker getTickerLTC() throws IOException;
 
   @GET
   @Path("/v1/trades/")
-  public MercadoBitcoinTransaction[] getTransactionsBTC() throws IOException;
+  MercadoBitcoinTransaction[] getTransactionsBTC() throws IOException;
 
   @GET
   @Path("/v1/trades_litecoin/")
-  public MercadoBitcoinTransaction[] getTransactionsLTC() throws IOException;
+  MercadoBitcoinTransaction[] getTransactionsLTC() throws IOException;
 
   @GET
   @Path("/v1/trades/{start_timestamp: [0-9]}/")
-  public MercadoBitcoinTransaction[] getTransactionsBTC(@PathParam("start_timestamp") Long startTimestamp) throws IOException;
+  MercadoBitcoinTransaction[] getTransactionsBTC(@PathParam("start_timestamp") Long startTimestamp) throws IOException;
 
   @GET
   @Path("/v1/trades_litecoin/{start_timestamp: [0-9]}/")
-  public MercadoBitcoinTransaction[] getTransactionsLTC(@PathParam("start_timestamp") Long startTimestamp) throws IOException;
+  MercadoBitcoinTransaction[] getTransactionsLTC(@PathParam("start_timestamp") Long startTimestamp) throws IOException;
 
   @GET
   @Path("/v1/trades/{start_timestamp: [0-9]}/{end_timestamp: [0-9]}/")
-  public MercadoBitcoinTransaction[] getTransactionsBTC(@PathParam("start_timestamp") Long startTimestamp,
+  MercadoBitcoinTransaction[] getTransactionsBTC(@PathParam("start_timestamp") Long startTimestamp,
       @PathParam("end_timestamp") Long endTimestamp) throws IOException;
 
   @GET
   @Path("/v1/trades_litecoin/{start_timestamp: [0-9]}/{end_timestamp: [0-9]}/")
-  public MercadoBitcoinTransaction[] getTransactionsLTC(@PathParam("start_timestamp") Long startTimestamp,
+  MercadoBitcoinTransaction[] getTransactionsLTC(@PathParam("start_timestamp") Long startTimestamp,
       @PathParam("end_timestamp") Long endTimestamp) throws IOException;
 }

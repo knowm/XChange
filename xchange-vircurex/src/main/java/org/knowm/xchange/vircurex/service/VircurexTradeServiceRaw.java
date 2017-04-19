@@ -29,12 +29,12 @@ public class VircurexTradeServiceRaw extends VircurexBaseService {
     String timestamp = VircurexUtils.getUtcTimestamp();
     long nonce = exchange.getNonceFactory().createValue();
     VircurexSha2Digest digest = new VircurexSha2Digest(exchange.getExchangeSpecification().getApiKey(),
-        exchange.getExchangeSpecification().getUserName(), timestamp, nonce, "create_order", type.toString(),
-        limitOrder.getTradableAmount().floatValue() + "", limitOrder.getCurrencyPair().counter.getCurrencyCode().toLowerCase(),
-        limitOrder.getLimitPrice().floatValue() + "", limitOrder.getCurrencyPair().base.getCurrencyCode().toLowerCase());
+        exchange.getExchangeSpecification().getUserName(), timestamp, nonce, "create_order", type, limitOrder.getTradableAmount().floatValue() + "",
+        limitOrder.getCurrencyPair().counter.getCurrencyCode().toLowerCase(), limitOrder.getLimitPrice().floatValue() + "",
+        limitOrder.getCurrencyPair().base.getCurrencyCode().toLowerCase());
 
     VircurexPlaceOrderReturn ret = vircurexAuthenticated.trade(exchange.getExchangeSpecification().getApiKey(), nonce, digest.toString(), timestamp,
-        type.toString(), limitOrder.getTradableAmount().floatValue() + "", limitOrder.getCurrencyPair().counter.getCurrencyCode().toLowerCase(),
+        type, limitOrder.getTradableAmount().floatValue() + "", limitOrder.getCurrencyPair().counter.getCurrencyCode().toLowerCase(),
         limitOrder.getLimitPrice().floatValue() + "", limitOrder.getCurrencyPair().base.getCurrencyCode().toLowerCase());
 
     timestamp = VircurexUtils.getUtcTimestamp();

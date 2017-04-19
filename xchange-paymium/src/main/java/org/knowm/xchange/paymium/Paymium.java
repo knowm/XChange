@@ -21,13 +21,13 @@ public interface Paymium {
    */
   @GET
   @Path("ticker/")
-  public PaymiumTicker getPaymiumTicker() throws IOException;
+  PaymiumTicker getPaymiumTicker() throws IOException;
 
   @GET
   @Path("depth/")
-  public PaymiumMarketDepth getOrderBook() throws IOException;
+  PaymiumMarketDepth getOrderBook() throws IOException;
 
   @GET
   @Path("trades/")
-  public PaymiumTrade[] getTrades() throws IOException;
+  PaymiumTrade[] getTrades() throws IOException;
 }

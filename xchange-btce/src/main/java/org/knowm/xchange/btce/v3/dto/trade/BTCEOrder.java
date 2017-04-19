@@ -15,12 +15,14 @@ public class BTCEOrder {
   private final BigDecimal amount;
   private final BigDecimal rate;
   private final Long timestampCreated;
-  /** 0: active; 1: ??; 2: cancelled */
+  /**
+   * 0: active; 1: ??; 2: cancelled
+   */
   private final int status;
 
   /**
    * Constructor
-   * 
+   *
    * @param status
    * @param timestampCreated
    * @param rate
@@ -77,7 +79,7 @@ public class BTCEOrder {
         timestampCreated, status);
   }
 
-  public static enum Type {
+  public enum Type {
     buy, sell
   }
 }

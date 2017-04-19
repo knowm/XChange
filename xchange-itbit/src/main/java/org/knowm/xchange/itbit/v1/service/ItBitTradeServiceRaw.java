@@ -27,10 +27,8 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
   public ItBitOrder[] getItBitOpenOrders(CurrencyPair currencyPair) throws IOException {
 
     ItBitOrder[] orders = itBitAuthenticated.getOrders(signatureCreator, new Date().getTime(), exchange.getNonceFactory(),
-        ItBitAdapters.adaptCurrency(currencyPair.base).getCurrencyCode() + ItBitAdapters.adaptCurrency(currencyPair.counter).getCurrencyCode(),
-        "1", "1000",
-        "open",
-        walletId);
+        ItBitAdapters.adaptCurrency(currencyPair.base).getCurrencyCode() + ItBitAdapters.adaptCurrency(currencyPair.counter).getCurrencyCode(), "1",
+        "1000", "open", walletId);
 
     return orders;
   }
@@ -83,8 +81,8 @@ public class ItBitTradeServiceRaw extends ItBitBaseService {
     return orders;
   }
 
-  public ItBitTradeHistory getUserTradeHistory(String lastExecutionId, Integer page, Integer perPage, Date rangeStart, Date rangeEnd)
-      throws IOException, ItBitException {
+  public ItBitTradeHistory getUserTradeHistory(String lastExecutionId, Integer page, Integer perPage, Date rangeStart,
+      Date rangeEnd) throws IOException, ItBitException {
     return itBitAuthenticated.getUserTradeHistory(signatureCreator, System.currentTimeMillis(), exchange.getNonceFactory(), walletId, lastExecutionId,
         page, perPage, rangeStart, rangeEnd);
   }

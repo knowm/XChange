@@ -1,14 +1,28 @@
 {
   "currency_pairs": {
-    "BTC/CNY": { "price_scale": 2 },
-    "LTC/CNY": { "price_scale": 2 },
-    "ETH/CNY": { "price_scale": 2 }
+    "BTC/CNY": {
+      "price_scale": 2
+    },
+    "LTC/CNY": {
+      "price_scale": 2
+    },
+    "ETH/CNY": {
+      "price_scale": 2
+    }
   },
   "currencies": {
-    "BTC": { "scale": 8 },
-    "LTC": { "scale": 8 },
-    "ETH": { "scale": 8 },
-    "CNY": { "scale": 2 }
+    "BTC": {
+      "scale": 8
+    },
+    "LTC": {
+      "scale": 8
+    },
+    "ETH": {
+      "scale": 8
+    },
+    "CNY": {
+      "scale": 2
+    }
   },
   "private_rate_limits": [
     {

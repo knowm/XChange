@@ -14,21 +14,21 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
  */
 public class TickerDemo {
 
-	public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-		Exchange ccexExchange = ExchangeFactory.INSTANCE.createExchange(CCEXExchange.class.getName());
+    Exchange ccexExchange = ExchangeFactory.INSTANCE.createExchange(CCEXExchange.class.getName());
 
-		// Interested in the public market data feed (no authentication)
-		MarketDataService marketDataService = ccexExchange.getMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = ccexExchange.getMarketDataService();
 
-		System.out.println("fetching data...");
+    System.out.println("fetching data...");
 
-		// Get the current orderbook
-		Ticker ticker = marketDataService.getTicker(CurrencyPair.XAUR_BTC);
+    // Get the current orderbook
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.XAUR_BTC);
 
-		System.out.println("received data.");
-		
-		System.out.println(ticker);
-	}
+    System.out.println("received data.");
+
+    System.out.println(ticker);
+  }
 
 }

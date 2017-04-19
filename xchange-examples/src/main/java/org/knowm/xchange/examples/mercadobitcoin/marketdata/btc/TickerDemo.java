@@ -13,7 +13,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Ticker at Mercado Bitcoin. You can access both the raw data from Mercado Bitcoin or the XChange generic DTO data format.
- * 
+ *
  * @author Copied from Bitstamp and adapted by Felipe Micaroni Lalli
  */
 public class TickerDemo {

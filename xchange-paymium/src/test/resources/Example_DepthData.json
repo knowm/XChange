@@ -1,29 +1,29 @@
 {
   "asks": [
     {
-      "amount": 0.48762, 
-      "currency": "EUR", 
-      "price": 24.48996, 
+      "amount": 0.48762,
+      "currency": "EUR",
+      "price": 24.48996,
       "timestamp": 1361925287
-    }, 
+    },
     {
-      "amount": 12.96657232, 
-      "currency": "EUR", 
-      "price": 24.49, 
+      "amount": 12.96657232,
+      "currency": "EUR",
+      "price": 24.49,
       "timestamp": 1361924964
     }
   ],
   "bids": [
     {
-      "amount": 0.77372456, 
-      "currency": "EUR", 
-      "price": 24.05, 
+      "amount": 0.77372456,
+      "currency": "EUR",
+      "price": 24.05,
       "timestamp": 1361902889
-    }, 
+    },
     {
-      "amount": 0.40491093, 
-      "currency": "EUR", 
-      "price": 24.001, 
+      "amount": 0.40491093,
+      "currency": "EUR",
+      "price": 24.001,
       "timestamp": 1361887469
     }
   ]

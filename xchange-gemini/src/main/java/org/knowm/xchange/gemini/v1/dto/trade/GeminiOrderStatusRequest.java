@@ -17,7 +17,7 @@ public class GeminiOrderStatusRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    * @param orderId
    */

@@ -17,7 +17,7 @@ public class KrakenLedger {
 
   /**
    * Constructor
-   * 
+   *
    * @param refId
    * @param unixTime
    * @param ledgerType

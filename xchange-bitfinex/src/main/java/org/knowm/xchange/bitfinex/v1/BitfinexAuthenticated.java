@@ -61,8 +61,8 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @POST
   @Path("order/new/multi")
   BitfinexNewOrderMultiResponse newOrderMulti(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexNewOrderMultiRequest newOrderMultiRequest)
-      throws IOException, BitfinexException;
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
+      BitfinexNewOrderMultiRequest newOrderMultiRequest) throws IOException, BitfinexException;
 
   @POST
   @Path("offer/new")
@@ -82,8 +82,8 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @POST
   @Path("order/cancel/multi")
   BitfinexCancelOrderMultiResponse cancelOrderMulti(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexCancelOrderMultiRequest cancelOrderRequest)
-      throws IOException, BitfinexException;
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
+      BitfinexCancelOrderMultiRequest cancelOrderRequest) throws IOException, BitfinexException;
 
   @POST
   @Path("order/cancel/replace")
@@ -132,8 +132,8 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @POST
   @Path("credits")
   BitfinexCreditResponse[] activeCredits(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexActiveCreditsRequest activeCreditsRequest)
-      throws IOException, BitfinexException;
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
+      BitfinexActiveCreditsRequest activeCreditsRequest) throws IOException, BitfinexException;
 
   @POST
   @Path("margin_infos")
@@ -149,10 +149,11 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @Path("deposit/new")
   BitfinexDepositAddressResponse requestDeposit(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexDepositAddressRequest depositRequest) throws IOException, BitfinexException;
-  
+
   @POST
   @Path("history/movements")
-  BitfinexDepositWithdrawalHistoryResponse[] depositWithdrawalHistory(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
-      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexDepositWithdrawalHistoryRequest request) throws IOException, BitfinexException;
+  BitfinexDepositWithdrawalHistoryResponse[] depositWithdrawalHistory(@HeaderParam("X-BFX-APIKEY") String apiKey,
+      @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload, @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature,
+      BitfinexDepositWithdrawalHistoryRequest request) throws IOException, BitfinexException;
 
 }

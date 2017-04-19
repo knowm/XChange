@@ -38,10 +38,9 @@ public final class CryptonitAdapters {
 
   /**
    * Adapts a CryptonitOrder to a LimitOrder
-   * 
+   *
    * @param amount
    * @param price
-   * @param currency
    * @param orderTypeString
    * @param id
    * @return
@@ -57,16 +56,15 @@ public final class CryptonitAdapters {
 
   /**
    * Adapts CryptonitOrders to a List of LimitOrders
-   * 
+   *
    * @param cryptonitOrders
-   * @param currency
    * @param orderType
    * @param id
    * @return
    */
   public static List<LimitOrder> adaptOrders(CryptonitOrders cryptonitOrders, CurrencyPair currencyPair, String orderType, String id) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     Map<String, CryptonitOrder> orders = cryptonitOrders.getOrders();
     for (Map.Entry<String, CryptonitOrder> trade : orders.entrySet()) {
@@ -85,7 +83,7 @@ public final class CryptonitAdapters {
 
   /**
    * Adapts a CryptonitTrade to a Trade Object
-   * 
+   *
    * @param cryptonitTrade A Cryptonit trade
    * @return The XChange Trade
    */
@@ -99,13 +97,13 @@ public final class CryptonitAdapters {
 
   /**
    * Adapts a CryptonitTrade[] to a Trades Object
-   * 
+   *
    * @param cryptonitTrades The Cryptonit trade data
    * @return The trades
    */
   public static Trades adaptTrades(CryptonitOrders cryptonitTrades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>();
+    List<Trade> tradesList = new ArrayList<>();
 
     long lastTradeId = 0;
     Map<String, CryptonitOrder> orders = cryptonitTrades.getOrders();
@@ -121,7 +119,7 @@ public final class CryptonitAdapters {
 
   /**
    * Adapts a cryptonitTicker to a Ticker Object
-   * 
+   *
    * @param cryptonitTicker
    * @return
    */
@@ -141,7 +139,7 @@ public final class CryptonitAdapters {
 
   public static Collection<CurrencyPair> adaptCurrencyPairs(List<List<String>> tradingPairs) {
 
-    Set<CurrencyPair> currencyPairs = new HashSet<CurrencyPair>();
+    Set<CurrencyPair> currencyPairs = new HashSet<>();
     for (List<String> tradingPair : tradingPairs) {
       if (tradingPair.size() == 2) {
         CurrencyPair currencyPair = new CurrencyPair(tradingPair.get(1), tradingPair.get(0));

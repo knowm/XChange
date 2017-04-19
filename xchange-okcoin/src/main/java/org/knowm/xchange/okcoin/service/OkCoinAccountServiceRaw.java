@@ -45,7 +45,7 @@ public class OkCoinAccountServiceRaw extends OKCoinBaseTradeService {
     return returnOrThrow(withdrawResult);
   }
 
-  public OkCoinAccountRecords getAccountRecords(String symbol, String type, String currentPage, String pageLength) throws IOException{
+  public OkCoinAccountRecords getAccountRecords(String symbol, String type, String currentPage, String pageLength) throws IOException {
 
     OkCoinAccountRecords accountRecords = okCoin.getAccountRecords(apikey, symbol, type, currentPage, pageLength, signatureCreator);
 

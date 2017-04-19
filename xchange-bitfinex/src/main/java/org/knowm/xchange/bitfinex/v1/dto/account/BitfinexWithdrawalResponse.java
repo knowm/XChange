@@ -14,12 +14,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Bitfinex withdrawal response mapping class
- * 
+ *
  * @author Ondrej Novotny <ondrej.novotny@onlab.cz>
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "status", "message", "withdrawal_id" })
+@JsonPropertyOrder({"status", "message", "withdrawal_id"})
 
 public class BitfinexWithdrawalResponse {
 

@@ -12,7 +12,7 @@ public class KrakenTradeHistoryResult extends KrakenResult<KrakenTradeHistory> {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */
@@ -28,7 +28,7 @@ public class KrakenTradeHistoryResult extends KrakenResult<KrakenTradeHistory> {
 
     /**
      * Constructor
-     * 
+     *
      * @param orders
      * @param count
      */

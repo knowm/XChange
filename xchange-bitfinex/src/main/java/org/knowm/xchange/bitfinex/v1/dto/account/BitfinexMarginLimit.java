@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "on_pair", "initial_margin", "margin_requirement", "tradable_balance" })
+@JsonPropertyOrder({"on_pair", "initial_margin", "margin_requirement", "tradable_balance"})
 public class BitfinexMarginLimit {
 
   @JsonProperty("on_pair")

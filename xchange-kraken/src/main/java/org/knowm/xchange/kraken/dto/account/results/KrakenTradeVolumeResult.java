@@ -9,7 +9,7 @@ public class KrakenTradeVolumeResult extends KrakenResult<KrakenTradeVolume> {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */

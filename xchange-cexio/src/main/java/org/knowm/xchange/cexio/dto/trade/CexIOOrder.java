@@ -17,13 +17,15 @@ public class CexIOOrder {
   private final BigDecimal pending;
   private final String errorMessage;
 
-  /** non-JSON fields */
+  /**
+   * non-JSON fields
+   */
   private String tradableIdentifier;
   private String transactionCurrency;
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param time
    * @param type
@@ -106,7 +108,7 @@ public class CexIOOrder {
         : String.format("Order{id=%s, time=%s, type=%s, price=%s, amount=%s, pending=%s}", id, time, type, price, amount, pending);
   }
 
-  public static enum Type {
+  public enum Type {
 
     buy, sell
   }

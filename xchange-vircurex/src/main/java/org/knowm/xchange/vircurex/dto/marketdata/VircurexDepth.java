@@ -15,7 +15,7 @@ public class VircurexDepth {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

@@ -1,4 +1,3 @@
-
 package org.knowm.xchange.gatecoin.dto.account;
 
 import static org.fest.assertions.api.Assertions.assertThat;

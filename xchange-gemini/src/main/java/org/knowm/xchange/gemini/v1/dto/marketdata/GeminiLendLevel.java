@@ -14,7 +14,7 @@ public class GeminiLendLevel {
 
   /**
    * Constructor
-   * 
+   *
    * @param rate
    * @param amount
    * @param period

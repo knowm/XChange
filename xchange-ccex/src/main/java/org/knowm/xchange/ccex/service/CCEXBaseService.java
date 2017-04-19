@@ -13,22 +13,21 @@ import si.mazi.rescu.RestProxyFactory;
  */
 public class CCEXBaseService extends BaseExchangeService implements BaseService {
 
-	protected final String apiKey;
-	protected final CCEXAuthenticated cCEXAuthenticated;
-	protected final ParamsDigest signatureCreator;
+  protected final String apiKey;
+  protected final CCEXAuthenticated cCEXAuthenticated;
+  protected final ParamsDigest signatureCreator;
 
-	/**
-	 * Constructor
-	 *
-	 * @param exchange
-	 */
-	public CCEXBaseService(Exchange exchange) {
+  /**
+   * Constructor
+   *
+   * @param exchange
+   */
+  public CCEXBaseService(Exchange exchange) {
 
-		super(exchange);
+    super(exchange);
 
-		this.cCEXAuthenticated = RestProxyFactory.createProxy(CCEXAuthenticated.class,
-				exchange.getExchangeSpecification().getSslUri());
-		this.apiKey = exchange.getExchangeSpecification().getApiKey();
-		this.signatureCreator = CCEXDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-	}
+    this.cCEXAuthenticated = RestProxyFactory.createProxy(CCEXAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.apiKey = exchange.getExchangeSpecification().getApiKey();
+    this.signatureCreator = CCEXDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
+  }
 }

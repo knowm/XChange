@@ -1,1 +1,4 @@
-{"result":false,"message":"signature error"}
+{
+  "result": false,
+  "message": "signature error"
+}

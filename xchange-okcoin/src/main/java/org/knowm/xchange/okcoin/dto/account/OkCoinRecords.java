@@ -25,9 +25,9 @@ public class OkCoinRecords {
   private final String status;
 
   public OkCoinRecords(@JsonProperty("addr") final String address, @JsonProperty("account") final String account,
-                       @JsonProperty("amount") final BigDecimal amount, @JsonProperty("bank") final String bank,
-                       @JsonProperty("benificiary_addr") final String benificiaryAddress, @JsonProperty("transaction_value") final BigDecimal transactionValue,
-                       @JsonProperty("fee") final BigDecimal fee, @JsonProperty("date") final Long date, @JsonProperty("status") final String status) {
+      @JsonProperty("amount") final BigDecimal amount, @JsonProperty("bank") final String bank,
+      @JsonProperty("benificiary_addr") final String benificiaryAddress, @JsonProperty("transaction_value") final BigDecimal transactionValue,
+      @JsonProperty("fee") final BigDecimal fee, @JsonProperty("date") final Long date, @JsonProperty("status") final String status) {
 
     this.address = address;
     this.account = account;
@@ -74,6 +74,7 @@ public class OkCoinRecords {
 
     return fee;
   }
+
   public Long getDate() {
 
     return date;

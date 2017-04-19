@@ -1,9 +1,5 @@
 package org.knowm.xchange.poloniex.dto.marketdata;
 
-/**
- * @author Zach Holmes
- */
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "last", "lowestAsk", "highestBid", "percentChange", "baseVolume", "quoteVolume" })
+@JsonPropertyOrder({"last", "lowestAsk", "highestBid", "percentChange", "baseVolume", "quoteVolume"})
 public class PoloniexMarketData {
 
   @JsonProperty("high24hr")

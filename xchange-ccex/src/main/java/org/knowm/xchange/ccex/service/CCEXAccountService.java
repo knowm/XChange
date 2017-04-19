@@ -17,33 +17,34 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 public class CCEXAccountService extends CCEXAccountServiceRaw implements AccountService {
 
-	public CCEXAccountService(Exchange exchange) {
-		super(exchange);
-	}
+  public CCEXAccountService(Exchange exchange) {
+    super(exchange);
+  }
 
-	@Override
-	public AccountInfo getAccountInfo() throws IOException {
-		return new AccountInfo(CCEXAdapters.adaptWallet(getCCEXAccountInfo()));
-	}
+  @Override
+  public AccountInfo getAccountInfo() throws IOException {
+    return new AccountInfo(CCEXAdapters.adaptWallet(getCCEXAccountInfo()));
+  }
 
-	@Override
-	public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws ExchangeException,
-			NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-		throw new NotAvailableFromExchangeException();
-	}
+  @Override
+  public String withdrawFunds(Currency currency, BigDecimal amount,
+      String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
+  }
 
-	@Override
-	public String requestDepositAddress(Currency currency, String... args) throws IOException {
-		return getCCEXDepositAddress(currency.toString().toUpperCase());
-	}
+  @Override
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+    return getCCEXDepositAddress(currency.toString().toUpperCase());
+  }
 
-	@Override
-	public TradeHistoryParams createFundingHistoryParams() {
-		throw new NotAvailableFromExchangeException();
-	}
+  @Override
+  public TradeHistoryParams createFundingHistoryParams() {
+    throw new NotAvailableFromExchangeException();
+  }
 
-	@Override
-	public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException{
-		throw new NotYetImplementedForExchangeException();
-	}
+  @Override
+  public List<FundingRecord> getFundingHistory(
+      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 }

@@ -1,60 +1,59 @@
 {
-   "error":[
-
-   ],
-   "result":{
-      "ledger":{
-         "LQY6IE-WNT47-JRBOJV":{
-            "refid":"QGBJIZV-4F6SPK-ZCBT5O",
-            "time":1391400160.0679,
-            "type":"deposit",
-            "aclass":"currency",
-            "asset":"XXBT",
-            "amount":"0.1000000000",
-            "fee":"0.0000000000",
-            "balance":"0.1000000000"
-         },
-         "LWL3TV-BC7TE-EUZ5ZQ":{
-            "refid":"AMBEDD7-NVKRCP-KBXHHD",
-            "time":1389073995.0882,
-            "type":"withdrawal",
-            "aclass":"currency",
-            "asset":"XLTC",
-            "amount":"-15.9857300000",
-            "fee":"0.0200000000",
-            "balance":"0.0000000000"
-         },
-         "LFFMB7-JZ3H7-GAFCYA":{
-            "refid":"TY5BYV-WJUQF-XPYEYD",
-            "time":1389071942.2335,
-            "type":"trade",
-            "aclass":"currency",
-            "asset":"XLTC",
-            "amount":"16.0378100000",
-            "fee":"0.0320800000",
-            "balance":"16.0057300000"
-         },
-         "LVKQPQ-OUYTL-BF7HAR":{
-            "refid":"TY5BYV-WJUQF-XPYEYD",
-            "time":1389071942.2319,
-            "type":"trade",
-            "aclass":"currency",
-            "asset":"XXBT",
-            "amount":"-0.5000000000",
-            "fee":"0.0000000000",
-            "balance":"0.0000000000"
-         },
-         "LE6MUP-7QBUT-GSQYZY":{
-            "refid":"QGBHSDV-WNIG7Y-TNHTJ4",
-            "time":1388739905.0371,
-            "type":"deposit",
-            "aclass":"currency",
-            "asset":"XXBT",
-            "amount":"0.5000000000",
-            "fee":"0.0000000000",
-            "balance":"0.5000000000"
-         }
+  "error": [
+  ],
+  "result": {
+    "ledger": {
+      "LQY6IE-WNT47-JRBOJV": {
+        "refid": "QGBJIZV-4F6SPK-ZCBT5O",
+        "time": 1391400160.0679,
+        "type": "deposit",
+        "aclass": "currency",
+        "asset": "XXBT",
+        "amount": "0.1000000000",
+        "fee": "0.0000000000",
+        "balance": "0.1000000000"
       },
-      "count":"5"
-   }
+      "LWL3TV-BC7TE-EUZ5ZQ": {
+        "refid": "AMBEDD7-NVKRCP-KBXHHD",
+        "time": 1389073995.0882,
+        "type": "withdrawal",
+        "aclass": "currency",
+        "asset": "XLTC",
+        "amount": "-15.9857300000",
+        "fee": "0.0200000000",
+        "balance": "0.0000000000"
+      },
+      "LFFMB7-JZ3H7-GAFCYA": {
+        "refid": "TY5BYV-WJUQF-XPYEYD",
+        "time": 1389071942.2335,
+        "type": "trade",
+        "aclass": "currency",
+        "asset": "XLTC",
+        "amount": "16.0378100000",
+        "fee": "0.0320800000",
+        "balance": "16.0057300000"
+      },
+      "LVKQPQ-OUYTL-BF7HAR": {
+        "refid": "TY5BYV-WJUQF-XPYEYD",
+        "time": 1389071942.2319,
+        "type": "trade",
+        "aclass": "currency",
+        "asset": "XXBT",
+        "amount": "-0.5000000000",
+        "fee": "0.0000000000",
+        "balance": "0.0000000000"
+      },
+      "LE6MUP-7QBUT-GSQYZY": {
+        "refid": "QGBHSDV-WNIG7Y-TNHTJ4",
+        "time": 1388739905.0371,
+        "type": "deposit",
+        "aclass": "currency",
+        "asset": "XXBT",
+        "amount": "0.5000000000",
+        "fee": "0.0000000000",
+        "balance": "0.5000000000"
+      }
+    },
+    "count": "5"
+  }
 }

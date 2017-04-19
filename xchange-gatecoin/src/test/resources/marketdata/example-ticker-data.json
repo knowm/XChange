@@ -1,17 +1,23 @@
-{"tickers":
-[
-{"currencyPair":"BTCUSD",
-"open":243.17,
-"last":241.58,
-"lastQ":0.36,
-"high":243.17,
-"low":239.73,
-"volume":158.12,
-"volumn":158.12,
-"bid":241.58,
-"bidQ":0.49,
-"ask":242,
-"askQ":1.31,
-"vwap":241.00494308120414874778649127,
-"createDateTime":"1435196659"}
-],"responseStatus":{"message":"OK"}}
+{
+  "tickers": [
+    {
+      "currencyPair": "BTCUSD",
+      "open": 243.17,
+      "last": 241.58,
+      "lastQ": 0.36,
+      "high": 243.17,
+      "low": 239.73,
+      "volume": 158.12,
+      "volumn": 158.12,
+      "bid": 241.58,
+      "bidQ": 0.49,
+      "ask": 242,
+      "askQ": 1.31,
+      "vwap": 241.00494308120414874778649127,
+      "createDateTime": "1435196659"
+    }
+  ],
+  "responseStatus": {
+    "message": "OK"
+  }
+}

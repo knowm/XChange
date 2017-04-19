@@ -14,7 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test Mercado Bitcoin Account Info JSON parsing
- * 
+ *
  * @author Felipe Micaroni Lalli
  */
 public class WalletJSONTest {

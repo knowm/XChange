@@ -16,7 +16,7 @@ public class CexIOBalance {
 
   /**
    * Constructor
-   * 
+   *
    * @param available Available balance
    * @param orders Balance in pending orders
    * @param bonus Referral program bonus

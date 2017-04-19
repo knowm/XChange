@@ -36,8 +36,7 @@ public class BitfinexNewOrderRequest {
   @JsonProperty("is_postonly")
   protected boolean is_postonly = false;
 
-  public BitfinexNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side,
-      String type) {
+  public BitfinexNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type) {
 
     this.request = "/v1/order/new";
     this.nonce = nonce;
@@ -49,8 +48,8 @@ public class BitfinexNewOrderRequest {
     this.type = type;
   }
 
-  public BitfinexNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side,
-      String type, boolean isHidden, boolean isPostOnly) {
+  public BitfinexNewOrderRequest(String nonce, String symbol, BigDecimal amount, BigDecimal price, String exchange, String side, String type,
+      boolean isHidden, boolean isPostOnly) {
 
     this(nonce, symbol, amount, price, exchange, side, type);
     this.is_hidden = isHidden;

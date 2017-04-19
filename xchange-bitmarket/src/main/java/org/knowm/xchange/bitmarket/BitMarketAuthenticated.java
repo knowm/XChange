@@ -33,45 +33,45 @@ public interface BitMarketAuthenticated {
 
   @POST
   @FormParam("method")
-  public BitMarketAccountInfoResponse info(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+  BitMarketAccountInfoResponse info(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("tonce") SynchronizedValueFactory<Long> timestamp) throws IOException;
 
   @POST
   @FormParam("method")
-  public BitMarketWithdrawResponse withdraw(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+  BitMarketWithdrawResponse withdraw(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("tonce") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address) throws IOException;
 
   @POST
   @FormParam("method")
-  public BitMarketDepositResponse deposit(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+  BitMarketDepositResponse deposit(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("tonce") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency) throws IOException;
 
   @POST
   @FormParam("method")
-  public BitMarketOrdersResponse orders(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+  BitMarketOrdersResponse orders(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("tonce") SynchronizedValueFactory<Long> timestamp) throws IOException;
 
   @POST
   @FormParam("method")
-  public BitMarketTradeResponse trade(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+  BitMarketTradeResponse trade(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("tonce") SynchronizedValueFactory<Long> timestamp, @FormParam("market") String market, @FormParam("type") String type,
       @FormParam("amount") BigDecimal amount, @FormParam("rate") BigDecimal rate) throws IOException;
 
   @POST
   @FormParam("method")
-  public BitMarketCancelResponse cancel(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+  BitMarketCancelResponse cancel(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("tonce") SynchronizedValueFactory<Long> timestamp, @FormParam("id") long id) throws IOException;
 
   @POST
   @FormParam("method")
-  public BitMarketHistoryTradesResponse trades(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+  BitMarketHistoryTradesResponse trades(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("tonce") SynchronizedValueFactory<Long> timestamp, @FormParam("market") String market, @FormParam("count") int count,
       @FormParam("start") long start) throws IOException;
 
   @POST
   @FormParam("method")
-  public BitMarketHistoryOperationsResponse history(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
+  BitMarketHistoryOperationsResponse history(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
       @FormParam("tonce") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency, @FormParam("count") int count,
       @FormParam("start") long start) throws IOException;
 }

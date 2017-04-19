@@ -16,7 +16,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Trades at Mercado Bitcoin
- * 
+ *
  * @author Copied from Bitstamp and adapted by Felipe Micaroni Lalli
  */
 public class TradesDemo {

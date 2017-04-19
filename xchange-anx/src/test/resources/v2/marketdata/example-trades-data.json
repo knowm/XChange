@@ -1,29 +1,29 @@
 {
-   "result":"success",
-   "data":[
-      {
-         "price":655,
-         "amount":0.25,
-         "price_int":65500000,
-         "amount_int":25000000,
-         "tid":1402189342525,
-         "price_currency":"USD",
-         "item":"BTC",
-         "trade_type":"bid",
-         "primary":true,
-         "properties":"Not Supported"
-      },
-      {
-         "price":655.6335,
-         "amount":0.09233,
-         "price_int":65563350,
-         "amount_int":9233000,
-         "tid":1402189349725,
-         "price_currency":"USD",
-         "item":"BTC",
-         "trade_type":"bid",
-         "primary":true,
-         "properties":"Not Supported"
-      }
-   ]
+  "result": "success",
+  "data": [
+    {
+      "price": 655,
+      "amount": 0.25,
+      "price_int": 65500000,
+      "amount_int": 25000000,
+      "tid": 1402189342525,
+      "price_currency": "USD",
+      "item": "BTC",
+      "trade_type": "bid",
+      "primary": true,
+      "properties": "Not Supported"
+    },
+    {
+      "price": 655.6335,
+      "amount": 0.09233,
+      "price_int": 65563350,
+      "amount_int": 9233000,
+      "tid": 1402189349725,
+      "price_currency": "USD",
+      "item": "BTC",
+      "trade_type": "bid",
+      "primary": true,
+      "properties": "Not Supported"
+    }
+  ]
 }

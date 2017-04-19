@@ -32,35 +32,35 @@ public interface IndependentReserveAuthenticated {
   @POST
   @Path("GetAccounts")
   @Consumes(MediaType.APPLICATION_JSON)
-  public IndependentReserveBalance getBalance(AuthAggregate authAggregate) throws IndependentReserveHttpStatusException, IOException;
+  IndependentReserveBalance getBalance(AuthAggregate authAggregate) throws IndependentReserveHttpStatusException, IOException;
 
   @POST
   @Path("GetOpenOrders")
   @Consumes(MediaType.APPLICATION_JSON)
-  public IndependentReserveOpenOrdersResponse getOpenOrders(IndependentReserveOpenOrderRequest independentReserveOpenOrderRequest)
-      throws IndependentReserveHttpStatusException, IOException;
+  IndependentReserveOpenOrdersResponse getOpenOrders(
+      IndependentReserveOpenOrderRequest independentReserveOpenOrderRequest) throws IndependentReserveHttpStatusException, IOException;
 
   @POST
   @Path("GetTrades")
   @Consumes(MediaType.APPLICATION_JSON)
-  public IndependentReserveTradeHistoryResponse getTradeHistory(IndependentReserveTradeHistoryRequest independentReserveTradeHistoryRequest)
-      throws IndependentReserveHttpStatusException, IOException;
+  IndependentReserveTradeHistoryResponse getTradeHistory(
+      IndependentReserveTradeHistoryRequest independentReserveTradeHistoryRequest) throws IndependentReserveHttpStatusException, IOException;
 
   @POST
   @Path("PlaceLimitOrder")
   @Consumes(MediaType.APPLICATION_JSON)
-  public IndependentReservePlaceLimitOrderResponse placeLimitOrder(IndependentReservePlaceLimitOrderRequest independentReservePlaceLimitOrderRequest)
-      throws IndependentReserveHttpStatusException, IOException;
+  IndependentReservePlaceLimitOrderResponse placeLimitOrder(
+      IndependentReservePlaceLimitOrderRequest independentReservePlaceLimitOrderRequest) throws IndependentReserveHttpStatusException, IOException;
 
   @POST
   @Path("CancelOrder")
   @Consumes(MediaType.APPLICATION_JSON)
-  public IndependentReserveCancelOrderResponse cancelOrder(IndependentReserveCancelOrderRequest independentReserveCancelOrderRequest)
-      throws IndependentReserveHttpStatusException, IOException;
-  
+  IndependentReserveCancelOrderResponse cancelOrder(
+      IndependentReserveCancelOrderRequest independentReserveCancelOrderRequest) throws IndependentReserveHttpStatusException, IOException;
+
   @POST
   @Path("GetTransactions")
   @Consumes(MediaType.APPLICATION_JSON)
-  public IndependentReserveTransactionsResponse getTransactions(IndependentReserveTransactionsRequest independentReserveTransactionsRequest)
-      throws IndependentReserveHttpStatusException, IOException;
+  IndependentReserveTransactionsResponse getTransactions(
+      IndependentReserveTransactionsRequest independentReserveTransactionsRequest) throws IndependentReserveHttpStatusException, IOException;
 }

@@ -10,21 +10,21 @@ import org.knowm.xchange.service.trade.TradeService;
 
 public class CCEXOpenOrdersDemo {
 
-	public static void main(String[] args) throws IOException, InterruptedException {
+  public static void main(String[] args) throws IOException, InterruptedException {
 
-		Exchange exchange = CCEXExamplesUtils.getExchange();
+    Exchange exchange = CCEXExamplesUtils.getExchange();
 
-		TradeService tradeService = exchange.getTradeService();
+    TradeService tradeService = exchange.getTradeService();
 
-		generic(tradeService);
-	}
+    generic(tradeService);
+  }
 
-	private static void generic(TradeService tradeService) throws IOException, InterruptedException {
-		List<LimitOrder> limitOrders = tradeService.getOpenOrders().getOpenOrders();
+  private static void generic(TradeService tradeService) throws IOException, InterruptedException {
+    List<LimitOrder> limitOrders = tradeService.getOpenOrders().getOpenOrders();
 
-		for (LimitOrder temp : limitOrders) {
-			System.out.println(temp.toString());
-		}
-	}
+    for (LimitOrder temp : limitOrders) {
+      System.out.println(temp.toString());
+    }
+  }
 
 }

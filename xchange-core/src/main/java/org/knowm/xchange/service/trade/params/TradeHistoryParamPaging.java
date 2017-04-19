@@ -6,9 +6,13 @@ public interface TradeHistoryParamPaging extends TradeHistoryParams {
 
   Integer getPageLength();
 
-  /** 0-based page number */
+  /**
+   * 0-based page number
+   */
   void setPageNumber(Integer pageNumber);
 
-  /** 0-based page number */
+  /**
+   * 0-based page number
+   */
   Integer getPageNumber();
 }

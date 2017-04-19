@@ -11,7 +11,7 @@ public enum FuturesContract {
   /**
    * Private constructor so it cannot be instantiated
    */
-  private FuturesContract(String name) {
+  FuturesContract(String name) {
     this.name = name;
   }
 

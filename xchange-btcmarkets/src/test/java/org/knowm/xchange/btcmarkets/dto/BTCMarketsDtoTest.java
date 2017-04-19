@@ -2,10 +2,7 @@ package org.knowm.xchange.btcmarkets.dto;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -15,9 +12,7 @@ import org.knowm.xchange.btcmarkets.BtcMarketsAssert;
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderResponse;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsMyTradingRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
@@ -28,9 +23,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SuppressWarnings("ThrowableResultOfMethodCallIgnored")
 public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
@@ -62,11 +55,6 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
   }
 
   @Test
-  public void shouldSerializeCancelOrderRequest() throws UnsupportedEncodingException, JsonProcessingException {
-    assertThatSerializesCorrectly(new BTCMarketsCancelOrderRequest(6840125478L));
-  }
-
-  @Test
   public void shouldFailWhenParsingFailedCancelOrderResponseAsResponse() throws IOException {
     try {
       parse(BTCMarketsCancelOrderResponse.class);
@@ -84,7 +72,6 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getErrorCode()).isNull();
     assertThat(response.getErrorMessage()).isNull();
-    ;
   }
 
   @Test
@@ -96,7 +83,6 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getErrorCode()).isNull();
     assertThat(response.getErrorMessage()).isNull();
-    ;
   }
 
   @Test
@@ -114,7 +100,6 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     BTCMarketsException response1 = responses.get(0);
     assertThat(response1.getSuccess()).isTrue();
     assertThat(response1.getErrorCode()).isNull();
-    ;
     assertThat(response1.getMessage()).contains("(HTTP status code: 0)");
     assertThat(response1.getId()).isEqualTo(6840125484L);
 
@@ -146,18 +131,6 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     assertThat(ex.getResponses()).isNull();
     assertThat(ex.getId()).isEqualTo(0);
     assertThat(ex.getClientRequestId()).isEqualTo("abc-cdf-1000");
-  }
-
-  @Test
-  public void shouldSerializeMyTradingRequest() throws UnsupportedEncodingException, JsonProcessingException {
-    final BTCMarketsMyTradingRequest request = new BTCMarketsMyTradingRequest("AUD", "BTC", 10, new Date(33434568724000L));
-    assertThatSerializesCorrectly(request);
-  }
-
-  @Test
-  public void shouldSerializePlaceOrderRequest() throws UnsupportedEncodingException, JsonProcessingException {
-    assertThatSerializesCorrectly(new BTCMarketsOrder(new BigDecimal("0.10000000"), new BigDecimal("130.00000000"), "AUD", "BTC",
-        BTCMarketsOrder.Side.Bid, BTCMarketsOrder.Type.Limit, "abc-cdf-1000"));
   }
 
   @Test
@@ -252,12 +225,6 @@ public class BTCMarketsDtoTest extends BTCMarketsTestSupport {
     for (int i = 0; i < userTrades.size(); i++) {
       BtcMarketsAssert.assertEquals(userTrades.get(i), expectedParsedBtcMarketsUserTrades.get(i));
     }
-  }
-
-  private <T> void assertThatSerializesCorrectly(T request) throws JsonProcessingException, UnsupportedEncodingException {
-    final String json = new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(request);
-    final InputStream expected = getStream(getBaseFileName(request.getClass()));
-    assertThat(new ByteArrayInputStream(json.getBytes("UTF-8"))).hasContentEqualTo(expected);
   }
 
 }

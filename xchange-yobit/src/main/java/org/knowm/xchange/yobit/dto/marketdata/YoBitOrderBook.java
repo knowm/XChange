@@ -20,71 +20,68 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(using = YoBitOrderBookDeserializer.class)
 public class YoBitOrderBook {
 
-	private List<YoBitAsksBidsData> asks;
-	private List<YoBitAsksBidsData> bids;
+  private List<YoBitAsksBidsData> asks;
+  private List<YoBitAsksBidsData> bids;
 
-	public YoBitOrderBook(List<YoBitAsksBidsData> asks, List<YoBitAsksBidsData> bids) {
-		this.asks = asks;
-		this.bids = bids;
-	}
+  public YoBitOrderBook(List<YoBitAsksBidsData> asks, List<YoBitAsksBidsData> bids) {
+    this.asks = asks;
+    this.bids = bids;
+  }
 
-	public List<YoBitAsksBidsData> getAsks() {
-		return asks;
-	}
+  public List<YoBitAsksBidsData> getAsks() {
+    return asks;
+  }
 
-	public List<YoBitAsksBidsData> getBids() {
-		return bids;
-	}
+  public List<YoBitAsksBidsData> getBids() {
+    return bids;
+  }
 
-	static class YoBitOrderBookDeserializer extends JsonDeserializer<YoBitOrderBook> {
+  static class YoBitOrderBookDeserializer extends JsonDeserializer<YoBitOrderBook> {
 
-		private List<YoBitAsksBidsData> asks = new ArrayList<YoBitAsksBidsData>();
-		private List<YoBitAsksBidsData> bids = new ArrayList<YoBitAsksBidsData>();
+    private List<YoBitAsksBidsData> asks = new ArrayList<>();
+    private List<YoBitAsksBidsData> bids = new ArrayList<>();
 
-		@Override
-		public YoBitOrderBook deserialize(JsonParser jp, DeserializationContext ctxt)
-				throws IOException, JsonProcessingException {
+    @Override
+    public YoBitOrderBook deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-			ObjectCodec oc = jp.getCodec();
-			JsonNode node = oc.readTree(jp);
+      ObjectCodec oc = jp.getCodec();
+      JsonNode node = oc.readTree(jp);
 
-			if (node.isObject()) {
-				Iterator<Entry<String, JsonNode>> priceEntryIter = node.fields();
-				while (priceEntryIter.hasNext()) {
-					Entry<String, JsonNode> priceEntryNode = priceEntryIter.next();
+      if (node.isObject()) {
+        Iterator<Entry<String, JsonNode>> priceEntryIter = node.fields();
+        while (priceEntryIter.hasNext()) {
+          Entry<String, JsonNode> priceEntryNode = priceEntryIter.next();
 
-					JsonNode priceNode = priceEntryNode.getValue();
+          JsonNode priceNode = priceEntryNode.getValue();
 
-					if (priceNode.isObject()) {
-						Iterator<Entry<String, JsonNode>> data = priceNode.fields();
+          if (priceNode.isObject()) {
+            Iterator<Entry<String, JsonNode>> data = priceNode.fields();
 
-						while (data.hasNext()) {
+            while (data.hasNext()) {
 
-							Entry<String, JsonNode> tmp = data.next();
+              Entry<String, JsonNode> tmp = data.next();
 
-							Iterator<JsonNode> dd = tmp.getValue().elements();
+              Iterator<JsonNode> dd = tmp.getValue().elements();
 
-							while (dd.hasNext()) {
+              while (dd.hasNext()) {
 
-								JsonNode arrNode = dd.next();
+                JsonNode arrNode = dd.next();
 
-								if (arrNode.isArray()) {
-									if (tmp.getKey().equals("asks")) {
-										asks.add(new YoBitAsksBidsData(BigDecimal.valueOf(arrNode.get(1).asDouble()),
-												BigDecimal.valueOf(arrNode.get(0).asDouble())));
-									} else {
-										bids.add(new YoBitAsksBidsData(BigDecimal.valueOf(arrNode.get(1).asDouble()),
-												BigDecimal.valueOf(arrNode.get(0).asDouble())));
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+                if (arrNode.isArray()) {
+                  if (tmp.getKey().equals("asks")) {
+                    asks.add(new YoBitAsksBidsData(BigDecimal.valueOf(arrNode.get(1).asDouble()), BigDecimal.valueOf(arrNode.get(0).asDouble())));
+                  } else {
+                    bids.add(new YoBitAsksBidsData(BigDecimal.valueOf(arrNode.get(1).asDouble()), BigDecimal.valueOf(arrNode.get(0).asDouble())));
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
 
-			return new YoBitOrderBook(asks, bids);
-		}
-	}
+      return new YoBitOrderBook(asks, bids);
+    }
+  }
 
 }

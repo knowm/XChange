@@ -12,7 +12,7 @@ public class KrakenLedgerResult extends KrakenResult<KrakenLedgers> {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param error
    */
@@ -28,7 +28,7 @@ public class KrakenLedgerResult extends KrakenResult<KrakenLedgers> {
 
     /**
      * Constructor
-     * 
+     *
      * @param ledgerMap
      */
     public KrakenLedgers(Map<String, KrakenLedger> ledgerMap) {
@@ -39,7 +39,7 @@ public class KrakenLedgerResult extends KrakenResult<KrakenLedgers> {
 
     /**
      * Constructor
-     * 
+     *
      * @param ledgerMap
      * @param count
      */

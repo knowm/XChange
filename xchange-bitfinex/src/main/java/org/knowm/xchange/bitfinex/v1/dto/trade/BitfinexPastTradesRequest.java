@@ -21,7 +21,7 @@ public class BitfinexPastTradesRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    * @param symbol
    * @param timestamp

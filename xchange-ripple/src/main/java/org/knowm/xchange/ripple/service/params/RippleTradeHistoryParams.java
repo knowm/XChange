@@ -30,8 +30,8 @@ public class RippleTradeHistoryParams implements TradeHistoryParamCurrencyPair, 
   private int apiCallCount = 0;
   private int apiCallCountLimit = DEFAULT_API_CALL_COUNT;
 
-  private Collection<Currency> preferredBaseCurrency = new HashSet<Currency>();
-  private Collection<Currency> preferredCounterCurrency = new HashSet<Currency>();
+  private Collection<Currency> preferredBaseCurrency = new HashSet<>();
+  private Collection<Currency> preferredCounterCurrency = new HashSet<>();
 
   public RippleTradeHistoryParams() {
     setPageLength(DEFAULT_PAGE_LENGTH);

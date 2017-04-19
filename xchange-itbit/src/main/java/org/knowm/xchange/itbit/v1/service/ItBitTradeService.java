@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -21,7 +21,11 @@ import org.knowm.xchange.itbit.v1.ItBitAdapters;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.itbit.v1.dto.trade.ItBitTradeHistory;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
@@ -38,7 +42,8 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     CurrencyPair currencyPair = null;
     if (params instanceof OpenOrdersParamCurrencyPair) {
       currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
@@ -48,7 +53,7 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
     if (currencyPair == null) {
       List<ItBitOrder> orders = new ArrayList<>();
       for (CurrencyPair tmpCurrencyPair : this.exchange.getExchangeMetaData().getCurrencyPairs().keySet()) {
-      	orders.addAll(Arrays.asList(getItBitOpenOrders(tmpCurrencyPair)));
+        orders.addAll(Arrays.asList(getItBitOpenOrders(tmpCurrencyPair)));
       }
       ItBitOrder[] empty = {};
       return ItBitAdapters.adaptPrivateOrders(orders.isEmpty() ? empty : Arrays.copyOf(orders.toArray(), orders.size(), ItBitOrder[].class));
@@ -57,7 +62,6 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
       return ItBitAdapters.adaptPrivateOrders(itBitOpenOrders);
     }
   }
-
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
@@ -148,8 +152,8 @@ public class ItBitTradeService extends ItBitTradeServiceRaw implements TradeServ
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

@@ -46,7 +46,7 @@ public final class CoinbaseAdapters {
 
   public static UserTrades adaptTrades(CoinbaseTransfers transfers) {
 
-    final List<UserTrade> trades = new ArrayList<UserTrade>();
+    final List<UserTrade> trades = new ArrayList<>();
     for (CoinbaseTransfer transfer : transfers.getTransfers()) {
       trades.add(adaptTrade(transfer));
     }
@@ -76,10 +76,10 @@ public final class CoinbaseAdapters {
   public static OrderType adaptOrderType(CoinbaseTransferType transferType) {
 
     switch (transferType) {
-    case BUY:
-      return OrderType.BID;
-    case SELL:
-      return OrderType.ASK;
+      case BUY:
+        return OrderType.BID;
+      case SELL:
+        return OrderType.ASK;
     }
     return null;
   }

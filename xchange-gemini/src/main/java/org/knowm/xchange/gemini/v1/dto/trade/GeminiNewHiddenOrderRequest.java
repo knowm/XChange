@@ -11,7 +11,7 @@ public class GeminiNewHiddenOrderRequest extends GeminiNewOrderRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    * @param symbol
    * @param amount

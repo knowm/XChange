@@ -101,7 +101,7 @@ public class KrakenAccountJSONTest {
     assertThat(fee.getNextFee()).isEqualTo("0.2900");
     assertThat(fee.getNextVolume()).isEqualTo("1000.0000");
     assertThat(fee.getTierVolume()).isEqualTo("0.0000");
-    
+
     KrakenVolumeFee maker = tradeVolume.getFeesMaker().get("XXBTZUSD");
     assertThat(maker.getFee()).isEqualTo("0.1600");
     assertThat(maker.getMinFee()).isEqualTo("0.0000");

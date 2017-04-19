@@ -17,7 +17,7 @@ public final class ANXOrderResult {
 
   /**
    * Constructor
-   * 
+   *
    * @param avgCost
    * @param orderId
    * @param totalAmount
@@ -63,10 +63,10 @@ public final class ANXOrderResult {
   @Override
   public String toString() {
 
-    String tradesString = "[";
+    StringBuilder tradesString = new StringBuilder("[");
     for (int i = 0; i < trades.length; i++)
-      tradesString += ((i > 0) ? ", " : "") + trades[i].toString();
-    tradesString += "]";
+      tradesString.append((i > 0) ? ", " : "").append(trades[i].toString());
+    tradesString.append("]");
     return "ANXOpenOrder [avgCost=" + avgCost + ", orderId=" + orderId + ", totalAmount=" + totalAmount + ", totalSpent=" + totalSpent + ", trades="
         + tradesString + "]";
   }

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.knowm.xchange.bittrex.v1.dto.account;
 
 import java.util.List;
@@ -16,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({ "success", "message", "result" })
+@JsonPropertyOrder({"success", "message", "result"})
 public class BittrexDepositsHistoryResponse {
   @JsonProperty("success")
   private Boolean success;

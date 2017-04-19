@@ -37,16 +37,16 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBaseService {
     try {
       LakeBTCOrderResponse newOrder = null;
       switch (marketOrder.getType()) {
-      case BID:
-        newOrder = lakeBTCAuthenticated.placeBuyOrder(signatureCreator, exchange.getNonceFactory(),
-            //unit price, amount, currency concatenated by commas
-            new LakeBTCBuyOrderRequest(String.format("\"%s,%s,%s\"", "0", marketOrder.getTradableAmount().toString(), pair)));
-        break;
-      case ASK:
-        newOrder = lakeBTCAuthenticated.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
-            //unit price, amount, currency concatenated by commas
-            new LakeBTCSellOrderRequest(String.format("\"%s,%s,%s\"", "0", marketOrder.getTradableAmount().toString(), pair)));
-        break;
+        case BID:
+          newOrder = lakeBTCAuthenticated.placeBuyOrder(signatureCreator, exchange.getNonceFactory(),
+              //unit price, amount, currency concatenated by commas
+              new LakeBTCBuyOrderRequest(String.format("\"%s,%s,%s\"", "0", marketOrder.getTradableAmount().toString(), pair)));
+          break;
+        case ASK:
+          newOrder = lakeBTCAuthenticated.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
+              //unit price, amount, currency concatenated by commas
+              new LakeBTCSellOrderRequest(String.format("\"%s,%s,%s\"", "0", marketOrder.getTradableAmount().toString(), pair)));
+          break;
       }
       return newOrder;
     } catch (IOException e) {
@@ -59,16 +59,17 @@ public class LakeBTCTradeServiceRaw extends LakeBTCBaseService {
     try {
       LakeBTCOrderResponse newOrder = null;
       switch (limitOrder.getType()) {
-      case BID:
-        newOrder = lakeBTCAuthenticated.placeBuyOrder(signatureCreator, exchange.getNonceFactory(),
-            //unit price, amount, currency concatenated by commas
-            new LakeBTCBuyOrderRequest(String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getTradableAmount().toString(), pair)));
-        break;
-      case ASK:
-        newOrder = lakeBTCAuthenticated.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
-            //unit price, amount, currency concatenated by commas
-            new LakeBTCSellOrderRequest(String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getTradableAmount().toString(), pair)));
-        break;
+        case BID:
+          newOrder = lakeBTCAuthenticated.placeBuyOrder(signatureCreator, exchange.getNonceFactory(),
+              //unit price, amount, currency concatenated by commas
+              new LakeBTCBuyOrderRequest(String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getTradableAmount().toString(), pair)));
+          break;
+        case ASK:
+          newOrder = lakeBTCAuthenticated.placeSellOrder(signatureCreator, exchange.getNonceFactory(),
+              //unit price, amount, currency concatenated by commas
+              new LakeBTCSellOrderRequest(
+                  String.format("\"%s,%s,%s\"", limitOrder.getLimitPrice(), limitOrder.getTradableAmount().toString(), pair)));
+          break;
       }
       return newOrder;
     } catch (IOException e) {

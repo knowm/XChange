@@ -1,9 +1,5 @@
 package org.knowm.xchange.poloniex.service;
 
-/**
- * @author Zach Holmes
- */
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -106,7 +102,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   /**
    * @param params Can optionally implement {@link TradeHistoryParamCurrencyPair} and {@link TradeHistoryParamsTimeSpan}. All other TradeHistoryParams
-   *        types will be ignored.
+   * types will be ignored.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
@@ -137,7 +133,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
 
   private UserTrades getTradeHistory(CurrencyPair currencyPair, final Long startTime, final Long endTime) throws IOException {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     if (currencyPair == null) {
       HashMap<String, PoloniexUserTrade[]> poloniexUserTrades = returnTradeHistory(startTime, endTime);
       if (poloniexUserTrades != null) {
@@ -176,8 +172,8 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

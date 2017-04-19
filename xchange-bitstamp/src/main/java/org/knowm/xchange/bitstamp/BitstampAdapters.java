@@ -53,22 +53,21 @@ public final class BitstampAdapters {
 
     // Adapt to XChange DTOs
     final BigDecimal usdWithdrawing = bitstampBalance.getUsdBalance().subtract(bitstampBalance.getUsdAvailable())
-            .subtract(bitstampBalance.getUsdReserved());
+        .subtract(bitstampBalance.getUsdReserved());
     final BigDecimal eurWithdrawing = bitstampBalance.getEurBalance().subtract(bitstampBalance.getEurAvailable())
-            .subtract(bitstampBalance.getEurReserved());
+        .subtract(bitstampBalance.getEurReserved());
     final BigDecimal btcWithdrawing = bitstampBalance.getBtcBalance().subtract(bitstampBalance.getBtcAvailable())
-            .subtract(bitstampBalance.getBtcReserved());
+        .subtract(bitstampBalance.getBtcReserved());
     final BigDecimal xrpWithdrawing = bitstampBalance.getXrpBalance().subtract(bitstampBalance.getXrpAvailable())
-            .subtract(bitstampBalance.getXrpReserved());
+        .subtract(bitstampBalance.getXrpReserved());
     Balance usdBalance = new Balance(Currency.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(),
-            bitstampBalance.getUsdReserved(), ZERO, ZERO, usdWithdrawing, ZERO);
+        bitstampBalance.getUsdReserved(), ZERO, ZERO, usdWithdrawing, ZERO);
     Balance eurBalance = new Balance(Currency.EUR, bitstampBalance.getEurBalance(), bitstampBalance.getEurAvailable(),
-            bitstampBalance.getEurReserved(), ZERO, ZERO, eurWithdrawing, ZERO);
+        bitstampBalance.getEurReserved(), ZERO, ZERO, eurWithdrawing, ZERO);
     Balance btcBalance = new Balance(Currency.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),
-            bitstampBalance.getBtcReserved(), ZERO, ZERO, btcWithdrawing, ZERO);
+        bitstampBalance.getBtcReserved(), ZERO, ZERO, btcWithdrawing, ZERO);
     Balance xrpBalance = new Balance(Currency.XRP, bitstampBalance.getXrpBalance(), bitstampBalance.getXrpAvailable(),
-            bitstampBalance.getXrpReserved(), ZERO, ZERO, xrpWithdrawing, ZERO);
-
+        bitstampBalance.getXrpReserved(), ZERO, ZERO, xrpWithdrawing, ZERO);
 
     return new AccountInfo(userName, bitstampBalance.getFee(), new Wallet(usdBalance, eurBalance, btcBalance, xrpBalance));
   }
@@ -90,7 +89,7 @@ public final class BitstampAdapters {
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
       checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));
@@ -119,7 +118,7 @@ public final class BitstampAdapters {
    */
   public static Trades adaptTrades(BitstampTransaction[] transactions, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (BitstampTransaction tx : transactions) {
       final long tradeId = tx.getTid();
@@ -167,7 +166,7 @@ public final class BitstampAdapters {
     Date timestamp = new Date(bitstampTicker.getTimestamp() * 1000L);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).vwap(vwap).volume(volume)
-            .timestamp(timestamp).build();
+        .timestamp(timestamp).build();
 
   }
 
@@ -179,7 +178,7 @@ public final class BitstampAdapters {
    */
   public static UserTrades adaptTradeHistory(BitstampUserTransaction[] bitstampUserTransactions) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (BitstampUserTransaction bitstampUserTransaction : bitstampUserTransactions) {
       if (bitstampUserTransaction.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
@@ -197,7 +196,7 @@ public final class BitstampAdapters {
         final CurrencyPair currencyPair = new CurrencyPair(Currency.BTC, new Currency(bitstampUserTransaction.getCounterCurrency()));
 
         UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
-                Currency.getInstance(currencyPair.counter.getCurrencyCode()));
+            Currency.getInstance(currencyPair.counter.getCurrencyCode()));
         trades.add(trade);
       }
     }

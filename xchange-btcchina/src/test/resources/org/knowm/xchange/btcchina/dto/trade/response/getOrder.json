@@ -1,15 +1,15 @@
 {
-	"result": {
-		"order": {
-			"id": 12345678,
-			"type": "ask",
-			"price": "3811.69",
-			"currency": "CNY",
-			"amount": "0.00000000",
-			"amount_original": "0.03100000",
-			"date": 1403170821,
-			"status": "closed"
-		}
-	},
-	"id": "1"
+  "result": {
+    "order": {
+      "id": 12345678,
+      "type": "ask",
+      "price": "3811.69",
+      "currency": "CNY",
+      "amount": "0.00000000",
+      "amount_original": "0.03100000",
+      "date": 1403170821,
+      "status": "closed"
+    }
+  },
+  "id": "1"
 }

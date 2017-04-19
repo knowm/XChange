@@ -41,8 +41,8 @@ public class RetriesDemo {
 
   }
 
-  private static void getMarketDataTooFastWithoutRetries(MarketDataService service, CurrencyPair cp)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  private static void getMarketDataTooFastWithoutRetries(MarketDataService service,
+      CurrencyPair cp) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
     System.out.println("Polling for orderbooks too fast without using Retries:");
     for (int i = 0; i < 50; i++) {

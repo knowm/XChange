@@ -51,15 +51,16 @@ public final class BitfinexAdapters {
   }
 
   public static String adaptBitfinexCurrency(String bitfinexSymbol) {
-	  String currency = bitfinexSymbol.toUpperCase();
-	  if (currency.equals("DSH")) {
-		  currency = "DASH";
-	  }
-	  return currency;
+    String currency = bitfinexSymbol.toUpperCase();
+    if (currency.equals("DSH")) {
+      currency = "DASH";
+    }
+    return currency;
   }
+
   public static List<CurrencyPair> adaptCurrencyPairs(Collection<String> bitfinexSymbol) {
 
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    List<CurrencyPair> currencyPairs = new ArrayList<>();
     for (String symbol : bitfinexSymbol) {
       currencyPairs.add(adaptCurrencyPair(symbol));
     }
@@ -90,7 +91,7 @@ public final class BitfinexAdapters {
   public static OrdersContainer adaptOrders(BitfinexLevel[] bitfinexLevels, CurrencyPair currencyPair, OrderType orderType) {
 
     BigDecimal maxTimestamp = new BigDecimal(Long.MIN_VALUE);
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(bitfinexLevels.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(bitfinexLevels.length);
 
     for (BitfinexLevel bitfinexLevel : bitfinexLevels) {
       if (bitfinexLevel.getTimestamp().compareTo(maxTimestamp) > 0) {
@@ -101,7 +102,7 @@ public final class BitfinexAdapters {
       limitOrders.add(adaptOrder(bitfinexLevel.getAmount(), bitfinexLevel.getPrice(), currencyPair, orderType, timestamp));
     }
 
-    long maxTimestampInMillis = maxTimestamp.multiply(new BigDecimal(1000l)).longValue();
+    long maxTimestampInMillis = maxTimestamp.multiply(new BigDecimal(1000L)).longValue();
     return new OrdersContainer(maxTimestampInMillis, limitOrders);
   }
 
@@ -140,7 +141,7 @@ public final class BitfinexAdapters {
 
   public static List<FixedRateLoanOrder> adaptFixedRateLoanOrders(BitfinexLendLevel[] orders, String currency, String orderType, String id) {
 
-    List<FixedRateLoanOrder> loanOrders = new ArrayList<FixedRateLoanOrder>(orders.length);
+    List<FixedRateLoanOrder> loanOrders = new ArrayList<>(orders.length);
 
     for (BitfinexLendLevel order : orders) {
       if ("yes".equalsIgnoreCase(order.getFrr())) {
@@ -168,7 +169,7 @@ public final class BitfinexAdapters {
 
   public static List<FloatingRateLoanOrder> adaptFloatingRateLoanOrders(BitfinexLendLevel[] orders, String currency, String orderType, String id) {
 
-    List<FloatingRateLoanOrder> loanOrders = new ArrayList<FloatingRateLoanOrder>(orders.length);
+    List<FloatingRateLoanOrder> loanOrders = new ArrayList<>(orders.length);
 
     for (BitfinexLendLevel order : orders) {
       if ("no".equals(order.getFrr())) {
@@ -206,7 +207,7 @@ public final class BitfinexAdapters {
 
   public static Trades adaptTrades(BitfinexTrade[] trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>(trades.length);
+    List<Trade> tradesList = new ArrayList<>(trades.length);
     long lastTradeId = 0;
     for (BitfinexTrade trade : trades) {
       long tradeId = trade.getTradeId();
@@ -235,7 +236,7 @@ public final class BitfinexAdapters {
 
   public static Wallet adaptWallet(BitfinexBalancesResponse[] response) {
 
-    Map<String, BigDecimal[]> balancesByCurrency = new HashMap<String, BigDecimal[]>(); // {total, available}
+    Map<String, BigDecimal[]> balancesByCurrency = new HashMap<>(); // {total, available}
 
     // for each currency we have multiple balances types: exchange, trading, deposit.
     // each of those may be partially frozen/available
@@ -243,7 +244,7 @@ public final class BitfinexAdapters {
       String currencyName = adaptBitfinexCurrency(balance.getCurrency());
       BigDecimal[] balanceDetail = balancesByCurrency.get(currencyName);
       if (balanceDetail == null) {
-        balanceDetail = new BigDecimal[] { balance.getAmount(), balance.getAvailable() };
+        balanceDetail = new BigDecimal[]{balance.getAmount(), balance.getAvailable()};
       } else {
         balanceDetail[0] = balanceDetail[0].add(balance.getAmount());
         balanceDetail[1] = balanceDetail[1].add(balance.getAvailable());
@@ -251,7 +252,7 @@ public final class BitfinexAdapters {
       balancesByCurrency.put(currencyName, balanceDetail);
     }
 
-    List<Balance> balances = new ArrayList<Balance>(balancesByCurrency.size());
+    List<Balance> balances = new ArrayList<>(balancesByCurrency.size());
     for (Entry<String, BigDecimal[]> entry : balancesByCurrency.entrySet()) {
       String currencyName = entry.getKey();
       BigDecimal[] balanceDetail = entry.getValue();
@@ -265,7 +266,7 @@ public final class BitfinexAdapters {
 
   public static OpenOrders adaptOrders(BitfinexOrderStatusResponse[] activeOrders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(activeOrders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(activeOrders.length);
 
     for (BitfinexOrderStatusResponse order : activeOrders) {
       OrderType orderType = order.getSide().equalsIgnoreCase("buy") ? OrderType.BID : OrderType.ASK;
@@ -280,7 +281,7 @@ public final class BitfinexAdapters {
 
   public static UserTrades adaptTradeHistory(BitfinexTradeResponse[] trades, String symbol) {
 
-    List<UserTrade> pastTrades = new ArrayList<UserTrade>(trades.length);
+    List<UserTrade> pastTrades = new ArrayList<>(trades.length);
     CurrencyPair currencyPair = adaptCurrencyPair(symbol);
 
     for (BitfinexTradeResponse trade : trades) {
@@ -319,20 +320,18 @@ public final class BitfinexAdapters {
     return metaData;
   }
 
-  public static List<FundingRecord> adaptFundingHistory(BitfinexDepositWithdrawalHistoryResponse[] bitfinexDepositWithdrawalHistoryResponses){
-    final List<FundingRecord> fundingRecords = new ArrayList<FundingRecord>();
+  public static List<FundingRecord> adaptFundingHistory(BitfinexDepositWithdrawalHistoryResponse[] bitfinexDepositWithdrawalHistoryResponses) {
+    final List<FundingRecord> fundingRecords = new ArrayList<>();
     for (BitfinexDepositWithdrawalHistoryResponse responseEntry : bitfinexDepositWithdrawalHistoryResponses) {
       String address = responseEntry.getAddress();
       String description = responseEntry.getDescription();
       String txnId = "";
       final Currency currency = Currency.getInstance(responseEntry.getCurrency());
-      if (currency == Currency.BTC && responseEntry.getType() == FundingRecord.Type.WITHDRAWAL &&
-              description.contains(",")){
-        txnId = description.substring(description.indexOf("txid: ")+ "txid: ".length());
+      if (currency == Currency.BTC && responseEntry.getType() == FundingRecord.Type.WITHDRAWAL && description.contains(",")) {
+        txnId = description.substring(description.indexOf("txid: ") + "txid: ".length());
       }
-      FundingRecord fundingRecordEntry = new FundingRecord(address, responseEntry.getTimestamp(),
-              currency, responseEntry.getAmount(), txnId, responseEntry.getType(),
-              responseEntry.getStatus(), null, null, description);
+      FundingRecord fundingRecordEntry = new FundingRecord(address, responseEntry.getTimestamp(), currency, responseEntry.getAmount(), txnId,
+          responseEntry.getType(), responseEntry.getStatus(), null, null, description);
 
       fundingRecords.add(fundingRecordEntry);
     }

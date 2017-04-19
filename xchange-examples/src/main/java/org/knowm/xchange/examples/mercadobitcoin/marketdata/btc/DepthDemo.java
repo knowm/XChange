@@ -13,7 +13,7 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
 
 /**
  * Demonstrate requesting Depth at Mercado Bitcoin
- * 
+ *
  * @author Copied from Bitstamp and adapted by Felipe Micaroni Lalli
  */
 public class DepthDemo {

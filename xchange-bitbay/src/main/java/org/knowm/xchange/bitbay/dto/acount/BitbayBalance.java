@@ -12,8 +12,7 @@ public class BitbayBalance {
   private final BigDecimal locked;
 
   /**
-   * available : amount of available money/cryptocurrency
-   * locked : amount of locked money/cryptocurrency
+   * available : amount of available money/cryptocurrency locked : amount of locked money/cryptocurrency
    */
   public BitbayBalance(@JsonProperty("available") BigDecimal available, @JsonProperty("locked") BigDecimal locked) {
     this.available = available;

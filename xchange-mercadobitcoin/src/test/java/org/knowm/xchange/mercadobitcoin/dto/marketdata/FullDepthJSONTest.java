@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Test Mercado Bitcoin Full Depth JSON parsing
- * 
+ *
  * @author Felipe Micaroni Lalli
  */
 public class FullDepthJSONTest {

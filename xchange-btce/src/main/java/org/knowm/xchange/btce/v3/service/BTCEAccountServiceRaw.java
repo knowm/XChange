@@ -33,10 +33,10 @@ public class BTCEAccountServiceRaw extends BTCEBaseService {
    * @param since When to start displaying? UNIX time default 0
    * @param end When to finish displaying? UNIX time default +inf
    * @return BTCEAccountInfo object: {funds={usd=0, rur=0, eur=0, btc=0.1, ltc=0, nmc=0}, rights={info=1, trade=1, withdraw=1}, transaction_count=1,
-   *         open_orders=0, server_time=1357678428}
+   * open_orders=0, server_time=1357678428}
    */
-  public BTCEAccountInfo getBTCEAccountInfo(Long from, Long count, Long fromId, Long endId, Boolean descOrder, Long since, Long end)
-      throws IOException {
+  public BTCEAccountInfo getBTCEAccountInfo(Long from, Long count, Long fromId, Long endId, Boolean descOrder, Long since,
+      Long end) throws IOException {
 
     BTCEAccountInfoReturn info = btce.getInfo(apiKey, signatureCreator, exchange.getNonceFactory(), from, count, fromId, endId,
         BTCEAuthenticated.SortOrder.DESC, null, null);
@@ -46,7 +46,7 @@ public class BTCEAccountServiceRaw extends BTCEBaseService {
 
   /**
    * Author: Ondřej Novtný
-   * 
+   *
    * @param currency Currency to withdraw
    * @param amount Amount of withdrawal
    * @param address Withdrawall address

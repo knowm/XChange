@@ -13,7 +13,7 @@ public class ANXTickerWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param anxTicker
    * @param error

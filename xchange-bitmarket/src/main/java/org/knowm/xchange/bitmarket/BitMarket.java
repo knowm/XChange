@@ -25,13 +25,13 @@ public interface BitMarket {
    */
   @GET
   @Path("{currencyPair}/ticker.json")
-  public BitMarketTicker getTicker(@PathParam("currencyPair") String currency) throws IOException;
+  BitMarketTicker getTicker(@PathParam("currencyPair") String currency) throws IOException;
 
   @GET
   @Path("{currencyPair}/orderbook.json")
-  public BitMarketOrderBook getOrderBook(@PathParam("currencyPair") String currency) throws IOException;
+  BitMarketOrderBook getOrderBook(@PathParam("currencyPair") String currency) throws IOException;
 
   @GET
   @Path("{currencyPair}/trades.json")
-  public BitMarketTrade[] getTrades(@PathParam("currencyPair") String currency) throws IOException;
+  BitMarketTrade[] getTrades(@PathParam("currencyPair") String currency) throws IOException;
 }

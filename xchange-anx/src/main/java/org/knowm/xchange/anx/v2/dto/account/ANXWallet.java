@@ -18,7 +18,7 @@ public final class ANXWallet {
 
   /**
    * Constructor
-   * 
+   *
    * @param balance
    * @param dailyWithdrawLimit
    * @param maxWithdraw

@@ -1,6 +1,7 @@
 package org.knowm.xchange.examples.paymium;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -23,7 +24,7 @@ public class PaymiumMarketDataExample {
     System.out.println(btcCentralMarketDataServiceRaw.getPaymiumMarketDepth());
     System.out.println("\n");
 
-    System.out.println(btcCentralMarketDataServiceRaw.getPaymiumTrades());
+    System.out.println(Arrays.toString(btcCentralMarketDataServiceRaw.getPaymiumTrades()));
     System.out.println("\n");
   }
 

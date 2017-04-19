@@ -23,7 +23,6 @@ import org.knowm.xchange.bitmarket.dto.account.BitMarketAccountInfoResponse;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketBalance;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketDepositResponse;
 import org.knowm.xchange.bitmarket.dto.account.BitMarketWithdrawResponse;
-import org.knowm.xchange.bitmarket.service.BitMarketAccountService;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;

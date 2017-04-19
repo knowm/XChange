@@ -27,8 +27,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author Martin Stachon
  * @param <T>
+ * @author Martin Stachon
  */
 public class CoinmateBaseResponse<T> {
 

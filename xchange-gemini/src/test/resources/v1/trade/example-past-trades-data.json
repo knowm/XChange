@@ -1,16 +1,16 @@
 [
-   {
-      "price":"854.01",
-      "amount":"0.0072077",
-      "timestamp":"1387057315.0",
-      "exchange":"bitfinex",
-      "type":"Sell"
-   },
-   {
-      "price":"857.92",
-      "amount":"0.0027923",
-      "timestamp":"1387057259.0",
-      "exchange":"bitstamp",
-      "type":"Sell"
-   }
+  {
+    "price": "854.01",
+    "amount": "0.0072077",
+    "timestamp": "1387057315.0",
+    "exchange": "bitfinex",
+    "type": "Sell"
+  },
+  {
+    "price": "857.92",
+    "amount": "0.0027923",
+    "timestamp": "1387057259.0",
+    "exchange": "bitstamp",
+    "type": "Sell"
+  }
 ]

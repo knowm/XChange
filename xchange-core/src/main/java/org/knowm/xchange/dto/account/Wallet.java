@@ -55,7 +55,7 @@ public final class Wallet {
       Balance balance = balances.iterator().next();
       this.balances = Collections.singletonMap(balance.getCurrency(), balance);
     } else {
-      this.balances = new HashMap<Currency, Balance>();
+      this.balances = new HashMap<>();
       for (Balance balance : balances) {
         if (this.balances.containsKey(balance.getCurrency()))
           // this class could merge balances, but probably better to catch mistakes and let the exchange merge them
@@ -66,7 +66,7 @@ public final class Wallet {
   }
 
   /**
-   * @see #Wallet(String,String,Collection)
+   * @see #Wallet(String, String, Collection)
    */
   public Wallet(String id, Collection<Balance> balances) {
 
@@ -74,7 +74,7 @@ public final class Wallet {
   }
 
   /**
-   * @see #Wallet(String,String,Collection)
+   * @see #Wallet(String, String, Collection)
    */
   public Wallet(String id, Balance... balances) {
 
@@ -82,7 +82,7 @@ public final class Wallet {
   }
 
   /**
-   * @see #Wallet(String,String,Collection)
+   * @see #Wallet(String, String, Collection)
    */
   public Wallet(Collection<Balance> balances) {
 
@@ -90,7 +90,7 @@ public final class Wallet {
   }
 
   /**
-   * @see #Wallet(String,String,Collection)
+   * @see #Wallet(String, String, Collection)
    */
   public Wallet(Balance... balances) {
 

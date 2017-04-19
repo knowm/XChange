@@ -17,7 +17,7 @@ public class BitfinexCancelOrderRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    * @param orderId
    */

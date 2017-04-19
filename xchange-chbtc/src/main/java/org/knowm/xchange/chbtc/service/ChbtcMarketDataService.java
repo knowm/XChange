@@ -20,8 +20,8 @@ public class ChbtcMarketDataService extends ChbtcMarketDataServiceRaw implements
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair,
+      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return ChbtcAdapters.adaptTicker(getChbtcTicker(currencyPair), currencyPair);
   }
 
@@ -31,8 +31,8 @@ public class ChbtcMarketDataService extends ChbtcMarketDataServiceRaw implements
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair,
+      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     Integer sinceTid = args.length > 0 && args[0] != null ? ((Number) args[0]).intValue() : null;
     return ChbtcAdapters.adaptTrades(getChbtcTransactions(currencyPair, sinceTid), currencyPair);
   }

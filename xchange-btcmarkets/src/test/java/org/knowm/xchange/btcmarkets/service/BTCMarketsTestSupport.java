@@ -33,29 +33,29 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
   protected static final Balance EXPECTED_BALANCE = new Balance(Currency.BTC, new BigDecimal("3.0E-7"), new BigDecimal("2.0E-7"));
 
   protected static LimitOrder[] expectedAsks() {
-    return new LimitOrder[] {
+    return new LimitOrder[]{
         new LimitOrder(Order.OrderType.ASK, new BigDecimal("1.004594"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("329.31")),
         new LimitOrder(Order.OrderType.ASK, new BigDecimal("22.265709"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("329.38")),
-        new LimitOrder(Order.OrderType.ASK, new BigDecimal("10.0"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("329.41")) };
+        new LimitOrder(Order.OrderType.ASK, new BigDecimal("10.0"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("329.41"))};
   }
 
   protected static LimitOrder[] expectedBids() {
-    return new LimitOrder[] {
+    return new LimitOrder[]{
         new LimitOrder(Order.OrderType.BID, new BigDecimal("1.3593495"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("328.98")),
-        new LimitOrder(Order.OrderType.BID, new BigDecimal("0.21273699"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("327.6")) };
+        new LimitOrder(Order.OrderType.BID, new BigDecimal("0.21273699"), CurrencyPair.BTC_AUD, null, null, new BigDecimal("327.6"))};
   }
 
   protected static LimitOrder[] expectedOrders() {
-    return new LimitOrder[] {
+    return new LimitOrder[]{
         new LimitOrder(Order.OrderType.ASK, new BigDecimal("10.00000000"), CurrencyPair.BTC_AUD, "1", null, new BigDecimal("20.00000000")),
-        new LimitOrder(Order.OrderType.BID, new BigDecimal("30.00000000"), CurrencyPair.BTC_AUD, "2", null, new BigDecimal("40.00000000")) };
+        new LimitOrder(Order.OrderType.BID, new BigDecimal("30.00000000"), CurrencyPair.BTC_AUD, "2", null, new BigDecimal("40.00000000"))};
   }
 
   protected static final Ticker EXPECTED_TICKER = new Ticker.Builder().bid(new BigDecimal("137.00000000")).ask(new BigDecimal("140.00000000"))
       .last(new BigDecimal("140.00000000")).currencyPair(CurrencyPair.BTC_AUD).timestamp(new Date(1378878117000L)).build();
 
   protected static UserTrade[] expectedUserTrades() {
-    return new UserTrade[] {
+    return new UserTrade[]{
         new UserTrade(Order.OrderType.ASK, new BigDecimal("20.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("10.00000000"), new Date(111111111L),
             "1", "null", new BigDecimal("1"), Currency.AUD),
         new UserTrade(Order.OrderType.ASK, new BigDecimal("40.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("30.00000000"), new Date(222222222L),
@@ -65,7 +65,7 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
         new UserTrade(Order.OrderType.BID, new BigDecimal("80.00000000"), CurrencyPair.BTC_AUD, new BigDecimal("70.00000000"), new Date(444444444L),
             "4", "null", new BigDecimal("4"), Currency.AUD),
         new UserTrade(Order.OrderType.BID, new BigDecimal("0"), CurrencyPair.BTC_AUD, new BigDecimal("90.00000000"), new Date(555555555L), "5",
-            "null", new BigDecimal("5"), Currency.AUD) };
+            "null", new BigDecimal("5"), Currency.AUD)};
   }
 
   protected static final BTCMarketsTicker EXPECTED_BTC_MARKETS_TICKER = new BTCMarketsTicker(new BigDecimal("137.00000000"),
@@ -96,27 +96,27 @@ public class BTCMarketsTestSupport extends BTCMarketsDtoTestSupport {
   }
 
   protected static BTCMarketsOrder[] expectedBtcMarketsOrders() {
-    return new BTCMarketsOrder[] {
+    return new BTCMarketsOrder[]{
         createBTCMarketsOrder(1L, new BigDecimal("10.00000000"), new BigDecimal("20.00000000"), "AUD", "BTC", BTCMarketsOrder.Side.Ask,
             BTCMarketsOrder.Type.Market, "11111", null, null, null, null, null),
         createBTCMarketsOrder(2L, new BigDecimal("30.00000000"), new BigDecimal("40.00000000"), "AUD", "BTC", BTCMarketsOrder.Side.Bid,
-            BTCMarketsOrder.Type.Limit, "22222", null, null, null, null, null) };
+            BTCMarketsOrder.Type.Limit, "22222", null, null, null, null, null)};
   }
 
   protected static BTCMarketsOrder[] expectedParsedBtcMarketsOrders() {
-    return new BTCMarketsOrder[] { createBTCMarketsOrder(1003245675L, new BigDecimal("0.10000000"), new BigDecimal("130.00000000"), "AUD", "BTC",
+    return new BTCMarketsOrder[]{createBTCMarketsOrder(1003245675L, new BigDecimal("0.10000000"), new BigDecimal("130.00000000"), "AUD", "BTC",
         BTCMarketsOrder.Side.Bid, BTCMarketsOrder.Type.Limit, null, new Date(1378862733366L), "Placed", null, new BigDecimal("0.10000000"),
         new ArrayList<BTCMarketsUserTrade>()),
 
         createBTCMarketsOrder(4345675L, new BigDecimal("0.10000000"), new BigDecimal("130.00000000"), "AUD", "BTC", BTCMarketsOrder.Side.Ask,
             BTCMarketsOrder.Type.Limit, null, new Date(1378636912705L), "Fully Matched", null, new BigDecimal("0E-8"),
             Arrays.asList(createBTCMarketsUserTrade(5345677L, null, new BigDecimal("130.00000000"), new BigDecimal("0.10000000"),
-                new BigDecimal("0.00100000"), new Date(1378636913151L), null))), };
+                new BigDecimal("0.00100000"), new Date(1378636913151L), null))),};
   }
 
   protected static BTCMarketsBalance[] expectedBtcMarketsBalances() {
-    return new BTCMarketsBalance[] { createBTCMarketsBalance(new BigDecimal("10.00000000"), null, "AUD"),
-        createBTCMarketsBalance(null, new BigDecimal("10.00000000"), "BTC"), createBTCMarketsBalance(null, null, "LTC") };
+    return new BTCMarketsBalance[]{createBTCMarketsBalance(new BigDecimal("10.00000000"), null, "AUD"),
+        createBTCMarketsBalance(null, new BigDecimal("10.00000000"), "BTC"), createBTCMarketsBalance(null, null, "LTC")};
   }
 
   protected static BTCMarketsUserTrade createBTCMarketsUserTrade(Long id, String description, BigDecimal price, BigDecimal volume, BigDecimal fee,

@@ -19,48 +19,47 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(using = YoBitTradesDeserializer.class)
 public class YoBitTrades {
-	
-	private List<YoBitTrade> trades;
 
-	public YoBitTrades(List<YoBitTrade> trades) {
-		super();
-		this.trades = trades;
-	}
+  private List<YoBitTrade> trades;
 
-	public List<YoBitTrade> getTrades() {
-		return trades;
-	}
+  public YoBitTrades(List<YoBitTrade> trades) {
+    super();
+    this.trades = trades;
+  }
 
-	static class YoBitTradesDeserializer extends JsonDeserializer<YoBitTrades> {
+  public List<YoBitTrade> getTrades() {
+    return trades;
+  }
 
-		private List<YoBitTrade> trades = new ArrayList<YoBitTrade>();
-		
-		@Override
-		public YoBitTrades deserialize(JsonParser p, DeserializationContext ctxt)
-				throws IOException, JsonProcessingException {
-			
-			ObjectCodec oc = p.getCodec();
-			JsonNode node = oc.readTree(p);
+  static class YoBitTradesDeserializer extends JsonDeserializer<YoBitTrades> {
 
-			if (node.isObject()) {
-				Iterator<Entry<String, JsonNode>> priceEntryIter = node.fields();
-				while (priceEntryIter.hasNext()) {
-					Entry<String, JsonNode> priceEntryNode = priceEntryIter.next();
+    private List<YoBitTrade> trades = new ArrayList<>();
 
-					JsonNode priceNode = priceEntryNode.getValue();
-					
-					if (priceNode.isArray()) {						
-						for (JsonNode jsonNode : priceNode) {
-							ObjectMapper jsonObjectMapper = new ObjectMapper();
-							YoBitTrade yoBitTrade = jsonObjectMapper.convertValue(jsonNode, YoBitTrade.class);
-							trades.add(yoBitTrade);
-						}			
-					}
-				}
-			}
-			
-			return new YoBitTrades(trades);
-		}
-		
-	}
+    @Override
+    public YoBitTrades deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+
+      ObjectCodec oc = p.getCodec();
+      JsonNode node = oc.readTree(p);
+
+      if (node.isObject()) {
+        Iterator<Entry<String, JsonNode>> priceEntryIter = node.fields();
+        while (priceEntryIter.hasNext()) {
+          Entry<String, JsonNode> priceEntryNode = priceEntryIter.next();
+
+          JsonNode priceNode = priceEntryNode.getValue();
+
+          if (priceNode.isArray()) {
+            for (JsonNode jsonNode : priceNode) {
+              ObjectMapper jsonObjectMapper = new ObjectMapper();
+              YoBitTrade yoBitTrade = jsonObjectMapper.convertValue(jsonNode, YoBitTrade.class);
+              trades.add(yoBitTrade);
+            }
+          }
+        }
+      }
+
+      return new YoBitTrades(trades);
+    }
+
+  }
 }

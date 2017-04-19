@@ -26,7 +26,7 @@ public class AccountInfoFetchIntegration {
     assertNotNull(service);
     AccountInfo info = service.getAccountInfo();
     assertNotNull(info);
-    Currency[] currencies = { Currency.BTC, Currency.EUR, Currency.CZK };
+    Currency[] currencies = {Currency.BTC, Currency.EUR, Currency.CZK};
     for (Currency curr : currencies) {
       System.out.println(curr.toString() + " --- ");
       System.out.println("Balance : " + info.getWallet().getBalance(curr).getTotal());

@@ -1,9 +1,5 @@
 package org.knowm.xchange.poloniex;
 
-/**
- * @author Zach Holmes
- */
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,8 +27,8 @@ public interface Poloniex {
   HashMap<String, PoloniexMarketData> getTicker(@QueryParam("command") String command) throws PoloniexException, IOException;
 
   @GET
-  PoloniexDepth getOrderBook(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair)
-      throws PoloniexException, IOException;
+  PoloniexDepth getOrderBook(@QueryParam("command") String command,
+      @QueryParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
 
   @GET
   PoloniexDepth getOrderBook(@QueryParam("command") String command, @QueryParam("currencyPair") String currencyPair,

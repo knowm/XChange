@@ -23,7 +23,7 @@ public class BitfinexOrderStatusResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param symbol
    * @param exchange

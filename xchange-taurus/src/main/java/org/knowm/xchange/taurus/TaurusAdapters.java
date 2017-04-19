@@ -45,7 +45,7 @@ public final class TaurusAdapters {
   }
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
       checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));
@@ -64,7 +64,7 @@ public final class TaurusAdapters {
   }
 
   public static Trades adaptTrades(TaurusTransaction[] transactions, CurrencyPair currencyPair) {
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (TaurusTransaction tx : transactions) {
       final long tradeId = tx.getTid();
@@ -90,7 +90,7 @@ public final class TaurusAdapters {
   }
 
   public static UserTrades adaptTradeHistory(TaurusUserTransaction[] taurusUserTransactions) {
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (TaurusUserTransaction taurusUserTransaction : taurusUserTransactions) {
       if (taurusUserTransaction.getType().equals(TaurusUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.

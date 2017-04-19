@@ -13,7 +13,7 @@ public class ANXLagWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param anxLag
    * @param error

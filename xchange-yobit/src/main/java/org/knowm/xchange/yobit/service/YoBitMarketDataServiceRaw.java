@@ -11,26 +11,25 @@ import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
 
 public class YoBitMarketDataServiceRaw extends YoBitBaseService<YoBit> {
 
-	protected YoBitMarketDataServiceRaw(Exchange exchange) {
-		super(YoBit.class, exchange);
-	}
+  protected YoBitMarketDataServiceRaw(Exchange exchange) {
+    super(YoBit.class, exchange);
+  }
 
-	public YoBitInfo getProducts() throws IOException {
-		YoBitInfo data = coinbaseEx.getProducts();
-		return data;
-	}
+  public YoBitInfo getProducts() throws IOException {
+    YoBitInfo data = coinbaseEx.getProducts();
+    return data;
+  }
 
-	public YoBitOrderBook getOrderBookA(CurrencyPair currencyPair, Long limit) throws IOException {
-		/*
-		 * if (!this.checkProductExists(currencyPair)) { return null; }
-		 */
+  public YoBitOrderBook getOrderBookA(CurrencyPair currencyPair, Long limit) throws IOException {
+    /*
+     * if (!this.checkProductExists(currencyPair)) { return null; }
+     */
 
-		return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toLowerCase(),
-				currencyPair.counter.getCurrencyCode().toLowerCase(), limit);
-	}
+    return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toLowerCase(), currencyPair.counter.getCurrencyCode().toLowerCase(),
+        limit);
+  }
 
-	public YoBitTrades getTrades(CurrencyPair currencyPair) throws IOException {
-		return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode().toLowerCase(),
-				currencyPair.counter.getCurrencyCode().toLowerCase());
-	}
+  public YoBitTrades getTrades(CurrencyPair currencyPair) throws IOException {
+    return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode().toLowerCase(), currencyPair.counter.getCurrencyCode().toLowerCase());
+  }
 }

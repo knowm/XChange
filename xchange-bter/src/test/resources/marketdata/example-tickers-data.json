@@ -1,35 +1,35 @@
 {
-   "btc_cny":{
-      "result":"true",
-      "last":3400.01,
-      "high":3497.41,
-      "low":3400.01,
-      "avg":3456.54,
-      "sell":3400.17,
-      "buy":3400.01,
-      "vol_btc":347.2045,
-      "vol_cny":1200127.03
-   },
-   "ltc_cny":{
-      "result":"true",
-      "last":81.2,
-      "high":85.14,
-      "low":81,
-      "avg":83.45,
-      "sell":81.19,
-      "buy":81.05,
-      "vol_ltc":9241.3349,
-      "vol_cny":771167.66
-   },
-   "bqc_cny":{
-      "result":"true",
-      "last":0.0718,
-      "high":0.0851,
-      "low":0.0718,
-      "avg":0.0784,
-      "sell":0.075,
-      "buy":0.0719,
-      "vol_bqc":224608.097,
-      "vol_cny":17615.9
-   }
+  "btc_cny": {
+    "result": "true",
+    "last": 3400.01,
+    "high": 3497.41,
+    "low": 3400.01,
+    "avg": 3456.54,
+    "sell": 3400.17,
+    "buy": 3400.01,
+    "vol_btc": 347.2045,
+    "vol_cny": 1200127.03
+  },
+  "ltc_cny": {
+    "result": "true",
+    "last": 81.2,
+    "high": 85.14,
+    "low": 81,
+    "avg": 83.45,
+    "sell": 81.19,
+    "buy": 81.05,
+    "vol_ltc": 9241.3349,
+    "vol_cny": 771167.66
+  },
+  "bqc_cny": {
+    "result": "true",
+    "last": 0.0718,
+    "high": 0.0851,
+    "low": 0.0718,
+    "avg": 0.0784,
+    "sell": 0.075,
+    "buy": 0.0719,
+    "vol_bqc": 224608.097,
+    "vol_cny": 17615.9
+  }
 }

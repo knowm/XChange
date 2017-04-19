@@ -27,8 +27,8 @@ public interface Gemini {
 
   @GET
   @Path("book/{symbol}")
-  GeminiDepth getBook(@PathParam("symbol") String symbol, @QueryParam("limit_bids") int limit_bids, @QueryParam("limit_asks") int limit_asks)
-      throws IOException, GeminiException;
+  GeminiDepth getBook(@PathParam("symbol") String symbol, @QueryParam("limit_bids") int limit_bids,
+      @QueryParam("limit_asks") int limit_asks) throws IOException, GeminiException;
 
   @GET
   @Path("book/{symbol}")
@@ -45,8 +45,8 @@ public interface Gemini {
 
   @GET
   @Path("lends/{currency}")
-  GeminiLend[] getLends(@PathParam("currency") String currency, @QueryParam("timestamp") long timestamp, @QueryParam("limit_trades") int limit_trades)
-      throws IOException, GeminiException;
+  GeminiLend[] getLends(@PathParam("currency") String currency, @QueryParam("timestamp") long timestamp,
+      @QueryParam("limit_trades") int limit_trades) throws IOException, GeminiException;
 
   @GET
   @Path("symbols")

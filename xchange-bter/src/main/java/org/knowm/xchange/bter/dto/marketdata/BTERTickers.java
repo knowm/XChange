@@ -47,7 +47,7 @@ public class BTERTickers extends BTERBaseResponse {
     @Override
     public BTERTickers deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
-      Map<CurrencyPair, BTERTicker> tickerMap = new HashMap<CurrencyPair, BTERTicker>();
+      Map<CurrencyPair, BTERTicker> tickerMap = new HashMap<>();
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);
       if (node.isObject()) {

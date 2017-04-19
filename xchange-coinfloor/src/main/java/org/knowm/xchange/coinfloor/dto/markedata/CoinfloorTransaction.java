@@ -39,7 +39,7 @@ public class CoinfloorTransaction {
 
   /**
    * Trade timestamp as seconds since the epoch.
-   * 
+   *
    * @return trade timestamp
    */
   public long getDate() {

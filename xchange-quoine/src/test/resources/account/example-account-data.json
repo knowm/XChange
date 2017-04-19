@@ -1,66 +1,66 @@
 {
-   "bitcoin_account":{
-      "id":59,
-      "balance":2.63499784,
-      "address":"15hybRabh6cspBDQRTQ7vTdcwTkPYNAz1f",
-      "currency":"BTC",
-      "currency_symbol":"\u0e3f",
-      "pusher_channel":"user_59_account_btc",
-      "btc_minimum_withdraw":0.02,
-      "lowest_offer_interest_rate":"0.00029",
-      "highest_offer_interest_rate":"0.05000",
-      "free_balance":"0.0"
-   },
-   "fiat_accounts":[
-      {
-         "id":52,
-         "currency":"SGD",
-         "currency_symbol":"S$",
-         "balance":242.33394,
-         "send_to_btc_address":null,
-         "pusher_channel":"user_59_account_sgd",
-         "lowest_offer_interest_rate":"0.00045",
-         "highest_offer_interest_rate":"0.00050"
-      },
-      {
-         "id":259,
-         "currency":"JPY",
-         "currency_symbol":"\u00a5",
-         "balance":12546.36144,
-         "send_to_btc_address":null,
-         "pusher_channel":"user_59_account_jpy",
-         "lowest_offer_interest_rate":"0.00005",
-         "highest_offer_interest_rate":"0.00020"
-      },
-      {
-         "id":296,
-         "currency":"IDR",
-         "currency_symbol":"Rp",
-         "balance":2751688.96057,
-         "send_to_btc_address":null,
-         "pusher_channel":"user_59_account_idr",
-         "lowest_offer_interest_rate":"0.00033",
-         "highest_offer_interest_rate":"0.00050"
-      },
-      {
-         "id":298,
-         "currency":"EUR",
-         "currency_symbol":"\u20ac",
-         "balance":0.0,
-         "send_to_btc_address":null,
-         "pusher_channel":"user_59_account_eur",
-         "lowest_offer_interest_rate":"0.00050",
-         "highest_offer_interest_rate":"0.20000"
-      },
-      {
-         "id":297,
-         "currency":"USD",
-         "currency_symbol":"$",
-         "balance":440.84955,
-         "send_to_btc_address":null,
-         "pusher_channel":"user_59_account_usd",
-         "lowest_offer_interest_rate":"0.00005",
-         "highest_offer_interest_rate":"0.00020"
-      }
-   ]
+  "bitcoin_account": {
+    "id": 59,
+    "balance": 2.63499784,
+    "address": "15hybRabh6cspBDQRTQ7vTdcwTkPYNAz1f",
+    "currency": "BTC",
+    "currency_symbol": "\u0e3f",
+    "pusher_channel": "user_59_account_btc",
+    "btc_minimum_withdraw": 0.02,
+    "lowest_offer_interest_rate": "0.00029",
+    "highest_offer_interest_rate": "0.05000",
+    "free_balance": "0.0"
+  },
+  "fiat_accounts": [
+    {
+      "id": 52,
+      "currency": "SGD",
+      "currency_symbol": "S$",
+      "balance": 242.33394,
+      "send_to_btc_address": null,
+      "pusher_channel": "user_59_account_sgd",
+      "lowest_offer_interest_rate": "0.00045",
+      "highest_offer_interest_rate": "0.00050"
+    },
+    {
+      "id": 259,
+      "currency": "JPY",
+      "currency_symbol": "\u00a5",
+      "balance": 12546.36144,
+      "send_to_btc_address": null,
+      "pusher_channel": "user_59_account_jpy",
+      "lowest_offer_interest_rate": "0.00005",
+      "highest_offer_interest_rate": "0.00020"
+    },
+    {
+      "id": 296,
+      "currency": "IDR",
+      "currency_symbol": "Rp",
+      "balance": 2751688.96057,
+      "send_to_btc_address": null,
+      "pusher_channel": "user_59_account_idr",
+      "lowest_offer_interest_rate": "0.00033",
+      "highest_offer_interest_rate": "0.00050"
+    },
+    {
+      "id": 298,
+      "currency": "EUR",
+      "currency_symbol": "\u20ac",
+      "balance": 0.0,
+      "send_to_btc_address": null,
+      "pusher_channel": "user_59_account_eur",
+      "lowest_offer_interest_rate": "0.00050",
+      "highest_offer_interest_rate": "0.20000"
+    },
+    {
+      "id": 297,
+      "currency": "USD",
+      "currency_symbol": "$",
+      "balance": 440.84955,
+      "send_to_btc_address": null,
+      "pusher_channel": "user_59_account_usd",
+      "lowest_offer_interest_rate": "0.00005",
+      "highest_offer_interest_rate": "0.00020"
+    }
+  ]
 }

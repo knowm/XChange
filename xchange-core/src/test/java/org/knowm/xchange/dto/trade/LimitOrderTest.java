@@ -14,7 +14,7 @@ import org.knowm.xchange.dto.Order.OrderType;
 
 public class LimitOrderTest {
   private enum TestFlags implements IOrderFlags {
-    TEST1, TEST2, TEST3;
+    TEST1, TEST2, TEST3
   }
 
   @Test
@@ -27,8 +27,8 @@ public class LimitOrderTest {
     final String id = "id";
     final Order.OrderStatus status = Order.OrderStatus.FILLED;
 
-    final LimitOrder copy = new LimitOrder.Builder(type, currencyPair).tradableAmount(tradableAmount)
-        .limitPrice(limitPrice).orderStatus(status).timestamp(timestamp).id(id).flag(TestFlags.TEST1).build();
+    final LimitOrder copy = new LimitOrder.Builder(type, currencyPair).tradableAmount(tradableAmount).limitPrice(limitPrice).orderStatus(status)
+        .timestamp(timestamp).id(id).flag(TestFlags.TEST1).build();
 
     assertThat(copy.getType()).isEqualTo(type);
     assertThat(copy.getTradableAmount()).isEqualTo(tradableAmount);

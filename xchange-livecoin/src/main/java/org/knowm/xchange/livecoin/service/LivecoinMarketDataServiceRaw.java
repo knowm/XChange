@@ -13,39 +13,39 @@ import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 
 public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> {
 
-	public LivecoinMarketDataServiceRaw(Exchange exchange) {
-		super(Livecoin.class, exchange);
-	}
+  public LivecoinMarketDataServiceRaw(Exchange exchange) {
+    super(Livecoin.class, exchange);
+  }
 
-	public List<LivecoinRestriction> getConbaseExProducts() throws IOException {
-		LivecoinRestrictions data = (LivecoinRestrictions) coinbaseEx.getProducts();
-		return data.getRestrictions();
-	}
+  public List<LivecoinRestriction> getConbaseExProducts() throws IOException {
+    LivecoinRestrictions data = (LivecoinRestrictions) coinbaseEx.getProducts();
+    return data.getRestrictions();
+  }
 
-	public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth) throws IOException {
-		if (!this.checkProductExists(currencyPair)) {
-			return null;
-		}
+  public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth) throws IOException {
+    if (!this.checkProductExists(currencyPair)) {
+      return null;
+    }
 
-		return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toUpperCase(),
-				currencyPair.counter.getCurrencyCode().toUpperCase(), depth);
-	}
+    return this.coinbaseEx.getOrderBook(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase(),
+        depth);
+  }
 
-	public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
+  public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
 
-		boolean currencyPairSupported = false;
-		for (CurrencyPair cp : exchange.getExchangeSymbols()) {
-			if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
-					&& cp.counter.getCurrencyCode().equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
-				currencyPairSupported = true;
-				break;
-			}
-		}
+    boolean currencyPairSupported = false;
+    for (CurrencyPair cp : exchange.getExchangeSymbols()) {
+      if (cp.base.getCurrencyCode().equalsIgnoreCase(currencyPair.base.getCurrencyCode())
+          && cp.counter.getCurrencyCode().equalsIgnoreCase(currencyPair.counter.getCurrencyCode())) {
+        currencyPairSupported = true;
+        break;
+      }
+    }
 
-		return currencyPairSupported;
-	}
+    return currencyPairSupported;
+  }
 
-	public LivecoinTrade[] getTrades(CurrencyPair currencyPair) throws IOException {
-		return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
-	}
+  public LivecoinTrade[] getTrades(CurrencyPair currencyPair) throws IOException {
+    return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+  }
 }

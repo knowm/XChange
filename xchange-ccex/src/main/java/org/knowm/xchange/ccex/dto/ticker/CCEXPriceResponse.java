@@ -6,125 +6,117 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CCEXPriceResponse {
 
-	private BigDecimal high;
-	private BigDecimal low;
-	private BigDecimal avg;
-	private BigDecimal lastbuy;
-	private BigDecimal lastsell;
-	private BigDecimal buy;
-	private BigDecimal sell;
-	private BigDecimal lastprice;
-	private BigDecimal buysupport;
-	private int updated;
-	
-	public CCEXPriceResponse(
-			@JsonProperty("high") BigDecimal high, 
-			@JsonProperty("low") BigDecimal low, 
-			@JsonProperty("avg") BigDecimal avg, 
-			@JsonProperty("lastbuy") BigDecimal lastbuy, 
-			@JsonProperty("lastsell") BigDecimal lastsell,
-			@JsonProperty("buy") BigDecimal buy, 
-			@JsonProperty("sell") BigDecimal sell, 
-			@JsonProperty("lastprice") BigDecimal lastprice, 
-			@JsonProperty("buysupport") BigDecimal buysupport, 
-			@JsonProperty("updated") int updated) {
-		super();
-		this.high = high;
-		this.low = low;
-		this.avg = avg;
-		this.lastbuy = lastbuy;
-		this.lastsell = lastsell;
-		this.buy = buy;
-		this.sell = sell;
-		this.lastprice = lastprice;
-		this.buysupport = buysupport;
-		this.updated = updated;
-	}
+  private BigDecimal high;
+  private BigDecimal low;
+  private BigDecimal avg;
+  private BigDecimal lastbuy;
+  private BigDecimal lastsell;
+  private BigDecimal buy;
+  private BigDecimal sell;
+  private BigDecimal lastprice;
+  private BigDecimal buysupport;
+  private int updated;
 
-	public BigDecimal getHigh() {
-		return high;
-	}
+  public CCEXPriceResponse(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low, @JsonProperty("avg") BigDecimal avg,
+      @JsonProperty("lastbuy") BigDecimal lastbuy, @JsonProperty("lastsell") BigDecimal lastsell, @JsonProperty("buy") BigDecimal buy,
+      @JsonProperty("sell") BigDecimal sell, @JsonProperty("lastprice") BigDecimal lastprice, @JsonProperty("buysupport") BigDecimal buysupport,
+      @JsonProperty("updated") int updated) {
+    super();
+    this.high = high;
+    this.low = low;
+    this.avg = avg;
+    this.lastbuy = lastbuy;
+    this.lastsell = lastsell;
+    this.buy = buy;
+    this.sell = sell;
+    this.lastprice = lastprice;
+    this.buysupport = buysupport;
+    this.updated = updated;
+  }
 
-	public void setHigh(BigDecimal high) {
-		this.high = high;
-	}
+  public BigDecimal getHigh() {
+    return high;
+  }
 
-	public BigDecimal getLow() {
-		return low;
-	}
+  public void setHigh(BigDecimal high) {
+    this.high = high;
+  }
 
-	public void setLow(BigDecimal low) {
-		this.low = low;
-	}
+  public BigDecimal getLow() {
+    return low;
+  }
 
-	public BigDecimal getAvg() {
-		return avg;
-	}
+  public void setLow(BigDecimal low) {
+    this.low = low;
+  }
 
-	public void setAvg(BigDecimal avg) {
-		this.avg = avg;
-	}
+  public BigDecimal getAvg() {
+    return avg;
+  }
 
-	public BigDecimal getLastbuy() {
-		return lastbuy;
-	}
+  public void setAvg(BigDecimal avg) {
+    this.avg = avg;
+  }
 
-	public void setLastbuy(BigDecimal lastbuy) {
-		this.lastbuy = lastbuy;
-	}
+  public BigDecimal getLastbuy() {
+    return lastbuy;
+  }
 
-	public BigDecimal getLastsell() {
-		return lastsell;
-	}
+  public void setLastbuy(BigDecimal lastbuy) {
+    this.lastbuy = lastbuy;
+  }
 
-	public void setLastsell(BigDecimal lastsell) {
-		this.lastsell = lastsell;
-	}
+  public BigDecimal getLastsell() {
+    return lastsell;
+  }
 
-	public BigDecimal getBuy() {
-		return buy;
-	}
+  public void setLastsell(BigDecimal lastsell) {
+    this.lastsell = lastsell;
+  }
 
-	public void setBuy(BigDecimal buy) {
-		this.buy = buy;
-	}
+  public BigDecimal getBuy() {
+    return buy;
+  }
 
-	public BigDecimal getSell() {
-		return sell;
-	}
+  public void setBuy(BigDecimal buy) {
+    this.buy = buy;
+  }
 
-	public void setSell(BigDecimal sell) {
-		this.sell = sell;
-	}
+  public BigDecimal getSell() {
+    return sell;
+  }
 
-	public BigDecimal getLastprice() {
-		return lastprice;
-	}
+  public void setSell(BigDecimal sell) {
+    this.sell = sell;
+  }
 
-	public void setLastprice(BigDecimal lastprice) {
-		this.lastprice = lastprice;
-	}
+  public BigDecimal getLastprice() {
+    return lastprice;
+  }
 
-	public BigDecimal getBuysupport() {
-		return buysupport;
-	}
+  public void setLastprice(BigDecimal lastprice) {
+    this.lastprice = lastprice;
+  }
 
-	public void setBuysupport(BigDecimal buysupport) {
-		this.buysupport = buysupport;
-	}
+  public BigDecimal getBuysupport() {
+    return buysupport;
+  }
 
-	public int getUpdated() {
-		return updated;
-	}
+  public void setBuysupport(BigDecimal buysupport) {
+    this.buysupport = buysupport;
+  }
 
-	public void setUpdated(int updated) {
-		this.updated = updated;
-	}
+  public int getUpdated() {
+    return updated;
+  }
 
-	@Override
-	public String toString() {
-		return "CCEXPriceResponse [high=" + high + ", low=" + low + ", avg=" + avg + ", lastbuy=" + lastbuy
-				+ ", lastsell=" + lastsell + ", buy=" + buy + ", sell=" + sell + ", lastprice=" + lastprice
-				+ ", buysupport=" + buysupport + ", updated=" + updated + "]";
-	}	
+  public void setUpdated(int updated) {
+    this.updated = updated;
+  }
+
+  @Override
+  public String toString() {
+    return "CCEXPriceResponse [high=" + high + ", low=" + low + ", avg=" + avg + ", lastbuy=" + lastbuy + ", lastsell=" + lastsell + ", buy=" + buy
+        + ", sell=" + sell + ", lastprice=" + lastprice + ", buysupport=" + buysupport + ", updated=" + updated + "]";
+  }
 }

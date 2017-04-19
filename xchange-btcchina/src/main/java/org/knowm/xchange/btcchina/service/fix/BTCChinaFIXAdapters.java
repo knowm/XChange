@@ -78,37 +78,37 @@ public final class BTCChinaFIXAdapters {
     BigDecimal px;
     BigDecimal size;
     switch (type) {
-    case MDEntryType.BID:
-      px = group.getDecimal(MDEntryPx.FIELD);
-      tickerBuilder.bid(px);
-      break;
-    case MDEntryType.OFFER:
-      px = group.getDecimal(MDEntryPx.FIELD);
-      tickerBuilder.ask(px);
-      break;
-    case MDEntryType.TRADE:
-      px = group.getDecimal(MDEntryPx.FIELD);
-      tickerBuilder.last(px);
-      break;
-    case MDEntryType.CLOSING_PRICE:
-      // no closing price in XChange's ticker
-      break;
-    case MDEntryType.TRADING_SESSION_HIGH_PRICE:
-      px = group.getDecimal(MDEntryPx.FIELD);
-      tickerBuilder.high(px);
-      break;
-    case MDEntryType.TRADING_SESSION_LOW_PRICE:
-      px = group.getDecimal(MDEntryPx.FIELD);
-      tickerBuilder.low(px);
-      break;
-    case MDEntryType.TRADING_SESSION_VWAP_PRICE:
-      // no vwap price in XChange's ticker
-      break;
-    case MDEntryType.TRADE_VOLUME:
-      size = group.getDecimal(MDEntrySize.FIELD);
-      tickerBuilder.volume(size);
+      case MDEntryType.BID:
+        px = group.getDecimal(MDEntryPx.FIELD);
+        tickerBuilder.bid(px);
+        break;
+      case MDEntryType.OFFER:
+        px = group.getDecimal(MDEntryPx.FIELD);
+        tickerBuilder.ask(px);
+        break;
+      case MDEntryType.TRADE:
+        px = group.getDecimal(MDEntryPx.FIELD);
+        tickerBuilder.last(px);
+        break;
+      case MDEntryType.CLOSING_PRICE:
+        // no closing price in XChange's ticker
+        break;
+      case MDEntryType.TRADING_SESSION_HIGH_PRICE:
+        px = group.getDecimal(MDEntryPx.FIELD);
+        tickerBuilder.high(px);
+        break;
+      case MDEntryType.TRADING_SESSION_LOW_PRICE:
+        px = group.getDecimal(MDEntryPx.FIELD);
+        tickerBuilder.low(px);
+        break;
+      case MDEntryType.TRADING_SESSION_VWAP_PRICE:
+        // no vwap price in XChange's ticker
+        break;
+      case MDEntryType.TRADE_VOLUME:
+        size = group.getDecimal(MDEntrySize.FIELD);
+        tickerBuilder.volume(size);
 
-      break;
+        break;
     }
 
     Date date = group.getField(new MDEntryDate()).getValue();
@@ -129,7 +129,7 @@ public final class BTCChinaFIXAdapters {
   public static Wallet adaptWallet(AccountInfoResponse message) throws FieldNotFound {
 
     List<Group> groups = message.getGroups(org.knowm.xchange.btcchina.service.fix.field.Balance.FIELD);
-    List<Balance> balances = new ArrayList<Balance>(groups.size());
+    List<Balance> balances = new ArrayList<>(groups.size());
     for (Group group : groups) {
       Balance balance = new Balance(Currency.getInstance(group.getField(new quickfix.field.Currency()).getValue()),
           group.getField(new Amount()).getValue());

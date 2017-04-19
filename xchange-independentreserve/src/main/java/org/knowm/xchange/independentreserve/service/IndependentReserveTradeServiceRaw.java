@@ -53,8 +53,8 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
    * @return
    * @throws IOException
    */
-  public IndependentReserveOpenOrdersResponse getIndependentReserveOpenOrders(String primaryCurrency, String secondaryCurrency, Integer pageNumber)
-      throws IOException {
+  public IndependentReserveOpenOrdersResponse getIndependentReserveOpenOrders(String primaryCurrency, String secondaryCurrency,
+      Integer pageNumber) throws IOException {
     if (pageNumber <= 0) {
       throw new IllegalArgumentException("Page number in IndependentReserve should be positive.");
     }
@@ -71,8 +71,8 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
     return openOrders;
   }
 
-  public String independentReservePlaceLimitOrder(CurrencyPair currencyPair, Order.OrderType type, BigDecimal limitPrice, BigDecimal tradableAmount)
-      throws IOException {
+  public String independentReservePlaceLimitOrder(CurrencyPair currencyPair, Order.OrderType type, BigDecimal limitPrice,
+      BigDecimal tradableAmount) throws IOException {
     Long nonce = exchange.getNonceFactory().createValue();
     String apiKey = exchange.getExchangeSpecification().getApiKey();
 
@@ -133,19 +133,18 @@ public class IndependentReserveTradeServiceRaw extends IndependentReserveBaseSer
 
     return trades;
   }
-  
-  public IndependentReserveTransactionsResponse getIndependentReserveTransactions(String accountGuid, Date fromTimestampUtc
-          , Date toTimestampUtc, Type[] txTypes, Integer pageNumber) throws IOException {
-      if (pageNumber <= 0) {
-        throw new IllegalArgumentException("Page number in IndependentReserve should be positive.");
-      }
-      Long nonce = exchange.getNonceFactory().createValue();
-      String apiKey = exchange.getExchangeSpecification().getApiKey();
-      IndependentReserveTransactionsRequest req = new IndependentReserveTransactionsRequest(apiKey, nonce, accountGuid
-              , fromTimestampUtc, toTimestampUtc, txTypes, pageNumber, TRANSACTION_HISTORY_PAGE_SIZE);
-      req.setSignature(
-          signatureCreator.digestParamsToString(ExchangeEndpoint.GET_TRANSACTIONS, nonce, req.getParameters()));
-      return independentReserveAuthenticated.getTransactions(req);
+
+  public IndependentReserveTransactionsResponse getIndependentReserveTransactions(String accountGuid, Date fromTimestampUtc, Date toTimestampUtc,
+      Type[] txTypes, Integer pageNumber) throws IOException {
+    if (pageNumber <= 0) {
+      throw new IllegalArgumentException("Page number in IndependentReserve should be positive.");
     }
+    Long nonce = exchange.getNonceFactory().createValue();
+    String apiKey = exchange.getExchangeSpecification().getApiKey();
+    IndependentReserveTransactionsRequest req = new IndependentReserveTransactionsRequest(apiKey, nonce, accountGuid, fromTimestampUtc,
+        toTimestampUtc, txTypes, pageNumber, TRANSACTION_HISTORY_PAGE_SIZE);
+    req.setSignature(signatureCreator.digestParamsToString(ExchangeEndpoint.GET_TRANSACTIONS, nonce, req.getParameters()));
+    return independentReserveAuthenticated.getTransactions(req);
+  }
 
 }

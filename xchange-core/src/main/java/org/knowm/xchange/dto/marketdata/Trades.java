@@ -38,20 +38,20 @@ public class Trades {
    */
   public Trades(List<Trade> trades, long lastID, TradeSortType tradeSortType) {
 
-    this.trades = new ArrayList<Trade>(trades);
+    this.trades = new ArrayList<>(trades);
     this.lastID = lastID;
     this.tradeSortType = tradeSortType;
 
     switch (tradeSortType) {
-    case SortByTimestamp:
-      Collections.sort(this.trades, TRADE_TIMESTAMP_COMPARATOR);
-      break;
-    case SortByID:
-      Collections.sort(this.trades, TRADE_ID_COMPARATOR);
-      break;
+      case SortByTimestamp:
+        Collections.sort(this.trades, TRADE_TIMESTAMP_COMPARATOR);
+        break;
+      case SortByID:
+        Collections.sort(this.trades, TRADE_ID_COMPARATOR);
+        break;
 
-    default:
-      break;
+      default:
+        break;
     }
   }
 

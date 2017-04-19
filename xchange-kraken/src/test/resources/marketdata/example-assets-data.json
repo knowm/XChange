@@ -1,61 +1,60 @@
 {
-   "error":[
-
-   ],
-   "result":{
-      "XLTC":{
-         "aclass":"currency",
-         "altname":"LTC",
-         "decimals":10,
-         "display_decimals":5
-      },
-      "XNMC":{
-         "aclass":"currency",
-         "altname":"NMC",
-         "decimals":10,
-         "display_decimals":5
-      },
-      "XXBT":{
-         "aclass":"currency",
-         "altname":"XBT",
-         "decimals":10,
-         "display_decimals":5
-      },
-      "XXRP":{
-         "aclass":"currency",
-         "altname":"XRP",
-         "decimals":8,
-         "display_decimals":5
-      },
-      "XXVN":{
-         "aclass":"currency",
-         "altname":"XVN",
-         "decimals":4,
-         "display_decimals":2
-      },
-      "ZEUR":{
-         "aclass":"currency",
-         "altname":"EUR",
-         "decimals":4,
-         "display_decimals":2
-      },
-      "ZGBP":{
-         "aclass":"currency",
-         "altname":"GBP",
-         "decimals":4,
-         "display_decimals":2
-      },
-      "ZKRW":{
-         "aclass":"currency",
-         "altname":"KRW",
-         "decimals":2,
-         "display_decimals":0
-      },
-      "ZUSD":{
-         "aclass":"currency",
-         "altname":"USD",
-         "decimals":4,
-         "display_decimals":2
-      }
-   }
+  "error": [
+  ],
+  "result": {
+    "XLTC": {
+      "aclass": "currency",
+      "altname": "LTC",
+      "decimals": 10,
+      "display_decimals": 5
+    },
+    "XNMC": {
+      "aclass": "currency",
+      "altname": "NMC",
+      "decimals": 10,
+      "display_decimals": 5
+    },
+    "XXBT": {
+      "aclass": "currency",
+      "altname": "XBT",
+      "decimals": 10,
+      "display_decimals": 5
+    },
+    "XXRP": {
+      "aclass": "currency",
+      "altname": "XRP",
+      "decimals": 8,
+      "display_decimals": 5
+    },
+    "XXVN": {
+      "aclass": "currency",
+      "altname": "XVN",
+      "decimals": 4,
+      "display_decimals": 2
+    },
+    "ZEUR": {
+      "aclass": "currency",
+      "altname": "EUR",
+      "decimals": 4,
+      "display_decimals": 2
+    },
+    "ZGBP": {
+      "aclass": "currency",
+      "altname": "GBP",
+      "decimals": 4,
+      "display_decimals": 2
+    },
+    "ZKRW": {
+      "aclass": "currency",
+      "altname": "KRW",
+      "decimals": 2,
+      "display_decimals": 0
+    },
+    "ZUSD": {
+      "aclass": "currency",
+      "altname": "USD",
+      "decimals": 4,
+      "display_decimals": 2
+    }
+  }
 }

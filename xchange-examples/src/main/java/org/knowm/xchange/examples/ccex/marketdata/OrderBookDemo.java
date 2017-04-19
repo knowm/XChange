@@ -15,29 +15,29 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
  */
 public class OrderBookDemo {
 
-	public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-		Exchange ccexExchange = ExchangeFactory.INSTANCE.createExchange(CCEXExchange.class.getName());
+    Exchange ccexExchange = ExchangeFactory.INSTANCE.createExchange(CCEXExchange.class.getName());
 
-		// Interested in the public market data feed (no authentication)
-		MarketDataService marketDataService = ccexExchange.getMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = ccexExchange.getMarketDataService();
 
-		System.out.println("fetching data...");
+    System.out.println("fetching data...");
 
-		// Get the current orderbook
-		OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.XAUR_BTC);
+    // Get the current orderbook
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.XAUR_BTC);
 
-		System.out.println("received data.");
+    System.out.println("received data.");
 
-		for (LimitOrder limitOrder : orderBook.getBids()) {
-			System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: "
-					+ limitOrder.getLimitPrice() + " Amount: " + limitOrder.getTradableAmount());
-		}
+    for (LimitOrder limitOrder : orderBook.getBids()) {
+      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
+          + limitOrder.getTradableAmount());
+    }
 
-		for (LimitOrder limitOrder : orderBook.getAsks()) {
-			System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: "
-					+ limitOrder.getLimitPrice() + " Amount: " + limitOrder.getTradableAmount());
-		}
-	}
+    for (LimitOrder limitOrder : orderBook.getAsks()) {
+      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
+          + limitOrder.getTradableAmount());
+    }
+  }
 
 }

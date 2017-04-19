@@ -7,5 +7,5 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
  */
 public interface RippleTradeHistoryHashLimit extends TradeHistoryParams {
 
-  public String getHashLimit();
+  String getHashLimit();
 }

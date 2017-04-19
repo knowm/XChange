@@ -24,7 +24,6 @@ public class BTCChinaDigest extends BaseParamsDigest {
   /**
    * Constructor
    *
-   * @param secretKeyBase64
    * @throws IllegalArgumentException if key is invalid (cannot be base-64-decoded or the decoded key is invalid).
    */
   private BTCChinaDigest(String exchangeAccessKey, String exchangeSecretKey) {

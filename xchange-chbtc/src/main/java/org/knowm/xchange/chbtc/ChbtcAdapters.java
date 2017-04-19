@@ -69,10 +69,10 @@ public final class ChbtcAdapters {
 
   private static Order.OrderType adaptOrderType(ChbtcTrade.Type txType) {
     switch (txType) {
-    case buy:
-      return Order.OrderType.ASK;
-    case sell:
-      return Order.OrderType.BID;
+      case buy:
+        return Order.OrderType.ASK;
+      case sell:
+        return Order.OrderType.BID;
     }
     throw new IllegalArgumentException("Illegal type: " + txType);
   }

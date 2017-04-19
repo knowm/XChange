@@ -1,30 +1,31 @@
 {
-	"result": {
-		"order_btccny": [{
-			"id": 13942927,
-			"type": "bid",
-			"price": "2000.00",
-			"currency": "CNY",
-			"amount": "0.00100000",
-			"amount_original": "0.00100000",
-			"date": 1396255376,
-			"status": "open"
-		}, {
-			"id": 13942807,
-			"type": "bid",
-			"price": "2000.00",
-			"currency": "CNY",
-			"amount": "0.00100000",
-			"amount_original": "0.00100000",
-			"date": 1396255245,
-			"status": "open"
-		}],
-		"order_ltccny": [
-
-		],
-		"order_ltcbtc": [
-
-		]
-	},
-	"id": "1"
+  "result": {
+    "order_btccny": [
+      {
+        "id": 13942927,
+        "type": "bid",
+        "price": "2000.00",
+        "currency": "CNY",
+        "amount": "0.00100000",
+        "amount_original": "0.00100000",
+        "date": 1396255376,
+        "status": "open"
+      },
+      {
+        "id": 13942807,
+        "type": "bid",
+        "price": "2000.00",
+        "currency": "CNY",
+        "amount": "0.00100000",
+        "amount_original": "0.00100000",
+        "date": 1396255245,
+        "status": "open"
+      }
+    ],
+    "order_ltccny": [
+    ],
+    "order_ltcbtc": [
+    ]
+  },
+  "id": "1"
 }

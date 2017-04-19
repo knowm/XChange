@@ -17,7 +17,7 @@ public class GeminiBalancesRequest {
 
   /**
    * Constructor
-   * 
+   *
    * @param nonce
    */
   public GeminiBalancesRequest(String nonce) {

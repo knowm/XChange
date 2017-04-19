@@ -25,11 +25,11 @@
       "trading_fee": 0.0025,
       "min_amount": 150.0000000
     },
-   "XRP/BTC": {
+    "XRP/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0025,
       "min_amount": 150.0000000
-    }    
+    }
   },
   "currencies": {
     "BTC": {

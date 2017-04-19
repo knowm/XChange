@@ -27,10 +27,10 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
    * your bank account through the website before this API call will work). The underlying optional parameter agree_btc_amount_varies is set to false.
    * Use {@link #buyAndAgreeBTCAmountVaries} to have it set to true.
    *
-   * @see <a href="https://coinbase.com/api/doc/1.0/buys/create.html">coinbase.com/api/doc/1.0/buys/create.html</a>
    * @param quantity The quantity of Bitcoin you would like to buy.
    * @return The {@code CoinbaseTransfer} representing the buy.
    * @throws IOException
+   * @see <a href="https://coinbase.com/api/doc/1.0/buys/create.html">coinbase.com/api/doc/1.0/buys/create.html</a>
    */
   public CoinbaseTransfer buy(BigDecimal quantity) throws IOException {
 
@@ -44,10 +44,10 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
    * your bank account through the website before this API call will work). The underlying optional parameter agree_btc_amount_varies is set to true.
    * Use {@link #buyAndAgreeBTCAmountVaries} to have it set to false.
    *
-   * @see <a href="https://coinbase.com/api/doc/1.0/buys/create.html">coinbase.com/api/doc/1.0/buys/create.html</a>
    * @param quantity The quantity of Bitcoin you would like to buy.
    * @return A {@code CoinbaseTransfer} representing the buy.
    * @throws IOException
+   * @see <a href="https://coinbase.com/api/doc/1.0/buys/create.html">coinbase.com/api/doc/1.0/buys/create.html</a>
    */
   public CoinbaseTransfer buyAndAgreeBTCAmountVaries(BigDecimal quantity) throws IOException {
 
@@ -60,10 +60,10 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
    * Authenticated resource that lets you convert Bitcoin in your account to USD by crediting your primary bank account on Coinbase. (You must link
    * and verify your bank account through the website before this API call will work).
    *
-   * @see <a href="https://coinbase.com/api/doc/1.0/sells/create.html">coinbase.com/api/doc/1.0/sells/create.html</a>
    * @param quantity The quantity of Bitcoin you would like to sell.
    * @return A {@code CoinbaseTransfer} representing the sell.
    * @throws IOException
+   * @see <a href="https://coinbase.com/api/doc/1.0/sells/create.html">coinbase.com/api/doc/1.0/sells/create.html</a>
    */
   public CoinbaseTransfer sell(BigDecimal quantity) throws IOException {
 
@@ -76,9 +76,9 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
    * Authenticated resource which returns the user’s Bitcoin purchases and sells. Sorted in descending order by creation date. This is a paged
    * resource and will return the first page by default.
    *
-   * @see <a href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
    * @return
    * @throws IOException
+   * @see <a href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
    */
   public CoinbaseTransfers getCoinbaseTransfers() throws IOException {
 
@@ -88,11 +88,11 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
   /**
    * Authenticated resource which returns the user’s Bitcoin purchases and sells. Sorted in descending order by creation date.
    *
-   * @see <a href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
    * @param page Optional parameter to request a desired page of results. Will return page 1 if the supplied page is null or less than 1.
    * @param limit Optional parameter to limit the maximum number of results to return. Will return up to 25 results by default if null or less than 1.
    * @return
    * @throws IOException
+   * @see <a href="https://coinbase.com/api/doc/1.0/transfers/index.html">coinbase.com/api/doc/1.0/transfers/index.html</a>
    */
   public CoinbaseTransfers getCoinbaseTransfers(Integer page, final Integer limit) throws IOException {
 

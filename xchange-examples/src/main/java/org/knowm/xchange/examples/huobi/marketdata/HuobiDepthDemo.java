@@ -1,6 +1,7 @@
 package org.knowm.xchange.examples.huobi.marketdata;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
@@ -66,7 +67,7 @@ public class HuobiDepthDemo {
 
     // Get the latest full order book data
     HuobiDepth depth = huobi.getBitVcDepth("btc");
-    System.out.println("Asks: " + depth.getAsks().toString() + " Bids: " + depth.getBids().toString());
+    System.out.println("Asks: " + Arrays.deepToString(depth.getAsks()) + " Bids: " + Arrays.deepToString(depth.getBids()));
     System.out.println("size: " + (depth.getAsks().length + depth.getBids().length));
 
   }

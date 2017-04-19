@@ -21,14 +21,13 @@ public final class HitbtcTicker {
 
   /**
    * Constructor
-   * 
+   *
    * @param ask
    * @param bid
    * @param last
    * @param low
    * @param high
    * @param volume
-   * @param timetamp
    */
   public HitbtcTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("last") BigDecimal last,
       @JsonProperty("low") BigDecimal low, @JsonProperty("high") BigDecimal high, @JsonProperty("open") BigDecimal open,

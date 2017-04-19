@@ -6,12 +6,14 @@ import org.knowm.xchange.service.BaseService;
 
 public class OkCoinBaseService extends BaseExchangeService implements BaseService {
 
-  /** Set to true if international site should be used */
+  /**
+   * Set to true if international site should be used
+   */
   protected final boolean useIntl;
 
   /**
    * Constructor
-   * 
+   *
    * @param exchange
    */
   public OkCoinBaseService(Exchange exchange) {

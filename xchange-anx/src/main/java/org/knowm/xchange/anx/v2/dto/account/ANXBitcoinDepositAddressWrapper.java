@@ -13,7 +13,7 @@ public class ANXBitcoinDepositAddressWrapper {
 
   /**
    * Constructor
-   * 
+   *
    * @param result
    * @param anxBitcoinDepositAddress
    * @param error

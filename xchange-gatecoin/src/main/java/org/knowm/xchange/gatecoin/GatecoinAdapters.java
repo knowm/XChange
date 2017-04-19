@@ -50,7 +50,7 @@ public final class GatecoinAdapters {
    */
   public static Wallet adaptWallet(GatecoinBalance[] gatecoinBalances) {
 
-    ArrayList<Balance> balances = new ArrayList<Balance>();
+    ArrayList<Balance> balances = new ArrayList<>();
 
     for (GatecoinBalance balance : gatecoinBalances) {
       Currency ccy = Currency.getInstance(balance.getCurrency());
@@ -79,7 +79,7 @@ public final class GatecoinAdapters {
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, GatecoinDepth[] orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (GatecoinDepth priceVolume : orders) {
 
       limitOrders.add((createOrder(currencyPair, priceVolume, orderType)));
@@ -101,7 +101,7 @@ public final class GatecoinAdapters {
 
   public static Trades adaptTrades(GatecoinTransaction[] transactions, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (GatecoinTransaction tx : transactions) {
       final long tradeId = tx.getTransactionId();
@@ -144,7 +144,7 @@ public final class GatecoinAdapters {
    */
   public static UserTrades adaptTradeHistory(GatecoinTradeHistoryResult gatecoinUserTrades) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
     if (gatecoinUserTrades != null) {
       GatecoinTradeHistory[] tradeHistory = gatecoinUserTrades.getTransactions();

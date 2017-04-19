@@ -15,7 +15,7 @@ public class BitfinexTrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param price
    * @param amount
    * @param timestamp

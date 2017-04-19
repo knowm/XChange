@@ -1,7 +1,13 @@
 package org.knowm.xchange.okcoin.service;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -31,7 +37,7 @@ import org.slf4j.LoggerFactory;
 
 public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements TradeService {
 
-  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
   private final Logger log = LoggerFactory.getLogger(OkCoinFuturesTradeService.class);
 
   private final int leverRate;
@@ -57,11 +63,12 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     // TODO use params for currency pair
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
 
-    List<OkCoinFuturesOrderResult> orderResults = new ArrayList<OkCoinFuturesOrderResult>(exchangeSymbols.size());
+    List<OkCoinFuturesOrderResult> orderResults = new ArrayList<>(exchangeSymbols.size());
 
     for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
@@ -92,7 +99,9 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     }
   }
 
-  /** Liquidate long or short contract (depending on market order order type) using a market order */
+  /**
+   * Liquidate long or short contract (depending on market order order type) using a market order
+   */
   public String liquidateMarketOrder(MarketOrder marketOrder) throws IOException {
 
     long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(marketOrder.getCurrencyPair()),
@@ -113,7 +122,9 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
     }
   }
 
-  /** Liquidate long or short contract using a limit order */
+  /**
+   * Liquidate long or short contract using a limit order
+   */
   public String liquidateLimitOrder(LimitOrder limitOrder) throws IOException {
 
     long orderId = futuresTrade(OkCoinAdapters.adaptSymbol(limitOrder.getCurrencyPair()),
@@ -248,17 +259,15 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     List<CurrencyPair> exchangeSymbols = exchange.getExchangeSymbols();
-    List<Order> openOrders = new ArrayList<Order>();
-    List<OkCoinFuturesOrder> orderResults = new ArrayList<OkCoinFuturesOrder>(exchangeSymbols.size());
-    List<String> orderIdsRequest = new ArrayList<String>();
-    Set<String> orderSet = new HashSet<String>();
+    List<Order> openOrders = new ArrayList<>();
+    List<OkCoinFuturesOrder> orderResults = new ArrayList<>(exchangeSymbols.size());
+    List<String> orderIdsRequest = new ArrayList<>();
+    Set<String> orderSet = new HashSet<>();
 
-    for (int i = 0; i < orderIds.length; i++) {
-      orderSet.add(orderIds[i]);
-    }
+    Collections.addAll(orderSet, orderIds);
 
     for (int i = 0; i < exchangeSymbols.size(); i++) {
       CurrencyPair symbol = exchangeSymbols.get(i);
@@ -274,7 +283,7 @@ public class OkCoinFuturesTradeService extends OkCoinTradeServiceRaw implements 
               OkCoinAdapters.adaptSymbol(symbol), futuresContract);
           orderIdsRequest.clear();
           if (orderResult.getOrders().length > 0) {
-            orderResults.addAll(new ArrayList<OkCoinFuturesOrder>(Arrays.asList(orderResult.getOrders())));
+            orderResults.addAll(new ArrayList<>(Arrays.asList(orderResult.getOrders())));
           }
 
         }

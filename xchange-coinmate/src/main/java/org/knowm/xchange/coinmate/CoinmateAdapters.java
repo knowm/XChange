@@ -59,7 +59,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 public class CoinmateAdapters {
 
   // the currency pairs supported by the exchange
-  public static final CurrencyPair[] COINMATE_CURRENCY_PAIRS = { CurrencyPair.BTC_EUR, CurrencyPair.BTC_CZK, };
+  public static final CurrencyPair[] COINMATE_CURRENCY_PAIRS = {CurrencyPair.BTC_EUR, CurrencyPair.BTC_CZK,};
 
   /**
    * Adapts a CoinmateTicker to a Ticker Object
@@ -82,7 +82,7 @@ public class CoinmateAdapters {
   }
 
   public static List<LimitOrder> createOrders(List<CoinmateOrderBookEntry> coinmateOrders, Order.OrderType type, CurrencyPair currencyPair) {
-    List<LimitOrder> orders = new ArrayList<LimitOrder>(coinmateOrders.size());
+    List<LimitOrder> orders = new ArrayList<>(coinmateOrders.size());
     for (CoinmateOrderBookEntry entry : coinmateOrders) {
       LimitOrder order = new LimitOrder(type, entry.getAmount(), currencyPair, null, null, entry.getPrice());
       orders.add(order);
@@ -98,7 +98,7 @@ public class CoinmateAdapters {
   }
 
   public static Trades adaptTrades(CoinmateTransactions coinmateTransactions) {
-    List<Trade> trades = new ArrayList<Trade>(coinmateTransactions.getData().size());
+    List<Trade> trades = new ArrayList<>(coinmateTransactions.getData().size());
 
     for (CoinmateTransactionsEntry coinmateEntry : coinmateTransactions.getData()) {
       Trade trade = adaptTrade(coinmateEntry);
@@ -117,7 +117,7 @@ public class CoinmateAdapters {
   public static Wallet adaptWallet(CoinmateBalance coinmateBalance) {
 
     CoinmateBalanceData funds = coinmateBalance.getData();
-    List<Balance> balances = new ArrayList<Balance>(funds.size());
+    List<Balance> balances = new ArrayList<>(funds.size());
 
     for (String lcCurrency : funds.keySet()) {
       Currency currency = Currency.getInstance(lcCurrency.toUpperCase());
@@ -130,7 +130,7 @@ public class CoinmateAdapters {
   }
 
   public static UserTrades adaptTradeHistory(CoinmateTransactionHistory coinmateTradeHistory) {
-    List<UserTrade> trades = new ArrayList<UserTrade>(coinmateTradeHistory.getData().size());
+    List<UserTrade> trades = new ArrayList<>(coinmateTradeHistory.getData().size());
 
     for (CoinmateTransactionHistoryEntry entry : coinmateTradeHistory.getData()) {
       Order.OrderType orderType;
@@ -181,12 +181,12 @@ public class CoinmateAdapters {
 
   public static String adaptOrder(TradeHistoryParamsSorted.Order order) {
     switch (order) {
-    case asc:
-      return "ASC";
-    case desc:
-      return "DESC";
-    default:
-      throw new IllegalArgumentException();
+      case asc:
+        return "ASC";
+      case desc:
+        return "DESC";
+      default:
+        throw new IllegalArgumentException();
     }
   }
 }

@@ -15,29 +15,29 @@ import org.knowm.xchange.service.marketdata.MarketDataService;
  */
 public class OrderBookDemo {
 
-	public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException {
 
-		Exchange livecoinExchange = ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class.getName());
+    Exchange livecoinExchange = ExchangeFactory.INSTANCE.createExchange(LivecoinExchange.class.getName());
 
-		// Interested in the public market data feed (no authentication)
-		MarketDataService marketDataService = livecoinExchange.getMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = livecoinExchange.getMarketDataService();
 
-		System.out.println("fetching data...");
+    System.out.println("fetching data...");
 
-		// Get the current orderbook
-		OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
+    // Get the current orderbook
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
 
-		System.out.println("received data.");
+    System.out.println("received data.");
 
-		for (LimitOrder limitOrder : orderBook.getBids()) {
-			System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: "
-					+ limitOrder.getLimitPrice() + " Amount: " + limitOrder.getTradableAmount());
-		}
+    for (LimitOrder limitOrder : orderBook.getBids()) {
+      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
+          + limitOrder.getTradableAmount());
+    }
 
-		for (LimitOrder limitOrder : orderBook.getAsks()) {
-			System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: "
-					+ limitOrder.getLimitPrice() + " Amount: " + limitOrder.getTradableAmount());
-		}
-	}
+    for (LimitOrder limitOrder : orderBook.getAsks()) {
+      System.out.println(limitOrder.getType() + " " + limitOrder.getCurrencyPair() + " Limit price: " + limitOrder.getLimitPrice() + " Amount: "
+          + limitOrder.getTradableAmount());
+    }
+  }
 
 }

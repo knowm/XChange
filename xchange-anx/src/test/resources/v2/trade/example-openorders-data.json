@@ -1,64 +1,64 @@
 [
-    {
-        "oid": "e74305c7-c424-4fbc-a8a2-b41d8329deb0",
-        "currency": "HKD",
-        "item": "BTC",
-        "type": "offer",
-        "amount": {
-            "currency": "BTC",
-            "display": "10.00000000 BTC",
-            "display_short": "10.00 BTC",
-            "value": "10.00000000",
-            "value_int": "1000000000"
-        },
-        "effective_amount": {
-            "currency": "BTC",
-            "display": "10.00000000 BTC",
-            "display_short": "10.00 BTC",
-            "value": "10.00000000",
-            "value_int": "1000000000"
-        },
-        "price": {
-            "currency": "HKD",
-            "display": "412.34567 HKD",
-            "display_short": "412.35 HKD",
-            "value": "412.34567",
-            "value_int": "41234567"
-        },
-        "status": "open",
-        "date": 1393411075000,
-        "priority": 1393411075000000,
-        "actions": []
+  {
+    "oid": "e74305c7-c424-4fbc-a8a2-b41d8329deb0",
+    "currency": "HKD",
+    "item": "BTC",
+    "type": "offer",
+    "amount": {
+      "currency": "BTC",
+      "display": "10.00000000 BTC",
+      "display_short": "10.00 BTC",
+      "value": "10.00000000",
+      "value_int": "1000000000"
     },
-    {
-        "oid": "7eecf4b2-5785-4500-a5d4-f3f8c924395c",
-        "currency": "HKD",
-        "item": "BTC",
-        "type": "bid",
-        "amount": {
-            "currency": "BTC",
-            "display": "10.00000000 BTC",
-            "display_short": "10.00 BTC",
-            "value": "10.00000000",
-            "value_int": "1000000000"
-        },
-        "effective_amount": {
-            "currency": "BTC",
-            "display": "10.00000000 BTC",
-            "display_short": "10.00 BTC",
-            "value": "10.00000000",
-            "value_int": "1000000000"
-        },
-        "price": {
-            "currency": "HKD",
-            "display": "212.34567 HKD",
-            "display_short": "212.35 HKD",
-            "value": "212.34567",
-            "value_int": "21234567"
-        },
-        "status": "open",
-        "date": 1393411073000,
-        "priority": 1393411073000000,
-        "actions": []
-    }
+    "effective_amount": {
+      "currency": "BTC",
+      "display": "10.00000000 BTC",
+      "display_short": "10.00 BTC",
+      "value": "10.00000000",
+      "value_int": "1000000000"
+    },
+    "price": {
+      "currency": "HKD",
+      "display": "412.34567 HKD",
+      "display_short": "412.35 HKD",
+      "value": "412.34567",
+      "value_int": "41234567"
+    },
+    "status": "open",
+    "date": 1393411075000,
+    "priority": 1393411075000000,
+    "actions": []
+  },
+  {
+    "oid": "7eecf4b2-5785-4500-a5d4-f3f8c924395c",
+    "currency": "HKD",
+    "item": "BTC",
+    "type": "bid",
+    "amount": {
+      "currency": "BTC",
+      "display": "10.00000000 BTC",
+      "display_short": "10.00 BTC",
+      "value": "10.00000000",
+      "value_int": "1000000000"
+    },
+    "effective_amount": {
+      "currency": "BTC",
+      "display": "10.00000000 BTC",
+      "display_short": "10.00 BTC",
+      "value": "10.00000000",
+      "value_int": "1000000000"
+    },
+    "price": {
+      "currency": "HKD",
+      "display": "212.34567 HKD",
+      "display_short": "212.35 HKD",
+      "value": "212.34567",
+      "value_int": "21234567"
+    },
+    "status": "open",
+    "date": 1393411073000,
+    "priority": 1393411073000000,
+    "actions": []
+  }
 ]

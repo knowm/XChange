@@ -47,7 +47,7 @@ import org.powermock.reflect.Whitebox;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ BTCMarketsAuthenticated.class, BTCMarketsMyTradingRequest.class, BTCMarketsCancelOrderRequest.class, BTCMarketsOrder.class })
+@PrepareForTest({BTCMarketsAuthenticated.class, BTCMarketsMyTradingRequest.class, BTCMarketsCancelOrderRequest.class, BTCMarketsOrder.class})
 @PowerMockIgnore("javax.crypto.*")
 public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
 
@@ -161,16 +161,14 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
     BTCMarketsMyTradingRequest timeSpanRequest = new BTCMarketsMyTradingRequest("AUD", "BTC", null, new Date(1234567890L));
 
     BTCMarketsTradeHistory defaultResponse = Whitebox.invokeConstructor(BTCMarketsTradeHistory.class,
-        new Class[] { Boolean.class, String.class, Integer.class, List.class },
-        new Object[] { true, "", 0, Collections.singletonList(expectedBtcMarketsUserTrades.get(0)) });
+        new Class[]{Boolean.class, String.class, Integer.class, List.class},
+        new Object[]{true, "", 0, Collections.singletonList(expectedBtcMarketsUserTrades.get(0))});
 
     BTCMarketsTradeHistory pagingResponse = Whitebox.invokeConstructor(BTCMarketsTradeHistory.class,
-        new Class[] { Boolean.class, String.class, Integer.class, List.class },
-        new Object[] { true, "", 0, expectedBtcMarketsUserTrades.subList(1, 3) });
+        new Class[]{Boolean.class, String.class, Integer.class, List.class}, new Object[]{true, "", 0, expectedBtcMarketsUserTrades.subList(1, 3)});
 
     BTCMarketsTradeHistory timeSpanResponse = Whitebox.invokeConstructor(BTCMarketsTradeHistory.class,
-        new Class[] { Boolean.class, String.class, Integer.class, List.class },
-        new Object[] { true, "", 0, expectedBtcMarketsUserTrades.subList(2, 4) });
+        new Class[]{Boolean.class, String.class, Integer.class, List.class}, new Object[]{true, "", 0, expectedBtcMarketsUserTrades.subList(2, 4)});
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
 
@@ -215,8 +213,8 @@ public class BTCMarketsTradeServiceTest extends BTCMarketsTestSupport {
 
     BTCMarketsMyTradingRequest request = new BTCMarketsMyTradingRequest("AUD", "BTC", 50, null);
     BTCMarketsOrders response = Whitebox.invokeConstructor(BTCMarketsOrders.class,
-        new Class[] { Boolean.class, String.class, Integer.class, List.class },
-        new Object[] { true, "", 0, Arrays.asList(expectedBtcMarketsOrders[0], expectedBtcMarketsOrders[1]) });
+        new Class[]{Boolean.class, String.class, Integer.class, List.class},
+        new Object[]{true, "", 0, Arrays.asList(expectedBtcMarketsOrders[0], expectedBtcMarketsOrders[1])});
 
     BTCMarketsAuthenticated btcm = mock(BTCMarketsAuthenticated.class);
     PowerMockito.when(btcm.getOpenOrders(Mockito.eq(SPECIFICATION_API_KEY), Mockito.any(SynchronizedValueFactory.class),

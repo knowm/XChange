@@ -1,66 +1,66 @@
 {
-	"result": {
-		"profile": {
-			"username": "xchange",
-			"trade_password_enabled": true,
-			"otp_enabled": false,
-			"trade_fee": 0,
-			"trade_fee_cnyltc": 0,
-			"trade_fee_btcltc": 0,
-			"daily_btc_limit": 10,
-			"daily_ltc_limit": 400,
-			"btc_deposit_address": "1r56Yu5GsVAS7tnQP9iY7Ey9DEVZ38Ytx",
-			"btc_withdrawal_address": "",
-			"ltc_deposit_address": "LhW2HGPy5j2yFhBZ2uamZxgjbCjvL7iUzG",
-			"ltc_withdrawal_address": "",
-			"api_key_permission": 3
-		},
-		"balance": {
-			"btc": {
-				"currency": "BTC",
-				"symbol": "\u0e3f",
-				"amount": "0.00100000",
-				"amount_integer": "100000",
-				"amount_decimal": 8
-			},
-			"ltc": {
-				"currency": "LTC",
-				"symbol": "\u0141",
-				"amount": "0.00000000",
-				"amount_integer": "0",
-				"amount_decimal": 8
-			},
-			"cny": {
-				"currency": "CNY",
-				"symbol": "\u00a5",
-				"amount": "0.00000",
-				"amount_integer": "0",
-				"amount_decimal": 5
-			}
-		},
-		"frozen": {
-			"btc": {
-				"currency": "BTC",
-				"symbol": "\u0e3f",
-				"amount": "0.00000000",
-				"amount_integer": "0",
-				"amount_decimal": 8
-			},
-			"ltc": {
-				"currency": "LTC",
-				"symbol": "\u0141",
-				"amount": "0.00000000",
-				"amount_integer": "0",
-				"amount_decimal": 8
-			},
-			"cny": {
-				"currency": "CNY",
-				"symbol": "\u00a5",
-				"amount": "0.00000",
-				"amount_integer": "0",
-				"amount_decimal": 5
-			}
-		}
-	},
-	"id": "1"
+  "result": {
+    "profile": {
+      "username": "xchange",
+      "trade_password_enabled": true,
+      "otp_enabled": false,
+      "trade_fee": 0,
+      "trade_fee_cnyltc": 0,
+      "trade_fee_btcltc": 0,
+      "daily_btc_limit": 10,
+      "daily_ltc_limit": 400,
+      "btc_deposit_address": "1r56Yu5GsVAS7tnQP9iY7Ey9DEVZ38Ytx",
+      "btc_withdrawal_address": "",
+      "ltc_deposit_address": "LhW2HGPy5j2yFhBZ2uamZxgjbCjvL7iUzG",
+      "ltc_withdrawal_address": "",
+      "api_key_permission": 3
+    },
+    "balance": {
+      "btc": {
+        "currency": "BTC",
+        "symbol": "\u0e3f",
+        "amount": "0.00100000",
+        "amount_integer": "100000",
+        "amount_decimal": 8
+      },
+      "ltc": {
+        "currency": "LTC",
+        "symbol": "\u0141",
+        "amount": "0.00000000",
+        "amount_integer": "0",
+        "amount_decimal": 8
+      },
+      "cny": {
+        "currency": "CNY",
+        "symbol": "\u00a5",
+        "amount": "0.00000",
+        "amount_integer": "0",
+        "amount_decimal": 5
+      }
+    },
+    "frozen": {
+      "btc": {
+        "currency": "BTC",
+        "symbol": "\u0e3f",
+        "amount": "0.00000000",
+        "amount_integer": "0",
+        "amount_decimal": 8
+      },
+      "ltc": {
+        "currency": "LTC",
+        "symbol": "\u0141",
+        "amount": "0.00000000",
+        "amount_integer": "0",
+        "amount_decimal": 8
+      },
+      "cny": {
+        "currency": "CNY",
+        "symbol": "\u00a5",
+        "amount": "0.00000",
+        "amount_integer": "0",
+        "amount_decimal": 5
+      }
+    }
+  },
+  "id": "1"
 }

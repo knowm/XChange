@@ -67,7 +67,7 @@ public class BitbayAdapters {
    */
   private static List<LimitOrder> transformArrayToLimitOrders(BigDecimal[][] orders, OrderType orderType, CurrencyPair currencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (BigDecimal[] order : orders) {
       limitOrders.add(new LimitOrder(orderType, order[1], currencyPair, null, new Date(), order[0]));
@@ -96,7 +96,7 @@ public class BitbayAdapters {
    */
   public static Trades adaptTrades(BitbayTrade[] bitbayTrades, CurrencyPair currencyPair) {
 
-    List<Trade> tradeList = new ArrayList<Trade>();
+    List<Trade> tradeList = new ArrayList<>();
 
     for (BitbayTrade bitbayTrade : bitbayTrades) {
 
@@ -147,7 +147,7 @@ public class BitbayAdapters {
       throw new IllegalArgumentException(e);
     }
 
-    return new LimitOrder(type, bitbayOrder.getAmount(), currencyPair, String.valueOf(bitbayOrder.getId()), date, bitbayOrder.getStartPrice()
-        .divide(bitbayOrder.getStartAmount()));
+    return new LimitOrder(type, bitbayOrder.getAmount(), currencyPair, String.valueOf(bitbayOrder.getId()), date,
+        bitbayOrder.getStartPrice().divide(bitbayOrder.getStartAmount()));
   }
 }

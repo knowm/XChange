@@ -25,7 +25,11 @@ import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.*;
+import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /**
@@ -49,14 +53,15 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     // TODO use currency pair param
     MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersBitcoinResult = getMercadoBitcoinUserOrders("btc_brl", null, "active", null,
         null, null, null);
     MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> openOrdersLitecoinResult = getMercadoBitcoinUserOrders("ltc_brl", null, "active", null,
         null, null, null);
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
 
     limitOrders.addAll(MercadoBitcoinAdapters.adaptOrders(CurrencyPair.BTC_BRL, openOrdersBitcoinResult));
     limitOrders.addAll(MercadoBitcoinAdapters.adaptOrders(new CurrencyPair(Currency.LTC, Currency.BRL), openOrdersLitecoinResult));
@@ -65,8 +70,8 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 
@@ -123,7 +128,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
 
   /**
    * @param params Required parameter types: {@link TradeHistoryParamCurrencyPair}. Supported types: {@link TradeHistoryParamsIdSpan},
-   *        {@link TradeHistoryParamsTimeSpan}.
+   * {@link TradeHistoryParamsTimeSpan}.
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {

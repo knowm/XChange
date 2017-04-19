@@ -64,7 +64,7 @@ public class KrakenAccountDemo {
 
     if (params instanceof TradeHistoryParamCurrencies) {
       final TradeHistoryParamCurrencies currenciesParam = (TradeHistoryParamCurrencies) params;
-      currenciesParam.setCurrencies(new Currency[] {Currency.BTC, Currency.USD});
+      currenciesParam.setCurrencies(new Currency[]{Currency.BTC, Currency.USD});
     }
 
     List<FundingRecord> fundingRecords = accountService.getFundingHistory(params);

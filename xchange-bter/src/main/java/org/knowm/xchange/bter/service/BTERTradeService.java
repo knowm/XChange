@@ -41,7 +41,8 @@ public class BTERTradeService extends BTERTradeServiceRaw implements TradeServic
   }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     BTEROpenOrders openOrders = super.getBTEROpenOrders();
     Collection<CurrencyPair> currencyPairs = exchange.getExchangeSymbols();
 
@@ -99,8 +100,8 @@ public class BTERTradeService extends BTERTradeServiceRaw implements TradeServic
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

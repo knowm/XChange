@@ -1,5 +1,7 @@
 package org.knowm.xchange.anx.v2.dto.account;
 
+import java.util.Arrays;
+
 import org.knowm.xchange.anx.v2.dto.ANXValue;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,7 +22,7 @@ public final class ANXWalletHistoryEntry {
 
   /**
    * Constructor
-   * 
+   *
    * @param index
    * @param date
    * @param type
@@ -88,7 +90,7 @@ public final class ANXWalletHistoryEntry {
   public String toString() {
 
     return "ANXWalletHistoryEntry{" + "index=" + index + ", date=" + date + ", type=" + type + ", value=" + value + ", balance=" + balance + ", info="
-        + info + ", link=" + link + ", trade=" + trade + '}';
+        + info + ", link=" + Arrays.toString(link) + ", trade=" + trade + '}';
   }
 
   public static class ANXWalletHistoryEntryTrade {

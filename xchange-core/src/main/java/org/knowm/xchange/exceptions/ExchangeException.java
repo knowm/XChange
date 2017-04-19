@@ -12,7 +12,7 @@ public class ExchangeException extends RuntimeException {
 
   /**
    * Constructs an <code>ExchangeException</code> with the specified detail message.
-   * 
+   *
    * @param message the detail message.
    */
   public ExchangeException(String message) {
@@ -32,7 +32,7 @@ public class ExchangeException extends RuntimeException {
 
   /**
    * Constructs an <code>ExchangeException</code> with the specified detail message and cause.
-   * 
+   *
    * @param message the detail message.
    * @param cause the underlying cause.
    */

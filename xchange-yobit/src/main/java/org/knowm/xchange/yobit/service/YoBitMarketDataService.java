@@ -15,33 +15,33 @@ import org.knowm.xchange.yobit.YoBitAdapters;
 
 public class YoBitMarketDataService extends YoBitMarketDataServiceRaw implements MarketDataService {
 
-	public YoBitMarketDataService(Exchange exchange) {
-		super(exchange);
-	}
+  public YoBitMarketDataService(Exchange exchange) {
+    super(exchange);
+  }
 
-	@Override
-	public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException,
-			NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public Ticker getTicker(CurrencyPair currencyPair,
+      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	@Override
-	public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
+  @Override
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-		long level = 50;
-		if (args != null && args.length > 0) {
-			if (args[0] instanceof Number) {
-				Number arg = (Number) args[0];
-				level = arg.intValue();
-			}
-		}
+    long level = 50;
+    if (args != null && args.length > 0) {
+      if (args[0] instanceof Number) {
+        Number arg = (Number) args[0];
+        level = arg.intValue();
+      }
+    }
 
-		return YoBitAdapters.adaptOrderBook(getOrderBookA(currencyPair, level), currencyPair);
-	}
+    return YoBitAdapters.adaptOrderBook(getOrderBookA(currencyPair, level), currencyPair);
+  }
 
-	@Override
-	public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-		return YoBitAdapters.adaptTrades(getTrades(currencyPair), currencyPair);
-	}
+  @Override
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
+    return YoBitAdapters.adaptTrades(getTrades(currencyPair), currencyPair);
+  }
 }

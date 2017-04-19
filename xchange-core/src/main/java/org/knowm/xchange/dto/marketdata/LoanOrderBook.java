@@ -68,34 +68,34 @@ public final class LoanOrderBook {
     Iterator<FixedRateLoanOrder> it;
 
     switch (updatedLoanOrder.getType()) {
-    case ASK:
+      case ASK:
 
-      it = fixedRateAsks.iterator();
-      while (it.hasNext()) {
-        FixedRateLoanOrder order = it.next();
-        if (order.getRate().equals(updatedLoanOrder.getRate()) && order.getDayPeriod() == updatedLoanOrder.getDayPeriod()) {
-          it.remove();
-          break;
+        it = fixedRateAsks.iterator();
+        while (it.hasNext()) {
+          FixedRateLoanOrder order = it.next();
+          if (order.getRate().equals(updatedLoanOrder.getRate()) && order.getDayPeriod() == updatedLoanOrder.getDayPeriod()) {
+            it.remove();
+            break;
+          }
         }
-      }
-      fixedRateAsks.add(updatedLoanOrder);
-      Collections.sort(fixedRateAsks);
-      break;
-    case BID:
+        fixedRateAsks.add(updatedLoanOrder);
+        Collections.sort(fixedRateAsks);
+        break;
+      case BID:
 
-      it = fixedRateBids.iterator();
-      while (it.hasNext()) {
-        FixedRateLoanOrder order = it.next();
-        if (order.getRate().equals(updatedLoanOrder.getRate()) && order.getDayPeriod() == updatedLoanOrder.getDayPeriod()) {
-          it.remove();
-          break;
+        it = fixedRateBids.iterator();
+        while (it.hasNext()) {
+          FixedRateLoanOrder order = it.next();
+          if (order.getRate().equals(updatedLoanOrder.getRate()) && order.getDayPeriod() == updatedLoanOrder.getDayPeriod()) {
+            it.remove();
+            break;
+          }
         }
-      }
-      fixedRateBids.add(updatedLoanOrder);
-      Collections.sort(fixedRateBids);
-      break;
-    default:
-      break;
+        fixedRateBids.add(updatedLoanOrder);
+        Collections.sort(fixedRateBids);
+        break;
+      default:
+        break;
     }
 
     updateTimestamp(updatedLoanOrder.getTimestamp());
@@ -107,44 +107,44 @@ public final class LoanOrderBook {
     boolean rateChanged = false;
 
     switch (updatedLoanOrder.getType()) {
-    case ASK:
+      case ASK:
 
-      it = floatingRateAsks.iterator();
-      while (it.hasNext()) {
-        FloatingRateLoanOrder order = it.next();
-        if (order.getDayPeriod() == updatedLoanOrder.getDayPeriod()) {
-          it.remove();
+        it = floatingRateAsks.iterator();
+        while (it.hasNext()) {
+          FloatingRateLoanOrder order = it.next();
+          if (order.getDayPeriod() == updatedLoanOrder.getDayPeriod()) {
+            it.remove();
+          }
+          // check if the rate has changed and whether we know if it has changed
+          if (!order.getRate().equals(updatedLoanOrder.getRate()) && !rateChanged) {
+            rateChanged = true;
+          }
+          break;
         }
-        // check if the rate has changed and whether we know if it has changed
-        if (!order.getRate().equals(updatedLoanOrder.getRate()) && !rateChanged) {
-          rateChanged = true;
-        }
+
+        floatingRateAsks.add(updatedLoanOrder);
+        Collections.sort(floatingRateAsks);
         break;
-      }
+      case BID:
 
-      floatingRateAsks.add(updatedLoanOrder);
-      Collections.sort(floatingRateAsks);
-      break;
-    case BID:
+        it = floatingRateBids.iterator();
+        while (it.hasNext()) {
+          FloatingRateLoanOrder order = it.next();
+          if (order.getDayPeriod() == updatedLoanOrder.getDayPeriod()) {
+            it.remove();
+          }
+          // check if the rate has changed and whether we know if it has changed
+          if (!order.getRate().equals(updatedLoanOrder.getRate()) && !rateChanged) {
+            rateChanged = true;
+          }
+          break;
+        }
 
-      it = floatingRateBids.iterator();
-      while (it.hasNext()) {
-        FloatingRateLoanOrder order = it.next();
-        if (order.getDayPeriod() == updatedLoanOrder.getDayPeriod()) {
-          it.remove();
-        }
-        // check if the rate has changed and whether we know if it has changed
-        if (!order.getRate().equals(updatedLoanOrder.getRate()) && !rateChanged) {
-          rateChanged = true;
-        }
+        floatingRateBids.add(updatedLoanOrder);
+        Collections.sort(fixedRateBids);
         break;
-      }
-
-      floatingRateBids.add(updatedLoanOrder);
-      Collections.sort(fixedRateBids);
-      break;
-    default:
-      break;
+      default:
+        break;
     }
 
     if (rateChanged) {

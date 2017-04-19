@@ -10,7 +10,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
  */
 public interface RippleTradeHistoryPreferredCurrencies extends TradeHistoryParams {
 
-  public Collection<Currency> getPreferredBaseCurrency();
+  Collection<Currency> getPreferredBaseCurrency();
 
-  public Collection<Currency> getPreferredCounterCurrency();
+  Collection<Currency> getPreferredCounterCurrency();
 }

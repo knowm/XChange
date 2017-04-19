@@ -43,7 +43,7 @@ public interface Exchange {
    *
    * @return
    */
-  public List<CurrencyPair> getExchangeSymbols();
+  List<CurrencyPair> getExchangeSymbols();
 
   /**
    * The nonce factory used to create a nonce value. Allows services to accept a placeholder that is replaced with generated value just before message

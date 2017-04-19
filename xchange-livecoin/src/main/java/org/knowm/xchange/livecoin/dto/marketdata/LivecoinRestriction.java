@@ -6,29 +6,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LivecoinRestriction {
 
-	private String currencyPair;
-	private BigDecimal minLimitQuantity;
-	private Integer priceScale;
+  private String currencyPair;
+  private BigDecimal minLimitQuantity;
+  private Integer priceScale;
 
-	public LivecoinRestriction(@JsonProperty("currencyPair") String currencyPair,
-			@JsonProperty("minLimitQuantity") BigDecimal minLimitQuantity,
-			@JsonProperty("priceScale") Integer priceScale) {
-		super();
-		this.currencyPair = currencyPair;
-		this.minLimitQuantity = minLimitQuantity;
-		this.priceScale = priceScale;
-	}
+  public LivecoinRestriction(@JsonProperty("currencyPair") String currencyPair, @JsonProperty("minLimitQuantity") BigDecimal minLimitQuantity,
+      @JsonProperty("priceScale") Integer priceScale) {
+    super();
+    this.currencyPair = currencyPair;
+    this.minLimitQuantity = minLimitQuantity;
+    this.priceScale = priceScale;
+  }
 
-	public String getCurrencyPair() {
-		return currencyPair;
-	}
+  public String getCurrencyPair() {
+    return currencyPair;
+  }
 
-	public BigDecimal getMinLimitQuantity() {
-		return minLimitQuantity;
-	}
+  public BigDecimal getMinLimitQuantity() {
+    return minLimitQuantity;
+  }
 
-	public Integer getPriceScale() {
-		return priceScale;
-	}
+  public Integer getPriceScale() {
+    return priceScale;
+  }
 
 }

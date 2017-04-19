@@ -38,13 +38,13 @@ public interface GDAX {
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/ticker")
-  GDAXProductTicker getProductTicker(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency)
-      throws IOException;
+  GDAXProductTicker getProductTicker(@PathParam("baseCurrency") String baseCurrency,
+      @PathParam("targetCurrency") String targetCurrency) throws IOException;
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/stats")
-  GDAXProductStats getProductStats(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency)
-      throws IOException;
+  GDAXProductStats getProductStats(@PathParam("baseCurrency") String baseCurrency,
+      @PathParam("targetCurrency") String targetCurrency) throws IOException;
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/book?level={level}")
@@ -55,7 +55,9 @@ public interface GDAX {
   @Path("products/{baseCurrency}-{targetCurrency}/trades")
   GDAXTrade[] getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
 
-  /** Authenticated calls */
+  /**
+   * Authenticated calls
+   */
 
   @GET
   @Path("accounts")

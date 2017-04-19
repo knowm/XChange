@@ -26,7 +26,7 @@ public final class ANXAccountInfo {
 
   /**
    * Constructor
-   * 
+   *
    * @param login
    * @param index
    * @param id

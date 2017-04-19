@@ -36,7 +36,6 @@ public class BitVcFuturesAdapter {
   private static final Balance ZERO_USD_BALANCE = new Balance(USD, BigDecimal.ZERO);
   private static final Balance ZERO_LTC_BALANCE = new Balance(LTC, BigDecimal.ZERO);
 
-
   public static Ticker adaptTicker(BitVcFuturesTicker ticker, CurrencyPair currencyPair) {
 
     return new Ticker.Builder().currencyPair(currencyPair).last(ticker.getLast()).bid(ticker.getBuy()).ask(ticker.getSell()).high(ticker.getHigh())
@@ -56,7 +55,7 @@ public class BitVcFuturesAdapter {
 
   private static List<LimitOrder> adaptOrderBook(BigDecimal[][] orders, OrderType type, CurrencyPair currencyPair) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
+    List<LimitOrder> limitOrders = new ArrayList<>(orders.length);
 
     for (int i = 0; i < orders.length; i++) {
       BigDecimal[] order = orders[i];
@@ -69,7 +68,7 @@ public class BitVcFuturesAdapter {
 
   public static Trades adaptTrades(BitVcFuturesTrade[] trades, CurrencyPair currencyPair) {
 
-    List<Trade> tradeList = new ArrayList<Trade>(trades.length);
+    List<Trade> tradeList = new ArrayList<>(trades.length);
     for (BitVcFuturesTrade trade : trades) {
       tradeList.add(adaptTrade(trade, currencyPair));
     }
@@ -91,13 +90,14 @@ public class BitVcFuturesAdapter {
 
   public static OpenOrders adaptOpenOrders(final BitVcFuturesPositionByContract positions) {
     final BitVcFuturesPosition[] weekPositions = positions.getWeekPositions();
-    if(weekPositions.length <= 0) {
+    if (weekPositions.length <= 0) {
       return NO_OPEN_ORDERS;
     }
 
     List<LimitOrder> orders = new ArrayList<>(weekPositions.length);
-    for(BitVcFuturesPosition position : weekPositions) {
-      orders.add(new LimitOrder(position.getTradeType() == 1 ? OrderType.BID : OrderType.ASK, position.getAmount(), CurrencyPair.BTC_CNY, String.valueOf(position.getId()), new Date(), position.getPrice()));
+    for (BitVcFuturesPosition position : weekPositions) {
+      orders.add(new LimitOrder(position.getTradeType() == 1 ? OrderType.BID : OrderType.ASK, position.getAmount(), CurrencyPair.BTC_CNY,
+          String.valueOf(position.getId()), new Date(), position.getPrice()));
     }
 
     return new OpenOrders(orders);

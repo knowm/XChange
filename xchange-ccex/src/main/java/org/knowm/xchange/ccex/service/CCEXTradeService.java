@@ -22,47 +22,48 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class CCEXTradeService extends CCEXTradeServiceRaw implements TradeService {
 
-	public CCEXTradeService(Exchange exchange) {
-		super(exchange);
-	}
-
-	@Override
-	public OpenOrders getOpenOrders() throws IOException {
-		return getOpenOrders(createOpenOrdersParams());
-	}
+  public CCEXTradeService(Exchange exchange) {
+    super(exchange);
+  }
 
   @Override
-  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws IOException {
+    return getOpenOrders(createOpenOrdersParams());
+  }
+
+  @Override
+  public OpenOrders getOpenOrders(
+      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return new OpenOrders(CCEXAdapters.adaptOpenOrders(getCCEXOpenOrders()));
   }
 
   @Override
-	public String placeMarketOrder(MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotAvailableFromExchangeException();
-	}
+  public String placeMarketOrder(
+      MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotAvailableFromExchangeException();
+  }
 
-	@Override
-	public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
-		String id = placeCCEXLimitOrder(limitOrder);
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+    String id = placeCCEXLimitOrder(limitOrder);
 
-	    return id;
-	}
+    return id;
+  }
 
-	@Override
-	public boolean cancelOrder(String orderId) throws IOException {
-		return cancelCCEXLimitOrder(orderId);
-	}
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
+    return cancelCCEXLimitOrder(orderId);
+  }
 
-	@Override
-	public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-		return new UserTrades(CCEXAdapters.adaptUserTrades(getCCEXTradeHistory()), TradeSortType.SortByTimestamp);
-	}
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    return new UserTrades(CCEXAdapters.adaptUserTrades(getCCEXTradeHistory()), TradeSortType.SortByTimestamp);
+  }
 
-	@Override
-	public TradeHistoryParams createTradeHistoryParams() {
-		return PARAMS_ZERO;
-	}
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+    return PARAMS_ZERO;
+  }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
@@ -70,9 +71,9 @@ public class CCEXTradeService extends CCEXTradeServiceRaw implements TradeServic
   }
 
   @Override
-	public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException,
-			NotYetImplementedForExchangeException, IOException {
-		throw new NotYetImplementedForExchangeException();
-	}
+  public Collection<Order> getOrder(
+      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
 
 }

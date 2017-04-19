@@ -5,51 +5,46 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LivecoinTrade {
-	
-	private final Long time;
-	private final Long id;
-	private final BigDecimal price;
-	private final BigDecimal quantity;
-	private final String type;
-	
-	public LivecoinTrade(
-			@JsonProperty("time") Long time, 
-			@JsonProperty("id") Long id, 
-			@JsonProperty("price") BigDecimal price, 
-			@JsonProperty("quantity") BigDecimal quantity, 
-			@JsonProperty("type") String type) {
-		super();
-		
-		this.time = time;
-		this.id = id;
-		this.price = price;
-		this.quantity = quantity;
-		this.type = type;
-	}
 
-	public Long getTime() {
-		return time;
-	}
+  private final Long time;
+  private final Long id;
+  private final BigDecimal price;
+  private final BigDecimal quantity;
+  private final String type;
 
-	public Long getId() {
-		return id;
-	}
+  public LivecoinTrade(@JsonProperty("time") Long time, @JsonProperty("id") Long id, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("type") String type) {
+    super();
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+    this.time = time;
+    this.id = id;
+    this.price = price;
+    this.quantity = quantity;
+    this.type = type;
+  }
 
-	public BigDecimal getQuantity() {
-		return quantity;
-	}
+  public Long getTime() {
+    return time;
+  }
 
-	public String getType() {
-		return type;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	@Override
-	public String toString() {
-		return "LivecoinTrade [time=" + time + ", id=" + id + ", price=" + price + ", quantity=" + quantity + ", type="
-				+ type + "]";
-	}
+  public BigDecimal getPrice() {
+    return price;
+  }
+
+  public BigDecimal getQuantity() {
+    return quantity;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  @Override
+  public String toString() {
+    return "LivecoinTrade [time=" + time + ", id=" + id + ", price=" + price + ", quantity=" + quantity + ", type=" + type + "]";
+  }
 }

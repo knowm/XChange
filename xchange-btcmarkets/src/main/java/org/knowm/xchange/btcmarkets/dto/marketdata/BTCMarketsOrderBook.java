@@ -17,10 +17,14 @@ public class BTCMarketsOrderBook {
 
   private Date timestamp;
 
-  /** (price, amount) pairs in units of 10e-8 */
+  /**
+   * (price, amount) pairs in units of 10e-8
+   */
   private List<BigDecimal[]> bids;
 
-  /** (price, amount) pairs in units of 10e-8 */
+  /**
+   * (price, amount) pairs in units of 10e-8
+   */
   private List<BigDecimal[]> asks;
 
   public String getCurrency() {

@@ -85,7 +85,7 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
 
   /**
    * @return true if withdrawal was successful. Note that due to a bug on Bitstamp's side, withdrawal always fails if two-factor authentication is
-   *         enabled for the account.
+   * enabled for the account.
    */
   public boolean withdrawToRipple(BigDecimal amount, Currency currency, String rippleAddress) throws IOException {
 

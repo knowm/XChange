@@ -13,7 +13,7 @@ public final class BitstampWithdrawal extends BitstampBaseResponse {
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    */
   public BitstampWithdrawal(@JsonProperty("id") Integer id, @JsonProperty("error") String error) {

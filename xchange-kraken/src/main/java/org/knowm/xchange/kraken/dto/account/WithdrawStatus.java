@@ -6,65 +6,85 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class WithdrawStatus {
-  
-    private final String method;
-    private final String aclass;
-    private final String asset;
-    private final String refid;
-    private final String txid;
-    private final String info;
-    private final BigDecimal amount;
-    private final BigDecimal fee;
-    private final Date timestamp;
-    private final String status;
-    private final String statusProp;
 
-    public WithdrawStatus(@JsonProperty("method") String method, @JsonProperty("aclass") String aclass
-            , @JsonProperty("asset") String asset, @JsonProperty("refid") String refid, @JsonProperty("txid") String txid
-            , @JsonProperty("info") String info, @JsonProperty("amount") BigDecimal amount, @JsonProperty("fee") BigDecimal fee
-            , @JsonProperty("time") long unixTimestamp, @JsonProperty("status") String status, @JsonProperty("status-prop") String statusProp) {
-      super();
-      this.method = method;
-      this.aclass = aclass;
-      this.asset = asset;
-      this.refid = refid;
-      this.txid = txid;
-      this.info = info;
-      this.amount = amount;
-      this.fee = fee;
-      this.timestamp = new Date(unixTimestamp * 1000);
-      this.status = status;
-      this.statusProp = statusProp;
-    }
+  private final String method;
+  private final String aclass;
+  private final String asset;
+  private final String refid;
+  private final String txid;
+  private final String info;
+  private final BigDecimal amount;
+  private final BigDecimal fee;
+  private final Date timestamp;
+  private final String status;
+  private final String statusProp;
 
-    public String getMethod() { return method; }
+  public WithdrawStatus(@JsonProperty("method") String method, @JsonProperty("aclass") String aclass, @JsonProperty("asset") String asset,
+      @JsonProperty("refid") String refid, @JsonProperty("txid") String txid, @JsonProperty("info") String info,
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("fee") BigDecimal fee, @JsonProperty("time") long unixTimestamp,
+      @JsonProperty("status") String status, @JsonProperty("status-prop") String statusProp) {
+    super();
+    this.method = method;
+    this.aclass = aclass;
+    this.asset = asset;
+    this.refid = refid;
+    this.txid = txid;
+    this.info = info;
+    this.amount = amount;
+    this.fee = fee;
+    this.timestamp = new Date(unixTimestamp * 1000);
+    this.status = status;
+    this.statusProp = statusProp;
+  }
 
-    public String getAclass() { return aclass; }
+  public String getMethod() {
+    return method;
+  }
 
-    public String getAsset() { return asset; }
+  public String getAclass() {
+    return aclass;
+  }
 
-    public String getRefid() { return refid; }
+  public String getAsset() {
+    return asset;
+  }
 
-    public String getTxid() { return txid; }
+  public String getRefid() {
+    return refid;
+  }
 
-    public String getInfo() { return info; }
+  public String getTxid() {
+    return txid;
+  }
 
-    public BigDecimal getAmount() { return amount; }
+  public String getInfo() {
+    return info;
+  }
 
-    public BigDecimal getFee() { return fee; }
+  public BigDecimal getAmount() {
+    return amount;
+  }
 
-    public Date getTimestamp() { return timestamp; }
+  public BigDecimal getFee() {
+    return fee;
+  }
 
-    public String getStatus() { return status; }
+  public Date getTimestamp() {
+    return timestamp;
+  }
 
-    public String getStatusProp() { return statusProp; }
+  public String getStatus() {
+    return status;
+  }
 
-    @Override
-    public String toString() {
-      return "WithdrawStatus [method=" + method + ", aclass=" + aclass + ", asset=" + asset + ", refid=" + refid + ", txid=" + txid
-              + ", info=" + info + ", amount=" + amount + ", fee=" + fee + ", timestamp=" + timestamp + ", status=" + status
-              + ", statusProp=" + statusProp + "]";
-    }
+  public String getStatusProp() {
+    return statusProp;
+  }
 
+  @Override
+  public String toString() {
+    return "WithdrawStatus [method=" + method + ", aclass=" + aclass + ", asset=" + asset + ", refid=" + refid + ", txid=" + txid + ", info=" + info
+        + ", amount=" + amount + ", fee=" + fee + ", timestamp=" + timestamp + ", status=" + status + ", statusProp=" + statusProp + "]";
+  }
 
 }

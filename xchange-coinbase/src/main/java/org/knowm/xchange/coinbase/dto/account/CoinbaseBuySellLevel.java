@@ -26,8 +26,8 @@ public enum CoinbaseBuySellLevel {
 
   static class CoinbaseBuySellLevelDeserializer extends JsonDeserializer<CoinbaseBuySellLevel> {
 
-    private static final EnumFromStringHelper<CoinbaseBuySellLevel> FROM_STRING_HELPER = new EnumFromStringHelper<CoinbaseBuySellLevel>(
-        CoinbaseBuySellLevel.class).addJsonStringMapping("1", ONE).addJsonStringMapping("2", TWO).addJsonStringMapping("3", THREE);
+    private static final EnumFromStringHelper<CoinbaseBuySellLevel> FROM_STRING_HELPER = new EnumFromStringHelper<>(CoinbaseBuySellLevel.class)
+        .addJsonStringMapping("1", ONE).addJsonStringMapping("2", TWO).addJsonStringMapping("3", THREE);
 
     @Override
     public CoinbaseBuySellLevel deserialize(JsonParser jsonParser, final DeserializationContext ctxt) throws IOException, JsonProcessingException {

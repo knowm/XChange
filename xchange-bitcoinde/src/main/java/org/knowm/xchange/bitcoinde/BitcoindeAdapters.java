@@ -32,10 +32,9 @@ public final class BitcoindeAdapters {
 
   /**
    * Adapt a org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeOrderBook object to an OrderBook object.
-   * 
+   *
    * @param bitcoindeOrderBook the exchange specific OrderBook object
    * @param currencyPair (e.g. BTC/USD)
-   * @param date the date of
    * @return The XChange OrderBook
    */
   public static OrderBook adaptOrderBook(BitcoindeOrderBook bitcoindeOrderBook, CurrencyPair currencyPair) {
@@ -50,7 +49,7 @@ public final class BitcoindeAdapters {
    */
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, BigDecimal[][] orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (BigDecimal[] order : orders) {
       limitOrders.add(createOrder(currencyPair, order, orderType, null, null));
     }
@@ -68,7 +67,7 @@ public final class BitcoindeAdapters {
 
   /**
    * Adapt a org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeRate object to a Ticker object.
-   * 
+   *
    * @param bitcoindeRate The exchange specific rate
    * @param currencyPair (e.g. BTC/USD)
    * @return The XChange Ticker
@@ -81,14 +80,14 @@ public final class BitcoindeAdapters {
 
   /**
    * Adapt a org.knowm.xchange.bitcoinde.dto.marketdata.BitcoindeTrade[] object to a Trades object.
-   * 
+   *
    * @param bitcoindeTrades Exchange specific trades
    * @param currencyPair (e.g. BTC/USD)
    * @return The XChange Trades
    */
   public static Trades adaptTrades(BitcoindeTrade[] bitcoindeTrades, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (BitcoindeTrade bitcoindeTrade : bitcoindeTrades) {
       final long tid = bitcoindeTrade.getTid();

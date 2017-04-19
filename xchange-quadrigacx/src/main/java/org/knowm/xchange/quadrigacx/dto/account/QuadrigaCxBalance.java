@@ -13,10 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class QuadrigaCxBalance {
 
-  private Map<String, BigDecimal> currencyReserved = new HashMap<String, BigDecimal>();
-  private Map<String, BigDecimal> currencyAvailable = new HashMap<String, BigDecimal>();
-  private Map<String, BigDecimal> currencyBalance = new HashMap<String, BigDecimal>();
-  private List<Currency> currencies = new ArrayList<Currency>();
+  private Map<String, BigDecimal> currencyReserved = new HashMap<>();
+  private Map<String, BigDecimal> currencyAvailable = new HashMap<>();
+  private Map<String, BigDecimal> currencyBalance = new HashMap<>();
+  private List<Currency> currencies = new ArrayList<>();
 
   private final BigDecimal fee;
 
@@ -34,15 +34,15 @@ public final class QuadrigaCxBalance {
     String[] parts = currencyBalance.split("_");
     if (parts.length > 1) {
       switch (parts[1]) {
-      case "reserved":
-        this.currencyReserved.put(parts[0], amount);
-        break;
-      case "available":
-        this.currencyAvailable.put(parts[0], amount);
-        break;
-      case "balance":
-        this.currencyBalance.put(parts[0], amount);
-        break;
+        case "reserved":
+          this.currencyReserved.put(parts[0], amount);
+          break;
+        case "available":
+          this.currencyAvailable.put(parts[0], amount);
+          break;
+        case "balance":
+          this.currencyBalance.put(parts[0], amount);
+          break;
       }
       Currency currency = new Currency(parts[0]);
       if (!currencies.contains(currency))

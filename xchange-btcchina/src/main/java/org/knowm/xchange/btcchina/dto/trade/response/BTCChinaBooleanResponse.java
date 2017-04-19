@@ -12,7 +12,7 @@ public class BTCChinaBooleanResponse extends BTCChinaResponse<Boolean> {
 
   /**
    * Constructor
-   * 
+   *
    * @param id
    * @param result
    */

@@ -2,6 +2,7 @@ package org.knowm.xchange.examples.lakebtc.marketdata;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -40,7 +41,7 @@ public class LakeBTCTradesDemo {
     BigDecimal[][] trades = marketDataService.getLakeBTCOrderBookCNY().getAsks();
 
     System.out.println("Ask size: " + trades.length);
-    System.out.println("Ask(0): " + trades[0].toString());
+    System.out.println("Ask(0): " + Arrays.toString(trades[0]));
     System.out.println("Last: " + trades[trades.length - 1]);
 
   }

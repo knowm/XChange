@@ -98,8 +98,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
     }
   }
 
-  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice, PoloniexOrderFlags flag)
-      throws IOException {
+  public PoloniexMoveResponse move(String orderId, BigDecimal tradableAmount, BigDecimal limitPrice, PoloniexOrderFlags flag) throws IOException {
 
     Integer immediateOrCancel;
     if (flag == PoloniexOrderFlags.IMMEDIATE_OR_CANCEL) {
@@ -133,7 +132,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
     if (response.containsKey("error")) {
       throw new ExchangeException(response.get("error"));
     } else {
-      return response.get("success").toString().equals(new Integer(1).toString()) ? true : false;
+      return response.get("success").equals(new Integer(1).toString()) ? true : false;
     }
   }
 

@@ -81,21 +81,22 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
         signatureCreator, exchange.getNonceFactory());
     return checkResult(withdrawResult);
   }
-  
+
   public List<DepostitStatus> getDepositStatus(String assetPairs, String assets, String method) throws IOException {
-      DepositStatusResult result = kraken.getDepositStatus(assetPairs, assets,  method, exchange.getExchangeSpecification().getApiKey(),
-          signatureCreator, exchange.getNonceFactory());
-      return checkResult(result);
-    }
+    DepositStatusResult result = kraken.getDepositStatus(assetPairs, assets, method, exchange.getExchangeSpecification().getApiKey(),
+        signatureCreator, exchange.getNonceFactory());
+    return checkResult(result);
+  }
+
   public List<WithdrawStatus> getWithdrawStatus(String assetPairs, String assets, String method) throws IOException {
-      WithdrawStatusResult result = kraken.getWithdrawStatus(assetPairs, assets,  method, exchange.getExchangeSpecification().getApiKey(),
-          signatureCreator, exchange.getNonceFactory());
-      return checkResult(result);
-    }
-  
+    WithdrawStatusResult result = kraken.getWithdrawStatus(assetPairs, assets, method, exchange.getExchangeSpecification().getApiKey(),
+        signatureCreator, exchange.getNonceFactory());
+    return checkResult(result);
+  }
+
   /**
    * @param valuationCurrency - Base asset used to determine balance (can be null, defaults to USD). The asset should be provided in the form of a
-   *        standard currency code, i.e., EUR. It will be converted to the appropriate Kraken Asset code.
+   * standard currency code, i.e., EUR. It will be converted to the appropriate Kraken Asset code.
    * @return KrakenTradeBalanceInfo
    * @throws IOException
    */
@@ -145,8 +146,8 @@ public class KrakenAccountServiceRaw extends KrakenBaseService {
    * @return
    * @throws IOException
    */
-  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, String start, String end, String offset, Currency... assets)
-      throws IOException {
+  public Map<String, KrakenLedger> getKrakenLedgerInfo(LedgerType ledgerType, String start, String end, String offset,
+      Currency... assets) throws IOException {
 
     String ledgerTypeString = (ledgerType == null) ? "all" : ledgerType.toString().toLowerCase();
 

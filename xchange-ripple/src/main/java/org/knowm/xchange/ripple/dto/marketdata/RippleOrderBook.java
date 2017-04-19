@@ -12,9 +12,9 @@ public final class RippleOrderBook extends RippleCommon {
   @JsonProperty("order_book")
   private String orderBook;
   @JsonProperty("bids")
-  private List<RippleOrder> bids = new ArrayList<RippleOrder>();
+  private List<RippleOrder> bids = new ArrayList<>();
   @JsonProperty("asks")
-  private List<RippleOrder> asks = new ArrayList<RippleOrder>();
+  private List<RippleOrder> asks = new ArrayList<>();
 
   public String getOrderBook() {
     return orderBook;

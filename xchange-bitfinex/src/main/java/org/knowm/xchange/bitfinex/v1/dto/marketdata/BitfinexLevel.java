@@ -12,7 +12,7 @@ public class BitfinexLevel {
 
   /**
    * Constructor
-   * 
+   *
    * @param price
    * @param amount
    * @param timestamp

@@ -104,14 +104,14 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
     return sendLimitOrder(limitOrder, orderType, Long.MIN_VALUE);
   }
 
-  public BitfinexOrderStatusResponse replaceBitfinexLimitOrder(LimitOrder limitOrder, BitfinexOrderType orderType, long replaceOrderId)
-      throws IOException {
+  public BitfinexOrderStatusResponse replaceBitfinexLimitOrder(LimitOrder limitOrder, BitfinexOrderType orderType,
+      long replaceOrderId) throws IOException {
 
     return sendLimitOrder(limitOrder, orderType, replaceOrderId);
   }
 
-  private BitfinexOrderStatusResponse sendLimitOrder(LimitOrder limitOrder, BitfinexOrderType bitfinexOrderType, long replaceOrderId)
-      throws IOException {
+  private BitfinexOrderStatusResponse sendLimitOrder(LimitOrder limitOrder, BitfinexOrderType bitfinexOrderType,
+      long replaceOrderId) throws IOException {
 
     String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
     String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
@@ -208,8 +208,8 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
     }
   }
 
-  public BitfinexOfferStatusResponse placeBitfinexFloatingRateLoanOrder(FloatingRateLoanOrder loanOrder, BitfinexOrderType orderType)
-      throws IOException {
+  public BitfinexOfferStatusResponse placeBitfinexFloatingRateLoanOrder(FloatingRateLoanOrder loanOrder,
+      BitfinexOrderType orderType) throws IOException {
 
     String direction = loanOrder.getType() == OrderType.BID ? "loan" : "lend";
 
@@ -312,13 +312,13 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
   }
 
   public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address) throws IOException {
-     return withdraw(withdrawType, walletSelected, amount, address, null);
+    return withdraw(withdrawType, walletSelected, amount, address, null);
   }
-  
+
   public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address, String paymentId) throws IOException {
 
-    BitfinexWithdrawalResponse[] withdrawRepsonse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator,
-        new BitfinexWithdrawalRequest(String.valueOf(exchange.getNonceFactory().createValue()), withdrawType, walletSelected, amount, address, paymentId));
+    BitfinexWithdrawalResponse[] withdrawRepsonse = bitfinex.withdraw(apiKey, payloadCreator, signatureCreator, new BitfinexWithdrawalRequest(
+        String.valueOf(exchange.getNonceFactory().createValue()), withdrawType, walletSelected, amount, address, paymentId));
     return withdrawRepsonse[0].getWithdrawalId();
   }
 

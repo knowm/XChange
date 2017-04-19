@@ -11,7 +11,7 @@ public class BitfinexLendDepth {
 
   /**
    * Constructor
-   * 
+   *
    * @param asks
    * @param bids
    */

@@ -47,7 +47,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private final Map<String, Map<String, IRippleTradeTransaction>> rawTradeStore = new ConcurrentHashMap<String, Map<String, IRippleTradeTransaction>>();
+  private final Map<String, Map<String, IRippleTradeTransaction>> rawTradeStore = new ConcurrentHashMap<>();
 
   public RippleTradeServiceRaw(final Exchange exchange) {
     super(exchange);
@@ -81,7 +81,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
       if (counterparty.isEmpty()) {
         throw new ExchangeException(String.format("base counterparty must be populated for currency %s", baseAmount.getCurrency()));
       }
-      baseAmount.setCounterparty(counterparty.toString());
+      baseAmount.setCounterparty(counterparty);
     }
 
     counterAmount.setCurrency(order.getCurrencyPair().counter.getCurrencyCode());
@@ -92,7 +92,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
       if (counterparty.isEmpty()) {
         throw new ExchangeException(String.format("counter counterparty must be populated for currency %s", counterAmount.getCurrency()));
       }
-      counterAmount.setCounterparty(counterparty.toString());
+      counterAmount.setCounterparty(counterparty);
     }
 
     final RippleOrderEntryResponse response = rippleAuthenticated.orderEntry(exchange.getExchangeSpecification().getApiKey(), validate, entry);
@@ -125,7 +125,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     if (ripple.isStoreTradeTransactionDetails()) {
       Map<String, IRippleTradeTransaction> cache = rawTradeStore.get(account);
       if (cache == null) {
-        cache = new ConcurrentHashMap<String, IRippleTradeTransaction>();
+        cache = new ConcurrentHashMap<>();
         rawTradeStore.put(account, cache);
       }
       if (cache.containsKey(notification.getHash())) {
@@ -160,8 +160,8 @@ public class RippleTradeServiceRaw extends RippleBaseService {
     return trade;
   }
 
-  public List<IRippleTradeTransaction> getTradesForAccount(final TradeHistoryParams params, final String account)
-      throws RippleException, IOException {
+  public List<IRippleTradeTransaction> getTradesForAccount(final TradeHistoryParams params,
+      final String account) throws RippleException, IOException {
     final Integer pageLength;
     final Integer pageNumber;
     if (params instanceof TradeHistoryParamPaging) {
@@ -172,7 +172,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
       pageLength = pageNumber = null;
     }
 
-    final Collection<String> currencyFilter = new HashSet<String>();
+    final Collection<String> currencyFilter = new HashSet<>();
     if (params instanceof TradeHistoryParamCurrencyPair) {
       final CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
       if (pair != null) {
@@ -205,7 +205,7 @@ public class RippleTradeServiceRaw extends RippleBaseService {
       hashLimit = null;
     }
 
-    final List<IRippleTradeTransaction> trades = new ArrayList<IRippleTradeTransaction>();
+    final List<IRippleTradeTransaction> trades = new ArrayList<>();
 
     final RippleNotifications notifications = ripplePublic.notifications(account, EXCLUDE_FAILED, EARLIEST_FIRST, pageLength, pageNumber,
         START_LEDGER, END_LEDGER);

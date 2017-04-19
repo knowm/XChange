@@ -17,7 +17,7 @@ public final class BTCChinaSellOrderRequest extends BTCChinaOrderRequest {
   @Override
   public String toString() {
 
-    return String.format("BTCChinaSellOrderRequest{id=%d, method=%s, params=%s}", id, method, params.toString());
+    return String.format("BTCChinaSellOrderRequest{id=%d, method=%s, params=%s}", id, method, params);
   }
 
 }

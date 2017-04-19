@@ -9,29 +9,28 @@ import org.knowm.xchange.currency.CurrencyPair;
 
 public class CCEXUtils {
 
-	private static final Date EPOCH = new Date(0);
+  private static final Date EPOCH = new Date(0);
 
-	private CCEXUtils() {
+  private CCEXUtils() {
 
-	}
+  }
 
-	public static String toPairString(CurrencyPair currencyPair) {
+  public static String toPairString(CurrencyPair currencyPair) {
 
-		return currencyPair.counter.getCurrencyCode().toLowerCase() + "-"
-				+ currencyPair.base.getCurrencyCode().toLowerCase();
-	}
+    return currencyPair.counter.getCurrencyCode().toLowerCase() + "-" + currencyPair.base.getCurrencyCode().toLowerCase();
+  }
 
-	public static Date toDate(String datetime) {
-		SimpleDateFormat sdf;
+  public static Date toDate(String datetime) {
+    SimpleDateFormat sdf;
 
-		sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+    sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-		try {
-			return sdf.parse(datetime);
-		} catch (ParseException e) {
-			return EPOCH;
-		}
-	}
+    try {
+      return sdf.parse(datetime);
+    } catch (ParseException e) {
+      return EPOCH;
+    }
+  }
 }

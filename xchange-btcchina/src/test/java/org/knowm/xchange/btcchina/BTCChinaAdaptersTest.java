@@ -41,7 +41,7 @@ public class BTCChinaAdaptersTest {
     Map<CurrencyPair, Ticker> tickers = BTCChinaAdapters.adaptTickers(btcChinaTicker);
     assertEquals(3, tickers.size());
 
-    assertEquals(new HashSet<CurrencyPair>(Arrays.asList(CurrencyPair.BTC_CNY, CurrencyPair.LTC_CNY, CurrencyPair.LTC_BTC)), tickers.keySet());
+    assertEquals(new HashSet<>(Arrays.asList(CurrencyPair.BTC_CNY, CurrencyPair.LTC_CNY, CurrencyPair.LTC_BTC)), tickers.keySet());
 
     Ticker btccny = tickers.get(CurrencyPair.BTC_CNY);
     assertEquals(new BigDecimal("2894.97"), btccny.getHigh());
@@ -138,13 +138,14 @@ public class BTCChinaAdaptersTest {
     assertEquals(OrderStatus.REJECTED, BTCChinaAdapters.adaptOrderStatus("error"));
     assertEquals(OrderStatus.REJECTED, BTCChinaAdapters.adaptOrderStatus("insufficient_balance"));
   }
+
   @Test
   public void testAdaptFundingHistory() throws JsonParseException, JsonMappingException, IOException {
 
     final BTCChinaGetDepositsResponse depositsResponse = mapper.readValue(getClass().getResource("dto/account/response/getDeposits.json"),
-            BTCChinaGetDepositsResponse.class);
+        BTCChinaGetDepositsResponse.class);
     final BTCChinaGetWithdrawalsResponse withdrawalResponse = mapper.readValue(getClass().getResource("dto/account/response/getWithdrawals.json"),
-            BTCChinaGetWithdrawalsResponse.class);
+        BTCChinaGetWithdrawalsResponse.class);
     final List<FundingRecord> fundingRecords = BTCChinaAdapters.adaptFundingHistory(depositsResponse, withdrawalResponse);
     final FundingRecord depositRecord = fundingRecords.get(1);
     final FundingRecord withdrawalRecord = fundingRecords.get(3);

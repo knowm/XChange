@@ -65,7 +65,7 @@ public final class BTCEAdapters {
    */
   public static List<LimitOrder> adaptOrders(List<BigDecimal[]> bTCEOrders, CurrencyPair currencyPair, String orderTypeString, String id) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     OrderType orderType = orderTypeString.equalsIgnoreCase("bid") ? OrderType.BID : OrderType.ASK;
 
     for (BigDecimal[] btceOrder : bTCEOrders) {
@@ -117,7 +117,7 @@ public final class BTCEAdapters {
    */
   public static Trades adaptTrades(BTCETrade[] bTCETrades, CurrencyPair currencyPair) {
 
-    List<Trade> tradesList = new ArrayList<Trade>();
+    List<Trade> tradesList = new ArrayList<>();
     long lastTradeId = 0;
     for (BTCETrade bTCETrade : bTCETrades) {
       // Date is reversed order. Insert at index 0 instead of appending
@@ -153,7 +153,7 @@ public final class BTCEAdapters {
 
   public static Wallet adaptWallet(BTCEAccountInfo btceAccountInfo) {
 
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
     Map<String, BigDecimal> funds = btceAccountInfo.getFunds();
 
     for (String lcCurrency : funds.keySet()) {
@@ -170,7 +170,7 @@ public final class BTCEAdapters {
 
   public static OpenOrders adaptOrders(Map<Long, BTCEOrder> btceOrderMap) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (Long id : btceOrderMap.keySet()) {
       BTCEOrder bTCEOrder = btceOrderMap.get(id);
       OrderType orderType = bTCEOrder.getType() == BTCEOrder.Type.buy ? OrderType.BID : OrderType.ASK;
@@ -185,7 +185,7 @@ public final class BTCEAdapters {
 
   public static UserTrades adaptTradeHistory(Map<Long, BTCETradeHistoryResult> tradeHistory) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>(tradeHistory.size());
+    List<UserTrade> trades = new ArrayList<>(tradeHistory.size());
     for (Entry<Long, BTCETradeHistoryResult> entry : tradeHistory.entrySet()) {
       BTCETradeHistoryResult result = entry.getValue();
       OrderType type = result.getType() == BTCETradeHistoryResult.Type.buy ? OrderType.BID : OrderType.ASK;
@@ -215,7 +215,7 @@ public final class BTCEAdapters {
 
   public static List<CurrencyPair> adaptCurrencyPairs(Iterable<String> btcePairs) {
 
-    List<CurrencyPair> pairs = new ArrayList<CurrencyPair>();
+    List<CurrencyPair> pairs = new ArrayList<>();
     for (String btcePair : btcePairs) {
       pairs.add(adaptCurrencyPair(btcePair));
     }
@@ -224,8 +224,8 @@ public final class BTCEAdapters {
   }
 
   public static ExchangeMetaData toMetaData(BTCEExchangeInfo btceExchangeInfo, BTCEMetaData btceMetaData) {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
-    Map<Currency, CurrencyMetaData> currencies = new HashMap<Currency, CurrencyMetaData>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
 
     if (btceExchangeInfo != null) {
       for (Entry<String, BTCEPairInfo> e : btceExchangeInfo.getPairs().entrySet()) {
@@ -238,7 +238,7 @@ public final class BTCEAdapters {
       }
     }
 
-    RateLimit[] publicRateLimits = new RateLimit[] { new RateLimit(btceMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS) };
+    RateLimit[] publicRateLimits = new RateLimit[]{new RateLimit(btceMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)};
     return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, null, false);
   }
 

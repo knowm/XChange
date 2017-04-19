@@ -40,7 +40,7 @@ public final class QuadrigaCxAdapters {
   public static Wallet adaptWallet(QuadrigaCxBalance quadrigacxBalance) {
     // Adapt to XChange DTOs
     List<Currency> currencies = quadrigacxBalance.getCurrencyList();
-    List<Balance> balances = new ArrayList<Balance>();
+    List<Balance> balances = new ArrayList<>();
     for (Currency currency : currencies) {
       balances.add(new Balance(currency, quadrigacxBalance.getCurrencyBalance(currency), quadrigacxBalance.getCurrencyAvailable(currency),
           quadrigacxBalance.getCurrencyReserved(currency)));
@@ -59,7 +59,7 @@ public final class QuadrigaCxAdapters {
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
 
-    List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
+    List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> ask : orders) {
       checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
       limitOrders.add(createOrder(currencyPair, ask, orderType));
@@ -81,19 +81,19 @@ public final class QuadrigaCxAdapters {
    */
   public static Trades adaptTrades(QuadrigaCxTransaction[] transactions, CurrencyPair currencyPair) {
 
-    List<Trade> trades = new ArrayList<Trade>();
+    List<Trade> trades = new ArrayList<>();
     long lastTradeId = 0;
     for (QuadrigaCxTransaction tx : transactions) {
       Order.OrderType type;
       switch (tx.getSide()) {
-      case "buy":
-        type = Order.OrderType.ASK;
-        break;
-      case "sell":
-        type = Order.OrderType.BID;
-        break;
-      default:
-        type = null;
+        case "buy":
+          type = Order.OrderType.ASK;
+          break;
+        case "sell":
+          type = Order.OrderType.BID;
+          break;
+        default:
+          type = null;
       }
       final long tradeId = tx.getTid();
       if (tradeId > lastTradeId) {
@@ -115,7 +115,7 @@ public final class QuadrigaCxAdapters {
 
   public static UserTrades adaptTradeHistory(QuadrigaCxUserTransaction[] quadrigacxUserTransactions, CurrencyPair currencyPair) {
 
-    List<UserTrade> trades = new ArrayList<UserTrade>();
+    List<UserTrade> trades = new ArrayList<>();
     long lastTradeId = 0;
 
     for (QuadrigaCxUserTransaction quadrigacxUserTransaction : quadrigacxUserTransactions) {

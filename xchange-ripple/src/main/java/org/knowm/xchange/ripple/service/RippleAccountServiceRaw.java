@@ -13,7 +13,7 @@ import org.knowm.xchange.ripple.dto.account.RippleAccountSettings;
 
 public class RippleAccountServiceRaw extends RippleBaseService implements ITransferFeeSource {
 
-  private final Map<String, RippleAccountSettings> accountSettingsStore = new ConcurrentHashMap<String, RippleAccountSettings>();
+  private final Map<String, RippleAccountSettings> accountSettingsStore = new ConcurrentHashMap<>();
 
   public RippleAccountServiceRaw(final Exchange exchange) {
     super(exchange);
