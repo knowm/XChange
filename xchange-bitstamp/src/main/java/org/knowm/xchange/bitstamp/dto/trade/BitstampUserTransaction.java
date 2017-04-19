@@ -127,7 +127,7 @@ public final class BitstampUserTransaction {
   }
 
   private boolean isUsd() {
-    return usd != null && usd.compareTo(BigDecimal.ZERO) != 0;
+    return btc_usd != null && btc_usd.compareTo(BigDecimal.ZERO) != 0;
   }
 
   public BigDecimal getFee() {
