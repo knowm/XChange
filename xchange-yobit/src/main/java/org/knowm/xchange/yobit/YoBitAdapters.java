@@ -12,6 +12,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -23,6 +24,8 @@ import org.knowm.xchange.yobit.dto.marketdata.YoBitAsksBidsData;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitPair;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitTicker;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitTickers;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrade;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
 
@@ -95,4 +98,19 @@ public class YoBitAdapters {
     return new java.util.Date((long) rawDateLong * 1000);
   }
 
+  public static Ticker adaptTickers(YoBitTickers tickers, CurrencyPair currencyPair) {
+    List<YoBitTicker> ctickers = tickers.getTickers();
+    YoBitTicker ticker = ctickers.get(0);
+
+    BigDecimal last = ticker.getLast();
+    BigDecimal bid = ticker.getBuy();
+    BigDecimal ask = ticker.getSell();
+    BigDecimal high = ticker.getHigh();
+    BigDecimal low = ticker.getLow();
+    BigDecimal volume = ticker.getVol();
+    Date timestamp = new Date(ticker.getUpdated() * 1000L);
+
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low)
+        .volume(volume).timestamp(timestamp).build();
+  }
 }
