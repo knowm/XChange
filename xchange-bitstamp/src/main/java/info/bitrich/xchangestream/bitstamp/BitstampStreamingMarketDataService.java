@@ -13,8 +13,6 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-
-import java.util.Arrays;
 import java.util.Date;
 
 public class BitstampStreamingMarketDataService implements StreamingMarketDataService {
@@ -33,7 +31,7 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
                     ObjectMapper mapper = new ObjectMapper();
                     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                     BitstampOrderBook bitstampOrderBook = mapper.readValue(s, BitstampOrderBook.class);
-                    bitstampOrderBook = new BitstampOrderBook(new Date().getTime(), bitstampOrderBook.getBids(), bitstampOrderBook.getAsks());
+                    bitstampOrderBook = new BitstampOrderBook(new Date().getTime()/1000L, bitstampOrderBook.getBids(), bitstampOrderBook.getAsks());
 
                     return BitstampAdapters.adaptOrderBook(bitstampOrderBook, currencyPair, 1000);
                 });
@@ -47,14 +45,15 @@ public class BitstampStreamingMarketDataService implements StreamingMarketDataSe
 
     @Override
     public Observable<Trade> getTrades(CurrencyPair currencyPair, Object... args) {
-        String channelName = "live_orders" + getChannelPostfix(currencyPair);
+        String channelName = "live_trades" + getChannelPostfix(currencyPair);
 
-        return service.subscribeChannel(channelName, Arrays.asList("order_created", "order_changed", "order_deleted"))
+        return service.subscribeChannel(channelName, "trade")
                 .map(s -> {
                     ObjectMapper mapper = new ObjectMapper();
                     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                     BitstampWebSocketTransaction transactions = mapper.readValue(s, BitstampWebSocketTransaction.class);
-
+                    transactions = new BitstampWebSocketTransaction(new Date().getTime()/1000L, transactions.getTid(),
+                            transactions.getPrice(), transactions.getAmount(), transactions.getType());
                     return BitstampAdapters.adaptTrade(transactions, currencyPair, 1000);
                 });
     }
