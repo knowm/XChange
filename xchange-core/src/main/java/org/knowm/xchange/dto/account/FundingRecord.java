@@ -242,7 +242,7 @@ public final class FundingRecord {
     /** The user has requested the withdrawal or deposit, or the exchange has detected an initiated deposit,
      * but the exchange still has to fully process the funding.
      * The funds are not available to the user. The funding request may possibly still be cancelled though. */
-    PROCESSING("WAIT CONFIRMATION","EMAIL CONFIRMATION","VERIFYING","PENDING_APPROVAL","PENDING"),
+    PROCESSING("WAIT CONFIRMATION","EMAIL CONFIRMATION","EMAIL SENT","AWAITING APPROVAL","VERIFYING","PENDING_APPROVAL","PENDING"),
 
     /** The exchange has processed the transfer fully and successfully.
      * The funding typically cannot be cancelled any more.
