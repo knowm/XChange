@@ -329,9 +329,10 @@ public final class BitfinexAdapters {
       if (description.contains("txid: ")){
         txnId = description.substring(description.indexOf("txid: ")+ "txid: ".length());
       }
+      final FundingRecord.Status status = FundingRecord.Status.resolveStatus(responseEntry.getStatus());
       FundingRecord fundingRecordEntry = new FundingRecord(address, responseEntry.getTimestamp(),
               currency, responseEntry.getAmount(), String.valueOf(responseEntry.getId()), txnId, responseEntry.getType(),
-              responseEntry.getStatus(), null, null, description);
+              status, null, null, description);
 
       fundingRecords.add(fundingRecordEntry);
     }

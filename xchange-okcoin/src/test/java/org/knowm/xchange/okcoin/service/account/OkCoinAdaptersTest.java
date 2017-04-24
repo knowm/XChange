@@ -31,11 +31,20 @@ public class OkCoinAdaptersTest {
     final List<FundingRecord> records = OkCoinAdapters.adaptFundingHistory(new OkCoinAccountRecords[] {okCoinAccountDepositRecords, okCoinAccountWithdrawalRecords});
 
     assertThat(records.size()).isEqualTo(3);
-    FundingRecord fundingRecord = records.get(1);
-    assertThat(fundingRecord).isInstanceOf(FundingRecord.class);
-    assertThat(fundingRecord.getType()).isEqualTo(FundingRecord.Type.DEPOSIT);
-    assertThat(fundingRecord.getAmount()).isEqualTo(new BigDecimal("50"));
-    assertThat(fundingRecord.getFee().doubleValue()).isEqualTo(new BigDecimal("0.07").doubleValue());
-    assertThat(fundingRecord.getAddress()).isEqualTo("1lEWjmlkmlhTqcYj3l33sg980slkjtdqd");
+    FundingRecord depositRecord = records.get(1);
+    assertThat(depositRecord).isInstanceOf(FundingRecord.class);
+    assertThat(depositRecord.getType()).isEqualTo(FundingRecord.Type.DEPOSIT);
+    assertThat(depositRecord.getStatus()).isEqualTo(FundingRecord.Status.COMPLETE);
+    assertThat(depositRecord.getAmount()).isEqualTo(new BigDecimal("50"));
+    assertThat(depositRecord.getFee().doubleValue()).isEqualTo(new BigDecimal("0.07").doubleValue());
+    assertThat(depositRecord.getAddress()).isEqualTo("1lEWjmlkmlhTqcYj3l33sg980slkjtdqd");
+
+    FundingRecord withdrawalRecord = records.get(2);
+    assertThat(withdrawalRecord).isInstanceOf(FundingRecord.class);
+    assertThat(withdrawalRecord.getType()).isEqualTo(FundingRecord.Type.WITHDRAWAL);
+    assertThat(withdrawalRecord.getStatus()).isEqualTo(FundingRecord.Status.PROCESSING);
+    assertThat(withdrawalRecord.getAmount()).isEqualTo(new BigDecimal("33"));
+    assertThat(withdrawalRecord.getFee().doubleValue()).isEqualTo(new BigDecimal("0.05").doubleValue());
+    assertThat(withdrawalRecord.getAddress()).isEqualTo("8OKSDF39aOIUl34lksUIYW3kl3l39d");
   }
 }
