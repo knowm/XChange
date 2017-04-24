@@ -339,18 +339,38 @@ public final class OkCoinAdapters {
       if (depositRecord != null) {
         final Currency depositCurrency = Currency.getInstance(depositRecord.getSymbol());
         for (OkCoinRecords okCoinRecordEntry : depositRecord.getRecords()) {
-          fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(), adaptDate(okCoinRecordEntry.getDate()), depositCurrency,
-              okCoinRecordEntry.getAmount(), okCoinRecordEntry.getAddress(), FundingRecord.Type.DEPOSIT, okCoinRecordEntry.getStatus(), null,
-              okCoinRecordEntry.getFee(), null));
+
+          FundingRecord.Status status = null;
+          if (okCoinRecordEntry.getStatus() != null){
+            final OkCoinRecords.RechargeStatus rechargeStatus = OkCoinRecords.RechargeStatus.fromInt(okCoinRecordEntry.getStatus());
+            if (rechargeStatus != null){
+              status = FundingRecord.Status.resolveStatus(rechargeStatus.getStatus());
+            }
+          }
+
+          fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(),adaptDate(okCoinRecordEntry.getDate()),
+                  depositCurrency, okCoinRecordEntry.getAmount(), null, null,
+                  FundingRecord.Type.DEPOSIT, status, null, okCoinRecordEntry.getFee(), null)
+          );
         }
       }
       final OkCoinAccountRecords withdrawalRecord = okCoinAccountRecordsList[1];
       if (withdrawalRecord != null) {
         final Currency withdrawalCurrency = Currency.getInstance(withdrawalRecord.getSymbol());
         for (OkCoinRecords okCoinRecordEntry : withdrawalRecord.getRecords()) {
-          fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(), adaptDate(okCoinRecordEntry.getDate()), withdrawalCurrency,
-              okCoinRecordEntry.getAmount(), okCoinRecordEntry.getAddress(), FundingRecord.Type.WITHDRAWAL, okCoinRecordEntry.getStatus(), null,
-              okCoinRecordEntry.getFee(), null));
+
+          FundingRecord.Status status = null;
+          if (okCoinRecordEntry.getStatus() != null){
+            final OkCoinRecords.WithdrawalStatus withdrawalStatus = OkCoinRecords.WithdrawalStatus.fromInt(okCoinRecordEntry.getStatus());
+            if (withdrawalStatus != null){
+              status = FundingRecord.Status.resolveStatus(withdrawalStatus.getStatus());
+            }
+          }
+
+          fundingRecords.add(new FundingRecord(okCoinRecordEntry.getAddress(),adaptDate(okCoinRecordEntry.getDate()),
+                  withdrawalCurrency, okCoinRecordEntry.getAmount(), null, null,
+                  FundingRecord.Type.WITHDRAWAL, status, null, okCoinRecordEntry.getFee(), null)
+          );
         }
       }
     }

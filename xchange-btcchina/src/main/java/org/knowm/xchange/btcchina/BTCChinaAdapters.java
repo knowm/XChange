@@ -399,9 +399,9 @@ public final class BTCChinaAdapters {
     if (depositsResponse != null && depositsResponse.getResult() != null) {
       final BTCChinaDeposit[] deposits = depositsResponse.getResult().getDeposits();
       for (final BTCChinaDeposit deposit : deposits) {
-        FundingRecord fundingRecordEntry = new FundingRecord(deposit.getAddress(), adaptDate(deposit.getDate()),
-            Currency.getInstance(deposit.getCurrency()), deposit.getAmount(), String.valueOf(deposit.getId()), FundingRecord.Type.DEPOSIT,
-            deposit.getStatus(), null, null, null);
+        final FundingRecord.Status status = FundingRecord.Status.resolveStatus(deposit.getStatus());
+        final FundingRecord fundingRecordEntry = new FundingRecord(deposit.getAddress(), adaptDate(deposit.getDate()), Currency.getInstance(deposit.getCurrency()),
+                deposit.getAmount(), String.valueOf(deposit.getId()), null, FundingRecord.Type.DEPOSIT, status, null, null, null);
         fundingRecords.add(fundingRecordEntry);
       }
     }
@@ -409,9 +409,9 @@ public final class BTCChinaAdapters {
     if (withdrawalsResponse != null && withdrawalsResponse.getResult() != null) {
       final BTCChinaWithdrawal[] withdrawals = withdrawalsResponse.getResult().getWithdrawals();
       for (final BTCChinaWithdrawal withdrawal : withdrawals) {
-        FundingRecord fundingRecordEntry = new FundingRecord(withdrawal.getAddress(), adaptDate(withdrawal.getDate()),
-            Currency.getInstance(withdrawal.getCurrency()), withdrawal.getAmount(), String.valueOf(withdrawal.getId()), FundingRecord.Type.WITHDRAWAL,
-            withdrawal.getStatus(), null, null, null);
+        final FundingRecord.Status status = FundingRecord.Status.resolveStatus(withdrawal.getStatus());
+        final FundingRecord fundingRecordEntry = new FundingRecord(withdrawal.getAddress(), adaptDate(withdrawal.getDate()), Currency.getInstance(withdrawal.getCurrency()),
+                withdrawal.getAmount(), String.valueOf(withdrawal.getId()), withdrawal.getTransaction(), FundingRecord.Type.WITHDRAWAL, status, null, null, null);
         fundingRecords.add(fundingRecordEntry);
       }
     }
