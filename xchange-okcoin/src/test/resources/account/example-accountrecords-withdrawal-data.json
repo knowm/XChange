@@ -9,7 +9,7 @@
          "transaction_value": 104,
          "fee": 0.05,
          "date": 1418077467003,
-         "status": 1
+         "status": 3
       }
    ],
    "symbol": "btc_usd"

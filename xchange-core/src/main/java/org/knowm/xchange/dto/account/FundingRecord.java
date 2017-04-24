@@ -95,7 +95,7 @@ public final class FundingRecord {
                        final String internalId, final String externalId,
                        final Type type, final String status, final BigDecimal balance, final BigDecimal fee,
                        final String description){
-    this(address, date, currency, amount, internalId, externalId, type, Status.parse(status), balance, fee, description);
+    this(address, date, currency, amount, internalId, externalId, type, Status.resolveStatus(status), balance, fee, description);
     if (this.status == null && status != null) {
       this.description = this.description == null || this.description.isEmpty()
           ? status
@@ -242,32 +242,48 @@ public final class FundingRecord {
     /** The user has requested the withdrawal or deposit, or the exchange has detected an initiated deposit,
      * but the exchange still has to fully process the funding.
      * The funds are not available to the user. The funding request may possibly still be cancelled though. */
-    PROCESSING,
+    PROCESSING("WAIT CONFIRMATION","EMAIL CONFIRMATION","VERIFYING","PENDING_APPROVAL","PENDING"),
 
     /** The exchange has processed the transfer fully and successfully.
      * The funding typically cannot be cancelled any more.
      * For withdrawals, the funds are gone from the exchange, though they may have not reached their destination yet.
      * For deposits, the funds are available to the user. */
-    COMPLETE,
+    COMPLETE("COMPLETED"),
 
-    /** The transfer was cancelled by the user. */
-    CANCELLED,
+    /** The transfer was cancelled either by the user or by the exchange. */
+    CANCELLED("REVOKED","CANCEL","REFUND"),
 
     /** The transfer has failed for any reason other than user cancellation after it was initiated and before it was successfully processed.
      * For withdrawals, the funds are available to the user again. */
-    FAILED,
-
+    FAILED("FAILURE"),
     ;
 
-    public static Status parse(String str) {
+    private String[] statusArray;
+
+    private static final Map<String, Status> fromString = new HashMap<String, Status>();
+
+    static {
+      for (final Status status : values()){
+        final String[] statusArray = status.statusArray;
+        if (statusArray != null){
+          for (final String statusStr : statusArray){
+            fromString.put(statusStr, status);
+          }
+        }
+        fromString.put(status.toString(), status);
+      }
+    }
+
+    Status(String... statusArray){
+      this.statusArray = statusArray;
+    }
+
+    public static Status resolveStatus(String str) {
       if (str == null) {
         return null;
       }
-      try {
-        return valueOf(str.toUpperCase());
-      } catch (IllegalArgumentException e) {
-        return null;
-      }
+      return fromString.get(str.toUpperCase());
     }
+
   }
 }
