@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestrictions;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 
 @Path("/")
@@ -28,4 +29,8 @@ public interface Livecoin {
   @GET
   @Path("exchange/last_trades?currencyPair={baseCurrency}/{targetCurrency}")
   LivecoinTrade[] getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
+  
+  @GET
+  @Path("exchange/ticker?currencyPair={baseCurrency}/{targetCurrency}")
+  LivecoinTicker getTicker(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
 }
