@@ -10,100 +10,100 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class DSXTicker {
 
-    private final BigDecimal high;
-    private final BigDecimal low;
-    private final BigDecimal avg;
-    private final BigDecimal vol;
-    private final BigDecimal volCur;
-    private final BigDecimal last;
-    private final BigDecimal buy;
-    private final BigDecimal sell;
-    private final long updated;
-    private final String pair;
+  private final BigDecimal high;
+  private final BigDecimal low;
+  private final BigDecimal avg;
+  private final BigDecimal vol;
+  private final BigDecimal volCur;
+  private final BigDecimal last;
+  private final BigDecimal buy;
+  private final BigDecimal sell;
+  private final long updated;
+  private final String pair;
 
-    public DSXTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
-                     @JsonProperty("avg") BigDecimal avg, @JsonProperty("vol") BigDecimal vol,
-                     @JsonProperty("vol_cur") BigDecimal volCur, @JsonProperty("last") BigDecimal last,
-                     @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell,
-                     @JsonProperty("updated") long updated, @JsonProperty("pair") String pair) {
+  public DSXTicker(@JsonProperty("high") BigDecimal high, @JsonProperty("low") BigDecimal low,
+                   @JsonProperty("avg") BigDecimal avg, @JsonProperty("vol") BigDecimal vol,
+                   @JsonProperty("vol_cur") BigDecimal volCur, @JsonProperty("last") BigDecimal last,
+                   @JsonProperty("buy") BigDecimal buy, @JsonProperty("sell") BigDecimal sell,
+                   @JsonProperty("updated") long updated, @JsonProperty("pair") String pair) {
 
-        this.high = high;
-        this.low = low;
-        this.avg = avg;
-        this.vol = vol;
-        this.volCur = volCur;
-        this.last = last;
-        this.buy = buy;
-        this.sell = sell;
-        this.updated = updated;
-        this.pair = pair;
-    }
+      this.high = high;
+      this.low = low;
+      this.avg = avg;
+      this.vol = vol;
+      this.volCur = volCur;
+      this.last = last;
+      this.buy = buy;
+      this.sell = sell;
+      this.updated = updated;
+      this.pair = pair;
+  }
 
-    public BigDecimal getHigh() {
+  public BigDecimal getHigh() {
 
-        return high;
-    }
+      return high;
+  }
 
-    public BigDecimal getLow() {
+  public BigDecimal getLow() {
 
-        return low;
-    }
+      return low;
+  }
 
-    public BigDecimal getAvg() {
+  public BigDecimal getAvg() {
 
-        return avg;
-    }
+      return avg;
+  }
 
-    public BigDecimal getVol() {
+  public BigDecimal getVol() {
 
-        return vol;
-    }
+      return vol;
+  }
 
-    public BigDecimal getVolCur() {
+  public BigDecimal getVolCur() {
 
-        return volCur;
-    }
+      return volCur;
+  }
 
-    public BigDecimal getLast() {
+  public BigDecimal getLast() {
 
-        return last;
-    }
+      return last;
+  }
 
-    public BigDecimal getBuy() {
+  public BigDecimal getBuy() {
 
-        return buy;
-    }
+      return buy;
+  }
 
-    public BigDecimal getSell() {
+  public BigDecimal getSell() {
 
-        return sell;
-    }
+      return sell;
+  }
 
-    public long getUpdated() {
+  public long getUpdated() {
 
-        return updated;
-    }
+      return updated;
+  }
 
-    public String getPair() {
+  public String getPair() {
 
-        return pair;
-    }
+      return pair;
+  }
 
-    @Override
-    public String toString() {
+  @Override
+  public String toString() {
 
-        return "DSXTicker{" +
-                "high=" + high +
-                ", low=" + low +
-                ", avg=" + avg +
-                ", vol=" + vol +
-                ", volCur=" + volCur +
-                ", last=" + last +
-                ", buy=" + buy +
-                ", sell=" + sell +
-                ", updated=" + updated +
-                ", pair='" + pair + '\'' +
-                '}';
-    }
+      return "DSXTicker{" +
+              "high=" + high +
+              ", low=" + low +
+              ", avg=" + avg +
+              ", vol=" + vol +
+              ", volCur=" + volCur +
+              ", last=" + last +
+              ", buy=" + buy +
+              ", sell=" + sell +
+              ", updated=" + updated +
+              ", pair='" + pair + '\'' +
+              '}';
+  }
 
 }

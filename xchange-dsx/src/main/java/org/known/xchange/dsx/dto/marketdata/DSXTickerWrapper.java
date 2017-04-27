@@ -10,33 +10,33 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class DSXTickerWrapper {
 
-    private final Map<String, DSXTicker> tickerMap;
+  private final Map<String, DSXTicker> tickerMap;
 
-    @JsonCreator
-    public DSXTickerWrapper(Map<String, DSXTicker> result) {
+  @JsonCreator
+  public DSXTickerWrapper(Map<String, DSXTicker> result) {
 
-        this.tickerMap = result;
-    }
+      this.tickerMap = result;
+  }
 
-    public Map<String, DSXTicker> getTickerMap() {
+  public Map<String, DSXTicker> getTickerMap() {
 
-        return tickerMap;
-    }
+      return tickerMap;
+  }
 
-    public DSXTicker getTicker(String pair) {
+  public DSXTicker getTicker(String pair) {
 
-        DSXTicker result = null;
-        if (tickerMap.containsKey(pair)) {
-            result = tickerMap.get(pair);
-        }
-        return result;
-    }
+      DSXTicker result = null;
+      if (tickerMap.containsKey(pair)) {
+          result = tickerMap.get(pair);
+      }
+      return result;
+  }
 
-    @Override
-    public String toString() {
+  @Override
+  public String toString() {
 
-        return "DSXTickerWrapper{" +
-                "tickerMap=" + tickerMap +
-                '}';
-    }
+      return "DSXTickerWrapper{" +
+              "tickerMap=" + tickerMap +
+              '}';
+  }
 }
