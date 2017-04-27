@@ -10,66 +10,66 @@ import java.math.BigDecimal;
 
 public final class DSXBar {
 
-    private final BigDecimal high;
-    private final BigDecimal open;
-    private final BigDecimal low;
-    private final BigDecimal close;
-    private final BigDecimal amount;
-    private final long timestamp;
+  private final BigDecimal high;
+  private final BigDecimal open;
+  private final BigDecimal low;
+  private final BigDecimal close;
+  private final BigDecimal amount;
+  private final long timestamp;
 
-    public DSXBar(@JsonProperty("high") BigDecimal high, @JsonProperty("open") BigDecimal open,
-                  @JsonProperty("low") BigDecimal low, @JsonProperty("close") BigDecimal close,
-                  @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") long timestamp) {
+  public DSXBar(@JsonProperty("high") BigDecimal high, @JsonProperty("open") BigDecimal open,
+                @JsonProperty("low") BigDecimal low, @JsonProperty("close") BigDecimal close,
+                @JsonProperty("amount") BigDecimal amount, @JsonProperty("timestamp") long timestamp) {
 
-        this.high = high;
-        this.open = open;
-        this.low = low;
-        this.close = close;
-        this.amount = amount;
-        this.timestamp = timestamp;
-    }
+      this.high = high;
+      this.open = open;
+      this.low = low;
+      this.close = close;
+      this.amount = amount;
+      this.timestamp = timestamp;
+  }
 
-    public BigDecimal getHigh() {
+  public BigDecimal getHigh() {
 
-        return high;
-    }
+      return high;
+  }
 
-    public BigDecimal getOpen() {
+  public BigDecimal getOpen() {
 
-        return open;
-    }
+      return open;
+  }
 
-    public BigDecimal getLow() {
+  public BigDecimal getLow() {
 
-        return low;
-    }
+      return low;
+  }
 
-    public BigDecimal getClose() {
+  public BigDecimal getClose() {
 
-        return close;
-    }
+      return close;
+  }
 
-    public BigDecimal getAmount() {
+  public BigDecimal getAmount() {
 
-        return amount;
-    }
+      return amount;
+  }
 
-    public long getTimestamp() {
+  public long getTimestamp() {
 
-        return timestamp;
-    }
+      return timestamp;
+  }
 
-    @Override
-    public String toString() {
+  @Override
+  public String toString() {
 
-        return "DSXBar{" +
-                "high=" + high +
-                ", open=" + open +
-                ", low=" + low +
-                ", close=" + close +
-                ", amount=" + amount +
-                ", timestamp=" + timestamp +
-                '}';
-    }
+      return "DSXBar{" +
+              "high=" + high +
+              ", open=" + open +
+              ", low=" + low +
+              ", close=" + close +
+              ", amount=" + amount +
+              ", timestamp=" + timestamp +
+              '}';
+  }
 
 }

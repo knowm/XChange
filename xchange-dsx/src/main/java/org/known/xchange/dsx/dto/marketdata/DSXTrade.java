@@ -10,58 +10,58 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class DSXTrade {
 
-    private final BigDecimal amount;
-    private final BigDecimal price;
-    private final long timestamp;
-    private final long tid;
-    private final String type;
+  private final BigDecimal amount;
+  private final BigDecimal price;
+  private final long timestamp;
+  private final long tid;
+  private final String type;
 
-    public DSXTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price,
-                    @JsonProperty("timestamp") long timestamp, @JsonProperty("tid") long tid,
-                    @JsonProperty("type") String type) {
+  public DSXTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price,
+                  @JsonProperty("timestamp") long timestamp, @JsonProperty("tid") long tid,
+                  @JsonProperty("type") String type) {
 
-        this.amount = amount;
-        this.price = price;
-        this.timestamp = timestamp;
-        this.tid = tid;
-        this.type = type;
-    }
+      this.amount = amount;
+      this.price = price;
+      this.timestamp = timestamp;
+      this.tid = tid;
+      this.type = type;
+  }
 
-    public BigDecimal getAmount() {
+  public BigDecimal getAmount() {
 
-        return amount;
-    }
+      return amount;
+  }
 
-    public BigDecimal getPrice() {
+  public BigDecimal getPrice() {
 
-        return price;
-    }
+      return price;
+  }
 
-    public long getTimestamp() {
+  public long getTimestamp() {
 
-        return timestamp;
-    }
+      return timestamp;
+  }
 
-    public long getTid() {
+  public long getTid() {
 
-        return tid;
-    }
+      return tid;
+  }
 
-    public String getType() {
+  public String getType() {
 
-        return type;
-    }
+      return type;
+  }
 
-    @Override
-    public String toString() {
+  @Override
+  public String toString() {
 
-        return "DSXTrade{" +
-                "amount=" + amount +
-                ", price=" + price +
-                ", timestamp=" + timestamp +
-                ", tid=" + tid +
-                ", type='" + type + '\'' +
-                '}';
-    }
+      return "DSXTrade{" +
+              "amount=" + amount +
+              ", price=" + price +
+              ", timestamp=" + timestamp +
+              ", tid=" + tid +
+              ", type='" + type + '\'' +
+              '}';
+  }
 
 }

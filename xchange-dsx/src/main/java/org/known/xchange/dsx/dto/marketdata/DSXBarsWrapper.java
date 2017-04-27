@@ -8,31 +8,33 @@ import java.util.Map;
 
 public class DSXBarsWrapper {
 
-    private final Map<String, DSXBar[]> barsMap;
+  private final Map<String, DSXBar[]> barsMap;
 
-    public DSXBarsWrapper(Map<String, DSXBar[]> barsMap) {
+  public DSXBarsWrapper(Map<String, DSXBar[]> barsMap) {
 
-        this.barsMap = barsMap;
-    }
+      this.barsMap = barsMap;
+  }
 
-    public Map<String, DSXBar[]> getBarsMap() {
+  public Map<String, DSXBar[]> getBarsMap() {
 
-        return barsMap;
-    }
+      return barsMap;
+  }
 
-    public DSXBar[] getBars(String pair) {
+  public DSXBar[] getBars(String pair) {
 
-        DSXBar[] result = null;
-        if (barsMap.containsKey(pair)) {
-            result = barsMap.get(pair);
-        }
-        return result;
-    }
+      DSXBar[] result = null;
+      if (barsMap.containsKey(pair)) {
+          result = barsMap.get(pair);
+      }
+      return result;
+  }
 
-    @Override
-    public String toString() {
-        return "DSXBarsWrapper{" +
-                "barsMap=" + barsMap +
-                '}';
-    }
+  @Override
+  public String toString() {
+
+      return "DSXBarsWrapper{" +
+              "barsMap=" + barsMap +
+              '}';
+  }
+
 }
