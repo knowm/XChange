@@ -1,10 +1,9 @@
 package org.knowm.xchange.bittrex.v1;
 
-import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
-import javax.xml.bind.DatatypeConverter;
 
 import org.knowm.xchange.currency.CurrencyPair;
 
@@ -13,7 +12,13 @@ import org.knowm.xchange.currency.CurrencyPair;
  */
 public final class BittrexUtils {
 
-  private static final String TIMEZONE = "UTC";
+  private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+
+  private static final SimpleDateFormat DATE_PARSER = new SimpleDateFormat(DATE_FORMAT);
+
+  static {
+    DATE_PARSER.setTimeZone(TimeZone.getTimeZone("UTC"));
+  }
 
   /**
    * private Constructor
@@ -26,10 +31,13 @@ public final class BittrexUtils {
     return currencyPair.counter.getCurrencyCode().toUpperCase() + "-" + currencyPair.base.getCurrencyCode().toUpperCase();
   }
 
-  public static Date toDate(String date) {
-    Calendar cal = DatatypeConverter.parseDateTime(date);
-    cal.setTimeZone(TimeZone.getTimeZone(TIMEZONE));
-    return cal.getTime();
+  public static Date toDate(String dateString) {
+    try {
+      return DATE_PARSER.parse(dateString);
+    } catch (ParseException e) {
+      e.printStackTrace();
+      return new Date();
+    }
   }
 
 }
