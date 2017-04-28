@@ -12,19 +12,19 @@ public final class DSXTrade {
 
   private final BigDecimal amount;
   private final BigDecimal price;
-  private final long timestamp;
+  private final long date;
   private final long tid;
-  private final String type;
+  private final String tradeType;
 
   public DSXTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("price") BigDecimal price,
-                  @JsonProperty("timestamp") long timestamp, @JsonProperty("tid") long tid,
-                  @JsonProperty("type") String type) {
+                  @JsonProperty("timestamp") long date, @JsonProperty("tid") long tid,
+                  @JsonProperty("type") String tradeType) {
 
       this.amount = amount;
       this.price = price;
-      this.timestamp = timestamp;
+      this.date = date;
       this.tid = tid;
-      this.type = type;
+      this.tradeType = tradeType;
   }
 
   public BigDecimal getAmount() {
@@ -37,9 +37,9 @@ public final class DSXTrade {
       return price;
   }
 
-  public long getTimestamp() {
+  public long getDate() {
 
-      return timestamp;
+      return date;
   }
 
   public long getTid() {
@@ -47,9 +47,9 @@ public final class DSXTrade {
       return tid;
   }
 
-  public String getType() {
+  public String getTradeType() {
 
-      return type;
+      return tradeType;
   }
 
   @Override
@@ -58,9 +58,9 @@ public final class DSXTrade {
       return "DSXTrade{" +
               "amount=" + amount +
               ", price=" + price +
-              ", timestamp=" + timestamp +
+              ", timestamp=" + date +
               ", tid=" + tid +
-              ", type='" + type + '\'' +
+              ", tradeType='" + tradeType + '\'' +
               '}';
   }
 
