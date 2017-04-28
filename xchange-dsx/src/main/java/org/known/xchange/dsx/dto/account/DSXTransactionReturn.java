@@ -1,5 +1,7 @@
 package org.known.xchange.dsx.dto.account;
 
+import java.util.Map;
+
 import org.known.xchange.dsx.dto.DSXReturn;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,9 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Mikhail Wall
  */
 
-public class DSXAccountInfoReturn extends DSXReturn<DSXAccountInfo> {
+public class DSXTransactionReturn extends DSXReturn<Map<Long, DSXTransaction>> {
 
-  public DSXAccountInfoReturn(@JsonProperty("success") boolean success, @JsonProperty("return") DSXAccountInfo value,
+  public DSXTransactionReturn(@JsonProperty("success") boolean success, @JsonProperty("return") Map<Long, DSXTransaction> value,
       @JsonProperty("error") String error) {
 
     super(success, value, error);
