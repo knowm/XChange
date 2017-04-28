@@ -8,9 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Mikhail Wall
  */
 
-public class DSXAccountInfoReturn extends DSXReturn<DSXAccountInfo> {
+public class DSXCryptoDepositAddressReturn extends DSXReturn<DSXCryptoDepositAddress> {
 
-  public DSXAccountInfoReturn(@JsonProperty("success") boolean success, @JsonProperty("return") DSXAccountInfo value,
+  public DSXCryptoDepositAddressReturn(@JsonProperty("success") boolean success, @JsonProperty("return") DSXCryptoDepositAddress value,
       @JsonProperty("error") String error) {
 
     super(success, value, error);

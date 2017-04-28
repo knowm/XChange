@@ -66,6 +66,7 @@ public class DSXTradeHistoryResult {
     return MessageFormat.format("DSXOwnTransaction[pair=''{0}'', type={1}, amount={2}, rate={3}, orderId={4}, isYourOrder={5}, timestamp={6}]",
         pair, type, amount, rate, orderId, isYourOrder, timestamp);
   }
+
   public enum Type {
     buy, sell
   }
