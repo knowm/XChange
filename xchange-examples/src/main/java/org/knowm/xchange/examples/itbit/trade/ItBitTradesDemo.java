@@ -37,7 +37,7 @@ public class ItBitTradesDemo {
 
     // get all services
     MarketDataService marketDataService = itbit.getMarketDataService();
-    AccountService accout = itbit.getAccountService();
+    AccountService account = itbit.getAccountService();
     TradeService trades = itbit.getTradeService();
 
     OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair("XBT", "USD"));
@@ -47,7 +47,7 @@ public class ItBitTradesDemo {
     Trades trades2 = marketDataService.getTrades(new CurrencyPair("XBT", "USD"), 22233);
     System.out.println("Current trades:" + trades2);
 
-    AccountInfo accountInfo = accout.getAccountInfo();
+    AccountInfo accountInfo = account.getAccountInfo();
 
     System.out.println(accountInfo);
     OpenOrders openOrders = trades.getOpenOrders();
