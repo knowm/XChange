@@ -39,7 +39,7 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
   }
 
   /**
-   * Withdrawal suppport
+   * Withdrawal support
    *
    * @param currency
    * @param amount
