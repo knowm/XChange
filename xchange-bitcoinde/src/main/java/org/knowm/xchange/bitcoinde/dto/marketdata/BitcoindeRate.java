@@ -12,7 +12,7 @@ public class BitcoindeRate {
   private final String rate_weighted_3h;
 
   /**
-   * Contructor.
+   * Constructor.
    *
    * @param rate_weighted Usually, the value “rate_weighted” shows the weighted average price of the last 3 hours. If the amount of trades falls below
    * a critical amount in the last 3 hours, the 12 hour average is returned here.

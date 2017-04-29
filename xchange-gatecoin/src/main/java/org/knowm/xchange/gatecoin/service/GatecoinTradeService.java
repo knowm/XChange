@@ -71,7 +71,7 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Tra
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    String ccyPair = marketOrder.getCurrencyPair().toString().replaceAll("/", "");
+    String ccyPair = marketOrder.getCurrencyPair().toString().replace("/", "");
     GatecoinPlaceOrderResult gatecoinPlaceOrderResult;
     if (marketOrder.getType() == BID) {
       gatecoinPlaceOrderResult = placeGatecoinOrder(marketOrder.getTradableAmount(), BigDecimal.ZERO, "BID", ccyPair);
@@ -85,7 +85,7 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Tra
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    String ccyPair = limitOrder.getCurrencyPair().toString().replaceAll("/", "");
+    String ccyPair = limitOrder.getCurrencyPair().toString().replace("/", "");
     GatecoinPlaceOrderResult gatecoinOrderResult;
     if (limitOrder.getType() == BID) {
       gatecoinOrderResult = placeGatecoinOrder(limitOrder.getTradableAmount(), limitOrder.getLimitPrice(), "BID", ccyPair);

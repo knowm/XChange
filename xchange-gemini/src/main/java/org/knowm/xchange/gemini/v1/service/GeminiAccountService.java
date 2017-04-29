@@ -36,7 +36,7 @@ public class GeminiAccountService extends GeminiAccountServiceRaw implements Acc
   }
 
   /**
-   * Withdrawal suppport
+   * Withdrawal support
    *
    * @param currency
    * @param amount
