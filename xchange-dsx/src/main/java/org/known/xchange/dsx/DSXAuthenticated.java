@@ -22,5 +22,7 @@ public interface DSXAuthenticated extends DSX {
   @POST
   @Path("tapi")
   @FormParam("method")
-  DSXAccountInfoReturn getInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") String signature)
+  DSXAccountInfoReturn getInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") String signature) {
+
+  }
 }
