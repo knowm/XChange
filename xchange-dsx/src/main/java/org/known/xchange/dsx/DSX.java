@@ -1,9 +1,6 @@
 package org.known.xchange.dsx;
 
-import org.known.xchange.dsx.dto.marketdata.DSXOrderbookWrapper;
-import org.known.xchange.dsx.dto.marketdata.DSXPairInfo;
-import org.known.xchange.dsx.dto.marketdata.DSXTickerWrapper;
-import org.known.xchange.dsx.dto.marketdata.DSXTradesWrapper;
+import org.known.xchange.dsx.dto.marketdata.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -34,7 +31,14 @@ public interface DSX {
   @GET
   @Path("mapi/trades/{pairs}")
   @Produces(MediaType.APPLICATION_JSON)
-  DSXTradesWrapper getTrades(@PathParam("pairs") String pairs, @DefaultValue("1") @QueryParam("limit") int limit,
+  DSXTradesWrapper getTrades(@PathParam("pairs") String pairs, @DefaultValue("150") @QueryParam("limit") int limit,
                              @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid) throws IOException;
+
+  @GET
+  @Path("mapi/lastBars/{pairs}/{period}/{amount}")
+  @Produces(MediaType.APPLICATION_JSON)
+  DSXBarsWrapper getBars(@PathParam("pairs") String pairs, @PathParam("period") String period,
+                         @PathParam("amount") String amount, @DefaultValue("1") @QueryParam("ignore_invalid") int ignoreInvalid)
+    throws IOException;
 
 }
