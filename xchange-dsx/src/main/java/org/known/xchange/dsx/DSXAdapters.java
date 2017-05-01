@@ -135,4 +135,12 @@ public class DSXAdapters {
 
     return pairs;
   }
+
+  public static String getPair(CurrencyPair currencyPair) {
+
+    String base = currencyPair.base.getCurrencyCode();
+    String counter = currencyPair.counter.getCurrencyCode();
+
+    return (base + "_" + counter).toLowerCase();
+  }
 }
