@@ -1,6 +1,5 @@
 package org.knowm.xchange.gdax.service;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
@@ -17,7 +16,7 @@ public class GDAXAccountServiceRaw extends GDAXBaseService<GDAX> {
     super(GDAX.class, exchange);
   }
 
-  public GDAXAccount[] getCoinbaseExAccountInfo() throws IOException {
+  public GDAXAccount[] getCoinbaseExAccountInfo() {
     return coinbaseEx.getAccounts(apiKey, digest, getTimestamp(), passphrase);
   }
 
