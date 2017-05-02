@@ -167,9 +167,10 @@ public class KrakenAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(String krakenCurrencyPair) {
+    int baseLength = (krakenCurrencyPair.startsWith("GNO")) ? 3 : 4;
 
-    Currency firstCurrency = adaptCurrency(krakenCurrencyPair.substring(0, 4));
-    Currency secondCurrency = adaptCurrency(krakenCurrencyPair.substring(4));
+    Currency firstCurrency = adaptCurrency(krakenCurrencyPair.substring(0, baseLength));
+    Currency secondCurrency = adaptCurrency(krakenCurrencyPair.substring(baseLength));
 
     return new CurrencyPair(firstCurrency, secondCurrency);
   }
