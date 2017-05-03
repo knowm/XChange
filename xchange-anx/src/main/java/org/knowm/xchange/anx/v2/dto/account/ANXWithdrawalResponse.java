@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public final class ANXWithdrawalResponse {
 
   /**
-   * Bitcion transaction id (in the block chain)
+   * Bitcoin transaction id (in the block chain)
    */
   private final String transactionId;
 
