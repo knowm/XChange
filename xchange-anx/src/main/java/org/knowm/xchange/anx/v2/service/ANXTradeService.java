@@ -101,7 +101,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
   }
 
   /**
-   * Suported parameter types: {@link TradeHistoryParamsTimeSpan}
+   * Supported parameter types: {@link TradeHistoryParamsTimeSpan}
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {

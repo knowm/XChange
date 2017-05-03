@@ -132,7 +132,7 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
     if (response.containsKey("error")) {
       throw new ExchangeException(response.get("error"));
     } else {
-      return response.get("success").equals(new Integer(1).toString()) ? true : false;
+      return response.get("success").equals("1");
     }
   }
 
