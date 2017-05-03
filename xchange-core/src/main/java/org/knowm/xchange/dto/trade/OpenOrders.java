@@ -33,7 +33,7 @@ public final class OpenOrders {
   public String toString() {
 
     StringBuilder sb = new StringBuilder();
-    if (getOpenOrders().size() < 1) {
+    if (getOpenOrders().isEmpty()) {
       sb.append("No open orders!");
     } else {
       sb.append("Open orders: \n");

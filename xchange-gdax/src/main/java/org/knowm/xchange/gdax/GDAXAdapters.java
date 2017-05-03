@@ -128,7 +128,7 @@ public class GDAXAdapters {
       GDAXOrder order = coinbaseExOpenOrders[i];
 
       OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
-      CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace("-", "/"));
+      CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace('-', '/'));
 
       Date createdAt = parseDate(order.getCreatedAt());
 
@@ -148,7 +148,7 @@ public class GDAXAdapters {
       // yes, sell means buy for Coinbase reported trades..
       OrderType type = fill.getSide().equals("sell") ? OrderType.BID : OrderType.ASK;
 
-      CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace("-", "/"));
+      CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace('-', '/'));
 
       // ToDo add fee amount
       UserTrade t = new UserTrade(type, fill.getSize(), currencyPair, fill.getPrice(), parseDate(fill.getCreatedAt()),
