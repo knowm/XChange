@@ -36,8 +36,12 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GDAXAdapters {
+
+  private static Logger logger = LoggerFactory.getLogger(GDAXAdapters.class);
 
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
@@ -49,29 +53,50 @@ public class GDAXAdapters {
 
   }
 
-  private static Date parseDate(String rawDate) {
-
-    //    System.out.println("before: " + rawDate);
-    try {
-      if (rawDate.length() == 20 && rawDate.endsWith("Z")) {
-        rawDate = rawDate.substring(0, 19) + ".000Z";
-      } else if (rawDate.length() == 21) {
-        rawDate = rawDate.substring(0, 20) + "000";
-      } else if (rawDate.length() == 22) {
-        rawDate = rawDate.substring(0, 21) + "00";
-      } else if (rawDate.length() == 23) {
-        rawDate = rawDate.substring(0, 22) + "0";
-      } else {
-        rawDate = rawDate.substring(0, rawDate.length() < 23 ? rawDate.length() : 23);
+  protected static Date parseDate(final String rawDate) {
+    String modified;
+    if (rawDate.endsWith("Z")) {
+      switch (rawDate.length()) {
+      case 20:
+        modified = rawDate.substring(0, 19) + ".000";
+        break;
+      case 22:
+        modified = rawDate.substring(0, 21) + "00";
+        break;
+      case 23:
+        modified = rawDate.substring(0, 22) + "0";
+        break;
+      default:
+        if (rawDate.length() > 23) {
+          modified = rawDate.substring(0, 23);
+        } else {
+          modified = rawDate;
+        }
       }
-      //      System.out.println("after: " + rawDate);
-      //      System.out.println("");
-
-      return dateFormat.parse(rawDate);
+    } else {
+      switch (rawDate.length()) {
+      case 19:
+        modified = rawDate + ".000";
+        break;
+      case 21:
+        modified = rawDate + "00";
+        break;
+      case 22:
+        modified = rawDate + "0";
+        break;
+      default:
+        if (rawDate.length() > 23) {
+          modified = rawDate.substring(0, 23);
+        } else {
+          modified = rawDate;
+        }
+      }
+    }
+    try {
+      return dateFormat.parse(modified);
     } catch (ParseException e) {
-      System.err.println("rawDate: " + rawDate);
-      e.printStackTrace();
-      return null;
+      logger.warn("unable to parse rawDate={} modified={}", rawDate, modified, e);
+      return new Date();
     }
   }
 
@@ -128,7 +153,7 @@ public class GDAXAdapters {
       GDAXOrder order = coinbaseExOpenOrders[i];
 
       OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
-      CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace("-", "/"));
+      CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace('-', '/'));
 
       Date createdAt = parseDate(order.getCreatedAt());
 
@@ -145,14 +170,13 @@ public class GDAXAdapters {
     for (int i = 0; i < coinbaseExFills.length; i++) {
       GDAXFill fill = coinbaseExFills[i];
 
-      // yes, sell means buy for Coinbase reported trades..
-      OrderType type = fill.getSide().equals("sell") ? OrderType.BID : OrderType.ASK;
+      OrderType type = fill.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
 
-      CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace("-", "/"));
+      CurrencyPair currencyPair = new CurrencyPair(fill.getProductId().replace('-', '/'));
 
       // ToDo add fee amount
       UserTrade t = new UserTrade(type, fill.getSize(), currencyPair, fill.getPrice(), parseDate(fill.getCreatedAt()),
-          String.valueOf(fill.getTradeId()), fill.getOrderId(), null, (Currency) null);
+          String.valueOf(fill.getTradeId()), fill.getOrderId(), fill.getFee(), (Currency) null);
       trades.add(t);
     }
 

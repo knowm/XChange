@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.knowm.xchange.BaseExchange;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import org.knowm.xchange.gdax.service.GDAXAccountService;
@@ -15,7 +14,7 @@ import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class GDAXExchange extends BaseExchange implements Exchange {
+public class GDAXExchange extends BaseExchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
@@ -49,6 +48,5 @@ public class GDAXExchange extends BaseExchange implements Exchange {
 
     List<GDAXProduct> products = ((GDAXMarketDataServiceRaw) marketDataService).getConbaseExProducts();
     exchangeMetaData = GDAXAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
-    //    System.out.println("JSON: " + ObjectMapperHelper.toJSON(exchangeMetaData));
   }
 }
