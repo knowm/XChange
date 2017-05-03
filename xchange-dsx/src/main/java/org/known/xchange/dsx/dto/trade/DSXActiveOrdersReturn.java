@@ -10,9 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Mikhail Wall
  */
 
-public class DSXActiveOrdersReturn extends DSXReturn<Map<Long, DSXActiveOrdersResult>> {
+public class DSXActiveOrdersReturn extends DSXReturn<Map<Long, DSXOrder>> {
 
-  public DSXActiveOrdersReturn(@JsonProperty("success") boolean success, @JsonProperty("return") Map<Long, DSXActiveOrdersResult> value,
+  public DSXActiveOrdersReturn(@JsonProperty("success") boolean success, @JsonProperty("return") Map<Long, DSXOrder> value,
       @JsonProperty("error") String error) {
 
     super(success, value, error);
