@@ -122,4 +122,8 @@ public interface DSXAuthenticated extends DSX {
       SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @FormParam("to") Long to, @FormParam("fromId") Long fromId,
       @FormParam("told") Long told, @FormParam("type") DSXTransaction.Type type, @FormParam("status") DSXTransaction.Status status,
       @FormParam("currency") String currency) throws IOException;
+
+  enum SortOrder {
+    ASC, DESC
+  }
 }
