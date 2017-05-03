@@ -23,7 +23,7 @@ public class GDAXDigest extends BaseParamsDigest {
     try {
       return secretKey == null ? null : new GDAXDigest(Base64.decode(secretKey));
     } catch (IOException e) {
-      throw new ExchangeException("Cannot decode secret key");
+      throw new ExchangeException("Cannot decode secret key", e);
     }
   }
 

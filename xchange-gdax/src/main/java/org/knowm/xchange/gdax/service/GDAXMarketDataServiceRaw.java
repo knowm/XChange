@@ -63,7 +63,7 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService<GDAX> {
     return this.coinbaseEx.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
   }
 
-  public boolean checkProductExists(CurrencyPair currencyPair) throws IOException {
+  public boolean checkProductExists(CurrencyPair currencyPair) {
 
     boolean currencyPairSupported = false;
     for (CurrencyPair cp : exchange.getExchangeSymbols()) {
