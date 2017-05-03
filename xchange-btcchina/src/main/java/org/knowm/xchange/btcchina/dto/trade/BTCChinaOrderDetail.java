@@ -13,8 +13,8 @@ public class BTCChinaOrderDetail {
   public BTCChinaOrderDetail(@JsonProperty("dateline") long dateline, @JsonProperty("price") String price, @JsonProperty("amount") String amount) {
 
     this.dateline = dateline;
-    this.price = new BigDecimal(price.replaceAll(",", ""));
-    this.amount = new BigDecimal(amount.replaceAll(",", ""));
+    this.price = new BigDecimal(price.replace(",", ""));
+    this.amount = new BigDecimal(amount.replace(",", ""));
   }
 
   /**
