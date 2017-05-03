@@ -1,10 +1,13 @@
 package org.known.xchange.dsx;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -14,15 +17,22 @@ import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
+import org.knowm.xchange.dto.meta.RateLimit;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.utils.DateUtils;
 import org.known.xchange.dsx.dto.account.DSXAccountInfo;
+import org.known.xchange.dsx.dto.marketdata.DSXExchangeInfo;
+import org.known.xchange.dsx.dto.marketdata.DSXPairInfo;
 import org.known.xchange.dsx.dto.marketdata.DSXTicker;
 import org.known.xchange.dsx.dto.marketdata.DSXTrade;
+import org.known.xchange.dsx.dto.meta.DSXMetaData;
 import org.known.xchange.dsx.dto.trade.DSXOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Mikhail Wall
@@ -30,6 +40,7 @@ import org.known.xchange.dsx.dto.trade.DSXOrder;
 
 public class DSXAdapters {
 
+  private static final Logger log = LoggerFactory.getLogger(DSXAdapters.class);
   private DSXAdapters() {
 
   }
@@ -141,6 +152,50 @@ public class DSXAdapters {
     String base = currencyPair.base.getCurrencyCode();
     String counter = currencyPair.counter.getCurrencyCode();
 
-    return (base + "_" + counter).toLowerCase();
+    return (base + counter).toLowerCase();
+  }
+
+  public static ExchangeMetaData toMetaData(DSXExchangeInfo dsxExchangeInfo, DSXMetaData dsxMetaData) {
+
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+
+    if (dsxExchangeInfo != null) {
+      for (Map.Entry<String, DSXPairInfo> e : dsxExchangeInfo.getPairs().entrySet()) {
+        CurrencyPair pair = adaptCurrencyPair(e.getKey());
+        CurrencyPairMetaData marketMetaData = toMarketMetaData(e.getValue(), dsxMetaData);
+        currencyPairs.put(pair, marketMetaData);
+
+        addCurrencyMetaData(pair.base, currencies, dsxMetaData);
+        addCurrencyMetaData(pair.counter, currencies, dsxMetaData);
+      }
+    }
+
+    RateLimit[] publicRateLimits = new RateLimit[]{new RateLimit(dsxMetaData.publicInfoCacheSeconds, 1, TimeUnit.SECONDS)};
+    return new ExchangeMetaData(currencyPairs, currencies, publicRateLimits, null, false);
+  }
+
+  private static void addCurrencyMetaData(Currency symbol, Map<Currency, CurrencyMetaData> currencies, DSXMetaData dsxMetaData) {
+
+    if (!currencies.containsKey(symbol)) {
+      currencies.put(symbol, new CurrencyMetaData(dsxMetaData.amountScale));
+    }
+  }
+  public static CurrencyPairMetaData toMarketMetaData(DSXPairInfo info, DSXMetaData dsxMetaData) {
+    int priceScale = info.getDecimalsPrice();
+    BigDecimal minimumAmount = withScale(info.getMinAmount(), dsxMetaData.amountScale);
+    BigDecimal feeFraction = info.getFee().movePointLeft(2);
+
+    return new CurrencyPairMetaData(feeFraction, minimumAmount, null, priceScale);
+  }
+
+  private static BigDecimal withScale(BigDecimal value, int priceScale) {
+
+    try {
+      return value.setScale(priceScale, RoundingMode.UNNECESSARY);
+    } catch (ArithmeticException e) {
+      log.debug("Could not round {} to {} decimal places: {}", value, priceScale, e.getMessage());
+      return value.setScale(priceScale, RoundingMode.CEILING);
+    }
   }
 }

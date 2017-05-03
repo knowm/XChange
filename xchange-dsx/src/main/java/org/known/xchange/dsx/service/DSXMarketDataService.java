@@ -26,7 +26,7 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
    *
    * @param exchange
    */
-  protected DSXMarketDataService(Exchange exchange) {
+  public DSXMarketDataService(Exchange exchange) {
 
     super(exchange);
   }

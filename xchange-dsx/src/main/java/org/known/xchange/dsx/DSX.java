@@ -14,7 +14,7 @@ public interface DSX {
 
   @GET
   @Path("mapi/info")
-  DSXPairInfo getInfo() throws IOException;
+  DSXExchangeInfo getInfo() throws IOException;
 
   @GET
   @Path("mapi/depth/{pairs}")

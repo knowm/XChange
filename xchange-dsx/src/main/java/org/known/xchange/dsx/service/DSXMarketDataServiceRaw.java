@@ -3,6 +3,7 @@ package org.known.xchange.dsx.service;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
+import org.known.xchange.dsx.dto.marketdata.DSXExchangeInfo;
 import org.known.xchange.dsx.dto.marketdata.DSXOrderbookWrapper;
 import org.known.xchange.dsx.dto.marketdata.DSXTickerWrapper;
 import org.known.xchange.dsx.dto.marketdata.DSXTradesWrapper;
@@ -48,4 +49,8 @@ public class DSXMarketDataServiceRaw extends DSXBaseService {
     return dsx.getTrades(pairs.toLowerCase(), size, 1);
   }
 
+  public DSXExchangeInfo getDSXInfo() throws IOException {
+
+    return dsx.getInfo();
+  }
 }
