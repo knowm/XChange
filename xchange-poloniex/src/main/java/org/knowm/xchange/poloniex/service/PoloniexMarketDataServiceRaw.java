@@ -55,7 +55,7 @@ public class PoloniexMarketDataServiceRaw extends PoloniexBaseService {
 
   // There is no point to query the ticker instantly again when
   // all tickers are returned on 1 query available in the hash map
-  // lets wait a seconds and save our self a call for each ticker in our calling for loop.
+  // let's wait a seconds and save our self a call for each ticker in our calling for loop.
 
   private HashMap<String, PoloniexMarketData> TickermarketData;
   private final long cache_delay = 1000L;
