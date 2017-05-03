@@ -334,6 +334,11 @@
             <artifactId>xchange-yobit</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.knowm.xchange</groupId>
+            <artifactId>xchange-dsx</artifactId>
+            <version>4.2.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

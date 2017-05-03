@@ -57,14 +57,12 @@ public final class DSXOrderbook {
       for (BigDecimal[] b : bids) {
           sb.append("[").append(b[0].toString()).append(",").append(b[1].toString()).append("],");
       }
-      sb.append("market_buy_price=");
+      sb.append(", marketBuyPrice=");
+      sb.append(marketBuyPrice);
+      sb.append(", marketSellPrice=");
+      sb.append(marketSellPrice);
       sb.append("]");
-      return "DSXOrderbook{" +
-              "asks=" + asks +
-              ", bids=" + bids +
-              ", marketBuyPrice=" + marketBuyPrice +
-              ", marketSellPrice=" + marketSellPrice +
-              '}';
+      return sb.toString();
   }
 
 }

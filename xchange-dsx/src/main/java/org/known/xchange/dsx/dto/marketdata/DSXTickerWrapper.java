@@ -36,7 +36,7 @@ public class DSXTickerWrapper {
   public String toString() {
 
       return "DSXTickerWrapper{" +
-              "tickerMap=" + tickerMap +
+              "tickerMap=" + tickerMap.toString() +
               '}';
   }
 }
