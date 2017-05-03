@@ -48,14 +48,15 @@ public class KrakenUtils {
   }
 
   public static String createKrakenCurrencyPair(CurrencyPair currencyPair) {
-    // DASH is a strange exception for X and Z adds.
-  	if ("DASH".equals(currencyPair.base.getCurrencyCode())) {
-		  Currency counter = currencyPair.counter;
-		  if (counter.getIso4217Currency() != null) {
-			  counter = currencyPair.counter.getIso4217Currency();
-	    }		
-	    return currencyPair.base.getCurrencyCode() + counter.getCurrencyCode();	
-	  }
+    // DASH and GNO are strange exceptions for X and Z adds.
+    String baseCurrencyCode = currencyPair.base.getCurrencyCode();
+    if ("DASH".equals(baseCurrencyCode) || "GNO".equals(baseCurrencyCode)) {
+      Currency counter = currencyPair.counter;
+      if (counter.getIso4217Currency() != null) {
+        counter = currencyPair.counter.getIso4217Currency();
+      }
+      return currencyPair.base.getCurrencyCode() + counter.getCurrencyCode();
+    }
     return createKrakenCurrencyPair(currencyPair.base, currencyPair.counter);
   }
 
@@ -67,7 +68,7 @@ public class KrakenUtils {
   public static String getKrakenCurrencyCode(Currency currency) {
 
     String c = currency.getCurrencyCode();
-    if ("USDT".equals(c) || "KFEE".equals(c) || "DASH".equals(c)) {
+    if ("USDT".equals(c) || "KFEE".equals(c) || "DASH".equals(c) || "GNO".equals(c)) {
       return c;
     }
 
