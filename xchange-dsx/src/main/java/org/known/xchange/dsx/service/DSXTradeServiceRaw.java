@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.SortOrder;
-
 import org.knowm.xchange.Exchange;
 import org.known.xchange.dsx.DSXAuthenticated;
 import org.known.xchange.dsx.dto.trade.DSXActiveOrdersReturn;
