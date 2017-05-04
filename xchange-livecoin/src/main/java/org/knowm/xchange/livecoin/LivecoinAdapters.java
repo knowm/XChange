@@ -13,6 +13,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
@@ -22,6 +23,7 @@ import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 import org.knowm.xchange.livecoin.service.LivecoinAsksBidsData;
 
@@ -98,4 +100,14 @@ public class LivecoinAdapters {
     return new java.util.Date((long) rawDateLong * 1000);
   }
 
+  public static Ticker adaptTicker(LivecoinTicker ticker, CurrencyPair currencyPair) {
+    BigDecimal last = ticker.getLast();
+    BigDecimal bid = ticker.getBestBid();
+    BigDecimal ask = ticker.getBestAsk();
+    BigDecimal high = ticker.getHigh();
+    BigDecimal low = ticker.getLow();
+    BigDecimal volume = ticker.getVolume();
+    
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).build();
+  }
 }

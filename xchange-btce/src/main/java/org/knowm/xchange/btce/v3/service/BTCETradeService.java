@@ -1,6 +1,7 @@
 package org.knowm.xchange.btce.v3.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
@@ -178,9 +179,14 @@ public class BTCETradeService extends BTCETradeServiceRaw implements TradeServic
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    Collection<Order> orders = new ArrayList<>(orderIds.length);
+    
+    for (String orderId : orderIds) {
+        orders.add(BTCEAdapters.adaptOrderInfo(orderId, getBTCEOrderInfo(Long.valueOf(orderId))));
+    }
+    
+    return orders;
   }
 
   /**

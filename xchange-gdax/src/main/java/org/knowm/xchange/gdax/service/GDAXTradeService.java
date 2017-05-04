@@ -16,7 +16,6 @@ import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
-import org.knowm.xchange.gdax.dto.trade.GDAXTradeHistoryParams;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -67,7 +66,7 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    GDAXFill[] coinbaseExFills = getCoinbaseExFills((GDAXTradeHistoryParams) params);
+    GDAXFill[] coinbaseExFills = getCoinbaseExFills(params);
     return GDAXAdapters.adaptTradeHistory(coinbaseExFills);
   }
 

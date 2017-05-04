@@ -70,7 +70,7 @@ public class GenericTradeService extends BaseExchangeService implements TradeSer
       }
     }
 
-    if (openOrders.size() <= 0) {
+    if (openOrders.isEmpty()) {
       return noOpenOrders;
     }
 

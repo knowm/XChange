@@ -153,12 +153,12 @@ public class BTCChinaAdaptersTest {
     assertEquals("mkrmyZyM9jBYGw5EB3wWmfgJ4Mvqnu7gEu", depositRecord.getAddress());
     assertEquals(Currency.BTC, depositRecord.getCurrency());
     assertEquals(new BigDecimal("2"), depositRecord.getAmount());
-    assertEquals("completed", depositRecord.getStatus());
+    assertEquals(FundingRecord.Status.COMPLETE, depositRecord.getStatus());
 
     assertEquals("15MGzXJnfugniyy7ZDw3hSjkm4tHPHzHba", withdrawalRecord.getAddress());
     assertEquals(Currency.BTC, withdrawalRecord.getCurrency());
     assertEquals(new BigDecimal("0.1"), withdrawalRecord.getAmount());
-    assertEquals("pending", withdrawalRecord.getStatus());
+    assertEquals(FundingRecord.Status.PROCESSING, withdrawalRecord.getStatus());
 
     assertEquals(FundingRecord.Type.DEPOSIT, depositRecord.getType());
     assertEquals(FundingRecord.Type.WITHDRAWAL, withdrawalRecord.getType());

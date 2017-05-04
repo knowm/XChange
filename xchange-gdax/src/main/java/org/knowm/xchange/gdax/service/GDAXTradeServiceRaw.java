@@ -10,6 +10,8 @@ import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
 import org.knowm.xchange.gdax.dto.trade.GDAXTradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
 
@@ -22,8 +24,17 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
     return coinbaseEx.getListOrders(apiKey, digest, getTimestamp(), passphrase, "open");
   }
 
-  public GDAXFill[] getCoinbaseExFills(GDAXTradeHistoryParams tradeHistoryParams) {
-    return coinbaseEx.getFills(apiKey, digest, getTimestamp(), passphrase, tradeHistoryParams.getOrderId());
+  public GDAXFill[] getCoinbaseExFills(TradeHistoryParams tradeHistoryParams) {
+    if (tradeHistoryParams instanceof GDAXTradeHistoryParams) {
+      return coinbaseEx.getFills(apiKey, digest, getTimestamp(), passphrase, ((GDAXTradeHistoryParams) tradeHistoryParams).getOrderId());
+
+    } else if (tradeHistoryParams instanceof TradeHistoryParamTransactionId) {
+      return coinbaseEx.getFills(apiKey, digest, getTimestamp(), passphrase,
+          ((TradeHistoryParamTransactionId) tradeHistoryParams).getTransactionId());
+
+    } else {
+      return coinbaseEx.getFills(apiKey, digest, getTimestamp(), passphrase, "all");
+    }
   }
 
   public GDAXIdResponse placeCoinbaseExLimitOrder(LimitOrder limitOrder) {
@@ -45,11 +56,7 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
   }
 
   public boolean cancelCoinbaseExOrder(String id) {
-    try {
-      coinbaseEx.cancelOrder(id, apiKey, digest, getTimestamp(), passphrase);
-      return true;
-    } catch (Exception e) {
-      return false;
-    }
+    coinbaseEx.cancelOrder(id, apiKey, digest, getTimestamp(), passphrase);
+    return true;
   }
 }

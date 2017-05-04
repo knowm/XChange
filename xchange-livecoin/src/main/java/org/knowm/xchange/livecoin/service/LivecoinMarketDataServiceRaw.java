@@ -9,6 +9,7 @@ import org.knowm.xchange.livecoin.Livecoin;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinOrderBook;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestriction;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinRestrictions;
+import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTicker;
 import org.knowm.xchange.livecoin.dto.marketdata.LivecoinTrade;
 
 public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> {
@@ -22,6 +23,10 @@ public class LivecoinMarketDataServiceRaw extends LivecoinBaseService<Livecoin> 
     return data.getRestrictions();
   }
 
+  public LivecoinTicker getLivecoinTicker(CurrencyPair currencyPair) throws IOException {
+    return this.coinbaseEx.getTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+  }
+  
   public LivecoinOrderBook getOrderBookRaw(CurrencyPair currencyPair, int depth) throws IOException {
     if (!this.checkProductExists(currencyPair)) {
       return null;

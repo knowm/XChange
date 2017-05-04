@@ -212,7 +212,7 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
    * Parse currency pair from a string in the same format as returned by toString() method - ABC/XYZ
    */
   public CurrencyPair(String currencyPair) {
-    int split = currencyPair.indexOf("/");
+    int split = currencyPair.indexOf('/');
     if (split < 1) {
       throw new IllegalArgumentException("Could not parse currency pair from '" + currencyPair + "'");
     }
