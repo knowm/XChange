@@ -143,7 +143,24 @@
     "DASH/USD": {
       "price_scale": 6,
       "min_amount": 0.010000000
+    },
+    "GNO/ETH": {
+      "price_scale": 6,
+      "min_amount": 0.010000000
+    },
+    "GNO/BTC": {
+      "price_scale": 6,
+      "min_amount": 0.010000000
+    },
+    "GNO/EUR": {
+      "price_scale": 6,
+      "min_amount": 0.010000000
+    },
+    "GNO/USD": {
+      "price_scale": 6,
+      "min_amount": 0.010000000
     }
+
   },
   "currencies": {},
   "public_rate_limits": [
