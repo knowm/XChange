@@ -6,7 +6,9 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCEDepth;
@@ -16,9 +18,13 @@ import org.knowm.xchange.btce.v3.dto.marketdata.BTCETickerJSONTest;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCETradesJSONTest;
 import org.knowm.xchange.btce.v3.dto.marketdata.BTCETradesWrapper;
+import org.knowm.xchange.btce.v3.dto.trade.BTCEOrderInfoResult;
+import org.knowm.xchange.btce.v3.dto.trade.BTCEOrderInfoReturn;
+import org.knowm.xchange.btce.v3.dto.trade.BTCETradeDataJSONTest;
 import org.knowm.xchange.btce.v3.dto.trade.BTCETradeHistoryJSONTest;
 import org.knowm.xchange.btce.v3.dto.trade.BTCETradeHistoryReturn;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -131,5 +137,31 @@ public class BTCEAdapterTest {
     assertThat(DateUtils.toUTCString(lastTrade.getTimestamp())).isEqualTo("2013-09-03 07:49:34 GMT");
     assertThat(lastTrade.getFeeAmount()).isNull();
 
+  }
+  
+  @Test
+  public void testOrderInfoAdapter() throws IOException {
+
+    // Read in the JSON from the example resources
+    InputStream is = BTCETradeDataJSONTest.class.getResourceAsStream("/v3/trade/example-order-info-data.json");
+
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    BTCEOrderInfoReturn bTCEOrderInfoReturn = mapper.readValue(is, BTCEOrderInfoReturn.class);
+
+    Map<Long, BTCEOrderInfoResult> rv = bTCEOrderInfoReturn.getReturnValue();
+    
+    assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
+    
+    LimitOrder order = BTCEAdapters.adaptOrderInfo("343152",rv.get(343152L));
+
+    // verify all fields filled
+    assertThat(order.getType()).isEqualTo(OrderType.ASK);
+    assertThat(order.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
+    assertEquals(new BigDecimal("3.00000000"), order.getLimitPrice());
+    assertEquals(new BigDecimal("2.00000000"), order.getTradableAmount());
+    assertEquals(new BigDecimal("1.00000000"), order.getCumulativeAmount());
+    assertEquals(OrderStatus.PARTIALLY_FILLED, order.getStatus());
+    assertThat(order.getTimestamp().getTime()).isEqualTo(1342448420000L);
   }
 }

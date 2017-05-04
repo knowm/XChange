@@ -167,9 +167,10 @@ public class KrakenAdapters {
   }
 
   public static CurrencyPair adaptCurrencyPair(String krakenCurrencyPair) {
+    int baseLength = (krakenCurrencyPair.startsWith("GNO")) ? 3 : 4;
 
-    Currency firstCurrency = adaptCurrency(krakenCurrencyPair.substring(0, 4));
-    Currency secondCurrency = adaptCurrency(krakenCurrencyPair.substring(4));
+    Currency firstCurrency = adaptCurrency(krakenCurrencyPair.substring(0, baseLength));
+    Currency secondCurrency = adaptCurrency(krakenCurrencyPair.substring(baseLength));
 
     return new CurrencyPair(firstCurrency, secondCurrency);
   }
@@ -198,8 +199,8 @@ public class KrakenAdapters {
     KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
     OrderType type = adaptOrderType(orderDescription.getType());
     BigDecimal tradableAmount = krakenOrder.getVolume().subtract(krakenOrder.getVolumeExecuted());
-    Currency tradableIdentifier = adaptCurrency(orderDescription.getAssetPair().substring(0, 3));
-    Currency transactionCurrency = adaptCurrency(orderDescription.getAssetPair().substring(3));
+    Currency tradableIdentifier = adaptCurrency(orderDescription.getAssetPair().substring(0, orderDescription.getAssetPair().length()-3));
+    Currency transactionCurrency = adaptCurrency(orderDescription.getAssetPair().substring(orderDescription.getAssetPair().length()-3));
     Date timestamp = new Date((long) (krakenOrder.getOpenTimestamp() * 1000L));
 
     return new LimitOrder(type, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), id, timestamp,
@@ -287,10 +288,12 @@ public class KrakenAdapters {
         if (currency != null) {
           final Date timestamp = new Date((long) (krakenLedger.getUnixTime() * 1000L));
           final FundingRecord.Type type = FundingRecord.Type.fromString(krakenLedger.getLedgerType().name());
-          if (type != null) {
-            FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp, currency, krakenLedger.getTransactionAmount(),
-                krakenLedger.getRefId(), FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()), null, krakenLedger.getBalance(),
-                krakenLedger.getFee(), null);
+          if (type != null){
+            final String internalId = krakenLedger.getRefId(); // or ledgerEntry.getKey()?
+            FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp,
+                    currency, krakenLedger.getTransactionAmount(), internalId, null,
+                    FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
+                    FundingRecord.Status.COMPLETE, krakenLedger.getBalance(), krakenLedger.getFee(), null);
             fundingRecords.add(fundingRecordEntry);
           }
         }

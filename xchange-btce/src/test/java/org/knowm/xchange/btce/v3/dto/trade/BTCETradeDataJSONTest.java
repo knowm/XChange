@@ -28,6 +28,17 @@ public class BTCETradeDataJSONTest {
     assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
     assertThat(rv.get(343152L).getTimestampCreated()).isEqualTo(1342448420L);
   }
+  
+  @Test
+  public void testOrderInfo() throws IOException {
+
+    BTCEOrderInfoReturn result = getResult("/v3/trade/example-order-info-data.json", BTCEOrderInfoReturn.class);
+    // Verify that the example data was unmarshalled correctly
+    Map<Long, BTCEOrderInfoResult> rv = result.getReturnValue();
+    assertThat(rv.keySet()).containsAll(Arrays.asList(343152L));
+    assertThat(rv.get(343152L).getTimestampCreated()).isEqualTo(1342448420L);
+    assertThat(rv.get(343152L).getStartAmount()).isEqualTo(new BigDecimal("2.00000000"));
+  }
 
   @Test
   public void testOwnTransactions() throws IOException {

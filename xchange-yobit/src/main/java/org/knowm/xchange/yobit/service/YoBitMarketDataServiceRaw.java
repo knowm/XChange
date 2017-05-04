@@ -7,6 +7,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.yobit.YoBit;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitTickers;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
 
 public class YoBitMarketDataServiceRaw extends YoBitBaseService<YoBit> {
@@ -18,6 +19,11 @@ public class YoBitMarketDataServiceRaw extends YoBitBaseService<YoBit> {
   public YoBitInfo getProducts() throws IOException {
     YoBitInfo data = coinbaseEx.getProducts();
     return data;
+  }
+
+  public YoBitTickers getYoBitTickers(CurrencyPair currencyPair) throws IOException {
+    return this.coinbaseEx.getTicker(currencyPair.base.getCurrencyCode().toLowerCase(),
+        currencyPair.counter.getCurrencyCode().toLowerCase());
   }
 
   public YoBitOrderBook getOrderBookA(CurrencyPair currencyPair, Long limit) throws IOException {

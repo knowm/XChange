@@ -2,12 +2,17 @@ package org.knowm.xchange.examples.poloniex.account;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.examples.poloniex.PoloniexExamplesUtils;
 import org.knowm.xchange.poloniex.service.PoloniexAccountServiceRaw;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.utils.CertHelper;
 
 /**
@@ -34,6 +39,14 @@ public class PoloniexAccountDemo {
     System.out.println(accountService.getAccountInfo());
 
     System.out.println(accountService.withdrawFunds(Currency.BTC, new BigDecimal("0.03"), "13ArNKUYZ4AmXP4EUzSHMAUsvgGok74jWu"));
+
+    final TradeHistoryParams params = accountService.createFundingHistoryParams();
+    ((TradeHistoryParamsTimeSpan)params).setStartTime(new Date(System.currentTimeMillis() - 7L * 24 * 60 * 60 * 1000));
+
+    final List<FundingRecord> fundingHistory = accountService.getFundingHistory(params);
+    for (FundingRecord fundingRecord : fundingHistory) {
+      System.out.println(fundingRecord);
+    }
   }
 
   private static void raw(PoloniexAccountServiceRaw accountService) throws IOException {
