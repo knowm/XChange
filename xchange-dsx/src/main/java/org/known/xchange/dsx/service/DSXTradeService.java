@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
-import javax.swing.SortOrder;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -23,6 +21,7 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
 import org.known.xchange.dsx.DSXAdapters;
@@ -33,6 +32,9 @@ import org.known.xchange.dsx.dto.trade.DSXCancelOrderResult;
 import org.known.xchange.dsx.dto.trade.DSXOrder;
 import org.known.xchange.dsx.dto.trade.DSXTradeHistoryResult;
 import org.known.xchange.dsx.dto.trade.DSXTradeResult;
+import org.known.xchange.dsx.dto.trade.DSXTransHistoryResult;
+import org.known.xchange.dsx.service.trade.params.DSXTradeHistoryParams;
+import org.known.xchange.dsx.service.trade.params.DSXTransHistoryParams;
 
 /**
  * @author Mikhail Wall
@@ -44,7 +46,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
    *
    * @param exchange
    */
-  protected DSXTradeService(Exchange exchange) {
+  public DSXTradeService(Exchange exchange) {
 
     super(exchange);
   }
@@ -58,7 +60,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
   public OpenOrders getOpenOrders(OpenOrdersParams params)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    Map<Long, DSXOrder> orders = getDSXActiveOrders(null);
+    Map<Long, DSXOrder> orders = getDSXActiveOrders();
     return DSXAdapters.adaptOrders(orders);
 
   }
@@ -138,7 +140,9 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
       }
     }
 
-//    if (params instanceof DSXTransHistor)
+    if (params instanceof DSXTransHistoryParams) {
+      sort = ((DSXTransHistoryParams) params).getSortOrder();
+    }
 
     Map<Long, DSXTradeHistoryResult> resultMap = getDSXTradeHistory(from, count, fromId, endId, sort, since, end, dsxpair);
     return DSXAdapters.adaptTradeHistory(resultMap);
@@ -160,16 +164,73 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return null;
+
+    return new DSXTradeHistoryParams();
   }
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return null;
+
+    return new DefaultOpenOrdersParamCurrencyPair();
   }
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  public Map<Long, DSXTransHistoryResult> getTransHistory(DSXTransHistoryParams params) throws ExchangeException, IOException {
+
+    Long offset = null;
+    Long count = null;
+    Long startId = null;
+    Long endId = null;
+    DSXAuthenticated.SortOrder sort = DSXAuthenticated.SortOrder.DESC;
+    Long startTime = null;
+    Long endTime = null;
+    String dsxpair = null;
+
+    if (params instanceof TradeHistoryParamPaging) {
+      TradeHistoryParamPaging pagingParams = params;
+      Integer pageLength = pagingParams.getPageLength();
+      Integer pageNumber = pagingParams.getPageNumber();
+      if (pageNumber == null) {
+        pageNumber = 0;
+      }
+
+      if (pageLength != null) {
+        count = pageLength.longValue();
+        offset = (long) (pageLength * pageNumber);
+      } else {
+        offset = pageNumber.longValue();
+      }
+    }
+
+    if (params instanceof TradeHistoryParamsIdSpan) {
+      TradeHistoryParamsIdSpan idParams = params;
+      startId = nullSafeToLong(idParams.getStartId());
+      endId = nullSafeToLong(idParams.getEndId());
+    }
+
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan timeParams = params;
+      startTime = nullSafeUnixTime(timeParams.getStartTime());
+      endTime = nullSafeUnixTime(timeParams.getEndTime());
+    }
+
+    if (params instanceof DSXTransHistoryParams) {
+      sort = params.getSortOrder();
+    }
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      if (pair != null) {
+        dsxpair = DSXAdapters.getPair(pair);
+      }
+    }
+
+    Map<Long, DSXTransHistoryResult> resultMap = getDSXTransHistory(offset, count, startId, endId, sort, startTime, endTime, dsxpair);
+
+    return resultMap;
   }
 }
