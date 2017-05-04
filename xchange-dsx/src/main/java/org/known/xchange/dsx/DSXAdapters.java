@@ -154,8 +154,9 @@ public class DSXAdapters {
 
   public static CurrencyPair adaptCurrencyPair(String dsxCurrencyPair) {
 
-    String[] currencies = dsxCurrencyPair.split("_");
-    return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
+    String currencyOne = dsxCurrencyPair.substring(0, 3);
+    String currencyTwo = dsxCurrencyPair.substring(3, 6);
+    return new CurrencyPair(currencyOne.toUpperCase(), currencyTwo.toUpperCase());
   }
 
   public static List<CurrencyPair> adaptCurrencyPair(Iterable<String> dsxPairs) {

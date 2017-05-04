@@ -42,7 +42,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
   }
 
   public Map<Long, DSXOrder> getDSXActiveOrders(String pair) throws IOException {
-    DSXActiveOrdersReturn orders = dsx.ActiveOrders(apiKey, signatureCreator, exchange.getNonceFactory(), pair);
+    DSXActiveOrdersReturn orders = dsx.ActiveOrders(apiKey, signatureCreator, System.currentTimeMillis(), pair);
     if ("no orders".equals(orders.getError())) {
       return new HashMap<>();
     }
@@ -50,10 +50,14 @@ public class DSXTradeServiceRaw extends DSXBaseService {
     return orders.getReturnValue();
   }
 
+  public Map<Long, DSXOrder> getDSXActiveOrders() throws IOException {
+    return getDSXActiveOrders("btcusd");
+  }
+
   public DSXTradeResult tradeDSX(DSXOrder order) throws IOException {
 
     String pair = order.getPair().toLowerCase();
-    DSXTradeReturn ret = dsx.Trade(apiKey, signatureCreator, exchange.getNonceFactory(), order.getType(), order.getRate(),
+    DSXTradeReturn ret = dsx.Trade(apiKey, signatureCreator, System.currentTimeMillis(), order.getType(), order.getRate(),
         order.getAmount(), pair);
     checkResult(ret);
     return ret.getReturnValue();
@@ -61,7 +65,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
 
   public DSXCancelOrderResult cancelDSXOrder(long orderId) throws IOException {
 
-    DSXCancelOrderReturn ret = dsx.CancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
+    DSXCancelOrderReturn ret = dsx.CancelOrder(apiKey, signatureCreator, System.currentTimeMillis(), orderId);
     if (MSG_BAD_STATUS.equals(ret.getError())) {
       return null;
     }
@@ -73,7 +77,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
   public Map<Long, DSXTradeHistoryResult> getDSXTradeHistory(Long from, Long count, Long fromId, Long endId, DSXAuthenticated.SortOrder order,
       Long since, Long end, String pair) throws IOException {
 
-    DSXTradeHistoryReturn dsxTradeHistory = dsx.TradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), from, count, fromId, endId,
+    DSXTradeHistoryReturn dsxTradeHistory = dsx.TradeHistory(apiKey, signatureCreator, System.currentTimeMillis(), from, count, fromId, endId,
         order, since, end, pair);
     String error = dsxTradeHistory.getError();
     if (MSG_NO_TRADES.equals(error)) {
@@ -87,7 +91,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
   public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Long from, Long count, Long fromId, Long endId, DSXAuthenticated.SortOrder order,
       Long since, Long end, String pair) throws IOException {
 
-    DSXTransHistoryReturn dsxTransHistory = dsx.TransHistory(apiKey, signatureCreator, exchange.getNonceFactory(), from, count, fromId, endId,
+    DSXTransHistoryReturn dsxTransHistory = dsx.TransHistory(apiKey, signatureCreator, System.currentTimeMillis(), from, count, fromId, endId,
         order, since, end);
     String error = dsxTransHistory.getError();
     if (MSG_NO_TRADES.equals(error)) {
@@ -101,7 +105,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
   public Map<Long, DSXOrderHistoryResult> getDSXOrderHistory(Long from, Long count, Long fromId, Long endId, DSXAuthenticated.SortOrder order,
       Long since, Long end, String pair) throws IOException {
 
-    DSXOrderHistoryReturn dsxOrderHistory = dsx.OrderHistory(apiKey, signatureCreator, exchange.getNonceFactory(), from, count, fromId,
+    DSXOrderHistoryReturn dsxOrderHistory = dsx.OrderHistory(apiKey, signatureCreator, System.currentTimeMillis(), from, count, fromId,
         endId, order, since, end, pair);
     String error = dsxOrderHistory.getError();
     if (MSG_NO_TRADES.equals(error)) {
