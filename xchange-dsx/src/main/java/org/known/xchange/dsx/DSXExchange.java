@@ -9,6 +9,7 @@ import org.knowm.xchange.utils.nonce.TimestampIncrementingNonceFactory;
 import org.known.xchange.dsx.dto.marketdata.DSXExchangeInfo;
 import org.known.xchange.dsx.dto.meta.DSXMetaData;
 import org.known.xchange.dsx.service.DSXMarketDataService;
+import org.known.xchange.dsx.service.DSXTradeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -24,7 +25,7 @@ public class DSXExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
     this.marketDataService = new DSXMarketDataService(this);
-
+    this.tradeService = new DSXTradeService(this);
   }
 
   @Override
