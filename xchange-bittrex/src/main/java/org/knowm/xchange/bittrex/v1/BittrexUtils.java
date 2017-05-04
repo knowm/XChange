@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
 
 /**
  * A central place for shared Bittrex properties
@@ -35,8 +36,7 @@ public final class BittrexUtils {
     try {
       return DATE_PARSER.parse(dateString);
     } catch (ParseException e) {
-      e.printStackTrace();
-      return new Date();
+      throw new ExchangeException("Illegal date/time format", e);
     }
   }
 
