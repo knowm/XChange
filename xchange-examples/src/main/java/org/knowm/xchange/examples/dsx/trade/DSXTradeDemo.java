@@ -2,6 +2,7 @@ package org.knowm.xchange.examples.dsx.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -11,6 +12,10 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.known.xchange.dsx.dto.trade.DSXCancelOrderResult;
+import org.known.xchange.dsx.dto.trade.DSXOrder;
+import org.known.xchange.dsx.dto.trade.DSXTradeResult;
+import org.known.xchange.dsx.service.DSXTradeServiceRaw;
 
 /**
  * @author Mikhail Wall
@@ -21,7 +26,7 @@ public class DSXTradeDemo {
 
     Exchange dsx = DSXExamplesUtils.createExchange();
     generic(dsx);
-
+    raw(dsx);
   }
 
   private static void generic(Exchange exchange) throws IOException {
@@ -47,6 +52,32 @@ public class DSXTradeDemo {
     }
 
     printOpenOrders(tradeService);
+  }
+
+  private static void raw(Exchange exchange) throws IOException {
+    DSXTradeServiceRaw tradeService = (DSXTradeServiceRaw) exchange.getTradeService();
+
+    printRawOpenOrders(tradeService);
+
+    // place buy order
+    DSXOrder.Type type = DSXOrder.Type.buy;
+    String pair = "btcusd";
+    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("0.1"), new BigDecimal("1600"), null, 0, DSXOrder.OrderType.limit);
+
+    DSXTradeResult result = null;
+    try {
+      result = tradeService.tradeDSX(dsxOrder);
+      System.out.println("tradeDSX return value:" + result);
+
+      printRawOpenOrders(tradeService);
+
+      DSXCancelOrderResult cancelResult = tradeService.cancelDSXOrder(result.getOrderId());
+      System.out.println("Canceling returned " + cancelResult);
+    } catch (ExchangeException e) {
+      System.out.println(e.getMessage());
+    }
+
+    printRawOpenOrders(tradeService);
 
   }
 
@@ -54,7 +85,13 @@ public class DSXTradeDemo {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
     System.out.println("Open Orders: " + openOrders.toString());
+  }
 
+  private static void printRawOpenOrders(DSXTradeServiceRaw tradeService) throws IOException {
 
+    Map<Long, DSXOrder> openOrders = tradeService.getDSXActiveOrders();
+    for (Map.Entry<Long, DSXOrder> entry : openOrders.entrySet()) {
+      System.out.println("ID: " + entry.getKey() + ", Order:" + entry.getValue());
+    }
   }
 }
