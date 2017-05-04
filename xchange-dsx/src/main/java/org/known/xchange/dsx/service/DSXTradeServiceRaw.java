@@ -87,7 +87,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
   }
 
   public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Long from, Long count, Long fromId, Long endId, DSXAuthenticated.SortOrder order,
-      Long since, Long end, String pair) throws IOException {
+      Long since, Long end) throws IOException {
 
     DSXTransHistoryReturn dsxTransHistory = dsx.TransHistory(apiKey, signatureCreator, System.currentTimeMillis(), from, count, fromId, endId,
         order, since, end);

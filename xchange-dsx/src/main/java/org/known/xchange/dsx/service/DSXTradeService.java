@@ -188,7 +188,6 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
     DSXAuthenticated.SortOrder sort = DSXAuthenticated.SortOrder.DESC;
     Long startTime = null;
     Long endTime = null;
-    String dsxpair = null;
 
     if (params instanceof TradeHistoryParamPaging) {
       TradeHistoryParamPaging pagingParams = params;
@@ -222,14 +221,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
       sort = params.getSortOrder();
     }
 
-    if (params instanceof TradeHistoryParamCurrencyPair) {
-      CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-      if (pair != null) {
-        dsxpair = DSXAdapters.getPair(pair);
-      }
-    }
-
-    Map<Long, DSXTransHistoryResult> resultMap = getDSXTransHistory(offset, count, startId, endId, sort, startTime, endTime, dsxpair);
+    Map<Long, DSXTransHistoryResult> resultMap = getDSXTransHistory(offset, count, startId, endId, sort, startTime, endTime);
 
     return resultMap;
   }
