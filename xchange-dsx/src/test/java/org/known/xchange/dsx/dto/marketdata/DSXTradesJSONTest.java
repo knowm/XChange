@@ -1,4 +1,4 @@
-package org.known.xchange.dsx.dto;
+package org.known.xchange.dsx.dto.marketdata;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -9,11 +9,12 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.known.xchange.dsx.DSXAdapters;
-import org.known.xchange.dsx.dto.marketdata.DSXTradesWrapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
+ * Test DSXTrade[] JSON parsing
+ *
  * @author Mikhail Wall
  */
 public class DSXTradesJSONTest {
