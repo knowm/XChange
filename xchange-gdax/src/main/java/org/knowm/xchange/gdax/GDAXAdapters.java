@@ -55,7 +55,9 @@ public class GDAXAdapters {
 
   protected static Date parseDate(final String rawDate) {
     String modified;
-    if (rawDate.endsWith("Z")) {
+    if (rawDate.length() > 23) {
+      modified = rawDate.substring(0, 23);
+    } else if (rawDate.endsWith("Z")) {
       switch (rawDate.length()) {
       case 20:
         modified = rawDate.substring(0, 19) + ".000";
@@ -67,11 +69,8 @@ public class GDAXAdapters {
         modified = rawDate.substring(0, 22) + "0";
         break;
       default:
-        if (rawDate.length() > 23) {
-          modified = rawDate.substring(0, 23);
-        } else {
-          modified = rawDate;
-        }
+        modified = rawDate;
+        break;
       }
     } else {
       switch (rawDate.length()) {
@@ -85,11 +84,8 @@ public class GDAXAdapters {
         modified = rawDate + "0";
         break;
       default:
-        if (rawDate.length() > 23) {
-          modified = rawDate.substring(0, 23);
-        } else {
-          modified = rawDate;
-        }
+        modified = rawDate;
+        break;
       }
     }
     try {
