@@ -10,8 +10,6 @@ import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiBalancesResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
-import org.knowm.xchange.gemini.v1.dto.account.GeminiMarginInfosRequest;
-import org.knowm.xchange.gemini.v1.dto.account.GeminiMarginInfosResponse;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalRequest;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiWithdrawalResponse;
 
@@ -33,17 +31,6 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
       GeminiBalancesResponse[] balances = Gemini.balances(apiKey, payloadCreator, signatureCreator,
           new GeminiBalancesRequest(String.valueOf(exchange.getNonceFactory().createValue())));
       return balances;
-    } catch (GeminiException e) {
-      throw new ExchangeException(e);
-    }
-  }
-
-  public GeminiMarginInfosResponse[] getGeminiMarginInfos() throws IOException {
-
-    try {
-      GeminiMarginInfosResponse[] marginInfos = Gemini.marginInfos(apiKey, payloadCreator, signatureCreator,
-          new GeminiMarginInfosRequest(String.valueOf(exchange.getNonceFactory().createValue())));
-      return marginInfos;
     } catch (GeminiException e) {
       throw new ExchangeException(e);
     }
@@ -78,5 +65,4 @@ public class GeminiAccountServiceRaw extends GeminiBaseService {
       throw new ExchangeException(e);
     }
   }
-
 }
