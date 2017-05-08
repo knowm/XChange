@@ -26,16 +26,37 @@ public class DSXMarketDataServiceRaw extends DSXBaseService {
     super(exchange);
   }
 
+  /**
+   *
+   * @param pairs String of currency pairs to retrieve (e.g. "btcusd-btceur")
+   * @return DSXTickerWrapper object
+   * @throws IOException
+   */
   public DSXTickerWrapper getDSXTicker(String pairs) throws IOException {
 
     return dsx.getTicker(pairs.toLowerCase(), 1);
   }
 
+  /**
+   * Get market depth from exchange
+   *
+   * @param pairs String of currency pairs to retrieve (e.g. "btcusd-btceur")
+   * @return DSXOrderbookWrapper object
+   * @throws IOException
+   */
   public DSXOrderbookWrapper getDSXOrderbook(String pairs) throws IOException {
 
     return dsx.getOrderbook(pairs.toLowerCase(), 1);
   }
 
+  /**
+   * Get recent trades from exchange
+   *
+   * @param pairs String of currency pairs to retrieve (e.g. "btcusd-btceur")
+   * @param size Integer value from 1 -> get corresponding number of items
+   * @return DSXTradesWrapper
+   * @throws IOException
+   */
   public DSXTradesWrapper getDSXTrades(String pairs, int size) throws IOException {
 
     if (size < 1) {
@@ -49,6 +70,12 @@ public class DSXMarketDataServiceRaw extends DSXBaseService {
     return dsx.getTrades(pairs.toLowerCase(), size, 1);
   }
 
+  /**
+   * Get DSX exchange info
+   *
+   * @return DSXExchangeInfo object
+   * @throws IOException
+   */
   public DSXExchangeInfo getDSXInfo() throws IOException {
 
     return dsx.getInfo();

@@ -60,7 +60,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
   public OpenOrders getOpenOrders(OpenOrdersParams params)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    Map<Long, DSXOrder> orders = getDSXActiveOrders();
+    Map<Long, DSXOrder> orders = getDSXActiveOrders(null);
     return DSXAdapters.adaptOrders(orders);
 
   }

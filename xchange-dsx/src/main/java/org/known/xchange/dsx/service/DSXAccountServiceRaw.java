@@ -24,6 +24,12 @@ public class DSXAccountServiceRaw extends DSXBaseService {
     super(exchange);
   }
 
+  /**
+   *
+   * @return DSXAccountInfo[transactionCount=0, openOrderes=3, serverTime=1,494,239,098, rights=Rights[info=true, trade=true, withdraw={2}],
+   * funds='{BTC=129.6642376500, USD=69208.3700000000, EUR=100000.0000000000, LTC=10000.0000000000, RUB=100000.0000000000}']
+   * @throws IOException
+   */
   public DSXAccountInfo getDSXAccountInfo() throws IOException {
 
     DSXAccountInfoReturn info = dsx.getInfo(apiKey, signatureCreator, System.currentTimeMillis());
@@ -32,15 +38,28 @@ public class DSXAccountServiceRaw extends DSXBaseService {
     return info.getReturnValue();
   }
 
+  /**
+   *
+   * @param currency Currency to withdraw
+   * @param address Withdrawall address
+   * @param amount Amount of withdrawal
+   * @param commission Amount of commission
+   * @return Transaction ID
+   * @throws IOException
+   */
   public String withdrawCrypto(String currency, String address, BigDecimal amount, BigDecimal commission) throws IOException {
     DSXCryptoWithdrawReturn info = dsx.cryptoWithdraw(apiKey, signatureCreator, System.currentTimeMillis(), currency, address, amount, commission);
     checkResult(info);
     return String.valueOf(info.getReturnValue().getTransactionId());
   }
 
-  // newAddress:
-  // 0 - get old address
-  // 1 - generate new address
+  /**
+   *
+   * @param currency Currency for getting address
+   * @param newAddress 0 - get old address, 1 - generate new address
+   * @return address
+   * @throws IOException
+   */
   public String requestAddress(String currency, int newAddress) throws IOException {
 
     DSXCryptoDepositAddressReturn info = dsx.getCryptoDepositAddress(apiKey, signatureCreator, System.currentTimeMillis(), currency, newAddress);
