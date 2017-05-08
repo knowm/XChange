@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.knowm.xchange.coinfloor.dto.CoinfloorException;
 import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorOrderBook;
 import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorTicker;
 import org.knowm.xchange.coinfloor.dto.markedata.CoinfloorTransaction;
@@ -20,14 +21,14 @@ import org.knowm.xchange.currency.Currency;
 public interface CoinfloorPublic {
   @GET
   @Path("{base}/{counter}/ticker/")
-  CoinfloorTicker getTicker(@PathParam("base") Currency base, @PathParam("counter") Currency counter) throws IOException;
+  CoinfloorTicker getTicker(@PathParam("base") Currency base, @PathParam("counter") Currency counter) throws CoinfloorException, IOException;
 
   @GET
   @Path("{base}/{counter}/order_book/")
-  CoinfloorOrderBook getOrderBook(@PathParam("base") Currency base, @PathParam("counter") Currency counter) throws IOException;
+  CoinfloorOrderBook getOrderBook(@PathParam("base") Currency base, @PathParam("counter") Currency counter) throws CoinfloorException, IOException;
 
   @GET
   @Path("{base}/{counter}/transactions/")
   CoinfloorTransaction[] getTransactions(@PathParam("base") Currency base, @PathParam("counter") Currency counter,
-      @QueryParam("time") CoinfloorMarketDataServiceRaw.CoinfloorInterval period) throws IOException;
+      @QueryParam("time") CoinfloorMarketDataServiceRaw.CoinfloorInterval period) throws CoinfloorException, IOException;
 }
