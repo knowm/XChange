@@ -89,7 +89,7 @@ public class DSXTradeDemo {
 
   private static void printRawOpenOrders(DSXTradeServiceRaw tradeService) throws IOException {
 
-    Map<Long, DSXOrder> openOrders = tradeService.getDSXActiveOrders();
+    Map<Long, DSXOrder> openOrders = tradeService.getDSXActiveOrders(null);
     for (Map.Entry<Long, DSXOrder> entry : openOrders.entrySet()) {
       System.out.println("ID: " + entry.getKey() + ", Order:" + entry.getValue());
     }

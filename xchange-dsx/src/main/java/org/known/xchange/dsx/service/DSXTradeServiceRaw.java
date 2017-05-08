@@ -39,6 +39,11 @@ public class DSXTradeServiceRaw extends DSXBaseService {
     super(exchange);
   }
 
+  /**
+   * @param pair The pair to display the orders e.g. btcusd (null: all pairs)
+   * @return Active orders map
+   * @throws IOException
+   */
   public Map<Long, DSXOrder> getDSXActiveOrders(String pair) throws IOException {
     DSXActiveOrdersReturn orders = dsx.ActiveOrders(apiKey, signatureCreator, System.currentTimeMillis(), pair);
     if ("no orders".equals(orders.getError())) {
@@ -48,10 +53,11 @@ public class DSXTradeServiceRaw extends DSXBaseService {
     return orders.getReturnValue();
   }
 
-  public Map<Long, DSXOrder> getDSXActiveOrders() throws IOException {
-    return getDSXActiveOrders("btcusd");
-  }
-
+  /**
+   * @param order DSXOrder object
+   * @return DSXTradeResult object
+   * @throws IOException
+   */
   public DSXTradeResult tradeDSX(DSXOrder order) throws IOException {
 
     String pair = order.getPair().toLowerCase();
@@ -72,6 +78,20 @@ public class DSXTradeServiceRaw extends DSXBaseService {
     return ret.getReturnValue();
   }
 
+  /**
+   * Get Map of trade history from DSX exchange. All parameters are nullable
+   *
+   * @param from ID of the first trade of the selection
+   * @param count Number of trades to display
+   * @param fromId ID of the first trade of the selection
+   * @param endId ID of the last trade of the selection
+   * @param order Order in which transactions shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «desc»
+   * @param since Time from which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
+   * @param end 	Time to which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
+   * @param pair Currency pair
+   * @return Map of trade history result
+   * @throws IOException
+   */
   public Map<Long, DSXTradeHistoryResult> getDSXTradeHistory(Long from, Long count, Long fromId, Long endId, DSXAuthenticated.SortOrder order,
       Long since, Long end, String pair) throws IOException {
 
@@ -86,6 +106,19 @@ public class DSXTradeServiceRaw extends DSXBaseService {
     return dsxTradeHistory.getReturnValue();
   }
 
+  /**
+   * Get Map of transaction history from DSX exchange. All parameters are nullable
+   *
+   * @param from ID of the first transaction of the selection
+   * @param count Number of transactions to display. Default value is 1000
+   * @param fromId ID of the first transaction of the selection
+   * @param endId ID of the last transaction of the selection
+   * @param order Order in which transactions shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «desc»
+   * @param since Time from which start selecting transaction by transaction time(UNIX time). If this value is not null order will become «asc»
+   * @param end Time to which start selecting transaction by transaction time(UNIX time). If this value is not null order will become «asc»
+   * @return Map of transaction history
+   * @throws IOException
+   */
   public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Long from, Long count, Long fromId, Long endId, DSXAuthenticated.SortOrder order,
       Long since, Long end) throws IOException {
 
@@ -100,6 +133,19 @@ public class DSXTradeServiceRaw extends DSXBaseService {
     return dsxTransHistory.getReturnValue();
   }
 
+  /**
+   * Get Map of order history from DSX exchange. All parameters are nullable
+   * @param from ID of the first order of the selection
+   * @param count Number of orders to display. Default value is 1000
+   * @param fromId ID of the first order of the selection
+   * @param endId ID of the last order of the selection
+   * @param order Order in which transactions shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «desc»
+   * @param since Time from which start selecting orders by trade time(UNIX time). If this value is not null order will become «asc»
+   * @param end Time to which start selecting orders by trade time(UNIX time). If this value is not null order will become «asc»
+   * @param pair Currency pair
+   * @return Map of order history
+   * @throws IOException
+   */
   public Map<Long, DSXOrderHistoryResult> getDSXOrderHistory(Long from, Long count, Long fromId, Long endId, DSXAuthenticated.SortOrder order,
       Long since, Long end, String pair) throws IOException {
 

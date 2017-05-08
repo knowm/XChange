@@ -18,6 +18,15 @@ public class DSXAccountInfo {
   private final Rights rights;
   private final Map<String, BigDecimal> funds;
 
+  /**
+   * Constructor
+   *
+   * @param transactionCount The number of transactions
+   * @param openOrders The open orders
+   * @param serverTime The server time (Unix time)
+   * @param rights The rights
+   * @param funds The funds
+   */
   public DSXAccountInfo(@JsonProperty("transaction_count") int transactionCount, @JsonProperty("open_orders") int openOrders,
       @JsonProperty("server_time") long serverTime, @JsonProperty("rights") Rights rights, @JsonProperty("funds") Map<String, BigDecimal> funds) {
 

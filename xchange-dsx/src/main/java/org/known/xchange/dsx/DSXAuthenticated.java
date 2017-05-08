@@ -40,18 +40,43 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Produces(MediaType.APPLICATION_JSON)
 public interface DSXAuthenticated extends DSX {
 
+  /**
+   * @return {success: 1, return: {funds: {usd: 200, btc: 4.757, ltc: 0, eur: 58, rub: 6780}, rights: {info: 1, trade: 1},
+   * transaction_count: 10, open_orders: 5, server_time: 142123698}}
+   * @throws IOException
+   */
   @POST
   @Path("tapi")
   @FormParam("method")
   DSXAccountInfoReturn getInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
       @FormParam("nonce") Long nonce) throws IOException;
 
+  /**
+   *
+   * @param pair the pair to display the orders eg. btcusd
+   * @return
+   * @throws IOException
+   */
   @POST
   @Path("tapi")
   @FormParam("method")
   DSXActiveOrdersReturn ActiveOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
       @FormParam("nonce") Long nonce, @FormParam("pair") String pair) throws IOException;
 
+  /**
+   * All parameters are nullable
+   *
+   * @param from ID of the first transaction of the selection
+   * @param count Number of transactions to display. Default value is 1000
+   * @param fromId ID of the first transaction of the selection
+   * @param endId ID of the last transaction of the selection
+   * @param order Order in which transactions shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «DESK»
+   * @param since Time from which start selecting transaction by transaction time(UNIX time). If this value is not null order will become «ASK»
+   * @param end Time to which start selecting transaction by transaction time(UNIX time). If this value is not null order will become «ASK»
+   * @return {success: 1, return: {1000: {id:1000, type: 3, amount: 2.5, currency: USD, desc: Income, status: 2, timestamp: 142123698, commission:1.0,
+   * address: address string},}}
+   * @throws IOException
+   */
   @POST
   @Path("tapi")
   @FormParam("method")
@@ -60,6 +85,20 @@ public interface DSXAuthenticated extends DSX {
       @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
       @FormParam("end") Long end) throws IOException;
 
+  /**
+   * All parameters are nullable
+   *
+   * @param from ID of the first trade of the selection
+   * @param count Number of trades to display
+   * @param fromId ID of the first trade of the selection
+   * @param endId ID of the last trade of the selection
+   * @param order Order in which transactions shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «desc»
+   * @param since Time from which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
+   * @param end 	Time to which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
+   * @param pair Currency pair
+   * @return {success: 1, return: {1000: {pair: btcusd, type: buy, amount: 10, rate: 300, order_id: 576, is_your_order: 1, timestamp: 142123698},}}
+   * @throws IOException
+   */
   @POST
   @Path("tapi")
   @FormParam("method")
@@ -76,6 +115,14 @@ public interface DSXAuthenticated extends DSX {
       @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
       @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
 
+  /**
+   * All parameters are obligatory (ie. none may be null)
+   * @param type The transaction type (buy or sell)
+   * @param rate The price to buy/sell
+   * @param amount The amount which is necessary to buy/sell
+   * @param pair pair, eg. btcusd
+   * @throws IOException
+   */
   @POST
   @Path("tapi")
   @FormParam("method")
