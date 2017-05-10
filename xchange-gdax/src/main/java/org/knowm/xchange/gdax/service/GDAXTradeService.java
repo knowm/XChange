@@ -16,6 +16,7 @@ import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
+import org.knowm.xchange.gdax.dto.trade.GDAXTradeHistoryParams;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
@@ -23,7 +24,6 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeService {
 
   public GDAXTradeService(Exchange exchange) {
-
     super(exchange);
   }
 
@@ -36,7 +36,6 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
   public OpenOrders getOpenOrders(
       OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     GDAXOrder[] coinbaseExOpenOrders = getCoinbaseExOpenOrders();
-
     return GDAXAdapters.adaptOpenOrders(coinbaseExOpenOrders);
   }
 
@@ -44,23 +43,19 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
   public String placeMarketOrder(
       MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     GDAXIdResponse response = placeCoinbaseExMarketOrder(marketOrder);
-
     return response.getId();
   }
 
   @Override
   public String placeLimitOrder(
       LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
     GDAXIdResponse response = placeCoinbaseExLimitOrder(limitOrder);
-
     return response.getId();
   }
 
   @Override
   public boolean cancelOrder(
       String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
     return cancelCoinbaseExOrder(orderId);
   }
 
@@ -72,7 +67,7 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return null;
+    return new GDAXTradeHistoryParams();
   }
 
   @Override

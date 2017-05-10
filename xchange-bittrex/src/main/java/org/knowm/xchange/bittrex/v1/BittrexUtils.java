@@ -14,11 +14,16 @@ import org.knowm.xchange.exceptions.ExchangeException;
 public final class BittrexUtils {
 
   private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+  private static final String DATE_FORMAT_NO_MILLIS = "yyyy-MM-dd'T'HH:mm:ss";
 
   private static final SimpleDateFormat DATE_PARSER = new SimpleDateFormat(DATE_FORMAT);
+  private static final SimpleDateFormat DATE_PARSER_NO_MILLIS = new SimpleDateFormat(DATE_FORMAT_NO_MILLIS);
+
+  private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
 
   static {
-    DATE_PARSER.setTimeZone(TimeZone.getTimeZone("UTC"));
+    DATE_PARSER.setTimeZone(TIME_ZONE);
+    DATE_PARSER_NO_MILLIS.setTimeZone(TIME_ZONE);
   }
 
   /**
@@ -36,7 +41,11 @@ public final class BittrexUtils {
     try {
       return DATE_PARSER.parse(dateString);
     } catch (ParseException e) {
-      throw new ExchangeException("Illegal date/time format", e);
+      try {
+        return DATE_PARSER_NO_MILLIS.parse(dateString);
+      } catch (ParseException e1) {
+        throw new ExchangeException("Illegal date/time format", e1);
+      }
     }
   }
 
