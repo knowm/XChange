@@ -28,7 +28,7 @@ public class BTCCTicker {
     private BigDecimal lastQuantity;
 
     @JsonProperty("PrevCls")
-    private BigDecimal precClose;
+    private BigDecimal prevClose;
 
     @JsonProperty("Volume")
     private BigDecimal volume;
@@ -101,12 +101,12 @@ public class BTCCTicker {
         this.lastQuantity = lastQuantity;
     }
 
-    public BigDecimal getPrecClose() {
-        return precClose;
+    public BigDecimal getPrevClose() {
+        return prevClose;
     }
 
-    public void setPrecClose(BigDecimal precClose) {
-        this.precClose = precClose;
+    public void setPrevClose(BigDecimal precClose) {
+        this.prevClose = precClose;
     }
 
     public BigDecimal getVolume() {
@@ -159,7 +159,7 @@ public class BTCCTicker {
                 ", low=" + low +
                 ", last=" + last +
                 ", lastQuantity=" + lastQuantity +
-                ", precClose=" + precClose +
+                ", prevClose=" + prevClose +
                 ", volume=" + volume +
                 ", volume24H=" + volume24H +
                 ", timestamp=" + timestamp +
