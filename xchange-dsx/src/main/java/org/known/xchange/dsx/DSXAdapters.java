@@ -185,7 +185,7 @@ public class DSXAdapters {
     if (dsxExchangeInfo != null) {
       for (Map.Entry<String, DSXPairInfo> e : dsxExchangeInfo.getPairs().entrySet()) {
         CurrencyPair pair = adaptCurrencyPair(e.getKey());
-        CurrencyPairMetaData marketMetaData = toMarketMetaData(e.getValue(), dsxMetaData);
+        CurrencyPairMetaData marketMetaData = toMarketMetaData(e.getValue());
         currencyPairs.put(pair, marketMetaData);
 
         addCurrencyMetaData(pair.base, currencies, dsxMetaData);
@@ -204,10 +204,10 @@ public class DSXAdapters {
     }
   }
 
-  public static CurrencyPairMetaData toMarketMetaData(DSXPairInfo info, DSXMetaData dsxMetaData) {
+  public static CurrencyPairMetaData toMarketMetaData(DSXPairInfo info) {
 
     int priceScale = info.getDecimalsPrice();
-    BigDecimal minimumAmount = withScale(info.getMinAmount(), dsxMetaData.amountScale);
+    BigDecimal minimumAmount = withScale(info.getMinAmount(), info.getDecimalVolume());
     BigDecimal feeFraction = info.getFee().movePointLeft(2);
 
     return new CurrencyPairMetaData(feeFraction, minimumAmount, null, priceScale);
