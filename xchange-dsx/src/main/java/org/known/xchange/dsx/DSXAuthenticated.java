@@ -3,7 +3,6 @@ package org.known.xchange.dsx;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import javax.swing.SortOrder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
@@ -49,7 +48,7 @@ public interface DSXAuthenticated extends DSX {
   @Path("tapi")
   @FormParam("method")
   DSXAccountInfoReturn getInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") Long nonce) throws IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   /**
    *
@@ -61,7 +60,7 @@ public interface DSXAuthenticated extends DSX {
   @Path("tapi")
   @FormParam("method")
   DSXActiveOrdersReturn ActiveOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") Long nonce, @FormParam("pair") String pair) throws IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("pair") String pair) throws IOException;
 
   /**
    * All parameters are nullable
@@ -81,7 +80,7 @@ public interface DSXAuthenticated extends DSX {
   @Path("tapi")
   @FormParam("method")
   DSXTransHistoryReturn TransHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") Long nonce, @FormParam("from") Long from, @DefaultValue("1000") @FormParam("count") Long count,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @DefaultValue("1000") @FormParam("count") Long count,
       @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
       @FormParam("end") Long end) throws IOException;
 
@@ -103,7 +102,7 @@ public interface DSXAuthenticated extends DSX {
   @Path("tapi")
   @FormParam("method")
   DSXTradeHistoryReturn TradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") Long nonce, @FormParam("from") Long from, @DefaultValue("1000") @FormParam("count") Long count,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @DefaultValue("1000") @FormParam("count") Long count,
       @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
       @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
 
@@ -111,7 +110,7 @@ public interface DSXAuthenticated extends DSX {
   @Path("tapi")
   @FormParam("method")
   DSXOrderHistoryReturn OrderHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") Long nonce, @FormParam("from") Long from, @DefaultValue("1000") @FormParam("count") Long count,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @DefaultValue("1000") @FormParam("count") Long count,
       @FormParam("from_id") Long fromId, @FormParam("end_id") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
       @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
 
@@ -126,7 +125,7 @@ public interface DSXAuthenticated extends DSX {
   @POST
   @Path("tapi")
   @FormParam("method")
-  DSXTradeReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") Long nonce,
+  DSXTradeReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
       @FormParam("type") DSXOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount, @FormParam("pair") String
       pair) throws IOException;
 
@@ -134,39 +133,39 @@ public interface DSXAuthenticated extends DSX {
   @Path("tapi")
   @FormParam("method")
   DSXCancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      Long nonce, @FormParam("order_id") Long orderId) throws IOException;
+      SynchronizedValueFactory<Long> nonce, @FormParam("order_id") Long orderId) throws IOException;
 
   @POST
   @Path("dwapi")
   @FormParam("method")
   DSXCryptoDepositAddressReturn getCryptoDepositAddress(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      Long nonce, @FormParam("currency") String currency, @DefaultValue("0") @FormParam("newAddress") int newAddress)
+      SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @DefaultValue("0") @FormParam("newAddress") int newAddress)
       throws IOException;
 
   @POST
   @Path("dwapi")
   @FormParam("method")
   DSXCryptoWithdrawReturn cryptoWithdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      Long nonce, @FormParam("currency") String currency, @FormParam("address") String address,
+      SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("address") String address,
       @FormParam("amount") BigDecimal amount, @FormParam("commission") BigDecimal commission) throws IOException;
 
   @POST
   @Path("dwapi")
   @FormParam("method")
   DSXFiatWithdrawReturn fiatWithdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      Long nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount) throws IOException;
+      SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount) throws IOException;
 
   @POST
   @Path("dwapi")
   @FormParam("method")
   DSXTransactionStatusReturn getTransactionsStatus(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      Long nonce, @FormParam("id") Long id) throws IOException;
+      SynchronizedValueFactory<Long> nonce, @FormParam("id") Long id) throws IOException;
 
   @POST
   @Path("dwapi")
   @FormParam("method")
   DSXTransactionReturn getTransactions(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
-      Long nonce, @FormParam("from") Long from, @FormParam("to") Long to, @FormParam("fromId") Long fromId,
+      SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @FormParam("to") Long to, @FormParam("fromId") Long fromId,
       @FormParam("told") Long told, @FormParam("type") DSXTransaction.Type type, @FormParam("status") DSXTransaction.Status status,
       @FormParam("currency") String currency) throws IOException;
 

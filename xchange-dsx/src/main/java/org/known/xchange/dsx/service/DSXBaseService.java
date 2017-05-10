@@ -2,7 +2,6 @@ package org.known.xchange.dsx.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
@@ -18,8 +17,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 public class DSXBaseService extends BaseExchangeService implements BaseService {
 
-  private static final String ERR_MSG_NONCE = "invalid nonce parameter; on key:";
-  private static final String ERR_MSG_FUNDS = "It is not enough ";
+  private static final String ERR_MSG_NONCE = "Parameter: nonce is invalid";
 
   protected final String apiKey;
   protected final DSXAuthenticated dsx;
@@ -45,8 +43,6 @@ public class DSXBaseService extends BaseExchangeService implements BaseService {
       if (error != null) {
         if (error.startsWith(ERR_MSG_NONCE)) {
           throw new NonceException(error);
-        } else if (error.startsWith(ERR_MSG_FUNDS)) {
-          throw new FundsExceededException(error);
         }
       }
       throw new ExchangeException(error);

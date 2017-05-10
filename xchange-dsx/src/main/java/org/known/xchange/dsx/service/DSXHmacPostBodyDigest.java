@@ -1,16 +1,11 @@
 package org.known.xchange.dsx.service;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
 
 import javax.crypto.Mac;
-import javax.ws.rs.FormParam;
 import javax.xml.bind.DatatypeConverter;
 
 import org.knowm.xchange.service.BaseParamsDigest;
-
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import net.iharder.Base64;
 
 import si.mazi.rescu.RestInvocation;
 
