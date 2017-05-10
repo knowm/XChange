@@ -32,7 +32,7 @@ public class DSXAccountServiceRaw extends DSXBaseService {
    */
   public DSXAccountInfo getDSXAccountInfo() throws IOException {
 
-    DSXAccountInfoReturn info = dsx.getInfo(apiKey, signatureCreator, System.currentTimeMillis());
+    DSXAccountInfoReturn info = dsx.getInfo(apiKey, signatureCreator, exchange.getNonceFactory());
 
     checkResult(info);
     return info.getReturnValue();
@@ -48,7 +48,7 @@ public class DSXAccountServiceRaw extends DSXBaseService {
    * @throws IOException
    */
   public String withdrawCrypto(String currency, String address, BigDecimal amount, BigDecimal commission) throws IOException {
-    DSXCryptoWithdrawReturn info = dsx.cryptoWithdraw(apiKey, signatureCreator, System.currentTimeMillis(), currency, address, amount, commission);
+    DSXCryptoWithdrawReturn info = dsx.cryptoWithdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency, address, amount, commission);
     checkResult(info);
     return String.valueOf(info.getReturnValue().getTransactionId());
   }
@@ -62,7 +62,7 @@ public class DSXAccountServiceRaw extends DSXBaseService {
    */
   public String requestAddress(String currency, int newAddress) throws IOException {
 
-    DSXCryptoDepositAddressReturn info = dsx.getCryptoDepositAddress(apiKey, signatureCreator, System.currentTimeMillis(), currency, newAddress);
+    DSXCryptoDepositAddressReturn info = dsx.getCryptoDepositAddress(apiKey, signatureCreator, exchange.getNonceFactory(), currency, newAddress);
     checkResult(info);
     return String.valueOf(info.getReturnValue().getCryproAddress());
   }

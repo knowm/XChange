@@ -1,7 +1,5 @@
 package org.known.xchange.dsx.dto.account;
 
-import java.util.Map;
-
 import org.known.xchange.dsx.dto.DSXReturn;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
