@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.knowm.xchange.BaseExchange;
-import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -16,7 +15,7 @@ import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class GeminiExchange extends BaseExchange implements Exchange {
+public class GeminiExchange extends BaseExchange {
 
   private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
