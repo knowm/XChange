@@ -20,7 +20,7 @@ public class DSXUserTradeHistoryDemo {
 
   public static void main(String[] args) throws IOException {
     Exchange dsx = DSXExamplesUtils.createExchange();
-    //generic(dsx);
+    generic(dsx);
     raw(dsx);
   }
 

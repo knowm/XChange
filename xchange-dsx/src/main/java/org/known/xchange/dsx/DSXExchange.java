@@ -5,7 +5,7 @@ import java.io.InputStream;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.utils.nonce.TimestampIncrementingNonceFactory;
+import org.knowm.xchange.utils.nonce.AtomicLongCurrentTimeIncrementalNonceFactory;
 import org.known.xchange.dsx.dto.marketdata.DSXExchangeInfo;
 import org.known.xchange.dsx.dto.meta.DSXMetaData;
 import org.known.xchange.dsx.service.DSXAccountService;
@@ -19,7 +19,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
  */
 public class DSXExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongCurrentTimeIncrementalNonceFactory();
   private DSXMetaData dsxMetaData;
   private DSXExchangeInfo dsxExchangeInfo;
 
@@ -63,7 +63,7 @@ public class DSXExchange extends BaseExchange implements Exchange {
       dsxExchangeInfo = marketDataService.getDSXInfo();
       exchangeMetaData = DSXAdapters.toMetaData(dsxExchangeInfo, dsxMetaData);
     } catch (Exception e) {
-      logger.warn("An exception occured while loading the metadata");
+      logger.warn("An exception occurred while loading the metadata");
     }
   }
 
