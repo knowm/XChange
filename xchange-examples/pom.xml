@@ -334,6 +334,12 @@
             <artifactId>xchange-yobit</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- XChange DSX support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-dsx</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

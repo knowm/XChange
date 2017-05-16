@@ -1,0 +1,13 @@
+{
+  "success": 1,
+  "return": {
+    "funds": {
+      "usd": 325,
+      "btc": 3.75,
+      "ltc": 0,
+      "eur": 167,
+      "rub": 674
+    },
+    "order_id": 1067
+  }
+}
