@@ -1,0 +1,19 @@
+{
+  "success": 1,
+  "return": {
+    "funds": {
+      "usd": 200,
+      "btc": 4.757,
+      "ltc": 0,
+      "eur": 58,
+      "rub": 6780
+    },
+    "rights": {
+      "info": 1,
+      "trade": 1
+    },
+    "transaction_count": 10,
+    "open_orders": 5,
+    "server_time": 142123698
+  }
+}
