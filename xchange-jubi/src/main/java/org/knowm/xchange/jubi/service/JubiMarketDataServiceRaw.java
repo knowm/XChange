@@ -1,11 +1,12 @@
 package org.knowm.xchange.jubi.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.jubi.Jubi;
 import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
+import org.knowm.xchange.jubi.dto.marketdata.JubiTrade;
+
+import java.io.IOException;
 
 /**
  * Created by Yingzhe on 3/17/2015.
@@ -40,5 +41,9 @@ public class JubiMarketDataServiceRaw extends JubiBaseService<Jubi> {
     }
 
     return null;
+  }
+
+  public JubiTrade[] getJubiTrades(CurrencyPair currencyPair, Object[] args) throws IOException {
+    return jubi.getTrades(currencyPair.base.getCurrencyCode().toLowerCase());
   }
 }
