@@ -4,6 +4,7 @@ import org.knowm.xchange.btc38.dto.marketdata.Btc38Ticker;
 import org.knowm.xchange.btc38.dto.marketdata.Btc38Trade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -54,7 +55,8 @@ public class Btc38Adapters {
 
     for (Btc38Trade btc38Trade : btc38Trades) {
 
-      Trade trade = new Trade(null, btc38Trade.getAmount(), currencyPair, btc38Trade.getPrice(), new Date(btc38Trade.getDate() * 1000),
+      Order.OrderType orderType = btc38Trade.getType().equals("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
+      Trade trade = new Trade(orderType, btc38Trade.getAmount(), currencyPair, btc38Trade.getPrice(), new Date(btc38Trade.getDate() * 1000),
               btc38Trade.getTid());
 
       tradeList.add(trade);
