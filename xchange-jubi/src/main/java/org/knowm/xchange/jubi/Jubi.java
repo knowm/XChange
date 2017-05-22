@@ -1,14 +1,13 @@
 package org.knowm.xchange.jubi;
 
-import java.io.IOException;
+import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
+import java.io.IOException;
 
 /**
  * Created by Yingzhe on 3/16/2015.
@@ -26,4 +25,9 @@ public interface Jubi {
   @GET
   @Path("ticker/?coin={baseCurrency}")
   JubiTicker getTicker(@PathParam("baseCurrency") String baseCurrency) throws IOException;
+
+  @GET
+  @Path("trade_list/?coin={baseCurrency}")
+  JubiTicker getTrades(@PathParam("baseCurrency") String baseCurrency) throws IOException;
+
 }
