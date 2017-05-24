@@ -34,7 +34,7 @@ public class BTCEAccountService extends BTCEAccountServiceRaw implements Account
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    BTCEAccountInfo info = getBTCEAccountInfo(null, null, null, null, null, null, null);
+    BTCEAccountInfo info = getBTCEAccountInfo();
     return new AccountInfo(BTCEAdapters.adaptWallet(info));
   }
 
