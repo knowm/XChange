@@ -1,14 +1,15 @@
 package org.knowm.xchange.btc38.service;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btc38.Btc38;
 import org.knowm.xchange.btc38.dto.marketdata.Btc38Ticker;
 import org.knowm.xchange.btc38.dto.marketdata.Btc38TickerReturn;
+import org.knowm.xchange.btc38.dto.marketdata.Btc38Trade;
 import org.knowm.xchange.currency.CurrencyPair;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Yingzhe on 12/19/2014.
@@ -46,7 +47,7 @@ public class Btc38MarketDataServiceRaw extends Btc38BaseService<Btc38> {
         || ticker.getVol() != null ? ticker : null;
   }
 
-  protected HashMap<String, CurrencyPair> getCurrencyPairMap() throws IOException {
+  public HashMap<String, CurrencyPair> getCurrencyPairMap() throws IOException {
 
     HashMap<String, CurrencyPair> currencyPairMap = new HashMap<>();
 
@@ -70,6 +71,10 @@ public class Btc38MarketDataServiceRaw extends Btc38BaseService<Btc38> {
     }
 
     return currencyPairMap;
+  }
+
+  public Btc38Trade[] getBtc38Trades(CurrencyPair currencyPair, Object[] args) throws IOException {
+    return btc38.getTrades(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase());
   }
 
 }
