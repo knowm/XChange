@@ -13,7 +13,7 @@ import org.knowm.xchange.btce.v3.dto.marketdata.BTCETradesWrapper;
  */
 public class BTCEMarketDataServiceRaw extends BTCEBaseService {
 
-  protected static final int FULL_SIZE = 2000;
+  protected static final int FULL_SIZE = 5000;
 
   /**
    * Constructor
