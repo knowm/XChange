@@ -33,4 +33,8 @@ public interface Btc38 {
   @GET
   @Path("trades.php?c={c}&mk_type={marketType}")
   Btc38Trade[] getTrades(@PathParam("c") String base, @PathParam("marketType") String quote) throws IOException;
+
+  @GET
+  @Path("trades.php?c={c}&mk_type={marketType}&tid={from}")
+  Btc38Trade[] getTradesFrom(@PathParam("c") String base, @PathParam("marketType") String quote, @PathParam("from") Long from) throws IOException;
 }
