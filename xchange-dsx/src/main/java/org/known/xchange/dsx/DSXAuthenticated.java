@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.known.xchange.dsx.DSX;
 import org.known.xchange.dsx.dto.account.DSXAccountInfoReturn;
 import org.known.xchange.dsx.dto.account.DSXCryptoDepositAddressReturn;
 import org.known.xchange.dsx.dto.account.DSXCryptoWithdrawReturn;
@@ -93,7 +94,7 @@ public interface DSXAuthenticated extends DSX {
    * @param endId ID of the last trade of the selection
    * @param order Order in which transactions shown. Possible values: «asc» — from first to last, «desc» — from last to first. Default value is «desc»
    * @param since Time from which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
-   * @param end 	Time to which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
+   * @param end Time to which start selecting trades by trade time(UNIX time). If this value is not null order will become «asc»
    * @param pair Currency pair
    * @return {success: 1, return: {1000: {pair: btcusd, type: buy, amount: 10, rate: 300, order_id: 576, is_your_order: 1, timestamp: 142123698},}}
    * @throws IOException
@@ -162,7 +163,7 @@ public interface DSXAuthenticated extends DSX {
       SynchronizedValueFactory<Long> nonce, @FormParam("id") Long id) throws IOException;
 
   @POST
-  @Path("dwapi")
+  @Path("dwapi/getTransactions")
   @FormParam("method")
   DSXTransactionReturn getTransactions(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
       SynchronizedValueFactory<Long> nonce, @FormParam("from") Long from, @FormParam("to") Long to, @FormParam("fromId") Long fromId,
