@@ -44,6 +44,9 @@ public class JubiMarketDataServiceRaw extends JubiBaseService<Jubi> {
   }
 
   public JubiTrade[] getJubiTrades(CurrencyPair currencyPair, Object[] args) throws IOException {
-    return jubi.getTrades(currencyPair.base.getCurrencyCode().toLowerCase());
+
+    return  (args != null && args.length > 0 && args[0] != null && args[0] instanceof Long)
+            ? jubi.getTradesSince(currencyPair.base.getCurrencyCode().toLowerCase(), (Long) args[0])
+            : jubi.getTrades(currencyPair.base.getCurrencyCode().toLowerCase());
   }
 }
