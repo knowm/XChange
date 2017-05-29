@@ -30,4 +30,7 @@ public interface Jubi {
   @Path("trade_list/?coin={baseCurrency}")
   JubiTicker getTrades(@PathParam("baseCurrency") String baseCurrency) throws IOException;
 
+  @GET
+  @Path("orders/?coin={baseCurrency}&since={since}")
+  JubiTrade[] getTradesSince(@PathParam("baseCurrency") String baseCurrency, @PathParam("since") Long since) throws IOException;
 }
