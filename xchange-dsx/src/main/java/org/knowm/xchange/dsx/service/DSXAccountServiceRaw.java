@@ -9,8 +9,10 @@ import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfoReturn;
 import org.knowm.xchange.dsx.dto.account.DSXCryptoDepositAddressReturn;
 import org.knowm.xchange.dsx.dto.account.DSXCryptoWithdrawReturn;
+import org.knowm.xchange.dsx.dto.account.DSXFiatWithdrawReturn;
 import org.knowm.xchange.dsx.dto.account.DSXTransaction;
 import org.knowm.xchange.dsx.dto.account.DSXTransactionReturn;
+import org.knowm.xchange.dsx.service.DSXBaseService;
 
 /**
  * @author Mikhail Wall
@@ -50,12 +52,18 @@ public class DSXAccountServiceRaw extends DSXBaseService {
    * @return Transaction ID
    * @throws IOException
    */
-  public String withdrawCrypto(String currency, String address, BigDecimal amount, BigDecimal commission) throws IOException {
+  public long withdrawCrypto(String currency, String address, BigDecimal amount, BigDecimal commission) throws IOException {
     DSXCryptoWithdrawReturn info = dsx.cryptoWithdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency, address, amount, commission);
     checkResult(info);
-    return String.valueOf(info.getReturnValue().getTransactionId());
+    return info.getReturnValue().getTransactionId();
   }
 
+  public long withdrawFiat(String currency, BigDecimal amount) throws IOException {
+    DSXFiatWithdrawReturn info = dsx.fiatWithdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency, amount);
+    checkResult(info);
+    return info.getReturnValue().getTransactionId();
+  }
+  
   /**
    *
    * @param currency Currency for getting address
