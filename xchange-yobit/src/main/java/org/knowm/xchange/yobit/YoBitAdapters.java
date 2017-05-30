@@ -107,7 +107,7 @@ public class YoBitAdapters {
     BigDecimal ask = ticker.getSell();
     BigDecimal high = ticker.getHigh();
     BigDecimal low = ticker.getLow();
-    BigDecimal volume = ticker.getVol();
+    BigDecimal volume = ticker.getVolCur();
     Date timestamp = new Date(ticker.getUpdated() * 1000L);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low)
