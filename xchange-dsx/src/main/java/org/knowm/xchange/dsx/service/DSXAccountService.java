@@ -48,10 +48,15 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-
-    return withdrawCrypto(currency.toString(), address, amount, null);
+      String c = currency.getCurrencyCode();
+      // currently DSX support 3 fiat currencies: EUR, USD, RUB
+      boolean fiat = "EUR".equals(currency) || "USD".equals(currency) || "RUB".equals(currency);
+      long transactionId = fiat
+              ? withdrawFiat(c, amount)
+              : withdrawCrypto(c, address, amount, null);
+      return Long.toString(transactionId);
   }
-
+  
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
     return requestAddress(currency.toString(), Integer.parseInt(args[0]));
