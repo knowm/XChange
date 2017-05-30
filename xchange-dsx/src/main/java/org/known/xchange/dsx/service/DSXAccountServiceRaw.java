@@ -2,18 +2,21 @@ package org.known.xchange.dsx.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.known.xchange.dsx.dto.account.DSXAccountInfo;
 import org.known.xchange.dsx.dto.account.DSXAccountInfoReturn;
 import org.known.xchange.dsx.dto.account.DSXCryptoDepositAddressReturn;
 import org.known.xchange.dsx.dto.account.DSXCryptoWithdrawReturn;
+import org.known.xchange.dsx.dto.account.DSXTransaction;
+import org.known.xchange.dsx.dto.account.DSXTransactionReturn;
 
 /**
  * @author Mikhail Wall
  */
 public class DSXAccountServiceRaw extends DSXBaseService {
-
+    
   /**
    * Constructor
    *
@@ -66,4 +69,24 @@ public class DSXAccountServiceRaw extends DSXBaseService {
     checkResult(info);
     return String.valueOf(info.getReturnValue().getCryproAddress());
   }
+
+    /**
+     * Get Map of transactions (withdrawals/deposits) from DSX exchange. Not all parameters are required.
+     * @param from
+     * @param to
+     * @param fromId
+     * @param told
+     * @param type
+     * @param status
+     * @param currency
+     * @return
+     * @throws IOException
+     */
+    public List<DSXTransaction> getDSXTransHistory(Long from, Long to, Long fromId, Long told, DSXTransaction.Type type,
+            DSXTransaction.Status status, String currency) throws IOException {
+        DSXTransactionReturn dsxTransHistory = dsx.getTransactions(apiKey, signatureCreator, exchange.getNonceFactory(), from, to,
+                fromId, told, type, status, currency);
+        checkResult(dsxTransHistory);
+        return dsxTransHistory.getReturnValue();
+    }
 }
