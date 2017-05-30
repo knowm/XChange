@@ -12,7 +12,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.dsx.DSX;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfoReturn;
 import org.knowm.xchange.dsx.dto.account.DSXCryptoDepositAddressReturn;
 import org.knowm.xchange.dsx.dto.account.DSXCryptoWithdrawReturn;
@@ -144,14 +143,14 @@ public interface DSXAuthenticated extends DSX {
       throws IOException;
 
   @POST
-  @Path("dwapi")
+  @Path("dwapi/cryptoWithdraw")
   @FormParam("method")
   DSXCryptoWithdrawReturn cryptoWithdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
       SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("address") String address,
       @FormParam("amount") BigDecimal amount, @FormParam("commission") BigDecimal commission) throws IOException;
 
   @POST
-  @Path("dwapi")
+  @Path("dwapi/fiatWithdraw")
   @FormParam("method")
   DSXFiatWithdrawReturn fiatWithdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce")
       SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount) throws IOException;
