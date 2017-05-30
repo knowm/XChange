@@ -56,9 +56,9 @@ public class OkCoinExchange extends BaseExchange {
 
     if (exchangeSpecification.getExchangeSpecificParameters() != null
         && exchangeSpecification.getExchangeSpecificParametersItem("Use_Intl").equals(true)) {
-      exchangeSpecification.setSslUri("https://www.okcoin.com/api");
-      exchangeSpecification.setHost("www.okcoin.com");
-      exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okcoin.com:10440/websocket/okcoinapi");
+      exchangeSpecification.setSslUri("https://www.okex.com/api");
+      exchangeSpecification.setHost("www.okex.com");
+      exchangeSpecification.setExchangeSpecificParametersItem("Websocket_SslUri", "wss://real.okex.com:10440/websocket/okcoinapi");
     }
   }
 
