@@ -6,11 +6,11 @@ import java.util.Map;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dsx.DSXExchange;
+import org.knowm.xchange.dsx.dto.marketdata.DSXTrade;
+import org.knowm.xchange.dsx.service.DSXMarketDataServiceRaw;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.known.xchange.dsx.DSXExchange;
-import org.known.xchange.dsx.dto.marketdata.DSXTrade;
-import org.known.xchange.dsx.service.DSXMarketDataServiceRaw;
 
 /**
  * @author Mikhail Wall
