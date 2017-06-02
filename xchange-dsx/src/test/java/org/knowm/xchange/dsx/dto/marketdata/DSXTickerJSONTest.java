@@ -11,7 +11,6 @@ import java.util.TimeZone;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.DSXAdapters;
-import org.knowm.xchange.dsx.dto.marketdata.DSXTickerWrapper;
 import org.knowm.xchange.utils.DateUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

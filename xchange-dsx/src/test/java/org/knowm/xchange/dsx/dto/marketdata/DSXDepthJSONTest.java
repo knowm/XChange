@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.DSXAdapters;
-import org.knowm.xchange.dsx.dto.marketdata.DSXOrderbookWrapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
