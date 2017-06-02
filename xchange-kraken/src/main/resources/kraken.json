@@ -42,8 +42,25 @@
     },
     "XRP/BTC": {
       "price_scale": 8,
-      "min_amount": 1000.000000
+      "min_amount": 4.000000000
     },
+    "XRP/GBP": {
+      "price_scale": 5,
+      "min_amount": 4.000000000
+    },
+    "XRP/JPY": {
+      "price_scale": 5,
+      "min_amount": 4.000000000
+    },
+    "XRP/EUR": {
+      "price_scale": 5,
+      "min_amount": 4.000000000
+    },
+    "XRP/USD": {
+      "price_scale": 5,
+      "min_amount": 4.000000000
+    },
+
     "ETH/BTC": {
       "price_scale": 6,
       "min_amount": 0.020000000

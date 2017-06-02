@@ -1,7 +1,5 @@
 package org.knowm.xchange.btc38.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btc38.Btc38Adapters;
 import org.knowm.xchange.btc38.dto.marketdata.Btc38Ticker;
@@ -13,6 +11,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
 
 /**
  * Created by Yingzhe on 12/19/2014.
@@ -46,6 +46,6 @@ public class Btc38MarketDataService extends Btc38MarketDataServiceRaw implements
   public Trades getTrades(CurrencyPair currencyPair,
       Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    throw new NotYetImplementedForExchangeException();
+    return Btc38Adapters.adaptTrades(getBtc38Trades(currencyPair, args), currencyPair);
   }
 }

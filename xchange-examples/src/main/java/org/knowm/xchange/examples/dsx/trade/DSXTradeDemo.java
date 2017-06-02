@@ -6,16 +6,16 @@ import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dsx.dto.trade.DSXCancelOrderResult;
+import org.knowm.xchange.dsx.dto.trade.DSXOrder;
+import org.knowm.xchange.dsx.dto.trade.DSXTradeResult;
+import org.knowm.xchange.dsx.service.DSXTradeServiceRaw;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-import org.known.xchange.dsx.dto.trade.DSXCancelOrderResult;
-import org.known.xchange.dsx.dto.trade.DSXOrder;
-import org.known.xchange.dsx.dto.trade.DSXTradeResult;
-import org.known.xchange.dsx.service.DSXTradeServiceRaw;
 
 /**
  * @author Mikhail Wall
