@@ -12,7 +12,6 @@ import org.knowm.xchange.dsx.dto.account.DSXCryptoWithdrawReturn;
 import org.knowm.xchange.dsx.dto.account.DSXFiatWithdrawReturn;
 import org.knowm.xchange.dsx.dto.account.DSXTransaction;
 import org.knowm.xchange.dsx.dto.account.DSXTransactionReturn;
-import org.knowm.xchange.dsx.service.DSXBaseService;
 
 /**
  * @author Mikhail Wall
@@ -32,7 +31,8 @@ public class DSXAccountServiceRaw extends DSXBaseService {
   /**
    *
    * @return DSXAccountInfo[transactionCount=0, openOrderes=3, serverTime=1,494,239,098, rights=Rights[info=true, trade=true, withdraw={2}],
-   * funds='{BTC=129.6642376500, USD=69208.3700000000, EUR=100000.0000000000, LTC=10000.0000000000, RUB=100000.0000000000}']
+   * funds='{BTC=129.6642376500, USD=69208.3700000000, EUR=100000.0000000000, LTC=10000.0000000000, RUB=100000.0000000000}'
+   * total='{BTC=130, USD=70000, EUR=100000.0000000000, LTC=10000.0000000000, RUB=100000.0000000000}']
    * @throws IOException
    */
   public DSXAccountInfo getDSXAccountInfo() throws IOException {

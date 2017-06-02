@@ -17,24 +17,27 @@ public class DSXAccountInfo {
   private final long serverTime;
   private final Rights rights;
   private final Map<String, BigDecimal> funds;
+  private final Map<String, BigDecimal> total;
 
   /**
    * Constructor
-   *
-   * @param transactionCount The number of transactions
+   *  @param transactionCount The number of transactions
    * @param openOrders The open orders
    * @param serverTime The server time (Unix time)
    * @param rights The rights
    * @param funds The funds
+   * @param total All funds
    */
   public DSXAccountInfo(@JsonProperty("transaction_count") int transactionCount, @JsonProperty("open_orders") int openOrders,
-      @JsonProperty("server_time") long serverTime, @JsonProperty("rights") Rights rights, @JsonProperty("funds") Map<String, BigDecimal> funds) {
+      @JsonProperty("server_time") long serverTime, @JsonProperty("rights") Rights rights, @JsonProperty("funds") Map<String, BigDecimal> funds,
+      @JsonProperty("total") Map<String, BigDecimal> total) {
 
     this.transactionCount = transactionCount;
     this.openOrders = openOrders;
     this.serverTime = serverTime;
     this.rights = rights;
     this.funds = funds;
+    this.total = total;
   }
 
   public int getTransactionCount() {
@@ -62,11 +65,16 @@ public class DSXAccountInfo {
     return funds;
   }
 
+  public Map<String, BigDecimal> getTotal() {
+
+    return total;
+  }
+
   @Override
   public String toString() {
 
-    return MessageFormat.format("DSXAccountInfo[transactionCount={0}, openOrderes={1}, serverTime={2}, rights={3}, funds=''{4}''']",
-        transactionCount, openOrders, serverTime, rights, funds);
+    return MessageFormat.format("DSXAccountInfo[transactionCount={0}, openOrderes={1}, serverTime={2}, rights={3}, funds=''{4}''', total={5}]",
+        transactionCount, openOrders, serverTime, rights, funds, total);
   }
 
   public static class Rights {

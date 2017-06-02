@@ -19,10 +19,12 @@ public class DSXTransactionStatus {
   private final String address;
   private final Status status;
   private final BigDecimal commission;
+  private final String txId;
 
   public DSXTransactionStatus(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp, @JsonProperty("type") Type type,
       @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency, @JsonProperty("confirmationsCount") long confirmationsCount,
-      @JsonProperty("address") String address, @JsonProperty("status") Status status, @JsonProperty("commission") BigDecimal commission) {
+      @JsonProperty("address") String address, @JsonProperty("status") Status status, @JsonProperty("commission") BigDecimal commission,
+      @JsonProperty("txid") String txId) {
 
     this.id = id;
     this.timestamp = timestamp;
@@ -33,6 +35,7 @@ public class DSXTransactionStatus {
     this.address = address;
     this.status = status;
     this.commission = commission;
+    this.txId = txId;
   }
 
   public long getId() {
@@ -80,6 +83,11 @@ public class DSXTransactionStatus {
     return commission;
   }
 
+  public String getTxId() {
+
+    return txId;
+  }
+
   @Override
   public String toString() {
     return "DSXTransactionStatus{" +
@@ -92,6 +100,7 @@ public class DSXTransactionStatus {
         ", address='" + address + '\'' +
         ", status=" + status +
         ", commission=" + commission +
+        ", txid=" + txId +
         '}';
   }
 

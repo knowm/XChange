@@ -28,5 +28,6 @@ public class DSXAccountInfoJSONTest {
 
     assertThat(ai.getReturnValue().getRights().isInfo()).isTrue();
     assertThat(ai.getReturnValue().getFunds().get("btc")).isEqualTo(new BigDecimal("4.757"));
+    assertThat(ai.getReturnValue().getTotal().get("rub")).isEqualTo(new BigDecimal("7000"));
   }
 }
