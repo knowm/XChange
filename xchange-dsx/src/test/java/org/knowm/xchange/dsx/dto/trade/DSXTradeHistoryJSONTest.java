@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import org.junit.Test;
-import org.knowm.xchange.dsx.dto.trade.DSXTradeHistoryResult;
-import org.knowm.xchange.dsx.dto.trade.DSXTradeHistoryReturn;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

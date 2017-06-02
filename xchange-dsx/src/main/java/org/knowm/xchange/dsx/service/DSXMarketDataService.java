@@ -90,7 +90,7 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no argument given.
     }
-    DSXTrade[] dsxTrades = null;
+    DSXTrade[] dsxTrades;
 
     if (numberOfItems == -1) {
       dsxTrades = getDSXTrades(pairs, FULL_SIZE).getTrades(DSXAdapters.getPair(currencyPair));

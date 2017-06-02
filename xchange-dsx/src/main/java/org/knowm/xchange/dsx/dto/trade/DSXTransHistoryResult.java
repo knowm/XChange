@@ -20,10 +20,12 @@ public class DSXTransHistoryResult {
   private final Long timestamp;
   private final BigDecimal commission;
   private final String address;
+  private final String txId;
 
   public DSXTransHistoryResult(@JsonProperty("id") long id, @JsonProperty("type") Type type, @JsonProperty("amount") BigDecimal amount,
       @JsonProperty("currency") String currency, @JsonProperty("desc") String desc, @JsonProperty("status") Status status,
-      @JsonProperty("timestamp") Long timestamp, @JsonProperty("commission") BigDecimal commission, @JsonProperty("address") String address) {
+      @JsonProperty("timestamp") Long timestamp, @JsonProperty("commission") BigDecimal commission, @JsonProperty("address") String address,
+      @JsonProperty("txid") String txId) {
 
     this.id = id;
     this.type = type;
@@ -34,6 +36,7 @@ public class DSXTransHistoryResult {
     this.timestamp = timestamp;
     this.commission = commission;
     this.address = address;
+    this.txId = txId;
   }
 
   public long getId() {
@@ -72,10 +75,15 @@ public class DSXTransHistoryResult {
     return address;
   }
 
+  public String getTxId() {
+
+    return txId;
+  }
+
   @Override
   public String toString() {
     return MessageFormat.format("DSXTransHistory[id={0}, type={1}, amount={2}, currency=''{3}'', description=''{4}'', status={5}, timestamp={6}, " +
-        "commission={7}, address=''{8}'']", id, type, amount, currency, desc, status, timestamp, commission, address);
+        "commission={7}, address=''{8}'', txId={9}]", id, type, amount, currency, desc, status, timestamp, commission, address, txId);
   }
   /**
    * Type of transaction
