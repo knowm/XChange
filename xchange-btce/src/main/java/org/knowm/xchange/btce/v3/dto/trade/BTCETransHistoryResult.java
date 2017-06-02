@@ -10,11 +10,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BTCETransHistoryResult {
 
-  private final Type type;
+  private final Type type; // Transaction type. 1/2 - deposit/withdrawal, 4/5 - credit/debit
   private final BigDecimal amount;
   private final String currency;
   private final String description;
-  private final Status status;
+  private final Status status; // 0 - canceled/failed, 1 - waiting for acceptance, 2 - successful, 3 – not confirmed
   private final Long timestamp;
 
   /**

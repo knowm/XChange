@@ -33,7 +33,7 @@ public class YoBitTickers {
 
   static class YoBitTickersDeserializer extends JsonDeserializer<YoBitTickers> {
 
-    private List<YoBitTicker> tickers = new ArrayList<YoBitTicker>();
+    private List<YoBitTicker> tickers;
 
     @Override
     public YoBitTickers deserialize(JsonParser p, DeserializationContext ctxt)
@@ -41,7 +41,7 @@ public class YoBitTickers {
 
       ObjectCodec oc = p.getCodec();
       JsonNode node = oc.readTree(p);
-
+      tickers = new ArrayList<YoBitTicker>();
       System.out.println(node);
 
       if (node.isObject()) {

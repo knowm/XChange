@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BTCEAccountInfo {
 
-  private final int transactionCount;
+  private final int transactionCount; // deprecated, always 0
   private final int openOrders;
   private final long serverTime;
   private final Rights rights;
@@ -36,6 +36,7 @@ public class BTCEAccountInfo {
     this.funds = funds;
   }
 
+  @Deprecated
   public int getTransactionCount() {
 
     return transactionCount;

@@ -3,11 +3,11 @@ package org.knowm.xchange.examples.dsx.account;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
+import org.knowm.xchange.dsx.service.DSXAccountServiceRaw;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 import org.knowm.xchange.service.account.AccountService;
-import org.known.xchange.dsx.dto.account.DSXAccountInfo;
-import org.known.xchange.dsx.service.DSXAccountServiceRaw;
 
 /**
  * @author Mikhail Wall
