@@ -25,5 +25,11 @@
             <artifactId>xchange-poloniex</artifactId>
             <version>${xchange.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>22.0</version>
+        </dependency>
     </dependencies>
 </project>
