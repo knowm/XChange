@@ -69,7 +69,7 @@ public interface BitstampAuthenticated {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") int orderId) throws BitstampException, IOException;
 
   @POST
-  @Path("balance/")
+  @Path("v2/balance/")
   BitstampBalance getBalance(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
 
