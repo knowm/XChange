@@ -22,10 +22,11 @@ public class DSXTransaction {
   private final String address;
   private final Status status;
   private final BigDecimal commission;
+  private final String txId;
 
   public DSXTransaction(@JsonProperty("id") long id, @JsonProperty("timestamp") long timestamp, @JsonProperty("type") Type type,
-      @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency, @JsonProperty("address") String address, @JsonProperty
-      ("status") Status status, @JsonProperty("commission") BigDecimal commission) {
+      @JsonProperty("amount") BigDecimal amount, @JsonProperty("currency") String currency, @JsonProperty("address") String address,
+      @JsonProperty("status") Status status, @JsonProperty("commission") BigDecimal commission, @JsonProperty("txid") String txId) {
 
     this.id = id;
     this.timestamp = new Date(timestamp * 1000);
@@ -35,6 +36,7 @@ public class DSXTransaction {
     this.address = address;
     this.status = status;
     this.commission = commission;
+    this.txId = txId;
   }
 
   public long getId() {
@@ -69,6 +71,10 @@ public class DSXTransaction {
     return commission;
   }
 
+  public String getTxId() {
+    return txId;
+  }
+
   public enum Type {
     Withdraw, Incoming
   }
@@ -77,7 +83,7 @@ public class DSXTransaction {
       Failed(1), Completed(2), Processing(3), Rejected(6), WaitingForAdministratorApprove(4), WaitingTransfer(5);
       
       private final int status;
-      private Status(int status) {
+      Status(int status) {
           this.status = status;
       }
       
@@ -103,6 +109,6 @@ public class DSXTransaction {
   @Override
   public String toString() {
     return "DSXTransaction [id=" + id + ", timestamp=" + timestamp + ", type=" + type + ", amount=" + amount + ", currency="
-            + currency + ", address=" + address + ", status=" + status + ", commission=" + commission + "]";
+            + currency + ", address=" + address + ", status=" + status + ", commission=" + commission + ", txId=" + txId + "]";
   }
 }

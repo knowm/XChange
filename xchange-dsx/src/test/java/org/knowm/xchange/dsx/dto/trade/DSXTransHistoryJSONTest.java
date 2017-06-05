@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import org.junit.Test;
-import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
-import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryReturn;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -37,5 +35,6 @@ public class DSXTransHistoryJSONTest {
     assertThat(firstEntry.getValue().getTimestamp()).isEqualTo(142123698L);
     assertThat(firstEntry.getValue().getCommission()).isEqualTo(new BigDecimal("1.0"));
     assertThat(firstEntry.getValue().getAddress()).isEqualTo("address string");
+    assertThat(firstEntry.getValue().getTxId()).isEqualTo("uid2");
   }
 }
