@@ -57,7 +57,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
         OrderType orderType = bitstampOrder.getType() == 0 ? OrderType.BID : OrderType.ASK;
         String id = Integer.toString(bitstampOrder.getId());
         BigDecimal price = bitstampOrder.getPrice();
-        limitOrders.add(new LimitOrder(orderType, bitstampOrder.getAmount(), pair, id, bitstampOrder.getTime(), price));
+        limitOrders.add(new LimitOrder(orderType, bitstampOrder.getAmount(), pair, id, bitstampOrder.getDatetime(), price));
       }
     }
     return new OpenOrders(limitOrders);
@@ -113,7 +113,7 @@ public class BitstampTradeService extends BitstampTradeServiceRaw implements Tra
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    return new BitstampTradeHistoryParams(CurrencyPair.BTC_USD, 1000);
+    return new BitstampTradeHistoryParams(null, 1000);
   }
 
   @Override
