@@ -68,12 +68,10 @@ public final class BitstampAdapters {
    * @param timeScale polled order books provide a timestamp in seconds, stream in ms
    * @return The XChange OrderBook
    */
-  public static OrderBook adaptOrderBook(BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair, int timeScale) {
-
+  public static OrderBook adaptOrderBook(BitstampOrderBook bitstampOrderBook, CurrencyPair currencyPair) {
     List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, bitstampOrderBook.getAsks());
     List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, bitstampOrderBook.getBids());
-    Date date = new Date(bitstampOrderBook.getTimestamp() * timeScale); // polled order books provide a timestamp in seconds, stream in ms
-    return new OrderBook(date, asks, bids);
+    return new OrderBook(bitstampOrderBook.getTimestamp(), asks, bids);
   }
 
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
@@ -174,13 +172,12 @@ public final class BitstampAdapters {
                 continue;
             }
             OrderType orderType = t.getCounterAmount().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
-            Date timestamp = BitstampUtils.parseDate(t.getDatetime());
             long tradeId = t.getId();
             if (tradeId > lastTradeId) {
                 lastTradeId = tradeId;
             }
             final CurrencyPair pair = new CurrencyPair(t.getBaseCurrency().toUpperCase(), t.getCounterCurrency().toUpperCase());
-            UserTrade trade = new UserTrade(orderType, t.getBaseAmount().abs(), pair, t.getPrice().abs(), timestamp
+            UserTrade trade = new UserTrade(orderType, t.getBaseAmount().abs(), pair, t.getPrice().abs(), t.getDatetime()
                     , Long.toString(tradeId), Long.toString(t.getOrderId()), t.getFee(), new Currency(t.getFeeCurrency().toUpperCase()));
             trades.add(trade);
         }
