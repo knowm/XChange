@@ -1,13 +1,5 @@
 package org.knowm.xchange.yobit;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -20,14 +12,11 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitAsksBidsData;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitPair;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTicker;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTickers;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTrade;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
+import org.knowm.xchange.yobit.dto.marketdata.*;
+
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class YoBitAdapters {
 
@@ -65,8 +54,9 @@ public class YoBitAdapters {
     List<LimitOrder> allLevels = new ArrayList<>(levels.size());
     for (int i = 0; i < levels.size(); i++) {
       YoBitAsksBidsData ask = levels.get(i);
-
-      allLevels.add(new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
+      if (ask != null) {
+        allLevels.add(new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
+      }
     }
 
     return allLevels;
