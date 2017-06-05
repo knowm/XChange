@@ -67,73 +67,73 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
     return new DSXTransactionHistoryParams();
   }
 
-    @Override
-    public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException,
-            NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-        Long from = null;
-        Long to = null;
-        Long fromId = null;
-        Long told = null;
-        String currency = null;
+  @Override
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException,
+          NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      Long from = null;
+      Long to = null;
+      Long fromId = null;
+      Long toId = null;
+      String currency = null;
 
-        if (params instanceof TradeHistoryParamsTimeSpan) {
-            TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
-            from = nullSafeUnixTime(timeSpan.getStartTime());
-            to = nullSafeUnixTime(timeSpan.getEndTime());
-        }
-        if (params instanceof TradeHistoryParamsIdSpan) {
-            TradeHistoryParamsIdSpan idSpan = (TradeHistoryParamsIdSpan) params;
-            from = nullSafeToLong(idSpan.getStartId());
-            to = nullSafeToLong(idSpan.getEndId());
-        }
-        if (params instanceof TradeHistoryParamCurrency) {
-            Currency c = ((TradeHistoryParamCurrency) params).getCurrency();
-            currency = c == null ? null : c.getCurrencyCode();
-        }
+      if (params instanceof TradeHistoryParamsTimeSpan) {
+          TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
+          from = nullSafeUnixTime(timeSpan.getStartTime());
+          to = nullSafeUnixTime(timeSpan.getEndTime());
+      }
+      if (params instanceof TradeHistoryParamsIdSpan) {
+          TradeHistoryParamsIdSpan idSpan = (TradeHistoryParamsIdSpan) params;
+          fromId = nullSafeToLong(idSpan.getStartId());
+          toId = nullSafeToLong(idSpan.getEndId());
+      }
+      if (params instanceof TradeHistoryParamCurrency) {
+          Currency c = ((TradeHistoryParamCurrency) params).getCurrency();
+          currency = c == null ? null : c.getCurrencyCode();
+      }
 
-        List<FundingRecord> result = new ArrayList<>();
-        for (DSXTransaction t : getDSXTransHistory(from, to, fromId, told, null, null, currency)) {
-            result.add(new FundingRecord(t.getAddress(), t.getTimestamp(), Currency.getInstance(t.getCurrency()), t.getAmount()
-                    , Long.toString(t.getId()), null, convert(t.getType()), convert(t.getStatus()), null, t.getCommission(), null));
-        }
-        return result;
-    }
+      List<FundingRecord> result = new ArrayList<>();
+      for (DSXTransaction t : getDSXTransHistory(from, to, fromId, toId, null, null, currency)) {
+          result.add(new FundingRecord(t.getAddress(), t.getTimestamp(), Currency.getInstance(t.getCurrency()), t.getAmount(),
+              Long.toString(t.getId()), null, convert(t.getType()), convert(t.getStatus()), null, t.getCommission(), null));
+      }
+      return result;
+  }
 
-    private FundingRecord.Status convert(DSXTransaction.Status status) {
-        switch (status) {
-        case Completed:
-            return FundingRecord.Status.COMPLETE;
-        case Failed:
-            return FundingRecord.Status.FAILED;
-        case Processing:
-        case WaitingForAdministratorApprove:
-        case WaitingTransfer:
-            return FundingRecord.Status.PROCESSING;
-        case Rejected:
-            return FundingRecord.Status.CANCELLED;
-        default:
-            throw new RuntimeException("Unknown DSX transaction status: " + status);
-        }
-    }
+  private FundingRecord.Status convert(DSXTransaction.Status status) {
+      switch (status) {
+      case Completed:
+          return FundingRecord.Status.COMPLETE;
+      case Failed:
+          return FundingRecord.Status.FAILED;
+      case Processing:
+      case WaitingForAdministratorApprove:
+      case WaitingTransfer:
+          return FundingRecord.Status.PROCESSING;
+      case Rejected:
+          return FundingRecord.Status.CANCELLED;
+      default:
+          throw new RuntimeException("Unknown DSX transaction status: " + status);
+      }
+  }
 
-    private FundingRecord.Type convert(DSXTransaction.Type type) {
-        switch (type) {
-        case Incoming: return FundingRecord.Type.DEPOSIT;
-        case Withdraw: return FundingRecord.Type.WITHDRAWAL;
-        default:
-            throw new RuntimeException("Unknown DSX transaction type: " + type);
-        }
-    }
+  private FundingRecord.Type convert(DSXTransaction.Type type) {
+      switch (type) {
+      case Incoming: return FundingRecord.Type.DEPOSIT;
+      case Withdraw: return FundingRecord.Type.WITHDRAWAL;
+      default:
+          throw new RuntimeException("Unknown DSX transaction type: " + type);
+      }
+  }
 
-    private static Long nullSafeUnixTime(Date time) {
-        return time != null ? DateUtils.toUnixTime(time) : null;
-    }
+  private static Long nullSafeUnixTime(Date time) {
+      return time != null ? DateUtils.toUnixTime(time) : null;
+  }
 
-    private static Long nullSafeToLong(String str) {
-        try {
-            return (str == null || str.isEmpty()) ? null : Long.valueOf(str);
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
+  private static Long nullSafeToLong(String str) {
+      try {
+          return (str == null || str.isEmpty()) ? null : Long.valueOf(str);
+      } catch (NumberFormatException e) {
+          return null;
+      }
+  }
 }

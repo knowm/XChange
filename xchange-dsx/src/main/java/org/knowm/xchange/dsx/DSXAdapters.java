@@ -147,7 +147,9 @@ public class DSXAdapters {
       String orderId = String.valueOf(result.getOrderId());
       String tradeId = String.valueOf(entry.getKey());
       CurrencyPair currencyPair = adaptCurrencyPair(result.getPair());
-      trades.add(new UserTrade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId, null, null));
+      BigDecimal feeAmount = result.getCommission();
+      Currency feeCurrency = adaptCurrency(result.getCommissionCurrency());
+      trades.add(new UserTrade(type, tradableAmount, currencyPair, price, timeStamp, tradeId, orderId, feeAmount, feeCurrency));
     }
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
@@ -157,6 +159,10 @@ public class DSXAdapters {
     String currencyOne = dsxCurrencyPair.substring(0, 3);
     String currencyTwo = dsxCurrencyPair.substring(3, 6);
     return new CurrencyPair(currencyOne.toUpperCase(), currencyTwo.toUpperCase());
+  }
+
+  public static Currency adaptCurrency(String dsxCurrency) {
+    return new Currency(dsxCurrency.toUpperCase());
   }
 
   public static List<CurrencyPair> adaptCurrencyPair(Iterable<String> dsxPairs) {
@@ -208,9 +214,10 @@ public class DSXAdapters {
 
     int priceScale = info.getDecimalsPrice();
     BigDecimal minimumAmount = withScale(info.getMinAmount(), info.getDecimalVolume());
+    BigDecimal maximumAmount = withScale(info.getMaxPrice(), info.getDecimalVolume());
     BigDecimal feeFraction = info.getFee().movePointLeft(2);
 
-    return new CurrencyPairMetaData(feeFraction, minimumAmount, null, priceScale);
+    return new CurrencyPairMetaData(feeFraction, minimumAmount, maximumAmount, priceScale);
   }
 
   private static BigDecimal withScale(BigDecimal value, int priceScale) {
