@@ -6,16 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 
 import org.junit.Test;
 import org.knowm.xchange.dsx.dto.DSXReturn;
-import org.knowm.xchange.dsx.dto.trade.DSXActiveOrdersReturn;
-import org.knowm.xchange.dsx.dto.trade.DSXCancelOrderResult;
-import org.knowm.xchange.dsx.dto.trade.DSXCancelOrderReturn;
-import org.knowm.xchange.dsx.dto.trade.DSXOrder;
-import org.knowm.xchange.dsx.dto.trade.DSXTradeResult;
-import org.knowm.xchange.dsx.dto.trade.DSXTradeReturn;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,7 +26,7 @@ public class DSXTradeDataJSONTest {
 
     DSXActiveOrdersReturn result = getResult("/trade/example-open-orders-data.json", DSXActiveOrdersReturn.class);
     Map<Long, DSXOrder> rv = result.getReturnValue();
-    assertThat(rv.keySet()).containsAll(Arrays.asList(956L));
+    assertThat(rv.keySet()).containsAll(Collections.singletonList(956L));
     assertThat(rv.get(956L).getTimestampCreated()).isEqualTo(142123698L);
   }
 
@@ -42,8 +37,11 @@ public class DSXTradeDataJSONTest {
 
     DSXTradeResult rv = result.getReturnValue();
     Map<String, BigDecimal> funds = rv.getFunds();
+    Map<String, BigDecimal> total = rv.getTotal();
     assertThat(funds.keySet().containsAll(Arrays.asList("btc", "ltc", "eur", "rub", "usd"))).isTrue();
+    assertThat(total.keySet().containsAll(Arrays.asList("btc", "ltc", "eur", "rub", "usd"))).isTrue();
     assertThat(funds.get("btc")).isEqualTo(new BigDecimal("3.75"));
+    assertThat(total.get("usd")).isEqualTo(new BigDecimal("300"));
     assertThat(rv.getOrderId()).isEqualTo(1067L);
   }
 
@@ -53,8 +51,11 @@ public class DSXTradeDataJSONTest {
 
     DSXCancelOrderResult rv = result.getReturnValue();
     Map<String, BigDecimal> funds = rv.getFunds();
+    Map<String, BigDecimal> total = rv.getTotal();
     assertThat(funds.keySet().containsAll(Arrays.asList("btc", "usd", "ltc", "eur")));
+    assertThat(total.keySet().containsAll(Arrays.asList("btc", "usd", "ltc", "eur")));
     assertThat(funds.get("usd")).isEqualTo(new BigDecimal("325"));
+    assertThat(total.get("btc")).isEqualTo(new BigDecimal("5"));
     assertThat(rv.getOrderId()).isEqualTo(1067L);
   }
   private <RC extends DSXReturn> RC getResult(String file, Class<RC> resultClass) throws IOException {

@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dsx.ExchangeUtils;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
-import org.knowm.xchange.dsx.service.DSXTradeService;
 import org.knowm.xchange.dsx.service.trade.params.DSXTransHistoryParams;
 
 /**

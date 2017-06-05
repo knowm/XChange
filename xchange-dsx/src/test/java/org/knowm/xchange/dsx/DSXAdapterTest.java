@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dsx.DSXAdapters;
 import org.knowm.xchange.dsx.dto.marketdata.DSXDepthJSONTest;
 import org.knowm.xchange.dsx.dto.marketdata.DSXOrderbook;
 import org.knowm.xchange.dsx.dto.marketdata.DSXOrderbookWrapper;
