@@ -1,21 +1,22 @@
 package org.knowm.xchange.bitstamp.dto.trade;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.knowm.xchange.bitstamp.util.BitstampTransactionTypeDeserializer;
+import org.knowm.xchange.bitstamp.BitstampUtils;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * @author Matija Mazi
  */
 public final class BitstampUserTransaction {
 
-  private final String datetime;
+  private final Date datetime;
   private final long id;
   private final long order_id;
   private final TransactionType type;
@@ -39,10 +40,10 @@ public final class BitstampUserTransaction {
    */
   public BitstampUserTransaction(@JsonProperty("datetime") String datetime, @JsonProperty("id") long id
           , @JsonProperty("order_id") long order_id
-          , @JsonProperty("type") @JsonDeserialize(using = BitstampTransactionTypeDeserializer.class) TransactionType type
+          , @JsonProperty("type") TransactionType type
           , @JsonProperty("fee") BigDecimal fee) {
 
-    this.datetime = datetime;
+    this.datetime = BitstampUtils.parseDate(datetime);
     this.id = id;
     this.order_id = order_id;
     this.type = type;
@@ -62,7 +63,7 @@ public final class BitstampUserTransaction {
       }
   }
   
-  public String getDatetime() {
+  public Date getDatetime() {
     return datetime;
   }
 
@@ -114,19 +115,34 @@ public final class BitstampUserTransaction {
     return fee;
   }
   public String getFeeCurrency() {
-      return counter;
-    }
+    return counter;
+  }
+  
+  public Map<String, BigDecimal> getAmounts() {
+    return amounts;
+  }
 
   @Override
   public String toString() {
-
-    return String.format("UserTransaction{datetime=%s, id=%d, type=%s, base=%s, counter=%s, fee=%s}", datetime, id, type, base, counter, fee);
+    return "BitstampUserTransaction [datetime=" + datetime + ", id=" + id + ", order_id=" + order_id + ", type=" + type + ", fee="
+            + fee + ", base=" + base + ", counter=" + counter + ", amounts=" + amounts + ", price=" + price + "]";
   }
 
   public enum TransactionType {
-    deposit, withdrawal, trade, rippleWithdrawal, rippleDeposit, type5_reseverd, type6_reseved, type7_reserved /*
-                                                                                                                * reseved so parsing won 't break in
-                                                                                                                * case Bitstamp adds new types
-                                                                                                                */
+    deposit, withdrawal, trade, rippleWithdrawal, rippleDeposit, subAccountTransfer;
+    
+    
+    @JsonCreator
+    public static TransactionType fromString(int type) {
+        switch (type) {
+        case 0: return deposit;
+        case 1: return withdrawal;
+        case 2: return trade;
+        case 3: return rippleWithdrawal;
+        case 4: return rippleDeposit;
+        case 14: return subAccountTransfer;
+        default:throw new IllegalArgumentException(type + " has no corresponding value");
+      }
+    }
   }
 }
