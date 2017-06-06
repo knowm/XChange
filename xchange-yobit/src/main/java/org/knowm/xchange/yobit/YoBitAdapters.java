@@ -65,8 +65,9 @@ public class YoBitAdapters {
     List<LimitOrder> allLevels = new ArrayList<>(levels.size());
     for (int i = 0; i < levels.size(); i++) {
       YoBitAsksBidsData ask = levels.get(i);
-
-      allLevels.add(new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
+      if (ask != null) {
+        allLevels.add(new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
+      }
     }
 
     return allLevels;
