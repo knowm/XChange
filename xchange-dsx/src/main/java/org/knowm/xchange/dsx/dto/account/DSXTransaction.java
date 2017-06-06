@@ -80,7 +80,7 @@ public class DSXTransaction {
   }
 
   public enum Status {
-      Failed(1), Completed(2), Processing(3), Rejected(6), WaitingForAdministratorApprove(4), WaitingTransfer(5);
+      Failed(1), Completed(2), Processing(3), Rejected(4);
       
       private final int status;
       Status(int status) {
