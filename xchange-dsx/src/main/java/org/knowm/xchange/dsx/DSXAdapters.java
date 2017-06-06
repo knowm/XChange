@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import org.knowm.xchange.currency.Currency;
@@ -108,15 +109,17 @@ public class DSXAdapters {
   }
 
   public static Wallet adaptWallet(DSXAccountInfo dsxAccountInfo) {
-
     List<Balance> balances = new ArrayList<>();
-    Map<String, BigDecimal> funds = dsxAccountInfo.getFunds();
-
-    for (String lcCurrency : funds.keySet()) {
-      BigDecimal fund = funds.get(lcCurrency);
-      Currency currency = Currency.getInstance(lcCurrency);
-      balances.add(new Balance(currency, fund));
+    for (Entry<String, BigDecimal> e: dsxAccountInfo.getTotal().entrySet()) {
+        String currency = e.getKey();
+        BigDecimal total = e.getValue();
+        BigDecimal available =  dsxAccountInfo.getFunds().get(currency);
+        if (available == null) {
+            available = total;
+        }
+        balances.add(new Balance(Currency.getInstance(currency), total, available));
     }
+    
     return new Wallet(balances);
   }
 
