@@ -83,17 +83,17 @@ public class DSXAccountServiceRaw extends DSXBaseService {
      * @param from
      * @param to
      * @param fromId
-     * @param told
+     * @param toId
      * @param type
      * @param status
      * @param currency
      * @return
      * @throws IOException
      */
-    public List<DSXTransaction> getDSXTransHistory(Long from, Long to, Long fromId, Long told, DSXTransaction.Type type,
+    public List<DSXTransaction> getDSXTransHistory(Long from, Long to, Long fromId, Long toId, DSXTransaction.Type type,
             DSXTransaction.Status status, String currency) throws IOException {
         DSXTransactionReturn dsxTransHistory = dsx.getTransactions(apiKey, signatureCreator, exchange.getNonceFactory(), from, to,
-                fromId, told, type, status, currency);
+                fromId, toId, type, status, currency);
         checkResult(dsxTransHistory);
         return dsxTransHistory.getReturnValue();
     }

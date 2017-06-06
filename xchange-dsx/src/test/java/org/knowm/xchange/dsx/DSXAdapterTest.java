@@ -119,7 +119,7 @@ public class DSXAdapterTest {
     assertThat(lastTrade.getPrice().toString()).isEqualTo("300");
     assertThat(lastTrade.getTimestamp().getTime()).isEqualTo(142123698000L);
     assertThat(DateUtils.toUTCString(lastTrade.getTimestamp())).isEqualTo("1974-07-03 22:48:18 GMT");
-    assertThat(lastTrade.getFeeAmount()).isNull();
+    assertThat(lastTrade.getFeeAmount()).isEqualTo("0.001");
   }
 
 }
