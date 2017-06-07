@@ -65,8 +65,9 @@ public class YoBitAdapters {
     List<LimitOrder> allLevels = new ArrayList<>(levels.size());
     for (int i = 0; i < levels.size(); i++) {
       YoBitAsksBidsData ask = levels.get(i);
-
-      allLevels.add(new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
+      if (ask != null) {
+        allLevels.add(new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
+      }
     }
 
     return allLevels;
@@ -107,7 +108,7 @@ public class YoBitAdapters {
     BigDecimal ask = ticker.getSell();
     BigDecimal high = ticker.getHigh();
     BigDecimal low = ticker.getLow();
-    BigDecimal volume = ticker.getVol();
+    BigDecimal volume = ticker.getVolCur();
     Date timestamp = new Date(ticker.getUpdated() * 1000L);
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low)

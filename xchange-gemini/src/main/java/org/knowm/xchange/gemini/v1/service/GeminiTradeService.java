@@ -17,6 +17,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gemini.v1.GeminiAdapters;
 import org.knowm.xchange.gemini.v1.GeminiOrderType;
+import org.knowm.xchange.gemini.v1.dto.trade.GeminiLimitOrder;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
 import org.knowm.xchange.service.trade.TradeService;
@@ -57,15 +58,20 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
-    GeminiOrderStatusResponse newOrder = placeGeminiMarketOrder(marketOrder, GeminiOrderType.MARKET);
-
-    return String.valueOf(newOrder.getId());
+    throw new NotAvailableFromExchangeException();
   }
 
   @Override
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
-    GeminiOrderStatusResponse newOrder = placeGeminiLimitOrder(limitOrder, GeminiOrderType.LIMIT, false);
+    GeminiOrderStatusResponse newOrder = placeGeminiLimitOrder(limitOrder, GeminiOrderType.LIMIT);
+
+    // The return value contains details of any trades that have been immediately executed as a result  
+    // of this order. Make these available to the application if it has provided a GeminiLimitOrder. 
+    if (limitOrder instanceof GeminiLimitOrder) {
+      GeminiLimitOrder raw = (GeminiLimitOrder) limitOrder;
+      raw.setResponse(newOrder);
+    }
 
     return String.valueOf(newOrder.getId());
   }

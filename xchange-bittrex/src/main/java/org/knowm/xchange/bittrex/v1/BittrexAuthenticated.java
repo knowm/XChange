@@ -81,7 +81,7 @@ public interface BittrexAuthenticated extends Bittrex {
   @Path("account/withdraw")
   BittrexWithdrawResponse withdraw(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("currency") String currency, @QueryParam("quantity") String quantity,
-      @QueryParam("address") String address) throws IOException;
+      @QueryParam("address") String address, @QueryParam("paymentid") String paymentId) throws IOException;
 
   @GET
   @Path("account/getwithdrawalhistory")

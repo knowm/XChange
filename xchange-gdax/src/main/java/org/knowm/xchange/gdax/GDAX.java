@@ -13,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.knowm.xchange.gdax.dto.GDAXException;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
@@ -34,26 +35,27 @@ public interface GDAX {
 
   @GET
   @Path("products")
-  List<GDAXProduct> getProducts() throws IOException;
+  List<GDAXProduct> getProducts() throws GDAXException, IOException;
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/ticker")
-  GDAXProductTicker getProductTicker(@PathParam("baseCurrency") String baseCurrency,
-      @PathParam("targetCurrency") String targetCurrency) throws IOException;
+  GDAXProductTicker getProductTicker(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency)
+      throws GDAXException, IOException;
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/stats")
-  GDAXProductStats getProductStats(@PathParam("baseCurrency") String baseCurrency,
-      @PathParam("targetCurrency") String targetCurrency) throws IOException;
+  GDAXProductStats getProductStats(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency)
+      throws GDAXException, IOException;
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/book?level={level}")
   GDAXProductBook getProductOrderBook(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency,
-      @PathParam("level") String level) throws IOException;
+      @PathParam("level") String level) throws GDAXException, IOException;
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/trades")
-  GDAXTrade[] getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
+  GDAXTrade[] getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency)
+      throws GDAXException, IOException;
 
   /**
    * Authenticated calls
@@ -62,46 +64,45 @@ public interface GDAX {
   @GET
   @Path("accounts")
   GDAXAccount[] getAccounts(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-      @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
+      @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws GDAXException, IOException;
 
   @GET
   @Path("orders?status={status}")
   GDAXOrder[] getListOrders(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-      @PathParam("status") String status);
+      @PathParam("status") String status) throws GDAXException, IOException;
 
   @POST
   @Path("orders")
   @Consumes(MediaType.APPLICATION_JSON)
   GDAXIdResponse placeLimitOrder(GDAXPlaceOrder placeOrder, @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws GDAXException, IOException;
 
   @POST
   @Path("orders")
   @Consumes(MediaType.APPLICATION_JSON)
   GDAXIdResponse placeMarketOrder(GDAXPlaceOrder placeOrder, @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws GDAXException, IOException;
 
   @DELETE
   @Path("orders/{id}")
   @Produces(MediaType.TEXT_PLAIN)
   @Consumes(MediaType.TEXT_PLAIN)
   void cancelOrder(@PathParam("id") String id, @HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
-      @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
+      @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase) throws GDAXException, IOException;
 
   @GET
   @Path("fills")
   GDAXFill[] getFills(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
-      @PathParam("order_id") String orderId);
+      @PathParam("order_id") String orderId) throws GDAXException, IOException;
 
   @POST
   @Path("accounts/{account_id}/transactions")
   @Consumes(MediaType.APPLICATION_JSON)
   GDAXSendMoneyResponse sendMoney(GDAXSendMoneyRequest sendMoney, @HeaderParam("CB-ACCESS-KEY") String apiKey,
       @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp,
-      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase, @PathParam("account_id") String accountId);
-
+      @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase, @PathParam("account_id") String accountId) throws GDAXException, IOException;
 }
