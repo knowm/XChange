@@ -41,7 +41,7 @@ public class BittrexMarketDataDemo {
 
     System.out.println("----------GENERIC---------");
 
-    CurrencyPair pair = CurrencyPair.BTC_XAUR;
+    CurrencyPair pair = new CurrencyPair("ETH", "BTC");
     System.out.println("Market data for " + pair + ":");
 
     Ticker ticker = marketDataService.getTicker(pair);

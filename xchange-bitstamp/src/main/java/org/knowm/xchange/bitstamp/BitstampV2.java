@@ -64,7 +64,7 @@ public interface BitstampV2 {
 
     @Override
     public String toString() {
-      return String.format("%s%s", pair.base.getCurrencyCode().toLowerCase(), pair.counter.getCurrencyCode().toLowerCase());
+      return pair == null ? "" : String.format("%s%s", pair.base.getCurrencyCode().toLowerCase(), pair.counter.getCurrencyCode().toLowerCase());
     }
   }
 

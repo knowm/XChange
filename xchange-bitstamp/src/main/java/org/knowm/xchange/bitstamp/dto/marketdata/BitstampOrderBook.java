@@ -1,6 +1,7 @@
 package org.knowm.xchange.bitstamp.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BitstampOrderBook {
 
-  private final Long timestamp;
+  private final Date timestamp;
   private final List<List<BigDecimal>> bids;
   private final List<List<BigDecimal>> asks;
 
@@ -26,13 +27,13 @@ public class BitstampOrderBook {
 
     this.bids = bids;
     this.asks = asks;
-    this.timestamp = timestamp;
+    this.timestamp = new Date(timestamp * 1000);
   }
 
   /**
    * @return Timestamp in Unix milliseconds
    */
-  public Long getTimestamp() {
+  public Date getTimestamp() {
 
     return timestamp;
   }
