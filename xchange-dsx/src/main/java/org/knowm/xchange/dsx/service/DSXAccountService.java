@@ -106,8 +106,6 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
       case Failed:
           return FundingRecord.Status.FAILED;
       case Processing:
-      case WaitingForAdministratorApprove:
-      case WaitingTransfer:
           return FundingRecord.Status.PROCESSING;
       case Rejected:
           return FundingRecord.Status.CANCELLED;
