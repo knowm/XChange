@@ -256,6 +256,8 @@ public final class ANXAdapters {
 
     if ("DOGEBTC".equalsIgnoreCase(currencyPairRaw)) {
       return CurrencyPair.DOGE_BTC;
+    } else if ("STARTBTC".equalsIgnoreCase(currencyPairRaw)) {
+      return new CurrencyPair(Currency.START, Currency.BTC);
     } else if (currencyPairRaw.length() != 6) {
       throw new IllegalArgumentException("Unrecognized currency pair " + currencyPairRaw);
     } else {
