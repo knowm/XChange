@@ -26,7 +26,7 @@ public class DSXTradeDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange dsx = DSXExamplesUtils.createExchange();
-    generic(dsx);
+    //generic(dsx);
     raw(dsx);
     //rawCancelAllOrders(dsx);
   }
@@ -37,7 +37,8 @@ public class DSXTradeDemo {
 
     printOpenOrders(tradeService);
 
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, new BigDecimal("0.1"), CurrencyPair.BTC_USD, "", new Date(), new BigDecimal("900"));
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, "", new Date(), new BigDecimal
+        ("900"));
 
     String limitOrderReturnValue = null;
     try {
@@ -63,11 +64,7 @@ public class DSXTradeDemo {
 
     DSXOrder.Type type = DSXOrder.Type.buy;
     String pair = "btcusd";
-    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("10000"), new BigDecimal("900"), new Date().getTime(), 0, DSXOrder.OrderType.limit);
-//    DSXOrder dsxOrder1 = new DSXOrder(pair, type, new BigDecimal("0.1"), new BigDecimal("900"), new Date().getTime(), 0, DSXOrder.OrderType.limit);
-//    DSXOrder dsxOrder2 = new DSXOrder(pair, type, new BigDecimal("0.1"), new BigDecimal("900"), new Date().getTime(), 0, DSXOrder.OrderType.limit);
-
-    printRawOpenOrders(tradeService);
+    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("0.01"), new BigDecimal("900"), new Date().getTime(), 0, DSXOrder.OrderType.limit);
 
     DSXTradeResult result = null;
     DSXTradeResult result1 = null;
@@ -79,14 +76,18 @@ public class DSXTradeDemo {
       result2 = tradeService.tradeDSX(dsxOrder);
 
       System.out.println("tradeDSX return value:" + result);
-
+      System.out.println("tradeDSX return value:" + result1);
+      System.out.println("tradeDSX return value:" + result2);
       printRawOpenOrders(tradeService);
 
       DSXCancelOrderResult cancelResult = tradeService.cancelDSXOrder(result.getOrderId());
-//      DSXCancelOrderResult cancelResult1 = tradeService.cancelDSXOrder(result1.getOrderId());
-//      DSXCancelOrderResult cancelResult2 = tradeService.cancelDSXOrder(result2.getOrderId());
+      System.out.println("Canceling returned " + cancelResult);
+
+      printRawOpenOrders(tradeService);
+
       DSXCancelAllOrdersResult cancelAllOrdersResult = tradeService.cancelAllDSXOrders();
       System.out.println("Canceling returned " + cancelAllOrdersResult);
+
       printRawOpenOrders(tradeService);
     } catch (ExchangeException e) {
       System.out.println(e.getMessage());
