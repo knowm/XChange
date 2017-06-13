@@ -6,18 +6,18 @@ package org.knowm.xchange.dsx.dto.account;
 
 public class DSXCryptoDepositAddress {
 
-  private final String cryproAddress;
+  private final String cryptoAddress;
   private final Address newAddress;
   private final String currency;
 
-  public DSXCryptoDepositAddress(String cryproAddress, Address newAddress, String currency) {
-    this.cryproAddress = cryproAddress;
+  public DSXCryptoDepositAddress(String cryptoAddress, Address newAddress, String currency) {
+    this.cryptoAddress = cryptoAddress;
     this.newAddress = newAddress;
     this.currency = currency;
   }
 
-  public String getCryproAddress() {
-    return cryproAddress;
+  public String getCryptoAddress() {
+    return cryptoAddress;
   }
 
   public Address getNewAddress() {
@@ -35,7 +35,7 @@ public class DSXCryptoDepositAddress {
   @Override
   public String toString() {
     return "DSXCryptoDepositAddress{" +
-        "cryproAddress='" + cryproAddress + '\'' +
+        "cryptoAddress='" + cryptoAddress + '\'' +
         ", newAddress=" + newAddress +
         ", currency='" + currency + '\'' +
         '}';

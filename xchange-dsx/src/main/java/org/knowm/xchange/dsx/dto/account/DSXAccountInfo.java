@@ -65,7 +65,7 @@ public class DSXAccountInfo {
   @Override
   public String toString() {
 
-    return MessageFormat.format("DSXAccountInfo[transactionCount={0}, openOrderes={1}, serverTime={2}, rights={3}, funds=''{4}''', total={5}]",
+    return MessageFormat.format("DSXAccountInfo[transactionCount={0}, openOrders={1}, serverTime={2}, rights={3}, funds=''{4}''', total={5}]",
         transactionCount, openOrders, serverTime, rights, funds);
   }
 

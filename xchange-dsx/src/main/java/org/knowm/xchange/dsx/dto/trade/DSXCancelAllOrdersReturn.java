@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DSXCancelAllOrdersReturn extends DSXReturn<DSXCancelAllOrdersResult> {
 
-  public DSXCancelAllOrdersReturn(@JsonProperty("success") boolean success, @JsonProperty("return") DSXCancelAllOrdersResult value, @JsonProperty("error")
-      String error) {
+  public DSXCancelAllOrdersReturn(@JsonProperty("success") boolean success, @JsonProperty("return") DSXCancelAllOrdersResult value,
+      @JsonProperty("error") String error) {
     super(success, value, error);
   }
 }

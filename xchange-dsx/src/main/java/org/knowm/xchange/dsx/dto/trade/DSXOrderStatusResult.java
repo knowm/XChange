@@ -22,7 +22,7 @@ public class DSXOrderStatusResult {
 
   public DSXOrderStatusResult(@JsonProperty("pair") String pair, @JsonProperty("amount") BigDecimal amount, @JsonProperty("start_amount") BigDecimal
       start_amount, @JsonProperty("rate") BigDecimal rate, @JsonProperty("timestamp") Long timestamp, @JsonProperty("status") Integer status,
-      @JsonProperty("order_type") String orderType, @JsonProperty("client_deals") ClientDeal[] clientDeals) {
+      @JsonProperty("orderType") String orderType, @JsonProperty("clientDeals") ClientDeal[] clientDeals) {
     this.pair = pair;
     this.amount = amount;
     this.start_amount = start_amount;
