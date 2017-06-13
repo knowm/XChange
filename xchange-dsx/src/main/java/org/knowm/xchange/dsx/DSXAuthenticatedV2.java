@@ -155,7 +155,7 @@ public interface DSXAuthenticatedV2 extends DSX {
    *
    * @param type The transaction type (buy or sell)
    * @param rate The price to buy/sell
-   * @param amount The amount which is necessary to buy/sell
+   * @param volume The amount which is necessary to buy/sell
    * @param pair pair, eg. btcusd
    * @param orderType The order type: limit, market, or fill-or-kill
    * @return {"success": 1,"return": {"received": 0,"remains": 10,"funds": {"BTC": {"total": 100,"available": 95},"USD": {"total": 10000,"available": 9995},
@@ -165,7 +165,7 @@ public interface DSXAuthenticatedV2 extends DSX {
   @POST
   @Path("tapi/v2/order/new")
   DSXTradeReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("type") DSXOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("amount") BigDecimal amount,
+      @FormParam("type") DSXOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("volume") BigDecimal volume,
       @FormParam("pair") String pair, @FormParam("orderType") DSXOrder.OrderType orderType) throws IOException;
 
   /**
