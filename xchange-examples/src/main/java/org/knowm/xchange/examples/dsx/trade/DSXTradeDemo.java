@@ -16,7 +16,6 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
-
 /**
  * @author Mikhail Wall
  */
@@ -35,8 +34,8 @@ public class DSXTradeDemo {
 
     printOpenOrders(tradeService);
 
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.1"), CurrencyPair.BTC_USD, "", null, new BigDecimal
-        ("1600.64"));
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.1"), CurrencyPair.BTC_USD, "", null,
+        new BigDecimal("500.64"));
 
     String limitOrderReturnValue = null;
     try {
@@ -56,8 +55,8 @@ public class DSXTradeDemo {
 
   private static void raw(Exchange exchange) throws IOException {
     DSXTradeServiceRaw tradeService = (DSXTradeServiceRaw) exchange.getTradeService();
-
-    printRawOpenOrders(tradeService);
+    tradeService.getFees();
+    //printRawOpenOrders(tradeService);
 
     // place buy order
     DSXOrder.Type type = DSXOrder.Type.buy;
@@ -84,7 +83,9 @@ public class DSXTradeDemo {
   private static void printOpenOrders(TradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
-    System.out.println("Open Orders: " + openOrders.toString());
+    if (openOrders != null) {
+      System.out.println("Open Orders: " + openOrders.toString());
+    }
   }
 
   private static void printRawOpenOrders(DSXTradeServiceRaw tradeService) throws IOException {

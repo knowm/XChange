@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-import org.knowm.xchange.dsx.dto.account.DSXAccountInfoReturn;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -27,7 +26,7 @@ public class DSXAccountInfoJSONTest {
     DSXAccountInfoReturn ai = mapper.readValue(is, DSXAccountInfoReturn.class);
 
     assertThat(ai.getReturnValue().getRights().isInfo()).isTrue();
-    assertThat(ai.getReturnValue().getFunds().get("btc")).isEqualTo(new BigDecimal("4.757"));
-    assertThat(ai.getReturnValue().getTotal().get("rub")).isEqualTo(new BigDecimal("7000"));
+    assertThat(ai.getReturnValue().getFunds().get("BTC")).isEqualsToByComparingFields(new DSXCurrencyAmount(new BigDecimal("100"), new BigDecimal("95")));
+    assertThat(ai.getReturnValue().getFunds().get("USD")).isEqualsToByComparingFields(new DSXCurrencyAmount(new BigDecimal("10000"), new BigDecimal("9995")));
   }
 }
