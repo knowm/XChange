@@ -2,6 +2,7 @@ package org.knowm.xchange.examples.dsx.trade;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
@@ -24,7 +25,7 @@ public class DSXTradeDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange dsx = DSXExamplesUtils.createExchange();
-    generic(dsx);
+    //generic(dsx);
     raw(dsx);
   }
 
@@ -34,8 +35,7 @@ public class DSXTradeDemo {
 
     printOpenOrders(tradeService);
 
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.1"), CurrencyPair.BTC_USD, "", null,
-        new BigDecimal("500.64"));
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.1"), CurrencyPair.BTC_USD, "", new Date(), new BigDecimal("1600.64"));
 
     String limitOrderReturnValue = null;
     try {
@@ -55,13 +55,14 @@ public class DSXTradeDemo {
 
   private static void raw(Exchange exchange) throws IOException {
     DSXTradeServiceRaw tradeService = (DSXTradeServiceRaw) exchange.getTradeService();
+
     tradeService.getFees();
-    //printRawOpenOrders(tradeService);
+    printRawOpenOrders(tradeService);
 
     // place buy order
     DSXOrder.Type type = DSXOrder.Type.buy;
     String pair = "btcusd";
-    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("0.1"), new BigDecimal("1600"), null, 0, DSXOrder.OrderType.limit);
+    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("0.1"), new BigDecimal("1600"), new Date().getTime(), 0, DSXOrder.OrderType.limit);
 
     DSXTradeResult result = null;
     try {
@@ -83,9 +84,7 @@ public class DSXTradeDemo {
   private static void printOpenOrders(TradeService tradeService) throws IOException {
 
     OpenOrders openOrders = tradeService.getOpenOrders();
-    if (openOrders != null) {
-      System.out.println("Open Orders: " + openOrders.toString());
-    }
+    System.out.println("Open Orders: " + openOrders.toString());
   }
 
   private static void printRawOpenOrders(DSXTradeServiceRaw tradeService) throws IOException {
