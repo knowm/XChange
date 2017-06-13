@@ -4,7 +4,7 @@
     "956": {
       "pair": "btcusd",
       "type": "buy",
-      "amount": 12,
+      "volume": 12,
       "rate": 320,
       "timestampCreated": 142123698,
       "status": 0,
