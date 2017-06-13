@@ -78,6 +78,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
 
     DSXCancelOrderReturn ret = dsx.CancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
     if (MSG_BAD_STATUS.equals(ret.getError())) {
+      System.out.println(":(((((");
       return null;
     }
 

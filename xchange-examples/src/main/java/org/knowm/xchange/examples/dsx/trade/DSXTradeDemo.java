@@ -25,7 +25,7 @@ public class DSXTradeDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange dsx = DSXExamplesUtils.createExchange();
-    //generic(dsx);
+    generic(dsx);
     raw(dsx);
   }
 
@@ -35,7 +35,7 @@ public class DSXTradeDemo {
 
     printOpenOrders(tradeService);
 
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.ASK, new BigDecimal("0.1"), CurrencyPair.BTC_USD, "", new Date(), new BigDecimal("1600.64"));
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, new BigDecimal("0.1"), CurrencyPair.BTC_USD, "", new Date(), new BigDecimal("900"));
 
     String limitOrderReturnValue = null;
     try {
@@ -62,7 +62,7 @@ public class DSXTradeDemo {
     // place buy order
     DSXOrder.Type type = DSXOrder.Type.buy;
     String pair = "btcusd";
-    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("0.1"), new BigDecimal("1600"), new Date().getTime(), 0, DSXOrder.OrderType.limit);
+    DSXOrder dsxOrder = new DSXOrder(pair, type, new BigDecimal("0.1"), new BigDecimal("900"), new Date().getTime(), 0, DSXOrder.OrderType.limit);
 
     DSXTradeResult result = null;
     try {

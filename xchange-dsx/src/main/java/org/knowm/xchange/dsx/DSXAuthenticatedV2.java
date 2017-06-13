@@ -71,7 +71,7 @@ public interface DSXAuthenticatedV2 extends DSX {
   @POST
   @Path("tapi/v2/orders")
   DSXActiveOrdersReturn getActiveOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @Nullable @FormParam("pair") String pair) throws IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("pair") String pair) throws IOException;
 
   /**
    * This method provides information about user transactions history.

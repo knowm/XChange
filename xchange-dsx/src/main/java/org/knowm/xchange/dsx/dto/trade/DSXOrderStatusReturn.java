@@ -10,8 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DSXOrderStatusReturn extends DSXReturn<DSXOrderStatusResult> {
 
-  public DSXOrderStatusReturn(@JsonProperty("success") boolean success, @JsonProperty("return") DSXOrderStatusResult value, @JsonProperty("error")
-      String error) {
+  public DSXOrderStatusReturn(@JsonProperty("success") boolean success, @JsonProperty("return") DSXOrderStatusResult value,
+      @JsonProperty("error") String error) {
     super(success, value, error);
   }
 }

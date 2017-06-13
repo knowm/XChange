@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.knowm.xchange.dsx.dto.DSXReturn;
+import org.knowm.xchange.dsx.dto.account.DSXCurrencyAmount;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,12 +37,8 @@ public class DSXTradeDataJSONTest {
     DSXTradeReturn result = getResult("/trade/example-place-order-data.json", DSXTradeReturn.class);
 
     DSXTradeResult rv = result.getReturnValue();
-    Map<String, BigDecimal> funds = rv.getFunds();
-    Map<String, BigDecimal> total = rv.getTotal();
-    assertThat(funds.keySet().containsAll(Arrays.asList("btc", "ltc", "eur", "rub", "usd"))).isTrue();
-    assertThat(total.keySet().containsAll(Arrays.asList("btc", "ltc", "eur", "rub", "usd"))).isTrue();
-    assertThat(funds.get("btc")).isEqualTo(new BigDecimal("3.75"));
-    assertThat(total.get("usd")).isEqualTo(new BigDecimal("300"));
+    assertThat(rv.getFunds().keySet().containsAll(Arrays.asList("BTC", "USD", "EUR", "LTC"))).isTrue();
+    assertThat(rv.getFunds().get("BTC")).isEqualsToByComparingFields(new DSXCurrencyAmount(new BigDecimal("100"), new BigDecimal("95")));
     assertThat(rv.getOrderId()).isEqualTo(1067L);
   }
 
@@ -50,14 +47,12 @@ public class DSXTradeDataJSONTest {
     DSXCancelOrderReturn result = getResult("/trade/example-cancel-order-data.json", DSXCancelOrderReturn.class);
 
     DSXCancelOrderResult rv = result.getReturnValue();
-    Map<String, BigDecimal> funds = rv.getFunds();
-    Map<String, BigDecimal> total = rv.getTotal();
-    assertThat(funds.keySet().containsAll(Arrays.asList("btc", "usd", "ltc", "eur")));
-    assertThat(total.keySet().containsAll(Arrays.asList("btc", "usd", "ltc", "eur")));
-    assertThat(funds.get("usd")).isEqualTo(new BigDecimal("325"));
-    assertThat(total.get("btc")).isEqualTo(new BigDecimal("5"));
-    assertThat(rv.getOrderId()).isEqualTo(1067L);
+    Map<String, DSXCurrencyAmount> funds = rv.getFunds();
+    assertThat(funds.keySet().containsAll(Arrays.asList("BTC", "USD", "EUR", "LTC"))).isTrue();
+    assertThat(funds.get("USD").getAvailable()).isEqualTo(new BigDecimal("9995"));
+    assertThat(rv.getOrderId()).isEqualTo(1L);
   }
+
   private <RC extends DSXReturn> RC getResult(String file, Class<RC> resultClass) throws IOException {
 
     InputStream is = DSXTradeDataJSONTest.class.getResourceAsStream(file);
