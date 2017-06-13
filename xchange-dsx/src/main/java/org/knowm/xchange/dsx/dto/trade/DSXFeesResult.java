@@ -1,8 +1,5 @@
 package org.knowm.xchange.dsx.dto.trade;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -10,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 
 public class DSXFeesResult {
-  private final Map<String, BigDecimal> progressiveCommissions;
+  private final DSXProgressiveCommissions progressiveCommissions;
 
-  public DSXFeesResult(@JsonProperty("progressiveCommissions") Map<String, BigDecimal> progressiveCommissions) {
+  public DSXFeesResult(@JsonProperty("progressiveCommissions") DSXProgressiveCommissions progressiveCommissions) {
 
     this.progressiveCommissions = progressiveCommissions;
   }
 
-  public Map<String, BigDecimal> getProgressiveCommissions() {
+  public DSXProgressiveCommissions getProgressiveCommissions() {
 
     return progressiveCommissions;
   }
