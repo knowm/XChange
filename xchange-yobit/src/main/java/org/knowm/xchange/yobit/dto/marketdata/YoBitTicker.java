@@ -69,7 +69,7 @@ public class YoBitTicker {
 
   @Override
   public String toString() {
-    return "YoBitTicker [buy=" + buy + ", high=" + high + ", low=" + low + ", avg=" + avg + ", vol=" + vol + ", volCur="
+    return "YoBitTickker [buy=" + buy + ", high=" + high + ", low=" + low + ", avg=" + avg + ", vol=" + vol + ", volCur="
         + volCur + ", last=" + last + ", sell=" + sell + ", updated=" + updated + "]";
   }
 
