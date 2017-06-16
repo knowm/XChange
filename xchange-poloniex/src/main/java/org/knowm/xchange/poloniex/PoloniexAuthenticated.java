@@ -34,104 +34,102 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 public interface PoloniexAuthenticated {
 
-    @POST
-    @FormParam("command")
-    HashMap<String, PoloniexBalance> returnCompleteBalances(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("account") String account) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  HashMap<String, PoloniexBalance> returnCompleteBalances(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("account") String account) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    HashMap<String, PoloniexLoan[]> returnActiveLoans(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  HashMap<String, PoloniexLoan[]> returnActiveLoans(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    HashMap<String, String> returnDepositAddresses(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  HashMap<String, String> returnDepositAddresses(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    Map<String, PoloniexOpenOrder[]> returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") AllPairs all) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  Map<String, PoloniexOpenOrder[]> returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") AllPairs all) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    Map<String, PoloniexOpenOrder[]> returnOrderTrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderID) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  Map<String, PoloniexOpenOrder[]> returnOrderTrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderID) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    PoloniexOpenOrder[] returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  PoloniexOpenOrder[] returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    PoloniexUserTrade[] returnTradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair, @FormParam("start") Long startTime,
-            @FormParam("end") Long endTime) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  PoloniexUserTrade[] returnTradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair, @FormParam("start") Long startTime,
+      @FormParam("end") Long endTime) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    HashMap<String, PoloniexUserTrade[]> returnTradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair, @FormParam("start") Long startTime,
-            @FormParam("end") Long endTime, @FormParam("ignore") String overload) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  HashMap<String, PoloniexUserTrade[]> returnTradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair, @FormParam("start") Long startTime,
+      @FormParam("end") Long endTime, @FormParam("ignore") String overload) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    PoloniexTradeResponse buy(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") String amount, @FormParam("rate") String rate,
-            @FormParam("currencyPair") String currencyPair, @FormParam("fillOrKill") Integer fillOrKill,
-            @FormParam("immediateOrCancel") Integer immediateOrCancel, @FormParam("postOnly") Integer postOnly) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  PoloniexTradeResponse buy(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") String amount, @FormParam("rate") String rate,
+      @FormParam("currencyPair") String currencyPair, @FormParam("fillOrKill") Integer fillOrKill,
+      @FormParam("immediateOrCancel") Integer immediateOrCancel, @FormParam("postOnly") Integer postOnly) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    PoloniexTradeResponse sell(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") String amount, @FormParam("rate") String rate,
-            @FormParam("currencyPair") String currencyPair, @FormParam("fillOrKill") Integer fillOrKill,
-            @FormParam("immediateOrCancel") Integer immediateOrCancel, @FormParam("postOnly") Integer postOnly) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  PoloniexTradeResponse sell(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") String amount, @FormParam("rate") String rate,
+      @FormParam("currencyPair") String currencyPair, @FormParam("fillOrKill") Integer fillOrKill,
+      @FormParam("immediateOrCancel") Integer immediateOrCancel, @FormParam("postOnly") Integer postOnly) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    PoloniexTradeResponse marginBuy(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") String amount, @FormParam("rate") String rate,
-            @FormParam("currencyPair") String currencyPair, @FormParam("lendingRate") Double lendingRate) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  PoloniexTradeResponse marginBuy(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") String amount, @FormParam("rate") String rate,
+      @FormParam("currencyPair") String currencyPair, @FormParam("lendingRate") Double lendingRate) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    PoloniexTradeResponse marginSell(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") String amount, @FormParam("rate") String rate,
-            @FormParam("currencyPair") String currencyPair, @FormParam("lendingRate") Double lendingRate) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  PoloniexTradeResponse marginSell(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") String amount, @FormParam("rate") String rate,
+      @FormParam("currencyPair") String currencyPair, @FormParam("lendingRate") Double lendingRate) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    PoloniexMoveResponse moveOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderNumber, @FormParam("amount") String amount,
-            @FormParam("rate") String rate, @FormParam("immediateOrCancel") Integer immediateOrCancel, @FormParam("postOnly") Integer postOnly)
-            throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  PoloniexMoveResponse moveOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderNumber, @FormParam("amount") String amount,
+      @FormParam("rate") String rate, @FormParam("immediateOrCancel") Integer immediateOrCancel, @FormParam("postOnly") Integer postOnly) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    HashMap<String, String> cancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderNumber) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  HashMap<String, String> cancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderNumber) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    WithdrawalResponse withdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount,
-            @FormParam("address") String address, @FormParam("paymentId") @Nullable String paymentId) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  WithdrawalResponse withdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount,
+      @FormParam("address") String address, @FormParam("paymentId") @Nullable String paymentId) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    HashMap<String, String> returnFeeInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  HashMap<String, String> returnFeeInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws PoloniexException, IOException;
 
-    @POST
-    @FormParam("command")
-    PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-            @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("start") Long startTime, @FormParam("end") Long endTime)
-            throws PoloniexException, IOException;
+  @POST
+  @FormParam("command")
+  PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("start") Long startTime, @FormParam("end") Long endTime) throws PoloniexException, IOException;
 
-    enum AllPairs {
-        all
-    }
+  enum AllPairs {
+    all
+  }
 }
