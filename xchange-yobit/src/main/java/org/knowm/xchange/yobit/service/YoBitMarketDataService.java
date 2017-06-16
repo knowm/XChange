@@ -12,7 +12,8 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.yobit.YoBitAdapters;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTickers;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitTicker;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitTickerReturn;
 
 public class YoBitMarketDataService extends YoBitMarketDataServiceRaw implements MarketDataService {
 
@@ -23,8 +24,8 @@ public class YoBitMarketDataService extends YoBitMarketDataServiceRaw implements
   @Override
   public Ticker getTicker(CurrencyPair currencyPair, Object... args)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    YoBitTickers tickers = getYoBitTickers(currencyPair);
-    return YoBitAdapters.adaptTickers(tickers, currencyPair);
+    YoBitTickerReturn ticker = getYoBitTicker(currencyPair);
+    return YoBitAdapters.adaptTicker(ticker, currencyPair);
   }
 
   @Override
