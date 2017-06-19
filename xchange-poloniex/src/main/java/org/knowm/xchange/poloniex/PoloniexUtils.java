@@ -21,14 +21,14 @@ public class PoloniexUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
 
-    String pairString = currencyPair.base.getCurrencyCode().toUpperCase() + "_" + currencyPair.counter.getCurrencyCode().toUpperCase();
-    return pairString;
+    return currencyPair.counter.getCurrencyCode().toUpperCase() + "_" + currencyPair.base.getCurrencyCode().toUpperCase();
+    //    return currencyPair.counter.getCurrencyCode().toUpperCase() + "_" + currencyPair.base.getCurrencyCode().toUpperCase();
   }
 
   public static CurrencyPair toCurrencyPair(String pair) {
 
     String[] currencies = pair.split("_");
-    return new CurrencyPair(currencies[1], currencies[0]);
+    return new CurrencyPair(currencies[1], currencies[0].replace("USDT", "USD"));
   }
 
   public static Date stringToDate(String dateString) {
