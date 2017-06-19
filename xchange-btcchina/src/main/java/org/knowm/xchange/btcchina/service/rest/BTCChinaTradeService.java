@@ -205,8 +205,7 @@ public class BTCChinaTradeService extends BTCChinaTradeServiceRaw implements Tra
     UserTrades userTrades = userTradesFromOrders;
     if (fetchArchivedRecords) {
       if (tradeHistory.size() < limit) {
-        int remainingLimit = limit - tradeHistory.size();
-        remainingLimit = remainingLimit > BTCChinaGetArchivedOrdersRequest.DEFAULT_LIMIT ? BTCChinaGetArchivedOrdersRequest.DEFAULT_LIMIT : remainingLimit;
+        final int remainingLimit = limit - tradeHistory.size();
         final BTCChinaGetOrdersResponse responseArchived = getBTCChinaArchivedOrders(BTCChinaGetOrdersRequest.ALL_MARKET, remainingLimit, null, true);
         final UserTrades userTradesFromArchivedOrders = BTCChinaAdapters.adaptUserTradesFromOrders(responseArchived.getResult(), null);
         tradeHistory.addAll(userTradesFromArchivedOrders.getUserTrades());
