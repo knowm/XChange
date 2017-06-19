@@ -30,7 +30,7 @@ public class TheRockWithdrawal {
     this.amount = amount;
     this.destinationAddress = destinationAddress;
     this.withdrawMethod = withdrawMethod;
-    this.destinationAddress = destinationAddress;
+    this.destinationTag = destinationTag;
   }
 
   public static TheRockWithdrawal createRippleWithdrawal(String currency, BigDecimal amount, String destinationAddress, Long destinationTag) {
