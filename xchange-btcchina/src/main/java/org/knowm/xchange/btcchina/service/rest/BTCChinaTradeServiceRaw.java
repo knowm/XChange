@@ -16,6 +16,7 @@ import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaGetIcebergOrdersRequ
 import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaGetMarketDepthRequest;
 import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaGetOrderRequest;
 import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaGetOrdersRequest;
+import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaGetArchivedOrdersRequest;
 import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaGetStopOrderRequest;
 import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaGetStopOrdersRequest;
 import org.knowm.xchange.btcchina.dto.trade.request.BTCChinaSellIcebergOrderRequest;
@@ -124,6 +125,16 @@ public class BTCChinaTradeServiceRaw extends BTCChinaBaseService {
 
     BTCChinaGetOrdersRequest request = new BTCChinaGetOrdersRequest(openOnly, market, limit, offset, since, withdetail);
     BTCChinaGetOrdersResponse response = btcChina.getOrders(signatureCreator, exchange.getNonceFactory(), request);
+    return checkResult(response);
+  }
+
+  /**
+   * @see BTCChinaGetArchivedOrdersRequest#BTCChinaGetArchivedOrdersRequest(String, Integer, Integer, Boolean)
+   */
+  public BTCChinaGetOrdersResponse getBTCChinaArchivedOrders(String market, Integer limit, Integer lessThanOrderId, Boolean withdetail) throws IOException {
+
+    BTCChinaGetArchivedOrdersRequest request = new BTCChinaGetArchivedOrdersRequest(market, limit, lessThanOrderId, withdetail);
+    BTCChinaGetOrdersResponse response = btcChina.getArchivedOrders(signatureCreator, exchange.getNonceFactory(), request);
     return checkResult(response);
   }
 
