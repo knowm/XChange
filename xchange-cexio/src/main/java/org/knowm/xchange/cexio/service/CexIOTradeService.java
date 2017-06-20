@@ -1,17 +1,17 @@
 package org.knowm.xchange.cexio.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAdapters;
+import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
@@ -70,8 +70,12 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-
-    throw new NotAvailableFromExchangeException();
+    List<CexIOArchivedOrder> cexIOArchivedOrders = archivedOrders(params);
+    ArrayList<UserTrade> trades = new ArrayList<>();
+    for (CexIOArchivedOrder cexIOArchivedOrder : cexIOArchivedOrders) {
+      trades.add(CexIOAdapters.adaptArchivedOrder(cexIOArchivedOrder));
+    }
+    return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
   @Override

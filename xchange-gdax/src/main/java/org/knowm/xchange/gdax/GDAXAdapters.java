@@ -201,17 +201,23 @@ public class GDAXAdapters {
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, List<GDAXProduct> products) {
-
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
-    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     for (GDAXProduct product : products) {
       BigDecimal minSize = product.getBaseMinSize().setScale(product.getQuoteIncrement().scale(), BigDecimal.ROUND_UNNECESSARY);
       BigDecimal maxSize = product.getBaseMaxSize().setScale(product.getQuoteIncrement().scale(), BigDecimal.ROUND_UNNECESSARY);
-      CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, maxSize, 8); // TODO 8 is a wild guess
+
       CurrencyPair pair = adaptCurrencyPair(product);
+
+      CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
+      int priceScale = staticMetaData == null ? 8 : staticMetaData.getPriceScale();
+      CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, maxSize, priceScale);
       currencyPairs.put(pair, cpmd);
-      currencies.put(pair.base, null);
-      currencies.put(pair.counter, null);
+
+      if(!currencies.containsKey(pair.base))
+          currencies.put(pair.base, null);
+      if(!currencies.containsKey(pair.counter))
+          currencies.put(pair.counter, null);
     }
     return new ExchangeMetaData(currencyPairs, currencies, exchangeMetaData.getPublicRateLimits(), exchangeMetaData.getPrivateRateLimits(), true);
   }
