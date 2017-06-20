@@ -30,18 +30,18 @@ public class PoloniexMarketDataDemo {
 //    currencyPair = new CurrencyPair("ETH", "BTC");
 
     generic(dataService);
-    raw((PoloniexMarketDataServiceRaw) dataService);
+//    raw((PoloniexMarketDataServiceRaw) dataService);
   }
 
   private static void generic(MarketDataService dataService) throws IOException {
 
     System.out.println("----------GENERIC----------");
-    System.out.println(dataService.getTicker(currencyPair));
+//    System.out.println(dataService.getTicker(currencyPair));
     System.out.println(dataService.getOrderBook(currencyPair));
-    System.out.println(dataService.getOrderBook(currencyPair, 3));
-    System.out.println(dataService.getTrades(currencyPair));
-    long now = new Date().getTime() / 1000;
-    System.out.println(dataService.getTrades(currencyPair, now -  60));
+//    System.out.println(dataService.getOrderBook(currencyPair, 3));
+//    System.out.println(dataService.getTrades(currencyPair));
+//    long now = new Date().getTime() / 1000;
+//    System.out.println(dataService.getTrades(currencyPair, now -  60));
   }
 
   private static void raw(PoloniexMarketDataServiceRaw dataService) throws IOException {
