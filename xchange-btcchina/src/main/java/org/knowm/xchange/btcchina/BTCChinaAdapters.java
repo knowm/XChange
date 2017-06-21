@@ -24,6 +24,7 @@ import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTrade;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaMarketDepth;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaMarketDepthOrder;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaOrder;
+import org.knowm.xchange.btcchina.dto.trade.BTCChinaOrderDetail;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaOrders;
 import org.knowm.xchange.btcchina.dto.trade.BTCChinaTransaction;
 import org.knowm.xchange.currency.Currency;
@@ -417,5 +418,59 @@ public final class BTCChinaAdapters {
     }
 
     return fundingRecords;
+  }
+
+  public static UserTrades adaptUserTradesFromOrders(BTCChinaOrders orders, CurrencyPair currencyPair) {
+
+    final List<UserTrade> tradeHistory = new ArrayList<UserTrade>();
+
+    for (Map.Entry<String, BTCChinaOrder[]> entry : orders.entrySet()) {
+      final BTCChinaOrder[] orderArr = entry.getValue();
+
+      if (orderArr!= null && orderArr.length > 0) {
+
+        CurrencyPair currencyPairFromKey = null;
+        try {
+          currencyPairFromKey = adaptCurrencyPairFromOrdersMarketKey(entry.getKey());
+        } catch (Throwable e) {
+          if(currencyPair != null){
+            currencyPairFromKey = currencyPair;
+          } else {
+            throw new IllegalArgumentException("Unknown currency pair for the set with one of the order(s) as : " + orderArr[0]);
+          }
+        }
+
+
+        for (BTCChinaOrder order : entry.getValue()) {
+          final List<UserTrade> tradeList = adaptUserTradeFromOrder(order, currencyPairFromKey);
+          tradeHistory.addAll(tradeList);
+        }
+
+      }
+    }
+
+    if (tradeHistory.size() > 0){
+      return new UserTrades(tradeHistory, TradeSortType.SortByID);
+    }
+
+    return null;
+  }
+
+
+  private static List<UserTrade> adaptUserTradeFromOrder(BTCChinaOrder order, CurrencyPair currencyPair) {
+    final List<UserTrade> tradeList = new ArrayList<UserTrade>();
+    final BTCChinaOrderDetail[] fills = order.getDetails();
+    if (fills != null && fills.length > 0){
+      final OrderType orderType = order.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
+      final String orderId = String.valueOf(order.getId());
+      final String tradeId = String.valueOf(order.getId());
+      for (final BTCChinaOrderDetail fill: fills){
+        final BigDecimal price = fill.getPrice();
+        final BigDecimal amount = fill.getAmount();
+        final Date date = adaptDate(fill.getDateline());;
+        tradeList.add(new UserTrade(orderType, amount, currencyPair, price, date, tradeId, orderId, null, null));
+      }
+    }
+    return tradeList;
   }
 }
