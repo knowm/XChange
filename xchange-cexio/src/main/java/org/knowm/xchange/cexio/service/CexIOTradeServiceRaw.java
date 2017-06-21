@@ -4,16 +4,23 @@ import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAuthenticated;
+import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -87,4 +94,142 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
         .equals(true);
   }
 
+  public List<CexIOArchivedOrder> archivedOrders(TradeHistoryParams tradeHistoryParams) throws HttpStatusIOException {
+    String baseCcy = null;
+    String counterCcy = null;
+    Integer limit = null;
+    Long dateTo = null;
+    Long dateFrom = null;
+    Long lastTxDateTo = null;
+    Long lastTxDateFrom = null;
+    String status = null;
+
+    if (tradeHistoryParams instanceof CexIOTradeHistoryParams) {
+      CexIOTradeHistoryParams params = (CexIOTradeHistoryParams) tradeHistoryParams;
+
+      baseCcy = params.currencyPair.base.toString();
+      counterCcy = params.currencyPair.counter.toString();
+      limit = params.limit;
+      dateTo = params.dateTo;
+      dateFrom = params.dateFrom;
+      lastTxDateTo = params.lastTxDateTo;
+      lastTxDateFrom = params.lastTxDateFrom;
+      status = params.status;
+    }
+
+    if (tradeHistoryParams instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) tradeHistoryParams;
+
+      lastTxDateFrom = tradeHistoryParamsTimeSpan.getStartTime() == null ? null : tradeHistoryParamsTimeSpan.getStartTime().getTime();
+      lastTxDateTo = tradeHistoryParamsTimeSpan.getEndTime() == null ? null : tradeHistoryParamsTimeSpan.getEndTime().getTime();
+    }
+
+    if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
+      CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair) tradeHistoryParams).getCurrencyPair();
+
+      baseCcy = currencyPair.base.toString();
+      counterCcy = currencyPair.counter.toString();
+    }
+
+    if (tradeHistoryParams instanceof TradeHistoryParamLimit) {
+      TradeHistoryParamLimit historyParams = (TradeHistoryParamLimit) tradeHistoryParams;
+      limit = historyParams.getLimit();
+    }
+
+    return cexIOAuthenticated.archivedOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
+      baseCcy,
+      counterCcy,
+      limit,
+      dateFrom,
+      dateTo,
+      lastTxDateFrom,
+      lastTxDateTo,
+      status
+    );
+  }
+
+  public static class CexIOTradeHistoryParams implements TradeHistoryParams, TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan, TradeHistoryParamLimit {
+
+    private CurrencyPair currencyPair;
+
+    /**
+     * limit the number of entries in response (1 to 100)
+     */
+    private Integer limit;
+
+    /**
+     * end date for open orders filtering (timestamp in seconds, 10 digits)
+     */
+    private Long dateTo;
+
+    /**
+     * start date for open order filtering (timestamp in seconds, 10 digits)
+     */
+    private Long dateFrom;
+
+    /**
+     * end date for last change orders filtering (timestamp in seconds, 10 digits)
+     */
+    private final Long lastTxDateTo;
+
+    /**
+     * start date for last change order filtering (timestamp in seconds, 10 digits)
+     */
+    private final Long lastTxDateFrom;
+
+    /**
+     * "d" — done (fully executed), "c" — canceled (not executed), "cd" — cancel-done (partially executed)
+     */
+    private final String status;//tood: this should be an enum
+
+    public CexIOTradeHistoryParams(CurrencyPair currencyPair, Integer limit, Long dateTo, Long dateFrom, Long lastTxDateTo, Long lastTxDateFrom, String status) {
+      this.currencyPair = currencyPair;
+      this.limit = limit;
+      this.dateTo = dateTo;
+      this.dateFrom = dateFrom;
+      this.lastTxDateTo = lastTxDateTo;
+      this.lastTxDateFrom = lastTxDateFrom;
+      this.status = status;
+    }
+
+    @Override
+    public void setCurrencyPair(CurrencyPair currencyPair) {
+      this.currencyPair = currencyPair;
+    }
+
+    @Override
+    public CurrencyPair getCurrencyPair() {
+      return currencyPair;
+    }
+
+    @Override
+    public void setStartTime(Date startTime) {
+      this.dateFrom = startTime.getTime();
+    }
+
+    @Override
+    public Date getStartTime() {
+      return this.dateFrom == null ? null : new Date(this.dateFrom);
+    }
+
+    @Override
+    public void setEndTime(Date endTime) {
+      this.dateTo = endTime.getTime();
+    }
+
+    @Override
+    public Date getEndTime() {
+      return this.dateTo == null ? null : new Date(this.dateTo);
+    }
+
+    @Override
+    public void setLimit(Integer limit) {
+      this.limit = limit;
+    }
+
+    @Override
+    public Integer getLimit() {
+      return limit;
+    }
+  }
 }
