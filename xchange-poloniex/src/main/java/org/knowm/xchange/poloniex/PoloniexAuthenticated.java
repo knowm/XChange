@@ -56,6 +56,11 @@ public interface PoloniexAuthenticated {
 
   @POST
   @FormParam("command")
+  Map<String, PoloniexOpenOrder[]> returnOrderTrades(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderID) throws PoloniexException, IOException;
+
+  @POST
+  @FormParam("command")
   PoloniexOpenOrder[] returnOpenOrders(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currencyPair") String currencyPair) throws PoloniexException, IOException;
 
@@ -87,10 +92,21 @@ public interface PoloniexAuthenticated {
 
   @POST
   @FormParam("command")
+  PoloniexTradeResponse marginBuy(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") String amount, @FormParam("rate") String rate,
+      @FormParam("currencyPair") String currencyPair, @FormParam("lendingRate") Double lendingRate) throws PoloniexException, IOException;
+
+  @POST
+  @FormParam("command")
+  PoloniexTradeResponse marginSell(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") String amount, @FormParam("rate") String rate,
+      @FormParam("currencyPair") String currencyPair, @FormParam("lendingRate") Double lendingRate) throws PoloniexException, IOException;
+
+  @POST
+  @FormParam("command")
   PoloniexMoveResponse moveOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderNumber") String orderNumber, @FormParam("amount") String amount,
-      @FormParam("rate") String rate, @FormParam("immediateOrCancel") Integer immediateOrCancel,
-      @FormParam("postOnly") Integer postOnly) throws PoloniexException, IOException;
+      @FormParam("rate") String rate, @FormParam("immediateOrCancel") Integer immediateOrCancel, @FormParam("postOnly") Integer postOnly) throws PoloniexException, IOException;
 
   @POST
   @FormParam("command")
@@ -111,8 +127,7 @@ public interface PoloniexAuthenticated {
   @POST
   @FormParam("command")
   PoloniexDepositsWithdrawalsResponse returnDepositsWithdrawals(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signature,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("start") Long startTime,
-      @FormParam("end") Long endTime) throws PoloniexException, IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("start") Long startTime, @FormParam("end") Long endTime) throws PoloniexException, IOException;
 
   enum AllPairs {
     all

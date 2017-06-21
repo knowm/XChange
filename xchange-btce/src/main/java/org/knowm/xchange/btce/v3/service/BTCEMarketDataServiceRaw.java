@@ -66,13 +66,7 @@ public class BTCEMarketDataServiceRaw extends BTCEBaseService {
    */
   public BTCETradesWrapper getBTCETrades(String pairs, int size) throws IOException {
 
-    if (size < 1) {
-      size = 1;
-    }
-
-    if (size > FULL_SIZE) {
-      size = FULL_SIZE;
-    }
+    size = size < 1 ? 1 : (size > FULL_SIZE ? FULL_SIZE : size);
 
     return btce.getTrades(pairs.toLowerCase(), size, 1);
   }

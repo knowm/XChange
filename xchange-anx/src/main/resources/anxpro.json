@@ -55,6 +55,9 @@
       "max_amount": 10000000000.00000000,
       "price_scale": 8
     },
+    "START/BTC": {
+      "price_scale": 8
+    },
     "EGD/AUD": {
       "price_scale": 8
     },
