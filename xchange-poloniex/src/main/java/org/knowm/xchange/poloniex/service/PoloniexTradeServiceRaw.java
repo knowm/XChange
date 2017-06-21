@@ -104,8 +104,8 @@ public class PoloniexTradeServiceRaw extends PoloniexBaseService {
             PoloniexUtils.toPairString(limitOrder.getCurrencyPair()), lendingRate);
         return response;
       } else {
-        Method method = PoloniexAuthenticated.class.getDeclaredMethod("margin" + name.toUpperCase(), String.class, ParamsDigest.class,
-            SynchronizedValueFactory.class, String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
+        Method method = PoloniexAuthenticated.class.getDeclaredMethod(name, String.class, ParamsDigest.class, SynchronizedValueFactory.class,
+            String.class, String.class, String.class, Integer.class, Integer.class, Integer.class);
         PoloniexTradeResponse response = (PoloniexTradeResponse) method.invoke(poloniexAuthenticated, apiKey, signatureCreator,
             exchange.getNonceFactory(), limitOrder.getTradableAmount().toPlainString(), limitOrder.getLimitPrice().toPlainString(),
             PoloniexUtils.toPairString(limitOrder.getCurrencyPair()), fillOrKill, immediateOrCancel, postOnly);
