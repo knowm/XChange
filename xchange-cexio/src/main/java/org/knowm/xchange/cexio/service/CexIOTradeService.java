@@ -17,6 +17,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /**
@@ -43,7 +44,14 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
   @Override
   public OpenOrders getOpenOrders(
       OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    List<CexIOOrder> cexIOOrderList = getCexIOOpenOrders();
+
+    List<CexIOOrder> cexIOOrderList;
+    if (params instanceof OpenOrdersParamCurrencyPair) {
+      OpenOrdersParamCurrencyPair o = (OpenOrdersParamCurrencyPair) params;
+      cexIOOrderList = getCexIOOpenOrders(o.getCurrencyPair());
+    } else {
+      cexIOOrderList = getCexIOOpenOrders();
+    }
 
     return CexIOAdapters.adaptOpenOrders(cexIOOrderList);
   }
