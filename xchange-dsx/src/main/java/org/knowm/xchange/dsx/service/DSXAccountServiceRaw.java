@@ -76,7 +76,7 @@ public class DSXAccountServiceRaw extends DSXBaseService {
 
     DSXCryptoDepositAddressReturn info = dsx.getCryptoDepositAddress(apiKey, signatureCreator, exchange.getNonceFactory(), currency, newAddress);
     checkResult(info);
-    return String.valueOf(info.getReturnValue().getCryptoAddress());
+    return String.valueOf(info.getReturnValue().getAddress());
   }
 
     /**
