@@ -18,6 +18,7 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+
 /**
  * @author Mikhail Wall
  */
@@ -26,9 +27,8 @@ public class DSXTradeDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange dsx = DSXExamplesUtils.createExchange();
-    //generic(dsx);
+    generic(dsx);
     raw(dsx);
-    //rawCancelAllOrders(dsx);
   }
 
   private static void generic(Exchange exchange) throws IOException {
@@ -97,7 +97,6 @@ public class DSXTradeDemo {
   private static void raw(Exchange exchange) throws IOException {
     DSXTradeServiceRaw tradeService = (DSXTradeServiceRaw) exchange.getTradeService();
 
-    tradeService.getFees();
     printRawOpenOrders(tradeService);
 
     // place buy order
