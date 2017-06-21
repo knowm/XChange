@@ -58,7 +58,7 @@ public class BTCChinaTradeStat {
     final String type = "all";
     final Integer startId = null;
 
-    for (int pageNumber = 0; ; pageNumber++) {
+    for (int pageNumber = 0;; pageNumber++) {
       log.trace("pageNumber: {}", pageNumber);
 
       final BTCChinaTradeHistoryParams params = new BTCChinaTradeHistoryParams(pageLength, pageNumber, type, startTime, startId);
