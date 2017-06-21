@@ -360,20 +360,20 @@ public final class BTCChinaAdapters {
 
     switch (status.toUpperCase()) {
 
-    case "OPEN":
-      return OrderStatus.NEW;
-    case "CLOSED":
-      return OrderStatus.FILLED;
-    case "CANCELLED":
-      return OrderStatus.CANCELED;
-    case "PENDING":
-      return OrderStatus.PENDING_NEW;
-    case "ERROR":
-      return OrderStatus.REJECTED;
-    case "INSUFFICIENT_BALANCE":
-      return OrderStatus.REJECTED;
-    default:
-      return null;
+      case "OPEN":
+        return OrderStatus.NEW;
+      case "CLOSED":
+        return OrderStatus.FILLED;
+      case "CANCELLED":
+        return OrderStatus.CANCELED;
+      case "PENDING":
+        return OrderStatus.PENDING_NEW;
+      case "ERROR":
+        return OrderStatus.REJECTED;
+      case "INSUFFICIENT_BALANCE":
+        return OrderStatus.REJECTED;
+      default:
+        return null;
     }
 
   }
@@ -392,7 +392,8 @@ public final class BTCChinaAdapters {
 
   }
 
-  public static List<FundingRecord> adaptFundingHistory(final BTCChinaGetDepositsResponse depositsResponse, final BTCChinaGetWithdrawalsResponse withdrawalsResponse){
+  public static List<FundingRecord> adaptFundingHistory(final BTCChinaGetDepositsResponse depositsResponse,
+      final BTCChinaGetWithdrawalsResponse withdrawalsResponse) {
 
     final List<FundingRecord> fundingRecords = new ArrayList<>();
 

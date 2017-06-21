@@ -1,6 +1,7 @@
 package org.knowm.xchange.jubi;
 
 import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
+import org.knowm.xchange.jubi.dto.marketdata.JubiTrade;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -27,8 +28,8 @@ public interface Jubi {
   JubiTicker getTicker(@PathParam("baseCurrency") String baseCurrency) throws IOException;
 
   @GET
-  @Path("trade_list/?coin={baseCurrency}")
-  JubiTicker getTrades(@PathParam("baseCurrency") String baseCurrency) throws IOException;
+  @Path("orders/?coin={baseCurrency}")
+  JubiTrade[] getTrades(@PathParam("baseCurrency") String baseCurrency) throws IOException;
 
   @GET
   @Path("orders/?coin={baseCurrency}&since={since}")

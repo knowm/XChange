@@ -30,7 +30,7 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 public class GenericTradeService extends BaseExchangeService implements TradeService {
 
   private final Map<CurrencyPair, Integer> coinTypes;
-  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder> emptyList());
+  private static final OpenOrders noOpenOrders = new OpenOrders(Collections.<LimitOrder>emptyList());
   private final TradeServiceRaw tradeServiceRaw;
 
   /**

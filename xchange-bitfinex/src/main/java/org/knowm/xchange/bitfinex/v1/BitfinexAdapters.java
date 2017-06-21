@@ -51,12 +51,13 @@ public final class BitfinexAdapters {
   }
 
   public static String adaptBitfinexCurrency(String bitfinexSymbol) {
-	  String currency = bitfinexSymbol.toUpperCase();
-	  if (currency.equals("DSH")) {
-		  currency = "DASH";
-	  }
-	  return currency;
+    String currency = bitfinexSymbol.toUpperCase();
+    if (currency.equals("DSH")) {
+      currency = "DASH";
+    }
+    return currency;
   }
+
   public static List<CurrencyPair> adaptCurrencyPairs(Collection<String> bitfinexSymbol) {
 
     List<CurrencyPair> currencyPairs = new ArrayList<>();
@@ -243,7 +244,7 @@ public final class BitfinexAdapters {
       String currencyName = adaptBitfinexCurrency(balance.getCurrency());
       BigDecimal[] balanceDetail = balancesByCurrency.get(currencyName);
       if (balanceDetail == null) {
-        balanceDetail = new BigDecimal[] { balance.getAmount(), balance.getAvailable() };
+        balanceDetail = new BigDecimal[]{balance.getAmount(), balance.getAvailable()};
       } else {
         balanceDetail[0] = balanceDetail[0].add(balance.getAmount());
         balanceDetail[1] = balanceDetail[1].add(balance.getAvailable());
@@ -319,7 +320,7 @@ public final class BitfinexAdapters {
     return metaData;
   }
 
-  public static List<FundingRecord> adaptFundingHistory(BitfinexDepositWithdrawalHistoryResponse[] bitfinexDepositWithdrawalHistoryResponses){
+  public static List<FundingRecord> adaptFundingHistory(BitfinexDepositWithdrawalHistoryResponse[] bitfinexDepositWithdrawalHistoryResponses) {
     final List<FundingRecord> fundingRecords = new ArrayList<>();
     for (BitfinexDepositWithdrawalHistoryResponse responseEntry : bitfinexDepositWithdrawalHistoryResponses) {
       String address = responseEntry.getAddress();

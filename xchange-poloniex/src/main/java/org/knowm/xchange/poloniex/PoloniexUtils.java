@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 public class PoloniexUtils {
 
   public static String toPairString(CurrencyPair currencyPair) {
+
     return currencyPair.counter.getCurrencyCode().toUpperCase() + "_" + currencyPair.base.getCurrencyCode().toUpperCase();
   }
 

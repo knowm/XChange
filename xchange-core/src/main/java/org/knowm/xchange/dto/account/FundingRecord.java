@@ -32,7 +32,6 @@ public final class FundingRecord {
    */
   private final Currency currency;
 
-
   /**
    * Amount deposited/withdrawn in given transaction currency (always positive)
    */

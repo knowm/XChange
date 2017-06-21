@@ -247,24 +247,24 @@ public final class OkCoinAdapters {
 
     switch (type) {
 
-    case "buy":
-      return OrderType.BID;
-    case "buy_market":
-      return OrderType.BID;
-    case "sell":
-      return OrderType.ASK;
-    case "sell_market":
-      return OrderType.ASK;
-    case "1":
-      return OrderType.BID;
-    case "2":
-      return OrderType.ASK;
-    case "3":
-      return OrderType.EXIT_ASK;
-    case "4":
-      return OrderType.EXIT_BID;
-    default:
-      return null;
+      case "buy":
+        return OrderType.BID;
+      case "buy_market":
+        return OrderType.BID;
+      case "sell":
+        return OrderType.ASK;
+      case "sell_market":
+        return OrderType.ASK;
+      case "1":
+        return OrderType.BID;
+      case "2":
+        return OrderType.ASK;
+      case "3":
+        return OrderType.EXIT_ASK;
+      case "4":
+        return OrderType.EXIT_BID;
+      default:
+        return null;
     }
 
   }
@@ -272,18 +272,18 @@ public final class OkCoinAdapters {
   public static OrderStatus adaptOrderStatus(int status) {
     switch (status) {
 
-    case -1:
-      return OrderStatus.CANCELED;
-    case 0:
-      return OrderStatus.NEW;
-    case 1:
-      return OrderStatus.PARTIALLY_FILLED;
-    case 2:
-      return OrderStatus.FILLED;
-    case 4:
-      return OrderStatus.PENDING_CANCEL;
-    default:
-      return null;
+      case -1:
+        return OrderStatus.CANCELED;
+      case 0:
+        return OrderStatus.NEW;
+      case 1:
+        return OrderStatus.PARTIALLY_FILLED;
+      case 2:
+        return OrderStatus.FILLED;
+      case 4:
+        return OrderStatus.PENDING_CANCEL;
+      default:
+        return null;
     }
 
   }
@@ -334,9 +334,9 @@ public final class OkCoinAdapters {
 
   public static List<FundingRecord> adaptFundingHistory(final OkCoinAccountRecords[] okCoinAccountRecordsList) {
     final List<FundingRecord> fundingRecords = new ArrayList<>();
-    if (okCoinAccountRecordsList != null && okCoinAccountRecordsList.length > 0){
+    if (okCoinAccountRecordsList != null && okCoinAccountRecordsList.length > 0) {
       final OkCoinAccountRecords depositRecord = okCoinAccountRecordsList[0];
-      if (depositRecord != null){
+      if (depositRecord != null) {
         final Currency depositCurrency = Currency.getInstance(depositRecord.getSymbol());
         for (OkCoinRecords okCoinRecordEntry : depositRecord.getRecords()) {
 
@@ -355,7 +355,7 @@ public final class OkCoinAdapters {
         }
       }
       final OkCoinAccountRecords withdrawalRecord = okCoinAccountRecordsList[1];
-      if (withdrawalRecord != null){
+      if (withdrawalRecord != null) {
         final Currency withdrawalCurrency = Currency.getInstance(withdrawalRecord.getSymbol());
         for (OkCoinRecords okCoinRecordEntry : withdrawalRecord.getRecords()) {
 
