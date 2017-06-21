@@ -233,10 +233,13 @@ public final class ItBitAdapters {
     return getCryptoFormat().format(amount);
   }
 
-  public static Currency adaptCurrency(Currency currency) {
-    // ItBit uses XBT instead of BTC.
-    if ("BTC".equals(currency.getCurrencyCode())) {
-      return Currency.XBT;
+  public static CurrencyPair adaptCurrencyPairToExchange(CurrencyPair currencyPair){
+    return new CurrencyPair(adaptCurrencyToExchange(currencyPair.base), adaptCurrencyToExchange(currencyPair.counter));
+  }
+
+  public static Currency adaptCurrencyToExchange(Currency currency){
+    if (currency == Currency.BTC){
+      return currency.getIso4217Currency();
     }
     return currency;
   }

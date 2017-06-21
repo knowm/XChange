@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTickers;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitTickerReturn;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
 
 @Path("/")
@@ -32,5 +32,5 @@ public interface YoBit {
 
   @GET
   @Path("api/3/ticker/{baseCurrency}_{targetCurrency}")
-  YoBitTickers getTicker(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
+  YoBitTickerReturn getTicker(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
 }
