@@ -47,8 +47,7 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
 
     List<CexIOOrder> cexIOOrderList;
     if (params instanceof OpenOrdersParamCurrencyPair) {
-      OpenOrdersParamCurrencyPair o = (OpenOrdersParamCurrencyPair) params;
-      cexIOOrderList = getCexIOOpenOrders(o.getCurrencyPair());
+      cexIOOrderList = getCexIOOpenOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair());
     } else {
       cexIOOrderList = getCexIOOpenOrders();
     }
