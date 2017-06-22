@@ -10,12 +10,12 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAuthenticated;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrders;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
-
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -23,6 +23,8 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
+
+import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
 
 /**
  * @author timmolter
@@ -102,50 +104,59 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
     Long dateFrom = null;
     Long lastTxDateTo = null;
     Long lastTxDateFrom = null;
-    String status = null;
+    String status;
 
     if (tradeHistoryParams instanceof CexIOTradeHistoryParams) {
       CexIOTradeHistoryParams params = (CexIOTradeHistoryParams) tradeHistoryParams;
 
-      baseCcy = params.currencyPair.base.toString();
-      counterCcy = params.currencyPair.counter.toString();
+      CurrencyPair currencyPair = params.currencyPair;
+      baseCcy = currencyPair == null ? null : currencyPair.base.getCurrencyCode();
+      counterCcy = currencyPair == null ? null : currencyPair.counter.getCurrencyCode();
       limit = params.limit;
       dateTo = params.dateTo;
       dateFrom = params.dateFrom;
       lastTxDateTo = params.lastTxDateTo;
       lastTxDateFrom = params.lastTxDateFrom;
       status = params.status;
+    } else {
+      status = "d";// done (fully executed)
+
+      if (tradeHistoryParams instanceof TradeHistoryParamsTimeSpan) {
+        TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) tradeHistoryParams;
+
+        lastTxDateFrom = tradeHistoryParamsTimeSpan.getStartTime() == null ? null : tradeHistoryParamsTimeSpan.getStartTime().getTime();
+        lastTxDateTo = tradeHistoryParamsTimeSpan.getEndTime() == null ? null : tradeHistoryParamsTimeSpan.getEndTime().getTime();
+      }
+
+      if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
+        CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair) tradeHistoryParams).getCurrencyPair();
+
+        baseCcy = currencyPair == null ? null : currencyPair.base.getCurrencyCode();
+        counterCcy = currencyPair == null ? null : currencyPair.counter.getCurrencyCode();
+      }
+
+      if (tradeHistoryParams instanceof TradeHistoryParamLimit) {
+        TradeHistoryParamLimit historyParams = (TradeHistoryParamLimit) tradeHistoryParams;
+        limit = historyParams.getLimit();
+      }
     }
 
-    if (tradeHistoryParams instanceof TradeHistoryParamsTimeSpan) {
-      TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) tradeHistoryParams;
-
-      lastTxDateFrom = tradeHistoryParamsTimeSpan.getStartTime() == null ? null : tradeHistoryParamsTimeSpan.getStartTime().getTime();
-      lastTxDateTo = tradeHistoryParamsTimeSpan.getEndTime() == null ? null : tradeHistoryParamsTimeSpan.getEndTime().getTime();
-    }
-
-    if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
-      CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair) tradeHistoryParams).getCurrencyPair();
-
-      baseCcy = currencyPair.base.toString();
-      counterCcy = currencyPair.counter.toString();
-    }
-
-    if (tradeHistoryParams instanceof TradeHistoryParamLimit) {
-      TradeHistoryParamLimit historyParams = (TradeHistoryParamLimit) tradeHistoryParams;
-      limit = historyParams.getLimit();
-    }
+    //todo: get the date parameters working, they seem to be ignored
 
     return cexIOAuthenticated.archivedOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
-      baseCcy,
-      counterCcy,
-      limit,
-      dateFrom,
-      dateTo,
-      lastTxDateFrom,
-      lastTxDateTo,
-      status
+        baseCcy,
+        counterCcy,
+        limit,
+        dateFrom,
+        dateTo,
+        lastTxDateFrom,
+        lastTxDateTo,
+        status
     );
+  }
+
+  public CexIOOpenOrder getOrderDetail(String orderId) throws IOException {
+    return cexIOAuthenticated.getOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), orderId);
   }
 
   public static class CexIOTradeHistoryParams implements TradeHistoryParams, TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan, TradeHistoryParamLimit {
@@ -182,7 +193,15 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
      */
     private final String status;//tood: this should be an enum
 
-    public CexIOTradeHistoryParams(CurrencyPair currencyPair, Integer limit, Long dateTo, Long dateFrom, Long lastTxDateTo, Long lastTxDateFrom, String status) {
+    public CexIOTradeHistoryParams(CurrencyPair currencyPair, String status) {
+      this(currencyPair, null, (Date) null, null, null, null, status);
+    }
+
+    public CexIOTradeHistoryParams(CurrencyPair currencyPair, Integer limit, Date dateFrom, Date dateTo, Date lastTxDateFrom, Date lastTxDateTo, String status) {
+      this(currencyPair, limit, toUnixTimeNullSafe(dateFrom), toUnixTimeNullSafe(dateTo), toUnixTimeNullSafe(lastTxDateFrom), toUnixTimeNullSafe(lastTxDateTo), status);
+    }
+
+    public CexIOTradeHistoryParams(CurrencyPair currencyPair, Integer limit, Long dateFrom, Long dateTo, Long lastTxDateFrom, Long lastTxDateTo, String status) {
       this.currencyPair = currencyPair;
       this.limit = limit;
       this.dateTo = dateTo;
