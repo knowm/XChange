@@ -4,11 +4,11 @@
     "956": {
       "pair": "btcusd",
       "type": "buy",
-      "amount": 12,
+      "volume": 12,
       "rate": 320,
-      "timestamp_created": 142123698,
+      "timestampCreated": 142123698,
       "status": 0,
-      "order_type": "limit"
+      "orderType": "limit"
     }
   }
 }

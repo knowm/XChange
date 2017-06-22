@@ -2,7 +2,8 @@ package org.knowm.xchange.dsx.service.trade.params;
 
 import java.util.Date;
 
-import org.knowm.xchange.dsx.DSXAuthenticated;
+import org.knowm.xchange.dsx.DSXAuthenticatedV2;
+import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -13,7 +14,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 
 public class DSXTransHistoryParams extends DefaultTradeHistoryParamPaging implements TradeHistoryParamsIdSpan, TradeHistoryParamsTimeSpan {
 
-  private DSXAuthenticated.SortOrder sortOrder;
+  private DSXAuthenticatedV2.SortOrder sortOrder;
+  private DSXTransHistoryResult.Status status;
+  private DSXTransHistoryResult.Type type;
   private String startId;
   private String endId;
   private Date startTime;
@@ -67,13 +70,29 @@ public class DSXTransHistoryParams extends DefaultTradeHistoryParamPaging implem
     return endTime;
   }
 
-  public void setSortOrder(DSXAuthenticated.SortOrder sortOrder) {
+  public void setSortOrder(DSXAuthenticatedV2.SortOrder sortOrder) {
 
     this.sortOrder = sortOrder;
   }
 
-  public DSXAuthenticated.SortOrder getSortOrder() {
+  public DSXAuthenticatedV2.SortOrder getSortOrder() {
 
     return sortOrder;
+  }
+
+  public DSXTransHistoryResult.Status getStatus() {
+    return status;
+  }
+
+  public void setStatus(DSXTransHistoryResult.Status status) {
+    this.status = status;
+  }
+
+  public DSXTransHistoryResult.Type getType() {
+    return type;
+  }
+
+  public void setType(DSXTransHistoryResult.Type type) {
+    this.type = type;
   }
 }
