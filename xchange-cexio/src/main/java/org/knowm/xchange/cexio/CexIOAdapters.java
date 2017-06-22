@@ -13,6 +13,7 @@ import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -242,9 +243,28 @@ public class CexIOAdapters {
       String id = cexIOArchivedOrder.id;
       String orderId = cexIOArchivedOrder.orderId;
 
-      return new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, id, orderId, null, null);
+      //fees are given as a %, eg 0.20 = 0.2%
+      BigDecimal makerFee = new BigDecimal(cexIOArchivedOrder.tradingFeeMaker);
+      BigDecimal takerFee = new BigDecimal(cexIOArchivedOrder.tradingFeeTaker);
+      BigDecimal feePercent = makerFee.add(takerFee);
+      BigDecimal fee = tradableAmount.multiply(price).multiply(feePercent).divide(new BigDecimal(100), 8, BigDecimal.ROUND_HALF_UP);//maybe we should scale this
+      Currency feeCcy = currencyPair.counter;
+      //todo: do this properly, the actual fee amount is given in the response - tfa:BTC (total fee amount BTC)
+      //need a better deserializer
+
+      return new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, id, orderId, fee, feeCcy);
     } catch (InvalidFormatException e) {
       throw new IllegalStateException("Cannot format date " + cexIOArchivedOrder.lastTxTime, e);
     }
+  }
+
+  public static Order adaptOrder(CexIOOpenOrder cexIOOrder) {
+    OrderType orderType = cexIOOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
+    BigDecimal tradableAmount = new BigDecimal(cexIOOrder.amount);
+    CurrencyPair currencyPair = new CurrencyPair(cexIOOrder.symbol1, cexIOOrder.symbol2);
+    Date timestamp = new Date(cexIOOrder.time);
+    BigDecimal limitPrice = new BigDecimal(cexIOOrder.price);
+
+    return new LimitOrder(orderType, tradableAmount, currencyPair, cexIOOrder.orderId, timestamp, limitPrice);
   }
 }
