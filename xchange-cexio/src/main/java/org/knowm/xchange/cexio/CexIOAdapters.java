@@ -1,11 +1,5 @@
 package org.knowm.xchange.cexio;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.cexio.dto.account.CexIOBalance;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
@@ -31,7 +25,13 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.DateUtils;
 
-import static org.knowm.xchange.utils.DateUtils.fromISODateString;
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.knowm.xchange.utils.DateUtils.*;
 
 /**
  * Author: brox Since: 2/6/14
@@ -109,8 +109,8 @@ public class CexIOAdapters {
    */
   public static OrderBook adaptOrderBook(CexIODepth depth, CurrencyPair currencyPair) {
 
-    List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, depth.getAsks());
-    List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, depth.getBids());
+    List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, depth.getAsks());
+    List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, depth.getBids());
     Date date = new Date(depth.getTimestamp() * 1000);
     return new OrderBook(date, asks, bids);
   }
@@ -194,7 +194,7 @@ public class CexIOAdapters {
     return new Balance(currency, null, balance.getAvailable(), balance.getOrders());
   }
 
-  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> o : orders) {
@@ -204,7 +204,7 @@ public class CexIOAdapters {
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
   }
@@ -221,7 +221,7 @@ public class CexIOAdapters {
     List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (CexIOOrder cexIOOrder : cexIOOrderList) {
-      Order.OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? Order.OrderType.BID : Order.OrderType.ASK;
+      OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       String id = Long.toString(cexIOOrder.getId());
       limitOrders.add(new LimitOrder(orderType, cexIOOrder.getPending(),
           new CurrencyPair(cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()), id,
@@ -243,14 +243,8 @@ public class CexIOAdapters {
       String id = cexIOArchivedOrder.id;
       String orderId = cexIOArchivedOrder.orderId;
 
-      //fees are given as a %, eg 0.20 = 0.2%
-      BigDecimal makerFee = new BigDecimal(cexIOArchivedOrder.tradingFeeMaker);
-      BigDecimal takerFee = new BigDecimal(cexIOArchivedOrder.tradingFeeTaker);
-      BigDecimal feePercent = makerFee.add(takerFee);
-      BigDecimal fee = tradableAmount.multiply(price).multiply(feePercent).divide(new BigDecimal(100), 8, BigDecimal.ROUND_HALF_UP);//maybe we should scale this
-      Currency feeCcy = currencyPair.counter;
-      //todo: do this properly, the actual fee amount is given in the response - tfa:BTC (total fee amount BTC)
-      //need a better deserializer
+      Currency feeCcy = Currency.getInstance(cexIOArchivedOrder.feeCcy);
+      BigDecimal fee = new BigDecimal(cexIOArchivedOrder.feeValue);
 
       return new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, id, orderId, fee, feeCcy);
     } catch (InvalidFormatException e) {
