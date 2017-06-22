@@ -3,6 +3,7 @@ package org.knowm.xchange.examples.dsx.account;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
 import org.knowm.xchange.dsx.service.DSXAccountServiceRaw;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -19,6 +20,7 @@ public class DSXAccountInfoDemo {
     Exchange dsx = DSXExamplesUtils.createExchange();
     generic(dsx);
     raw(dsx);
+    generice(dsx);
   }
 
   private static void generic(Exchange exchange) throws IOException {
@@ -35,5 +37,13 @@ public class DSXAccountInfoDemo {
 
     DSXAccountInfo accountInfo = accountService.getDSXAccountInfo();
     System.out.println("DSX Wallet as String: " + accountInfo.toString());
+  }
+
+  private static void generice(Exchange exchange) throws IOException {
+
+    AccountService accountService = exchange.getAccountService();
+
+    String address = accountService.requestDepositAddress(Currency.BTC, "0");
+    System.out.println(address);
   }
 }

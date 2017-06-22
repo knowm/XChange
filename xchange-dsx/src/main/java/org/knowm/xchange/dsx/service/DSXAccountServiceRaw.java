@@ -2,16 +2,17 @@ package org.knowm.xchange.dsx.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Map;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.dsx.DSXAuthenticatedV2;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfoReturn;
 import org.knowm.xchange.dsx.dto.account.DSXCryptoDepositAddressReturn;
 import org.knowm.xchange.dsx.dto.account.DSXCryptoWithdrawReturn;
 import org.knowm.xchange.dsx.dto.account.DSXFiatWithdrawReturn;
-import org.knowm.xchange.dsx.dto.account.DSXTransaction;
-import org.knowm.xchange.dsx.dto.account.DSXTransactionReturn;
+import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
+import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryReturn;
 
 /**
  * @author Mikhail Wall
@@ -75,13 +76,11 @@ public class DSXAccountServiceRaw extends DSXBaseService {
 
     DSXCryptoDepositAddressReturn info = dsx.getCryptoDepositAddress(apiKey, signatureCreator, exchange.getNonceFactory(), currency, newAddress);
     checkResult(info);
-    return String.valueOf(info.getReturnValue().getCryproAddress());
+    return String.valueOf(info.getReturnValue().getAddress());
   }
 
     /**
      * Get Map of transactions (withdrawals/deposits) from DSX exchange. Not all parameters are required.
-     * @param from
-     * @param to
      * @param fromId
      * @param toId
      * @param type
@@ -90,10 +89,10 @@ public class DSXAccountServiceRaw extends DSXBaseService {
      * @return
      * @throws IOException
      */
-    public List<DSXTransaction> getDSXTransHistory(Long from, Long to, Long fromId, Long toId, DSXTransaction.Type type,
-            DSXTransaction.Status status, String currency) throws IOException {
-        DSXTransactionReturn dsxTransHistory = dsx.getTransactions(apiKey, signatureCreator, exchange.getNonceFactory(), from, to,
-                fromId, toId, type, status, currency);
+    public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Long to, Long fromId, Long toId, DSXAuthenticatedV2.SortOrder sortOrder, Long since, Long end,
+        DSXTransHistoryResult.Type type, DSXTransHistoryResult.Status status, String currency) throws IOException {
+      DSXTransHistoryReturn dsxTransHistory = dsx.TransHistory(apiKey, signatureCreator, exchange.getNonceFactory(), to, fromId, toId, sortOrder, since,
+          end, type, status, currency);
         checkResult(dsxTransHistory);
         return dsxTransHistory.getReturnValue();
     }
