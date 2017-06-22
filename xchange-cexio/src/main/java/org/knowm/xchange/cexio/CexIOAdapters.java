@@ -118,73 +118,15 @@ public class CexIOAdapters {
   /**
    * Adapts CexIOBalanceInfo to Wallet
    *
-   * @param balance CexIOBalanceInfo balance
+   * @param cexIOBalanceInfo CexIOBalanceInfo balance
    * @return The account info
    */
-  public static Wallet adaptWallet(CexIOBalanceInfo balance) {
+  public static Wallet adaptWallet(CexIOBalanceInfo cexIOBalanceInfo) {
 
     List<Balance> balances = new ArrayList<>();
-
-    // Adapt to XChange DTOs
-    if (balance.getBalanceBTC() != null) {
-      balances.add(adaptBalance(Currency.BTC, balance.getBalanceBTC()));
-    }
-    if (balance.getBalanceLTC() != null) {
-      balances.add(adaptBalance(Currency.LTC, balance.getBalanceLTC()));
-    }
-    if (balance.getBalanceNMC() != null) {
-      balances.add(adaptBalance(Currency.NMC, balance.getBalanceNMC()));
-    }
-    if (balance.getBalanceIXC() != null) {
-      balances.add(adaptBalance(Currency.IXC, balance.getBalanceIXC()));
-    }
-    if (balance.getBalanceDVC() != null) {
-      balances.add(adaptBalance(Currency.DVC, balance.getBalanceDVC()));
-    }
-    if (balance.getBalanceGHS() != null) {
-      balances.add(adaptBalance(Currency.GHs, balance.getBalanceGHS()));
-    }
-    if (balance.getBalanceUSD() != null) {
-      balances.add(adaptBalance(Currency.USD, balance.getBalanceUSD()));
-    }
-    if (balance.getBalanceDRK() != null) {
-      balances.add(adaptBalance(Currency.DRK, balance.getBalanceDRK()));
-    }
-    if (balance.getBalanceEUR() != null) {
-      balances.add(adaptBalance(Currency.EUR, balance.getBalanceEUR()));
-    }
-    if (balance.getBalanceDOGE() != null) {
-      balances.add(adaptBalance(Currency.DOGE, balance.getBalanceDOGE()));
-    }
-    if (balance.getBalanceFTC() != null) {
-      balances.add(adaptBalance(Currency.FTC, balance.getBalanceFTC()));
-    }
-    if (balance.getBalanceMEC() != null) {
-      balances.add(adaptBalance(Currency.MEC, balance.getBalanceMEC()));
-    }
-    if (balance.getBalanceWDC() != null) {
-      balances.add(adaptBalance(Currency.WDC, balance.getBalanceWDC()));
-    }
-    if (balance.getBalanceMYR() != null) {
-      balances.add(adaptBalance(Currency.MYR, balance.getBalanceMYR()));
-    }
-    if (balance.getBalanceAUR() != null) {
-      balances.add(adaptBalance(Currency.AUR, balance.getBalanceAUR()));
-    }
-    if (balance.getBalancePOT() != null) {
-      balances.add(adaptBalance(Currency.POT, balance.getBalancePOT()));
-    }
-    if (balance.getBalanceANC() != null) {
-      balances.add(adaptBalance(Currency.ANC, balance.getBalanceANC()));
-    }
-    if (balance.getBalanceDGB() != null) {
-      balances.add(adaptBalance(Currency.DGB, balance.getBalanceDGB()));
-    }
-    if (balance.getBalanceUSDE() != null) {
-      balances.add(adaptBalance(Currency.USDE, balance.getBalanceUSDE()));
-    }
-    if (balance.getBalanceETH() != null) {
-      balances.add(adaptBalance(Currency.ETH, balance.getBalanceETH()));
+    for (String ccyName : cexIOBalanceInfo.getBalances().keySet()) {
+      CexIOBalance cexIOBalance = cexIOBalanceInfo.getBalances().get(ccyName);
+      balances.add(adaptBalance(new Currency(ccyName), cexIOBalance));
     }
 
     return new Wallet(balances);
