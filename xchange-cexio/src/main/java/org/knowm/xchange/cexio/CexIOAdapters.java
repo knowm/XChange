@@ -243,8 +243,8 @@ public class CexIOAdapters {
       String id = cexIOArchivedOrder.id;
       String orderId = cexIOArchivedOrder.orderId;
 
-      Currency feeCcy = Currency.getInstance(cexIOArchivedOrder.feeCcy);
-      BigDecimal fee = new BigDecimal(cexIOArchivedOrder.feeValue);
+      Currency feeCcy = cexIOArchivedOrder.feeCcy == null ? null : Currency.getInstance(cexIOArchivedOrder.feeCcy);
+      BigDecimal fee = cexIOArchivedOrder.feeValue == null ? null : new BigDecimal(cexIOArchivedOrder.feeValue);
 
       return new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, id, orderId, fee, feeCcy);
     } catch (InvalidFormatException e) {
