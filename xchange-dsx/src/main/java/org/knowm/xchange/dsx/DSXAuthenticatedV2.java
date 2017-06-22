@@ -31,8 +31,6 @@ import org.knowm.xchange.dsx.dto.trade.DSXFeesReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXOrderStatusReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXVolumeReturn;
 
-import com.sun.istack.internal.Nullable;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
