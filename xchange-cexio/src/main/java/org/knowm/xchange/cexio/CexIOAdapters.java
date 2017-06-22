@@ -1,11 +1,5 @@
 package org.knowm.xchange.cexio;
 
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.cexio.dto.account.CexIOBalance;
 import org.knowm.xchange.cexio.dto.account.CexIOBalanceInfo;
@@ -13,6 +7,7 @@ import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -30,7 +25,13 @@ import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.DateUtils;
 
-import static org.knowm.xchange.utils.DateUtils.fromISODateString;
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.knowm.xchange.utils.DateUtils.*;
 
 /**
  * Author: brox Since: 2/6/14
@@ -108,8 +109,8 @@ public class CexIOAdapters {
    */
   public static OrderBook adaptOrderBook(CexIODepth depth, CurrencyPair currencyPair) {
 
-    List<LimitOrder> asks = createOrders(currencyPair, Order.OrderType.ASK, depth.getAsks());
-    List<LimitOrder> bids = createOrders(currencyPair, Order.OrderType.BID, depth.getBids());
+    List<LimitOrder> asks = createOrders(currencyPair, OrderType.ASK, depth.getAsks());
+    List<LimitOrder> bids = createOrders(currencyPair, OrderType.BID, depth.getBids());
     Date date = new Date(depth.getTimestamp() * 1000);
     return new OrderBook(date, asks, bids);
   }
@@ -193,7 +194,7 @@ public class CexIOAdapters {
     return new Balance(currency, null, balance.getAvailable(), balance.getOrders());
   }
 
-  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
     for (List<BigDecimal> o : orders) {
@@ -203,7 +204,7 @@ public class CexIOAdapters {
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, OrderType orderType) {
 
     return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
   }
@@ -220,7 +221,7 @@ public class CexIOAdapters {
     List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (CexIOOrder cexIOOrder : cexIOOrderList) {
-      Order.OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? Order.OrderType.BID : Order.OrderType.ASK;
+      OrderType orderType = cexIOOrder.getType() == CexIOOrder.Type.buy ? OrderType.BID : OrderType.ASK;
       String id = Long.toString(cexIOOrder.getId());
       limitOrders.add(new LimitOrder(orderType, cexIOOrder.getPending(),
           new CurrencyPair(cexIOOrder.getTradableIdentifier(), cexIOOrder.getTransactionCurrency()), id,
@@ -242,9 +243,22 @@ public class CexIOAdapters {
       String id = cexIOArchivedOrder.id;
       String orderId = cexIOArchivedOrder.orderId;
 
-      return new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, id, orderId, null, null);
+      Currency feeCcy = cexIOArchivedOrder.feeCcy == null ? null : Currency.getInstance(cexIOArchivedOrder.feeCcy);
+      BigDecimal fee = cexIOArchivedOrder.feeValue == null ? null : new BigDecimal(cexIOArchivedOrder.feeValue);
+
+      return new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, id, orderId, fee, feeCcy);
     } catch (InvalidFormatException e) {
       throw new IllegalStateException("Cannot format date " + cexIOArchivedOrder.lastTxTime, e);
     }
+  }
+
+  public static Order adaptOrder(CexIOOpenOrder cexIOOrder) {
+    OrderType orderType = cexIOOrder.type.equals("sell") ? OrderType.ASK : OrderType.BID;
+    BigDecimal tradableAmount = new BigDecimal(cexIOOrder.amount);
+    CurrencyPair currencyPair = new CurrencyPair(cexIOOrder.symbol1, cexIOOrder.symbol2);
+    Date timestamp = new Date(cexIOOrder.time);
+    BigDecimal limitPrice = new BigDecimal(cexIOOrder.price);
+
+    return new LimitOrder(orderType, tradableAmount, currencyPair, cexIOOrder.orderId, timestamp, limitPrice);
   }
 }
