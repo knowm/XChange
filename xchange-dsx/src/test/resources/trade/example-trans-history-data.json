@@ -3,7 +3,7 @@
   "return": {
     "1000": {
       "id": 1000,
-      "type": 3,
+      "type": "Incoming",
       "amount": 2.5,
       "currency": "USD",
       "desc": "Income",
