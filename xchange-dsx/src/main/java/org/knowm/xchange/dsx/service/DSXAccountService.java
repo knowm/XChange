@@ -56,6 +56,7 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
       long transactionId = fiat
               ? withdrawFiat(c, amount)
               : withdrawCrypto(c, address, amount, null);
+      submitWithdraw(transactionId);
       return Long.toString(transactionId);
   }
   
