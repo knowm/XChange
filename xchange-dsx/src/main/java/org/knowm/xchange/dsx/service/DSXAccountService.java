@@ -131,7 +131,7 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
 
   private FundingRecord.Type convert(DSXTransHistoryResult.Type type) {
       switch (type) {
-        case Deposit: return FundingRecord.Type.DEPOSIT;
+        case Incoming: return FundingRecord.Type.DEPOSIT;
         case Withdraw: return FundingRecord.Type.WITHDRAWAL;
       default:
         throw new RuntimeException("Unknown DSX transaction type: " + type);
