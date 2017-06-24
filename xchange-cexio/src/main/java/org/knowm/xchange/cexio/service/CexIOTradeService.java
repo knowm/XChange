@@ -8,6 +8,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAdapters;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
+import org.knowm.xchange.cexio.dto.trade.CexIOOpenOrder;
 import org.knowm.xchange.cexio.dto.trade.CexIOOrder;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -17,6 +18,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /**
@@ -43,7 +45,13 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
   @Override
   public OpenOrders getOpenOrders(
       OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    List<CexIOOrder> cexIOOrderList = getCexIOOpenOrders();
+
+    List<CexIOOrder> cexIOOrderList;
+    if (params instanceof OpenOrdersParamCurrencyPair) {
+      cexIOOrderList = getCexIOOpenOrders(((OpenOrdersParamCurrencyPair) params).getCurrencyPair());
+    } else {
+      cexIOOrderList = getCexIOOpenOrders();
+    }
 
     return CexIOAdapters.adaptOpenOrders(cexIOOrderList);
   }
@@ -70,9 +78,8 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    List<CexIOArchivedOrder> cexIOArchivedOrders = archivedOrders(params);
-    ArrayList<UserTrade> trades = new ArrayList<>();
-    for (CexIOArchivedOrder cexIOArchivedOrder : cexIOArchivedOrders) {
+    List<UserTrade> trades = new ArrayList<>();
+    for (CexIOArchivedOrder cexIOArchivedOrder : archivedOrders(params)) {
       trades.add(CexIOAdapters.adaptArchivedOrder(cexIOArchivedOrder));
     }
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
@@ -92,7 +99,13 @@ public class CexIOTradeService extends CexIOTradeServiceRaw implements TradeServ
   @Override
   public Collection<Order> getOrder(
       String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+
+    List<Order> orders = new ArrayList<>();
+    for (String orderId : orderIds) {
+      CexIOOpenOrder cexIOOrder = getOrderDetail(orderId);
+      orders.add(CexIOAdapters.adaptOrder(cexIOOrder));
+    }
+    return orders;
   }
 
 }

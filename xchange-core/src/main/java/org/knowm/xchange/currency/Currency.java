@@ -103,6 +103,7 @@ public class Currency implements Comparable<Currency> {
   public static final Currency IDR = createCurrency("IDR", "Indonesian Rupiah", null);
   public static final Currency ILS = createCurrency("ILS", "Israeli New Sheqel", null);
   public static final Currency INR = createCurrency("INR", "Indian Rupee", null);
+  public static final Currency IOC = createCurrency("IOC", "I/OCoin", null);
   public static final Currency IQD = createCurrency("IQD", "Iraqi Dinar", null);
   public static final Currency IRR = createCurrency("IRR", "Iranian Rial", null);
   public static final Currency ISK = createCurrency("ISK", "Icelandic Króna", null);
