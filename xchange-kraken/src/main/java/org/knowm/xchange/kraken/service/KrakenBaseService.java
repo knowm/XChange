@@ -22,6 +22,7 @@ import org.knowm.xchange.kraken.dto.trade.KrakenOrderFlags;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.BaseService;
 
+import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -39,7 +40,14 @@ public class KrakenBaseService extends BaseExchangeService implements BaseServic
 
     super(exchange);
 
-    kraken = RestProxyFactory.createProxy(KrakenAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    ClientConfig rescuConfig = new ClientConfig(); // default rescu config
+
+    int customHttpReadTimeout = exchange.getExchangeSpecification().getHttpReadTimeout();
+    if (customHttpReadTimeout > 0) {
+      rescuConfig.setHttpReadTimeout(customHttpReadTimeout);
+    }
+    
+    kraken = RestProxyFactory.createProxy(KrakenAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), rescuConfig);
     signatureCreator = KrakenDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
