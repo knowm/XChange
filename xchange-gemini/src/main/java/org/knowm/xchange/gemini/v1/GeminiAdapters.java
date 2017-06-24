@@ -216,7 +216,7 @@ public final class GeminiAdapters {
     BigDecimal ask = GeminiTicker.getAsk();
     BigDecimal volume = GeminiTicker.getVolume().getBaseVolume(currencyPair);
 
-    Date timestamp = DateUtils.fromMillisUtc((long) (GeminiTicker.getVolume().getTimestampMS()));
+    Date timestamp = DateUtils.fromMillisUtc(GeminiTicker.getVolume().getTimestampMS());
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume).timestamp(timestamp)
         .build();
@@ -283,10 +283,9 @@ public final class GeminiAdapters {
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
   }
 
-  private static Date convertBigDecimalTimestampToDate(BigDecimal timestamp) {
+  private static Date convertBigDecimalTimestampToDate(BigDecimal timestampInSeconds) {
 
-    BigDecimal timestampInMillis = timestamp.multiply(new BigDecimal("1000"));
-    return new Date(timestampInMillis.longValue());
+    return new Date((long)Math.floor(timestampInSeconds.doubleValue() * 1000));
   }
 
   public static ExchangeMetaData adaptMetaData(List<CurrencyPair> currencyPairs, ExchangeMetaData metaData) {
