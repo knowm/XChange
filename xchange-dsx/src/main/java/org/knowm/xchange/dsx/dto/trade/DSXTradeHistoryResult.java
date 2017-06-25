@@ -20,7 +20,7 @@ public class DSXTradeHistoryResult {
   private BigDecimal commission;
   private String commissionCurrency;
 
-  public DSXTradeHistoryResult(@JsonProperty("pair") String pair, @JsonProperty("type") Type type, @JsonProperty("amount") BigDecimal amount,
+  public DSXTradeHistoryResult(@JsonProperty("pair") String pair, @JsonProperty("type") Type type, @JsonProperty("volume") BigDecimal amount,
       @JsonProperty("rate") BigDecimal rate, @JsonProperty("orderId") Long orderId, @JsonProperty("timestamp") Long timestamp, @JsonProperty("commission") BigDecimal commission,
       @JsonProperty("commissionCurrency") String commissionCurrency) {
 
