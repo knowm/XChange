@@ -1,13 +1,5 @@
 package org.knowm.xchange.bleutrade;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeLevel;
@@ -32,7 +24,16 @@ import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class BleutradeAdapters {
 
@@ -163,4 +164,19 @@ public class BleutradeAdapters {
     return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null);
   }
 
+  public static UserTrade adaptUserTrade(BleutradeOpenOrder trade) {
+    OrderType orderType = trade.getType().equalsIgnoreCase("sell") ? OrderType.ASK : OrderType.BID;
+    CurrencyPair currencyPair = BleutradeUtils.toCurrencyPair(trade.getExchange());
+    return new UserTrade(
+        orderType,
+        trade.getQuantity(),
+        currencyPair,
+        trade.getPrice(),
+        BleutradeUtils.toDate(trade.getCreated()),
+        trade.getOrderId(),
+        trade.getOrderId(),
+        null,
+        null
+    );
+  }
 }
