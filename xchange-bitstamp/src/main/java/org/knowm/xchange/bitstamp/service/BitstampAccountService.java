@@ -41,7 +41,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    final BitstampWithdrawal response = withdrawBitstampFunds(currency, amount, address);
+    final BitstampWithdrawal response = withdrawBitstampFunds(currency, amount, address, null);
     if (response.getId() == null) {
       return null;
     }
