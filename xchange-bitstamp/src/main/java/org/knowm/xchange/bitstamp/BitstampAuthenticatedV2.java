@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bitstamp.dto.BitstampException;
+import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 
@@ -50,4 +51,11 @@ public interface BitstampAuthenticatedV2 {
   enum Side {
     buy, sell
   }
+  
+  @POST
+  @Path("xrp_withdrawal/")
+  BitstampWithdrawal xrpWithdrawal(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("amount") BigDecimal amount, 
+      @FormParam("address") String rippleAddress, @FormParam("destination_tag") String destinationTag) throws BitstampException, IOException;
+
 }
