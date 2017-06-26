@@ -35,8 +35,8 @@ public class GatecoinExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://www.gatecoin.com");
-    exchangeSpecification.setHost("www.gatecoin.com");
+    exchangeSpecification.setSslUri("https://api.gatecoin.com");
+    exchangeSpecification.setHost("api.gatecoin.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Gatecoin");
     return exchangeSpecification;
