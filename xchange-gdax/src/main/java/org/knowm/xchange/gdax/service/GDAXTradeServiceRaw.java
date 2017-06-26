@@ -2,7 +2,6 @@ package org.knowm.xchange.gdax.service;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
@@ -38,7 +37,9 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
     } else if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
       TradeHistoryParamCurrencyPair ccyPairParams = (TradeHistoryParamCurrencyPair) tradeHistoryParams;
       CurrencyPair currencyPair = ccyPairParams.getCurrencyPair();
-      productId = toProductId(currencyPair);
+      if(currencyPair != null) {
+        productId = toProductId(currencyPair);
+      }
     }
 
     return coinbaseEx.getFills(apiKey, digest, getTimestamp(), passphrase, orderId, productId);
