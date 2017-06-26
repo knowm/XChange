@@ -33,17 +33,17 @@
     "LTC/USD": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.1
+      "min_amount": 0.15
     },
     "LTC/EUR": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.1
+      "min_amount": 0.15
     },
     "LTC/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0025,
-      "min_amount": 200.0000000
+      "min_amount": 0.15
     }
   },
   "currencies": {
