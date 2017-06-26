@@ -20,8 +20,8 @@ public class DSXOrderHistoryResult {
   private final OrderType orderType;
 
   public DSXOrderHistoryResult(@JsonProperty("pair") String pair, @JsonProperty("type") Type type, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("rate") BigDecimal rate, @JsonProperty("timestamp_created") Long timestampCreated, @JsonProperty("status") Status status,
-      @JsonProperty("order_type") OrderType orderType) {
+      @JsonProperty("rate") BigDecimal rate, @JsonProperty("timestampCreated") Long timestampCreated, @JsonProperty("status") Status status,
+      @JsonProperty("orderType") OrderType orderType) {
 
     this.pair = pair;
     this.type = type;
@@ -63,7 +63,7 @@ public class DSXOrderHistoryResult {
   @Override
   public String toString() {
 
-    return MessageFormat.format("DSXOrderHistory[pair=''{0}'', type={1}, amount={2}, rate={3}, timestamp_created={4}, status={5}, order_type={6}]",
+    return MessageFormat.format("DSXOrderHistory[pair=''{0}'', type={1}, amount={2}, rate={3}, timestampCreated={4}, status={5}, orderType={6}]",
         pair, type, amount, rate, timestampCreated, status, orderType);
   }
 

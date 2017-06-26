@@ -23,11 +23,9 @@ public class GDAXTradesDemo {
     raw((GDAXMarketDataServiceRaw) marketDataService);
   }
 
-  private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
-
   public static void generic(MarketDataService marketDataService) throws IOException {
 
-    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD, System.currentTimeMillis() - DAY_IN_MILLIS);
+    Trades trades = marketDataService.getTrades(CurrencyPair.BTC_USD);
     System.out.println(trades);
   }
 

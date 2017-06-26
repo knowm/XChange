@@ -44,8 +44,9 @@ public class TheRockAccountServiceRaw extends TheRockBaseService {
    * Withdraw to Ripple
    */
   public TheRockWithdrawalResponse withdrawRipple(Currency currency, BigDecimal amount,
-      String destinationAddress) throws TheRockException, IOException {
-    final TheRockWithdrawal withdrawal = TheRockWithdrawal.createRippleWithdrawal(currency.getCurrencyCode(), amount, destinationAddress);
+      String destinationAddress, Long destinationTag) throws TheRockException, IOException {
+    final TheRockWithdrawal withdrawal = TheRockWithdrawal.createRippleWithdrawal(currency.getCurrencyCode(), amount
+            , destinationAddress, destinationTag);
     return theRockAuthenticated.withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), withdrawal);
   }
 

@@ -35,19 +35,25 @@ public class PoloniexBaseService extends BaseExchangeService implements BaseServ
 
     super(exchange);
     // Fix for empty string array mapping exception
-    ClientConfig config = new ClientConfig();
-    config.setJacksonObjectMapperFactory(new DefaultJacksonObjectMapperFactory() {
+    ClientConfig rescuConfig = new ClientConfig();
+    rescuConfig.setJacksonObjectMapperFactory(new DefaultJacksonObjectMapperFactory() {
       @Override
       public void configureObjectMapper(ObjectMapper objectMapper) {
         super.configureObjectMapper(objectMapper);
         objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
       }
     });
-    this.poloniexAuthenticated = RestProxyFactory.createProxy(PoloniexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), config);
+    
+    // allow HTTP read timeout to be altered per exchange
+    int customHttpReadTimeout = exchange.getExchangeSpecification().getHttpReadTimeout();
+    if (customHttpReadTimeout > 0) {
+      rescuConfig.setHttpReadTimeout(customHttpReadTimeout);
+    }
+    
+    this.poloniexAuthenticated = RestProxyFactory.createProxy(PoloniexAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), rescuConfig);
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = PoloniexDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-    this.poloniex = RestProxyFactory.createProxy(Poloniex.class, exchange.getExchangeSpecification().getSslUri(), config);
-
+    this.poloniex = RestProxyFactory.createProxy(Poloniex.class, exchange.getExchangeSpecification().getSslUri(), rescuConfig);
   }
 
 }

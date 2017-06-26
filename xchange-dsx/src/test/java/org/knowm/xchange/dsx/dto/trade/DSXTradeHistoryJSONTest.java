@@ -32,7 +32,6 @@ public class DSXTradeHistoryJSONTest {
     assertThat(firstEnrty.getValue().getAmount()).isEqualTo(new BigDecimal("10"));
     assertThat(firstEnrty.getValue().getRate()).isEqualTo(new BigDecimal("300"));
     assertThat(firstEnrty.getValue().getOrderId()).isEqualTo(576L);
-    assertThat(firstEnrty.getValue().isYourOrder()).isEqualTo(true);
     assertThat(firstEnrty.getValue().getTimestamp()).isEqualTo(142123698L);
     assertThat(firstEnrty.getValue().getCommission()).isEqualTo(new BigDecimal("0.001"));
     assertThat(firstEnrty.getValue().getCommissionCurrency()).isEqualTo("USD");

@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
+import org.knowm.xchange.dsx.dto.account.DSXCurrencyAmount;
 import org.knowm.xchange.dsx.dto.marketdata.DSXExchangeInfo;
 import org.knowm.xchange.dsx.dto.marketdata.DSXPairInfo;
 import org.knowm.xchange.dsx.dto.marketdata.DSXTicker;
@@ -110,10 +111,10 @@ public class DSXAdapters {
 
   public static Wallet adaptWallet(DSXAccountInfo dsxAccountInfo) {
     List<Balance> balances = new ArrayList<>();
-    for (Entry<String, BigDecimal> e: dsxAccountInfo.getTotal().entrySet()) {
+    for (Entry<String, DSXCurrencyAmount> e: dsxAccountInfo.getFunds().entrySet()) {
         String currency = e.getKey();
-        BigDecimal total = e.getValue();
-        BigDecimal available =  dsxAccountInfo.getFunds().get(currency);
+        BigDecimal total = e.getValue().getTotal();
+        BigDecimal available =  e.getValue().getAvailable();
         if (available == null) {
             available = total;
         }

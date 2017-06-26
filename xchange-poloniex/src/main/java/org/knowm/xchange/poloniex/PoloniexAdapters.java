@@ -195,25 +195,22 @@ public class PoloniexAdapters {
     Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchangeMetaData.getCurrencies();
     CurrencyMetaData currencyArchetype = currencyMetaDataMap.values().iterator().next();
 
-    currencyMetaDataMap.clear();
     for (Map.Entry<String, PoloniexCurrencyInfo> entry : poloniexCurrencyInfo.entrySet()) {
 
-      PoloniexCurrencyInfo currencyInfo = entry.getValue();
+      Currency ccy = Currency.getInstance(entry.getKey());
 
-      if (currencyInfo.isDelisted() || currencyInfo.isDisabled()) {
-        continue;
-      }
-
-      currencyMetaDataMap.put(Currency.getInstance(entry.getKey()), currencyArchetype);
+      if(!currencyMetaDataMap.containsKey(ccy))
+        currencyMetaDataMap.put(ccy, currencyArchetype);
     }
 
     Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchangeMetaData.getCurrencyPairs();
     CurrencyPairMetaData marketArchetype = marketMetaDataMap.values().iterator().next();
 
-    marketMetaDataMap.clear();
     for (String market : poloniexMarketData.keySet()) {
+      CurrencyPair currencyPair = PoloniexUtils.toCurrencyPair(market);
 
-      marketMetaDataMap.put(PoloniexUtils.toCurrencyPair(market), marketArchetype);
+      if(!marketMetaDataMap.containsKey(currencyPair))
+        marketMetaDataMap.put(currencyPair, marketArchetype);
     }
 
     return exchangeMetaData;

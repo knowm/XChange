@@ -1,42 +1,41 @@
 package org.knowm.xchange.dsx.dto.account;
 
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * @author Mikhail Wall
  */
 
 public class DSXCryptoDepositAddress {
 
-  private final String cryproAddress;
-  private final Address newAddress;
+  private final String address;
+  private final int isNew;
   private final String currency;
 
-  public DSXCryptoDepositAddress(String cryproAddress, Address newAddress, String currency) {
-    this.cryproAddress = cryproAddress;
-    this.newAddress = newAddress;
+  public DSXCryptoDepositAddress(@JsonProperty("address") String address, @JsonProperty("new") int isNew, @JsonProperty("currency") String currency) {
+    this.address = address;
+    this.isNew = isNew;
     this.currency = currency;
   }
 
-  public String getCryproAddress() {
-    return cryproAddress;
+  public String getAddress() {
+    return address;
   }
 
-  public Address getNewAddress() {
-    return newAddress;
+  public int getIsNew() {
+    return isNew;
   }
 
   public String getCurrency() {
     return currency;
   }
 
-  public enum Address {
-    old_address, new_address
-  }
-
   @Override
   public String toString() {
     return "DSXCryptoDepositAddress{" +
-        "cryproAddress='" + cryproAddress + '\'' +
-        ", newAddress=" + newAddress +
+        "cryptoAddress='" + address + '\'' +
+        ", newAddress=" + isNew +
         ", currency='" + currency + '\'' +
         '}';
   }
