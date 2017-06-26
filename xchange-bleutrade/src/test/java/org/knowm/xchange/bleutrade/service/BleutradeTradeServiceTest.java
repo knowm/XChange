@@ -2,10 +2,12 @@ package org.knowm.xchange.bleutrade.service;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.fail;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,6 +21,7 @@ import org.knowm.xchange.bleutrade.BleutradeAuthenticated;
 import org.knowm.xchange.bleutrade.BleutradeException;
 import org.knowm.xchange.bleutrade.BleutradeExchange;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeCancelOrderReturn;
+import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrdersReturn;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,6 +29,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamCurrencyPair;
@@ -291,13 +295,58 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
     fail("BleutradeAccountService should throw ExchangeException on cancel order request error");
   }
 
-  @Test(expected = NotAvailableFromExchangeException.class)
-  public void shouldFailOnGetTradeHistory() throws IOException {
-    // when
-    tradeService.getTradeHistory(new DefaultTradeHistoryParamCurrencyPair(CurrencyPair.BTC_AUD));
+  @Test
+  public void tradeHistoryShouldRequestAllMarketsIfNoneAreSupplied() throws IOException {
+    List<BleutradeOpenOrder> result = new ArrayList<>();
+    BleutradeOpenOrder order = anOrder();
+    result.add(order);
 
-    // then
-    fail("BleutradeAccountService should throw NotAvailableFromExchangeException when getTradeHistory is called");
+    BleutradeOpenOrdersReturn response = new BleutradeOpenOrdersReturn();
+    response.setResult(result);
+    response.setSuccess(true);
+
+    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
+    PowerMockito.when(bleutrade.getTrades(
+        Mockito.eq(SPECIFICATION_API_KEY),
+        Mockito.any(ParamsDigest.class),
+        Mockito.any(SynchronizedValueFactory.class),
+        Mockito.matches("ALL"),
+        Mockito.any(String.class),
+        Mockito.any(String.class)
+    )).thenReturn(response);
+
+    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
+
+    // when
+    UserTrades tradeHistory = tradeService.getTradeHistory(null);
+    assertThat(tradeHistory.getUserTrades()).hasSize(1);
+  }
+
+  @Test
+  public void tradeHistoryShouldUnderstandMarketParams() throws IOException {
+    List<BleutradeOpenOrder> result = new ArrayList<>();
+    BleutradeOpenOrder order = anOrder();
+    result.add(order);
+
+    BleutradeOpenOrdersReturn response = new BleutradeOpenOrdersReturn();
+    response.setResult(result);
+    response.setSuccess(true);
+
+    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
+    PowerMockito.when(bleutrade.getTrades(
+        Mockito.eq(SPECIFICATION_API_KEY),
+        Mockito.any(ParamsDigest.class),
+        Mockito.any(SynchronizedValueFactory.class),
+        Mockito.matches("BTC_AUD"),
+        Mockito.matches("status"),
+        Mockito.matches("type")
+    )).thenReturn(response);
+
+    Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
+
+    // when
+    UserTrades tradeHistory = tradeService.getTradeHistory(new BleutradeTradeServiceRaw.BleutradeTradeHistoryParams(CurrencyPair.BTC_AUD, "status", "type"));
+    assertThat(tradeHistory.getUserTrades()).hasSize(1);
   }
 
   @Test(expected = NotAvailableFromExchangeException.class)
@@ -307,5 +356,13 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
 
     // then
     fail("BleutradeAccountService should throw NotAvailableFromExchangeException when createTradeHistoryParams is called");
+  }
+
+  private static BleutradeOpenOrder anOrder() {
+    BleutradeOpenOrder order = new BleutradeOpenOrder();
+    order.setType("buy");
+    order.setExchange("BTC_AUD");
+    order.setCreated("2000-01-02 01:02:03.456");
+    return order;
   }
 }
