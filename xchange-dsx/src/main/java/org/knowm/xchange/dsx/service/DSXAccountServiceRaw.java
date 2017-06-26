@@ -11,6 +11,8 @@ import org.knowm.xchange.dsx.dto.account.DSXAccountInfoReturn;
 import org.knowm.xchange.dsx.dto.account.DSXCryptoDepositAddressReturn;
 import org.knowm.xchange.dsx.dto.account.DSXCryptoWithdrawReturn;
 import org.knowm.xchange.dsx.dto.account.DSXFiatWithdrawReturn;
+import org.knowm.xchange.dsx.dto.account.DSXTransaction;
+import org.knowm.xchange.dsx.dto.account.DSXTransactionReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryReturn;
 
@@ -63,6 +65,12 @@ public class DSXAccountServiceRaw extends DSXBaseService {
     DSXFiatWithdrawReturn info = dsx.fiatWithdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency, amount);
     checkResult(info);
     return info.getReturnValue().getTransactionId();
+  }
+
+  public DSXTransaction submitWithdraw(long transactionId) throws IOException {
+    DSXTransactionReturn ret = dsx.submitWithdraw(apiKey, signatureCreator, exchange.getNonceFactory(), transactionId);
+    checkResult(ret);
+    return ret.getReturnValue();
   }
   
   /**

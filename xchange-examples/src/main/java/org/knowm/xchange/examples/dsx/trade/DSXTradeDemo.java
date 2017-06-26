@@ -37,8 +37,7 @@ public class DSXTradeDemo {
 
     printOpenOrders(tradeService);
 
-    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, "", new Date(), new BigDecimal
-        ("900"));
+    LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, new BigDecimal("0.01"), CurrencyPair.BTC_USD, "", new Date(), new BigDecimal("900"));
 
     String limitOrderReturnValue = null;
     try {

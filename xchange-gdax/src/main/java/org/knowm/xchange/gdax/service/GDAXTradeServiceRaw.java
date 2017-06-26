@@ -44,7 +44,9 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
     } else if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
       TradeHistoryParamCurrencyPair ccyPairParams = (TradeHistoryParamCurrencyPair) tradeHistoryParams;
       CurrencyPair currencyPair = ccyPairParams.getCurrencyPair();
-      productId = toProductId(currencyPair);
+      if(currencyPair != null) {
+        productId = toProductId(currencyPair);
+      }
     }
 
     return coinbaseEx.getFills(apiKey, digest, nonceFactory, passphrase, orderId, productId);

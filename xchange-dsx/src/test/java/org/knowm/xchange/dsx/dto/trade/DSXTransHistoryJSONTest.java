@@ -27,7 +27,7 @@ public class DSXTransHistoryJSONTest {
     assertThat(result.size()).isEqualTo(1);
     Map.Entry<Long, DSXTransHistoryResult> firstEntry = result.entrySet().iterator().next();
     assertThat(firstEntry.getKey()).isEqualTo(1000L);
-    assertThat(firstEntry.getValue().getType()).isEqualTo(DSXTransHistoryResult.Type.Deposit);
+    assertThat(firstEntry.getValue().getType()).isEqualTo(DSXTransHistoryResult.Type.Incoming);
     assertThat(firstEntry.getValue().getAmount()).isEqualTo(new BigDecimal("2.5"));
     assertThat(firstEntry.getValue().getCurrency()).isEqualTo("USD");
     assertThat(firstEntry.getValue().getDesc()).isEqualTo("Income");

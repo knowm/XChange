@@ -11,10 +11,13 @@ import org.knowm.xchange.bittrex.v1.dto.trade.BittrexOpenOrdersResponse;
 import org.knowm.xchange.bittrex.v1.dto.trade.BittrexTradeHistoryResponse;
 import org.knowm.xchange.bittrex.v1.dto.trade.BittrexTradeResponse;
 import org.knowm.xchange.bittrex.v1.dto.trade.BittrexUserTrade;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 public class BittrexTradeServiceRaw extends BittrexBaseService {
 
@@ -95,9 +98,15 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
 
   }
 
-  public List<BittrexOpenOrder> getBittrexOpenOrders() throws IOException {
+  public List<BittrexOpenOrder> getBittrexOpenOrders(OpenOrdersParams params) throws IOException {
+    String ccyPair = null;
 
-    BittrexOpenOrdersResponse response = bittrexAuthenticated.openorders(apiKey, signatureCreator, exchange.getNonceFactory());
+    if(params != null && params instanceof OpenOrdersParamCurrencyPair) {
+      CurrencyPair currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
+      ccyPair = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
+    }
+
+    BittrexOpenOrdersResponse response = bittrexAuthenticated.openorders(apiKey, signatureCreator, exchange.getNonceFactory(), ccyPair);
 
     if (response.getSuccess()) {
       return response.getBittrexOpenOrders();
