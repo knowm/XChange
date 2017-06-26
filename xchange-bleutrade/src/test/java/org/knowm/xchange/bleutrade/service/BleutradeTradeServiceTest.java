@@ -337,7 +337,7 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
         Mockito.eq(SPECIFICATION_API_KEY),
         Mockito.any(ParamsDigest.class),
         Mockito.any(SynchronizedValueFactory.class),
-        Mockito.matches("market"),
+        Mockito.matches("BTC_AUD"),
         Mockito.matches("status"),
         Mockito.matches("type")
     )).thenReturn(response);
@@ -345,7 +345,7 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
     Whitebox.setInternalState(tradeService, "bleutrade", bleutrade);
 
     // when
-    UserTrades tradeHistory = tradeService.getTradeHistory(new BleutradeTradeServiceRaw.BleutradeTradeHistoryParams("market", "status", "type"));
+    UserTrades tradeHistory = tradeService.getTradeHistory(new BleutradeTradeServiceRaw.BleutradeTradeHistoryParams(CurrencyPair.BTC_AUD, "status", "type"));
     assertThat(tradeHistory.getUserTrades()).hasSize(1);
   }
 
