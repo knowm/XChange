@@ -24,12 +24,8 @@ public class GDAXBaseService<T extends GDAX> extends BaseExchangeService impleme
     super(exchange);
     this.coinbaseEx = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
     this.digest = GDAXDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.passphrase = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem("passphrase");
   }
 
-  protected String getTimestamp() {
-    return String.valueOf(System.currentTimeMillis() / 1000);
-  }
 }
