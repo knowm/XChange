@@ -70,7 +70,7 @@ public interface BittrexAuthenticated extends Bittrex {
   @GET
   @Path("market/getopenorders")
   BittrexOpenOrdersResponse openorders(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
-      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("market") String market) throws IOException;
 
   @GET
   @Path("account/getorderhistory")

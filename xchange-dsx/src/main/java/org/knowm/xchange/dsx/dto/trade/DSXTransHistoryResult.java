@@ -89,13 +89,13 @@ public class DSXTransHistoryResult {
    * Type of transaction
    */
   public enum Type {
-    reserved0, reserved1, Withdraw, Deposit
+      Incoming, Withdraw
   }
 
   /**
    * Status of transaction
    */
   public enum Status {
-    reserved0, Failed, Completed, Processing, Waiting_for_administrator_approve, Waiting_transfer, Rejected
+    reserved0, Failed, Completed, Processing, Rejected
   }
 }
