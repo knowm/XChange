@@ -41,6 +41,8 @@ public class GDAXAdaptersTest {
     assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.12").getTime()).isEqualTo(1493737803120L);
     assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123").getTime()).isEqualTo(1493737803123L);
     assertThat(GDAXAdapters.parseDate("2017-05-02T15:10:03.123456").getTime()).isEqualTo(1493737803123L);
+
+    assertThat(GDAXAdapters.parseDate("2017-06-21T04:52:01.996Z").getTime()).isEqualTo(1498020721996L);
   }
 
   @Test

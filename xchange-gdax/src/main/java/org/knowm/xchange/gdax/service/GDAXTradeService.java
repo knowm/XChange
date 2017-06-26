@@ -9,8 +9,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
@@ -28,46 +26,9 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
   }
 
   @Override
-  public OpenOrders getOpenOrders() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders() throws IOException {
+
     return getOpenOrders(createOpenOrdersParams());
-  }
-
-  @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    GDAXOrder[] coinbaseExOpenOrders = getCoinbaseExOpenOrders();
-    return GDAXAdapters.adaptOpenOrders(coinbaseExOpenOrders);
-  }
-
-  @Override
-  public String placeMarketOrder(
-      MarketOrder marketOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    GDAXIdResponse response = placeCoinbaseExMarketOrder(marketOrder);
-    return response.getId();
-  }
-
-  @Override
-  public String placeLimitOrder(
-      LimitOrder limitOrder) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    GDAXIdResponse response = placeCoinbaseExLimitOrder(limitOrder);
-    return response.getId();
-  }
-
-  @Override
-  public boolean cancelOrder(
-      String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return cancelCoinbaseExOrder(orderId);
-  }
-
-  @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    GDAXFill[] coinbaseExFills = getCoinbaseExFills(params);
-    return GDAXAdapters.adaptTradeHistory(coinbaseExFills);
-  }
-
-  @Override
-  public TradeHistoryParams createTradeHistoryParams() {
-    return new GDAXTradeHistoryParams();
   }
 
   @Override
@@ -76,8 +37,48 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
+
+    GDAXOrder[] coinbaseExOpenOrders = getGDAXOpenOrders();
+    return GDAXAdapters.adaptOpenOrders(coinbaseExOpenOrders);
+  }
+
+  @Override
+  public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+
+    GDAXIdResponse response = placeGDAXMarketOrder(marketOrder);
+    return response.getId();
+  }
+
+  @Override
+  public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
+
+    GDAXIdResponse response = placeGDAXLimitOrder(limitOrder);
+    return response.getId();
+  }
+
+  @Override
+  public boolean cancelOrder(String orderId) throws IOException {
+
+    return cancelGDAXOrder(orderId);
+  }
+
+  @Override
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+
+    GDAXFill[] coinbaseExFills = getGDAXFills(params);
+    return GDAXAdapters.adaptTradeHistory(coinbaseExFills);
+  }
+
+  @Override
+  public TradeHistoryParams createTradeHistoryParams() {
+
+    return new GDAXTradeHistoryParams();
+  }
+
+  @Override
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
+
     throw new NotYetImplementedForExchangeException();
   }
 }

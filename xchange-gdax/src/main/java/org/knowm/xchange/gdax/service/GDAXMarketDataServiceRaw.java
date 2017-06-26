@@ -77,7 +77,7 @@ public class GDAXMarketDataServiceRaw extends GDAXBaseService<GDAX> {
     return currencyPairSupported;
   }
 
-  public List<GDAXProduct> getConbaseExProducts() throws IOException {
+  public List<GDAXProduct> getCoinbaseExProducts() throws IOException {
 
     return coinbaseEx.getProducts();
   }

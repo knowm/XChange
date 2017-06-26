@@ -6,11 +6,13 @@ import java.util.Date;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dsx.DSXAdapters;
-import org.knowm.xchange.dsx.DSXAuthenticated;
+import org.knowm.xchange.dsx.DSXAuthenticatedV2;
 import org.knowm.xchange.dsx.DSXExchange;
 import org.knowm.xchange.dsx.dto.marketdata.DSXExchangeInfo;
+import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersResult;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelOrderResult;
 import org.knowm.xchange.dsx.dto.trade.DSXOrder;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeHistoryResult;
@@ -27,6 +29,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -39,7 +42,7 @@ import org.knowm.xchange.utils.DateUtils;
 /**
  * @author Mikhail Wall
  */
-public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
+public class DSXTradeService extends DSXTradeServiceRaw implements TradeService {
 
   /**
    * Constructor
@@ -94,14 +97,19 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
     return (ret != null);
   }
 
+  public boolean cancelAllOrders() throws IOException {
+
+    DSXCancelAllOrdersResult ret = cancelAllDSXOrders();
+    return (ret != null);
+  }
+
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
-    Long from = null;
     Long count = null;
     Long fromId = null;
     Long endId = null;
-    DSXAuthenticated.SortOrder sort = DSXAuthenticated.SortOrder.DESC;
+    DSXAuthenticatedV2.SortOrder sort = DSXAuthenticatedV2.SortOrder.DESC;
     Long since = null;
     Long end = null;
     String dsxpair = null;
@@ -116,9 +124,6 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
 
       if (pageLength != null) {
         count = pageLength.longValue();
-        from = (long) (pageLength * pageNumber);
-      } else {
-        from = pageNumber.longValue();
       }
     }
 
@@ -145,7 +150,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
       sort = ((DSXTransHistoryParams) params).getSortOrder();
     }
 
-    Map<Long, DSXTradeHistoryResult> resultMap = getDSXTradeHistory(from, count, fromId, endId, sort, since, end, dsxpair);
+    Map<Long, DSXTradeHistoryResult> resultMap = getDSXTradeHistory(count, fromId, endId, sort, since, end, dsxpair);
     return DSXAdapters.adaptTradeHistory(resultMap);
   }
 
@@ -182,27 +187,22 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
 
   public Map<Long, DSXTransHistoryResult> getTransHistory(DSXTransHistoryParams params) throws ExchangeException, IOException {
 
-    Long offset = null;
     Long count = null;
     Long startId = null;
     Long endId = null;
-    DSXAuthenticated.SortOrder sort = DSXAuthenticated.SortOrder.DESC;
+    DSXAuthenticatedV2.SortOrder sort = DSXAuthenticatedV2.SortOrder.DESC;
     Long startTime = null;
     Long endTime = null;
+    DSXTransHistoryResult.Type type = null;
+    DSXTransHistoryResult.Status status = null;
+    String currency = null;
 
     if (params instanceof TradeHistoryParamPaging) {
       TradeHistoryParamPaging pagingParams = params;
       Integer pageLength = pagingParams.getPageLength();
-      Integer pageNumber = pagingParams.getPageNumber();
-      if (pageNumber == null) {
-        pageNumber = 0;
-      }
 
       if (pageLength != null) {
         count = pageLength.longValue();
-        offset = (long) (pageLength * pageNumber);
-      } else {
-        offset = pageNumber.longValue();
       }
     }
 
@@ -220,10 +220,15 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService{
 
     if (params instanceof DSXTransHistoryParams) {
       sort = params.getSortOrder();
+      status = params.getStatus();
+      type = params.getType();
     }
 
-    Map<Long, DSXTransHistoryResult> resultMap = getDSXTransHistory(offset, count, startId, endId, sort, startTime, endTime);
+    if (params instanceof TradeHistoryParamCurrency) {
+      Currency c = ((TradeHistoryParamCurrency) params).getCurrency();
+      currency = c == null ? null : c.getCurrencyCode();
+    }
 
-    return resultMap;
+    return getDSXTransHistory(count, startId, endId, sort, startTime, endTime, type, status, currency);
   }
 }

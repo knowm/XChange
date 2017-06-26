@@ -13,19 +13,19 @@ public class DSXOrder {
 
   private final String pair;
   private final Type type;
-  private final BigDecimal amount;
+  private final BigDecimal volume;
   private final BigDecimal rate;
   private final Long timestampCreated;
   private final int status;
   private final OrderType orderType;
 
-  public DSXOrder(@JsonProperty("pair") String pair, @JsonProperty("type") Type type, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("rate") BigDecimal rate, @JsonProperty("timestamp_created") Long timestampCreated, @JsonProperty("status") int status,
-      @JsonProperty("order_type") OrderType orderType) {
+  public DSXOrder(@JsonProperty("pair") String pair, @JsonProperty("type") Type type, @JsonProperty("volume") BigDecimal volume,
+      @JsonProperty("rate") BigDecimal rate, @JsonProperty("timestampCreated") Long timestampCreated, @JsonProperty("status") int status,
+      @JsonProperty("orderType") OrderType orderType) {
 
     this.pair = pair;
     this.type = type;
-    this.amount = amount;
+    this.volume = volume;
     this.rate = rate;
     this.timestampCreated = timestampCreated;
     this.status = status;
@@ -41,7 +41,7 @@ public class DSXOrder {
   }
 
   public BigDecimal getAmount() {
-    return amount;
+    return volume;
   }
 
   public BigDecimal getRate() {
@@ -62,8 +62,8 @@ public class DSXOrder {
 
   public String toString() {
 
-    return MessageFormat.format("DSXOrder[pair=''{0}'', type={1}, amount={2}, rate={3}, timestamp_created={4}, status={5}, order_type={6}",
-        pair, type, amount, rate, timestampCreated, status, orderType);
+    return MessageFormat.format("DSXOrder[pair=''{0}'', type={1}, volume={2}, rate={3}, timestampCreated={4}, status={5}, orderType={6}",
+        pair, type, volume, rate, timestampCreated, status, orderType);
   }
 
   public enum Type {

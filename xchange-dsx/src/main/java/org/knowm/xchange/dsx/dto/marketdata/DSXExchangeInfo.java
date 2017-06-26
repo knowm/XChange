@@ -12,7 +12,7 @@ public class DSXExchangeInfo {
   private final long serverTime;
   private final Map<String, DSXPairInfo> pairs;
 
-  public DSXExchangeInfo(@JsonProperty("server_time") long serverTime, @JsonProperty("pairs") Map<String, DSXPairInfo> pairs) {
+  public DSXExchangeInfo(@JsonProperty("serverTime") long serverTime, @JsonProperty("pairs") Map<String, DSXPairInfo> pairs) {
 
     this.serverTime = serverTime;
     this.pairs = pairs;

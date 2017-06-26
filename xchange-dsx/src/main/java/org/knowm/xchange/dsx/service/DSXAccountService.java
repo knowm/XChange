@@ -5,13 +5,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dsx.DSXAdapters;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
-import org.knowm.xchange.dsx.dto.account.DSXTransaction;
 import org.knowm.xchange.dsx.dto.account.DSXTransactionHistoryParams;
+import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
+import org.knowm.xchange.dsx.service.trade.params.DSXTransHistoryParams;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -54,6 +56,7 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
       long transactionId = fiat
               ? withdrawFiat(c, amount)
               : withdrawCrypto(c, address, amount, null);
+      submitWithdraw(transactionId);
       return Long.toString(transactionId);
   }
   
@@ -68,38 +71,51 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException,
-          NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-      Long from = null;
-      Long to = null;
-      Long fromId = null;
-      Long toId = null;
-      String currency = null;
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException,
+      NotYetImplementedForExchangeException, IOException {
+    Long count = null;
+    Long since = null;
+    Long end = null;
+    Long fromId = null;
+    Long toId = null;
+    String currency = null;
+    DSXTransHistoryResult.Status status = null;
+    DSXTransHistoryResult.Type type = null;
 
-      if (params instanceof TradeHistoryParamsTimeSpan) {
-          TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
-          from = nullSafeUnixTime(timeSpan.getStartTime());
-          to = nullSafeUnixTime(timeSpan.getEndTime());
-      }
-      if (params instanceof TradeHistoryParamsIdSpan) {
-          TradeHistoryParamsIdSpan idSpan = (TradeHistoryParamsIdSpan) params;
-          fromId = nullSafeToLong(idSpan.getStartId());
-          toId = nullSafeToLong(idSpan.getEndId());
-      }
-      if (params instanceof TradeHistoryParamCurrency) {
-          Currency c = ((TradeHistoryParamCurrency) params).getCurrency();
-          currency = c == null ? null : c.getCurrencyCode();
-      }
+    if (params instanceof TradeHistoryParamsTimeSpan) {
+      TradeHistoryParamsTimeSpan timeSpan = (TradeHistoryParamsTimeSpan) params;
+      since = nullSafeUnixTime(timeSpan.getStartTime());
+      end = nullSafeUnixTime(timeSpan.getEndTime());
+    }
+    if (params instanceof TradeHistoryParamsIdSpan) {
+      TradeHistoryParamsIdSpan idSpan = (TradeHistoryParamsIdSpan) params;
+      fromId = nullSafeToLong(idSpan.getStartId());
+      toId = nullSafeToLong(idSpan.getEndId());
+    }
+    if (params instanceof TradeHistoryParamCurrency) {
+      Currency c = ((TradeHistoryParamCurrency) params).getCurrency();
+      currency = c == null ? null : c.getCurrencyCode();
+    }
 
-      List<FundingRecord> result = new ArrayList<>();
-      for (DSXTransaction t : getDSXTransHistory(from, to, fromId, toId, null, null, currency)) {
-          result.add(new FundingRecord(t.getAddress(), t.getTimestamp(), Currency.getInstance(t.getCurrency()), t.getAmount(),
-              Long.toString(t.getId()), null, convert(t.getType()), convert(t.getStatus()), null, t.getCommission(), null));
-      }
-      return result;
+    if (params instanceof DSXTransHistoryParams) {
+      status = ((DSXTransHistoryParams) params).getStatus();
+    }
+
+    if (params instanceof TradeHistoryParamCurrency) {
+      Currency c = ((TradeHistoryParamCurrency) params).getCurrency();
+      currency = c == null ? null : c.getCurrencyCode();
+    }
+
+    List<FundingRecord> result = new ArrayList<>();
+    for (Map.Entry<Long, DSXTransHistoryResult> t : getDSXTransHistory(count, fromId, toId, null, since, end, type, status, currency).entrySet()) {
+        result.add(new FundingRecord(t.getValue().getAddress(), new Date(t.getValue().getTimestamp() * 1000), Currency.getInstance(t.getValue().getCurrency()),
+            t.getValue().getAmount(), Long.toString(t.getValue().getId()), null, convert(t.getValue().getType()), convert(t.getValue().getStatus()), null,
+            t.getValue().getCommission(), null));
+    }
+    return result;
   }
 
-  private FundingRecord.Status convert(DSXTransaction.Status status) {
+  private FundingRecord.Status convert(DSXTransHistoryResult.Status status) {
       switch (status) {
       case Completed:
           return FundingRecord.Status.COMPLETE;
@@ -114,12 +130,12 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
       }
   }
 
-  private FundingRecord.Type convert(DSXTransaction.Type type) {
+  private FundingRecord.Type convert(DSXTransHistoryResult.Type type) {
       switch (type) {
-      case Incoming: return FundingRecord.Type.DEPOSIT;
-      case Withdraw: return FundingRecord.Type.WITHDRAWAL;
+        case Incoming: return FundingRecord.Type.DEPOSIT;
+        case Withdraw: return FundingRecord.Type.WITHDRAWAL;
       default:
-          throw new RuntimeException("Unknown DSX transaction type: " + type);
+        throw new RuntimeException("Unknown DSX transaction type: " + type);
       }
   }
 

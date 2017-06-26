@@ -42,7 +42,7 @@ public class DSXUserTradeHistoryDemo {
     DSXTradeServiceRaw tradeService = (DSXTradeServiceRaw) exchange.getTradeService();
     Map<Long, DSXTradeHistoryResult> trades = null;
     try {
-      trades = tradeService.getDSXTradeHistory(null, null, null, null, null, null, null, null);
+      trades = tradeService.getDSXTradeHistory(null, null, null, null, null, null, null);
       for (Map.Entry<Long, DSXTradeHistoryResult> entry : trades.entrySet()) {
         System.out.println("ID: " + entry.getKey() + ", Trade:" + entry.getValue());
       }

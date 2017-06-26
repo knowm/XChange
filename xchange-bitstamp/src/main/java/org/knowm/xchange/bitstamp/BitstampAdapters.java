@@ -171,7 +171,13 @@ public final class BitstampAdapters {
             if (!t.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
                 continue;
             }
-            OrderType orderType = t.getCounterAmount().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
+            final OrderType orderType;
+            if (t.getCounterAmount().doubleValue() == 0.0){
+                orderType = t.getBaseAmount().doubleValue() < 0.0 ? OrderType.ASK : OrderType.BID;
+            } else {
+                orderType = t.getCounterAmount().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
+            }
+
             long tradeId = t.getId();
             if (tradeId > lastTradeId) {
                 lastTradeId = tradeId;

@@ -211,16 +211,14 @@ public final class GeminiAdapters {
 
   public static Ticker adaptTicker(GeminiTicker GeminiTicker, CurrencyPair currencyPair) {
 
-    BigDecimal last = GeminiTicker.getLast_price();
+    BigDecimal last = GeminiTicker.getLast();
     BigDecimal bid = GeminiTicker.getBid();
     BigDecimal ask = GeminiTicker.getAsk();
-    BigDecimal high = GeminiTicker.getHigh();
-    BigDecimal low = GeminiTicker.getLow();
-    BigDecimal volume = GeminiTicker.getVolume();
+    BigDecimal volume = GeminiTicker.getVolume().getBaseVolume(currencyPair);
 
-    Date timestamp = DateUtils.fromMillisUtc((long) (GeminiTicker.getTimestamp() * 1000L));
+    Date timestamp = DateUtils.fromMillisUtc(GeminiTicker.getVolume().getTimestampMS());
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume).timestamp(timestamp)
         .build();
   }
 
@@ -285,10 +283,9 @@ public final class GeminiAdapters {
     return new UserTrades(pastTrades, TradeSortType.SortByTimestamp);
   }
 
-  private static Date convertBigDecimalTimestampToDate(BigDecimal timestamp) {
+  private static Date convertBigDecimalTimestampToDate(BigDecimal timestampInSeconds) {
 
-    BigDecimal timestampInMillis = timestamp.multiply(new BigDecimal("1000"));
-    return new Date(timestampInMillis.longValue());
+    return new Date((long)Math.floor(timestampInSeconds.doubleValue() * 1000));
   }
 
   public static ExchangeMetaData adaptMetaData(List<CurrencyPair> currencyPairs, ExchangeMetaData metaData) {
@@ -310,3 +307,4 @@ public final class GeminiAdapters {
     return metaData;
   }
 }
+
