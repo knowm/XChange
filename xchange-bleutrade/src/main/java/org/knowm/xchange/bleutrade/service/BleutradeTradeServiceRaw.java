@@ -7,6 +7,7 @@ import org.knowm.xchange.bleutrade.dto.trade.BleutradeCancelOrderReturn;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrdersReturn;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -129,6 +130,10 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
      * ALL, BUY, SELL
      */
     public final String orderType;
+
+    public BleutradeTradeHistoryParams(CurrencyPair currencyPair, String orderStatus, String orderType) {
+      this(currencyPair.base + "_" + currencyPair.counter, orderStatus, orderType);
+    }
 
     public BleutradeTradeHistoryParams(String market, String orderStatus, String orderType) {
       this.market = market;
