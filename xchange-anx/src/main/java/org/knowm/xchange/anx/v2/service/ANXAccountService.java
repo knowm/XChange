@@ -1,12 +1,9 @@
 package org.knowm.xchange.anx.v2.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.anx.ANXUtils;
 import org.knowm.xchange.anx.v2.ANXAdapters;
+import org.knowm.xchange.anx.v2.dto.account.ANXWalletHistoryEntry;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -14,7 +11,16 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -69,6 +75,88 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
   @Override
   public List<FundingRecord> getFundingHistory(
       TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+
+    List<FundingRecord> results = new ArrayList<>();
+
+    List<ANXWalletHistoryEntry> walletHistory = getWalletHistory(params);
+    for (ANXWalletHistoryEntry entry : walletHistory) {
+
+      if (!entry.getType().equalsIgnoreCase("deposit") && !entry.getType().equalsIgnoreCase("withdraw"))
+        continue;
+
+      results.add(ANXAdapters.adaptFundingRecord(entry));
+    }
+    return results;
+  }
+
+
+  public static class AnxFundingHistoryParams implements TradeHistoryParamCurrency, TradeHistoryParamPaging, TradeHistoryParamsTimeSpan {
+
+    private Currency currency;
+    private Integer pageNumber;
+    private Integer pageLength;//not supported
+    private Date startTime;
+    private Date endTime;
+
+    public AnxFundingHistoryParams() {
+    }
+
+    public AnxFundingHistoryParams(Currency currency, Date startTime, Date endTime) {
+      this.currency = currency;
+      this.startTime = startTime;
+      this.endTime = endTime;
+    }
+
+    @Override
+    public void setCurrency(Currency currency) {
+      this.currency = currency;
+    }
+
+    @Override
+    public Currency getCurrency() {
+      return currency;
+    }
+
+    @Override
+    public void setPageLength(Integer pageLength) {
+      //not supported, failed quietly
+    }
+
+    @Override
+    public Integer getPageLength() {
+      return pageLength;
+    }
+
+    @Override
+    public void setPageNumber(Integer pageNumber) {
+      if (pageNumber != null && pageNumber == 0)
+        throw new IllegalStateException("Pages are '1' indexed");
+      this.pageNumber = pageNumber;
+    }
+
+    @Override
+    public Integer getPageNumber() {
+      return pageNumber;
+    }
+
+    @Override
+    public void setStartTime(Date startTime) {
+      this.startTime = startTime;
+    }
+
+    @Override
+    public Date getStartTime() {
+      return startTime;
+    }
+
+    @Override
+    public void setEndTime(Date endTime) {
+      this.endTime = endTime;
+    }
+
+    @Override
+    public Date getEndTime() {
+      return endTime;
+    }
   }
 }
