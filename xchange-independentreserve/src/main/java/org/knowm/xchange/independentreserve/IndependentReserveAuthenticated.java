@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.independentreserve.dto.IndependentReserveHttpStatusException;
 import org.knowm.xchange.independentreserve.dto.account.IndependentReserveBalance;
+import org.knowm.xchange.independentreserve.dto.account.IndependentReserveWithdrawDigitalCurrencyRequest;
 import org.knowm.xchange.independentreserve.dto.auth.AuthAggregate;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveCancelOrderResponse;
@@ -17,6 +18,8 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrde
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveOpenOrdersResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReservePlaceLimitOrderResponse;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest;
+import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryRequest;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTradeHistoryResponse;
 import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransactionsRequest;
@@ -28,6 +31,10 @@ import org.knowm.xchange.independentreserve.dto.trade.IndependentReserveTransact
 @Path("Private")
 @Produces(MediaType.APPLICATION_JSON)
 public interface IndependentReserveAuthenticated {
+    
+  public static final String SynchDigitalCurrencyDepositAddressWithBlockchain = "SynchDigitalCurrencyDepositAddressWithBlockchain";
+  public static final String WithdrawDigitalCurrency = "WithdrawDigitalCurrency";
+  
 
   @POST
   @Path("GetAccounts")
@@ -57,10 +64,23 @@ public interface IndependentReserveAuthenticated {
   @Consumes(MediaType.APPLICATION_JSON)
   IndependentReserveCancelOrderResponse cancelOrder(
       IndependentReserveCancelOrderRequest independentReserveCancelOrderRequest) throws IndependentReserveHttpStatusException, IOException;
-
+  
   @POST
   @Path("GetTransactions")
   @Consumes(MediaType.APPLICATION_JSON)
   IndependentReserveTransactionsResponse getTransactions(
       IndependentReserveTransactionsRequest independentReserveTransactionsRequest) throws IndependentReserveHttpStatusException, IOException;
+  
+  /** Forces the deposit address to be checked for new Bitcoin or Ether deposits. */
+  @POST
+  @Path(SynchDigitalCurrencyDepositAddressWithBlockchain)
+  @Consumes(MediaType.APPLICATION_JSON)
+  IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainResponse synchDigitalCurrencyDepositAddressWithBlockchain(
+      IndependentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest independentReserveSynchDigitalCurrencyDepositAddressWithBlockchainRequest) throws IndependentReserveHttpStatusException, IOException;
+
+  @POST
+  @Path(WithdrawDigitalCurrency)
+  @Consumes(MediaType.APPLICATION_JSON)
+  Object withdrawDigitalCurrency(IndependentReserveWithdrawDigitalCurrencyRequest req) throws IndependentReserveHttpStatusException, IOException;
+
 }
