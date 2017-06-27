@@ -37,7 +37,8 @@ public class IndependentReserveAccountService extends IndependentReserveAccountS
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount,
       String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new UnsupportedOperationException();
+      withdrawDigitalCurrency(amount, address, "");
+      return null;
   }
 
   @Override
