@@ -31,11 +31,11 @@ public class IndependentReserveTransaction {
     this.bitcoinTransactionId = bitcoinTransactionId;
     this.bitcoinTransactionOutputIndex = bitcoinTransactionOutputIndex;
     this.comment = comment;
-    this.createdTimestamp = DatatypeConverter.parseDateTime(createdTimestampUtc).getTime();
+    this.createdTimestamp = createdTimestampUtc == null ? null : DatatypeConverter.parseDateTime(createdTimestampUtc).getTime();
     this.credit = credit;
     this.currencyCode = currencyCode;
     this.debit = debit;
-    this.settleTimestamp = DatatypeConverter.parseDateTime(settleTimestampUtc).getTime();
+    this.settleTimestamp = settleTimestampUtc == null ? null : DatatypeConverter.parseDateTime(settleTimestampUtc).getTime();
     this.status = status;
     this.type = type;
   }
