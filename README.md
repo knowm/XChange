@@ -94,7 +94,7 @@ Exchange | order books | trades | tickers
 **Bitstamp** | :heavy_check_mark: | :heavy_check_mark: | :x: 
 **Coinmate** | :heavy_check_mark: | :heavy_check_mark: | :x: 
 **OKCoin** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
-**Poloniex** | :construction: | :construction: | :heavy_check_mark:
+**Poloniex** | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark:
 **GDAX** | :construction: | :heavy_check_mark: | :heavy_check_mark: 
 
 - :heavy_check_mark: - implemented
