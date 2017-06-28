@@ -43,7 +43,14 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
   public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws IOException {
 
     String pairs = DSXAdapters.getPair(currencyPair);
-    DSXTickerWrapper dsxTickerWrapper = getDSXTicker(pairs);
+    String accountType = null;
+    try {
+      accountType = (String) args[0];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      // ignore, can happen if no argument given.
+    }
+
+    DSXTickerWrapper dsxTickerWrapper = getDSXTicker(pairs, accountType);
 
     // Adapt to XChange DTOs
     return DSXAdapters.adaptTicker(dsxTickerWrapper.getTicker(DSXAdapters.getPair(currencyPair)), currencyPair);
@@ -61,7 +68,15 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
     String pairs = DSXAdapters.getPair(currencyPair);
-    DSXOrderbookWrapper dsxOrderbookWrapper = getDSXOrderbook(pairs);
+
+    String accountType = null;
+    try {
+      accountType = (String) args[1];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      // ignore, can happen if no argument given.
+    }
+
+    DSXOrderbookWrapper dsxOrderbookWrapper = getDSXOrderbook(pairs, accountType);
 
     // Adapt to XChange DTOs
     List<LimitOrder> asks = DSXAdapters.adaptOrders(dsxOrderbookWrapper.getOrderbook(DSXAdapters.getPair(currencyPair)).getAsks(), currencyPair,
@@ -92,10 +107,17 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
     }
     DSXTrade[] dsxTrades;
 
+    String accountType = null;
+    try {
+      accountType = (String) args[0];
+    } catch (ArrayIndexOutOfBoundsException e) {
+      // ignore, can happen if no argument given.
+    }
+
     if (numberOfItems == -1) {
-      dsxTrades = getDSXTrades(pairs, FULL_SIZE).getTrades(DSXAdapters.getPair(currencyPair));
+      dsxTrades = getDSXTrades(pairs, FULL_SIZE, accountType).getTrades(DSXAdapters.getPair(currencyPair));
     } else {
-      dsxTrades = getDSXTrades(pairs, numberOfItems).getTrades(DSXAdapters.getPair(currencyPair));
+      dsxTrades = getDSXTrades(pairs, numberOfItems, accountType).getTrades(DSXAdapters.getPair(currencyPair));
     }
     return DSXAdapters.adaptTrades(dsxTrades, currencyPair);
   }

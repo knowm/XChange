@@ -45,7 +45,7 @@ public class DSXDepthDemo {
 
     DSXMarketDataServiceRaw marketDataService = (DSXMarketDataServiceRaw) exchange.getMarketDataService();
 
-    Map<String, DSXOrderbook> depth = marketDataService.getDSXOrderbook("ltcusd").getOrderbookMap();
+    Map<String, DSXOrderbook> depth = marketDataService.getDSXOrderbook("ltcusd", "LIVE").getOrderbookMap();
     for (Map.Entry<String, DSXOrderbook> entry : depth.entrySet()) {
       System.out.println("Pair: " + entry.getKey() + ", Depth:" + entry.getValue());
     }
