@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfo;
-import org.knowm.xchange.dsx.dto.account.DSXTransaction;
 import org.knowm.xchange.dsx.service.DSXAccountServiceRaw;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
@@ -20,9 +19,9 @@ public class DSXAccountInfoDemo {
   public static void main(String[] args) throws IOException {
 
     Exchange dsx = DSXExamplesUtils.createExchange();
-//    generic(dsx);
+    generic(dsx);
 //    raw(dsx);
-    generice(dsx);
+//    generice(dsx);
   }
 
   private static void generic(Exchange exchange) throws IOException {
