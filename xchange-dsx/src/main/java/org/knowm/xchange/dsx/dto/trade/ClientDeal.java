@@ -10,28 +10,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ClientDeal {
 
-  private final Long number;
-  private final Long time;
-  private final BigDecimal price;
+  private final String pair;
+  private final Long orderId;
+  private final Long timestamp;
   private final BigDecimal volume;
-  private final BigDecimal baseVolume;
+  private final BigDecimal rate;
   private final String type;
-  private final Integer instrumentId;
   private final BigDecimal commission;
-  private final Long orderNumber;
+  private final String commissionCurrency;
 
-  public ClientDeal(@JsonProperty("number") Long number, @JsonProperty("time") Long time, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("volume") BigDecimal volume, @JsonProperty("baseVolume") BigDecimal baseVolume, @JsonProperty("type") String type,
-      @JsonProperty("instrumentId") Integer instrumentId, @JsonProperty("commission") BigDecimal commission, @JsonProperty("orderNumber") Long orderNumber) {
 
-    this.number = number;
-    this.time = time;
-    this.price = price;
-    this.volume = volume;
-    this.baseVolume = baseVolume;
+  public ClientDeal(@JsonProperty("pair") String pair, @JsonProperty("type") String type,
+      @JsonProperty("volume") BigDecimal volume, @JsonProperty("rate") BigDecimal rate,
+      @JsonProperty("orderId") long orderId, @JsonProperty("timestamp") long timestamp,
+      @JsonProperty("commission") BigDecimal commission,
+      @JsonProperty("commissionCurrency") String commissionCurrency) {
+    this.pair = pair;
     this.type = type;
-    this.instrumentId = instrumentId;
+    this.volume = volume;
+    this.rate = rate;
+    this.timestamp = timestamp;
+    this.orderId = orderId;
     this.commission = commission;
-    this.orderNumber = orderNumber;
+    this.commissionCurrency = commissionCurrency;
   }
 }
