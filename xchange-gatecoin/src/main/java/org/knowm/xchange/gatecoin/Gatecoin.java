@@ -17,7 +17,7 @@ import org.knowm.xchange.gatecoin.dto.marketdata.Results.GatecoinTransactionResu
 /**
  * @author sumedha. See https://www.gatecoin.com/api/ for up-to-date docs.
  */
-@Path("api")
+@Path("")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Gatecoin {
 

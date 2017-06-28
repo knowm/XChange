@@ -48,7 +48,7 @@ public class WithdrawalRequest {
   }
 
   public enum Type {
-    SEPA, bitcoin, wire, rippleUSD, rippleBTC;
+    SEPA, bitcoin, wire, rippleUSD, rippleBTC, XRP, litecoin, unknown;
     
     // 0 (SEPA), 1 (bitcoin) or 2(WIRE transfer).
     @JsonCreator
@@ -59,7 +59,9 @@ public class WithdrawalRequest {
         case "2": return wire;
         case "6": return rippleUSD;
         case "7": return rippleBTC;
-        default:throw new IllegalArgumentException(string + " has no corresponding value");
+        case "14": return XRP;
+        case "15": return litecoin;
+        default: return unknown;
       }
     }
   }
