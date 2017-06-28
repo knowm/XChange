@@ -11,14 +11,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ClientDeal {
 
   private final String pair;
-  private final Long orderId;
-  private final Long timestamp;
+  private final String type;
   private final BigDecimal volume;
   private final BigDecimal rate;
-  private final String type;
+  private final Long orderId;
+  private final Long timestamp;
   private final BigDecimal commission;
   private final String commissionCurrency;
-
 
   public ClientDeal(@JsonProperty("pair") String pair, @JsonProperty("type") String type,
       @JsonProperty("volume") BigDecimal volume, @JsonProperty("rate") BigDecimal rate,
