@@ -10,13 +10,13 @@ import org.knowm.xchange.gdax.service.GDAXAccountService;
 import org.knowm.xchange.gdax.service.GDAXMarketDataService;
 import org.knowm.xchange.gdax.service.GDAXMarketDataServiceRaw;
 import org.knowm.xchange.gdax.service.GDAXTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class GDAXExchange extends BaseExchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
 
   @Override
   protected void initServices() {
@@ -46,7 +46,7 @@ public class GDAXExchange extends BaseExchange {
   @Override
   public void remoteInit() throws IOException {
 
-    List<GDAXProduct> products = ((GDAXMarketDataServiceRaw) marketDataService).getConbaseExProducts();
+    List<GDAXProduct> products = ((GDAXMarketDataServiceRaw) marketDataService).getCoinbaseExProducts();
     exchangeMetaData = GDAXAdapters.adaptToExchangeMetaData(exchangeMetaData, products);
   }
 }

@@ -9,9 +9,9 @@ import org.knowm.xchange.dto.Order;
 public class BitMarketUtils {
   public static String CurrencyPairToBitMarketCurrencyPair(CurrencyPair currencyPair) {
 
-    if (currencyPair == CurrencyPair.BTC_PLN) {
+    if (currencyPair.equals(CurrencyPair.BTC_PLN)) {
       return "BTCPLN";
-    } else if (currencyPair == CurrencyPair.BTC_EUR) {
+    } else if (currencyPair.equals(CurrencyPair.BTC_EUR)) {
       return "BTCEUR";
     } else if (currencyPair.base.getCurrencyCode().equals("LTC") && currencyPair.counter.getCurrencyCode().equals("PLN")) {
       return "LTCPLN";

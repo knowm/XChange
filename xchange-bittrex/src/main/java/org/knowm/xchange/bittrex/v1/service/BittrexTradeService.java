@@ -56,7 +56,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
   @Override
   public OpenOrders getOpenOrders(
       OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return new OpenOrders(BittrexAdapters.adaptOpenOrders(getBittrexOpenOrders()));
+    return new OpenOrders(BittrexAdapters.adaptOpenOrders(getBittrexOpenOrders(params)));
   }
 
   @Override
