@@ -28,15 +28,15 @@ public class DSXDepthDemo {
 
     MarketDataService marketDataService = exchange.getMarketDataService();
 
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.LTC_USD);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.LTC_USD, "LIVE");
     System.out.println(orderBook.toString());
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
-    orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD, 2000);
+    orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD, "DEMO");
     System.out.println(orderBook.toString());
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
-    orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD, 3);
+    orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook.toString());
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
   }

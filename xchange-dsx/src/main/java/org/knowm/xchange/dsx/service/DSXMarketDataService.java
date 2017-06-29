@@ -59,7 +59,7 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
   /**
    * Get market depth from exchange
    *
-   * @param currencyPair Currency pair for getting info abount
+   * @param currencyPair Currency pair for getting info about
    * @param args Optional arguments. Exchange-specific
    * @return The OrderBook
    * @throws IOException
@@ -71,7 +71,7 @@ public class DSXMarketDataService extends DSXMarketDataServiceRaw implements Mar
 
     String accountType = null;
     try {
-      accountType = (String) args[1];
+      accountType = (String) args[0];
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no argument given.
     }
