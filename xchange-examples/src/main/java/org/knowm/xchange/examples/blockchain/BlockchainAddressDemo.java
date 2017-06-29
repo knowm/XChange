@@ -21,10 +21,10 @@ public class BlockchainAddressDemo {
     Exchange blockchainExchangexchange = ExchangeFactory.INSTANCE.createExchange(BlockchainExchange.class.getName());
     Blockchain blockchain = RestProxyFactory.createProxy(Blockchain.class, blockchainExchangexchange.getExchangeSpecification().getPlainTextUri());
 
-    BitcoinAddress bitcoinAddress = blockchain.getBitcoinAddress("17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6");
+    BitcoinAddress bitcoinAddress = blockchain.getBitcoinAddress("XXX");
     System.out.println(bitcoinAddress.toString());
 
-    BitcoinAddresses bitcoinAddresses = blockchain.getBitcoinAddresses("17dQktcAmU4urXz7tGk2sbuiCqykm3WLs6|15MvtM8e3bzepmZ5vTe8cHvrEZg6eDzw2w");
+    BitcoinAddresses bitcoinAddresses = blockchain.getBitcoinAddresses("XXX");
     for (BitcoinAddress bitcoinAddress2 : bitcoinAddresses.getBitcoinAddresses()) {
       System.out.println(bitcoinAddress2.toString());
     }
