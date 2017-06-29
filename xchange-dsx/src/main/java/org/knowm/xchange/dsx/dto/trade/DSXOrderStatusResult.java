@@ -12,38 +12,41 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class DSXOrderStatusResult {
 
   private final String pair;
-  private final BigDecimal amount;
-  private final BigDecimal start_amount;
+  private final String type;
+  private final BigDecimal remainingVolume;
+  private final BigDecimal volume;
   private final BigDecimal rate;
-  private final Long timestamp;
+  private final Long timestampCreated;
   private final Integer status;
   private final String orderType;
-  private final ClientDeal[] clientDeals;
+  private final ClientDeal[] deals;
 
-  public DSXOrderStatusResult(@JsonProperty("pair") String pair, @JsonProperty("amount") BigDecimal amount, @JsonProperty("start_amount") BigDecimal
-      start_amount, @JsonProperty("rate") BigDecimal rate, @JsonProperty("timestamp") Long timestamp, @JsonProperty("status") Integer status,
-      @JsonProperty("orderType") String orderType, @JsonProperty("clientDeals") ClientDeal[] clientDeals) {
+  public DSXOrderStatusResult(@JsonProperty("pair") String pair, @JsonProperty("type") String type, @JsonProperty("remainingVolume") BigDecimal remainingVolume,
+      @JsonProperty("volume") BigDecimal volume, @JsonProperty("rate") BigDecimal rate, @JsonProperty("timestampCreated") Long timestampCreated,
+      @JsonProperty("status") Integer status, @JsonProperty("orderType") String orderType, @JsonProperty("clientDeals") ClientDeal[] deals) {
     this.pair = pair;
-    this.amount = amount;
-    this.start_amount = start_amount;
+    this.type = type;
+    this.remainingVolume = remainingVolume;
+    this.volume = volume;
     this.rate = rate;
-    this.timestamp = timestamp;
+    this.timestampCreated = timestampCreated;
     this.status = status;
     this.orderType = orderType;
-    this.clientDeals = clientDeals;
+    this.deals = deals;
   }
 
   @Override
   public String toString() {
     return "DSXOrderStatusResult{" +
-        "pair='" + pair + '\'' +
-        ", amount=" + amount +
-        ", start_amount=" + start_amount +
-        ", rate=" + rate +
-        ", timestamp=" + timestamp +
-        ", status=" + status +
-        ", orderType='" + orderType + '\'' +
-        ", clientDeals=" + Arrays.toString(clientDeals) +
-        '}';
+      "pair='" + pair + '\'' +
+      ", type='" + type + '\'' +
+      ", remainingVolume=" + remainingVolume +
+      ", volume=" + volume +
+      ", rate=" + rate +
+      ", timestampCreated=" + timestampCreated +
+      ", status=" + status +
+      ", orderType='" + orderType + '\'' +
+      ", deals=" + Arrays.toString(deals) +
+      '}';
   }
 }
