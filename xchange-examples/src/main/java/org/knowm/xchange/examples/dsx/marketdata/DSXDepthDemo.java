@@ -28,15 +28,15 @@ public class DSXDepthDemo {
 
     MarketDataService marketDataService = exchange.getMarketDataService();
 
-    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.LTC_USD);
+    OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.LTC_USD, "LIVE");
     System.out.println(orderBook.toString());
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
-    orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD, 2000);
+    orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD, "DEMO");
     System.out.println(orderBook.toString());
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
 
-    orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD, 3);
+    orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_USD);
     System.out.println(orderBook.toString());
     System.out.println("size: " + (orderBook.getAsks().size() + orderBook.getBids().size()));
   }
@@ -45,7 +45,7 @@ public class DSXDepthDemo {
 
     DSXMarketDataServiceRaw marketDataService = (DSXMarketDataServiceRaw) exchange.getMarketDataService();
 
-    Map<String, DSXOrderbook> depth = marketDataService.getDSXOrderbook("ltcusd").getOrderbookMap();
+    Map<String, DSXOrderbook> depth = marketDataService.getDSXOrderbook("ltcusd", "LIVE").getOrderbookMap();
     for (Map.Entry<String, DSXOrderbook> entry : depth.entrySet()) {
       System.out.println("Pair: " + entry.getKey() + ", Depth:" + entry.getValue());
     }
