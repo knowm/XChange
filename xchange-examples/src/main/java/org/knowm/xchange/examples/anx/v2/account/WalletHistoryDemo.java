@@ -26,7 +26,7 @@ public class WalletHistoryDemo {
     ParamsDigest signatureCreator = ANXV2Digest.createInstance(ANXExchange.getExchangeSpecification().getSecretKey());
 
     ANXWalletHistoryWrapper wallethistory = ANXV2.getWalletHistory(ANXExchange.getExchangeSpecification().getApiKey(), signatureCreator,
-        new CurrentTimeNonceFactory(), "BTC", null);
+        new CurrentTimeNonceFactory(), "BTC", null, null, null);
 
     System.out.println("WalletHistory: " + wallethistory.getANXWalletHistory().toString());
     for (ANXWalletHistoryEntry entry : wallethistory.getANXWalletHistory().getANXWalletHistoryEntries()) {

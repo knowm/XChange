@@ -184,6 +184,8 @@ public interface ANXV2 {
    * @param nonce
    * @param currency
    * @param page to fetch (can be null for first page)
+   * @param from start time (can be null)
+   * @param to end time (can be null)
    * @return
    * @throws org.knowm.xchange.anx.v2.dto.ANXException
    */
@@ -191,6 +193,6 @@ public interface ANXV2 {
   @Path("money/wallet/history")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   ANXWalletHistoryWrapper getWalletHistory(@HeaderParam("Rest-Key") String apiKey, @HeaderParam("Rest-Sign") ParamsDigest postBodySignatureCreator,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency,
-      @FormParam("page") Integer page) throws ANXException, IOException;
+                                           @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency,
+                                           @FormParam("page") Integer page, @FormParam("from") Long from, @FormParam("to") Long to) throws ANXException, IOException;
 }
