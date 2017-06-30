@@ -295,6 +295,20 @@ public interface DSXAuthenticatedV2 extends DSX {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("currency") String currency, @FormParam("amount") BigDecimal amount) throws IOException;
 
   /**
+   * This method provides cancelling processing withdraw
+   * <p>
+   * All parameters are obligatory (ie. none may be null)
+   *
+   * @param transactionId Id of transaction which you want to cancel
+   * @return {"success": 1,"return": {"id": 1,"timestamp": 1496673,"type": "Incoming","amount": 10,"currency": "btc","confirmationsCount": 6,
+   * "address": "123123","status": 2,"commission": 0.01}}
+   */
+  @POST
+  @Path("dwapi/v2/withdraw/cancel")
+  DSXTransactionReturn cancelWithdraw(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("transactionId") Long transactionId);
+
+  /**
    * This method provides information about single user transaction.
    *
    * @param id Transaction ID. Required.
