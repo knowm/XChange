@@ -37,7 +37,6 @@ import java.util.Map;
  */
 public final class ANXAdapters {
 
-  private static final String SIDE_BID = "bid";
   private static final int PERCENT_DECIMAL_SHIFT = 2;
 
   /**
@@ -76,7 +75,7 @@ public final class ANXAdapters {
                                       String id, Date timestamp) {
 
     // place a limit order
-    OrderType orderType = SIDE_BID.equalsIgnoreCase(orderTypeString) ? OrderType.BID : OrderType.ASK;
+    OrderType orderType = adaptSide(orderTypeString);
     CurrencyPair currencyPair = adaptCurrencyPair(tradedCurrency, transactionCurrency);
 
     LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, id, timestamp, price);
@@ -269,8 +268,21 @@ public final class ANXAdapters {
   }
 
   private static OrderType adaptSide(String side) {
+    // buy & sell are used for trades
+    // bid and offer are used for orders
 
-    return SIDE_BID.equals(side) ? OrderType.BID : OrderType.ASK;
+    switch (side.toUpperCase()) {
+      case "BUY":
+        return OrderType.BID;
+      case "SELL":
+        return OrderType.ASK;
+      case "BID":
+        return OrderType.BID;
+      case "OFFER":
+        return OrderType.ASK;
+      default:
+        throw new IllegalStateException("Don't understand order direction: " + side);
+    }
   }
 
   public static FundingRecord adaptFundingRecord(ANXWalletHistoryEntry entry) {
