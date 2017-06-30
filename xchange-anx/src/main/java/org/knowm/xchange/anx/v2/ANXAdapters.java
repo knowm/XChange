@@ -280,6 +280,8 @@ public final class ANXAdapters {
         return OrderType.BID;
       case "OFFER":
         return OrderType.ASK;
+      case "ASK":
+        return OrderType.ASK;
       default:
         throw new IllegalStateException("Don't understand order direction: " + side);
     }
