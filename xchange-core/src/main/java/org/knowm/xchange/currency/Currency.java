@@ -240,6 +240,14 @@ public class Currency implements Comparable<Currency> {
     return new TreeSet<>(currencies.values());
   }
 
+  /**
+   * Gets the set of available currency codes.
+   */
+  public static SortedSet<String> getAvailableCurrencyCodes() {
+
+    return new TreeSet<>(currencies.keySet());
+  }
+
   private final String code;
   private final CurrencyAttributes attributes;
 
