@@ -4,12 +4,14 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.knowm.xchange.bitstamp.BitstampUtils;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.currency.Currency;
 
 /**
  * @author Matija Mazi
@@ -51,16 +53,23 @@ public final class BitstampUserTransaction {
   }
   
   @JsonAnySetter
-  public void setDynamicProperty(String name, BigDecimal value) {
+  public void setDynamicProperty(String name, Object value) {
       // here we handle dynamically the amounts of base and counter curency plus the rate (price), which contains the underscore, ie "btc_usd
-      int i = name.indexOf('_');
-      if (i >= 0) {
-          base = name.substring(0, i);
-          counter = name.substring(i + 1);
-          price = value;
-      } else {
-          amounts.put(name, value);
+    final Set<String> ccyCodeList = Currency.getAvailableCurrencyCodes();
+    String[] nameArr = name.toUpperCase().split("_");
+    String name1 = nameArr[0];
+    if (nameArr.length == 2) {
+      String name2 = nameArr[1];
+      if (ccyCodeList.contains(name1) && ccyCodeList.contains(name2)){
+        base = name1;
+        counter = name2;
+        price = new BigDecimal(value.toString());
       }
+    } else if (nameArr.length == 1) {
+      if (ccyCodeList.contains(name1)){
+        amounts.put(name1, new BigDecimal(value.toString()));
+      }
+    }
   }
   
   public Date getDatetime() {
