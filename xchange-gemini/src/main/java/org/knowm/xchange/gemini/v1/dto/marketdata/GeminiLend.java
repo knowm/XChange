@@ -43,7 +43,7 @@ public class GeminiLend {
   @Override
   public String toString() {
 
-    return "BitfinexLend [rate=" + rate + ", amountLent=" + amountLent + ", timestamp=" + timestamp + "]";
+    return "GeminiLend [rate=" + rate + ", amountLent=" + amountLent + ", timestamp=" + timestamp + "]";
   }
 
 }
