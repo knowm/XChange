@@ -33,7 +33,7 @@ public class GeminiTickerVolume {
 		return usd;
 	}
 	
-	public float getTimedtamp() {
+	public float getTimestamp() {
 
 		return timestamp;
 	}
