@@ -47,7 +47,7 @@ public class KrakenTradeJsonTest {
     assertThat(order.getVolumeExecuted()).isEqualTo("0.00000000");
     assertThat(order.getStatus()).isEqualTo(KrakenOrderStatus.OPEN);
     KrakenOrderDescription orderDescription = order.getOrderDescription();
-    assertThat(orderDescription.getAssetPair()).isEqualTo("LTCEUR");
+    assertThat(orderDescription.getAssetPair()).isEqualTo("XLTCZEUR");
     assertThat(orderDescription.getLeverage()).isEqualTo("none");
     assertThat(orderDescription.getOrderDescription()).isEqualTo("buy 0.01000000 LTCEUR @ limit 13.00000");
     assertThat(orderDescription.getOrderType()).isEqualTo(KrakenOrderType.LIMIT);

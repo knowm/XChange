@@ -11,7 +11,7 @@
         "starttm": 0,
         "expiretm": 0,
         "descr": {
-          "pair": "XBTEUR",
+          "pair": "XXBTZEUR",
           "type": "buy",
           "ordertype": "limit",
           "price": "500.00000",
