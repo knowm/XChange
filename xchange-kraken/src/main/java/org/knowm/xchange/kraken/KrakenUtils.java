@@ -57,7 +57,7 @@ public class KrakenUtils {
       }
       return baseCurrencyCode + counter.getCurrencyCode();
     }
-    return createKrakenCurrencyPair(currencyPair.base, currencyPair.counter);
+    return getKrakenCurrencyCode(currencyPair.base) + getKrakenCurrencyCode(currencyPair.counter);
   }
 
   public static String createKrakenCurrencyPair(Currency tradableIdentifier, Currency currency) {
