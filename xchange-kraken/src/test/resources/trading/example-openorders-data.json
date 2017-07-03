@@ -11,7 +11,7 @@
         "starttm": 0,
         "expiretm": 0,
         "descr": {
-          "pair": "LTCEUR",
+          "pair": "XLTCZEUR",
           "type": "buy",
           "ordertype": "limit",
           "price": "13.00000",
@@ -35,7 +35,7 @@
         "starttm": 0,
         "expiretm": 0,
         "descr": {
-          "pair": "LTCEUR",
+          "pair": "XLTCZEUR",
           "type": "buy",
           "ordertype": "take-profit-limit",
           "price": "10.00000",
