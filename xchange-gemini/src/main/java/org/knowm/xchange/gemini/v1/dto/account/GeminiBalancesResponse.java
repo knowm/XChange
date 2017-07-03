@@ -52,7 +52,7 @@ public class GeminiBalancesResponse {
   public String toString() {
 
     StringBuilder builder = new StringBuilder();
-    builder.append("BitfinexBalancesResponse [type=");
+    builder.append("GeminiBalancesResponse [type=");
     builder.append(type);
     builder.append(", currency=");
     builder.append(currency);
