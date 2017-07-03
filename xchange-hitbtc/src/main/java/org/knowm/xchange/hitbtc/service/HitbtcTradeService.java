@@ -1,8 +1,5 @@
 package org.knowm.xchange.hitbtc.service;
 
-import java.io.IOException;
-import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -24,6 +21,9 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.util.Collection;
 
 public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeService {
 
@@ -77,22 +77,27 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements TradeSe
    */
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
+    int count = 1000;
+    int offset = 0;
 
-    TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
-    Integer count = pagingParams.getPageLength();
-    if (count == null) {
-      count = 1000;
+    if (params instanceof TradeHistoryParamPaging) {
+      TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
+      if (pagingParams.getPageLength() != null) {
+        count = pagingParams.getPageLength();
+      }
+
+      Integer pageNumber = pagingParams.getPageNumber();
+      offset = count * (pageNumber != null ? pageNumber : 0);
     }
 
-    Integer pageNumber = pagingParams.getPageNumber();
-    int offset = count * (pageNumber != null ? pageNumber : 0);
-
-    CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-    if (pair == null) {
-      pair = CurrencyPair.BTC_USD;
+    String symbols = null;
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      TradeHistoryParamCurrencyPair tradeHistoryParamCurrencyPair = (TradeHistoryParamCurrencyPair) params;
+      CurrencyPair pair = tradeHistoryParamCurrencyPair.getCurrencyPair();
+      symbols = HitbtcAdapters.adaptCurrencyPair(pair);
     }
 
-    HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(offset, count, HitbtcAdapters.adaptCurrencyPair(pair));
+    HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(offset, count, symbols);
     return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, exchange.getExchangeMetaData());
   }
 
