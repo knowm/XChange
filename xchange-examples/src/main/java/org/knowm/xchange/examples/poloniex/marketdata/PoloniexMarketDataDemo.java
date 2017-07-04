@@ -26,7 +26,7 @@ public class PoloniexMarketDataDemo {
 
     poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
     MarketDataService dataService = poloniex.getMarketDataService();
-    currencyPair = CurrencyPair.BTC_USD;
+    currencyPair = new CurrencyPair("BTC", "USDT");
 //    currencyPair = new CurrencyPair("ETH", "BTC");
 
     generic(dataService);
@@ -36,7 +36,7 @@ public class PoloniexMarketDataDemo {
   private static void generic(MarketDataService dataService) throws IOException {
 
     System.out.println("----------GENERIC----------");
-//    System.out.println(dataService.getTicker(currencyPair));
+    System.out.println(dataService.getTicker(currencyPair));
     System.out.println(dataService.getOrderBook(currencyPair));
 //    System.out.println(dataService.getOrderBook(currencyPair, 3));
 //    System.out.println(dataService.getTrades(currencyPair));
