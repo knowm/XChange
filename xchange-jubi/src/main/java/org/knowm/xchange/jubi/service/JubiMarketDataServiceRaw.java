@@ -8,6 +8,7 @@ import org.knowm.xchange.jubi.dto.marketdata.JubiTrade;
 import si.mazi.rescu.RestProxyFactory;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by Yingzhe on 3/17/2015.
@@ -30,6 +31,10 @@ public class JubiMarketDataServiceRaw extends JubiBaseService {
       }
     }
     return null;
+  }
+
+  public Map<String, JubiTicker> getAllJubiTicker() throws IOException {
+    return this.jubi.getAllTicker();
   }
 
   public JubiTrade[] getJubiTrades(CurrencyPair currencyPair, Object[] args) throws IOException {

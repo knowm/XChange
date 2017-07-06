@@ -9,23 +9,29 @@ import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
 import org.knowm.xchange.jubi.dto.marketdata.JubiTrade;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Yingzhe on 3/16/2015.
+ * Adapter for market data.
  */
 public class JubiAdapters {
+  /**
+   * private constructor
+   */
+  private JubiAdapters() {
+  }
+
   public static Ticker adaptTicker(JubiTicker ticker, CurrencyPair currencyPair) {
     BigDecimal high = ticker.getHigh();
     BigDecimal low = ticker.getLow();
-    BigDecimal buy = ticker.getBuy();
-    BigDecimal sell = ticker.getSell();
+    BigDecimal bid = ticker.getBuy();
+    BigDecimal ask = ticker.getSell();
     BigDecimal last = ticker.getLast();
     BigDecimal volume = ticker.getVol();
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(buy).ask(sell).volume(volume).build();
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).high(high).low(low).bid(bid).ask(ask).volume(volume).build();
   }
+
   public static Trades adaptTrades(JubiTrade[] jubiTrades, CurrencyPair currencyPair) {
 
     List<Trade> tradeList = new ArrayList<>();
@@ -40,5 +46,15 @@ public class JubiAdapters {
     }
 
     return new Trades(tradeList, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  public static Map<String, Ticker> adaptAllTicker(Map<String, JubiTicker> allJubiTicker) {
+    Map<String, Ticker> result = new HashMap<>();
+    if (allJubiTicker != null) {
+      for (Map.Entry<String, JubiTicker> entry : allJubiTicker.entrySet()) {
+        result.put(entry.getKey(), JubiAdapters.adaptTicker(entry.getValue(), new CurrencyPair(entry.getKey(), "cny")));
+      }
+    }
+    return result;
   }
 }
