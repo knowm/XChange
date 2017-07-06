@@ -1,22 +1,20 @@
 package org.knowm.xchange.jubi;
 
 import org.knowm.xchange.BaseExchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.jubi.service.JubiMarketDataService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
-public class JubiExchange extends BaseExchange {
+public class JubiExchange extends BaseExchange implements Exchange {
 
   private final SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
-  public JubiExchange() {
-
-  }
-
   @Override
   protected void initServices() {
+
     this.marketDataService = new JubiMarketDataService(this);
   }
 
