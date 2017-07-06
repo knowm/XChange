@@ -24,7 +24,7 @@ public class JubiExchange extends BaseExchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("http://www.jubi.com/api");
+    exchangeSpecification.setSslUri("https://www.jubi.com/api");
     exchangeSpecification.setHost("www.jubi.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Jubi");
