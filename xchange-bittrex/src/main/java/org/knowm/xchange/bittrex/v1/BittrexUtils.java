@@ -35,9 +35,6 @@ public final class BittrexUtils {
   }
 
   public static String toPairString(CurrencyPair currencyPair) {
-    if(currencyPair.base.getCurrencyCode().equalsIgnoreCase(Currency.BTC.getCurrencyCode()))
-      return currencyPair.base.getCurrencyCode().toUpperCase() + "-" + currencyPair.counter.getCurrencyCode().toUpperCase();
-
     return currencyPair.counter.getCurrencyCode().toUpperCase() + "-" + currencyPair.base.getCurrencyCode().toUpperCase();
   }
 
