@@ -6,7 +6,8 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.jubi.JubiExchange;
-import org.knowm.xchange.jubi.service.JubiMarketDataService;
+import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
+import org.knowm.xchange.jubi.service.JubiMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 import java.util.Map;
@@ -31,7 +32,7 @@ public class TickerFetchIntegration {
   public void allTickerFetchTest() throws Exception {
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(JubiExchange.class.getName());
     MarketDataService marketDataService = exchange.getMarketDataService();
-    Map<String, Ticker> allTickers = ((JubiMarketDataService) marketDataService).getAllTicker();
+    Map<CurrencyPair, JubiTicker> allTickers = ((JubiMarketDataServiceRaw) marketDataService).getAllJubiTicker();
     System.out.println(allTickers.toString());
     assertThat(allTickers).isNotNull();
   }

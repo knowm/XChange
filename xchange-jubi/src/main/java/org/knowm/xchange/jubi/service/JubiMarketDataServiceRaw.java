@@ -8,6 +8,7 @@ import org.knowm.xchange.jubi.dto.marketdata.JubiTrade;
 import si.mazi.rescu.RestProxyFactory;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -33,8 +34,15 @@ public class JubiMarketDataServiceRaw extends JubiBaseService {
     return null;
   }
 
-  public Map<String, JubiTicker> getAllJubiTicker() throws IOException {
-    return this.jubi.getAllTicker();
+  public Map<CurrencyPair, JubiTicker> getAllJubiTicker() throws IOException {
+    Map<CurrencyPair, JubiTicker> result = new HashMap<>();
+    Map<String, JubiTicker> rawResult = this.jubi.getAllTicker();
+    if (rawResult != null) {
+      for (Map.Entry<String, JubiTicker> entry : rawResult.entrySet()) {
+        result.put(new CurrencyPair(entry.getKey(), "cny"), entry.getValue());
+      }
+    }
+    return result;
   }
 
   public JubiTrade[] getJubiTrades(CurrencyPair currencyPair, Object[] args) throws IOException {
