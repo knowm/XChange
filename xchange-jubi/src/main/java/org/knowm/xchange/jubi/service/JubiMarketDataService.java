@@ -13,7 +13,6 @@ import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by Yingzhe on 3/17/2015.
@@ -32,10 +31,6 @@ public class JubiMarketDataService extends JubiMarketDataServiceRaw implements M
     JubiTicker jubiTicker = getJubiTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
     // Adapt to XChange DTOs
     return jubiTicker != null ? JubiAdapters.adaptTicker(jubiTicker, currencyPair) : null;
-  }
-
-  public Map<String, Ticker> getAllTicker(Object... args) throws IOException {
-    return JubiAdapters.adaptAllTicker(getAllJubiTicker());
   }
 
   @Override

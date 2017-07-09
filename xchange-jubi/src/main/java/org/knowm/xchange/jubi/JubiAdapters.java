@@ -47,14 +47,4 @@ public class JubiAdapters {
 
     return new Trades(tradeList, Trades.TradeSortType.SortByTimestamp);
   }
-
-  public static Map<String, Ticker> adaptAllTicker(Map<String, JubiTicker> allJubiTicker) {
-    Map<String, Ticker> result = new HashMap<>();
-    if (allJubiTicker != null) {
-      for (Map.Entry<String, JubiTicker> entry : allJubiTicker.entrySet()) {
-        result.put(entry.getKey(), JubiAdapters.adaptTicker(entry.getValue(), new CurrencyPair(entry.getKey(), "cny")));
-      }
-    }
-    return result;
-  }
 }
