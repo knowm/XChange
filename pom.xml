@@ -162,7 +162,7 @@
             <dependency>
                 <groupId>org.knowm.xchart</groupId>
                 <artifactId>xchart</artifactId>
-                <version>3.3.1</version>
+                <version>3.4.0</version>
             </dependency>
 
             <!--For String Joining, etc. -->

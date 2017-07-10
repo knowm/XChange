@@ -23,7 +23,7 @@ public class WithdrawalFundsDemo {
     System.out.println("Wallet= " + accountService.getAccountInfo());
 
     // ANX does not return a transaction id on fund withdrawal at this moment
-    String success = accountService.withdrawFunds(Currency.BTC, new BigDecimal("0.001"), "1DTZHQF47QzETutRRQVr2o2Rjcku8gBWft");
+    String success = accountService.withdrawFunds(Currency.BTC, new BigDecimal("0.001"), "XXX");
     System.out.println("result= " + success);
   }
 

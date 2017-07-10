@@ -25,12 +25,10 @@ public class JubiMarketDataService extends JubiMarketDataServiceRaw implements M
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair,
-      Object... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args)
+          throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     // Request data
     JubiTicker jubiTicker = getJubiTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
-
     // Adapt to XChange DTOs
     return jubiTicker != null ? JubiAdapters.adaptTicker(jubiTicker, currencyPair) : null;
   }

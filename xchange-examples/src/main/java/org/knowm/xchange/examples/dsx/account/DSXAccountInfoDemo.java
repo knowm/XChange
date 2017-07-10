@@ -44,7 +44,7 @@ public class DSXAccountInfoDemo {
 
     AccountService accountService = exchange.getAccountService();
 
-    String transaction = accountService.withdrawFunds(Currency.BTC, new BigDecimal("0.00001"), "13AZDLia1ZeifZuM1MVYaoY6zjkK1yQz4X");
+    String transaction = accountService.withdrawFunds(Currency.BTC, new BigDecimal("0.00001"), "XXX");
     System.out.println(transaction);
   }
 }

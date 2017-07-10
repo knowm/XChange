@@ -10,6 +10,7 @@ import org.knowm.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 import java.io.IOException;
@@ -90,18 +91,43 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
   }
 
   public List<BleutradeOpenOrder> getTrades(TradeHistoryParams params) throws IOException {
+    String market = null;
+    String orderStatus = null;
+    String orderType = null;
+
     BleutradeTradeHistoryParams bleutradeTradeHistoryParams;
+
     if (params instanceof BleutradeTradeHistoryParams) {
       bleutradeTradeHistoryParams = (BleutradeTradeHistoryParams) params;
-    } else {
-      bleutradeTradeHistoryParams = BleutradeTradeHistoryParams.ALL;
+      market = bleutradeTradeHistoryParams.market;
+      orderStatus = bleutradeTradeHistoryParams.orderStatus;
+      orderType = bleutradeTradeHistoryParams.orderType;
+    }
+
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      CurrencyPair currencyPair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+
+      if(currencyPair != null)
+        market = toMarket(currencyPair);
+    }
+
+    if(market == null) {
+      market = BleutradeTradeHistoryParams.ALL.market;
+    }
+
+    if(orderStatus == null) {
+      orderStatus = BleutradeTradeHistoryParams.ALL.orderStatus;
+    }
+
+    if(orderType == null) {
+      orderType = BleutradeTradeHistoryParams.ALL.orderType;
     }
 
     try {
       BleutradeOpenOrdersReturn response = bleutrade.getTrades(apiKey, signatureCreator, exchange.getNonceFactory(),
-          bleutradeTradeHistoryParams.market,
-          bleutradeTradeHistoryParams.orderStatus,
-          bleutradeTradeHistoryParams.orderType
+          market,
+          orderStatus,
+          orderType
       );
 
       if (!response.getSuccess()) {
@@ -114,8 +140,13 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     }
   }
 
+  private static String toMarket(CurrencyPair currencyPair) {
+    return currencyPair.base + "_" + currencyPair.counter;
+  }
+
   public static class BleutradeTradeHistoryParams implements TradeHistoryParams {
-    public static final BleutradeTradeHistoryParams ALL = new BleutradeTradeHistoryParams("ALL", "ALL", "ALL");
+    public static final BleutradeTradeHistoryParams ALL = new BleutradeTradeHistoryParams("ALL", "OK", "ALL");
+
     /**
      * DIVIDEND_DIVISOR or ALL
      */
@@ -132,7 +163,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     public final String orderType;
 
     public BleutradeTradeHistoryParams(CurrencyPair currencyPair, String orderStatus, String orderType) {
-      this(currencyPair.base + "_" + currencyPair.counter, orderStatus, orderType);
+      this(toMarket(currencyPair), orderStatus, orderType);
     }
 
     public BleutradeTradeHistoryParams(String market, String orderStatus, String orderType) {

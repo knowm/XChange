@@ -5,6 +5,12 @@
     },
     "BTC/EUR": {
       "price_scale": 2
+    },
+    "LTC/USD": {
+      "price_scale": 2
+    },
+    "ETH/USD": {
+      "price_scale": 2
     }
   },
   "currencies": {}
