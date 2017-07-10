@@ -45,8 +45,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     BitfinexOrderStatusResponse[] activeOrders = getBitfinexOpenOrders();
 
     if (activeOrders.length <= 0) {
@@ -58,8 +57,13 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    BitfinexOrderStatusResponse newOrder;
+    if (marketOrder.hasFlag(BitfinexOrderFlags.MARGIN))
 
-    BitfinexOrderStatusResponse newOrder = placeBitfinexMarketOrder(marketOrder, BitfinexOrderType.MARKET);
+      newOrder = placeBitfinexMarketOrder(marketOrder, BitfinexOrderType.MARGIN_MARKET);
+
+    else
+      newOrder = placeBitfinexMarketOrder(marketOrder, BitfinexOrderType.MARKET);
 
     return String.valueOf(newOrder.getId());
   }
@@ -68,10 +72,20 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     BitfinexOrderStatusResponse newOrder;
-    if (limitOrder.hasFlag(BitfinexOrderFlags.FILL_OR_KILL)) {
-      newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.FILL_OR_KILL);
+    if (limitOrder.hasFlag(BitfinexOrderFlags.MARGIN)) {
+      if (limitOrder.hasFlag(BitfinexOrderFlags.FILL_OR_KILL)) {
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.MARGIN_FILL_OR_KILL);
+      } else {
+
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.MARGIN_LIMIT);
+      }
     } else {
-      newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT);
+      if (limitOrder.hasFlag(BitfinexOrderFlags.FILL_OR_KILL)) {
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.FILL_OR_KILL);
+      } else {
+
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT);
+      }
     }
 
     return String.valueOf(newOrder.getId());
@@ -133,8 +147,8 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
     return null;
   }
 
-  public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
+  public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamCurrencyPair,
+      TradeHistoryParamPaging {
 
     private int count;
     private CurrencyPair pair;
@@ -186,8 +200,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

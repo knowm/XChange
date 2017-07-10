@@ -1,8 +1,5 @@
 package org.knowm.xchange.bittrex.v1.service;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.v1.BittrexUtils;
 import org.knowm.xchange.bittrex.v1.dto.trade.BittrexCancelOrderResponse;
@@ -18,6 +15,9 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.util.List;
 
 public class BittrexTradeServiceRaw extends BittrexBaseService {
 
@@ -103,7 +103,7 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
 
     if(params != null && params instanceof OpenOrdersParamCurrencyPair) {
       CurrencyPair currencyPair = ((OpenOrdersParamCurrencyPair) params).getCurrencyPair();
-      ccyPair = currencyPair.base.toString() + "-" + currencyPair.counter.toString();
+      ccyPair = BittrexUtils.toPairString(currencyPair);
     }
 
     BittrexOpenOrdersResponse response = bittrexAuthenticated.openorders(apiKey, signatureCreator, exchange.getNonceFactory(), ccyPair);
@@ -116,9 +116,12 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
 
   }
 
-  public List<BittrexUserTrade> getBittrexTradeHistory() throws IOException {
+  public List<BittrexUserTrade> getBittrexTradeHistory(CurrencyPair currencyPair) throws IOException {
+    String ccyPair = null;
+    if(currencyPair != null)
+      ccyPair = BittrexUtils.toPairString(currencyPair);
 
-    BittrexTradeHistoryResponse response = bittrexAuthenticated.getorderhistory(apiKey, signatureCreator, exchange.getNonceFactory());
+    BittrexTradeHistoryResponse response = bittrexAuthenticated.getorderhistory(apiKey, signatureCreator, exchange.getNonceFactory(), ccyPair);
 
     if (response.getSuccess()) {
       return response.getResult();
@@ -126,4 +129,5 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
       throw new ExchangeException(response.getMessage());
     }
   }
+
 }
