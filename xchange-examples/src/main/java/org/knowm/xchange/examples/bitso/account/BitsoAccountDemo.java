@@ -43,7 +43,7 @@ public class BitsoAccountDemo {
     String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "1PxYUsgKdw75sdLmM7HYP2p74LEq3mxM6L");
+    String withdrawResult = accountService.withdrawFunds(Currency.BTC, new BigDecimal(1).movePointLeft(4), "XXX");
     System.out.println("withdrawResult = " + withdrawResult);
   }
 
@@ -55,7 +55,7 @@ public class BitsoAccountDemo {
     BitsoDepositAddress depositAddress = accountService.getBitsoBitcoinDepositAddress();
     System.out.println("Bitcoin deposit address: " + depositAddress);
 
-    String withdrawResult = accountService.withdrawBitsoFunds(new BigDecimal(1).movePointLeft(4), "1PxYUsgKdw75sdLmM7HYP2p74LEq3mxM6L");
+    String withdrawResult = accountService.withdrawBitsoFunds(new BigDecimal(1).movePointLeft(4), "XXX");
     System.out.println("Bitso withdrawal response = " + withdrawResult);
   }
 }

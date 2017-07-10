@@ -37,7 +37,7 @@ public class DSXTradesDemo {
 
     DSXMarketDataServiceRaw marketDataService = (DSXMarketDataServiceRaw) exchange.getMarketDataService();
 
-    Map<String, DSXTrade[]> trades = marketDataService.getDSXTrades("btcusd", 7).getTradesMap();
+    Map<String, DSXTrade[]> trades = marketDataService.getDSXTrades("btcusd", 7, "LIVE").getTradesMap();
 
     for (Map.Entry<String, DSXTrade[]> entry : trades.entrySet()) {
       System.out.println("Pair: " + entry.getKey() + ", Trades:");
