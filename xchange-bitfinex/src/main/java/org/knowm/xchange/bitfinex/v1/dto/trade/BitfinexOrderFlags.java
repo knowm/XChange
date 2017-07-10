@@ -23,5 +23,10 @@ public enum BitfinexOrderFlags implements IOrderFlags {
   /**
    * For order amends indicates that the new order should use the remaining amount of the original order.
    */
-  USE_REMAINING
+  USE_REMAINING,
+
+  /**
+   * This type of order a margin order that is leveraged in line with bitfinex current leverage rates.
+   */
+  MARGIN
 }

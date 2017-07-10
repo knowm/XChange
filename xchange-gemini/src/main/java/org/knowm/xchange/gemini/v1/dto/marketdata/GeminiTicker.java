@@ -74,7 +74,7 @@ public class GeminiTicker {
   @Override
   public String toString() {
 
-    return "BitfinexTicker [bid=" + bid + ", ask=" + ask + ", last=" + last + ", volume="
+    return "GeminiTicker [bid=" + bid + ", ask=" + ask + ", last=" + last + ", volume="
         + volume + "]";
   }
 

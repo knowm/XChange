@@ -207,7 +207,7 @@ public interface DSXAuthenticatedV2 extends DSX {
   @POST
   @Path("tapi/v2/order/status")
   DSXOrderStatusReturn getOrderStatus(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("order_id") Long orderId) throws IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderId") Long orderId) throws IOException;
 
   /**
    * This method provides fees for current user

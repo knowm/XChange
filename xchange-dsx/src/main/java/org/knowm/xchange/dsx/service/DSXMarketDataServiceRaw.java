@@ -32,9 +32,9 @@ public class DSXMarketDataServiceRaw extends DSXBaseService {
    * @return DSXTickerWrapper object
    * @throws IOException
    */
-  public DSXTickerWrapper getDSXTicker(String pairs) throws IOException {
+  public DSXTickerWrapper getDSXTicker(String pairs, String type) throws IOException {
 
-    return dsx.getTicker(pairs.toLowerCase(), 1);
+    return dsx.getTicker(pairs.toLowerCase(), 1, type);
   }
 
   /**
@@ -44,9 +44,9 @@ public class DSXMarketDataServiceRaw extends DSXBaseService {
    * @return DSXOrderbookWrapper object
    * @throws IOException
    */
-  public DSXOrderbookWrapper getDSXOrderbook(String pairs) throws IOException {
+  public DSXOrderbookWrapper getDSXOrderbook(String pairs, String type) throws IOException {
 
-    return dsx.getOrderbook(pairs.toLowerCase(), 1);
+    return dsx.getOrderbook(pairs.toLowerCase(), 1, type);
   }
 
   /**
@@ -57,7 +57,7 @@ public class DSXMarketDataServiceRaw extends DSXBaseService {
    * @return DSXTradesWrapper
    * @throws IOException
    */
-  public DSXTradesWrapper getDSXTrades(String pairs, int size) throws IOException {
+  public DSXTradesWrapper getDSXTrades(String pairs, int size, String type) throws IOException {
 
     if (size < 1) {
       size = 1;
@@ -67,7 +67,7 @@ public class DSXMarketDataServiceRaw extends DSXBaseService {
       size = FULL_SIZE;
     }
 
-    return dsx.getTrades(pairs.toLowerCase(), size, 1);
+    return dsx.getTrades(pairs.toLowerCase(), size, 1, type);
   }
 
   /**

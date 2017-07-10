@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * Bitfinex withdrawal response mapping class
+ * Gemini withdrawal response mapping class
  *
  * @author Ondrej Novotny <ondrej.novotny@onlab.cz>
  */
