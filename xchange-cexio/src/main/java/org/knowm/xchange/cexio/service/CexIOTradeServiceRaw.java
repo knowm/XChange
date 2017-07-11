@@ -1,12 +1,5 @@
 package org.knowm.xchange.cexio.service;
 
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAuthenticated;
 import org.knowm.xchange.cexio.dto.trade.CexIOArchivedOrder;
@@ -18,12 +11,20 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import static org.knowm.xchange.dto.Order.OrderType.BID;
 import static org.knowm.xchange.utils.DateUtils.toUnixTimeNullSafe;
 
 /**
@@ -124,8 +125,10 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
       if (tradeHistoryParams instanceof TradeHistoryParamsTimeSpan) {
         TradeHistoryParamsTimeSpan tradeHistoryParamsTimeSpan = (TradeHistoryParamsTimeSpan) tradeHistoryParams;
 
-        lastTxDateFrom = tradeHistoryParamsTimeSpan.getStartTime() == null ? null : tradeHistoryParamsTimeSpan.getStartTime().getTime();
-        lastTxDateTo = tradeHistoryParamsTimeSpan.getEndTime() == null ? null : tradeHistoryParamsTimeSpan.getEndTime().getTime();
+//        lastTxDateFrom = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getStartTime());
+//        lastTxDateTo = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getEndTime());
+        dateFrom = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getStartTime());
+        dateTo = toUnixTimeNullSafe(tradeHistoryParamsTimeSpan.getEndTime());
       }
 
       if (tradeHistoryParams instanceof TradeHistoryParamCurrencyPair) {
@@ -139,8 +142,14 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
         TradeHistoryParamLimit historyParams = (TradeHistoryParamLimit) tradeHistoryParams;
         limit = historyParams.getLimit();
       }
+
+      if (tradeHistoryParams instanceof TradeHistoryParamPaging) {
+        TradeHistoryParamPaging historyParams = (TradeHistoryParamPaging) tradeHistoryParams;
+        limit = historyParams.getPageLength();
+      }
     }
 
+    //max limit appears to be 249
     //todo: get the date parameters working, they seem to be ignored
 
     return cexIOAuthenticated.archivedOrders(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
@@ -157,6 +166,10 @@ public class CexIOTradeServiceRaw extends CexIOBaseService {
 
   public CexIOOpenOrder getOrderDetail(String orderId) throws IOException {
     return cexIOAuthenticated.getOrder(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), orderId);
+  }
+
+  public Map getOrderTransactions(String orderId) throws IOException {
+    return cexIOAuthenticated.getOrderTransactions(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), orderId);
   }
 
   public static class CexIOTradeHistoryParams implements TradeHistoryParams, TradeHistoryParamCurrencyPair, TradeHistoryParamsTimeSpan, TradeHistoryParamLimit {
