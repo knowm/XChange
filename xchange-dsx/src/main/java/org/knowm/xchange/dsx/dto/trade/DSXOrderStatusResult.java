@@ -35,6 +35,42 @@ public class DSXOrderStatusResult {
     this.deals = deals;
   }
 
+  public String getPair() {
+    return pair;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public BigDecimal getRemainingVolume() {
+    return remainingVolume;
+  }
+
+  public BigDecimal getVolume() {
+    return volume;
+  }
+
+  public BigDecimal getRate() {
+    return rate;
+  }
+
+  public Long getTimestampCreated() {
+    return timestampCreated;
+  }
+
+  public Integer getStatus() {
+    return status;
+  }
+
+  public String getOrderType() {
+    return orderType;
+  }
+
+  public ClientDeal[] getDeals() {
+    return deals;
+  }
+
   @Override
   public String toString() {
     return "DSXOrderStatusResult{" +
