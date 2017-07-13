@@ -3,6 +3,7 @@ package org.knowm.xchange.bleutrade;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -11,6 +12,7 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.utils.DateUtils;
 
 public class BleutradeTestData {
 
@@ -43,8 +45,8 @@ public class BleutradeTestData {
   protected static LimitOrder[] expectedOrders() {
     return new LimitOrder[]{ // timestampas are always null:
         // 'created' to 'timestamp' convertation is probably missed
-        new LimitOrder(Order.OrderType.BID, new BigDecimal("5.00000000"), CurrencyPair.LTC_BTC, "65489", null, new BigDecimal("0.01268311")),
-        new LimitOrder(Order.OrderType.ASK, new BigDecimal("795.00000000"), CurrencyPair.DOGE_BTC, "65724", null, new BigDecimal("0.00000055")),};
+        new LimitOrder(Order.OrderType.BID, new BigDecimal("5.00000000"), CurrencyPair.LTC_BTC, "65489", date("2014-08-03T14:55:20"), new BigDecimal("0.01268311")),
+        new LimitOrder(Order.OrderType.ASK, new BigDecimal("795.00000000"), CurrencyPair.DOGE_BTC, "65724", date("2014-07-29T19:45:17"), new BigDecimal("0.00000055")),};
   }
 
   protected static LimitOrder[] expectedBids() {
@@ -75,5 +77,13 @@ public class BleutradeTestData {
   protected static String[] expectedMetaDataStr() {
     return new String[]{"CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, priceScale=8]",
         "CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, priceScale=8]"};
+  }
+
+  private static Date date(String iso8601FormattedDate) {
+    try {
+      return DateUtils.fromISO8601DateString(iso8601FormattedDate);
+    } catch (InvalidFormatException e) {
+      throw new IllegalStateException("Should not happen", e);
+    }
   }
 }
