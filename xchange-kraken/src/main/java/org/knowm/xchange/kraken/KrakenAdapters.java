@@ -176,6 +176,10 @@ public class KrakenAdapters {
     return new CurrencyPair(firstCurrency, secondCurrency);
   }
   
+  public static CurrencyPair adaptCurrencyPairOpenOrder(String kcp) {
+    return new CurrencyPair(adaptCurrency(kcp.substring(0, 3)), adaptCurrency(kcp.substring(3)));
+  }
+
   public static OpenOrders adaptOpenOrders(Map<String, KrakenOrder> krakenOrders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
@@ -200,7 +204,7 @@ public class KrakenAdapters {
     KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
     OrderType type = adaptOrderType(orderDescription.getType());
     BigDecimal tradableAmount = krakenOrder.getVolume().subtract(krakenOrder.getVolumeExecuted());
-    CurrencyPair pair = adaptCurrencyPair(orderDescription.getAssetPair());
+    CurrencyPair pair = adaptCurrencyPairOpenOrder(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (krakenOrder.getOpenTimestamp() * 1000L));
 
     return new LimitOrder(type, tradableAmount, pair, id, timestamp,
