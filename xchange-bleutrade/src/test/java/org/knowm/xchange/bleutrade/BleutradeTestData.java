@@ -45,8 +45,8 @@ public class BleutradeTestData {
   protected static LimitOrder[] expectedOrders() {
     return new LimitOrder[]{ // timestampas are always null:
         // 'created' to 'timestamp' convertation is probably missed
-        new LimitOrder(Order.OrderType.BID, new BigDecimal("5.00000000"), CurrencyPair.LTC_BTC, "65489", date("2014-08-03T14:55:20"), new BigDecimal("0.01268311")),
-        new LimitOrder(Order.OrderType.ASK, new BigDecimal("795.00000000"), CurrencyPair.DOGE_BTC, "65724", date("2014-07-29T19:45:17"), new BigDecimal("0.00000055")),};
+        new LimitOrder(Order.OrderType.BID, new BigDecimal("5.00000000"), CurrencyPair.LTC_BTC, "65489", date("2014-08-03T14:55:20Z"), new BigDecimal("0.01268311")),
+        new LimitOrder(Order.OrderType.ASK, new BigDecimal("795.00000000"), CurrencyPair.DOGE_BTC, "65724", date("2014-07-29T19:45:17Z"), new BigDecimal("0.00000055")),};
   }
 
   protected static LimitOrder[] expectedBids() {
