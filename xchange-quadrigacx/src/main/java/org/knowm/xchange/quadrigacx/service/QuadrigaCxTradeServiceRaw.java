@@ -1,16 +1,15 @@
 package org.knowm.xchange.quadrigacx.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.quadrigacx.QuadrigaCxAuthenticated;
 import org.knowm.xchange.quadrigacx.QuadrigaCxUtils;
 import org.knowm.xchange.quadrigacx.dto.trade.QuadrigaCxOrder;
 import org.knowm.xchange.quadrigacx.dto.trade.QuadrigaCxUserTransaction;
-
 import si.mazi.rescu.RestProxyFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 public class QuadrigaCxTradeServiceRaw extends QuadrigaCxBaseService {
 
@@ -64,10 +63,16 @@ public class QuadrigaCxTradeServiceRaw extends QuadrigaCxBaseService {
         orderId);
   }
 
-  public QuadrigaCxUserTransaction[] getQuadrigaCxUserTransactions(CurrencyPair currencyPair, Long numberOfTransactions) throws IOException {
-
-    return quadrigacxAuthenticated.getUserTransactions(QuadrigaCxUtils.currencyPairToBook(currencyPair),
-        exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), numberOfTransactions);
+  public QuadrigaCxUserTransaction[] getQuadrigaCxUserTransactions(CurrencyPair currencyPair, Long numberOfTransactions, long offset, String sort) throws IOException {
+    return quadrigacxAuthenticated.getUserTransactions(
+            QuadrigaCxUtils.currencyPairToBook(currencyPair),
+            exchange.getExchangeSpecification().getApiKey(),
+            signatureCreator,
+            exchange.getNonceFactory(),
+            numberOfTransactions,
+            offset,
+            sort
+    );
   }
 
   public QuadrigaCxUserTransaction[] getQuadrigaCxUserTransactions(CurrencyPair currencyPair, Long numberOfTransactions, Long offset,
