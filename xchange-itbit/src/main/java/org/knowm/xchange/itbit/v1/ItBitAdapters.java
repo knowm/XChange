@@ -127,6 +127,9 @@ public final class ItBitAdapters {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
 
+    if(orders == null)
+      return limitOrders;
+
     for (BigDecimal[] level : orders) {
       limitOrders.add(adaptOrder(level[1], level[0], currencyPair, null, orderType, null));
     }

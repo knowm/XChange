@@ -3,6 +3,7 @@ package org.knowm.xchange.bleutrade.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeAdapters;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
+import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTrade;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.marketdata.Trades;
@@ -71,7 +72,7 @@ public class BleutradeTradeService extends BleutradeTradeServiceRaw implements T
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
     List<UserTrade> trades = new ArrayList<>();
-    for (BleutradeOpenOrder trade : getTrades(params)) {
+    for (BluetradeExecutedTrade trade : getTrades(params)) {
       trades.add(BleutradeAdapters.adaptUserTrade(trade));
     }
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
