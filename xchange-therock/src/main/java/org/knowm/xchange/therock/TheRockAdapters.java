@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
@@ -32,14 +33,14 @@ import org.knowm.xchange.therock.dto.trade.TheRockOrders;
 import org.knowm.xchange.therock.dto.trade.TheRockUserTrade;
 import org.knowm.xchange.therock.dto.trade.TheRockUserTrades;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 public final class TheRockAdapters {
 
   private TheRockAdapters() {
   }
 
-  public static TheRockOrder.Side adaptSide(Order.OrderType type) {
+  public static TheRockOrder.Side adaptSide(OrderType type) {
     return type == BID ? TheRockOrder.Side.buy : TheRockOrder.Side.sell;
   }
 
@@ -113,12 +114,25 @@ public final class TheRockAdapters {
     return new UserTrades(tradesList, lastTradeId, Trades.TradeSortType.SortByID);
   }
 
-  public static LimitOrder adaptOrder(TheRockOrder o) {
-    return new LimitOrder(adaptOrderType(o.getSide()), o.getAmount(), o.getFundId().pair, Long.toString(o.getId()), null, o.getPrice());
+  public static LimitOrder adaptOrder(TheRockOrder order) {
+    Date timestamp;
+    try {
+      timestamp = order.getDate() == null ? null : fromISODateString(order.getDate());
+    } catch (InvalidFormatException e) {
+      timestamp = null;
+    }
+
+    return new LimitOrder(
+        adaptOrderType(order.getSide()),
+        order.getAmount(),
+        order.getFundId().pair,
+        Long.toString(order.getId()),
+        timestamp,
+        order.getPrice());
   }
 
-  public static Order.OrderType adaptOrderType(TheRockOrder.Side orderSide) {
-    return orderSide.equals(TheRockOrder.Side.buy) ? Order.OrderType.BID : Order.OrderType.ASK;
+  public static OrderType adaptOrderType(TheRockOrder.Side orderSide) {
+    return orderSide.equals(TheRockOrder.Side.buy) ? OrderType.BID : OrderType.ASK;
   }
 
   public static OpenOrders adaptOrders(TheRockOrders theRockOrders) {

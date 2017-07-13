@@ -13,26 +13,28 @@ public class BitfinexPastTradesRequest {
   @JsonProperty("symbol")
   protected String symbol;
 
+  /**
+   * REQUIRED Trades made before this timestamp won’t be returned
+   */
   @JsonProperty("timestamp")
-  protected long timestamp;
+  protected long startTime;
+
+  /**
+   * Trades made after this timestamp won’t be returned.
+   */
+  @JsonProperty("until")
+  protected Long endTime;
 
   @JsonProperty("limit_trades")
   protected int limitTrades;
 
-  /**
-   * Constructor
-   *
-   * @param nonce
-   * @param symbol
-   * @param timestamp
-   * @param limitTrades
-   */
-  public BitfinexPastTradesRequest(String nonce, String symbol, long timestamp, int limitTrades) {
+  public BitfinexPastTradesRequest(String nonce, String symbol, long startTime, Long endTime, int limitTrades) {
 
     this.request = "/v1/mytrades";
     this.nonce = nonce;
     this.symbol = symbol;
-    this.timestamp = timestamp;
+    this.startTime = startTime;
+    this.endTime = endTime;
     this.limitTrades = limitTrades;
   }
 }

@@ -3,6 +3,7 @@ package org.knowm.xchange.cexio;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -76,4 +77,10 @@ public interface CexIOAuthenticated extends CexIO {
   @Path("get_order/")
   CexIOOpenOrder getOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
                           @FormParam("id") String orderId) throws IOException;
+
+  @POST
+  @Path("get_order_tx/")
+  Map getOrderTransactions(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+                           @FormParam("id") String orderId) throws IOException;
+
 }
