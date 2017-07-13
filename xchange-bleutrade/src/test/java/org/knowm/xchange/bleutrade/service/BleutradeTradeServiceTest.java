@@ -3,6 +3,7 @@ package org.knowm.xchange.bleutrade.service;
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.fail;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.knowm.xchange.bleutrade.BleutradeAssert.assertEquals;
 import static org.powermock.api.mockito.PowerMockito.mock;
 
 import java.io.IOException;
@@ -88,7 +89,7 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
     assertThat(ordersList).hasSize(2);
 
     for (int i = 0; i < ordersList.size(); i++) {
-      BleutradeAssert.assertEquals(ordersList.get(i), expectedOrders[i]);
+      assertEquals(ordersList.get(i), expectedOrders[i]);
     }
   }
 
