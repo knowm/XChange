@@ -1,9 +1,5 @@
 package org.knowm.xchange.bitfinex.v1.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
 import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
@@ -39,6 +35,10 @@ import org.knowm.xchange.dto.trade.FloatingRateLoanOrder;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 public class BitfinexTradeServiceRaw extends BitfinexBaseService {
 
@@ -86,7 +86,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
   public BitfinexOrderStatusResponse placeBitfinexMarketOrder(MarketOrder marketOrder, BitfinexOrderType bitfinexOrderType) throws IOException {
 
     String pair = BitfinexUtils.toPairString(marketOrder.getCurrencyPair());
-    String type = marketOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
+    String type = marketOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
     String orderType = bitfinexOrderType.toString();
 
     try {
@@ -114,7 +114,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       long replaceOrderId) throws IOException {
 
     String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
-    String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
+    String type = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
     String orderType = bitfinexOrderType.toString();
 
     boolean isHidden;
@@ -173,13 +173,13 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
       if (o instanceof LimitOrder) {
         LimitOrder limitOrder = (LimitOrder) o;
         String pair = BitfinexUtils.toPairString(limitOrder.getCurrencyPair());
-        String type = limitOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
+        String type = limitOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
         String orderType = bitfinexOrderType.toString();
         bitfinexOrders[i] = new BitfinexNewOrder(pair, "bitfinex", type, orderType, limitOrder.getTradableAmount(), limitOrder.getLimitPrice());
       } else if (o instanceof MarketOrder) {
         MarketOrder marketOrder = (MarketOrder) o;
         String pair = BitfinexUtils.toPairString(marketOrder.getCurrencyPair());
-        String type = marketOrder.getType().equals(Order.OrderType.BID) ? "buy" : "sell";
+        String type = marketOrder.getType().equals(OrderType.BID) ? "buy" : "sell";
         String orderType = bitfinexOrderType.toString();
         bitfinexOrders[i] = new BitfinexNewOrder(pair, "bitfinex", type, orderType, marketOrder.getTradableAmount(), BigDecimal.ONE);
       }
@@ -289,11 +289,11 @@ public class BitfinexTradeServiceRaw extends BitfinexBaseService {
     }
   }
 
-  public BitfinexTradeResponse[] getBitfinexTradeHistory(String symbol, long timestamp, int limit) throws IOException {
+  public BitfinexTradeResponse[] getBitfinexTradeHistory(String symbol, long startTime, Long endTime, int limit) throws IOException {
 
     try {
       BitfinexTradeResponse[] trades = bitfinex.pastTrades(apiKey, payloadCreator, signatureCreator,
-          new BitfinexPastTradesRequest(String.valueOf(exchange.getNonceFactory().createValue()), symbol, timestamp, limit));
+          new BitfinexPastTradesRequest(String.valueOf(exchange.getNonceFactory().createValue()), symbol, startTime, endTime, limit));
       return trades;
     } catch (BitfinexException e) {
       throw new ExchangeException(e);
