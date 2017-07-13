@@ -24,6 +24,8 @@ import org.knowm.xchange.bleutrade.dto.trade.BleutradeCancelOrderReturn;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrdersReturn;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
+import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTrade;
+import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTradesWrapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -297,13 +299,10 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
 
   @Test
   public void tradeHistoryShouldRequestAllMarketsIfNoneAreSupplied() throws IOException {
-    List<BleutradeOpenOrder> result = new ArrayList<>();
-    BleutradeOpenOrder order = anOrder();
-    result.add(order);
+    List<BluetradeExecutedTrade> result = new ArrayList<>();
+    result.add(aTrade());
 
-    BleutradeOpenOrdersReturn response = new BleutradeOpenOrdersReturn();
-    response.setResult(result);
-    response.setSuccess(true);
+    BluetradeExecutedTradesWrapper response = new BluetradeExecutedTradesWrapper(true, "", result);
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getTrades(
@@ -324,13 +323,10 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
 
   @Test
   public void tradeHistoryShouldUnderstandMarketParams() throws IOException {
-    List<BleutradeOpenOrder> result = new ArrayList<>();
-    BleutradeOpenOrder order = anOrder();
-    result.add(order);
+    List<BluetradeExecutedTrade> result = new ArrayList<>();
+    result.add(aTrade());
 
-    BleutradeOpenOrdersReturn response = new BleutradeOpenOrdersReturn();
-    response.setResult(result);
-    response.setSuccess(true);
+    BluetradeExecutedTradesWrapper response = new BluetradeExecutedTradesWrapper(true, "", result);
 
     BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
     PowerMockito.when(bleutrade.getTrades(
@@ -364,5 +360,20 @@ public class BleutradeTradeServiceTest extends BleutradeServiceTestSupport {
     order.setExchange("BTC_AUD");
     order.setCreated("2000-01-02 01:02:03.456");
     return order;
+  }
+
+  private static BluetradeExecutedTrade aTrade() {
+    return new BluetradeExecutedTrade(
+        "id",
+        "BTC_AUD",
+        "buy",
+        new BigDecimal("99"),
+        "0",
+        new BigDecimal("10"),
+        "",
+        "2000-01-02 01:02:03.456",
+        new BigDecimal("44"),
+        ""
+    );
   }
 }
