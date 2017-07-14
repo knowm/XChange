@@ -28,7 +28,16 @@
                     <groupId>io.reactivex</groupId>
                     <artifactId>rxjava</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-codec-http</artifactId>
+                </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec-http</artifactId>
+            <version>4.1.7.Final</version>
         </dependency>
         <dependency>
             <groupId>com.github.akarnokd</groupId>
