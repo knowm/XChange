@@ -97,7 +97,7 @@ public class BitfinexAdaptersTest {
 
     for (int i = 0; i < responses.length; i++) {
       LimitOrder order = orders.getOpenOrders().get(i);
-      long expectedTimestampMillis = responses[i].getTimestamp().multiply(new BigDecimal(1000l)).longValue();
+      long expectedTimestampMillis = responses[i].getTimestamp().getTime();
       Order.OrderType expectedOrderType = responses[i].getSide().equalsIgnoreCase("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
 
       assertEquals(String.valueOf(responses[i].getId()), order.getId());
@@ -131,8 +131,8 @@ public class BitfinexAdaptersTest {
       BigDecimal originalAmount = new BigDecimal("70");
       BigDecimal remainingAmount = originalAmount.subtract(new BigDecimal(i * 1));
       BigDecimal executedAmount = originalAmount.subtract(remainingAmount);
-      responses[i] = new BitfinexOrderStatusResponse(i, SYMBOL, EXCHANGE, price, avgExecutionPrice, side, type, timestamp, isLive, isCancelled,
-          wasForced, originalAmount, remainingAmount, executedAmount);
+      responses[i] = new BitfinexOrderStatusResponse(String.format("%d", i), SYMBOL, EXCHANGE, price, avgExecutionPrice, side, type, timestamp.longValue(), isLive, isCancelled,
+              wasForced, originalAmount, remainingAmount, executedAmount);
     }
 
     return responses;

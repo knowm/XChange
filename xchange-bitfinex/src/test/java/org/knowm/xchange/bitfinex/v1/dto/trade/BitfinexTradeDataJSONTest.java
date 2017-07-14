@@ -50,14 +50,14 @@ public class BitfinexTradeDataJSONTest {
     InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-cancel-order-data.json");
     BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
-    assertEquals(4003242, response.getId());
+    assertEquals("4003242", response.getId());
     assertEquals("btcusd", response.getSymbol());
     assertNull(response.getExchange());
     assertEquals(new BigDecimal("900.0"), response.getPrice());
     assertEquals(new BigDecimal("0.0"), response.getAvgExecutionPrice());
     assertEquals("sell", response.getSide());
-    assertEquals("exchange limit", response.getType());
-    assertEquals(new BigDecimal("1387061342.0"), response.getTimestamp());
+    assertEquals("exchange limit", response.getOrderType());
+    assertEquals(1387061342, response.getTimestamp().getTime());
     assertFalse(response.isLive());
     assertTrue(response.isCancelled());
     assertFalse(response.getWasForced());
@@ -72,14 +72,14 @@ public class BitfinexTradeDataJSONTest {
     InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-open-orders-data.json");
     BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
-    assertEquals(4003242, response.getId());
+    assertEquals("4003242", response.getId());
     assertEquals("btcusd", response.getSymbol());
     assertNull(response.getExchange());
     assertEquals(new BigDecimal("900.0"), response.getPrice());
     assertEquals(new BigDecimal("0.0"), response.getAvgExecutionPrice());
     assertEquals("sell", response.getSide());
-    assertEquals("exchange limit", response.getType());
-    assertEquals(new BigDecimal("1387061342.0"), response.getTimestamp());
+    assertEquals("exchange limit", response.getOrderType());
+    assertEquals(1387061342, response.getTimestamp().getTime());
     assertTrue(response.isLive());
     assertFalse(response.isCancelled());
     assertFalse(response.getWasForced());

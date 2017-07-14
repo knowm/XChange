@@ -2,6 +2,7 @@ package org.knowm.xchange.bitfinex.v1.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
@@ -9,7 +10,12 @@ import org.knowm.xchange.bitfinex.v1.BitfinexUtils;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.FundingRecord;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
 public class BitfinexAccountService extends BitfinexAccountServiceRaw implements AccountService {
 
@@ -56,4 +62,17 @@ public class BitfinexAccountService extends BitfinexAccountServiceRaw implements
     final BitfinexDepositAddressResponse response = super.requestDepositAddressRaw(currency.getCurrencyCode());
     return response.getAddress();
   }
+
+@Override
+public TradeHistoryParams createFundingHistoryParams() {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException,
+		NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

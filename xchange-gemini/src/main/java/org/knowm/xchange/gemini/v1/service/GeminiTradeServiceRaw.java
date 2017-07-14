@@ -79,7 +79,7 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
 
     try {
       GeminiOrderStatusResponse newOrder = Gemini.newOrder(apiKey, payloadCreator, signatureCreator,
-          new GeminiNewOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), pair, marketOrder.getTradableAmount(), BigDecimal.ONE,
+          new GeminiNewOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), pair, marketOrder.getTradableAmount(), marketOrder.getAveragePrice(),
               "Gemini", type, orderType));
       return newOrder;
     } catch (GeminiException e) {

@@ -33,6 +33,7 @@ import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiDepth;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLendLevel;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiLevel;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTicker;
+import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTickerVolume;
 import org.knowm.xchange.gemini.v1.dto.marketdata.GeminiTrade;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiOrderStatusResponse;
 import org.knowm.xchange.gemini.v1.dto.trade.GeminiTradeResponse;
@@ -214,13 +215,11 @@ public final class GeminiAdapters {
     BigDecimal last = GeminiTicker.getLast_price();
     BigDecimal bid = GeminiTicker.getBid();
     BigDecimal ask = GeminiTicker.getAsk();
-    BigDecimal high = GeminiTicker.getHigh();
-    BigDecimal low = GeminiTicker.getLow();
-    BigDecimal volume = GeminiTicker.getVolume();
+    GeminiTickerVolume volume = GeminiTicker.getVolume();
 
-    Date timestamp = DateUtils.fromMillisUtc((long) (GeminiTicker.getTimestamp() * 1000L));
+    Date timestamp = DateUtils.fromMillisUtc((long) (volume.getTimestamp() * 1000L));
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).timestamp(timestamp)
         .build();
   }
 

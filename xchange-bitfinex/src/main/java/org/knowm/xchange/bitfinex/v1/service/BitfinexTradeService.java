@@ -181,8 +181,13 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
 
   @Override
   public Collection<Order> getOrder(String... orderIds)
-      throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+      throws ExchangeException, IOException {
+	  Collection<Order> result = new ArrayList<Order>();
+	  for(String orderId : orderIds) {
+		  BitfinexOrderStatusResponse orderStatusResponse = getBitfinexOrderStatus(orderId);
+		  result.add(orderStatusResponse);
+	  }
+	  return result;
   }
 
 }
