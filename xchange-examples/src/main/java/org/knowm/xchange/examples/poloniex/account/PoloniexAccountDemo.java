@@ -38,7 +38,7 @@ public class PoloniexAccountDemo {
     System.out.println(accountService.requestDepositAddress(Currency.BTC));
     System.out.println(accountService.getAccountInfo());
 
-    System.out.println(accountService.withdrawFunds(Currency.BTC, new BigDecimal("0.03"), "13ArNKUYZ4AmXP4EUzSHMAUsvgGok74jWu"));
+    System.out.println(accountService.withdrawFunds(Currency.BTC, new BigDecimal("0.03"), "XXX"));
 
     final TradeHistoryParams params = accountService.createFundingHistoryParams();
     ((TradeHistoryParamsTimeSpan)params).setStartTime(new Date(System.currentTimeMillis() - 7L * 24 * 60 * 60 * 1000));

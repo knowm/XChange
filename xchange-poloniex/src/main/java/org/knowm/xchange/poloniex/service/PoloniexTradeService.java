@@ -78,7 +78,7 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     PoloniexTradeResponse response;
-    if (limitOrder.getType() == OrderType.BID) {
+    if (limitOrder.getType() == OrderType.BID || limitOrder.getType() == OrderType.EXIT_ASK) {
       response = buy(limitOrder);
     } else {
       response = sell(limitOrder);
@@ -172,8 +172,10 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    //we need to get the open orders
+    // for what is not an open order, we need to query one by one.
+    // but this returns fills by order, that we need need to calculate the remaining quantity, average fill price, and order type (in adapter).
     throw new NotYetImplementedForExchangeException();
   }
 

@@ -5,12 +5,12 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dsx.DSXExchange;
+import org.knowm.xchange.dsx.dto.marketdata.DSXTickerWrapper;
+import org.knowm.xchange.dsx.service.DSXMarketDataServiceRaw;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.CertHelper;
-import org.known.xchange.dsx.DSXExchange;
-import org.known.xchange.dsx.dto.marketdata.DSXTickerWrapper;
-import org.known.xchange.dsx.service.DSXMarketDataServiceRaw;
 
 /**
  * @author Mikhail Wall
@@ -30,7 +30,7 @@ public class DSXTickerDemo {
 
     MarketDataService marketDataService = exchange.getMarketDataService();
 
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
+    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD, "LIVE");
 
     System.out.println("Last: " + ticker.getLast().toString());
     System.out.println("Volume: " + ticker.getVolume().toString());
@@ -44,7 +44,7 @@ public class DSXTickerDemo {
 
     DSXMarketDataServiceRaw marketDataService = (DSXMarketDataServiceRaw) exchange.getMarketDataService();
 
-    DSXTickerWrapper ticker = marketDataService.getDSXTicker("btcusd");
+    DSXTickerWrapper ticker = marketDataService.getDSXTicker("btcusd", "LIVE");
     System.out.println(ticker.toString());
   }
 }

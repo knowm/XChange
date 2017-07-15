@@ -25,7 +25,7 @@ import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitPair;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTicker;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTickers;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitTickerReturn;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrade;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
 
@@ -65,8 +65,9 @@ public class YoBitAdapters {
     List<LimitOrder> allLevels = new ArrayList<>(levels.size());
     for (int i = 0; i < levels.size(); i++) {
       YoBitAsksBidsData ask = levels.get(i);
-
-      allLevels.add(new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
+      if (ask != null) {
+        allLevels.add(new LimitOrder(orderType, ask.getQuantity(), currencyPair, "0", null, ask.getRate()));
+      }
     }
 
     return allLevels;
@@ -98,19 +99,19 @@ public class YoBitAdapters {
     return new java.util.Date((long) rawDateLong * 1000);
   }
 
-  public static Ticker adaptTickers(YoBitTickers tickers, CurrencyPair currencyPair) {
-    List<YoBitTicker> ctickers = tickers.getTickers();
-    YoBitTicker ticker = ctickers.get(0);
-
-    BigDecimal last = ticker.getLast();
-    BigDecimal bid = ticker.getBuy();
-    BigDecimal ask = ticker.getSell();
-    BigDecimal high = ticker.getHigh();
-    BigDecimal low = ticker.getLow();
-    BigDecimal volume = ticker.getVol();
-    Date timestamp = new Date(ticker.getUpdated() * 1000L);
-
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low)
-        .volume(volume).timestamp(timestamp).build();
+  public static Ticker adaptTicker(YoBitTickerReturn tickerReturn, CurrencyPair currencyPair) {
+    YoBitTicker ticker = tickerReturn.getTicker();
+    Ticker.Builder builder = new Ticker.Builder();
+    
+    builder.currencyPair(currencyPair);
+    builder.last(ticker.getLast());
+    builder.bid(ticker.getBuy());
+    builder.ask(ticker.getSell());
+    builder.high(ticker.getHigh());
+    builder.low(ticker.getLow());
+    builder.volume(ticker.getVolCur());
+    builder.timestamp(new Date(ticker.getUpdated() * 1000L));
+    
+    return builder.build();
   }
 }

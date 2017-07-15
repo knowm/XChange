@@ -1,7 +1,11 @@
 package org.knowm.xchange.bitstamp.dto.account;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -9,127 +13,91 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class BitstampBalance {
 
-  private final BigDecimal usdBalance;
-  private final BigDecimal eurBalance;
-  private final BigDecimal btcBalance;
-  private final BigDecimal xrpBalance;
-  private final BigDecimal usdReserved;
-  private final BigDecimal eurReserved;
-  private final BigDecimal btcReserved;
-  private final BigDecimal xrpReserved;
-  private final BigDecimal usdAvailable;
-  private final BigDecimal eurAvailable;
-  private final BigDecimal btcAvailable;
-  private final BigDecimal xrpAvailable;
-  private final BigDecimal fee;
-  private final String error;
+    private final BigDecimal fee;
+    private final String error;
+    
+    /** map with currency -> Balance */
+    private final Map<String, Balance> balances = new HashMap<>();
+    /** map with pair -> fee */
+    private final Map<String, BigDecimal> fees = new HashMap<>();
 
-  /**
-   * Constructor
-   *
-   * @param usdBalance
-   * @param eurBalance
-   * @param btcBalance
-   * @param xrpBalance
-   * @param usdReserved
-   * @param eurReserved
-   * @param btcReserved
-   * @param xrpReserved
-   * @param usdAvailable
-   * @param eurAvailable
-   * @param btcAvailable
-   * @param xrpAvailable
-   * @param fee
-   */
-  public BitstampBalance(@JsonProperty("usd_balance") BigDecimal usdBalance, @JsonProperty("eur_balance") BigDecimal eurBalance,
-      @JsonProperty("btc_balance") BigDecimal btcBalance, @JsonProperty("xrp_balance") BigDecimal xrpBalance,
-      @JsonProperty("usd_reserved") BigDecimal usdReserved, @JsonProperty("eur_reserved") BigDecimal eurReserved,
-      @JsonProperty("btc_reserved") BigDecimal btcReserved, @JsonProperty("xrp_reserved") BigDecimal xrpReserved,
-      @JsonProperty("usd_available") BigDecimal usdAvailable, @JsonProperty("eur_available") BigDecimal eurAvailable,
-      @JsonProperty("btc_available") BigDecimal btcAvailable, @JsonProperty("xrp_available") BigDecimal xrpAvailable,
-      @JsonProperty("fee") BigDecimal fee, @JsonProperty("error") String error) {
+    /**
+     * Constructor
+     *
+     * 
+     * @param fee
+     */
+    public BitstampBalance(@JsonProperty("fee") BigDecimal fee, @JsonProperty("error") String error) {
+        this.fee = fee;
+        this.error = error;
+    }
+    
+    @JsonAnySetter
+    public void setDynamicProperty(String name, BigDecimal value) {
+        int idx = name.indexOf('_');
+        if (idx < 0) {
+            // ignore it, we expect s.th. like xxx_xxx
+        }
+        String pre = name.substring(0, idx);
+        String post = name.substring(idx + 1);
+        switch (post) {
+        case "fee":
+            fees.put(pre, value);
+            break;
+        case "balance":
+            getBalance(pre).balance = value;
+            break;
+        case "available":
+            getBalance(pre).available = value;
+            break;
+        case "reserved":
+            getBalance(pre).reserved = value;
+            break;
+        default:
+            break;
+        }
+    
+    }
+    
+    private Balance getBalance(String currency) {
+        Balance b = balances.get(currency);
+        if (b == null) {
+            b = new Balance(currency);
+            balances.put(currency, b);
+        }
+        return b;
+    }
+ 
+    public BigDecimal getFee() {
+        return fee;
+    }
+    
+    public BigDecimal getFee(String pair) {
+        return fees.get(pair);
+    }
+    
+    public String getError() {
+        return error;
+    }
+    
+    public Collection<Balance> getBalances() {
+        return balances.values();
+    }
+    
+    public static final class Balance {
+        private final String currency;
+        private BigDecimal balance;
+        private BigDecimal reserved;
+        private BigDecimal available;
+        
+        public Balance(String currency) {
+            this.currency = currency;
+        }
 
-    this.usdBalance = usdBalance;
-    this.eurBalance = eurBalance;
-    this.btcBalance = btcBalance;
-    this.xrpBalance = xrpBalance;
-    this.usdReserved = usdReserved;
-    this.eurReserved = eurReserved;
-    this.btcReserved = btcReserved;
-    this.xrpReserved = xrpReserved;
-    this.usdAvailable = usdAvailable;
-    this.eurAvailable = eurAvailable;
-    this.btcAvailable = btcAvailable;
-    this.xrpAvailable = xrpAvailable;
-    this.fee = fee;
-    this.error = error;
-  }
+        public String getCurrency() { return currency; }
+        public BigDecimal getBalance() { return balance; }
+        public BigDecimal getReserved() { return reserved; }
+        public BigDecimal getAvailable() { return available; }
+    }
 
-  public BigDecimal getUsdBalance() {
-    return usdBalance;
-  }
-
-  public BigDecimal getEurBalance() {
-    return eurBalance;
-  }
-
-  public BigDecimal getBtcBalance() {
-    return btcBalance;
-  }
-
-  public BigDecimal getXrpBalance() {
-    return xrpBalance;
-  }
-
-  public BigDecimal getUsdReserved() {
-
-    return usdReserved;
-  }
-
-  public BigDecimal getEurReserved() {
-
-    return eurReserved;
-  }
-
-  public BigDecimal getBtcReserved() {
-    return btcReserved;
-  }
-
-  public BigDecimal getXrpReserved() {
-    return xrpReserved;
-  }
-
-  public BigDecimal getUsdAvailable() {
-    return usdAvailable;
-  }
-
-  public BigDecimal getEurAvailable() {
-    return eurAvailable;
-  }
-
-  public BigDecimal getBtcAvailable() {
-    return btcAvailable;
-  }
-
-  public BigDecimal getXrpAvailable() {
-    return xrpAvailable;
-  }
-
-  public BigDecimal getFee() {
-    return fee;
-  }
-
-  public String getError() {
-    return error;
-  }
-
-  @Override
-  public String toString() {
-
-    return String.format(
-        "Balance{usdBalance=%s, eurBalance=%s, btcBalance=%s, xrpBalance=%s, " + "usdReserved=%s, eurReserved=%s,  btcReserved=%s, xrpReserved=%s,  "
-            + "usdAvailable=%s, eurAvailable=%s, btcAvailable=%s, xrpAvailable=%s, fee=%s}",
-        usdBalance, eurBalance, btcBalance, xrpBalance, usdReserved, eurReserved, btcReserved, xrpReserved, usdAvailable, eurAvailable, btcAvailable,
-        xrpAvailable, fee);
-  }
 }

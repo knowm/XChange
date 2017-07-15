@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.itbit.v1.ItBitAdapters;
 import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitDepth;
 import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTicker;
 import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTrades;
@@ -22,13 +23,16 @@ public class ItBitMarketDataServiceRaw extends ItBitBaseService {
 
   public ItBitTicker getItBitTicker(CurrencyPair currencyPair) throws IOException {
 
-    ItBitTicker ticker = itBitAuthenticated.getTicker(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+    CurrencyPair exchangePair = ItBitAdapters.adaptCurrencyPairToExchange(currencyPair);
+    ItBitTicker ticker = itBitAuthenticated.getTicker(exchangePair.base.getCurrencyCode(), exchangePair.counter.getCurrencyCode());
 
     return ticker;
   }
 
   public ItBitDepth getItBitDepth(CurrencyPair currencyPair, Object... args) throws IOException {
-    ItBitDepth depth = itBitPublic.getDepth(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode());
+
+    CurrencyPair exchangePair = ItBitAdapters.adaptCurrencyPairToExchange(currencyPair);
+    ItBitDepth depth = itBitPublic.getDepth(exchangePair.base.getCurrencyCode(), exchangePair.counter.getCurrencyCode());
 
     return depth;
   }
@@ -40,7 +44,8 @@ public class ItBitMarketDataServiceRaw extends ItBitBaseService {
       since = ((Number) args[0]).longValue();
     }
 
-    ItBitTrades trades = itBitPublic.getTrades(currencyPair.base.getCurrencyCode(), currencyPair.counter.getCurrencyCode(), since);
+    CurrencyPair exchangePair = ItBitAdapters.adaptCurrencyPairToExchange(currencyPair);
+    ItBitTrades trades = itBitPublic.getTrades(exchangePair.base.getCurrencyCode(), exchangePair.counter.getCurrencyCode(), since);
     return trades;
   }
 }

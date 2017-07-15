@@ -8,6 +8,7 @@ import org.knowm.xchange.bitstamp.BitstampAuthenticated;
 import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
 import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatusResponse;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.currency.CurrencyPair;
 
@@ -35,30 +36,6 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
         exchange.getExchangeSpecification().getUserName(), apiKey);
   }
 
-  /**
-   * @deprecated Use {@link #getBitstampOpenOrders(CurrencyPair)}.
-   */
-  @Deprecated
-  public BitstampOrder[] getBitstampOpenOrders() throws IOException {
-    return getBitstampOpenOrders(CurrencyPair.BTC_USD);
-  }
-
-  /**
-   * @deprecated Use {@link #placeBitstampOrder(CurrencyPair, BitstampAuthenticatedV2.Side, BigDecimal, BigDecimal)}.
-   */
-  @Deprecated
-  public BitstampOrder sellBitstampOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
-    return placeBitstampOrder(CurrencyPair.BTC_USD, BitstampAuthenticatedV2.Side.sell, tradableAmount, price);
-  }
-
-  /**
-   * @deprecated Use {@link #placeBitstampOrder(CurrencyPair, BitstampAuthenticatedV2.Side, BigDecimal, BigDecimal)}.
-   */
-  @Deprecated
-  public BitstampOrder buyBitStampOrder(BigDecimal tradableAmount, BigDecimal price) throws IOException {
-    return placeBitstampOrder(CurrencyPair.BTC_USD, BitstampAuthenticatedV2.Side.buy, tradableAmount, price);
-  }
-
   public BitstampOrder[] getBitstampOpenOrders(CurrencyPair pair) throws IOException {
     return bitstampAuthenticatedV2.getOpenOrders(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair));
   }
@@ -78,7 +55,7 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions) throws IOException {
-    return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, numberOfTransactions, null, null);
+    return getBitstampUserTransactions(numberOfTransactions, null, null);
   }
 
   public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, CurrencyPair pair, Long offset,
@@ -91,4 +68,8 @@ public class BitstampTradeServiceRaw extends BitstampBaseService {
     return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, numberOfTransactions, offset, sort);
   }
 
+  public BitstampOrderStatusResponse getOrderStatus(int orderId) throws IOException {
+
+    return bitstampAuthenticated.getOrderStatus(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(), orderId);
+  }
 }

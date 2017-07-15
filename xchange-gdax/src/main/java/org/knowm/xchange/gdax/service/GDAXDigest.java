@@ -1,15 +1,13 @@
 package org.knowm.xchange.gdax.service;
 
-import java.io.IOException;
+import net.iharder.Base64;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.service.BaseParamsDigest;
+import si.mazi.rescu.RestInvocation;
 
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
-
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.service.BaseParamsDigest;
-
-import net.iharder.Base64;
-import si.mazi.rescu.RestInvocation;
+import java.io.IOException;
 
 public class GDAXDigest extends BaseParamsDigest {
 
@@ -30,8 +28,9 @@ public class GDAXDigest extends BaseParamsDigest {
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
-    String message = restInvocation.getParamValue(HeaderParam.class, "CB-ACCESS-TIMESTAMP").toString() + restInvocation.getHttpMethod() + "/"
-        + restInvocation.getMethodPath() + (restInvocation.getRequestBody() != null ? restInvocation.getRequestBody() : "");
+    String pathWithQueryString = restInvocation.getInvocationUrl().replace(restInvocation.getBaseUrl(), "");
+    String message = restInvocation.getParamValue(HeaderParam.class, "CB-ACCESS-TIMESTAMP").toString() + restInvocation.getHttpMethod()
+        + pathWithQueryString + (restInvocation.getRequestBody() != null ? restInvocation.getRequestBody() : "");
 
     Mac mac256 = getMac();
 

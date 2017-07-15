@@ -47,7 +47,7 @@ public class CoinbaseAccountDemo {
     String depositAddress = accountService.requestDepositAddress(Currency.BTC);
     System.out.println("Deposit Address: " + depositAddress);
 
-    // String transactionHash = accountService.withdrawFunds(new BigDecimal(".01"), "1CYmvfR53AYPj87TjxXZQrLZ8z8dRUKDMs");
+    // String transactionHash = accountService.withdrawFunds(new BigDecimal(".01"), "XXX");
     // System.out.println("Bitcoin blockchain transaction hash: " + transactionHash);
   }
 
@@ -137,7 +137,7 @@ public class CoinbaseAccountDemo {
     System.out.println(cancelResponse);
 
     // CoinbaseSendMoneyRequest sendMoneyRequest = CoinbaseTransaction
-    // .createSendMoneyRequest("1Fpx2Q6J8TX3PZffgEBTpWSHG37FQBgqKB", MoneyUtils.parse("BTC .01"))
+    // .createSendMoneyRequest("XXX", MoneyUtils.parse("BTC .01"))
     // .withNotes("Demo Money!").withInstantBuy(false).withUserFee("0.0");
     // CoinbaseTransaction sendTransaction = accountService.sendMoney(sendMoneyRequest);
     // System.out.println(sendTransaction);

@@ -1,15 +1,26 @@
 {
   "success": 1,
   "return": {
-    "received": 3,
-    "remains": 0,
+    "received": 0,
+    "remains": 10,
     "funds": {
-      "usd": 287,
-      "btc": 3.75,
-      "ltc": 0,
-      "eur": 167,
-      "rub": 456
+      "BTC": {
+        "total": 100,
+        "available": 95
+      },
+      "USD": {
+        "total": 10000,
+        "available": 9995
+      },
+      "EUR": {
+        "total": 1000,
+        "available": 995
+      },
+      "LTC": {
+        "total": 1000,
+        "available": 995
+      }
     },
-    "order_id": 1067
+    "orderId": 1067
   }
 }

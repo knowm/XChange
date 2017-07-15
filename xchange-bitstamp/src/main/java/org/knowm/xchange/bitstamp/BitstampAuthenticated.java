@@ -18,6 +18,7 @@ import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampOrder;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampOrderStatusResponse;
 import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 
 import si.mazi.rescu.ParamsDigest;
@@ -69,7 +70,7 @@ public interface BitstampAuthenticated {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") int orderId) throws BitstampException, IOException;
 
   @POST
-  @Path("balance/")
+  @Path("v2/balance/")
   BitstampBalance getBalance(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
 
@@ -118,5 +119,11 @@ public interface BitstampAuthenticated {
   @Path("ripple_address/")
   BitstampRippleDepositAddress getRippleDepositAddress(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws BitstampException, IOException;
+
+
+  @POST
+  @Path("order_status/")
+  public BitstampOrderStatusResponse getOrderStatus(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+                                                    @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") int orderId) throws BitstampException, IOException;
 
 }

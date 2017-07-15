@@ -5,14 +5,14 @@ import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dsx.DSXExchange;
+import org.knowm.xchange.dsx.dto.marketdata.DSXExchangeInfo;
+import org.knowm.xchange.dsx.dto.meta.DSXMetaData;
+import org.knowm.xchange.dsx.service.DSXMarketDataService;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.examples.dsx.DSXExamplesUtils;
-import org.known.xchange.dsx.DSXExchange;
-import org.known.xchange.dsx.dto.marketdata.DSXExchangeInfo;
-import org.known.xchange.dsx.dto.meta.DSXMetaData;
-import org.known.xchange.dsx.service.DSXMarketDataService;
 
 /**
  * @author Mikhail Wall
@@ -32,8 +32,7 @@ public class DSXMetaDataDemo {
   private static void rawLocal(DSXExchange exchange) throws IOException {
 
     DSXMetaData dsxMetaData = exchange.getDsxMetaData();
-    System.out
-        .println("DSX local meta data: amountScale=" + dsxMetaData.amountScale + " public data TTL seconds" + dsxMetaData.publicInfoCacheSeconds);
+    System.out.println("DSX local meta data: amountScale=" + dsxMetaData.amountScale + " public data TTL seconds" + dsxMetaData.publicInfoCacheSeconds);
   }
 
   private static void rawRemote(Exchange dsx) throws IOException {

@@ -38,11 +38,10 @@ public class YoBitOrderBook {
 
   static class YoBitOrderBookDeserializer extends JsonDeserializer<YoBitOrderBook> {
 
-    private List<YoBitAsksBidsData> asks = new ArrayList<>();
-    private List<YoBitAsksBidsData> bids = new ArrayList<>();
-
     @Override
     public YoBitOrderBook deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+      List<YoBitAsksBidsData> asks = new ArrayList<>();
+      List<YoBitAsksBidsData> bids = new ArrayList<>();
 
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);

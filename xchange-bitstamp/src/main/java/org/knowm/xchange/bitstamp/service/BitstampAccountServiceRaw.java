@@ -7,16 +7,21 @@ import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitstamp.BitstampAuthenticated;
+import org.knowm.xchange.bitstamp.BitstampAuthenticatedV2;
+import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.account.BitstampBalance;
 import org.knowm.xchange.bitstamp.dto.account.BitstampDepositAddress;
 import org.knowm.xchange.bitstamp.dto.account.BitstampRippleDepositAddress;
 import org.knowm.xchange.bitstamp.dto.account.BitstampWithdrawal;
 import org.knowm.xchange.bitstamp.dto.account.DepositTransaction;
 import org.knowm.xchange.bitstamp.dto.account.WithdrawalRequest;
+import org.knowm.xchange.bitstamp.dto.trade.BitstampUserTransaction;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
 import si.mazi.rescu.RestProxyFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author gnandiga
@@ -26,6 +31,10 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
   private final BitstampDigest signatureCreator;
   private final BitstampAuthenticated bitstampAuthenticated;
 
+  private final BitstampAuthenticatedV2 bitstampAuthenticatedV2;
+  private final String apiKey;
+  private final SynchronizedValueFactory<Long> nonceFactory;
+  
   /**
    * Constructor
    *
@@ -36,8 +45,11 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     super(exchange);
 
     this.bitstampAuthenticated = RestProxyFactory.createProxy(BitstampAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
-    this.signatureCreator = BitstampDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
-        exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
+    this.bitstampAuthenticatedV2 = RestProxyFactory.createProxy(BitstampAuthenticatedV2.class, exchange.getExchangeSpecification().getSslUri());
+    
+    this.apiKey = exchange.getExchangeSpecification().getApiKey();
+    this.signatureCreator = BitstampDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), exchange.getExchangeSpecification().getUserName(), apiKey);
+    this.nonceFactory = exchange.getNonceFactory();
   }
 
   public BitstampBalance getBitstampBalance() throws IOException {
@@ -50,13 +62,11 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     return bitstampBalance;
   }
 
-  public BitstampWithdrawal withdrawBitstampFunds(Currency currency, BigDecimal amount, final String address) throws IOException {
+  public BitstampWithdrawal withdrawBitstampFunds(Currency currency, BigDecimal amount, final String address, String destinationTag) throws IOException {
     final BitstampWithdrawal response;
     if (address.startsWith("r")) {
-      boolean isSuccess = bitstampAuthenticated.withdrawToRipple(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
-          exchange.getNonceFactory(), amount, currency.getCurrencyCode(), address);
-      response = isSuccess ? new BitstampWithdrawal(null, null)
-          : new BitstampWithdrawal(null, "Bitstamp responded with 'false' when withdrawing to Ripple");
+        response = bitstampAuthenticatedV2.xrpWithdrawal(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
+                amount, address, destinationTag);
     } else {
       response = bitstampAuthenticated.withdrawBitcoin(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory(),
           amount, address);
@@ -107,4 +117,10 @@ public class BitstampAccountServiceRaw extends BitstampBaseService {
     return response;
   }
 
+  
+  public BitstampUserTransaction[] getBitstampUserTransactions(Long numberOfTransactions, CurrencyPair pair, Long offset,
+          String sort) throws IOException {
+    return bitstampAuthenticatedV2.getUserTransactions(apiKey, signatureCreator, nonceFactory, new BitstampV2.Pair(pair), numberOfTransactions,
+        offset, sort);
+  }
 }

@@ -26,7 +26,7 @@ public class BitstampMarketDataService extends BitstampMarketDataServiceRaw impl
 
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
-    return BitstampAdapters.adaptOrderBook(getBitstampOrderBook(currencyPair), currencyPair, 1000);
+    return BitstampAdapters.adaptOrderBook(getBitstampOrderBook(currencyPair), currencyPair);
   }
 
   @Override

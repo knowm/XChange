@@ -6,9 +6,10 @@
       "type": "buy",
       "amount": 10,
       "rate": 300,
-      "order_id": 576,
-      "is_your_order": 1,
-      "timestamp": 142123698
+      "orderId": 576,
+      "timestamp": 142123698,
+      "commission": 0.001,
+      "commissionCurrency": "USD"
     }
   }
 }

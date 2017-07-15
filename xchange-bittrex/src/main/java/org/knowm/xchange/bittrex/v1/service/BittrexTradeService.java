@@ -1,12 +1,9 @@
 package org.knowm.xchange.bittrex.v1.service;
 
-import static org.knowm.xchange.service.trade.params.TradeHistoryParamsZero.PARAMS_ZERO;
-
-import java.io.IOException;
-import java.util.Collection;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bittrex.v1.BittrexAdapters;
+import org.knowm.xchange.bittrex.v1.dto.trade.BittrexUserTrade;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -17,8 +14,15 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+
+import static org.knowm.xchange.service.trade.params.TradeHistoryParamsZero.PARAMS_ZERO;
 
 public class BittrexTradeService extends BittrexTradeServiceRaw implements TradeService {
 
@@ -56,7 +60,7 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
   @Override
   public OpenOrders getOpenOrders(
       OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return new OpenOrders(BittrexAdapters.adaptOpenOrders(getBittrexOpenOrders()));
+    return new OpenOrders(BittrexAdapters.adaptOpenOrders(getBittrexOpenOrders(params)));
   }
 
   @Override
@@ -67,7 +71,14 @@ public class BittrexTradeService extends BittrexTradeServiceRaw implements Trade
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    return new UserTrades(BittrexAdapters.adaptUserTrades(getBittrexTradeHistory()), TradeSortType.SortByTimestamp);
+    CurrencyPair currencyPair = null;
+    if (params instanceof TradeHistoryParamCurrencyPair) {
+      TradeHistoryParamCurrencyPair tradeHistoryParamCurrencyPair = (TradeHistoryParamCurrencyPair) params;
+      currencyPair = tradeHistoryParamCurrencyPair.getCurrencyPair();
+    }
+
+    List<BittrexUserTrade> bittrexTradeHistory = getBittrexTradeHistory(currencyPair);
+    return new UserTrades(BittrexAdapters.adaptUserTrades(bittrexTradeHistory), TradeSortType.SortByTimestamp);
   }
 
   @Override
