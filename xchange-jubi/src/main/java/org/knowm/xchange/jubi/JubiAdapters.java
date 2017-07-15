@@ -1,15 +1,23 @@
 package org.knowm.xchange.jubi;
 
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.jubi.dto.account.JubiBalance;
 import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
 import org.knowm.xchange.jubi.dto.marketdata.JubiTrade;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Yingzhe on 3/16/2015.
@@ -46,5 +54,17 @@ public class JubiAdapters {
     }
 
     return new Trades(tradeList, Trades.TradeSortType.SortByTimestamp);
+  }
+
+  public static AccountInfo adaptAccountInfo(JubiBalance jubiBalance, String userName) {
+
+    List<Balance> balances = new ArrayList<>();
+    for (Map.Entry<String, BigDecimal> funds : jubiBalance.getAvailableFunds().entrySet()) {
+      Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
+      BigDecimal amount = funds.getValue();
+      BigDecimal locked = jubiBalance.getLockedFunds().get(funds.getKey());
+      balances.add(new Balance(currency, null, amount, locked));
+    }
+    return new AccountInfo(userName, new Wallet(jubiBalance.getUid(), userName, balances));
   }
 }
