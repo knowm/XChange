@@ -5,7 +5,6 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.jubi.service.JubiMarketDataService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class JubiExchange extends BaseExchange implements Exchange {
@@ -22,7 +21,7 @@ public class JubiExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://www.jubi.com/api");
+    exchangeSpecification.setSslUri("https://www.jubi.com");
     exchangeSpecification.setHost("www.jubi.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Jubi");
