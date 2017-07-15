@@ -136,7 +136,8 @@ public class KrakenAdapters {
     BigDecimal tradableAmount = krakenPublicTrade.getVolume();
     Date timestamp = new Date((long) (krakenPublicTrade.getTime() * 1000L));
 
-    return new Trade(type, tradableAmount, currencyPair, krakenPublicTrade.getPrice(), timestamp, "0");
+    return new Trade(type, tradableAmount, currencyPair, krakenPublicTrade.getPrice(), timestamp, String.valueOf((long) (krakenPublicTrade.getTime() *
+        10000L)));
   }
 
   public static Wallet adaptWallet(Map<String, BigDecimal> krakenWallet) {
@@ -161,18 +162,22 @@ public class KrakenAdapters {
 
   public static Currency adaptCurrency(String krakenCurrencyCode) {
     String currencyCode = (krakenCurrencyCode.length() == 4 && !"USDT".equals(krakenCurrencyCode) && !"KFEE".equals(krakenCurrencyCode)
-        && !"DASH".equals(krakenCurrencyCode)) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
+        && !"DASH".equals(krakenCurrencyCode) && !"EOS".equals(krakenCurrencyCode)) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
 
     return Currency.getInstance(currencyCode).getCommonlyUsedCurrency();
   }
 
   public static CurrencyPair adaptCurrencyPair(String krakenCurrencyPair) {
-    int baseLength = (krakenCurrencyPair.startsWith("GNO")) ? 3 : 4;
+    int baseLength = (krakenCurrencyPair.startsWith("GNO") || krakenCurrencyPair.startsWith("EOS")) ? 3 : 4;
 
     Currency firstCurrency = adaptCurrency(krakenCurrencyPair.substring(0, baseLength));
     Currency secondCurrency = adaptCurrency(krakenCurrencyPair.substring(baseLength));
 
     return new CurrencyPair(firstCurrency, secondCurrency);
+  }
+  
+  public static CurrencyPair adaptCurrencyPairOpenOrder(String kcp) {
+    return new CurrencyPair(adaptCurrency(kcp.substring(0, 3)), adaptCurrency(kcp.substring(3)));
   }
 
   public static OpenOrders adaptOpenOrders(Map<String, KrakenOrder> krakenOrders) {
@@ -199,11 +204,10 @@ public class KrakenAdapters {
     KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
     OrderType type = adaptOrderType(orderDescription.getType());
     BigDecimal tradableAmount = krakenOrder.getVolume().subtract(krakenOrder.getVolumeExecuted());
-    Currency tradableIdentifier = adaptCurrency(orderDescription.getAssetPair().substring(0, orderDescription.getAssetPair().length()-3));
-    Currency transactionCurrency = adaptCurrency(orderDescription.getAssetPair().substring(orderDescription.getAssetPair().length()-3));
+    CurrencyPair pair = adaptCurrencyPairOpenOrder(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (krakenOrder.getOpenTimestamp() * 1000L));
 
-    return new LimitOrder(type, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), id, timestamp,
+    return new LimitOrder(type, tradableAmount, pair, id, timestamp,
         orderDescription.getPrice());
   }
 
@@ -222,14 +226,13 @@ public class KrakenAdapters {
     OrderType orderType = adaptOrderType(krakenTrade.getType());
     BigDecimal tradableAmount = krakenTrade.getVolume();
     String krakenAssetPair = krakenTrade.getAssetPair();
-    Currency tradableIdentifier = adaptCurrency(krakenAssetPair.substring(0, 4));
-    Currency transactionCurrency = adaptCurrency(krakenAssetPair.substring(4));
+    CurrencyPair pair = adaptCurrencyPair(krakenAssetPair);
     Date timestamp = new Date((long) (krakenTrade.getUnixTimestamp() * 1000L));
     BigDecimal averagePrice = krakenTrade.getAverageClosePrice();
     BigDecimal price = (averagePrice == null) ? krakenTrade.getPrice() : averagePrice;
 
-    return new KrakenUserTrade(orderType, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), price, timestamp, tradeId,
-        krakenTrade.getOrderTxId(), krakenTrade.getFee(), transactionCurrency, krakenTrade.getCost());
+    return new KrakenUserTrade(orderType, tradableAmount, pair, price, timestamp, tradeId,
+        krakenTrade.getOrderTxId(), krakenTrade.getFee(), pair.counter, krakenTrade.getCost());
   }
 
   public static OrderType adaptOrderType(KrakenType krakenType) {
@@ -288,12 +291,12 @@ public class KrakenAdapters {
         if (currency != null) {
           final Date timestamp = new Date((long) (krakenLedger.getUnixTime() * 1000L));
           final FundingRecord.Type type = FundingRecord.Type.fromString(krakenLedger.getLedgerType().name());
-          if (type != null){
+          if (type != null) {
             final String internalId = krakenLedger.getRefId(); // or ledgerEntry.getKey()?
             FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp,
-                    currency, krakenLedger.getTransactionAmount(), internalId, null,
-                    FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
-                    FundingRecord.Status.COMPLETE, krakenLedger.getBalance(), krakenLedger.getFee(), null);
+                currency, krakenLedger.getTransactionAmount(), internalId, null,
+                FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
+                FundingRecord.Status.COMPLETE, krakenLedger.getBalance(), krakenLedger.getFee(), null);
             fundingRecords.add(fundingRecordEntry);
           }
         }

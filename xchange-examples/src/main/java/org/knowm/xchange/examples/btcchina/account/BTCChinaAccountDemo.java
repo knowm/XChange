@@ -53,7 +53,7 @@ public class BTCChinaAccountDemo {
     System.out.println("Deposit address: " + depositAddress);
 
     // API key has no withdraw rights - returns 401 unauthorized
-    // String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(5), "1CoPAWJtran45gNM21te1xgZqbDd5UqYWB");
+    // String withdrawResult = accountService.withdrawFunds(new BigDecimal(1).movePointLeft(5), "XXX");
     // System.out.println("withdrawResult = " + withdrawResult);
 
     fundingHistory(accountService);

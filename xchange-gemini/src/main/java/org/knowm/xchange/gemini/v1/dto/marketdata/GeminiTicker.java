@@ -1,47 +1,54 @@
 package org.knowm.xchange.gemini.v1.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.util.Map;
+
+import org.knowm.xchange.currency.CurrencyPair;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GeminiTicker {
+  
+  public static class Volume {
+	  private final Map<String, Object> valueMap;
+	  
+	  public Volume(Map<String, Object> valueMap) {
+		  this.valueMap = valueMap;
+	  }
+	  
+	  public long getTimestampMS() {
+		  return (long) valueMap.get("timestamp");
+	  }
+	  
+	  public BigDecimal getBaseVolume(CurrencyPair currencyPair) {
+		  return new BigDecimal((String) valueMap.get(currencyPair.base.toString()));
+	  }
+	  
+	  public BigDecimal getCounterVolume(CurrencyPair currencyPair) {
+		  return new BigDecimal((String) valueMap.get(currencyPair.counter.toString()));
+	  }
+  }
 
-  private final BigDecimal mid;
   private final BigDecimal bid;
   private final BigDecimal ask;
-  private final BigDecimal high;
-  private final BigDecimal low;
   private final BigDecimal last;
-  private final BigDecimal volume;
-  private final float timestamp;
+  private final Volume volume;
 
   /**
-   * @param mid
    * @param bid
    * @param ask
-   * @param low
-   * @param high
    * @param last
-   * @param timestamp
    * @param volume
    */
-  public GeminiTicker(@JsonProperty("mid") BigDecimal mid, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("low") BigDecimal low, @JsonProperty("high") BigDecimal high, @JsonProperty("last_price") BigDecimal last,
-      @JsonProperty("timestamp") float timestamp, @JsonProperty("volume") BigDecimal volume) {
+  public GeminiTicker(@JsonProperty("bid") BigDecimal bid, 
+		  			  @JsonProperty("ask") BigDecimal ask,
+		  			  @JsonProperty("last") BigDecimal last,
+		  			  @JsonProperty("volume") Map<String, Object> volume) {
 
-    this.mid = mid;
     this.bid = bid;
     this.ask = ask;
     this.last = last;
-    this.volume = volume;
-    this.high = high;
-    this.low = low;
-    this.timestamp = timestamp;
-  }
-
-  public BigDecimal getMid() {
-
-    return mid;
+    this.volume = new Volume(volume);
   }
 
   public BigDecimal getBid() {
@@ -54,36 +61,22 @@ public class GeminiTicker {
     return ask;
   }
 
-  public BigDecimal getLow() {
-
-    return low;
-  }
-
-  public BigDecimal getHigh() {
-
-    return high;
-  }
-
-  public BigDecimal getLast_price() {
+  public BigDecimal getLast() {
 
     return last;
   }
 
-  public BigDecimal getVolume() {
+  public Volume getVolume() {
 
     return volume;
-  }
-
-  public float getTimestamp() {
-
-    return timestamp;
   }
 
   @Override
   public String toString() {
 
-    return "BitfinexTicker [mid=" + mid + ", bid=" + bid + ", ask=" + ask + ", low=" + low + ", high=" + high + ", last=" + last + ", timestamp="
-        + timestamp + "]";
+    return "GeminiTicker [bid=" + bid + ", ask=" + ask + ", last=" + last + ", volume="
+        + volume + "]";
   }
 
 }
+

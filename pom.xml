@@ -162,14 +162,14 @@
             <dependency>
                 <groupId>org.knowm.xchart</groupId>
                 <artifactId>xchart</artifactId>
-                <version>3.3.0</version>
+                <version>3.4.0</version>
             </dependency>
 
             <!--For String Joining, etc. -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.5</version>
+                <version>3.6</version>
             </dependency>
 
             <!-- For FIX API -->

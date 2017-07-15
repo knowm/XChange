@@ -68,14 +68,23 @@ public class LivecoinAdapters {
   public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, List<LivecoinRestriction> products) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
-    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
     for (LivecoinRestriction product : products) {
       BigDecimal minSize = product.getMinLimitQuantity().setScale(product.getPriceScale(), BigDecimal.ROUND_UNNECESSARY);
-      CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, null, 8);
+
       CurrencyPair pair = adaptCurrencyPair(product);
+
+      CurrencyPairMetaData staticMetaData = exchangeMetaData.getCurrencyPairs().get(pair);
+      int priceScale = staticMetaData == null ? 8 : staticMetaData.getPriceScale();
+
+      CurrencyPairMetaData cpmd = new CurrencyPairMetaData(null, minSize, null, priceScale);
       currencyPairs.put(pair, cpmd);
-      currencies.put(pair.base, null);
-      currencies.put(pair.counter, null);
+
+      if(!currencies.containsKey(pair.base))
+        currencies.put(pair.base, null);
+
+      if(!currencies.containsKey(pair.counter))
+        currencies.put(pair.counter, null);
     }
     return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
   }
@@ -97,7 +106,7 @@ public class LivecoinAdapters {
   }
 
   private static Date parseDate(Long rawDateLong) {
-    return new java.util.Date((long) rawDateLong * 1000);
+    return new Date((long) rawDateLong * 1000);
   }
 
   public static Ticker adaptTicker(LivecoinTicker ticker, CurrencyPair currencyPair) {

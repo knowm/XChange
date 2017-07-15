@@ -68,10 +68,10 @@ public class BittrexAccountServiceRaw extends BittrexBaseService {
     }
   }
 
-  public String withdraw(String currencyCode, BigDecimal amount, String address) throws IOException {
+  public String withdraw(String currencyCode, BigDecimal amount, String address, String paymentId) throws IOException {
 
     BittrexWithdrawResponse response = bittrexAuthenticated.withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currencyCode,
-        amount.toPlainString(), address);
+        amount.toPlainString(), address, paymentId);
     if (response.getSuccess()) {
       return response.getResult().getUuid();
     } else {

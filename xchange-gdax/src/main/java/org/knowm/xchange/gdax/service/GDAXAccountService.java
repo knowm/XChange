@@ -26,12 +26,13 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
 
   @Override
   public AccountInfo getAccountInfo() throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+
     return new AccountInfo(GDAXAdapters.adaptAccountInfo(getCoinbaseExAccountInfo()));
   }
 
   @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount,
-      String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+
     GDAXAccount[] accounts = getCoinbaseExAccountInfo();
     String accountId = null;
     for (GDAXAccount account : accounts) {
@@ -50,19 +51,20 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
   }
 
   @Override
-  public String requestDepositAddress(Currency currency,
-      String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+
     throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
+
     throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
+
     throw new NotYetImplementedForExchangeException();
   }
 }

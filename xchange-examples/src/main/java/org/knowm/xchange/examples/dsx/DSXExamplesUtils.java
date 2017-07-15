@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.known.xchange.dsx.DSXExchange;
+import org.knowm.xchange.dsx.DSXExchange;
 
 /**
  * @author Mikhail Wall

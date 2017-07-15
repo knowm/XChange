@@ -6,12 +6,10 @@ import java.util.Date;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.poloniex.PoloniexExchange;
 import org.knowm.xchange.poloniex.service.PoloniexMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.utils.CertHelper;
 
 /**
  * @author Zach Holmes
@@ -24,14 +22,15 @@ public class PoloniexMarketDataDemo {
 
   public static void main(String[] args) throws Exception {
 
-    CertHelper.trustAllCerts();
+//    CertHelper.trustAllCerts();
 
     poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
     MarketDataService dataService = poloniex.getMarketDataService();
-    currencyPair = new CurrencyPair(Currency.XMR, Currency.BTC);
+    currencyPair = new CurrencyPair("BTC", "USDT");
+//    currencyPair = new CurrencyPair("ETH", "BTC");
 
     generic(dataService);
-    raw((PoloniexMarketDataServiceRaw) dataService);
+//    raw((PoloniexMarketDataServiceRaw) dataService);
   }
 
   private static void generic(MarketDataService dataService) throws IOException {
@@ -39,10 +38,10 @@ public class PoloniexMarketDataDemo {
     System.out.println("----------GENERIC----------");
     System.out.println(dataService.getTicker(currencyPair));
     System.out.println(dataService.getOrderBook(currencyPair));
-    System.out.println(dataService.getOrderBook(currencyPair, 3));
-    System.out.println(dataService.getTrades(currencyPair));
-    long now = new Date().getTime() / 1000;
-    System.out.println(dataService.getTrades(currencyPair, now - 8 * 60 * 60, now));
+//    System.out.println(dataService.getOrderBook(currencyPair, 3));
+//    System.out.println(dataService.getTrades(currencyPair));
+//    long now = new Date().getTime() / 1000;
+//    System.out.println(dataService.getTrades(currencyPair, now -  60));
   }
 
   private static void raw(PoloniexMarketDataServiceRaw dataService) throws IOException {

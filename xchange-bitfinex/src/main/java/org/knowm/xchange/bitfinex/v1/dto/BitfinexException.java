@@ -8,6 +8,9 @@ public class BitfinexException extends RuntimeException {
   @JsonProperty("message")
   private String message;
 
+  @JsonProperty("error")
+  private String error;
+
   public BitfinexException(@JsonProperty("message") String message) {
 
     super();
@@ -15,8 +18,7 @@ public class BitfinexException extends RuntimeException {
   }
 
   public String getMessage() {
-
-    return message;
+    return message==null?error:message;
   }
 
 }

@@ -103,6 +103,7 @@ public class Currency implements Comparable<Currency> {
   public static final Currency IDR = createCurrency("IDR", "Indonesian Rupiah", null);
   public static final Currency ILS = createCurrency("ILS", "Israeli New Sheqel", null);
   public static final Currency INR = createCurrency("INR", "Indian Rupee", null);
+  public static final Currency IOC = createCurrency("IOC", "I/OCoin", null);
   public static final Currency IQD = createCurrency("IQD", "Iraqi Dinar", null);
   public static final Currency IRR = createCurrency("IRR", "Iranian Rial", null);
   public static final Currency ISK = createCurrency("ISK", "Icelandic Króna", null);
@@ -167,6 +168,7 @@ public class Currency implements Comparable<Currency> {
   public static final Currency PYG = createCurrency("PYG", "Paraguayan Guarani", null);
   public static final Currency QAR = createCurrency("QAR", "Qatari Rial", null);
   public static final Currency QRK = createCurrency("QRK", "QuarkCoin", null);
+  public static final Currency REP = createCurrency("REP", "Augur", null);
   public static final Currency RON = createCurrency("RON", "Romanian Leu", null);
   public static final Currency RSD = createCurrency("RSD", "Serbian Dinar", null);
   public static final Currency RUB = createCurrency("RUB", "Russian Ruble", null);
@@ -202,6 +204,7 @@ public class Currency implements Comparable<Currency> {
   public static final Currency UAH = createCurrency("UAH", "Ukrainian Hryvnia", null);
   public static final Currency UGX = createCurrency("UGX", "Ugandan Shilling", null);
   public static final Currency USD = createCurrency("USD", "United States Dollar", null);
+  public static final Currency USDT = createCurrency("USDT", "Tether USD Anchor", null);
   public static final Currency USDE = createCurrency("USDE", "Unitary Status Dollar eCoin", null);
   public static final Currency UTC = createCurrency("UTC", "Ultracoin", null);
   public static final Currency UYU = createCurrency("UYU", "Uruguayan Peso", null);
@@ -235,6 +238,14 @@ public class Currency implements Comparable<Currency> {
   public static SortedSet<Currency> getAvailableCurrencies() {
 
     return new TreeSet<>(currencies.values());
+  }
+
+  /**
+   * Gets the set of available currency codes.
+   */
+  public static SortedSet<String> getAvailableCurrencyCodes() {
+
+    return new TreeSet<>(currencies.keySet());
   }
 
   private final String code;

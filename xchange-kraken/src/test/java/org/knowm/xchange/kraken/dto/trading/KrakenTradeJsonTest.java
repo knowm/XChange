@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class KrakenTradeJsonTest {
 
   @Test
-  public void testOrderUnmarshal() throws IOException {
+  public void testOrderUnmarshall() throws IOException {
 
     // Read in the JSON from the example resources
     InputStream is = KrakenTradeJsonTest.class.getResourceAsStream("/trading/example-openorders-data.json");
@@ -40,19 +40,19 @@ public class KrakenTradeJsonTest {
     KrakenOrder order = openOrderEntry.getValue();
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(openOrderEntry.getKey()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
-    assertThat(order.getOpenTimestamp()).isEqualTo(1380586080.222);
-    assertThat(order.getPrice()).isEqualTo("0.00000");
-    assertThat(order.getVolume()).isEqualTo("0.01000000");
+    assertThat(openOrderEntry.getKey()).isEqualTo("O767CW-TXHCL-FWZ5R2");
+    assertThat(order.getOpenTimestamp()).isEqualTo(1499872460.2572);
+    assertThat(order.getPrice()).isEqualTo("0.000000000");
+    assertThat(order.getVolume()).isEqualTo("1000.00000000");
     assertThat(order.getVolumeExecuted()).isEqualTo("0.00000000");
     assertThat(order.getStatus()).isEqualTo(KrakenOrderStatus.OPEN);
     KrakenOrderDescription orderDescription = order.getOrderDescription();
-    assertThat(orderDescription.getAssetPair()).isEqualTo("LTCEUR");
+    assertThat(orderDescription.getAssetPair()).isEqualTo("XRPXBT");
     assertThat(orderDescription.getLeverage()).isEqualTo("none");
-    assertThat(orderDescription.getOrderDescription()).isEqualTo("buy 0.01000000 LTCEUR @ limit 13.00000");
+    assertThat(orderDescription.getOrderDescription()).isEqualTo("buy 1000.00000000 XRPXBT @ limit 0.00001000");
     assertThat(orderDescription.getOrderType()).isEqualTo(KrakenOrderType.LIMIT);
     assertThat(orderDescription.getType()).isEqualTo(KrakenType.BUY);
-    assertThat(orderDescription.getPrice()).isEqualTo("13.00000");
+    assertThat(orderDescription.getPrice()).isEqualTo("0.00001000");
     assertThat(orderDescription.getSecondaryPrice()).isEqualTo("0");
 
   }

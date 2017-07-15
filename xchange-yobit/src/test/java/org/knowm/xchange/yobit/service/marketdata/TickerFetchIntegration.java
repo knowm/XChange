@@ -19,10 +19,12 @@ public class TickerFetchIntegration {
     MarketDataService marketDataService = exchange.getMarketDataService();
     Ticker ticker = marketDataService.getTicker(new CurrencyPair("LTC", "BTC"));
     System.out.println(ticker.toString());
+    assertThat(ticker.getCurrencyPair()).isEqualTo(new CurrencyPair("LTC", "BTC"));
     assertThat(ticker).isNotNull();
     
     Ticker ticker2 = marketDataService.getTicker(new CurrencyPair("ETH", "BTC"));
     assertThat(ticker2).isNotNull();
+    assertThat(ticker2.getCurrencyPair()).isEqualTo(new CurrencyPair("ETH", "BTC"));
     assertThat(ticker2.getLast()).isNotEqualTo(ticker.getLast());
   }
 }

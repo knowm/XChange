@@ -83,20 +83,14 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements M
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     String pairs = BTCEAdapters.getPair(currencyPair);
-    int numberOfItems = -1;
-    try {
-      numberOfItems = (Integer) args[0];
-    } catch (ArrayIndexOutOfBoundsException e) {
-      // ignore, can happen if no arg given.
-    }
-    BTCETrade[] bTCETrades = null;
-
-    if (numberOfItems == -1) {
-      bTCETrades = getBTCETrades(pairs, FULL_SIZE).getTrades(BTCEAdapters.getPair(currencyPair));
-    } else {
-      bTCETrades = getBTCETrades(pairs, numberOfItems).getTrades(BTCEAdapters.getPair(currencyPair));
+    int numberOfItems = FULL_SIZE;
+    if (args != null && args.length > 0) {
+      if (args[0] instanceof Number) {
+        numberOfItems = (Integer) args[0];
+      }
     }
 
+    BTCETrade[] bTCETrades = getBTCETrades(pairs, numberOfItems).getTrades(BTCEAdapters.getPair(currencyPair));
     return BTCEAdapters.adaptTrades(bTCETrades, currencyPair);
   }
 

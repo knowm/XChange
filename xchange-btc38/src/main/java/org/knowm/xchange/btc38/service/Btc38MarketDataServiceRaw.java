@@ -74,7 +74,9 @@ public class Btc38MarketDataServiceRaw extends Btc38BaseService<Btc38> {
   }
 
   public Btc38Trade[] getBtc38Trades(CurrencyPair currencyPair, Object[] args) throws IOException {
-    return btc38.getTrades(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase());
+    return (args != null && args.length > 0 && args[0] != null && args[0] instanceof Long)
+            ? btc38.getTradesFrom(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase(), (Long) args[0])
+            : btc38.getTrades(currencyPair.base.getCurrencyCode().toUpperCase(), currencyPair.counter.getCurrencyCode().toUpperCase());
   }
 
 }

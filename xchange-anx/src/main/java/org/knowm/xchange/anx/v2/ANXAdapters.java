@@ -1,13 +1,9 @@
 package org.knowm.xchange.anx.v2;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import org.knowm.xchange.anx.v2.dto.ANXValue;
 import org.knowm.xchange.anx.v2.dto.account.ANXAccountInfo;
 import org.knowm.xchange.anx.v2.dto.account.ANXWallet;
+import org.knowm.xchange.anx.v2.dto.account.ANXWalletHistoryEntry;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXOrder;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXTicker;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXTrade;
@@ -19,6 +15,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
@@ -29,12 +26,17 @@ import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.utils.DateUtils;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Various adapters for converting from anx DTOs to XChange DTOs
  */
 public final class ANXAdapters {
 
-  private static final String SIDE_BID = "bid";
   private static final int PERCENT_DECIMAL_SHIFT = 2;
 
   /**
@@ -70,10 +72,10 @@ public final class ANXAdapters {
    * @return
    */
   public static LimitOrder adaptOrder(BigDecimal amount, BigDecimal price, String tradedCurrency, String transactionCurrency, String orderTypeString,
-      String id, Date timestamp) {
+                                      String id, Date timestamp) {
 
     // place a limit order
-    OrderType orderType = SIDE_BID.equalsIgnoreCase(orderTypeString) ? OrderType.BID : OrderType.ASK;
+    OrderType orderType = adaptSide(orderTypeString);
     CurrencyPair currencyPair = adaptCurrencyPair(tradedCurrency, transactionCurrency);
 
     LimitOrder limitOrder = new LimitOrder(orderType, amount, currencyPair, id, timestamp, price);
@@ -256,6 +258,8 @@ public final class ANXAdapters {
 
     if ("DOGEBTC".equalsIgnoreCase(currencyPairRaw)) {
       return CurrencyPair.DOGE_BTC;
+    } else if ("STARTBTC".equalsIgnoreCase(currencyPairRaw)) {
+      return new CurrencyPair(Currency.START, Currency.BTC);
     } else if (currencyPairRaw.length() != 6) {
       throw new IllegalArgumentException("Unrecognized currency pair " + currencyPairRaw);
     } else {
@@ -264,7 +268,67 @@ public final class ANXAdapters {
   }
 
   private static OrderType adaptSide(String side) {
+    // buy & sell are used for trades
+    // bid and offer are used for orders
 
-    return SIDE_BID.equals(side) ? OrderType.BID : OrderType.ASK;
+    switch (side.toUpperCase()) {
+      case "BUY":
+        return OrderType.BID;
+      case "SELL":
+        return OrderType.ASK;
+      case "BID":
+        return OrderType.BID;
+      case "OFFER":
+        return OrderType.ASK;
+      case "ASK":
+        return OrderType.ASK;
+      default:
+        throw new IllegalStateException("Don't understand order direction: " + side);
+    }
+  }
+
+  public static FundingRecord adaptFundingRecord(ANXWalletHistoryEntry entry) {
+      /*
+      type can be can be any of:
+
+      deposit,
+      withdraw,
+
+      or...
+
+      fee
+      earned
+      spent
+      out
+       */
+
+    String entryType = entry.getType();
+
+    FundingRecord.Type type;
+    if (entryType.equalsIgnoreCase("deposit"))
+      type = FundingRecord.Type.DEPOSIT;
+    else if (entryType.equalsIgnoreCase("withdraw"))
+      type = FundingRecord.Type.WITHDRAWAL;
+    else
+      throw new IllegalStateException("should not get here");
+
+    Date date = DateUtils.fromMillisUtc(Long.valueOf(entry.getDate()));
+    ANXValue value = entry.getValue();
+    Currency currency = new Currency(value.getCurrency());
+    ANXValue balance = entry.getBalance();
+
+    return new FundingRecord(
+        entry.getInfo(),
+        date,
+        currency,
+        value.getValue(),
+        null,
+        null,
+        type,
+        FundingRecord.Status.COMPLETE,
+        balance.getValue(),
+        null,
+        null
+    );
   }
 }

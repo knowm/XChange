@@ -41,7 +41,7 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    final BitstampWithdrawal response = withdrawBitstampFunds(currency, amount, address);
+    final BitstampWithdrawal response = withdrawBitstampFunds(currency, amount, address, null);
     if (response.getId() == null) {
       return null;
     }
@@ -61,12 +61,13 @@ public class BitstampAccountService extends BitstampAccountServiceRaw implements
 
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
-    throw new NotAvailableFromExchangeException();
+      throw new NotAvailableFromExchangeException();
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params)
+          throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+      throw new NotYetImplementedForExchangeException();
+      
   }
 }
