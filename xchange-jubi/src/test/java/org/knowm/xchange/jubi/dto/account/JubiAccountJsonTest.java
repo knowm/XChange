@@ -2,6 +2,9 @@ package org.knowm.xchange.jubi.dto.account;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.jubi.JubiAdapters;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,4 +56,17 @@ public class JubiAccountJsonTest {
     assertThat(lockedFunds).hasSize(0);
   }
 
+  @Test
+  public void testAccountInfoAdapter() throws IOException {
+    // Read in the JSON from the example resources
+    InputStream is = JubiAccountJsonTest.class.getResourceAsStream("/example-balance-data.json");
+    //Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    JubiBalance jubiBalance = mapper.readValue(is, JubiBalance.class);
+    AccountInfo info = JubiAdapters.adaptAccountInfo(jubiBalance, null);
+    assertThat(info.getWallet()).isNotNull();
+    assertThat(info.getWallet().getId()).isEqualTo("7");
+    assertThat(info.getWallet().getBalance(new Currency("CNY")).getAvailable()).isEqualTo(new BigDecimal("54.32"));
+    assertThat(info.getWallet().getBalance(new Currency("DOGE")).getFrozen()).isEqualTo(new BigDecimal("65.2213212"));
+  }
 }
