@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by Yingzhe on 3/16/2015.
  */
-@Path("v1")
+@Path("api/v1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Jubi {
   /**
