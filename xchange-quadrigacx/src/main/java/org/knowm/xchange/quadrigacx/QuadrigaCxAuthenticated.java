@@ -54,13 +54,7 @@ public interface QuadrigaCxAuthenticated {
   @Path("user_transactions")
   QuadrigaCxUserTransaction[] getUserTransactions(@FormParam("book") String book, @FormParam("key") String apiKey,
       @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("limit") long numberOfTransactions) throws QuadrigaCxException, IOException;
-
-  @POST
-  @Path("user_transactions")
-  QuadrigaCxUserTransaction[] getUserTransactions(@FormParam("book") String book, @FormParam("key") String apiKey,
-      @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("limit") long numberOfTransactions, @FormParam("offset") long offset,
+      @FormParam("limit") Long numberOfTransactions, @FormParam("offset") Long offset,
       @FormParam("sort") String sort) throws QuadrigaCxException, IOException;
 
   @POST
