@@ -63,18 +63,6 @@ public class QuadrigaCxTradeServiceRaw extends QuadrigaCxBaseService {
         orderId);
   }
 
-  public QuadrigaCxUserTransaction[] getQuadrigaCxUserTransactions(CurrencyPair currencyPair, Long numberOfTransactions, long offset, String sort) throws IOException {
-    return quadrigacxAuthenticated.getUserTransactions(
-            QuadrigaCxUtils.currencyPairToBook(currencyPair),
-            exchange.getExchangeSpecification().getApiKey(),
-            signatureCreator,
-            exchange.getNonceFactory(),
-            numberOfTransactions,
-            offset,
-            sort
-    );
-  }
-
   public QuadrigaCxUserTransaction[] getQuadrigaCxUserTransactions(CurrencyPair currencyPair, Long numberOfTransactions, Long offset,
       String sort) throws IOException {
 
