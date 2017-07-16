@@ -1,5 +1,6 @@
 package org.knowm.xchange.bitfinex.v1.dto.trade;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BitfinexPastTradesRequest {
@@ -23,12 +24,14 @@ public class BitfinexPastTradesRequest {
    * Trades made after this timestamp won’t be returned.
    */
   @JsonProperty("until")
+  @JsonInclude(JsonInclude.Include.NON_NULL) 
   protected Long endTime;
 
   @JsonProperty("limit_trades")
-  protected int limitTrades;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  protected Integer limitTrades;
 
-  public BitfinexPastTradesRequest(String nonce, String symbol, long startTime, Long endTime, int limitTrades) {
+  public BitfinexPastTradesRequest(String nonce, String symbol, long startTime, Long endTime, Integer limitTrades) {
 
     this.request = "/v1/mytrades";
     this.nonce = nonce;
