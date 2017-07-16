@@ -1,15 +1,16 @@
 package org.knowm.xchange.quadrigacx.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.quadrigacx.QuadrigaCxAuthenticated;
 import org.knowm.xchange.quadrigacx.QuadrigaCxUtils;
 import org.knowm.xchange.quadrigacx.dto.trade.QuadrigaCxOrder;
 import org.knowm.xchange.quadrigacx.dto.trade.QuadrigaCxUserTransaction;
-import si.mazi.rescu.RestProxyFactory;
 
-import java.io.IOException;
-import java.math.BigDecimal;
+import si.mazi.rescu.RestProxyFactory;
 
 public class QuadrigaCxTradeServiceRaw extends QuadrigaCxBaseService {
 
