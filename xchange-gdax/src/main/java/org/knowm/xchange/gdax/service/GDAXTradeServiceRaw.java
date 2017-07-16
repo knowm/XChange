@@ -85,6 +85,10 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
     return true;
   }
 
+  public GDAXOrder getOrder(String id) throws IOException {
+    return coinbaseEx.getOrder(id, apiKey, digest, nonceFactory, passphrase);
+  }
+
   private static String side(OrderType type) {
     return type.equals(OrderType.BID) ? "buy" : "sell";
   }
