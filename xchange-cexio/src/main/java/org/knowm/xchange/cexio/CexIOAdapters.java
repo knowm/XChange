@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.knowm.xchange.utils.DateUtils.*;
+import static org.knowm.xchange.utils.DateUtils.fromISODateString;
 
 /**
  * Author: brox Since: 2/6/14
@@ -139,6 +139,9 @@ public class CexIOAdapters {
   public static List<LimitOrder> createOrders(CurrencyPair currencyPair, OrderType orderType, List<List<BigDecimal>> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
+    if(orders == null)
+      return limitOrders;
+
     for (List<BigDecimal> o : orders) {
       checkArgument(o.size() == 2, "Expected a pair (price, amount) but got {0} elements.", o.size());
       limitOrders.add(createOrder(currencyPair, o, orderType));
