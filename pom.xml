@@ -417,7 +417,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <skipIntegrationTests>true</skipIntegrationTests>
-        <powermock.version>1.6.3</powermock.version>
+        <powermock.version>1.7.0</powermock.version>
     </properties>
 
 </project>
