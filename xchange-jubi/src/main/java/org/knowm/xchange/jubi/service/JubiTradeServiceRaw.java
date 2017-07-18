@@ -5,6 +5,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.jubi.JubiAuthernticated;
 import org.knowm.xchange.jubi.dto.trade.JubiOrderHistory;
 import org.knowm.xchange.jubi.dto.trade.JubiOrderStatus;
+import org.knowm.xchange.jubi.dto.trade.JubiOrderType;
+import org.knowm.xchange.jubi.dto.trade.JubiTradeResult;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import si.mazi.rescu.ParamsDigest;
@@ -58,4 +60,16 @@ public class JubiTradeServiceRaw extends JubiBaseService {
             exchange.getNonceFactory(), signatureCreator);
   }
 
+  public JubiTradeResult placeJubiOrder(CurrencyPair currencyPair, BigDecimal amount, BigDecimal price, JubiOrderType type) throws IOException {
+    String coinType = currencyPair != null ? currencyPair.base.getCurrencyCode().toLowerCase() : "";
+    return jubiAuthernticated.placeOrder(amount, coinType, exchange.getExchangeSpecification().getApiKey(), exchange.getNonceFactory(),
+            price, type.name().toLowerCase(), signatureCreator);
+  }
+
+  public boolean cancelJubiOrder(CurrencyPair currencyPair, BigDecimal id) throws IOException {
+    String coinType = currencyPair != null ? currencyPair.base.getCurrencyCode().toLowerCase() : "";
+    JubiTradeResult result = jubiAuthernticated.cancelOrder(coinType, id, exchange.getExchangeSpecification().getApiKey(),
+            exchange.getNonceFactory(), signatureCreator);
+    return result.isSuccess();
+  }
 }
