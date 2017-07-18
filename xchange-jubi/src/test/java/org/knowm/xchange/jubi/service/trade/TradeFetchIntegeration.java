@@ -8,6 +8,7 @@ import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.jubi.JubiExchange;
 import org.knowm.xchange.jubi.dto.trade.JubiOrderStatus;
 import org.knowm.xchange.jubi.service.JubiTradeServiceRaw;
@@ -43,7 +44,12 @@ public class TradeFetchIntegeration {
     TradeService tradeService = exchange.getTradeService();
     LimitOrder limitOrder = new LimitOrder(Order.OrderType.BID, new BigDecimal(2000000.0),
             new CurrencyPair("doge", "cny"), null, null, new BigDecimal(0.00001));
-    String tradeId = tradeService.placeLimitOrder(limitOrder);
+    String tradeId = "0";
+    try {
+      tradeId = tradeService.placeLimitOrder(limitOrder);
+    } catch (ExchangeException ex) {
+      System.out.println(ex);
+    }
     System.out.println("Place Order Result: " + tradeId);
     boolean result = ((JubiTradeServiceRaw)tradeService).cancelJubiOrder(new CurrencyPair("doge", "cny"), new BigDecimal(tradeId));
     System.out.println("Cancel Order Result: " + result);
