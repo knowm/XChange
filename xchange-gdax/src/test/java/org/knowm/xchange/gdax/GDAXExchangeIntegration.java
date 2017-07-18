@@ -7,7 +7,8 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.gdax.service.GDAXMarketDataServiceRaw;
 
-public class GDAXExchangeTest {
+
+public class GDAXExchangeIntegration {
 
   @Test
   public void coinbaseShouldBeInstantiatedWithoutAnExceptionWhenUsingDefaultSpecification() {

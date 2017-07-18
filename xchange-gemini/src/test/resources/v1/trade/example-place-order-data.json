@@ -1,7 +1,5 @@
 {
-  "id": 4003264,
   "symbol": "btcusd",
-  "exchange": "bitfinex",
   "price": "900.0",
   "avg_execution_price": "0.0",
   "side": "sell",
