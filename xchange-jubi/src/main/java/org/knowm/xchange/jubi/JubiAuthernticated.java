@@ -1,12 +1,15 @@
 package org.knowm.xchange.jubi;
 
 import org.knowm.xchange.jubi.dto.account.JubiBalance;
+import org.knowm.xchange.jubi.dto.trade.JubiOrderHistory;
+import org.knowm.xchange.jubi.dto.trade.JubiOrderStatus;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * Created by Dzf on 2017/7/8.
@@ -19,4 +22,19 @@ public interface JubiAuthernticated {
   @Path("balance")
   JubiBalance getBalance(@FormParam("key") String apiKey, @FormParam("nonce")SynchronizedValueFactory<Long> nonce,
                          @FormParam("signature") ParamsDigest signature) throws IOException;
+
+  @POST
+  @Path("trade_list")
+  JubiOrderHistory getOrderHistory(@FormParam("coin") String coinType, @FormParam("key") String apiKey,
+                                   @FormParam("nonce")SynchronizedValueFactory<Long> nonce,
+                                   @FormParam("since") long since, @FormParam("type") String type,
+                                   @FormParam("signature") ParamsDigest signature) throws IOException;
+
+  @POST
+  @Path("trade_view")
+  JubiOrderStatus getOrderStatus(@FormParam("coin") String coinType,
+                                 @FormParam("id") BigDecimal id,
+                                 @FormParam("key") String apiKey,
+                                 @FormParam("nonce")SynchronizedValueFactory<Long> nonce,
+                                 @FormParam("signature") ParamsDigest signature) throws IOException;
 }
