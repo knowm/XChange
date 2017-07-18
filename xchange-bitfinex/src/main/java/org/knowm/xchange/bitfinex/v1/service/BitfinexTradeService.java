@@ -1,11 +1,5 @@
 package org.knowm.xchange.bitfinex.v1.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
@@ -24,11 +18,18 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 public class BitfinexTradeService extends BitfinexTradeServiceRaw implements TradeService {
 
@@ -45,8 +46,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     BitfinexOrderStatusResponse[] activeOrders = getBitfinexOpenOrders();
 
     if (activeOrders.length <= 0) {
@@ -58,8 +58,13 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
 
   @Override
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
+    BitfinexOrderStatusResponse newOrder;
+    if (marketOrder.hasFlag(BitfinexOrderFlags.MARGIN))
 
-    BitfinexOrderStatusResponse newOrder = placeBitfinexMarketOrder(marketOrder, BitfinexOrderType.MARKET);
+      newOrder = placeBitfinexMarketOrder(marketOrder, BitfinexOrderType.MARGIN_MARKET);
+
+    else
+      newOrder = placeBitfinexMarketOrder(marketOrder, BitfinexOrderType.MARKET);
 
     return String.valueOf(newOrder.getId());
   }
@@ -68,10 +73,20 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     BitfinexOrderStatusResponse newOrder;
-    if (limitOrder.hasFlag(BitfinexOrderFlags.FILL_OR_KILL)) {
-      newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.FILL_OR_KILL);
+    if (limitOrder.hasFlag(BitfinexOrderFlags.MARGIN)) {
+      if (limitOrder.hasFlag(BitfinexOrderFlags.FILL_OR_KILL)) {
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.MARGIN_FILL_OR_KILL);
+      } else {
+
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.MARGIN_LIMIT);
+      }
     } else {
-      newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT);
+      if (limitOrder.hasFlag(BitfinexOrderFlags.FILL_OR_KILL)) {
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.FILL_OR_KILL);
+      } else {
+
+        newOrder = placeBitfinexLimitOrder(limitOrder, BitfinexOrderType.LIMIT);
+      }
     }
 
     return String.valueOf(newOrder.getId());
@@ -100,25 +115,29 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
       throw new ExchangeException("CurrencyPair must be supplied");
     }
 
-    final long timestamp;
+    long startTime = 0;
+    Long endTime = null;
+    int limit = 50;
+
     if (params instanceof TradeHistoryParamsTimeSpan) {
-      Date startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
-      timestamp = DateUtils.toUnixTime(startTime);
-    } else {
-      timestamp = 0;
+      TradeHistoryParamsTimeSpan paramsTimeSpan = (TradeHistoryParamsTimeSpan) params;
+      startTime = DateUtils.toUnixTimeNullSafe(paramsTimeSpan.getStartTime());
+      endTime = DateUtils.toUnixTimeNullSafe(paramsTimeSpan.getEndTime());
     }
 
-    final int limit;
     if (params instanceof TradeHistoryParamPaging) {
       TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
       Integer pageLength = pagingParams.getPageLength();
       Integer pageNum = pagingParams.getPageNumber();
       limit = (pageLength != null && pageNum != null) ? pageLength * (pageNum + 1) : 50;
-    } else {
-      limit = 50;
     }
 
-    final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, timestamp, limit);
+    if (params instanceof TradeHistoryParamLimit) {
+      TradeHistoryParamLimit tradeHistoryParamLimit = (TradeHistoryParamLimit) params;
+      limit = tradeHistoryParamLimit.getLimit();
+    }
+
+    final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, startTime, endTime, limit);
     return BitfinexAdapters.adaptTradeHistory(trades, symbol);
   }
 
@@ -133,8 +152,8 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
     return null;
   }
 
-  public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan
-      implements TradeHistoryParamCurrencyPair, TradeHistoryParamPaging {
+  public static class BitfinexTradeHistoryParams extends DefaultTradeHistoryParamsTimeSpan implements TradeHistoryParamCurrencyPair,
+      TradeHistoryParamPaging {
 
     private int count;
     private CurrencyPair pair;
@@ -186,8 +205,7 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

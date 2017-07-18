@@ -1,9 +1,8 @@
 package org.knowm.xchange.cexio.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIOAdapters;
+import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
 import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
@@ -11,6 +10,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.io.IOException;
 
 /**
  * Author: brox Since: 2/6/14
@@ -36,7 +37,14 @@ public class CexIOMarketDataService extends CexIOMarketDataServiceRaw implements
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return CexIOAdapters.adaptOrderBook(getCexIOOrderBook(currencyPair), currencyPair);
+    CexIODepth cexIODepth = getCexIOOrderBook(currencyPair);
+
+    if(cexIODepth.getError() != null) {
+      //eg: 'Rate limit exceeded'
+      throw new ExchangeException("CexIO getOrderBook request for " + currencyPair + " failed with: " + cexIODepth.getError());
+    }
+
+    return CexIOAdapters.adaptOrderBook(cexIODepth, currencyPair);
   }
 
   @Override

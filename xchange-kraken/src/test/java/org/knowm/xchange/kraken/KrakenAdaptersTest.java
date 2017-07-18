@@ -81,6 +81,7 @@ public class KrakenAdaptersTest {
     Set<CurrencyPair> pairs = KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
     assertThat(pairs).hasSize(21);
     assertThat(pairs.contains(CurrencyPair.BTC_USD)).isTrue();
+    System.out.println("pairs = " + pairs);
   }
 
   @Test
@@ -158,12 +159,12 @@ public class KrakenAdaptersTest {
     OpenOrders orders = KrakenAdapters.adaptOpenOrders(krakenResult.getResult().getOrders());
 
     // Verify that the example data was unmarshalled correctly
-    assertThat(orders.getOpenOrders()).hasSize(1);
-    assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("OR6QMM-BCKM4-Q6YHIN");
-    assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("13.00000");
-    assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("0.01000000");
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().base).isEqualTo(Currency.LTC);
-    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counter).isEqualTo(Currency.EUR);
+    assertThat(orders.getOpenOrders()).hasSize(6);
+    assertThat(orders.getOpenOrders().get(0).getId()).isEqualTo("O767CW-TXHCL-FWZ5R2");
+    assertThat(orders.getOpenOrders().get(0).getLimitPrice()).isEqualTo("0.00001000");
+    assertThat(orders.getOpenOrders().get(0).getTradableAmount()).isEqualTo("1000.00000000");
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().base).isEqualTo(Currency.XRP);
+    assertThat(orders.getOpenOrders().get(0).getCurrencyPair().counter).isEqualTo(Currency.BTC);
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
   }
 
