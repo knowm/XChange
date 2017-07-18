@@ -33,7 +33,7 @@ public class TradeFetchIntegeration {
     System.out.println(userTradesSince);
     OpenOrders openOrders = tradeService.getOpenOrders(((JubiTradeServiceRaw)tradeService).createJubiOpenOrdersParams(new CurrencyPair("doge", "cny")));
     System.out.println(openOrders);
-    JubiOrderStatus orderStatus = ((JubiTradeServiceRaw) tradeService).getOrderStatus(new BigDecimal(6860502), new CurrencyPair("doge", "cny"));
+    JubiOrderStatus orderStatus = ((JubiTradeServiceRaw) tradeService).getJubiOrderStatus(new BigDecimal(6860502), new CurrencyPair("doge", "cny"));
     System.out.println(orderStatus);
   }
 
