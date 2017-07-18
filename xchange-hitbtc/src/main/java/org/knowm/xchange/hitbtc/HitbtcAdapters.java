@@ -242,9 +242,9 @@ public class HitbtcAdapters {
 
   public static String readSymbol(String orderId) {
 
-    int start = orderId.indexOf(DELIM);
-    int end = orderId.indexOf(DELIM, start + 1);
-    return orderId.substring(start + 1, end);
+    /*int start = orderId.indexOf(DELIM);
+    int end = orderId.indexOf(DELIM, start + 1);*/
+    return orderId;//.substring(start + 1, end);
   }
 
   public static HitbtcTrade.HitbtcTradeSide getSide(OrderType type) {
