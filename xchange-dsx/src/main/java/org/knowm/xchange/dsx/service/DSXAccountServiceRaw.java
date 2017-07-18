@@ -68,11 +68,16 @@ public class DSXAccountServiceRaw extends DSXBaseService {
   }
 
   public DSXTransaction submitWithdraw(long transactionId) throws IOException {
-    DSXTransactionReturn ret = dsx.submitWithdraw(apiKey, signatureCreator, exchange.getNonceFactory(), transactionId);
-    checkResult(ret);
-    return ret.getReturnValue();
+    DSXTransactionReturn result = dsx.submitWithdraw(apiKey, signatureCreator, exchange.getNonceFactory(), transactionId);
+    checkResult(result);
+    return result.getReturnValue();
   }
-  
+
+  public DSXTransaction cancelWithdraw(long transactionId) throws IOException {
+    DSXTransactionReturn result = dsx.cancelWithdraw(apiKey, signatureCreator, exchange.getNonceFactory(), transactionId);
+    checkResult(result);
+    return result.getReturnValue();
+  }
   /**
    *
    * @param currency Currency for getting address

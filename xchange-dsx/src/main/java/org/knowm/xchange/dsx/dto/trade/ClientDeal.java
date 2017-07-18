@@ -33,4 +33,36 @@ public class ClientDeal {
     this.commission = commission;
     this.commissionCurrency = commissionCurrency;
   }
+
+  public String getPair() {
+    return pair;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public BigDecimal getVolume() {
+    return volume;
+  }
+
+  public BigDecimal getRate() {
+    return rate;
+  }
+
+  public Long getOrderId() {
+    return orderId;
+  }
+
+  public Long getTimestamp() {
+    return timestamp;
+  }
+
+  public BigDecimal getCommission() {
+    return commission;
+  }
+
+  public String getCommissionCurrency() {
+    return commissionCurrency;
+  }
 }

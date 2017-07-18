@@ -23,10 +23,7 @@ import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
@@ -36,6 +33,7 @@ import org.knowm.xchange.gdax.dto.marketdata.GDAXProductTicker;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXTrade;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
+import org.knowm.xchange.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -155,6 +153,15 @@ public class GDAXAdapters {
     }
 
     return new OpenOrders(orders);
+  }
+
+  public static LimitOrder adaptOrder(String orderId, GDAXOrder order) {
+    OrderType type = order.getSide().equals("buy") ? OrderType.BID : OrderType.ASK;
+    CurrencyPair currencyPair = new CurrencyPair(order.getProductId().replace('-', '/'));
+
+    Date createdAt = parseDate(order.getCreatedAt());
+
+    return (new LimitOrder(type, order.getSize(), currencyPair, order.getId(), createdAt, order.getPrice()));
   }
 
   public static UserTrades adaptTradeHistory(GDAXFill[] coinbaseExFills) {

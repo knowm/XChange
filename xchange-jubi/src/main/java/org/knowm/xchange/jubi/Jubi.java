@@ -9,11 +9,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Created by Yingzhe on 3/16/2015.
  */
-@Path("v1")
+@Path("api/v1")
 @Produces(MediaType.APPLICATION_JSON)
 public interface Jubi {
   /**
@@ -26,6 +27,10 @@ public interface Jubi {
   @GET
   @Path("ticker/?coin={baseCurrency}")
   JubiTicker getTicker(@PathParam("baseCurrency") String baseCurrency) throws IOException;
+
+  @GET
+  @Path("allticker")
+  Map<String, JubiTicker> getAllTicker() throws IOException;
 
   @GET
   @Path("orders/?coin={baseCurrency}")

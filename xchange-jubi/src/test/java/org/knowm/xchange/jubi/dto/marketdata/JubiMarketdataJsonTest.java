@@ -1,29 +1,24 @@
-package org.knowm.xchange.jubi.dto;
+package org.knowm.xchange.jubi.dto.marketdata;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.jubi.JubiAdapters;
-import org.knowm.xchange.jubi.dto.marketdata.JubiTicker;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import static org.fest.assertions.api.Assertions.assertThat;
 /**
- * Created by Yingzhe on 3/17/2015.
+ * Created by Dzf on 2017/7/13.
  */
-public class JubiAdaptersTest {
-
+public class JubiMarketdataJsonTest {
   @Test
   public void testTickerAdapter() throws IOException {
 
     // Read in the JSON from the example resources
-    InputStream is = JubiAdaptersTest.class.getResourceAsStream("/example-ticker-data.json");
+    InputStream is = JubiMarketdataJsonTest.class.getResourceAsStream("/example-ticker-data.json");
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
