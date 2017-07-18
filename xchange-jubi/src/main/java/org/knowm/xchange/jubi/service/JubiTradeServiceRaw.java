@@ -54,7 +54,7 @@ public class JubiTradeServiceRaw extends JubiBaseService {
     return new DefaultOpenOrdersParamCurrencyPair(currencyPair);
   }
 
-  public JubiOrderStatus getOrderStatus(BigDecimal orderId, CurrencyPair currencyPair) throws IOException {
+  public JubiOrderStatus getJubiOrderStatus(BigDecimal orderId, CurrencyPair currencyPair) throws IOException {
     String coinType = currencyPair != null ? currencyPair.base.getCurrencyCode().toLowerCase() : "";
     return jubiAuthernticated.getOrderStatus(coinType, orderId, exchange.getExchangeSpecification().getApiKey(),
             exchange.getNonceFactory(), signatureCreator);
