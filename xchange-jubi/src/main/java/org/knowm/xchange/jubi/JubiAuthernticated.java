@@ -3,6 +3,7 @@ package org.knowm.xchange.jubi;
 import org.knowm.xchange.jubi.dto.account.JubiBalance;
 import org.knowm.xchange.jubi.dto.trade.JubiOrderHistory;
 import org.knowm.xchange.jubi.dto.trade.JubiOrderStatus;
+import org.knowm.xchange.jubi.dto.trade.JubiTradeResult;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -37,4 +38,22 @@ public interface JubiAuthernticated {
                                  @FormParam("key") String apiKey,
                                  @FormParam("nonce")SynchronizedValueFactory<Long> nonce,
                                  @FormParam("signature") ParamsDigest signature) throws IOException;
+
+  @POST
+  @Path("trade_add")
+  JubiTradeResult placeOrder(@FormParam("amount") BigDecimal amount,
+                             @FormParam("coin") String coinType,
+                             @FormParam("key") String apiKey,
+                             @FormParam("nonce")SynchronizedValueFactory<Long> nonce,
+                             @FormParam("price") BigDecimal price,
+                             @FormParam("type") String type,
+                             @FormParam("signature") ParamsDigest signature) throws IOException;
+
+  @POST
+  @Path("trade_cancel")
+  JubiTradeResult cancelOrder(@FormParam("coin") String coinType,
+                              @FormParam("id") BigDecimal id,
+                              @FormParam("key") String apiKey,
+                              @FormParam("nonce")SynchronizedValueFactory<Long> nonce,
+                              @FormParam("signature") ParamsDigest signature) throws IOException;
 }
