@@ -247,7 +247,6 @@ public class HitbtcAdapters {
   }
 
   public static String readSymbol(String orderId) {
-
     int start = orderId.indexOf(DELIM);
     if (start != -1) {
       int end = orderId.indexOf(DELIM, start + 1);
