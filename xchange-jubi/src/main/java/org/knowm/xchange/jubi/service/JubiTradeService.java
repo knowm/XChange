@@ -12,6 +12,8 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.jubi.JubiAdapters;
 import org.knowm.xchange.jubi.dto.trade.JubiOrderHistory;
+import org.knowm.xchange.jubi.dto.trade.JubiOrderType;
+import org.knowm.xchange.jubi.dto.trade.JubiTradeResult;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
@@ -58,11 +60,19 @@ public class JubiTradeService extends JubiTradeServiceRaw implements TradeServic
 
   @Override
   public String placeLimitOrder(LimitOrder order) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    JubiOrderType type = order.getType().equals(Order.OrderType.BID) ? JubiOrderType.Buy : JubiOrderType.Sell;
+    CurrencyPair currencyPair = order.getCurrencyPair();
+    JubiTradeResult result = placeJubiOrder(currencyPair, order.getTradableAmount(), order.getLimitPrice(), type);
+    if (result.isSuccess()) {
+      return result.getId().toPlainString();
+    } else {
+      throw new ExchangeException(Integer.toString(result.getErrorCode()));
+    }
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
+    //A specific e-coin type(CurrencyPair) should be assigned, otherwise the request would be invalid.
     throw new NotYetImplementedForExchangeException();
   }
 
