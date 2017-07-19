@@ -111,6 +111,7 @@
         <module>xchange-kraken</module>
         <module>xchange-lakebtc</module>
         <module>xchange-livecoin</module>
+        <module>xchange-luno</module>
         <module>xchange-mercadobitcoin</module>
         <module>xchange-okcoin</module>
         <module>xchange-openexchangerates</module>
