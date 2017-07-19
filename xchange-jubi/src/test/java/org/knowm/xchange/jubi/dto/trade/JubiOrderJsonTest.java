@@ -91,4 +91,28 @@ public class JubiOrderJsonTest {
     assertThat(jubiOrderStatus.getResult().isSuccess()).isFalse();
     assertThat(jubiOrderStatus.getResult().getErrorCode()).isEqualTo(105);
   }
+
+  @Test
+  public void testJubiTradeResultSuccessAdapter() throws IOException {
+    // Read in the JSON from the example resources
+    InputStream is = JubiOrderJsonTest.class.getResourceAsStream("/example-place-limit-order.json");
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    JubiTradeResult jubiTradeResult = mapper.readValue(is, JubiTradeResult.class);
+    //Check jubiOrderStatus
+    assertThat(jubiTradeResult.isSuccess()).isTrue();
+    assertThat(jubiTradeResult.getId()).isEqualTo(new BigDecimal(11));
+  }
+
+  @Test
+  public void testJubiTradeResultFailAdapter() throws IOException {
+    // Read in the JSON from the example resources
+    InputStream is = JubiOrderJsonTest.class.getResourceAsStream("/example-error-response.json");
+    // Use Jackson to parse it
+    ObjectMapper mapper = new ObjectMapper();
+    JubiTradeResult jubiTradeResult = mapper.readValue(is, JubiTradeResult.class);
+    //Check jubiOrderStatus
+    assertThat(jubiTradeResult.isSuccess()).isFalse();
+    assertThat(jubiTradeResult.getErrorCode()).isEqualTo(105);
+  }
 }
