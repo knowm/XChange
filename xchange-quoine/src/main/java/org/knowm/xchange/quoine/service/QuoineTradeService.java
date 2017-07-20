@@ -17,6 +17,8 @@ import org.knowm.xchange.quoine.QuoineAdapters;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrderResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
@@ -68,6 +70,14 @@ public class QuoineTradeService extends QuoineTradeServiceRaw implements TradeSe
     QuoineOrderResponse quoineOrderResponse = cancelQuoineOrder(orderId);
 
     return quoineOrderResponse.getId() != null && (quoineOrderResponse.getId().equals(orderId));
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
   }
 
   @Override

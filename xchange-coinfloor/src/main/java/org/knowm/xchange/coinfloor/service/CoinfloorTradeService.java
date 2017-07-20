@@ -20,6 +20,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamMultiCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
@@ -186,6 +188,14 @@ public class CoinfloorTradeService extends CoinfloorTradeServiceRaw implements T
     // API requires currency pair but value seems to be ignored - only the order ID is used for lookup. 
     CurrencyPair currencyPairValueIsIgnored = CurrencyPair.BTC_GBP;
     return cancelOrder(currencyPairValueIsIgnored, Long.parseLong(orderId));
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
   }
 
   @Override

@@ -11,6 +11,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -81,10 +82,30 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
   public boolean cancelOrder(String orderId) throws IOException {
     CurrencyPair cp = (CurrencyPair) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(TheRockExchange.CURRENCY_PAIR);
     if (cp == null) {
-      throw new ExchangeException("Provide currencyPair attribute via setExchangeSpecificParameters.");
+      throw new ExchangeException("Provide TheRockCancelOrderParams with orderId and currencyPair");
     }
 
-    return "deleted".equals(cancelTheRockOrder(cp, Long.parseLong(orderId)).getStatus());
+    return cancelOrder(new TheRockCancelOrderParams(cp, Long.parseLong(orderId)));
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof TheRockCancelOrderParams) {
+      TheRockCancelOrderParams params = (TheRockCancelOrderParams) orderParams;
+      TheRockOrder cancelledOrder = cancelTheRockOrder(params.currencyPair, params.orderId);
+      return "deleted".equals(cancelledOrder.getStatus());
+    }
+    return false;
+  }
+
+  public static class TheRockCancelOrderParams implements CancelOrderParams {
+    public final CurrencyPair currencyPair;
+    public final Long orderId;
+
+    TheRockCancelOrderParams(CurrencyPair currencyPair, Long orderId) {
+      this.currencyPair = currencyPair;
+      this.orderId = orderId;
+    }
   }
 
   /**
