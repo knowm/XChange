@@ -14,6 +14,9 @@ import si.mazi.rescu.SynchronizedValueFactory;
  * @author Matija Mazi
  */
 public class TheRockExchange extends BaseExchange implements Exchange {
+  /**
+   * @deprecated use TheRockCancelOrderParams instead
+   */
   public static final String CURRENCY_PAIR = "CURRENCY_PAIR";
 
   private SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
