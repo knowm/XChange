@@ -15,6 +15,7 @@ import org.knowm.xchange.hitbtc.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
+import org.knowm.xchange.hitbtc.dto.trade.HitbtcMultiExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
@@ -229,6 +230,15 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     try {
       return hitbtc.postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, clientOrderId, cancelRequestClientOrderId, symbol,
           side);
+    } catch (HitbtcException e) {
+      throw handleException(e);
+    }
+  }
+
+  public HitbtcMultiExecutionReportResponse cancelOrdersRaw(String symbol, String side) throws IOException {
+
+    try {
+      return hitbtc.postHitbtcCancelOrders(signatureCreator, exchange.getNonceFactory(), apiKey, symbol, side);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
