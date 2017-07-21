@@ -31,7 +31,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class BitfinexAdaptersTest {
 
   private final static String MARKET = "bitfinex";
-  private final static String EXCHANGE = "exchange";
   private final static String SYMBOL = "BTCUSD";
 
   @Test
@@ -135,7 +134,7 @@ public class BitfinexAdaptersTest {
       BigDecimal originalAmount = new BigDecimal("70");
       BigDecimal remainingAmount = originalAmount.subtract(new BigDecimal(i * 1));
       BigDecimal executedAmount = originalAmount.subtract(remainingAmount);
-      responses[i] = new BitfinexOrderStatusResponse(i, SYMBOL, EXCHANGE, price, avgExecutionPrice, side, type, timestamp, isLive, isCancelled,
+      responses[i] = new BitfinexOrderStatusResponse(i, SYMBOL, price, avgExecutionPrice, side, type, timestamp, isLive, isCancelled,
           wasForced, originalAmount, remainingAmount, executedAmount);
     }
 

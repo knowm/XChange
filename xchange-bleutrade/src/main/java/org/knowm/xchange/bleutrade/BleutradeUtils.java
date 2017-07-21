@@ -37,9 +37,7 @@ public final class BleutradeUtils {
 
       } catch (ParseException e1) {
 
-        e1.printStackTrace();
-        return new Date(0L);
-
+        return null;
       }
     }
   }

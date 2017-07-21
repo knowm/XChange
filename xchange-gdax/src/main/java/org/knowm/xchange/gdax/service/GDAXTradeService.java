@@ -1,6 +1,7 @@
 package org.knowm.xchange.gdax.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.knowm.xchange.Exchange;
@@ -9,7 +10,6 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.gdax.GDAXAdapters;
 import org.knowm.xchange.gdax.dto.trade.GDAXFill;
 import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
@@ -78,7 +78,12 @@ public class GDAXTradeService extends GDAXTradeServiceRaw implements TradeServic
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws IOException {
+    Collection<Order> orders = new ArrayList<>(orderIds.length);
 
-    throw new NotYetImplementedForExchangeException();
+    for (String orderId : orderIds) {
+      orders.add(GDAXAdapters.adaptOrder(orderId,  super.getOrder(orderId)));
+    }
+
+    return orders;
   }
 }

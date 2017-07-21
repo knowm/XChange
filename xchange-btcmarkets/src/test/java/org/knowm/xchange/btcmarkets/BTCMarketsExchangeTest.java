@@ -27,6 +27,7 @@ public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
 
   @Test
   public void shouldApplyDefaultSpecification() {
+
     // when
     exchange.applySpecification(exchange.getDefaultExchangeSpecification());
 
