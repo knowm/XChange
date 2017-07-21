@@ -254,7 +254,7 @@ public class HitbtcAdapters {
         return orderId.substring(start + 1, end);
       }
     }
-    return orderId;
+    return "";
   }
 
   public static HitbtcTrade.HitbtcTradeSide getSide(OrderType type) {
