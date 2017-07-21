@@ -1,11 +1,5 @@
 package org.knowm.xchange.bitfinex.v1.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
@@ -24,11 +18,18 @@ import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamLimit;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 public class BitfinexTradeService extends BitfinexTradeServiceRaw implements TradeService {
 
@@ -114,25 +115,29 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
       throw new ExchangeException("CurrencyPair must be supplied");
     }
 
-    final long timestamp;
+    long startTime = 0;
+    Long endTime = null;
+    int limit = 50;
+
     if (params instanceof TradeHistoryParamsTimeSpan) {
-      Date startTime = ((TradeHistoryParamsTimeSpan) params).getStartTime();
-      timestamp = DateUtils.toUnixTime(startTime);
-    } else {
-      timestamp = 0;
+      TradeHistoryParamsTimeSpan paramsTimeSpan = (TradeHistoryParamsTimeSpan) params;
+      startTime = DateUtils.toUnixTimeNullSafe(paramsTimeSpan.getStartTime());
+      endTime = DateUtils.toUnixTimeNullSafe(paramsTimeSpan.getEndTime());
     }
 
-    final int limit;
     if (params instanceof TradeHistoryParamPaging) {
       TradeHistoryParamPaging pagingParams = (TradeHistoryParamPaging) params;
       Integer pageLength = pagingParams.getPageLength();
       Integer pageNum = pagingParams.getPageNumber();
       limit = (pageLength != null && pageNum != null) ? pageLength * (pageNum + 1) : 50;
-    } else {
-      limit = 50;
     }
 
-    final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, timestamp, limit);
+    if (params instanceof TradeHistoryParamLimit) {
+      TradeHistoryParamLimit tradeHistoryParamLimit = (TradeHistoryParamLimit) params;
+      limit = tradeHistoryParamLimit.getLimit();
+    }
+
+    final BitfinexTradeResponse[] trades = getBitfinexTradeHistory(symbol, startTime, endTime, limit);
     return BitfinexAdapters.adaptTradeHistory(trades, symbol);
   }
 

@@ -9,6 +9,7 @@ import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeOrderBook;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTicker;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeTrade;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
+import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTrade;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -136,6 +137,7 @@ public class BleutradeAdapters {
       builder.id(bleuTradeOpenOrder.getOrderId());
       builder.limitPrice(bleuTradeOpenOrder.getPrice());
       builder.tradableAmount(bleuTradeOpenOrder.getQuantityRemaining());
+      builder.timestamp(BleutradeUtils.toDate(bleuTradeOpenOrder.getCreated()));
       openOrders.add(builder.build());
     }
 
@@ -164,17 +166,17 @@ public class BleutradeAdapters {
     return new ExchangeMetaData(marketMetaDataMap, currencyMetaDataMap, null, null, null);
   }
 
-  public static UserTrade adaptUserTrade(BleutradeOpenOrder trade) {
-    OrderType orderType = trade.getType().equalsIgnoreCase("sell") ? OrderType.ASK : OrderType.BID;
-    CurrencyPair currencyPair = BleutradeUtils.toCurrencyPair(trade.getExchange());
+  public static UserTrade adaptUserTrade(BluetradeExecutedTrade trade) {
+    OrderType orderType = trade.type.equalsIgnoreCase("sell") ? OrderType.ASK : OrderType.BID;
+    CurrencyPair currencyPair = BleutradeUtils.toCurrencyPair(trade.exchange);
     return new UserTrade(
         orderType,
-        trade.getQuantity(),
+        trade.quantity,
         currencyPair,
-        trade.getPrice(),
-        BleutradeUtils.toDate(trade.getCreated()),
-        trade.getOrderId(),
-        trade.getOrderId(),
+        trade.price,
+        BleutradeUtils.toDate(trade.created),
+        trade.orderId,
+        trade.orderId,
         null,
         null
     );

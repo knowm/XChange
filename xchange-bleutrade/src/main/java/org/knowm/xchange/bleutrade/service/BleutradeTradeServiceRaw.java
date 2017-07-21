@@ -7,6 +7,8 @@ import org.knowm.xchange.bleutrade.dto.trade.BleutradeCancelOrderReturn;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrdersReturn;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
+import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTrade;
+import org.knowm.xchange.bleutrade.dto.trade.BluetradeExecutedTradesWrapper;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -90,7 +92,7 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     }
   }
 
-  public List<BleutradeOpenOrder> getTrades(TradeHistoryParams params) throws IOException {
+  public List<BluetradeExecutedTrade> getTrades(TradeHistoryParams params) throws IOException {
     String market = null;
     String orderStatus = null;
     String orderType = null;
@@ -124,17 +126,17 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     }
 
     try {
-      BleutradeOpenOrdersReturn response = bleutrade.getTrades(apiKey, signatureCreator, exchange.getNonceFactory(),
+      BluetradeExecutedTradesWrapper response = bleutrade.getTrades(apiKey, signatureCreator, exchange.getNonceFactory(),
           market,
           orderStatus,
           orderType
       );
 
-      if (!response.getSuccess()) {
-        throw new ExchangeException(response.getMessage());
+      if (!response.success) {
+        throw new ExchangeException(response.message);
       }
 
-      return response.getResult();
+      return response.result;
     } catch (BleutradeException e) {
       throw new ExchangeException(e);
     }
