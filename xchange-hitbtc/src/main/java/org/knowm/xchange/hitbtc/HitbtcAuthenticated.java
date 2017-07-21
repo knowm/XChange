@@ -18,6 +18,7 @@ import org.knowm.xchange.hitbtc.dto.HitbtcException;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcDepositAddressResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
+import org.knowm.xchange.hitbtc.dto.trade.HitbtcMultiExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 
@@ -47,6 +48,13 @@ public interface HitbtcAuthenticated extends Hitbtc {
       @FormParam("clientOrderId") String clientOrderId, @FormParam("symbol") String symbol, @FormParam("side") String side,
       @FormParam("price") BigDecimal price, @FormParam("quantity") BigInteger quantity, // 1 lot = 0.01 BTC
       @FormParam("type") String type, @FormParam("timeInForce") String timeInForce) throws IOException, HitbtcException;
+
+  @POST
+  @Path("trading/cancel_orders")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  HitbtcMultiExecutionReportResponse postHitbtcCancelOrders(@HeaderParam("X-Signature") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
+      @FormParam("symbol") String symbol, @FormParam("side") String side) throws IOException, HitbtcException;
 
   @POST
   @Path("trading/cancel_order")
