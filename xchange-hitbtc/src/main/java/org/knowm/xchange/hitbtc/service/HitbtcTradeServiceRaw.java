@@ -15,6 +15,7 @@ import org.knowm.xchange.hitbtc.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
+import org.knowm.xchange.hitbtc.dto.trade.HitbtcMultiExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
@@ -98,6 +99,19 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     LOT_SIZES.put(new CurrencyPair("BNT/BTC"), new BigDecimal("0.001"));
     LOT_SIZES.put(new CurrencyPair("PLBT/BTC"), new BigDecimal("0.001"));
     LOT_SIZES.put(new CurrencyPair("XDNCO/BTC"), new BigDecimal("100000"));
+    LOT_SIZES.put(new CurrencyPair("EOS/BTC"), new BigDecimal("0.001"));
+    LOT_SIZES.put(new CurrencyPair("DICE/BTC"), new BigDecimal("0.001"));
+    LOT_SIZES.put(new CurrencyPair("QAU/BTC"), new BigDecimal("0.001"));
+    LOT_SIZES.put(new CurrencyPair("GRAPH/BTC"), new BigDecimal("0.001"));
+    LOT_SIZES.put(new CurrencyPair("BUS/BTC"), new BigDecimal("0.0001"));
+    LOT_SIZES.put(new CurrencyPair("STRAT/BTC"), new BigDecimal("0.001"));
+    LOT_SIZES.put(new CurrencyPair("XTZ/BTC"), new BigDecimal("0.001"));
+    LOT_SIZES.put(new CurrencyPair("XTZ/ETH"), new BigDecimal("0.01"));
+    LOT_SIZES.put(new CurrencyPair("XTZ/USD"), new BigDecimal("0.01"));
+    LOT_SIZES.put(new CurrencyPair("TFL/BTC"), new BigDecimal("0.001"));
+    LOT_SIZES.put(new CurrencyPair("DNT/BTC"), new BigDecimal("0.001"));
+    LOT_SIZES.put(new CurrencyPair("MNE/BTC"), new BigDecimal("0.001"));
+    LOT_SIZES.put(new CurrencyPair("DELTA/BTC"), new BigDecimal("0.001"));
   }
 
   /**
@@ -216,6 +230,15 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     try {
       return hitbtc.postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, clientOrderId, cancelRequestClientOrderId, symbol,
           side);
+    } catch (HitbtcException e) {
+      throw handleException(e);
+    }
+  }
+
+  public HitbtcMultiExecutionReportResponse cancelOrdersRaw(String symbol, String side) throws IOException {
+
+    try {
+      return hitbtc.postHitbtcCancelOrders(signatureCreator, exchange.getNonceFactory(), apiKey, symbol, side);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
