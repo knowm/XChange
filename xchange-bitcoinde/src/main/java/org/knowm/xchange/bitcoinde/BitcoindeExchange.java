@@ -4,6 +4,7 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bitcoinde.service.BitcoindeMarketDataService;
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -12,11 +13,13 @@ import si.mazi.rescu.SynchronizedValueFactory;
  */
 public class BitcoindeExchange extends BaseExchange implements Exchange {
 
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://bitcoinapi.de/v1/");
+    exchangeSpecification.setSslUri("https://api.bitcoin.de/v1/");
     exchangeSpecification.setHost("bitcoin.de");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitcoin.de");
@@ -35,8 +38,6 @@ public class BitcoindeExchange extends BaseExchange implements Exchange {
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
-    // No private API implemented. Not needed for this exchange at the
-    // moment.
-    return null;
+    return nonceFactory;
   }
 }
