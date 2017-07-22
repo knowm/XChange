@@ -1,5 +1,12 @@
 package org.knowm.xchange.bitfinex.v1.service;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitfinex.v1.BitfinexAdapters;
 import org.knowm.xchange.bitfinex.v1.BitfinexOrderType;
@@ -26,12 +33,6 @@ import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 
 public class BitfinexTradeService extends BitfinexTradeServiceRaw implements TradeService {
 
@@ -216,7 +217,21 @@ public class BitfinexTradeService extends BitfinexTradeServiceRaw implements Tra
 
   @Override
   public Collection<Order> getOrder(String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+    List<Order> openOrders = new ArrayList<>();
+
+    for (String orderId : orderIds) {
+
+      BitfinexOrderStatusResponse orderStatus = getBitfinexOrderStatus(orderId);
+      BitfinexOrderStatusResponse[] orderStatuses = new BitfinexOrderStatusResponse[1];
+      if (orderStatus != null) {
+        orderStatuses[0] = orderStatus;
+        OpenOrders orders = BitfinexAdapters.adaptOrders(orderStatuses);
+        openOrders.add(orders.getOpenOrders().get(0));
+      }
+
+    }
+    return openOrders;
+
   }
 
   public BigDecimal getMakerFee() throws IOException {
