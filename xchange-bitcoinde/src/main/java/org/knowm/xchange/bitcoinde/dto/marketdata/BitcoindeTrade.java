@@ -54,6 +54,6 @@ public class BitcoindeTrade {
   @Override
   public String toString() {
 
-    return "BitcoindeTrade{" + "date=" + date + ", price=" + price + ", amount='" + amount + "', date=" + date + '}';
+    return "BitcoindeTrade{" + "date=" + date + ", price=" + price + ", amount='" + amount + "', tid=" + tid + '}';
   }
 }
