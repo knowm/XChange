@@ -19,7 +19,6 @@ public class BitcoindeTradesDemo {
 
     Exchange bitcoindeExchange = ExchangeUtils.createExchangeFromJsonConfiguration();
 
-
     /* create a data service from the exchange */
     MarketDataService marketDataService = bitcoindeExchange.getMarketDataService();
 
@@ -42,7 +41,7 @@ public class BitcoindeTradesDemo {
   public static void raw(BitcoindeMarketDataServiceRaw marketDataService) throws IOException {
 
     /* get BitcoindeTrades data */
-    BitcoindeTradesWrapper bitcoindeTrades = marketDataService.getBitcoindeTrades(2844108);
+    BitcoindeTradesWrapper bitcoindeTrades = marketDataService.getBitcoindeTrades(2835279);
 
     /* print each trade object */
     for (BitcoindeTrade bitcoindeTrade : bitcoindeTrades.getTrades())
