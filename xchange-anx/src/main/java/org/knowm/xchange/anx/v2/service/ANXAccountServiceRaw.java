@@ -61,13 +61,13 @@ public class ANXAccountServiceRaw extends ANXBaseService {
     }
   }
 
-  public ANXWithdrawalResponse anxWithdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
+  public ANXWithdrawalResponseWrapper anxWithdrawFunds(String currency, BigDecimal amount, String address) throws IOException {
 
     try {
       ANXWithdrawalResponseWrapper anxWithdrawalResponseWrapper = anxV2.withdrawBtc(exchange.getExchangeSpecification().getApiKey(), signatureCreator,
           exchange.getNonceFactory(), currency, address,
           amount.multiply(new BigDecimal(ANXUtils.BTC_VOLUME_AND_AMOUNT_INT_2_DECIMAL_FACTOR_2)).intValue(), 1, false, false);
-      return anxWithdrawalResponseWrapper.getAnxWithdrawalResponse();
+      return anxWithdrawalResponseWrapper;
     } catch (ANXException e) {
       throw handleError(e);
     } catch (HttpStatusIOException e) {
