@@ -1,9 +1,5 @@
 package org.knowm.xchange.quadrigacx.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -15,6 +11,10 @@ import org.knowm.xchange.quadrigacx.QuadrigaCxAdapters;
 import org.knowm.xchange.quadrigacx.dto.account.QuadrigaCxBalance;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw implements AccountService {
 
@@ -34,7 +34,12 @@ public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw implem
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
-    return (currency.equals(Currency.BTC) ? withdrawBitcoin(amount, address) : withdrawEther(amount, address));
+    if (currency.equals(Currency.BTC))
+      return withdrawBitcoin(amount, address);
+    else if (currency.equals(Currency.ETH))
+      return withdrawEther(amount, address);
+    else
+      throw new IllegalStateException("unsupported ccy " + currency);
   }
 
   /**
@@ -42,9 +47,12 @@ public class QuadrigaCxAccountService extends QuadrigaCxAccountServiceRaw implem
    */
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
-
-    return currency.equals(Currency.BTC) ? getQuadrigaCxBitcoinDepositAddress().getDepositAddress()
-        : getQuadrigaCxEtherDepositAddress().getDepositAddress();
+    if (currency.equals(Currency.BTC))
+      return getQuadrigaCxBitcoinDepositAddress().getDepositAddress();
+    else if (currency.equals(Currency.ETH))
+      return getQuadrigaCxEtherDepositAddress().getDepositAddress();
+    else
+      throw new IllegalStateException("unsupported ccy " + currency);
   }
 
   @Override
