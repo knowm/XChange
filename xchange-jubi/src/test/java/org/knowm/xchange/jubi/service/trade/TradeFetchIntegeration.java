@@ -11,6 +11,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.jubi.JubiExchange;
 import org.knowm.xchange.jubi.dto.trade.JubiOrderStatus;
+import org.knowm.xchange.jubi.service.JubiCancelOrderParams;
 import org.knowm.xchange.jubi.service.JubiTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
 
@@ -51,7 +52,7 @@ public class TradeFetchIntegeration {
       System.out.println(ex);
     }
     System.out.println("Place Order Result: " + tradeId);
-    boolean result = ((JubiTradeServiceRaw)tradeService).cancelJubiOrder(new CurrencyPair("doge", "cny"), new BigDecimal(tradeId));
+    boolean result = tradeService.cancelOrder(new JubiCancelOrderParams(new CurrencyPair("doge", "cny"), new BigDecimal(tradeId)));
     System.out.println("Cancel Order Result: " + result);
   }
 }
