@@ -4,6 +4,8 @@ import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.anx.ANXUtils;
 import org.knowm.xchange.anx.v2.ANXAdapters;
 import org.knowm.xchange.anx.v2.dto.account.ANXWalletHistoryEntry;
+import org.knowm.xchange.anx.v2.dto.account.ANXWithdrawalResponse;
+import org.knowm.xchange.anx.v2.dto.account.ANXWithdrawalResponseWrapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.FundingRecord;
@@ -57,8 +59,17 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
       throw new IllegalArgumentException("Amount cannot be null");
     }
 
-    anxWithdrawFunds(currency.toString(), amount, address);
-    return "success";
+    ANXWithdrawalResponseWrapper wrapper = anxWithdrawFunds(currency.toString(), amount, address);
+    ANXWithdrawalResponse response = wrapper.getAnxWithdrawalResponse();
+
+    //eg: {  "result": "error",  "data": {    "message": "min size, params, or available funds problem."  }}
+    if (wrapper.getResult().equals("error")) {
+      throw new IllegalStateException("Failed to withdraw funds: " + response.getMessage());
+    } else if (wrapper.getError() != null) {//does this ever happen?
+      throw new IllegalStateException("Failed to withdraw funds: " + wrapper.getError());
+    } else {
+      return response.getTransactionId();
+    }
   }
 
   @Override
@@ -73,8 +84,7 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
   }
 
   @Override
-  public List<FundingRecord> getFundingHistory(
-      TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws IOException {
 
     List<FundingRecord> results = new ArrayList<>();
 
@@ -88,7 +98,6 @@ public class ANXAccountService extends ANXAccountServiceRaw implements AccountSe
     }
     return results;
   }
-
 
   public static class AnxFundingHistoryParams implements TradeHistoryParamCurrency, TradeHistoryParamPaging, TradeHistoryParamsTimeSpan {
 

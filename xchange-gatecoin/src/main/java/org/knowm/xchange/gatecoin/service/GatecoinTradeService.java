@@ -25,6 +25,8 @@ import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinCancelOrderResult;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinOrderResult;
 import org.knowm.xchange.gatecoin.dto.trade.Results.GatecoinPlaceOrderResult;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamTransactionId;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -110,6 +112,14 @@ public class GatecoinTradeService extends GatecoinTradeServiceRaw implements Tra
       return false;
     }
 
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
   }
 
   /**

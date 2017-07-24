@@ -24,6 +24,8 @@ import org.knowm.xchange.huobi.dto.trade.HuobiOrder;
 import org.knowm.xchange.huobi.dto.trade.HuobiPlaceOrderResult;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
@@ -111,6 +113,14 @@ public class GenericTradeService extends BaseExchangeService implements TradeSer
       }
     }
     return result != null && "success".equals(result.getResult());
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
   }
 
   @Override

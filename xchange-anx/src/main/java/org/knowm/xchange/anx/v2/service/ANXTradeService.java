@@ -15,10 +15,10 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -47,8 +47,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
   }
 
   @Override
-  public OpenOrders getOpenOrders(
-      OpenOrdersParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OpenOrders getOpenOrders(OpenOrdersParams params) throws IOException {
     return new OpenOrders(ANXAdapters.adaptOrders(getANXOpenOrders()));
   }
 
@@ -89,6 +88,14 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
     return cancelANXOrder(orderId, "BTC", "EUR").getResult().equals("success");
   }
 
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
+  }
+
   private UserTrades getTradeHistory(Long from, Long to) throws IOException {
     ANXTradeResultWrapper rawTrades = getExecutedANXTrades(from, to);
     String error = rawTrades.getError();
@@ -104,7 +111,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
    * Supported parameter types: {@link TradeHistoryParamsTimeSpan}
    */
   @Override
-  public UserTrades getTradeHistory(TradeHistoryParams params) throws ExchangeException, IOException {
+  public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     Long from = null;
     Long to = null;
@@ -128,8 +135,7 @@ public class ANXTradeService extends ANXTradeServiceRaw implements TradeService 
   }
 
   @Override
-  public Collection<Order> getOrder(
-      String... orderIds) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Collection<Order> getOrder(String... orderIds) throws IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

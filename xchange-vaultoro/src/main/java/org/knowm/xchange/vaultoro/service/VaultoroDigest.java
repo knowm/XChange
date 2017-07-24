@@ -13,13 +13,11 @@ public class VaultoroDigest extends BaseParamsDigest {
   private VaultoroDigest(String secretKeyBase64) {
 
     super(secretKeyBase64, HMAC_SHA_256);
-
   }
 
   public static VaultoroDigest createInstance(String secretKeyBase64) {
 
     return secretKeyBase64 == null ? null : new VaultoroDigest(secretKeyBase64);
-
   }
 
   @Override
