@@ -10,6 +10,8 @@ import si.mazi.rescu.RestProxyFactory;
 public class BitcoindeBaseService extends BaseExchangeService implements BaseService {
 
   protected final Bitcoinde bitcoinde;
+  protected final String apiKey;
+  protected final BitcoindeDigest signatureCreator;
 
   /**
    * Constructor
@@ -18,5 +20,7 @@ public class BitcoindeBaseService extends BaseExchangeService implements BaseSer
 
     super(exchange);
     this.bitcoinde = RestProxyFactory.createProxy(Bitcoinde.class, exchange.getExchangeSpecification().getSslUri());
+    this.apiKey = exchange.getExchangeSpecification().getApiKey();
+    this.signatureCreator = BitcoindeDigest.createInstance(exchange.getExchangeSpecification().getSecretKey(), apiKey);
   }
 }

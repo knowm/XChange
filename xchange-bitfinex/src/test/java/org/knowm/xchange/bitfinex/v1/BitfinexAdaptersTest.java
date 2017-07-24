@@ -31,7 +31,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class BitfinexAdaptersTest {
 
   private final static String MARKET = "bitfinex";
-  private final static String EXCHANGE = "exchange";
   private final static String SYMBOL = "BTCUSD";
 
   @Test
@@ -75,7 +74,7 @@ public class BitfinexAdaptersTest {
   /**
    * Create 60 {@link BitfinexLevel}s. The values increase as the array index does. The timestamps increase by 1 second + 1 minute + 1 hour + 1 day in
    * order to test the correct handling of the given timestamp.
-   *
+   * 
    * @return The generated responses.
    */
   private BitfinexLevel[] initLevels() {
@@ -105,7 +104,7 @@ public class BitfinexAdaptersTest {
       Order.OrderType expectedOrderType = responses[i].getSide().equalsIgnoreCase("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
 
       assertEquals(String.valueOf(responses[i].getId()), order.getId());
-      assertEquals(responses[i].getRemainingAmount(), order.getTradableAmount());
+      assertEquals(responses[i].getOriginalAmount(), order.getTradableAmount());
       assertEquals(BitfinexAdapters.adaptCurrencyPair(SYMBOL), order.getCurrencyPair());
       assertEquals(expectedOrderType, order.getType());
       assertEquals(expectedTimestampMillis, order.getTimestamp().getTime());
@@ -116,7 +115,7 @@ public class BitfinexAdaptersTest {
   /**
    * Create 60 {@link BitfinexOrderStatusResponse}s. The values increase as array index does. The timestamps increase by 1 second + 1 minute + 1 hour
    * + 1 day in order to test the correct handling of the given timestamp.
-   *
+   * 
    * @return The generated responses.
    */
   private BitfinexOrderStatusResponse[] initOrderStatusResponses() {
@@ -135,7 +134,7 @@ public class BitfinexAdaptersTest {
       BigDecimal originalAmount = new BigDecimal("70");
       BigDecimal remainingAmount = originalAmount.subtract(new BigDecimal(i * 1));
       BigDecimal executedAmount = originalAmount.subtract(remainingAmount);
-      responses[i] = new BitfinexOrderStatusResponse(i, SYMBOL, EXCHANGE, price, avgExecutionPrice, side, type, timestamp, isLive, isCancelled,
+      responses[i] = new BitfinexOrderStatusResponse(i, SYMBOL, price, avgExecutionPrice, side, type, timestamp, isLive, isCancelled,
           wasForced, originalAmount, remainingAmount, executedAmount);
     }
 
@@ -166,7 +165,7 @@ public class BitfinexAdaptersTest {
   /**
    * Create 60 {@link BitfinexTradeResponse}s. The values increase as array index does. The timestamps increase by 1 second + 1 minute + 1 hour + 1
    * day in order to test the correct handling of the given timestamp.
-   *
+   * 
    * @return The generated responses.
    */
   private BitfinexTradeResponse[] initTradeResponses() {
@@ -201,8 +200,8 @@ public class BitfinexAdaptersTest {
 
     List<FundingRecord> fundingRecords = BitfinexAdapters.adaptFundingHistory(response);
 
-    for (FundingRecord record : fundingRecords){
-      if (record.getType().name().equalsIgnoreCase(FundingRecord.Type.DEPOSIT.name())){
+    for (FundingRecord record : fundingRecords) {
+      if (record.getType().name().equalsIgnoreCase(FundingRecord.Type.DEPOSIT.name())) {
         assertThat(record.getStatus()).isEqualTo(FundingRecord.Status.PROCESSING);
         assertEquals(new BigDecimal("0.01"), record.getAmount());
         assertEquals("jlsd98087sdfkjldsflj432kjlsdf8", record.getAddress());
