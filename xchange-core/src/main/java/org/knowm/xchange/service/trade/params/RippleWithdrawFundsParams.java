@@ -22,9 +22,10 @@ public class RippleWithdrawFundsParams extends DefaultWithdrawFundsParams {
   public String toString() {
     return "RippleWithdrawFundsParams{" +
         "address='" + address + '\'' +
-        ", currency=" + currency +
         ", tag='" + tag + '\'' +
+        ", currency=" + currency +
         ", amount=" + amount +
+        ", commission=" + commission +
         '}';
   }
 }
