@@ -46,20 +46,10 @@ public class GDAXAccountService extends GDAXAccountServiceRaw implements Account
       return response.id;
     }
 
-    if (params instanceof GDAXMoveFundsParams) {
-      GDAXMoveFundsParams moveFundsParams = (GDAXMoveFundsParams) params;
-
-      Currency currency = moveFundsParams.currency;
-      String address = moveFundsParams.address;
-      BigDecimal amount = moveFundsParams.amount;
-
-      return moveFunds(currency, address, amount);
-    }
-
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
-  private String moveFunds(Currency currency, String address, BigDecimal amount) throws IOException {
+  public String moveFunds(Currency currency, String address, BigDecimal amount) throws IOException {
     GDAXAccount[] accounts = getCoinbaseExAccountInfo();
     String accountId = null;
     for (GDAXAccount account : accounts) {
