@@ -15,12 +15,7 @@ import org.knowm.xchange.jubi.dto.trade.JubiOrderHistory;
 import org.knowm.xchange.jubi.dto.trade.JubiOrderType;
 import org.knowm.xchange.jubi.dto.trade.JubiTradeResult;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
-import org.knowm.xchange.service.trade.params.CancelOrderParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
-import org.knowm.xchange.service.trade.params.TradeHistoryParams;
-import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
@@ -80,7 +75,11 @@ public class JubiTradeService extends JubiTradeServiceRaw implements TradeServic
 
   @Override
   public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+    if (orderParams instanceof JubiCancelOrderParams) {
+      JubiCancelOrderParams params = (JubiCancelOrderParams)orderParams;
+      return cancelJubiOrder(params.getCurrencyPair(), params.getOrderId());
+    }
+    return false;
   }
 
   /**
