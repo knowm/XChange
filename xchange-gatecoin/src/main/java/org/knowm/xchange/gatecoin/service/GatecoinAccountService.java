@@ -16,7 +16,9 @@ import org.knowm.xchange.gatecoin.dto.account.GatecoinDepositAddress;
 import org.knowm.xchange.gatecoin.dto.account.Results.GatecoinDepositAddressResult;
 import org.knowm.xchange.gatecoin.dto.account.Results.GatecoinWithdrawResult;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 /**
  * @author Sumedha
@@ -51,6 +53,15 @@ public class GatecoinAccountService extends GatecoinAccountServiceRaw implements
         return null;
     }
     return null;
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+    }
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   @Override

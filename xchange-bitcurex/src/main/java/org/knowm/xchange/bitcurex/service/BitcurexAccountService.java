@@ -14,6 +14,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BitcurexAccountService extends BitcurexAccountServiceRaw implements AccountService {
 
@@ -36,6 +37,11 @@ public class BitcurexAccountService extends BitcurexAccountServiceRaw implements
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

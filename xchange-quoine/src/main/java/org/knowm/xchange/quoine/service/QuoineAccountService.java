@@ -15,6 +15,7 @@ import org.knowm.xchange.quoine.QuoineAdapters;
 import org.knowm.xchange.quoine.dto.account.FiatAccount;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 /**
  * <p>
@@ -54,6 +55,11 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Acc
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
