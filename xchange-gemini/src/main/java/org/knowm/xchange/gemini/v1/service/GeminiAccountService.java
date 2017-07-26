@@ -15,7 +15,9 @@ import org.knowm.xchange.gemini.v1.GeminiAdapters;
 import org.knowm.xchange.gemini.v1.GeminiUtils;
 import org.knowm.xchange.gemini.v1.dto.account.GeminiDepositAddressResponse;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class GeminiAccountService extends GeminiAccountServiceRaw implements AccountService {
 
@@ -55,6 +57,15 @@ public class GeminiAccountService extends GeminiAccountServiceRaw implements Acc
     String walletSelected = "exchange";
     //We have to convert XChange currencies to Gemini currencies: can be “bitcoin”, “litecoin” or “ether” or “tether” or “wire”.
     return withdraw(type, walletSelected, amount, address);
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+    }
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   @Override
