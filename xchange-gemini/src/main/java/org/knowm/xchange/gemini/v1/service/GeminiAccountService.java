@@ -1,9 +1,5 @@
 package org.knowm.xchange.gemini.v1.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
@@ -18,6 +14,10 @@ import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 public class GeminiAccountService extends GeminiAccountServiceRaw implements AccountService {
 
@@ -48,15 +48,7 @@ public class GeminiAccountService extends GeminiAccountServiceRaw implements Acc
    */
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-    //determine withdrawal type
-    String type = GeminiUtils.convertToGeminiWithdrawalType(currency.toString());
-    //Gemini withdeawal can be from different type of wallets    *
-    // we have to use one of these for now: Exchange -
-    //to be able to withdraw instantly after trading for example
-    //The wallet to withdraw from, can be “trading”, “exchange”, or “deposit”.
-    String walletSelected = "exchange";
-    //We have to convert XChange currencies to Gemini currencies: can be “bitcoin”, “litecoin” or “ether” or “tether” or “wire”.
-    return withdraw(type, walletSelected, amount, address);
+    return withdraw(currency, amount, address);
   }
 
   @Override
@@ -68,9 +60,12 @@ public class GeminiAccountService extends GeminiAccountServiceRaw implements Acc
     throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
+  /**
+   * This will result in a new address being created each time, and is severely rate-limited
+   */
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
-    final GeminiDepositAddressResponse response = super.requestDepositAddressRaw(currency.getCurrencyCode());
+    GeminiDepositAddressResponse response = super.requestDepositAddressRaw(currency);
     return response.getAddress();
   }
 

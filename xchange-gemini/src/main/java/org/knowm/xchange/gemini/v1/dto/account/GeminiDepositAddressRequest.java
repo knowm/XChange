@@ -4,50 +4,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class GeminiDepositAddressRequest {
   @JsonProperty("request")
-  protected String request;
+  private String request;
 
   @JsonProperty("nonce")
-  protected String nonce;
+  private String nonce;
 
-  @JsonProperty("method")
-  private String method;
+  @JsonProperty("label")
+  private String label;
 
-  @JsonProperty("wallet_name")
-  private String wallet_name;
-
-  @JsonProperty("renew")
-  private int renew;
-
-  public GeminiDepositAddressRequest(String nonce, String method, String wallet_name, int renew) {
-    this.request = "/v1/deposit/new";
+  public GeminiDepositAddressRequest(String nonce, String ccy, String label) {
+    this.request = "/v1/deposit/" + ccy + "/newAddress";
     this.nonce = String.valueOf(nonce);
-    this.method = method;
-    this.wallet_name = wallet_name;
-    this.renew = renew;
+    this.label = label;
   }
 
-  public String getMethod() {
-    return method;
+  public String getLabel() {
+    return label;
   }
 
-  public void setMethod(String method) {
-    this.method = method;
-  }
-
-  public String getWallet_name() {
-    return wallet_name;
-  }
-
-  public void setWallet_name(String wallet_name) {
-    this.wallet_name = wallet_name;
-  }
-
-  public int getRenew() {
-    return renew;
-  }
-
-  public void setRenew(int renew) {
-    this.renew = renew;
+  public void setLabel(String label) {
+    this.label = label;
   }
 
   public String getRequest() {
