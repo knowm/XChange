@@ -13,7 +13,9 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.itbit.v1.ItBitAdapters;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class ItBitAccountService extends ItBitAccountServiceRaw implements AccountService {
 
@@ -37,6 +39,15 @@ public class ItBitAccountService extends ItBitAccountServiceRaw implements Accou
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
 
     return withdrawItBitFunds(currency.toString(), amount, address);
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+    }
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   @Override

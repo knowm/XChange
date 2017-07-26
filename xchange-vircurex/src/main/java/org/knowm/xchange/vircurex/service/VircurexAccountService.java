@@ -13,6 +13,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.knowm.xchange.vircurex.VircurexAdapters;
 
 public class VircurexAccountService extends VircurexAccountServiceRaw implements AccountService {
@@ -44,6 +45,11 @@ public class VircurexAccountService extends VircurexAccountServiceRaw implements
 
     throw new NotYetImplementedForExchangeException();
 
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

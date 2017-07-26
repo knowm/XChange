@@ -15,6 +15,7 @@ import org.knowm.xchange.lakebtc.LakeBTCAdapters;
 import org.knowm.xchange.lakebtc.dto.account.LakeBTCAccountInfoResponse;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 /**
  * @author cristian.lucaci
@@ -39,6 +40,11 @@ public class LakeBTCAccountService extends LakeBTCAccountServiceRaw implements A
 
   @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotYetImplementedForExchangeException();
   }
 

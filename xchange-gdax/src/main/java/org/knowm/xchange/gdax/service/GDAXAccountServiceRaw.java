@@ -1,17 +1,18 @@
 package org.knowm.xchange.gdax.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.gdax.GDAX;
 import org.knowm.xchange.gdax.dto.GDAXException;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
+import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
+import org.knowm.xchange.gdax.dto.account.GDAXWithdrawFundsRequest;
 import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
-
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 public class GDAXAccountServiceRaw extends GDAXBaseService<GDAX> {
 
@@ -31,4 +32,9 @@ public class GDAXAccountServiceRaw extends GDAXBaseService<GDAX> {
     return coinbaseEx.sendMoney(new GDAXSendMoneyRequest(to, amount, currency.getCurrencyCode()), apiKey, digest, nonceFactory, passphrase,
         accountId);
   }
+
+  public GDAXWithdrawCryptoResponse withdrawCrypto(String address, BigDecimal amount, Currency currency) throws GDAXException, IOException {
+    return coinbaseEx.withdrawCrypto(apiKey, digest, nonceFactory, passphrase, new GDAXWithdrawFundsRequest(amount, currency.getCurrencyCode(), address));
+  }
+
 }

@@ -22,7 +22,9 @@ import org.knowm.xchange.luno.dto.account.LunoBalance;
 import org.knowm.xchange.luno.dto.account.LunoFundingAddress;
 import org.knowm.xchange.luno.dto.account.LunoWithdrawals.Withdrawal;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class LunoAccountService extends LunoBaseService implements AccountService {
 
@@ -55,6 +57,15 @@ public class LunoAccountService extends LunoBaseService implements AccountServic
             Withdrawal requestWithdrawal = luno.requestWithdrawal(LunoUtil.requestType(lunoCurrency), amount, null);
             return requestWithdrawal.id;
         }
+    }
+
+    @Override
+    public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+        if (params instanceof DefaultWithdrawFundsParams) {
+            DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+            return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+        }
+        throw new IllegalStateException("Don't know how to withdraw: " + params);
     }
 
     @Override
