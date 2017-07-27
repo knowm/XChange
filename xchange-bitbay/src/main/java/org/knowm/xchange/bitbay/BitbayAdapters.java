@@ -27,6 +27,8 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrade;
+import org.knowm.xchange.dto.trade.UserTrades;
 
 /**
  * @author kpysniak
@@ -134,6 +136,17 @@ public class BitbayAdapters {
 
     return new OpenOrders(result);
   }
+ public static UserTrades adaptTradeHistory(List<BitbayOrder> orders) {
+    List<UserTrade> result = new ArrayList<>();
+
+    for (BitbayOrder order : orders) {
+      if ("inactive".equals(order.getStatus())) {
+        result.add(createUserTrade(order));
+      }
+    }
+
+    return new UserTrades(result, Trades.TradeSortType.SortByTimestamp);
+  }
 
   private static LimitOrder createOrder(BitbayOrder bitbayOrder) {
     CurrencyPair currencyPair = new CurrencyPair(bitbayOrder.getCurrency(), bitbayOrder.getPaymentCurrency());
@@ -149,5 +162,24 @@ public class BitbayAdapters {
 
     return new LimitOrder(type, bitbayOrder.getAmount(), currencyPair, String.valueOf(bitbayOrder.getId()), date,
         bitbayOrder.getStartPrice().divide(bitbayOrder.getStartAmount()));
+  }
+  private static UserTrade createUserTrade(BitbayOrder bitbayOrder) {
+    CurrencyPair currencyPair = new CurrencyPair(bitbayOrder.getCurrency(), bitbayOrder.getPaymentCurrency());
+    OrderType type = "ask".equals(bitbayOrder.getType()) ? OrderType.ASK : OrderType.BID;
+
+    DateFormat formatter = new SimpleDateFormat("yyyy-MM-DD HH:mm:SS");
+    Date date;
+    try {
+      date = formatter.parse(bitbayOrder.getDate());
+    } catch (ParseException e) {
+      throw new IllegalArgumentException(e);
+    }
+
+    return new UserTrade(type,
+            bitbayOrder.getAmount(),
+            currencyPair,
+            bitbayOrder.getCurrentPrice().divide(bitbayOrder.getStartAmount()),
+            date,
+            String.valueOf(bitbayOrder.getId()),  String.valueOf(bitbayOrder.getId()), null,null);
   }
 }
