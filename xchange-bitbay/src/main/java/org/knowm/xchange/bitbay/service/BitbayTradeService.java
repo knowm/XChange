@@ -83,7 +83,7 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
+    throw null;
   }
 
   @Override
