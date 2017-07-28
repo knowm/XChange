@@ -21,6 +21,7 @@ import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.TheRockExchange;
+import org.knowm.xchange.therock.dto.TheRockCancelOrderParams;
 import org.knowm.xchange.therock.dto.trade.TheRockOrder;
 
 import java.io.IOException;
@@ -96,16 +97,6 @@ public class TheRockTradeService extends TheRockTradeServiceRaw implements Trade
       return "deleted".equals(cancelledOrder.getStatus());
     }
     return false;
-  }
-
-  public static class TheRockCancelOrderParams implements CancelOrderParams {
-    public final CurrencyPair currencyPair;
-    public final Long orderId;
-
-    TheRockCancelOrderParams(CurrencyPair currencyPair, Long orderId) {
-      this.currencyPair = currencyPair;
-      this.orderId = orderId;
-    }
   }
 
   /**
