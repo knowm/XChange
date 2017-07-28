@@ -1,8 +1,5 @@
 package org.knowm.xchange.bleutrade.service;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bleutrade.BleutradeException;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
@@ -10,18 +7,29 @@ import org.knowm.xchange.bleutrade.dto.account.BleutradeBalanceReturn;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalancesReturn;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeDepositAddress;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeDepositAddressReturn;
+import org.knowm.xchange.bleutrade.dto.account.BleutradeWithdrawReturn;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.exceptions.ExchangeException;
 
-public class BleutradeAccountServiceRaw extends BleutradeBaseService {
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
+public class BleutradeAccountServiceRaw extends BleutradeBaseService {
+  
   public BleutradeAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
+  }
+
+  public String withdraw(Currency currency, BigDecimal amount, String address) throws IOException {
+    BleutradeWithdrawReturn response = bleutrade.withdraw(apiKey, signatureCreator, exchange.getNonceFactory(), currency.getCurrencyCode(), amount, address);
+
+    if(!response.success) {
+      throw new ExchangeException("Withdraw funds failed: " + response.toString());
+    }
+
+    return response.message;
   }
 
   public BleutradeDepositAddress getBleutradeDepositAddress(String currency) throws IOException {

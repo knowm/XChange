@@ -117,10 +117,4 @@ public class GeminiTradeServiceRaw extends GeminiBaseService {
     }
   }
 
-  public String withdraw(String withdrawType, String walletSelected, BigDecimal amount, String address) throws IOException {
-
-    GeminiWithdrawalResponse[] withdrawRepsonse = Gemini.withdraw(apiKey, payloadCreator, signatureCreator,
-        new GeminiWithdrawalRequest(String.valueOf(exchange.getNonceFactory().createValue()), withdrawType, walletSelected, amount, address));
-    return withdrawRepsonse[0].getWithdrawalId();
-  }
 }
