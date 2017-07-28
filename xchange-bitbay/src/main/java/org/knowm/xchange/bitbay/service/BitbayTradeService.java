@@ -74,6 +74,7 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
       cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
     }
     return false;
+    
   }
 
   @Override
