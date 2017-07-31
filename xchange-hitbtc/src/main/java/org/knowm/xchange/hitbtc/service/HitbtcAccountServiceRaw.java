@@ -10,6 +10,7 @@ import org.knowm.xchange.hitbtc.dto.TransactionsResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcBalance;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcDepositAddressResponse;
+import org.knowm.xchange.hitbtc.dto.account.HitbtcPaymentBalanceResponse;
 import si.mazi.rescu.HttpStatusIOException;
 
 import java.io.IOException;
@@ -30,13 +31,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
   }
 
   public HitbtcBalance[] getWalletRaw() throws IOException {
-
-    try {
-      HitbtcBalanceResponse hitbtcBalance = hitbtc.getHitbtcBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
-      return hitbtcBalance.getBalances();
-    } catch (HitbtcException e) {
-      throw handleException(e);
-    }
+    return getTradingBalance().getBalances();
   }
 
   public String withdrawFundsRaw(Currency currency, BigDecimal amount, String address) throws HttpStatusIOException {
@@ -63,11 +58,17 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
     }
   }
 
-  public HitbtcBalanceResponse getAccountBaseInfoRaw() throws IOException {
-
+  public HitbtcBalanceResponse getTradingBalance() throws IOException {
     try {
-      HitbtcBalanceResponse hitbtcBalanceResponse = hitbtc.getHitbtcBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
-      return hitbtcBalanceResponse;
+      return hitbtc.getTradingBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
+    } catch (HitbtcException e) {
+      throw handleException(e);
+    }
+  }
+
+  public HitbtcPaymentBalanceResponse getPaymentBalance() throws IOException {
+    try {
+      return hitbtc.getPaymentBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
