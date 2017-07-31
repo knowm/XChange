@@ -155,7 +155,7 @@
     },
     "USDT/USD": {
       "price_scale": 6,
-      "min_amount": 1.0
+      "min_amount": 5.0
     },
     "DASH/BTC": {
       "price_scale": 6,
