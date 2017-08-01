@@ -1,8 +1,5 @@
 package org.knowm.xchange.bleutrade;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
@@ -13,12 +10,15 @@ import org.knowm.xchange.bleutrade.service.BleutradeMarketDataService;
 import org.knowm.xchange.bleutrade.service.BleutradeMarketDataServiceRaw;
 import org.knowm.xchange.bleutrade.service.BleutradeTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
-
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.util.List;
 
 public class BleutradeExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
+  //until bluetrade offer more than one api key, it is invalid to create more than one nonce
+  private static SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
 
   @Override
   protected void initServices() {
