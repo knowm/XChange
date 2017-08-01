@@ -37,7 +37,7 @@ public class Currency implements Comparable<Currency> {
   public static final Currency BAM = createCurrency("BAM", "Bosnia-Herzegovina Convertible Mark", null);
   public static final Currency BBD = createCurrency("BBD", "Barbadian Dollar", null);
   public static final Currency BC = createCurrency("BC", "BlackCoin", null, "BLK");
-  public static final Currency BCH = createCurrency("BCH", "BitcoinCash", null, null);
+  public static final Currency BCH = createCurrency("BCH", "BitcoinCash", null);
   public static final Currency BLK = getInstance("BLK");
   public static final Currency BDT = createCurrency("BDT", "Bangladeshi Taka", null);
   public static final Currency BGC = createCurrency("BGC", "Aten 'Black Gold' Coin", null);
