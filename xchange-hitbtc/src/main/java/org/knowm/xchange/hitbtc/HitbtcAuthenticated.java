@@ -1,8 +1,11 @@
 package org.knowm.xchange.hitbtc;
 
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
+import org.knowm.xchange.hitbtc.dto.InternalTransferResponse;
+import org.knowm.xchange.hitbtc.dto.TransactionsResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcDepositAddressResponse;
+import org.knowm.xchange.hitbtc.dto.account.HitbtcPaymentBalanceResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcMultiExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
@@ -73,8 +76,13 @@ public interface HitbtcAuthenticated extends Hitbtc {
 
   @GET
   @Path("trading/balance")
-  HitbtcBalanceResponse getHitbtcBalance(@HeaderParam("X-Signature") ParamsDigest signature,
-                                         @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey) throws IOException, HitbtcException;
+  HitbtcBalanceResponse getTradingBalance(@HeaderParam("X-Signature") ParamsDigest signature,
+                                          @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey) throws IOException, HitbtcException;
+
+  @GET
+  @Path("payment/balance")
+  HitbtcPaymentBalanceResponse getPaymentBalance(@HeaderParam("X-Signature") ParamsDigest signature,
+                                                 @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey) throws IOException, HitbtcException;
 
   @GET
   @Path("payment/address/{currency}")
@@ -86,4 +94,19 @@ public interface HitbtcAuthenticated extends Hitbtc {
   Map payout(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
              @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency,@FormParam("address") String address, @FormParam("extra_id") String extraId, @FormParam("recommended_fee") boolean recommendedFee
   ) throws HttpStatusIOException;
+
+  @GET
+  @Path("payment/transactions")
+  TransactionsResponse transactions(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
+                                    @QueryParam("offset") Long offset, @QueryParam("limit") long limit, @QueryParam("dir") String direction);
+
+  @POST
+  @Path("payment/transfer_to_trading")
+  InternalTransferResponse transferToTrading(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
+                                             @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency);
+
+  @POST
+  @Path("payment/transfer_to_main")
+  InternalTransferResponse transferToMain(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
+                                             @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency);
 }
