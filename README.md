@@ -15,16 +15,38 @@ A complete list of implemented exchanges, data providers and brokers can be foun
 
 Usage is very simple: Create an Exchange instance, get the appropriate service, and request data.
 
-## Example
+## Example 1: Public Market Data
 
-    Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
+```java
+Exchange bitstamp = ExchangeFactory.INSTANCE.createExchange(BitstampExchange.class.getName());
 
-    MarketDataService marketDataService = bitstamp.getMarketDataService();
+MarketDataService marketDataService = bitstamp.getMarketDataService();
 
-    Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
+Ticker ticker = marketDataService.getTicker(CurrencyPair.BTC_USD);
 
-    System.out.println(ticker.toString());
-    
+System.out.println(ticker.toString());
+```
+
+## Example 2: Private Account Info
+
+To use the private API services, `AccountService` and `TradeService`, create an `ExchangeSpecification` with a unique API key and secret key (in some
+cases more info is required), which you obtain through the exchange's web interface. For more examples of adding the keys to the
+`ExchangeSpecification` including storing them in a configuration file, see [Frequently Asked Questions](https://github
+.com/timmolter/XChange/wiki/Frequently-Asked-Questions).
+
+```java
+ExchangeSpecification exSpec = new BitstampExchange().getDefaultExchangeSpecification();
+exSpec.setUserName("34387");
+exSpec.setApiKey("a4SDmpl9s6xWJS5fkKRT6yn41vXuY0AM");
+exSpec.setSecretKey("sisJixU6Xd0d1yr6w02EHCb9UwYzTNuj");
+Exchange bitstamp ExchangeFactory.INSTANCE.createExchange(exSpec);
+
+// Get the account information
+AccountService accountService = bitstamp.getAccountService();
+AccountInfo accountInfo = accountService.getAccountInfo();
+System.out.println(accountInfo.toString());
+```
+
 All exchange implementations expose the same API, but you can also directly access the underlying "raw" data from the individual exchanges if you need to.
 
 Now go ahead and [study some more examples](http://knowm.org/open-source/xchange/xchange-example-code), [download the thing](http://knowm.org/open-source/xchange/xchange-change-log/) and [provide feedback](https://github.com/timmolter/XChange/issues).
