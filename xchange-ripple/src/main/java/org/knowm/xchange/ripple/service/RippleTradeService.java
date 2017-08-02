@@ -20,6 +20,8 @@ import org.knowm.xchange.ripple.service.params.RippleTradeHistoryAccount;
 import org.knowm.xchange.ripple.service.params.RippleTradeHistoryCount;
 import org.knowm.xchange.ripple.service.params.RippleTradeHistoryParams;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
@@ -77,6 +79,15 @@ public class RippleTradeService extends RippleTradeServiceRaw implements TradeSe
   public boolean cancelOrder(
       final String orderId) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     return cancelOrder(orderId, ripple.validateOrderRequests());
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      CancelOrderByIdParams params = (CancelOrderByIdParams) orderParams;
+      return cancelOrder(params.orderId, ripple.validateOrderRequests());
+    }
+    return false;
   }
 
   /**

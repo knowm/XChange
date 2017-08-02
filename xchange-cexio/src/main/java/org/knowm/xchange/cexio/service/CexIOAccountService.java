@@ -14,6 +14,7 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 /**
  * Author: brox Since: 2/6/14
@@ -40,6 +41,11 @@ public class CexIOAccountService extends CexIOAccountServiceRaw implements Accou
   @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
 
+    throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
     throw new NotAvailableFromExchangeException();
   }
 
