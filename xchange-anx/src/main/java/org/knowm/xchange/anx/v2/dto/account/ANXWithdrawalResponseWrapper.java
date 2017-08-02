@@ -2,6 +2,8 @@ package org.knowm.xchange.anx.v2.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Map;
+
 /**
  * @author timmolter
  */
@@ -19,7 +21,7 @@ public class ANXWithdrawalResponseWrapper {
    * @param error
    */
   public ANXWithdrawalResponseWrapper(@JsonProperty("result") String result, @JsonProperty("data") ANXWithdrawalResponse anxWithdrawalResponse,
-      @JsonProperty("error") String error) {
+                                      @JsonProperty("error") String error) {
 
     this.result = result;
     this.anxWithdrawalResponse = anxWithdrawalResponse;

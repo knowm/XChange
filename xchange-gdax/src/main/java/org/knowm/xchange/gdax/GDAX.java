@@ -3,6 +3,8 @@ package org.knowm.xchange.gdax;
 import org.knowm.xchange.gdax.dto.GDAXException;
 import org.knowm.xchange.gdax.dto.account.GDAXAccount;
 import org.knowm.xchange.gdax.dto.account.GDAXSendMoneyRequest;
+import org.knowm.xchange.gdax.dto.account.GDAXWithdrawCryptoResponse;
+import org.knowm.xchange.gdax.dto.account.GDAXWithdrawFundsRequest;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductBook;
 import org.knowm.xchange.gdax.dto.marketdata.GDAXProductStats;
@@ -13,6 +15,7 @@ import org.knowm.xchange.gdax.dto.trade.GDAXIdResponse;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
 import org.knowm.xchange.gdax.dto.trade.GDAXPlaceOrder;
 import org.knowm.xchange.gdax.dto.trade.GDAXSendMoneyResponse;
+import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -113,4 +116,12 @@ public interface GDAX {
   GDAXSendMoneyResponse sendMoney(GDAXSendMoneyRequest sendMoney, @HeaderParam("CB-ACCESS-KEY") String apiKey,
                                   @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
                                   @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase, @PathParam("account_id") String accountId) throws GDAXException, IOException;
+
+  @POST
+  @Path("withdrawals/crypto")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  GDAXWithdrawCryptoResponse withdrawCrypto(@HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer, @HeaderParam("CB-ACCESS-TIMESTAMP") SynchronizedValueFactory<Long> nonce,
+                                            @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase,
+                                            GDAXWithdrawFundsRequest request) throws HttpStatusIOException;
 }

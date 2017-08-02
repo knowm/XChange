@@ -21,6 +21,7 @@ import org.knowm.xchange.bleutrade.dto.account.BleutradeBalance;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalanceReturn;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalancesReturn;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeDepositAddressReturn;
+import org.knowm.xchange.bleutrade.dto.account.BleutradeWithdrawReturn;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -179,13 +180,26 @@ public class BleutradeAccountServiceTest extends BleutradeServiceTestSupport {
     fail("BleutradeAccountService should throw ExchangeException when balances request throw error");
   }
 
-  @Test(expected = NotYetImplementedForExchangeException.class)
-  public void shouldFailWhenWithdrawFunds() throws IOException {
-    // when
-    accountService.withdrawFunds(Currency.BTC, BigDecimal.TEN, "any address");
+  @Test()
+  public void withdrawFunds() throws IOException {
+    BleutradeAuthenticated bleutrade = mock(BleutradeAuthenticated.class);
 
-    // then
-    fail("BleutradeAccountService should throw NotYetImplementedForExchangeException when call withdrawFunds");
+    PowerMockito.when(bleutrade.withdraw(
+        Mockito.eq(SPECIFICATION_API_KEY),
+        Mockito.any(ParamsDigest.class),
+        Mockito.any(SynchronizedValueFactory.class),
+        Mockito.eq("BTC"),
+        Mockito.eq(BigDecimal.TEN),
+        Mockito.eq("any address")
+    ))
+        .thenReturn(new BleutradeWithdrawReturn(true, "message", new String[0]));
+
+    Whitebox.setInternalState(accountService, "bleutrade", bleutrade);
+
+    // when
+    String message = accountService.withdrawFunds(Currency.BTC, BigDecimal.TEN, "any address");
+
+    assertThat(message).isEqualTo("message");
   }
 
   @Test

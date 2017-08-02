@@ -1,17 +1,11 @@
 package org.knowm.xchange.hitbtc;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -24,6 +18,7 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.hitbtc.dto.TransactionResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcBalance;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
@@ -34,11 +29,26 @@ import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrade;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
+import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HitbtcAdapters {
 
   public static final char DELIM = '_';
+
+  private static final Map<String, FundingRecord.Type> FUNDING_TYPES = new HashMap<String, FundingRecord.Type>() {{
+    put("exchangeToBank", null);//internal transfer
+    put("bankToExchange", null);//internal transfer
+    put("payin", FundingRecord.Type.DEPOSIT);
+    put("payout", FundingRecord.Type.WITHDRAWAL);
+  }};
 
   /**
    * Singleton
@@ -254,7 +264,7 @@ public class HitbtcAdapters {
         return orderId.substring(start + 1, end);
       }
     }
-    return orderId;
+    return "";
   }
 
   public static HitbtcTrade.HitbtcTradeSide getSide(OrderType type) {
@@ -277,4 +287,23 @@ public class HitbtcAdapters {
     return new ExchangeMetaData(currencyPairs, currencies, null, null, null);
   }
 
+  public static FundingRecord adapt(TransactionResponse transaction) {
+    FundingRecord.Type type = FUNDING_TYPES.get(transaction.type);
+
+    FundingRecord.Status status = transaction.status.equals("success") ? FundingRecord.Status.COMPLETE : FundingRecord.Status.FAILED;//todo: find out if there are more statuses
+
+    return new FundingRecord(
+        transaction.bitcoinAddress,
+        DateUtils.fromUnixTime(transaction.finished),
+        Currency.getInstanceNoCreate(transaction.currencyCodeTo),
+        transaction.amountTo,
+        transaction.id,
+        transaction.destinationData,
+        type,
+        status,
+        null,
+        transaction.commissionPercent,
+        transaction.type + " " + transaction.status
+    );
+  }
 }

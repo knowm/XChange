@@ -20,10 +20,12 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 import org.knowm.xchange.utils.DateUtils;
 
 /**
@@ -59,7 +61,16 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
       submitWithdraw(transactionId);
       return Long.toString(transactionId);
   }
-  
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+    }
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
+  }
+
   @Override
   public String requestDepositAddress(Currency currency, String... args) throws IOException {
     return requestAddress(currency.toString(), Integer.parseInt(args[0]));

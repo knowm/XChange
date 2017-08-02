@@ -17,7 +17,10 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsZero;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 
 /**
@@ -40,6 +43,8 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
     List<BitbayOrder> response = getBitbayOpenOrders();
     return BitbayAdapters.adaptOpenOrders(response);
   }
+
+
 
   @Override
   public String placeMarketOrder(
@@ -64,13 +69,23 @@ public class BitbayTradeService extends BitbayTradeServiceRaw implements TradeSe
   }
 
   @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
+    
+  }
+
+  @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    throw new NotYetImplementedForExchangeException();
+    List<BitbayOrder> response = getBitbayOpenOrders();
+    return BitbayAdapters.adaptTradeHistory(response);
   }
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    throw new NotYetImplementedForExchangeException();
+    return new TradeHistoryParamsZero();
   }
 
   @Override

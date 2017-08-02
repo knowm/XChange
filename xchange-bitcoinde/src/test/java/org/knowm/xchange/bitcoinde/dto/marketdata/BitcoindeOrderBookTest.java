@@ -25,14 +25,15 @@ public class BitcoindeOrderBookTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    BitcoindeOrderBook bitcoindeOrderBook = mapper.readValue(is, BitcoindeOrderBook.class);
+    BitcoindeOrderbookWrapper bitcoindeOrderBook = mapper.readValue(is, BitcoindeOrderbookWrapper.class);
 
     // Make sure asks are correct
-    assertEquals(bitcoindeOrderBook.getAsks()[0][0], new BigDecimal("224.9"));
-    assertEquals(bitcoindeOrderBook.getAsks()[0][1], new BigDecimal("2.48889"));
+    assertEquals(bitcoindeOrderBook.getBitcoindeOrders().getAsks()[0].getPrice(), new BigDecimal("2461.61"));
+    assertEquals(bitcoindeOrderBook.getBitcoindeOrders().getAsks()[0].getAmount(), new BigDecimal("0.0406218"));
 
     // Make sure bids are correct
-    assertEquals(bitcoindeOrderBook.getBids()[0][0], new BigDecimal("222.5"));
-    assertEquals(bitcoindeOrderBook.getBids()[0][1], new BigDecimal("0.35"));
+    assertEquals(bitcoindeOrderBook.getBitcoindeOrders().getBids()[0].getPrice(), new BigDecimal("1200"));
+    assertEquals(bitcoindeOrderBook.getBitcoindeOrders().getBids()[0].getAmount(), new BigDecimal("8.333"));
+
   }
 }

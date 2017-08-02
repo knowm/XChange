@@ -15,6 +15,7 @@ import org.knowm.xchange.huobi.BitVcFuturesAdapter;
 import org.knowm.xchange.huobi.dto.account.BitVcFuturesAccountInfo;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class BitVcFuturesAccountService extends BitVcFuturesServiceRaw implements AccountService {
   public BitVcFuturesAccountService(final Exchange exchange) {
@@ -30,13 +31,18 @@ public class BitVcFuturesAccountService extends BitVcFuturesServiceRaw implement
   @Override
   public String withdrawFunds(final Currency currency, final BigDecimal bigDecimal,
       final String s) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override
   public String requestDepositAddress(final Currency currency,
       final String... strings) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    return null;
+    throw new NotYetImplementedForExchangeException();
   }
 
   @Override

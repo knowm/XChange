@@ -17,10 +17,12 @@ import org.knowm.xchange.okcoin.dto.account.OKCoinWithdraw;
 import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamPaging;
+import org.knowm.xchange.service.trade.params.DefaultWithdrawFundsParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrency;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.WithdrawFundsParams;
 
 public class OkCoinAccountService extends OkCoinAccountServiceRaw implements AccountService {
 
@@ -51,6 +53,15 @@ public class OkCoinAccountService extends OkCoinAccountServiceRaw implements Acc
       return result.getWithdrawId();
 
     return "";
+  }
+
+  @Override
+  public String withdrawFunds(WithdrawFundsParams params) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (params instanceof DefaultWithdrawFundsParams) {
+      DefaultWithdrawFundsParams defaultParams = (DefaultWithdrawFundsParams) params;
+      return withdrawFunds(defaultParams.currency, defaultParams.amount, defaultParams.address);
+    }
+    throw new IllegalStateException("Don't know how to withdraw: " + params);
   }
 
   @Override

@@ -70,6 +70,7 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
   public static final CurrencyPair BTC_IOC = new CurrencyPair(Currency.BTC, Currency.IOC);
 
   public static final CurrencyPair ETH_BTC = new CurrencyPair(Currency.ETH, Currency.BTC);
+  public static final CurrencyPair ETH_GBP = new CurrencyPair(Currency.ETH, Currency.GBP);
   public static final CurrencyPair ETH_USD = new CurrencyPair(Currency.ETH, Currency.USD);
   public static final CurrencyPair ETH_EUR = new CurrencyPair(Currency.ETH, Currency.EUR);
   public static final CurrencyPair ETH_JPY = new CurrencyPair(Currency.ETH, Currency.JPY);
@@ -83,7 +84,9 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
 
   public static final CurrencyPair XRP_BTC = new CurrencyPair(Currency.XRP, Currency.BTC);
   public static final CurrencyPair XRP_EUR = new CurrencyPair(Currency.XRP, Currency.EUR);
+  public static final CurrencyPair XRP_USD = new CurrencyPair(Currency.XRP, Currency.USD);
 
+  public static final CurrencyPair LTC_AUD = new CurrencyPair(Currency.LTC, Currency.AUD);
   public static final CurrencyPair LTC_USD = new CurrencyPair(Currency.LTC, Currency.USD);
   public static final CurrencyPair LTC_KRW = new CurrencyPair(Currency.LTC, Currency.KRW);
   public static final CurrencyPair LTC_CNY = new CurrencyPair(Currency.LTC, Currency.CNY);
@@ -229,6 +232,10 @@ public class CurrencyPair implements Comparable<CurrencyPair> {
   public String toString() {
 
     return base + "/" + counter;
+  }
+
+  public boolean contains(Currency currency) {
+    return base.equals(currency) || counter.equals(currency);
   }
 
   @Override

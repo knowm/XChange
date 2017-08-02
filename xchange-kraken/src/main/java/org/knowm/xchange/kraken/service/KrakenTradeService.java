@@ -14,6 +14,8 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.DefaultTradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
@@ -60,6 +62,14 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   public boolean cancelOrder(String orderId) throws IOException {
 
     return super.cancelKrakenOrder(orderId).getCount() > 0;
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
   }
 
   /**

@@ -16,6 +16,8 @@ import org.knowm.xchange.quadrigacx.dto.QuadrigaCxException;
 import org.knowm.xchange.quadrigacx.dto.trade.QuadrigaCxOrder;
 import org.knowm.xchange.quadrigacx.dto.trade.QuadrigaCxUserTransaction;
 import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.service.trade.params.CancelOrderByIdParams;
+import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
@@ -103,6 +105,14 @@ public class QuadrigaCxTradeService extends QuadrigaCxTradeServiceRaw implements
   public boolean cancelOrder(String orderId) throws IOException, QuadrigaCxException {
 
     return cancelQuadrigaCxOrder(orderId);
+  }
+
+  @Override
+  public boolean cancelOrder(CancelOrderParams orderParams) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+    if (orderParams instanceof CancelOrderByIdParams) {
+      cancelOrder(((CancelOrderByIdParams) orderParams).orderId);
+    }
+    return false;
   }
 
   /**
