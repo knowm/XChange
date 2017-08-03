@@ -8,9 +8,9 @@ import org.knowm.xchange.quoine.dto.trade.QuoineNewOrderRequestWrapper;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrderDetailsResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrderResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
-import org.knowm.xchange.quoine.dto.QuoineExecutionsResponse;
-import org.knowm.xchange.quoine.dto.QuoineTradesResponse;
-import org.knowm.xchange.quoine.dto.QuoineTransactionsResponse;
+import org.knowm.xchange.quoine.dto.trade.QuoineExecutionsResponse;
+import org.knowm.xchange.quoine.dto.trade.QuoineTradesResponse;
+import org.knowm.xchange.quoine.dto.trade.QuoineTransactionsResponse;
 import si.mazi.rescu.ParamsDigest;
 
 import javax.ws.rs.Consumes;

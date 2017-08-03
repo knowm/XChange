@@ -18,7 +18,7 @@ import org.knowm.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
 import org.knowm.xchange.quoine.dto.trade.Model;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
-import org.knowm.xchange.quoine.dto.QuoineExecution;
+import org.knowm.xchange.quoine.dto.trade.QuoineExecution;
 import org.knowm.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;

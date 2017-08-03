@@ -1,4 +1,4 @@
-package org.knowm.xchange.quoine.dto;
+package org.knowm.xchange.quoine.dto.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
