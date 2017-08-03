@@ -13,7 +13,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.quoine.QuoineAdapters;
-import org.knowm.xchange.quoine.dto.QuoineExecution;
+import org.knowm.xchange.quoine.dto.trade.QuoineExecution;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrderResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.service.trade.TradeService;
