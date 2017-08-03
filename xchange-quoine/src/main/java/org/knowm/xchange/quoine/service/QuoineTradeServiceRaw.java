@@ -1,19 +1,25 @@
 package org.knowm.xchange.quoine.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.quoine.QuoineUtils;
+import org.knowm.xchange.quoine.dto.QuoineExecution;
+import org.knowm.xchange.quoine.dto.QuoineExecutionsResponse;
+import org.knowm.xchange.quoine.dto.QuoineTradesResponse;
+import org.knowm.xchange.quoine.dto.QuoineTransaction;
+import org.knowm.xchange.quoine.dto.QuoineTransactionsResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineNewMarginOrderRequest;
 import org.knowm.xchange.quoine.dto.trade.QuoineNewOrderRequest;
 import org.knowm.xchange.quoine.dto.trade.QuoineNewOrderRequestWrapper;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrderDetailsResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrderResponse;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
-
 import si.mazi.rescu.HttpStatusIOException;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author gnandiga
@@ -93,4 +99,21 @@ public class QuoineTradeServiceRaw extends QuoineBaseService {
       throw handleHttpError(e);
     }
   }
+
+  public List<QuoineExecution> executions(CurrencyPair currencyPair, Integer limit, Integer page) throws IOException {
+    int productId = QuoineUtils.toID(currencyPair);
+    QuoineExecutionsResponse response = quoine.executions(QUOINE_API_VERSION, signatureCreator, contentType, productId, limit, page, 1);
+    return response.models;
+  }
+
+  public List<QuoineTrade> trades(Currency fundingCurrency, Integer limit, Integer page) throws IOException {
+    QuoineTradesResponse response = quoine.trades(QUOINE_API_VERSION, signatureCreator, contentType, fundingCurrency == null ? null : fundingCurrency.getCurrencyCode(), "null", limit, page);
+    return response.models;
+  }
+
+  public List<QuoineTransaction> transactions(Currency currency, Integer limit, Integer page) throws IOException {
+    QuoineTransactionsResponse transactions = quoine.transactions(QUOINE_API_VERSION, signatureCreator, contentType, currency == null ? null : currency.getCurrencyCode(), limit, page);
+    return transactions.models;
+  }
+
 }
