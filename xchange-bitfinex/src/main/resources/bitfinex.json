@@ -75,6 +75,18 @@
     "BCU/USD": {
       "price_scale": 4,
       "min_amount": 0.010000000
+    },
+    "BCH/USD": {
+      "price_scale": 4,
+      "min_amount": 0.01000000
+    },
+    "BCH/ETH": {
+      "price_scale": 4,
+      "min_amount": 0.01000000
+    },
+    "BCH/BTC": {
+      "price_scale": 6,
+      "min_amount": 0.01000000
     }
   },
   "currencies": {

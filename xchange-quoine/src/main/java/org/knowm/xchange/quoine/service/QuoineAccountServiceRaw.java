@@ -1,15 +1,18 @@
 package org.knowm.xchange.quoine.service;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.quoine.QuoineUtils;
+import org.knowm.xchange.quoine.dto.account.BitcoinAccount;
 import org.knowm.xchange.quoine.dto.account.FiatAccount;
 import org.knowm.xchange.quoine.dto.account.QuoineAccountBalance;
 import org.knowm.xchange.quoine.dto.account.QuoineTradingAccountInfo;
 import org.knowm.xchange.utils.Assert;
-
 import si.mazi.rescu.HttpStatusIOException;
+
+import java.io.IOException;
+import java.util.List;
 
 public class QuoineAccountServiceRaw extends QuoineBaseService {
 
@@ -31,6 +34,14 @@ public class QuoineAccountServiceRaw extends QuoineBaseService {
     }
   }
 
+  public BitcoinAccount[] getQuoineCryptoAccountInfo() throws IOException {
+    try {
+      return quoine.getCryptoAccountInfo(QUOINE_API_VERSION, signatureCreator, contentType);
+    } catch (HttpStatusIOException e) {
+      throw new ExchangeException(e.getHttpBody(), e);
+    }
+  }
+
   public QuoineTradingAccountInfo[] getQuoineTradingAccountInfo() throws IOException {
 
     try {
@@ -47,4 +58,5 @@ public class QuoineAccountServiceRaw extends QuoineBaseService {
       throw new ExchangeException(e.getHttpBody(), e);
     }
   }
+
 }
