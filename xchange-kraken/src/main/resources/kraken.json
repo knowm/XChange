@@ -185,6 +185,18 @@
     "GNO/USD": {
       "price_scale": 6,
       "min_amount": 0.030000000
+    },
+    "BCH/BTC": {
+      "price_scale": 6,
+      "min_amount": 0.020000000
+    },
+    "BCH/EUR": {
+      "price_scale": 6,
+      "min_amount": 0.020000000
+    },
+    "BCH/USD": {
+      "price_scale": 6,
+      "min_amount": 0.020000000
     }
   },
   "currencies": {},
