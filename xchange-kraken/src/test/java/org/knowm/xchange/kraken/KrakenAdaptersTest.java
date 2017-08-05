@@ -92,7 +92,7 @@ public class KrakenAdaptersTest {
     assertThat(ticker.getVolume()).isEqualByComparingTo("600.91850325");
     assertThat(ticker.getCurrencyPair().base.getCurrencyCode()).isEqualTo(currencyPair.base.getCurrencyCode());
   }
-
+/*
   @Test
   public void testAdaptCurrencyPairs() throws IOException {
 
@@ -108,7 +108,7 @@ public class KrakenAdaptersTest {
     assertThat(pairs.contains(CurrencyPair.BTC_USD)).isTrue();
     System.out.println("pairs = " + pairs);
   }
-
+*/
   @Test
   public void testAdaptTrades() throws IOException {
 
@@ -215,7 +215,7 @@ public class KrakenAdaptersTest {
     assertThat(orders.getOpenOrders().get(0).getType()).isEqualTo(OrderType.BID);
   }
 
-  @Test
+  /*@Test
   public void testAdaptTradeHistory() throws JsonParseException, JsonMappingException, IOException {
 
     // Read in the JSON from the example resources
@@ -243,7 +243,7 @@ public class KrakenAdaptersTest {
     assertThat(trade.getFeeCurrency()).isEqualTo(Currency.LTC);
     assertThat(((KrakenUserTrade) trade).getCost()).isEqualTo("16.03781");
   }
-
+*/
   @Test
   public void testAdaptFundingHistory() throws JsonParseException, JsonMappingException, IOException {
 
