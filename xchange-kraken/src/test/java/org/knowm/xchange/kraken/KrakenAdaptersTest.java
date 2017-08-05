@@ -66,6 +66,7 @@ public class KrakenAdaptersTest {
 	  mapper = new ObjectMapper();
 	  KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
 	  KrakenUtils.setKrakenAssetPairs(krakenAssetPairs.getResult());
+	  System.out.println("\n before for KrakenAdaptersTest has run \n");
   }
 
   @Test
