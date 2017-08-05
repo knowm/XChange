@@ -5,12 +5,14 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -27,8 +29,13 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.kraken.dto.account.KrakenLedger;
 import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPairsJSONTest;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetsJSONTest;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenFee;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
+import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
@@ -43,6 +50,23 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KrakenAdaptersTest {
+
+  @Before
+  public void before() throws JsonParseException, JsonMappingException, IOException {
+	  // Read in the JSON from the example resources
+	  InputStream is = KrakenAssetsJSONTest.class.getResourceAsStream("/marketdata/example-assets-data.json");
+	  // Use Jackson to parse it
+	  ObjectMapper mapper = new ObjectMapper();
+	  KrakenAssetsResult krakenResult = mapper.readValue(is, KrakenAssetsResult.class);
+	  KrakenUtils.setKrakenAssets(krakenResult.getResult());
+	  
+	  // Read in the JSON from the example resources
+	  is = KrakenAssetPairsJSONTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
+	  // Use Jackson to parse it
+	  mapper = new ObjectMapper();
+	  KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
+	  KrakenUtils.setKrakenAssetPairs(krakenAssetPairs.getResult());
+  }
 
   @Test
   public void testAdaptTicker() throws IOException {
