@@ -64,7 +64,39 @@ public class KrakenUtils {
   }
   
   public static CurrencyPair translateKrakenCurrencyPair(String currencyPairIn) {
-	  return assetPairMap.get(currencyPairIn);
+	  CurrencyPair pair = assetPairMap.get(currencyPairIn);
+	  if (pair == null) 
+	  {
+		  // kraken can give short pairs back from open orders ?
+		  if (currencyPairIn.length() == 6)
+		  {
+			  Currency base = new Currency(currencyPairIn.substring(0, 3));
+   		      if (base.getIso4217Currency() != null) 
+			  {
+   		    	base = base.getIso4217Currency();
+			  }
+			  Currency counter = new Currency(currencyPairIn.substring(3,6));
+   		      if (counter.getIso4217Currency() != null) 
+			  {
+   		    	counter = counter.getIso4217Currency();
+			  }
+			  pair = new CurrencyPair(base, counter);
+		  } else if (currencyPairIn.length() == 7) 
+		  {
+			  Currency base = new Currency(currencyPairIn.substring(0, 4));
+   		      if (base.getIso4217Currency() != null) 
+			  {
+   		    	base = base.getIso4217Currency();
+			  }
+			  Currency counter = new Currency(currencyPairIn.substring(4,7));
+   		      if (counter.getIso4217Currency() != null) 
+			  {
+   		    	counter = counter.getIso4217Currency();
+			  }
+			  pair = new CurrencyPair(base, counter);
+		  }
+	  }
+	  return pair;
   }
 
 
