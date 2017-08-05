@@ -17,8 +17,8 @@ import org.knowm.xchange.quoine.dto.account.QuoineTradingAccountInfo;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
 import org.knowm.xchange.quoine.dto.trade.Model;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.quoine.dto.trade.QuoineExecution;
+import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;
@@ -160,7 +160,6 @@ public class QuoineAdapters {
     public static List<UserTrade> adapt(List<QuoineExecution> executions, CurrencyPair currencyPair) {
         List<UserTrade> res = new ArrayList<>();
         for (QuoineExecution execution : executions) {
-            System.out.println("execution = " + execution);
             res.add(new UserTrade(
                     execution.mySide.equals("sell") ? OrderType.ASK : OrderType.BID,
                     execution.quantity,
