@@ -1,11 +1,5 @@
 package org.knowm.xchange.btcmarkets;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import org.knowm.xchange.btcmarkets.dto.account.BTCMarketsBalance;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsOrderBook;
 import org.knowm.xchange.btcmarkets.dto.marketdata.BTCMarketsTicker;
@@ -24,6 +18,12 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public final class BTCMarketsAdapters {
 
