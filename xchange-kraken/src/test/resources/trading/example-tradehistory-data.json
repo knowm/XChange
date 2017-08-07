@@ -5,7 +5,7 @@
     "trades": {
       "TY5BYV-WJUQF-XPYEYD": {
         "ordertxid": "ONRNOX-DVI4W-76DL6Q",
-        "pair": "XXBTXLTC",
+        "pair": "XLTCXXBT",
         "time": 1389071942.2089,
         "type": "sell",
         "ordertype": "market",
