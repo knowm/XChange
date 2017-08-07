@@ -24,7 +24,7 @@ public class KrakenAssetsJSONTest {
     KrakenAssetsResult krakenResult = mapper.readValue(is, KrakenAssetsResult.class);
     Map<String, KrakenAsset> assets = krakenResult.getResult();
 
-    assertThat(assets).hasSize(9);
+    assertThat(assets).hasSize(27);
     KrakenAsset asset = assets.get("XXBT");
     assertThat(asset.getAltName()).isEqualTo("XBT");
     assertThat(asset.getAssetClass()).isEqualTo("currency");
