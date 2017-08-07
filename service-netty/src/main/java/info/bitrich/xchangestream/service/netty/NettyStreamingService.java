@@ -123,7 +123,7 @@ public abstract class NettyStreamingService<T> {
 
     protected abstract String getChannelNameFromMessage(T message) throws IOException;
 
-    public abstract String getSubscribeMessage(String channelName) throws IOException;
+    public abstract String getSubscribeMessage(String channelName, Object... args) throws IOException;
 
     public abstract String getUnsubscribeMessage(String channelName) throws IOException;
 
@@ -151,7 +151,7 @@ public abstract class NettyStreamingService<T> {
         webSocketChannel.writeAndFlush(frame);
     }
 
-    public Observable<T> subscribeChannel(String channelName) {
+    public Observable<T> subscribeChannel(String channelName, Object... args) {
         LOG.info("Subscribing to channel {}", channelName);
 
         return Observable.<T>create(e -> {
@@ -161,7 +161,7 @@ public abstract class NettyStreamingService<T> {
 
             channels.put(channelName, e);
             try {
-                sendMessage(getSubscribeMessage(channelName));
+                sendMessage(getSubscribeMessage(channelName, args));
             } catch (IOException throwable) {
                 e.onError(throwable);
             }

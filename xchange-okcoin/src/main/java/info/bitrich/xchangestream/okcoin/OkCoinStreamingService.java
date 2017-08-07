@@ -20,7 +20,7 @@ public class OkCoinStreamingService extends JsonNettyStreamingService {
     }
 
     @Override
-    public String getSubscribeMessage(String channelName) throws IOException {
+    public String getSubscribeMessage(String channelName, Object... args) throws IOException {
         WebSocketMessage webSocketMessage = new WebSocketMessage("addChannel", channelName);
 
         ObjectMapper objectMapper = new ObjectMapper();

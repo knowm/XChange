@@ -39,7 +39,7 @@ public class GDAXStreamingService extends JsonNettyStreamingService {
    * @return an Observable of json objects coming from the exchange.
    */
   @Override
-  public Observable<JsonNode> subscribeChannel(String channelName) {
+  public Observable<JsonNode> subscribeChannel(String channelName, Object... args) {
     if (!channels.containsKey(channelName) && !subscriptions.containsKey(channelName)){
       subscriptions.put(channelName, super.subscribeChannel(channelName));
     } 
@@ -53,7 +53,7 @@ public class GDAXStreamingService extends JsonNettyStreamingService {
   }
 
   @Override
-  public String getSubscribeMessage(String channelName) throws IOException {
+  public String getSubscribeMessage(String channelName, Object... args) throws IOException {
     GDAXWebSocketSubscriptionMessage subscribeMessage = 
       new GDAXWebSocketSubscriptionMessage(SUBSCRIBE, channelName);
     ObjectMapper objectMapper = new ObjectMapper();
