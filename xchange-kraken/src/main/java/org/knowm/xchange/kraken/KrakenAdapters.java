@@ -161,25 +161,13 @@ public class KrakenAdapters {
   }
 
   public static Currency adaptCurrency(String krakenCurrencyCode) {
-    String currencyCode = (krakenCurrencyCode.length() == 4 && !"USDT".equals(krakenCurrencyCode) && !"KFEE".equals(krakenCurrencyCode)
-        && !"DASH".equals(krakenCurrencyCode) && !"EOS".equals(krakenCurrencyCode)) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
-
-    return Currency.getInstance(currencyCode).getCommonlyUsedCurrency();
+    return KrakenUtils.translateKrakenCurrencyCode(krakenCurrencyCode);
   }
 
   public static CurrencyPair adaptCurrencyPair(String krakenCurrencyPair) {
-    int baseLength = (krakenCurrencyPair.startsWith("GNO") || krakenCurrencyPair.startsWith("EOS")) ? 3 : 4;
-
-    Currency firstCurrency = adaptCurrency(krakenCurrencyPair.substring(0, baseLength));
-    Currency secondCurrency = adaptCurrency(krakenCurrencyPair.substring(baseLength));
-
-    return new CurrencyPair(firstCurrency, secondCurrency);
+    return KrakenUtils.translateKrakenCurrencyPair(krakenCurrencyPair);
   }
   
-  public static CurrencyPair adaptCurrencyPairOpenOrder(String kcp) {
-    return new CurrencyPair(adaptCurrency(kcp.substring(0, 3)), adaptCurrency(kcp.substring(3)));
-  }
-
   public static OpenOrders adaptOpenOrders(Map<String, KrakenOrder> krakenOrders) {
 
     List<LimitOrder> limitOrders = new ArrayList<>();
@@ -204,7 +192,7 @@ public class KrakenAdapters {
     KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
     OrderType type = adaptOrderType(orderDescription.getType());
     BigDecimal tradableAmount = krakenOrder.getVolume().subtract(krakenOrder.getVolumeExecuted());
-    CurrencyPair pair = adaptCurrencyPairOpenOrder(orderDescription.getAssetPair());
+    CurrencyPair pair = adaptCurrencyPair(orderDescription.getAssetPair());
     Date timestamp = new Date((long) (krakenOrder.getOpenTimestamp() * 1000L));
 
     return new LimitOrder(type, tradableAmount, pair, id, timestamp,
@@ -254,18 +242,21 @@ public class KrakenAdapters {
       Map<String, KrakenAsset> krakenAssets) {
 
     Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
+    // add assets before pairs to Utils!
+    KrakenUtils.setKrakenAssets(krakenAssets);
+    KrakenUtils.setKrakenAssetPairs(krakenPairs);
+
     pairs.putAll(originalMetaData.getCurrencyPairs());
     for (String krakenPairCode : krakenPairs.keySet()) {
-      KrakenAssetPair krakenPair = krakenPairs.get(krakenPairCode);
-      pairs.put(adaptCurrencyPair(krakenPairCode), adaptPair(krakenPair, pairs.get(adaptCurrencyPair(krakenPairCode))));
+      //  skip dark markets!
+      if (!krakenPairCode.endsWith(".d")) {
+	      KrakenAssetPair krakenPair = krakenPairs.get(krakenPairCode);
+	      pairs.put(adaptCurrencyPair(krakenPairCode), adaptPair(krakenPair, pairs.get(adaptCurrencyPair(krakenPairCode))));
+      }
     }
 
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     currencies.putAll(originalMetaData.getCurrencies());
-    for (String krakenAssetCode : krakenAssets.keySet()) {
-      KrakenAsset krakenAsset = krakenAssets.get(krakenAssetCode);
-      currencies.put(KrakenUtils.addCurrencyAndGetCode(krakenAssetCode), new CurrencyMetaData(krakenAsset.getScale()));
-    }
     return new ExchangeMetaData(pairs, currencies, originalMetaData == null ? null : originalMetaData.getPublicRateLimits(),
         originalMetaData == null ? null : originalMetaData.getPrivateRateLimits(),
         originalMetaData == null ? null : originalMetaData.isShareRateLimits());
