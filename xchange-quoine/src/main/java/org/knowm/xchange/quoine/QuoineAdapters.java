@@ -174,4 +174,8 @@ public class QuoineAdapters {
         }
         return res;
     }
+
+  public static String toPairString(CurrencyPair currencyPair) {
+    return currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode();
+  }
 }
