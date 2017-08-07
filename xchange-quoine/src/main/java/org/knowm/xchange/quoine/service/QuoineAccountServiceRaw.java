@@ -1,9 +1,7 @@
 package org.knowm.xchange.quoine.service;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.quoine.QuoineUtils;
 import org.knowm.xchange.quoine.dto.account.BitcoinAccount;
 import org.knowm.xchange.quoine.dto.account.FiatAccount;
 import org.knowm.xchange.quoine.dto.account.QuoineAccountBalance;
@@ -12,7 +10,6 @@ import org.knowm.xchange.utils.Assert;
 import si.mazi.rescu.HttpStatusIOException;
 
 import java.io.IOException;
-import java.util.List;
 
 public class QuoineAccountServiceRaw extends QuoineBaseService {
 
