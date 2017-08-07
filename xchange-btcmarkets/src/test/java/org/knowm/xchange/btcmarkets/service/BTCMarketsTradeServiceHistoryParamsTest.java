@@ -44,41 +44,4 @@ public class BTCMarketsTradeServiceHistoryParamsTest {
     // then
     fail("BTCMarketsTradeService.HistoryParams should throw UnsupportedOperationException when call setPageNumber");
   }
-
-  @Test
-  public void shouldHoldStartTime() {
-    // given
-    BTCMarketsTradeService.HistoryParams historyParams = new BTCMarketsTradeService.HistoryParams();
-
-    // when
-    historyParams.setStartTime(new Date(1234567890L));
-
-    // then
-    assertThat(historyParams.getStartTime().getTime()).isEqualTo(1234567890L);
-  }
-
-  @Test(expected = UnsupportedOperationException.class)
-  public void shouldFailOnGetEndTime() {
-    // given
-    BTCMarketsTradeService.HistoryParams historyParams = new BTCMarketsTradeService.HistoryParams();
-
-    // when
-    historyParams.getEndTime();
-
-    // then
-    fail("BTCMarketsTradeService.HistoryParams should throw UnsupportedOperationException when call getEndTime");
-  }
-
-  @Test(expected = UnsupportedOperationException.class)
-  public void shouldFailOnSetEndTime() {
-    // given
-    BTCMarketsTradeService.HistoryParams historyParams = new BTCMarketsTradeService.HistoryParams();
-
-    // when
-    historyParams.setEndTime(new Date());
-
-    // then
-    fail("BTCMarketsTradeService.HistoryParams should throw UnsupportedOperationException when call setEndTime");
-  }
-
 }

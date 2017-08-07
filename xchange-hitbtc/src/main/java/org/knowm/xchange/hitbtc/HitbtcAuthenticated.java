@@ -92,21 +92,21 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @POST
   @Path("payment/payout")
   Map payout(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
-             @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency,@FormParam("address") String address, @FormParam("extra_id") String extraId, @FormParam("recommended_fee") boolean recommendedFee
+             @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency, @FormParam("address") String address, @FormParam("extra_id") String extraId, @FormParam("recommended_fee") boolean recommendedFee
   ) throws HttpStatusIOException;
 
   @GET
   @Path("payment/transactions")
   TransactionsResponse transactions(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
-                                    @QueryParam("offset") Long offset, @QueryParam("limit") long limit, @QueryParam("dir") String direction);
+                                    @QueryParam("offset") Long offset, @QueryParam("limit") long limit, @QueryParam("dir") String direction) throws HttpStatusIOException;
 
   @POST
   @Path("payment/transfer_to_trading")
   InternalTransferResponse transferToTrading(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
-                                             @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency);
+                                             @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency) throws HttpStatusIOException;
 
   @POST
   @Path("payment/transfer_to_main")
   InternalTransferResponse transferToMain(@HeaderParam("X-Signature") ParamsDigest signature, @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
-                                             @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency);
+                                          @FormParam("amount") BigDecimal amount, @FormParam("currency_code") String currency) throws HttpStatusIOException;
 }
