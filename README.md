@@ -70,13 +70,14 @@ Looking for streaming API? Use library [xchange-stream](https://github.com/bitri
 
 ## Wiki
 
-Home: https://github.com/timmolter/XChange/wiki  
-Design Notes: https://github.com/timmolter/XChange/wiki/Design-Notes  
-Milestones: https://github.com/timmolter/XChange/wiki/Milestones  
-Exchange Support: https://github.com/timmolter/XChange/wiki/Exchange-support  
-New Implementation Best Practices: https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices
-Installing SSL Certificates into TrustStore: https://github.com/timmolter/XChange/wiki/Installing-SSL-Certificates-into-TrustStore
-Getting Started with XChange for Noobies: https://github.com/timmolter/XChange/wiki/Getting-Started-with-XChange-for-Noobies
+* [Home](https://github.com/timmolter/XChange/wiki)
+* [FAQ](https://github.com/timmolter/XChange/wiki/Frequently-Asked-Questions)
+* [Design Notes](https://github.com/timmolter/XChange/wiki/Design-Notes)
+* [Milestones](https://github.com/timmolter/XChange/wiki/Milestones)
+* [Exchange Support](https://github.com/timmolter/XChange/wiki/Exchange-support)
+* [New Implementation Best Practices](https://github.com/timmolter/XChange/wiki/New-Implementation-Best-Practices)
+* [Installing SSL Certificates into TrustStore](https://github.com/timmolter/XChange/wiki/Installing-SSL-Certificates-into-TrustStore)
+* [Getting Started with XChange for Noobies](https://github.com/timmolter/XChange/wiki/Getting-Started-with-XChange-for-Noobies)
 
 ## Continuous Integration
 
