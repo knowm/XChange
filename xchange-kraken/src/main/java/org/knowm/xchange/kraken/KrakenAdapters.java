@@ -257,6 +257,11 @@ public class KrakenAdapters {
 
     Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
     currencies.putAll(originalMetaData.getCurrencies());
+    for (String krakenAssetCode : krakenAssets.keySet()) {
+        KrakenAsset krakenAsset = krakenAssets.get(krakenAssetCode);
+        Currency currencyCode = KrakenAdapters.adaptCurrency(krakenAssetCode);
+        currencies.put(currencyCode, new CurrencyMetaData(krakenAsset.getScale()));
+     }
     return new ExchangeMetaData(pairs, currencies, originalMetaData == null ? null : originalMetaData.getPublicRateLimits(),
         originalMetaData == null ? null : originalMetaData.getPrivateRateLimits(),
         originalMetaData == null ? null : originalMetaData.isShareRateLimits());
