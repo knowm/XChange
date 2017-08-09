@@ -4,15 +4,19 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.hitbtc.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcMultiExecutionReportResponse;
@@ -108,8 +112,27 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
    * @param exchange
    */
   public HitbtcTradeServiceRaw(Exchange exchange) {
-
     super(exchange);
+    fetchLotsData();
+  }
+
+  /**
+   * Fetches the lots from the server and updates the possibly outdated LOT_SIZES map.
+   */
+  private void fetchLotsData() {
+    List<HitbtcSymbol> hitbtcSymbols;
+    try {
+      hitbtcSymbols = new HitbtcMarketDataService(exchange).getHitbtcSymbols().getHitbtcSymbols();
+    } catch (IOException e) {
+      // Do nothing, use the existing LOT_SIZES map instead.
+      // TODO warning message handling
+      return;
+    }
+    LOT_SIZES.clear();
+    for (HitbtcSymbol hitbtcSymbol : hitbtcSymbols) {
+      LOT_SIZES.put(new CurrencyPair(new Currency(hitbtcSymbol.getCommodity()), new Currency(hitbtcSymbol.getCurrency())), hitbtcSymbol.getLot());
+    }
+
   }
 
   public HitbtcOrdersResponse getOpenOrdersRawBaseResponse() throws IOException {
@@ -259,7 +282,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     CurrencyPair pair = order.getCurrencyPair();
     BigDecimal lotDivisor = LOT_SIZES.get(pair);
 
-    BigDecimal lots = order.getTradableAmount().divide(lotDivisor, BigDecimal.ROUND_UNNECESSARY).setScale(0, BigDecimal.ROUND_DOWN);
+    BigDecimal lots = order.getTradableAmount().divide(lotDivisor, BigDecimal.ROUND_DOWN).setScale(0, BigDecimal.ROUND_DOWN);
     if (lots.compareTo(BigDecimal.ONE) < 0) {
       throw new IllegalArgumentException("Tradable amount too low");
     }
