@@ -18,6 +18,7 @@ import org.knowm.xchange.yobit.dto.marketdata.YoBitAsksBidsData;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitPair;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitPairs;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTicker;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTickerReturn;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrade;
@@ -51,21 +52,29 @@ public class YoBitAdapters {
   }
 
   public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData exchangeMetaData, YoBitInfo products) {
-    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
-    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = exchangeMetaData.getCurrencyPairs();
+    Map<Currency, CurrencyMetaData> currencies = exchangeMetaData.getCurrencies();
 
-    for (Entry<CurrencyPair, YoBitPair> ee : products.getPairs().getPrice().entrySet()) {
-      BigDecimal minSize = ee.getValue().getMin_amount();
-      CurrencyPairMetaData cpmd = new CurrencyPairMetaData(ee.getValue().getFee(), minSize, null, 8);
-      CurrencyPair pair = ee.getKey();
-      currencyPairs.put(pair, cpmd);
-      currencies.put(pair.base, null);
-      currencies.put(pair.counter, null);
+    YoBitPairs pairs = products.getPairs();
+    Map<CurrencyPair, YoBitPair> price = pairs.getPrice();
+
+    for (Entry<CurrencyPair, YoBitPair> entry : price.entrySet()) {
+      CurrencyPair pair = entry.getKey();
+      YoBitPair value = entry.getValue();
+
+      BigDecimal minSize = value.getMin_amount();
+      Integer priceScale = value.getDecimal_places();
+      currencyPairs.put(pair, new CurrencyPairMetaData(value.getFee(), minSize, null, priceScale));
+
+      if(!currencies.containsKey(pair.base))
+        currencies.put(pair.base, new CurrencyMetaData(8));
+
+      if(!currencies.containsKey(pair.counter))
+        currencies.put(pair.counter, new CurrencyMetaData(8));
     }
 
-    return new ExchangeMetaData(currencyPairs, currencies, null, null, true);
+    return exchangeMetaData;
   }
-
   private static List<LimitOrder> toLimitOrderList(List<YoBitAsksBidsData> levels, OrderType orderType, CurrencyPair currencyPair) {
 
     List<LimitOrder> allLevels = new ArrayList<>(levels.size());
