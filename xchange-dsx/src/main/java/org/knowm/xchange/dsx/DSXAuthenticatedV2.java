@@ -90,11 +90,11 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/history/transactions")
-  DSXTransHistoryReturn TransHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("count") Integer count,
-      @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
-      @FormParam("end") Long end, @FormParam("type") DSXTransHistoryResult.Type type, @FormParam("status") DSXTransHistoryResult.Status status,
-      @FormParam("currency") String currency) throws IOException;
+  DSXTransHistoryReturn transHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+                                     @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("count") Integer count,
+                                     @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+                                     @FormParam("end") Long end, @FormParam("type") DSXTransHistoryResult.Type type, @FormParam("status") DSXTransHistoryResult.Status status,
+                                     @FormParam("currency") String currency) throws IOException;
 
   /**
    * This method provides information about user trades history.
@@ -115,10 +115,10 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/history/trades")
-  DSXTradeHistoryReturn TradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @DefaultValue("1000") @FormParam("count") Integer count,
-      @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
-      @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
+  DSXTradeHistoryReturn tradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+                                     @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @DefaultValue("1000") @FormParam("count") Integer count,
+                                     @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+                                     @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
 
   /**
    * This method provides information about user orders history.
@@ -138,10 +138,10 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/history/orders")
-  DSXOrderHistoryReturn OrderHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @DefaultValue("1000") @FormParam("count") Long count,
-      @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
-      @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
+  DSXOrderHistoryReturn orderHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+                                     @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @DefaultValue("1000") @FormParam("count") Long count,
+                                     @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+                                     @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
 
   /**
    * This method provides trade operation. User can place limit, market, fill-or-kill orders. If you place fill-or-kill or market order, send any
@@ -160,9 +160,9 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/order/new")
-  DSXTradeReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("type") DSXOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("volume") BigDecimal volume,
-      @FormParam("pair") String pair, @FormParam("orderType") DSXOrder.OrderType orderType) throws IOException;
+  DSXTradeReturn trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+                       @FormParam("type") DSXOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("volume") BigDecimal volume,
+                       @FormParam("pair") String pair, @FormParam("orderType") DSXOrder.OrderType orderType) throws IOException;
 
   /**
    * This method provides cancelling active order operation.
@@ -176,8 +176,8 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/order/cancel")
-  DSXCancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderId") Long orderId) throws IOException;
+  DSXCancelOrderReturn cancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+                                   @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderId") Long orderId) throws IOException;
 
   /**
    * This method provides cancelling all active order operation
