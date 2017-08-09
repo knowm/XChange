@@ -74,15 +74,14 @@ public class DSXTradeServiceRaw extends DSXBaseService {
     return ret.getReturnValue();
   }
 
-  public DSXCancelOrderResult cancelDSXOrder(long orderId) throws IOException {
+  public boolean cancelDSXOrder(long orderId) throws IOException {
 
     DSXCancelOrderReturn ret = dsx.cancelOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
     if (MSG_BAD_STATUS.equals(ret.getError())) {
-      return null;
+      return false;
     }
 
-    checkResult(ret);
-    return ret.getReturnValue();
+    return ret.isSuccess();
   }
 
   public DSXCancelAllOrdersResult cancelAllDSXOrders() throws IOException {
