@@ -104,7 +104,7 @@ public class DSXAccountServiceRaw extends DSXBaseService {
      */
     public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Integer count, Long fromId, Long toId, DSXAuthenticatedV2.SortOrder sortOrder, Long since, Long end,
         DSXTransHistoryResult.Type type, DSXTransHistoryResult.Status status, String currency) throws IOException {
-      DSXTransHistoryReturn dsxTransHistory = dsx.TransHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId, toId, sortOrder, since,
+      DSXTransHistoryReturn dsxTransHistory = dsx.transHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId, toId, sortOrder, since,
           end, type, status, currency);
         checkResult(dsxTransHistory);
         return dsxTransHistory.getReturnValue();
