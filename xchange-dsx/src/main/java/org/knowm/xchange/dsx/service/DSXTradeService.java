@@ -94,9 +94,7 @@ public class DSXTradeService extends DSXTradeServiceRaw implements TradeService 
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
-
-    DSXCancelOrderResult ret = cancelDSXOrder(Long.parseLong(orderId));
-    return (ret != null);
+    return cancelDSXOrder(Long.parseLong(orderId));
   }
 
   @Override
