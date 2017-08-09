@@ -1,10 +1,5 @@
 package org.knowm.xchange.dsx.service;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dsx.DSXAuthenticatedV2;
 import org.knowm.xchange.dsx.dto.trade.DSXActiveOrdersReturn;
@@ -25,6 +20,11 @@ import org.knowm.xchange.dsx.dto.trade.DSXTradeResult;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryReturn;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Mikhail Wall
@@ -129,7 +129,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
    * @return Map of trade history result
    * @throws IOException
    */
-  public Map<Long, DSXTradeHistoryResult> getDSXTradeHistory(Long count, Long fromId, Long endId, DSXAuthenticatedV2.SortOrder order,
+  public Map<Long, DSXTradeHistoryResult> getDSXTradeHistory(Integer count, Long fromId, Long endId, DSXAuthenticatedV2.SortOrder order,
       Long since, Long end, String pair) throws IOException {
 
     DSXTradeHistoryReturn dsxTradeHistory = dsx.TradeHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId, endId,
@@ -155,7 +155,7 @@ public class DSXTradeServiceRaw extends DSXBaseService {
    * @return Map of transaction history
    * @throws IOException
    */
-  public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Long count, Long fromId, Long endId, DSXAuthenticatedV2.SortOrder order,
+  public Map<Long, DSXTransHistoryResult> getDSXTransHistory(Integer count, Long fromId, Long endId, DSXAuthenticatedV2.SortOrder order,
       Long since, Long end, DSXTransHistoryResult.Type type, DSXTransHistoryResult.Status status, String currency) throws IOException {
 
     DSXTransHistoryReturn dsxTransHistory = dsx.TransHistory(apiKey, signatureCreator, exchange.getNonceFactory(), count, fromId, endId,
