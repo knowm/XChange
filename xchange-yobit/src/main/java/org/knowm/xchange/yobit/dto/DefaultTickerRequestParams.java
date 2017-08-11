@@ -1,4 +1,4 @@
-package org.knowm.xchange.yobit.service;
+package org.knowm.xchange.yobit.dto;
 
 import org.knowm.xchange.currency.CurrencyPair;
 
