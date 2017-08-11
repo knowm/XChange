@@ -1,10 +1,10 @@
 package org.knowm.xchange.yobit;
 
-import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTickerReturn;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
 import org.knowm.xchange.yobit.dto.BaseYoBitResponse;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBooksReturn;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitTickersReturn;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 import javax.ws.rs.FormParam;
@@ -27,17 +27,16 @@ public interface YoBit {
   YoBitInfo getProducts() throws IOException;
 
   @GET
-  @Path("api/3/depth/{baseCurrency}_{targetCurrency}")
-  YoBitOrderBook getOrderBook(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency,
-                              @QueryParam("limit") long limit) throws IOException;
+  @Path("api/3/depth/{currencyPairs}")
+  YoBitOrderBooksReturn getOrderBooks(@PathParam("currencyPairs") String currencyPairs, @QueryParam("limit") long limit) throws IOException;
 
   @GET
-  @Path("api/3/trades/{baseCurrency}_{targetCurrency}")
-  YoBitTrades getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
+  @Path("api/3/trades/{currencyPairs}")
+  YoBitTrades getTrades(@PathParam("currencyPairs") String currencyPairsCurrency) throws IOException;
 
   @GET
-  @Path("api/3/ticker/{baseCurrency}_{targetCurrency}")
-  YoBitTickerReturn getTicker(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency) throws IOException;
+  @Path("api/3/ticker/{currencyPairs}")
+  YoBitTickersReturn getTickers(@PathParam("currencyPairs") String currencyPairs) throws IOException;
 
   @POST
   @Path("/tapi")
