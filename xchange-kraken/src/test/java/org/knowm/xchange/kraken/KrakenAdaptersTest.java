@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -29,6 +30,7 @@ import org.knowm.xchange.kraken.dto.account.results.KrakenBalanceResult;
 import org.knowm.xchange.kraken.dto.account.results.KrakenLedgerResult;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetPairsResult;
+import org.knowm.xchange.kraken.dto.marketdata.results.KrakenAssetsResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenDepthResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenPublicTradesResult;
 import org.knowm.xchange.kraken.dto.marketdata.results.KrakenTickerResult;
@@ -43,6 +45,23 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class KrakenAdaptersTest {
+
+  @Before
+  public void before() throws JsonParseException, JsonMappingException, IOException {
+	  // Read in the JSON from the example resources
+	  InputStream is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assets-data.json");
+	  // Use Jackson to parse it
+	  ObjectMapper mapper = new ObjectMapper();
+	  KrakenAssetsResult krakenResult = mapper.readValue(is, KrakenAssetsResult.class);
+	  KrakenUtils.setKrakenAssets(krakenResult.getResult());
+	  
+	  // Read in the JSON from the example resources
+	  is = KrakenAdaptersTest.class.getResourceAsStream("/marketdata/example-assetpairs-data.json");
+	  // Use Jackson to parse it
+	  mapper = new ObjectMapper();
+	  KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
+	  KrakenUtils.setKrakenAssetPairs(krakenAssetPairs.getResult());
+  }
 
   @Test
   public void testAdaptTicker() throws IOException {
@@ -79,7 +98,7 @@ public class KrakenAdaptersTest {
     KrakenAssetPairsResult krakenAssetPairs = mapper.readValue(is, KrakenAssetPairsResult.class);
 
     Set<CurrencyPair> pairs = KrakenAdapters.adaptCurrencyPairs(krakenAssetPairs.getResult().keySet());
-    assertThat(pairs).hasSize(21);
+    assertThat(pairs).hasSize(57);
     assertThat(pairs.contains(CurrencyPair.BTC_USD)).isTrue();
     System.out.println("pairs = " + pairs);
   }
@@ -211,11 +230,11 @@ public class KrakenAdaptersTest {
     assertThat(trade.getId()).isEqualTo("TY5BYV-WJUQF-XPYEYD");
     assertThat(trade.getPrice()).isEqualTo("32.07562");
     assertThat(trade.getTradableAmount()).isEqualTo("0.50000000");
-    assertThat(trade.getCurrencyPair().base).isEqualTo(Currency.BTC);
-    assertThat(trade.getCurrencyPair().counter).isEqualTo(Currency.LTC);
+    assertThat(trade.getCurrencyPair().base).isEqualTo(Currency.LTC);
+    assertThat(trade.getCurrencyPair().counter).isEqualTo(Currency.BTC);
     assertThat(trade.getType()).isEqualTo(OrderType.ASK);
     assertThat(trade.getFeeAmount()).isEqualTo("0.03208");
-    assertThat(trade.getFeeCurrency()).isEqualTo(Currency.LTC);
+    assertThat(trade.getFeeCurrency()).isEqualTo(Currency.BTC);
     assertThat(((KrakenUserTrade) trade).getCost()).isEqualTo("16.03781");
   }
 

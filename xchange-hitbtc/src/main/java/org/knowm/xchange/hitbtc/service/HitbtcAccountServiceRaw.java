@@ -40,7 +40,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
     return response.get("transaction").toString();
   }
 
-  public String transferToTrading(Currency currency, BigDecimal amount) {
+  public String transferToTrading(Currency currency, BigDecimal amount) throws HttpStatusIOException {
     InternalTransferResponse internalTransferResponse = hitbtc.transferToTrading(signatureCreator, exchange.getNonceFactory(), apiKey, amount, currency.getCurrencyCode());
     if (internalTransferResponse.transactionId == null) {
       throw new ExchangeException("transfer failed: " + internalTransferResponse);
@@ -49,7 +49,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
     }
   }
 
-  public String transferToMain(Currency currency, BigDecimal amount) {
+  public String transferToMain(Currency currency, BigDecimal amount) throws HttpStatusIOException {
     InternalTransferResponse internalTransferResponse = hitbtc.transferToMain(signatureCreator, exchange.getNonceFactory(), apiKey, amount, currency.getCurrencyCode());
     if (internalTransferResponse.transactionId == null) {
       throw new ExchangeException("transfer failed: " + internalTransferResponse);
@@ -85,7 +85,7 @@ public class HitbtcAccountServiceRaw extends HitbtcBaseService {
     }
   }
 
-  public List<TransactionResponse> transactions(Long offset, long limit, String direction) {
+  public List<TransactionResponse> transactions(Long offset, long limit, String direction) throws HttpStatusIOException {
     limit = Math.min(1000, limit);
     TransactionsResponse transactions = hitbtc.transactions(signatureCreator, exchange.getNonceFactory(), apiKey, offset, limit, direction);
     return transactions.transactions;

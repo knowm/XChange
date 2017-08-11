@@ -221,6 +221,7 @@ public class Currency implements Comparable<Currency> {
   public static final Currency XAUR = createCurrency("XAUR", "Xaurum", null);
   public static final Currency XCD = createCurrency("XCD", "East Caribbean Dollar", null);
   public static final Currency XDR = createCurrency("XDR", "Special Drawing Rights", null);
+  public static final Currency XLM = createCurrency("XLM", "Stellar Lumen", null);
   public static final Currency XMR = createCurrency("XMR", "Monero", null);
   public static final Currency XOF = createCurrency("XOF", "CFA Franc BCEAO", null);
   public static final Currency XPF = createCurrency("XPF", "CFP Franc", null);
