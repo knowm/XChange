@@ -1,0 +1,1362 @@
+{
+  "Success": true,
+  "Message": null,
+  "Data": {
+    "Buy": [
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07849890,
+        "Volume": 1.27390320,
+        "Total": 0.10000000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07849889,
+        "Volume": 0.05730362,
+        "Total": 0.00449827
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07849888,
+        "Volume": 0.12739012,
+        "Total": 0.00999998
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07790139,
+        "Volume": 0.19255073,
+        "Total": 0.01499997
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07739630,
+        "Volume": 0.00264780,
+        "Total": 0.00020493
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07710473,
+        "Volume": 0.25938694,
+        "Total": 0.01999996
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07684797,
+        "Volume": 0.00404604,
+        "Total": 0.00031093
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07680566,
+        "Volume": 0.18531561,
+        "Total": 0.01423329
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07610890,
+        "Volume": 0.32847605,
+        "Total": 0.02499995
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07550924,
+        "Volume": 0.00705046,
+        "Total": 0.00053237
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07534000,
+        "Volume": 1.87575208,
+        "Total": 0.14131916
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07500001,
+        "Volume": 0.25899130,
+        "Total": 0.01942435
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07500000,
+        "Volume": 0.26725269,
+        "Total": 0.02004395
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07491392,
+        "Volume": 0.40045886,
+        "Total": 0.02999994
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07479689,
+        "Volume": 0.00711760,
+        "Total": 0.00053237
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07440000,
+        "Volume": 0.03864261,
+        "Total": 0.00287501
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07405000,
+        "Volume": 0.43200000,
+        "Total": 0.03198960
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07400000,
+        "Volume": 1.16399539,
+        "Total": 0.08613566
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07375321,
+        "Volume": 0.00721832,
+        "Total": 0.00053237
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07370102,
+        "Volume": 6.36801941,
+        "Total": 0.46932953
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07351976,
+        "Volume": 0.47606157,
+        "Total": 0.03499993
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07240612,
+        "Volume": 0.00735262,
+        "Total": 0.00053237
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07193411,
+        "Volume": 0.00773676,
+        "Total": 0.00055654
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07192645,
+        "Volume": 0.55612258,
+        "Total": 0.03999992
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07190200,
+        "Volume": 0.15000000,
+        "Total": 0.01078530
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07134147,
+        "Volume": 0.00308568,
+        "Total": 0.00022014
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07120000,
+        "Volume": 3.56404494,
+        "Total": 0.25376000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07100000,
+        "Volume": 0.56338028,
+        "Total": 0.04000000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07090332,
+        "Volume": 1.43093066,
+        "Total": 0.10145773
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07090267,
+        "Volume": 0.01410386,
+        "Total": 0.00100000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07045691,
+        "Volume": 0.38628941,
+        "Total": 0.02721676
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07013396,
+        "Volume": 0.64162809,
+        "Total": 0.04499992
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07000000,
+        "Volume": 2.38722384,
+        "Total": 0.16710567
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06850000,
+        "Volume": 0.20000000,
+        "Total": 0.01370000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06819252,
+        "Volume": 0.40000000,
+        "Total": 0.02727701
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06751200,
+        "Volume": 0.50000000,
+        "Total": 0.03375600
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06730610,
+        "Volume": 0.01410386,
+        "Total": 0.00094928
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06700000,
+        "Volume": 0.50000000,
+        "Total": 0.03350000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06690002,
+        "Volume": 0.01000000,
+        "Total": 0.00066900
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06666666,
+        "Volume": 0.01000000,
+        "Total": 0.00066667
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06645995,
+        "Volume": 0.30000000,
+        "Total": 0.01993798
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06600000,
+        "Volume": 0.28787879,
+        "Total": 0.01900000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06570096,
+        "Volume": 0.01564124,
+        "Total": 0.00102764
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06504844,
+        "Volume": 0.02785595,
+        "Total": 0.00181199
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06500005,
+        "Volume": 0.02597111,
+        "Total": 0.00168812
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06450000,
+        "Volume": 0.00700751,
+        "Total": 0.00045198
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06000002,
+        "Volume": 0.09999998,
+        "Total": 0.00600000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.06000001,
+        "Volume": 0.16666664,
+        "Total": 0.01000000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.05603264,
+        "Volume": 6.12906138,
+        "Total": 0.34342749
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.05555555,
+        "Volume": 0.01000000,
+        "Total": 0.00055556
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.05520000,
+        "Volume": 0.01811594,
+        "Total": 0.00100000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.05123400,
+        "Volume": 0.50000000,
+        "Total": 0.02561700
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.04259184,
+        "Volume": 0.01249945,
+        "Total": 0.00053237
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.03937330,
+        "Volume": 0.12698961,
+        "Total": 0.00500000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.03800000,
+        "Volume": 0.01000000,
+        "Total": 0.00038000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.03740000,
+        "Volume": 0.00014000,
+        "Total": 0.00000524
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.03642121,
+        "Volume": 0.07003831,
+        "Total": 0.00255088
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.02800000,
+        "Volume": 0.35714286,
+        "Total": 0.01000000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.02394000,
+        "Volume": 0.00060000,
+        "Total": 0.00001436
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.01436500,
+        "Volume": 10.95335330,
+        "Total": 0.15734492
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.01359355,
+        "Volume": 0.31951836,
+        "Total": 0.00434339
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.01356000,
+        "Volume": 0.08515140,
+        "Total": 0.00115465
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.01350000,
+        "Volume": 195.53477236,
+        "Total": 2.63971943
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.01000000,
+        "Volume": 0.00737824,
+        "Total": 0.00007378
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00800000,
+        "Volume": 1.00000000,
+        "Total": 0.00800000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00688000,
+        "Volume": 0.83420000,
+        "Total": 0.00573930
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00500070,
+        "Volume": 0.02399664,
+        "Total": 0.00012000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00400000,
+        "Volume": 2.50000000,
+        "Total": 0.01000000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00100502,
+        "Volume": 0.00796004,
+        "Total": 0.00000800
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00100000,
+        "Volume": 113.00000000,
+        "Total": 0.11300000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00088000,
+        "Volume": 0.90909091,
+        "Total": 0.00080000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00079049,
+        "Volume": 0.98734962,
+        "Total": 0.00078049
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00020001,
+        "Volume": 10.00000000,
+        "Total": 0.00200010
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00020000,
+        "Volume": 501.00000000,
+        "Total": 0.10020000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00014306,
+        "Volume": 55.00000000,
+        "Total": 0.00786830
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00010002,
+        "Volume": 10.00000000,
+        "Total": 0.00100020
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00010001,
+        "Volume": 1000.00000000,
+        "Total": 0.10001000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00010000,
+        "Volume": 505.00000000,
+        "Total": 0.05050000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00006001,
+        "Volume": 20.00000000,
+        "Total": 0.00120020
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00006000,
+        "Volume": 107.51181138,
+        "Total": 0.00645071
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00004000,
+        "Volume": 500.00000000,
+        "Total": 0.02000000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00002000,
+        "Volume": 3.50000000,
+        "Total": 0.00007000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00001111,
+        "Volume": 5.42030251,
+        "Total": 0.00006022
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00001000,
+        "Volume": 85.00000000,
+        "Total": 0.00085000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00000505,
+        "Volume": 100.00000000,
+        "Total": 0.00050500
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00000501,
+        "Volume": 29.94011976,
+        "Total": 0.00015000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00000101,
+        "Volume": 491.00000000,
+        "Total": 0.00049591
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00000100,
+        "Volume": 8000.00000000,
+        "Total": 0.00800000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00000031,
+        "Volume": 700.00000000,
+        "Total": 0.00021700
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00000010,
+        "Volume": 60000.00000000,
+        "Total": 0.00600000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00000003,
+        "Volume": 5001.66666666,
+        "Total": 0.00015005
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00000002,
+        "Volume": 100000.00000000,
+        "Total": 0.00200000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.00000001,
+        "Volume": 220780.35551339,
+        "Total": 0.00220780
+      }
+    ],
+    "Sell": [
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07973372,
+        "Volume": 0.00254186,
+        "Total": 0.00020267
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07999998,
+        "Volume": 15.32266712,
+        "Total": 1.22581306
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.07999999,
+        "Volume": 1.10000000,
+        "Total": 0.08799999
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08000000,
+        "Volume": 0.88618764,
+        "Total": 0.07089501
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08029136,
+        "Volume": 0.18380763,
+        "Total": 0.01475816
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08050000,
+        "Volume": 0.35942919,
+        "Total": 0.02893405
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08058327,
+        "Volume": 0.04826023,
+        "Total": 0.00388897
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08082685,
+        "Volume": 0.00098068,
+        "Total": 0.00007927
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08100000,
+        "Volume": 1.17901667,
+        "Total": 0.09550035
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08108802,
+        "Volume": 0.24507684,
+        "Total": 0.01987280
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08109998,
+        "Volume": 0.68727450,
+        "Total": 0.05573795
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08130000,
+        "Volume": 0.21150122,
+        "Total": 0.01719505
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08135198,
+        "Volume": 0.21150122,
+        "Total": 0.01720604
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08145460,
+        "Volume": 1.26203176,
+        "Total": 0.10279829
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08155777,
+        "Volume": 0.21150122,
+        "Total": 0.01724957
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08160000,
+        "Volume": 0.82500000,
+        "Total": 0.06732000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08167469,
+        "Volume": 0.05000000,
+        "Total": 0.00408373
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08179997,
+        "Volume": 0.30252434,
+        "Total": 0.02474648
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08179998,
+        "Volume": 0.21479960,
+        "Total": 0.01757060
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08188180,
+        "Volume": 0.21150122,
+        "Total": 0.01731810
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08200000,
+        "Volume": 3.51243872,
+        "Total": 0.28801998
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08208385,
+        "Volume": 0.30634605,
+        "Total": 0.02514606
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08225260,
+        "Volume": 0.21150122,
+        "Total": 0.01739653
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08244605,
+        "Volume": 0.26150122,
+        "Total": 0.02155974
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08250000,
+        "Volume": 0.58410824,
+        "Total": 0.04818893
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08259020,
+        "Volume": 0.21150122,
+        "Total": 0.01746793
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08272853,
+        "Volume": 0.21150122,
+        "Total": 0.01749719
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08279020,
+        "Volume": 0.21150122,
+        "Total": 0.01751023
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08279052,
+        "Volume": 0.21392981,
+        "Total": 0.01771136
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08279053,
+        "Volume": 0.21732673,
+        "Total": 0.01799260
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08299995,
+        "Volume": 15.18224463,
+        "Total": 1.26012555
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08299996,
+        "Volume": 0.34403860,
+        "Total": 0.02855519
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08299998,
+        "Volume": 0.21150122,
+        "Total": 0.01755460
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08300000,
+        "Volume": 0.83353350,
+        "Total": 0.06918328
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08302555,
+        "Volume": 0.03507109,
+        "Total": 0.00291180
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08309320,
+        "Volume": 0.11251211,
+        "Total": 0.00934899
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08318824,
+        "Volume": 0.04704496,
+        "Total": 0.00391359
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08320000,
+        "Volume": 0.05000000,
+        "Total": 0.00416000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08322323,
+        "Volume": 0.38815216,
+        "Total": 0.03230328
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08327883,
+        "Volume": 0.36761526,
+        "Total": 0.03061457
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08339040,
+        "Volume": 0.03483391,
+        "Total": 0.00290481
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08343812,
+        "Volume": 1.00000000,
+        "Total": 0.08343812
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08349267,
+        "Volume": 0.00125165,
+        "Total": 0.00010450
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08356999,
+        "Volume": 0.06063469,
+        "Total": 0.00506724
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08370000,
+        "Volume": 0.01198671,
+        "Total": 0.00100329
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08400000,
+        "Volume": 0.08718437,
+        "Total": 0.00732349
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08418459,
+        "Volume": 0.03483391,
+        "Total": 0.00293248
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08420000,
+        "Volume": 0.12292525,
+        "Total": 0.01035031
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08432100,
+        "Volume": 1.00000000,
+        "Total": 0.08432100
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08465999,
+        "Volume": 0.07902362,
+        "Total": 0.00669014
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08466009,
+        "Volume": 2.51522581,
+        "Total": 0.21293924
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08466010,
+        "Volume": 10.00000000,
+        "Total": 0.84660100
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08466011,
+        "Volume": 4.07326008,
+        "Total": 0.34484265
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08467299,
+        "Volume": 0.42888447,
+        "Total": 0.03631493
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08500000,
+        "Volume": 1.85113259,
+        "Total": 0.15734627
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08537589,
+        "Volume": 0.03483391,
+        "Total": 0.00297398
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08550000,
+        "Volume": 0.32916119,
+        "Total": 0.02814328
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08555566,
+        "Volume": 0.51354596,
+        "Total": 0.04393676
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08626630,
+        "Volume": 0.49015368,
+        "Total": 0.04228374
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08696427,
+        "Volume": 0.03483391,
+        "Total": 0.00302931
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08709880,
+        "Volume": 0.07380000,
+        "Total": 0.00642789
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08727346,
+        "Volume": 0.00145102,
+        "Total": 0.00012664
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08770000,
+        "Volume": 4.35370918,
+        "Total": 0.38182030
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08800000,
+        "Volume": 1.00000000,
+        "Total": 0.08800000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08800600,
+        "Volume": 0.00346706,
+        "Total": 0.00030512
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08805879,
+        "Volume": 0.55142289,
+        "Total": 0.04855763
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08888888,
+        "Volume": 0.01000000,
+        "Total": 0.00088889
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08999997,
+        "Volume": 0.00885000,
+        "Total": 0.00079650
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.08999999,
+        "Volume": 0.02906971,
+        "Total": 0.00261627
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09000000,
+        "Volume": 2.33432252,
+        "Total": 0.21008903
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09163300,
+        "Volume": 0.50000000,
+        "Total": 0.04581650
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09195752,
+        "Volume": 0.30789648,
+        "Total": 0.02831340
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09244510,
+        "Volume": 0.10838914,
+        "Total": 0.01002004
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09300000,
+        "Volume": 0.02088705,
+        "Total": 0.00194250
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09400000,
+        "Volume": 1.50000000,
+        "Total": 0.14100000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09500000,
+        "Volume": 0.35000000,
+        "Total": 0.03325000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09598765,
+        "Volume": 0.02366829,
+        "Total": 0.00227186
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09600081,
+        "Volume": 0.00534270,
+        "Total": 0.00051290
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09603000,
+        "Volume": 0.17818777,
+        "Total": 0.01711137
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09660000,
+        "Volume": 1.00000000,
+        "Total": 0.09660000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09700000,
+        "Volume": 0.01056580,
+        "Total": 0.00102488
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09729998,
+        "Volume": 0.48675334,
+        "Total": 0.04736109
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09730000,
+        "Volume": 0.00367896,
+        "Total": 0.00035796
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09750000,
+        "Volume": 0.02086053,
+        "Total": 0.00203390
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09770000,
+        "Volume": 0.10597491,
+        "Total": 0.01035375
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09770001,
+        "Volume": 0.01841396,
+        "Total": 0.00179904
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09850000,
+        "Volume": 0.00520291,
+        "Total": 0.00051249
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09899990,
+        "Volume": 7.19814306,
+        "Total": 0.71261544
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09900000,
+        "Volume": 1.20283764,
+        "Total": 0.11908093
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.09999999,
+        "Volume": 0.01000000,
+        "Total": 0.00100000
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.10000000,
+        "Volume": 5.31469790,
+        "Total": 0.53146979
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.10000010,
+        "Volume": 1.05000000,
+        "Total": 0.10500010
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.10049683,
+        "Volume": 0.00014342,
+        "Total": 0.00001441
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.10100000,
+        "Volume": 0.02174995,
+        "Total": 0.00219674
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.10123000,
+        "Volume": 0.09404701,
+        "Total": 0.00952038
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.10153989,
+        "Volume": 0.00016848,
+        "Total": 0.00001711
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.10238207,
+        "Volume": 1.08500000,
+        "Total": 0.11108455
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.10300000,
+        "Volume": 0.39418223,
+        "Total": 0.04060077
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.10305000,
+        "Volume": 0.00292560,
+        "Total": 0.00030148
+      },
+      {
+        "TradePairId": 5203,
+        "Label": "ETH/BTC",
+        "Price": 0.10309000,
+        "Volume": 0.14000000,
+        "Total": 0.01443260
+      }
+    ]
+  },
+  "Error": null
+}
