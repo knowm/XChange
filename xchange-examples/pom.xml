@@ -339,6 +339,12 @@
             <artifactId>xchange-dsx</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- XChange Cryptopia exchange support -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xchange-cryptopia</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
