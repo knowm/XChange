@@ -79,7 +79,7 @@ public class DSXTradeDemo {
       System.out.println("tradeDSX return value:" + result2);
       printRawOpenOrders(tradeService);
 
-      DSXCancelOrderResult cancelResult = tradeService.cancelDSXOrder(result.getOrderId());
+      boolean cancelResult = tradeService.cancelDSXOrder(result.getOrderId());
       System.out.println("Canceling returned " + cancelResult);
 
       printRawOpenOrders(tradeService);
@@ -110,7 +110,7 @@ public class DSXTradeDemo {
 
       printRawOpenOrders(tradeService);
 
-      DSXCancelOrderResult cancelResult = tradeService.cancelDSXOrder(result.getOrderId());
+      boolean cancelResult = tradeService.cancelDSXOrder(result.getOrderId());
       System.out.println("Canceling returned " + cancelResult);
     } catch (ExchangeException e) {
       System.out.println(e.getMessage());

@@ -84,7 +84,7 @@ public class DSXAccountService extends DSXAccountServiceRaw implements AccountSe
   @Override
   public List<FundingRecord> getFundingHistory(TradeHistoryParams params) throws ExchangeException, NotAvailableFromExchangeException,
       NotYetImplementedForExchangeException, IOException {
-    Long count = null;
+    Integer count = 1000;//todo: parameterize this
     Long since = null;
     Long end = null;
     Long fromId = null;

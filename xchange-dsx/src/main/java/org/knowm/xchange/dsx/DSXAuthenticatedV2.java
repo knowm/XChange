@@ -1,17 +1,5 @@
 package org.knowm.xchange.dsx;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.HeaderParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
 import org.knowm.xchange.dsx.dto.account.DSXAccountInfoReturn;
 import org.knowm.xchange.dsx.dto.account.DSXCryptoDepositAddressReturn;
 import org.knowm.xchange.dsx.dto.account.DSXCryptoWithdrawReturn;
@@ -21,18 +9,28 @@ import org.knowm.xchange.dsx.dto.account.DSXTransactionStatusReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXActiveOrdersReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelAllOrdersReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXCancelOrderReturn;
+import org.knowm.xchange.dsx.dto.trade.DSXFeesReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXOrder;
 import org.knowm.xchange.dsx.dto.trade.DSXOrderHistoryReturn;
+import org.knowm.xchange.dsx.dto.trade.DSXOrderStatusReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeHistoryReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXTradeReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryResult;
 import org.knowm.xchange.dsx.dto.trade.DSXTransHistoryReturn;
-import org.knowm.xchange.dsx.dto.trade.DSXFeesReturn;
-import org.knowm.xchange.dsx.dto.trade.DSXOrderStatusReturn;
 import org.knowm.xchange.dsx.dto.trade.DSXVolumeReturn;
-
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.math.BigDecimal;
 
 /**
  * @author Mikhail Wall
@@ -92,11 +90,11 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/history/transactions")
-  DSXTransHistoryReturn TransHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("count") Long count,
-      @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
-      @FormParam("end") Long end, @FormParam("type") DSXTransHistoryResult.Type type, @FormParam("status") DSXTransHistoryResult.Status status,
-      @FormParam("currency") String currency) throws IOException;
+  DSXTransHistoryReturn transHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+                                     @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("count") Integer count,
+                                     @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+                                     @FormParam("end") Long end, @FormParam("type") DSXTransHistoryResult.Type type, @FormParam("status") DSXTransHistoryResult.Status status,
+                                     @FormParam("currency") String currency) throws IOException;
 
   /**
    * This method provides information about user trades history.
@@ -117,10 +115,10 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/history/trades")
-  DSXTradeHistoryReturn TradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @DefaultValue("1000") @FormParam("count") Long count,
-      @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
-      @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
+  DSXTradeHistoryReturn tradeHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+                                     @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @DefaultValue("1000") @FormParam("count") Integer count,
+                                     @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+                                     @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
 
   /**
    * This method provides information about user orders history.
@@ -140,10 +138,10 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/history/orders")
-  DSXOrderHistoryReturn OrderHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @DefaultValue("1000") @FormParam("count") Long count,
-      @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
-      @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
+  DSXOrderHistoryReturn orderHistory(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+                                     @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @DefaultValue("1000") @FormParam("count") Long count,
+                                     @FormParam("fromId") Long fromId, @FormParam("endId") Long endId, @FormParam("order") SortOrder order, @FormParam("since") Long since,
+                                     @FormParam("end") Long end, @FormParam("pair") String pair) throws IOException;
 
   /**
    * This method provides trade operation. User can place limit, market, fill-or-kill orders. If you place fill-or-kill or market order, send any
@@ -162,9 +160,9 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/order/new")
-  DSXTradeReturn Trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-      @FormParam("type") DSXOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("volume") BigDecimal volume,
-      @FormParam("pair") String pair, @FormParam("orderType") DSXOrder.OrderType orderType) throws IOException;
+  DSXTradeReturn trade(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+                       @FormParam("type") DSXOrder.Type type, @FormParam("rate") BigDecimal rate, @FormParam("volume") BigDecimal volume,
+                       @FormParam("pair") String pair, @FormParam("orderType") DSXOrder.OrderType orderType) throws IOException;
 
   /**
    * This method provides cancelling active order operation.
@@ -178,8 +176,8 @@ public interface DSXAuthenticatedV2 extends DSX {
    */
   @POST
   @Path("tapi/v2/order/cancel")
-  DSXCancelOrderReturn CancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderId") Long orderId) throws IOException;
+  DSXCancelOrderReturn cancelOrder(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+                                   @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("orderId") Long orderId) throws IOException;
 
   /**
    * This method provides cancelling all active order operation

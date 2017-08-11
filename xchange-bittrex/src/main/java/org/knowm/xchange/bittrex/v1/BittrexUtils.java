@@ -1,6 +1,5 @@
 package org.knowm.xchange.bittrex.v1;
 
-import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exceptions.ExchangeException;
 
@@ -17,21 +16,12 @@ public final class BittrexUtils {
   private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
   private static final String DATE_FORMAT_NO_MILLIS = "yyyy-MM-dd'T'HH:mm:ss";
 
-  private static final SimpleDateFormat DATE_PARSER = new SimpleDateFormat(DATE_FORMAT);
-  private static final SimpleDateFormat DATE_PARSER_NO_MILLIS = new SimpleDateFormat(DATE_FORMAT_NO_MILLIS);
-
   private static final TimeZone TIME_ZONE = TimeZone.getTimeZone("UTC");
-
-  static {
-    DATE_PARSER.setTimeZone(TIME_ZONE);
-    DATE_PARSER_NO_MILLIS.setTimeZone(TIME_ZONE);
-  }
 
   /**
    * private Constructor
    */
   private BittrexUtils() {
-
   }
 
   public static String toPairString(CurrencyPair currencyPair) {
@@ -40,14 +30,26 @@ public final class BittrexUtils {
 
   public static Date toDate(String dateString) {
     try {
-      return DATE_PARSER.parse(dateString);
+      return dateParser().parse(dateString);
     } catch (ParseException e) {
       try {
-        return DATE_PARSER_NO_MILLIS.parse(dateString);
+        return dateParserNoMillis().parse(dateString);
       } catch (ParseException e1) {
         throw new ExchangeException("Illegal date/time format", e1);
       }
     }
+  }
+
+  private static SimpleDateFormat dateParserNoMillis() {
+    SimpleDateFormat dateParserNoMillis = new SimpleDateFormat(DATE_FORMAT_NO_MILLIS);
+    dateParserNoMillis.setTimeZone(TIME_ZONE);
+    return dateParserNoMillis;
+  }
+
+  private static SimpleDateFormat dateParser() {
+    SimpleDateFormat dateParser = new SimpleDateFormat(DATE_FORMAT);
+    dateParser.setTimeZone(TIME_ZONE);
+    return dateParser;
   }
 
 }
