@@ -1,4 +1,4 @@
-package org.knowm.xchange.yobit.service;
+package org.knowm.xchange.yobit.dto;
 
 public interface TickersRequestParams {
 }
