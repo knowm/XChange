@@ -3,9 +3,10 @@ package org.knowm.xchange.yobit.service;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.yobit.YoBit;
+import org.knowm.xchange.yobit.YoBitAdapters;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTickerReturn;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBooksReturn;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitTickersReturn;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
 
 import java.io.IOException;
@@ -20,25 +21,15 @@ public class YoBitMarketDataServiceRaw extends YoBitBaseService<YoBit> {
     return service.getProducts();
   }
 
-  public YoBitTickerReturn getYoBitTicker(CurrencyPair currencyPair) throws IOException {
-    return service.getTicker(
-        currencyPair.base.getCurrencyCode().toLowerCase(),
-        currencyPair.counter.getCurrencyCode().toLowerCase()
-    );
+  public YoBitTickersReturn getYoBitTickers(Iterable<CurrencyPair> currencyPairs) throws IOException {
+    return service.getTickers(YoBitAdapters.adaptCcyPairsToUrlFormat(currencyPairs));
   }
 
-  public YoBitOrderBook getOrderBookA(CurrencyPair currencyPair, Long limit) throws IOException {
-    return service.getOrderBook(
-        currencyPair.base.getCurrencyCode().toLowerCase(),
-        currencyPair.counter.getCurrencyCode().toLowerCase(),
-        limit
-    );
+  public YoBitOrderBooksReturn getOrderBooks(Iterable<CurrencyPair> currencyPairs, Integer limit) throws IOException {
+    return service.getOrderBooks(YoBitAdapters.adaptCcyPairsToUrlFormat(currencyPairs), limit);
   }
 
-  public YoBitTrades getTrades(CurrencyPair currencyPair) throws IOException {
-    return service.getTrades(
-        currencyPair.base.getCurrencyCode().toLowerCase(),
-        currencyPair.counter.getCurrencyCode().toLowerCase()
-    );
+  public YoBitTrades getPublicTrades(Iterable<CurrencyPair> currencyPairs) throws IOException {
+    return service.getTrades(YoBitAdapters.adaptCcyPairsToUrlFormat(currencyPairs));
   }
 }

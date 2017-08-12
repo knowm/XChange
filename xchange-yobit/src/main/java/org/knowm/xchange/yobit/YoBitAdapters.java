@@ -13,6 +13,7 @@ import org.knowm.xchange.dto.meta.CurrencyMetaData;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.utils.DateUtils;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitAsksBidsData;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitInfo;
@@ -20,14 +21,11 @@ import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitPair;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitPairs;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTicker;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTickerReturn;
 import org.knowm.xchange.yobit.dto.marketdata.YoBitTrade;
-import org.knowm.xchange.yobit.dto.marketdata.YoBitTrades;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -89,10 +87,7 @@ public class YoBitAdapters {
 
   }
 
-  public static Trades adaptTrades(YoBitTrades coinbaseTrades, CurrencyPair currencyPair) {
-
-    List<YoBitTrade> ctrades = coinbaseTrades.getTrades();
-
+  public static Trades adaptTrades(List<YoBitTrade> ctrades, CurrencyPair currencyPair) {
     List<Trade> trades = new ArrayList<>(ctrades.size());
 
     int lastTrade = 0;
@@ -114,8 +109,7 @@ public class YoBitAdapters {
     return new Date(rawDateLong * 1000);
   }
 
-  public static Ticker adaptTicker(YoBitTickerReturn tickerReturn, CurrencyPair currencyPair) {
-    YoBitTicker ticker = tickerReturn.getTicker();
+  public static Ticker adaptTicker(YoBitTicker ticker, CurrencyPair currencyPair) {
     Ticker.Builder builder = new Ticker.Builder();
 
     builder.currencyPair(currencyPair);
@@ -130,7 +124,17 @@ public class YoBitAdapters {
     return builder.build();
   }
 
-  public static String adapt(CurrencyPair currencyPair) {
+  public static String adaptCcyPairsToUrlFormat(Iterable<CurrencyPair> currencyPairs) {
+    List<String> pairs = new ArrayList<>();
+
+    for (CurrencyPair currencyPair : currencyPairs) {
+      pairs.add(adaptCcyPairToUrlFormat(currencyPair));
+    }
+
+    return String.join("-", pairs);
+  }
+
+  public static String adaptCcyPairToUrlFormat(CurrencyPair currencyPair) {
     return currencyPair.base.getCurrencyCode().toLowerCase() + "_" + currencyPair.counter.getCurrencyCode().toLowerCase();
   }
 
@@ -184,5 +188,29 @@ public class YoBitAdapters {
         null,
         orderStatus
     );
+  }
+
+  public static UserTrade adaptUserTrade(Object key, Map tradeData) {
+      String id = key.toString();
+      String type = tradeData.get("type").toString();
+      String amount = tradeData.get("amount").toString();
+      String rate = tradeData.get("rate").toString();
+      String orderId = tradeData.get("order_id").toString();
+      String pair = tradeData.get("pair").toString();
+      String timestamp = tradeData.get("timestamp").toString();
+
+      Date time = DateUtils.fromUnixTime(Long.valueOf(timestamp));
+
+      return new UserTrade(
+              adaptType(type),
+              new BigDecimal(amount),
+              adaptCurrencyPair(pair),
+              new BigDecimal(rate),
+              time,
+              id,
+              orderId,
+              null,
+              null
+      );
   }
 }
