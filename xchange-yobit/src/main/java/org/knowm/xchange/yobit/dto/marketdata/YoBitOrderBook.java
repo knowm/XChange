@@ -12,9 +12,7 @@ import org.knowm.xchange.yobit.dto.marketdata.YoBitOrderBook.YoBitOrderBookDeser
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 
 @JsonDeserialize(using = YoBitOrderBookDeserializer.class)
 public class YoBitOrderBook {
@@ -39,47 +37,24 @@ public class YoBitOrderBook {
 
     @Override
     public YoBitOrderBook deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-      List<YoBitAsksBidsData> asks = new ArrayList<>();
-      List<YoBitAsksBidsData> bids = new ArrayList<>();
 
       ObjectCodec oc = jp.getCodec();
       JsonNode node = oc.readTree(jp);
 
-      if (node.isObject()) {
-        Iterator<Entry<String, JsonNode>> priceEntryIter = node.fields();
-        while (priceEntryIter.hasNext()) {
-          Entry<String, JsonNode> priceEntryNode = priceEntryIter.next();
-
-          JsonNode priceNode = priceEntryNode.getValue();
-
-          if (priceNode.isObject()) {
-            Iterator<Entry<String, JsonNode>> data = priceNode.fields();
-
-            while (data.hasNext()) {
-
-              Entry<String, JsonNode> tmp = data.next();
-
-              Iterator<JsonNode> dd = tmp.getValue().elements();
-
-              while (dd.hasNext()) {
-
-                JsonNode arrNode = dd.next();
-
-                if (arrNode.isArray()) {
-                  if (tmp.getKey().equals("asks")) {
-                    asks.add(new YoBitAsksBidsData(BigDecimal.valueOf(arrNode.get(1).asDouble()), BigDecimal.valueOf(arrNode.get(0).asDouble())));
-                  } else {
-                    bids.add(new YoBitAsksBidsData(BigDecimal.valueOf(arrNode.get(1).asDouble()), BigDecimal.valueOf(arrNode.get(0).asDouble())));
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+      List<YoBitAsksBidsData> asks = parse(node.get("asks"));
+      List<YoBitAsksBidsData> bids = parse(node.get("bids"));
 
       return new YoBitOrderBook(asks, bids);
     }
-  }
 
+    private List<YoBitAsksBidsData> parse(JsonNode nodeArray) {
+      List<YoBitAsksBidsData> res = new ArrayList<>();
+
+      for (JsonNode jsonNode : nodeArray) {
+        res.add(new YoBitAsksBidsData(BigDecimal.valueOf(jsonNode.get(1).asDouble()), BigDecimal.valueOf(jsonNode.get(0).asDouble())));
+      }
+
+      return res;
+    }
+  }
 }
