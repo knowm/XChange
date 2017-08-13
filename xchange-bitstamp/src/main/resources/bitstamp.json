@@ -3,47 +3,47 @@
     "BTC/USD": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.010000000
+      "min_amount": 5
     },
     "BTC/EUR": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.010000000
+      "min_amount": 5
     },
     "EUR/USD": {
       "price_scale": 2,
       "trading_fee": 0.0020,
-      "min_amount": 5.000000000
+      "min_amount": 0.00000001
     },
     "XRP/USD": {
       "price_scale": 5,
       "trading_fee": 0.0025,
-      "min_amount": 200.0000000
+      "min_amount": 5
     },
     "XRP/EUR": {
       "price_scale": 5,
       "trading_fee": 0.0025,
-      "min_amount": 200.0000000
+      "min_amount": 5
     },
     "XRP/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0025,
-      "min_amount": 200.0000000
+      "min_amount": 0.002
     },
     "LTC/USD": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.15
+      "min_amount": 5
     },
     "LTC/EUR": {
       "price_scale": 2,
       "trading_fee": 0.0025,
-      "min_amount": 0.15
+      "min_amount": 5
     },
     "LTC/BTC": {
       "price_scale": 8,
       "trading_fee": 0.0025,
-      "min_amount": 0.15
+      "min_amount": 0.002
     }
   },
   "currencies": {
