@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author kpysniak
  */
+//TODO delete , no longer needed
 public class HitbtcSymbols {
 
   private final List<HitbtcSymbol> hitbtcSymbols;

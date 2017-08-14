@@ -69,7 +69,7 @@ public class HitbtcAdapters {
 
   public static CurrencyPair adaptSymbol(HitbtcSymbol hitbtcSymbol) {
 
-    return new CurrencyPair(hitbtcSymbol.getCommodity(), hitbtcSymbol.getCurrency());
+    return new CurrencyPair(hitbtcSymbol.getBaseCurrency(), hitbtcSymbol.getQuoteCurrency());
   }
 
   /**
@@ -272,13 +272,14 @@ public class HitbtcAdapters {
     return type == OrderType.BID ? HitbtcTrade.HitbtcTradeSide.BUY : HitbtcTrade.HitbtcTradeSide.SELL;
   }
 
-  public static ExchangeMetaData adaptToExchangeMetaData(HitbtcSymbols symbols, Map<Currency, CurrencyMetaData> currencies) {
+  public static ExchangeMetaData adaptToExchangeMetaData(List<HitbtcSymbol> symbols, Map<Currency, CurrencyMetaData> currencies) {
 
     Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
     if (symbols != null) {
-      for (HitbtcSymbol symbol : symbols.getHitbtcSymbols()) {
+      for (HitbtcSymbol symbol : symbols) {
         CurrencyPair pair = adaptSymbol(symbol);
-        CurrencyPairMetaData meta = new CurrencyPairMetaData(symbol.getTakeLiquidityRate(), symbol.getLot(), null, symbol.getStep().scale());
+        //TODO double check
+        CurrencyPairMetaData meta = new CurrencyPairMetaData(symbol.getTakeLiquidityRate(), symbol.getTakeLiquidityRate(), null, null);
 
         currencyPairs.put(pair, meta);
       }

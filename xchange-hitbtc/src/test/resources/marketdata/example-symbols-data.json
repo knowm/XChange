@@ -1,139 +1,1702 @@
-{
-  "symbols": [
-    {
-      "symbol": "BCNBTC",
-      "step": "0.000000001",
-      "lot": "100",
-      "currency": "BTC",
-      "commodity": "BCN",
-      "takeLiquidityRate": "0.001",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "BTCEUR",
-      "step": "0.01",
-      "lot": "0.01",
-      "currency": "EUR",
-      "commodity": "BTC",
-      "takeLiquidityRate": "0.001",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "BTCUSD",
-      "step": "0.01",
-      "lot": "0.01",
-      "currency": "USD",
-      "commodity": "BTC",
-      "takeLiquidityRate": "0.001",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "DOGEBTC",
-      "step": "0.000000001",
-      "lot": "1000",
-      "currency": "BTC",
-      "commodity": "DOGE",
-      "takeLiquidityRate": "0.001",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "EURGBP",
-      "step": "0.0001",
-      "lot": "1",
-      "currency": "GBP",
-      "commodity": "EUR",
-      "takeLiquidityRate": "0.0002",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "EURUSD",
-      "step": "0.0001",
-      "lot": "1",
-      "currency": "USD",
-      "commodity": "EUR",
-      "takeLiquidityRate": "0.0002",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "FCNBTC",
-      "step": "0.000001",
-      "lot": "0.01",
-      "currency": "BTC",
-      "commodity": "FCN",
-      "takeLiquidityRate": "0.001",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "GBPUSD",
-      "step": "0.0001",
-      "lot": "1",
-      "currency": "USD",
-      "commodity": "GBP",
-      "takeLiquidityRate": "0.0002",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "LTCBTC",
-      "step": "0.00001",
-      "lot": "0.1",
-      "currency": "BTC",
-      "commodity": "LTC",
-      "takeLiquidityRate": "0.001",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "LTCEUR",
-      "step": "0.001",
-      "lot": "0.1",
-      "currency": "EUR",
-      "commodity": "LTC",
-      "takeLiquidityRate": "0.001",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "LTCUSD",
-      "step": "0.001",
-      "lot": "0.1",
-      "currency": "USD",
-      "commodity": "LTC",
-      "takeLiquidityRate": "0.001",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "NXTBTC",
-      "step": "0.00000001",
-      "lot": "1",
-      "currency": "BTC",
-      "commodity": "NXT",
-      "takeLiquidityRate": "0.001",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "QCNBTC",
-      "step": "0.000001",
-      "lot": "0.01",
-      "currency": "BTC",
-      "commodity": "QCN",
-      "takeLiquidityRate": "0.001",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "XDNBTC",
-      "step": "0.000000001",
-      "lot": "100",
-      "currency": "BTC",
-      "commodity": "XDN",
-      "takeLiquidityRate": "0.001",
-      "provideLiquidityRate": "-0.0001"
-    },
-    {
-      "symbol": "XMRBTC",
-      "step": "0.000001",
-      "lot": "0.01",
-      "currency": "BTC",
-      "commodity": "XMR",
-      "takeLiquidityRate": "0.001",
-      "provideLiquidityRate": "-0.0001"
-    }
-  ]
-}
+[
+  {
+    "id": "BCNBTC",
+    "baseCurrency": "BCN",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "100",
+    "tickSize": "0.0000000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "BTCEUR",
+    "baseCurrency": "BTC",
+    "quoteCurrency": "EUR",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.01",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "EUR"
+  },
+  {
+    "id": "BTCUSD",
+    "baseCurrency": "BTC",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.01",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "DASHBTC",
+    "baseCurrency": "DASH",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "DOGEBTC",
+    "baseCurrency": "DOGE",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1000",
+    "tickSize": "0.000000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "DOGEUSD",
+    "baseCurrency": "DOGE",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "10",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "DSHBTC",
+    "baseCurrency": "DSH",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.000000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "EMCBTC",
+    "baseCurrency": "EMC",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "ETHBTC",
+    "baseCurrency": "ETH",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "ETHEUR",
+    "baseCurrency": "ETH",
+    "quoteCurrency": "EUR",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.0001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "EUR"
+  },
+  {
+    "id": "FCNBTC",
+    "baseCurrency": "FCN",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "LSKBTC",
+    "baseCurrency": "LSK",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.0000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "LSKEUR",
+    "baseCurrency": "LSK",
+    "quoteCurrency": "EUR",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.0001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "EUR"
+  },
+  {
+    "id": "LTCBTC",
+    "baseCurrency": "LTC",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.1",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "LTCEUR",
+    "baseCurrency": "LTC",
+    "quoteCurrency": "EUR",
+    "quantityIncrement": "0.1",
+    "tickSize": "0.001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "EUR"
+  },
+  {
+    "id": "LTCUSD",
+    "baseCurrency": "LTC",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.1",
+    "tickSize": "0.001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "NXTBTC",
+    "baseCurrency": "NXT",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "QCNBTC",
+    "baseCurrency": "QCN",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "SBDBTC",
+    "baseCurrency": "SBD",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "SCBTC",
+    "baseCurrency": "SC",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "100",
+    "tickSize": "0.000000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "STEEMBTC",
+    "baseCurrency": "STEEM",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "STEEMEUR",
+    "baseCurrency": "STEEM",
+    "quoteCurrency": "EUR",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.0001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "EUR"
+  },
+  {
+    "id": "XDNBTC",
+    "baseCurrency": "XDN",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "100",
+    "tickSize": "0.0000000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "XEMBTC",
+    "baseCurrency": "XEM",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "XMRBTC",
+    "baseCurrency": "XMR",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "ARDRBTC",
+    "baseCurrency": "ARDR",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.000000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "ZECBTC",
+    "baseCurrency": "ZEC",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "WAVESBTC",
+    "baseCurrency": "WAVES",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.0000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "MAIDBTC",
+    "baseCurrency": "MAID",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "AMPBTC",
+    "baseCurrency": "AMP",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "BUSBTC",
+    "baseCurrency": "BUS",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.0001",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "DGDBTC",
+    "baseCurrency": "DGD",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "ICNBTC",
+    "baseCurrency": "ICN",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "SNGLSBTC",
+    "baseCurrency": "SNGLS",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "1STBTC",
+    "baseCurrency": "1ST",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "XLCBTC",
+    "baseCurrency": "XLC",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "TRSTBTC",
+    "baseCurrency": "TRST",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "TIMEBTC",
+    "baseCurrency": "TIME",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "GNOBTC",
+    "baseCurrency": "GNO",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "REPBTC",
+    "baseCurrency": "REP",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "XMRUSD",
+    "baseCurrency": "XMR",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.01",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "DASHUSD",
+    "baseCurrency": "DASH",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.01",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "ETHUSD",
+    "baseCurrency": "ETH",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.01",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "NXTUSD",
+    "baseCurrency": "NXT",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "1",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "ZRCBTC",
+    "baseCurrency": "ZRC",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "BOSBTC",
+    "baseCurrency": "BOS",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "DCTBTC",
+    "baseCurrency": "DCT",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "AEONBTC",
+    "baseCurrency": "AEON",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "GUPBTC",
+    "baseCurrency": "GUP",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "PLUBTC",
+    "baseCurrency": "PLU",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "LUNBTC",
+    "baseCurrency": "LUN",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "TAASBTC",
+    "baseCurrency": "TAAS",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "NXCBTC",
+    "baseCurrency": "NXC",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "EDGBTC",
+    "baseCurrency": "EDG",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "RLCBTC",
+    "baseCurrency": "RLC",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "SWTBTC",
+    "baseCurrency": "SWT",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "TKNBTC",
+    "baseCurrency": "TKN",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "WINGSBTC",
+    "baseCurrency": "WINGS",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "XAURBTC",
+    "baseCurrency": "XAUR",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "AEBTC",
+    "baseCurrency": "AE",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "PTOYBTC",
+    "baseCurrency": "PTOY",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "WTTBTC",
+    "baseCurrency": "WTT",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "ZECUSD",
+    "baseCurrency": "ZEC",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.01",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "XEMUSD",
+    "baseCurrency": "XEM",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "1",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "BCNUSD",
+    "baseCurrency": "BCN",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "10",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "XDNUSD",
+    "baseCurrency": "XDN",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "10",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "MAIDUSD",
+    "baseCurrency": "MAID",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "1",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "ETCBTC",
+    "baseCurrency": "ETC",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "ETCUSD",
+    "baseCurrency": "ETC",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.01",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "CFIBTC",
+    "baseCurrency": "CFI",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "PLBTBTC",
+    "baseCurrency": "PLBT",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "BNTBTC",
+    "baseCurrency": "BNT",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "XDNCOBTC",
+    "baseCurrency": "XDNCO",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "100000",
+    "tickSize": "0.0000000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "FYNETH",
+    "baseCurrency": "FYN",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "SNMETH",
+    "baseCurrency": "SNM",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "SNTETH",
+    "baseCurrency": "SNT",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "CVCUSD",
+    "baseCurrency": "CVC",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.0001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "PAYETH",
+    "baseCurrency": "PAY",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "OAXETH",
+    "baseCurrency": "OAX",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "OMGETH",
+    "baseCurrency": "OMG",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "BQXETH",
+    "baseCurrency": "BQX",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "XTZBTC",
+    "baseCurrency": "XTZ",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "CRSUSD",
+    "baseCurrency": "CRS",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.0001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "DICEBTC",
+    "baseCurrency": "DICE",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "CFIETH",
+    "baseCurrency": "CFI",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "PTOYETH",
+    "baseCurrency": "PTOY",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "1STETH",
+    "baseCurrency": "1ST",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "XAURETH",
+    "baseCurrency": "XAUR",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "TAASETH",
+    "baseCurrency": "TAAS",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "TIMEETH",
+    "baseCurrency": "TIME",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "DICEETH",
+    "baseCurrency": "DICE",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "SWTETH",
+    "baseCurrency": "SWT",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "XMRETH",
+    "baseCurrency": "XMR",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "ETCETH",
+    "baseCurrency": "ETC",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "DASHETH",
+    "baseCurrency": "DASH",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "ZECETH",
+    "baseCurrency": "ZEC",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "PLUETH",
+    "baseCurrency": "PLU",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "GNOETH",
+    "baseCurrency": "GNO",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "XRPBTC",
+    "baseCurrency": "XRP",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "1",
+    "tickSize": "0.00000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "MPKUSD",
+    "baseCurrency": "MPK",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "NETETH",
+    "baseCurrency": "NET",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "STRATUSD",
+    "baseCurrency": "STRAT",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.01",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "STRATBTC",
+    "baseCurrency": "STRAT",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "SNCETH",
+    "baseCurrency": "SNC",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "ADXETH",
+    "baseCurrency": "ADX",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "BETETH",
+    "baseCurrency": "BET",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "EOSETH",
+    "baseCurrency": "EOS",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "DENTETH",
+    "baseCurrency": "DENT",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "SANETH",
+    "baseCurrency": "SAN",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "EOSBTC",
+    "baseCurrency": "EOS",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "EOSUSD",
+    "baseCurrency": "EOS",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "MNEBTC",
+    "baseCurrency": "MNE",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "MRVETH",
+    "baseCurrency": "MRV",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "MSPETH",
+    "baseCurrency": "MSP",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "DDFETH",
+    "baseCurrency": "DDF",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "XTZETH",
+    "baseCurrency": "XTZ",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "XTZUSD",
+    "baseCurrency": "XTZ",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "UETETH",
+    "baseCurrency": "UET",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "MYBETH",
+    "baseCurrency": "MYB",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "SURETH",
+    "baseCurrency": "SUR",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "IXTETH",
+    "baseCurrency": "IXT",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "HRBETH",
+    "baseCurrency": "HRB",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "PLRETH",
+    "baseCurrency": "PLR",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "TIXETH",
+    "baseCurrency": "TIX",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "NDCETH",
+    "baseCurrency": "NDC",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "PROETH",
+    "baseCurrency": "PRO",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "AVTETH",
+    "baseCurrency": "AVT",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "TFLBTC",
+    "baseCurrency": "TFL",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "COSSETH",
+    "baseCurrency": "COSS",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "PBKXETH",
+    "baseCurrency": "PBKX",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "PQTUSD",
+    "baseCurrency": "PQT",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "8BTUSD",
+    "baseCurrency": "8BT",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "EVXUSD",
+    "baseCurrency": "EVX",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "IMLETH",
+    "baseCurrency": "IML",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "ROOTSETH",
+    "baseCurrency": "ROOTS",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "DELTABTC",
+    "baseCurrency": "DELTA",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "BNTETH",
+    "baseCurrency": "BNT",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "BNTUSD",
+    "baseCurrency": "BNT",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "QAUBTC",
+    "baseCurrency": "QAU",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "QAUETH",
+    "baseCurrency": "QAU",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "MANAUSD",
+    "baseCurrency": "MANA",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "DNTBTC",
+    "baseCurrency": "DNT",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "FYPBTC",
+    "baseCurrency": "FYP",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "OPTBTC",
+    "baseCurrency": "OPT",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "GRPHBTC",
+    "baseCurrency": "GRPH",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "TNTETH",
+    "baseCurrency": "TNT",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "STXBTC",
+    "baseCurrency": "STX",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "STXETH",
+    "baseCurrency": "STX",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "STXUSD",
+    "baseCurrency": "STX",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "TNTUSD",
+    "baseCurrency": "TNT",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.0001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "TNTBTC",
+    "baseCurrency": "TNT",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "CATBTC",
+    "baseCurrency": "CAT",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "CATETH",
+    "baseCurrency": "CAT",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "CATUSD",
+    "baseCurrency": "CAT",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "BCCBTC",
+    "baseCurrency": "BCC",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "BCCETH",
+    "baseCurrency": "BCC",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "BCCUSD",
+    "baseCurrency": "BCC",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "ECATETH",
+    "baseCurrency": "ECAT",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "SNCBTC",
+    "baseCurrency": "SNC",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "SNCUSD",
+    "baseCurrency": "SNC",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.0001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "OAXUSD",
+    "baseCurrency": "OAX",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.0001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "OAXBTC",
+    "baseCurrency": "OAX",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "BASETH",
+    "baseCurrency": "BAS",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "RVTBTC",
+    "baseCurrency": "RVT",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "ZRXBTC",
+    "baseCurrency": "ZRX",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "ZRXETH",
+    "baseCurrency": "ZRX",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "ZRXUSD",
+    "baseCurrency": "ZRX",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  },
+  {
+    "id": "ICOSBTC",
+    "baseCurrency": "ICOS",
+    "quoteCurrency": "BTC",
+    "quantityIncrement": "0.001",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "BTC"
+  },
+  {
+    "id": "ICOSETH",
+    "baseCurrency": "ICOS",
+    "quoteCurrency": "ETH",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.000001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "ETH"
+  },
+  {
+    "id": "ICOSUSD",
+    "baseCurrency": "ICOS",
+    "quoteCurrency": "USD",
+    "quantityIncrement": "0.01",
+    "tickSize": "0.00001",
+    "takeLiquidityRate": "0.001",
+    "provideLiquidityRate": "-0.0001",
+    "feeCurrency": "USD"
+  }
+]

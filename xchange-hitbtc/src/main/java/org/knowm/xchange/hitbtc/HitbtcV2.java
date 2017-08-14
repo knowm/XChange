@@ -6,6 +6,7 @@ import org.knowm.xchange.hitbtc.dto.marketdata.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Path("/api/2/")
@@ -14,7 +15,7 @@ public interface HitbtcV2 {
 
   @GET
   @Path("public/symbol")
-  HitbtcSymbols getSymbols() throws IOException, HitbtcException;
+  List<HitbtcSymbol> getSymbols() throws IOException, HitbtcException;
 
   @GET
   @Path("public/ticker/{symbol}")
@@ -22,7 +23,7 @@ public interface HitbtcV2 {
 
   @GET
   @Path("public/ticker")
-  Map<String, HitbtcTicker> getHitbtcTickers() throws IOException, HitbtcException;
+  List<HitbtcTicker> getHitbtcTickers() throws IOException, HitbtcException;
 
   @GET
   @Path("public/orderbook/{symbol}")
