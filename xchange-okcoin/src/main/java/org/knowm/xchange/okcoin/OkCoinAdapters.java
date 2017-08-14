@@ -1,17 +1,5 @@
 package org.knowm.xchange.okcoin;
 
-import static org.knowm.xchange.currency.Currency.BTC;
-import static org.knowm.xchange.currency.Currency.LTC;
-import static org.knowm.xchange.currency.Currency.USD;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderStatus;
@@ -29,23 +17,18 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.okcoin.dto.account.OkCoinAccountRecords;
-import org.knowm.xchange.okcoin.dto.account.OkCoinFunds;
-import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesInfoCross;
-import org.knowm.xchange.okcoin.dto.account.OkCoinFuturesUserInfoCross;
-import org.knowm.xchange.okcoin.dto.account.OkCoinRecords;
-import org.knowm.xchange.okcoin.dto.account.OkCoinUserInfo;
-import org.knowm.xchange.okcoin.dto.account.OkcoinFuturesFundsCross;
+import org.knowm.xchange.okcoin.dto.account.*;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinDepth;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinTickerResponse;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinTrade;
-import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesOrder;
-import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesOrderResult;
-import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult;
+import org.knowm.xchange.okcoin.dto.trade.*;
 import org.knowm.xchange.okcoin.dto.trade.OkCoinFuturesTradeHistoryResult.TransactionType;
-import org.knowm.xchange.okcoin.dto.trade.OkCoinOrder;
-import org.knowm.xchange.okcoin.dto.trade.OkCoinOrderResult;
 import org.knowm.xchange.utils.DateUtils;
+
+import java.math.BigDecimal;
+import java.util.*;
+
+import static org.knowm.xchange.currency.Currency.*;
 
 public final class OkCoinAdapters {
 
@@ -234,8 +217,9 @@ public final class OkCoinAdapters {
 
   private static LimitOrder adaptOpenOrder(OkCoinOrder order) {
 
-    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount(), adaptSymbol(order.getSymbol()), String.valueOf(order.getOrderId()),
-        order.getCreateDate(), order.getPrice());
+    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount(), adaptSymbol(order.getSymbol()),
+            String.valueOf(order.getOrderId()), order.getCreateDate(), order.getPrice(), order.getAveragePrice(),
+            order.getDealAmount(), adaptOrderStatus(order.getStatus()));
   }
 
   public static LimitOrder adaptOpenOrderFutures(OkCoinFuturesOrder order) {
