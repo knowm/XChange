@@ -55,12 +55,12 @@ public class HitbtcAdapterTest {
     HitbtcTicker ticker = mapper.readValue(is, HitbtcTicker.class);
     Ticker adaptedTicker = HitbtcAdapters.adaptTicker(ticker, CurrencyPair.BTC_USD);
 
-    assertThat(adaptedTicker.getAsk()).isEqualTo("347.76");
-    assertThat(adaptedTicker.getBid()).isEqualTo("347.21");
-    assertThat(adaptedTicker.getLow()).isEqualTo("341.41");
-    assertThat(adaptedTicker.getHigh()).isEqualTo("354.66");
-    assertThat(adaptedTicker.getLast()).isEqualTo("347.53");
-    assertThat(adaptedTicker.getVolume()).isEqualTo("462.82");
+    assertThat(adaptedTicker.getAsk()).isEqualTo("4254.90");
+    assertThat(adaptedTicker.getBid()).isEqualTo("4241.10");
+    assertThat(adaptedTicker.getLow()).isEqualTo("3900.00");
+    assertThat(adaptedTicker.getHigh()).isEqualTo("4333.13");
+    assertThat(adaptedTicker.getLast()).isEqualTo("4255.62");
+    assertThat(adaptedTicker.getVolume()).isEqualTo("1751.81");
     assertThat(adaptedTicker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }
 

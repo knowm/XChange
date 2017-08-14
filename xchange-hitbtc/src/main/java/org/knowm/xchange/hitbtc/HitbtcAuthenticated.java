@@ -28,8 +28,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Map;
 
-@Path("/api/1/")
-public interface HitbtcAuthenticated extends Hitbtc {
+@Path("/api/2/")
+public interface HitbtcAuthenticated extends HitbtcV2 {
 
   @GET
   @Path("trading/orders/active")

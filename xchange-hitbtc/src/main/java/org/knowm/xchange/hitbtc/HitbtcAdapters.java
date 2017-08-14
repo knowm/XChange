@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class HitbtcAdapters {
 
-  public static final char DELIM = '_';
+  public static final char DELIMITER = '_';
 
   private static final Map<String, FundingRecord.Type> FUNDING_TYPES = new HashMap<String, FundingRecord.Type>() {{
     put("exchangeToBank", null);//internal transfer
@@ -87,7 +87,7 @@ public class HitbtcAdapters {
     BigDecimal low = hitbtcTicker.getLow();
     BigDecimal last = hitbtcTicker.getLast();
     BigDecimal volume = hitbtcTicker.getVolume();
-    Date timestamp = new Date(hitbtcTicker.getTimestamp());
+    Date timestamp = hitbtcTicker.getTimestamp();
 
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
         .build();
@@ -245,7 +245,7 @@ public class HitbtcAdapters {
 
     if (order.getId() == null || "".equals(order.getId())) {
       // encoding side in client order id
-      return order.getType().name().substring(0, 1) + DELIM + adaptCurrencyPair(order.getCurrencyPair()) + DELIM + nonce;
+      return order.getType().name().substring(0, 1) + DELIMITER + adaptCurrencyPair(order.getCurrencyPair()) + DELIMITER + nonce;
     } else {
       return order.getId();
     }
@@ -257,9 +257,9 @@ public class HitbtcAdapters {
   }
 
   public static String readSymbol(String orderId) {
-    int start = orderId.indexOf(DELIM);
+    int start = orderId.indexOf(DELIMITER);
     if (start != -1) {
-      int end = orderId.indexOf(DELIM, start + 1);
+      int end = orderId.indexOf(DELIMITER, start + 1);
       if (end != -1) {
         return orderId.substring(start + 1, end);
       }
