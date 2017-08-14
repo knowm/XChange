@@ -48,7 +48,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   private void fetchLotsData() {
     List<HitbtcSymbol> hitbtcSymbols;
     try {
-      hitbtcSymbols = new HitbtcMarketDataService(exchange).getHitbtcSymbols().getHitbtcSymbols();
+      hitbtcSymbols = new HitbtcMarketDataService(exchange).getHitbtcSymbols();
     } catch (IOException e) {
       // Do nothing, use the existing LOT_SIZES map instead.
       // TODO warning message handling
@@ -56,7 +56,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     }
     LOT_SIZES.clear();
     for (HitbtcSymbol hitbtcSymbol : hitbtcSymbols) {
-      LOT_SIZES.put(new CurrencyPair(new Currency(hitbtcSymbol.getCommodity()), new Currency(hitbtcSymbol.getCurrency())), hitbtcSymbol.getLot());
+      //TODO is this right?
+      LOT_SIZES.put(new CurrencyPair(new Currency(hitbtcSymbol.getId()), new Currency(hitbtcSymbol.getId())), hitbtcSymbol.getTickSize());
     }
 
   }

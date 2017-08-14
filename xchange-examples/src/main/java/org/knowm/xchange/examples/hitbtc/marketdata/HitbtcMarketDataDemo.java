@@ -2,6 +2,7 @@ package org.knowm.xchange.examples.hitbtc.marketdata;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
@@ -10,11 +11,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.examples.hitbtc.HitbtcExampleUtils;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTime;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
+import org.knowm.xchange.hitbtc.dto.marketdata.*;
 import org.knowm.xchange.hitbtc.service.HitbtcMarketDataServiceRaw;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
@@ -66,7 +63,7 @@ public class HitbtcMarketDataDemo {
 
   private static void raw(HitbtcMarketDataServiceRaw marketDataService) throws IOException {
 
-    HitbtcSymbols symbols = marketDataService.getHitbtcSymbols();
+    List<HitbtcSymbol> symbols = marketDataService.getHitbtcSymbols();
     System.out.println("Market metadata: " + symbols.toString());
 
 //    HitbtcTime time = marketDataService.getHitbtcTime();
@@ -75,7 +72,7 @@ public class HitbtcMarketDataDemo {
     HitbtcTicker ticker = marketDataService.getHitbtcTicker(CurrencyPair.BTC_USD);
     System.out.println("BTC/USD Ticker: " + ticker.toString());
 
-    Map<String, HitbtcTicker> tickers = marketDataService.getHitbtcTickers();
+    List<HitbtcTicker> tickers = marketDataService.getHitbtcTickers();
     System.out.println("All Tickers: " + tickers.toString());
 
     // Get the latest order book data for BTC/USD

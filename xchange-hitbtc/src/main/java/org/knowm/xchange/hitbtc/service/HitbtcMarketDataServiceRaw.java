@@ -1,17 +1,15 @@
 package org.knowm.xchange.hitbtc.service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.hitbtc.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTime;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
+import org.knowm.xchange.hitbtc.dto.marketdata.*;
 
 /**
  * @author kpysniak
@@ -37,7 +35,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 //    }
 //  }
 
-  public HitbtcSymbols getHitbtcSymbols() throws IOException {
+  public List<HitbtcSymbol> getHitbtcSymbols() throws IOException {
 
     try {
       return hitbtc.getSymbols();
@@ -55,10 +53,10 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
     }
   }
 
-  public Map<String, HitbtcTicker> getHitbtcTickers() throws IOException {
+  public List<HitbtcTicker> getHitbtcTickers() throws IOException {
 
     try {
-      return hitbtc.getHitbtcTickers();
+      return  hitbtc.getHitbtcTickers();
     } catch (HitbtcException e) {
       throw handleException(e);
     }
