@@ -1,24 +1,22 @@
 package org.knowm.xchange.btcmarkets.service;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.UUID;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcmarkets.BTCMarketsAuthenticated;
 import org.knowm.xchange.btcmarkets.dto.BTCMarketsBaseResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsCancelOrderRequest;
-import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsMyTradingRequest;
+import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOpenOrdersAndTradeHistoryRequest;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrder;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsOrders;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsPlaceOrderResponse;
 import org.knowm.xchange.btcmarkets.dto.trade.BTCMarketsTradeHistory;
 import org.knowm.xchange.currency.CurrencyPair;
-
 import si.mazi.rescu.RestProxyFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.UUID;
 
 public class BTCMarketsTradeServiceRaw extends BTCMarketsBaseService {
 
@@ -40,18 +38,18 @@ public class BTCMarketsTradeServiceRaw extends BTCMarketsBaseService {
         new BTCMarketsOrder(amount, price, currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), side, type, newReqId()));
   }
 
-  public BTCMarketsOrders getBTCMarketsOpenOrders(CurrencyPair currencyPair, Integer limit, Date since) throws IOException {
-    return btcm.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer,
-        new BTCMarketsMyTradingRequest(currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), limit, since));
+  public BTCMarketsOrders getBTCMarketsOpenOrders(CurrencyPair currencyPair, Integer limit, Long since) throws IOException {
+    BTCMarketsOpenOrdersAndTradeHistoryRequest request = new BTCMarketsOpenOrdersAndTradeHistoryRequest(currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), limit, since);
+    return btcm.getOpenOrders(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer, request);
   }
 
   public BTCMarketsBaseResponse cancelBTCMarketsOrder(Long orderId) throws IOException {
     return btcm.cancelOrder(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer, new BTCMarketsCancelOrderRequest(orderId));
   }
 
-  public BTCMarketsTradeHistory getBTCMarketsUserTransactions(CurrencyPair currencyPair, Integer limit, Date since) throws IOException {
-    return btcm.getTradeHistory(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer,
-        new BTCMarketsMyTradingRequest(currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), limit, since));
+  public BTCMarketsTradeHistory getBTCMarketsUserTransactions(CurrencyPair currencyPair, Integer limit, Long since) throws IOException {
+    BTCMarketsOpenOrdersAndTradeHistoryRequest request = new BTCMarketsOpenOrdersAndTradeHistoryRequest(currencyPair.counter.getCurrencyCode(), currencyPair.base.getCurrencyCode(), limit, since);
+    return btcm.getTradeHistory(exchange.getExchangeSpecification().getApiKey(), nonceFactory, signer, request);
   }
 
   private String newReqId() {

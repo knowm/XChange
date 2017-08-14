@@ -1,12 +1,5 @@
 package org.knowm.xchange.btcmarkets.service;
 
-import static org.knowm.xchange.dto.Order.OrderType.BID;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.btcmarkets.BTCMarketsAdapters;
 import org.knowm.xchange.btcmarkets.BTCMarketsExchange;
@@ -30,27 +23,26 @@ import org.knowm.xchange.service.trade.params.CancelOrderParams;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamPaging;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsIdSpan;
 import org.knowm.xchange.service.trade.params.TradeHistoryParamsTimeSpan;
 import org.knowm.xchange.service.trade.params.orders.DefaultOpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParamCurrencyPair;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Date;
+
+import static org.knowm.xchange.dto.Order.OrderType.BID;
 
 /**
  * @author Matija Mazi
  */
 public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements TradeService {
 
-  private final CurrencyPair currencyPair;
-
   public BTCMarketsTradeService(Exchange exchange) {
     super(exchange);
-    CurrencyPair cp = null;
-    try {
-      cp = (CurrencyPair) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(BTCMarketsExchange.CURRENCY_PAIR);
-    } catch (ClassCastException e) {
-      throw new IllegalArgumentException(e);
-    }
-    currencyPair = cp;
   }
 
   @Override
@@ -98,23 +90,26 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
-    Integer limit = null;
+    Integer limit = 200;
     if (params instanceof TradeHistoryParamPaging) {
-      final TradeHistoryParamPaging paging = (TradeHistoryParamPaging) params;
-      limit = paging.getPageLength();
+      limit = ((TradeHistoryParamPaging) params).getPageLength();
     }
-    Date since = null;
-    if (params instanceof TradeHistoryParamsTimeSpan) {
-      since = ((TradeHistoryParamsTimeSpan) params).getStartTime();
+
+    Long since = 0L;
+    if (params instanceof TradeHistoryParamsIdSpan) {
+      TradeHistoryParamsIdSpan tradeHistoryParamsIdSpan = (TradeHistoryParamsIdSpan) params;
+      since = Long.valueOf(tradeHistoryParamsIdSpan.getStartId());
     }
-    CurrencyPair cp = this.currencyPair;
+
+    CurrencyPair cp = null;
     if (params instanceof TradeHistoryParamCurrencyPair) {
-      final CurrencyPair paramsCp = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
+      CurrencyPair paramsCp = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
       if (paramsCp != null) {
         cp = paramsCp;
       }
     }
-    final BTCMarketsTradeHistory response = getBTCMarketsUserTransactions(cp, limit, since);
+
+    BTCMarketsTradeHistory response = getBTCMarketsUserTransactions(cp, limit, since);
     return BTCMarketsAdapters.adaptTradeHistory(response.getTrades(), cp);
   }
 
@@ -125,13 +120,13 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
 
   @Override
   public OpenOrdersParams createOpenOrdersParams() {
-    return new DefaultOpenOrdersParamCurrencyPair(currencyPair);
+    return new DefaultOpenOrdersParamCurrencyPair(null);
   }
 
-  public static class HistoryParams implements TradeHistoryParamPaging, TradeHistoryParamsTimeSpan, TradeHistoryParamCurrencyPair {
-    private Integer limit = 100;
-    private Date since;
+  public static class HistoryParams implements TradeHistoryParamPaging, TradeHistoryParamCurrencyPair, TradeHistoryParamsIdSpan{
+    private Integer limit = 200;
     private CurrencyPair currencyPair;
+    private String startId;
 
     @Override
     public Integer getPageLength() {
@@ -154,23 +149,23 @@ public class BTCMarketsTradeService extends BTCMarketsTradeServiceRaw implements
     }
 
     @Override
-    public void setStartTime(Date startTime) {
-      since = startTime;
+    public void setStartId(String startId) {
+      this.startId = startId;
     }
 
     @Override
-    public Date getStartTime() {
-      return since;
+    public String getStartId() {
+      return startId;
     }
 
     @Override
-    public void setEndTime(Date endTime) {
-      throw new UnsupportedOperationException();
+    public void setEndId(String endId) {
+
     }
 
     @Override
-    public Date getEndTime() {
-      throw new UnsupportedOperationException();
+    public String getEndId() {
+      return null;
     }
 
     @Override

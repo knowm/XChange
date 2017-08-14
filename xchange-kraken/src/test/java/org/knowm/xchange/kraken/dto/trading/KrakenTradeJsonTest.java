@@ -70,7 +70,7 @@ public class KrakenTradeJsonTest {
     Map<String, KrakenTrade> krakenTradeHistoryMap = krakenTradeHistory.getTrades();
     KrakenTrade trade = krakenTradeHistoryMap.get("TY5BYV-WJUQF-XPYEYD");
 
-    assertThat(trade.getAssetPair()).isEqualTo("XXBTXLTC");
+    assertThat(trade.getAssetPair()).isEqualTo("XLTCXXBT");
     assertThat(trade.getPrice()).isEqualTo("32.07562");
     assertThat(trade.getCost()).isEqualTo("16.03781");
     assertThat(trade.getFee()).isEqualTo("0.03208");

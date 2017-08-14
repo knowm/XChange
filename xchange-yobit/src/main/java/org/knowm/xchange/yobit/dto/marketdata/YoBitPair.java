@@ -1,10 +1,5 @@
 package org.knowm.xchange.yobit.dto.marketdata;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-
-import org.knowm.xchange.yobit.dto.marketdata.YoBitPair.YoBitPairDeserializer;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -12,6 +7,10 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.knowm.xchange.yobit.dto.marketdata.YoBitPair.YoBitPairDeserializer;
+
+import java.io.IOException;
+import java.math.BigDecimal;
 
 @JsonDeserialize(using = YoBitPairDeserializer.class)
 public class YoBitPair {
@@ -26,7 +25,7 @@ public class YoBitPair {
   private BigDecimal fee_seller;
 
   public YoBitPair(Integer decimal_places, BigDecimal min_price, BigDecimal max_price, BigDecimal min_amount, BigDecimal min_total, Integer hidden,
-      BigDecimal fee, BigDecimal fee_buyer, BigDecimal fee_seller) {
+                   BigDecimal fee, BigDecimal fee_buyer, BigDecimal fee_seller) {
     super();
     this.decimal_places = decimal_places;
     this.min_price = min_price;
