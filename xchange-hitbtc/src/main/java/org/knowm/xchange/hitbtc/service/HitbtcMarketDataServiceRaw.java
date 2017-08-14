@@ -28,14 +28,14 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
     super(exchange);
   }
 
-  public HitbtcTime getHitbtcTime() throws IOException {
-
-    try {
-      return hitbtc.getHitbtcTime();
-    } catch (HitbtcException e) {
-      throw handleException(e);
-    }
-  }
+//  public HitbtcTime getHitbtcTime() throws IOException {
+//
+//    try {
+//      return hitbtc.getHitbtcTime();
+//    } catch (HitbtcException e) {
+//      throw handleException(e);
+//    }
+//  }
 
   public HitbtcSymbols getHitbtcSymbols() throws IOException {
 
@@ -77,20 +77,20 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
       HitbtcTrades.HitbtcTradesSortDirection sortDirection, long startIndex, long maxResults) throws IOException {
 
     try {
-      return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), String.valueOf(from), sortBy.toString(), sortDirection.toString(),
-          String.valueOf(startIndex), String.valueOf(maxResults), "object", "true");
+      return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair));
+
     } catch (HitbtcException e) {
       throw handleException(e);
     }
   }
 
-  public HitbtcTrades getHitbtcTradesRecent(CurrencyPair currencyPair, long maxResults) throws IOException {
-
-    try {
-      return hitbtc.getTradesRecent(HitbtcAdapters.adaptCurrencyPair(currencyPair), String.valueOf(maxResults), "object", "true");
-    } catch (HitbtcException e) {
-      throw handleException(e);
-    }
-  }
+//  public HitbtcTrades getHitbtcTradesRecent(CurrencyPair currencyPair, long maxResults) throws IOException {
+//
+//    try {
+//      return hitbtc.getTradesRecent(HitbtcAdapters.adaptCurrencyPair(currencyPair), String.valueOf(maxResults), "object", "true");
+//    } catch (HitbtcException e) {
+//      throw handleException(e);
+//    }
+//  }
 
 }

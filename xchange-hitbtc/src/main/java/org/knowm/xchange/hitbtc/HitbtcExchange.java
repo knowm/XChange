@@ -24,10 +24,9 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-
-    this.marketDataService = new HitbtcMarketDataService(this);
-    this.tradeService = new HitbtcTradeService(this);
-    this.accountService = new HitbtcAccountService(this);
+    marketDataService = new HitbtcMarketDataService(this);
+    tradeService = new HitbtcTradeService(this);
+    accountService = new HitbtcAccountService(this);
   }
 
   @Override
