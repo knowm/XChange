@@ -1,35 +1,41 @@
 package org.knowm.xchange.bitstamp.dto.account;
 
-import org.knowm.xchange.bitstamp.dto.BitstampBaseResponse;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Matija Mazi
- */
-public final class BitstampWithdrawal extends BitstampBaseResponse {
+public final class BitstampWithdrawal {
 
-  private final Integer id;
+  public final Integer id;
+  public final String status;
+  public final Object reason;
 
-  /**
-   * Constructor
-   *
-   * @param id
-   */
-  public BitstampWithdrawal(@JsonProperty("id") Integer id, @JsonProperty("error") String error) {
-
-    super(error);
+  public BitstampWithdrawal(@JsonProperty("id") Integer id, @JsonProperty("status") String status, @JsonProperty("reason") Object reason) {
     this.id = id;
+    this.status = status;
+    this.reason = reason;
   }
 
   public Integer getId() {
-
     return id;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public Object getReason() {
+    return reason;
   }
 
   @Override
   public String toString() {
+    return "BitstampWithdrawal{" +
+        "id=" + id +
+        ", status='" + status + '\'' +
+        ", reason=" + reason +
+        '}';
+  }
 
-    return String.format("Withdrawal{id=%s}", id);
+  public boolean hasError() {
+    return this.status != null && this.status.equals("error");
   }
 }
