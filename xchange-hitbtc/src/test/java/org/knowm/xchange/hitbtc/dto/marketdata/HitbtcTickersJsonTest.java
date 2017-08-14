@@ -2,6 +2,8 @@ package org.knowm.xchange.hitbtc.dto.marketdata;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -10,14 +12,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 public class HitbtcTickersJsonTest {
 
-  private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+  private static SimpleDateFormat SIMPLE_DATE_FORMATER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
+  @BeforeClass
+  public static void setUpClass() {
+    SIMPLE_DATE_FORMATER.setTimeZone(TimeZone.getTimeZone("GMT"));
+  }
 
   @Test
   public void tesetUnmarshal() throws IOException, ParseException {
@@ -47,6 +55,6 @@ public class HitbtcTickersJsonTest {
     assertThat(ticker.getHigh()).isEqualTo("4333.13");
     assertThat(ticker.getLow()).isEqualTo("3900.00");
     assertThat(ticker.getVolume()).isEqualTo("1717.91");
-    assertThat(ticker.getTimestamp()).isEqualTo(simpleDateFormat.parse("2017-08-14T13:20:01.933Z"));
+    assertThat(ticker.getTimestamp()).isEqualTo(SIMPLE_DATE_FORMATER.parse("2017-08-14T19:20:01.933Z"));
   }
 }
