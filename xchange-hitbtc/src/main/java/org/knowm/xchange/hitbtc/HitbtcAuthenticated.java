@@ -29,7 +29,7 @@ import java.math.BigInteger;
 import java.util.Map;
 
 @Path("/api/2/")
-public interface HitbtcAuthenticated extends HitbtcV2 {
+public interface HitbtcAuthenticated extends Hitbtc {
 
   @GET
   @Path("trading/orders/active")
