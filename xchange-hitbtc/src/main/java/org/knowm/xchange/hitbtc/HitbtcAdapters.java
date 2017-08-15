@@ -211,15 +211,16 @@ public class HitbtcAdapters {
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
-  public static Wallet adaptWallet(HitbtcBalance[] walletRaw) {
+  public static Wallet adaptWallet(HitbtcBalance[] hitbtcBalances) {
 
-    List<Balance> balances = new ArrayList<>(walletRaw.length);
+    List<Balance> balances = new ArrayList<>(hitbtcBalances.length);
 
-    for (HitbtcBalance balanceRaw : walletRaw) {
+    for (HitbtcBalance balanceRaw : hitbtcBalances) {
 
-      Balance balance = new Balance(Currency.getInstance(balanceRaw.getCurrencyCode()), null, balanceRaw.getCash(), balanceRaw.getReserved());
+      Currency currency = Currency.getInstance(balanceRaw.getCurrency());
+      Balance balance =
+          new Balance(currency, balanceRaw.getAvailable(), balanceRaw.getAvailable().subtract(balanceRaw.getReserved()), balanceRaw.getReserved());
       balances.add(balance);
-
     }
     return new Wallet(balances);
   }

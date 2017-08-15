@@ -9,10 +9,10 @@ public class HitbtcExampleUtils {
 
   public static Exchange createExchange() {
 
-    ExchangeSpecification exSpec = new ExchangeSpecification(HitbtcExchange.class);
-    exSpec.setApiKey("");
-    exSpec.setSecretKey("");
+    ExchangeSpecification exchangeSpecification = new ExchangeSpecification(HitbtcExchange.class);
+    exchangeSpecification.setApiKey("4ac1e9b53c64980c0a3c464c7d9262fc");
+    exchangeSpecification.setSecretKey("d03dea317063b7cf4c74ae212735e948");
 
-    return ExchangeFactory.INSTANCE.createExchange(exSpec);
+    return ExchangeFactory.INSTANCE.createExchange(exchangeSpecification);
   }
 }

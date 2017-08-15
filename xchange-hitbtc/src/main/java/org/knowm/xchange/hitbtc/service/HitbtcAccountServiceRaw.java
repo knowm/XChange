@@ -18,20 +18,16 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-public class HitbtcAccountServiceRaw extends HitbtcBaseService {
+public class HitbtcAccountServiceRaw extends HitbtcAuthenitcatedService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
+
   public HitbtcAccountServiceRaw(Exchange exchange) {
 
     super(exchange);
   }
 
   public HitbtcBalance[] getWalletRaw() throws IOException {
-    return getTradingBalance().getBalances();
+    return hitbtc.getNewBalance();
   }
 
   public String withdrawFundsRaw(Currency currency, BigDecimal amount, String address) throws HttpStatusIOException {

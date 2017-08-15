@@ -1,15 +1,16 @@
 package org.knowm.xchange.hitbtc.service;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.hitbtc.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
-import org.knowm.xchange.hitbtc.dto.marketdata.*;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrade;
 
 public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 
@@ -66,7 +67,6 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
     }
   }
 
-  //TODO change this to use params for 'recent'
   public List<HitbtcTrade> getHitbtcTradesRecent(CurrencyPair currencyPair, Integer maxResults) throws IOException {
 
     try {

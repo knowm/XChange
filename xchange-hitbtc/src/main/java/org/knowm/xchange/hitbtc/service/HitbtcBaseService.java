@@ -15,20 +15,17 @@ import si.mazi.rescu.RestProxyFactory;
 
 public class HitbtcBaseService extends BaseExchangeService implements BaseService {
 
-  protected final HitbtcAuthenticated hitbtc;
-  protected final String apiKey;
-  protected final ParamsDigest signatureCreator;
+  protected HitbtcAuthenticated hitbtc;
+  protected String apiKey;
+  protected ParamsDigest signatureCreator;
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   protected HitbtcBaseService(Exchange exchange) {
 
     super(exchange);
 
     hitbtc = RestProxyFactory.createProxy(HitbtcAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+
+    //TODO get rid of this authentication stuff here.
     apiKey = exchange.getExchangeSpecification().getApiKey();
     String apiKey = exchange.getExchangeSpecification().getSecretKey();
     signatureCreator = apiKey != null && !apiKey.isEmpty() ? HitbtcHmacDigest.createInstance(apiKey) : null;
