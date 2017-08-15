@@ -11,29 +11,13 @@ import org.knowm.xchange.hitbtc.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
 import org.knowm.xchange.hitbtc.dto.marketdata.*;
 
-/**
- * @author kpysniak
- */
 public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
+
   protected HitbtcMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
   }
-
-//  public HitbtcTime getHitbtcTime() throws IOException {
-//
-//    try {
-//      return hitbtc.getHitbtcTime();
-//    } catch (HitbtcException e) {
-//      throw handleException(e);
-//    }
-//  }
 
   public List<HitbtcSymbol> getHitbtcSymbols() throws IOException {
 
@@ -71,24 +55,25 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
     }
   }
 
-  public HitbtcTrades getHitbtcTrades(CurrencyPair currencyPair, long from, HitbtcTrades.HitbtcTradesSortField sortBy,
-      HitbtcTrades.HitbtcTradesSortDirection sortDirection, long startIndex, long maxResults) throws IOException {
+  public List<HitbtcTrade> getHitbtcTrades(CurrencyPair currencyPair, Integer maxResults, long from, HitbtcTrade.HitbtcTradesSortField sortBy,
+      HitbtcTrade.HitbtcTradesSortDirection sortDirection, long startIndex) throws IOException {
 
     try {
-      return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair));
+      return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), maxResults);
 
     } catch (HitbtcException e) {
       throw handleException(e);
     }
   }
 
-//  public HitbtcTrades getHitbtcTradesRecent(CurrencyPair currencyPair, long maxResults) throws IOException {
-//
-//    try {
-//      return hitbtc.getTradesRecent(HitbtcAdapters.adaptCurrencyPair(currencyPair), String.valueOf(maxResults), "object", "true");
-//    } catch (HitbtcException e) {
-//      throw handleException(e);
-//    }
-//  }
+  //TODO change this to use params for 'recent'
+  public List<HitbtcTrade> getHitbtcTradesRecent(CurrencyPair currencyPair, Integer maxResults) throws IOException {
+
+    try {
+      return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), maxResults);
+    } catch (HitbtcException e) {
+      throw handleException(e);
+    }
+  }
 
 }

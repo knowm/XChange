@@ -36,7 +36,9 @@ public interface Hitbtc {
   HitbtcOrderBook getOrderBook(@PathParam("symbol") String symbol) throws IOException, HitbtcException;
 
   //TODO update with query params
-  HitbtcTrades getTrades(@PathParam("symbol") String symbol) throws IOException, HitbtcException;
+  @GET
+  @Path("public/trades/{symbol}")
+  List<HitbtcTrade> getTrades(@PathParam("symbol") String symbol, @QueryParam("limit") Integer limit) throws IOException, HitbtcException;
 
 }
 
