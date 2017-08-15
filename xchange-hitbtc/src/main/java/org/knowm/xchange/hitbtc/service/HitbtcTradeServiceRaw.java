@@ -25,16 +25,11 @@ import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 
-public class HitbtcTradeServiceRaw extends HitbtcBaseService {
+public class HitbtcTradeServiceRaw extends HitbtcAuthenitcatedService {
 
   // TODO move this to metadata
   private static Map<CurrencyPair, BigDecimal> LOT_SIZES = new HashMap<>();
 
-  /**
-   * Constructor
-   *
-   * @param exchange
-   */
   public HitbtcTradeServiceRaw(Exchange exchange) {
     super(exchange);
     if (LOT_SIZES.size() == 0) {
@@ -65,7 +60,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   public HitbtcOrdersResponse getOpenOrdersRawBaseResponse() throws IOException {
 
     try {
-      HitbtcOrdersResponse hitbtcActiveOrders = hitbtc.getHitbtcActiveOrders(signatureCreator, exchange.getNonceFactory(), apiKey);
+      HitbtcOrdersResponse hitbtcActiveOrders = hitbtc().getHitbtcActiveOrders(signatureCreator, exchange.getNonceFactory(), apiKey);
       return hitbtcActiveOrders;
     } catch (HitbtcException e) {
       throw handleException(e);
@@ -81,7 +76,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   public HitbtcOrdersResponse getRecentOrdersRawBaseResponse(int max_results) throws IOException {
 
     try {
-      HitbtcOrdersResponse hitbtcActiveOrders = hitbtc.getHitbtcRecentOrders(signatureCreator, exchange.getNonceFactory(), apiKey, max_results);
+      HitbtcOrdersResponse hitbtcActiveOrders = hitbtc().getHitbtcRecentOrders(signatureCreator, exchange.getNonceFactory(), apiKey, max_results);
       return hitbtcActiveOrders;
     } catch (HitbtcException e) {
       throw handleException(e);
@@ -103,7 +98,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     String orderId = HitbtcAdapters.createOrderId(marketOrder, nonce);
 
     try {
-      HitbtcExecutionReportResponse response = hitbtc.postHitbtcNewOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, symbol, side,
+      HitbtcExecutionReportResponse response = hitbtc().postHitbtcNewOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, symbol, side,
           null, getLots(marketOrder), "market", "IOC");
 
       return response;
@@ -142,7 +137,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     String orderId = HitbtcAdapters.createOrderId(limitOrder, nonce);
 
     try {
-      return hitbtc.postHitbtcNewOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, symbol, side, limitOrder.getLimitPrice(),
+      return hitbtc().postHitbtcNewOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, symbol, side, limitOrder.getLimitPrice(),
           getLots(limitOrder), "limit", "GTC");
     } catch (HitbtcException e) {
       throw handleException(e);
@@ -156,7 +151,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
     String symbol = HitbtcAdapters.readSymbol(orderId);
 
     try {
-      return hitbtc.postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, orderId, symbol, originalSide);
+      return hitbtc().postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, orderId, symbol, originalSide);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -166,7 +161,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
       String side) throws IOException {
 
     try {
-      return hitbtc.postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, clientOrderId, cancelRequestClientOrderId, symbol,
+      return hitbtc().postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, clientOrderId, cancelRequestClientOrderId, symbol,
           side);
     } catch (HitbtcException e) {
       throw handleException(e);
@@ -176,7 +171,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   public HitbtcMultiExecutionReportResponse cancelOrdersRaw(String symbol, String side) throws IOException {
 
     try {
-      return hitbtc.postHitbtcCancelOrders(signatureCreator, exchange.getNonceFactory(), apiKey, symbol, side);
+      return hitbtc().postHitbtcCancelOrders(signatureCreator, exchange.getNonceFactory(), apiKey, symbol, side);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -185,7 +180,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBaseService {
   public HitbtcTradeResponse getTradeHistoryRawBaseResponse(int startIndex, int maxResults, String symbols) throws IOException {
 
     try {
-      HitbtcTradeResponse hitbtcTrades = hitbtc.getHitbtcTrades(signatureCreator, exchange.getNonceFactory(), apiKey, "ts", startIndex, maxResults,
+      HitbtcTradeResponse hitbtcTrades = hitbtc().getHitbtcTrades(signatureCreator, exchange.getNonceFactory(), apiKey, "ts", startIndex, maxResults,
           symbols, "desc", null, null);
       return hitbtcTrades;
     } catch (HitbtcException e) {

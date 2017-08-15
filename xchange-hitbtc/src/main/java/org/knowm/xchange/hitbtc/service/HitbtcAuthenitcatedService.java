@@ -11,6 +11,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 public class HitbtcAuthenitcatedService extends HitbtcBaseService {
 
+  private final HitbtcAuthenticated hitbtc;
   protected final String apiKey;
   protected final String secretKey;
 
@@ -20,12 +21,17 @@ public class HitbtcAuthenitcatedService extends HitbtcBaseService {
     apiKey = exchange.getExchangeSpecification().getApiKey();
     secretKey = exchange.getExchangeSpecification().getSecretKey();
 
-    Validate.isTrue(StringUtils.isNotEmpty(apiKey), "Authenticated endpoints are not available: missing ApiKey");
-    Validate.isTrue(StringUtils.isNotEmpty(secretKey), "Authenticated endpoints are not available: missing SecretKey");
-
     ClientConfig config = new ClientConfig();
     ClientConfigUtil.addBasicAuthCredentials(config, apiKey, secretKey);
 
     hitbtc = RestProxyFactory.createProxy(HitbtcAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), config);
   }
+
+  public HitbtcAuthenticated hitbtc() {
+    Validate.isTrue(StringUtils.isNotEmpty(apiKey), "Authenticated endpoints are not available: missing ApiKey");
+    Validate.isTrue(StringUtils.isNotEmpty(secretKey), "Authenticated endpoints are not available: missing SecretKey");
+
+    return hitbtc;
+  }
+
 }
