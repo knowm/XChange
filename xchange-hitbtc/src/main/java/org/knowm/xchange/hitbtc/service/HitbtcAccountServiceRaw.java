@@ -27,17 +27,17 @@ public class HitbtcAccountServiceRaw extends HitbtcAuthenitcatedService {
   }
 
   public HitbtcBalance[] getWalletRaw() throws IOException {
-    return hitbtc.getNewBalance();
+    return hitbtc().getNewBalance();
   }
 
   public String withdrawFundsRaw(Currency currency, BigDecimal amount, String address) throws HttpStatusIOException {
-    Map response = hitbtc.payout(signatureCreator, exchange.getNonceFactory(), apiKey, amount, currency.getCurrencyCode(), address, null, true);
+    Map response = hitbtc().payout(signatureCreator, exchange.getNonceFactory(), apiKey, amount, currency.getCurrencyCode(), address, null, true);
     //todo: handle "not enough funds" case more gracefully - the service returns a 409 with this body > {"code":"InvalidArgument","message":"Balance not enough"}
     return response.get("transaction").toString();
   }
 
   public String transferToTrading(Currency currency, BigDecimal amount) throws HttpStatusIOException {
-    InternalTransferResponse internalTransferResponse = hitbtc.transferToTrading(signatureCreator, exchange.getNonceFactory(), apiKey, amount, currency.getCurrencyCode());
+    InternalTransferResponse internalTransferResponse = hitbtc().transferToTrading(signatureCreator, exchange.getNonceFactory(), apiKey, amount, currency.getCurrencyCode());
     if (internalTransferResponse.transactionId == null) {
       throw new ExchangeException("transfer failed: " + internalTransferResponse);
     } else {
@@ -46,7 +46,7 @@ public class HitbtcAccountServiceRaw extends HitbtcAuthenitcatedService {
   }
 
   public String transferToMain(Currency currency, BigDecimal amount) throws HttpStatusIOException {
-    InternalTransferResponse internalTransferResponse = hitbtc.transferToMain(signatureCreator, exchange.getNonceFactory(), apiKey, amount, currency.getCurrencyCode());
+    InternalTransferResponse internalTransferResponse = hitbtc().transferToMain(signatureCreator, exchange.getNonceFactory(), apiKey, amount, currency.getCurrencyCode());
     if (internalTransferResponse.transactionId == null) {
       throw new ExchangeException("transfer failed: " + internalTransferResponse);
     } else {
@@ -56,7 +56,7 @@ public class HitbtcAccountServiceRaw extends HitbtcAuthenitcatedService {
 
   public HitbtcBalanceResponse getTradingBalance() throws IOException {
     try {
-      return hitbtc.getTradingBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
+      return hitbtc().getTradingBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -64,7 +64,7 @@ public class HitbtcAccountServiceRaw extends HitbtcAuthenitcatedService {
 
   public HitbtcPaymentBalanceResponse getPaymentBalance() throws IOException {
     try {
-      return hitbtc.getPaymentBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
+      return hitbtc().getPaymentBalance(signatureCreator, exchange.getNonceFactory(), apiKey);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -73,7 +73,7 @@ public class HitbtcAccountServiceRaw extends HitbtcAuthenitcatedService {
   public String getDepositAddress(String currency) throws IOException {
 
     try {
-      HitbtcDepositAddressResponse hitbtcDepositAddressResponse = hitbtc.getHitbtcDepositAddress(currency, signatureCreator,
+      HitbtcDepositAddressResponse hitbtcDepositAddressResponse = hitbtc().getHitbtcDepositAddress(currency, signatureCreator,
           exchange.getNonceFactory(), apiKey);
       return hitbtcDepositAddressResponse.getAddress();
     } catch (HitbtcException e) {
@@ -83,7 +83,7 @@ public class HitbtcAccountServiceRaw extends HitbtcAuthenitcatedService {
 
   public List<TransactionResponse> transactions(Long offset, long limit, String direction) throws HttpStatusIOException {
     limit = Math.min(1000, limit);
-    TransactionsResponse transactions = hitbtc.transactions(signatureCreator, exchange.getNonceFactory(), apiKey, offset, limit, direction);
+    TransactionsResponse transactions = hitbtc().transactions(signatureCreator, exchange.getNonceFactory(), apiKey, offset, limit, direction);
     return transactions.transactions;
   }
 

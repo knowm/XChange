@@ -4,6 +4,7 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.FundsExceededException;
 import org.knowm.xchange.exceptions.NonceException;
+import org.knowm.xchange.hitbtc.Hitbtc;
 import org.knowm.xchange.hitbtc.HitbtcAuthenticated;
 import org.knowm.xchange.hitbtc.dto.HitbtcException;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
@@ -15,7 +16,7 @@ import si.mazi.rescu.RestProxyFactory;
 
 public class HitbtcBaseService extends BaseExchangeService implements BaseService {
 
-  protected HitbtcAuthenticated hitbtc;
+  private Hitbtc hitbtc;
   protected String apiKey;
   protected ParamsDigest signatureCreator;
 
@@ -23,12 +24,16 @@ public class HitbtcBaseService extends BaseExchangeService implements BaseServic
 
     super(exchange);
 
-    hitbtc = RestProxyFactory.createProxy(HitbtcAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    hitbtc = RestProxyFactory.createProxy(Hitbtc.class, exchange.getExchangeSpecification().getSslUri());
 
     //TODO get rid of this authentication stuff here.
     apiKey = exchange.getExchangeSpecification().getApiKey();
     String apiKey = exchange.getExchangeSpecification().getSecretKey();
     signatureCreator = apiKey != null && !apiKey.isEmpty() ? HitbtcHmacDigest.createInstance(apiKey) : null;
+  }
+
+  public Hitbtc hitbtc() {
+    return hitbtc;
   }
 
   protected void checkRejected(HitbtcExecutionReport executionReport) {
@@ -52,4 +57,6 @@ public class HitbtcBaseService extends BaseExchangeService implements BaseServic
     }
     return new ExchangeException(code + ": " + message);
   }
+
+
 }

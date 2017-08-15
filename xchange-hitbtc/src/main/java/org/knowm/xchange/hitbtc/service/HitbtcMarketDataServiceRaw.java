@@ -23,7 +23,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
   public List<HitbtcSymbol> getHitbtcSymbols() throws IOException {
 
     try {
-      return hitbtc.getSymbols();
+      return hitbtc().getSymbols();
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -32,7 +32,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
   public HitbtcTicker getHitbtcTicker(CurrencyPair currencyPair) throws IOException {
 
     try {
-      return hitbtc.getHitbtcTicker(HitbtcAdapters.adaptCurrencyPair(currencyPair));
+      return hitbtc().getHitbtcTicker(HitbtcAdapters.adaptCurrencyPair(currencyPair));
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -41,7 +41,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
   public List<HitbtcTicker> getHitbtcTickers() throws IOException {
 
     try {
-      return  hitbtc.getHitbtcTickers();
+      return  hitbtc().getHitbtcTickers();
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -50,7 +50,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
   public HitbtcOrderBook getHitbtcOrderBook(CurrencyPair currencyPair) throws IOException {
 
     try {
-      return hitbtc.getOrderBook(HitbtcAdapters.adaptCurrencyPair(currencyPair));
+      return hitbtc().getOrderBook(HitbtcAdapters.adaptCurrencyPair(currencyPair));
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -60,7 +60,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
       HitbtcTrade.HitbtcTradesSortDirection sortDirection, long startIndex) throws IOException {
 
     try {
-      return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), maxResults);
+      return hitbtc().getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), maxResults);
 
     } catch (HitbtcException e) {
       throw handleException(e);
@@ -70,7 +70,7 @@ public class HitbtcMarketDataServiceRaw extends HitbtcBaseService {
   public List<HitbtcTrade> getHitbtcTradesRecent(CurrencyPair currencyPair, Integer maxResults) throws IOException {
 
     try {
-      return hitbtc.getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), maxResults);
+      return hitbtc().getTrades(HitbtcAdapters.adaptCurrencyPair(currencyPair), maxResults);
     } catch (HitbtcException e) {
       throw handleException(e);
     }

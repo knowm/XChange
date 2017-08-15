@@ -15,7 +15,7 @@ public class HitbtcTradingDemo {
 
   public static void main(String[] args) throws IOException {
 
-    Exchange exchange = HitbtcExampleUtils.createExchange();
+    Exchange exchange = HitbtcExampleUtils.createSecureExchange();
     TradeService tradeService = exchange.getTradeService();
 
     generic(tradeService);
