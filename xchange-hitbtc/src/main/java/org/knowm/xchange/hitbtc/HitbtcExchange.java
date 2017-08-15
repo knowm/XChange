@@ -52,6 +52,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
     return exchangeSpecification;
   }
 
+  //TODO get rid of this... no longer needed.
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
 

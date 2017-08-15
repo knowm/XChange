@@ -2,30 +2,29 @@ package org.knowm.xchange.hitbtc.dto.account;
 
 import java.math.BigDecimal;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcBalance {
 
-  private final String currencyCode;
-  private final BigDecimal cash;
+  private final String currency;
+  private final BigDecimal available;
   private final BigDecimal reserved;
 
-  public HitbtcBalance(@JsonProperty("currency_code") String currencyCode, @JsonProperty("cash") BigDecimal cash,
-      @JsonProperty("reserved") BigDecimal reserved) {
-
-    this.currencyCode = currencyCode;
-    this.cash = cash;
+  public HitbtcBalance(@JsonProperty("currency") String currency, @JsonProperty("available") BigDecimal available, @JsonProperty
+      ("reserved") BigDecimal reserved) {
+    this.currency = currency;
+    this.available = available;
     this.reserved = reserved;
   }
 
-  public String getCurrencyCode() {
-
-    return currencyCode;
+  public String getCurrency() {
+    return currency;
   }
 
-  public BigDecimal getCash() {
-
-    return cash;
+  public BigDecimal getAvailable() {
+    return available;
   }
 
   public BigDecimal getReserved() {
@@ -36,14 +35,10 @@ public class HitbtcBalance {
   @Override
   public String toString() {
 
-    StringBuilder builder = new StringBuilder();
-    builder.append("HitbtcBalance [currencyCode=");
-    builder.append(currencyCode);
-    builder.append(", cash=");
-    builder.append(cash);
-    builder.append(", reserved=");
-    builder.append(reserved);
-    builder.append("]");
-    return builder.toString();
+    return new ToStringBuilder(this)
+        .append("currency", currency)
+        .append("available", available)
+        .append("reserved", reserved)
+        .toString();
   }
 }

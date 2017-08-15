@@ -12,9 +12,6 @@ import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrade.HitbtcTradesSortDirec
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrade.HitbtcTradesSortField;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 
-/**
- * @author kpysniak
- */
 public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implements MarketDataService {
 
   private static final Integer DEFAULT_MAX_RESULTS = 10;
@@ -39,16 +36,14 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-
     if (args.length == 0)
       return HitbtcAdapters.adaptTrades(getHitbtcTrades(currencyPair, DEFAULT_MAX_RESULTS,0, null, null, 0), currencyPair);
 
-    //TODO fix this mess
-    long from = (Long) args[0]; // <trade_id> or <timestamp>
-    HitbtcTradesSortField sortBy = (HitbtcTradesSortField) args[1]; // "trade_id" or "timestamp"
-    HitbtcTradesSortDirection sortDirection = (HitbtcTradesSortDirection) args[2]; // "asc" or "desc"
-    long startIndex = (Long) args[3]; // 0
-    Integer maxResults = (Integer) args[4]; // max is 1000
+    long from = (Long) args[0];
+    HitbtcTradesSortField sortBy = (HitbtcTradesSortField) args[1];
+    HitbtcTradesSortDirection sortDirection = (HitbtcTradesSortDirection) args[2];
+    long startIndex = (Long) args[3];
+    Integer maxResults = (Integer) args[4];
 
     return HitbtcAdapters.adaptTrades(getHitbtcTrades(currencyPair, maxResults, from, sortBy, sortDirection, startIndex), currencyPair);
   }
