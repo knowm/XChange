@@ -10,7 +10,7 @@ import org.knowm.xchange.hitbtc.dto.account.HitbtcPaymentBalanceResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcMultiExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
+import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 
 import si.mazi.rescu.HttpStatusIOException;
 import si.mazi.rescu.ParamsDigest;
@@ -35,21 +35,66 @@ import java.util.Map;
 @Path("/api/2/")
 public interface HitbtcAuthenticated extends Hitbtc {
 
+
+  // Account APIs
+
   @GET
   @Path("account/balance")
   HitbtcBalance[] getNewBalance() throws IOException, HitbtcException;
+
+
+  //Trading APIs
+
+
+
+  // Trading History APIs
+
+  //TODO add query params
+  /**
+   * Get historical trades. There can be one to many trades per order.
+   * @return
+   * @throws IOException
+   * @throws HitbtcException
+   */
+  @GET
+  @Path("history/trades")
+  List<HitbtcOwnTrade> getHitbtcTrades() throws IOException, HitbtcException;
+
+  //TODO add query params
+  /**
+   * Get historical orders
+   * @return
+   * @throws IOException
+   * @throws HitbtcException
+   */
+  @GET
+  @Path("history/order")
+  List<HitbtcOrder> getHitbtcRecentOrders() throws IOException, HitbtcException;
+
+
+  @GET
+  @Path("/history/order/{id}/trades")
+  List<HitbtcOwnTrade> getHistorialTradesByOrder(@PathParam("id") String orderId) throws IOException, HitbtcException;
+
+
+
+
+
+
+
+
+
+
+
+
+  //Old APIs
 
   @GET
   @Path("trading/orders/active")
   List<HitbtcOrder> getHitbtcActiveOrders(@HeaderParam("X-Signature") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey
-  /* @QueryParam("symbols") String symbols */) throws IOException, HitbtcException;
+      ) throws IOException, HitbtcException;
 
-  @GET
-  @Path("trading/orders/recent")
-  List<HitbtcOrder> getHitbtcRecentOrders(@HeaderParam("X-Signature") ParamsDigest signature,
-      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
-      @QueryParam("max_results") int max_results) throws IOException, HitbtcException;
 
   @POST
   @Path("trading/new_order")
@@ -75,12 +120,7 @@ public interface HitbtcAuthenticated extends Hitbtc {
       @FormParam("clientOrderId") String clientOrderId, @FormParam("cancelRequestClientOrderId") String cancelRequestClientOrderId,
       @FormParam("symbol") String symbol, @FormParam("side") String side) throws IOException, HitbtcException;
 
-  @GET
-  @Path("trading/trades")
-  HitbtcTradeResponse getHitbtcTrades(@HeaderParam("X-Signature") ParamsDigest signature,
-      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey, @QueryParam("by") String by,
-      @QueryParam("start_index") int start_index, @QueryParam("max_results") int max_results, @QueryParam("symbols") String symbols,
-      @QueryParam("sort") String sort, @QueryParam("from") String from, @QueryParam("till") String till) throws IOException, HitbtcException;
+
 
   @GET
   @Path("trading/balance")
